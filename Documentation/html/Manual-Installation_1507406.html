@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASTPP Documentation : Manual Installation</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">ASTPP Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Welcome-to-ASTPP_491525.html">Welcome to ASTPP</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Installation_1507394.html">Installation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            ASTPP Documentation : Manual Installation
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> ASTPP</span>, last modified on Jul 27, 2015
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="ManualInstallation-SetupEPELYumRepositorieswithnewerpackagesandinstallGit">Setup EPEL Yum Repositories with newer packages and install Git</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">[CentOS]
+rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/`uname -m`/epel-release-6-8.noarch.rpm</pre>
+</div></div><h2 id="ManualInstallation-Installpackages">Install packages</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">[Debian]
+apt-get install git
+
+[CentOS]
+yum install git</pre>
+</div></div><p> </p><h2 id="ManualInstallation-InstallFreeswitch">Install Freeswitch</h2><h4 id="ManualInstallation-1.InstallFreeswitchpre-requisitepackages">1. Install Freeswitch pre-requisite packages</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">[Debian]
+apt-get update &amp;&amp; apt-get upgrade
+
+apt-get install -y autoconf automake devscripts gawk g++ git-core libjpeg62-dev libncurses5-dev libtool make python-dev gawk pkg-config libperl-dev libgdbm-dev libdb-dev gettext sudo lua5.1  apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear  php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext libtool gcc g++ libldns-dev libpcre3-dev build-essential
+
+apt-get install -y libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev mysql-server php5-mysql chkconfig ntpdate ntp
+
+[CentOS]
+yum install -y git
+yum clean all
+
+yum install -y autoconf automake  expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel bash-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ libtool cpan
+
+yum install -y bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib
+yum install -y pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel
+</pre>
+</div></div><h4 id="ManualInstallation-2.Downloadlatestfreeswitchversion">2.Download latest freeswitch version</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">cd /usr/local/src
+git clone https://freeswitch.org/stash/scm/fs/freeswitch.git
+cd freeswitch
+./bootstrap.sh -j
+</pre>
+</div></div><h4 id="ManualInstallation-3.Editmodules.conf">3.Edit modules.conf</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">Enable mod_xml_curl, mod_xml_cdr, mod_perl (If you want to use calling card features)</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information"><p class="title">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><pre># add a module by removing '#' comment character at the beginning of the line
+# remove a module by inserting the '#' comment character at the beginning of the line containing the name of the module<br/>  to be skipped</pre></div></div><h4 id="ManualInstallation-4.CompiletheSource">4. Compile the Source</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">./configure -C
+make &amp;&amp; make install</pre>
+</div></div><h4 id="ManualInstallation-5.InstallFreeswitchwithsoundfiles">5. Install Freeswitch with sound files</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">make cd-sounds-install
+make cd-moh-install
+</pre>
+</div></div><h4 id="ManualInstallation-6.SetOwnerandpermissions">6. Set Owner and permissions</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">[Debian]
+# create user &#39;freeswitch&#39;
+# add it to group &#39;daemon&#39;
+# change owner and group of the freeswitch installation
+cd /usr/local
+adduser --disabled-password  --quiet --system --home /usr/local/freeswitch --gecos &quot;FreeSWITCH Voice Platform&quot; --ingroup daemon freeswitch
+chown -R freeswitch:daemon /usr/local/freeswitch/
+chmod -R ug=rwX,o= /usr/local/freeswitch/
+chmod -R u=rwx,g=rx /usr/local/freeswitch/bin/*
+
+[CentOS]
+# create user &#39;freeswitch&#39;
+# add it to group &#39;daemon&#39;
+# change owner and group of the freeswitch installation
+cd /usr/local
+useradd --system --home-dir /usr/local/freeswitch -G daemon freeswitch
+passwd -l freeswitch
+
+chown -R freeswitch:daemon /usr/local/freeswitch/
+chmod -R 770 /usr/local/freeswitch/
+chmod -R 750 /usr/local/freeswitch/bin/*
+
+mkdir /var/run/freeswitch
+chown -R freeswitch:daemon  /var/run/freeswitch</pre>
+</div></div><h4 class="first" style="text-align: left;" id="ManualInstallation-7.CreatesymboliclinksforFreeswitchexecutables">7. Create symbolic links for Freeswitch executables</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">ln -s /usr/local/freeswitch/bin/freeswitch /usr/local/bin/freeswitch
+ln -s /usr/local/freeswitch/bin/fs_cli /usr/local/bin/fs_cli</pre>
+</div></div><h4 id="ManualInstallation-8.ConfigureFreeswitchStartupScript">8. <span style="color: rgb(64,64,64);">Configure Freeswitch Startup Script</span></h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">[Debian]
+cp /usr/src/trunk/freeswitch/init/freeswitch.debian.init /etc/init.d/freeswitch
+
+
+[CentOS]
+cp /usr/src/trunk/freeswitch/init/freeswitch.centos.init to /etc/init.d/freeswitch
+chmod 750 /etc/init.d/freeswitch
+chown freeswitch:daemon /etc/init.d/freeswitch
+chkconfig --add freeswitch &amp;&amp; chkconfig --levels 35 freeswitch on</pre>
+</div></div><h2 id="ManualInstallation-ASTPPInstall">ASTPP Install</h2><h4 id="ManualInstallation-1.DownloadASTPP">1. Download ASTPP</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">We assume you have downloaded package from our Download section.
+If not then please download it from here http://goo.gl/0rQuW5</pre>
+</div></div><h4 id="ManualInstallation-2.InstallASTPPpre-requisitepackagesusingYUM">2. Install ASTPP pre-requisite packages using YUM</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">[Debian]
+apt-get install -y mysql-server apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-mysql php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext libtool gcc g++
+
+
+[CentOS]
+yum install -y cpan autoconf automake bzip2 cpio curl curl-devel php php-devel php-common php-cli php-gd php-pear php-mysql php-pdo php-pecl-json mysql mysql-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel libtool fileutils gcc-c++ httpd httpd-devel perl-YAML cpan perl
+</pre>
+</div></div><h4 id="ManualInstallation-3.NormalizeASTPP(fordebianonly)">3. Normalize ASTPP (for debian only)</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;">sed -i &quot;s#/var/log/httpd/astpp_access_log#/var/log/apache2/astpp_access_log#g&quot; /usr/src/trunk/web_interface/apache/astpp.conf
+sed -i &quot;s#/var/log/httpd/astpp_error_log#/var/log/apache2/astpp_error_log#g&quot; /usr/src/trunk/web_interface/apache/astpp.conf
+touch /var/log/apache2/astpp_access_log
+touch /var/log/apache2/astpp_error_log
+a2enmod rewrite</pre>
+</div></div><h4 id="ManualInstallation-4.InstallASTPPPerlpackages">4. Install ASTPP Perl packages</h4><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: xml; gutter: false; theme: Confluence" style="font-size:12px;"># Enable auto accept for CPAN pacakges.
+perl -MCPAN -e &#39;my $c = &quot;CPAN::HandleConfig&quot;; $c-&gt;load(doit =&gt; 1, autoconfig =&gt; 1); $c-&gt;edit(prerequisites_policy =&gt; &quot;follow&quot;); $c-&gt;edit(build_requires_install_policy =&gt; &quot;yes&quot;); $c-&gt;commit&#39;
+
+# Install required CPAN packages.
+perl -MCPAN -e &quot;install CGI,XML::Simple,Data::Dumper,URI::Escape,JSON,POSIX,DBI,Time::HiRes,DateTime::Format::Strptime,XML::Simple&quot;;</pre>
+</div></div><h2 id="ManualInstallation-ASTPPusingFreeSWITCH(ifyouwanttouseASTPPwithFreeSWITCH)">ASTPP using FreeSWITCH (if you want to use ASTPP with FreeSWITCH)</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">mkdir -p /var/lib/astpp/
+mkdir -p /var/log/astpp/
+mkdir -p /usr/local/astpp/
+mkdir -p /var/www/
+
+[Debian]
+chown -Rf www-data.www-data /var/lib/astpp/
+chown -Rf www-data.www-data /var/log/astpp/
+chown -Rf www-data.www-data /usr/local/astpp/
+chown -Rf www-data.www-data /var/www/
+
+[CentOS]
+chown -Rf apache.apache /var/lib/astpp/
+chown -Rf apache.apache /var/log/astpp/
+chown -Rf apache.apache /usr/local/astpp/
+chown -Rf apache.apache /var/www/
+
+cp -rf /usr/src/trunk/scripts/*.pl /usr/local/astpp/
+
+[Debian]
+cp -rf /usr/src/trunk/freeswitch/astpp /usr/lib/cgi-bin/
+chmod -Rf 777 /usr/lib/cg-bin/
+
+[CentOS]
+cp -rf /usr/src/trunk/freeswitch/astpp /var/www/cgi-bin
+chmod -Rf 777 /var/www/cgi-bin/astpp
+
+cp /usr/src/trunk/freeswitch/astpp-callingcards.pl /usr/local/freeswitch/scripts/astpp-callingcards.pl
+cp -rf /usr/src/trunk/sounds/*.wav /usr/local/freeswitch/sounds/en/us/callie/
+chmod -Rf 777 /usr/local/freeswitch/sounds/en/us/callie/</pre>
+</div></div><h2 id="ManualInstallation-InstallASTPPwebinterface">Install ASTPP web interface</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">cp /usr/src/trunk/astpp_confs/sample.astpp-config.conf /var/lib/astpp/astpp-config.conf
+cp /usr/src/trunk/astpp_confs/sample.reseller-config.conf /var/lib/astpp/sample.reseller-config.conf
+
+mkdir -p /var/www/html/astpp
+cp -rf /usr/src/trunk/web_interface/astpp/* /var/www/html/astpp/
+cp /usr/src/trunk/web_interface/astpp/htaccess /var/www//html/astpp/.htaccess
+
+[Debian]
+chown -Rf www-data.www-data /var/www/html/astpp
+cp /usr/src/trunk/web_interface/apache/astpp.conf /etc/apache2/conf.d/astpp.conf
+
+[CentOS]
+chown -Rf apache.apache /var/www//html/astpp
+cp /usr/src/trunk/web_interface/apache/astpp.conf /etc/httpd/conf.d/astpp.conf
+
+chmod -Rf 777 /var/www/html/astpp</pre>
+</div></div><h2 id="ManualInstallation-StartServices">Start Services</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">Apache:
+
+[Debian]
+/usr/sbin/a2ensite astpp (Debian)
+	        OR
+/usr/sbin/a2ensite astpp.conf (Ubuntu)
+/etc/init.d/apache2 reload
+/etc/init.d/apache2 restart
+
+[CentOS]
+/etc/init.d/httpd restart
+
+Mysql:
+
+[Debian]
+/etc/init.d/mysql restart
+
+[CentOS]
+/etc/init.d/mysqld restart
+
+
+Freeswitch:
+
+/etc/init.d/freeswitch restart</pre>
+</div></div><h2 id="ManualInstallation-InstallASTPPDatabase">Install ASTPP Database</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">Set Root Password
+	mysqladmin -u root password &#39;&lt;SET YOUR PASSWORD&gt;&#39;
+
+	Create astpp database
+
+Create new MySQL user for above databases
+	GRANT ALL PRIVILEGES ON astpp.* TO astppuser@localhost IDENTIFIED BY &#39;&lt;SET YOUR PASSWORD&gt;&#39;;
+	flush privileges;
+
+	mysql -uroot -p&lt;PASSWORD&gt; astpp &lt; /usr/src/trunk/sql/astpp-2.0.sql
+
+Enter appropriate values in prompt</pre>
+</div></div><h2 id="ManualInstallation-Setupdatabasecredentialandchangeotherrequirethingsinastppconfigurationfile">Setup database credential and change other require things in astpp configuration file</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">vim /var/lib/astpp/astpp-config.conf
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information"><p class="title">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><pre>You are done with GUI installation. Enjoy :)
+Visit the astpp admin page in your web browser. It can be found here: http://server_ip:8081/ Please change the ip address <br/>depending upon your box. The default username and password is “admin”. <br/>Note : In case of any issue please refer apache error log.</pre></div></div><h2 id="ManualInstallation-ASTPPFreeswitchConfiguration">ASTPP Freeswitch Configuration</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">cd trunk/freeswitch/conf
+
+cp autoload_configs/xml_curl.conf.xml /usr/local/freeswitch/conf/autoload_configs/
+Note : Edit xml_curl.conf.xml file and change localhost to your ip or domain name.
+
+cp autoload_configs/xml_cdr.conf.xml /usr/local/freeswitch/conf/autoload_configs/
+Note : Edit xml_cdr.conf.xml file and change localhost to your ip or domain name.
+
+cp autoload_configs/cdr_csv.conf.xml /usr/local/freeswitch/conf/autoload_configs/
+
+Note: Follow below step if you want to use calling card.
+
+cp dialplan/default/astpp_callingcards.xml /usr/local/freeswitch/conf/dialplan/default/
+Note : Edit astpp_callingcards.xml file to change access number for calling card.
+
+Enable mod_xml_curl, mod_xml_cdr, mod_cdr_csv, mod_perl in /usr/local/freeswitch/conf/autoload_configs/modules.conf.xml file.</pre>
+</div></div><h2 id="ManualInstallation-Setupcron">Setup cron</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;"># Generate Invoice
+0 1 * * * cd /var/www/html/astpp/cron/ &amp;&amp; php cron.php GenerateInvoice
+
+# Low balance notification
+0 1 * * * cd /var/www/html/astpp/cron/ &amp;&amp; php cron.php UpdateBalance
+
+# Low balance notification
+0 0 * * * cd /var/www/html/astpp/cron/ &amp;&amp; php cron.php LowBalance
+
+# Update currency rate
+0 0 * * * cd /var/www/html/astpp/cron/ &amp;&amp; php cron.php CurrencyUpdate</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-note"><p class="title">Note</p><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><span style="color: rgb(64,64,64);">If you have any other question(s) then please contact us on </span><a href="mailto:sales@inextrix.com" class="external-link" rel="nofollow"><span style="color: rgb(17,85,204);text-decoration: underline;">sales@inextrix.com</span></a><span style="color: rgb(64,64,64);"> or post your questions(s) in</span><a href="https://groups.google.com/forum/#%21forum/astpp" class="external-link" rel="nofollow"><span style="color: rgb(64,64,64);"> </span><span style="color: rgb(17,85,204);text-decoration: underline;">https://groups.google.com/forum/#!forum/astpp</span></a><span style="color: rgb(64,64,64);">.</span></p></div></div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Aug 17, 2015 10:25</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

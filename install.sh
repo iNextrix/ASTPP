@@ -532,6 +532,9 @@ echo "# Generate Invoice
           
 # Low balance notification
 0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowBalance
+
+# Low credit notification
+0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowCredit
           
 # Update currency rate
 0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php CurrencyUpdate

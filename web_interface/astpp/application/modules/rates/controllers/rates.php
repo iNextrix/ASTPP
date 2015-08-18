@@ -351,7 +351,7 @@ class Rates extends MX_Controller {
 	  $str=rtrim($str,',');
 	  if(!$str){
 	      $str.= is_numeric($csvdata['pattern']) ? null : 'Code,';
-	      $str.= (isset($csvdata['prepend']) && !empty($csvdata['prepend'])) ? (is_numeric($csvdata['prepend']) ? null :'Prepend,') : null;
+//	      $str.= (isset($csvdata['prepend']) && !empty($csvdata['prepend'])) ? (is_numeric($csvdata['prepend']) ? null :'Prepend,') : null;
 // 	      $str.= preg_match( $alpha_numeric_regex, $csvdata['comment'] ) ? null :'Destination,';
 	      $str.= !empty($csvdata['connectcost']) && is_numeric( $csvdata['connectcost']) ? null :( empty($csvdata['connectcost']) ? null : 'Connect Cost,');
 	      $str.= !empty($csvdata['includedseconds']) && is_numeric( $csvdata['includedseconds']) ? null :( empty($csvdata['includedseconds']) ? null : 'Included Seconds,');

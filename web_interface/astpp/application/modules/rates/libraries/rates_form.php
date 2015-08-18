@@ -15,7 +15,7 @@ class rates_form {
             array('Code', 'INPUT', array('name' => 'pattern', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|min_length[1]|numeric|max_length[25]|xss_clean', 'tOOL TIP', ''),
             array('Destination', 'INPUT', array('name' => 'comment', 'size' => '20', 'maxlength' => '80', 'class' => "text field medium"), 'tOOL TIP', ''),            
             array('Strip', 'INPUT', array('name' => 'strip', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Prepend', 'INPUT', array('name' => 'prepend', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), 'trim|numeric|xss_clean', 'tOOL TIP', ''),
+            array('Prepend', 'INPUT', array('name' => 'prepend', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
             array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
             
         

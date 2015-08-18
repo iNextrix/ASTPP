@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASTPP Documentation : Technical Questions</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">ASTPP Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Welcome-to-ASTPP_491525.html">Welcome to ASTPP</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ_1507439.html">FAQ</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            ASTPP Documentation : Technical Questions
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> ASTPP</span>, last modified on Jul 23, 2015
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p style="margin-left: 30.0px;">1. What databases are supported in ASTPP ?<br/>    It supports only MySQL (PostgreSQL support will be added in future release).<br/>   <br/>2. What payment gateways are supported in ASTPP ?<br/>    Paypal only for now. In future we have plan to add <a class="external-link" href="http://authorize.net" rel="nofollow">authorize.net</a> payment gateway.<br/><br/>3. Does ASTPP support Multi-language ?<br/>    No<br/> <br/>4. Does ASTPP 2.0 support callshop ?<br/>    No. It will be included in future releases. To get more information you can contact us at <a class="external-link" href="mailto:sales@inextrix.com" rel="nofollow">sales@inextrix.com</a>.<br/><br/>5. How can I update my source from to keep it update to date?<br/>    ASTPP provides update.sh script with its source just run that script to update your source.<br/><br/>6. Is calling card module removed in version 2.0?<br/>     No, Calling Card module is integrated with customers. So now account number itself is a Calling Card number.<br/><br/>7. Do we have Oscommerce support in version 2.0?<br/>    Nope, Oscommerce support has been removed in version 2.0. However you may refer older version code and try to implement.<br/>    When I go to login page, rather WEBUI I get long list of php contents.<br/>    Enable short_open_tag in php.ini and then restart apache.<br/><br/>8. When I go to login page, rather WEBUI I get long list of php contents.<br/>    Enable short_open_tag in php.ini and then restart apache.<br/><br/>9. How do we enable call logs ?<br/>    Login into admin portal and go to Settings and Search for name = debug and change its value to 1. Now you will be able to see freeswitch call logs in /var/log/astpp/astpp.log file.<br/>    If file is not created then create it and give 777 permission.</p><p style="margin-left: 30.0px;">10.How can I access cc_access_numbers variable to configure calling card access numbers?<br/>    You can access system variables from Settings submenu.<br/>    Mouse hover on Welcome Administrator on top right side and that will display drop down menu. Under that you will get Settings submenu.<br/><br/>11.How to change system currency ?<br/>    Change base_currency from Settings which is for database currency reference to update exchange rates. Along with this please also change currency of admin  from Accounts -&gt; Admins -&gt; Edit admin account.<br/><br/>12.Why I am not able to register extensions after installation?<br/>     Make sure you have configured your IP in Sip Profile and your registration request is reaching to server.<br/><br/>13.How to verify if ASTPP and FreeSWITCH communicating properly?<br/>     Default sip profile must be loaded in FreeSWITCH<br/><br/>14.While login I am getting “Unable to connect to your database server using the provided settings” error.<br/>     Please check your database credentials. ASTPP uses /var/lib/astpp/astpp-config.conf file for database connection.<br/><br/>15.How can I do IP Authentication for my customers?<br/>     Configure your customer IP under Customers -&gt; IP Settings<br/><br/>16.Unable to upload large data using csv file in rate module.<br/>     Please increase memory limit from php.ini and restart Apache service.<br/><br/>17.Why I am getting Accountcode is not authenticated error?<br/>     You are using domain name in gateway proxy or in ip settings modules. Please use ip only. Once you change with it, restart freeswitch and test.<br/><br/>18.Why I am getting “Invalid Gateway” error?<br/>     You are using domain name somewhere either in IP Settings or in Gateway proxy. Please change it to IP and restart fs.<br/><br/>19.Getting “500 posting to web server error”<br/>     That means call scripts are not configured correctly. Please make sure to have call scripts in cgi-bin directory. For info please check Apache logs.<br/><br/>20.Httpd not starting after installation and getting “Starting httpd: (13)Permission denied: make_sock: could not bind to address [::]:8081” error.<br/>     Disable selinux and iptables then restart Apache.<br/><br/>21.Does CDRs report will show all data ?<br/>     No, CDRs report will only record of current day. If you want to see record of previous days record then you need to search.</p><p> </p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Aug 17, 2015 10:25</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

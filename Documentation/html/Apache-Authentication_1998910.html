@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASTPP Documentation : Apache Authentication</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">ASTPP Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Welcome-to-ASTPP_491525.html">Welcome to ASTPP</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Security_1507437.html">Security</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            ASTPP Documentation : Apache Authentication
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> ASTPP</span>, last modified on Jul 14, 2015
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><span style="color: rgb(64,64,64);text-decoration: none;">Apache authentication can be configured to require web site visitors to login with a user and password.</span></p><p><span style="color: rgb(64,64,64);text-decoration: none;">We protect cgi-bin apache directory which contains important perl scripts for dialplan, configurations and directory. <br/></span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Step # 1: Make sure Apache is configured to use .htaccess file</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">You need to have &quot;AllowOverride AuthConfig&quot; directive in apache configuration file in order for directives to have any effect.
+
+For CentOS
+vim /etc/httpd/conf/httpd.conf
+&lt;Directory &quot;/var/www/cgi-bin&quot;&gt;
+AllowOverride AuthConfig
+Options None
+Order allow,deny
+Allow from all
+&lt;/Directory&gt;
+
+Save the file and restart Apache
+# service httpd restart
+
+For Debian
+vim /etc/apache2/sites-available/default
+ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+&lt;Directory &quot;/usr/lib/cgi-bin&quot;&gt;
+AllowOverride AuthConfig
+Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+Order allow,deny
+Allow from all
+&lt;/Directory&gt;
+
+
+Save the file and restart Apache
+# service apache2 restart</pre>
+</div></div><p><strong><span style="color: rgb(64,64,64);text-decoration: none;"> </span></strong><span style="color: rgb(64,64,64);text-decoration: none;"> </span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Step # 2: Create a password file with htpasswd</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">htpasswd command is used to create and update the flat-files (text file) used to store usernames and password for basic authentication of Apache users.General syntax: htpasswd -c password-file username
+Where,
+             -c : Create the password-file. If password-file already exists, it is rewritten and truncated.
+             username : The username to create or update in password-file. If username does not 
+             exist in this file, an entry is added. If it does exist, the password is changed.
+
+
+Create directory outside apache document root, so that only Apache can access password file. The password-file should be placed somewhere not accessible from the web. This is so that people cannot download the password file:
+ 
+# mkdir -p /home/secure/
+Add new user called astpp
+# htpasswd -c /home/secure/apasswords astpp
+ New password:
+Re-type new password:
+allow apache user apache to read password file:
+
+For CentOS
+# chown apache:apache /home/secure/apasswords
+
+For Debian
+# chown www-data:www-data /home/secure/apasswords
+# chmod 0660 /home/secure/apasswords
+
+Now user astpp is added but you need to configure the Apache web server to request a password and tell the server which users are allowed access.We have directory /var/www/cgi-bin and we would like to protect it with a password.
+For CentOS
+ # cd /var/www/cgi-bin
+For Debian
+ # cd /usr/lib/cgi-bin
+ # vim .htaccess
+Add following text:
+                     AuthType Basic
+                     AuthName &quot;Restricted Access&quot;
+                     AuthUserFile /home/secure/apasswords
+                     Require user astpp
+
+Now add username and password to following files:
+# vim /usr/local/freeswitch/conf/autoload_configs/xml_curl.conf.xml
+&lt;!-- set this to provide authentication credentials to the server →
+&lt;param name=&quot;gateway-credentials&quot; value=&quot;astpp:your_password&quot;/&gt;
+# vim /usr/local/freeswitch/conf/autoload_configs/xml_cdr.conf.xm
+&lt;!-- optional: credentials to send to web server --&gt;
+ &lt;param name=&quot;cred&quot; value=&quot;astpp:your_paasword&quot;/&gt;
+
+Now restart freeswitch
+# service freeswitch restart</pre>
+</div></div><p><span style="color: rgb(64,64,64);text-decoration: none;"><br class="kix-line-break" style="color: rgb(64,64,64);text-decoration: none;"/></span><span style="color: rgb(64,64,64);text-decoration: none;">You can test it by running below url in browser</span></p><p><a href="http://localhost/cgi-bin/astpp/astpp-fs-xml.cgi" style="text-decoration: none;" class="external-link" rel="nofollow"><span style="color: rgb(17,85,204);text-decoration: underline;">http://localhost/cgi-bin/astpp/astpp-fs-xml.cgi</span></a></p><p><span style="color: rgb(64,64,64);text-decoration: none;">You will be asked for username and password for authentication.</span></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Aug 17, 2015 10:25</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
