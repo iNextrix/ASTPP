@@ -303,7 +303,7 @@ astpp_freeswitch_startup_script () {
     if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
         echo "ASTPP source doesn't exists, downloading it from git !"
 	cd /usr/src/
-        git clone https://github.com/itpl-dev/trunk-2.1.git
+        git clone https://github.com/ASTPP/trunk.git
     fi 
     
     if [ ${DIST} = "DEBIAN" ]; then

@@ -61,7 +61,7 @@ mv ${CGIDIR}/cgi-bin /mnt/$BACKUP_DIR/
 rm -rf /usr/src/trunk/
 
 cd /usr/src/
-git clone https://github.com/itpl-dev/trunk-2.1.git
+git clone https://github.com/ASTPP/trunk.git
 
 mkdir -p ${WWWDIR}/html/astpp
 mkdir -p ${ASTPPEXECDIR}
