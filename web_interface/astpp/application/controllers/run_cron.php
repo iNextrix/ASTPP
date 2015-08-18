@@ -1,0 +1,108 @@
+<?php
+
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
+
+/**
+ * @cont:	Run_CRON
+ * 
+ * @desc:	non-web controller
+ * 
+ * @site:	www.example.com
+ * @author:	Michael Pope
+ * 			nyndesigns.com
+ *
+ * @file:	run_cron.php
+ * @date:	10.03.2011 - 11:53:06  [Michael Pope]
+ */
+
+
+class Run_CRON extends CI_Controller {
+
+	function __construct()
+	{
+		parent::__construct();
+		if(!defined( 'CRON' ) )  
+		  exit();
+// 		$this->load->model('Default/cron');
+	}
+
+
+	function __destruct()
+	{
+	}
+		
+	
+	/**
+	 * Index
+	 * 
+	 * @desc not used
+	 */
+	function index()
+	{	
+echo "hiiii in index fuinction"; exit;
+	}
+	
+	
+	/**
+	 * All
+	 */
+	function all()
+	{
+echo "hhhhhh"; exit;
+		$this->generate_sitemap();
+	}
+	
+
+	/**
+	 * Generate Sitemap XML
+	 */		
+	function generate_sitemap()
+	{	
+		// Live Mode:
+		if( ! CRON_BETA_MODE )
+			$cron_id = $this->cron->create('Sitemap (Google|Bing|Ask|Yahoo!)');
+		
+		// Example Code
+		
+		$this->load->library('sitemap');
+		$this->load->config('sitemap');
+
+		// ...
+		// ...
+		// ...
+
+		// Sandbox Mode:
+		if( CRON_BETA_MODE )
+			$this->sitemap->generate_xml(null, false);
+			
+		// Live Mode:
+		else {
+			echo 'live';
+		
+			$this->sitemap->generate_xml();
+			$this->cron->update( $cron_id );
+		}
+		
+	}
+}
+/* End of file run_cron.php */
+/* Location: ./application/controllers/run_cron.php */

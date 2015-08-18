@@ -1,0 +1,26 @@
+Credits:
+
+Mark Spencer
+Company: Digium
+Email: mark@digium.com
+Originally wrote ASTCC.
+
+Name: Darren Wiebe
+Company: Aleph Communications
+Email: darren@aleph-com.net
+Founder of ASTPP Open Source VoIP Billing 
+ASTPP was born from ASTCC, however Darren has almost entirely rewritten ASTPP to clean up copyright issues.
+The makefile is the only file which has not been replaced.
+
+Name: Prinasen Chetty
+Company: ASTPP VoIP Billing
+Email: prinasen@astpp.org
+Prinasen has taken over the development from Darren Wiebe and since then and has released V1.6 and V1.7, where we have rewritten the entire 
+GUI from scratch in PHP using Codeigniter MVC framework.
+
+Name: Samir Doshi
+Company: iNextrix Technologies Pvt. Ltd.
+Email: samir.doshi@inextrix.com
+Current lead developer and maintainer of ASTPP.
+Samir is core team member of ASTPP and has been actively involved in ASTPP since Version 1.6 and has brought upon many patch's and introduced
+new functionalities. 

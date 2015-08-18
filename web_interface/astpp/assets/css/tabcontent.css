@@ -1,0 +1,73 @@
+﻿/* Tab Content - menucool.com */
+ul.tabs
+{
+    padding: 7px 0px 7px 25px;
+    margin:0;
+    font-size: 0;
+    list-style-type: none;
+    text-align: left; /*set to left, center, or right to align the tabs as desired*/
+    margin:20px 0px 0px 0px;
+/*    padding-left:20px;  Offset of the first tab */
+}
+ul.tabs li
+{
+    display: inline;
+    margin: 0;/*no distance between tabs*/
+    background: White;
+/*    margin-left: -4px;*/
+}
+        
+ul.tabs li a
+{
+    font-size:13px;
+    text-decoration: none;
+    position: relative;
+    padding: 13px 22px;
+    color: #446aa3;
+    outline:none;
+    background: #f9fbfc;
+    border:1px solid #e1e6ef;
+    border-right:0;
+}
+
+/*Note: IE8 and earlier doesn't support li:last-child. You have to add another class to the last tab (LI) and specify its border-right as below.*/
+ul.tabs li:last-child a
+{
+    border-right:1px solid #e1e6ef;
+}
+  
+        
+ul.tabs li a:hover
+{
+    color: #2e4e6a;
+    background: white;
+}
+        
+ul.tabs li.selected a, ul.tabs li.selected a:hover
+{
+    top: 0px;
+    font-weight:normal;
+    background: #FFF;
+    border-top:2px solid #3f73a1;
+    border-bottom: 1px solid #FFF;
+    color: #2e4e6a;
+    z-index:999;
+}
+        
+        
+ul.tabs li.selected a:hover
+{
+    text-decoration: none;
+}
+
+div.tabcontents
+{
+    margin-top: 5px;
+    padding: 0px 10px;
+}
+div.tabcontents section
+{
+    border:1px solid #e1e6ef;
+    
+}        
+
