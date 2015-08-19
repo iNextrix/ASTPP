@@ -88,19 +88,19 @@ dbname=$(cat /var/lib/astpp/astpp-config.conf | grep dbname | cut -d " " -f 3)
 dbuser=$(cat /var/lib/astpp/astpp-config.conf | grep dbuser | cut -d " " -f 3)
 dbpass=$(cat /var/lib/astpp/astpp-config.conf | grep dbpass | cut -d " " -f 3)
 
-echo "database name     :: "$dbname
-echo "database user     :: "$dbuser
-echo "database password :: "$dbpass
+echo "database name     : "$dbname
+echo "database user     : "$dbuser
+echo "database password : "$dbpass
 
 VERSION=$(echo "SELECT value FROM system where name='version'" | mysql $dbname -u $dbuser -p$dbpass -ss -N)
 
-echo "Current ASTPP Version :: "$VERSION;
+echo "Current ASTPP Version : "$VERSION;
 SQLFILE=$(echo $VERSION + 0.1 | bc);
 
-echo "New Updated Version :: "$SQLFILE;
+echo "New Updated Version : "$SQLFILE;
 filename_sql="astpp-upgrade-"$SQLFILE".sql";
 
-echo "New SQL File Name :: "$filename_sql;
+echo "New SQL File Name : "$filename_sql;
 [ -f $ASTPP_SOURCE_DIR/sql/$filename_sql ] && mysql -u${dbuser} -p${dbpass} ${dbname} < $ASTPP_SOURCE_DIR/sql/$filename_sql || echo "SQL File Not found"
 
-echo "**************** Successfully  Updated ******************"
+echo "**************** Your ASTPP Version Successfully Updated ******************"

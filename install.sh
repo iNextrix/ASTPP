@@ -227,7 +227,7 @@ install_freeswitch_for_astpp () {
 	apt-get update
 
 	# Install Freeswitch pre-requisite packages using apt-get
-	apt-get install -y autoconf automake devscripts gawk g++ git-core libjpeg62-dev libncurses5-dev libtool make python-dev pkg-config libperl-dev libgdbm-dev libdb-dev gettext sudo lua5.1 apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev
+	apt-get install -y autoconf automake devscripts gawk g++ git-core libjpeg62-dev libncurses5-dev libtool make python-dev pkg-config libperl-dev libgdbm-dev libdb-dev gettext sudo lua5.1 apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
 	
 	echo mysql-server mysql-server/root_password password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
 	echo mysql-server mysql-server/root_password_again password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
@@ -239,7 +239,7 @@ install_freeswitch_for_astpp () {
 	yum install -y git
 	
 	# Install Freeswitch pre-requisite packages using yum
-	yum  install -y autoconf automake  expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ libtool cpan @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel perl-ExtUtils-Embed 
+	yum install -y autoconf automake  expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ libtool cpan @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel perl-ExtUtils-Embed bc
 
     fi  
 
