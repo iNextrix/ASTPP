@@ -74,7 +74,7 @@ function validateForm(){
     <form class="form" id="form1" name="form1" method="post" action="<?=base_url()?>feedback/customer_feedback_result">
       
       
-      <p><img src="<?= base_url() ?>assets/images/notification1.png" height="20px"  style="margin-right:10px" width="20px">We would love to hear your thoughts,concerns or problems with  anything so we can improve!!!</p>
+      <p><img src="<?= base_url() ?>assets/images/notification1.png" height="20px"  style="margin-right:10px" width="20px">Thank you for taking the time to fill in feedback form. By providing us your feedback, you are helping us understand what we do well and what improvements we need to implement.</p>
       <div class="name">
       
         <input name="name" type="text" class=" feedback-input" placeholder="Name" id="name" />

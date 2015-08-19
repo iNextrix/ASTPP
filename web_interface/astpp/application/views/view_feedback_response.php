@@ -14,7 +14,7 @@
 <title>ASTPP-Feedback-Response</title>
 <div id="form-main">
   <div id="form-div">
-  <center><h1>Thank you very much for giving feedback<h1></center>
+  <center><h1>Thanks for providing your feedback.<h1></center>
   
   </div>
   </html>
