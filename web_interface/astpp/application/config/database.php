@@ -44,7 +44,7 @@
 | The $active_record variables lets you determine whether or not to load
 | the active record class
 */
-//$astpp_config = parse_ini_file("/var/lib/astpp/astpp-config.conf");
+$astpp_config = parse_ini_file("/var/lib/astpp/astpp-config.conf");
 
 $active_group = 'default';
 $active_record = TRUE;
