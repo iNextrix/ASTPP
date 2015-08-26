@@ -1,2 +1,0 @@
-Code,Destination,"Connect cost","Included seconds","Per minute cost",Increment,Precedence,Error
-Code,Destination,"Connect Cost","Included Seconds",0,Increment,Precedence,"Code,Connect Cost,Included Seconds,Increment,Precedence are not valid"
