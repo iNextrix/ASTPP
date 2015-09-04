@@ -601,6 +601,9 @@ class User extends MX_Controller {
         $this->rates->user_inboundrates_list_json($account_data["id"]);
     }
     function user_payment($action=""){
+      if(common_model::$global_config['system_config']['paypal_status'] == 1){
+        redirect(base_url() . 'user/user/');  
+      }
         $this->load->module("user/payment");
         if($action=="GET_AMT"){
             $amount = $this->input->post("value",true);

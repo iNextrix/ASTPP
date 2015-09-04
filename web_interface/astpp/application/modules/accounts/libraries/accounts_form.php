@@ -88,8 +88,8 @@ class Accounts_form {
             array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '80', 'class' => "text field medium"), 'required|valid_email|is_unique['.$val.']', 'tOOL TIP', ''),
             array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'alpha'),
-            array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), 'alpha', 'tOOL TIP', ''),
+            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"),'', 'tOOL TIP', ''),
             array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '12', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
             array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
             array('Timezone',array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', array("name"=>"timezone_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
@@ -178,8 +178,7 @@ class Accounts_form {
             array('Account ', 'INPUT', array('name' => 'accountid', 'size' => '20', 'value' => $number, 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             array('Payment' , 'INPUT', array('name' => 'credit', 'size' => '20', 'maxlength' => '8', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', ''),
 	    array('Type', 'payment_type', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_payment_type'),
-            array('Note:', 'TEXTAREA', array('name' => 'notes', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', '')
-        );
+		array('Note', 'TEXTAREA', array('name' => 'notes', 'size' => '20','cols'=>'63','rows'=>'5', 'class' => "text field medium", 'style'=>"width: 532px; height: 128px;"), '', 'tOOL TIP', ''));
         $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save','id'=>"submit",'type' => 'button', 'class' => 'btn btn-line-parrot');
         return $form;
     }
@@ -377,7 +376,12 @@ class Accounts_form {
     }
 
     
-    function get_form_admin_fields($entity_type = '') {
+    function get_form_admin_fields($entity_type = '',$id=false) {
+       if ($id > 0)
+            $val = 'accounts.email.' . $id;
+        else
+            $val ='accounts.email';
+    	
         $uname = $this->CI->common->find_uniq_rendno(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
         $type= $entity_type == 'admin' ? 2 : 4;
         $form['forms'] = array(base_url() . 'accounts/'.$entity_type.'_save/', array("id" => "admin_form", "name" => "admin_form"));
@@ -395,7 +399,7 @@ class Accounts_form {
 	    array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '40', 'size' => '15', 'class' => 'text field medium'), 'trim|xss_clean', 'tOOL TIP', ''),
             array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '80', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', 'Please Enter Password'),
+            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '80', 'class' => "text field medium"), 'required|valid_email|is_unique['.$val.']', 'tOOL TIP', ''),
             array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
@@ -487,10 +491,9 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
             array('', 'HIDDEN', array('name' => 'id', 'value' => $id), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'account_currency', 'value' => $currency_id), '', '', ''),
             array('From Account ', 'INPUT', array('name' => 'fromaccountid', 'size' => '20', 'value' => $number, 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), 'required', 'tOOL TIP', 'Please Enter account number'),
-	     array('To Account ', 'INPUT', array('name' => 'toaccountid', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter to account number'),
+	        array('To Account ', 'INPUT', array('name' => 'toaccountid', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|numeric', 'tOOL TIP', 'Please Enter to account number'),
             array('Amount' , 'INPUT', array('name' => 'credit', 'size' => '20', 'maxlength' => '8', 'class' => "text field medium"), 'trim|required|numeric', 'tOOL TIP', ''),
-	    
-            array('Note', 'TEXTAREA', array('name' => 'notes', 'size' => '20','cols'=>'55','rows'=>'5', 'class' => "text field medium"), '', 'tOOL TIP', '')
+	        array('Note', 'TEXTAREA', array('name' => 'notes', 'size' => '20','cols'=>'63','rows'=>'5', 'class' => "text field medium", 'style'=>"width:515px; height: 128px;"), '', 'tOOL TIP', '')
         );
         $form['button_save'] = array('name' => 'action', 'content' => 'Transfer', 'value' => 'save','id'=>"submit",'type' => 'submit', 'class' => 'btn btn-line-parrot');
         return $form;
@@ -704,7 +707,7 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
         $buttons_json = json_encode(array(
 	    array("Create Admin","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/admin_add/"),
 	    array("Create Subadmin","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/subadmin_add/"),
-            array("DELETE", "btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/accounts/admin_selected_delete/")
+            array("Delete", "btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/accounts/admin_selected_delete/")
             ));
         return $buttons_json;
     }

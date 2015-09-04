@@ -87,28 +87,30 @@ div:hover.tooltips-right span {
 <script>
 
 function validateform(){
- 	var elem = document.getElementById('system_conf_form').elements;
-	var flag=false;
+  var elem = document.getElementById('system_conf_form').elements;
+  var flag=false;
         for(var i = 0; i < elem.length; i++)
-        { if(elem[i].name!=''){
-	    var disp=elem[i].name+"_error";
-	    if($.trim(elem[i].value)==''){
-		$("#"+disp).parent().css("display","block");
-		flag=true;
-	    }
-	    else{
-		$("#"+disp).parent().css("display","none");
-	    }
-	  }
+        { 
+          if(elem[i].name!=''){
+          var disp=elem[i].name+"_error";
+          if(elem[i].name=='did_global_translation'){
+          $("#"+disp).parent().css("display","none");
+          }else if($.trim(elem[i].value)==''){
+          $("#"+disp).parent().css("display","block");
+          flag=true;
+          }else{
+          $("#"+disp).parent().css("display","none"); 
+          }
         }
-	if(flag)
-	{
-		return false;
-	}
-	/*$("#toast-container").css("display","block");
+        }
+  if(flag)
+  {
+    return false;
+  }
+  /*$("#toast-container").css("display","block");
         $(".toast-message").html(ucfirst($group_title)+' Settings updated sucessfully!');
         $('.toast-top-right').delay(5000).fadeOut();*/
-	return true;
+  return true;
 }
 </script>
 

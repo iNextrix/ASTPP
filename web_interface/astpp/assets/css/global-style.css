@@ -1831,4 +1831,74 @@ margin: 15px;
     display: inline-block;
     background-color: #ABBAC3;
 }
+
+
+@media only screen and (min-width : 1367px)  {
+
+.page-wrap {
+  min-height: 1200px;
+  /* equal to footer height */
+    margin-bottom: -80px; 
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.site-footer, .page-wrap:after {
+  /* .push must be the same height as footer */
+    height: 80px; 
+}
+.site-footer {
+ background: #F6F6F6;
+}
+}
+@media only screen and (min-width : 1366px) and (min-height : 300px) 
+{
+	
+.page-wrap {
+  min-height: 370px;
+  margin-bottom: -80px; 
+float:left;
+width:100%;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.site-footer, .page-wrap:after {
+  /* .push must be the same height as footer */
+    height: 80px; 
+width:100%;
+float:left;
+}
+.site-footer {
+ background:  #F6F6F6;
+}
+
+}
+
+@media only screen and (min-width : 1340px) and (min-height : 602px) 
+{
+	
+.page-wrap {
+  min-height: 451px;
+   margin-bottom: -80px; 
+float:left;
+width:100%;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.site-footer, .page-wrap:after {
+  /* .push must be the same height as footer */
+    height: 80px; 
+width:100%;
+float:left;
+}
+.site-footer {
+ background: #F6F6F6;
+}
+
+}
 /*===========================================================*/

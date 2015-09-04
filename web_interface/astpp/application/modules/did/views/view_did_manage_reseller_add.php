@@ -1,8 +1,12 @@
+
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
 <script type="text/javascript" src="/js/validate.js"></script>
 
 <script type="text/javascript">
     $("#submit").click(function(){
-	submit_form("frm_manage_did");
+		submit_form("frm_manage_did");
     })
 </script>
 <script type="text/javascript">
@@ -45,9 +49,9 @@
           
    
 
-        <form action="<?= base_url() ?><?= isset($did) ? "did/did_reseller_edit/edit" : "did/did_reseller_edit/add" ?>" id="frm_manage_did" method="POST" enctype="multipart/form-data">
-	<fieldset>
-<legend>Edit</legend>
+        <form action="<?= base_url() ?><?= isset($did) ? "did/did_reseller_edit/edit" : "did/did_reseller_edit/add" ?>" id="frm_manage_did" method="POST"  enctype="multipart/form-data">
+            	<fieldset>
+            <legend>Edit</legend>
             <ul class="padding-15">        
                 <li class="col-md-8">
                     <label class="col-md-3 no-padding">DID :</label>
@@ -56,21 +60,21 @@
                 </li>      
                <!-- <li class="col-md-8">
                     <label class="col-md-3 no-padding">Country :</label>
-                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$reseller_didinfo['country'] ?>" />
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?//= @$reseller_didinfo['country'] ?>" />
                 </li>        
 
                  <li class="col-md-8">
                     <label class="col-md-3 no-padding">Province :</label>     
-                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$reseller_didinfo['province'] ?>" />
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?//= @$reseller_didinfo['province'] ?>" />
                 </li>
 
                 <li class="col-md-8">
                     <label class="col-md-3 no-padding">City :</label>
-                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$reseller_didinfo['city'] ?>" />
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?//= @$reseller_didinfo['city'] ?>" />
                 </li>  -->     	
                  <!--<li class="col-md-8">
                     <label class="col-md-3 no-padding">Provider :</label>
-                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$reseller_didinfo['provider_id'] ?>" />
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?//= @$reseller_didinfo['provider_id'] ?>" />
                 </li>-->
 
               <!--  <li class="col-md-8">
@@ -82,14 +86,14 @@
                    </label>        
                 </li> -->       
                 <?//echo "<pre>";print_r($reseller_didinfo);echo "</pre>";?>
-	      <li class="col-md-8">
-                <label class="col-md-3 no-padding">Call Type</label>
-		  <select name="call_type" class="col-md-5 form-control">
-		    <option value="0" <?if($reseller_didinfo['call_type'] == 0){ echo 'selected="selected"'; }?>>PSTN</option>
-		    <option value="1" <?if($reseller_didinfo['call_type'] == 1){ echo 'selected="selected"';}?>>Local</option>
-		    <option value="2" <?if($reseller_didinfo['call_type'] == 2){ echo 'selected="selected"'; }?>>Other</option>
-		    </select>
-		  </li>
+        	      <li class="col-md-8">
+                        <label class="col-md-3 no-padding">Call Type</label>
+                  		  <select name="call_type" class="col-md-5 form-control">
+                  		    <option value="0" <?if($reseller_didinfo['call_type'] == 0){ echo 'selected="selected"'; }?>>PSTN</option>
+                  		    <option value="1" <?if($reseller_didinfo['call_type'] == 1){ echo 'selected="selected"';}?>>Local</option>
+                  		    <option value="2" <?if($reseller_didinfo['call_type'] == 2){ echo 'selected="selected"'; }?>>Other</option>
+                		    </select>
+        		    </li>
                  <li class="col-md-8">
                     <label class="col-md-3 no-padding">Destinations :</label>
                     <input type="text" class="col-md-5 form-control" name="extensions" value="<?= @$reseller_didinfo['extensions'] ?>" />
@@ -144,17 +148,16 @@
                 </li> -->                       
             </ul>        
             </fieldset>
-<center>
+            <center>
            <div style="width:100%;float:left;height:50px;margin-top:20px;">
-	 <input type="button" class="btn btn-line-parrot" id='submit' style="margin-left:5px;" name="action" value="<?= isset($did) ? "Save" : "Insert"; ?>" /> 
-            <input type="button" onclick="location.href = '<?= base_url() ?>did/did_list/';" class="btn btn-line-sky margin-x-10" name="action" value="Cancel" /> 
-               
+	            <input type="button" class="btn btn-line-parrot" id='submit' style="margin-left:5px;" name="action" value="<?= isset($did) ? "Save" : "Insert"; ?>" /> 
+             <input type="button" onclick="location.href = '<?= base_url() ?>did/did_list/';" class="btn btn-line-sky margin-x-10" name="action" value="Cancel" /> 
             </div></center>
         </form>
        </div>      
     </section>        
-<!--  </div>
-</div>-->
+ </div>
+</div>
 
 
 

@@ -132,7 +132,12 @@ class Reports_form {
     }
 
     function build_report_list_for_admin() {
-        // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
+             $account_data = $this->CI->session->userdata("accountinfo");
+	     if($account_data['type'] == 1){
+		$trunk='';
+	    }else{
+		$trunk=array("Trunk", "80", "trunk_id", "name", "trunks", "get_field_name");
+	    }
         $grid_field_arr = json_encode(array(
 		array("Date", "100", "callstart","callstart", "callstart", "convert_GMT_to"),
 		array("CallerID", "120", "callerid", "", "", ""),
@@ -144,7 +149,7 @@ class Reports_form {
 		array("Cost", "70", "cost", "cost", "cost", "convert_to_currency"),
 		array("Disposition", "150", "disposition", "", "", ""),
 		array("Account", "110", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
-		array("Trunk", "80", "trunk_id", "name", "trunks", "get_field_name"),
+		$trunk,
 		array("Rate Group", "90", "pricelist_id", "name", "pricelists", "get_field_name"),
 		array("Call Type", "112", "calltype", "", "", ""),
 		
@@ -201,6 +206,10 @@ class Reports_form {
         return $buttons_json;
     }
 
+    function build_grid_buttons_user() {
+        $buttons_json = json_encode(array(array("Export","btn btn-xing" ," fa fa-download fa-lg", "button_action", "/user/user_report_export_cdr_xls", 'single')));
+        return $buttons_json;
+    }
     function build_grid_buttons_reseller() {
         $buttons_json = json_encode(array( array("Export","btn btn-xing" ," fa fa-download fa-lg", "button_action", "/reports/resellerReport_export_cdr_xls", 'single')));
         return $buttons_json;

@@ -73,8 +73,8 @@ sub fs_dialplan_xml_header
 	$arg{xml} .= "<context name=\"".$arg{context}."\">\n";
 #	$arg{xml} .= "<extension name=\"" . $arg{destination_number} . "\">\n";
 #	$arg{xml} .= "<condition field=\"destination_number\" expression=\"" . $arg{destination_number} . "\">\n";	
-    $arg{xml} .= "<extension name=\"" . $params->{'Caller-Destination-Number'} . "\">\n";
-    $arg{xml} .= "<condition field=\"destination_number\" expression=\"" . $params->{'Caller-Destination-Number'} . "\">\n";
+	$arg{xml} .= "<extension name=\\\"" . $params->{'Caller-Destination-Number'} . "\">\n";
+    	$arg{xml} .= "<condition field=\"destination_number\" expression=\\\"" . $params->{'Caller-Destination-Number'} . "\">\n";
 	$arg{xml} .= "<action application=\"set\" data=\"callstart=$now\"/>\n";
 	$arg{xml} .= "<action application=\"set\" data=\"call_processed=internal\"/>\n";
 	$arg{xml} .= "<action application=\"set\" data=\"originated_destination_number=$arg{destination_number}\"/>\n";	

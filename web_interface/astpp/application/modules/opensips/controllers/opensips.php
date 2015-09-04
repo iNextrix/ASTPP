@@ -244,13 +244,19 @@ function user_opensips_save($user_flg = false) {
     function opensips_list_json() {
         $json_data = array();
         $count_all = $this->opensips_model->getopensipsdevice_list(false);
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp']=10, $_GET['page']=1);
+        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
-
         $query = $this->opensips_model->getopensipsdevice_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->opensips_form->build_opensips_list());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
-
+        $db_config = Common_model::$global_config['system_config'];
+        $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+        $this->opensips_db = $this->load->database($opensipdsn, true);
+        $result = $this->opensips_db->get("subscriber");
+        if($result->num_rows() <= 0){
+            $json_data['page'] = 0;
+            $json_data['total'] = 0;
+        }
         echo json_encode($json_data);
     }
 
@@ -351,6 +357,14 @@ function user_opensips_save($user_flg = false) {
         $query = $this->opensips_model->getopensipsdispatcher_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->opensips_form->build_opensipsdispatcher_list());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
+        $db_config = Common_model::$global_config['system_config'];
+        $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+        $this->opensips_db = $this->load->database($opensipdsn, true);
+        $result = $this->opensips_db->get("subscriber");
+        if($result->num_rows() <= 0){
+            $json_data['page'] = 0;
+            $json_data['total'] = 0;
+        }
         echo json_encode($json_data);
     }
 
