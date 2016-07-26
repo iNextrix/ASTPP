@@ -145,8 +145,8 @@ ask_to_install_astpp ()
 		if [ -f LICENSE ]; then
 			more LICENSE
 		else
-			wget --no-check-certificate -q -O GNU-GPLv2.0.txt https://raw.githubusercontent.com/ASTPP/ASTPP/master/LICENSE
-			more GNU-GPLv2.0.txt	
+			wget --no-check-certificate -q -O GNU-AGPLv3.0.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
+			more GNU-AGPLv3.0.txt	
 		fi
 		echo "***"
 		echo "*** I agree to be bound by the terms of the license - [YES/NO]"
@@ -270,10 +270,9 @@ install_freeswitch_for_astpp ()
 		./bootstrap.sh -j
 		# Edit modules.conf
 		#echo "Enabling mod_xml_curl, mod_json_cdr, mod_db"
-		#sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
-		#sed -i "s#\#mod_db#mod_db#g" /usr/local/src/freeswitch/modules.conf
-		#sed -i "s#\#event_handlers/mod_json_cdr#event_handlers/mod_json_cdr#g" /usr/local/src/freeswitch/modules.conf
-		
+		sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
+		sed -i "s#\#mod_db#mod_db#g" /usr/local/src/freeswitch/modules.conf
+		sed -i "s#\#event_handlers/mod_json_cdr#event_handlers/mod_json_cdr#g" /usr/local/src/freeswitch/modules.conf
 		
 		# Compile the Source
 		./configure -C
