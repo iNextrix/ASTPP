@@ -66,7 +66,7 @@ class did_form {
 			array('Initial Increment', 'INPUT', array('name' => 'init_inc', 'size' => '20',  'class' => "text field medium"), 'trim|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter Initial Increment'),
 			array('Increment', 'INPUT', array('name' => 'inc', 'size' => '20',  'class' => "text field medium"), 'trim|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter Increment'),
             array('Setup Fee', 'INPUT', array('name' => 'setup',  'size' => '15', 'class' => 'text field medium'), 'trim|is_numeric|xss_clean', 'tOOL TIP', ''),
-            array('Monthly<br>Fee', 'INPUT', array('name' => 'monthlycost', 'size' => '15',  'class' => "text field medium"), 'trim|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter Password'),,
+            array('Monthly<br>Fee', 'INPUT', array('name' => 'monthlycost', 'size' => '15',  'class' => "text field medium"), 'trim|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter Password'),
         );
 
         $form['DID Setting'] = array(
