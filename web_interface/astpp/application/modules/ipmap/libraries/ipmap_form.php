@@ -14,8 +14,8 @@ class Ipmap_form {
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0", "type" => "0", "deleted" => "0","status" => "0")),
             array('Name', 'INPUT', array('name' => 'name', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array('IP', 'INPUT', array('name' => 'ip', 'size' => '20', 'class' => "text field medium"), 'trim|required|valid_ip', 'tOOL TIP', 'Please Enter proper ip'),
-            array('Prefix', 'INPUT', array('name' => 'prefix', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|max_length[15]|numeric|xss_clean', 'tOOL TIP', 'Please Enter prefix number'),
+            array('IP', 'INPUT', array('name' => 'ip', 'size' => '20', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', 'Please Enter proper ip'),
+            array('Prefix', 'INPUT', array('name' => 'prefix', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|max_length[15]|numeric|xss_clean', 'tOOL TIP', 'Please Enter prefix number'),
             
         );
         $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'NULL\')');

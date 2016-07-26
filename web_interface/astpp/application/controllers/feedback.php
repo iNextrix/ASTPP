@@ -25,8 +25,8 @@ class Feedback extends MX_Controller
 	function __construct()
 	{
 		parent::__construct();
-		 if ($this->session->userdata('user_login') == FALSE)
-            redirect(base_url() . '/login/login');
+//		 if ($this->session->userdata('user_login') == FALSE)
+//            redirect(base_url() . '/login/login');
 
 	}
 	
@@ -36,28 +36,57 @@ class Feedback extends MX_Controller
 		$data['page_title'] = "Feedback";
 		$this->load->view('view_feedback',$data);
 	}
-	function customer_feedback_result(){
-	       
-		$account_info = $this->session->userdata['accountinfo'];
-		$name=$_REQUEST['name'];
-		$email=$_REQUEST['email'];
-		$feedback=$_REQUEST['feedback'];
-		$first_name=$account_info['first_name'];
-		$last_name=$account_info['last_name'];
-		$city=$account_info['city'];
-		$telephone_1=$account_info['telephone_1'];
-		$account_email=$account_info['email'];
-		$company_name=$account_info['company_name'];
-		$address_1=$account_info['address_1'];
-		$address_2=$account_info['address_2'];
-		$telephone_2=$account_info['telephone_2'];
-		$province=$account_info['province'];
+	function customer_feedback_result($flag=FALSE){
+		if($flag){
+			$account_info = array();
+			$this->db->where("accountid","1");
+			$res = $this->db->get('invoice_conf');
+			if($res->num_rows > 0){
+				$masterdata = $res->result_array();
+				$account_info = $masterdata['0'];
 
-		$data=array("name"=>$name,"email"=>$email,"feedback"=>$feedback,"first_name"=>$first_name,"last_name"=>$last_name,"city"=>$city,"telephone_1"=>$telephone_1,"account_email"=>$account_email,"company_name"=>$company_name,"address_1"=>$address_1,"address_2"=>$address_2,"telephone_2"=>$telephone_2,"province"=>$province,"serverip"=>$_SERVER['SERVER_ADDR']);
-	        $data_new= json_encode($data);
-	        $ch = curl_init();
+				$company_name=$account_info['company_name'];
+				$address=$account_info['address'];
+				$city=$account_info['city'];
+				$province=$account_info['province'];
+				$country=$account_info['country'];
+				$zipcode=$account_info['zipcode'];
+				$telephone=$account_info['telephone'];
+				$fax=$account_info['fax'];
+				$emailaddress=$account_info['emailaddress'];
+				$website=$account_info['website'];
 
-		curl_setopt($ch, CURLOPT_URL, 'http://65.111.177.99/feedback/feedback.php');  
+				$data=array("name"=>"Admin","company_name"=>$company_name,"address"=>$address,"city"=>$city,"province"=>$province,"country"=>$country,"zipcode"=>$zipcode,"telephone"=>$telephone,"fax"=>$fax,"emailaddress"=>$emailaddress,"website"=>$website,"serverip"=>$_SERVER['SERVER_NAME'],"FLAG"=>"TRUE");				
+			}
+		}else{
+			$account_info = array();
+			$this->db->where("type","-1");
+			$res = $this->db->get('accounts');
+			if($res->num_rows > 0){
+				$masterdata = $res->result_array();
+				$account_info = $masterdata['0'];
+
+			$name=$_REQUEST['name']="Admin";
+			$email=$_REQUEST['email']=$account_info['email'];
+			$feedback=$_REQUEST['feedback'];
+			$first_name=$account_info['first_name'];
+			$last_name=$account_info['last_name'];
+			$city=$account_info['city'];
+			$telephone_1=$account_info['telephone_1'];
+			$account_email=$account_info['email'];
+			$company_name=$account_info['company_name'];
+			$address_1=$account_info['address_1'];
+			$address_2=$account_info['address_2'];
+			$telephone_2=$account_info['telephone_2'];
+			$province=$account_info['province'];
+
+			$data=array("name"=>$name,"email"=>$email,"feedback"=>$feedback,"first_name"=>$first_name,"last_name"=>$last_name,"city"=>$city,"telephone_1"=>$telephone_1,"account_email"=>$account_email,"company_name"=>$company_name,"address_1"=>$address_1,"address_2"=>$address_2,"telephone_2"=>$telephone_2,"province"=>$province,"serverip"=>$_SERVER['SERVER_ADDR'],"FLAG"=>"FALSE");
+
+		        $data_new= json_encode($data);
+	        }
+		}
+        $ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://feedback.astppbilling.org/feedback.php');  
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST'); 
 		curl_setopt($ch, CURLOPT_HEADER, 1);  
 		curl_setopt($ch, CURLOPT_POST, 1);  
@@ -68,16 +97,15 @@ class Feedback extends MX_Controller
 		curl_setopt($ch, CURLINFO_HEADER_OUT, 1);  
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
-	        $response = curl_exec($ch);
-	//print_r( $response); exit;
+        $response = curl_exec($ch);
+        if(!$flag)
 	     redirect(base_url() . 'feedback/thanks');
 	    
 
 	}
 	function thanks(){
-
             $this->load->view('view_feedback_response');
+	}	
 
-}		
 }
 ?>

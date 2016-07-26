@@ -30,6 +30,8 @@ use DateTime::Format::Strptime;
 use strict;
 use warnings;
 
+#use Encode qw(decode encode);
+use utf8;
 use vars qw($params $gbl_config $gbl_astpp_db $gbl_xml_logger $astpp_calltype $data);
 
 require "/usr/local/astpp/astpp-database.pl";
@@ -68,6 +70,11 @@ if ( $params->{cdr} or $params->{POSTDATA}) { # PROCESS CDRs.
           if ($data->{variables}->{hangup_cause} ne 'NORMAL_CLEARING' && $data->{variables}->{hangup_cause} ne 'ALLOTTED_TIMEOUT') {
         	  	$data->{variables}->{billsec} = 0;
           }
+	 
+	 if($data->{variables}->{hangup_cause} eq 'NORMAL_CLEARING' && $data->{variables}->{billsec} == 0)
+         {
+                $data->{variables}->{hangup_cause} = $data->{variables}->{last_bridge_hangup_cause};
+         }	  
             
           #get require parameters from dialplan varaibles  
           my $accountid = $data->{variables}->{accountid};
@@ -112,7 +119,7 @@ if ( $params->{cdr} or $params->{POSTDATA}) { # PROCESS CDRs.
           
           #$data->{callflow}->{caller_profile}->{originatee}->{originatee_caller_profile}->{network_addr}
           
-          my $cdr_string = "".$gbl_astpp_db->quote($data->{variables}->{uuid}).",".$accountid.",".$account_type.",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{caller_id})).",".$gbl_astpp_db->quote($data->{variables}->{effective_destination_number}).",".$actual_duration.",".($termination_rate->{TRUNK} or 0).",".$gbl_astpp_db->quote('').",".$gbl_astpp_db->quote($data->{variables}->{sip_contact_host} or '').",".$gbl_astpp_db->quote($data->{variables}->{hangup_cause}).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{callstart})).",".$debit.",".$cost.",".($termination_rate->{PROVIDER} or 0).",".$origination_rate->{$accountid}->{RATEGROUP}.",".$data->{variables}->{package_id}.",".$gbl_astpp_db->quote($origination_rate->{$accountid}->{CODE}).",".$gbl_astpp_db->quote(($origination_rate->{$accountid}->{DESTINATION} or '')).",".$origination_rate->{$accountid}->{COST}.",".$parentid.",".($gbl_astpp_db->quote($origination_rate->{$parentid}->{CODE} or '')).",".$gbl_astpp_db->quote($origination_rate->{$parentid}->{DESTINATION} or '').",".($origination_rate->{$parentid}->{COST} or '0').",".($gbl_astpp_db->quote(($termination_rate->{CODE} or '')) or '').",".$gbl_astpp_db->quote(($termination_rate->{DESTINATION} or '')).",".$gbl_astpp_db->quote(($termination_rate->{COST} or '0')).",".$provider_cost.",".$gbl_astpp_db->quote($data->{variables}->{call_direction}).",".$gbl_astpp_db->quote($data->{variables}->{calltype}).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{profile_start_stamp})).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{answer_stamp})).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{bridge_stamp})).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{progress_stamp})).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{progress_media_stamp} or '')).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{end_stamp})).",".$data->{variables}->{billmsec}.",".$data->{variables}->{answermsec}.",".$data->{variables}->{waitmsec}.",".$data->{variables}->{progress_mediamsec}.",".$data->{variables}->{flow_billmsec}."";
+          my $cdr_string = "".$gbl_astpp_db->quote($data->{variables}->{uuid}).",".$accountid.",".$account_type.",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{caller_id})).",".$gbl_astpp_db->quote($data->{variables}->{effective_destination_number}).",".$actual_duration.",".($termination_rate->{TRUNK} or 0).",".$gbl_astpp_db->quote('').",".$gbl_astpp_db->quote($data->{variables}->{sip_contact_host} or '').",".$gbl_astpp_db->quote($data->{variables}->{hangup_cause}).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{callstart})).",".$debit.",".$cost.",".($termination_rate->{PROVIDER} or 0).",".$origination_rate->{$accountid}->{RATEGROUP}.",".$data->{variables}->{package_id}.",".$gbl_astpp_db->quote($origination_rate->{$accountid}->{CODE}).",".$gbl_astpp_db->quote(($origination_rate->{$accountid}->{DESTINATION}) or '').",".$origination_rate->{$accountid}->{COST}.",".$parentid.",".($gbl_astpp_db->quote($origination_rate->{$parentid}->{CODE} or '')).",".$gbl_astpp_db->quote($origination_rate->{$parentid}->{DESTINATION} or '').",".($origination_rate->{$parentid}->{COST} or '0').",".($gbl_astpp_db->quote(($termination_rate->{CODE} or '')) or '').",".$gbl_astpp_db->quote(($termination_rate->{DESTINATION} or '')).",".$gbl_astpp_db->quote(($termination_rate->{COST} or '0')).",".$provider_cost.",".$gbl_astpp_db->quote($data->{variables}->{call_direction}).",".$gbl_astpp_db->quote($data->{variables}->{calltype}).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{profile_start_stamp})).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{answer_stamp})).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{bridge_stamp})).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{progress_stamp})).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{progress_media_stamp} or '')).",".$gbl_astpp_db->quote(uri_unescape($data->{variables}->{end_stamp})).",".$data->{variables}->{billmsec}.",".$data->{variables}->{answermsec}.",".$data->{variables}->{waitmsec}.",".$data->{variables}->{progress_mediamsec}.",".$data->{variables}->{flow_billmsec}."";
           
           &print_csv($cdr_string,'customer');
           

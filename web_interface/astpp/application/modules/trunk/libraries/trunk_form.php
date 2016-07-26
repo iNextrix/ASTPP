@@ -14,7 +14,7 @@ class trunk_form {
 	    array('Provider', 'provider_id', 'SELECT', '', 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr',array('type'=>3,"deleted"=>"0","status"=>"0")),
             array('Gateway', 'gateway_id', 'SELECT', '', 'trim|required|xss_clean', 'tOOL TIP', 'Please select gateway first', 'id', 'name', 'gateways', 'build_dropdown','where_arr', array("status" => "0")),
 	    array('Fail Over Gateway', 'failover_gateway_id', 'SELECT', '', '', 'tOOL TIP', 'Please select gateway first', 'id', 'name', 'gateways', 'build_dropdown', 'where_arr', array("status" => "0")),
-            
+        array('Fail Over Gateway', 'failover_gateway_id1', 'SELECT', '', '', 'tOOL TIP', 'Please select gateway first', 'id', 'name', 'gateways', 'build_dropdown', 'where_arr', array("status" => "0")),            
             array('Max Channels', 'INPUT', array('name' => 'maxchannels', 'value' => '0' , 'size' => '20', 'maxlength' => '4', 'class' => "text field medium"), '', 'tOOL TIP', ''));
             
             $form['Trunk Settings'] = array(
@@ -55,11 +55,12 @@ class trunk_form {
             array("Provider", "165", "provider_id", "first_name,last_name,number", "accounts", "build_concat_string"),
             array("Gateway Name", "165", "gateway_id", "name", "gateways", "get_field_name"),
 	    array("Failover GW name", "150", "failover_gateway_id","name", "gateways", "get_field_name"),
-	    array("Max channels", "120", "maxchannels", "", "", ""),
+        array("Failover GW name", "150", "failover_gateway_id1","name", "gateways", "get_field_name"),
+	    array("Max<br>channels", "70", "maxchannels", "", "", ""),
             array("Codecs", "110", "codec", "", "", ""),
             //array("Precedence", "100", "precedence", "", "", ""),
-	    array("Rate Count", "117", "id", "trunk_id", "outbound_routes", "get_field_count"),
-            array("Status", "110", "status", "status", "status", "get_status"),
+	    array("Rate<br>Count", "70", "id", "trunk_id", "outbound_routes", "get_field_count"),
+            array("Status", "70", "status", "status", "status", "get_status"),
 	  array("Action", "124", "", "", "", array("EDIT" => array("url" => "/trunk/trunk_edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "/trunk/trunk_remove/", "mode" => "single")))
                 ));

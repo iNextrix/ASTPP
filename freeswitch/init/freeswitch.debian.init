@@ -1,22 +1,22 @@
 #!/bin/bash
 ### BEGIN INIT INFO
-# Provides:          Freeswitch
-# Required-Start:    $local_fs $remote_fs $network
-# Required-Stop:     $local_fs $remote_fs $network
+# Provides:          freeswitch
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:     $local_fs $remote_fs
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Description:       FreeSWITCH debian init script.
-# Author: Matthew Williams
+# Description:       Freeswitch debian init script.
+# Author:            Matthew Williams
 #
 ### END INIT INFO
 # Do NOT "set -e"
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
-DESC="FreeSwitch Voice Switching System"
+DESC="Freeswitch"
 NAME=freeswitch
 DAEMON=/usr/local/freeswitch/bin/$NAME
-DAEMON_ARGS="-nc -rp" # -rp is for real-time priority, -np for normal system priority, -lp for low priority
+DAEMON_ARGS="-nc -rp"
 PIDFILE=/usr/local/freeswitch/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
@@ -59,11 +59,11 @@ do_setlimits() {
 #
 do_start()
 {
- # Set user to run as
+    # Set user to run as
         if [ $FS_USER ] ; then
-   DAEMON_ARGS="`echo $DAEMON_ARGS` -u $FS_USER"
+      DAEMON_ARGS="`echo $DAEMON_ARGS` -u $FS_USER"
         fi
- # Set group to run as
+    # Set group to run as
         if [ $FS_GROUP ] ; then
           DAEMON_ARGS="`echo $DAEMON_ARGS` -g $FS_GROUP"
         fi
@@ -75,15 +75,12 @@ do_start()
         start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null -- \
                 || return 1
         do_setlimits
-        start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON -- \
+        start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --background -- \
                 $DAEMON_ARGS \
                 || return 2
         # Add code here, if necessary, that waits for the process to be ready
         # to handle requests from services started subsequently which depend
         # on this one.  As a last resort, sleep for some time.
-        # increase priority further, using -20 is not recommended
-        sleep 15 # wait for all children to start
-        renice -n -19 -u freeswitch
 }
 
 #
@@ -142,6 +139,9 @@ case "$1" in
                 2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
         esac
         ;;
+  status)
+       status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
+       ;;
   #reload|force-reload)
         #
         # If do_reload() is not implemented then leave this commented out
@@ -179,4 +179,5 @@ case "$1" in
         exit 3
         ;;
 esac
-exit $RETVAL
+
+exit 0

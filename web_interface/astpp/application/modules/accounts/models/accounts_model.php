@@ -86,9 +86,9 @@ function add_account($accountinfo) {
 	    $this->load->model('opensips/opensips_model');
 	    $this->opensips_model->add_opensipsdevices($opensips_array);
         }
-       /* if ($accountinfo['type'] == '0') {
+        if ($accountinfo['type'] == '0') {
             $this->common->mail_to_users('email_add_user', $accountinfo);
-        }*/
+        }
         return $last_id;
     }
 

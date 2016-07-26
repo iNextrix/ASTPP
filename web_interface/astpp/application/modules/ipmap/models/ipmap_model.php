@@ -32,10 +32,15 @@ class IPMAP_model extends CI_Model {
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $qry = $this->db_model->getselect('id', 'accounts', array('reseller_id' => $accountinfo['id']));
             $result = $qry->result_array();
-             foreach ($result as $value1) {
+         	foreach ($result as $value1) {
                 $value[] = $value1['id'];
-		 }
-            $this->db->where_in('accountid', $value);
+		 	}
+		 	if(!empty($value)){
+		 		$this->db->where_in('accountid', $value);	
+		 	}else{
+		 		$this->db->where_in('accountid', '0');
+		 	}
+            
         } else {
 
             $qry = $this->db_model->getselect('id', 'accounts', array('reseller_id' => 0));
@@ -44,7 +49,12 @@ class IPMAP_model extends CI_Model {
             foreach ($result as $value1) {
                 $value[] = $value1['id'];
             }
-            $this->db->where_in('accountid', $value);
+            //$this->db->where_in('accountid', $value);
+			if(!empty($value)){
+		 		$this->db->where_in('accountid', $value);	
+		 	}else{
+		 		$this->db->where_in('accountid', '0');
+		 	}            
         }
          $this->db_model->build_search('ipmap_list_search');
         

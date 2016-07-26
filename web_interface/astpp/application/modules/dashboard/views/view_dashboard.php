@@ -29,8 +29,8 @@
             type:'POST',
 //     		dataType: 'JSON',
 		url: "<?php echo base_url();?>"+'dashboard/customerReport_recent_payments/',
-		cache    : false,
-		async    : false,
+//		cache    : false,
+//		async    : false,
                 success: function(response_data) {
                      var custom_data=JSON.parse(response_data);
                       if(custom_data !=''){
@@ -74,10 +74,15 @@
                 type:'POST',
                 url: "<?php echo base_url();?>dashboard/customerReport_call_statistics_with_profit/",
                 dataType: 'JSON',
-                cache    : false,
-                async    : false,   
+//                cache    : false,
+//                async    : false,  
+		beforeSend: function(){
+                       $("#call-graph").append('<div class="loading col-md-offset-6"><img src="<?php echo base_url();?>/assets/images/loading.gif" /></div>');
+                       $("#call-graph").show();
+                   }, 
                 success: function(response_data) {
 //alert(response_data);
+			$("#call-graph").hide();
                 $('#call_graph_data').highcharts({
 		  chart: {
 		      zoomType: 'xy'
@@ -89,13 +94,11 @@
 		      categories:response_data['date']
 		  }],
 		  yAxis: [{
-		  	  allowDecimals: false,
 			  min: 0,
 			  title: {
 			      text: 'Total Calls'
 			  }
 		      }, {
-	      	  allowDecimals: false,
 			  min: 0,
 			  opposite: true, //optional, you can have it on the same side.
 			  title: {
@@ -178,9 +181,14 @@
                 type:'POST',
                 url: "<?php echo base_url();?>dashboard/customerReport_maximum_call"+url+"/",
                 dataType: 'JSON',
-                cache    : false,
-                async    : false,   
+                beforeSend: function(){
+                       $("#call-count").append('<div class="loading col-md-offset-6"><img src="<?php echo base_url();?>/assets/images/loading.gif" /></div>');
+                       $("#call-count").show();
+                   },
+//                cache    : false,
+//                async    : false,   
                 success: function(response_data) {
+			$("#call-count").hide();
 		  if(response_data == ''){
 		    $("div.call_count_data").hide();		    
 		    $("div.not_data").addClass("second");
@@ -221,16 +229,10 @@
 			allowPointSelect: true,
 			cursor: 'pointer',
 			depth: 25,
-			/*dataLabels: {
+			dataLabels: {
 			    enabled: true,
 			    format: '{point.name}'
-			}*/
-			
-			//graph change 25.06
-			dataLabels: {
-			    enabled: false,
-			},
-			showInLegend: true
+			}
 			}
 		      },
 		      series: [{
@@ -258,34 +260,52 @@
 <section class="slice">
 	<div class="w-section inverse no-padding">
     	<div class="container">
-   	    <div class="row">
-   	        <div class="col-md-12 no-padding">
-                <!---GRAPH--->
-                <div class="col-md-12 no-padding w-box"><h4 class="col-md-3" style="text-align:right;color:#3989c0;float:right;"><?=$date;?></h4><br/><br/>
-	          <div id='call_graph_data' class='call_graph_data'></div>
-	        </div>	        
-   	    
-                <div class="col-md-6 padding-tbl-r">
-                  <!--Call Graph-->
-                  <div class="col-md-12 color-three w-box">
-                          <h4 class="col-md-3 no-padding" style="color:#3989c0;">Top 10 Accounts</h4>
-                         <div class="w-box col-md-6 padding-t-10 padding-b-10 pull-right"> 
-                           <input type="radio" name="calls_pie_chart" checked="checked" value="minutes" class="ace"><label class="lbl">By Minutes</label>
-                           &nbsp;&nbsp;
-                           <input type="radio" name="calls_pie_chart" value="count" class="ace"><label class="lbl"> By Calls</label></div>
-                           <div id='call_count_data' class=" call_count_data col-md-12" style ='display:none'></div>  
-                           <div id='not_data' class='col-md-12 not_data' style ='display:none'></div>
-                   </div>
-                </div>   
-               
-	      <div class="col-md-6  padding-trb-l">
-                <div class="col-md-12 color-three w-box">
-                <h4 class="col-md-5 no-padding" style="color:#3989c0;">Recharge Information</h4>
-	          <div id='recharge_data' class='col-md-12 recharge_data' style ='display:none'></div>
-	          <div id='recharge_not_data' class='col-md-12 recharge_not_data' style ='display:none'></div>
-	        </div>
-	        </div>
-	        </div>
+   	    	<div class="row">
+			 <div class="col-md-12 no-padding">        
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Monthly Stat <?=$date;?></h3>
+                            </div>
+                            <div class="panel-body">
+            					<div id="call-graph"></div>
+               					<div id='call_graph_data' class='call_graph_data'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Top 10 Accounts</h3>
+                            </div>
+                            <div class="panel-body">
+		                         <div class="w-box col-md-6 padding-t-10 padding-b-10 pull-right"> 
+		                           <input type="radio" name="calls_pie_chart" checked="checked" value="minutes" class="ace"><label class="lbl">By Minutes</label>
+		                           &nbsp;&nbsp;
+		                           <input type="radio" name="calls_pie_chart" value="count" class="ace"><label class="lbl"> By Calls</label></div>
+					  <div id="call-count"></div>
+		                           <div id='call_count_data' class=' call_count_data col-md-12' style ='display:none'></div>  
+		                           <div id='not_data' class='col-md-12 not_data' style ='display:none'></div>
+	               			</div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Recharge Information</h3>
+                            </div>
+                            <div class="panel-body">
+						          <div id='recharge_data' class='col-md-12 recharge_data' style ='display:none'></div>
+						          <div id='recharge_not_data' class='col-md-12 recharge_not_data' style ='display:none'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+	       		 </div>	        
             </div>
         </div>
     </div>
@@ -294,4 +314,4 @@
 <? endblock() ?>
 <? startblock('sidebar') ?>
 <? endblock() ?>
-<? end_extend() ?>  
+<? end_extend() ?> 

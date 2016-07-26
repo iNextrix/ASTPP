@@ -53,12 +53,13 @@ class email_lib {
 
     function get_email_settings()
     {
-	$where = array('group_title' =>'email');
-        $query = $this->CI->db_model->getSelect("*", "system", $where);
-        $query = $query->result_array();
-	foreach($query as $key=>$val){
-		$this->$val['name']=$val['value'];
-	}
+		$where = array('group_title' =>'email');
+	        $query = $this->CI->db_model->getSelect("*", "system", $where);
+	        $query = $query->result_array();
+		foreach($query as $key=>$val){
+			$tempvar = strtolower($val['name']);
+			$this->$tempvar=$val['value'];
+		}
     }
 
     function get_template( $type)
@@ -194,44 +195,40 @@ class email_lib {
     }
     function set_email_paramenters($details)
     {
-	if(!is_array($details)){
-		$this->get_admin_details();
-		$where = array('id'=>$details);
-		$query = $this->CI->db_model->getSelect("*", "mail_details", $where);
-		$query = $query->result_array();
-		$details=$query[0];
-	}
-	$this->message=$details['body'];
-	$this->from=$details['from'];
-	$this->to=$details['to'];
-	$this->subject=$details['subject'];
-	$this->account_id=$details['accountid'];
+		if(!is_array($details)){
+			$this->get_admin_details();
+			$where = array('id'=>$details);
+			$query = $this->CI->db_model->getSelect("*", "mail_details", $where);
+			$query = $query->result_array();
+			$details=$query[0];
+		}
+		$this->message=$details['body'];
+		$this->from=$details['from'];
+		$this->to=$details['to'];
+		$this->subject=$details['subject'];
+		$this->account_id=$details['accountid'];
     }
     function get_smtp_details()
     {
 	if($this->smtp_port=='' || $this->smtp_host=='' || $this->smtp_user=='' || $this->smtp_pass=='')exit;
-	$config['protocol'] = "smtp";
-	$config['smtp_host'] = $this->smtp_host;
-	$config['smtp_port'] = $this->smtp_port;
-	$config['smtp_user'] = $this->smtp_user;
-	$config['smtp_pass'] = $this->smtp_pass;
-	$config['charset'] = "utf-8";
-	$config['mailtype'] = "html";
-	$config['newline'] = "\r\n";
-	$this->CI->email->initialize($config);
+		$config['protocol'] = "smtp";
+		$config['smtp_host'] = $this->smtp_host;
+		$config['smtp_port'] = $this->smtp_port;
+		$config['smtp_user'] = $this->smtp_user;
+		$config['smtp_pass'] = $this->smtp_pass;
+		$config['charset'] = "utf-8";
+		$config['mailtype'] = "html";
+		$config['newline'] = "\r\n";
+		$this->CI->email->initialize($config);
     }
 
     function send_email($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
 
 	$this->get_email_settings();
-
 	if($this->email){
-
 		if(!$resend){
 			$this->build_template($template_type,$details,$detail_type);
-		}
-		else
-		{
+		}else{
 			$this->set_email_paramenters($details);
 		}
 
@@ -240,6 +237,9 @@ class email_lib {
 		else	
 			$history_id=$details['history_id'];
 		if(isset($this->from) && $this->from!='' && isset($this->to) && $this->to!='' && !$mass_mail){
+			if($this->smtp){
+				$this->get_smtp_details();
+			}			
 			$this->CI->email->from($this->from, $this->company_name);
 			$this->CI->email->to($this->to);
 			$this->CI->email->subject($this->subject);
@@ -254,10 +254,8 @@ class email_lib {
 				   	}
 				}
 			}
-			if($this->smtp){
-				$this->get_smtp_details();
-			}
 			$this->CI->email->send();
+//			echo $this->CI->email->print_debugger();
 			$this->CI->email->clear(true);
 			$this->update_mail_history($history_id);
 		}					

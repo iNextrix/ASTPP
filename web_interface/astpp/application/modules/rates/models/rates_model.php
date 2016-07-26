@@ -267,17 +267,16 @@ class rates_model extends CI_Model {
         
         return $this->db->update("routes");
     }
-        function getreseller_rates_list($flag, $start = 0, $limit = 0,$export=false) {
+    function getreseller_rates_list($flag, $start = 0, $limit = 0,$export=false) {
         $this->db_model->build_search('resellerrates_list_search');
         $account_data = $this->session->userdata("accountinfo");
         $where = array("status"=>"0","pricelist_id" => $account_data["pricelist_id"]);
         if ($flag) {
-            $query = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
+            $query = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);            
         } else {
             $query = $this->db_model->countQuery("*", "routes", $where);
         }
         return $query;
-	    
     }
     
 }

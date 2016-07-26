@@ -50,7 +50,7 @@ class Dashboard_model extends CI_Model {
 	$start_date=date('Y-m-01');
 	$end_date=date('Y-m-t');
 	
-	$query = "select count(uniqueid) as sum,count(CASE WHEN disposition IN ('NORMAL_CLEARING','SUCCESS') THEN 1 END) as answered,count(CASE WHEN disposition NOT IN ('NORMAL_CLEARING','SUCCESS') THEN 1 END) as failed,sum(debit-cost) as profit,DAY(callstart) as day from ".$table." where callstart >='". $start_date." 00:00:00' AND callstart <='". $end_date." 23:59:59' AND reseller_id = '".$parent_id."' GROUP BY DAY(callstart)";
+	$query = "select count(uniqueid) as sum,count(CASE WHEN billseconds > 0 THEN 1 END) as answered,count(CASE WHEN disposition NOT IN ('NORMAL_CLEARING','SUCCESS') THEN 1 END) as failed,sum(debit-cost) as profit,DAY(callstart) as day from ".$table." where callstart >='". $start_date." 00:00:00' AND callstart <='". $end_date." 23:59:59' AND reseller_id = '".$parent_id."' GROUP BY DAY(callstart)";
 	return $this->db->query($query,false);
     }
     function get_customer_maximum_callminutes()

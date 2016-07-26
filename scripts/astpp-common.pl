@@ -44,7 +44,9 @@ sub get_did_reseller() {
 sub ip_authentication
 {
 	my (%arg) = @_;			
-	return &select_query("IP Authentication","SELECT ip_map.*, (SELECT number FROM accounts where id=accountid AND status=0 AND deleted=0) AS account_code FROM ip_map WHERE ip = " . $gbl_astpp_db->quote($arg{ip_address}). " AND prefix IN (NULL,'') OR ip = " . $gbl_astpp_db->quote($arg{ip_address}). " AND " . $gbl_astpp_db->quote($arg{destination}) . " RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1");
+#	return &select_query("IP Authentication","SELECT ip_map.*, (SELECT number FROM accounts where id=accountid AND status=0 AND deleted=0) AS account_code FROM ip_map WHERE ip = " . $gbl_astpp_db->quote($arg{ip_address}). " AND prefix IN (NULL,'') OR ip = " . $gbl_astpp_db->quote($arg{ip_address}). " AND " . $gbl_astpp_db->quote($arg{destination}) . " RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1");
+
+	return &select_query("IP Authentication","SELECT ip_map.*, (SELECT number FROM accounts where id=accountid AND status=0 AND deleted=0) AS account_code FROM ip_map WHERE SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = " . $gbl_astpp_db->quote($arg{ip_address}). " AND prefix IN (NULL,'') OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = " . $gbl_astpp_db->quote($arg{ip_address}). " AND " . $gbl_astpp_db->quote($arg{destination}) . " RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1");
 }
 
 # Go looking for an account and only return open accounts.
@@ -256,7 +258,7 @@ sub get_termination_rates() {
 	}
 	
 	my $custom_destination = &custom_destination_number('destination_number'=>$arg{destination_number});
-	return &select_query("Termination rates","SELECT trunks.id as trunk_id,trunks.codec,gateways.name as path,trunks.provider_id,trunks.status,trunks.dialed_modify,trunks.maxchannels,outbound_routes.pattern,outbound_routes.id as outbound_route_id,outbound_routes.connectcost,outbound_routes.comment,outbound_routes.includedseconds,outbound_routes.cost,outbound_routes.inc,outbound_routes.prepend,outbound_routes.strip,(select name from gateways where status=0 AND id = trunks.failover_gateway_id) as path2 FROM outbound_routes,trunks,gateways WHERE $where AND gateways.status=0 AND gateways.id= trunks.gateway_id AND trunks.status=0 AND trunks.id= outbound_routes.trunk_id AND ($custom_destination) AND outbound_routes.status=0 ORDER BY LENGTH (pattern) DESC,outbound_routes.cost ASC,outbound_routes.precedence ASC, trunks.precedence","multi");
+	return &select_query("Termination rates","SELECT trunks.id as trunk_id,trunks.codec,gateways.name as path,trunks.provider_id,trunks.status,trunks.dialed_modify,trunks.maxchannels,outbound_routes.pattern,outbound_routes.id as outbound_route_id,outbound_routes.connectcost,outbound_routes.comment,outbound_routes.includedseconds,outbound_routes.cost,outbound_routes.inc,outbound_routes.prepend,outbound_routes.strip,(select name from gateways where status=0 AND id = trunks.failover_gateway_id) as path1,(select name from gateways where status=0 AND id = trunks.failover_gateway_id1) as path2 FROM outbound_routes,trunks,gateways WHERE $where AND gateways.status=0 AND gateways.id= trunks.gateway_id AND trunks.status=0 AND trunks.id= outbound_routes.trunk_id AND ($custom_destination) AND outbound_routes.status=0 ORDER BY LENGTH (pattern) DESC,outbound_routes.cost ASC,outbound_routes.precedence ASC, trunks.precedence","multi");
 }
 
 #Get account / Calling card outbound callerid number to override
@@ -285,6 +287,12 @@ sub convert_to_gmt()
     $variable = uri_unescape($variable);
     $data->{variables}->{callstart} = uri_unescape($data->{variables}->{callstart});
     return (defined($variable) && $variable ne '') ? $gbl_astpp_db->selectall_arrayref("SELECT TIMESTAMP(\"".$variable."\",timediff(\"".$data->{variables}->{callstart}."\",\"".$variable."\"))")->[0][0] : '';
+}
+sub in_array
+{
+     my ($arr,$search_for) = @_;
+     my %items = map {$_ => 1} @$arr;
+     return (exists($items{$search_for}))?1:0;
 }
 1;
 

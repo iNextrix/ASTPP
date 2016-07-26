@@ -113,7 +113,7 @@ sub xml_process()
     ($maxlength,$rategroup_info,$origination_rates_info,$origination_dp_string) = &max_length('destination_number'=>$destination_number,'carddata'=>$carddata);    
     
     
-    &set_max_channels(name=>$carddata->{number},maxchannels=>$carddata->{maxchannels}) if ($astpp_calltype eq 'ASTPP-STANDARD');
+    &set_max_channels(name=>$carddata->{number},maxchannels=>$carddata->{maxchannels},interval=>$carddata->{interval}) if ($astpp_calltype eq 'ASTPP-STANDARD');
     
     my $minimumcharge = $origination_rates_info->{cost};    
     my @reseller_list;    
@@ -151,7 +151,7 @@ sub xml_process()
         
         $minimumcharge = $origination_rates_info->{cost};
         
-        &set_max_channels(name=>$carddata->{number},maxchannels=>$carddata->{maxchannels}) if ($astpp_calltype eq 'ASTPP-STANDARD');        
+        &set_max_channels(name=>$carddata->{number},maxchannels=>$carddata->{maxchannels},interval=>$carddata->{interval}) if ($astpp_calltype eq 'ASTPP-STANDARD');        
     }
 
     #Print list of resellers.
@@ -178,9 +178,9 @@ sub xml_process()
 	          account_type => $cust_type,	          
   	          destination_number => $destination_number,
 	          max_length => $maxlength,
-  		  call_type => $didinfo->{call_type},
-		  extensions => $didinfo->{extensions},
-		  gbl_xml_channels => ($gbl_xml_channels or ""),
+  		      call_type => $didinfo->{call_type},
+		      extensions => $didinfo->{extensions},
+		      gbl_xml_channels => ($gbl_xml_channels or ""),
   	          origination_dp_string => $origination_dp_string,
 	      );	      
 	} else {
@@ -198,9 +198,11 @@ sub xml_process()
 		if(@termination_rates_info)
 		{
 		      my $count = 0;
+		      my @trunk_duplicate;
 		      
 		      foreach my $termination_rate (@termination_rates_info) {
-		      
+		     	if(!&in_array(\@trunk_duplicate,$termination_rate->{trunk_id}))
+                        { 
 			      &logger("$termination_rate->{name}: cost Termination Rate : $termination_rate->{cost} \t Origination Rate : $origination_rates_info->{cost} \t Code : $termination_rate->{pattern}" );
 			      
 			      if ( $termination_rate->{cost} > $origination_rates_info->{cost} ) {
@@ -220,19 +222,20 @@ sub xml_process()
         					$count++;
 				      }
 			      }			
+			 }
 		      }		      
 		      &error_xml_without_cdr($arg{destination_number},"TERMINATION_RATES_NOT_FOUND") if($count == 0);
 		      
 		      #Issues : 37
 		      if(!defined $params->{'variable_calltype'})
 		      {
-    		      #Fetch outbound callerid for accounts & If exist and active then override it
-	    	      $outboundcallerid = &get_outbound_callerid(
-	    	            accountid=>$cust_accountid,
-	    	            table=>'accounts_callerid',
-	    	            field=>'accountid'
-	               );		
-               }
+    		     	 #Fetch outbound callerid for accounts & If exist and active then override it
+	    	      	 $outboundcallerid = &get_outbound_callerid(
+	    	         	accountid=>$cust_accountid,
+	    	            	table=>'accounts_callerid',
+	    	            	field=>'accountid'
+	               	 );		
+              	      }
 		}else{
 		    &error_xml_without_cdr($destination_number,"TERMINATION_RATES_NOT_FOUND");
 		}

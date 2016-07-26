@@ -488,7 +488,7 @@ $reseller_id = $this->session->userdata('logintype') == 1 || $this->session->use
        }
        $this->db->where($where);
         if($flag){
-            $result=$this->db_model->select("accountid,uniqueid,notes,pattern, COUNT(*) AS attempts, (CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN AVG(billseconds) ELSE 0 END) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit, SUM(cost) AS cost,sum(debit-cost) as profit", "reseller_cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,accountid');
+            $result=$this->db_model->select("accountid,uniqueid,notes,pattern, COUNT(*) AS attempts, (CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN AVG(billseconds) ELSE 0 END) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit, SUM(cost) AS cost,sum(debit-cost) as profit", "reseller_cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,accountid');
         }
         else{
             $this->db->order_by('callstart','desc');
@@ -505,13 +505,13 @@ $reseller_id = $this->session->userdata('logintype') == 1 || $this->session->use
         if($flag){
 if(!$export){
 	    
-	 $result=$this->db_model->select("provider_id,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost, SUM(provider_call_cost) AS price", "cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,provider_id');
+	 $result=$this->db_model->select("provider_id,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost, SUM(provider_call_cost) AS price", "cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,provider_id');
 
         }
 else
 {
 
- $result=$this->db_model->select("provider_id,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost, SUM(provider_call_cost) AS price", "cdrs",'' , "callstart", "DESC",'','','pattern,provider_id');
+ $result=$this->db_model->select("provider_id,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost, SUM(provider_call_cost) AS price", "cdrs",'' , "callstart", "DESC",'','','pattern,provider_id');
 
 }
      }   else{
@@ -534,7 +534,7 @@ function get_customersummary_report_list($flag,$start=0,$limit=0){
        }
        $this->db->where($where);   
        if($flag){
-               $result=$this->db_model->select("accountid,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(debit) AS cost,SUM(cost) AS price", "cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,accountid');
+               $result=$this->db_model->select("accountid,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS cost,SUM(cost) AS price", "cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,accountid');
 //             $result=$this->db->query($query);
        }
        else{

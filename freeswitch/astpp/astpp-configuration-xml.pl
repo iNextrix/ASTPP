@@ -39,9 +39,9 @@ sub xml_process()
         $sql->execute;
         while ( $row = $sql->fetchrow_hashref ) {
 	     chomp($row->{ip});
-	     if( $row->{ip} =~ m/^(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)$/ )
+	     if( $row->{ip} =~ m/^(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)\/(\d\d)$/)
 	     {			             
-	    	     $xml .= "<node type=\"allow\" cidr=\"".$row->{ip}."/32\"/>\n";
+	    	     $xml .= "<node type=\"allow\" cidr=\"".$row->{ip}."\"/>\n";
 	     }
         }
         

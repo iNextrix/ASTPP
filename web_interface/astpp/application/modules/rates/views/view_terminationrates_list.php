@@ -82,10 +82,12 @@
 	<div class="w-section inverse no-padding">
     	<div class="container">
         	<div class="row">
-                <div class="col-md-12">      
+                <div class="col-md-12">     
+	<a href="http://goo.gl/HTBLVr" target="_blank" class="col-xs-offset-9"><img src="http://www.ipcomms.net/images/freedidbutton2.jpg"></a> 
                         <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
                             <table id="outbound_rates_grid" align="left" style="display:none;"></table>
                         </form>
+                        <div class="margin-t-10"></div>
                 </div>  
             </div>
         </div>
