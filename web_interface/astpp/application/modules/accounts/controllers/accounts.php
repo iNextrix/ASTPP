@@ -2365,8 +2365,8 @@ class Accounts extends MX_Controller {
                     $row['company_name'],
                     $this->common->get_field_name('name', 'pricelists', $row['pricelist_id']),
                     $this->common->get_account_type('', '', $row['posttoexternal']),
-                    $this->common_model->calculate_currency($row['balance']),
-                    $this->common_model->calculate_currency($row['credit_limit']),
+                    $this->common_model->calculate_currency($row['balance'],false,false),
+                    $this->common_model->calculate_currency($row['credit_limit'],false,false),
                     $this->common->get_status('export', '', $row['status']),
                     $row['creation'],
                 );

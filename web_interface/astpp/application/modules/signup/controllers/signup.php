@@ -45,6 +45,12 @@ class Signup extends MX_Controller {
     }
 
     function index($key = "") {
+
+        if (Common_model::$global_config['system_config']['enable_signup'] == 1)
+		{
+    		redirect(base_url());
+		}
+
         $userCaptcha = $this->input->post('userCaptcha');
         $random_number = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
         $accountinfo=(array)$this->db->get_where('accounts',array('type'=>-1))->first_row();

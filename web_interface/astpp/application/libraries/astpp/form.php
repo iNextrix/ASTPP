@@ -546,7 +546,7 @@ class Form {
         $form_contents.= form_button($cancel);
         $form_contents.= form_button($save);
         $form_contents.='<div class="col-md-12 no-padding margin-t-15" style="margin-bottom:10px; !important">
-						<div class="pull-right btn-close" id="global_clearsearch_filter">Close</div></div>';
+						<div class="pull-right btn-close" id="global_clearbatchupdate_filter">Close</div></div>';
         $form_contents.= form_fieldset_close();
         $form_contents.= form_close();
         $form_contents.= '</div>';

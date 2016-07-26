@@ -822,24 +822,32 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `outbound_routes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `outbound_routes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pattern` char(15) DEFAULT NULL,
-  `comment` char(80) DEFAULT '',
-  `connectcost` decimal(10,5) NOT NULL DEFAULT '0.00000',
-  `includedseconds` int(4) NOT NULL DEFAULT '0',
-  `cost` decimal(10,5) NOT NULL DEFAULT '0.00000',
-  `trunk_id` int(4) NOT NULL DEFAULT '0',
-  `inc` int(4) NOT NULL,
-  `strip` char(40) NOT NULL DEFAULT '',
-  `prepend` char(40) NOT NULL DEFAULT '',
-  `precedence` int(4) NOT NULL DEFAULT '0',
-  `reseller_id` int(11) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for active 1 for inactive',
-  PRIMARY KEY (`id`),
-  KEY `trunk` (`trunk_id`),
-  KEY `pattern` (`pattern`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `outbound_routes` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `pattern` char(15) DEFAULT NULL,
+ `comment` char(80) DEFAULT '',
+ `connectcost` decimal(10,5) NOT NULL DEFAULT '0.00000',
+ `includedseconds` int(4) NOT NULL DEFAULT '0',
+ `cost` decimal(10,5) NOT NULL DEFAULT '0.00000',
+ `trunk_id` int(4) NOT NULL DEFAULT '0',
+ `inc` int(4) NOT NULL,
+ `strip` char(40) NOT NULL DEFAULT '',
+ `prepend` char(40) NOT NULL DEFAULT '',
+ `precedence` int(4) NOT NULL DEFAULT '0',
+ `reseller_id` int(11) NOT NULL DEFAULT '0',
+ `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for active 1 for inactive',
+ `init_inc` int(11) NOT NULL DEFAULT '0',
+ `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `pattern2` (`pattern`,`trunk_id`),
+ KEY `trunk` (`trunk_id`),
+ KEY `pattern` (`pattern`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT  INTO `outbound_routes` (`id`, `pattern`, `comment`, `connectcost`,  `includedseconds`, `cost`, `trunk_id`, `inc`, `strip`, `prepend`,  `precedence`, `reseller_id`, `status`, `init_inc`, `creation_date`,  `last_modified_date`) VALUES
+(1, '^1.*', 'USA', 0.00000, 0, 0.10000, 1, 60, '', '', 0, 0, 0, 30, '2016-07-26 20:12:02', '2016-07-26 20:12:49');
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
