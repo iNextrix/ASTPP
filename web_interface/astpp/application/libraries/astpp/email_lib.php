@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
@@ -130,7 +131,15 @@ class email_lib {
 		if(isset($detail['email'])){
 			$this->to=$detail['email'];
 		}
-		$templateinfo['username']=$templateinfo['number'];
+/*****
+ASTPP  3.0 
+Email test
+****/
+		if(isset($templateinfo['number'])){	
+			$templateinfo['username']=$templateinfo['number'];
+		}
+
+/*************/
 		$this->account_id=$templateinfo['accountid'];
 		unset($templateinfo['number']);
 	}
@@ -223,7 +232,6 @@ class email_lib {
     }
 
     function send_email($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
-
 	$this->get_email_settings();
 	if($this->email){
 		if(!$resend){
@@ -243,19 +251,53 @@ class email_lib {
 			$this->CI->email->from($this->from, $this->company_name);
 			$this->CI->email->to($this->to);
 			$this->CI->email->subject($this->subject);
+			$this->CI->email->set_mailtype("html");
 			eval("\$message = \"".$this->message."\";");
 			$this->CI->email->message($this->message);
+
 			if($attachment!="")
 			{
 			        $attac_exp=explode(",",$attachment);
 		       	  	foreach($attac_exp as $key=>$value){
 			   		if($value != ''){
-				       	     $this->CI->email->attach(getcwd()."/attachments/".$value);       	  	
+			       	$this->CI->email->attach(getcwd()."/attachments/".$value);       	  	
 				   	}
 				}
 			}
 			$this->CI->email->send();
-//			echo $this->CI->email->print_debugger();
+			$this->CI->email->clear(true);
+			$this->update_mail_history($history_id);
+		}					
+	}
+    }
+/**
+ASTPP  3.0 
+Add For Signup Module
+**/
+    function send_mail($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
+	$this->get_email_settings();
+	if($this->email){
+		
+		if(!$resend){
+			$this->build_template($template_type,$details,$detail_type);
+		}else{
+			$this->set_email_paramenters($details);
+		}
+
+		if(!$brodcast)
+	        	$history_id=$this->mail_history($attachment);
+		else	
+			$history_id=$details['history_id'];
+		if(isset($this->from) && $this->from!='' && isset($this->to) && $this->to!='' && !$mass_mail){
+			if($this->smtp){
+				$this->get_smtp_details();
+			}			
+			$this->CI->email->from($this->from, $this->company_name);
+			$this->CI->email->to($this->to);
+			$this->CI->email->subject($this->subject);
+			eval("\$message = \"".$this->message."\";");
+			$this->CI->email->message($this->message);
+			$this->CI->email->send();
 			$this->CI->email->clear(true);
 			$this->update_mail_history($history_id);
 		}					

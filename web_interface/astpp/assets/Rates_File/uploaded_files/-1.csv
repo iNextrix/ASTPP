@@ -1,0 +1,3 @@
+DID,Country,Account,"Per Minute Cost(CURRENCY)","Initial Increment",Increment,"Setup Fee(CURRENCY)","Monthly Fee(CURRENCY)","Call Type",Destination,Status,Error
+535345345,Alaska,2096035512,1,2,3,4,5,0,1001,Active,0,0,"Duplicate DID found from database"
+65456456,Alaska,2096035512,6,7,8,9,10,0,1002,Active,0,0,"Duplicate DID found from database"

@@ -1,25 +1,26 @@
 <?php
 
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 
 class IPMAP_model extends CI_Model {
 
@@ -57,23 +58,61 @@ class IPMAP_model extends CI_Model {
 		 	}            
         }
          $this->db_model->build_search('ipmap_list_search');
-        
+        /*******
+         ASTPP  3.0 
+	 in customer login show ipmap (ACL) module
+ 	 *******/
+        if( $accountinfo['type'] == '0'){
+        $where=array('accountid'=>$accountinfo['id']);
+        }else{
+        $where='';
+        }
+        /**************************************************************************************************************/
         if ($flag) {
-           $query = $this->db_model->select("*", "ip_map", "", "id", "ASC", $limit, $start);
+           /*******
+           ASTPP  3.0 
+	   in customer login show ipmap (ACL) module
+ 	   *******/
+         $query = $this->db_model->select("*", "ip_map", $where, "id", "ASC", $limit, $start);
+        /*******************************************************************************************/
            } else {
-            $query = $this->db_model->countQuery("*", "ip_map", "");
+           /*******
+         ASTPP  3.0 
+	 in customer login show ipmap (ACL) module
+ 	 *******/
+        $query = $this->db_model->countQuery("*", "ip_map", $where);
+        /*************************************************************************************************************/
         }
           return $query;
     }
 
     function add_ipmap($add_array) {
- $data = array('name' => $add_array['name'], 'ip' => $add_array['ip'], 'prefix' => $add_array['prefix'], 'accountid' => $add_array['accountid'], 'context' => 'default');
-        $this->db->insert("ip_map", $data);
-       return $this->db->insert_id();
+		
+    /*******
+    ASTPP  3.0 
+    in customer login show ipmap (ACL) module
+    *******/
+    $account_data = $this->session->userdata("accountinfo");
+    if($account_data['type'] == '0'){
+    $add_array['accountid'] = $account_data['id'];
+     }
+     /*******************************************************************/
+	$data = array('created_date'=>gmdate('Y-m-d H:i:s'),'name' => $add_array['name'], 'ip' => $add_array['ip'], 'prefix' => $add_array['prefix'], 'accountid' => $add_array['accountid'],'status' => $add_array['status'] ,'context' => 'default');
+    $this->db->insert("ip_map", $data);
+    return $this->db->insert_id();
     }
 
     function edit_ipmap($add_array, $id) {
-     $data = array('name' => $add_array['name'], 'ip' => $add_array['ip'], 'prefix' => $add_array['prefix'], 'accountid' => $add_array['accountid'], 'context' => 'default');
+      /*******
+    ASTPP  3.0 
+    in customer login show ipmap (ACL) module
+    *******/
+     $account_data = $this->session->userdata("accountinfo");
+       if($account_data['type'] == '0'){
+       $add_array['accountid'] = $account_data['id'];
+       }
+       /************************************************************************************************/
+		$data = array('last_modified_date'=>gmdate('Y-m-d H:i:s'),'name' => $add_array['name'], 'ip' => $add_array['ip'], 'prefix' => $add_array['prefix'], 'accountid' => $add_array['accountid'],'status' => $add_array['status'] , 'context' => 'default');
         $this->db->where("id", $id);
         return $this->db->update("ip_map", $data);
        

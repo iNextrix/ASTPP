@@ -1,24 +1,25 @@
 <?php 
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 
 class Getbalance extends MX_Controller
 {
@@ -79,11 +80,7 @@ class Getbalance extends MX_Controller
 				$balance_arr = $balance->result_array();
 				$balance=$balance_arr['0']['balance'];
 				$currency=$balance_arr['0']['currency_id'];
-				//$data=$this->generateInvoice->calculate_currency($balance,$currency);
-				//print_r($data);
-				//exit;
 				//Get Base Currency From System which is main currency of system.
-
 				$base_currency_arr=$this->db_model->getSelect('value','system',array('name'=>'base_currency'));
 				$base_currency_arr=$base_currency_arr->result_array();
 				$base_currency=$base_currency_arr['0']['value'];
@@ -105,8 +102,6 @@ class Getbalance extends MX_Controller
 					$user_currency=$base_currency_rate;
 					$user_currency_name=$base_currency_name;
 				}
-				//echo "User Currency ->".$user_currency_info['0']['currencyname']."   Rate-> ".$user_currency.'<br/>';
-				//echo "Without Converted".$balance."<br>";
 				// Convert Balance of user in user currency
 				$convert_balance=round(($balance * $user_currency)/$base_currency_rate,2);
 				$convert_balance=sprintf("%.2f", $convert_balance).' '.$user_currency_name;

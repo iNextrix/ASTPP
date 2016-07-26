@@ -1,220 +1,277 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 
 class GenerateInvoice extends MX_Controller {
-    function __construct()
-    {
+
+    public static $global_config;
+
+    function __construct() {
         parent::__construct();
-/*        if(!defined( 'CRON' ) )  
-          exit();*/
         $this->load->model("db_model");
         $this->load->library("astpp/common");
-        $this->load->library('fpdf');
-        $this->load->library('pdf');
-        ini_set("memory_limit","2048M");
-	ini_set("max_execution_time","259200");
+        $this->load->library('html2pdf');
+        ini_set("memory_limit", "2048M");
+        ini_set("max_execution_time", "259200");
+        $this->get_system_config();
     }
-    function getInvoiceData(){ 
-        $where = array("posttoexternal"=> 1,"deleted" => "0","status"=>"0");
-        $query = $this->db_model->getSelect("*", "accounts", $where);
-        if($query->num_rows >0){
-            $account_data = $query->result_array();
-//             print_r($account_data);exit;
-            foreach($account_data as $data_key =>$account_value){
-//echo "Billing Cycle :".$account_value['sweep_id']."\n";
-               switch ($account_value['sweep_id']) {
-                case 0:
-                        $this->Generate_Daily_invoice($account_value);
-                case 2:
-                        $this->Generate_Monthly_invoice($account_value);                     
-               }
-            }
+
+    function get_system_config() {
+        $query = $this->db->get("system");
+        $config = array();
+        $result = $query->result_array();
+        foreach ($result as $row) {
+            $config[$row['name']] = $row['value'];
         }
-        exit;
+        self::$global_config['system_config'] = $config;
     }
-    
-    function validate_invoice_date($account_value)
-    {
-        $last_invoice_date = $this->get_invoice_date($account_value["id"]);
-        $last_invoice_date = ($last_invoice_date)?$last_invoice_date:$account_value['creation'];
+
+    function getInvoiceData() {
+        $where = array("posttoexternal" => 1, "deleted" => "0", "status" => "0");
+        $query = $this->db_model->getSelect("*", "accounts", $where);
+        if ($query->num_rows > 0) {
+            $account_data = $query->result_array();
+            foreach ($account_data as $data_key => $account_value) {
+                $end_date = gmdate("Y-m-d") . " 23:59:59";
+                $account_value['sweep_id'] = (int) $account_value['sweep_id'];
+                switch ($account_value['sweep_id']) {
+                    case 0:
+                        $start_date = $this->validate_invoice_date($account_value);
+                        if (strtotime($start_date) >= strtotime(gmdate("Y-m-d H:i:s"))) {
+                            $start_date = gmdate("Y-m-d H:i:s");
+                        }
+                        $end_date = gmdate("Y-m-d 23:59:59", strtotime($start_date . " + 1 days"));
+                        $this->Generate_Daily_invoice($account_value, $start_date, $end_date);
+                        break;
+                    case 2:
+                        if (date("d") == $account_value['invoice_day']) {
+                            $start_date = $this->validate_invoice_date($account_value);
+                            if (strtotime($start_date) >= strtotime(gmdate("Y-m-d H:i:s"))) {
+                                $start_date = gmdate("Y-m-d H:i:s");
+                            }
+                            $end_date = gmdate("Y-m-d 23:59:59", strtotime($start_date . " + 1 month"));
+                            $this->Generate_Monthly_invoice($account_value, $start_date, $end_date);
+                        }
+                        break;
+                }
+            }
+            $screen_path = getcwd() . "/cron";
+            $screen_filename = "Email_Broadcast_" . strtotime('now');
+            $command = "cd " . $screen_path . " && /usr/bin/screen -d -m -S  $screen_filename php cron.php BroadcastEmail";
+            exec($command);
+        }
+    }
+
+    function validate_invoice_date($account_value) {
+        $last_invoice_date = $this->common->get_invoice_date("to_date", $account_value["id"],$account_value['reseller_id'],"to_date");
+        $last_invoice_date = ($last_invoice_date) ? $last_invoice_date : $account_value['creation'];
+        $last_invoice_date = gmdate("Y-m-d H:i:s",strtotime("+1 Second",strtotime($last_invoice_date)));
         return $last_invoice_date;
     }
 
-    function Generate_Daily_invoice($account_value){
-        $start_date = $this->validate_invoice_date($account_value);
-        $end_date = gmdate("Y-m-d H:i:s");
-        $this->process_invoice($start_date,$end_date,$account_value);        
+    function Generate_Daily_invoice($account_value, $start_date, $end_date) {
+        //  echo "INVOICE SCRIPT-------start date :".$start_date."-------end date....".$end_date;
+
+        require_once('updateBalance.php');
+        $updateBalance = new updateBalance();
+        $updateBalance->process_subscriptions($account_value, $start_date, $end_date, TRUE);
+        $updateBalance->process_DID_charges($account_value, $start_date, $end_date, TRUE);
+        $this->process_invoice($account_value, $start_date, $end_date);
     }
-    
-    function Generate_Monthly_invoice($account_value){
-        $start_date = $this->validate_invoice_date($account_value);    
-        $end_date = gmdate("Y-m-d H:i:s");
-        $days_between = gmdate('d');
-        if($days_between == $account_value['invoice_day']){
-	        $this->process_invoice($start_date,$end_date,$account_value);
+
+    function Generate_Monthly_invoice($account_value, $start_date, $end_date) {
+        require_once('updateBalance.php');
+        $updateBalance = new updateBalance();
+        $updateBalance->process_subscriptions($account_value, $start_date, $end_date, TRUE);
+        $updateBalance->process_DID_charges($account_value, $start_date, $end_date, TRUE); 
+        $this->process_invoice($account_value, $start_date, $end_date);
+    }
+
+    function process_invoice($accountdata, $start_date, $end_date) {
+        //Get Invoice configuration using single query instead of multiple queries.
+        $invoice_conf = array();
+        $reseller_id = ($accountdata['reseller_id'] == 0) ? 1 : $accountdata['reseller_id'];
+        $where = "accountid IN ('" . $reseller_id . "','1')";
+        $this->db->select('*');
+        $this->db->where($where);
+        $this->db->order_by('accountid', 'desc');
+        $this->db->limit(1);
+        $invoice_conf = $this->db->get('invoice_conf');
+        $invoice_conf = (array)$invoice_conf->first_row();
+        /*******************************************************/
+        $last_invoice_ID = $this->common->get_invoice_date("invoiceid","", $accountdata['reseller_id']);
+        if ($last_invoice_ID && $last_invoice_ID > 0) {
+            $last_invoice_ID = ($last_invoice_ID + 1);
+        } else {
+            $last_invoice_ID = $invoice_conf['invoice_start_from'];
+        }
+        $last_invoice_ID = str_pad($last_invoice_ID, (strlen($last_invoice_ID) + 4), '0', STR_PAD_LEFT);
+        $invoice_sub_total = $this->count_invoice_data($accountdata, $start_date, $end_date);
+        if ($invoice_sub_total > 0) {
+            $invoiceid = $this->create_invoice($accountdata, $start_date, $end_date, $last_invoice_ID, $invoice_conf['invoice_prefix'], $invoice_conf);
+            $this->update_cdrs_data($accountdata['id'], $invoiceid, $start_date, $end_date);
+            $sort_order = $this->common_model->apply_invoice_taxes($invoiceid, $accountdata, $start_date);
+            $invoice_total = $this->set_invoice_total($invoiceid, $accountdata['id']);
+            $this->download_invoice($invoiceid, $accountdata, $invoice_conf);
+        } else {
+            $invoiceid = $this->create_invoice($accountdata, $start_date, $end_date, $last_invoice_ID, $invoice_conf['invoice_prefix'], $invoice_conf);
+            $sort_order = $this->common_model->apply_invoice_taxes($invoiceid, $accountdata, $start_date);
+            $invoice_total = $this->set_invoice_total($invoiceid, $accountdata['id']);
         }
     }
-    function process_invoice($start_date,$end_date,$accountdata)
-    {
-        $invoice_data_count = 0;
-        $sort_order = 1;
-	$invoice_data_count = $this->count_invoice_data($accountdata['id'],$start_date,$end_date);
-	if($invoice_data_count > 0){
-	    $invoiceid = $this->create_invoice($accountdata['id'],$start_date,$end_date);
-	    $update_cdrs = $this->update_cdrs_data($accountdata['id'],$start_date,$end_date,$invoiceid);
-	    $sub_total = $this->count_invoice_subtotal($accountdata['id'],$invoiceid);
-	    $sort_order = $this->insert_invoice_total_data($invoiceid,$sub_total,$sort_order);
-	    $sort_order = $this->apply_invoice_taxes($invoiceid,$accountdata['id'],$sort_order);
-	    $invoice_total = $this->set_invoice_total($invoiceid,$sort_order);
-//	    $this->download_invoice($invoiceid,$accountdata);
-	}else{
-	    $invoiceid = $this->create_invoice($accountdata['id'],$start_date,$end_date);
-	    $sort_order = $this->insert_invoice_total_data($invoiceid,"0.0000",$sort_order);
-	    $sort_order = $this->apply_invoice_taxes($invoiceid,$accountdata['id'],$sort_order);
-	    $invoice_total = $this->set_invoice_total($invoiceid,$sort_order);
-	}
-    }
-    
-   
-    function get_invoice_date($accountid){
-        $where = array("accountid"=>$accountid,'type'=>"I");
-        $query = $this->db_model->getSelect("invoice_date", "invoices", $where);
-        if($query->num_rows >0){
-            $invoiceid = $query->result();
-            return $invoiceid[0]->invoice_date;
+
+    function count_invoice_data($account, $start_date = "", $end_date = "") {
+        $cdr_query = "";
+        $inv_data_query = "";
+        $cdr_query = "select calltype,sum(debit) as debit from cdrs where accountid = " . $account['id'];
+        $cdr_query .= " AND callstart >='" . $start_date . "' AND callstart <= '" . $end_date . "' AND invoiceid=0 group by calltype";
+//echo $cdr_query; 
+        $cdr_data = $this->db->query($cdr_query);
+        if ($cdr_data->num_rows > 0) {
+            $cdr_data = $cdr_data->result_array();
+            //echo '<pre>'; print_r($cdr_data); exit;
+            foreach ($cdr_data as $cdrvalue) {
+                $cdrvalue['debit'] = round($cdrvalue['debit'], self::$global_config['system_config']['decimalpoints']);
+                $tempArr = array("accountid" => $account['id'], "reseller_id" => $account['reseller_id'], "item_id" => "0",
+                    "description" => $cdrvalue['calltype'] . " CALLS for the period (" . $start_date . " to " . $end_date, "debit" => $cdrvalue['debit'], "item_type" => $cdrvalue['calltype'], "created_date" => $end_date);
+                $this->db->insert("invoice_details", $tempArr);
+            }
         }
-        return false;
-    }
-    function count_invoice_data($accountid,$start_date="",$end_date=""){
-        $cdr_query = ""; $inv_data_query ="";
-        $cdr_query = "select count(uniqueid) as count from cdrs where accountid = ".$accountid;
-        $inv_data_query = "select count(id) as count from invoice_item where accountid=".$accountid;
-        
-	$cdr_query .= " AND callstart >='".$start_date."' AND callstart <= '".$end_date."' AND invoiceid=0";
-	$inv_data_query .= " AND created_date >='".$start_date."' AND created_date <= '".$end_date."'  AND invoiceid=0";
-	    
-        $query = $cdr_query." UNION ".$inv_data_query;	
-        
-        $invoice_data = $this->db->query($query);
-        if($invoice_data->num_rows > 0){
+        $inv_data_query = "select count(id) as count,sum(debit) as debit,sum(credit) as credit from invoice_details where accountid=" . $account['id'] . " AND created_date >='" . $start_date . "' AND created_date <= '" . $end_date . "'  AND invoiceid=0 AND item_type != 'FREECALL'";
+//echo $inv_data_query;         
+        $invoice_data = $this->db->query($inv_data_query);
+        if ($invoice_data->num_rows > 0) {
             $invoice_data = $invoice_data->result_array();
-            foreach($invoice_data as $data_key => $data_value){
-                if($data_value['count'] > 0){
-                    return $data_value['count'];
+            foreach ($invoice_data as $data_value) {
+                if ($data_value['count'] > 0) {
+                    $sub_total = ($data_value['debit'] - $data_value['credit']);
+                    $sub_total = round($sub_total, self::$global_config['system_config']['decimalpoints']);
+                    return $sub_total;
                 }
             }
         }
         return "0";
     }
-    function update_cdrs_data($accountid,$start_date="",$end_date="",$invoiceid){
-        $cdr_query = ""; $inv_data_query ="";
-        $cdr_query = "Update cdrs SET invoiceid = '".$invoiceid."' where accountid = ".$accountid;
-        $inv_data_query = "update invoice_item SET invoiceid = '".$invoiceid."' where accountid=".$accountid;
-        
-	$cdr_query .= " AND callstart >='".$start_date."' AND callstart <= '".$end_date."' AND invoiceid=0";
-	$inv_data_query .= " AND created_date >='".$start_date."' AND created_date <= '".$end_date."'  AND invoiceid=0";
 
-        $cdr_data = $this->db->query($cdr_query);
-        $invoice_data = $this->db->query($inv_data_query);
+    //Change Order of arguements
+    function update_cdrs_data($accountid, $invoiceid, $start_date = "", $end_date = "") {
+        $inv_data_query = "update invoice_details SET invoiceid = '" . $invoiceid . "' where accountid=" . $accountid;
+        $inv_data_query .= " AND created_date >='" . $start_date . "' AND created_date <= '" . $end_date . "'  AND invoiceid=0 AND item_type !='PAYMENT'";
+        $this->db->query($inv_data_query);
         return true;
     }
-    
-    function create_invoice($accountid,$from_date,$to_date){
-        $due_date = gmdate("Y-m-d H:i:s",strtotime($to_date." +1 week"));
-        $invoice_data = array("accountid"=>$accountid,"invoice_date"=>$to_date,
-                            "from_date"=>$from_date,"to_date"=>$to_date,
-                            "status"=>0);
-        $this->db->insert("invoices",$invoice_data);
+
+    function create_invoice($account, $from_date, $to_date, $last_invoice_ID, $INVprefix, $invoiceconf) {
+        //$due_date = gmdate("Y-m-d H:i:s",strtotime($to_date." +".$invoiceconf['interval']." days"));
+        if ($invoiceconf['interval'] > 0) {
+            $due_date = gmdate("Y-m-d H:i:s", strtotime(gmdate("Y-m-d H:i:s") . " +" . $invoiceconf['interval'] . " days"));
+        } else {
+            $due_date = gmdate("Y-m-d H:i:s", strtotime(gmdate("Y-m-d H:i:s") . " +7 days"));
+        }
+        // echo "due daye-------".$due_date.'----------'.$to_date.'------------> Invoice interval'.$invoiceconf['interval']; 
+        $balance = ($account['credit_limit'] - $account['balance']);
+        $automatic_flag = self::$global_config['system_config']['automatic_invoice'];
+	if($automatic_flag == 1){
+	        $invoice_data = array("accountid" => $account['id'], "invoice_prefix" => $INVprefix, "invoiceid" => $last_invoice_ID, "reseller_id" =>
+            $account['reseller_id'], "invoice_date" => gmdate("Y-m-d H:i:s"), "from_date" => $from_date, "to_date" => $to_date, "due_date" => $due_date, "status" => 1, "amount" => "0.00", "balance" => $balance);
+	}else{
+	        $invoice_data = array("accountid" => $account['id'], "invoice_prefix" => $INVprefix, "invoiceid" => $last_invoice_ID, "reseller_id" =>
+            $account['reseller_id'], "invoice_date" => gmdate("Y-m-d H:i:s"), "from_date" => $from_date, "to_date" => $to_date, "due_date" => $due_date, "status" => 1, "amount" => "0.00", "balance" => $balance, "confirm" => 1);
+	}
+        // echo "<pre>"; print_r($invoice_data); exit;
+        $this->db->insert("invoices", $invoice_data);
         $invoiceid = $this->db->insert_id();
+	if($automatic_flag == 0){
+            $this->download_invoice($invoiceid, $account, $invoiceconf);
+	}
         return $invoiceid;
     }
-    function count_invoice_subtotal($accountid,$invoiceid){
-        $total=0;
-	
-	$subtotal_query = "select SUM(invoice_item.debit) as invoice_debit , SUM(invoice_item.credit) as invoice_credit from invoice_item WHERE invoice_item.invoiceid = ".$invoiceid;
-	
-        $subtotal_data = $this->db->query($subtotal_query);
-        $subtotal_data = $subtotal_data->result_array();
-        foreach($subtotal_data as $subtotal_key =>$subtotal_value){
-            //$total = ($subtotal_value['cdrs_debit']+$subtotal_value['cdrs_credit'])-($subtotal_value['cust_debit'] + $subtotal_value['cust_credit']);
-	  $total += ($subtotal_value['invoice_debit'] - $subtotal_value['invoice_credit']);
-        }
-	$invoice_item_total = $total; 
-	
-	$subtotal_query = "select SUM(cdrs.debit) as cdrs_debit , SUM(cdrs.cost) as cdrs_credit  from cdrs WHERE cdrs.invoiceid = ".$invoiceid;	
-        $subtotal_data = $this->db->query($subtotal_query);
-        $subtotal_data = $subtotal_data->result_array();
-        foreach($subtotal_data as $subtotal_key =>$subtotal_value){
-            //$total = ($subtotal_value['cdrs_debit']+$subtotal_value['cdrs_credit'])-($subtotal_value['cust_debit'] + $subtotal_value['cust_credit']);
-	  $total += $subtotal_value['cdrs_debit'];
-        }                        
-        return $total;
-    }
-    
-    function insert_invoice_total_data($invoiceid,$sub_total,$sort_order){
-        $invoice_total_arr = array("invoiceid"=>$invoiceid,"sort_order"=>$sort_order,
-            "value"=>$sub_total, "title"=>"Sub Total","text"=>"Sub Total","class"=>"1");
-        $this->db->insert("invoices_total",$invoice_total_arr);
-        return $sort_order++;
-    }
-    
-    function apply_invoice_taxes($invoiceid,$accountid,$sort_order){
-        $tax_priority="";
-        $where = array("accountid"=>$accountid);
-        $accounttax_query = $this->db_model->getSelectWithOrder("*", "taxes_to_accounts", $where,"ASC","taxes_priority");
-        if($accounttax_query->num_rows > 0){
-            $accounttax_query = $accounttax_query->result_array();
-            foreach($accounttax_query as $tax_key => $tax_value){ 
-            $taxes_info=$this->db->get_where('taxes',array('id'=>$tax_value['taxes_id']));
-            if($taxes_info->num_rows() > 0 ){
-		$tax_value=$taxes_info->result_array();
-		$tax_value= $tax_value[0];
-                 if($tax_value["taxes_priority"] == ""){
-                     $tax_priority = $tax_value["taxes_priority"];
-                 }else if($tax_value["taxes_priority"] > $tax_priority){
-                     $query = $this->db_model->getSelect("SUM(value) as total", "invoices_total", array("invoiceid"=> $invoiceid));
-                     $query =  $query->result_array();
-                     $sub_total = $query["0"]["total"];
-                 }
-                $tax_total = (($sub_total * ( $tax_value['taxes_rate'] / 100 )) + $tax_value['taxes_amount'] );
-                $tax_array = array("invoiceid"=>$invoiceid,"title"=>"TAX","text"=>$tax_value['taxes_description'],
-                    "value"=>$tax_total,"class"=>"2","sort_order"=>$sort_order);
-                $this->db->insert("invoices_total",$tax_array);
-                $sort_order++;
-            }
-            }
-        }
-        return $sort_order;
-    }
-    
-    function set_invoice_total($invoiceid,$sort_order){
-        $query = $this->db_model->getSelect("SUM(value) as total", "invoices_total", array("invoiceid"=> $invoiceid));
-        $query =  $query->result_array();
-        $sub_total = $query["0"]["total"];
-        
-        $invoice_total_arr = array("invoiceid"=>$invoiceid,"sort_order"=>$sort_order,
-            "value"=>$sub_total,"title"=>"Total","text"=>"Total","class"=>"9");
-        $this->db->insert("invoices_total",$invoice_total_arr);
-        return true;
-    }        
 
-}?> 
+    function set_invoice_total($invoiceid, $accountid) {
+        $query = $this->db_model->getSelect("SUM(debit) as total", "invoice_details", array("invoiceid" => $invoiceid, "item_type <>" => "FREECALL"));
+        $query = $query->result_array();
+        $sub_total = $query["0"]["total"];
+        $updateArr = array("amount" => $sub_total);
+        $this->db->where(array("id" => $invoiceid));
+        $this->db->update("invoices", $updateArr);
+
+        $updateArr = array("balance" => "0.00");
+        $this->db->where(array("id" => $accountid));
+        $this->db->update("accounts", $updateArr);
+
+        return true;
+    }
+
+    function download_invoice($invoiceid, $accountdata, $invoice_conf) {
+        $invoicedata = $this->db_model->getSelect("*", "invoices", array("id" => $invoiceid));
+        $invoicedata = $invoicedata->result_array();
+        $invoicedata = $invoicedata[0];
+        $FilePath = FCPATH . "invoices/" . $accountdata["id"] . '/' . $invoicedata['invoice_prefix']."".$invoicedata['invoiceid'] . "_invoice.pdf";
+        $Filenm = $invoicedata['invoice_prefix'] ."_". $invoicedata['invoiceid'] . "_invoice.pdf";
+        $this->common->get_invoice_template($invoicedata, $accountdata, false);
+        if ($invoice_conf['invoice_notification']) {
+            $this->send_email_notification($FilePath, $Filenm, $accountdata, $invoice_conf, $invoicedata);
+        }
+    }
+
+    function send_email_notification($FilePath, $Filenm, $AccountData, $invoice_conf, $invData) {
+        $TemplateData = array();
+        $where = array('name' => 'email_new_invoice');
+        $EmailTemplate = $this->db_model->getSelect("*", "default_templates", $where);
+        foreach ($EmailTemplate->result_array() as $TemplateVal) {
+            $TemplateData = $TemplateVal;
+            $TemplateData['subject'] = str_replace('#NAME#', $AccountData['first_name'] . " " . $AccountData['last_name'], $TemplateData['subject']);
+            $TemplateData['subject'] = str_replace('#INVOICE_NUMBER#', $invData['invoice_prefix'] . $invData['invoiceid'], $TemplateData['subject']);
+            $TemplateData['template'] = str_replace('#NAME#', $AccountData['first_name'] . " " . $AccountData['last_name'], $TemplateData['template']);
+            $TemplateData['template'] = str_replace('#INVOICE_NUMBER#', $invData['invoice_prefix'] . $invData['invoiceid'], $TemplateData['template']);
+            $TemplateData['template'] = str_replace('#AMOUNT#', $invData['amount'], $TemplateData['template']);
+
+            $TemplateData['template'] = str_replace("#COMPANY_EMAIL#", $invoice_conf['emailaddress'], $TemplateData['template']);
+            $TemplateData['template'] = str_replace("#COMPANY_NAME#", $invoice_conf['company_name'], $TemplateData['template']);
+            $TemplateData['template'] = str_replace("#COMPANY_WEBSITE#", $invoice_conf['website'], $TemplateData['template']);
+            $TemplateData['template'] = str_replace("#INVOICE_DATE#",$invData['invoice_date'], $TemplateData['template']);
+            $TemplateData['template'] = str_replace("#DUE_DATE#", $invData['due_date'], $TemplateData['template']);
+        }
+        $dir_path = getcwd() . "/attachments/";
+        $path = $dir_path . $Filenm;
+        $command = "cp " . $FilePath . " " . $path;
+        exec($command);
+        $email_array = array('accountid' => $AccountData['id'],
+            'subject' => $TemplateData['subject'],
+            'body' => $TemplateData['template'],
+            'from' => $invoice_conf['emailaddress'],
+            'to' => $AccountData['email'],
+            'status' => "1",
+            'attachment' => $Filenm,
+            'template' => '');
+        //echo "<pre>"; print_r($TemplateData); exit;
+        $this->db->insert("mail_details", $email_array);
+    }
+
+}
+
+?>
+
+
+
+

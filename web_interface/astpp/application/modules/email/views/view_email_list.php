@@ -3,15 +3,7 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-	
-	/*$("#updatebar").click(function(){
-             $("#update_bar").toggle();
-      	});   */   
-
         build_grid("email_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
-       /* $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
-        });*/
         $("#email_search_btn").click(function(){
             post_request_for_search("email_grid","","email_search");
         });        
@@ -30,7 +22,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>
@@ -45,9 +37,6 @@
         </div>
     </div>
 </section>
-
-
-
 <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">
     	<div class="container">

@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class Trunk extends CI_Controller {
 
     function Trunk() {
@@ -46,29 +47,22 @@ class Trunk extends CI_Controller {
         $this->load->view('view_trunk_list', $data);
     }
 
-    /**
-     * -------Here we write code for controller accounts functions account_list------
-     * Listing of Accounts table data through php function json_encode
-     */
     function trunk_list_json() {
         $json_data = array();
         $count_all = $this->trunk_model->gettrunk_list(false);
         $paging_data = $this->form->load_grid_config($count_all,$_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
-
         $query = $this->trunk_model->gettrunk_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->trunk_form->build_trunk_list_for_admin());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
-
         echo json_encode($json_data);
     }
 
     function trunk_add($type = "") {
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Trunk add';
+        $data['page_title'] = 'Create Trunk';
         $data['form'] = $this->form->build_form($this->trunk_form->get_trunk_form_fields(), '');
-
         $this->load->view('view_trunk_add_edit', $data);
     }
 
@@ -140,11 +134,46 @@ class Trunk extends CI_Controller {
     }
 
     function trunk_delete_multiple() {
-        $ids = $this->input->post("selected_ids", true);
-        $where = "id IN ($ids)";
-        echo $this->db_model->update("trunks", array("status" => "2"), $where);
-	$where = "trunk_id IN ($ids)";
-	$this->db->delete("routing",$where);
+        $add_array = $this->input->post();
+        $where = 'IN ('.$add_array['selected_ids'].')';
+        if (isset($add_array['flag'])) {            
+            $update_data = array('status' => '2');
+            $this->db->where('trunk_id '.$where);
+            $this->db->delete('outbound_routes');
+            $this->db->where('id '.$where);
+            $this->db->update('trunks', $update_data);
+            echo TRUE;
+        } else {
+            $trunk_arr=array();
+            $this->db->select('id,name');
+            $this->db->where('id '.$where);
+            $trunk_res=$this->db->get('trunks');
+            $trunk_res=$trunk_res->result_array();
+            foreach($trunk_res as $value){
+                $trunk_arr[$value['id']]['name']=$value['name'];
+            }
+            $this->db->where('trunk_id '.$where);
+            $this->db->select('count(id) as cnt,trunk_id');
+            $this->db->group_by('trunk_id');
+            $outbound_routes_res=$this->db->get('outbound_routes');
+            if($outbound_routes_res->num_rows() > 0){
+             $outbound_routes_res=$outbound_routes_res->result_array();
+             foreach($outbound_routes_res as $key=>$value){
+                $trunk_arr[$value['trunk_id']]['outbound_routes']=$value['cnt'];
+             }
+            }
+            $str=null;
+            foreach($trunk_arr as $key=>$value){
+                 if(isset($value['outbound_routes'])){
+                     $str.= $value['name']."trunk using by ".$value['outbound_routes']." termination rates \n";
+                 }
+            } 
+            if(!empty($str)){
+                $data['str']=$str;
+            }
+            $data['selected_ids']=$add_array['selected_ids'];
+            echo json_encode($data);
+        }
     }
 
 }

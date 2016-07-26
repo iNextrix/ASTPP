@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class System_model extends CI_Model {
 
     function System_model() {
@@ -37,15 +38,11 @@ class System_model extends CI_Model {
         }
         return $query;
     }
-/*
-* Purpose : Changes in reseller email template
-* Version : 2.1
-*/    
+
     function gettemplate_list($flag="", $start, $limit="") {
 
          
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-//             echo $flag;exit;
             $account_data = $this->session->userdata("accountinfo");
             $reseller = $account_data['id'];
             $this->db->where('reseller_id',$reseller);
@@ -104,27 +101,20 @@ class System_model extends CI_Model {
 	  return $query;
     }
  
-//     function gettemplate_list($flag, $start, $limit) {
-// 
-//         $this->db_model->build_search('template_search');
-//         if ($flag) {
-//             $query = $this->db_model->select("*", "default_templates", "", "id", "ASC", $limit, $start);
-//         } else {
-//             $query = $this->db_model->countQuery("*", "default_templates", "");
-//         }
-//         return $query;
-//     }
-
-/*
-* Purpose : Changes in setting menu
-* Version : 2.1
-*/
     function edit_configuration($add_array, $name) {
         unset($add_array["action"]);
+                        
         $this->db->where("name", $name);
         $this->db->update("system", $add_array);
+        if($name == 'base_currency'){
+            
+            $screen_path = getcwd() . "/cron";
+            $screen_filename = "CurrencyUpdate" . strtotime('now');
+            $command = "cd " . $screen_path . " && /usr/bin/screen -d -m -S  $screen_filename php cron.php CurrencyUpdate";
+            exec($command);
+            $this->db->update("currency",array("currencyrate"=>'1'),array("currency"=>"INR"));
+        }
     }
-/*****************************************************/
 
     function edit_template($data, $id) {
         unset($data["action"]);
@@ -133,7 +123,6 @@ class System_model extends CI_Model {
         $this->db->update("default_templates", $data);
     }
     function edit_resellertemplate($data, $id) {
-//         echo "<pre>";print_r($data);
         $arraydata = $data;
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
@@ -144,11 +133,8 @@ class System_model extends CI_Model {
         } 
         unset($arraydata["action"]);
         unset($arraydata["form"]);
-        unset($arraydata["page_title"]);
-        //$arraydata["modified_date"] = date("Y-m-d H:i:s");
-        
+        unset($arraydata["page_title"]);       
         $this->db->update("default_templates", $arraydata);
-//         echo $this->db->last_query();exit;
     }
     function remove_template($id) {
         $this->db->where("id", $id);
@@ -157,7 +143,6 @@ class System_model extends CI_Model {
     }
     function add_resellertemplate($data)
     {
-//          echo "<pre>";print_r($data);exit; 
          unset($data["action"]);
          unset($data['id']);
          $this->db->insert('default_templates', $data);
@@ -205,7 +190,6 @@ class System_model extends CI_Model {
 
     function add_currency($add_array) {
         unset($add_array["action"]);
-// 	echo "<pre>";print_r($add_array);exit;
         $this->db->insert("currency", $add_array);
         return true;
     }

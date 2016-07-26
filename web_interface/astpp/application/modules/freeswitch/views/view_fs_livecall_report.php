@@ -68,7 +68,7 @@ $(function() {
 	<? endblock() ?>
 
     <? startblock('page-title') ?>
-        <?=$page_title?><br/>
+        <?=$page_title?>
     <? endblock() ?>
     
 	<? startblock('content') ?>
@@ -93,7 +93,8 @@ $(function() {
 	<div class="w-section inverse no-padding">
     	<div class="container">
         	<div class="row">
-                <div class="col-md-12">      
+                <div class="col-md-12"> 
+					<br/>     
                         <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
                             <table id="flex1" align="left" style="display:none;"></table>
                         </form>

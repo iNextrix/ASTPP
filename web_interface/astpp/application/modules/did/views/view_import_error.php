@@ -28,7 +28,7 @@
         	<div class="row">
                 <div class="col-md-12">      
           
-                    Records Imported Successfully: <?= $impoted_count?><br/>
+                    Records Imported Successfully: <?= $import_record_count;?><br/>
                     Records Not Imported : <?= $failure_count?></div>  
             </div>
         </div>

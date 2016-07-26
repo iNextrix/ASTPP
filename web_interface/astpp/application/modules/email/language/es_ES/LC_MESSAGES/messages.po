@@ -1,0 +1,502 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Inextrix <astpp@inextrix.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_AR\n"
+
+#: ../../../../index.php:36 /var/www/html/gettext/index.php:36 ../../../../index.php:37
+#: /var/www/html/gettext/index.php:37
+msgid "Filter"
+msgstr "Filtro"
+
+msgid "Email Template"
+msgstr "Plantilla de Correo Electrónico"
+
+msgid "From"
+msgstr "Desde"
+
+msgid "To"
+msgstr "Hasta"
+
+msgid "Compose Email"
+msgstr "Componer Correo Electrónico"
+
+msgid "Subject"
+msgstr "Asunto"
+
+msgid "Message"
+msgstr "Mensaje"
+
+msgid "Attach files"
+msgstr "Adjuntar archivos"
+
+msgid "Remove"
+msgstr "Quitar"
+
+msgid "KEY"
+msgstr "LLAVE"
+
+msgid "VALUE"
+msgstr "VALOR"
+
+msgid "#NAME#"
+msgstr "#NOMBRE#"
+
+msgid "This tag use to print Firstname + Lastname"
+msgstr "Este uso de etiquetas para imprimir Nombre + Apellido"
+
+msgid "#USERNAME#"
+msgstr "#NOMBRE_DE_USUARIO#"
+
+msgid "This tag use to print user number"
+msgstr "Este uso de etiquetas de número de usuario de impresión"
+
+msgid "#PASSWORD#"
+msgstr "#CONTRASEÑA#"
+
+msgid "This tag use to print password"
+msgstr "Este uso de etiquetas para imprimir contraseña"
+
+msgid "#COMPANY_EMAIL#"
+msgstr "#EMPRESA_EMAIL#"
+
+msgid "This tag use to print company email id"
+msgstr ""
+"Este uso de etiquetas para imprimir identificación de correo electrónico de la empresa"
+
+msgid "#COMPANY_NAME#"
+msgstr "#NOMBRE_DE_LA_EMPRESA#"
+
+msgid "This tag use to print company name"
+msgstr "Este uso de etiquetas para imprimir nombre de la empresa"
+
+msgid "#BALANCE#"
+msgstr "#BALANCE#"
+
+msgid "This tag use to print user balance"
+msgstr "Este uso de etiquetas para imprimir balance de usuario"
+
+msgid "#COMPANY_WEBSITE#"
+msgstr "#SITIO_WEB_DE_LA_EMPRESA#"
+
+msgid "This tag use to print company website link"
+msgstr "Este uso de etiquetas para imprimir enlace web de la empresa"
+
+msgid "#PIN#"
+msgstr "#PIN#"
+
+msgid "This tag use to print user pin numbner"
+msgstr "Este uso de etiquetas para imprimir enlace web de la empresa"
+
+msgid "Rate Group"
+msgstr "Grupo de Tarifas"
+
+msgid "Account Type"
+msgstr "Tipo de Cuenta"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Entity Type"
+msgstr "Tipo de Entidad"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "From Date"
+msgstr "Desde la Fecha"
+
+msgid "To Date"
+msgstr "Hasta la Fecha"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "Attachement"
+msgstr "Anexo"
+
+msgid "Resend Mail"
+msgstr "Reenviar Correo"
+
+msgid "View Details"
+msgstr "Ver Detalles"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "View Email"
+msgstr "Ver Correo Electrónico"
+
+msgid "Email History List"
+msgstr "Historial de Correo Electrónico"
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "Body"
+msgstr "Cuerpo"
+
+msgid "Resent Email"
+msgstr "Reenviar Correo Electrónico"
+
+msgid "Please Enter subject"
+msgstr "Por Favor, Introduzca Tema"
+
+msgid "Email resend successfully!"
+msgstr "Correo Reenviado Correctamente!"
+
+msgid "Email removed successfully!"
+msgstr "Correo eliminado correctamente!"
+
+msgid "files added successfully!"
+msgstr "archivos agregados correctamente!"
+
+msgid "Please try again   !"
+msgstr "Por favor, vuelve a intentarlo!"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "No record found!"
+msgstr "No se encuentran registros!"
+
+msgid "Email address not found!"
+msgstr "Dirección de correo electrónico no encontrado!"
+
+msgid "Email broad cast successfully!"
+msgstr "Correo electrónico transmitido correctamente!"
+
+msgid "Email list updated successfully!"
+msgstr "Lista de Correo electrónico actualizado correctamente!"
+
+msgid "Email list added successfully!"
+msgstr "Lista de correo electrónico añadido correctamente!"
+
+msgid ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All Rights Reserved. "
+msgstr ""
+"Copyright @ 2003 - 2015 ASTPP - Solución de Facturación VOIP Open Source. Todos los "
+"Derechos Reservados."
+
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgid "DIDs"
+msgstr "DID's"
+
+msgid "Switch"
+msgstr "Interruptor"
+
+msgid "Email Mass"
+msgstr "Email Masivos"
+
+msgid "Accounting"
+msgstr "Contabilidad"
+
+msgid "Tariff"
+msgstr "Tarifa"
+
+msgid "Rate Groups"
+msgstr "Grupos de Tarifas"
+
+msgid "Origination Rates"
+msgstr "Creaciones de Tarifas"
+
+msgid "Packages"
+msgstr "Paquetes"
+
+msgid "Usage Report"
+msgstr "Informe de Uso"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "Termination Rates"
+msgstr "Terminación de Tarifas"
+
+msgid "Gateways"
+msgstr "Adaptadores"
+
+msgid "Sip Profiles"
+msgstr "Perfiles Sip"
+
+msgid "Freeswitch Server"
+msgstr "Servidor Freeswitch"
+
+msgid "IP MAP (ACL)"
+msgstr "MAPA IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Reportes de Llamada"
+
+msgid "Details Reports"
+msgstr "Detalles de Reportes"
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Reseller"
+msgstr "Revendedor"
+
+msgid "Provider Outbound"
+msgstr "Proveedor de Salida"
+
+msgid "Summary Reports"
+msgstr "Resumen de Reportes"
+
+msgid "Trunk Stats"
+msgstr "Estadisticas de Troncal"
+
+msgid "Live Call Report"
+msgstr "Reporte de Llamadas Online"
+
+msgid "Email History"
+msgstr "Historial de Correo Electrónico"
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Invoice Config"
+msgstr "Configuración de Factura"
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Email Templates"
+msgstr "Plantillas de Correo Electrónico"
+
+msgid "Countries"
+msgstr "Paises"
+
+msgid "Currencies"
+msgstr "Monedas"
+
+msgid "Database Restore"
+msgstr "Restaurar Base de Datos"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Tarjeta de Llamada"
+
+msgid "Report A Bug"
+msgstr "Reportar un Error"
+
+msgid "Donate Us"
+msgstr "Donar"
+
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ".ASTPP - Solución de Facturación VOIP Open Source. Todos los Derechos Reservados."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-Beta"
+
+msgid "Welcome"
+msgstr "Bienvenido"
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - Solución de Facturación VOIP Open Source."
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP funciona mejor con Javascript activado"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 de las Cuentas"
+
+msgid "By Minutes"
+msgstr "Por Minutos"
+
+msgid "By Calls"
+msgstr "Por Llamadas"
+
+msgid "Recharge Information"
+msgstr "Información de Recarga"
+
+msgid "Trunk add"
+msgstr "Adicionar Troncal"
+
+msgid "Trunk Information"
+msgstr "Información de la Troncal"
+
+msgid "Trunk Name"
+msgstr "Nombre de Troncal"
+
+msgid "Gateway"
+msgstr "Adaptador"
+
+msgid "Fail Over Gateway"
+msgstr "Falla Sobre Adaptador"
+
+msgid "Max Channels"
+msgstr "Máximo Canales"
+
+msgid "Trunk Settings"
+msgstr "Configuración de Troncales"
+
+msgid "Number Translation"
+msgstr "Número de Traducción"
+
+msgid "Codecs"
+msgstr "Codecs"
+
+msgid "Precedence"
+msgstr "Precedencia"
+
+msgid "Failover GW name"
+msgstr "Conmutación por error de nombre de GW"
+
+msgid "Max channels"
+msgstr "Canales Máximos"
+
+msgid "Rate Count"
+msgstr "Conteo de Tarifas"
+
+msgid "Send"
+msgstr "Enviar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Edit Trunk"
+msgstr "Editar Troncal"
+
+msgid "My Rates"
+msgstr "Mis Tarifas"
+
+msgid "Rates"
+msgstr "Precios"
+
+msgid "Manage DIDs"
+msgstr "Administrar DID"
+
+msgid "SIP Devices"
+msgstr "Dispositivos SIP"
+
+msgid "Manage Invoice"
+msgstr "Administrar Factura"
+
+msgid "CDRs Reports"
+msgstr "Reportes de CDR"
+
+msgid "Payment Report"
+msgstr "Reporte de Pago"
+
+msgid "Payment"
+msgstr "Pago"
+
+msgid "Payment Reports"
+msgstr "Reportes de Pago"
+
+msgid "Fund Transfer"
+msgstr "Transferencia de Fondos"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "Recharge"
+msgstr "recargar"
+
+msgid "admins"
+msgstr "administradores"
+
+msgid "invoices"
+msgstr "facturas"
+
+msgid "Invoices"
+msgstr "Facturas"
+
+msgid "packages"
+msgstr "paquetes"
+
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "Provider"
+msgstr "Proveedor"
+
+msgid "summary reports"
+msgstr "Sumario de Reportes"
+
+msgid "Detail reports"
+msgstr "Detalle de Reportes"
+
+msgid "Caller Id"
+msgstr "Identificador de Llamadas"
+
+msgid "Caller ID"
+msgstr "Identificador de Llamadas"
+
+msgid "Trunks"
+msgstr "Troncales"
+
+msgid "subscriptions"
+msgstr "Suscripciones"
+
+msgid "Resellers"
+msgstr "Revendedores"
+
+msgid "customers"
+msgstr "clientes"
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "Detail Reports"
+msgstr "Detalle de Reportes"
+
+msgid "Download Database"
+msgstr "Descargar Base de Datos"
+
+msgid "<b>Rescan"
+msgstr "<b>Volver a explorar"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "<b>Reload"
+msgstr "<b>Actualizar"
+
+msgid "<b>Stop"
+msgstr "<b>Detener"
+
+msgid "<b>Start"
+msgstr "<b>Iniciar"
+
+msgid "Reset"
+msgstr "Restablecer"

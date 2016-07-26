@@ -1,0 +1,526 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-09-26 16:00-0300\n"
+"Last-Translator: Inextrix <astpp@inextrix.com>\n"
+"Language-Team: Inextrix <astpp@inextrix.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/astpp/application/modules/rates/language\n"
+
+#: ../../../../index.php:36 /var/www/html/gettext/index.php:36 ../../../../index.php:37 /var/www/html/gettext/index.php:37
+msgid "Code"
+msgstr "Prefijo"
+
+msgid "Destination"
+msgstr "Destino"
+
+msgid "Connect Cost"
+msgstr "Cargo de Conexión"
+
+msgid "Connect cost"
+msgstr "Cargo de Conexión"
+
+msgid "Included Seconds"
+msgstr "Segundos Incluídos"
+
+msgid "Included seconds"
+msgstr "Segundos Incluídos"
+
+msgid "Per Minute Cost"
+msgstr "Costo por Minutos"
+
+msgid "Per minute cost"
+msgstr "Costo por Minutos"
+
+msgid "Increment"
+msgstr "Incremento"
+
+msgid "Precedence"
+msgstr "Precedencia"
+
+msgid "Rate Group"
+msgstr "Grupo de Tarifas"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Strip"
+msgstr "Banda"
+
+msgid "Prepend"
+msgstr "Anteponer"
+
+msgid "Trunk"
+msgstr "Troncal"
+
+msgid "Create Origination Rate"
+msgstr "Crear Grupo de Tarifas"
+
+msgid "Rate Information"
+msgstr "Más Información Sobre Tarifas"
+
+msgid "Billing Information"
+msgstr "Datos de Facturación"
+
+msgid "Force Trunk"
+msgstr "Forzar Troncal"
+
+msgid "Origination Rates"
+msgstr "Creaciones de Tarifas"
+
+msgid "Batch Update"
+msgstr "Actualización De Lote"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "File must be in the following format(.csv):"
+msgstr "El archivo debe estar en el siguiente formato (.csv):"
+
+msgid "Code,Destination,Connect Cost,Included Seconds,Per Minute Cost,Increment,Precedence."
+msgstr "Codijo,Destino,Costo de Conexion,Segundos Incluidos,Costo Por Minuto,Incremento,Precedencia."
+
+msgid "Import Origination Rates"
+msgstr "Creaciones de Importación Precios"
+
+msgid "Code,Destination,Connect Cost,Included Seconds,Per Minute Cost,Increment,Precedence,Strip,Prepend."
+msgstr "Código,Destino,Costo de Conexion,Segundos Incluidos,Costo Por Minuto,Incremento,Precedencia,Banda, Anteponga."
+
+msgid "Termination Rates"
+msgstr "Terminación de Tarifas "
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "status"
+msgstr "Estado"
+
+msgid "The prefijo field is required."
+msgstr "Se requiere que el campo Prefijo."
+
+msgid "The prefijo field must contain only numbers."
+msgstr "El campo Prefijo debe contener sólo números."
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "import"
+msgstr "importar"
+
+msgid "Import Termination Rates"
+msgstr "Importar la terminación de tarifas"
+
+msgid "Import"
+msgstr "Importar"
+
+msgid "My Rates"
+msgstr "Mis Tarifas"
+
+msgid "Select the file:"
+msgstr "Seleccione el Archivo:"
+
+msgid "Click Here"
+msgstr "Clickea Aquí"
+
+msgid "Check Header:"
+msgstr "Compruebe Cabecera:"
+
+msgid "Origination Rates Preview"
+msgstr "Vista Previa de Originación de Tarifas"
+
+msgid "Download sample file:"
+msgstr "Descargar archivo de ejemplo:"
+
+msgid "Process"
+msgstr "Proceso"
+
+msgid "Back"
+msgstr "Atrás"
+
+msgid "Termination Rates Preview"
+msgstr "Vista Previa de Terminación de Tarifas"
+
+msgid "Trunk List"
+msgstr "Lista de Troncales"
+
+msgid "File Uploading Fail Please Try Again"
+msgstr "Carga de Archivos Fallido Por Favor Reintente"
+
+msgid "Invalid file format : Only CSV file allows to import records(Can't import empty file)"
+msgstr "Formato de archivo no válido: Sólo archivo CSV permite importar registros (No se puede importar el archivo vacío)"
+
+msgid "Please Upload File Atleast"
+msgstr "Por favor Cargar archivo At Least"
+
+msgid "Termination rates imported successfully!"
+msgstr "Las tarifas de terminación se importaron correctamente!"
+
+msgid "Origination rates imported successfully!"
+msgstr "Las tarifas de originación se importaron correctamente!"
+
+msgid "Termination removed successfully!"
+msgstr "Terminación eliminado correctamente!"
+
+msgid "Origination removed successfully!"
+msgstr "Originación eliminado correctamente!"
+
+msgid "Origination updated successfully!"
+msgstr "Originación actualizado correctamente!"
+
+msgid "Termination added successfully!"
+msgstr "Terminacion añadido correctamente!"
+
+msgid "Origination added successfully!"
+msgstr "Originación añadido correctamente!"
+
+msgid "Termination rates batch updated successfully!"
+msgstr "Terminación de tarifas por lotes actualizado correctamente!"
+
+msgid "Origination rates batch updated successfully!"
+msgstr "Originación de tarifas por lotes actualizado correctamente!"
+
+msgid "Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All Rights Reserved. "
+msgstr "Copyright @ 2003 - 2015 ASTPP - Solución de Facturación VOIP Open Source. Todos losDerechos Reservados."
+
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgid "DIDs"
+msgstr "DID's"
+
+msgid "Switch"
+msgstr "Interruptor"
+
+msgid "Email Mass"
+msgstr "Correo Electrónico Masivo"
+
+msgid "Accounting"
+msgstr "Contabilidad"
+
+msgid "Tariff"
+msgstr "Tarifa"
+
+msgid "Rate Groups"
+msgstr "Grupos de Tarifas"
+
+msgid "Packages"
+msgstr "Paquetes"
+
+msgid "Usage Report"
+msgstr "Informe de Uso"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "Gateways"
+msgstr "Adaptadores"
+
+msgid "Sip Profiles"
+msgstr "Perfiles Sip"
+
+msgid "Freeswitch Server"
+msgstr "Servidor Freeswitch "
+
+msgid "IP MAP (ACL)"
+msgstr "MAPA IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Reporte de Llamadas"
+
+msgid "Details Reports"
+msgstr "Detalles de Reportes"
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Reseller"
+msgstr "Revendedor"
+
+msgid "Provider Outbound"
+msgstr "Proveedor de salida"
+
+msgid "Summary Reports"
+msgstr "Resumen Reportes"
+
+msgid "Trunk Stats"
+msgstr "Estadísticas de Troncal"
+
+msgid "Live Call Report"
+msgstr "Reporte de Llamadas Online"
+
+msgid "Email History"
+msgstr "Historial de Correo Electrónico "
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Invoice Config"
+msgstr "Configuración de Factura "
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Email Templates"
+msgstr "Plantillas de Correo Electrónico"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Currencies"
+msgstr "Monedas"
+
+msgid "Database Restore"
+msgstr "Restaurar base de datos"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Tarjeta de Llamada"
+
+msgid "Report A Bug"
+msgstr "Reportar un Error"
+
+msgid "Donate Us"
+msgstr "Donar"
+
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ".ASTPP - Solución de Facturación VOIP Open Source. Todos Los Derechos Reservados."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-Beta"
+
+msgid "Welcome"
+msgstr "Bienvenido"
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - Solución de Facturación VOIP Open Source."
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP funciona mejor con Javascript activado"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 de las Cuentas"
+
+msgid "By Minutes"
+msgstr "Por Minutos"
+
+msgid "By Calls"
+msgstr "Por Llamadas"
+
+msgid "Recharge Information"
+msgstr "Información de Recarga"
+
+msgid "Trunk add"
+msgstr "Agregar Troncal"
+
+msgid "Trunk Information"
+msgstr "Información del Troncal"
+
+msgid "Trunk Name"
+msgstr "Nombre de la Troncal"
+
+msgid "Gateway"
+msgstr "Adaptadores"
+
+msgid "Fail Over Gateway"
+msgstr "Falla Sobre Adaptador"
+
+msgid "Max Channels"
+msgstr "Maximo Canales"
+
+msgid "Trunk Settings"
+msgstr "Configuración de Troncales"
+
+msgid "Number Translation"
+msgstr "Número de Traducción"
+
+msgid "Codecs"
+msgstr "Codecs"
+
+msgid "Failover GW name"
+msgstr "Conmutación por error de nombre de GW"
+
+msgid "Max channels"
+msgstr "Canales Maximo"
+
+msgid "Rate Count"
+msgstr "Conteo de Tarifas"
+
+msgid "Edit Trunk"
+msgstr "Editar Troncal"
+
+msgid "Rates"
+msgstr "Tarifas"
+
+msgid "Manage DIDs"
+msgstr "Administrar DID's"
+
+msgid "SIP Devices"
+msgstr "Dispositivos SIP"
+
+msgid "Manage Invoice"
+msgstr "Administrar Factura"
+
+msgid "CDRs Reports"
+msgstr "Reporte CDR "
+
+msgid "Payment Report"
+msgstr "Reporte de Pago"
+
+msgid "Payment"
+msgstr "Pago"
+
+msgid "Payment Reports"
+msgstr "Reportes de Pago"
+
+msgid "Fund Transfer"
+msgstr "Transferencia de Fondos"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "Recharge"
+msgstr "Recargar"
+
+msgid "admins"
+msgstr "administradores"
+
+msgid "invoices"
+msgstr "facturas"
+
+msgid "packages"
+msgstr "paquetes"
+
+msgid "Email"
+msgstr "Correo Electrónico "
+
+msgid "Provider"
+msgstr "Proveedor"
+
+msgid "summary reports"
+msgstr "reportes resumidos"
+
+msgid "Detail reports"
+msgstr "Reporte Detalle"
+
+msgid "Caller Id"
+msgstr "Identificador de Llamadas"
+
+msgid "Caller ID"
+msgstr "Identificador de Llamadas"
+
+msgid "Trunks"
+msgstr "Troncales"
+
+msgid "subscriptions"
+msgstr "suscripciones"
+
+msgid "Resellers"
+msgstr "Revendedores"
+
+msgid "customers"
+msgstr "clientes"
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "Detail Reports"
+msgstr "Reportes Detalle"
+
+msgid "View Details"
+msgstr "Ver Detalles"
+
+msgid "Download Database"
+msgstr "Descargar Base de Datos"
+
+msgid "<b>Rescan"
+msgstr "<b>Volver a explorar"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "<b>Reload"
+msgstr "<b> Actualizar"
+
+msgid "<b>Stop"
+msgstr "<b>Deténer"
+
+msgid "<b>Start"
+msgstr "<b>Iniciar"
+
+msgid "Termination updated successfully!"
+msgstr "Terminación Actualizado Correctamente"
+
+msgid "The Prepend field must contain only numbers."
+msgstr "El campo Anteponer debe contener sólo números."
+
+msgid "The Code field must contain only numbers."
+msgstr "El campo Código debe contener sólo números."
+
+msgid "The Precedence field must contain only numbers."
+msgstr "El campo Precedencia debe contener sólo números."
+
+msgid "The Connect Cost field must contain only numbers."
+msgstr "El campo Costo de Conexion debe contener sólo números."
+
+msgid "The Included Seconds field must contain only numbers."
+msgstr "El campo Segundos Incluido debe contener sólo números."
+
+msgid "The Per Minute Cost field must contain only numbers."
+msgstr "El campo Costo Por Minuto debe contener sólo números."
+
+msgid "The Increment field must contain only numbers."
+msgstr "El campo Incremento debe contener sólo números."
+
+msgid "Please Select File"
+msgstr "Seleccione Archivo"
+
+msgid "Please Create Rate Group"
+msgstr "Por favor, Crear Grupo de Tarifas"

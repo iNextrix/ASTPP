@@ -1,6 +1,8 @@
 <? extend('master.php') ?>	
-<? startblock('page-title') ?>       
-<? endblock() ?>    
+
+<?php startblock('page-title') ?>
+	<?php echo $page_title; ?>
+<?php endblock() ?>
 <? startblock('content') ?>  
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">

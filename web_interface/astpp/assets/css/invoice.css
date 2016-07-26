@@ -1,0 +1,86 @@
+.invoice_table
+	{
+		width: 100%;
+		margin-bottom: 20px;
+	}
+.invoice_table1 > thead > tr > th, .invoice_table1 > tbody > tr > th, .invoice_table1 > tfoot > tr > th, .invoice_table1 > thead > tr > td, .invoice_table1 > tbody > tr > td, .invoice_table1 > tfoot > tr > td
+	{
+		padding: 4px 8px;
+		line-height: 1.42857;
+		vertical-align: top;
+		border: 0px solid #DDD !important;
+	}
+.invoice_table tbody tr:nth-child(2n+1)
+	{
+		background:#Fff none repeat scroll 0% 0%;
+	}
+
+.invoice_table1
+	{
+		width: 95%;
+		border: 0px solid #DDD !important;
+	
+	}
+
+.invoice_table1 tbody tr:nth-child(2n+1)
+	{
+		background:#Fff none repeat scroll 0% 0%;
+	}
+.invoice_table2
+	{
+	
+		margin-bottom: 20px;
+border: 1px solid #c7c7c7 !important;
+	}
+.invoice_table2 > thead > tr > th, .invoice_table2 > tbody > tr > th, .invoice_table2 > tfoot > tr > th, .invoice_table2 > thead > tr > td, .invoice_table2 > tbody > tr > td, .invoice_table2 > tfoot > tr > td
+	{
+		padding: 8px 8px;
+		line-height: 1.42857;
+		vertical-align: top;
+		border: 1px solid #c7c7c7 !important;
+	}
+.invoice_table2 tbody tr:nth-child(2n+1)
+	{
+		background:#Fff none repeat scroll 0% 0%;
+	}
+
+.invoice_table3
+	{
+	
+		margin-bottom: 20px;
+	        border: 0px solid #DDD !important;
+	}
+.invoice_table3 tr
+{
+	border-top:1px solid #e3e3e3;
+border-bottom:3px solid #e3e3e3;
+}
+.invoice_table3 > thead > tr > th, .invoice_table3 > tbody > tr > th, .invoice_table3 > tfoot > tr > th, .invoice_table3 > thead > tr > td, .invoice_table3 > tbody > tr > td, .invoice_table3 > tfoot > tr > td
+	{
+		padding: 8px 8px;
+		line-height: 1.42857;
+		vertical-align: top;
+		border: 0px solid #DDD !important;
+	}
+.invoice_table3 tbody tr:nth-child(2n+1)
+	{
+		background:#Fff none repeat scroll 0% 0%;
+	}
+.invoice_table4
+	{
+	
+		margin-bottom: 20px;
+	        border: 1px solid #c7c7c7 !important;
+	}
+
+.invoice_table4 > thead > tr > th, .invoice_table4 > tbody > tr > th, .invoice_table4 > tfoot > tr > th, .invoice_table4 > thead > tr > td, .invoice_table4 > tbody > tr > td, .invoice_table4 > tfoot > tr > td
+	{
+		padding: 8px 8px;
+		line-height: 1.42857;
+		vertical-align: top;
+		border: 0px solid #c7c7c7 !important;
+	}
+.invoice_table4 tbody tr:nth-child(2n+1)
+	{
+		background:#f3f3f3 none repeat scroll 0% 0%;
+	}

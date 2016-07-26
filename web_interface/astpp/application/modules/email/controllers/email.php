@@ -1,24 +1,27 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class Email extends MX_Controller {
 
     function Email() {
@@ -60,7 +63,15 @@ class Email extends MX_Controller {
 
     function email_resend() {
         $add_array = $this->input->post();
-      //  echo '<pre>'; print_r($add_array); exit;
+/**
+ASTPP  3.0 
+For Signup Email broadcast link change 
+**/        
+	$add_array = $this->db_model->getSelect("*", 'mail_details', array('id' => $add_array['id']));
+	$add_array = $add_array->result_array();
+	$add_array = $add_array[0];
+/************************************************************/
+
         $data['page_title'] = 'Resand Email';
             $where = array('id' => $add_array['id']);
         $account = $this->db_model->getSelect("*", "mail_details", $where);
@@ -74,7 +85,7 @@ class Email extends MX_Controller {
 			     'to'=>$edit_data['to'],
 			     'status'=>$edit_data['status'],
 			     'template'=>$edit_data['template'],
-			   //  'attachment'=>$edit_data['attachment'],
+			     'attachment'=>$edit_data['attachment'],
 			
 			    );
                 $this->email_re_send($add_array);		
@@ -83,13 +94,14 @@ class Email extends MX_Controller {
             redirect(base_url() . 'email/email_history_list/');
     }
     function email_resend_edit($edit_id = '') {
-	$data['page_title'] = 'Resent Email';
+	$data['page_title'] = 'Resend Email';
         $where = array('id' => $edit_id);
         $account = $this->db_model->getSelect("*", "mail_details", $where);
       if ($account->num_rows > 0) {
             foreach ($account->result_array() as $key => $value) {
                 $edit_data = $value;
             }
+            $data['maildata'] = $edit_data['attachment'];            
             $data['form'] = $this->form->build_form($this->email_form->get_form_fields_email_edit(), $edit_data);
 
             $this->load->view('view_email_add_edit', $data);
@@ -106,6 +118,7 @@ class Email extends MX_Controller {
             foreach ($account->result_array() as $key => $value) {
                 $edit_data = $value;
             }
+            $data['maildata'] = $edit_data['attachment'];
             $data['form'] = $this->form->build_form($this->email_form->get_form_fields_email_view_cus_edit(), $edit_data);
 
             $this->load->view('view_email_add_edit', $data);
@@ -130,10 +143,10 @@ class Email extends MX_Controller {
 			     'to'=>$edit_data['to'],
 			     'status'=>$edit_data['status'],
 			     'template'=>$edit_data['template'],
-			
+			     'attachment'=>$edit_data['attachment'],
 			    );
             $this->email_model->add_email($add_array);
-	    $this->email_lib->send_email('',$add_array,'','',1);
+	        $this->email_lib->send_email('',$add_array,'','',1);
 
             $this->load->module('accounts/accounts');
 	    $this->session->set_flashdata('astpp_errormsg', 'Email resend successfully!');
@@ -176,7 +189,7 @@ class Email extends MX_Controller {
         }
     }
     function email_re_send($edit_data) {
-	$this->email_lib->send_email('',$edit_data,'','',1);
+	$this->email_lib->send_email('',$edit_data,'',$edit_data['attachment'],1);
 	$this->session->set_flashdata('astpp_errormsg', 'Email resend successfully!');
         redirect(base_url() . '/email/email_history_list/');
     }
@@ -187,7 +200,12 @@ class Email extends MX_Controller {
       if ($account->num_rows > 0) {
             foreach ($account->result_array() as $key => $value) {
                 $edit_data = $value;
-            }
+            }  
+			if($edit_data['status'] == 1){
+				$edit_data['status']='Not Sent';
+			}else{
+				$edit_data['status']='Sent';
+			}
             $data['form'] = $this->form->build_form($this->email_form->get_form_fields_email_view(), $edit_data);
 
             $this->load->view('view_email_add_edit', $data);
@@ -204,7 +222,6 @@ class Email extends MX_Controller {
                 $edit_data = $value;
             }
             $data['form'] = $this->form->build_form($this->email_form->get_form_fields_email_view_cus(), $edit_data);
-
             $this->load->view('view_email_add_edit', $data);
         } else {
             redirect(base_url() . 'email/email_history_list/'.$edit_id);
@@ -215,19 +232,22 @@ class Email extends MX_Controller {
         $this->session->set_flashdata('astpp_notification', 'Email removed successfully!');
         redirect(base_url() . '/email/email_history_list/');
     }
-    function email_delete_cus($accountid,$id) {
+    function email_delete_customer($accounttype,$accountid,$id) {
         $this->email_model->remove_email($id);
         $where = array('id' => $id);
         $account = $this->db_model->getSelect("*", "mail_details", $where);
 	foreach ($account->result_array() as $key => $value) {
 	    $edit_data = $value;
 	}
-        $url ="accounts/customer_edit/$accountid";
+        $url ="accounts/".$accounttype."_emailhistory/$accountid/";
         $this->session->set_flashdata('astpp_notification', 'Email removed successfully!');
 	$this->load->module('accounts/accounts');
         redirect(base_url() . $url);
     }
     function email_mass() {
+        $account_data = $this->session->userdata("accountinfo");
+        if ($account_data['type'] == '1' || $account_data['type']== 0 || $account_data['type']==3)
+            redirect(base_url() . '/astpp/dashboard/');
 	$data['username'] = $this->session->userdata('user_name');	
         $data['page_title'] = 'Email Mass';
         $data['form'] = $this->form->build_form($this->email_form->build_list_for_email_client_area(), '');
@@ -239,7 +259,6 @@ class Email extends MX_Controller {
 	{
 		$array=explode(",", $attachement);
 		$str='';
-	//echo '<pre>'; print_r($array); exit;	
 		foreach($array as $key =>$val){
 			$link = base_url() . "email/email_history_list_attachment/".$val;
 			$str.="<a href='".$link."' title='".$val."' class='btn btn-royelblue btn-sm'><i class='fa fa-paperclip fa-fw'></i></a>&nbsp;&nbsp;";
@@ -253,26 +272,13 @@ class Email extends MX_Controller {
     function email_client_get()
       {
 	       $files=$_FILES;
-	//echo '<pre>';     print_r( $files); exit;
 	       $add_array = $this->input->post();
 	       $add_array['page_title'] = 'Compose email';
 	       $nooffile= $files['file']['name'];
 	       $count=count($nooffile);
-	    /*   if(isset($files['file']['name'][3]) && $files['file']['name'][3] == ""){
-		       $count=3;
-	       }
-	       if(isset($files['file']['name'][2]) && $files['file']['name'][2] == ""){
-		       $count=2;
-	       }
-	       if(isset($files['file']['name'][1]) && $files['file']['name'][1] == ""){
-	    		$count=1;
-	       }*/
 	       $add_array['attachment']='';
 	       $add_array['file']='';
-	        // echo '<pre>'; print_r($count); exit;
-	       
 	       for($i=0;$i<$count;$i++){
-	       
 		       $tmp_name[]= $files['file']['tmp_name'][$i];
 		       if($files['file']['error'][$i]==0){
 			       $cur_name = $files['file']['name'][$i];
@@ -284,7 +290,6 @@ class Email extends MX_Controller {
 			       $actual_file_name=date('ymdhis').$i.'.'.$parts[1];
 			       $dir_path=  getcwd()."/attachments/";
 			       $path =$dir_path.$actual_file_name;
-	//print_r($path); exit;
 			       if (move_uploaded_file($uploadedFile1,$path)) {
 				   $this->session->set_flashdata('astpp_errormsg', 'files added successfully!');
 			       }
@@ -312,7 +317,7 @@ class Email extends MX_Controller {
 	 	$subject = '';
 		$body ='';	
              }
-	else{
+		else{
                 $where = array('id' => $add_array['temp']);
 		$account = $this->db_model->getSelect("subject,template", "default_templates", $where);
 		$account_data =$account->result_array();
@@ -358,7 +363,7 @@ class Email extends MX_Controller {
     }
 
 /********************************************************/
-    function email_history_list_cus() {
+    function email_history_list_customer() {
 	$add_array = $this->input->post();
             $where = array('id' => $add_array['id']);
         $account = $this->db_model->getSelect("*", "mail_details", $where);
@@ -391,14 +396,13 @@ class Email extends MX_Controller {
         echo json_encode($json_data);
     }
 
-    function customer_mail_record($accountid){
-	$data['logintype']=$this->session->userdata('logintype');
+    function customer_mail_record($accountid,$accounttype){
         $json_data = array();
         $count_all = $this->email_model->customer_get_email_list(false,$accountid,"","");
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
         $query = $this->email_model->customer_get_email_list(true,$accountid,$paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-	$grid_fields = json_decode($this->email_form->build_list_for_email_customer($accountid));
+	$grid_fields = json_decode($this->email_form->build_list_for_email_customer($accountid,$accounttype));
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
         echo json_encode($json_data);
     }    
@@ -411,7 +415,6 @@ class Email extends MX_Controller {
 
     function email_send_multipal(){
 	$add_array = $this->input->post();
-//echo "<pre>";print_r($add_array);exit;
 	if($add_array['email'] == '' || $add_array['subject'] == '' || $add_array['template'] == ''){
 		$this->session->set_flashdata('astpp_notification', 'Email address not found!');
 	        redirect(base_url() . '/email/email_client_area/');
@@ -445,15 +448,13 @@ class Email extends MX_Controller {
         $this->session->set_userdata('email_search', "");
     }
     /*
-* Purpose : Add following code for download attached file
-* Version 2.1
-*/
+	* Purpose : Add following code for download attached file
+	* Version 2.1
+    */
     function email_history_list_attachment($file_name) {
-   // echo 'da';
 	if(file_exists(getcwd().'/attachments/'.$file_name)){
 		header('Content-Type: application/octet-stream');
 		header('Content-Disposition: attachment; filename='.$file_name);
-		//header('Pragma: no-cache');
 		ob_clean();
 		flush();
 		readfile(getcwd().'/attachments/'.$file_name);

@@ -1,6 +1,6 @@
-<? extend('master.php') ?>
+<? extend('left_panel_master.php') ?>
+<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
-
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
@@ -19,37 +19,43 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-    <?= $page_title ?><br/>
+    <?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        
-
-<section class="slice color-three">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-   	    <div class="row">
-            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_search; ?>
-    	        </div>
+<div id="main-wrapper" class="tabcontents">  
+    <div id="content">   
+        <div class="row"> 
+            <div class="col-md-12 no-padding color-three border_box"> 
+                <div class="pull-left">
+                    <ul class="breadcrumb">
+                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li>
+                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"><?= ucfirst($accounttype); ?> Profile </a>
+                        </li>
+                        <li class="active">
+                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_invoices/" . $edit_id . "/"; ?>">
+                                Invoices
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>     
+            <div class="padding-15 col-md-12">
+                <div class="col-md-12 no-padding">
+                    <div id="show_search" class="pull-right margin-t-10 col-md-4 no-padding">
+                        <div id="show_search"class="pull-right"><i class="fa fa-search"></i> Search</div>
+                    </div>
+                </div> 
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-12 color-three padding-b-20 slice color-three pull-left content_border">
+                        <table id="invoice_grid" align="left" style="display:none;"></table>
+                    </div>   
+                </div>
             </div>
         </div>
     </div>
-</section>
-
-<section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12">      
-                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-                            <table id="invoice_grid" align="left" style="display:none;"></table>
-                        </form>
-                </div>  
-            </div>
-        </div>
-    </div>
-</section>
-
+</div>
   
 <? endblock() ?>	
 <? end_extend() ?>  

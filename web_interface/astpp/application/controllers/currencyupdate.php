@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class Currencyupdate extends CI_Controller {
     function __construct()
     {
@@ -50,13 +51,14 @@ class Currencyupdate extends CI_Controller {
 	    	    {
 	    	        $currency_final = array();
 	    		    $currency_final= explode(',', $final_val);
-	    		    if(isset($currency_final[1]) && $currency_final[1] != "" && $currency_final[0]!='' && $currency_final[1] != 'N/A')
-	    		    {
-    	    		    $sql = "UPDATE currency SET currencyRate = ".$currency_final[1]." WHERE currency = '".substr($currency_final[0],4,3)."'";
-    	    		    $this->db->query($sql);
+	    		    if(isset($currency_final[1]) && $currency_final[1] != "" && $currency_final[0]!='' && $currency_final[1] != 'N/A'){
+			      $sql = "UPDATE currency SET currencyRate = ".$currency_final[1]." WHERE currency = '".substr($currency_final[0],4,3)."'";
+			      $this->db->query($sql);
 	    		    }
 	    	    }
 	    	}
+	    	$sql = "UPDATE currency SET currencyRate = '1' WHERE currency = '".Common_model::$global_config['system_config']['base_currency']."'";
+                $this->db->query($sql);
       }
 	      $this->session->set_flashdata("astpp_errormsg", "Currency exchange rates successfully updated.");
 	      redirect(base_url()."/systems/currency_list/");

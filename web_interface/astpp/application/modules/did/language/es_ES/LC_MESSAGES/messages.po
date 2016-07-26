@@ -1,0 +1,648 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-09-23 07:08-0300\n"
+"Last-Translator: Inextrix <astpp@inextrix.com>\n"
+"Language-Team: Inextrix <astpp@inextrix.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/astpp/application/modules/did/language\n"
+
+#: ../../../../index.php:36 /var/www/html/gettext/index.php:36 ../../../../index.php:37 /var/www/html/gettext/index.php:37
+msgid "Add Did"
+msgstr "Añadir Did"
+
+msgid "DID Information"
+msgstr "DID Información"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "DID"
+msgstr "DID"
+
+msgid "Country"
+msgstr "País"
+
+msgid "City"
+msgstr "Ciudad"
+
+msgid "Province"
+msgstr "Provincia"
+
+msgid "Provider"
+msgstr "Proveedor"
+
+msgid "DID Billing"
+msgstr "DID Facturación"
+
+msgid "Account"
+msgstr "Cuenta"
+
+msgid "Increments"
+msgstr "Incrementos"
+
+msgid "Cost"
+msgstr "Costo"
+
+msgid "Included Seconds"
+msgstr "Segundos Incluídos"
+
+msgid "Included seconds"
+msgstr "Segundos Incluídos"
+
+msgid "Setup Fee"
+msgstr "Cuota de Instalación"
+
+msgid "Setup fee"
+msgstr "Cuota de Instalación"
+
+msgid "Monthly Fee"
+msgstr "Cuota Mensual"
+
+msgid "Monthly fee"
+msgstr "Cuota Mensual"
+
+msgid "Connection Fee"
+msgstr "Cargo Por Conexión"
+
+msgid "DID Setting"
+msgstr "Configuración DID"
+
+msgid "Call Type"
+msgstr "Tipo de Llamada"
+
+msgid "Call type"
+msgstr "Tipo de Llamada"
+
+msgid "Destination"
+msgstr "Destino"
+
+msgid "Did"
+msgstr "Did"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Edit Did"
+msgstr "Editar Did"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "Import"
+msgstr "Importación"
+
+msgid "import"
+msgstr "importación"
+
+msgid "Export"
+msgstr "Exportación"
+
+msgid "Is purchased?"
+msgstr "Se compra?"
+
+msgid "Action"
+msgstr "Acción"
+
+msgid "Setup <br>Fee"
+msgstr "Configuración <br>Cuota"
+
+msgid "Monthly<br>Fee"
+msgstr "Cuota <br>Mensual"
+
+msgid "Included<br/>Seconds"
+msgstr "Segundos</br>Incluidos"
+
+msgid "DIDs List"
+msgstr "Lista de DIDs"
+
+msgid "Available DIDs"
+msgstr "DID's Disponibles"
+
+msgid "Purchase DID"
+msgstr "Comprar DID's"
+
+msgid "The DID field is required."
+msgstr "El campo DID es requerido."
+
+msgid "Please Select File."
+msgstr "Por Favor Seleccione Archivo."
+
+msgid "The field is required."
+msgstr "Este campo es requerido"
+
+msgid "DID Released Successfully!"
+msgstr "DID Emitido con éxito!"
+
+msgid "DID Removed Successfully!"
+msgstr "DID Eliminado con éxito!"
+
+msgid "Invalid DID Number..."
+msgstr "Número DID Inválido..."
+
+msgid "DID Purchased Successfully."
+msgstr "DID Comprado con éxito."
+
+msgid "Insuffiecient fund to purchase this did"
+msgstr "Fondo insuficiente para comprar este did"
+
+msgid "Please Select DID."
+msgstr "Por favor Seleccione DID."
+
+msgid "DIDs Imported Successfully!"
+msgstr "DID Importado Correctamente!"
+
+msgid "DID Updated Successfully!"
+msgstr "DID Actualizado Correctamente!"
+
+msgid "Number already exist in system."
+msgstr "Este número ya existe en el sistema."
+
+msgid "DID Added Successfully!"
+msgstr "DID Añadido Correctamente!"
+
+msgid "DID Updated Successfully!!"
+msgstr "DID Actualizado Correctamente!!"
+
+msgid "Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All Rights Reserved. "
+msgstr "Copyright @ 2003 - 2015 ASTPP - Solución de Facturación VOIP Open Source. Todos los Derechos Reservados."
+
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgid "DIDs"
+msgstr "DID's"
+
+msgid "Switch"
+msgstr "Interruptor"
+
+msgid "Email Mass"
+msgstr "Correo Electrónico Masivo"
+
+msgid "Accounting"
+msgstr "Contabilidad"
+
+msgid "Tariff"
+msgstr "Tarifa"
+
+msgid "Rate Groups"
+msgstr "Grupos de Tarifas"
+
+msgid "Origination Rates"
+msgstr "Creaciones de Tarifas"
+
+msgid "Packages"
+msgstr "Paquetes"
+
+msgid "Usage Report"
+msgstr "Reporte de Uso"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "Termination Rates"
+msgstr "Terminación de Tarifas"
+
+msgid "Gateways"
+msgstr "Adaptadores"
+
+msgid "Sip Profiles"
+msgstr "Perfiles Sip"
+
+msgid "Freeswitch Server"
+msgstr "Servidor Freeswitch"
+
+msgid "IP MAP (ACL)"
+msgstr "MAPA IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Reportes de Llamada"
+
+msgid "Details Reports"
+msgstr "Detalles de Reportes"
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Reseller"
+msgstr "Revendedor"
+
+msgid "Provider Outbound"
+msgstr "Proveedor de salida"
+
+msgid "Summary Reports"
+msgstr "Resumen de Reportes"
+
+msgid "Trunk Stats"
+msgstr "Estadísticas de Troncal"
+
+msgid "Live Call Report"
+msgstr "Reporte de Llamadas En Línea"
+
+msgid "Email History"
+msgstr "Historia de Correo Electrónico"
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Invoice Config"
+msgstr "Configuración de Factura"
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Email Templates"
+msgstr "Plantillas de Correo Electrónico"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Currencies"
+msgstr "Monedas"
+
+msgid "Database Restore"
+msgstr "Restaurar Base de Datos"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Tarjeta de Llamada"
+
+msgid "Report A Bug"
+msgstr "Reportar un Error"
+
+msgid "Donate Us"
+msgstr "Donar"
+
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ".ASTPP - Solución de Facturación VOIP Open Source. Todos Los Derechos Reservados."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-Beta"
+
+msgid "Welcome"
+msgstr "Bienvenido"
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - Solución de Facturación VOIP Open Source."
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP funciona mejor con Javascript activado"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 de las Cuentas"
+
+msgid "By Minutes"
+msgstr "Por Minutos"
+
+msgid "By Calls"
+msgstr "Por Llamadas"
+
+msgid "Recharge Information"
+msgstr "Información de Recarga"
+
+msgid "Trunk add"
+msgstr "Agregar Troncal"
+
+msgid "Trunk Information"
+msgstr "Información de la Troncal"
+
+msgid "Trunk Name"
+msgstr "Nombre de Troncal"
+
+msgid "Gateway"
+msgstr "Adaptador"
+
+msgid "Fail Over Gateway"
+msgstr "Fallo Sobre Adaptador"
+
+msgid "Max Channels"
+msgstr "Máximo de Canales"
+
+msgid "Trunk Settings"
+msgstr "Configuración de Troncales"
+
+msgid "Number Translation"
+msgstr "Número de Traducción"
+
+msgid "Codecs"
+msgstr "Codecs"
+
+msgid "Precedence"
+msgstr "Precedencia"
+
+msgid "Failover GW name"
+msgstr "Conmutación por error de nombre de GW"
+
+msgid "Max channels"
+msgstr "Canales Máximo"
+
+msgid "Rate Count"
+msgstr "Conteo de Tarifas"
+
+msgid "Edit Trunk"
+msgstr "Editar Troncal"
+
+msgid "My Rates"
+msgstr "Mis Tarifas"
+
+msgid "Rates"
+msgstr "Precios"
+
+msgid "Manage DIDs"
+msgstr "Administrar DID"
+
+msgid "SIP Devices"
+msgstr "Dispositivos SIP"
+
+msgid "Manage Invoice"
+msgstr "Administrar Factura"
+
+msgid "CDRs Reports"
+msgstr "Reporte de CDR"
+
+msgid "Payment Report"
+msgstr "Reporte de Pago"
+
+msgid "Payment"
+msgstr "Pago"
+
+msgid "Payment Reports"
+msgstr "Reportes de Pago"
+
+msgid "Fund Transfer"
+msgstr "Transferencia de Fondos"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "Recharge"
+msgstr "Recargar"
+
+msgid "admins"
+msgstr "administradores"
+
+msgid "Back"
+msgstr "Atrás"
+
+msgid "Process"
+msgstr "Proceso"
+
+msgid "invoices"
+msgstr "facturas"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "Invalid file format : Only CSV file allows to import records(Can't import empty file)"
+msgstr "Formato de archivo no válido: Sólo archivo CSV permite importar registros (No se puede importar el archivo vacío)"
+
+msgid "File Uploading Fail Please Try Again"
+msgstr "Fallo la Carga de Archivos Por Favor Reintente"
+
+msgid "summary reports"
+msgstr "Resúmenes de Reportes"
+
+msgid "Detail reports"
+msgstr "Detalle de Reportes"
+
+msgid "Caller Id"
+msgstr "Identificador de llamadas"
+
+msgid "Caller ID"
+msgstr "Identificador de llamadas"
+
+msgid "Trunks"
+msgstr "Troncales"
+
+msgid "subscriptions"
+msgstr "suscripciones"
+
+msgid "Resellers"
+msgstr "Revendedores"
+
+msgid "customers"
+msgstr "clientes"
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "Detail Reports"
+msgstr "Detalle de Reportes"
+
+msgid "View Details"
+msgstr "Ver detalles"
+
+msgid "Download Database"
+msgstr "Descargar Base de Datos"
+
+msgid "<b>Rescan"
+msgstr "<b>Volver a explorar"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "<b>Reload"
+msgstr "<b> Actualizar"
+
+msgid "<b>Stop"
+msgstr "<b>Detener"
+
+msgid "<b>Start"
+msgstr "<b>Iniciar"
+
+msgid "Import DIDs"
+msgstr "Importar DID"
+
+msgid "Download sample file"
+msgstr "Descargar archivo de ejemplo"
+
+msgid "File must be in the following format(.csv)"
+msgstr "El archivo debe estar en el siguiente formato (*.csv)"
+
+msgid "DID Import Error"
+msgstr "Error al Importar DID"
+
+msgid "Click Here"
+msgstr "Click Aquí"
+
+msgid "DID,Account,Call Type,Destination,Country,Increments,Cost,Setup Fee,Monthly Fee,Included Seconds."
+msgstr "DID,Cuenta,Tipo de Llamada,Destino,País,Incrementos,Costo,Cuota de Instalación,Cuota Mensual,Segundos Incluidos."
+
+msgid "Check Header"
+msgstr "Compruebe Cabecera"
+
+msgid "Import DIDs Preview"
+msgstr "Vista Previa de Importación DID"
+
+msgid "Error In CSV File"
+msgstr "Error en Archivo CSV"
+
+msgid "Records Imported Successfully:"
+msgstr "Registros Importados Correctamente:"
+
+msgid "Records Not Imported:"
+msgstr "Los Registros No Se Importaron:"
+
+msgid "Download Errors"
+msgstr "Descargar Errores"
+
+msgid "Back to DID List"
+msgstr "Volver a la lista DID"
+
+msgid "Not in use"
+msgstr "Inactivo"
+
+msgid "DID Import Process"
+msgstr "Proceso de Importación DID"
+
+msgid "Release"
+msgstr "Lanzamiento"
+
+msgid "is equal to"
+msgstr "es igual a"
+
+msgid "is not equal to"
+msgstr "no es igual a"
+
+msgid "greater than"
+msgstr "mas grande que"
+
+msgid "less than"
+msgstr "menor que"
+
+msgid "greater or equal than"
+msgstr "mayor o igual que"
+
+msgid "less or equal than"
+msgstr "menor o igual que"
+
+msgid "contains"
+msgstr "contiene"
+
+# doesn't
+msgid "doesnt contain"
+msgstr "no contiene"
+
+msgid "Select"
+msgstr "Seleccionar"
+
+msgid "The DID field must contain only numeric characters."
+msgstr "El campo DID debe contener sólo caracteres numéricos."
+
+msgid "The Max Channels field must contain only numeric characters."
+msgstr "El campo Máximo de Canales debe contener sólo caracteres numéricos."
+
+msgid "The Cost field must contain only numeric characters."
+msgstr "El campo Costo debe contener sólo caracteres numéricos."
+
+msgid "The Included Seconds field must contain only numeric characters."
+msgstr "El campo de Segundos Incluido debe contener sólo caracteres numéricos."
+
+msgid "The Setup Fee field must contain only numeric characters."
+msgstr "El campo Cuota de Instalación debe contener sólo caracteres numéricos."
+
+msgid "The Monthly<br>Fee field must contain only numeric characters."
+msgstr "El campo Cuota Mensual debe contener sólo caracteres numéricos."
+
+msgid "The Connection Fee field must contain only numeric characters."
+msgstr "El campo Cuota de Conexión debe contener sólo caracteres numéricos."
+
+msgid "The Increments field must contain only numeric characters."
+msgstr "El campo Incrementos debe contener sólo caracteres numéricos."
+
+msgid "Call Forward"
+msgstr "Desvío de llamadas"
+
+msgid "Did Forward"
+msgstr "Desvió de Numeración"
+
+msgid "Always:"
+msgstr "Siempre:"
+
+msgid "If SIP Not Registered:"
+msgstr "Si SIP No esta Registrado:"
+
+msgid "If Busy:"
+msgstr "Si Ocupado:"
+
+msgid "If No Answer:"
+msgstr "Si No Contesta:"
+
+msgid "Always"
+msgstr "Siempre"
+
+msgid "If_SIP_Not_Registered"
+msgstr "Si_SIP_No_ Esta_Registrado"
+
+msgid "If_Busy"
+msgstr "Si_Ocupado"
+
+msgid "If_No_Answer"
+msgstr "Si_No_Contesta"
+
+msgid "Increment"
+msgstr "Incrément"
+
+msgid "Initial Increment"
+msgstr "incremento inicial"
+
+
+msgid "Billing Information"
+msgstr "Datos de facturación"
+
+msgid "Created Date"
+msgstr "date de création"
+
+msgid "Is Purchased?"
+msgstr "Se compra ?"

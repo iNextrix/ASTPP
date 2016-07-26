@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class trunk_model extends CI_Model {
 
     function trunk_model() {
@@ -38,31 +39,14 @@ class trunk_model extends CI_Model {
 
     function add_trunk($add_array) {
         unset($add_array["action"]);
-        $new_value = '';
-//         if (!empty($add_array['reseller_id'])) {
-// 
-//             foreach ($add_array['reseller_id'] as $value) {
-//                 $new_value.=$value . ",";
-//             }
-//             $new_value = rtrim($new_value, ',');
-//         }
-//         unset($add_array['reseller_id']);
-//         $add_array['reseller_id'] = $new_value;
+        $add_array['creation_date']=gmdate('Y-m-d H:i:s');
         $this->db->insert("trunks", $add_array);
         return true;
     }
 
     function edit_trunk($data, $id) {
         unset($data["action"]);
-//         $new_value = '';
-//         if (!empty($data['reseller_id'])) {
-//             foreach ($data['reseller_id'] as $value) {
-//                 $new_value.=$value . ",";
-//             }
-//             $new_value = rtrim($new_value, ',');
-//         }
-//         unset($data['reseller_id']);
-//         $data['reseller_id'] = $new_value;
+		$data['last_modified_date']=gmdate('Y-m-d H:i:s');
         $this->db->where("id", $id);
         $this->db->update("trunks", $data);
     }
@@ -70,6 +54,8 @@ class trunk_model extends CI_Model {
     function remove_trunk($id) {
         $this->db->where("id", $id);
         $this->db->update("trunks", array("status" => 2));
+        $this->db->where('trunk_id',$id);
+        $this->db->delete('outbound_routes');
         return true;
     }
 

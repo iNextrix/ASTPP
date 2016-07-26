@@ -1,24 +1,27 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class Charges extends MX_Controller {
 
     function Charges() {
@@ -38,9 +41,8 @@ class Charges extends MX_Controller {
     function periodiccharges_add() {
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Add Subscription';
-        $data['form'] = $this->form->build_form($this->charges_form->get_charegs_form_fields(), '');
-
+        $data['page_title'] = 'Create Subscription';
+        $data['form'] = $this->form->build_form($this->charges_form->get_charge_form_fields(), '');
         $this->load->view('view_periodiccharges_add_edit', $data);
     }
 
@@ -53,15 +55,15 @@ class Charges extends MX_Controller {
         }
         $edit_data['charge'] = $this->common_model->to_calculate_currency($edit_data['charge'], '', '', true, false);
         
-        $data['form'] = $this->form->build_form($this->charges_form->get_charegs_form_fields(), $edit_data);
+        $data['form'] = $this->form->build_form($this->charges_form->get_charge_form_fields(), $edit_data);
         $this->load->view('view_periodiccharges_add_edit', $data);
     }
 
     function periodiccharges_save() {
         $add_array = $this->input->post();
-        $data['form'] = $this->form->build_form($this->charges_form->get_charegs_form_fields(), $add_array);
+        $data['form'] = $this->form->build_form($this->charges_form->get_charge_form_fields(), $add_array);
         if ($add_array['id'] != '') {
-            $data['page_title'] = 'Add Charges';
+            $data['page_title'] = 'Edit Subscription';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -80,7 +82,7 @@ class Charges extends MX_Controller {
                 exit;
             }
         } else {
-            $data['page_title'] = 'Create Account Details';
+            $data['page_title'] = 'Add Subscription';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -112,10 +114,13 @@ class Charges extends MX_Controller {
             $action = $this->input->post();
             unset($action['action']);
             unset($action['advance_search']);
+            if (isset($action['charge']['charge']) && $action['charge']['charge'] != '') {
+                $action['charge']['charge'] = $this->common_model->add_calculate_currency($action['charge']['charge'], "", '', true, false);
+            }
             $this->session->set_userdata('charges_list_search', $action);
         }
         if (@$ajax_search != 1) {
-            redirect(base_url() . 'accounts/admin_list/');
+            redirect(base_url() . 'charges/periodiccharges/');
         }
     }
 
@@ -155,26 +160,35 @@ class Charges extends MX_Controller {
     function periodiccharges_delete_multiple() {
         $ids = $this->input->post("selected_ids", true);
         $where = "id IN ($ids)";
-        $this->db->where($where);
-        echo $this->db->delete("charges");
+        $charge_where="charge_id IN(".$ids.")";
+        $this->db->delete('charge_to_account',$charge_where);
+        echo $this->db->delete("charges",$where);
     }
     function customer_charge_list($accountid, $accounttype) {
 	
         $json_data = array();
 
-        $select = "charge_to_account.id,charges.description,charges.charge,charges.sweep_id";
+        $select = "charge_to_account.id,charges.description,charges.charge,charges.sweep_id,charges.pro_rate,charges.creation_date,charges.last_modified_date";
         $table = "charges";
         $jionTable = array('charge_to_account', 'accounts');
         $jionCondition = array('charges.id = charge_to_account.charge_id', 'accounts.id = charge_to_account.accountid');
         $type = array('left', 'inner');
-        $where = array('accounts.id' => $accountid,'charge_to_account.status'=>1);
-        $order_type = 'charges.id';
+        $where = array('accounts.id' => $accountid);
+        $order_type = 'id';
         $order_by = "ASC";
-
+        $instant_search=$this->session->userdata('left_panel_search_'.$accounttype.'_subscription'); 
+        $like_str=!empty($instant_search) ? "(charges.description like '%$instant_search%'  
+                                            OR  charges.charge like '%$instant_search%'
+                                            OR  charges.charge like '%$instant_search%' 
+                                                )"
+                                           :null;
+        if(!empty($like_str))
+        $this->db->where($like_str);
         $count_all = $this->db_model->getCountWithJion($table, $select, $where, $jionTable, $jionCondition, $type);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
-
+        if(!empty($like_str))
+        $this->db->where($like_str);
         $account_charge_list = $this->db_model->getAllJionQuery($table, $select, $where, $jionTable, $jionCondition, $type, $paging_data["paging"]["page_no"], $paging_data["paging"]["start"], $order_by, $order_type, "");
         $grid_fields = json_decode($this->charges_form->build_charges_list_for_customer($accountid, $accounttype));
         $json_data['rows'] = $this->form->build_grid($account_charge_list, $grid_fields);

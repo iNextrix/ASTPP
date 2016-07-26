@@ -66,7 +66,11 @@
  *
  */
 (function($) {
-  $.facebox = function(data, klass) {
+
+  var base_url=window.location.host;
+  var clayout = 'small';
+  $.facebox = function(data, klass) { 
+    clayout = data.clayout;
     $.facebox.loading(data.settings || [])
 
     if (data.ajax) fillFaceboxFromAjax(data.ajax, klass)
@@ -87,8 +91,8 @@
     settings: {
       opacity      : 0.2,
       overlay      : true,
-      loadingImage : base_url+'/assets/images/loading.gif',
-      closeImage   : base_url+'/assets/images/closelabel.png',
+      loadingImage : '/assets/images/loder-1.png',
+      closeImage   : '/assets/images/closelabel.png',
       imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
       faceboxHtml  : '\
     <div id="facebox" style="display:none;"> \
@@ -102,20 +106,25 @@
 
     loading: function() {
       init()
-      
       if ($('#facebox .loading').length == 1) return true
       showOverlay()
 
       $('#facebox .content').empty().
-        append('<div class="loading"><img src="'+$.facebox.settings.loadingImage+'" /></div>')
-
-      $('#facebox').show().css({
-        top:	getPageScroll()[1] + (getPageHeight() / 10),
-/*       
- * 	Change:  Add below line to set popup position with site layout.*/
-         left:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2),
- 	   //width:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2)
-      })
+        append('<div class="loading"><div class="ball-clip-rotate"><div></div></div></div>')
+      if(clayout == 'small'){
+	      $('#facebox').show().css({
+		top:	getPageScroll()[1] + (getPageHeight() / 10),
+	/** 	Change:  Add below line to set popup position with site layout.*/
+	         left:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 3),
+		 width:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 6)
+	      })
+      }else{
+	      $('#facebox').show().css({
+		top:	getPageScroll()[1] + (getPageHeight() / 10),
+	/** 	Change:  Add below line to set popup position with site layout.*/
+	         left:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2),
+	      })
+      }
       $(document).bind('keydown.facebox', function(e) {
         if (e.keyCode == 27) $.facebox.close()
         return true
@@ -124,20 +133,21 @@
       
       
       $(document).trigger('loading.facebox')
+
     },
 
     reveal: function(data, klass) {
+
       $(document).trigger('beforeReveal.facebox')
       if (klass) $('#facebox .content').addClass(klass)
       $('#facebox .content').empty().append(data)
       $('#facebox .popup').children().fadeIn('normal')
-
       
       $('#facebox .close')
       .click($.facebox.close)
-      .append('<img alt="close_image" src="'
+      .html('<img alt="close_image" src="'
               + $.facebox.settings.closeImage
-              + '" class="close_image" title="close" style="height:15px;width:15px; margin:17px 10px 0px 0px;">')
+              + '" class="close_image" title="close" style="height:15px;width:15px; margin:17px 10px 0px 0px;" alt="Close">')
       
 /** 	Change:  Add below line to set popup position with site layout.*/
         $('#facebox').css('right', $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2) - ($('#facebox .popup').outerWidth() / 12 ));
@@ -156,32 +166,33 @@
    * Public, $.fn methods
    */
 
-  $.fn.facebox = function(settings) {
+  $.fn.facebox = function(settings) { 
     if ($(this).length == 0) return
-
-      
-     
-      
       
     init(settings)
-     
 // alert("both1");
     function clickHandler() {
-      $.facebox.loading(true)
+      
 
       // support for rel="facebox.inline_popup" syntax, to add a class
       // also supports deprecated "facebox[.inline_popup]" syntax
-      var klass = this.rel.match(/facebox\[?\.(\w+)\]?/)
+
+      if(this.rel == 'facebox_medium'){
+	var klass = this.rel.match(/facebox_medium\[?\.(\w+)\]?/)
+	clayout = 'medium'; 
+      }else{
+	var klass = this.rel.match(/facebox\[?\.(\w+)\]?/)
+      }
+      $.facebox.loading(true)	
       if (klass) klass = klass[1]
 
       fillFaceboxFromHref(this.href, klass)
       return false
     }
-    
+    	
 
     return this.bind('click.facebox', clickHandler)
   }
-
   /*
    * Private methods
    */
@@ -288,7 +299,7 @@
     image.src = href
   }
 
-  function fillFaceboxFromAjax(href, klass) {
+  function fillFaceboxFromAjax(href, klass) { 
     $.facebox.jqxhr = $.get(href, function(data) { $.facebox.reveal(data, klass) })
   }
 
@@ -325,7 +336,7 @@
    * Bindings
    */
 
-  $(document).bind('close.facebox', function() {
+  $(document).bind('close.facebox', function() { 
     if ($.facebox.jqxhr) {
       $.facebox.jqxhr.abort()
       $.facebox.jqxhr = null

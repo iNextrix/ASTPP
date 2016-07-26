@@ -34,7 +34,6 @@
 <?php endblock() ?>
 <?php startblock('page-title') ?>
 <?= $page_title ?>
-<br/>
 <?php endblock() ?>
 <?php startblock('content') ?>
 <div class="container">
@@ -49,15 +48,6 @@
 						print_error(ERR_STR);
 					    </script>
 				     <? } ?>
-
-<!--                                <?php
-                                $data_errrors = json_decode($validation_errors);
-                                foreach ($data_errrors as $key => $value) {
-                                    echo $value . "<br/>";
-                                }
-                                ?> 
-                          </div>
-                        <?php echo $form; ?> -->
                           </div>  
 	        </section>
 	</div>

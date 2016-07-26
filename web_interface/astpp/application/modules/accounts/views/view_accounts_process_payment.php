@@ -1,10 +1,8 @@
 <script type="text/javascript">
     $("#submit").click(function(){
-        submit_form("accounts_conf_form");
+        submit_form("acccount_charges_form");
     });
 </script>
-
-
 <section class="slice gray no-margin">
  <div class="w-section inverse no-padding">
    <div>

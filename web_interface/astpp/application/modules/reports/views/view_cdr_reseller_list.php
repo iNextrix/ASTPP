@@ -18,23 +18,23 @@
        $(document).ready(function() {
         var currentdate = new Date(); 
         var datetime = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + currentdate.getDate() + " 00:00:01";
+            +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
+            + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
             
         var datetime1 = currentdate.getFullYear() + "-"
            +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            + currentdate.getDate() + " 23:59:59"
+           +("0" + currentdate.getDate()).slice(-2) + " 23:59:59";
 
         $("#customer_cdr_from_date").val(datetime);		
         $("#customer_cdr_to_date").val(datetime1);
-        $("#customer_cdr_from_date").datetimepicker({ dateFormat: 'yy-mm-dd' });		
-        $("#customer_cdr_to_date").datetimepicker({ dateFormat: 'yy-mm-dd' });			
+        jQuery("#customer_cdr_from_date").datetimepicker({format:'Y-m-d h:s:i'});		
+        jQuery("#customer_cdr_to_date").datetimepicker({format:'Y-m-d h:s:i'});
     });
 </script>
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        
@@ -61,11 +61,7 @@
                 </div>  
             </div>
         </div>
-    </div><!--<br/>
-<div class="pull-right padding-r-20">
-      <a class="btn-tw btn" href="/reports/resellerReport_export_cdr_xls"><i class="fa fa-file-excel-o fa-lg"></i>Export CSV</a>
-      <a class="btn-xing btn" href="/reports/resellerReport_export_cdr_pdf"><i class="fa fa-file-pdf-o fa-lg"></i>Export PDF</a>
-</center></div><br/><br/> -->
+    </div>
 </section>
 
 

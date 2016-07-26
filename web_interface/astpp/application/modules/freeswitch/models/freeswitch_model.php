@@ -1,132 +1,248 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##############################################################################
+
 class Freeswitch_model extends CI_Model {
 
     function Freeswitch_model() {
         parent::__construct();
     }
 
-    function get_sipdevices_list($flag, $accountid = "", $start = "", $limit = "") {
-        if ($accountid != "") {
-            $where = array("accountid" => $accountid);
+/******
+ASTPP  3.0 
+Voicemail data get
+******/
+    function get_sipdevices_list($flag, $accountid = "",$entitytype='',$start = "", $limit = "") {
+	if ($accountid != "") {
+		$where = array("accountid" => $accountid);
+	}
+	$this->db_model->build_search('fssipdevices_list_search');
+        $instant_search=$this->session->userdata('left_panel_search_'.$entitytype.'_sipdevices');
+        if(!empty($instant_search)){
+            $like_str="(username like '%$instant_search%' OR creation_date like '%$instant_search%' OR last_modified_date like '%$instant_search%')";
+            $this->db->where($like_str);   
         }
-        $this->db_model->build_search('fssipdevices_list_search');
-        $query = array();
-        if ($flag) {
-            $deviceinfo = $this->db_model->select("*", "sip_devices", $where, "id", "ASC", $limit, $start);
-            if ($deviceinfo->num_rows > 0) {
-                $add_array = $deviceinfo->result_array();
-                foreach ($add_array as $key => $value) {
-                    $vars = json_decode($value['dir_vars']);
-                    $passowrds = json_decode($value['dir_params']);
-                    $query[] = array('id' => $value['id'], 'username' => $value['username'], 'accountid' => $value['accountid'],'status' => $value['status'],
-//                         'pricelist_id' => $value['pricelist_id'],
-                        'sip_profile_id' => $value['sip_profile_id']
-                        , 'effective_caller_id_name' => $vars->effective_caller_id_name,
-                        'effective_caller_id_number' => $vars->effective_caller_id_number
-                        , 'password' => $passowrds->password
-                        );
-                }
-                 //echo '<pre>'; print_r($query); exit;
-            }
-        } else {
-            $query = $this->db_model->countQuery("*", "sip_devices", $where);
-            
-        }
-       
-        return $query;
+	$query = array();
+	if ($flag) {
+		$deviceinfo = $this->db_model->select("*", "sip_devices", $where, "id", "ASC", $limit, $start);
+		if ($deviceinfo->num_rows > 0) {
+			$add_array = $deviceinfo->result_array();
+			foreach ($add_array as $key => $value) {
+				$vars = json_decode($value['dir_vars']);
+				$vars_new = json_decode($value['dir_params'],true);
+				$passowrds = json_decode($value['dir_params']);
+				$query[] = array('id' => $value['id'],
+						'username' => $value['username'],
+						'accountid' => $value['accountid'],
+						'status' => $value['status'],
+						'sip_profile_id' => $value['sip_profile_id'],
+						'effective_caller_id_name' => $vars->effective_caller_id_name,
+						'voicemail_enabled' => $vars_new['vm-enabled'],
+						'voicemail_password' => $vars_new['vm-password'],
+						'voicemail_mail_to' => $vars_new['vm-mailto'],
+						'voicemail_attach_file' => $vars_new['vm-attach-file'],
+						'vm_keep_local_after_email' => $vars_new['vm-keep-local-after-email'],
+						'effective_caller_id_number' => $vars->effective_caller_id_number,
+						'password' => $passowrds->password,
+						/*
+						ASTPP  3.0 
+						ADD creation,modified date
+						*/
+						'creation_date'=>$value['creation_date'],
+						'last_modified_date'=>$value['last_modified_date']
+						/**************************************************/
+				);
+			}
+		}
+	} else {
+		$query = $this->db_model->countQuery("*", "sip_devices", $where);
+	}
+	return $query;
     }
-
+/**********************/
+/******
+ASTPP  3.0 
+Voicemail add in database
+******/
     function add_freeswith($add_array) {
-     $account_data = $this->session->userdata("accountinfo");
-	if(isset($add_array['sip_profile_id']))
-	{
-	      $sip_profile_id=$add_array['sip_profile_id'];
+        $where = array('id' => $add_array['accountcode']);
+        $query = $this->db_model->getSelect("*", "accounts", $where);
+        $query = $query->result_array();
+        $account_data=$query[0];
+       
+        $log_type = $this->session->userdata("logintype");
+        
+	//$account_data = $this->session->userdata("accountinfo");
+		if(isset($add_array['voicemail_enabled'])){
+		  $add_array['voicemail_enabled']=0;
+		}else{
+		  $add_array['voicemail_enabled']=1;
+		}
+		if(isset($add_array['voicemail_attach_file'])){
+		  $add_array['voicemail_attach_file']=0;
+		}else{
+		  $add_array['voicemail_attach_file']=1;
+		}
+		if(isset($add_array['vm_keep_local_after_email'])){
+		  $add_array['vm_keep_local_after_email']=0;
+		}else{
+		  $add_array['vm_keep_local_after_email']=1;
+		}
+		if(isset($add_array['vm_send_all_message'])){
+		  $add_array['vm_send_all_message']=0;
+		}else{
+		  $add_array['vm_send_all_message']=1;
+		}
+		//echo "<pre>";print_r($add_array);exit;
+	
+	
+        $reseller_id = $log_type==1 ? $account_data['reseller_id']:0;
+        
+       // echo"<pre>"; print_r($reseller_id); exit;
+        
+        
+	if(isset($add_array['sip_profile_id'])){
+		$sip_profile_id=$add_array['sip_profile_id'];
+	} else{
+		$sip_profile_id=$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
 	}
-	else
-	{
-	      $sip_profile_id='';
-	}
-//         if (isset($add_array['pricelist_id']) && $add_array['pricelist_id'] == '') {
-//             $add_array['pricelist_id'] = '0';
-//         }
-//echo '<pre>'; print_r(  $add_array); exit;
-        if($this->session->userdata("logintype") == -1){
-            $account_data = $this->session->userdata("accountinfo");
-            $add_array['accountid'] = $account_data["id"];
-        }
-       // echo '<pre>'; print_r( $add_array['accountid']); exit;
-        $parms_array = array('password' => $add_array['fs_password']);
+	
+	
+	$parms_array = array('password' => $add_array['fs_password'],
+			'vm-enabled' => $add_array['voicemail_enabled'],
+			'vm-password' => $add_array['fs_password'],
+			'vm-mailto' => '',
+			'vm-attach-file' => $add_array['voicemail_attach_file'],
+			'vm-keep-local-after-email' => $add_array['vm_keep_local_after_email'],
+			'vm-email-all-messages' => $add_array['vm_send_all_message']
+			);
+	
 	$add_array['status'] = isset($add_array['status'])?$add_array['status']:"0";
+	$parms_array_vars = array('effective_caller_id_name' => $add_array['effective_caller_id_name'],
+ 				  'effective_caller_id_number' => $add_array['effective_caller_id_number'],
+				  'user_context' => 'default');
+	/*
+	ASTPP  3.0 
+	creation date add
+	*/
+	$new_array = array('creation_date'=>gmdate('Y-m-d H:i:s'),
+                           'username' => $add_array['fs_username'],
+                           'reseller_id'=>$reseller_id,
+                           'accountid' => $add_array['accountcode'],
+                           'status' => $add_array['status'],
+                           'dir_params' => json_encode($parms_array),
+                           'dir_vars' => json_encode($parms_array_vars),
+                           'sip_profile_id' => $sip_profile_id,
+            );  
+	/****************************************8*/     
+	$this->db->insert('sip_devices', $new_array);
+/******
+ASTPP  3.0 
+Email broadcast when Sip Device create
+******/
+        if(isset($add_array['email']) && $add_array != ''){
+        $mail=$add_array['email'];
+        }else{
+        $mail=$account_data['email'];
+        }
+        
+        
+     //   echo "<pre>"; print_r($add_array); exit;
+        
+        $add_array['id']=$add_array['accountcode'];
+        $add_array['reseller_id']=$account_data['reseller_id'];
+        $add_array['email']=$mail;
+        $add_array['first_name']=$account_data['first_name'];
+        $add_array['last_name']=$account_data['last_name'];
+        $add_array['number']=$add_array['fs_username'];
+        //$add_array['password']=$this->common->decode($add_array['fs_password']);
+		$add_array['password']=$add_array['fs_password'];
+		//echo "<pre>"; print_r($add_array); exit;		
+	$this->common->mail_to_users('add_sip_device', $add_array);
+/****************************/
+	return true;
+    }
+/***********************/
+/******
+ASTPP  3.0 
+Voicemail edit 
+******/
+    function edit_freeswith($add_array, $id) {
+	 if(isset($add_array['voicemail_enabled']) && $add_array['voicemail_enabled'] !=''){
+	  $voicemail_enabled=1;
+        }else{
+        $voicemail_enabled=0;
+        }
+        	 if(isset($add_array['voicemail_attach_file']) && $add_array['voicemail_attach_file'] !=''){
+	  $voicemail_attach_file=1;
+        }else{
+        $voicemail_attach_file=0;
+        }
+        	 if(isset($add_array['vm_keep_local_after_email']) && $add_array['vm_keep_local_after_email'] !=''){
+	  $vm_keep_local_after_email=1;
+        }else{
+        $vm_keep_local_after_email=0;
+        }
+       if(isset($add_array['vm_send_all_message']) && $add_array['vm_send_all_message'] !=''){
+	  $vm_send_all_message=1;
+        }else{
+        $vm_send_all_message=0;
+        }
+		
+	$parms_array = array('password' => $add_array['fs_password'],
+			'vm-enabled' => $add_array['voicemail_enabled'],
+			'vm-password' => $add_array['voicemail_password'],
+			'vm-mailto' => $add_array['voicemail_mail_to'],
+			'vm-attach-file' => $add_array['voicemail_attach_file'],
+			'vm-keep-local-after-email' => $add_array['vm_keep_local_after_email'],
+			'vm-email-all-messages' => $add_array['vm_send_all_message']
+			);
+			//echo "<pre>";print_r($parms_array);exit;
 
-        $parms_array_vars = array('effective_caller_id_name' => $add_array['effective_caller_id_name'],
-            'effective_caller_id_number' => $add_array['effective_caller_id_number'],
-            'user_context' => 'default');
+	$parms_array_vars = array('effective_caller_id_name' => $add_array['effective_caller_id_name'],
+	'effective_caller_id_number' => $add_array['effective_caller_id_number'],);
 	$log_type = $this->session->userdata("logintype");
 	if($log_type == 0  || $log_type == 3 || $log_type == 1){
-	      $sip_profile_id=$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
+		$add_array['sip_profile_id']=$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
 	}
-        $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],'status' => $add_array['status'],
-             'dir_params' => json_encode($parms_array),
-            'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $sip_profile_id);        
-        $this->db->insert('sip_devices', $new_array);
-  //     echo $this->db->last_query(); exit;
-        return true;
+	$add_array['status'] = isset($add_array['status'])?$add_array['status']:"0";
+	/*
+	ASTPP  3.0  edit modified date
+	*/
+	$new_array = array('last_modified_date'=>gmdate('Y-m-d H:i:s'),'username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],'status' => $add_array['status'],
+	 	 	   'dir_params' => json_encode($parms_array),
+			   'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $add_array['sip_profile_id']);
+        /*******************************************/			   
+	$this->db->where('id', $id);
+	$this->db->update('sip_devices', $new_array);
+//echo $this->db->last_query(); exit;
+	return true;
     }
-
-    function edit_freeswith($add_array, $id) {
-   // echo '<pre>'; print_r($add_array); exit;
-        if (isset($add_array['pricelist_id']) && $add_array['pricelist_id'] == '') {
-            $add_array['pricelist_id'] = '0';
-        }
-        $parms_array = array('password' => $add_array['fs_password']
-// 		      'vm_password' => ""
-        );
-
-        $parms_array_vars = array('effective_caller_id_name' => $add_array['effective_caller_id_name'],
-            'effective_caller_id_number' => $add_array['effective_caller_id_number']
-            );
-	$log_type = $this->session->userdata("logintype");
-	if($log_type == 0 || $log_type == 3 || $log_type == 1){
-          $add_array['sip_profile_id'] = $this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
-     	}
-        //if else for that we can not assign user pricelist selecttion for user side    
-           
-// 	if (isset($add_array['pricelist_id'])){
-//         $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],
-//             'pricelist_id' => $add_array['pricelist_id'], 'dir_params' => json_encode($parms_array),
-//             'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $add_array['sip_profile_id']);
-// 	}else{
-	    $add_array['status'] = isset($add_array['status'])?$add_array['status']:"0";
-	    $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],'status' => $add_array['status'],
-             'dir_params' => json_encode($parms_array),
-            'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $add_array['sip_profile_id']);
-// 	}
-
-        $this->db->where('id', $id);
-        $this->db->update('sip_devices', $new_array);
-        return true;
-    }
-
+/***********************/
+/******
+ASTPP  3.0 
+Voicemail edit data get
+******/
     function get_edited_data($edit_id) {
         $deviceinfo = array();
         $where = array('id' => $edit_id);
@@ -134,60 +250,79 @@ class Freeswitch_model extends CI_Model {
         $add_array = $deviceinfo->result_array();
         foreach ($add_array as $key => $value) {
             $vars = json_decode($value['dir_vars']);
+            $vars_new = json_decode($value['dir_params'],true);
             $passowrds = json_decode($value['dir_params']);
-            $query = array('id' => $value['id'], 'fs_username' => $value['username']
-                , 'accountcode' => $value['accountid'],
-                'status' => $value['status'],
-                'sip_profile_id' => $value['sip_profile_id'],
-                 'effective_caller_id_name' => $vars->effective_caller_id_name,
-                'effective_caller_id_number' => $vars->effective_caller_id_number
-                , 'fs_password' => $passowrds->password
-                );
+            $query = array('id' => $value['id'],'fs_username' => $value['username'],
+						'accountcode' => $value['accountid'],
+						'status' => $value['status'],
+						'sip_profile_id' => $value['sip_profile_id'],
+						'effective_caller_id_name' => $vars->effective_caller_id_name,
+						'voicemail_enabled' => $vars_new['vm-enabled'],
+						'voicemail_password' => $vars_new['vm-password'],
+						'voicemail_mail_to' => $vars_new['vm-mailto'],
+						'voicemail_attach_file' => $vars_new['vm-attach-file'],
+						'vm_keep_local_after_email' => $vars_new['vm-keep-local-after-email'],
+						'vm_send_all_message' => $vars_new['vm-email-all-messages'],
+						'effective_caller_id_number' => $vars->effective_caller_id_number,
+						'fs_password' => $passowrds->password);
         }
         return $query;
     }
-
+/*************************/
     function delete_freeswith_devices($id) {
         $this->db->where('id', $id);
         $this->db->delete('sip_devices');
         return true;
     }
-
+/******
+ASTPP  3.0 
+Get json data
+******/
      function fs_retrieve_sip_user($flag, $start = 0, $limit = 0) {
-
         $deviceinfo = array();
         $this->db_model->build_search('fssipdevices_list_search');
-         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $reseller_id = $this->session->userdata["accountinfo"]['id'];
-        }else{
-	    $reseller_id = 0;
-        }
-       // echo '<pre>'; print_r($reseller_id); exit;
+        $accountinfo = $this->session->userdata("accountinfo");
+        $reseller_id=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
         $query = array();
+        $logintype = $this->session->userdata("logintype");
+        
+        $where['reseller_id']=$reseller_id;
+      
         if ($flag) {
-	    $where=  "accountid  IN (select id from accounts where reseller_id='$reseller_id' and id = sip_devices.accountid)";
             $deviceinfo = $this->db_model->select("*", "sip_devices", $where, "id", "ASC", $limit, $start);
             if ($deviceinfo->num_rows > 0) {
                 $add_array = $deviceinfo->result_array();
                 foreach ($add_array as $key => $value) {
                     $vars = json_decode($value['dir_vars']);
+					$vars_new = json_decode($value['dir_params'],true);
                     $passowrds = json_decode($value['dir_params']);
-                    $query[] = array('id' => $value['id'], 'username' => $value['username'], 'accountid' => $value['accountid'],'status' => $value['status'],
-                        'sip_profile_id' => $value['sip_profile_id']
-                        , 'effective_caller_id_name' => $vars->effective_caller_id_name,
-                        'effective_caller_id_number' => $vars->effective_caller_id_number
-                        , 'password' => $passowrds->password
-//                         'context' => $vars->user_context
-                        );
+                    /*
+                    ASTPP  3.0 
+                    add two filed show on gried
+                    */
+                    $query[] = array('id' => $value['id'],
+				    'username' => $value['username'],
+				    'accountid' => $value['accountid'],
+				    'status' => $value['status'],
+				    'creation_date'=>$value['creation_date'],
+				    'last_modified_date'=>$value['last_modified_date'],
+		         'sip_profile_id' => $value['sip_profile_id'],
+				 'effective_caller_id_name' => $vars->effective_caller_id_name,
+		         'voicemail_enabled' => $vars_new['vm-enabled'],
+		         'voicemail_password' => $vars_new['vm-password'],
+		         'voicemail_mail_to' => $vars_new['vm-mailto'],
+		         'voicemail_attach_file' => $vars_new['vm-attach-file'],
+		         'vm_keep_local_after_email' => $vars_new['vm-keep-local-after-email'],
+		         'effective_caller_id_number' => $vars->effective_caller_id_number,
+			 'password' => $passowrds->password);
                 }
             }
         } else {
-	    $where=  "accountid  IN (select id from accounts where reseller_id='$reseller_id' and id = sip_devices.accountid)";
             $query = $this->db_model->countQuery("*", 'sip_devices', $where);
 	}
-	//echo $this->db->last_query();
         return $query;
     }
+/**********************/
 
     function get_gateway_list($flag, $start = 0, $limit = 0) {
 	$this->db_model->build_search('fsgateway_list_search'); 
@@ -230,6 +365,11 @@ class Freeswitch_model extends CI_Model {
     }
 
     function add_fssever($data) {
+        /*
+        ASTPP  3.0  ADD creation date 
+        */
+        $data['creation_date']=gmdate('Y-m-d H:i:s');
+        /***********************************/
         unset($data['action']);
         $this->db->insert('freeswich_servers', $data);
         return true;
@@ -237,7 +377,11 @@ class Freeswitch_model extends CI_Model {
 
     function edit_fsserver($data, $id) {
         unset($data['action']);
-
+        /*
+        ASTPP  3.0  edit modified date add
+        */
+        $data['last_modified_date']=gmdate('Y-m-d H:i:s');
+        /***********************************************/
         $this->db->where('id', $id);
         $this->db->update('freeswich_servers', $data);
         return true;
@@ -250,12 +394,9 @@ class Freeswitch_model extends CI_Model {
     }
 
     function reload_freeswitch($command,$server_host="") {
-//        $command = "api sofia profile internal start";
 	$response='';
         $query = $this->db_model->getSelect("*", "freeswich_servers", "");
         $fs_data = $query->result_array();
-//         $fp = $this->freeswitch_lib->event_socket_create($server_host, $fs_data[0]["freeswitch_port"], $fs_data[0]["freeswitch_password"]);
-        
        foreach ($fs_data as $fs_key => $fs_value) {
 	    $fp = $this->freeswitch_lib->event_socket_create($fs_value["freeswitch_host"], $fs_value["freeswitch_port"], $fs_value["freeswitch_password"]);
 	    if ($fp) {
@@ -279,26 +420,6 @@ class Freeswitch_model extends CI_Model {
         }
 	$response = str_replace("0 total.","",$response);
         return $response;
-    }/*
-    function reload_live_freeswitch_show($command,$hostid) {
-	$response='';
-	$where=array('id'=>$hostid);
-        $query = $this->db_model->getSelect("*", "freeswich_servers", $where);
-        $fs_data = $query->result_array();
-        
-        foreach ($fs_data as $fs_key => $fs_value) {
-	    $fp = $this->freeswitch_lib->event_socket_create($fs_value["freeswitch_host"], $fs_value["freeswitch_port"], $fs_value["freeswitch_password"]);
-
-	    if ($fp) {
-		$host= $fs_value["freeswitch_host"];
-		$response .= $this->freeswitch_lib->event_socket_request($fp, $command);
-		$response = str_replace("0 total.","",$response);
-		$response = $response;
-		fclose($fp);
-		//$new_arr=array('host'=>$fs_cli,'response'=>$response);
-	    }
-        }
-        return $response;
-    }*/
+    }
 
 }

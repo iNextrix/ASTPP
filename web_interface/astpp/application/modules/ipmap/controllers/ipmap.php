@@ -1,24 +1,27 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class IPMAP extends MX_Controller {
 
     function IPMAP() {
@@ -45,8 +48,15 @@ class IPMAP extends MX_Controller {
         $account = $this->db_model->getSelect("*", "ip_map", $where);
         //echo $this->db->last_query(); exit;
         foreach ($account->result_array() as $key => $value) {
-            $edit_data = $value;
+        /*********************
+     	ASTPP  3.0 
+   	in customer login show ipmap (ACL) module
+   	*****************************************/
+         $ip=explode("/",$value['ip']);
+         $edit_data = $value;
+         $edit_data['ip']=$ip[0];
         }
+        /*************************************************************************************************/
         $data['form'] = $this->form->build_form($this->ipmap_form->get_ipmap_form_fields(), $edit_data);
         $this->load->view('ipmap_add_edit', $data);
     }
@@ -109,7 +119,17 @@ class IPMAP extends MX_Controller {
                     $this->session->set_userdata('astpp_notification',$response);
                 }
         $this->session->set_flashdata('astpp_notification', 'IP Map removed successfully!');
+        /*********************
+     	ASTPP  3.0 
+   	in customer login show ipmap (ACL) module
+   	*****************************************/
+   	$accountdata=$this->session->userdata['accountinfo'];
+        if($accountdata['type'] == '0'){
+        redirect(base_url() . 'user/user_ipmap_detail/');
+        }else{
         redirect(base_url() . 'ipmap/ipmap_detail/');
+        }
+        /*********************************************************************/
     }
 
     function ipmap_detail_search() {
@@ -133,7 +153,7 @@ class IPMAP extends MX_Controller {
   
    function ipmap_detail() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'IP map(ACL)';
+        $data['page_title'] = 'IP Map(ACL)';
         $data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->ipmap_form->build_ipmap_list_for_admin();
@@ -142,16 +162,55 @@ class IPMAP extends MX_Controller {
         $this->load->view('ipmap_view', $data);
     }
 
+    /*********************
+     ASTPP  3.0 
+     in customer login show ipmap (ACL) module
+     *****************************************/
     function ipmap_detail_json() {
         $json_data = array();
+        $account_data = $this->session->userdata("accountinfo");
         $count_all = $this->ipmap_model->ipmap_list(false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
         $query = $this->ipmap_model->ipmap_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-        $grid_fields = json_decode($this->ipmap_form->build_ipmap_list_for_admin());
-        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
+        $query =$query->result_array();
+        foreach ($query as $key => $value) {
+         $ipmap_checkbox='<input type="checkbox" name="chkAll" id="'.$value['id'].'" class="ace chkRefNos" onclick="clickchkbox('.$value['id'].')" value=' .$value['id'].'><lable class="lbl"></lable>';
+         if($account_data['type'] == '0'){
+         $ret_url = '<a href="'. base_url() .'user/user_ipmap_edit/'.$value['id'].'" class="btn btn-royelblue btn-sm"  rel="facebox" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;<a href="'. base_url() .'user/user_ipmap_delete/' . $value['id'].'" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
+         $account_name='';
+         $json_data['rows'][] = array('cell' => array(
+         $ipmap_checkbox,
+         $value['name'],
+         $value['ip'],
+         $value['prefix'],
+         $this->common->get_status('status', 'ip_map',$value),
+         $this->common->convert_GMT_to('','',$value['created_date']),
+         $this->common->convert_GMT_to('','',$value['last_modified_date']),
+         $ret_url,
+         
+          ));
+         }else{
+         $ret_url = '<a href="'. base_url() .'ipmap/ipmap_edit/'.$value['id'].'" class="btn btn-royelblue btn-sm"  rel="facebox" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;<a href="'. base_url() .'ipmap/ipmap_delete/' . $value['id'].'" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
+         $account_name =$this->common->build_concat_string("first_name,last_name,number", "accounts",$value['accountid']);
+         $json_data['rows'][] = array('cell' => array(
+         $ipmap_checkbox,
+         $account_name,
+         $value['name'],
+         $value['ip'],
+         $value['prefix'],
+         $this->common->get_status('status', 'ip_map',$value),
+         $this->common->convert_GMT_to('','',$value['created_date']),
+         $this->common->convert_GMT_to('','',$value['last_modified_date']),
+         $ret_url,
+         
+          ));
+         }
+         }
+        
         echo json_encode($json_data);
     }
+    /*************************************************************/
 
     function ipmap_delete_multiple() {
         $ids = $this->input->post("selected_ids", true);

@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 
 class Astpp_common extends CI_Model {
     // ------------------------------------------------------------------------
@@ -39,18 +40,13 @@ class Astpp_common extends CI_Model {
     function list_applyable_charges($accountid = '') {
         $accountinfo=$this->session->userdata('accountinfo');
         $reseller_id=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
-//         if(isset($accountid) && $accountid > 0)
-	$q= " SELECT * FROM `charges` where reseller_id =$reseller_id and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid AND status <> 0) AND pricelist_id = '0'";
-//         else
-//         $q = "SELECT * FROM charges WHERE status < 2 AND pricelist_id = '' $where";
+	$q= " SELECT * FROM `charges` where reseller_id =$reseller_id and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid) AND pricelist_id = '0'";
         $item_arr = array();
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                //$item_arr[] = $row[$colname];
                 if ($row['charge'] > 0) {
                     $row['charge'] = $this->common_model->calculate_currency($row['charge']);
-                    //$row->{charge} = sprintf( "%.4f", $row->{charge} );
                 }
                 $item_arr[$row['id']] = $row['description'] . ' - ' . $row['charge'];
             }
@@ -63,7 +59,6 @@ class Astpp_common extends CI_Model {
     function db_get_item($q, $colname) {
         $item_arr = array();
         $query = $this->db->query($q);
-        //echo $this->db->last_query();	
         if ($query->num_rows() > 0) {
             $row = $query->row_array();
             return $row[$colname];

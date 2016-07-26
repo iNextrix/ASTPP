@@ -4,7 +4,6 @@
 <?php endblock() ?>
 <?php startblock('page-title') ?>
 <?= $page_title ?>
-<br/>
 <?php endblock() ?>
 <?php startblock('content') ?>
 <div class="container">

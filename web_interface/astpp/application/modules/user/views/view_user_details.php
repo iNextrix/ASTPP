@@ -1,10 +1,9 @@
-<? extend('master.php') ?>
+<? extend('left_panel_master.php') ?>
+<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
-
 <script type="text/javascript" language="javascript">
  $(document).ready(function() {
  $(".change_pass").click(function(){
-
             $.ajax({type:'POST',
                 url: "<?= base_url()?>user/user_generate_password/",
                 success: function(response) {
@@ -24,40 +23,34 @@
          });
 </script>
 <? endblock() ?>
+
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
-
 <? startblock('content') ?>        
-
-
-<div class="container">
-        <div class="row">
-		<section class="slice color-three">
-			<div class="w-section inverse no-padding">
-				     <?php echo $form; ?>
-				     <?php
-					if(isset($validation_errors) && $validation_errors != ''){ ?>
-					    <script>
-						var ERR_STR = '<?php echo $validation_errors; ?>';
-						print_error(ERR_STR);
-					    </script>
-				     <? } ?>
-
-<!--                                <?php
-                                $data_errrors = json_decode($validation_errors);
-                                foreach ($data_errrors as $key => $value) {
-                                    echo $value . "<br/>";
-                                }
-                                ?> 
-                          </div>
-                        <?php echo $form; ?> -->
-                          </div>  
-	        </section>
-	</div>
+<div id="main-wrapper" class="tabcontents">
+    <div id="content">   
+        <div class="row"> 
+            <div class="col-md-12 no-padding color-three border_box"> 
+                <div class="pull-left">
+                    <ul class="breadcrumb">
+                        <li class="active"><a href="<?= base_url() . "user/user_myprofile/";?>"> My Profile </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="padding-15 col-md-12">
+                <div class="slice color-three pull-left content_border">
+                    <?php echo $form; ?>
+                    <?php if (isset($validation_errors) && $validation_errors != '') { ?>
+                        <script>
+                            var ERR_STR = '<?php echo $validation_errors; ?>';
+                            print_error(ERR_STR);
+                        </script>
+                    <? } ?>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<? endblock() ?>	
-<? startblock('sidebar') ?>
-Filter by
 <? endblock() ?>
 <? end_extend() ?>  

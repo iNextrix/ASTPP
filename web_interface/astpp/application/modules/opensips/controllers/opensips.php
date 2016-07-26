@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class Opensips extends MX_Controller {
 
     function Opensips() {
@@ -31,7 +32,6 @@ class Opensips extends MX_Controller {
         $this->load->model('opensips_model');
         $db_config = Common_model::$global_config['system_config'];
         $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
-
         $this->opensips_db = $this->load->database($opensipdsn, true);
         if ($this->session->userdata('user_login') == FALSE)
             redirect(base_url() . '/astpp/login');
@@ -41,7 +41,7 @@ class Opensips extends MX_Controller {
   //echo 'dd';
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Add Opensips';
+        $data['page_title'] = 'Add  Opensips';
         $data['form'] = $this->form->build_form($this->opensips_form->get_opensips_form_fields(), '');
 	$this->load->view('view_opensips_add_edit', $data);
     }
@@ -72,18 +72,16 @@ class Opensips extends MX_Controller {
      function customer_opensips_add($accountid='') {
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Add Opensips';
+        $data['page_title'] = 'Create Opensips';
         $data['form'] = $this->form->build_form($this->opensips_form->get_opensips_form_fields_for_customer($accountid), '');
 
         $this->load->view('view_opensips_add_edit', $data);
     }
     function opensips_save() {
         $add_array = $this->input->post();
-  //echo '<pre>'; print_r($add_array); exit;
         $data['form'] = $this->form->build_form($this->opensips_form->get_opensips_form_fields($add_array['id']), $add_array);
-        //echo '<pre>'; print_r( $add_array['id']); exit;
-if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Opensisp';
+        if ($add_array['id'] != '') {
+            $data['page_title'] = 'Edit Opensips';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -96,14 +94,14 @@ if ($add_array['id'] != '') {
                         exit;
                 }else{
                        echo json_encode($auth_flag);
-                        exit;
+                       exit;
                 }
             }
         } else {
             $data['page_title'] = 'Add Opensips';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
-                          echo $data['validation_errors'];
+                echo $data['validation_errors'];
                 exit;
             } else {
                 $auth_flag = $this->validate_device_data($add_array);
@@ -172,41 +170,42 @@ function user_opensips_save($user_flg = false) {
     }
 
     function customer_opensips_save($user_flg = false) {
-        $array_add = $this->input->post();
+        $add_array = $this->input->post();
 //         print_r($array_add);exit;
-        $data['form'] = $this->form->build_form($this->opensips_form->get_opensips_form_fields_for_customer($array_add["accountcode"]), $array_add);
-        if ($array_add['id'] != '') {
+        $data['form'] = $this->form->build_form($this->opensips_form->get_opensips_form_fields_for_customer($add_array["accountcode"]), $add_array);
+        if ($add_array['id'] != '') {
             $data['page_title'] = 'Edit Opensips';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
                 exit;
             } else {
-                $this->opensips_model->edit_opensipsdevices($array_add, $array_add['id']);
+                $this->opensips_model->edit_opensipsdevices($add_array, $add_array['id']);
                 echo json_encode(array("SUCCESS"=> "OpenSips Updated Successfully!"));
                 exit;
             }
         }else{
+              $data['page_title'] = 'Add Opensips';
 	      if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
                 exit;
-            }else{
-		$this->opensips_model->add_opensipsdevices($array_add);
+             }else{
+		$this->opensips_model->add_opensipsdevices($add_array);
                 echo json_encode(array("SUCCESS"=> "OpenSips Added Successfully!"));
                 exit;
 	    }
         }
     }
 
-    function customer_opensips_json($accountid) {
+    function customer_opensips_json($accountid,$accounttype) {
 	
         $json_data = array();
-        $count_all = $this->opensips_model->getopensipsdevice_customer_list(false, $accountid);
+        $count_all = $this->opensips_model->getopensipsdevice_customer_list(false, $accountid,$accounttype);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
 
-        $query = $this->opensips_model->getopensipsdevice_customer_list(true, $accountid, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+        $query = $this->opensips_model->getopensipsdevice_customer_list(true, $accountid,$accounttype, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->opensips_form->opensips_customer_build_opensips_list($accountid));
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
 
@@ -215,7 +214,6 @@ function user_opensips_save($user_flg = false) {
 
 
     function opensips_add_customer($add_data) {
-  //  echo 'ada';
         $this->opensips_model->add_opensipsdevices($add_array);
     }
 
@@ -249,9 +247,6 @@ function user_opensips_save($user_flg = false) {
         $query = $this->opensips_model->getopensipsdevice_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->opensips_form->build_opensips_list());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
-        $db_config = Common_model::$global_config['system_config'];
-        $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
-        $this->opensips_db = $this->load->database($opensipdsn, true);
         $result = $this->opensips_db->get("subscriber");
         if($result->num_rows() <= 0){
             $json_data['page'] = 0;
@@ -315,7 +310,7 @@ function user_opensips_save($user_flg = false) {
                 exit;
             }
         } else {
-            $data['page_title'] = 'Add Taxes';
+            $data['page_title'] = 'Add Dispatcher';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                  echo $data['validation_errors'];exit;
@@ -357,9 +352,6 @@ function user_opensips_save($user_flg = false) {
         $query = $this->opensips_model->getopensipsdispatcher_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->opensips_form->build_opensipsdispatcher_list());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
-        $db_config = Common_model::$global_config['system_config'];
-        $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
-        $this->opensips_db = $this->load->database($opensipdsn, true);
         $result = $this->opensips_db->get("subscriber");
         if($result->num_rows() <= 0){
             $json_data['page'] = 0;
@@ -383,7 +375,7 @@ function user_opensips_save($user_flg = false) {
 
     function dispatcher_list_clearsearchfilter() {
         $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
+        $this->session->set_userdata('opensipsdispatcher_list_search', "");
     }
 
 }

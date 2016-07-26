@@ -446,22 +446,27 @@ changeSort:function(g){
         }
         a(x.nDiv).hide();
     a(x.nBtn).hide();
-    if(r.sortname==a(g).attr("abbr")){
+//alert(r.sortname+"========"+a(g).attr("id"));
+    if(r.sortname==a(g).attr("id")){
         if(r.sortorder=="asc"){
             r.sortorder="desc"
-            }else{
+   	}else{
             r.sortorder="asc"
-            }
-        }
-    a(g).addClass("sorted").siblings().removeClass("sorted");
-a(".sdesc",this.hDiv).removeClass("sdesc");
-a(".sasc",this.hDiv).removeClass("sasc");
-a("div",g).addClass("s"+r.sortorder);
-r.sortname=a(g).attr("abbr");
-if(r.onChangeSort){
-    r.onChangeSort(r.sortname,r.sortorder)
+	}
     }else{
-    this.populate()
+	$('#'+a(g).attr("id")).removeClass("abbr");
+    }
+$('#'+r.sortname).addClass("abbr");
+a(g).addClass("sorted").siblings().removeClass("sorted");
+//alert(r.sortorder);
+a("div",g).addClass("s"+r.sortorder);
+r.sortname=a(g).attr("id");
+
+//alert(r.sortname);
+    if(r.onChangeSort){ 
+    	r.onChangeSort(r.sortname,r.sortorder)
+    }else{
+    	this.populate()
     }
 },
 buildpager:function(){
@@ -612,7 +617,7 @@ addCellProp:function(){
         t=a("td",a(this).parent()).index(this);
         s=a("th:eq("+t+")",x.hDiv).get(0);
         if(s!=null){
-            if(r.sortname==a(s).attr("abbr")&&r.sortname){
+            if(r.sortname==a(s).attr("id")&&r.sortname){
                 this.className="sorted"
                 }
                 a(p).css({
@@ -712,8 +717,11 @@ if(r.colModel){
         l=r.colModel[v];
         h=document.createElement("th");
         h.innerHTML=l.display;
+//alert(l.sortname);
         if(l.name&&l.sortable){
-            a(h).attr("abbr",l.name)
+//            a(h).attr("id",l.name)
+            a(h).attr("id",l.sortname)
+	    a(h).addClass("abbr");
             }
             a(h).attr("axis","col"+v);
         if(l.align){
@@ -782,12 +790,14 @@ if(r.buttons){
             }
             w.onpress=k.onpress;
             w.name=k.name;
+	    w.clayout = k.clayout;
             if(k.onpress){
+
                 a(w).click(function(){
-                    
                 this.onpress({
                        name:this.name,
-                       btn_url:this.btn_url
+                       btn_url:this.btn_url,
+		       Clayout: this.clayout
                 },x.gDiv)
 //                    this.onpress(this.name,x.gDiv)
                     })
@@ -824,7 +834,7 @@ if(!r.colmodel){
     }
     a("thead tr:first th",x.hDiv).each(function(){
     q=document.createElement("div");
-    if(a(this).attr("abbr")){
+    if(a(this).attr("id")){
         a(this).click(function(i){
             if(!a(this).hasClass("thOver")){
                 return false
@@ -835,7 +845,7 @@ if(!r.colmodel){
                 }
                 x.changeSort(this)
             });
-        if(a(this).attr("abbr")==r.sortname){
+        if(a(this).attr("id")==r.sortname){
             this.className="sorted";
             q.className="s"+r.sortorder
             }
@@ -858,10 +868,10 @@ a(this).empty().append(q).removeAttr("width").mousedown(function(g){
     if(!x.colresize&&!a(this).hasClass("thMove")&&!x.colCopy){
         a(this).addClass("thOver")
         }
-        if(a(this).attr("abbr")!=r.sortname&&!x.colCopy&&!x.colresize&&a(this).attr("abbr")){
+        if(a(this).attr("id")!=r.sortname&&!x.colCopy&&!x.colresize&&a(this).attr("id")){
         a("div",this).addClass("s"+r.sortorder)
         }else{
-        if(a(this).attr("abbr")==r.sortname&&!x.colCopy&&!x.colresize&&a(this).attr("abbr")){
+        if(a(this).attr("id")==r.sortname&&!x.colCopy&&!x.colresize&&a(this).attr("id")){
             D="";
             if(r.sortorder=="asc"){
                 D="desc"
@@ -913,10 +923,10 @@ a(this).empty().append(q).removeAttr("width").mousedown(function(g){
 },function(){
     var g;
     a(this).removeClass("thOver");
-    if(a(this).attr("abbr")!=r.sortname){
+    if(a(this).attr("id")!=r.sortname){
         a("div",this).removeClass("s"+r.sortorder)
         }else{
-        if(a(this).attr("abbr")==r.sortname){
+        if(a(this).attr("id")==r.sortname){
             g="";
             if(r.sortorder=="asc"){
                 g="desc"
@@ -1013,7 +1023,7 @@ if(r.striped){
     x.pDiv.className="pDiv";
     x.pDiv.innerHTML='<div class="pDiv2"></div>';
     a(x.bDiv).after(x.pDiv);
-    a("div",x.pDiv).html(' <div class="pGroup"><div class="pGroup"> <div class="pReload pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pFirst pButton"><span></span></div><div class="pPrev pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pcontrol">Page <input type="text" readonly size="4" value="1" /> of <span> 1 </span></span></div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pNext pButton"><span></span></div><div class="pLast pButton"><span></span></div> </div>');
+    a("div",x.pDiv).html('<div class="pGroup"> <div class="pFirst pButton"><span></span></div><div class="pPrev pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pcontrol">Page <input type="text" size="4" value="1" /> of <span> 1 </span></span></div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pNext pButton"><span></span></div><div class="pLast pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pReload pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pPageStat"></span></div>');
     a(".pReload",x.pDiv).click(function(){
         x.populate()
         });

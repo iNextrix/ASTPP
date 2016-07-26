@@ -10,14 +10,13 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-    <?= $page_title ?><br/>
+    <?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        
 
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="searchbar">
     <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <?php //$this->load->view("view_account_list_search"); ?>
 </div>
 
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        

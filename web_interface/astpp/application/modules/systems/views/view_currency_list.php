@@ -7,7 +7,7 @@
       
         build_grid("currency_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+            $('.chkRefNos').attr('checked', this.checked); 
         });
         $("#currency_search_btn").click(function(){
             
@@ -22,7 +22,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        
@@ -47,21 +47,6 @@
         </div>
     </div>
 </section>
-<!--<section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-	          <div class="col-md-12">      
-          	  <div style="float:right;">
-			<a href="/currency_update/update_currency/" style="text-decoration:none;">
-				<input type="button" name="update_currency" id="update_currency" class="pure-button-primary" value="UPDATE CURRENCY" />
-			</a>
-		</div>	
-                </div>  
-            </div>
-        </div>
-    </div>
-</section>-->
 
 <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">
@@ -74,10 +59,7 @@
                 </div>  
             </div>
         </div>
-    </div> </div><!--<br/><div class="pull-right padding-r-20">
-      <a class="btn-tw btn" href="/systems/currency_export_xls/"><i class="fa fa-file-excel-o fa-lg"></i>Export CSV</a>
-      
-</div><br/><br/> -->
+    </div> </div>
 </section>
 
 <? endblock() ?>	

@@ -1,4 +1,4 @@
-
+<?php include(FCPATH.'application/views/popup_header.php'); ?>
 <script type="text/javascript">
     $("#submit").click(function(){
         submit_form("taxes_form");

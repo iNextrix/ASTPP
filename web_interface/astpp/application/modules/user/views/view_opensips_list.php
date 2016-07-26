@@ -1,12 +1,13 @@
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
 
-<!--<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>-->
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
         build_grid("opensipsdevice_grid","",<? echo $grid_fields; ?>,<? echo $fs_grid_buttons; ?>);
-        
+        $('.checkall').click(function () {
+            $('.chkRefNos').attr('checked', this.checked);
+        });
         $("#opensipsdevice_search_btn").click(function(){
             post_request_for_search("opensipsdevice_grid","","opensips_list_search");
         });        
@@ -20,7 +21,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        

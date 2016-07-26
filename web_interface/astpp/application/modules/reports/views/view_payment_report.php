@@ -26,7 +26,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        

@@ -1,4 +1,9 @@
-
+<?php include(FCPATH.'application/views/popup_header.php'); ?>
+<script type="text/javascript">
+    $("#submit").click(function(){
+        submit_form("backup_form");
+    });
+</script>
 <section class="slice gray no-margin">
  <div class="w-section inverse no-padding">
    <div>

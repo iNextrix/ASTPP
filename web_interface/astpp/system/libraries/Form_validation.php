@@ -500,6 +500,8 @@ class CI_Form_validation {
 	 */
 	protected function _execute($row, $rules, $postdata = NULL, $cycles = 0)
 	{
+	$custom_label=explode("<",$row['label']);
+	$row['label']=(isset($custom_label[1]) && !empty($custom_label[1])) ? $custom_label[0] : $row['label'];
 		// If the $_POST data is an array we will run a recursive call
 		if (is_array($postdata))
 		{
@@ -536,6 +538,7 @@ class CI_Form_validation {
 		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules) OR in_array('dropdown', $rules))
 			{
+			
 				// Set the message type
                             
 				$type = (in_array('required', $rules)) ? 'required' : ((in_array('dropdown',$rules)) ? 'dropdown':'isset' );
@@ -1000,7 +1003,6 @@ class CI_Form_validation {
                 if($table == 'accounts'){
 		  $where['deleted']=0;
                 }
-//                print_r($where);exit;
                 $query = $this->CI->db->limit(1)->get_where($table,$where );
 		return $query->num_rows() > 0 ? FALSE : TRUE;
          }
@@ -1448,6 +1450,42 @@ class CI_Form_validation {
         public function currency_decimal($str){
             return (bool) preg_match('#^\d{0,5}+(?:\.\d{1,5})?$#', $str);
 //            test(num)
+        }
+        /* ASTPP  3.0 
+         * For Old Password checking
+         */
+        public function password_check($str,$table){
+          $this->CI->db->select('password');
+          $this->CI->db->where('id',$_POST['id']);
+          $result=$this->CI->db->get($table);
+          if($result->num_rows() > 0 ){
+              $result=(array)$result->first_row();
+              $password=$this->CI->common->decode($result['password']);
+              if($password && $password == $str){
+                  return true;
+              }else{
+                  return false;
+              }
+          }else{
+              return false;
+          }
+        }
+        public function did_account_checking($str){
+          $post_array=$this->CI->input->post();
+          if($str > 0){
+	      $this->CI->db->where("id",$str);
+	      $this->CI->db->select('posttoexternal,balance,credit_limit');
+	      $acc_result=$this->CI->db->get('accounts');
+	      $customer_info=(array)$acc_result->first_row();
+	      $available_bal = ($customer_info["balance"]) + $customer_info["posttoexternal"] * ($customer_info["credit_limit"]);
+	      if($available_bal >= $post_array['setup']){
+	       return TRUE;
+	      }else{
+	       return FALSE;
+	      }
+          }else{
+           return TRUE;
+          }
         }
 
 }

@@ -9,8 +9,25 @@
 |	http://codeigniter.com/user_guide/general/hooks.html
 |
 */
+/*
+*
+* Purpose : Display logo based on domain name
+*
+*/
+$hook['pre_system']	= array(
+	'class'		=> 'Router',
+	'function'	=> 'route',
+	'filename'	=> 'router.php',
+	'filepath'	=> 'hooks'
+);
 
-
+$hook['pre_controller'] = array(
+	'class'		=> 'Router',
+	'function'	=> 'config',
+	'filename'	=> 'router.php',
+	'filepath'	=> 'hooks'						
+);
+/*********************************************************/
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

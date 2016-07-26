@@ -1,7 +1,7 @@
 ﻿/* Tab Content - menucool.com */
 ul.tabs
 {
-    padding: 7px 0px 7px 25px;
+    padding: 7px 0px 7px 0px;
     margin:0;
     font-size: 0;
     list-style-type: none;
@@ -63,11 +63,15 @@ ul.tabs li.selected a:hover
 div.tabcontents
 {
     margin-top: 5px;
-    padding: 0px 10px;
+    padding: 0px 0px;
 }
 div.tabcontents section
 {
     border:1px solid #e1e6ef;
     
-}        
+}    
+.tabcontents .col-md-12
+{
+	padding:0px;
+}    
 

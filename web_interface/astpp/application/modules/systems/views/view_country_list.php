@@ -7,7 +7,7 @@
       
         build_grid("country_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+            $('.chkRefNos').attr('checked', this.checked);
         });
         $("#country_search_btn").click(function(){
             post_request_for_search("country_grid","","country_search");
@@ -21,7 +21,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        
@@ -49,11 +49,7 @@
                 </div>  
             </div>
         </div>
-    </div><!--
-<br/><div class="pull-right padding-r-20">
-      <a class="btn-tw btn" href="/systems/country_export_xls/"><i class="fa fa-file-excel-o fa-lg"></i>Export CSV</a>
-      
-</div><br/><br/>  -->
+    </div>
 </section>
 
 

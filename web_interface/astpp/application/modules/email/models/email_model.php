@@ -1,70 +1,67 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class Email_model extends CI_Model {
 
     function Email_model() {
         parent::__construct();
     }
 
-
+/**
+For Email History show in Reseller login    
+**/
     function get_email_list($flag, $start = 0, $limit = 0) {
 	$account_data = $this->session->userdata("accountinfo");
+
 	$account_id = $account_data['id'];
 	$account_email = $account_data['email'];
 	$account_type = $account_data['type'];
+	
 	if($account_type == 0){
 		$this->db->where('accountid',$account_id);	
 	}
 	if($account_type == 1){
-	  $response=$this->db_model->level_reseller($account_id,'id','reseller_id','','');
-	  $this->db->where_in('reseller_id',$response);
+	  $this->db->where_in('reseller_id');
           $this->db->select('id');
- //         $this->db->select('notify_email');
           $email_address=$this->db->get('accounts');
+
           $email_address=$email_address->result_array();
 
 	  if(empty($email_address)){
 		$this->db->or_where('accountid',0);
-
 	  }else{
-//	  $notify_email = $email_address[0]['notify_email'];
-          foreach($email_address as $value){
-		$value = $value;
-		$this->db->or_where('accountid',$value['id']);
-	   }
-	}
-//	  $this->db->or_where('to',$notify_email);
+		$this->db->where('reseller_id',$account_id);
 	  }
-            $this->db_model->build_search('email_search_list');
+	  }
+          $this->db_model->build_search('email_search_list');
           if ($flag) {
-            
-            $query = $this->db_model->select("*", "mail_details", '', "id", "DESC", $limit, $start);
-        } else {
+	       $query = $this->db_model->select("*", "mail_details", '', "id", "DESC", $limit, $start);
+          } else {
             $query = $this->db_model->countQuery("*", "mail_details",'');
-        }
-//echo $this->db->last_query(); exit;
+          }
         return $query;
     }
-
     function add_email($add_array) {
         $this->db->insert("mail_details", $add_array);
         return true;
@@ -85,7 +82,7 @@ class Email_model extends CI_Model {
 
 	  $this->db->where('accountid',$accountid);
        	    if ($flag) {
-            $query = $this->db_model->select("*", "mail_details", '', "id", "ASC", $limit, $start);
+            $query = $this->db_model->select("*", "mail_details", '', "id", "desc", $limit, $start);
         } else {
             $query = $this->db_model->countQuery("*", "mail_details", '');
         }
@@ -127,7 +124,8 @@ class Email_model extends CI_Model {
 				$account_info=$res_data[0];
 				$account_info['accountid']=$account_info['id'];
 			}
-			$this->email_lib->send_email($template_type,$account_info,'',$data['file'],0,1);
+		    $account_info['password'] = $this->common->decode($account_info['password']);	
+		    $this->email_lib->send_email($template_type,$account_info,'',$data['file'],0,1);
 		}
 	}
         return true;

@@ -18,7 +18,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        
@@ -47,10 +47,6 @@
             </div>
         </div>
     </div>
-<!--
-<br/><div style="float:right;margin-top:-10px;"><strong>
-        <a  class="btn btn-three" href="<?=base_url()?>rates/resellersrates_xls">Export CSV <img src="<?=base_url()?>assets/images/file_tree/xls.png" alt=''/></a><br/>
-        -->
 </section>
 
 

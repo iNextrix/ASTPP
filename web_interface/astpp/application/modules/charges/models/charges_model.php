@@ -1,24 +1,27 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class Charges_model extends CI_Model {
 
     function Charges_model() {
@@ -43,6 +46,12 @@ class Charges_model extends CI_Model {
     }
 
     function add_charge($add_array) {
+        /*
+	 ASTPP  3.0 
+         Charges Add time last creation date update
+        */
+        $add_array['creation_date'] = gmdate('Y-m-d H:i:s');
+        /**********************************************************************************************/
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $add_array['reseller_id'] = $account_data['id'];
@@ -52,11 +61,23 @@ class Charges_model extends CI_Model {
 
         unset($add_array['action']);
         $this->db->insert("charges", $add_array);
+        $data = $this->db_model->getSelect("*", "accounts", array("pricelist_id" => $add_array['pricelist_id']));
+        if($data->num_rows > 0){
+           foreach ($data->result_array() as $key => $value){
+                $this->common->mail_to_users('add_subscription', $value);  
+           }
+        }
         return $this->db->insert_id();
     }
 
     function edit_charge($data, $id) {
         unset($data['action']);
+        /*
+       ASTPP  3.0 
+        Charges edit time last modified date update
+        */
+        $data['last_modified_date'] = gmdate('Y-m-d H:i:s');
+        /**********************************************************************************************/
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $data['reseller_id'] = $account_data['id'];
@@ -64,15 +85,24 @@ class Charges_model extends CI_Model {
             $data['reseller_id'] = "0";
         }
         $this->db->where("id", $id);
-        return $this->db->update("charges", $data);
+        $this->db->update("charges", $data);
+        
+        if($data['pricelist_id'] == 0){
+			$this->db->where("charge_id", $id);
+			$this->db->delete("charge_to_account");
+		}
     }
 
     function remove_charge($id) {
-        $this->db->where("id", $id);
-        $this->db->delete("charges");
-        
-        $this->db->where("charge_id", $id);
-        $this->db->delete("charge_to_account");
+        $data = $this->db_model->getSelect("*", "charges", array("id" => $id));
+        $data = $data->result_array();
+        $data = $data[0];
+        $data = $this->db_model->getSelect("*", "accounts", array("pricelist_id" => $data['pricelist_id']));
+        if($data->num_rows > 0){
+           foreach ($data->result_array() as $key => $value){
+                $this->common->mail_to_users('remove_subscription', $value);  
+           }
+        }
         return true;
     }
     
@@ -85,8 +115,7 @@ class Charges_model extends CI_Model {
         if($account->num_rows > 0){
            foreach ($account->result_array() as $key => $value){
                 $charge_arr = array("charge_id"=>$chargeid,"accountid"=>$value['id'],"assign_date"=>gmdate("Y-m-d H:i:s"));
-                $this->db->insert("charge_to_account", $charge_arr);
-//echo $this->db->last_query(); exit;                
+                $this->db->insert("charge_to_account", $charge_arr);               
            }
         }
     }

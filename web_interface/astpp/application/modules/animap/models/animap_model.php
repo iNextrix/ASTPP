@@ -1,24 +1,27 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class ANIMAP_model extends CI_Model {
 
     function ANIMAP_model() {
@@ -45,8 +48,6 @@ class ANIMAP_model extends CI_Model {
 
             foreach ($result as $value1) {
                 $value[] = $value1['id'];
-
-              //s  $res = implode(',', $value);
             }
             $this->db->where_in('accountid', $value);
         }
@@ -56,33 +57,33 @@ class ANIMAP_model extends CI_Model {
         } else {
             $query = $this->db_model->countQuery("*", "ani_map", "");
         }
-      //  echo $this->db->last_query(); exit;
         return $query;
-        
     }
 
     function add_animap($add_array) {
-        
-        $data=array('number'=>$add_array['number'],'accountid'=>$add_array['accountid'],'context'=>'default');
+        /*
+        ASTPP  3.0 
+        Add creation date
+        */
+        $data=array('creation_date'=>gmdate('Y-m-d H:i:s'),'number'=>$add_array['number'],'accountid'=>$add_array['accountid'],'status'=>$add_array['status'],'context'=>'default');
         $this->db->insert("ani_map", $data);
-      
-       // echo $this->db->last_query();exit;
-          return $this->db->insert_id();
+        return $this->db->insert_id();
     }
 
     function edit_animap($add_array, $id) {
-      
-         $data=array('number'=>$add_array['number'],'accountid'=>$add_array['accountid'],'context'=>'default');
+         /*
+         ASTPP  3.0 
+         last modify date update
+         */
+         $data=array('last_modified_date'=>gmdate('Y-m-d H:i:s'),'number'=>$add_array['number'],'accountid'=>$add_array['accountid'],'status'=>$add_array['status'],'context'=>'default');
+         /*********************************************************/
         $this->db->where("id", $id);
         return  $this->db->update("ani_map", $data);
-       // echo $this->db->last_query();exit;
     }
 
     function remove_animap($id) {
         $this->db->where("id", $id);
         $this->db->delete("ani_map");
-        
-       
         return true;
     }
     

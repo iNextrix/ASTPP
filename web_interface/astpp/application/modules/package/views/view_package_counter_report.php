@@ -2,14 +2,14 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-       // build_grid("package_counter_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons;?>);
-	build_grid("package_counter_grid","",<? echo $grid_fields; ?>);
+       build_grid("package_counter_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons;?>);
+	//build_grid("package_counter_grid","",<? echo $grid_fields; ?>);
     });
 </script>
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>       
@@ -24,10 +24,7 @@
                 </div>  
             </div>
         </div>
-    </div> </div><!--<br/><div class="pull-right padding-r-20">
-      <a class="btn-tw btn " href="/package/package_counter_report/"><i class="fa fa-file-excel-o fa-lg"></i>Export CSV</a>
-      
-</div><br/><br/> -->
+    </div> </div>
 </section>
 
 <? endblock() ?>	

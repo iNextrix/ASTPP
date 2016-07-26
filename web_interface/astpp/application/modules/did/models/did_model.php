@@ -1,24 +1,27 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class DID_model extends CI_Model {
 
     function DID_model() {
@@ -26,61 +29,145 @@ class DID_model extends CI_Model {
     }
 
     function add_did($add_array) {
-        unset($add_array["action"]);
- 	$add_array['assign_date']=gmdate('Y-m-d H:i:s');
-        $this->db->insert("dids", $add_array);
-
-
-        return true;
+	if($add_array['accountid'] > 0 ){
+	  $add_array['assign_date']=gmdate('Y-m-d H:i:s');
+	}
+	unset($add_array["action"]);
+	$this->db->insert("dids", $add_array);
+        if($add_array['accountid'] > 0 ){
+	  $accountinfo=(array)$this->db->get_where('accounts',array("id"=>$add_array['accountid']))->first_row();
+	  $currency_name=$this->common->get_field_name('currency',"currency",array('id'=>$accountinfo['currency_id']));
+	  $available_bal = $this->db_model->update_balance( $add_array["setup"], $add_array['accountid'], "debit");
+	  $this->common->add_invoice_details($accountinfo, "DIDCHRG",  $add_array["setup"], $add_array['number']);
+	  $accountinfo['did_number'] = $add_array['number'];
+	  $country_id = $this->common->get_field_name('country', 'countrycode', $add_array['country_id']);
+	  $accountinfo['did_country_id'] = $country_id;
+	  $accountinfo['did_setup'] = $this->common_model->calculate_currency($add_array['setup'],'',$currency_name,true,true);
+	  $accountinfo['did_monthlycost'] =$this->common_model->calculate_currency($add_array['monthlycost'],'',$currency_name,true,true);
+	  $accountinfo['did_maxchannels'] = $add_array['maxchannels'];
+	  $this->common->mail_to_users('email_add_did', $accountinfo);
+       }
+       return true;
     }
-
-
     function insert_pricelist() {
         $insert_array = array('name' => 'default', 'markup' => '', 'inc' => '');
         return $this->db->insert_id();
     }
 
     function edit_did($data, $id,$number) {
-   // echo '<pre>'; print_r($data); exit;
         unset($data["action"]);
-        $this->db->where("number", $number);
-        $this->db->where("id", $id);
-       return $this->db->update("dids", $data);
-       //echo $this->db->last_query(); exit;
+        $this->db->where('number',$number);
+        $this->db->select('parent_id,accountid');
+        $did_result=$this->db->get('dids');
+        $did_result=(array)$did_result->first_row();
+        if($did_result['accountid'] > 0 || $did_result['parent_id'] > 0){
+         $data['accountid']=$did_result['accountid'];
+         $data['parent_id']=$did_result['parent_id'];
+        }
+	/**
+	  ASTPP  3.0 
+	  In did edit last modified date and assign date update
+	**/
+        $data['last_modified_date']=gmdate("Y-m-d H:i:s");
+        if($did_result['accountid'] ==0 && $data['accountid'] > 0 ){
+	    $data['assign_date']=gmdate("Y-m-d H:i:s");
+	} 
+	$this->db->where("number", $number);
+	$this->db->where("id", $id);
+	$this->db->update("dids", $data);
+        /**************************************/
+        if($did_result['parent_id'] > 0 ){
+            $update_array['call_type']=$data['call_type'];
+            $update_array['extensions']=$data['extensions'];
+            $this->db->where("note", $number);
+            $this->db->update("reseller_pricing", $update_array);
+        }
+        if($did_result['accountid'] ==0 && $data['accountid'] > 0 ){
+	    $accountinfo=(array)$this->db->get_where('accounts',array("id"=>$data['accountid']))->first_row();
+	    $currency_name=$this->common->get_field_name('currency',"currency",array('id'=>$accountinfo['currency_id']));
+	    $available_bal = $this->db_model->update_balance( $data["setup"], $data['accountid'], "debit");
+	    $this->common->add_invoice_details($accountinfo, "DIDCHRG", $data["setup"], $number);
+	    $accountinfo['did_number'] = $number;
+	    $country_id = $this->common->get_field_name('country', 'countrycode', $data['country_id']);
+	    $accountinfo['did_country_id'] = $country_id;
+	    $accountinfo['did_setup'] = $this->common_model->calculate_currency($data['setup'],'',$currency_name,true,true);
+	    $accountinfo['did_monthlycost'] = $this->common_model->calculate_currency($data['monthlycost'],'',$currency_name,true,true);
+	    $accountinfo['did_maxchannels'] = $data['maxchannels'];
+	    $this->common->mail_to_users('email_add_did', $accountinfo);
+        }        
     }
 
     function getdid_list($flag, $start = 0, $limit = 0) {
-	    $this->db_model->build_search('did_list_search');
-	    if($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5)
+            $accountinfo=$this->session->userdata('accountinfo');
+            $parent_id= $accountinfo['type']==1 ? $accountinfo['reseller_id'] : 0 ;
+	    
+	    if($accountinfo['type']==1)
 	    {
-	      if($this->session->userdata["accountinfo"]['reseller_id'] != 0)
-	      {
-		$parent_id = $this->session->userdata["accountinfo"]['reseller_id'];
-	      }else{
-		$parent_id = 0;
-	      }
-	      $where = array('reseller_id' => $this->session->userdata["accountinfo"]['id'],"parent_id"=>$parent_id);
-	      if ($flag) {
-		  $query = $this->db_model->select("*,note as number,reseller_id as accountid", "reseller_pricing", $where, "note", "desc", $limit, $start);
-	      } else {
+	      $where = array('reseller_id' => $accountinfo['id'],"parent_id"=>$parent_id);
+		if ($flag) {
+		  if($accountinfo['reseller_id'] > 0 ){
+		     $search_string=$this->db_model->build_search_string('did_list_search');
+		     $search_string= !empty($search_string) ? " AND ".$search_string : null;
+		      if (isset($_GET['sortname']) && $_GET['sortname'] != 'undefined'){
+			$this->db->order_by($_GET['sortname'], ($_GET['sortorder']=='undefined')?'desc':$_GET['sortorder']);
+		      }
+		      $this->db->limit($limit, $start);
+		      $query=$this->db->query("SELECT a.note AS number,a.*,IF((SELECT COUNT( id ) AS count FROM reseller_pricing AS b WHERE b.parent_id =".$accountinfo['id']." AND a.note = b.note ) >0,(SELECT reseller_id AS accountid FROM reseller_pricing AS c WHERE c.note = a.note AND c.parent_id =".$accountinfo['id']."), (SELECT accountid from dids as d where d.parent_id = ".$accountinfo['id']." AND d.number=a.note)) AS accountid FROM reseller_pricing AS a where a.reseller_id=".$accountinfo['id']." AND a.parent_id =".$accountinfo['reseller_id'].$search_string);
+		  }
+		  else{
+		    $this->db_model->build_search('did_list_search');
+		    $query = $this->db_model->select("*,note as number,IF((SELECT COUNT( id ) AS count FROM reseller_pricing AS b WHERE b.parent_id =".$accountinfo['id']." AND reseller_pricing.note = b.note ) >0,(SELECT reseller_id AS accountid FROM reseller_pricing AS c WHERE c.note = reseller_pricing.note AND c.parent_id =".$accountinfo['id']."), (SELECT accountid from dids as d where d.parent_id = ".$accountinfo['id']." AND d.number=reseller_pricing.note)) AS accountid", "reseller_pricing", $where, "note", "desc", $limit, $start);
+		  }
+		} else {
+		  $this->db_model->build_search('did_list_search');
 		  $query = $this->db_model->countQuery("*", "reseller_pricing", $where);
-	      }
-	      return $query;
+		}
+
 	    }
 	    else
-	    {		
+	    {	
+	      $this->db_model->build_search('did_list_search');
 	      if ($flag) {
-		$this->db->select('dids.id,dids.connectcost,dids.includedseconds,dids.number,dids.extensions,dids.call_type,dids.country_id,dids.inc,dids.cost,dids.setup,dids.monthlycost,dids.status,(CASE when parent_id > 0 THEN (SELECT reseller_id as accountid from reseller_pricing where dids.number=reseller_pricing.note AND reseller_pricing.parent_id=0) ELSE dids.accountid END ) as accountid');
+	      /*
+	      ASTPP  3.0  last_modified_date,assign_date put in query.
+	      */
+		$this->db->select('dids.id,dids.connectcost,dids.includedseconds,dids.last_modified_date,dids.assign_date,dids.number,dids.extensions,dids.call_type,dids.country_id,dids.init_inc,dids.inc,dids.cost,dids.setup,dids.monthlycost,dids.status,(CASE when parent_id > 0 THEN (SELECT reseller_id as accountid from reseller_pricing where dids.number=reseller_pricing.note AND reseller_pricing.parent_id=0) ELSE dids.accountid END ) as accountid');
+                if (isset($_GET['sortname']) && $_GET['sortname'] != 'undefined'){
+                    $this->db->order_by($_GET['sortname'], ($_GET['sortorder']=='undefined')?'desc':$_GET['sortorder']);
+                }
+		/*********************************************************88*/
+		$this->db->limit($limit, $start);
 		$query=$this->db->get('dids');
 	      } else {
 		$query = $this->db_model->countQuery("*", "dids");
 	      }
-		return $query;
 	    }
+	    return $query;
   }
-    function remove_did($id) {
-        $this->db->where("id", $id);
+  function remove_did($id) {
+ /**
+ASTPP  3.0 
+For Email broadcast
+**/
+	$where = array('id' => $id);
+	$this->db->where($where);
+	$this->db->select('accountid,number,parent_id');
+	$did_info=(array)$this->db->get('dids')->first_row();
+	$this->db->where("id", $id);
         $this->db->delete("dids");
+        $this->db->where("note", $did_info['number']);
+        $this->db->delete("reseller_pricing");
+        if($did_info['accountid'] == 0 && $did_info['parent_id'] > 0){
+	  $accountinfo=$this->session->userdata('accountinfo');
+	  $did_info['accountid']=$accouninfo['id'];
+	  $accountinfo=(array)$this->db->get_where('accounts',array("id"=>$did_info['parent_id']))->first_row();
+	  $accountinfo['did_number'] = $accountinfo['number'];
+	  $this->common->mail_to_users('email_remove_did', $accountinfo);
+	}elseif($did_info['accountid'] > 0 ){
+	  $accountinfo=(array)$this->db->get_where('accounts',array("id"=>$did_info['accountid']))->first_row();
+	  $accountinfo['did_number'] = $accountinfo['number'];
+	  $this->common->mail_to_users('email_remove_did', $accountinfo);
+	}
         return true;
     }
 
@@ -153,32 +240,21 @@ class DID_model extends CI_Model {
                 . "WHERE dids.id = " . $did
                 . " AND reseller_pricing.type = '1' AND reseller_pricing.reseller_id = "
                 . $reseller_id;
-//                . " AND reseller_pricing.note = "
-//                . $did
-
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             return $query->row_array();
         }
-        //return $this->db_get_arrays($sql);
     }
 
     function get_did_by_number($number) {
         $this->db->where("id", $number);
         $this->db->or_where("number", $number);
         $query = $this->db->get("dids");
-// 	echo $this->db->last_query();exit;
         if ($query->num_rows() > 0)
             return $query->row_array();
         else
             return false;
     }
-    
-//   function edit_reseller_pricing($post)
-//   {
-//     
-//   }
-
    function edit_did_reseller($did_id,$post) {
         $accountinfo = $this->session->userdata('accountinfo');
 
@@ -186,24 +262,11 @@ class DID_model extends CI_Model {
 	$this->db->where($where_array);
 	$flag='0';
         $query = $this->db->get('reseller_pricing');
-//         echo $query->num_rows();
-//         exit;
         if($query->num_rows() > 0){
-// 	  $this->delete_pricing_reseller($accountinfo['id'], $post['number']);
 	  $flag='1';
         }
         
         $this->insert_reseller_pricing($accountinfo, $post);
-//         $this->update_dids_reseller($post);
-
-// 	$query_pricelist = $this->db_model->getSelect("*", "pricelists", array('name' => $accountinfo['number']));
-//         if ($query_pricelist->num_rows > 0) {
-//             $result_pricelist = $query_pricelist->result_array();
-//             $pricelist_id = $result_pricelist[0]['id'];
-//         }
-
-// 	$this->delete_routes($accountinfo['number'], $post['number'], $pricelist_id);
-//         $this->insert_routes($post, $pricelist_id,$accountinfo['id']);
         return $flag;
     }
 
@@ -256,20 +319,6 @@ function insert_reseller_pricing($accountinfo, $post) {
         return true;
     }
 
-   function remove_did_pricing($array_did, $reseller_id) {
-        $reseller_ids=$this->common->subreseller_list($reseller_id);
-        $where="note = ".$array_did['number']." AND reseller_id IN ($reseller_ids) OR  note= ".$array_did['number']." AND parent_id IN ($reseller_ids)";
-        $this->db->where($where);
-        $this->db->delete('reseller_pricing');
-        $accountinfo=$this->session->userdata('accountinfo');
-        $reseller_id =$accountinfo['type'] != 1 ? 0 : $accountinfo['reseller_id'];
-	$update_array = array('accountid'=>"0",'parent_id'=>$reseller_id);
-        $where_dids = array("number" => $array_did['number']);
-        $where_dids='number = '.$array_did['number']." AND parent_id IN ($reseller_ids)";
-        $this->db->where($where_dids);
-        $this->db->update('dids', $update_array);
-        return true;
-    }
     function add_invoice_data($accountid,$charge_type,$description,$credit)
     {
 	$insert_array = array('accountid' => $accountid, 

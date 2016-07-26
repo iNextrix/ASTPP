@@ -1,11 +1,51 @@
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
 
-<link rel="stylesheet" type="text/css" href="images/style.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/markup/markitup/skins/markitup/style1.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/markup/markitup/sets/default/style.css">
-	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-1.6.1.min.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/markup/markitup/jquery.markitup.js"></script>
+<!--
+ASTPP  3.0 
+For Email Template Changes
+-->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/tinymce/tinymce.min.js">
+
+</script>
+<script type="text/javascript">
+
+tinymce.init({
+  mode : "specific_textareas",
+  editor_selector: 'Emailtemplate',
+  height: 300,
+  width: 700,
+  theme: 'modern',
+  plugins: [
+    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+    'searchreplace wordcount visualblocks visualchars code fullscreen',
+    'insertdatetime media nonbreaking save table contextmenu directionality',
+    'emoticons template paste textcolor colorpicker textpattern imagetools'
+  ],
+  toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+  toolbar2: 'print preview media | forecolor backcolor emoticons',
+  image_advtab: true,
+  templates: [
+    { title: 'Test template 1', content: 'Test 1' },
+    { title: 'Test template 2', content: 'Test 2' }
+  ],
+  content_css: [
+    '<?php echo base_url(); ?>assets/css/tinymce_fast_font.css',
+    '<?php echo base_url(); ?>assets/css/tinymce_codepen_min.css'
+  ],
+  
+   setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+    }
+  
+ });
+</script>
+
+<!--***************************************************************-->
+
+
 	<script type="text/javascript" src="<?php echo base_url();?>assets/markup/markitup/sets/default/set.js"></script>
 <script type="text/javascript">
 $(function() {
@@ -188,7 +228,7 @@ table {
 </style>
 <? endblock() ?>
 <? startblock('page-title') ?>
-    Compose Email <? $page_title ?><br/>
+    Compose Email <? $page_title ?>
 <? endblock() ?>
 <? startblock('content') ?>
 
@@ -223,7 +263,7 @@ table {
   <li class="col-md-12"><label class="col-md-2 no-padding">To </label>
 <div class="col-md-5 no-padding" height='10'>
 <span>
-<textarea name = 'to'  size = '' class = "form-control" cols="40" rows="3"  style="width: 687px; height: 104px;"><?php echo $to  ?></textarea>  
+<textarea name = 'to'  size = '' class = "form-control" cols="40" rows="3"  style="width: 523px; height: 90px;"><?php echo $to  ?></textarea>  
  <div class="col-md-12 no-padding error_div">&nbsp;
  <div class="col-md-3">&nbsp;</div>
  
@@ -244,13 +284,13 @@ table {
  <font color='red'> <DIV id="une"> </DIV> </font>
  </div>
   <div style="margin-left:225px;">
- <font color='red'> <DIV id="body"> </DIV> </font>
+ <font color='red'> <DIV id="body" class="Emailtemplate"> </DIV> </font>
  </div>
  <div>
   <li class="col-md-1 " >
  <label class="col-md-2 no-padding">Message </label>
-<div style="margin-right :350px;">
-<textarea input name = 'template' id = 'template' size = 0 class = ""  ><?=  $template  ?></textarea>
+<div style="margin-left :209px;">
+<textarea input name = 'template' id = 'template' size = 0 class = "Emailtemplate"  ><?=  $template  ?></textarea>
  <div class="col-md-12 no-padding error_div">&nbsp;
  <div class="col-md-3">&nbsp;</div>
  </div>

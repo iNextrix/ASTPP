@@ -7,24 +7,24 @@
 <!-- <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script> -->
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
+	$('a[rel*=facebox]').facebox();
         build_grid("prefixes_grid","<?php echo base_url(); ?>accounts/customer_add_blockpatterns_json/<?= $accountid; ?>",<? echo $patters_grid_fields ?>,"");
 
-        $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+        $('.checking').click(function () {
+            $('.PatternChkBox').attr('checked', this.checked);//if you want to select/deselect checkboxes use this
+            $("#add_patterns_btn").removeAttr('disabled');     
         });
-        
-        $("#add_patterns_btn").click(function(){
-            var result = "";                        
-            $(".chkRefNos").each( function () {
+    });
+    
+    function add_package_pattern(){ 
+     var result = "";                        
+            $(".PatternChkBox").each( function () {
                 if(this.checked == true) {     
                     result += ","+$(this).val();
                 } 
             });     
             result = result.substr(1);
             if(result){
-//                 confirm_string = 'Are you sure want to Add this Prefixis?';
-//                 var answer = confirm(confirm_string);
-//                 if(answer){
                     $.ajax({
                         type: "POST",
                         cache    : false,
@@ -32,8 +32,7 @@
                         url: "<?= base_url(); ?>/accounts/customer_block_prefix/<?= $accountid ?>/",
                         data: "prefixies="+result,
                         success: function(data){ 
-                        //alert(data);
-                            if(data == 1)
+                            if(data)
                             {
                                 $('.checkall').attr('checked', false);
                                 $('#prefixes_grid').flexReload();
@@ -44,27 +43,24 @@
                             }
                         }
                     });
-//                 }
             } else{
                 alert("Please select atleast one pattern.");
             }
-        });        
-        
-    });
+		}
 </script>
 
 
 
 <section class="slice gray no-margin">
-
+<div class="w-section inverse no-padding">
    <div>
      <div>
         <div class="col-md-12 no-padding margin-t-15 margin-b-10">
-	        <div class="col-md-10"><b><? echo "Prefixes List"; ?></b></div>
+	        <div class="col-md-10"><b><? echo "Codes List"; ?></b></div>
 	  </div>
      </div>
     </div>
-
+</div>
 </section>
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="padding-top: 15px;">  
   <!--  <div class="portlet-header ui-widget-header">Rates List<span class="ui-icon ui-icon-circle-arrow-s"></span></div> -->
@@ -73,7 +69,7 @@
 <div style="width:690px;">
     <form action="" id="addlist_form" name="addlist_form" method="POST" enctype="multipart/form-data" style="display:block">
         <input type="hidden" id="add_patterns" name="add_patterns" readonly />
-        <input type="button" id="add_patterns_btn"  class="btn btn-line-warning btn fa fa-plus-circle fa-lg" name="add_patterns_btn" value="Add To List">
+        <button id="add_patterns_btn"  class="btn btn-line-warning btn" name="add_patterns_btn" onclick="add_package_pattern();"><i class="fa fa-plus-circle fa-lg"></i>Add To List</button>
     </form>
 </div>
 

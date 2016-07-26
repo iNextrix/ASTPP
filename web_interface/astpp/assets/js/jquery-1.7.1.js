@@ -8412,7 +8412,9 @@ jQuery.fn.extend({
 			}
 
 			if ( opt.overflow != null ) {
+			    /*if(this.id != 'left_panel_form'){	
 				this.style.overflow = "hidden";
+			    }*/
 			}
 
 			for ( p in prop ) {

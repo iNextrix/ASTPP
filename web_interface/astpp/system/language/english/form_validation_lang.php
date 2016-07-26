@@ -30,6 +30,8 @@ $lang['valid_decimal']= "The %s field may only contain numeric and decimal.";
 $lang['alpha_numeric_space']= "The %s field may only contain only characters,numbers and space.";
 $lang['alpha_space']= "The %s field may only contain only characters and space.";
 $lang['currency_decimal']='The %s Field may contain only numeric and decimals EX(99999.99999)';
+$lang['password_check']= "The %s field is not match with your old password.";
+$lang['did_account_checking']="This %s have not sufficient amount to purchase this DID";
 
 
 /* End of file form_validation_lang.php */

@@ -1,24 +1,27 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class Freeswitch extends MX_Controller {
 
     function Freeswitch() {
@@ -37,12 +40,10 @@ class Freeswitch extends MX_Controller {
     }
 
     function fssipdevices_add($type = "") {
-   // print_r($type); exit;
         $data['username'] = $this->session->userdata('user_name');
          $account_data = $this->session->userdata("accountinfo");
-       //echo '<pre>';  print_r( $account_data); exit;
         $data['flag'] = 'create';
-        $data['page_title'] = 'Add sip device';
+        $data['page_title'] = 'Create SIP Device';
        if($account_data['type'] == '-1'  || $account_data['type'] == '1')
        {
             $data['form'] = $this->form->build_form($this->freeswitch_form->fsdevice_form_fields_for_customer($type), '');
@@ -50,35 +51,30 @@ class Freeswitch extends MX_Controller {
         } else {
             $data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields(), '');
             $this->load->view('view_freeswitch_customer_add_edit', $data);
-        }
-//         print_r($data);exit;
-        
+        }        
     }
     function customer_fssipdevices_add($accountid) {
      $data['username'] = $this->session->userdata('user_name');
      $account_data = $this->session->userdata("accountinfo");
-   // echo '<pre>';print_r($account_data); exit;
-        $data['page_title'] = 'Add Sip Device';
+        $data['page_title'] = 'Create SIP Device';
+        $data['form'] = $this->form->build_form($this->freeswitch_form->fsdevice_form_fields_for_customer($accountid),"");
         if($account_data['type'] == '-1'  || $account_data['type'] == '1')
         {
-        $data['form'] = $this->form->build_form($this->freeswitch_form->fsdevice_form_fields_for_customer($accountid),"");
-        $this->load->view('view_freeswitch_add_edit', $data);
+            $this->load->view('view_freeswitch_add_edit', $data);
         }else{
-        
-         $data['form'] = $this->form->build_form($this->freeswitch_form->fsdevice_form_fields_for_customer($accountid),"");
-        $this->load->view('view_freeswitch_customer_add_edit', $data);
+            $this->load->view('view_freeswitch_customer_add_edit', $data);
         }
     }
 
     function fssipdevices_edit($edit_id = '') {
-        $data['page_title'] = 'Edit sip device';
+        $data['page_title'] = 'Edit SIP Device';
         $account_data = $this->session->userdata("accountinfo");
         $where = array('id' => $edit_id);
         $account = $this->freeswitch_model->get_edited_data($edit_id);
         if($account_data['type'] == '-1')
         {
-        $data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields($edit_id), $account);
-        $this->load->view('view_freeswitch_add_edit', $data);
+			$data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields($edit_id), $account);
+			$this->load->view('view_freeswitch_add_edit', $data);
         }else{
          $data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields($edit_id), $account);
         $this->load->view('view_freeswitch_customer_add_edit', $data);
@@ -88,8 +84,7 @@ class Freeswitch extends MX_Controller {
     function customer_fssipdevices_edit($edit_id, $accountid) {
      $data['username'] = $this->session->userdata('user_name');
       $account_data = $this->session->userdata("accountinfo");
-    // echo '<pre>'; print_r($data); exit;
-        $data['page_title'] = 'Edit sip device';
+        $data['page_title'] = 'Edit SIP device';
         $where = array('id' => $edit_id);
         $account = $this->freeswitch_model->get_edited_data($edit_id);
           if($account_data['type'] == '-1' || $account_data['type'] == '1')
@@ -144,9 +139,7 @@ class Freeswitch extends MX_Controller {
         $this->session->set_userdata('account_search', "");
     }
     function fssipdevices_save($user_flg = false) {
-//         echo 'dsvd';exit;
         $add_array = $this->input->post();
-//echo '<pre>';         print_r($add_array);exit;
         if (!$user_flg) {
             $data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields($add_array['id']), $add_array);
         } else {
@@ -177,14 +170,12 @@ class Freeswitch extends MX_Controller {
         }
     }
     function customer_fssipdevices_save($user_flg = false) {
-        $add_array = $this->input->post();
-       
+        $add_array = $this->input->post();      
         if (!$user_flg) {
             $data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields(), $add_array);
         } else {
             $data['form'] = $this->form->build_form($this->freeswitch_form->fsdevice_form_fields_for_customer($add_array["accountcode"],$add_array['id']), $add_array);
         }
-//         echo "<pre>";print_r($add_array);exit;
         if ($add_array['id'] != '') {
             $data['page_title'] = 'Edit Freeswitch SIP Devices';
             if ($this->form_validation->run() == FALSE) {
@@ -209,13 +200,8 @@ class Freeswitch extends MX_Controller {
             }
         }
     }
-    
-
     function user_fssipdevices_save($user_flg = false) {
-        
         $add_array = $this->input->post();
-      //  print_r($add_array);
-        //exit;
         $data['form'] = $this->form->build_form($this->freeswitch_form->fsdevice_form_fields_for_customer($add_array["accountcode"],$add_array['id']), $add_array);
         if ($add_array['id'] != '') {
             $data['page_title'] = 'Edit Freeswitch SIP Devices';
@@ -235,8 +221,7 @@ class Freeswitch extends MX_Controller {
                 echo $data['validation_errors'];
                 exit;
             } else {
- 			$sip_profile_id=$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
-	//	$add_array['sip_profile_id']=$sip_profile_id;
+		$sip_profile_id=$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
                 $this->freeswitch_model->add_freeswith($add_array);
                 echo json_encode(array("SUCCESS"=> "SIP Device Added Successfully!"));
                 exit;
@@ -249,9 +234,6 @@ class Freeswitch extends MX_Controller {
         if ($this->input->post('advance_search', TRUE) == 1) {
             $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
             $action = $this->input->post();
-            
-//             print_r($action);
-//             exit;
             unset($action['action']);
             unset($action['advance_search']);
             $this->session->set_userdata('fssipdevices_list_search', $action);
@@ -263,7 +245,6 @@ class Freeswitch extends MX_Controller {
 
 
     function fssipdevices() {
-        $data['username'] = $this->session->userdata('user_name');
         $data['page_title'] = 'SIP Devices';
         $data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
@@ -273,35 +254,42 @@ class Freeswitch extends MX_Controller {
         $this->load->view('view_freeswitch_sip_devices_list', $data);
     }
 
+/******
+ASTPP 3.0
+Admin side show voicemail details
+******/
     function fssipdevices_json() {
         $json_data = array();
         $count_all = $this->freeswitch_model->fs_retrieve_sip_user(false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
-
         $query = $this->freeswitch_model->fs_retrieve_sip_user(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-      //  echo '<pre>'; print_r($query); exit;
-        $grid_fields = json_decode($this->freeswitch_form->build_system_list_for_admin());
         foreach ($query as $key => $value) {
-            $json_data['rows'][] = array('cell' => array(
-//                     $value['id'],
+	$path_true = base_url().'/assets/images/true.png';
+	$path_false = base_url().'/assets/images/false.png';
+	if($value['voicemail_enabled'] == 0){
+		$voicemail_enabled ='<img src='.$path_true.' style="height:20px;width:20px;" title="Enable">';
+	}else{
+		$voicemail_enabled ='<img src='.$path_false.' style="height:20px;width:20px;" title="Disable">';
+	}
+        $json_data['rows'][] = array('cell' => array(
 		    '<input type="checkbox" name="chkAll" id=' . $value['id'] . ' class="ace chkRefNos" onclick="clickchkbox(' . $value['id'] . ')" value=' . $value['id'] . '><lable class="lbl"></lable>',
-                    $value['username'],
+		    "<a href='/freeswitch/fssipdevices_edit/".$value['id']."' style='cursor:pointer;color:#005298;' rel='facebox' title='username'>".$value['username']."</a>",
+/**************************/
                     $value['password'],
                     $this->common->get_field_name('name', '`sip_profiles', array('id' => $value['sip_profile_id'])),
-//                     $this->common->get_field_name('number', 'accounts', array('id' => $value['accountid'])),
                     $this->common->get_field_name_coma_new('first_name,last_name,number', 'accounts', array('0' => $value['accountid'])),
                     $value['effective_caller_id_name'],
                     $value['effective_caller_id_number'],
-                     $this->common->get_status('status', '',$value['status']),
-//                     $value['context'],
+                     $voicemail_enabled ,
+                     $this->common->get_status('status', 'sip_devices',$value),
+                    $this->common->convert_GMT_to('','',$value['creation_date']),
+                    $this->common->convert_GMT_to('','',$value['last_modified_date']),                
                     $this->get_action_buttons_fssipdevices($value['id'])
                     ));
         }
-
         echo json_encode($json_data);
     }
-    
     function fssipdevices_delete_multiple() {
         $ids = $this->input->post("selected_ids", true);
         $where = "id IN ($ids)";
@@ -313,47 +301,64 @@ class Freeswitch extends MX_Controller {
         $ids = $this->input->post("selected_ids", true);
         $where = "id IN ($ids)";
         $this->db->where($where);
-        echo $this->db->delete("sip_devices");
+        $this->db->delete("sip_devices");
+        echo TRUE;
+    }
+    function customer_fssipdevices_delete_multiple(){
+        $ids = $this->input->post("selected_ids", true);
+        $where = "id IN ($ids)";
+        $this->db->where($where);
+        $this->db->delete("sip_devices");
+        echo TRUE;
     }
 
-    function customer_fssipdevices_json($accountid) {
+/******
+ASTPP 3.0
+Customer side show voice mail detials
+******/
+    function customer_fssipdevices_json($accountid,$entity_type='') {
         $json_data = array();
-        $count_all = $this->freeswitch_model->get_sipdevices_list(false, $accountid);
+        $count_all = $this->freeswitch_model->get_sipdevices_list(false, $accountid,$entity_type);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
         $devices_result = array();
-        $query = $this->freeswitch_model->get_sipdevices_list(true, $accountid, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+        $query = $this->freeswitch_model->get_sipdevices_list(true, $accountid,$entity_type, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         foreach ($query as $key => $value) {
-            $json_data['rows'][] = array('cell' => array(
+	$path_true = base_url().'/assets/images/true.png';
+	$path_false = base_url().'/assets/images/false.png';
+	$voicemail_enabled = $value['voicemail_enabled'] == '0'? '<img src='.$path_true.' style="height:20px;width:20px;" title="Enable">' : '<img src='.$path_false.' style="height:20px;width:20px;" title="Disable">';
+        $json_data['rows'][] = array('cell' => array(
 		    '<input type="checkbox" name="chkAll" id="'.$value['id'].'" class="ace chkRefNos" onclick="clickchkbox('.$value['id'].')" value=' .$value['id'].'><lable class="lbl"></lable>',
                     $value['username'],
                     $value['password'],
                     $this->common->get_field_name('name', '`sip_profiles', array('id' => $value['sip_profile_id'])),
                     $value['effective_caller_id_name'],
                     $value['effective_caller_id_number'],
-                    $this->common->get_status('status', '',$value['status']),
-//                     $value['context'],
-                    $this->get_action_fssipdevices_buttons($value['id'], $value['accountid'])
+                    $voicemail_enabled,
+                    $this->common->get_status('status', 'sip_devices',$value),
+                    $this->common->convert_GMT_to('','',$value['creation_date']),
+                    $this->common->convert_GMT_to('','',$value['last_modified_date']),
+                    $this->get_action_fssipdevices_buttons($value['id'], $value['accountid'],$entity_type)
                     ));
-        }
+        }//exit;
         echo json_encode($json_data);
     }
-
-    function get_action_fssipdevices_buttons($id, $accountid) {
+/****************************/
+    function get_action_fssipdevices_buttons($id, $accountid,$entity_type='') {
         $ret_url = '';
         if ($this->session->userdata("logintype") == '0'||$this->session->userdata("logintype") == '3') {
-            $ret_url = '<a href="'. base_url() .'user/user_fssipdevices_action/edit/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm"  rel="facebox" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+            $ret_url = '<a href="'. base_url() .'user/user_fssipdevices_action/edit/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
             $ret_url .= '<a href="'. base_url() .'user/user_fssipdevices_action/delete/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
         } else {
-            $ret_url = '<a href="'. base_url() .'accounts/customer_fssipdevices_action/edit/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm"  rel="facebox" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
-            $ret_url .= '<a href="'. base_url() .'accounts/customer_fssipdevices_action/delete/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
+            $ret_url = '<a href="'. base_url() .'accounts/'.$entity_type.'_fssipdevices_action/edit/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+            $ret_url .= '<a href="'. base_url() .'accounts/'.$entity_type.'_fssipdevices_action/delete/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
         }
         return $ret_url;
     }
 
     function fssipdevices_delete($id) {
         $this->freeswitch_model->delete_freeswith_devices($id);
-        $this->session->set_flashdata('astpp_notification', 'Sip Device Removed Successfully!');
+        $this->session->set_flashdata('astpp_notification', 'SIP Device Removed Successfully!');
         redirect(base_url() . 'freeswitch/fssipdevices/');
         exit;
     }
@@ -361,7 +366,7 @@ class Freeswitch extends MX_Controller {
     function get_action_buttons_fssipdevices($id) {
 
         $ret_url = '';
-        $ret_url = '<a href="'. base_url() .'freeswitch/fssipdevices_edit/' . $id . '/" class="btn btn-royelblue btn-sm"  rel="facebox" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+        $ret_url = '<a href="'. base_url() .'freeswitch/fssipdevices_edit/' . $id . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
         $ret_url .= '<a href="'. base_url() .'freeswitch/fssipdevices_delete/' . $id . '/" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
         return $ret_url;
     }
@@ -370,24 +375,16 @@ class Freeswitch extends MX_Controller {
 
         $data['username'] = $this->session->userdata('user_name');
         $data['page_title'] = 'Live Call Report';
-//	$data['search_flag'] = true;
-//	$data['form_search']=$this->form->build_serach_form($this->freeswitch_form->get_freeswith_search_form());
         $this->load->view('view_fs_livecall_report', $data);
     }
 
     function livecall_report_json() {
-/*        $fp = $this->freeswitch_lib->event_socket_create("127.0.0.1","8021","ClueCon");
-        $cmd = "api show channels";
-        $response_arr = array();
-        $response_arr[] = $this->freeswitch_lib->event_socket_request($fp, $cmd);*/
-
         $command = "api show channels";
         $response = $this->freeswitch_model->reload_live_freeswitch($command);
         $calls = array();
         $calls_final = array();
         $data_header = array();
         $k = 0;
-//         foreach($response_arr as $resp_key=>$response){
             $data = explode("\n",$response);
             for ($i = 0; $i < count($data) - 2; $i++) {
                 if (trim($data[$i]) != '') {
@@ -403,11 +400,8 @@ class Freeswitch extends MX_Controller {
                     }
                 }
             }
-//         }
         $json_data = array();
         $count = 0;
-//	echo "<pre>";		print_r($calls);exit;
-        //for($i=0;$i<count($calls)-1;$i++)
         foreach ($calls as $key => $value) {
             if (isset($value['state']) && $value['state'] == 'CS_EXCHANGE_MEDIA') {
                 $calls[$i]['application'] = $calls_final[$value['call_uuid']]['application'];
@@ -423,7 +417,6 @@ class Freeswitch extends MX_Controller {
                         $value['write_codec'],
                         $value['callstate'],
                         date("H:i:s", strtotime(date("Y-m-d H:i:s")) - $value['created_epoch'])
-//			gmdate("H:i:s", strtotime(date("Y-m-d H:i:s")) - strtotime($value['created']))
                         ));
                 $count++;
             } else {
@@ -432,7 +425,6 @@ class Freeswitch extends MX_Controller {
         }
 	$json_data['page'] = 1;
         $json_data['total'] = $count;
-//         fclose($fp);
         echo json_encode($json_data);
     }
 
@@ -448,7 +440,7 @@ class Freeswitch extends MX_Controller {
     }
 
     function fsgateway_json() {
-        $json_data = array();
+               $json_data = array();
 
         $count_all = $this->freeswitch_model->get_gateway_list(false);
 
@@ -492,7 +484,6 @@ $tmp=null;
         $query = $this->db_model->getSelect("*", "gateways", $where);
         $query = $query->result_array();
         $gateway_result = array();
-//print_r($query);
         foreach ($query as $key => $query_value) {
             foreach ($query_value as $gateway_key => $gatewau_val) {
   	        $gateway_data["status"] = isset($query_value["status"])?$query_value["status"]:"";
@@ -500,13 +491,31 @@ $tmp=null;
                     $gateway_data[$gateway_key] = $gatewau_val;
                 }else if($gateway_key == "status") {
                     $gateway_data[$gateway_key] = $gatewau_val;
-                } else {
+                } 
+                 /**
+                 ASTPP 3.0 
+                 put one variable with the name of dialplan variable 
+                 **/ 
+                else if($gateway_key == "dialplan_variable") {
+                    $gateway_data[$gateway_key] = $gatewau_val;
+                } 
+                /****************************************************/
+                else {
                     $tmp = (array) json_decode($gatewau_val);
                     $gateway_result = array_merge($gateway_data, $tmp);
                 }
             }
         }
-
+        /**
+        ASTPP  3.0 
+        put one variable with the name of dialplan variable 
+        **/
+        if(!empty($gateway_data['dialplan_variable']) && $gateway_data['dialplan_variable'] != ''){
+         $gateway_result['dialplan_variable']  = $gateway_data['dialplan_variable'];
+         }else{
+         $gateway_result['dialplan_variable'] = '';
+         }
+         /**********************************************************************************************/
         $data['form'] = $this->form->build_form($this->freeswitch_form->get_gateway_form_fields(), $gateway_result);
         $this->load->view('view_fsgateway_add', $data);
     }
@@ -516,6 +525,7 @@ $tmp=null;
         $data['form'] = $this->form->build_form($this->freeswitch_form->get_gateway_form_fields(), $gateway_data);
         $insert_arr = array();
         $gateway_arr = array();
+        $insert_arr['dialplan_variable'] ="";
         foreach ($gateway_data as $key => $gateway_value) {
             if ($gateway_value != "") {
                 if ($key == "sip_profile_id") {
@@ -524,7 +534,16 @@ $tmp=null;
                     $insert_arr['name'] = $gateway_data["name"];
                 } else if ($key == "sip_profile_id") {
                     $insert_arr['sip_profile_id'] = $gateway_data["sip_profile_id"];
-                }else if($key == "status") {
+                }
+                /**
+                ASTPP  3.0 
+                put one variable with the name of dialplan variable 
+                **/ 
+                else if ($key == "dialplan_variable") {
+                    $insert_arr['dialplan_variable'] = $gateway_data["dialplan_variable"];
+                }
+                /*********************************************************************/
+                else if($key == "status") {
                     $insert_arr[$key] = $gateway_data["status"];
                 }  else {
                     if ($key != "id") {
@@ -548,6 +567,12 @@ $tmp=null;
 		  echo json_encode(array("name_error"=> "Gateway name must not have any space."));
 		  exit;
 		}
+		/*
+		ASTPP  3.0 
+		gateway last modified date
+		*/
+		$insert_arr['last_modified_date']=gmdate('Y-m-d H:i:s');
+		/*************************************************/
                 $update = $this->db->update("gateways", $insert_arr, array('id' => $gateway_data['id']));
                 if ($update) {
                     $profile_name = $this->common->get_field_name('name', 'sip_profiles', $insert_arr['sip_profile_id']);
@@ -611,7 +636,7 @@ $tmp=null;
 
     function fssipprofile() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Sip Profile';
+        $data['page_title'] = 'SIP Profile';
 	$data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->freeswitch_form->build_fssipprofile_list_for_admin();
@@ -631,7 +656,6 @@ $tmp=null;
 
     function fssipprofile_json() {
         $json_data = array();
-
         $count_all = $this->freeswitch_model->get_sipprofile_list(false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
@@ -645,28 +669,19 @@ $tmp=null;
     function fssipprofile_params_json($edited_id)
     {
 	$json_data = array();
-
         $gateway_data = array();
-
 	$where = array('id' => $edited_id);
-	
         $query = $this->db_model->getSelect("*", "sip_profiles", $where);
         $query = $query->result_array();
-        
         $gateway_result = array();
         $i=0;
         foreach ($query as $key => $query_value) {
-	  
-
             foreach ($query_value as $gateway_key => $gatewau_val) {
-//             echo $gateway_key."---";
 	      if($gateway_key != 'id' && $gateway_key != 'name' && $gateway_key != 'sip_ip' && $gateway_key != 'sip_port'){
-		
                 if ($gateway_key != "profile_data") {
                     $gateway_data[$gateway_key] = $gatewau_val;
                 } else {
                     $tmp = (array) json_decode($gatewau_val);
-                    
                     $gateway_result = array_merge($gateway_data, $tmp);
                 }
 	}
@@ -676,7 +691,6 @@ $tmp=null;
          $json_data = $paging_data["json_paging"];
     
 	  foreach ($gateway_result as $key => $value) {
-//       if($key != 'id' || $key != 'name' || $key != 'sip_ip' ||$key != 'sip_port'){
 	  $json_data['rows'][] = array('cell' => array(
 	      $key,
 	      $value,
@@ -686,22 +700,13 @@ $tmp=null;
         echo json_encode($json_data);
     }
      function fssipprofile_action($button_name,$id) {
-        
-        
-//         echo 'sadvdsv';exit;
-//         print_r($button_name);exit;
         $where = array('id' => $id);
         $query = $this->db_model->getSelect("*", "sip_profiles", $where);
         $query = $query->result_array();
-//         echo "<pre>";print_r($query);exit;
         $where = array('sip_profile_id' => $id);
-
-//          echo "<pre>";print_r($gwdata);exit;
         if($button_name == "start")
         { 
-           
-           $cmd = "api sofia profile " . trim($query[0]['name']) ." start";
-	   
+           $cmd = "api sofia profile " . trim($query[0]['name']) ." start"; 
         }
         elseif($button_name == "stop")
         {
@@ -714,7 +719,6 @@ $tmp=null;
         elseif($button_name == "rescan")
         {
             $cmd = "api sofia profile " . trim($query[0]['name']) . " rescan";
-            
         }
         
         $this->freeswitch_model->reload_freeswitch($cmd);
@@ -724,8 +728,7 @@ $tmp=null;
      
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Add Sip Profile';
-//         $data['form'] = $this->form->build_form($this->freeswitch_form->get_sipprofile_form_fields(), '');
+        $data['page_title'] = 'Create SIP Profile';
         $sipprofile_data = $this->input->post();
          $sipprofile_data['status']=$sipprofile_data['sipstatus'];
         $data['button_name']="Add Setting";
@@ -744,19 +747,16 @@ $tmp=null;
 	  }
 	  if(preg_match('/\s/',$sipprofile_data['name']))
 	  {
-	    $this->session->set_flashdata('astpp_notification', 'Sip Profile name must not have any space!');
+	    $this->session->set_flashdata('astpp_notification', 'SIP Profile name must not have any space!');
  	    redirect(base_url() . 'freeswitch/fssipprofile_add/');
  	    exit;
 	  }
 	  if(!preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $sipprofile_data['sip_ip']))
 	  {
-	    $this->session->set_flashdata('astpp_notification', 'Sip IP must be proper!');
+	    $this->session->set_flashdata('astpp_notification', 'SIP IP must be proper!');
  	    redirect(base_url() . 'freeswitch/fssipprofile_add/');
  	    exit;
 	  }
-	  
-
-	  
 	  $sipprofile_data['id']='';
 	  $check_authentication = $this->freeswitch_model->profile_authentication($sipprofile_data);
 	  if ($check_authentication->num_rows == 0) {
@@ -774,22 +774,18 @@ $tmp=null;
                     $this->session->set_flashdata('astpp_notification', 'Duplicate SIP IP OR Port found it must be unique!');
 		    redirect(base_url() . 'freeswitch/fssipprofile_add/');
 	    }
-	    $this->session->set_flashdata('astpp_errormsg', 'Sip Profile Added Successfully!');
+	    $this->session->set_flashdata('astpp_errormsg', 'SIP Profile Added Successfully!');
 	    redirect(base_url() . 'freeswitch/fssipprofile/');
         }
 	
         if($add == 'edit')
         {
-            
-// 	    echo "<pre>";
-// 	    print_r($sipprofile_data);
-// 	    exit;
-          
 	  $check_authentication = $this->freeswitch_model->profile_authentication($sipprofile_data);
 	    unset($sipprofile_data['action']);
 	    unset($sipprofile_data['sipstatus']);
 	    $insert_arr = $sipprofile_data;
 	        if ($check_authentication->num_rows == 0) {
+		    $insert_arr['last_modified_date']=gmdate("Y-m-d H:i:s");
                     $update = $this->db->update("sip_profiles", $insert_arr, array('id' => $sipprofile_data['id']));
                     $this->session->set_flashdata('astpp_errormsg', $sipprofile_data['name']." SIP Profile Updated Successfully!");
                     redirect(base_url() . 'freeswitch/fssipprofile/');   
@@ -805,22 +801,16 @@ $tmp=null;
 
 
     function fssipprofile_edit($edit_id = '',$type='',$name_prams='') {
-    
-        
-        $data['page_title'] = 'Edit Sip Profile';
+        $data['page_title'] = 'Edit SIP Profile';
           $sipprofile_data = $this->input->post();
-        
         if(!$edit_id)
         {
 	  $edit_id=$sipprofile_data['id'];
         }
-        
         $where = array('id' => $edit_id);
         $query = $this->db_model->getSelect("*", "sip_profiles", $where);
         $query = $query->result_array();
-//         echo $this->db->last_query();exit;
         $gateway_result = array();
-        
         foreach ($query as $key => $query_value) {
             foreach ($query_value as $gateway_key => $gatewau_val) {
                 if ($gateway_key != "profile_data") {
@@ -831,29 +821,20 @@ $tmp=null;
                 }
             }
         }
-//         $data['form'] = $this->form->build_form($this->freeswitch_form->get_sipprofile_form_fields(), $gateway_result);
-        
         $data['grid_fields'] = $this->freeswitch_form->build_fssipprofile_params_list_for_admin();
         $data['edited_id'] = $edit_id;
-        
         $data['sip_name']=$query[0]['name'];
 	$data['status']=$query[0]['status'];
 	$data['sip_ip']= $query[0]['sip_ip'];
 	$data['sip_port']=$query[0]['sip_port'];
 	$data['id']=$query[0]['id'];
         $data['button_name']="Add Setting";
-        
-      
-//         echo "<pre>";print_r($sipprofile_data);exit;
         if($type == 'edit' || isset($sipprofile_data['type']) && $sipprofile_data['type'] == 'save')
         {
 	    if($type == 'edit')
 	    {
-// 		echo "<pre>";print_r($query);
-// 		print_r($gateway_result);exit;
 		$data['params_name']=$name_prams;
 		$data['params_status']=0;
-// 		echo $gateway_result[$name_prams];
 		if($gateway_result[$name_prams] == "true" || $gateway_result[$name_prams] == "false")
 		{
 		  $data['params_status']=1;
@@ -864,10 +845,7 @@ $tmp=null;
 	    if(isset($sipprofile_data['type']) && $sipprofile_data['type'] == 'save'){
 		$sipprofile_data = $this->input->post();
 		$tmp[$sipprofile_data['params_name']]=$sipprofile_data['params_value'];
-	  // 	print_r($tmp);
 		  $final_data= json_encode($tmp);
-	  // 	echo $final_data;
-	  // 	exit;
 		  $insert_arr["profile_data"] = json_encode($tmp);
 		  $update = $this->db->update("sip_profiles", $insert_arr, array('id' => $edit_id));
 		   if($sipprofile_data['type_settings']=="add_setting"){
@@ -881,8 +859,6 @@ $tmp=null;
 
 	    }
         }
-//         echo "<pre>";
-//         print_r($data);
         $this->load->view('view_fssipprofile_edit', $data);
     }
 
@@ -890,11 +866,6 @@ $tmp=null;
 	$sipprofile_data = $this->input->post();
 	$insert_arr = array();
         $sipprofile_arr = array();
-        
-// 	echo "<pre>";
-// 	print_r($sipprofile_data);
-	
-	
 	$where = array('id' => $id);
         $query = $this->db_model->getSelect("*", "sip_profiles", $where);
         $query = $query->result_array();
@@ -909,19 +880,11 @@ $tmp=null;
                 }
             }
         }
-//         print_r($tmp);
-//         print_r($gateway_data);
         $tmp[$sipprofile_data['params_name']]=$sipprofile_data['params_value'];
-// 	print_r($tmp);
 	$final_data= json_encode($tmp);
-// 	echo $final_data;
-// 	exit;
 	$insert_arr["profile_data"] = json_encode($tmp);
 	$update = $this->db->update("sip_profiles", $insert_arr, array('id' => $id));
-
-	
 	$this->load->view('view_fssipprofile_edit', $data);
-// 	exit;
     }
     
     function fssipprofile_delete_params($id,$name) {
@@ -942,16 +905,8 @@ $tmp=null;
 	if(isset($tmp[$name])){
 	  unset($tmp[$name]);
 	}
-// 	print_r($tmp);
-// 	exit;
 	$insert_arr["profile_data"] = json_encode($tmp);
 	$update = $this->db->update("sip_profiles", $insert_arr, array('id' => $id));
-	
-	
-	
-// 	$profile_name = $this->common->get_field_name('name', 'sip_profiles', $id);
-//         $sip_ip = $this->common->get_field_name('sip_ip', 'sip_profiles', $id);
-	
         $this->session->set_flashdata('astpp_notification', $name.' SIP Setting Removed Successfully!');
         redirect(base_url() . 'freeswitch/fssipprofile_edit/'.$id);
     }
@@ -960,7 +915,7 @@ $tmp=null;
 	$profile_name = $this->common->get_field_name('name', 'sip_profiles', $profile_id);
         $sip_ip = $this->common->get_field_name('sip_ip', 'sip_profiles', $profile_id);
 	$delete = $this->db_model->delete("sip_profiles", array("id" => $profile_id));
-        $this->session->set_flashdata('astpp_notification', 'Sip Profile Removed Successfully!');
+        $this->session->set_flashdata('astpp_notification', 'SIP Profile Removed Successfully!');
         redirect(base_url() . 'freeswitch/fssipprofile/');
     }
 
@@ -998,7 +953,7 @@ $tmp=null;
     function fsserver_add($type = "") {
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Freeswich Server';
+        $data['page_title'] = 'Create Freeswich Server';
         $data['form'] = $this->form->build_form($this->freeswitch_form->get_form_fsserver_fields(), '');
 
         $this->load->view('view_fsserver_add_edit', $data);
@@ -1071,32 +1026,18 @@ $tmp=null;
         $this->session->set_userdata('advance_search', 0);
         $this->session->set_userdata('account_search', "");
     }
- /*   function freeswitch_fs_cli(){
-	$data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Execute Command';
-	$data['response']='';
-	$data['command']='';
-	$query = $this->db_model->getSelect("*", "freeswich_servers", "");
-        $data['fs_data'] = $query->result_array();
-        $this->load->view('view_fs_freeswitch_execute', $data);
+    function fssipprofile_edit_validation($id,$name){
+	$sip_profile_data=$this->common->get_field_name('profile_data','sip_profiles',$id);
+	$final_data= json_decode($sip_profile_data,true);
+	foreach($final_data as $key=>$value){
+		if($key == $name){
+			echo 1;
+			return true;
+		}
+	}
+	echo 0;
+	return true;
     }
-    function freeswitch_fs_cli_command(){
-        $freeswitch_data = $this->input->post();
-	$command ='api '.$freeswitch_data['freeswitch_command'];
-	$host_id =$freeswitch_data['host_id'];
-	$data['host_id']=$host_id;
-        $new_arr = $this->freeswitch_model->reload_live_freeswitch_show($command,$host_id);
-	$data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Execute Command';
-	$data['response']=$new_arr;
-	$query = $this->db_model->getSelect("*", "freeswich_servers", "");
-        $data['fs_data'] = $query->result_array();
-	$data['command']=$command;
-//	$data['search_flag'] = true;
-//	$data['form_search']=$this->form->build_serach_form($this->freeswitch_form->get_freeswith_search_form());
-        $this->load->view('view_fs_freeswitch_execute', $data);
-    }
-*/
 }
 
 ?>

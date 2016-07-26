@@ -1,86 +1,127 @@
-<? extend('master.php') ?>
+<? extend('left_panel_setting_master.php') ?>
 <?php error_reporting(E_ERROR);?>
 <? startblock('extra_head') ?>
 <?php endblock() ?>
+
 <?php startblock('page-title') ?>
-<?=ucfirst($group_title).' - '.$page_title?>
-<br/>
+    <?php echo ucfirst($group_title).' - '.$page_title?>
 <?php endblock() ?>
 <?php startblock('content')?>
 <style>
-/*a.tooltip1 {outline:none; } a.tooltip1 strong {line-height:30px;} a.tooltip1:hover {text-decoration:none;} a.tooltip1 span { z-index:10;display:none; padding:14px 20px; margin-top:-5px; margin-left:10px; width:300px; line-height:16px; } a.tooltip1:hover span{ display:inline; position:absolute; color:#111; border:1px solid #DCA; background:#fffAF0;} .callout {z-index:20;position:absolute;top:30px;border:0;left:-0px;} a.tooltip1 span { border-radius:4px; box-shadow: 5px 5px 8px #CCC; }*/
-div.tooltips-left {
+div .tleft {
   position: relative;
-  display: inline;
+  
 }
-div.tooltips-left span {
-  position: absolute;
-  padding:5px 20px;
-  width:300px;
-  color: #FFFFFF;
-  background: #2E4E6A;
-  text-align: center;
+div.tleft .demo {
   visibility: hidden;
-  border-radius: 6px;
+  opacity: 1;
+  color: #FFF !important;
+  position: absolute;
+  display: inline-block;
+  z-index: 1111;
+  background-color: #2E4E6A !important;
+  padding: 0.5em 0.8em !important;
+  text-transform: none !important;
+  margin-right: 0px;
+  bottom: 10px;
+  border-radius: 5px;
+  border-color: #2E4E6A !important;
+  text-align: left;
+  font-size: 12px;
+  width: 280px;
+  left: 40%;
 }
-div.tooltips-left span:after {
+div.tleft .demo:before {
   content: '';
   position: absolute;
-  top: 50%;
-  right: 100%;
-  margin-top: -8px;
-  width: 0; height: 0;
-  border-right: 8px solid #2E4E6A;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
+  background-color: #2E4E6A !important;
+  bottom: -0.3em;
+  left: 70%;
+  margin-left: -0.3em;
+  right: auto;
+  top: auto;
+  width: .6em;
+  height: .6em;
+  transform: rotate(45deg);
+  z-index: 2;
+  transition:background .1s linear;
 }
 
-div:hover.tooltips-left span {
-  visibility: visible;
-  opacity:1;
-  left: 100%;
-  top: 50%;
-  margin-top: -15px;
-  margin-left: 15px;
-  z-index: 999;
-  font-size:12px;
-}
-
-div.tooltips-right {
-  position: relative;
-  display: inline;
-}
-div.tooltips-right span {
+div:hover.tleft .demo {
+ visibility: visible;
+  opacity: 1;
+  color: #FFF !important;
   position: absolute;
-  padding:5px 20px;
-  width:300px;
-  color: #FFFFFF;
-  background: #2E4E6A;
-  text-align: center;
-  visibility: hidden;
-  border-radius: 6px;
+  display: inline-block;
+  z-index: 1111;
+  background-color: #2E4E6A !important;
+  padding: 0.5em 0.8em !important;
+  text-transform: none !important;
+  margin-right: 0px;
+  bottom: 10px;
+  border-radius: 5px;
+  border-color: #2E4E6A !important;
+  text-align: left;
+  font-size: 12px;
+  width: 280px;
+  left: 40%;
+
 }
-div.tooltips-right span:after {
+
+div.tright {
+  position: relative;
+}
+div.tright .demo {
+   visibility:hidden;
+  border-radius: 6px; 
+  text-align: left;
+  border-radius: 6px;
+  background-color: #2E4E6A !important;
+  border-color: #2E4E6A !important;
+  color: rgb(255, 255, 255) !important;
+  bottom: 25px;
+  right: -60%;
+  z-index: 11;
+  text-transform: none !important;
+  position: absolute;
+  padding: 0.5em 0.8em !important;
+  display: inline-block;
+  width:250px !important;
+}
+div.tright .demo:before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-top: -8px;
-  width: 0; height: 0;
-  border-left: 8px solid #2E4E6A;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
+  background-color: #2E4E6A !important;
+  bottom: -0.3em;
+  left: 70%;
+  margin-left: -0.3em;
+  right: auto;
+  top: auto;
+  width: .6em;
+  height: .6em;
+  transform: rotate(45deg);
+  z-index: 2;
+  transition:background .1s linear;
 }
 
-div:hover.tooltips-right span {
+div:hover.tright .demo {
   visibility: visible;
-  opacity:1;
-  right: 100%;
-  top: 50%;
-  margin-top: -15px;
-  margin-right: 270px;
-  z-index: 999;
-  font-size:12px;
+  opacity: 1;
+  color: #FFF !important;
+  position: absolute;
+  display: inline-block;
+  z-index: 1111;
+  background-color: #2E4E6A !important;
+  padding: 0.5em 0.8em !important;
+  text-transform: none !important;
+  margin-right: 0px;
+  bottom: 10px;
+  border-radius: 5px;
+  border-color: #2E4E6A !important;
+  text-align: left;
+  font-size: 12px;
+  width: 280px;
+  left: 40%;
 }
 
 </style>
@@ -107,66 +148,78 @@ function validateform(){
   {
     return false;
   }
-  /*$("#toast-container").css("display","block");
-        $(".toast-message").html(ucfirst($group_title)+' Settings updated sucessfully!');
-        $('.toast-top-right').delay(5000).fadeOut();*/
   return true;
 }
 </script>
 
-<div class="container"  style='overflow-x:hidden'>
-  <div class="row">
-    <section class="slice color-three no-margin">
-        <div class="w-section inverse no-padding">
-            <div style="color:red;margin-left: 60px;">
-                    <?php echo $validation_errors; ?> 
-            </div>
-            <div class='col-md-12'>
-	    <form action="<?=base_url()?>/systems/configuration/<?=$group_title?>" accept-charset="utf-8" id="system_conf_form" method="POST" name="invoice_conf_form"  onsubmit='return validateform()'>
-	    <fieldset>
-	    <legend> <?=ucfirst($group_title).' - '.$page_title?></legend>
- 	    <div style="width:50%;float:left;">
-	    <?php $count=ceil(sizeof($details)/2); $i=0; $class="-left";?>
-	<?php //echo floor(sizeof($details)/2);?>
-	    <?php foreach($details as$key=>$val){ ?>
-			<?php if($count==$i){
-				echo '</div><div style="width:50%;float:left;">';
-				$class="-right";
-			} ?>
-	    		<div class="col-md-12">
-				<label class="col-md-5 no-padding"><?= str_replace('Smtp',"SMTP",ucfirst(str_replace("_"," ",$val['name'])));?></label>
-				<div class="tooltips<?=$class?>" href='#'>
-				<?php if($val['name']=='paypal_status' || $val['name']=='paypal_mode' || $val['name']=='paypal_mode' || $val['name']=='opensips' || $val['name']=='SMTP' || $val['name']=='paypal_fee' || $val['name']=='email' || $val['name']=='Calling cards rate announce' || $val['name']=='smtp' || $val['name']=='debug' || $val['name']=='country' || $val['name']=='calling_cards_rate_announce' || $val['name']=='base_currency' || $val['name']=='cc_ani_auth' || $val['name']=='calling_cards_timelimit_announce' || $val['name']=='default_timezone' || $val['name']=='calling_cards_balance_announce' ||$val['name']=='timezone'){?>
-					<select name="<?=$val['name']?>" class='col-md-5 form-control'>
-						<?php foreach($this->common->$val['name']() as $key1=>$val1){?>
-						<option value="<?=$key1?>" <?=$val['value']==$key1?"selected='selected'":"";?> ><?=$val1?></option>
-						<?php }?>
-					</select>
-					
-				<?php }else if($val['name']=='version'){?>
-				    <input value="<?=$val['value']?>" size="20" maxlength="100" class="col-md-5 form-control" type="text" readonly>
-				<?php }else{?>
-				<input name="<?=$val['name']?>" value="<?=$val['value']?>" size="20" maxlength="100" class="col-md-5 form-control" type="text">
-				<? }?>
-				<span><?= str_replace('smtp',"SMTP",$val['comment']);?></span></div>
-			</div>
-			<!--<li class="col-md-12 no-padding">
-				<label class="col-md-5 no-padding"></label><span class="col-md-5 no-padding" style='font-size:10px;margin-bottom: 10px;'><?=$val['comment']?></span>
-			</li>-->
-			<div class="col-md-12 no-padding error_div">
-				<div class="col-md-5">&nbsp;</div><span class="popup_error col-md-5 no-padding" id="<?=$val['name']?>_error">The <?= ucfirst(str_replace("_"," ",$val['name']));?> Field Is Required.</span>
-			</div>
-			<?php $i++;?>
-		<?php }?>
-		</div>
-</fieldset></div></ul><center><div class="col-md-12 margin-t-20 margin-b-20"><button type="submit" value="save" class="btn btn-line-parrot">Save</button></div></center></div></div>
-		</form>
+<div id="main-wrapper" class="tabcontents">  
+  <div id="content">   
+    <div class="row"> 
+      <div class="col-md-12 no-padding color-three border_box"> 
+        <div class="col-md-8"><h2><?= $page_title; ?></h2></div>
+        <div class="pull-right">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="<?= base_url() . "systems/configuration/global"; ?>"> Global</a>
+                </li>
+                <?php if($group_title != "global") { ?>
+                <li class="active">
+                    <a href="<?= base_url() . "systems/configuration/".$group_title ; ?>"> <?php echo ucfirst($group_title); ?></a>
+                </li>
+                <?php } ?>
+            </ul>
+        </div>
+      </div>     
+      <div class="padding-15 col-md-12">
+        <div class="slice color-three pull-left content_border col-md-12">
+           <form action="<?=base_url()?>/systems/configuration/<?=$group_title?>" accept-charset="utf-8" id="system_conf_form" method="POST" name="invoice_conf_form"  onsubmit='return validateform()'>
+              <fieldset>
+               <legend> <?=ucfirst($group_title)?></legend>
+                  <div style="width:50%;float:left;">
+                    <?php $currency = Common_model::$global_config['system_config']['base_currency'];?>
+                    <?php $count=ceil(sizeof($details)/2); $i=0; $class="tleft";?>
+                    <?php foreach($details as$key=>$val){ ?>
+                          <?php if($count==$i){
+                              echo '</div><div style="width:50%;float:left;">';
+                              $class="tright";
+                          } ?>
+                          <div class="col-md-12">
+                            <div class="<?=$class?>" href='#'>
+                            <label class="col-md-5 no-padding"><?php echo $val['display_name'];?> * </label>
+                            <?php if(method_exists($this->common,$val['field_type'])){
+                                $option_array =  $this->common->$val['field_type'](); 
+                                $drpstr = '<select name="'.$val['name'].'" class="col-md-5 form-control selectpicker"  data-live-search="true">';
+                                      foreach($option_array as $option_key=>$option_val){
+                                        $selected = ($val['value'] == $option_key)? "selected='selected'":"";
+                                        $drpstr .= '<option value="'.$option_key.'"'.$selected.'>'.$option_val.'</option>';
+                                      }
+                                $drpstr .= '</select>';
+                                echo $drpstr;
+                                unset($drpstr);
+                            } else{
+                                echo '<input name="'.$val["name"].'" value="'.$val['value'].'" size="20" maxlength="100" class="col-md-5 form-control" type="text">'; 
+                            }?>
+                              <span class="demo"><?php echo str_replace('smtp',"SMTP",$val['comment']);?></span>
 
-	    </div>
-        </div>      
-    </section>        
-  </div>
+                            </div>
+                          </div>  
+
+                      <?php $i++;?>
+                    <?php }?>
+                  </div>
+              </fieldset>
+              <center>
+                <div class="col-md-12 margin-t-20 margin-b-20">
+                  <button type="submit" value="save" class="btn btn-line-parrot">Save</button>
+                </div>
+              </center>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>      
 </div>
+
 
  
 

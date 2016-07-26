@@ -44,16 +44,26 @@ $route['getbalance/(:any)'] = "getbalance/index/$1";
 
 $route['settings/configuration'] = "systems/configuration/";
 $route['settings/configuration_json'] = "systems/configuration_json/";
+/*
+ASTPP  3.0 
+routes create status show on/off 
+*/
+$route['get_status/(:any)'] = "getstatus/customer_list_status/$1";
+/***********************************************/
 
-// $route['rategroup/rategroup_list'] = "pricing/price_list/";
-// $route['rategroup/rategroup_list_json'] = "pricing/price_list_json/";
+$route['forgotpassword'] = "signup/forgotpassword";
+$route['confirmpassword'] = "signup/confirmpassword";
+$route['confirm_pass'] = "signup/confirm_pass";
+$route['confirmpass'] = "signup/confirmpass";
 
 
-// $route['configuration/taxes_list'] = "taxes/taxes_list/";
-// $route['configuration/taxes_list_json'] = "taxes/taxes_list_json/";
-// $route['configuration/taxes_edit/(:any)'] = "taxes/taxes_edit/$1";
-// $route['configuration/taxes_delete/(:any)'] = "taxes/taxes_delete/$1";
+$route['signup'] = "signup/index";
+$route['signup/(:any)'] = "signup/index/$1";
 
+$route['signup/signup_save'] = "signup/signup_save";
+$route['signup/signup_success'] = "signup/signup_success";
+$route['signup/signup_confirm'] = "signup/signup_confirm";
+$route['signup/signup_inactive'] = "signup/signup_inactive";
 
 $route['logout'] = "login/logout/";
 

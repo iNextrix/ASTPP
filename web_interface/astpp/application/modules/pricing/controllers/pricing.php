@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class pricing extends CI_Controller {
 
     function pricing() {
@@ -63,7 +64,7 @@ class pricing extends CI_Controller {
 
     function price_save() {
         $add_array = $this->input->post();
- 
+
         $data['form'] = $this->form->build_form($this->pricing_form->get_pricing_form_fields(), $add_array);
         if ($add_array['id'] != '') {
             $data['page_title'] = 'Edit Price Details';
@@ -132,7 +133,7 @@ class pricing extends CI_Controller {
     function price_list() {
         $data['username'] = $this->session->userdata('user_name');
         $data['page_title'] = 'Rate Groups';
-	$data['search_flag'] = true;
+		$data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->pricing_form->build_pricing_list_for_admin();
         $data["grid_buttons"] = $this->pricing_form->build_grid_buttons();
@@ -165,15 +166,71 @@ class pricing extends CI_Controller {
         redirect(base_url() . 'pricing/price_list/');
     }
 
-    function price_delete_multiple() {
-        $ids = $this->input->post("selected_ids", true);
-        $where = "id IN ($ids)";
-        echo $this->db_model->update("pricelists", array("status" => "2"), $where);
-	$where = "pricelist_id IN ($ids)";
-	$this->db->delete("routing",$where);
-
+ function price_delete_multiple() {
+        $add_array = $this->input->post();
+        $where = 'IN ('.$add_array['selected_ids'].')';
+        if (isset($add_array['flag'])) {            
+            $update_data = array('status' => '2');
+            $this->db->where('pricelist_id '.$where);
+            $this->db->delete('routes');            
+            $this->db->delete("routing",array("pricelist_id"=>$where));
+            $this->db->where('id '.$where);
+            echo $this->db->update('pricelists', $update_data);
+        } else {
+            $pricelist_arr=array();
+            //Get selected Rategroup Name from database.
+            $this->db->select('id,name');
+            $this->db->where('id '.$where);
+            $pricelist_res=$this->db->get('pricelists');
+            $pricelist_res=$pricelist_res->result_array();
+            foreach($pricelist_res as $value){
+                $pricelist_arr[$value['id']]['name']=$value['name'];
+            }
+            //Get count of accounts which are using selected rategroups.
+            $this->db->where('pricelist_id '.$where);
+            $this->db->where('deleted',0);
+            $this->db->select('count(id) as cnt,pricelist_id');
+            $this->db->group_by('pricelist_id');
+            $account_res=$this->db->get('accounts');
+            if($account_res->num_rows() > 0){
+             $account_res=$account_res->result_array();
+             foreach($account_res as $key=>$value){
+                $pricelist_arr[$value['pricelist_id']]['account']=$value['cnt'];
+             }
+            }
+            //Get count of routes which are using selected rategroups.
+            $this->db->where('pricelist_id '.$where);
+            $this->db->select('count(id) as cnt,pricelist_id');
+            $this->db->group_by('pricelist_id');
+            $routes_res=$this->db->get('routes');
+            if($routes_res->num_rows() > 0){
+             $routes_res=$routes_res->result_array();
+             foreach($routes_res as $key=>$value){
+                $pricelist_arr[$value['pricelist_id']]['routes']=$value['cnt'];
+             }
+            }
+            $str=null;
+            foreach($pricelist_arr as $key=>$value){
+               $custom_str=null;
+               if(isset($value['account']) || isset($value['routes'])){
+                 if(isset($value['account'])){
+                     $custom_str.= $value['account']." accounts and ";
+                 }
+                 if(isset($value['routes'])){
+                     $custom_str.= $value['routes']." origination rates and ";
+                 }
+                 $str.=" Rate group Name : ".$value['name']." using by ".rtrim($custom_str," and ")."\n";
+               }
+            }
+            if(!empty($str)){
+                $data['str']=$str;
+            }    
+            $data['selected_ids']=$add_array['selected_ids'];
+            echo json_encode($data);
+        }
     }
-
+/***********************************************************/
+    
 }
 
 ?>

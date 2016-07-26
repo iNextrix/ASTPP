@@ -1,0 +1,666 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-09-23 09:35-0300\n"
+"Last-Translator: Inextrix <astpp@inextrix.com>\n"
+"Language-Team: Inextrix <astpp@inextrix.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/astpp/application/modules/reports/"
+"freeswitch/language\n"
+
+msgid "Sip Device Removed Sucessfully."
+msgstr "Dispositivo Sip eliminado correctamente!"
+
+msgid "Add sip device"
+msgstr "Añadir dispositivo SIP"
+
+msgid "Username"
+msgstr "Nombre de Usuario"
+
+msgid "Password"
+msgstr "Contraseña"
+
+msgid "Caller Name"
+msgstr "Nombre del Llamante"
+
+msgid "Caller Number"
+msgstr "Número de Llamada"
+
+msgid "Account"
+msgstr "Cuenta"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Edit sip device"
+msgstr "Editar dispositivo sip"
+
+msgid "Gateways"
+msgstr "Adaptadores"
+
+msgid "Create Gateway"
+msgstr "Crear Adaptador"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Basic Information"
+msgstr "Información Básica"
+
+msgid "Gateway Name"
+msgstr "Nombre de Puerta de Enlace"
+
+msgid "Proxy"
+msgstr "Proxy"
+
+msgid "Outbound-Proxy"
+msgstr "Proxy de Salida"
+
+msgid "Register"
+msgstr "Registro"
+
+msgid "User Name"
+msgstr "Nombre de Usuario"
+
+msgid "Caller-Id-In-From"
+msgstr "ID-de-Llamada-Desde"
+
+msgid "Optional Information"
+msgstr "Información Opcional"
+
+msgid "From-Domain"
+msgstr "De Dominio"
+
+msgid "From User"
+msgstr "De Usuario"
+
+msgid "Realm"
+msgstr "Campo"
+
+msgid "Extension"
+msgstr "Extensión"
+
+msgid "Expire Seconds"
+msgstr "Segundos en Expirar"
+
+msgid "Reg-Transport"
+msgstr "Reg-Transporte"
+
+msgid "Contact Params"
+msgstr "Parámetros de Contacto"
+
+msgid "Ping"
+msgstr "Ping"
+
+msgid "Retry-Seconds"
+msgstr "Vuelva a Intentar-Segundos"
+
+msgid "Register-Proxy"
+msgstr "Registrar-Proxy"
+
+msgid "Channel"
+msgstr "Canal"
+
+msgid "Edit Gateway"
+msgstr "Editar Adaptador"
+
+msgid "Sip Profile"
+msgstr "Perfil Sip"
+
+msgid "Sip profile"
+msgstr "perfil Sip"
+
+msgid "Profile Name"
+msgstr "Nombre de perfil"
+
+msgid "SIP IP"
+msgstr "IP SIP"
+
+msgid "SIP Port"
+msgstr "Puerto SIP"
+
+msgid "Profile Action"
+msgstr "Acción de Perfil"
+
+msgid "Sip Profile Name"
+msgstr "Nombre de Perfil SIP"
+
+msgid "Add Sip Profile"
+msgstr "Añadir Perfil Sip"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Add Setting"
+msgstr "Añadir Ajuste"
+
+msgid "Freeswitch Servers"
+msgstr "Servidores Freeswitch"
+
+msgid "Host"
+msgstr "Servidor"
+
+msgid "Port"
+msgstr "Puerto"
+
+msgid "Edit Sip Profile"
+msgstr "Editar Perfil Sip"
+
+msgid "Freeswitch Server"
+msgstr "Servidor Freeswitch"
+
+msgid "Freeswitch Server Information"
+msgstr "Información Servidor Freeswitch"
+
+msgid "Live Call Report"
+msgstr "Reporte de Llamada en Línea"
+
+msgid "Call Date"
+msgstr "Fecha de Llamada"
+
+msgid "CID Name"
+msgstr "Nombre CID"
+
+msgid "CID Number"
+msgstr "Número CID"
+
+msgid "IP Address"
+msgstr "Dirección IP"
+
+msgid "Destination"
+msgstr "Destino"
+
+msgid "Bridge"
+msgstr "Puente"
+
+msgid "Read codec"
+msgstr "Leer codec"
+
+msgid "Write codec"
+msgstr "Comentar Codec"
+
+msgid "Call State"
+msgstr "Estado de Llamada"
+
+msgid "Duration"
+msgstr "Duración"
+
+msgid "SIP Devices List"
+msgstr "Lista de Dispositivos SIP"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Please select Account."
+msgstr "Por favor seleccione Cuenta."
+
+msgid "Please select Sip Profile."
+msgstr "Por favor, seleccione Perfil Sip."
+
+msgid "The Gateway Name field is required."
+msgstr "Se requiere que el campo Nombre de Adaptador."
+
+msgid "The Proxy field is required."
+msgstr "Se requiere el campo Proxy."
+
+msgid "Please Enter sip profile Name"
+msgstr "Por favor, Introduzca Nombre de Perfil Sip"
+
+msgid "Please Enter sip IP"
+msgstr "Por favor, Introduzca dirección IP SIP"
+
+msgid "Please Enter sip port"
+msgstr "Por favor, Introduzca puerto SIP"
+
+msgid "The Host field is required."
+msgstr "El campo Host es requerido."
+
+msgid "The Port field is required."
+msgstr "Se requiere que el campo Puerto."
+
+msgid "Sip Device Removed Successfully!"
+msgstr "Dispositivo Sip eliminado con éxito!"
+
+msgid "Gateway Removed Successfully!"
+msgstr "Adaptador eliminado correctamente!"
+
+msgid "Please enter All profile value!"
+msgstr "Por favor, introduzca todos los valores de perfil!"
+
+msgid "Sip Profile name must not have any space!"
+msgstr "Nombre de perfil Sip no debe tener ningún espacio!"
+
+msgid "Sip IP must be proper!"
+msgstr "Sip IP debe ser el adecuado!"
+
+msgid "Duplicate SIP IP OR Port found it must be unique!"
+msgstr "IP SIP Duplicado o puerto debe ser único!"
+
+msgid "Sip Profile Added Successfully!"
+msgstr "Perfil Sip agregado con éxito!"
+
+msgid "SIP Profile Updated Successfully!"
+msgstr "Perfil SIP Actualizado con éxito!"
+
+msgid "SIP Setting Added Successfully!"
+msgstr "Ajuste SIP agregado con éxito!"
+
+msgid "SIP Setting Updated Successfully!"
+msgstr "Ajuste SIP Actualizado con éxito!"
+
+msgid "SIP Setting Removed Successfully!"
+msgstr "Ajuste SIP eliminado correctamente!"
+
+msgid "Sip Profile Removed Successfully!"
+msgstr "Perfil Sip eliminado correctamente!"
+
+msgid "Freeswitch Server Removed Successfully!"
+msgstr "Servidor Freeswitch eliminado correctamente!"
+
+msgid "SIP Device Updated Successfully!"
+msgstr "Dispositivo SIP actualizado correctamente!"
+
+msgid "SIP Device Added Successfully!"
+msgstr "Dispositivo SIP agregado con éxito!"
+
+msgid "Gateway name must not have any space."
+msgstr "Nombre de Adaptador no debe tener ningún espacio."
+
+msgid "Gateway Updated Successfully!"
+msgstr "Adaptador Actualizado con éxito!"
+
+msgid "Gateway Added Successfully!"
+msgstr "Adaptador Actualizado con éxito!"
+
+msgid "Freeswitch Server Updated Successfully!"
+msgstr "Servidor Freeswitch actualizado correctamente!"
+
+msgid "Freeswitch Server Added Successfully!"
+msgstr "Servidor Freeswitch agregado correctamente!"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All Rights "
+"Reserved. "
+msgstr ""
+"Copyright @ 2003 - 2015 ASTPP - Solución de Facturación VOIP Open Source. Todos "
+"los Derechos Reservados."
+
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgid "DIDs"
+msgstr "DID's"
+
+msgid "Switch"
+msgstr "Interruptor"
+
+msgid "Email Mass"
+msgstr "Correo Electrónico Masivo"
+
+msgid "Accounting"
+msgstr "Contabilidad"
+
+msgid "Tariff"
+msgstr "Tarifa"
+
+msgid "Rate Groups"
+msgstr "Grupos de Tarifas"
+
+msgid "Origination Rates"
+msgstr "Creaciones de Tarifas"
+
+msgid "Packages"
+msgstr "Paquetes"
+
+msgid "Usage Report"
+msgstr "Reporte de Uso"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "Termination Rates"
+msgstr "Terminación de Tarifas"
+
+msgid "Sip Profiles"
+msgstr "Perfiles Sip"
+
+msgid "IP MAP (ACL)"
+msgstr "MAPA IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Reporte de Llamadas"
+
+msgid "Details Reports"
+msgstr "Detalles de Reportes"
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Reseller"
+msgstr "Revendedor"
+
+msgid "Provider Outbound"
+msgstr "Proveedor de salida"
+
+msgid "Summary Reports"
+msgstr "Resumen Reportes"
+
+msgid "Trunk Stats"
+msgstr "Estadísticas d Troncal"
+
+msgid "Email History"
+msgstr "Historial de Correo Electrónico"
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Invoice Config"
+msgstr "Configuración de Factura"
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Email Templates"
+msgstr "Plantillas de Correo Electrónico"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Currencies"
+msgstr "Monedas"
+
+msgid "Database Restore"
+msgstr "Restaurar Base de Datos"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Tarjeta de Llamada"
+
+msgid "Report A Bug"
+msgstr "Reportar un Error"
+
+msgid "Donate Us"
+msgstr "Donar"
+
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ""
+".ASTPP - Solución de Facturación VOIP Open Source. Todos Los Derechos Reservados."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-Beta"
+
+msgid "Welcome"
+msgstr "Bienvenido"
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - Solución de Facturación VOIP Open Source."
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP funciona mejor con Javascript activado"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 de las Cuentas"
+
+msgid "By Minutes"
+msgstr "Por Minutos"
+
+msgid "By Calls"
+msgstr "Por Llamadas"
+
+msgid "Recharge Information"
+msgstr "Información de Recarga"
+
+msgid "Trunk add"
+msgstr "Agregar Troncal"
+
+msgid "Trunk Information"
+msgstr "Información de la Troncal"
+
+msgid "Trunk Name"
+msgstr "Nombre de Troncal"
+
+msgid "Gateway"
+msgstr "Adaptador"
+
+msgid "Fail Over Gateway"
+msgstr "Fallo en Adaptador"
+
+msgid "Max Channels"
+msgstr "Máximo de Canales"
+
+msgid "Trunk Settings"
+msgstr "Configuración de Troncales"
+
+msgid "Number Translation"
+msgstr "Número de Traducción"
+
+msgid "Codecs"
+msgstr "Codecs"
+
+msgid "Precedence"
+msgstr "Precedencia"
+
+msgid "Failover GW name"
+msgstr "Conmutación por error de nombre de GW"
+
+msgid "Max channels"
+msgstr "Canales Máximo"
+
+msgid "Rate Count"
+msgstr "Conteo de Tarifas"
+
+msgid "Edit Trunk"
+msgstr "Editar Troncal"
+
+msgid "My Rates"
+msgstr "Mis Tarifas"
+
+msgid "Rates"
+msgstr "Tarifas"
+
+msgid "Manage DIDs"
+msgstr "Administrar DID's"
+
+msgid "SIP Devices"
+msgstr "Dispositivos SIP"
+
+msgid "Manage Invoice"
+msgstr "Administrar Factura"
+
+msgid "CDRs Reports"
+msgstr "Reportes de CDR"
+
+msgid "Payment Report"
+msgstr "Reporte de Pago"
+
+msgid "Payment"
+msgstr "Pago"
+
+msgid "Payment Reports"
+msgstr "Reportes de Pago"
+
+msgid "Fund Transfer"
+msgstr "Transferencia de Fondos"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "Recharge"
+msgstr "Recargar"
+
+msgid "admins"
+msgstr "administradores"
+
+msgid "invoices"
+msgstr "facturas"
+
+msgid "packages"
+msgstr "paquetes"
+
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "Provider"
+msgstr "Proveedor"
+
+msgid "summary reports"
+msgstr "Resúmenes de Reportes"
+
+msgid "Detail reports"
+msgstr "Detalle de Reportes"
+
+msgid "Caller Id"
+msgstr "Identificador de Llamadas"
+
+msgid "Caller ID"
+msgstr "Identificador de Llamadas"
+
+msgid "Trunks"
+msgstr "Troncales"
+
+msgid "subscriptions"
+msgstr "Suscripciones"
+
+msgid "Resellers"
+msgstr "Revendedores"
+
+msgid "customers"
+msgstr "clientes"
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "Detail Reports"
+msgstr "Detalle de Reportes"
+
+msgid "View Details"
+msgstr "Ver detalles"
+
+msgid "Download Database"
+msgstr "Descargar Base de Datos"
+
+msgid "<b>Rescan"
+msgstr "<b>Volver a explorar"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "<b>Reload"
+msgstr "<b> Actualizar"
+
+msgid "<b>Stop"
+msgstr "<b>Detener"
+
+msgid "<b>Start"
+msgstr "<b>Iniciar"
+
+msgid "Freeswich Server"
+msgstr "Servidor Freeswich"
+
+msgid "Edit Freeswich Server"
+msgstr "Editar Servidor Freeswich"
+
+msgid "Sip Port"
+msgstr "Puerto Sip"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Reset"
+msgstr "Restablecer"
+
+msgid "Update Setting"
+msgstr "Ajuste de Actualización"
+
+msgid "The Prefix field must contain only numbers."
+msgstr "El campo Prefijo debe contener sólo números."
+
+msgid "The IP field must contain a valid IP."
+msgstr "El campo IP debe contener una dirección IP válida."
+
+msgid "Please Enter Only Numeric value"
+msgstr "Por favor, Introduzca sólo Valor numérico"
+
+msgid "The Port field must contain only numbers."
+msgstr "El campo Puerto debe contener sólo números."
+
+msgid "The Host field must contain a valid IP."
+msgstr "El campo Host debe contener una dirección IP válida."
+
+msgid "Enable"
+msgstr "Habilitar"
+
+msgid "Disable"
+msgstr "Inhabilitar"
+
+msgid "Voicemail"
+msgstr "Correo De Voz"
+
+msgid "Voicemail Feature"
+msgstr "Característica de Correo de voz"
+
+msgid "Voicemail Enabled"
+msgstr "Correo de voz Activado"
+
+msgid "Voicemail Password"
+msgstr "Contraseña de Correo de voz"
+
+msgid "Voicemail Mail To"
+msgstr "Correo a Correo de voz"
+
+msgid "Voicemail Attach File"
+msgstr "Adjuntar Archivo Correo de voz"
+
+msgid "VM Keep Local After Email"
+msgstr "VM Mantenga Local Después De Correo"
+
+msgid "VM Send all Message"
+msgstr "VM Enviar todos los Mensajes"

@@ -1,0 +1,394 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-08-17 11:21+0530\n"
+"Last-Translator: ankit prajapati <ankit.prajapati28@yahoo.in>\n"
+"Language-Team: ankit <ankit.prajapati28@yahoo.in>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/ITPLATP_2015/application/modules/"
+"userlanguage/\n"
+
+msgid "My Rates"
+msgstr "Mes Tarifs"
+
+msgid "Rates"
+msgstr "Tarifs"
+
+msgid "User Name"
+msgstr "Nom d'utilisateur"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Destination"
+msgstr "Destination"
+
+msgid "Increment"
+msgstr "Incrément"
+
+msgid "Cost per Minutes"
+msgstr "Coût par Minutes"
+
+msgid "Connect Charge"
+msgstr "Connectez Charge"
+
+msgid "Included Seconds"
+msgstr "Inclus Secondes"
+
+msgid "Connect Cost"
+msgstr "Connectez Coût"
+
+msgid "Per Minute Cost"
+msgstr "Par Coût Minute"
+
+msgid "Search"
+msgstr "Recherche"
+
+msgid "Clear"
+msgstr "Clair"
+
+msgid "Export CSV"
+msgstr "Exportation CSV"
+
+msgid "DIDs List"
+msgstr "Liste DID"
+
+msgid "DIDs"
+msgstr "DID"
+
+msgid "Manage DIDs"
+msgstr "Gérer DID"
+
+msgid "Available DIDs"
+msgstr "Disponible DID"
+
+msgid "Purchase DID"
+msgstr "Achat DID"
+
+msgid "DID Number"
+msgstr "Nombre DID"
+
+msgid "Call Type"
+msgstr "Type d'appel"
+
+msgid "Country"
+msgstr "Pays"
+
+msgid "Increments"
+msgstr "Incréments"
+
+msgid "Cost"
+msgstr "Coût"
+
+msgid "Setup Fee"
+msgstr "Frais d'installation"
+
+msgid "Monthly Fee"
+msgstr "Frais Mensuels"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "SIP Devices List"
+msgstr "Liste Périphériques SIP"
+
+msgid "Caller Id"
+msgstr "Identification De L'Appelant"
+
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+msgid "Sip Profile"
+msgstr "Profil Sip"
+
+msgid "Caller Id List"
+msgstr "Liste des appelants"
+
+msgid "Invoices List"
+msgstr "Liste des factures"
+
+msgid "Number"
+msgstr "Nombre"
+
+msgid "From Date"
+msgstr "Date d'entrée en"
+
+msgid "Generated Date"
+msgstr "Date De Création"
+
+msgid "Add Sip Device"
+msgstr "Ajouter Sip Dispositif"
+
+msgid "Sip Devices"
+msgstr "Appareils Sip"
+
+msgid "Password"
+msgstr "Mot De Passe"
+
+msgid "Caller Name"
+msgstr "Nom De L'appelant"
+
+msgid "Caller Number"
+msgstr "Nombre Caller"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Save"
+msgstr "Sauvegarder"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Edit sip device"
+msgstr "Modifier Dispositif gorgée"
+
+msgid "Invoices"
+msgstr "Factures"
+
+msgid "Manage Invoice"
+msgstr "Gérer Facture"
+
+msgid "Reports"
+msgstr "Rapports"
+
+msgid "Dashboard"
+msgstr "Tableau De Bord"
+
+msgid "CDRs Report"
+msgstr "Rapport CDR"
+
+msgid "To Date"
+msgstr "à Ce Jour"
+
+msgid "Caller ID"
+msgstr "Identification De L'appelant"
+
+msgid "Called Number"
+msgstr "Numéro Appelé"
+
+msgid "Duration"
+msgstr "Durée"
+
+msgid "Disposition"
+msgstr "Disposition"
+
+msgid "Debit"
+msgstr "Débit"
+
+msgid "Payment Report"
+msgstr "Rapport Paiements"
+
+msgid "Payment Reports"
+msgstr "Rapports De Paiement"
+
+msgid "Payment By"
+msgstr "Paiement Par"
+
+msgid "Note"
+msgstr "Note"
+
+msgid "Amount"
+msgstr "Quantité"
+
+msgid "Payment"
+msgstr "Paiement"
+
+msgid "Fund Transfer"
+msgstr "Transfert De Fonds"
+
+msgid "recharge"
+msgstr "recharge"
+
+msgid "Recharge"
+msgstr "Recharge"
+
+msgid "From Account"
+msgstr "Compte"
+
+msgid "To Account"
+msgstr "Estimer"
+
+msgid "Transfer"
+msgstr "Transfert"
+
+msgid "Account Recharge"
+msgstr "Compte Recharge"
+
+msgid "Enter Recharge Amount In"
+msgstr "Entrez Recharge Montant En"
+
+msgid "Tax Rate"
+msgstr "Taux D'Imposition"
+
+msgid "Your Amount In"
+msgstr "Votre Montant Dans"
+
+msgid "Net Payable Amount in"
+msgstr "Montant Net à Payer Sur"
+
+msgid "is equals to"
+msgstr "Est-égal à"
+
+msgid "Dialstring"
+msgstr "Dial cordes"
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Province"
+msgstr "Province"
+
+msgid "Edit Dids"
+msgstr "Modifier Dids"
+
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ".ASTPP - VoIP Open Source Solution de facturation. Tous Droits Réservés."
+
+msgid "Are you sure want to release DID?"
+msgstr "Êtes-vous sûr de vouloir libérer DID?"
+
+
+msgid "Are you sure to delete?"
+msgstr "Êtes-vous Sûr De Vouloir Supprimer?"
+
+
+msgid "Are you sure want to restore this database?"
+msgstr "Êtes-vous Sûr De Vouloir Restaurer Cette Base De Données?"
+
+msgid "View Details"
+msgstr "Voir Les Détailss"
+msgid "Download Database"
+msgstr "Téléchargement Base De Données"
+msgid "<b>Rescan"
+msgstr "<b> Rescan"
+
+msgid "Edit"
+msgstr "Modifier"
+msgid "<b>Reload"
+msgstr "<b> Recharger"
+msgid "<b>Stop"
+msgstr "<b> Arrêter"
+msgid "<b>Start"
+msgstr "<b> Démarrer"
+msgid "Update"
+msgstr "Mise À Jour"
+msgid "Delete"
+msgstr "Effacer"
+
+
+msgid "Accounts"
+msgstr "Comptes"
+
+msgid "Account"
+msgstr "Compte"
+
+msgid "Account Number"
+msgstr "Numéro De Compte"
+
+
+
+msgid "Pin"
+msgstr "Goupille"
+
+
+
+msgid "Company"
+msgstr "Compagnie"
+
+
+
+msgid "First Name"
+msgstr "Prénom"
+
+
+
+msgid "Last Name"
+msgstr "Nom De Famille"
+
+
+
+
+msgid "Telephone 1"
+msgstr "Téléphone 1"
+
+
+
+
+
+msgid "Telephone 2"
+msgstr "Téléphone 2"
+
+
+
+msgid "Address 1"
+msgstr "Adresse 1"
+
+msgid "Address 2"
+msgstr "Adresse 2"
+
+msgid "Province/State"
+msgstr "Province / État"
+msgid "Zip/Postal Code"
+msgstr "Zip / Code Postal"
+
+
+
+msgid "Timezone"
+msgstr "Fuseau Horaire"
+msgid "Low Balance Alert Email"
+msgstr "Faible balance Alerte Email"
+msgid "Low Balance Alert Level"
+msgstr "Low Level balance Alerte"
+msgid "Enable Email Alerts ?"
+msgstr "Activer Les Alertes e-mail?"
+msgid "Email Address"
+msgstr "Adresse Email"
+msgid "Caller Id already Exists."
+msgstr "Caller ID existe déjà."
+msgid "Caller Id removed sucessfully!"
+msgstr "Caller ID retiré avec succès!"
+msgid "Add Caller Id Sucessfully!"
+msgstr "Ajouter Caller ID avec succès!"
+msgid "Please Enter Caller Id Number."
+msgstr "S'il vous plaît Entrez Caller ID Number."
+
+msgid "Sip Device Removed Sucessfully."
+msgstr "Sip Périphérique supprimé Avec Succès."
+
+
+msgid "DID removed successfully."
+msgstr "DID enlevé avec succès."
+
+msgid "Insufficient fund to purchase this did"
+msgstr "fonds insuffisants pour acheter ce fait"
+
+msgid "DID purchased Successfully !"
+msgstr "DID acheté avec succès!"
+
+msgid "Please select DID"
+msgstr "S'il vous plaît sélectionner DID"
+
+msgid "DID Edit successfully."
+msgstr "DID Modifier avec succès."
+
+msgid "Balance"
+msgstr "Équilibre"
+
+
+
+
+
+
+

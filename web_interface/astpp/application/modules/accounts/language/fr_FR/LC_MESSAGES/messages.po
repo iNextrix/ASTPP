@@ -1,0 +1,1011 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-08-13 16:45+0530\n"
+"Last-Translator: ankit prajapati <ankit.prajapati28@yahoo.in>\n"
+"Language-Team: ankit <ankit.prajapati28@yahoo.in>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/ITPLATP_2015/application/modules/accounts/\n"
+"accountslanguage/\n"
+#: ../../../../index.php:36 /var/www/html/gettext/index.php:36
+#: ../../../../index.php:37 /var/www/html/gettext/index.php:37
+
+msgid "Create Customer"
+msgstr "Créer clientèle"
+
+msgid "Client Panel Access"
+msgstr "Access Panel Client"
+
+msgid "Account"
+msgstr "Compte"
+
+msgid "Pin"
+msgstr "Goupille"
+
+msgid "Account Settings"
+msgstr "Paramètres de compte"
+msgid "create reseller"
+msgstr "Crear Distribuidor"
+msgid "Status"
+msgstr "Statut"
+
+msgid "Max Channels"
+msgstr "Max Chaînes"
+
+msgid "Number Translation"
+msgstr "Nombre Traduction"
+
+msgid "First Used"
+msgstr "première occasion"
+
+msgid "Expiry Date"
+msgstr "Date d'expiration"
+
+msgid "Valid Days"
+msgstr "Jours valides"
+
+msgid "Create SIP Device"
+msgstr "Créer SIP Dispositif"
+
+msgid "Customer Profile"
+msgstr "Profil client"
+
+msgid "First Name"
+msgstr "Prénom"
+
+msgid "Last Name"
+msgstr "Nom de famille"
+
+msgid "Company"
+msgstr "Compagnie"
+
+msgid "Telephone 1"
+msgstr "Téléphone 1"
+
+msgid "Telephone 2"
+msgstr "Téléphone 2"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Address 1"
+msgstr "Adresse 1"
+
+msgid "Address 2"
+msgstr "Adresse 2"
+
+msgid "ville"
+msgstr "Province/State"
+
+msgid "Province/State"
+msgstr "Province / État"
+
+msgid "Zip/Postal Code"
+msgstr "Zip / code postal"
+
+msgid "Country"
+msgstr "Pays"
+
+msgid "Timezone"
+msgstr "Fuseau Horaire"
+
+msgid "Billing Information"
+msgstr "Détails de facturation"
+
+msgid "Rate Group"
+msgstr "Tarif de groupe"
+
+msgid "Billing Schedule"
+msgstr "Calendrier de facturation"
+
+msgid "Billing Day"
+msgstr "Jour de facturation"
+
+msgid "Currency"
+msgstr "Devise"
+
+msgid "Account Type"
+msgstr "Type de compte"
+
+msgid "Credit Limit"
+msgstr "Limite de crédit"
+
+msgid "Tax"
+msgstr "Impôt"
+
+msgid "Low Balance Alert Email"
+msgstr "Faible balance Alerte Email"
+
+msgid "Low Balance Alert Level"
+msgstr "Low Level Solde Alerte"
+
+msgid "Enable Email Alerts ?"
+msgstr "Activer les alertes e-mail?"
+
+msgid "Email Address"
+msgstr "Adresse e-mail"
+
+msgid "Save"
+msgstr "Sauvegarder"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Mass Create"
+msgstr "Créer messe"
+
+msgid "Create Provider"
+msgstr "Créer fournisseur"
+
+msgid "Export"
+msgstr "Exportation"
+
+msgid "Delete"
+msgstr "Effacer"
+
+msgid "Entity Type"
+msgstr "Type d'entité"
+
+msgid "Balance"
+msgstr "Équilibre"
+
+msgid "Search"
+msgstr "Recherche"
+
+msgid "Clear"
+msgstr "Clair"
+
+msgid "Action"
+msgstr "action"
+
+msgid "Edit Customer"
+msgstr "Modifier la clientèle"
+
+msgid "Name:"
+msgstr "Nom:"
+
+msgid "IP:"
+msgstr "IP:"
+
+msgid "Prefix:"
+msgstr "Préfixe:"
+
+msgid "Prefix"
+msgstr "Préfixe"
+
+msgid "Map IP"
+msgstr "Carte IP"
+
+msgid "IP Address"
+msgstr "Adresse IP"
+
+msgid "Customer Details"
+msgstr "Détails du client"
+
+msgid "IP Settings"
+msgstr "Paramètres IP"
+
+msgid "Caller Id"
+msgstr "Identification de l'appelant"
+
+msgid "Customers"
+msgstr "clientèle"
+
+msgid "SIP Settings"
+msgstr "Paramètres SIP"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "User Name"
+msgstr "Nom d'utilisateur"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "SIP profile"
+msgstr "Profil SIP"
+
+msgid "Caller Name"
+msgstr "Nom de l'appelant"
+
+msgid "Caller Number"
+msgstr "Nombre Caller"
+
+msgid "Edit sip device"
+msgstr "Modifier dispositif de gorgée"
+
+msgid "Sip Devices"
+msgstr "Appareils Sip"
+
+msgid "Applyable Subscriptions"
+msgstr "Abonnements Applyable"
+
+msgid "Subscriptions"
+msgstr "Abonnements"
+
+msgid "Description"
+msgstr "La description"
+
+msgid "Billing Cycle"
+msgstr "Cycle de Facturation"
+
+msgid "Available DIDs"
+msgstr "Disponible DID"
+
+msgid "Purchase DID"
+msgstr "Achat DID"
+
+msgid "DID Number"
+msgstr "Nombre DID"
+
+msgid "Increments"
+msgstr "Incréments"
+
+msgid "Cost"
+msgstr "Coût"
+
+msgid "Setup Fee"
+msgstr "Frais d'installation"
+
+msgid "Monthly Fee"
+msgstr "Redevance mensuelle"
+
+msgid "Connection Fee"
+msgstr "Frais de connexion"
+
+msgid "Invoices"
+msgstr "Factures"
+
+msgid "Number"
+msgstr "Nombre"
+
+msgid "From Date"
+msgstr "Date d'entrée"
+
+msgid "Generated Date"
+msgstr "Date de Création"
+
+msgid "Amount"
+msgstr "Montant"
+
+msgid "Block Prefixes"
+msgstr "Bloquer les préfixes"
+
+msgid "Add Prefixes"
+msgstr "Ajouter préfixes"
+
+msgid "Patterns"
+msgstr "Patterns"
+
+msgid "CDRs"
+msgstr "CDR"
+
+msgid "Add Subscriptions"
+msgstr "Ajouter des abonnements"
+
+msgid "Included Seconds"
+msgstr "Inclure secondes"
+
+msgid "Destination"
+msgstr "Destination"
+
+msgid "CDR"
+msgstr "CDR"
+
+msgid "Date"
+msgstr "date"
+
+msgid "CallerID"
+msgstr "Identification de l'appelant"
+
+msgid "Called Number"
+msgstr "Numéro Appelé"
+
+msgid "Duration"
+msgstr "Durée"
+
+msgid "Debit"
+msgstr "Débit"
+
+msgid "Disposition"
+msgstr "Disposition"
+
+msgid "Call Type"
+msgstr "Type d'appel"
+
+msgid "Recharge"
+msgstr "Recharge"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Admins"
+msgstr "Admins"
+
+msgid "Create Admin"
+msgstr "Créer Administrateur"
+
+msgid "Create Subadmin"
+msgstr "Créer SUBADMIN"
+
+msgid "Phone"
+msgstr "Téléphone"
+
+msgid "Resellers"
+msgstr "Revendeurs"
+
+msgid "Process Payment"
+msgstr "Processus De Paiement"
+
+msgid "Payment"
+msgstr "Paiement"
+
+msgid "Type"
+msgstr "type"
+
+msgid "Note"
+msgstr "Remarque"
+
+msgid "Caller id"
+msgstr "Identification de l'appelant"
+
+msgid "Account Number"
+msgstr "Numéro de compte"
+
+msgid "Caller Id Name"
+msgstr "Nom Caller ID"
+
+msgid "Caller Id Number"
+msgstr "Caller ID Number"
+
+msgid "Edit Reseller"
+msgstr "Modifier revendeur"
+
+msgid "Reseller Details"
+msgstr "Revendeur Détails"
+
+msgid "Admin Profile"
+msgstr "Admin Profil"
+
+msgid "Mass Customer"
+msgstr "Client de masse"
+
+msgid "General Details"
+msgstr "Détails général"
+
+msgid "Customer Count"
+msgstr "Nombre de clients"
+
+msgid "Start Prefix"
+msgstr "Démarrer préfixe"
+
+msgid "Providers"
+msgstr "Fournisseurs"
+
+msgid "Profile Details"
+msgstr "Détails du profil"
+
+msgid "Account Length"
+msgstr "compte Longueur"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "From"
+msgstr "De"
+
+msgid "To"
+msgstr "À"
+
+msgid "Body"
+msgstr "Corps"
+
+msgid "Attachement"
+msgstr "Attachement"
+
+msgid "Is purchased?"
+msgstr "Est acheté?"
+
+msgid "Fund Transfer"
+msgstr "Transfert de fonds"
+
+msgid "recharge"
+msgstr "Recharge"
+
+
+
+msgid "From Account"
+msgstr "De compte"
+
+msgid "To Account"
+msgstr "À Compte"
+
+msgid "Transfer"
+msgstr "Transfert"
+
+msgid "Account Recharge"
+msgstr "Compte Recharge"
+
+msgid "Enter Recharge Amount In"
+msgstr "Entrez Recharge Montant En"
+
+msgid "Tax Rate"
+msgstr "Taux D'Imposition"
+
+msgid "Your Amount In"
+msgstr "Votre montant Dans"
+
+msgid "Net Payable Amount in"
+msgstr "Montant net à payer sur"
+
+msgid "is equals to"
+msgstr "Est-égal à"
+
+msgid "Dialstring"
+msgstr "Dialstring"
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Province"
+msgstr "Province"
+
+msgid "Edit Dids"
+msgstr "Modifier Dids"
+
+msgid "Caller Id List"
+msgstr "Liste des appelants"
+
+msgid "The Trunk name field is required."
+msgstr "Le champ de nom Trunk est nécessaire."
+
+msgid "The First Name field is required."
+msgstr "Le champ Prénom est nécessaire."
+
+msgid "The Email field is required."
+msgstr "Le champ Email est requis."
+
+msgid "Please select Rate Group."
+msgstr "S'il vous plaît sélectionnez Groupe de taux."
+
+msgid ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All "
+"Rights Reserved. "
+msgstr ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Solution de facturation. "
+"Tous droits réservés."
+
+msgid "Accounts"
+msgstr "Comptes"
+
+msgid "DIDs"
+msgstr "DID"
+
+msgid "Switch"
+msgstr "interrupteur"
+
+msgid "Email Mass"
+msgstr "Email mMsse"
+
+msgid "Accounting"
+msgstr "Comptabilité"
+
+msgid "Payment Report"
+msgstr "Rapport des paiements"
+
+msgid "Tariff"
+msgstr "Tarif"
+
+msgid "Rate Groups"
+msgstr "Groupes de taux"
+
+msgid "Origination Rates"
+msgstr "Tarifs origines"
+
+msgid "Packages"
+msgstr "Forfaits"
+
+msgid "Usage Report"
+msgstr "Rapport d'utilisation"
+
+msgid "Carriers"
+msgstr "Carriers"
+
+msgid "Termination Rates"
+msgstr "Les tarifs de terminaison"
+
+msgid "Gateways"
+msgstr "passerelles"
+
+msgid "Sip Profiles"
+msgstr "Les profils SIP"
+
+msgid "Freeswitch Server"
+msgstr "FreeSwitch serveur"
+
+msgid "IP MAP (ACL)"
+msgstr "CARTE IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Rapports d'appel"
+
+msgid "Details Reports"
+msgstr "Rapports détaillés"
+
+msgid "customer"
+msgstr "Client"
+
+msgid "Reseller"
+msgstr "Revendeur"
+
+msgid "Provider Outbound"
+msgstr "Fournisseur Outbound"
+
+msgid "Summary Reports"
+msgstr "Rapports de synthèse"
+
+msgid "Trunk Stats"
+msgstr "Tronc Statistiques"
+
+msgid "Live Call Report"
+msgstr "Live report Appel"
+
+msgid "Email History"
+msgstr "Email Histoire"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Invoice Config"
+msgstr "Facture Config"
+
+msgid "Taxes"
+msgstr "Tmpôts"
+
+msgid "Email Templates"
+msgstr "Email Templates"
+
+msgid "Countries"
+msgstr "Pays"
+
+msgid "Currencies"
+msgstr "Devises"
+
+msgid "Database Restore"
+msgstr "Base de données de restauration"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "mondial"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Carte De Visite"
+
+msgid "Report A Bug"
+msgstr "Signaler Un Bug"
+
+msgid "Donate Us"
+msgstr "Donner nous"
+
+msgid "Dashboard"
+msgstr "Tableau de Bord"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Se déconnecter"
+
+msgid 
+"Copyright @ 2003 - 2015 . ASTPP - Open Source VOIP Billing Solution. All "
+"Rights Reserved. "
+msgstr 
+"Copyright @ 2003-2015. ASTPP - Open Source VOIP Solution de facturation. "
+"Tous droits réservés."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-beta"
+
+msgid "Welcome"
+msgstr "Bienvenue"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr 
+".ASTPP - Open Source VOIP Solution de facturation. Tous droits réservés."
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - VoIP Open Source Solution de facturation"
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP fonctionne mieux avec JavaScript enabled"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 des Comptes"
+
+msgid "By Minutes"
+msgstr "Par Minutes"
+
+msgid "By Calls"
+msgstr "Par des appels"
+
+msgid "Recharge Information"
+msgstr "Informations Recharge"
+
+msgid "My Rates"
+msgstr "My Rates"
+
+msgid "Rates"
+msgstr "Tarifs"
+
+msgid "Manage DIDs"
+msgstr "Gérer DID"
+
+msgid "SIP Devices"
+msgstr "Appareils SIP"
+
+msgid "Manage Invoice"
+msgstr "Gérer facture"
+
+
+
+msgid "CDRs Reports"
+msgstr "Rapports CDR"
+
+msgid "Payment Reports"
+msgstr "Rapports de paiement"
+
+msgid "The Customer Count field is required."
+msgstr "Le champ Nombre de clients est nécessaire."
+
+msgid "The Start prefix field is required."
+msgstr "Le champ de préfixe Démarrer est nécessaire."
+
+msgid "The Account Length field is required."
+msgstr "Le champ compte de la longueur est nécessaire."
+
+msgid "The Company field is required."
+msgstr "Le champ de la société est nécessaire."
+
+msgid "The Password field is required."
+msgstr "Le champ Mot de passe est nécessaire."
+msgid "Customer updated successfully!"
+msgstr "client mis à jour avec succès!"
+msgid "customer added successfully!"
+msgstr "client ajouté avec succès!"
+
+msgid "You can only transfer fund in same level account."
+msgstr "Vous ne pouvez transférer de fonds à même compte de niveau."
+msgid "Please enter To account number."
+msgstr "S'il vous plaît entrer le numéro de compte."
+msgid "Please enter a amount."
+msgstr "S'il vous plaît entrer un montant."
+msgid "You have insufficient balance."
+msgstr "Vous avez solde insuffisant."
+msgid "Please enter valid account number."
+msgstr "S'il vous plaît entrer le numéro de compte valide."
+msgid "Please enter amount greater then 0."
+msgstr "S'il vous plaît entrer quantité supérieure puis 0."
+msgid "You need to enter minimum amount of fund transfer"
+msgstr "Vous devez inscrire le montant minimum de transfert de fonds"
+msgid "Please enter valid account number!"
+msgstr "S'il vous plaît entrer le numéro de compte valide!"
+msgid "Incefficent amount !"
+msgstr "Montant Incefficent!"
+msgid "Transfer success!"
+msgstr "Transfert succès!"
+msgid "Sorry We are not able to process this request."
+msgstr "Désolé, nous ne sommes pas en mesure de traiter cette demande."
+msgid "You can not transfer fund in same account."
+msgstr "Vous ne pouvez pas transférer de fonds dans un même compte."
+msgid "Reseller updated successfully!"
+msgstr "Revendeur mis à jour avec succès!"
+msgid "Reseller added successfully!"
+msgstr "Revendeur ajouté avec succès!"
+
+msgid "Admin added successfully!"
+msgstr "Administrateur ajouté avec succès!"
+
+msgid "Admin updated successfully!"
+msgstr "Administrateur mis à jour avec succès!"
+msgid "Customer removed successfully!"
+msgstr "Client supprimé avec succès!"
+msgid "Reseller removed successfully!"
+msgstr "Revendeur retiré avec succès!"
+msgid "Provider removed successfully!"
+msgstr "Fournisseur retiré avec succès!"
+msgid "Admin removed successfully!"
+msgstr "Administrateur retiré avec succès!"
+msgid "Sub admin removed successfully!"
+msgstr "Sous administration supprimé avec succès!"
+msgid "Callshop removed successfully!"
+msgstr "Callshop retiré avec succès!"
+msgid "Subscripton Added Sucessfully."
+msgstr "Subscripton Ajouté Sucessfully."
+msgid "Subscription Removed Sucessfully."
+msgstr "Abonnement supprimé Sucessfully."
+msgid "Did added successfully."
+msgstr "N'a ajouté."
+
+msgid "Insuffiecient fund to purchase this DID"
+msgstr "Insuffiecient fonds pour acheter ce DID"
+msgid "Did Removed Successfully."
+msgstr "N'a Supprimé avec succès."
+msgid "DID added successfully."
+msgstr "DID ajouté."
+msgid "DID removed successfully."
+msgstr "DID supprimé avec succès."
+msgid "DID already removed before."
+msgstr "DID déjà enlevé avant."
+
+msgid "Account already exist in system."
+msgstr "Compte existent déjà dans le système."
+
+msgid "IP added sucessfully."
+msgstr "IP ajouté avec succès."
+msgid "IP removed sucessfully."
+msgstr "IP retiré avec succès."
+msgid "Add Caller Id Successfully!"
+msgstr "Ajouter Caller ID avec succès!"
+msgid "Please Enter Caller Id Field."
+msgstr "S'il vous plaît Entrez Caller Id Champ."
+msgid "Caller Id already Exists."
+msgstr "Caller ID existe déjà."
+msgid "Caller Id removed sucessfully!"
+msgstr "Caller ID retiré avec succès!"
+msgid "Block Prefix Removed Sucessfully!"
+msgstr "Bloquer préfixe supprimé Sucessfully!"
+
+msgid "Account tax added successfully!"
+msgstr "Impôt sur le compte ajouté avec succès!"
+msgid "Account tax removed successfully!"
+msgstr "Impôt sur le compte supprimé avec succès!"
+msgid "Sip Device removed successfully!"
+msgstr "Sip périphérique retiré avec succès!"
+msgid "Sip updated successfully!"
+msgstr "Dégustez à jour avec succès!"
+msgid "Opensips removed successfully!"
+msgstr "OpenSIPS supprimés avec succès!"
+msgid "Opensips updated successfully!"
+msgstr "OpenSIPS mis à jour avec succès!"
+
+msgid "Please Enter Proper Account Length."
+msgstr "S'il vous plaît Entrez bon compte Longueur."
+msgid "Bulk customer generate successfully!"
+msgstr "Client vrac générer avec succès!"
+msgid "Account refilled successfully!"
+msgstr "Compte rempli avec succès!"
+msgid "You are not allowed to add amount to this account."
+msgstr "Vous n'êtes pas autorisé à ajouter le montant de ce compte."
+msgid "Account callerID updated successfully!"
+msgstr "Compte callerID mis à jour avec succès!"
+msgid "Account callerID added successfully!"
+msgstr "Compte callerID ajouté avec succès!"
+
+msgid "updated successfully!"
+msgstr "mis à jour avec succès!"
+
+msgid "The Payment Field Is Required."
+msgstr "Le champ de paiement est exigé."
+
+msgid "Details"
+msgstr "détails"
+msgid "Please Select Sip Profile."
+msgstr "S'il vous plaît Sélectionnez le profil SIP."
+msgid "added successfully!"
+msgstr "ajouté avec succès!"
+
+msgid "The Start Prefix Field Must Contain Only Numbers."
+msgstr "Le préfixe Démarrer champ doit contenir que des chiffres."
+
+msgid "Sub-Admins"
+msgstr "Sous-Admins"
+
+msgid "The Rate Group Field Is Required."
+msgstr "Le Groupe champ Taux est nécessaire."
+
+msgid "The Caller Id Name Field Is Required."
+msgstr "L'identification de l'appelant Nom champ est obligatoire."
+
+msgid "Recharge successfully!"
+msgstr "Rechargez avec succès!"
+
+msgid "Post charge applied successfully."
+msgstr "Message de charge appliquée avec succès."
+
+msgid "Reports"
+msgstr "rapports"
+msgid "The Account Field Can Not Exceed 15 Characters In Length."
+msgstr "Le terrain compte ne peut pas dépasser 15 caractères."
+
+msgid "Not in use"
+msgstr "Hors service"
+
+msgid "Code"
+msgstr "Code"
+
+
+
+msgid "Release(C)"
+msgstr "Sortie (C)"
+
+msgid "Release(R)"
+msgstr "Sortie (R)"
+msgid "Are you sure want to release DID?"
+msgstr "Êtes-vous sûr de vouloir libérer DID?"
+msgid "Are you sure to delete?"
+msgstr "Êtes-vous sûr de vouloir supprimer?"
+msgid "Are you sure want to restore this database?"
+msgstr "Êtes-vous sûr de vouloir restaurer cette base de données?"
+msgid "Download Database"
+msgstr "téléchargement base de données"
+msgid "<b>Rescan"
+msgstr "<b> Rescan"
+msgid "Update"
+msgstr "Mise À Jour"
+msgid "<b>Reload"
+msgstr "<b> Recharger"
+msgid "<b>Stop"
+msgstr "<b> Arrêter"
+msgid "<b>Start"
+msgstr "<b> Démarrer"
+msgid "Prefixes List"
+msgstr "Liste préfixes"
+msgid "Add To List"
+msgstr "Ajouter à la liste"
+
+
+
+msgid "The Email Address field must contain a valid email address."
+msgstr "Le champ Adresse Email doit contenir une adresse email valide."
+msgid "The Valid Days field can not exceed 4 characters in length."
+msgstr "Le champ Jours valide ne peut pas dépasser 4 caractères."
+msgid "The Province/State field may only contain alphabetical characters."
+msgstr "Le champ Province / État ne peut contenir que des caractères alphabétiques."
+msgid "The Low Balance Alert Level field may only contain numeric and decimal."
+msgstr "Le champ d'alerte de bas niveau ne peut contenir que la balance numérique et décimal."
+msgid "The First Name field may only contain alpha-numeric characters."
+msgstr "Le champ Prénom ne peut contenir que des caractères alphanumériques."
+msgid "The Password field must be at least 5 characters in length."
+msgstr "Le champ de mot de passe doit comporter au moins 5 caractères."
+msgid "The Valid Days field must contain only numbers."
+msgstr "Le champ Jours valide doit contenir que des chiffres."
+msgid "The Max Channels field must contain only numbers."
+msgstr "Le champ Canaux Max doit contenir que des chiffres."
+msgid "The Credit Limit field may only contain numeric and decimal."
+msgstr "Le champ de limite de crédit ne peut contenir numérique et décimal."
+msgid "The Account Length field must contain only numbers."
+msgstr "Le champ Longueur de compte doit contenir que des chiffres."
+msgid "The Start prefix field must contain only numbers."
+msgstr "Le champ de préfixe Démarrer doit contenir que des chiffres."
+msgid "The Customer Count field must contain only numbers."
+msgstr "Le champ Nombre de clientèle doit contenir que des chiffres."
+msgid "The Balance Field may contain only numeric and decimals EX(99999.99999)"
+msgstr "Le champ Balance peut contenir seulement numérique et décimales EX (99999,99999)"
+msgid "The Credit Limit Field may contain only numeric and decimals EX(99999.99999)"
+msgstr "La limite de crédit champ peut contenir uniquement des nombres décimaux et numérique EX (99999,99999)"
+msgid "The Caller Id Name field is required."
+msgstr "Le champ Nom Caller ID est nécessaire."
+msgid "The Caller Id Number field must contain only numbers."
+msgstr "Le champ de nombre d'ID doit contenir que des chiffres."
+msgid "The Payment field is required."
+msgstr "Le champ de paiement est exigé."
+msgid "This field is required."
+msgstr "Ce champ est requis."
+msgid "Invalid IP address"
+msgstr "Adresse IP valide"
+msgid "Please select Sip Profile."
+msgstr "S'il vous plaît sélectionnez le profil SIP."
+
+
+
+
+msgid "Enable"
+msgstr "Activer"
+msgid "Disable"
+msgstr "Désactiver"
+msgid "Voicemail"
+msgstr "Messagerie Vocale"
+msgid "Voicemail Feature"
+msgstr "Messagerie Vocale Caractéristique"
+msgid "Voicemail Enabled"
+msgstr "Activé La Messagerie Vocale"
+msgid "Voicemail Password"
+msgstr "Mot De Passe De Messagerie Vocale"
+msgid "Voicemail Mail To"
+msgstr "Messagerie Vocale Mail à"
+msgid "Voicemail Attach File"
+msgstr "Messagerie Vocale Pièce jointe"
+msgid "VM Keep Local After Email"
+msgstr "VM Gardez Local Après Email"
+msgid "VM Send all Message"
+msgstr "VM Envoyer Tout Message"
+
+msgid "Provider Profile"
+msgstr "fournisseur profil"
+
+msgid "Interval"
+msgstr "Intervalle"
+
+msgid "Language"
+msgstr "La langue"
+
+msgid "Add Caller Id Sucessfully!"
+msgstr "Ajouter identification de l'appelant avec succès!"
+
+msgid "Call Waiting"
+msgstr "Appel en attente"
+
+msgid "SIP Device Added Successfully!"
+msgstr "SIP Dispositif Ajouté avec succès!"
+
+msgid "Reset"
+msgstr "Réinitialiser"
+
+msgid "Default Increment"
+msgstr "Par défaut Increment"
+
+msgid "Connect Charge"
+msgstr "Se connecter charge"
+
+msgid "Cost per Minutes"
+msgstr "Coût par Minutes"
+
+msgid "Precedence"
+msgstr "Priorité"
+
+msgid " The Rate Group Field Is Required."
+msgstr "Le champ groupe tarifaire est nécessaire."
+
+msgid "Account Profile"
+msgstr "compte profil"
+
+msgid "Allow Recording"
+msgstr "Autoriser l'enregistrement"
+
+msgid "Allow IP Management"
+msgstr "Autoriser la gestion IP"
+
+msgid "Billing Settings"
+msgstr "Paramètres de facturation"
+
+msgid "Created Date"
+msgstr "date de création"
+
+msgid "Batch Update"
+msgstr "Mise à jour de lot"
+
+msgid "Close"
+msgstr "Fermer"
+
+
+
+
+
+
+
+
+
+
+
+
+
+

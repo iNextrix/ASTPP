@@ -6,7 +6,7 @@
       
         build_grid("taxes_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+            $('.chkRefNos').attr('checked', this.checked);
         });
 
         $("#taxes_search_btn").click(function(){
@@ -21,7 +21,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        

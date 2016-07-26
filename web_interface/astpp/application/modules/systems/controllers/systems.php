@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class Systems extends CI_Controller {
 
     function Systems() {
@@ -30,6 +31,7 @@ class Systems extends CI_Controller {
         $this->load->library("system_form");
         $this->load->library('astpp/form');
         $this->load->model('system_model');
+        $this->load->dbutil();
 
         if ($this->session->userdata('user_login') == FALSE)
             redirect(base_url() . '/astpp/login');
@@ -48,7 +50,6 @@ class Systems extends CI_Controller {
 
     function configuration_search() {
         $ajax_search = $this->input->post('ajax_search', 0);
-
         if ($this->input->post('advance_search', TRUE) == 1) {
             $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
             $action = $this->input->post();
@@ -82,33 +83,21 @@ class Systems extends CI_Controller {
             }
         }
     }
-/*
-* Purpose : Changes in setting menu
-* Verion 2.1
-*/
-   /* function configuration() {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Settings';
-	$data['search_flag'] = true;
-        $this->session->set_userdata('advance_search', 0);
-        $data['grid_fields'] = $this->system_form->build_system_list_for_admin();
-        $data["grid_buttons"] = $this->system_form->build_grid_buttons();
-        $data['form_search'] = $this->form->build_serach_form($this->system_form->get_configuration_search_form());
-        $this->load->view('view_configuration_list', $data);
-    }*/
 
     function configuration($group_title='') {
 	if($group_title==""){
 		redirect(base_url() . '/dashboard');
 	}
+	if($group_title=="email"){
+	      $data['test_email_flag'] = true;
+	}
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Settings';
+        $data['page_title'] = ucfirst($group_title);
 	$data['group_title']=$group_title;
 	$where=array("group_title"=>$group_title);
 	$details = $this->db_model->getSelect("*", "system", $where);
 	$data['details']=$details->result_array();
 	$add_array = $this->input->post();
-	//echo '<pre>'; print_r($add_array); exit;
  	if (!empty($add_array)) {
 
 		foreach($add_array as $key=>$val){
@@ -121,12 +110,7 @@ class Systems extends CI_Controller {
 	 	$this->load->view('view_systemconf', $data);
 	}
     }
-/***************************************************************************************/
-
-    /**
-     * -------Here we write code for controller accounts functions account_list------
-     * Listing of Accounts table data through php function json_encode
-     */
+    
     function configuration_json() {
 
         $json_data = array();
@@ -152,10 +136,6 @@ class Systems extends CI_Controller {
         $this->load->view('view_template_list', $data);
     }
 
-    /**
-     * -------Here we write code for controller accounts functions account_list------
-     * Listing of Accounts table data through php function json_encode
-     */
     function template_json() {
         $json_data = array();
         $count_all = $this->system_model->gettemplate_list(false, "", "");
@@ -179,28 +159,23 @@ class Systems extends CI_Controller {
         $data['form'] = $this->form->build_form($this->system_form->get_template_form_fields(), $edit_data);
         $this->load->view('view_template_add_edit', $data);
     }
-/*
-* Purpose : changes reseller can edit own email template 
-* Verion 2.1
-*/
+
     function template_save() {
         $add_array = $this->input->post();
         
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
              $account_data = $this->session->userdata("accountinfo");
-	     $reseller = $account_data['id'];
-	     
+			 $reseller = $account_data['id'];
              $this->resellertemplate_save($add_array,$reseller);
         }
         else
         {
-            
             $this->admintemplate_save($add_array);
         }
     }
+    
     function resellertemplate_save($data,$resellerid)
     {
-        
         $where = array('name' => $data['name'],'reseller_id'=>$resellerid);
         $count = $this->db_model->countQuery("*", "default_templates", $where);
         $data['form'] = $this->form->build_form($this->system_form->get_template_form_fields(), $data);
@@ -217,24 +192,18 @@ class Systems extends CI_Controller {
                 exit;
             }
         } else {
-//              echo "<pre>";
-//              echo $resellerid;
-//              print_r($data);exit; 
-            //$data['page_title'] = 'Template Details';
-            if ($this->form_validation->run() == FALSE) {
-                
+            if ($this->form_validation->run() == FALSE) {    
                 $data['validation_errors'] = validation_errors();
             } else {
                  unset($data['form']);
                  $data['reseller_id'] = $resellerid;
-//                  echo "<pre>";print_r($data);exit;
                 $this->system_model->add_resellertemplate($data);
                 $this->session->set_flashdata('astpp_errormsg', 'Template added successfully!');
                 redirect(base_url() . 'systems/template/');
                 exit;
             }
         }
-        $this->load->view('view_trunk_add_edit', $data);   
+        $this->load->view('view_template_add_edit', $data);   
     }
     function admintemplate_save($data)
     {
@@ -263,36 +232,8 @@ class Systems extends CI_Controller {
                 exit;
             }
         }
-        $this->load->view('view_trunk_add_edit', $data);   
+        $this->load->view('view_template_add_edit', $data);   
     }
-//     function template_save() {
-//         $add_array = $this->input->post();
-// 
-//         $data['form'] = $this->form->build_form($this->system_form->get_template_form_fields(), $add_array);
-//         if ($add_array['id'] != '') {
-//             $data['page_title'] = 'Edit Template';
-//             if ($this->form_validation->run() == FALSE) {
-//                 $data['validation_errors'] = validation_errors();
-//             } else {
-//                 $this->system_model->edit_template($add_array, $add_array['id']);
-//                 $this->session->set_flashdata('astpp_errormsg', 'Template updated successfully!');
-//                 redirect(base_url() . 'systems/template/');
-//                 exit;
-//             }
-//         } else {
-//             $data['page_title'] = 'Termination Details';
-//             if ($this->form_validation->run() == FALSE) {
-//                 $data['validation_errors'] = validation_errors();
-//             } else {
-//                 $this->system_model->add_template($add_array);
-//                 $this->session->set_flashdata('astpp_errormsg', 'Template added successfully!');
-//                 redirect(base_url() . 'systems/template/');
-//                 exit;
-//             }
-//         }
-//         $this->load->view('view_trunk_add_edit', $data);
-//     }
-
     function template_search() {
         $ajax_search = $this->input->post('ajax_search', 0);
 
@@ -313,7 +254,6 @@ class Systems extends CI_Controller {
         $this->session->set_userdata('did_search', "");
     }
     
-    // country code =====================================
     function country_list() {
         $data['username'] = $this->session->userdata('user_name');
         $data['page_title'] = 'Countries';
@@ -387,7 +327,6 @@ class Systems extends CI_Controller {
         $data['form'] = $this->form->build_form($this->system_form->get_country_form_fields(), $add_array);
         if ($add_array['id'] != '') {
             $data['page_title'] = 'Edit Country';
-	    $data['page_title'] = 'Edit Country';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -398,7 +337,7 @@ class Systems extends CI_Controller {
                 exit;
             }
         } else {
-            $data['page_title'] = 'Create Country';
+            $data['page_title'] = 'Add Country';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -411,9 +350,10 @@ class Systems extends CI_Controller {
         }
     }
     
-     function country_remove($id) {
+    function country_remove($id) {
         $this->system_model->remove_country($id);
-        $this->session->set_flashdata('astpp_notification', 'Country removed successfully!');
+        $country=$this->common->get_field_name('country','countrycode',$id);
+        $this->session->set_flashdata('astpp_notification', $country.'Country removed successfully!');
         redirect(base_url() . 'systems/country_list/');
     }
 
@@ -423,11 +363,10 @@ class Systems extends CI_Controller {
         $this->db->where($where);
         echo $this->db->delete("countrycode");
     }
-
-// currency code =====================================
     function currency_list() {
+	$base_currency = Common_model::$global_config['system_config']['base_currency'];
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Currencies';
+        $data['page_title'] = 'Currencies'; 
         $data['search_flag'] = true;
         $data['cur_menu_no'] = 4;
 	$this->session->set_userdata('currency_search', 0);
@@ -507,7 +446,7 @@ class Systems extends CI_Controller {
                 exit;
             } else {
                 $this->system_model->edit_currency($add_array, $add_array['id']);
-                echo json_encode(array("SUCCESS"=> $add_array["currency"]." currency updated successfully!"));
+                echo json_encode(array("SUCCESS"=> $add_array["currencyname"]." currency updated successfully!"));
                 exit;
             }
         } else {
@@ -518,15 +457,16 @@ class Systems extends CI_Controller {
                 exit;
             } else {
                 $response = $this->system_model->add_currency($add_array);
-                echo json_encode(array("SUCCESS"=> $add_array["currency"]." currency added successfully!"));
+                echo json_encode(array("SUCCESS"=> $add_array["currencyname"]." currency added successfully!"));
                 exit;
             }
         }
     }
     
      function currency_remove($id) {
+		$currencyname=$this->common->get_field_name('currencyname','currency',$id);
         $this->system_model->remove_currency($id);
-        $this->session->set_flashdata('astpp_notification', 'Currency removed successfully!');
+        $this->session->set_flashdata('astpp_notification',$currencyname. ' Currency removed successfully!');
         redirect(base_url() . 'systems/currency_list/');
     }
 
@@ -538,84 +478,70 @@ class Systems extends CI_Controller {
     }
     function database_backup()
     {
-	$data=array();
-	$data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Database backup';
-        $data['form'] = $this->form->build_form($this->system_form->get_backup_database_form_fields(), '');
+        $data=array();
+        $data['username'] = $this->session->userdata('user_name');
+        $data['page_title'] = 'Database Backup';
+        $filename=$this->db->database."_".date("YmdHms").".sql.gz";
+        $data['form'] = $this->form->build_form($this->system_form->get_backup_database_form_fields($filename), '');
         $this->load->view('view_database_backup', $data);
     }
     function database_backup_save()
-    {
-	$add_array=$_POST;
-	if($add_array['backup_name'] != '' && $add_array['path'] != ''){
-	$astpp_config = parse_ini_file("/var/lib/astpp/astpp-config.conf");
-// 	$astpp_config = parse_ini_file("/home/html/astpp/astpp-config.conf");
-	$db_name = $astpp_config['dbname'];
-	$db_username = $astpp_config['dbuser'];
-	$db_password = $astpp_config['dbpass'];
-	$backup_file = $add_array['path'];
-	//print_r($backup_file);
-	//exit;
-		if (substr($backup_file,-3)=='.gz'){
-			// WE NEED TO GZIP
-			$backup_file = substr($backup_file,0,-3);
-			$do_gzip=1;
-		}
-	$run_backup="/usr/bin/mysqldump -all --databases ".$db_name." -u'".$db_username."' -p'".$db_password."' > '$backup_file'";
-// 	echo $run_backup."\n\n";
-	 exec($run_backup,$output,$error);
-	 
-	  if ($do_gzip){ 
-		 // $gzip="/usr/bin/gzip";
-        $gzip =     exec("which gzip");
-		  // Compress file
-		  $run_gzip = $gzip." '$backup_file'";
- 		  echo $run_gzip."<br>";
-      		exec($run_gzip,$output,$error_zip);
-	  }
-//print_r($error);
-//print_r($error_zip);
-// exit;
- 		if($error ==0 && $error_zip ==0 )
-		{
-		
-		    $this->system_model->backup_insert($add_array);
-		    $this->session->set_flashdata('astpp_errormsg', 'backup added successfully!');
-	  	}
-		elseif($error!=0)
-		{
-					
-			$this->session->set_flashdata('astpp_notification', 'An error occur when the system tried to backup of the database. Please check yours system settings for the backup section');
-		}
-		else
-		{
-	   	$this->session->set_flashdata('astpp_notification', 'An error occur when the system tried to compress the backup realized. Please check yours system settings for the backup section!');
-		  
-		}
-	  redirect(base_url() . 'systems/database_restore/');
-	  exit;
-	  
-      }
+    { 
 
-      else{
-	$this->session->set_flashdata('astpp_notification', 'Please fill up proper information!');
-	redirect(base_url() . 'systems/database_restore/');
+      $add_array=$this->input->post();
+      
+      $data['form'] = $this->form->build_form($this->system_form->get_backup_database_form_fields($add_array['path'],$add_array['id']),$add_array);
+      $data['page_title'] = 'Database Backup';
+      if($add_array['id'] != ''){
+      
+      }else{
+           if($this->form_validation->run() == FALSE) {
+                $data['validation_errors'] = validation_errors();
+                echo $data['validation_errors'];
+                exit;
+          }else{
+             $db_name     = $this->db->database;
+             $db_username = $this->db->username;
+             $db_password = $this->db->password;
+             $db_hostname = $this->db->hostname;
+             $filename = $add_array['path'];
+             $backup_file=DATABASE_DIRECTORY.$filename;
+            if (substr($backup_file,-3)=='.gz'){
+                  $backup_file = substr($backup_file,0,-3);
+                  $do_gzip=1;
+            }
+
+           $run_backup="/usr/bin/mysqldump -all --databases ".$db_name." -u'".$db_username."' -p'".$db_password."' > '$backup_file'";
+           $error_zip=0;
+           exec($run_backup,$output,$error);
+           if ($do_gzip){
+              $gzip =  exec("which gzip");
+              $run_gzip = $gzip." '$backup_file'";
+              exec($run_gzip,$output,$error_zip);
+           }
+          
+           if($error == 0 && $error_zip == 0 ){      
+              $this->system_model->backup_insert($add_array);
+              echo json_encode(array("SUCCESS"=> $add_array['backup_name']." backup exported successfully!"));
+              exit;
+           }else{
+                echo 'An error occur when the system tried to backup of the database. Please check yours system settings for the backup section';
+                exit;
+           }
+        }
       }
     }
-    
     function database_restore() {
-        $data['page_title'] = 'Backup Database';
-	$data['form'] = $this->form->build_form($this->system_form->get_backup_database_form_fields(), '');
+        $data['page_title'] = 'Database Restore';
         $data['grid_fields'] = $this->system_form->build_backupdastabase_list();
         $data["grid_buttons"] = $this->system_form->build_backupdastabase_buttons();
-//         echo "<pre>";print_r($data);exit;
         $this->load->view('view_database_list', $data);
     }
-    function database_restore_json()
+function database_restore_json()
     {
-	$json_data = array();
+    $json_data = array();
         $count_all = $this->system_model->getbackup_list(false, "", "");
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp']=10, $_GET['page']=1);
+        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'],$_GET['page']);
         $json_data = $paging_data["json_paging"];
 
         $query = $this->system_model->getbackup_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
@@ -623,137 +549,95 @@ class Systems extends CI_Controller {
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
 
         echo json_encode($json_data);
-	exit;
+    exit;
     }
     function database_restore_one($id='')
     {
-	 $result = $this->system_model->get_backup_data($id);
-	 $result_array=$result->result_array();
-	  if($result->num_rows() > 0)
-	  {
-		    $astpp_config = parse_ini_file("/var/lib/astpp/astpp-config.conf");
-		    $db_name = $astpp_config['dbname'];
-		    $db_username = $astpp_config['dbuser'];
-		    $db_password = $astpp_config['dbpass'];
-		    
-		    $path=$result_array[0]['path'];
-		    if(file_exists($path)){
-			  if (substr($path,-3)=='.gz') {
-                 $GUNZIP_EXE =     exec("which gunzip");
-				  //$GUNZIP_EXE="/usr/bin/gunzip";
-				  $run_gzip = $GUNZIP_EXE." -c ".$path." | ";
-			  }
-			  $MYSQL="/usr/bin/mysql";
-			  $run_restore = $run_gzip.$MYSQL." -u ".$db_username." -p".$db_password;
-			  exec($run_restore);
-		    }else{
-			  $this->session->set_flashdata('astpp_notification', 'File not exists!');
-			  redirect(base_url() . 'systems/database_restore/');
-			  exit;
-		    }
-	  }
-	$this->session->set_flashdata('astpp_errormsg', 'Backup restore successfully!');
-	redirect(base_url() . 'systems/database_restore/');
+       $result = $this->system_model->get_backup_data($id);
+       $result_array=$result->result_array();
+       if($result->num_rows() > 0)
+       {
+            $db_name     = $this->db->database;
+            $db_username = $this->db->username;
+            $db_password = $this->db->password;
+            $db_hostname = $this->db->hostname;            
+            $path=DATABASE_DIRECTORY.$result_array[0]['path'];
+            if(file_exists($path)){
+              if (substr($path,-3)=='.gz') {
+                            $GUNZIP_EXE =     exec("which gunzip");
+                            $run_gzip = $GUNZIP_EXE." < ".$path." | ";
+              }
+              $MYSQL="/usr/bin/mysql";
+              $run_restore = $run_gzip.$MYSQL."-h".$db_hostname." -u".$db_username." -p".$db_password." ".$db_name;
+              exec($run_restore);
+              $this->session->set_flashdata('astpp_notification', 'Database Restore successfully.');
+              redirect(base_url() . 'systems/database_restore/');
+            }else{
+              $this->session->set_flashdata('astpp_errormsg', 'File not exists!');
+              redirect(base_url() . 'systems/database_restore/');
+            }
+      }
+      redirect(base_url() . 'systems/database_restore/');
     }
 
-function country_export_xls()
-{
-	echo "developing remaining"; 
-}
-
-function currency_export_xls()
-{
-	echo "developing remaining"; exit;
-}
-//       function database_upload_sql_file()
-//       {
-// 	    $upload_dir = "/var/www/html/";
-// 	  if (isset($_FILES["sql_file_name"])) {
-// 	      if ($_FILES["sql_file_name"]["error"] > 0) {
-// 		  echo "Error: " . $_FILES["file"]["error"] . "<br>";
-// 	      } else {
-// 		  move_uploaded_file($_FILES["sql_file_name"]["tmp_name"], $upload_dir . $_FILES["sql_file_name"]["name"]);
-// 		  //echo "Uploaded File :" . $_FILES["myfile"]["name"];
-// 		  echo "<pre>";
-// 		  print_r($_POST);
-// 		  print_r($_FILES);
-// 		  exit;
-// 	      }
-// 	  }
-//       }
-
-    function database_download($id='')
-    {
+ function database_download($id=''){
     
- 	$result = $this->system_model->get_backup_data($id);
- 	$result_array=$result->result_array();
- 	if($result->num_rows() > 0)
- 	{
-	  $path=$result_array[0]['path'];
-	  $filename = basename($path);
-	  $len = filesize($path);
-	  
-	  header("Content-Encoding: binary");
-	  header("Content-Type: application/octet-stream");
-	  header( "content-length: " . $len );
-	  header( "content-disposition: attachment; filename=" . $filename );
-	  header("Expires: 0");
-	  header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	  header("Cache-Control: private");
-	  header("Pragma: public");
-	  ob_clean();
-	  $fp=fopen( $path, "r" );
-	  fpassthru( $fp );
-	  exit;
- 	}
+    $result = $this->system_model->get_backup_data($id);
+    $result_array=$result->result_array();
+    if($result->num_rows() > 0)
+    {
+      $path=$result_array[0]['path'];
+      $filename = basename($path);
+      $len = filesize($path);
+      
+      header("Content-Encoding: binary");
+      header("Content-Type: application/octet-stream");
+      header( "content-length: " . $len );
+      header( "content-disposition: attachment; filename=" . $filename );
+      header("Expires: 0");
+      header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+      header("Cache-Control: private");
+      header("Pragma: public");
+      ob_clean();
+      $fp=fopen( $path, "r" );
+      fpassthru( $fp );
+      exit;
+    }
     }
 
     function database_import()
     {
-	$data['page_title'] = 'Import Database';
-        $this->load->view('view_import_database', $data);
+       $data['page_title'] = 'Import Database';
+       $this->load->view('view_import_database', $data);
     
     }
    function database_import_file()
     {
-	// ini_set('upload_max_size','128MB');
-	$filename = $_POST['fname'];
-	//print_r($filename);
-	//exit;
-		
-	$target_path = $this->config->item('db_upload-file-path');
-	$upload_greeting_file= $_FILES['userfile']['name'];
-	$db_file = explode(".",$upload_greeting_file);
-	if( $db_file[1] == 'csv' || $db_file[1] == 'tar' || $db_file[1] == 'sql')
-		{
-			$target_path = $target_path . basename( $_FILES['userfile']['name']); 
-			move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_path );
-			$this->load->model('system_model');
-			$query = $this->system_model->import_database($filename,$target_path);
-			echo "The file ".  basename( $_FILES['userfile']['name'])." has been uploaded";
-			redirect(base_url() . 'systems/database_restore/');
-			//$this->redirect_notification("Something wrong",'/system/database_restore/");	
-		}		
-		else
-		{
-			echo "The file ".  basename( $_FILES['userfile']['name'])." Uploaded Fail";
-			redirect(base_url() . 'systems/database_restore/');
-			//$this->redirect_notification("Something wrong",'/system/database_restore/");	
-		
-		}
-
-	 	
+        $filename = $_POST['fname'];
+        $upload_greeting_file= $_FILES['userfile']['name'];
+        $db_file = explode(".",$upload_greeting_file); 
+        if( $db_file[1] == 'csv' || $db_file[1] == 'tar' || $db_file[1] == 'sql'){
+            $target_path = basename( $_FILES['userfile']['name']);
+            move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_path );
+          
+            $query = $this->system_model->import_database($filename,$_FILES['userfile']['name']);
+            $this->session->set_flashdata('astpp_errormsg',"The file ".  basename( $_FILES['userfile']['name'])." has been uploaded");
+            redirect(base_url()."systems/database_restore/");            
+        }else{
+            $this->session->set_flashdata('astpp_notification',"There is a some issue or invalid file format.");
+            redirect(base_url()."systems/database_restore/");            
+        }
     }
     function database_delete($id)
     {
       $where = array("id"=>$id);
       $this->db->where($where);
       $this->db->delete("backup_database");
+      $this->session->set_flashdata('astpp_errormsg', 'Database backup deleted successfully.');      
       redirect(base_url() . 'systems/database_restore/');
       return true;
     }
     function database_backup_delete_multiple() {
-        
         $ids = $this->input->post("selected_ids", true);
         $where = "id IN ($ids)";
         $this->db->where($where);

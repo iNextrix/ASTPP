@@ -4,24 +4,15 @@
     $(document).ready(function() {
         build_grid("backup_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+            $('.chkRefNos').attr('checked', this.checked); 
         });
     });
 </script>
-
 <? endblock() ?>
-
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
-
 <? startblock('content') ?>       
-
-
-
-
-
-
 <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">
     	<div class="container">
@@ -35,10 +26,5 @@
         </div>
     </div>
 </section>
-
-
-
-
-
 <? endblock() ?>	
 <? end_extend() ?> 

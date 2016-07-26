@@ -8,7 +8,7 @@ $(document).ready(function() {
   build_grid("sip_profile_grid","<?php echo base_url(); ?>freeswitch/fssipprofile_params_json/<?=$edited_id?>",<? echo $grid_fields ?>,'');
 })
    function validateForm(){
-
+	var formflag = true;
          
       var ipaddress = document.getElementById("sip_ip").value;
       var pattern =/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/; 
@@ -17,19 +17,23 @@ $(document).ready(function() {
       var length1=val.length;
 // 
       var numbers  = isNaN(val);
-      if(document.getElementById('sip_name').value == "")
+      
+      if(document.getElementById('sip_port').value == "")
       {
 //           
-	  $('#error_msg_sip').text( "Please Enter sip profile Name" );
-	  document.getElementById('sip_name').focus();
-	  return false;
+	  $('#error_msg_port').text( "Please Enter SIP port" );
+	  document.getElementById('sip_port').focus();
+	  formflag = false;
+	  //return false;
       }
+      
       if(document.getElementById('sip_ip').value == "")
       {
 //           
-	  $('#error_msg_ip').text( "Please Enter sip IP" );
+	  $('#error_msg_ip').text( "Please Enter SIP IP" );
 	  document.getElementById('sip_ip').focus();
-	  return false;
+	  formflag = false;
+	  //return false;
       }
 //       if(match == null)
 //       {
@@ -38,27 +42,35 @@ $(document).ready(function() {
 // 	  document.getElementById('sip_ip').focus();
 // 	  return false;
 //       }
-      if(document.getElementById('sip_port').value == "")
+      
+      
+      if(document.getElementById('sip_name').value == "")
       {
 //           
-	  $('#error_msg_port').text( "Please Enter sip port" );
-	  document.getElementById('sip_port').focus();
-	  return false;
+	  $('#error_msg_sip').text( "Please Enter Name" );
+	  document.getElementById('sip_name').focus();
+	  formflag = false;
+	  //return false;
       }
+      
       if(numbers == true)
       {
 //           
 	  $('#error_msg_port').text( "Please Enter Numeric value" );
 	  document.getElementById('sip_port').focus();
-	  return false;
+	  formflag = false;
+	  //return false;
       }
       if(length1 > 5)
       {
          $('#error_msg_port').text( "Please Enter port not exceed 5 number" );
 	  document.getElementById('sip_port').focus();
-	  return false;
+	  formflag = false;
+	  //return false;
       }
+      if(formflag){
       $('#myForm1').submit();
+  }
        
 }
 function cancel(){
@@ -71,7 +83,6 @@ function cancel(){
 <?php endblock() ?>
 <?php startblock('page-title') ?>
 <?= $page_title ?>
-<br/>
 <?php endblock() ?>
 <?php startblock('content') ?>
 
@@ -90,20 +101,20 @@ function cancel(){
 		      </div>
 		     <form method="post" action="<?= base_url() ?>freeswitch/fssipprofile_add/edit/" enctype="multipart/form-data" name='form1' id ="myForm1">
 			<input type='hidden' name='id' value="<?=$id?>" />
-			<div class='col-md-12'><div style="width:550px;" ><label style="text-align:right;" class="col-md-3">Profile name :</label><input class="col-md-5 form-control" value="<?=$sip_name;?>" id="sip_name" name="name" size="20" type="text"></div>
+			<div class='col-md-12'><div style="width:550px;" ><label style="text-align:right;" class="col-md-3">Name *</label><input class="col-md-5 form-control" value="<?=$sip_name;?>" id="sip_name" name="name" size="20" type="text"></div>
 			<span style="color:red;margin-left: 10px;float:left;" id="error_msg_sip"></span>
 			</div>
 			<div class='col-md-12'>  
-			<div style="width:550px;" ><label style="text-align:right;" class="col-md-3">Sip IP  :</label><input class="col-md-5 form-control " value="<?=@$sip_ip;?>" name="sip_ip" size="20" id="sip_ip" type="text"></div>
+			<div style="width:550px;" ><label style="text-align:right;" class="col-md-3">SIP IP  *</label><input class="col-md-5 form-control " value="<?=@$sip_ip;?>" name="sip_ip" size="20" id="sip_ip" type="text"></div>
 			<span style="color:red;margin-left: 10px;float:left;" id="error_msg_ip"></span>
 			</div>
 			<div>
-			<div style="width:550px;"><label style="text-align:right;"  class="col-md-3">Sip Port :</label><input class="col-md-5 form-control" value="<?=@$sip_port;?>" name="sip_port" size="20" id="sip_port" type="text"></div>
+			<div style="width:550px;"><label style="text-align:right;"  class="col-md-3">SIP Port *</label><input class="col-md-5 form-control" value="<?=@$sip_port;?>" name="sip_port" size="20" id="sip_port" type="text"></div>
 			<span style="color:red;margin-left: 10px;float:left;" id="error_msg_port"></span>
 			</div>
 			<div class='col-md-12'>
-			<div style="width:550px;"><label style="text-align:right;" class="col-md-3">Status :</label>
-			<select name="sipstatus" class="col-md-5 form-control">
+			<div style="width:550px;"><label style="text-align:right;" class="col-md-3">Status </label>
+			<select name="sipstatus" class="col-md-5 form-control selectpicker" data-live-search='true'>
 			    
 			    <option value="0" <?if($status==0)echo 'selected=selected;'?>>Active</option>
 			    <option value="1" <?if($status==1)echo 'selected=selected;'?>>Inactive</option>
@@ -149,42 +160,28 @@ function cancel(){
                         <div style="color:red;margin-left: 60px;">
 			<?php if (isset($validation_errors)) echo $validation_errors; ?> 
 		    </div>
-                    <form method="post" action="<?= base_url() ?>freeswitch/fssipprofile_edit" enctype="multipart/form-data">
+                    <form method="post" name="form2" id="form2" action="<?= base_url() ?>freeswitch/fssipprofile_edit" enctype="multipart/form-data">
 			<input type='hidden' name='id' value=<?=$id?> />
 			<input type='hidden' name='type' value='save' />
 			<div style="col-md-5">
 			          <div class="col-md-1">
 
-			          <label class="col-md-12 no-padding" style='padding-left:10px;'>Name : </label>
+			          <label class="col-md-12 no-padding" style='padding-left:10px;'>Name  </label>
 			          </div>
 			          <div class='col-md-2'>
-			          <input class="col-md-12 form-control" value='<?=$params_name?>' name="params_name" id='paramname' size="25" type="text">
+			          <input class="col-md-12 form-control" value="<?=$params_name?>" name="params_name" id='params_name' size="25" type="text">
 			          </div>
-			          
+		          
 			</div>
-			<?//if($params_status){?>		
-			<!--<div style="col-md-5">
-			          <div class='col-md-1'> 
-			          <label class="col-md-12 no-padding;" style="">Value : </label>
-			          </div>
-			          <div class='col-md-2'>
-			          <select name="params_value" id="params_value"  class="col-md-12 form-control">
-				  <option value="true" <?if(isset($params_value) && @$params_value == "true")echo 'selected=selected';?>> true </option>
-				  <option value="false" <?if(isset($params_value) && @$params_value == "false")echo 'selected=selected';?>> false </option>
-				  </select>
-				  </div>
-			</div> -->
-			<?//}else{?>
 			 <div style="col-md-5">
 			          <div class='col-md-1'> 
-			          <label class="col-md-12" style="padding-left:10px;">Value : </label>
+			          <label class="col-md-12" style="padding-left:10px;">Value  </label>
 			           </div>
 			          <div class='col-md-2'>
-			          <input class="col-md-12 form-control" value='<?=$params_value?>' name="params_value" id='paramvalue' size="25" type="text">
+			          <input class="col-md-12 form-control" value="<?=$params_value?>" name="params_value" id='params_value' size="25" type="text">
 			           </div>
 			          
 			</div>
-			<?//}?>
 			<?
 			  if($params_name!='')
 			  {
@@ -198,6 +195,8 @@ function cancel(){
 			<input class="btn  btn-primary"  name="action" value="Reset" type="button" onclick="cancel();"></div>
 		    </form>
 		    </div>
+			<span style="color:red;margin-left: 13%;float:left;" id="error_msg_params_name"></span>
+			<span style="color:red;margin-left: 41%;float:left;" id="error_msg_params_value"></span>
 		    <div class='col-md-12'>
 		     <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
                             <table id="sip_profile_grid" align="left"></table>

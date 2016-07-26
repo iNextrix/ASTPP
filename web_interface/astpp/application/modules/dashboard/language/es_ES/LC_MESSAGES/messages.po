@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-09-23 04:20-0300\n"
+"Last-Translator: Inextrix <astpp@inextrix.com>\n"
+"Language-Team: Inextrix <astpp@inextrix.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/astpp/application/modules/dashboardlanguage\n"
+
+#: ../../../../index.php:36 /var/www/html/gettext/index.php:36
+#: ../../../../index.php:37 /var/www/html/gettext/index.php:37
+msgid ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All Rights "
+"Reserved. "
+msgstr ""
+"Copyright @ 2003 - 2015 ASTPP - Solución de Facturación VOIP Open Source. Todos "
+"los Derechos Reservados."
+
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgid "DIDs"
+msgstr "DID's"
+
+msgid "Switch"
+msgstr "Interruptor"
+
+msgid "Email Mass"
+msgstr "Correo Electrónicos Masivos"
+
+msgid "Accounting"
+msgstr "Contabilidad"
+
+msgid "Tariff"
+msgstr "Tarifa"
+
+msgid "Amount"
+msgstr "Cantidad"
+
+msgid "Rate Groups"
+msgstr "Grupos de Tarifas"
+
+msgid "Origination Rates"
+msgstr "Creaciones de Tarifas"
+
+msgid "Packages"
+msgstr "Paquetes"
+
+msgid "Usage Report"
+msgstr "Reporte de Uso"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "Termination Rates"
+msgstr "Terminación de Tarifas"
+
+msgid "Gateways"
+msgstr "Adaptadores"
+
+msgid "Sip Profiles"
+msgstr "Perfiles Sip"
+
+msgid "Freeswitch Server"
+msgstr "Servidor Freeswitch"
+
+msgid "IP MAP (ACL)"
+msgstr "MAPA IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Reportes de Llamadas"
+
+msgid "Details Reports"
+msgstr "Detalles de Reportes"
+
+msgid "customers"
+msgstr "clientes"
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Reseller"
+msgstr "Revendedor"
+
+msgid "Provider Outbound"
+msgstr "Proveedor de Salida"
+
+msgid "Summary Reports"
+msgstr "Resumen de Reportes"
+
+msgid "Trunk Stats"
+msgstr "Estadísticas de Troncal"
+
+msgid "Live Call Report"
+msgstr "Reportes de Llamadas en Línea"
+
+msgid "Email History"
+msgstr "Historial de Correos Electrónicos"
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Invoice Config"
+msgstr "Configuración de Factura"
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Email Templates"
+msgstr "Plantillas de Correo Electrónico"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Currencies"
+msgstr "Monedas"
+
+msgid "Database Restore"
+msgstr "Restaurar base de Datos"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Tarjeta de Llamada"
+
+msgid "Report A Bug"
+msgstr "Reportar un Error"
+
+msgid "Donate Us"
+msgstr "Donar"
+
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-Beta"
+
+msgid "Welcome"
+msgstr "Bienvenido"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ""
+". ASTPP - Solución de Facturación VOIP Open Source. Todos Los Derechos Reservados."
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - Solución de Facturación VOIP Open Source."
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP funciona mejor con Javascript activado"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 de las Cuentas"
+
+msgid "By Minutes"
+msgstr "Por Minutos"
+
+msgid "By Calls"
+msgstr "Por Llamadas"
+
+msgid "Recharge Information"
+msgstr "Información de Recarga"
+
+msgid "Trunk add"
+msgstr "Agregar Troncal"
+
+msgid "Trunk Information"
+msgstr "Información de la Troncal"
+
+msgid "Trunk Name"
+msgstr "Nombre de la Troncal"
+
+msgid "Gateway"
+msgstr "Adaptador"
+
+msgid "Fail Over Gateway"
+msgstr "Fallo en Adaptador"
+
+msgid "Max Channels"
+msgstr "Máximo de Canales"
+
+msgid "Trunk Settings"
+msgstr "Configuración de Troncales"
+
+msgid "Number Translation"
+msgstr "Número Traducción"
+
+msgid "Codecs"
+msgstr "Codecs"
+
+msgid "Precedence"
+msgstr "Precedencia"
+
+msgid "Failover GW name"
+msgstr "Conmutación por error de nombre de GW"
+
+msgid "Max channels"
+msgstr "Canales Máximo"
+
+msgid "Rate Count"
+msgstr "Conteo de Tarifas"
+
+msgid "Edit Trunk"
+msgstr "Editar Troncal"
+
+msgid "My Rates"
+msgstr "Mis Tarifas"
+
+msgid "Rates"
+msgstr "Tarifas"
+
+msgid "Manage DIDs"
+msgstr "Administrar DID"
+
+msgid "SIP Devices"
+msgstr "Dispositivos SIP"
+
+msgid "Manage Invoice"
+msgstr "Administrar Factura"
+
+msgid "CDRs Reports"
+msgstr "Reporte de CDR"
+
+msgid "Payment Report"
+msgstr "Reporte de Pago"
+
+msgid "Payment"
+msgstr "Pago"
+
+msgid "Payment Reports"
+msgstr "Reporte de Pago"
+
+msgid "Fund Transfer"
+msgstr "Transferencia de Fondos"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "Recharge"
+msgstr "recargar"
+
+msgid "admins"
+msgstr "administradores"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "invoices"
+msgstr "facturas"
+
+msgid "Invoices"
+msgstr "Facturas"
+
+msgid "packages"
+msgstr "paquetes"
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "Provider"
+msgstr "Proveedor"
+
+msgid "summary reports"
+msgstr "resportes resumidos"
+
+msgid "Detail reports"
+msgstr "Detalle de Reportes"
+
+msgid "Caller Id"
+msgstr "Identificador de Llamadas"
+
+msgid "Caller ID"
+msgstr "Identificador de Llamadas"
+
+msgid "Trunks"
+msgstr "Troncales"
+
+msgid "subscriptions"
+msgstr "suscripciones"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+msgid "Resellers"
+msgstr "Revendedores"
+
+msgid "Detail Reports"
+msgstr "Detalle de Reportes"

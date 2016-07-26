@@ -1,24 +1,27 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
+
 class dashboard extends CI_Controller {
 
     function dashboard() 
@@ -41,13 +44,7 @@ class dashboard extends CI_Controller {
 	{
             $this->load->view('view_user_dashboard', $data);
         } else {
-	    $gmtoffset=$this->common->get_timezone_offset();
-            $date=date("m");
-            $current_date=date("Y-m-d H:i:s");
-            $gmt_date=date("Y-m-d",strtotime($current_date)+$gmtoffset);
-            $gmt_month = date('m', strtotime($current_date)+$gmtoffset);
-            $date= $date > $gmt_month ? $current_date : $gmt_date;
-            $data['date']=date('F Y', strtotime($date));	    
+	    $gmtoffset=$this->common->get_timezone_offset();	    
             $this->load->view('view_dashboard', $data);
         }
     }
@@ -56,7 +53,8 @@ class dashboard extends CI_Controller {
     }     
     function customerReport_recent_payments() 
     {
-	 
+	$accountinfo=$this->session->userdata('accountinfo');
+	$currency=$this->common->get_field_name('currency','currency',array("id"=>$accountinfo['currency_id']));
         $json_data = array();
 	$i=1;
 	$result = $this->dashboard_model->get_recent_recharge();
@@ -65,14 +63,14 @@ class dashboard extends CI_Controller {
 	{
 		 $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts','');
 		 $json_data[0]['accountid']='Accounts';
-		 $json_data[0]['credit']='Amount';
+		 $json_data[0]['credit']='Amount('.$currency.")";
 		 $json_data[0]['payment_date']='Date';
 		 foreach($result->result_array() as $key=>$data){
 		      $current_timestamp=strtotime($data['payment_date']);
 		      $modified_date=$current_timestamp+$gmtoffset;
           	      $data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
 		      $json_data[$i]['accountid']=$data['accountid'];
-		      $json_data[$i]['credit']=$this->common_model->calculate_currency($data['credit'],'','',true);
+		      $json_data[$i]['credit']=$this->common_model->calculate_currency($data['credit'],'','',true,false);
 		      $json_data[$i]['payment_date']=date('Y-m-d H:i:s',strtotime($data['payment_date'])+$gmtoffset);
 		      $i++;
           	}
@@ -83,10 +81,14 @@ class dashboard extends CI_Controller {
       $this->customerReport_call_statistics_with_profit();
      }
     function customerReport_call_statistics_with_profit() {
+        $post=$this->input->post();
+        $year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
+        $month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
 	$json_data = array();
-	$start_date=date('Y-m-01');
+	$start_date=date($year.'-'.$month.'-01');
+        $end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
 	$gmtoffset=$this->common->get_timezone_offset();
-	$end_date=date('Y-m-d H:i:s');
+	$end_date=date($year."-".$month."-".$end_day.' H:i:s');
 	$end_date=date('Y-m-d',strtotime($end_date)+$gmtoffset);
 	$current_date=(int)date("d");
         $count=0;
@@ -98,14 +100,11 @@ class dashboard extends CI_Controller {
 	$records_date=array();
 	$accountinfo=$this->session->userdata('accountinfo');
 	$parent_id= ($accountinfo['type'] == 1) ? $accountinfo['id'] : 0;
-        $customerresult = $this->dashboard_model->get_call_statistics('cdrs',$parent_id);
-
-        $resellerresult = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id);
-        
+        $customerresult = $this->dashboard_model->get_call_statistics('cdrs',$parent_id,$start_date,$end_date);
+        $resellerresult = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id,$start_date,$end_date);
         $acc_arr = array();
 	foreach ($customerresult->result_array() as $data) {
 	  $acc_arr[$data['day']] = $data;
-	  $customer_arr[$data['day']]=$data;
 	}
 	foreach($resellerresult->result_array() as $data){
 	  $reseller_arr[$data['day']]=$data;
@@ -114,6 +113,9 @@ class dashboard extends CI_Controller {
 	    $acc_arr[$data['day']]['answered']= $data['answered']+$acc_arr[$data['day']]['answered'];
 	    $acc_arr[$data['day']]['failed']= $data['failed']+$acc_arr[$data['day']]['failed'];
 	    $acc_arr[$data['day']]['profit']= $data['profit']+$acc_arr[$data['day']]['profit'];
+            $acc_arr[$data['day']]['completed']= $data['completed']+$acc_arr[$data['day']]['completed'];
+            $acc_arr[$data['day']]['duration'] = $data['duration']+$acc_arr[$data['day']]['duration'];
+            $acc_arr[$data['day']]['mcd'] =$data['mcd'] > $acc_arr[$data['day']]['mcd'] ? $data['mcd']: $acc_arr[$data['day']]['mcd'];
 	  }else{
 	    $acc_arr[$data['day']]=$data;
 	  }
@@ -123,15 +125,23 @@ class dashboard extends CI_Controller {
 		$json_data['date'][]=$date->format("d");
 		$day = (int) $date->format("d");
 		if(isset($acc_arr[$day])){
+                  $asr= ($acc_arr[$day]['sum'] > 0 ) ? (round(($acc_arr[$day]['completed'] / $acc_arr[$day]['sum']) * 100,2)) : 0;
+                  $acd= ($acc_arr[$day]['completed'] > 0 ) ? round($acc_arr[$day]['duration'] / $acc_arr[$day]['completed'],2) : 0;
 		  $json_data['total'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['sum']);
 		  $json_data['answered'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['answered']);
 		  $json_data['failed'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['failed']);
 		  $json_data['profit'][]=  array((string)$acc_arr[$day]['day'],(float) $this->common_model->calculate_currency($acc_arr[$day]['profit']));
+                  $json_data['acd'][]=array((string)$acc_arr[$day]['day'],(float)$acd);
+                  $json_data['mcd'][]=array((string)$acc_arr[$day]['day'],(float)$acc_arr[$day]['mcd']);
+                  $json_data['asr'][]=array((string)$acc_arr[$day]['day'],(float)$asr);
 		}else{
 		  $json_data['total'][]=  array($date->format("d"), 0);
 		  $json_data['answered'][]=  array($date->format("d"), 0);
 		  $json_data['failed'][]=  array($date->format("d"), 0);
 		  $json_data['profit'][]=  array($date->format("d"), 0);
+                  $json_data['acd'][]=array($date->format("d"), 0);
+                  $json_data['mcd'][]=array($date->format("d"), 0);
+                  $json_data['asr'][]=array($date->format("d"),0);
 		}
 		
 	    }
@@ -144,8 +154,25 @@ class dashboard extends CI_Controller {
 		$json_data['answered'][]=  array($date->format("d"), 0);
 		$json_data['failed'][]=  array($date->format("d"), 0);
 		$json_data['profit'][]=  array($date->format("d"), 0);
+                $json_data['acd'][]=array($date->format("d"), 0);
+                $json_data['mcd'][]=array($date->format("d"), 0);
+                $json_data['asr'][]=array($date->format("d"), 0);
 	}
 	}
+        $customer_total_result = $this->dashboard_model->get_call_statistics('cdrs',$parent_id,$start_date,$end_date,false);
+        $reseller_total_result = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id,$start_date,$end_date,false);
+        $customer_total_result=(array)$customer_total_result->first_row();
+        $reseller_total_result=(array)$reseller_total_result->first_row();
+	$json_data['total_count']['sum']=$reseller_total_result['sum']+$customer_total_result['sum'];
+        $json_data['total_count']['debit']=$this->common_model->to_calculate_currency($reseller_total_result['debit']+$customer_total_result['debit'],'','',true,true);
+        $json_data['total_count']['cost']=$this->common_model->to_calculate_currency($reseller_total_result['cost']+$customer_total_result['cost'],'','',true,true);
+        $json_data['total_count']['profit']=$this->common_model->to_calculate_currency($reseller_total_result['profit']+$customer_total_result['profit'],'','',true,true);
+        $json_data['total_count']['completed']=$reseller_total_result['completed']+$customer_total_result['completed'];
+        $json_data['total_count']['duration']=$reseller_total_result['duration']+$customer_total_result['duration'];
+        $json_data['total_count']['acd']=$json_data['total_count']['completed'] > 0 ? round($json_data['total_count']['duration']/$json_data['total_count']['completed'],2):0;
+        $json_data['total_count']['mcd']=($customer_total_result['mcd'] > 0 || $reseller_total_result['mcd'] > 0 ) ? ($customer_total_result['mcd'] > $reseller_total_result['mcd'] ? $customer_total_result['mcd']:$reseller_total_result['mcd']) : 0;
+        $json_data['total_count']['asr']=($json_data['total_count']['sum'] > 0 ) ? (round(($json_data['total_count']['completed'] / $json_data['total_count']['sum']) * 100,2)) : 0;
+        $json_data['total_count']['asr']=$this->common_model->format_currency($json_data['total_count']['asr']);
 	echo json_encode($json_data);
 }
 
@@ -154,8 +181,16 @@ class dashboard extends CI_Controller {
     }
      function customerReport_maximum_callminutes()
      {
+        $post=$this->input->post();
+        $year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
+        $month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
+	$start_date=date($year.'-'.$month.'-01');
+        $end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
+	$gmtoffset=$this->common->get_timezone_offset();
+	$end_date=date($year."-".$month."-".$end_day.' H:i:s');
+	$end_date=date('Y-m-d',strtotime($end_date)+$gmtoffset);
      	$json_data = array();
- 	$result = $this->dashboard_model->get_customer_maximum_callminutes();
+ 	$result = $this->dashboard_model->get_customer_maximum_callminutes($start_date,$end_date);
 	$i=0;
 	$accountinfo=$this->session->userdata('accountinfo');
 	$reseller_id=$accountinfo['type']== -1 ? 0 : $accountinfo['id'];
@@ -166,32 +201,17 @@ class dashboard extends CI_Controller {
 	 $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts',array('id'=>$reseller_id));
 	}
     	if($result->num_rows() > 0 )
-	{
-    		
-    		foreach ($result->result_array() as $data) 
-		{
-			$data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
-			$json_data[$i][]= $data['accountid'];
-			$json_data[$i][]= (int)$data['billseconds'];
-			$i++;
-	    	}
-
-    		
+	{	
+           foreach ($result->result_array() as $data){
+            $data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
+            $json_data[$i][]= $data['accountid'];
+            $json_data[$i][]= (float)$data['billseconds'];
+            $i++;
+           } 
     	}else{
 	  $json_data[] = array();
-//     	       if(empty($account_arr)){
-//     	       $json_data[0][]=$accountinfo['number']."(".$accountinfo['first_name']." ".$accountinfo['last_name'];
-//     	       $json_data[0][]=0;
-//     	       }
-//     	       else{
-//     	        foreach($account_arr as $account_id=>$acc_name){
-// 		  $json_data[$i][]=$acc_name;
-// 		  $json_data[$i][]=0;
-// 		  $i++;
-//     	        }
-//     	       }
-      	     }
-     	     echo json_encode($json_data);
+      	}
+     	echo json_encode($json_data);
      }
 
      function user_maximum_callcount(){
@@ -199,8 +219,16 @@ class dashboard extends CI_Controller {
      }
      function customerReport_maximum_callcount()
      {
+     	$post=$this->input->post();
+        $year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
+        $month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
+	$start_date=date($year.'-'.$month.'-01');
+        $end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
+	$gmtoffset=$this->common->get_timezone_offset();
+	$end_date=date($year."-".$month."-".$end_day.' H:i:s');
+	$end_date=date('Y-m-d',strtotime($end_date)+$gmtoffset);
      	$json_data = array();
-	$result = $this->dashboard_model->get_customer_maximum_callcount();
+	$result = $this->dashboard_model->get_customer_maximum_callcount($start_date,$end_date);
 	$accountinfo=$this->session->userdata('accountinfo');
 	$reseller_id=$accountinfo['type']== -1 ? 0 : $accountinfo['id'];
 	if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3){

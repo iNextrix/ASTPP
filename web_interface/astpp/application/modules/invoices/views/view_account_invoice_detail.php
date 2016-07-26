@@ -24,13 +24,13 @@ function get_alert_msg(id)
 		font-size:14px;
 	}
 </style>
-	<? endblock() ?>
+	<?= endblock() ?>
 
-    <? startblock('page-title') ?>
-        <?=$page_title?><br/>
-    <? endblock() ?>
+    <?= startblock('page-title') ?>
+        <?=$page_title?>
+    <?= endblock() ?>
     
-	<? startblock('content') ?>  
+	<?= startblock('content') ?>  
      <br>
 
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
@@ -119,7 +119,7 @@ Addres : <?=$accountinfo['address_1']?>
                <TD><?=$value['billseconds']?></TD>
                <TD><div align="right"><?=$value['charge']?></div></TD>
              </TR>
-      <? } 
+      <?php  } 
 	  }
 	  ?>
 </table>
@@ -142,7 +142,7 @@ Addres : <?=$accountinfo['address_1']?>
                <TD><?=$value['text']?></TD>
                <TD><div align="right"><?=$this->common_model->calculate_currency($value['value'])?></div></TD>
              </TR>
-     <? } 
+     <?php } 
 	   }
 	 ?>
 </table>
@@ -157,4 +157,3 @@ Addres : <?=$accountinfo['address_1']?>
     <? endblock() ?>
     
 <? end_extend() ?>  
-

@@ -1,25 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
-
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class Common_model extends CI_Model {
 
     var $host;
@@ -37,9 +37,6 @@ class Common_model extends CI_Model {
         $this->get_language_list();
         $this->get_country_list();
         $this->get_admin_info();
-//        $this->get_user_levels_list();
-//        $this->get_sweep_list();
-//            $this->CI = & get_instance();
         $this->load->library('astpp/common');
         $this->db->query('SET time_zone = "+00:00"');
     }
@@ -59,6 +56,9 @@ class Common_model extends CI_Model {
         $config = array();
         $result = $query->result_array();
         foreach ($result as $row) {
+			if($row['name'] == 'decimal_points' || $row['name'] == 'starting_digit' || $row['name'] == 'card_length' || $row['name'] == 'pin_length'){
+				$row['name'] = str_replace("_","",$row['name']);
+			}
             $config[$row['name']] = $row['value'];
         }
         self::$global_config['system_config'] = $config;
@@ -93,95 +93,65 @@ class Common_model extends CI_Model {
          self::$global_config['admin_info'] = $result[0];
          return $result[0];
     }
-    
-     /**============ From below code developed for ASTPP version 2.0 ======================================**/
-     function generate_receipt($accountid,$amount){
-        $invoice_data = array("accountid"=>$accountid,"invoice_date"=>gmdate("Y-m-d H:i:s"),
-                            "from_date"=>gmdate("Y-m-d H:i:s"),"to_date"=>gmdate("Y-m-d H:i:s"),"type"=>'R');
-        $this->db->insert("invoices",$invoice_data);
-        $invoiceid = $this->db->insert_id();    
-        $sort_order = 0;
-        $sort_order = $this->insert_invoice_total_data($invoiceid,$amount,$sort_order);
-        $sort_order = $this->apply_invoice_taxes($invoiceid,$accountid,$sort_order);
-        $invoice_total = $this->set_invoice_total($invoiceid,$sort_order);   
-        return  $invoiceid;     
-    }
-    function insert_invoice_total_data($invoiceid,$sub_total,$sort_order){
-        $invoice_total_arr = array("invoiceid"=>$invoiceid,"sort_order"=>$sort_order,
-            "value"=>$sub_total, "title"=>"Sub Total","text"=>"Sub Total","class"=>"1");
-        $this->db->insert("invoices_total",$invoice_total_arr);
-        return $sort_order++;
-    }
-    
-    function apply_invoice_taxes($invoiceid,$accountid,$sort_order){
-        $tax_priority="";
-        $where = array("accountid"=>$accountid);
-        $accounttax_query = $this->db_model->getSelectWithOrder("*", "taxes_to_accounts", $where,"ASC","taxes_priority");
-        if($accounttax_query->num_rows > 0){
-            $accounttax_query = $accounttax_query->result_array();
-            foreach($accounttax_query as $tax_key => $tax_value){ 
-            $taxes_info=$this->db->get_where('taxes',array('id'=>$tax_value['taxes_id']));
-            if($taxes_info->num_rows() > 0 ){
-                    $tax_value=$taxes_info->result_array();
-                    $tax_value=$tax_value['0'];
-                 if($tax_value["taxes_priority"] == ""){
-                     $tax_priority = $tax_value["taxes_priority"];
-                 }else if($tax_value["taxes_priority"] > $tax_priority){
-                     $query = $this->db_model->getSelect("SUM(value) as total", "invoices_total", array("invoiceid"=> $invoiceid));
-                     $query =  $query->result_array();
-                     $sub_total = $query["0"]["total"];
-                 }
-                $tax_total = (($sub_total * ( $tax_value['taxes_rate'] / 100 )) + $tax_value['taxes_amount'] );
-                $tax_array = array("invoiceid"=>$invoiceid,"title"=>"TAX","text"=>$tax_value['taxes_description'],
-                    "value"=>$tax_total,"class"=>"2","sort_order"=>$sort_order);
-                $this->db->insert("invoices_total",$tax_array);
-                $sort_order++;
-            }
-            }
-        }
-        return $sort_order;
-    }
-    function set_invoice_total($invoiceid,$sort_order){
-        $query = $this->db_model->getSelect("SUM(value) as total", "invoices_total", array("invoiceid"=> $invoiceid));
-        $query =  $query->result_array();
-        $sub_total = $query["0"]["total"];
-        
-        $invoice_total_arr = array("invoiceid"=>$invoiceid,"sort_order"=>$sort_order,
-            "value"=>$sub_total,"title"=>"Total","text"=>"Total","class"=>"9");
-        $this->db->insert("invoices_total",$invoice_total_arr);
-        return true;
+    /* ASTPP  3.0 
+     * Changes for invoices
+     */
+     function generate_receipt($accountid, $amount, $accountinfo, $last_invoice_ID, $invoice_prefix, $due_date) {
+        $invoice_data = array("accountid" => $accountid,
+                              "invoice_prefix" => $invoice_prefix,
+                              "invoiceid" => $last_invoice_ID,
+                              "reseller_id" =>$accountinfo['reseller_id'],
+                              "invoice_date" => gmdate("Y-m-d H:i:s"),
+                              "from_date" => gmdate("Y-m-d H:i:s"),
+                              "to_date" => gmdate("Y-m-d H:i:s"),
+                              "due_date" => $due_date,
+                              "status" => 1,
+                              "balance" => $accountinfo['balance'],
+                              "amount" => $amount,
+                              "type" => 'R'
+                             );
+        $this->db->insert("invoices", $invoice_data);
+        return  $this->db->insert_id();
     }
 
     function calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
         $from_currency = ($from_currency == '') ? self::$global_config['system_config']['base_currency'] : $from_currency;
         
         if ($to_currency == '') {
-/*            if ($this->session->userdata['userlevel_logintype'] == -1 && $to_currency == '') {
-                $to_currency = self::$global_config['system_config']['base_currency'];
-            } else {*/
                 $to_currency1 = $this->session->userdata['accountinfo']['currency_id'];
                 $to_currency = $this->common->get_field_name('currency', 'currency', $to_currency1);
-//            }
         }
-//echo $to_currency; exit;        
+        $from_cur_rate = (self::$global_config['currency_list'][$from_currency] > 0)?self::$global_config['currency_list'][$from_currency]:1;
+        $to_cur_rate = (self::$global_config['currency_list'][$to_currency])?self::$global_config['currency_list'][$to_currency]:1;
+        $cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
+        if ($format_currency)
+            $cal_amount = $this->format_currency($cal_amount);
+        if ($append_currency){
+            $cal_amount = $cal_amount . " " . $to_currency;
+        }
+        return $cal_amount;
+    }
+    function calculate_currency_customer($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
+        $from_currency = ($from_currency == '') ? self::$global_config['system_config']['base_currency'] : $from_currency;
+        
+        if ($to_currency == '') {
+                $to_currency1 = $this->session->userdata['accountinfo']['currency_id'];
+                $to_currency = $this->common->get_field_name('currency', 'currency', $to_currency1);
+        }        
         $from_cur_rate = (self::$global_config['currency_list'][$from_currency] > 0)?self::$global_config['currency_list'][$from_currency]:1;
         $to_cur_rate = (self::$global_config['currency_list'][$to_currency])?self::$global_config['currency_list'][$to_currency]:1;
         $cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
         if ($format_currency)
             $cal_amount = $this->format_currency($cal_amount);
         if ($append_currency)
-            $cal_amount = $cal_amount . " " . $to_currency;
+            $cal_amount = $cal_amount ;
         return $cal_amount;
-    }
+        }
 
     function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
         if ($from_currency == '') {
-/*            if ($this->session->userdata['userlevel_logintype'] == -1 && $from_currency == '') {
-                $from_currency = self::$global_config['system_config']['base_currency'];
-            } else {*/
                 $from_currency1 = $this->session->userdata['accountinfo']['currency_id'];
                 $from_currency = $this->common->get_field_name('currency', 'currency', $from_currency1);
-//            }
         }
         $to_currency = ($to_currency == '') ? self::$global_config['system_config']['base_currency'] : $to_currency;
         if(self::$global_config['currency_list'][$from_currency] > 0){
@@ -198,12 +168,8 @@ class Common_model extends CI_Model {
 
     function to_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
         if ($to_currency == '') {
-/*            if ($this->session->userdata['userlevel_logintype'] == -1 && $to_currency == '') {
-                $to_currency = self::$global_config['system_config']['base_currency'];
-            } else {*/
                 $to_currency1 = $this->session->userdata['accountinfo']['currency_id'];
                 $to_currency = $this->common->get_field_name('currency', 'currency', $to_currency1);
-//            }
         }
         $from_currency = ($from_currency == '') ? self::$global_config['system_config']['base_currency'] : $from_currency;
 
@@ -219,7 +185,8 @@ class Common_model extends CI_Model {
     }
 
     function format_currency($amount) {
-        return money_format('%.' . Common_model::$global_config['system_config']['decimalpoints'] . 'n', $amount);
+        return  number_format($amount,Common_model::$global_config['system_config']['decimalpoints']);
+	//	return $amount;
     }
 
     function money_format($format, $number) {
@@ -331,6 +298,47 @@ class Common_model extends CI_Model {
         $query = $query->result();
         return $query;
     }
-
+    /* ASTPP  3.0 
+     * Using for Payment Functionality from Admin/Reseller Login
+     */
+    function get_parent_info($accountid){
+        $this->db->where('id',$accountid);
+        $this->db->select('reseller_id,type');
+        $account_result=$this->db->get('accounts');
+        $account_result=(array)$account_result->first_row();
+        if(isset($account_result['reseller_id']) && $account_result['reseller_id']> 0){
+            return $account_result['reseller_id'];
+        }else{
+            return '0';
+        }
+        
+    }
+    function apply_invoice_taxes($invoiceid, $account, $start_date) {
+        $tax_priority = "";
+        $where = array("accountid" => $account['id']);
+        $accounttax_query = $this->db_model->getSelectWithOrder("*", "taxes_to_accounts", $where, "ASC", "taxes_priority");
+        if ($accounttax_query->num_rows > 0) {
+            $accounttax_query = $accounttax_query->result_array();
+            foreach ($accounttax_query as $tax_value) {
+                $taxes_info = $this->db->get_where('taxes', array('id' => $tax_value['taxes_id']));
+                if ($taxes_info->num_rows() > 0) {
+                    $tax_value = $taxes_info->result_array();
+                    $tax_value = $tax_value[0];
+                    if ($tax_value["taxes_priority"] == "") {
+                        $tax_priority = $tax_value["taxes_priority"];
+                    } else if ($tax_value["taxes_priority"] > $tax_priority) {
+                        $query = $this->db_model->getSelect("SUM(debit) as total", "invoice_details", array("invoiceid" => $invoiceid));
+                        $query = $query->result_array();
+                        $sub_total = $query["0"]["total"];
+                    }
+                    $tax_total = (($sub_total * ( $tax_value['taxes_rate'] / 100 )) + $tax_value['taxes_amount'] );
+                    $tax_total = round($tax_total, self::$global_config['system_config']['decimalpoints']);
+                    $tax_array = array("accountid" => $account['id'], "reseller_id" => $account['reseller_id'], "invoiceid" => $invoiceid, "item_id" => "0", "description" => $tax_value['taxes_description'], "debit" => $tax_total, "credit" => "", "item_type" => "TAX", "created_date" => $start_date);
+                    $this->db->insert("invoice_details", $tax_array);
+                }
+            }
+        }
+        return TRUE;
+    }
     
 }

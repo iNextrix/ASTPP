@@ -15,7 +15,8 @@
     
     <!--  Required to run astpp    -->
     <load module="mod_xml_curl"/>
-    <load module="mod_xml_cdr"/>
+    <load module="mod_json_cdr"/>
+    <!--<load module="mod_xml_cdr"/>-->
 
     <!-- Event Handlers -->
 <!--     <load module="mod_cdr_csv"/> -->
@@ -47,6 +48,7 @@
 <!--    <load module="mod_limit"/>-->
 <!--     <load module="mod_esf"/> -->
 <!--     <load module="mod_fsv"/> -->
+    <load module="mod_db"/>
 
     <!-- Dialplan Interfaces -->
     <!-- <load module="mod_dialplan_directory"/> -->
@@ -75,11 +77,10 @@
 
     <!-- Languages -->
     <!-- <load module="mod_spidermonkey"/> -->
-    <!--  Required to run astpp calling card module  -->
-     <load module="mod_perl"/> 
+    <!-- <load module="mod_perl"/> -->
     <!-- <load module="mod_python"/> -->
     <!-- <load module="mod_java"/> -->
-<!--     <load module="mod_lua"/> -->
+    <load module="mod_lua"/>
 
     <!-- ASR /TTS -->
     <!-- <load module="mod_cepstral"/> -->

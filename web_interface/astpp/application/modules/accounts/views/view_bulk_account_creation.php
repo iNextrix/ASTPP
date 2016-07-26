@@ -1,6 +1,28 @@
-
+<?php include(FCPATH.'application/views/popup_header.php'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
+ <?php if($entity_name != 'admin' && $entity_name !='subadmin'){ ?>
+   document.getElementsByName("sweep_id")[0].selectedIndex = <?=1?>;
+
+	 $(".sweep_id").change(function(e){
+            if(this.value != 0){
+                $.ajax({
+                    type:'POST',
+                    url: "<?= base_url()?>/accounts/customer_invoice_option",
+                    data:"sweepid="+this.value, 
+                    success: function(response) {
+                        $(".invoice_day").html(response);
+                        $('.invoice_day').show();
+                        $('label[for="Billing Day"]').show()
+                    }
+                });
+            }else{
+                $('label[for="Billing Day"]').hide()
+                $('.invoice_day').css('display','none');                
+            }
+        });
+        $(".sweep_id").change();
+        <?php } ?> 
 document.getElementsByName("currency_id")[0].selectedIndex = <?=$currency_id-1?>;
 document.getElementsByName("timezone_id")[0].selectedIndex = <?=$timezone_id-1?>;
 document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-2?>;
@@ -10,38 +32,6 @@ document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-2?>;
 });
 </script>
 
-<!--
-
-<section class="slice gray no-margin">
- <div class="w-section inverse no-padding">
-   <div>
-     <div>
-        <div class="col-md-12 no-padding margin-t-15 margin-b-10">
-	        <div class="col-md-10"><b><? echo $page_title; ?></b></div>
-	  </div>
-     </div>
-    </div>
-  </div>    
-</section>
-
-<div>
-  <div>
-    <section class="slice color-three no-margin">
-	<div class="w-section inverse no-padding">
-            <div style="color:red;margin-left: 60px;">
-                <?php if (isset($validation_errors)) echo $validation_errors; ?> 
-            </div>
-            <?php echo $form; ?>
-        </div>      
-    </section>
-  </div>
-</div>
-
-
-......................
-    -->   
-
-
 <section class="slice gray no-margin">
  <div class="w-section inverse no-padding">
    <div>
@@ -56,7 +46,7 @@ document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-2?>;
 
 
 <div>
-          <div class="row">
+          <div class="">
             <section class="slice color-three no-margin">
                 <div class="w-section inverse no-padding"> 
                     <div style="color:red;margin-left: 60px;">
@@ -79,18 +69,3 @@ document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-2?>;
             </section>        
           </div>
         </div>    
-
-<!--
-
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-  <div class="portlet-header ui-widget-header">
-    <?=@$page_title?>
-    <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-<div style="color:red;margin-left: 60px;">
-    <?php if(isset($validation_errors))echo $validation_errors; ?> 
-    </div>
-    <?php echo $form;?>
-</div>
-
-
--->

@@ -19,11 +19,15 @@
         
     });
 </script>
+ <script src="<?php echo base_url();?>assets/demo/sh/shBrushJScript.js"></script>   
+ <script src="<?php echo base_url();?>assets/demo/sh/shCore.js"></script>   
+ <script src="<?php echo base_url();?>assets/demo/jquery.searchabledropdown-1.0.8.src.js"></script>  
+
 
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-    <?= $page_title ?><br/>
+    <?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        
@@ -38,6 +42,9 @@
         </div>
     </div>
 </section>
+
+
+
 
 <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 ###########################################################################
 # ASTPP - Open Source VoIP Billing Solution
 # Copyright (C) 2016, iNextrix Technologies Pvt. Ltd. (http://www.inextrix.com)
@@ -40,13 +39,10 @@ LOCALE_DIR=/usr/local/share/locale
 FS_DIR=/usr/local/freeswitch
 FS_SOUNDSDIR=${FS_DIR}/sounds/en/us/callie
 FS_SCRIPTS=${FS_DIR}/scripts
-
-CGIDIR=/var/www
 WWWDIR=/var/www/html
 
 ASTPP_USING_FREESWITCH="no"
 ASTPP_USING_ASTERISK="no"
-INSTALL_ASTPP_PERL_PACKAGES="no"
 INSTALL_ASTPP_WEB_INTERFACE="no"
 
 ASTPP_DATABASE_NAME="astpp"
@@ -111,12 +107,7 @@ get_linux_distribution
 
 install_epel () 
 {
-		# only on CentOS
-		if [ ${ARCH} = "x64" ]; then
-			rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-		else
-			rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-		fi
+		yum install epel-release
 }
 
 remove_epel () 
@@ -170,9 +161,9 @@ ask_to_install_astpp ()
 			exit 0
 		else
 			echo "Licence accepted!"
-			echo "============checking your working directory=================="
-			wget http://www.astppbilling.org/download/latest.tar.gz
-			tar -xzf latest.tar.gz
+			echo "============checking your working directory=================="			
+			git clone https://github.com/iNextrix/ASTPP
+			cp -rf ASTPP latest			
 			if [ ${CURRENT_DIR} == ${DOWNLOAD_DIR} ]; then
 				echo "dir is '$CURRENT_DIR' and it's matched!!!"			
 			else			
@@ -199,11 +190,7 @@ ask_to_install_astpp ()
 			ask_to_user_yes_or_no "Do you want use FreeSwitch on ASTPP?"
 			if 	[ ${TEMP_USER_ANSWER} = "yes" ]; then
 				ASTPP_USING_FREESWITCH="yes"			  
-			fi
-			ask_to_user_yes_or_no "Do you want to install ASTPP Perl packages?"
-			if [ ${TEMP_USER_ANSWER} = "yes" ]; then
-				INSTALL_ASTPP_PERL_PACKAGES="yes"
-			fi			  
+			fi					  
 			ask_to_user_yes_or_no "Do you want to install ASTPP web interface?"
 			if [ ${TEMP_USER_ANSWER} = "yes" ]; then
 				INSTALL_ASTPP_WEB_INTERFACE="yes"
@@ -232,7 +219,7 @@ install_freeswitch_for_astpp ()
 			echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
 			apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y --force-yes freeswitch-video-deps-most
 			# Install Freeswitch pre-requisite packages using apt-get
-			apt-get install -y autoconf automake devscripts gawk chkconfig ntpdate ntp g++ git-core curl libyuv-dev libvpx2-dev libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libperl-dev libgdbm-dev libdb-dev gettext sudo lua5.1 apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
+			apt-get install -y autoconf automake devscripts gawk chkconfig ntpdate ntp g++ git-core curl libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libgdbm-dev libyuv-dev libdb-dev libvpx2-dev gettext sudo lua5.1 php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
 			
 			#-------------------MySQL setup in for freeswitch Start ------------------------
 			clear
@@ -253,7 +240,8 @@ install_freeswitch_for_astpp ()
 			yum groupinstall "Development tools" -y
 			install_epel
 			rpm -Uvh http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm
-			yum install -y wget git autoconf automake expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ cpan @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel perl-ExtUtils-Embed bc python e2fsprogs-devel libcurl-devel libxml2-devel libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbound-devel libuuid-devel lua-devel libsndfile-devel
+			yum install epel-release
+			yum install -y wget git autoconf automake expat-devel yasm nasm gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel bc e2fsprogs-devel libcurl-devel libxml2-devel libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbound-devel libuuid-devel lua-devel libsndfile-devel
 		fi  
 		curl --data "email=$EMAIL" --data "type=script" http://demo.astppbilling.org/lib/
 		echo "Lets first make sure that time is correct before we continue ... "
@@ -264,11 +252,11 @@ install_freeswitch_for_astpp ()
 			echo "Setting up correct time ..."
 			ntpdate pool.ntp.org
 			if [ ${DIST} = "DEBIAN" ]; then
-				/etc/init.d/ntp restart
+				systemctl restart ntp
 				chkconfig ntp on
 			else [ -f /etc/redhat-release ]
-				/etc/init.d/ntpd restart
-				chkconfig ntpd onx
+				systemctl restart ntpd
+				chkconfig ntpd on
 			fi
 		}
 		set_right_time
@@ -277,35 +265,27 @@ install_freeswitch_for_astpp ()
 		# Download latest freeswitch version
 		cd /usr/local/src		
 		git config --global pull.rebase true
-		git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git
+		git clone -b v1.6.8 https://freeswitch.org/stash/scm/fs/freeswitch.git
 		cd freeswitch
 		./bootstrap.sh -j
 		# Edit modules.conf
-		#echo "Enabling mod_xml_curl, mod_xml_cdr, "
-		sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
-		sed -i "s#\#mod_xml_cdr#mod_xml_cdr#g" /usr/local/src/freeswitch/modules.conf
-		sed -i '88i<!-- Manually Added Interface -->' /usr/local/freeswitch/conf/autoload_configs/modules.conf.xml
-		sed -i '89i<load module="mod_db"/>' /usr/local/freeswitch/conf/autoload_configs/modules.conf.xml
+		#echo "Enabling mod_xml_curl, mod_json_cdr, mod_db"
+		#sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
+		#sed -i "s#\#mod_db#mod_db#g" /usr/local/src/freeswitch/modules.conf
+		#sed -i "s#\#event_handlers/mod_json_cdr#event_handlers/mod_json_cdr#g" /usr/local/src/freeswitch/modules.conf
+		
+		
 		# Compile the Source
-		./configure
-		# Install Freeswitch with sound files
+		./configure -C
+		# Install Freeswitch with sound files		
 		make all install cd-sounds-install cd-moh-install
 		make && make install
 		# Create symbolic links for Freeswitch executables
 		ln -s /usr/local/freeswitch/bin/freeswitch /usr/local/bin/freeswitch
-		ln -s /usr/local/freeswitch/bin/fs_cli /usr/local/bin/fs_cli
-		echo ""
-		read -p "Do you want to configure and install mod_perl (for Calling Cards) for FreeSWITCH (y/n)? " YESNO
-		if [ $YESNO == "y" ]; then
-			sed -i "s#\#languages/mod_perl#languages/mod_perl#g" /usr/local/src/freeswitch/modules.conf
-			./configure
-			make mod_perl-install
-		else
-			echo "Not installing mod_perl for FreeSWITCH !"
-			# Comment mod_perl, so it will not load on Freeswitch startup
-			sed -i '/<load module="mod_perl"\/>/s/^/<!--/;//s/$/-->/' /usr/local/freeswitch/conf/autoload_configs/modules.conf.xml
-		fi
+		ln -s /usr/local/freeswitch/bin/fs_cli /usr/local/bin/fs_cli		
 		#-----------------Freeswitch Installation End------------------------------
+		systemctl stop apache2
+		systemctl disable apache2
 }
 
 #SUB Configure astpp Freeswitch Startup Script
@@ -313,9 +293,9 @@ astpp_freeswitch_startup_script ()
 {
 		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
 			echo "ASTPP source doesn't exists, downloading it..."
-			cd /usr/src/
-			wget http://www.astppbilling.org/download/latest.tar.gz
-			tar -xzf latest.tar.gz
+			cd /usr/src/			
+			git clone https://github.com/iNextrix/ASTPP
+			cp -rf ASTPP latest			
 		fi 		
 		if [ ${DIST} = "DEBIAN" ]; then
 			adduser --disabled-password  --quiet --system --home ${FS_DIR} --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch
@@ -339,22 +319,21 @@ startup_services()
 {
 	# Startup Services
     if [ ${DIST} = "DEBIAN" ]; then
-		chkconfig --add apache2
-		chkconfig --level 345 apache2 on
+		chkconfig --add nginx
+		chkconfig --level 345 nginx on
 		chkconfig --add mysql
 		chkconfig --level 345 mysql on			
-		/etc/init.d/mysql restart
-		/usr/sbin/a2ensite astpp
-		/etc/init.d/apache2 restart
-		/etc/init.d/freeswitch restart	
+		systemctl restart mysql
+		systemctl restart nginx
+		systemctl restart freeswitch
 	elif  [ ${DIST} = "CENTOS" ]; then
-		chkconfig --add httpd
-		chkconfig --levels 35 httpd on
+		chkconfig --add nginx
+		chkconfig --levels 35 nginx on
 		chkconfig --add mysqld
-		chkconfig --levels 35 mysqld on		
-		/etc/init.d/mysqld restart
-		/etc/init.d/httpd restart
-		/etc/init.d/freeswitch restart
+		chkconfig --levels 35 mysqld on
+		systemctl restart mariadb
+		systemctl restart nginx
+		systemctl restart freeswitch		
 	fi
 }
 
@@ -363,10 +342,10 @@ mySQL_for_astpp ()
 {
 		# Start MySQL server
 		if [ ${DIST} = "DEBIAN" ]; then
-			/etc/init.d/mysql restart
+			systemctl restart mysql
 		else [ -f /etc/redhat-release ]
 		#	/etc/init.d/mysqld restart
-			systemctl start mariadb
+			systemctl restart mariadb
 		fi
 		# Configure MySQL server
 		sleep 5
@@ -384,12 +363,20 @@ mySQL_for_astpp ()
 		# Create astpp database
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "create database ${ASTPP_DATABASE_NAME};"
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER 'astppuser'@'localhost' IDENTIFIED BY '${ASTPPUSER_MYSQL_PASSWORD}';"
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/sql/astpp-2.0.sql
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/sql/astpp-upgrade-rates-2.0.sql
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/sql/astpp-upgrade-2.1.sql
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/sql/astpp-upgrade-2.2.sql
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/sql/astpp-upgrade-2.3.sql
+		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"		
+		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-3.0.sql
+		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp_rates.sql
+		if [ ${DIST} = "DEBIAN" ]; then
+			apt-get install libmyodbc unixodbc-bin
+			cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbc.ini /etc/odbc.ini
+			cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbcinst.ini /etc/odbcinst.ini
+		fi
+		if  [ ${DIST} = "CENTOS" ]; then
+			yum install unixODBC mysql-connector-odbc
+			cp ${ASTPP_SOURCE_DIR}/misc/odbc/cent_odbc.ini /etc/odbc.ini
+			cp ${ASTPP_SOURCE_DIR}/misc/odbc/cent_odbcinst.ini /etc/odbcinst.ini
+		fi
+		sed -i "s#PASSWORD = <PASSWORD>#PASSWORD = ${MYSQL_ROOT_PASSWORD}#g" /etc/odbc.ini
 }
 
 install_astpp () 
@@ -403,28 +390,29 @@ install_astpp ()
     	fi
     	if [ ${DIST} = "DEBIAN" ]; then
 			# Install ASTPP pre-requisite packages using apt-get
+			systemctl stop apache2
+			systemctl disable apache2
 			apt-get -o Acquire::Check-Valid-Until=false update
-			apt-get install -y curl libyuv-dev libvpx2-dev apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc g++
+			apt-get install -y curl libyuv-dev libvpx2-dev nginx php5-fpm php5 php5-mcrypt libmyodbc unixodbc-bin php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc g++
 		elif  [ ${DIST} = "CENTOS" ]; then
 			# Install ASTPP pre-requisite packages using YUM
-			yum install -y cpan autoconf automake bzip2 cpio curl curl-devel php php-devel php-common php-cli php-gd php-pear php-mysql php-pdo php-pecl-json mysql mariadb-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++ httpd httpd-devel perl-YAML cpan
+			yum install -y autoconf automake bzip2 cpio curl nginx php-fpm php-mcrypt* unixODBC mysql-connector-odbc curl-devel php php-devel php-common php-cli php-gd php-pear php-mysql php-pdo php-pecl-json mysql mariadb-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++ httpd httpd-devel
 		fi	
 		#	cd ${ASTPP_SOURCE_DIR}	
 		if [ ${DIST} = "DEBIAN" ]; then
-			echo "Normalize ASTPP for Debian"
-			#sed -i "s#APACHE=/etc/httpd#APACHE=/etc/apache2#g" Makefile
-			sed -i "s#/var/log/httpd/astpp_access_log#/var/log/apache2/astpp_access_log#g" ${ASTPP_SOURCE_DIR}/web_interface/apache/astpp.conf
-			sed -i "s#/var/log/httpd/astpp_error_log#/var/log/apache2/astpp_error_log#g" ${ASTPP_SOURCE_DIR}/web_interface/apache/astpp.conf
-			touch /var/log/apache2/astpp_access_log
-			touch /var/log/apache2/astpp_error_log	  
-			a2enmod rewrite
-			a2enmod cgi
-			service apache2 reload
+			echo "Normalize ASTPP for Debian"			
+			touch /var/log/nginx/astpp_access_log
+			touch /var/log/nginx/astpp_error_log
+			touch /var/log/nginx/fs_access_log
+			touch /var/log/nginx/fs_error_log			
+			php5enmod mcrypt
+			systemctl restart php5-fpm
+			service nginx reload
 		fi
-		# make
-		if [ ${INSTALL_ASTPP_PERL_PACKAGES} = "yes" ]; then
-			perl -MCPAN -e 'my $c = "CPAN::HandleConfig"; $c->load(doit => 1, autoconfig => 1); $c->edit(prerequisites_policy => "follow"); $c->edit(build_requires_install_policy => "yes"); $c->commit'
-			perl -MCPAN -e "install URI::Escape,JSON,DBI,Time::HiRes,DateTime::Format::Strptime,XML::Simple,CGI,Data::Dumper";
+		if [ ${DIST} = "CENTOS" ]; then
+			systemctl stop apache2
+			systemctl disable apache2
+			systemctl start php-fpm			
 		fi
 		if [ ${ASTPP_USING_FREESWITCH} = "yes" ]; then
 			#Folder creation and permission
@@ -432,46 +420,41 @@ install_astpp ()
 			mkdir -p ${ASTPPLOGDIR}		
 			mkdir -p ${ASTPPEXECDIR}
 			if [ ${DIST} = "DEBIAN" ]; then
-				chown -Rf www-data.www-data ${ASTPPDIR}
-				chown -Rf www-data.www-data ${ASTPPLOGDIR}
-				chown -Rf www-data.www-data ${ASTPPEXECDIR}
-				CGIDIR=/usr/lib
-				chown -Rf www-data.www-data ${CGIDIR}/cgi-bin/
+				chown -Rf root.root ${ASTPPDIR}
+				chown -Rf root.root ${ASTPPLOGDIR}
+				chown -Rf root.root ${ASTPPEXECDIR}				
 			elif [ ${DIST} = "CENTOS" ]; then
-				chown -Rf apache.apache ${ASTPPDIR}
-				chown -Rf apache.apache ${ASTPPLOGDIR}
-				chown -Rf apache.apache ${ASTPPEXECDIR}
-				CGIDIR=/var/www
-				chown -Rf apache.apache ${CGIDIR}/cgi-bin/
+				chown -Rf root.root ${ASTPPDIR}
+				chown -Rf root.root ${ASTPPLOGDIR}
+				chown -Rf root.root ${ASTPPEXECDIR}				
 			fi
-			/bin/cp -rf ${ASTPP_SOURCE_DIR}/scripts/*.pl ${ASTPPEXECDIR}/
-			#Copy cgi scripts to cgi-bin
-			cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/astpp ${CGIDIR}/cgi-bin/
-			chmod -Rf 777 ${CGIDIR}/cgi-bin/astpp
-			#copy calling card script to freeswitch script folder
-			cp ${ASTPP_SOURCE_DIR}/freeswitch/astpp-callingcards.pl ${FS_SCRIPTS}/astpp-callingcards.pl
-			cp -rf ${ASTPP_SOURCE_DIR}/sounds/*.wav ${FS_SOUNDSDIR}/
+			
+			#Setup FS-Scripts
+			/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/scripts/* ${FS_SCRIPTS}/
+			/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/fs /var/www/html/
+						
+			/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/sounds/*.wav ${FS_SOUNDSDIR}/
 			chmod -Rf 777 ${FS_SOUNDSDIR}
 		fi
 		if [ ${INSTALL_ASTPP_WEB_INTERFACE} = "yes" ]; then
 			echo "Installing ASTPP web interface"
 			mkdir -p ${ASTPPDIR}		
 			#Copy configuration file
-			cp ${ASTPP_SOURCE_DIR}/astpp_confs/sample.astpp-config.conf ${ASTPPDIR}astpp-config.conf
+			cp ${ASTPP_SOURCE_DIR}/config/astpp-config.conf ${ASTPPDIR}astpp-config.conf
+			cp ${ASTPP_SOURCE_DIR}/config/astpp.lua ${ASTPPDIR}astpp.lua			
 			#Install GUI of ATSPP
 			mkdir -p ${WWWDIR}/astpp
 			echo "Directory created ${WWWDIR}/astpp"
-			cp -rf ${ASTPP_SOURCE_DIR}/web_interface/astpp/* ${WWWDIR}/astpp/
-			cp ${ASTPP_SOURCE_DIR}/web_interface/astpp/htaccess ${WWWDIR}/astpp/.htaccess
+			cp -rf ${ASTPP_SOURCE_DIR}/web_interface/astpp/* ${WWWDIR}/astpp/			
 			if [ ${DIST} = "DEBIAN" ]; then
-				chown -Rf www-data.www-data ${WWWDIR}/astpp
-				cp ${ASTPP_SOURCE_DIR}/web_interface/apache/astpp.conf /etc/apache2/sites-available/astpp.conf
-				a2ensite astpp
-				a2ensite astpp.conf
-				/etc/init.d/apache2 restart
+				chown -Rf root.root ${WWWDIR}/astpp
+				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_astpp.conf /etc/nginx/sites-enabled/astpp.conf
+				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_fs.conf /etc/nginx/sites-enabled/fs.conf				
+				systemctl restart nginx
 			elif  [ ${DIST} = "CENTOS" ]; then
-				chown -Rf apache.apache ${WWWDIR}/astpp
-				cp ${ASTPP_SOURCE_DIR}/web_interface/apache/astpp.conf /etc/httpd/conf.d/astpp.conf
+				chown -Rf root.root ${WWWDIR}/astpp
+				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_astpp.conf /etc/nginx/conf.d/astpp.conf
+				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_fs.conf /etc/nginx/conf.d/fs.conf
 				sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/sysconfig/selinux
 				sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
 				/etc/init.d/iptables stop
@@ -489,42 +472,37 @@ finalize_astpp_installation ()
 		# short_open_tag = Off   to short_open_tag = On        
 		echo "Make sure Short Open Tag is switched On"    
 		if [ ${DIST} = "DEBIAN" ]; then
-			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php5/apache2/php.ini
-			a2enmod rewrite			
+			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php5/fpm/php.ini
+			sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php5/fpm/php.ini
+			systemctl restart php5-fpm
+			systemctl restart nginx
 		elif [ ${DIST} = "CENTOS" ]; then
 			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
+			sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php.ini
 			
 			#######   Some more steps for CentOS 7  #########
-			yum update		
-			mkdir -p /etc/httpd/sites-available
-			mkdir -p /etc/httpd/sites-enabled
-			mv /etc/httpd/conf.d/astpp.conf /etc/httpd/sites-available/.
-			ln -s /etc/httpd/sites-available/astpp.conf /etc/httpd/sites-enabled/astpp.conf
-			sed -i "$ a IncludeOptional sites-enabled/*.conf" /etc/httpd/conf/httpd.conf
+			yum update					
 			sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/sysconfig/selinux
 			sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
-			setenforce 0
-			cpan -fi DBI
-			cpan -fi CGI
-			perl -MCPAN -e "install URI::Escape,JSON,DBI,Time::HiRes,DateTime::Format::Strptime,XML::Simple,CGI,Data::Dumper";
-			yum install perl-XML-Simple
-			systemctl enable httpd
-			apachectl restart
-			systemctl start httpd
+			setenforce 0			
+			systemctl disable httpd
+			systemctl enable nginx
+			systemctl enable php-fpm			
 			systemctl start mariadb
 			systemctl start freeswitch
-			systemctl stop firewalld
-			chkconfig --levels 345 httpd on
+			systemctl stop firewalld			
 			chkconfig --levels 345 mariadb on
 			chkconfig --levels 345 freeswitch on
 			chkconfig --levels 123456 firewalld off
 		fi		
 		/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/conf/autoload_configs/* /usr/local/freeswitch/conf/autoload_configs/
-		
+		#sed -i "s/localhost\/fs/localhost:8735/g" /usr/local/freeswitch/conf/autoload_configs/xml_curl.conf.xml
+		#sed -i "s/localhost\/fs/localhost:8735/g" /usr/local/freeswitch/conf/autoload_configs/json_cdr.conf.xml		
 		# edit ASTPP Database Connection Information
 		# /var/lib/astpp/astpp-config.conf
 		sed -i "s#dbpass = <PASSSWORD>#dbpass = ${MYSQL_ROOT_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
-		sed -i "s#base_url=http://localhost:8081/#base_url=http://${ASTPP_HOST_DOMAIN_NAME}:8081/#g" ${ASTPPDIR}/astpp-config.conf
+		sed -i "s#DB_PASSWD=\"<PASSSWORD>\"#DB_PASSWD = \"${MYSQL_ROOT_PASSWORD}\"#g" ${ASTPPDIR}astpp.lua
+		sed -i "s#base_url=http://localhost:8081/#base_url=http://${ASTPP_HOST_DOMAIN_NAME}:8089/#g" ${ASTPPDIR}/astpp-config.conf
 }
 
 setup_cron()
@@ -539,20 +517,12 @@ setup_cron()
 		# Low balance notification
 		0 1 * * * cd /var/www/html/astpp/cron/ && php cron.php UpdateBalance
 		# Low balance notification
-		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowBalance
-		# Low credit notification
-		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowCredit
+		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowBalance		
 		# Update currency rate
 		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php CurrencyUpdate
 		" > $CRONPATH
 		chmod 600 $CRONPATH
 		crontab $CRONPATH
-}
-
-install_perl_packages()
-{
-     echo "Installing missing cpan packages ..."     
-     cpan -fi Data::Dumper URI::Escape JSON DBI Time::HiRes DateTime::Format::Strptime XML::Simple CGI
 }
 
 install_fail2ban()
@@ -694,15 +664,14 @@ astpp_install ()
 		fi
 		install_astpp
 		mySQL_for_astpp
-		finalize_astpp_installation
-		install_perl_packages
+		finalize_astpp_installation		
 		setup_cron
 		startup_services	
 		clear
 		echo "---------------------"
 		echo "| Login information |"
 		echo "---------------------"
-		echo "http://${ASTPP_HOST_DOMAIN_NAME}:8081 "
+		echo "http://${ASTPP_HOST_DOMAIN_NAME}:8089 "
 		echo "Username= admin "
 		echo "Password= admin "
 		echo ""

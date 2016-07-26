@@ -1,18 +1,9 @@
+<?php include(FCPATH.'application/views/popup_header.php'); ?>
 <script type="text/javascript">
     $("#submit").click(function(){
-        submit_form("chrges_form");
+        submit_form("charges_form");
     })
 </script>
-<!--
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-  <div class="portlet-header ui-widget-header"><!--< ?php echo isset($account)?"Edit":"Create New";?> Account
-    <?=@$page_title?>
-    <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-     <?php echo form_error('description'); ?>
-    <?php echo $form;?>
-</div>
--->
-
 <section class="slice gray no-margin">
  <div class="w-section inverse no-padding">
    <div>
@@ -29,7 +20,7 @@
   <div>
     <section class="slice color-three no-margin">
 	<div class="w-section inverse no-padding">
-            <div style="color:red;margin-left: 60px;">
+            <div style="color:red;">
              <?php echo $form; ?>
                 <?php if (isset($validation_errors)) echo $validation_errors; ?> 
             </div>

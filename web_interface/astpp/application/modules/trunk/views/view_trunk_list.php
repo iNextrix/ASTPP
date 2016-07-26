@@ -5,7 +5,7 @@
      
         build_grid("trunk_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+            $('.chkRefNos').attr('checked', this.checked); 
         });
         $("#trunk_search_btn").click(function(){
             post_request_for_search("trunk_grid","","trunk_search");
@@ -19,7 +19,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        

@@ -36,7 +36,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title ?><br/>
+<?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        
@@ -64,11 +64,7 @@
                 </div>  
             </div>
         </div>
-    </div><!--<br/>
-<div class="pull-right padding-r-20">
-      <a class="btn-tw btn" href="/reports/providerReport_export_cdr_xls"><i class="fa fa-file-excel-o fa-lg"></i>Export CSV</a>
-      <a class="btn-xing btn" href="/reports/providerReport_export_cdr_pdf"><i class="fa fa-file-pdf-o fa-lg"></i>Export PDF</a>
-</div><br/><br/> -->
+    </div>
 </section>
 
 <? endblock() ?>	

@@ -16,13 +16,11 @@
         
     });
 </script>
-
-<? // echo "<pre>"; print_r($grid_fields); exit;?>
 	
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-    <?= $page_title ?><br/>
+    <?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>        

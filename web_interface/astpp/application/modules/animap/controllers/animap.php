@@ -1,24 +1,25 @@
 <?php
-###########################################################################
-# ASTPP - Open Source Voip Billing
-# Copyright (C) 2004, Aleph Communications
+###############################################################################
+# ASTPP - Open Source VoIP Billing Solution
 #
-# Contributor(s)
-# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Samir Doshi <samir.doshi@inextrix.com>
+# ASTPP Version 3.0 and above
+# License https://www.gnu.org/licenses/agpl-3.0.html
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details..
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
-############################################################################
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################
 class Animap extends MX_Controller {
 
     function Animap() {
@@ -38,15 +39,15 @@ class Animap extends MX_Controller {
     function animap_add() {
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Add Caller Id';
+        $data['page_title'] = 'Add Caller ID';
         $edit_id='';
-        $data['form'] = $this->form->build_form($this->animap_form->get_animap_form_fields(  $edit_id), '');
+        $data['form'] = $this->form->build_form($this->animap_form->get_animap_form_fields($edit_id), '');
 
         $this->load->view('animap_add_edit', $data);
     }
 
     function animap_edit($edit_id = '') {
-        $data['page_title'] = 'Edit Caller Id ';
+        $data['page_title'] = 'Edit Caller ID ';
         $where = array('id' => $edit_id);
         $account = $this->db_model->getSelect("*", "ani_map", $where);
         foreach ($account->result_array() as $key => $value) {
@@ -63,7 +64,7 @@ class Animap extends MX_Controller {
       $edit_id=$add_array['id'];
         $data['form'] = $this->form->build_form($this->animap_form->get_animap_form_fields($edit_id), $add_array);
         if ($add_array['id'] != '') {
-            $data['page_title'] = 'Add Caller Id';
+            $data['page_title'] = 'Add Caller ID';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -71,7 +72,7 @@ class Animap extends MX_Controller {
             } else {
                 
                 $this->animap_model->edit_animap($add_array, $add_array['id']);
-                echo json_encode(array("SUCCESS"=> " Caller Id updated successfully!"));
+                echo json_encode(array("SUCCESS"=> " Caller ID updated successfully!"));
                 exit;
             }
         } else {
@@ -84,7 +85,7 @@ class Animap extends MX_Controller {
               
                 $ip_id = $this->animap_model->add_animap($add_array);
                                
-                echo json_encode(array("SUCCESS"=> " Caller Id added successfully!"));
+                echo json_encode(array("SUCCESS"=> " Caller ID added successfully!"));
                 exit;
             }
         }
@@ -119,7 +120,7 @@ class Animap extends MX_Controller {
 
     function animap_detail() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Caller Id';
+        $data['page_title'] = 'Caller ID';
         $data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->animap_form->build_animap_list_for_admin();

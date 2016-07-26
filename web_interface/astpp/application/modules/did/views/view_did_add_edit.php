@@ -1,10 +1,6 @@
-
+<?php include(FCPATH.'application/views/popup_header.php'); ?>
 <script type="text/javascript">
  $(document).ready(function() {
-    
-    
-  
-    
    $(".country_id").val(<?= $country_id?>);
         });
     $("#submit").click(function(){

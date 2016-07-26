@@ -67,16 +67,8 @@ document.getElementsByName("sweep_id")[0].selectedIndex = <?=2?>;
 						var ERR_STR = '<?php echo $validation_errors; ?>';
 						print_error(ERR_STR);
 					    </script>
-				     <? } ?>
+				     <?php } ?>
 
-<!--                                <?php
-                                $data_errrors = json_decode($validation_errors);
-                                foreach ($data_errrors as $key => $value) {
-                                    echo $value . "<br/>";
-                                }
-                                ?> 
-                          </div>
-                        <?php echo $form; ?> -->
                           </div> 
 </section>
 <? endblock() ?>
