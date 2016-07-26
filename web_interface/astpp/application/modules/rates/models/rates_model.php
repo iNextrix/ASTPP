@@ -347,5 +347,5 @@ Rate insert
         $update_str = rtrim($update_str,",");
         $insert_str .= $insert_key.") values"."(".$insert_value.")  ON DUPLICATE KEY UPDATE $update_str";
         $this->db->query($insert_str);
-    
+    }   
 }
