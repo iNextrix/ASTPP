@@ -71,7 +71,7 @@ ask_to_user_yes_or_no ()
 		echo ""
 		echo -e ${1}
 		read -n 1 -p "(y/n)? :"
-		if [ "${REPLY}" = "y" ]; then
+		if [ ${REPLY} = "y" ]; then
 			TEMP_USER_ANSWER="yes"
 		else
 			TEMP_USER_ANSWER="no"
@@ -90,23 +90,24 @@ get_os_architecture ()
 get_os_architecture
 
 # Linux Distribution CentOS or Debian
-get_linux_distribution ()
-{ 
-	V1=`cat /etc/*release | head -n1 | tail -n1 | cut -c 14- | cut -c1-18`
-	V2=`cat /etc/*release | head -n7 | tail -n1 | cut -c 14- | cut -c1-14`
-	if [ "$V1" = "Debian GNU/Linux 8" ]; then
-		DIST="DEBIAN"
-		else if [ "$V2" = "CentOS Linux 7" ]; then
+get_linux_distribution () 
+{
+		if [ -f /etc/debian_version ]; then
+			DIST="DEBIAN"
+		elif  [ -f /etc/redhat-release ]; then
 			DIST="CENTOS"
 		else
 			DIST="OTHER"
-			echo 'OOoops!!!! Quick Installation does not support your distribution'
-			exit 1
 		fi
-	fi
-}														
+}
 get_linux_distribution
 
+# get ip of eth0
+get_local_ip () 
+{
+		LOCAL_IP=`ifconfig eth0 | head -n2 | tail -n1 | cut -d' ' -f12 | cut -c 6-`
+}
+get_local_ip
 
 install_epel () 
 {
@@ -117,6 +118,8 @@ install_epel ()
 			rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 		fi
 }
+
+install_epel
 
 remove_epel () 
 {
@@ -153,7 +156,7 @@ ask_to_install_astpp ()
 		if [ -f LICENSE ]; then
 			more LICENSE
 		else
-			wget --no-check-certificate -q -O GNU-GPLv2.0.txt https://raw.githubusercontent.com/ASTPP/ASTPP/master/LICENSE
+			wget -q -O GNU-GPLv2.0.txt https://raw.githubusercontent.com/ASTPP/ASTPP/master/LICENSE
 			more GNU-GPLv2.0.txt	
 		fi
 		echo "***"
@@ -172,7 +175,7 @@ ask_to_install_astpp ()
 			echo "============checking your working directory=================="
 			wget http://www.astppbilling.org/download/latest.tar.gz
 			tar -xzf latest.tar.gz
-			if [ ${CURRENT_DIR} == ${DOWNLOAD_DIR} ]; then
+			if [ $CURRENT_DIR == $ASTPP_SOURCE_DIR ]; then
 				echo "dir is '$CURRENT_DIR' and it's matched!!!"			
 			else			
 				echo "dir is '$CURRENT_DIR' and not matched!!!"
@@ -185,7 +188,7 @@ ask_to_install_astpp ()
 			fi
 		fi
 		ask_to_user_yes_or_no "Do you want to install ASTPP?"
-		if [ "${TEMP_USER_ANSWER}" = "yes" ]; then
+		if [ ${TEMP_USER_ANSWER} = "yes" ]; then
 			INSTALL_ASTPP="yes"
 			echo ""
 			read -p "Enter FQDN example (i.e ${ASTPP_HOST_DOMAIN_NAME}): "
@@ -226,12 +229,10 @@ clear
 install_freeswitch_for_astpp () 
 {  
 		if [ ${DIST} = "DEBIAN" ]; then
-			apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y curl
-			curl https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add -
-			echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-			apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y --force-yes freeswitch-video-deps-most
+			apt-get update &&
+			
 			# Install Freeswitch pre-requisite packages using apt-get
-			apt-get install -y autoconf automake devscripts gawk chkconfig ntpdate ntp g++ git-core curl libyuv-dev libvpx2-dev libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libperl-dev libgdbm-dev libdb-dev gettext sudo lua5.1 apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
+			apt-get install -y autoconf automake devscripts gawk libtool chkconfig ntpdate ntp g++ git-core libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libperl-dev libgdbm-dev libdb-dev gettext sudo lua5.1 apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
 			
 			#-------------------MySQL setup in for freeswitch Start ------------------------
 			clear
@@ -248,11 +249,9 @@ install_freeswitch_for_astpp ()
 			
 	    elif  [ ${DIST} = "CENTOS" ]; then
 			#yum install -y git
+	
 			# Install Freeswitch pre-requisite packages using yum
-			yum groupinstall "Development tools" -y
-			install_epel
-			rpm -Uvh http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm
-			yum install -y wget git autoconf automake expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ cpan @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel perl-ExtUtils-Embed bc python e2fsprogs-devel libcurl-devel libxml2-devel libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbound-devel libuuid-devel lua-devel libsndfile-devel
+			yum install -y wget git autoconf automake  expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ cpan @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel perl-ExtUtils-Embed bc
 		fi  
 		curl --data "email=$EMAIL" --data "type=script" http://demo.astppbilling.org/lib/
 		echo "Lets first make sure that time is correct before we continue ... "
@@ -267,16 +266,23 @@ install_freeswitch_for_astpp ()
 				chkconfig ntp on
 			else [ -f /etc/redhat-release ]
 				/etc/init.d/ntpd restart
-				chkconfig ntpd onx
+				chkconfig ntpd on
 			fi
 		}
 		set_right_time
 		
+		#-----------------libtool Installation Start------------------------------
+			apt-get remove --purge libtool && apt-get autoremove
+			cd /usr/local/src
+			wget http://gnumirror.nkn.in/libtool/libtool-1.5.14.tar.gz
+			tar -xzf libtool-1.5.14.tar.gz && cd libtool-1.5.14
+			./configure && make && make install
+		#-----------------libtool Installation End------------------------------
+		
 		#-----------------Freeswitch Installation Start------------------------------
 		# Download latest freeswitch version
-		cd /usr/local/src		
-		git config --global pull.rebase true
-		git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git
+		cd /usr/local/src
+		git clone -b v1.4 https://freeswitch.org/stash/scm/fs/freeswitch.git
 		cd freeswitch
 		./bootstrap.sh -j
 		# Edit modules.conf
@@ -364,8 +370,7 @@ mySQL_for_astpp ()
 		if [ ${DIST} = "DEBIAN" ]; then
 			/etc/init.d/mysql restart
 		else [ -f /etc/redhat-release ]
-		#	/etc/init.d/mysqld restart
-			systemctl start mariadb
+			/etc/init.d/mysqld restart
 		fi
 		# Configure MySQL server
 		sleep 5
@@ -402,11 +407,19 @@ install_astpp ()
     	fi
     	if [ ${DIST} = "DEBIAN" ]; then
 			# Install ASTPP pre-requisite packages using apt-get
-			apt-get -o Acquire::Check-Valid-Until=false update
-			apt-get install -y curl libyuv-dev libvpx2-dev apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc g++
+			apt-get update
+			apt-get install -y apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc g++
+			#echo "MySQL root password is set to : ${MYSQL_ROOT_PASSWORD}" 
+			#echo "astppuser password is set to : ${ASTPPUSER_MYSQL_PASSWORD}"
+			#echo mysql-server mysql-server/root_password password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
+			#echo mysql-server mysql-server/root_password_again password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
+			#echo "mysql-server installing ...................."
+			#sleep 10
+			#apt-get install -y mysql-server php5-mysql
+			#sleep 10
 		elif  [ ${DIST} = "CENTOS" ]; then
 			# Install ASTPP pre-requisite packages using YUM
-			yum install -y cpan autoconf automake bzip2 cpio curl curl-devel php php-devel php-common php-cli php-gd php-pear php-mysql php-pdo php-pecl-json mysql mariadb-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++ httpd httpd-devel perl-YAML cpan
+			yum install -y cpan autoconf automake bzip2 cpio curl curl-devel php php-devel php-common php-cli php-gd php-pear php-mysql php-pdo php-pecl-json mysql mysql-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++ httpd httpd-devel perl-YAML cpan perl
 		fi	
 		#	cd ${ASTPP_SOURCE_DIR}	
 		if [ ${DIST} = "DEBIAN" ]; then
@@ -423,7 +436,7 @@ install_astpp ()
 		# make
 		if [ ${INSTALL_ASTPP_PERL_PACKAGES} = "yes" ]; then
 			perl -MCPAN -e 'my $c = "CPAN::HandleConfig"; $c->load(doit => 1, autoconfig => 1); $c->edit(prerequisites_policy => "follow"); $c->edit(build_requires_install_policy => "yes"); $c->commit'
-			perl -MCPAN -e "install URI::Escape,JSON,DBI,Time::HiRes,DateTime::Format::Strptime,XML::Simple,CGI,Data::Dumper";
+			perl -MCPAN -e "install URI::Escape,JSON,POSIX,DBI,Time::HiRes,DateTime::Format::Strptime,XML::Simple,CGI,Data::Dumper";
 		fi
 		if [ ${ASTPP_USING_FREESWITCH} = "yes" ]; then
 			#Folder creation and permission
@@ -489,35 +502,10 @@ finalize_astpp_installation ()
 		echo "Make sure Short Open Tag is switched On"    
 		if [ ${DIST} = "DEBIAN" ]; then
 			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php5/apache2/php.ini
-			a2enmod rewrite			
-		elif [ ${DIST} = "CENTOS" ]; then
+			a2enmod rewrite
+		else [ -f /etc/redhat-release ]
 			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
-			
-			#######   Some more steps for CentOS 7  #########
-			yum update		
-			mkdir -p /etc/httpd/sites-available
-			mkdir -p /etc/httpd/sites-enabled
-			mv /etc/httpd/conf.d/astpp.conf /etc/httpd/sites-available/.
-			ln -s /etc/httpd/sites-available/astpp.conf /etc/httpd/sites-enabled/astpp.conf
-			sed -i "$ a IncludeOptional sites-enabled/*.conf" /etc/httpd/conf/httpd.conf
-			sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/sysconfig/selinux
-			sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
-			setenforce 0
-			cpan -fi DBI
-			cpan -fi CGI
-			perl -MCPAN -e "install URI::Escape,JSON,DBI,Time::HiRes,DateTime::Format::Strptime,XML::Simple,CGI,Data::Dumper";
-			yum install perl-XML-Simple
-			systemctl enable httpd
-			apachectl restart
-			systemctl start httpd
-			systemctl start mariadb
-			systemctl start freeswitch
-			systemctl stop firewalld
-			chkconfig --levels 345 httpd on
-			chkconfig --levels 345 mariadb on
-			chkconfig --levels 345 freeswitch on
-			chkconfig --levels 123456 firewalld off
-		fi		
+		fi
 		/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/conf/autoload_configs/* /usr/local/freeswitch/conf/autoload_configs/
 		
 		# edit ASTPP Database Connection Information
@@ -551,7 +539,7 @@ setup_cron()
 install_perl_packages()
 {
      echo "Installing missing cpan packages ..."     
-     cpan -fi Data::Dumper URI::Escape JSON DBI Time::HiRes DateTime::Format::Strptime XML::Simple CGI
+     cpan -fi Data::Dumper URI::Escape JSON POSIX DBI Time::HiRes DateTime::Format::Strptime XML::Simple CGI
 }
 
 install_fail2ban()
