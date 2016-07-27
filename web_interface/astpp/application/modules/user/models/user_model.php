@@ -26,9 +26,11 @@ class user_model extends CI_Model {
 
     function user_model() {
         parent::__construct();
-        $db_config = Common_model::$global_config['system_config'];
-        $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
-        $this->opensips_db = $this->load->database($opensipdsn, true);
+        if(Common_model::$global_config['system_config']['opensips']==0){
+			$db_config = Common_model::$global_config['system_config'];
+			$opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+			$this->opensips_db = $this->load->database($opensipdsn, true);
+	    }
     }
 
     function validate_password($pass, $id) {
