@@ -286,8 +286,6 @@ msgid "Update"
 msgstr "Mise À Jour"
 msgid "Delete"
 msgstr "Effacer"
-
-
 msgid "Accounts"
 msgstr "Comptes"
 
@@ -297,40 +295,23 @@ msgstr "Compte"
 msgid "Account Number"
 msgstr "Numéro De Compte"
 
-
-
 msgid "Pin"
 msgstr "Goupille"
-
-
 
 msgid "Company"
 msgstr "Compagnie"
 
-
-
 msgid "First Name"
 msgstr "Prénom"
-
-
 
 msgid "Last Name"
 msgstr "Nom De Famille"
 
-
-
-
 msgid "Telephone 1"
 msgstr "Téléphone 1"
 
-
-
-
-
 msgid "Telephone 2"
 msgstr "Téléphone 2"
-
-
 
 msgid "Address 1"
 msgstr "Adresse 1"
@@ -342,8 +323,6 @@ msgid "Province/State"
 msgstr "Province / État"
 msgid "Zip/Postal Code"
 msgstr "Zip / Code Postal"
-
-
 
 msgid "Timezone"
 msgstr "Fuseau Horaire"
@@ -386,9 +365,39 @@ msgstr "DID Modifier avec succès."
 msgid "Balance"
 msgstr "Équilibre"
 
+msgid "Created Date"
+msgstr "date de création"
+
+msgid "Invoice Number"
+msgstr "Numéro de facture"
+
+msgid "Charge Type"
+msgstr "type de charge"
+
+msgid "Before Balance"
+msgstr "avant la balance"
+
+msgid "After Balance"
+msgstr "Après la balance"
+
+msgid "Credit"
+msgstr "crédit"
 
 
+msgid "Description"
+msgstr "La description"
 
+msgid "Charges History"
+msgstr "Charges Histoire"
 
+msgid "Subscriptions"
+msgstr "Abonnements"
 
+msgid "Name"
+msgstr "prénom"
 
+msgid "Billing Cycle"
+msgstr "Cycle de facturation"
+
+msgid "Billing"
+msgstr "Facturation"

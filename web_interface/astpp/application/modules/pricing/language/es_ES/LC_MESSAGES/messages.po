@@ -380,3 +380,16 @@ msgstr "<b>Iniciar"
 
 msgid "Markup(%)"
 msgstr "Marcado(%)"
+
+msgid "Routing Type"
+msgstr "Tipo de enrutamiento"
+
+msgid "Initial Increment"
+msgstr "incremento inicial"
+
+
+msgid "Created Date"
+msgstr "Fecha de creación"
+
+msgid "Modified Date"
+msgstr "Fecha modificada"

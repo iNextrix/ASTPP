@@ -118,7 +118,7 @@ class System_model extends CI_Model {
 
     function edit_template($data, $id) {
         unset($data["action"]);
-        $data["modified_date"] = date("Y-m-d H:i:s");
+        $data["last_modified_date"] = date("Y-m-d H:i:s");
         $this->db->where("id", $id);
         $this->db->update("default_templates", $data);
     }

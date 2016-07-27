@@ -159,14 +159,14 @@ function build_packages_list_for_user(){
 	$currency_id=$account_info['currency_id'];
 	$currency=$this->CI->common->get_field_name('currency', 'currency', $currency_id);
         $grid_field_arr = json_encode(array(
-            array("Created Date", "140", "created_date", "", "", ""),
-            array("Invoice Number", "120", "created_date", "", "", "","","true","center"),
-            array("Charge Type", "100", "item_type", "", "", ""),
+            array(gettext("Created Date"), "140", "created_date", "", "", ""),
+            array(gettext("Invoice Number"), "120", "created_date", "", "", "","","true","center"),
+            array(gettext("Charge Type"), "100", "item_type", "", "", ""),
             array("Before Balance<br/>($currency)", "120", "before_balance", "before_balance", "before_balance", "convert_to_currency","","true","right"),
             array("Debit<br/>($currency)", "120", "debit", "debit", "debit", "convert_to_currency","","true","right"),
             array("Credit<br/>($currency)", "120", "credit", "credit", "credit", "convert_to_currency","","true","right"),
             array("After Balance<br/>($currency)", "120", "after_balance", "after_balance", "after_balance", "convert_to_currency","","true","right"),
-            array("Description", "180", "description", "", "", ""),
+            array(gettext("Description"), "180", "description", "", "", ""),
                 ));
         return $grid_field_arr;
     }

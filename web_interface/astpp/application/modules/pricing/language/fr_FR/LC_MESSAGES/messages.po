@@ -372,3 +372,19 @@ msgstr "Mise À Jour"
 msgid "Delete"
 msgstr "Effacer"
 
+
+msgid "Routing Type"
+msgstr "Type de routage"
+
+msgid "Initial Increment"
+msgstr "incrémentation initiale"
+
+
+
+msgid "Created Date"
+msgstr "date de création"
+
+msgid "Modified Date"
+msgstr "Date modifiée"
+
+

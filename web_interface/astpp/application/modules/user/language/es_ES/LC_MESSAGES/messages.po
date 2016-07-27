@@ -519,3 +519,40 @@ msgstr "Por favor, Introduzca Caller Número de Identificación."
 
 msgid "Sip Device Removed Sucessfully."
 msgstr "Sip Dispositivo Eliminado Correctamente."
+
+msgid "Created Date"
+msgstr "Fecha de Creación"
+
+msgid "Invoice Number"
+msgstr "Número de factura"
+
+
+msgid "Charge Type"
+msgstr "Tipo de carga"
+
+msgid "Before Balance"
+msgstr "antes de Equilibrio"
+
+msgid "After Balance"
+msgstr "después de Equilibrio"
+
+msgid "Credit"
+msgstr "crédito"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Charges History"
+msgstr "cargos Historia"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Billing Cycle"
+msgstr "Ciclo de facturación"
+
+msgid "Billing"
+msgstr "Facturación"

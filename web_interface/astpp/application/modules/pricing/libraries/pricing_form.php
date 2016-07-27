@@ -92,16 +92,16 @@ class pricing_form {
 ASTPP  3.0 
 For Rategroup edit on Name
 **/
-            array("Name", "110", "name", "", "", "","EDITABLE","true","center"),
+            array(gettext("Name"), "110", "name", "", "", "","EDITABLE","true","center"),
 /***************************************/
-            array("Routing Type", "120", "routing_type", "routing_type", "routing_type", "get_routetype"),
-	    array("Initial Increment", "140", "initially_increment", "", "", "","","true","center"),
+            array(gettext("Routing Type"), "120", "routing_type", "routing_type", "routing_type", "get_routetype"),
+	    array(gettext("Initial Increment"), "140", "initially_increment", "", "", "","","true","center"),
             array("Default Increment", "140", "inc", "", "", "","","true","center"),
-            array("Markup(%)", "100", "markup", "", "", "","","true","center"),
-	    array("Rate Count", "100", "id", "pricelist_id", "routes", "get_field_count","","true","center"),
-            array("Status", "110", "status", "id", "pricelists", "get_status","","true","center"),
-            array("Created Date", "120", "creation_date", "creation_date", "creation_date", "convert_GMT_to","","true","center"),
-            array("Modified Date", "140", "last_modified_date", "last_modified_date", "last_modified_date", "convert_GMT_to","","true","center"),
+            array(gettext("Markup(%)"), "100", "markup", "", "", "","","true","center"),
+	    array(gettext("Rate Count"), "100", "id", "pricelist_id", "routes", "get_field_count","","true","center"),
+            array(gettext("Status"), "110", "status", "id", "pricelists", "get_status","","true","center"),
+            array(gettext("Created Date"), "120", "creation_date", "creation_date", "creation_date", "convert_GMT_to","","true","center"),
+            array(gettext("Modified Date"), "140", "last_modified_date", "last_modified_date", "last_modified_date", "convert_GMT_to","","true","center"),
             array("Action", "150", "", "", "", array("EDIT" => array("url" => "pricing/price_edit/", "mode" => "popup"),
 
                     "DELETE" => array("url" => "pricing/price_delete/", "mode" => "single")))

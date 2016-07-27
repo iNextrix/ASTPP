@@ -651,7 +651,7 @@ else{
             array("Caller ID", "200", "number", "", "", "","","true","center"),
             array("Status", "180", "status", "status", "ani_map", "get_status_new","","true","center"),
             array("Created Date", "200", "creation_date", "creation_date", "creation_date", "convert_GMT_to","","true","center"),
-            array("Modified Date Date", "170", "last_modified_date", "last_modified_date", "last_modified_date", "convert_GMT_to","","true","center"),
+            array("Modified Date", "170", "last_modified_date", "last_modified_date", "last_modified_date", "convert_GMT_to","","true","center"),
             array("Action", "200", "", "", "", array("DELETE" => array("url" => "accounts/" . $accounttype . "_animap_action/delete/$accountid/", "mode" => "single")))
                 ));
         return $grid_field_arr;
