@@ -383,9 +383,9 @@ install_astpp ()
 		# Download ASTPP
 		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
 			echo "ASTPP source doesn't exists, downloading it..."
-			cd /usr/src/			
-			wget http://www.astppbilling.org/download/latest.tar.gz
-			tar -xzf latest.tar.gz
+			cd /usr/src/
+			git clone https://github.com/iNextrix/ASTPP
+			cp -rf ASTPP latest			
     	fi
     	if [ ${DIST} = "DEBIAN" ]; then
 			# Install ASTPP pre-requisite packages using apt-get
