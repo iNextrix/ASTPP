@@ -1688,14 +1688,20 @@ function invoice_screen(){
         $dir_path= base_url()."upload/";
       // echo $dir_path; exit;
         $path =$dir_path.$data['invoiceconf']['accountid']."_".$data['invoiceconf']['logo'];
-        if($logo != ''){
-        $src=$path;
-        $logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='".$src."'>";
-        }else{
-        $path = base_url()."/assets/images/logo.png";
-        $src=$path;
-        $logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='".$src."'>";
-        }
+	if(file_exists($path)){
+		if($logo != ''){
+			$src=$path;
+			$logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='".$src."'>";
+		}else{
+			$path = base_url()."/assets/images/logo.png";
+			$src=$path;
+			$logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='".$src."'>";
+		}
+	}else{
+		$dir_path= getcwd()."/upload/logo.png";
+		$src=$dir_path;
+		$logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='".$src."'>";
+	}
         }
 	$content = str_replace("<CURRENCY>",$currency,$content);
 	$content = str_replace("<LOGO>",$src,$content);

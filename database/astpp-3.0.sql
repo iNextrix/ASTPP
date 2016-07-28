@@ -1666,6 +1666,11 @@ Thanks,
 #COMPANY_NAME#
 
 ' WHERE `default_templates`.`id` =3;
+
+INSERT  INTO  `menu_modules` ( `id` , `menu_label` , `module_name` , `module_url` , `menu_title` , `menu_image` , `menu_subtitle` , `priority` ) VALUES ( NULL ,  'Opensips',  'user',  'user/user_opensips/',  'Opensips',  'OpensipDevices.png',  '0',  '90.2');
+
+UPDATE `userlevels` SET `module_permissions` = '31,32,37,36,34,35,33,63,64,67,70,71,73,74,76' WHERE `userlevels`.`userlevelid` =0;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

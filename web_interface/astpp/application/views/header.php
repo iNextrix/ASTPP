@@ -207,10 +207,10 @@ jQuery(document).ready(function() {
 	  ?>
                 
      <?php
-		  if(common_model::$global_config['system_config']['opensips']== 1 &&  $menu_key !='SIP Devices'){
+		  if(common_model::$global_config['system_config']['opensips']== 0 &&  $menu_key !='SIP Devices'){
 		      echo '<li><a href="">'.gettext($menu_key).'<b class="caret"></b></a>';
 		  }
-		  if(common_model::$global_config['system_config']['opensips']== 0 &&  $menu_key != 'Opensips'){
+		  if(common_model::$global_config['system_config']['opensips']== 1 &&  $menu_key != 'Opensips'){
 		      echo '<li><a href="">'.gettext($menu_key).'<b class="caret"></b></a>';  
 		  }
     ?>
@@ -221,7 +221,7 @@ jQuery(document).ready(function() {
                            <?  if($sub_menu_key === 0){ ?>
                             <? foreach($sub_menu_values as $sub_key => $sub_menu_lables){
                                 if((common_model::$global_config['system_config']['paypal_status']== 1 && strtolower($sub_menu_lables["menu_label"]) =='recharge') ||(common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Opensips')||
-                                (common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='SIP Devices') ||
+                                (common_model::$global_config['system_config']['opensips']== 0 &&  $sub_menu_lables["menu_label"] =='SIP Devices') ||
                                 (($acc_info['type'] == '3' || $acc_info['type'] == '0') && $acc_info['allow_ip_management'] == '1' && strtolower($sub_menu_lables["menu_label"]) == 'ip settings')){
                                 }else{?>
                                 <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?php echo gettext($sub_menu_lables["menu_label"]);?></a></li>
@@ -240,11 +240,11 @@ jQuery(document).ready(function() {
 									 <ul class="col-12 padding-x-8">
                                 <? foreach($sub_menu_values as $sub_menu_lables){ 
 				     if($sub_menu_lables['menu_label'] != 'Configuration'){
-				  if(common_model::$global_config['system_config']['opensips']==1 &&  $sub_menu_lables["menu_label"] !='SIP Devices'){
+				  if(common_model::$global_config['system_config']['opensips']==0 &&  $sub_menu_lables["menu_label"] !='SIP Devices'){
 				      ?>
 				      <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?php echo gettext($sub_menu_lables["menu_label"]);?></a></li>
 				  <? }
-				  if(common_model::$global_config['system_config']['opensips']== 0 && $sub_menu_key !='opensips'){ ?>
+				  if(common_model::$global_config['system_config']['opensips']== 1 && $sub_menu_key !='opensips'){ ?>
 				      <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?=$sub_menu_lables["menu_label"];?></a></li>
 				  <? } 
 				}

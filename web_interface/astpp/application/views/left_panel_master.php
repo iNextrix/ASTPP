@@ -113,20 +113,20 @@
 		if($acc_info['type'] == '3' || $acc_info['type'] == '0'){
 		  if($value == "user/user_ipmap/" && $acc_info['allow_ip_management'] == '1'){
 		    $value_flag=false;
-		  }elseif(in_array('user/user_sipdevices/',$menu_info) && $value == "user/user_sipdevices/" && common_model::$global_config['system_config']['opensips']== 1){
+		  }elseif(in_array('user/user_sipdevices/',$menu_info) && $value == "user/user_sipdevices/" && common_model::$global_config['system_config']['opensips']== 0){
 		    $value_flag=false;
 		  }else{
 		    $value_flag=true;
 		  }
                 }else{
-		  if(common_model::$global_config['system_config']['opensips'] == 0 ){
+		  if(common_model::$global_config['system_config']['opensips'] == 1 ){
 		      if($value != "accounts/".$entity_name."_opensips/"){
 			  $value_flag=true;
 		      }else{
 			$value_flag=false;
 		      }
 		  }
-		  if(common_model::$global_config['system_config']['opensips']== 1 ){
+		  if(common_model::$global_config['system_config']['opensips']== 0 ){
 		      if($value != "accounts/".$entity_name."_sipdevices/"){
 			  $value_flag=true;
 		      }else{

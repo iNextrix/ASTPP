@@ -267,7 +267,7 @@ Admin side show voicemail details
         foreach ($query as $key => $value) {
 	$path_true = base_url().'/assets/images/true.png';
 	$path_false = base_url().'/assets/images/false.png';
-	if($value['voicemail_enabled'] == 0){
+	if($value['voicemail_enabled'] == 'true'){
 		$voicemail_enabled ='<img src='.$path_true.' style="height:20px;width:20px;" title="Enable">';
 	}else{
 		$voicemail_enabled ='<img src='.$path_false.' style="height:20px;width:20px;" title="Disable">';
@@ -326,7 +326,7 @@ Customer side show voice mail detials
         foreach ($query as $key => $value) {
 	$path_true = base_url().'/assets/images/true.png';
 	$path_false = base_url().'/assets/images/false.png';
-	$voicemail_enabled = $value['voicemail_enabled'] == '0'? '<img src='.$path_true.' style="height:20px;width:20px;" title="Enable">' : '<img src='.$path_false.' style="height:20px;width:20px;" title="Disable">';
+	$voicemail_enabled = $value['voicemail_enabled'] == 'true'? '<img src='.$path_true.' style="height:20px;width:20px;" title="Enable">' : '<img src='.$path_false.' style="height:20px;width:20px;" title="Disable">';
         $json_data['rows'][] = array('cell' => array(
 		    '<input type="checkbox" name="chkAll" id="'.$value['id'].'" class="ace chkRefNos" onclick="clickchkbox('.$value['id'].')" value=' .$value['id'].'><lable class="lbl"></lable>',
                     $value['username'],

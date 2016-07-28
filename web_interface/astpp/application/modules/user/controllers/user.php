@@ -166,7 +166,9 @@ class User extends MX_Controller {
 		$json_data[0]['sweep_id']='Billing Cycle';
 		$i=1;
 		foreach($result as $key=>$data){
-		$sweep_id= $charges_arr[$data['charge_id']]['sweep_id'];
+		if(isset($charges_arr[$data['charge_id']]['sweep_id'])){
+			$sweep_id= $charges_arr[$data['charge_id']]['sweep_id'];
+		}
 		$data['charge_id'] =isset($charges_arr[$data['charge_id']]['description']) ? $charges_arr[$data['charge_id']]['description'] :"Anonymous";
 		$json_data[$i]['charge_id']=$data['charge_id'];
 		if($data['assign_date'] != '0000-00-00 00:00:00'){
