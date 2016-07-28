@@ -84,7 +84,7 @@ end
 -- Still no account code that means call is not authenticated.
 if (accountcode == nil or accountcode == "") then
   Logger.notice("[Dialplan] Call authentication fail..!!"..config['playback_audio_notification'])
-  error_xml_without_cdr(destination_number,"AUTHENTICATION_FAIL",calltype,config['playback_audio_notification']) 
+  error_xml_without_cdr(destination_number,"AUTHENTICATION_FAIL",calltype,config['playback_audio_notification'],'0') 
   return
 end
 
@@ -250,7 +250,7 @@ if (userinfo ~= nil) then
 			end
 
 			if (tonumber(reseller_maxlength) < 1 or reseller_rates['cost'] > user_rates['cost']) then
-				error_xml_without_cdr(destination_number,"RESELLER_COST_CHEAP",calltype,config['playback_audio_notification']); 
+				error_xml_without_cdr(destination_number,"RESELLER_COST_CHEAP",calltype,config['playback_audio_notification'],customer_userinfo['id']); 
 				Logger.info("Reseller cost : "..reseller_rates['cost'].." User cost : "..user_rates['cost'])
 		    	Logger.error("[Dialplan] Reseller call price is cheaper, so we cannot allow call to process!!")
 				return
@@ -262,7 +262,7 @@ if (userinfo ~= nil) then
     
 	--- Reseller validation ends
 	if ( tonumber(maxlength) <= 0 ) then
-	    error_xml_without_cdr(destination_number,"NO_SUFFICIENT_FUND",calltype,config['playback_audio_notification']);
+	    error_xml_without_cdr(destination_number,"NO_SUFFICIENT_FUND",calltype,config['playback_audio_notification'],customer_userinfo['id']);
 	end
 
 
@@ -369,18 +369,18 @@ xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_di
 		else
 			-- If no route found for outbound call then send no result dialplan for further process in fs
 			Logger.notice("[Dialplan] No termination rates found...!!!");
-			error_xml_without_cdr(destination_number,"TERMINATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification']) 
+			error_xml_without_cdr(destination_number,"TERMINATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification'],customer_userinfo['id']) 
 			return
 		end  --- IF ELSE END HERE
 		XML_STRING = table.concat(xml, "\n");
 		Logger.debug("[Dialplan] Generated XML:\n" .. XML_STRING)  
 	else
 		Logger.notice("[Dialplan] No termination rates found...!!!");
-		error_xml_without_cdr(destination_number,"TERMINATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification']);
+		error_xml_without_cdr(destination_number,"TERMINATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification'],customer_userinfo['id']);
 		return
 	end
     end
 else
-		error_xml_without_cdr(destination_number,"ACCOUNT_INACTIVE_DELETED",calltype,config['playback_audio_notification']);
+		error_xml_without_cdr(destination_number,"ACCOUNT_INACTIVE_DELETED",calltype,config['playback_audio_notification'],customer_userinfo['id']);
 		return
 end

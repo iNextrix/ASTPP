@@ -441,6 +441,10 @@ function get_carrier_rates(destination_number,number_loop_str,ratecard_id,rate_c
 	        trunk_ids = u
         end))
 
+        if (trunk_ids['ids'] == "") then
+            trunk_ids['ids']=0
+        end
+
 		query = query.." AND TR.trunk_id IN ("..trunk_ids['ids']..")"
     end
 
