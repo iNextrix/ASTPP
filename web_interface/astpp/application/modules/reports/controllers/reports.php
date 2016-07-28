@@ -88,7 +88,7 @@ class Reports extends MX_Controller {
             foreach ($trunk_res as $value) {
                 $trunk_arr[$value['id']] = $value['name'];
             }
-            $where = "id IN (" . $count_all['account_ids'] . ")";
+            $where = "id IN (" . $count_all['accounts_ids'] . ")";
             $this->db->where($where);
             $this->db->select('id,number,first_name,last_name');
             $account_res = $this->db->get('accounts');
