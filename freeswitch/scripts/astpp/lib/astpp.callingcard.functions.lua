@@ -346,35 +346,35 @@ end
 -- To termination call to destination. Have all termination calculation inside this function.
 function dialout( original_destination_number, destination_number, maxlength, userinfo, user_rates , origination_dp_string ,number_loop_str)
 	if ( session:ready() ) then
-		carrier_rates = get_carrier_rates (destination_number,number_loop_str,userinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'])
-		if (carrier_rates ~= nil) then
+		termination_rates = get_termination_rates (destination_number,number_loop_str,userinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'])
+		if (termination_rates ~= nil) then
 		    local i = 1
-		    local carrier_array = {}
-		    local xml_carrier_rates
-		    for carrier_key,carrier_value in pairs(carrier_rates) do
-			if ( carrier_value['cost'] > user_rates['cost'] ) then		    
-			    Logger.notice(carrier_value['path']..": "..carrier_value['cost'] .." > "..user_rates['cost']..", skipping")  
+		    local termination_rates_array = {}
+		    local xml_termination_rates
+		    for termination_rate_key,termination_rate_value in pairs(termination_rates) do
+			if ( termination_rate_value['cost'] > user_rates['cost'] ) then		    
+			    Logger.notice(termination_rate_value['path']..": "..termination_rate_value['cost'] .." > "..user_rates['cost']..", skipping")  
 			else
-			    Logger.info("=============== Carrier Rates Information ===================")
-			    Logger.info("ID : "..carrier_value['outbound_route_id'])  
-			    Logger.info("Code : "..carrier_value['pattern'])  
-			    Logger.info("Destination : "..carrier_value['comment'])  
-			    Logger.info("Connectcost : "..carrier_value['connectcost'])  
-			    Logger.info("Free Seconds : "..carrier_value['includedseconds'])  
-			    Logger.info("Prefix : "..carrier_value['pattern'])      		    
-			    Logger.info("Strip : "..carrier_value['strip'])      		  
-			    Logger.info("Carrier id : "..carrier_value['trunk_id'])  		      		    
-			    Logger.info("carrier_name : "..carrier_value['path'])      
-			    Logger.info("Failover gateway : "..carrier_value['path1'])      		    
-			    Logger.info("Vendor id : "..carrier_value['provider_id'])      		    		    
-			    Logger.info("Number Translation : "..carrier_value['dialed_modify'])      		    		    		    
-			    Logger.info("Max channels : "..carrier_value['maxchannels'])      		    		    		    		    
+			    Logger.info("=============== Termination Rates Information ===================")
+			    Logger.info("ID : "..termination_rate_value['outbound_route_id'])  
+			    Logger.info("Code : "..termination_rate_value['pattern'])  
+			    Logger.info("Destination : "..termination_rate_value['comment'])  
+			    Logger.info("Connectcost : "..termination_rate_value['connectcost'])  
+			    Logger.info("Free Seconds : "..termination_rate_value['includedseconds'])  
+			    Logger.info("Prefix : "..termination_rate_value['pattern'])      		    
+			    Logger.info("Strip : "..termination_rate_value['strip'])      		  
+			    Logger.info("Termination rate id : "..termination_rate_value['trunk_id'])  		      		    
+			    Logger.info("Gateway name : "..termination_rate_value['path'])      
+			    Logger.info("Failover gateway : "..termination_rate_value['path1'])      		    
+			    Logger.info("Vendor id : "..termination_rate_value['provider_id'])      		    		    
+			    Logger.info("Number Translation : "..termination_rate_value['dialed_modify'])      		    		    		    
+			    Logger.info("Max channels : "..termination_rate_value['maxchannels'])      		    		    		    		    
 			    Logger.info("=================================================================")
-			    carrier_array[i] = carrier_value
+			    termination_rates_array[i] = termination_rate_value
 			    i = i+1
 			end
 	   	    end
-		    -- If we get any valid carrier rates then build dialplan for outbound call
+		    -- If we get any valid termination rates then build dialplan for outbound call
 		    if (i > 1) then
 		        local callstart = os.date("!%Y-%m-%d %H:%M:%S")    
 				session:execute("export","call_processed=internal");
@@ -404,39 +404,39 @@ function dialout( original_destination_number, destination_number, maxlength, us
 				    end
 		    	end
 		          
-				for carrier_arr_key,carrier_arr_array in pairs(carrier_array) do
+				for termination_rate_arr_key,termination_rate_arr_value in pairs(termination_rates_array) do
 	
-					if (carrier_arr_array['dialed_modify'] ~= '') then 
-						destination_number = do_number_translation(carrier_arr_array['dialed_modify'],destination_number)
+					if (termination_rate_arr_value['dialed_modify'] ~= '') then 
+						destination_number = do_number_translation(termination_rate_arr_value['dialed_modify'],destination_number)
 					end
 				    
-					if(carrier_arr_array['prepend'] ~= '' or carrier_arr_array['strip'] ~= '') then
-						destination_number = do_number_translation(carrier_arr_array['strip'].."/"..carrier_arr_array['prepend'],destination_number)
+					if(termination_rate_arr_value['prepend'] ~= '' or termination_rate_arr_value['strip'] ~= '') then
+						destination_number = do_number_translation(termination_rate_arr_value['strip'].."/"..termination_rate_arr_value['prepend'],destination_number)
 					end
 	
                     if ( session:ready() ) then
-					xml_carrier_rates= "ID:"..carrier_arr_array['outbound_route_id'].."|CODE:"..carrier_arr_array['pattern'].."|DESTINATION:"..carrier_arr_array['comment'].."|CONNECTIONCOST:"..carrier_arr_array['connectcost'].."|INCLUDEDSECONDS:"..carrier_arr_array['includedseconds'].."|COST:"..carrier_arr_array['cost'].."|INC:"..carrier_arr_array['inc'].."|TRUNK:"..carrier_arr_array['trunk_id'].."|PROVIDER:"..carrier_arr_array['provider_id'];
-					session:execute("export","termination_rates="..xml_carrier_rates);
+					xml_termination_rates= "ID:"..termination_rate_arr_value['outbound_route_id'].."|CODE:"..termination_rate_arr_value['pattern'].."|DESTINATION:"..termination_rate_arr_value['comment'].."|CONNECTIONCOST:"..termination_rate_arr_value['connectcost'].."|INCLUDEDSECONDS:"..termination_rate_arr_value['includedseconds'].."|COST:"..termination_rate_arr_value['cost'].."|INC:"..termination_rate_arr_value['inc'].."|TRUNK:"..termination_rate_arr_value['trunk_id'].."|PROVIDER:"..termination_rate_arr_value['provider_id'];
+					session:execute("export","termination_rates="..xml_termination_rates);
     
-					session:execute("export","carrier_id="..carrier_arr_array['trunk_id']);        
-					session:execute("export","provider_id="..carrier_arr_array['provider_id']);
+					session:execute("export","trunk_id="..termination_rate_arr_value['trunk_id']);        
+					session:execute("export","provider_id="..termination_rate_arr_value['provider_id']);
 
-					if (carrier_arr_array['codec'] ~= '') then 
-							session:execute("export","absolute_codec_string="..carrier_arr_array['codec']);
+					if (termination_rate_arr_value['codec'] ~= '') then 
+							session:execute("export","absolute_codec_string="..termination_rate_arr_value['codec']);
 					end
     
-					if(tonumber(carrier_arr_array['maxchannels']) > 0) then    
-							session:execute("limit_execute","db "..outbound_info['path'].." gw_"..outbound_info['path'].." "..outbound_info['maxchannels'].." bridge sofia/gateway/"..outbound_info['path'].."/"..destination_number);
+					if(tonumber(termination_rate_arr_value['maxchannels']) > 0) then    
+							session:execute("limit_execute","db "..termination_rate_arr_value['path'].." gw_"..termination_rate_arr_value['path'].." "..termination_rate_arr_value['maxchannels'].." bridge sofia/gateway/"..termination_rate_arr_value['path'].."/"..destination_number);
 					else
-							session:execute("bridge","sofia/gateway/"..carrier_arr_array['path'].."/"..destination_number);   
+							session:execute("bridge","sofia/gateway/"..termination_rate_arr_value['path'].."/"..destination_number);   
 					end
 
-					if(carrier_arr_array['path1'] ~= '' and carrier_arr_array['path1'] ~= carrier_arr_array['gateway']) then
-						session:execute("bridge","sofia/gateway/"..carrier_arr_array['path1'].."/"..destination_number);   
+					if(termination_rate_arr_value['path1'] ~= '' and termination_rate_arr_value['path1'] ~= termination_rate_arr_value['gateway']) then
+						session:execute("bridge","sofia/gateway/"..termination_rate_arr_value['path1'].."/"..destination_number);   
 					end
 
-					if(carrier_arr_array['path2'] ~= '' and carrier_arr_array['path2'] ~= carrier_arr_array['gateway']) then
-						session:execute("bridge","sofia/gateway/"..carrier_arr_array['path2'].."/"..destination_number);   
+					if(termination_rate_arr_value['path2'] ~= '' and termination_rate_arr_value['path2'] ~= termination_rate_arr_value['gateway']) then
+						session:execute("bridge","sofia/gateway/"..termination_rate_arr_value['path2'].."/"..destination_number);   
 					end
 
                     end
