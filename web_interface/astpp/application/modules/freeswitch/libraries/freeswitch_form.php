@@ -218,7 +218,7 @@ Voicemail add edit
             
         );
         $form['Optional Information'] = array(
-            array('From- Domain', 'INPUT', array('name' => 'from_domail', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('From- Domain', 'INPUT', array('name' => 'from_domain', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('From User', 'INPUT', array('name' => 'from_user', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Realm', 'INPUT', array('name' => 'realm', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Extension', 'INPUT', array('name' => 'extension', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
