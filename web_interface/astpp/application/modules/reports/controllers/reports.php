@@ -314,7 +314,12 @@ class Reports extends MX_Controller {
             }
         }
         $this->load->helper('csv');
-        array_to_csv($customer_array, 'Customer_CDR_' . date("Y-m-d") . '.csv');
+        if(isset($customer_array)){
+		array_to_csv($customer_array, 'Customer_CDR_' . date("Y-m-d") . '.csv');
+	}else{
+		$customer_array[] = array("Date", "CallerID", "Called Number", "Code", "Destination", "Duration", "Debit($currency)", "Cost($currency)", "Disposition", "Account","Rate Group", "Call Type");
+		array_to_csv($customer_array, 'Customer_CDR_' . date("Y-m-d") . '.csv');
+	}
     }
 
     /*     * *************************** */
