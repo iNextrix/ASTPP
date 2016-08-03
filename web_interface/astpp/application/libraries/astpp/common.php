@@ -856,11 +856,19 @@ class common {
      **/
     function build_custome_edit_button($button_params, $field, $linkid) {
         $link = base_url() . $button_params->url . "" . $linkid;
-        if ($button_params->mode == 'popup') {
-            return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" rel="facebox" title="Update">' . $field . '</a>&nbsp;';
-        } else {
-            return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" title="Edit">' . $field . '</a>&nbsp;';
-        }
+        if(isset($button_params->layout)){
+			if ($button_params->mode == 'popup') {
+				return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" rel="facebox_medium" title="Update">' . $field . '</a>&nbsp;';
+			} else {
+				return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" title="Edit">' . $field . '</a>&nbsp;';
+			}
+		}else{ 
+			if ($button_params->mode == 'popup') {
+				return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" rel="facebox" title="Update">' . $field . '</a>&nbsp;';
+			} else {
+				return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" title="Edit">' . $field . '</a>&nbsp;';
+			}
+		}
     }
 
     /************************************ */

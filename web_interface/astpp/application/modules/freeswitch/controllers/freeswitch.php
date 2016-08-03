@@ -274,7 +274,7 @@ Admin side show voicemail details
 	}
         $json_data['rows'][] = array('cell' => array(
 		    '<input type="checkbox" name="chkAll" id=' . $value['id'] . ' class="ace chkRefNos" onclick="clickchkbox(' . $value['id'] . ')" value=' . $value['id'] . '><lable class="lbl"></lable>',
-		    "<a href='/freeswitch/fssipdevices_edit/".$value['id']."' style='cursor:pointer;color:#005298;' rel='facebox' title='username'>".$value['username']."</a>",
+		    "<a href='/freeswitch/fssipdevices_edit/".$value['id']."' style='cursor:pointer;color:#005298;' rel='facebox_medium' title='username'>".$value['username']."</a>",
 /**************************/
                     $value['password'],
                     $this->common->get_field_name('name', '`sip_profiles', array('id' => $value['sip_profile_id'])),
