@@ -25,7 +25,7 @@ function load_conf()
 
 
 
-    local query = "SELECT name,value FROM "..TBL_CONFIG.." WHERE group_title IN ('global','proxy','callingcard')";
+    local query = "SELECT name,value FROM "..TBL_CONFIG.." WHERE group_title IN ('global','opensips','callingcard')";
     Logger.debug("[Functions] [LOAD_CONF] Query :" .. query)
     
     local config = {}
@@ -147,7 +147,7 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
     local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 AND expiry >= '".. callstart .."' limit 1";
     Logger.debug("[Functions] [DOAUTHORIZATION] Query :" .. query)
     
-    local userinfo;
+    userinfo = "";
     assert (dbh:query(query, function(u)
 	    userinfo = u;	
     end))

@@ -29,7 +29,7 @@ if ($_REQUEST['key_value'] == 'sofia.conf') {
     header('Content-Type: text/xml');
     echo $xml;
 } elseif ($_REQUEST['key_value'] == 'acl.conf') {
-    $xml = load_acl($logger, $db);
+    $xml = load_acl($logger, $db,$config);
     header('Content-Type: text/xml');
     echo $xml;
 } else {

@@ -36,7 +36,7 @@ function xml_not_found() {
 }
 
 //Build acl xml
-function load_acl($logger, $db) {
+function load_acl($logger, $db,$config) {
     $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
     $xml .= "<document type=\"freeswitch/xml\">\n";
     $xml .= "   <section name=\"Configuration\" description=\"Configuration\">\n";
@@ -44,6 +44,7 @@ function load_acl($logger, $db) {
     $xml .= "           <network-lists>\n";
 	$xml .= "       <list name=\"default\" default=\"deny\">\n";
 	
+    //For customer and provider ips
     $query = "SELECT ip FROM ip_map,accounts WHERE ip_map.accountid=accounts.id AND accounts.status=0 AND deleted=0";
     $logger->log("ACL Query : " . $query);
     $res_acl = $db->run($query);
@@ -53,10 +54,12 @@ function load_acl($logger, $db) {
 		$xml .= "       <node type=\"allow\" cidr=\"" . $res_acl_value['ip'] . "\"/>\n";
 	}
 
+    //For gateways
 	$query = "SELECT * FROM gateways WHERE status=0";
     $logger->log("Sofia Gateway Query : " . $query);
     $sp_gw = $db->run($query);
     $logger->log($sp_gw);
+
     foreach ($sp_gw as $sp_gw_key => $sp_gw_value) {
 
 	        $sp_gw_settings  = json_decode($sp_gw_value['gateway_data'], true);
@@ -72,7 +75,28 @@ function load_acl($logger, $db) {
 
     }
 
+
+    //For opensips
+    if($config['opensips'] == '0')
+    {
+        $xml .= "<node type=\"allow\" cidr=\"".$config['opensips_domain']."/32\"/>\n";     
+    }
+
     $xml .= "       </list>\n";
+
+    //For loopback 
+    if($config['opensips'] == '0')
+    {
+        $xml .= "<list name=\"loopback.auto\" default=\"allow\">\n";
+            $xml .= "<node type=\"allow\" cidr=\"".$config['opensips_domain']."/32\"/>\n";
+        $xml .= "</list>\n";
+    }
+
+    //For event handing
+    $xml .= "<list name=\"event\" default=\"deny\">\n";
+        $xml .= ($config['opensips'] == "0")?"<node type=\"allow\" cidr=\"".$config['opensips_domain']."/32\"/>\n":"\n";
+        $xml .= "<node type=\"allow\" cidr=\"127.0.0.0/8\"/>\n";
+    $xml .= "</list>\n";
     $xml .= "           </network-lists>\n";
     $xml .= "       </configuration>\n";
     $xml .= "   </section>\n";
