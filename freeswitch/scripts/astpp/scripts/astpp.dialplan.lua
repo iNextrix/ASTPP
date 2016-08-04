@@ -61,12 +61,8 @@ sipcall = params:getHeader("variable_sipcall")
 call_direction = define_call_direction(destination_number,accountcode,config)
 Logger.info("[Dialplan] Call Direction : ".. call_direction)
 
---accountcode = didinfo['account_code']
-
-
-
 --IF opensips then check then get account code from $params->{'variable_sip_h_P-Accountcode'}
-if(config['opensips']=='1' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == '')
+if(config['opensips']=='0' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == nil)
 then
 	accountcode = params:getHeader('variable_sip_h_P-Accountcode');
 end
