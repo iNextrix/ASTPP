@@ -215,7 +215,7 @@ class Reports extends MX_Controller {
             foreach ($pricelist_res as $value) {
                 $pricelist_arr[$value['id']] = $value['name'];
             }
-            $where = "id IN (" . $count_all['account_ids'] . ")";
+            $where = "id IN (" . $count_all['accounts_ids'] . ")";
             $this->db->where($where);
             $this->db->select('id,number,first_name,last_name');
             $account_res = $this->db->get('accounts');
@@ -314,7 +314,12 @@ class Reports extends MX_Controller {
             }
         }
         $this->load->helper('csv');
-        array_to_csv($customer_array, 'Customer_CDR_' . date("Y-m-d") . '.csv');
+        if(isset($customer_array)){
+		array_to_csv($customer_array, 'Customer_CDR_' . date("Y-m-d") . '.csv');
+	}else{
+		$customer_array[] = array("Date", "CallerID", "Called Number", "Code", "Destination", "Duration", "Debit($currency)", "Cost($currency)", "Disposition", "Account","Rate Group", "Call Type");
+		array_to_csv($customer_array, 'Customer_CDR_' . date("Y-m-d") . '.csv');
+	}
     }
 
     /*     * *************************** */

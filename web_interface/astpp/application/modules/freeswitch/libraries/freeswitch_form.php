@@ -47,9 +47,9 @@ class Freeswitch_form {
         $form['forms'] = array(base_url() . 'freeswitch/fssipdevices_save/', array("id" => "sipdevices_form", "name" => "sipdevices_form"));
         $form['Device Information'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
-             array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'value'=>$uname_user,'id'=>'username', 'class' => "text field medium"), 'trim|required|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer;color: #1BCB61 !important;    cursor: pointer;    font-size: 14px;    padding-left: 5px;    padding-top: 8px;    float: left;" title="Reset Password" class="change_number  fa fa-refresh"></i>'),
-            array('Password', 'INPUT', array('name' => 'fs_password', 'size' => '20', 'value'=>$password ,'id'=>'password','class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer; color: #1BCB61 !important;    cursor: pointer;    font-size: 14px;    padding-left: 5px;    padding-top: 8px;    float: left;" title="Reset Password" class="change_pass fa fa-refresh"></i>'), 
-		 array('Account', 'accountcode', 'SELECT', '','trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"0", "deleted" => "0")),
+             array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'value'=>$uname_user,'id'=>'username1', 'class' => "text field medium"), 'trim|required|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer; color:#1BCB61 !important; font-size:14px;    padding-left:5px;    padding-top:8px;    float:left;" title="Reset Password" class="change_number  fa fa-refresh"></i>'),
+            array('Password', 'INPUT', array('name' => 'fs_password', 'size' => '20', 'value'=>$password ,'id'=>'password1','class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer; color:#1BCB61 !important; font-size:14px;    padding-left:5px;    padding-top:8px;    float:left;" title="Reset Password" class="change_pass fa fa-refresh"></i>'), 
+			array('Account', 'accountcode', 'SELECT', '','trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"0", "deleted" => "0")),
             array('Caller Name', 'INPUT', array('name' => 'effective_caller_id_name', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             array('Caller Number', 'INPUT', array('name' => 'effective_caller_id_number', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Select Status', '', '', '', 'set_status'),
@@ -218,7 +218,7 @@ Voicemail add edit
             
         );
         $form['Optional Information'] = array(
-            array('From- Domain', 'INPUT', array('name' => 'from_domail', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('From- Domain', 'INPUT', array('name' => 'from_domain', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('From User', 'INPUT', array('name' => 'from_user', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Realm', 'INPUT', array('name' => 'realm', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Extension', 'INPUT', array('name' => 'extension', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
@@ -483,8 +483,8 @@ For Sip Profile edit on Profile name
             $form['Device Information'] = array(
                 array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
                 array('', 'HIDDEN', array('name' => 'accountcode', 'value' => $accountid), '', '', '', ''),
-                array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'value'=>$uname_user,'id'=>'username', 'class' => "text field medium"), 'trim|required|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer;color: #1BCB61 !important;   font-size: 14px;    padding-left: 5px;    padding-top: 8px;    float: left; " title="Reset Password" class="change_number fa fa-refresh"></i>'),
-                array('Password', 'INPUT', array('name' => 'fs_password', 'size' => '20','id'=>'password1','value'=>$password, 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer;color: #1BCB61 !important;  font-size: 14px;    padding-left: 5px;    padding-top: 8px;    float: left;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
+                array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'value'=>$uname_user,'id'=>'username', 'class' => "text field medium"), 'trim|required|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer;color:#1BCB61 !important;font-size:14px; padding-left:5px; padding-top:8px; float:left; " title="Reset Password" class="change_number fa fa-refresh"></i>'),
+                array('Password', 'INPUT', array('name' => 'fs_password', 'size' => '20','id'=>'password1','value'=>$password, 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer;color:#1BCB61 !important;  font-size:14px;    padding-left:5px;    padding-top:8px;    float:left;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
                 array('Caller Name', 'INPUT', array('name' => 'effective_caller_id_name', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
                 array('Caller Number', 'INPUT', array('name' => 'effective_caller_id_number', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
                 //array('Call Waiting', 'call_waiting', 'SELECT', '', '', 'tOOL TIP', 'Please Select Status', '', '', '', 'set_call_waiting'),

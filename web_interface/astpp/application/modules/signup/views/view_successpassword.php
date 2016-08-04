@@ -56,7 +56,7 @@ ASTPP work best with JavaScript enabled
 			<a class="col-md-9" href="<?php echo base_url();?>">
                 	<img id="logo" alt="dashboard" src="<?php echo base_url();?>assets/images/logo.png">
 	      <? } else{?> 
-                	<a class="col-md-9" href="<?php echo base_url();?>user/user/">
+                	<a class="col-md-9" href="<?php echo base_url();?>">
                 	<img id="logo" alt="user_logo" src="<?php echo base_url();?>assets/images/logo.png">
 		<? }?>
                 </a>

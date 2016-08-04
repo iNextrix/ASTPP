@@ -66,6 +66,7 @@ class Accounts_form {
             $account_val='accounts.number';
              if (common_model::$global_config['system_config']['opensips'] == 1) {
 				$sip_device = array('Create Opensips Device', 'opensips_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_prorate');
+				$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>'); 
             } else {
               $sip_device = array('Create SIP Device', 'sip_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_prorate');
 				$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>');         
