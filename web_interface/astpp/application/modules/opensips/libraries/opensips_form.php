@@ -45,7 +45,10 @@ class Opensips_form {
             array('Username', 'INPUT', array('name' => 'username', 'size' => '30',  'value' => $uname_user, 'id' => 'username', 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter account number', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_number fa fa-refresh"></i>'),
             array('Password', 'INPUT', array('name' => 'password', 'size' => '30',  'value' => $password, 'id' => 'password', 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter Password', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
             array('Account', 'accountcode', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'number', 'number', 'accounts', 'build_dropdown', 'where_arr', array("reseller_id" => $loginid, "type" => "GLOBAL", "deleted" => "0")),
-            array('Domain', 'INPUT', array('name' => 'domain', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', '')
+            array('Domain', 'INPUT', array('name' => 'domain', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Caller Name', 'INPUT', array('name' => 'effective_caller_id_name', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+            array('Caller Number', 'INPUT', array('name' => 'effective_caller_id_number', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+            array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Select Status', '', '', '', 'set_status'),
         );
         $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'button', 'id' => 'submit', 'class' => 'btn btn-line-parrot');
         $form['button_cancel'] = array('name' => 'action', 'content' => 'Close', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'NULL\')');
@@ -100,10 +103,13 @@ class Opensips_form {
     function build_opensips_list() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(
-            array("Username", "330", "username", "", "", "","","true","center"),
-            array("Password", "330", "password", "", "", "","","true","center"),
-            array("Domain", "410", "domain", "", "", "","","true","center"),
-            array("Action", "200", "", "", "", array("EDIT" => array("url" => "/opensips/opensips_edit/", "mode" => "popup"),
+            array("Username", "150", "username", "", "", "","","true","center"),
+            array("Password", "150", "password", "", "", "","","true","center"),
+            array("Account", "150", "accountcode", "", "", "","","true","center"),
+            array("Domain", "317", "domain", "", "", "","","true","center"),
+            array("Caller Name", "200", "effective_caller_id_name", "", "", "","","true","center"),
+            array("Caller Number", "200", "effective_caller_id_number", "", "", "","","true","center"),
+            array("Action", "100", "", "", "", array("EDIT" => array("url" => "/opensips/opensips_edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "/opensips/opensips_remove/", "mode" => "single")))
                 ));
         return $grid_field_arr;
@@ -150,6 +156,8 @@ class Opensips_form {
                 array('Username', 'INPUT', array('name' => 'username', 'size' => '20',  'id' => 'username', 'value' => $uname_user, 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter account number', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_number fa fa-refresh"></i>'),
                 array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'id' => 'password1', 'value' => $password, 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter Password', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
                 array('Domain', 'INPUT', array('name' => 'domain', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+                array('Caller Name', 'INPUT', array('name' => 'effective_caller_id_name', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+                array('Caller Number', 'INPUT', array('name' => 'effective_caller_id_number', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
                 array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Select Status', '', '', '', 'set_status'),                
             );
         $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'button', 'id' => 'submit', 'class' => 'btn btn-line-parrot');
@@ -181,10 +189,12 @@ class Opensips_form {
 //echo $accountid;
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(
-            array("Username", "280", "username", "", "", ""),
-            array("Password", "280", "password", "", "", ""),
-            array("Domain", "280", "domain", "", "", ""),
-            array("Action", "170", "", "", "", array("EDIT" => array("url" => 'accounts/customer_opensips_action/edit/' . $accountid . '/', "mode" => "popup"),
+            array("Username", "200", "username", "", "", ""),
+            array("Password", "200", "password", "", "", ""),
+            array("Domain", "200", "domain", "", "", ""),
+            array("Caller Name", "150", "effective_caller_id_name", "", "", "","","true","center"),
+            array("Caller Number", "150", "effective_caller_id_number", "", "", "","","true","center"),
+            array("Action", "100", "", "", "", array("EDIT" => array("url" => 'accounts/customer_opensips_action/edit/' . $accountid . '/', "mode" => "popup"),
                     "DELETE" => array("url" => 'accounts/customer_opensips_action/delete/' . $accountid . "/", "mode" => "popup")))
                 ));
 
