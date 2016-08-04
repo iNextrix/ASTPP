@@ -114,7 +114,7 @@ ASTPP work best with JavaScript enabled
 											<!-- Header Start-->
 												<div class="col-md-12">
 													  <? if($this->session->userdata('userlevel_logintype') != '0'){?>
-															<a class="col-md-10" style="padding:0px 0px 10px 0px" href="<?php echo base_url();?>dashboard/">
+															<a class="col-md-10" style="padding:0px 0px 10px 0px" href="<?php echo base_url();?>">
 																<img style="height: 44px;" id="logo" alt="dashboard" src="<?php echo base_url();?>assets/images/logo.png">
 														<? } else{?> 
 																<a class="col-md-10" style="padding:0px 0px 20px 0px" href="<?php echo base_url();?>">
@@ -229,7 +229,7 @@ ASTPP work best with JavaScript enabled
 		  	<li class="col-md-6  no-padding">
 				<label class="col-md-3  no-padding" style="text-align: left;">Address</label>
 				<div class='col-md-9'>
-				<textarea  name="address_1" value="" size="15" maxlength="200" class="form-control"> <?php if (isset($value['address_1'])) echo $value['address_1']; else ''; ?> </textarea>
+				<textarea id="address_1" name="address_1" value="" size="15" maxlength="200" class="form-control"> <?php if (isset($value['address_1'])) echo $value['address_1']; else ''; ?> </textarea>
 				</div>
 			</li>
 			<li class="col-md-6 no-padding">

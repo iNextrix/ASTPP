@@ -51,10 +51,10 @@ ASTPP work best with JavaScript enabled
              <div class="w-box dark sign-in-wr box_shadow margin-b-10">
 		    	<div class="col-md-12 no-padding">
 			  <? if($this->session->userdata('userlevel_logintype') != '0'){?>
-				<a class="col-md-9" href="<?php echo base_url();?>dashboard/">
+				<a class="col-md-9" href="<?php echo base_url();?>">
 						<img id="logo" alt="dashboard" src="<?php echo base_url();?>assets/images/logo.png">
 			  <? } else{?> 
-						<a class="col-md-9" href="<?php echo base_url();?>user/user/">
+						<a class="col-md-9" href="<?php echo base_url();?>">
 						<img id="logo" alt="user_logo" src="<?php echo base_url();?>assets/images/logo.png">
 			<? }?>
 				</a>
