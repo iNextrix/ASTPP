@@ -14,7 +14,9 @@
     });
 
 </script>
-
+<? endblock() ?>
+<? startblock('page-title') ?>
+<?= $page_title ?>
 <? endblock() ?>
 <? startblock('content') ?>   
 <div id="main-wrapper" class="tabcontents">  
