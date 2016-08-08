@@ -210,20 +210,24 @@ end
 -- Do number translation 
 function do_number_translation(number_translation,destination_number)
     local tmp
+
     tmp = split(number_translation,",")
     for tmp_key,tmp_value in pairs(tmp) do
       tmp_value = string.gsub(tmp_value, "\"", "")
       tmp_str = split(tmp_value,"/")      
-      local prefix = string.sub(destination_number,0,string.len(tmp_str[1]));      
-      if (prefix == tmp_str[1]) then      
-			    
-	    Logger.debug("[Functions] [DONUMBERTRANSLATION] Before number translation : " .. destination_number)
+      local prefix = string.sub(destination_number,0,string.len(tmp_str[1]));        
+      if (prefix == tmp_str[1] or tmp_str[1] == '*') then
+	    Logger.warning("[Functions] [DONUMBERTRANSLATION] Before number translation : " .. destination_number)
 		if(tmp_str[2] ~= nil) then
-			destination_number = tmp_str[2] .. string.sub(destination_number,(string.len(tmp_str[1])+1))
+            if (tmp_str[2] == '*') then
+    			destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
+            else
+    			destination_number = tmp_str[2] .. string.sub(destination_number,(string.len(tmp_str[1])+1))
+            end
 		else
-		       destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
+		    destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
 		end
-	    Logger.debug("[Functions] [DONUMBERTRANSLATION] After  number translation : " .. destination_number)
+	    Logger.warning("[Functions] [DONUMBERTRANSLATION] After  number translation : " .. destination_number)
       end
     end
     return destination_number
