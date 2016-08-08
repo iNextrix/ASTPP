@@ -355,7 +355,23 @@ xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_di
 			calleridinfo = get_override_callerid(userinfo)
 			if (calleridinfo ~= nil) then
     			xml = freeswitch_xml_callerid(xml,calleridinfo)	    	      
-			end
+			else
+                if(config['opensips'] == '0') then
+                    calleridinfo = {}
+                    if (params:getHeader('variable_sip_h_P-effective_caller_id_name') ~= nil) then 
+                        calleridinfo['cid_name'] = params:getHeader('variable_sip_h_P-effective_caller_id_name')
+                    else
+                        calleridinfo['cid_name'] = ''
+                    end
+
+                    if (params:getHeader('variable_sip_h_P-effective_caller_id_number') ~= nil) then 
+                        calleridinfo['cid_number'] = params:getHeader('variable_sip_h_P-effective_caller_id_number')
+                    else
+                        calleridinfo['cid_number'] = ''
+                    end
+                    xml = freeswitch_xml_callerid(xml,calleridinfo)	 
+                end   	      
+            end
 
 			for carrier_arr_key,carrier_arr_array in pairs(carrier_array) do
 			    xml = freeswitch_xml_outbound(xml,destination_number,carrier_arr_array)
