@@ -181,8 +181,14 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
 end
 
 -- Get balance from account info 
-function get_balance(userinfo)    
-    return (userinfo['balance']) + (userinfo['credit_limit'] * userinfo['posttoexternal']);    
+function get_balance(userinfo)
+    balance = (userinfo['balance']) + (userinfo['credit_limit'] * userinfo['posttoexternal']);    
+
+    -- Override balance if call is DID / inbound and coming from provider to avoid provider balance checking upon DID call. 
+    if (userinfo['type'] == '3' and call_direction == 'inbound') then            
+            balance = 10000
+    end   
+    return balance
 end
 
 function update_first_used_account(userinfo)
