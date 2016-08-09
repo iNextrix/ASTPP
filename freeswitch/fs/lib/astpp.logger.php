@@ -29,12 +29,12 @@ class logger {
     function logger($lib) {
         $this->config = $lib->config;
 	    $this->config['log_path'] = "/var/log/astpp/";
-        if ($this->config['debug'] != 0)
+        if ($this->config['debug'] == '0')
             $this->fp = fopen($this->config['log_path'] . 'astpp_' . date('Y-m-d') . '.txt', 'a');
     }
 
     function log($log) {
-        if ($this->config['debug'] != 0) {
+        if ($this->config['debug'] == '0') {
             if (is_array($log))
                 fwrite($this->fp, "[" . date('Y-m-d H:i:s') . "] " . print_r($log, TRUE));
             else
@@ -43,7 +43,7 @@ class logger {
     }
 
     function close() {
-        if ($this->config['debug'] != 0)
+        if ($this->config['debug'] == '0')
             fclose($this->fp);
     }
 
