@@ -228,7 +228,11 @@ function do_number_translation(number_translation,destination_number)
             if (tmp_str[2] == '*') then
     			destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
             else
-    			destination_number = tmp_str[2] .. string.sub(destination_number,(string.len(tmp_str[1])+1))
+                if (tmp_str[1] == '*') then
+        			destination_number = tmp_str[2] .. destination_number
+                else
+        			destination_number = tmp_str[2] .. string.sub(destination_number,(string.len(tmp_str[1])+1))
+                end
             end
 		else
 		    destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
