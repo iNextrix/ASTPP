@@ -133,6 +133,15 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info)
 	end
 
 	if(outbound_info['prepend'] ~= '' or outbound_info['strip'] ~= '') then
+
+        if (outbound_info['prepend'] == '') then 
+            outbound_info['prepend'] = '*'                        
+        end
+
+        if (outbound_info['strip'] == '') then 
+            outbound_info['strip'] = '*'
+        end
+
 		temp_destination_number = do_number_translation(outbound_info['strip'].."/"..outbound_info['prepend'],temp_destination_number)
 	end
     
