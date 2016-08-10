@@ -307,7 +307,7 @@ For Customer CDRs export
             array("Called Number", "120", "callednum", "", "", "","","true","center"),
             array("Destination", "135", "notes", "", "", "","","true","center"),
 //            array("Account Number", "120", "accountid", "number", "accounts", "get_field_name"),
-            array("Duration", "120", "notes", "user_cdrs_report_search", "billseconds", "convert_to_show_in","","true","center"),
+            array("Duration", "120", "billseconds", "user_cdrs_report_search", "billseconds", "convert_to_show_in","","true","center"),
             $cost_array,
             array("Disposition", "160", "disposition", "", "", "","","true","center"),
             array("Call Type", "140", "calltype", "", "", "","","true","center"),
