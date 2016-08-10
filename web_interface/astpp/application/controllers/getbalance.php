@@ -34,7 +34,7 @@ class Getbalance extends MX_Controller
 	function index($sipnumber=''){
 	$opensips_flag=common_model::$global_config['system_config']['opensips'];
 	$accountid_arr=0;
- 	if($opensips_flag == '0'){
+ 	if($opensips_flag == '1'){
             $where=array('username'=>$sipnumber);
             $accountid_arr=$this->db_model->getSelect('accountid','sip_devices',$where);
         }
@@ -58,7 +58,7 @@ class Getbalance extends MX_Controller
 	}
 	if($accountid_arr->num_rows()>0){
 		$accountid_arr=$accountid_arr->result_array();
-		if($opensips_flag == '0'){
+		if($opensips_flag == '1'){
 		   foreach($accountid_arr[0] as $key=>$value){
 		   }
 		  if($key== 'id'){

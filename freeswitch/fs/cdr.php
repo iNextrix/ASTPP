@@ -61,6 +61,8 @@ $decimal_points = ($config['decimal_points'] <= 0)?4:$config['decimal_points'];
 $logger = new logger($lib);
 
 if(isset($_SERVER["CONTENT_TYPE"]) && $_SERVER["CONTENT_TYPE"] == "application/json") {
+
+    $db->run("SET NAMES utf8");
     $data = json_decode(file_get_contents("php://input"),true);
     //error_log(print_r($data,true));
     $logger->log(print_r($data,true));
