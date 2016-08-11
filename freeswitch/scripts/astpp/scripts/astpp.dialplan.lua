@@ -72,6 +72,9 @@ if (accountcode == nil or accountcode == '') then
     authinfo = doauthentication(destination_number)
     if (authinfo ~= nil and authinfo['type'] == 'acl') then      
     	accountcode = authinfo['account_code']
+        if (authinfo['prefix'] ~= '') then
+            destination_number = do_number_translation(authinfo['prefix'].."/*",destination_number)
+        end
     	auth_type = 'acl';
     	accountname = authinfo['name'] or ""
     end
