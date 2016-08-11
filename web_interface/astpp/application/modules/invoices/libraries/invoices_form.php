@@ -189,7 +189,7 @@ class invoices_form{
 	    array('Website Header', 'INPUT', array('name' => 'website_title', 'size' => '100', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Website Footer', 'INPUT', array('name' => 'website_footer', 'size' => '200', 'maxlength' => '200', 'class' => "text field medium"), '', 'tOOL TIP', ''),
 	    array('Company logo', 'IMAGE', array('name' => 'file','size' => '20', 'maxlength' => '100', 'class' => "",'id'=>'uploadFile','type'=>'file'),'class' => '', 'tOOL TIP', 'Please Enter account number'),
-		array('', 'BLANL_DIV', array('name'=>'accountid','id'=>'imagePreview'),'', '', '', ''),
+		//array('', 'BLANL_DIV', array('name'=>'accountid','id'=>'imagePreview'),'', '', '', ''),
 		$delete_logo,$image_path,
                  );
         $form['button_save'] = array('name' => 'action', 'content' =>'Save' , 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
