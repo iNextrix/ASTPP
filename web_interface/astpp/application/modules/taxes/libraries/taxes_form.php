@@ -33,7 +33,7 @@ class Taxes_form {
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('Name', 'INPUT', array('name' => 'taxes_description', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Priority', 'INPUT', array('name' => 'taxes_priority', 'size' => '20', 'maxlength' => '5', 'class' => "text field medium"), 'trim|required|numeric', 'tOOL TIP', ''),
-            array('Amount', 'INPUT', array('name' => 'taxes_amount', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|numeric|greater_than[0]|xss_clean', 'tOOL TIP', ''),
+            array('Amount', 'INPUT', array('name' => 'taxes_amount', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|numeric|xss_clean', 'tOOL TIP', ''),
             array('Rate(%)', 'INPUT', array('name' => 'taxes_rate', 'size' => '20','maxlength' => '20', 'class' => "text field medium"), 'trim|numeric|xss_clean', 'tOOL TIP', ''),
             array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
 
