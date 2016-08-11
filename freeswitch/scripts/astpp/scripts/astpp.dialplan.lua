@@ -61,12 +61,8 @@ sipcall = params:getHeader("variable_sipcall")
 call_direction = define_call_direction(destination_number,accountcode,config)
 Logger.info("[Dialplan] Call Direction : ".. call_direction)
 
---accountcode = didinfo['account_code']
-
-
-
 --IF opensips then check then get account code from $params->{'variable_sip_h_P-Accountcode'}
-if(config['opensips']=='1' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == '')
+if(config['opensips']=='0' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == nil)
 then
 	accountcode = params:getHeader('variable_sip_h_P-Accountcode');
 end
@@ -359,7 +355,23 @@ xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_di
 			calleridinfo = get_override_callerid(userinfo)
 			if (calleridinfo ~= nil) then
     			xml = freeswitch_xml_callerid(xml,calleridinfo)	    	      
-			end
+			else
+                if(config['opensips'] == '0') then
+                    calleridinfo = {}
+                    if (params:getHeader('variable_sip_h_P-effective_caller_id_name') ~= nil) then 
+                        calleridinfo['cid_name'] = params:getHeader('variable_sip_h_P-effective_caller_id_name')
+                    else
+                        calleridinfo['cid_name'] = ''
+                    end
+
+                    if (params:getHeader('variable_sip_h_P-effective_caller_id_number') ~= nil) then 
+                        calleridinfo['cid_number'] = params:getHeader('variable_sip_h_P-effective_caller_id_number')
+                    else
+                        calleridinfo['cid_number'] = ''
+                    end
+                    xml = freeswitch_xml_callerid(xml,calleridinfo)	 
+                end   	      
+            end
 
 			for carrier_arr_key,carrier_arr_array in pairs(carrier_array) do
 			    xml = freeswitch_xml_outbound(xml,destination_number,carrier_arr_array)

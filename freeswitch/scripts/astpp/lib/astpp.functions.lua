@@ -25,7 +25,7 @@ function load_conf()
 
 
 
-    local query = "SELECT name,value FROM "..TBL_CONFIG.." WHERE group_title IN ('global','proxy','callingcard')";
+    local query = "SELECT name,value FROM "..TBL_CONFIG.." WHERE group_title IN ('global','opensips','callingcard')";
     Logger.debug("[Functions] [LOAD_CONF] Query :" .. query)
     
     local config = {}
@@ -147,7 +147,7 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
     local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 AND expiry >= '".. callstart .."' limit 1";
     Logger.debug("[Functions] [DOAUTHORIZATION] Query :" .. query)
     
-    local userinfo;
+    userinfo = "";
     assert (dbh:query(query, function(u)
 	    userinfo = u;	
     end))
@@ -181,8 +181,14 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
 end
 
 -- Get balance from account info 
-function get_balance(userinfo)    
-    return (userinfo['balance']) + (userinfo['credit_limit'] * userinfo['posttoexternal']);    
+function get_balance(userinfo)
+    balance = (userinfo['balance']) + (userinfo['credit_limit'] * userinfo['posttoexternal']);    
+
+    -- Override balance if call is DID / inbound and coming from provider to avoid provider balance checking upon DID call. 
+    if (userinfo['type'] == '3' and call_direction == 'inbound') then            
+            balance = 10000
+    end   
+    return balance
 end
 
 function update_first_used_account(userinfo)
@@ -210,20 +216,28 @@ end
 -- Do number translation 
 function do_number_translation(number_translation,destination_number)
     local tmp
+
     tmp = split(number_translation,",")
     for tmp_key,tmp_value in pairs(tmp) do
       tmp_value = string.gsub(tmp_value, "\"", "")
       tmp_str = split(tmp_value,"/")      
-      local prefix = string.sub(destination_number,0,string.len(tmp_str[1]));      
-      if (prefix == tmp_str[1]) then      
-			    
-	    Logger.debug("[Functions] [DONUMBERTRANSLATION] Before number translation : " .. destination_number)
+      local prefix = string.sub(destination_number,0,string.len(tmp_str[1]));        
+      if (prefix == tmp_str[1] or tmp_str[1] == '*') then
+	    Logger.warning("[Functions] [DONUMBERTRANSLATION] Before number translation : " .. destination_number)
 		if(tmp_str[2] ~= nil) then
-			destination_number = tmp_str[2] .. string.sub(destination_number,(string.len(tmp_str[1])+1))
+            if (tmp_str[2] == '*') then
+    			destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
+            else
+                if (tmp_str[1] == '*') then
+        			destination_number = tmp_str[2] .. destination_number
+                else
+        			destination_number = tmp_str[2] .. string.sub(destination_number,(string.len(tmp_str[1])+1))
+                end
+            end
 		else
-		       destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
+		    destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
 		end
-	    Logger.debug("[Functions] [DONUMBERTRANSLATION] After  number translation : " .. destination_number)
+	    Logger.warning("[Functions] [DONUMBERTRANSLATION] After  number translation : " .. destination_number)
       end
     end
     return destination_number
