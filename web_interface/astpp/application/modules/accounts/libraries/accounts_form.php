@@ -58,7 +58,7 @@ class Accounts_form {
             $val = 'accounts.email.' . $id;
             $account_val='accounts.number.'.$id;
             $password = array('Password', 'PASSWORD', array('name' => 'password', 'id' => 'password_show', 'onmouseover' => 'seetext(password_show)', 'onmouseout' => 'hidepassword(password_show)', 'size' => '20', 'class' => "text field medium"), 'required|', 'tOOL TIP', '');
-            $balance = array('Balance', 'INPUT', array('name' => 'balance', 'size' => '20', 'readonly' => true, 'class' => "text field medium"), 'valid_decimal', 'tOOL TIP', '');
+            $balance = array('Balance', 'INPUT', array('name' => 'balance', 'size' => '20', 'readonly' => true, 'class' => "text field medium"), '', 'tOOL TIP', '');
             $account=array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '');
             /*             * ******************************** */
         } else {
@@ -72,7 +72,7 @@ class Accounts_form {
 				$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>');         
 	    }
             $password = array('Password', 'INPUT', array('name' => 'password', 'value' => $password, 'size' => '20', 'class' => "text field medium", 'id' => 'password'), 'required|', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Reset Password" class="change_pass fa fa-refresh" ></i>');
-            $balance = array('Balance', 'INPUT', array('name' => 'balance', 'size' => '20','class' => "text field medium"), 'valid_decimal', 'tOOL TIP', '');
+            $balance = array('Balance', 'INPUT', array('name' => 'balance', 'size' => '20','class' => "text field medium"), '', 'tOOL TIP', '');
         }
         $pin = array('Pin', 'INPUT', array('name' => 'pin', 'value' => $pin_number, 'size' => '20', 'class' => "text field medium", 'id' => 'change_pin'), 'required|', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Pin" class="change_pin fa fa-refresh" ></i>');
         $form['forms'] = array(base_url() . 'accounts/' . $entity_type . '_save/'.$id."/", array("id" => "customer_form", "name" => "customer_form"));
