@@ -170,6 +170,7 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
 	    end
     else
     	Logger.warning("[Functions] [DOAUTHORIZATION] ["..accountcode.."] Account is either Deactive/Expire or deleted..!!");
+	userinfo = {}
         userinfo['ACCOUNT_ERROR'] = 'ACCOUNT_INACTIVE_DELETED'
     	return userinfo
     end
