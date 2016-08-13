@@ -137,7 +137,7 @@ ASTPP work best with JavaScript enabled
 		<div class="margin-t-15 padding-r-32 padding-l-32">
 
 		<input type="hidden" name="key_unique"  value="<?php if (isset($key_unique)) echo $key_unique; else ''; ?>"
-		id="key_unique" size="15" maxlength="40" class="col-md-5 form-control"/>
+		id="key_unique" size="15" maxlength="250" class="col-md-5 form-control"/>
 	<div class="col-md-12 no-padding">
 
 			<li class="col-md-6 no-padding">
