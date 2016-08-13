@@ -111,7 +111,8 @@ class Opensips_model extends CI_Model {
         unset($data["action"]);
         $data['creation_date']=gmdate("Y-m-d H:i:s");
         $accountinfo=$this->session->userdata('accountinfo');
-	$data['reseller_id']=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
+		$data['reseller_id']=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
+        unset($data["id"]);	
         $this->opensips_db->insert("subscriber", $data);
     }
 
