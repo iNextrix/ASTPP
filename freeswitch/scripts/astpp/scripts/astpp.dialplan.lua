@@ -103,7 +103,7 @@ if(userinfo ~= nil) then
 	end
     
     if(userinfo['ACCOUNT_ERROR'] == 'ACCOUNT_INACTIVE_DELETED') then
-		-- error_xml_without_cdr(destination_number,"ACCOUNT_INACTIVE_DELETED",calltype,config['playback_audio_notification'],userinfo)
+		error_xml_without_cdr(destination_number,"ACCOUNT_INACTIVE_DELETED",calltype,config['playback_audio_notification'],'0')
 		return 0
 	end
 
@@ -248,7 +248,7 @@ if (userinfo ~= nil) then
 				maxlength = reseller_maxlength
 			end
 
-			if (tonumber(reseller_maxlength) < 1 or reseller_rates['cost'] > user_rates['cost']) then
+			if (tonumber(reseller_maxlength) < 1 or tonumber(reseller_rates['cost']) > tonumber(user_rates['cost'])) then
 				error_xml_without_cdr(destination_number,"RESELLER_COST_CHEAP",calltype,config['playback_audio_notification'],customer_userinfo['id']); 
 				Logger.info("Reseller cost : "..reseller_rates['cost'].." User cost : "..user_rates['cost'])
 		    	Logger.error("[Dialplan] Reseller call price is cheaper, so we cannot allow call to process!!")

@@ -221,7 +221,7 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 
 		}else{
 
-		    $cdr_string = get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$accountid,$debit,$cost);	
+		    $cdr_string = get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,$debit,$cost);	
 
  			$query = "INSERT INTO reseller_cdrs (uniqueid,accountid,callerid,callednum,billseconds,disposition,callstart,debit,cost,pricelist_id,package_id,pattern,notes,rate_cost,
 		reseller_id,reseller_code,reseller_code_destination,reseller_cost,call_direction,calltype) values ($cdr_string)";
