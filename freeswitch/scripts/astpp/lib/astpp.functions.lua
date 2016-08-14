@@ -144,7 +144,7 @@ end
 -- Do Account authorization
 function doauthorization(accountcode,call_direction,destination_number,number_loop)
 	local callstart = os.date("!%Y-%m-%d %H:%M:%S")
-    local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 AND expiry >= '".. callstart .."' limit 1";
+    local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 AND (expiry >= '".. callstart .."' OR expiry = '0000-00-00 00:00:00') limit 1";
     Logger.debug("[Functions] [DOAUTHORIZATION] Query :" .. query)
     
     userinfo = "";
@@ -170,7 +170,7 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
 	    end
     else
     	Logger.warning("[Functions] [DOAUTHORIZATION] ["..accountcode.."] Account is either Deactive/Expire or deleted..!!");
-	userinfo = {}
+    	userinfo = {}
         userinfo['ACCOUNT_ERROR'] = 'ACCOUNT_INACTIVE_DELETED'
     	return userinfo
     end
