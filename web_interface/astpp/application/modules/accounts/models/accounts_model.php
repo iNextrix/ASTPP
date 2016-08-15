@@ -40,6 +40,7 @@ class Accounts_model extends CI_Model {
 
         /*         * ******************************** */
         $accountinfo['creation'] = gmdate('Y-m-d H:i:s');
+        $accountinfo['expiry'] = gmdate('Y-m-d H:i:s', strtotime('+20 years'));
         if(isset($accountinfo['is_recording'])){
 	  $accountinfo['is_recording']=0;
         }else{
