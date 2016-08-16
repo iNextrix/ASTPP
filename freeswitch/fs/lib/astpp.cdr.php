@@ -158,13 +158,12 @@ function process_cdr($data,$db,$logger,$decimal_points)
             unset($provider_cost);
         }
         
-
-        //For additional cdr entry of receiver
-		insert_extra_receiver_entry($dataVariable,$origination_rate,$termination_rate,$account_type,$actual_duration,$provider_cost,$parentid,$flag_parent,$dataVariable['receiver_accid'],$logger,$db,$decimal_points);
-
         //Get call receiver account information 
 		$receiver_carddata = get_accounts($dataVariable['receiver_accid'],$logger,$db);
 		$receiver_parentid = $receiver_carddata['reseller_id'];
+
+        //For additional cdr entry of receiver
+		insert_extra_receiver_entry($dataVariable,$origination_rate,$termination_rate,$account_type,$actual_duration,$provider_cost,$receiver_parentid,$flag_parent,$dataVariable['receiver_accid'],$logger,$db,$decimal_points);        
 
 		$flag_parent = true;
 		$dataVariable['uuid'] = $dataVariable['uuid'].$dataVariable['calltype']."_".$receiver_parentid;
@@ -190,11 +189,11 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 		$debit = calc_cost($dataVariable,$origination_rate[$accountid],$logger,$decimal_points);
 
         //If receiver account id found then explicitly set call direction and call type
-        if(isset($dataVariable['receiver_accid']))
+        /*if(isset($dataVariable['receiver_accid']))
         {
             $dataVariable['call_direction'] = "outbound";
             $dataVariable['calltype'] = "STANDARD";
-        }
+        }*/
 
         //Check if reseller have any package seconds left to use        
 		if ($actual_duration > 0)		{
