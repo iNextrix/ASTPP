@@ -68,6 +68,9 @@ class Form {
             }else{
               $module=$file_name;
             }
+            if($this->CI->session->userdata('userlevel_logintype')==1 ){
+				$module_info[]='user';
+			}
             if (in_array($module[0], $module_info)) {
                 if($this->CI->session->userdata('userlevel_logintype')== 0 && $module[0] == 'customer' && isset($file_name[1]) && $file_name[1] !='customer_transfer'){
                      redirect(base_url() . 'user/user/');
