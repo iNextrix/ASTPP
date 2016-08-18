@@ -488,15 +488,15 @@ else{
             array(gettext('Account Type'), 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type_search'),
             array(gettext('Balance'), 'INPUT', array('name' => 'balance[balance]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'balance[balance-integer]', '', '', '', 'search_int_type', ''),
             
-            array(gettext('Credit Limit', 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
-            array(gettext('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
-            array(gettext('Created Date', 'INPUT', array('name' => 'creation[0]', '', 'size' => '20', 'class' => "text field", 'id' => 'creation'), '', 'tOOL TIP', '', 'creation[creation-date]'),
+            array(gettext('Credit Limit'), 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
+            array(gettext('Status'), 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
+            array(gettext('Created Date'), 'INPUT', array('name' => 'creation[0]', '', 'size' => '20', 'class' => "text field", 'id' => 'creation'), '', 'tOOL TIP', '', 'creation[creation-date]'),
             array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
             array('', 'HIDDEN', 'advance_search', '1', '', '', '')
         );
 
-        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
-        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
+        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => gettext('Search'), 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => gettext('Clear'), 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
         return $form;
     }
