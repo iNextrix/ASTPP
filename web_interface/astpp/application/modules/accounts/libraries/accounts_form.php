@@ -290,7 +290,7 @@ else{
             array(gettext('Currency'), array('name' => 'currency_id', 'class' => 'currency_id'), 'SELECT', '', array("name" => "currency_id", "rules" => "required"), 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
             array(gettext('Account Type'), array('name' => 'posttoexternal', 'disabled' => $readable, 'class' => 'posttoexternal', 'id' => 'posttoexternal'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type'),
             array(gettext('Credit Limit'), 'INPUT', array('name' => 'credit_limit', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array(gettext('Tax', 'tax_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'taxes_description', 'taxes', 'build_dropdown', 'where_arr', array('status' => 0, 'reseller_id' => $loginid), 'multi'),
+            array(gettext('Tax'), 'tax_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'taxes_description', 'taxes', 'build_dropdown', 'where_arr', array('status' => 0, 'reseller_id' => $loginid), 'multi'),
             $invoice_config,
         );
 	}
