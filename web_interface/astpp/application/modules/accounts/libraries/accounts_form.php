@@ -408,7 +408,7 @@ else{
             array(gettext('Balance'), 'INPUT', array('name' => 'balance[balance]', 'id' => 'balance', 'value' => '', 'size' => '20',  'class' => "text field "), '', 'Tool tips info', '1', array('name' => 'balance[operator]', 'class' => 'update_drp'), '', '', '', 'update_int_type', ''),
             $status,
         );
-        $form['button_search'] = array('name' => 'action', 'id' => "batch_update_btn", 'content' => gettext(Update'), 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_search'] = array('name' => 'action', 'id' => "batch_update_btn", 'content' => gettext('Update'), 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
         $form['button_reset'] = array('name' => 'action', 'id' => "id_batch_reset", 'content' => gettext('Clear'), 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
         return $form;
