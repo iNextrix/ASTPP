@@ -174,8 +174,8 @@ class Accounts_form {
             array(gettext('Country'), array('name' => 'country_id', 'class' => 'country_id'), 'SELECT', '', array("name" => "country_id", "rules" => "required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
             array(gettext('Timezone'), array('name' => 'timezone_id', 'class' => 'timezone_id'), 'SELECT', '', array("name" => "timezone_id", "rules" => "required"), 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
             array(gettext('Generate Pin'), 'pin', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_pin_allow_customer'),
-            array(gettext('Allow Recording)', 'is_recording', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
-            array(gettext('Allow IP Management)', 'allow_ip_management', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),            
+            array(gettext('Allow Recording'), 'is_recording', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
+            array(gettext('Allow IP Management'), 'allow_ip_management', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),            
             $sip_device,
             $opensips_device
         );
