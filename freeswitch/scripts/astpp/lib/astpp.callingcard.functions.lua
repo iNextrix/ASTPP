@@ -29,18 +29,16 @@ function auth_callingcard()
 	    local pin=""
 	    local carddata
 	    local aniinfo
-	if(config['cc_ani_auth'] == "1")  then 
+
+	if(config['cc_ani_auth'] == "0")  then 
 		local ani_number = session:getVariable("caller_id_number")
-		Logger.debug("[Dialplan] Callerid authentication:" .. ani_number)
 
 		aniinfo = get_ani(ani_number);
 
 		if(aniinfo ~= nil) then
 
 		  cardinfo = get_account(aniinfo['accountid'])       
-		  cardnum = cardinfo['number'];
-		  
-		  Logger.debug("[Dialplan] Authenticated account:" .. cardinfo['number'])
+		  cardnum = cardinfo['number'];		 
 
 		  local card_flag = validate_card_usage(cardinfo);
 		  if (card_flag ~= nil)then
@@ -56,10 +54,10 @@ function auth_callingcard()
 		if(cardnum == -1) then
 			local retries = "0"
 	        	local authenticated = 0
-			Logger.debug("[Dialplan] ANI INFORMATION :" .. ani_flag)
+			Logger.debug("ANI INFORMATION :" .. ani_flag)
 			while (tonumber(authenticated) ~= 1 and tonumber(retries) < tonumber(config['card_retries'])) do
 				cardnum = session:playAndGetDigits(1, 15, 1, config['calling_cards_number_input_timeout'], "#", "astpp-accountnum.wav", "", "^[0-9]+$")
-				Logger.debug("[Dialplan] Got DTMF digits: ".. cardnum )
+				Logger.debug("Got DTMF digits: ".. cardnum )
 			     if (cardnum ~= "") then		    
 		        		cardinfo = get_account(cardnum);       
 		    	     end
@@ -82,7 +80,7 @@ function auth_callingcard()
 			while (tonumber(authenticated) ~= 1 and tonumber(retries) < tonumber(config['pin_retries'])) do
 
 				local pin_number = session:playAndGetDigits(1, 15, 1, config['calling_cards_pin_input_timeout'], "#", "astpp-pleasepin.wav", "", "^[0-9]+$")
-				Logger.debug("[Dialplan] We recieved a pi: ".. pin_number )
+				Logger.debug("We recieved a pin : ".. pin_number )
 
 				if ( pin_number ~= pin ) then	
 						session:streamFile("astpp-invalidpin.wav")      
@@ -106,13 +104,15 @@ function auth_callingcard()
 		    session:hangup();
 	      end
 
-	      --Ask for save callerid for pinless authentication
-	      save_ani(cardinfo)
+         if(config['cc_ani_auth'] == "0")  then    
+    	      --Ask for save callerid for pinless authentication
+	          save_ani(cardinfo)
+         end
 	end 
 
     -- Check if account have balance
     balance = get_balance(cardinfo);
-	  if (balance <= 0) then
+	  if (tonumber(balance) <= 0) then
 --        say_balance(cardinfo)
 	    error_xml_without_cdr('CALLINGCARD',"NO_SUFFICIENT_FUND","ASTPP-CALLINGCARD",config['playback_audio_notification']) 
         session:hangup();
@@ -126,16 +126,17 @@ end
 function save_ani(cardinfo)
 	local result = session:playAndGetDigits(1, 1, 1, 5000, "#", "astpp-register.wav", "", "^[1-1]+$")
 
+    local callstart = os.date("!%Y-%m-%d %H:%M:%S")    
 	if(tonumber(result) == 1) then
-		local query = "INSERT INTO ani_map (number,accountid,status) VALUES ('"..session:getVariable("caller_id_number").."','"..cardinfo['id'].."',0)";
-		Logger.debug("[Functions] [SAVE_ANI] Query :" .. query)
+		local query = "INSERT INTO ani_map (number,accountid,status,creation_date,last_modified_date) VALUES ('"..session:getVariable("caller_id_number").."','"..cardinfo['id'].."',0,'"..callstart.."','"..callstart.."')";
+		Logger.debug("[SAVE_ANI] Query :" .. query)
 		dbh:query(query);
 	end
 end
 
 function get_account(accountcode)
 	local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 limit 1";
-	Logger.debug("[Functions] [DOAUTHORIZATION] Query :" .. query)
+	Logger.debug("[DOAUTHORIZATION] Query :" .. query)
 
 	local userinfo;
 	assert (dbh:query(query, function(u)
@@ -151,7 +152,7 @@ function get_ani(ani_number)
     
     local query = "SELECT * FROM ani_map WHERE number = ".. ani_number .." AND status=0"
 
-    Logger.debug("[Functions] [CHECK_DID] Query :" .. query)
+    Logger.debug("[CHECK_DID] Query :" .. query)
    
     assert (dbh:query(query, function(u)
 	ani = u;
@@ -163,38 +164,58 @@ end
 function validate_card_usage(carddata) 
 
     -- Check a few things before saying the card is ok.
-
-    -- Now the card is in use and nobody else can use it.
-    if ( carddata['first_used'] == "0000-00-00 00:00:00") then
-        -- If "firstused" has not been set, we will set it now.
-           local query = "UPDATE accounts SET first_used = 'now()' WHERE id = " .. carddata['id'];
-            dbh:query(query);
-        if ( tonumber(carddata['validfordays']) > 0 ) then
-            -- Check if the card is set to expire and deal with that as appropriate.            
-            local query = "UPDATE accounts SET expiry = DATE_ADD('$now', INTERVAL " .. carddata['validfordays'].." day) WHERE id = "..carddata['id']
-	        dbh:query(query);
-            return 0;
-        end
-    
-    elseif ( tonumber(carddata['validfordays']) > 0 ) then
+    if ( session:ready() ) then
         
-      	--carddata['expiry'] = $gbl_astpp_db->selectall_arrayref("SELECT DATE_FORMAT('$arg{carddata}->{expiry}' , '\%Y\%m\%d\%H\%i\%s')")->[0][0];
-        --$now = $gbl_astpp_db->selectall_arrayref("SELECT DATE_FORMAT('$now' , '\%Y\%m\%d\%H\%i\%s')")->[0][0];
-        --if($now >= $arg{carddata}->{expiry}) then
-        --    local query = "UPDATE accounts SET status = 1 WHERE id = " .. carddata['id'];
-    	--    &remove_ani($arg{carddata});
-        --    return 1;
-        --end
-     
-	elseif ( tonumber(carddata['validfordays']) < 0) then
-       		 return 1;
-   	 end
+        local callstart = os.date("!%Y-%m-%d %H:%M:%S")
+    
+        -- Now the card is in use and nobody else can use it.
+        if ( carddata['first_used'] == "0000-00-00 00:00:00") then
+
+            -- If "firstused" has not been set, we will set it now.
+               local query = "UPDATE accounts SET first_used = now() WHERE id = " .. carddata['id'];
+               Logger.debug("[validate_card_usage] Query :" .. query)  
+               dbh:query(query);
+
+            if ( tonumber(carddata['validfordays']) > 0 ) then
+                -- Check if the card is set to expire and deal with that as appropriate.            
+                local query = "UPDATE accounts SET expiry = DATE_ADD('"..callstart.."', INTERVAL " .. carddata['validfordays'].." day) WHERE id = "..carddata['id']
+	            dbh:query(query);
+                return 0;
+            end
+    
+        elseif ( tonumber(carddata['validfordays']) > 0 ) then
+        
+                local query = "SELECT DATE_FORMAT('"..carddata['expiry'].."' , '\%Y\%m\%d\%H\%i\%s') AS expiry"  
+                assert (dbh:query(query, function(u)
+                	expiry = u
+                end))
+
+                local query = "SELECT DATE_FORMAT('"..callstart.."' , '\%Y\%m\%d\%H\%i\%s') AS expiry"
+                assert (dbh:query(query, function(u)
+                	now = u
+                end))
+                
+                if(tonumber(now['expiry']) >= tonumber(expiry['expiry'])) then
+
+                    local query = "DELETE FROM ani_map WHERE accountid = ".. carddata['id'];                    
+	                dbh:query(query);
+                    return 1
+                end    
+            
+        elseif ( tonumber(carddata['validfordays']) < 0) then
+           		 return 1;
+   	    end
+    end
 end	
 
 --Calculate balance 
 function get_balance(cardinfo)
-	local balance = ((cardinfo['credit_limit'] * cardinfo['posttoexternal']) + cardinfo['balance'])
-	return balance
+    if ( session:ready() ) then
+    	local balance = ((cardinfo['credit_limit'] * cardinfo['posttoexternal']) + cardinfo['balance'])
+    	return balance
+    else
+        return '0';
+    end
 end
 
 --IVR playback and option selection
@@ -205,15 +226,13 @@ function playback_ivr(userinfo)
 
 		while (tonumber(retries) < tonumber(config['ivr_count'])) do
 			result = session:playAndGetDigits(1, 1, 2, config['calling_cards_number_input_timeout'], "#", "astpp-callingcard-menu.wav", "", "^[1-3]+$")
-		    Logger.debug("[Dialplan] Got DTMF digits: "..result .."retries:".. retries )
+		    Logger.debug("Got DTMF digits: "..result .."retries:".. retries )
 		     retries = retries + 1
 		     if (tonumber(result) == 1) then
 
 	    		userinfo = get_account(userinfo['id']);     
 				process_destination(userinfo);  
     	     elseif (tonumber(result) == 2) then
-
-				config['calling_cards_balance_announce'] = 1;
 				say_balance(userinfo,config); 
 				retries = retries - 1   
 		     elseif (tonumber(result) == 3) then
@@ -227,11 +246,12 @@ end
 function say_balance(cardinfo)
     local balance = get_balance(cardinfo)  
     if ( balance > 0 ) then
-       		local balance_value = balance
 
-		if (tonumber(config['calling_cards_balance_announce']) == 1) then
+    	local balance_value = string.format("%."..config['decimal_points'].."f", balance)
 
-		        local first, last = string.match(tostring(balance_value/1), "([^.]+)%.(.+)")
+		if (tonumber(config['calling_cards_balance_announce']) == tonumber('0')) then
+
+	        local first, last = string.match(tostring(balance_value), "([^.]+)%.(.+)")
 
 		    session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
 		    if ( first == 1 ) then
@@ -262,14 +282,14 @@ function say_balance(cardinfo)
 end
 
 --Say how much the call will cost.
-function say_cost(numberinfo)    
+function say_cost(numberinfo)        
 
-    if ( tonumber(config['calling_cards_rate_announce']) == 2 ) then
+    if ( tonumber(config['calling_cards_rate_announce']) == tonumber('0') ) then
         
-        if ( numberinfo['cost'] > "0" ) then
-            --local number, decimal = string.match(tostring(numberinfo['cost']/1), "([^.]+)%.(.+)")
+        if ( tonumber(numberinfo['cost']) > 0 ) then
+
             local number, decimal=tostring(numberinfo['cost']):match"([^.]*).(.*)"
-            Logger.debug("[Functions] [SAY_COST] COST "..tonumber(minutes));    
+
             session:streamFile( "astpp-willcost.wav" );
             if (tonumber(number) > 0) then
                 session:execute(  "say", "en number pronounced " .. number );
@@ -321,9 +341,9 @@ end
 function say_timelimit(minutes) 
 	if ( session:ready() ) then
 	
-	   Logger.debug("[Functions] [SAY_TIMELIMIT] MINUTES "..tonumber(minutes));    
+	   Logger.debug("[SAY_TIMELIMIT] MINUTES "..tonumber(minutes));    
 	    
-	    if ( tonumber(minutes) > 0 and tonumber(config['calling_cards_timelimit_announce']) == 0 ) then
+	    if ( tonumber(minutes) > 0 and tonumber(config['calling_cards_timelimit_announce']) == tonumber('0') ) then
 		session:streamFile( "astpp-this-call-will-last.wav" );
 		if ( minutes == 1 ) then
 		    session:execute(  "say", "en number pronounced " .. minutes );
@@ -346,7 +366,7 @@ end
 -- To termination call to destination. Have all termination calculation inside this function.
 function dialout( original_destination_number, destination_number, maxlength, userinfo, user_rates , origination_dp_string ,number_loop_str)
 	if ( session:ready() ) then
-		termination_rates = get_termination_rates (destination_number,number_loop_str,userinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'])
+		termination_rates = get_carrier_rates (destination_number,number_loop_str,userinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'])
 		if (termination_rates ~= nil) then
 		    local i = 1
 		    local termination_rates_array = {}
@@ -444,7 +464,7 @@ function dialout( original_destination_number, destination_number, maxlength, us
 
 			else
 		    	-- If no route found for outbound call then send no result dialplan for further process in fs
-		    	Logger.notice("[Dialplan] No termination rates found...!!!");
+		    	Logger.notice("No termination rates found!!!");
 		        error_xml_without_cdr(destination_number,"TERMINATION_RATE_NOT_FOUND","ASTPP-CALLINGCARD",config['playback_audio_notification']) 
 		    	return
 		    end
@@ -461,14 +481,14 @@ function process_destination(userinfo)
 
 	--------------------------------------- SPEED DIAL --------------------------------------
 	if(string.len(destination) == 1 ) then
-		Logger.info("[Dialplan] SPEED DIAL NUMBER SECTION ")
+		Logger.info("SPEED DIAL NUMBER SECTION ")
 		destination_number = get_speeddial_number(destination,userinfo['id'])
-		Logger.info("[Dialplan] SPEED DIAL NUMBER : "..destination)
+		Logger.info("SPEED DIAL NUMBER : "..destination)
 	end
 
 	-----------------------------------------------------------------------------------------
 
-	Logger.debug("[Functions] [CHECK_destination] Dialed destination number :" .. destination)
+	Logger.debug("[CHECK_destination] Dialed destination number :" .. destination)
 
 	local original_destination_number = destination	
 	 	--Check if destination blocked
@@ -489,16 +509,17 @@ function process_destination(userinfo)
 	-- Fine max length of call based on origination rates.
   	local tmp_array = get_call_maxlength(userinfo,destination,"",number_loop_str,config)
 	    
-	if( tmp_array == nil ) then
-	    error_xml_without_cdr(destination,"ORIGNATION_RATE_NOT_FOUND","ASTPP-CALLINGCARD",config['playback_audio_notification'],userinfo['num ber']) 
+    if( tmp_array == 'NO_SUFFICIENT_FUND' or tmp_array == 'ORIGNATION_RATE_NOT_FOUND') then
+	    error_xml_without_cdr(destination,tmp_array,"ASTPP-CALLINGCARD",config['playback_audio_notification'],userinfo['id']) 
 	    return
 	end
+
 	
 	local  maxlength = tmp_array[1]
 	local  user_rates = tmp_array[2]
 	local  xml_user_rates = tmp_array[3] or ""
 
-	Logger.debug("[Functions] [CHECK_destination] Dialed destination number :" .. maxlength)
+	Logger.debug("[CHECK_destination] Dialed destination number :" .. maxlength)
 
 	
 	if (user_rates['id'] == "" or  user_rates['id'] == nil) then
@@ -526,7 +547,7 @@ function process_destination(userinfo)
 	while (tonumber(userinfo['reseller_id']) > 0 and tonumber(maxlength) > 0 ) do 
 		local number_loop_string = number_loop(destination,'blocked_patterns') 
 
-	    	local block_prefix = check_blocked_prefix(userinfo, destination,number_loop_string);
+	    local block_prefix = check_blocked_prefix(userinfo, destination,number_loop_string);
 		if( block_prefix ~= "") then
 	   		--error_xml_without_cdr(destination,"DESTINATION_BLOCKED") ;
 		        --return 1
@@ -556,29 +577,26 @@ function process_destination(userinfo)
 		Logger.info("========================================================")  
 		           
 		tmp_array_reseller = get_call_maxlength(reseller_userinfo,destination,call_direction,number_loop_str)	    
-		    
+		
+        if( tmp_array_reseller == 'NO_SUFFICIENT_FUND' or tmp_array_reseller == 'ORIGNATION_RATE_NOT_FOUND') then
+    	    error_xml_without_cdr(destination,tmp_array_reseller,"ASTPP-CALLINGCARD",1,reseller_userinfo['id']) 
+    	    return
+    	end
+    
 		reseller_maxlength = tmp_array_reseller[1];
 		reseller_rates = tmp_array_reseller[2];
 		xml_reseller_rates = tmp_array_reseller[3];
 	
-		origination_dp_string = origination_dp_string.."||"..xml_reseller_rates
-		
-		--xml_user_rates = xml_user_rates.."||"..xml_reseller_rates.."|RTI"..reseller_userinfo['pricelist_id'].."|UID"..reseller_userinfo['id']
-
-		    --if (reseller_maxlength <= '0') then
-		
-		     -- Logger.notice("[Dialplan] Reseller max length of call not found!!!");
-		    --  return
-		    --end
+		origination_dp_string = origination_dp_string.."||"..xml_reseller_rates	
 
 		    if (tonumber(reseller_maxlength) < tonumber(maxlength)) then 
 	    		maxlength = reseller_maxlength
 		    end
 		    
 		    if (tonumber(reseller_maxlength) < 1 or reseller_rates['cost'] > user_rates['cost']) then
-			error_xml_without_cdr(destination,"RESELLER_COST_CHEAP","ASTPP-CALLINGCARD",config['playback_audio_notification']); 
+			    error_xml_without_cdr(destination,"RESELLER_COST_CHEAP","ASTPP-CALLINGCARD",config['playback_audio_notification']); 
 		        Logger.info("Reseller cost : "..reseller_rates['cost'].." User cost : "..user_rates['cost'])
-		    	Logger.notice("[Dialplan] Reseller call price is cheaper, so we cannot allow call to process!!")
+		    	Logger.notice("Reseller call price is cheaper, so we cannot allow call to process!!")
 	    		return
 		    end
 		    rate_carrier_id = reseller_rates['trunk_id']
@@ -590,7 +608,7 @@ function process_destination(userinfo)
     end -- End while 
 	
 	maxlength = math.floor(maxlength);
-    	Logger.notice("[Dialplan]...................... "..maxlength .." Minutes")
+    	Logger.notice(""..maxlength .." Minutes")
 
         --&error_xml_without_cdr($destination,"NO_SUFFICIENT_FUND") if($maxlength<=0);
 

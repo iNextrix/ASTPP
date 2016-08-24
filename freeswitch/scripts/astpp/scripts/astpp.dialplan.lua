@@ -59,7 +59,7 @@ accountcode = params:getHeader("variable_accountcode")
 sipcall = params:getHeader("variable_sipcall")
 
 call_direction = define_call_direction(destination_number,accountcode,config)
-Logger.info("[Dialplan] Call Direction : ".. call_direction)
+Logger.info("[Dialplan] Call direction : ".. call_direction)
 
 --IF opensips then check then get account code from $params->{'variable_sip_h_P-Accountcode'}
 if(config['opensips']=='0' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == nil)
@@ -127,7 +127,6 @@ end
 
 --------------------------------------- SPEED DIAL --------------------------------------
 if(string.len(destination_number) == 1 ) then
-	Logger.info("[Dialplan] SPEED DIAL SECTION ")
 	destination_number = get_speeddial_number(destination_number,userinfo['id'])
 	Logger.info("[Dialplan] SPEED DIAL NUMBER : "..destination_number)
 end
@@ -160,8 +159,8 @@ if (userinfo ~= nil) then
 	-- Fine max length of call based on origination rates.
 	origination_array = get_call_maxlength(userinfo,destination_number,call_direction,number_loop_str,config,didinfo)
 	    
-	if( origination_array == nil ) then
-	    error_xml_without_cdr(destination_number,"ORIGNATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification'],userinfo['id']) 
+	if( origination_array == 'NO_SUFFICIENT_FUND' or origination_array == 'ORIGNATION_RATE_NOT_FOUND') then
+	    error_xml_without_cdr(destination_number,origination_array,calltype,config['playback_audio_notification'],userinfo['id']) 
 	    return
 	end
 	
@@ -187,9 +186,7 @@ if (userinfo ~= nil) then
 		Logger.notice("FINDING LIMIT FOR RESELLER: "..userinfo['reseller_id'])
 
 		reseller_userinfo = doauthorization(userinfo['reseller_id'],call_direction,destination_number,number_loop_str)
-
-
-----	            
+         
         if(reseller_userinfo['ACCOUNT_ERROR'] == 'ACCOUNT_INACTIVE_DELETED') then
 		    -- error_xml_without_cdr(destination_number,"ACCOUNT_INACTIVE_DELETED",calltype,config['playback_audio_notification'],userinfo)
 		    return 0
@@ -225,6 +222,11 @@ if (userinfo ~= nil) then
 			Logger.info("Ratecard id : "..reseller_userinfo['pricelist_id'])  
 			
 			origination_array_reseller=get_call_maxlength(reseller_userinfo,destination_number,call_direction,number_loop_str,config,didinfo)
+
+            if( origination_array_reseller == 'NO_SUFFICIENT_FUND' or origination_array_reseller == 'ORIGNATION_RATE_NOT_FOUND') then
+	            error_xml_without_cdr(destination_number,origination_array_reseller,calltype,1,reseller_userinfo['id']) 
+        	    return
+        	end 
 
 			reseller_maxlength = origination_array_reseller[1];
 			reseller_rates = origination_array_reseller[2];

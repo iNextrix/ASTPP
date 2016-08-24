@@ -28,10 +28,10 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<document type="freeswitch/xml">]]);
 	table.insert(xml, [[<section name="dialplan" description="ASTPP Dialplan">]]);
 	table.insert(xml, [[<context name="]]..params:getHeader("Caller-Context")..[[">]]);
-	table.insert(xml, [[<extension name="]]..destination_number..[[">]]); 
-	table.insert(xml, [[<condition field="destination_number" expression="]]..destination_number..[[">]]);
+	table.insert(xml, [[<extension name="]]..params:getHeader("Caller-Destination-Number")..[[">]]); 
+	table.insert(xml, [[<condition field="destination_number" expression="]]..params:getHeader("Caller-Destination-Number")..[[">]]);
 	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..destination_number..[["/>]]); 
-	table.insert(xml, [[<action application="sched_hangup" data="+]]..((maxlength) * 60)..[[ allotted_timeout"/>]]);  
+	table.insert(xml, [[<action application="sched_hangup" data="+]]..((maxlength) * 60)..[[ normal_clearing"/>]]);  
 
 	table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);
 	table.insert(xml, [[<action application="set" data="hangup_after_bridge=true"/>]]);    
@@ -45,14 +45,14 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<action application="set" data="call_direction=]]..call_direction..[["/>]]); 
 	
 	table.insert(xml, [[<action application="set" data="accountname=]]..accountname..[["/>]]);
-	--Logger.info("[Dialplan]  outbound FAX ::: "..call_direction .."----".. config['outbound_fax']);
+	--Logger.info(" outbound FAX ::: "..call_direction .."----".. config['outbound_fax']);
 
 	if (call_direction == "inbound" and tonumber(config['inbound_fax']) > 0) then
 		table.insert(xml, [[<action application="export" data="t38_passthru=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38_request=true"/>]]);    
 	elseif (call_direction == "outbound" and tonumber(config['outbound_fax']) > 0) then
-		--Logger.info("[Dialplan]  outbound FAX ::: "..call_direction .."----".. config['outbound_fax']);
+		--Logger.info(" outbound FAX ::: "..call_direction .."----".. config['outbound_fax']);
 		table.insert(xml, [[<action application="export" data="t38_passthru=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38_request=true"/>]]);    
@@ -154,7 +154,7 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info)
     
 	-- Check if is there any gateway configuration params available for it.
 	if (outbound_info['dialplan_variable'] ~= '') then 
-		Logger.info("[Dialplan]  ".. outbound_info['dialplan_variable']);
+		Logger.info(" ".. outbound_info['dialplan_variable']);
 		local dialplan_variable = split(outbound_info['dialplan_variable'],",")      
 		for dialplan_variable_key,dialplan_variable_value in pairs(dialplan_variable) do
 			local dialplan_variable_data = split(dialplan_variable_value,"=")  
@@ -288,7 +288,7 @@ function xml_voicemail(xml,destination_number)
 	    table.insert(xml, [[<action application="voicemail" data="check default ${domain_name} ]]..params:getHeader("Hunt-Username")..[["/>]]);
 	xml = xml_footer(xml)	   	    
 	XML_STRING = table.concat(xml, "\n");
-	Logger.debug("[Dialplan] Generated XML:\n" .. XML_STRING)
+	Logger.debug("Generated XML:\n" .. XML_STRING)
 	return xml
 end
 
@@ -395,7 +395,7 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 
 	    xml = xml_footer(xml);
 	    XML_STRING = table.concat(xml, "\n");
-	    Logger.debug("[Dialplan] Generated XML:\n" .. XML_STRING)
+	    Logger.debug("Generated XML:\n" .. XML_STRING)
 	    return
 	else
 		session:execute("set", "process_cdr=false" );
@@ -423,5 +423,5 @@ function generate_cc_dialplan(destination_number)
 		table.insert(xml,[[</section>]]);
 	table.insert(xml,[[</document>]]);
 	XML_STRING = table.concat(xml, "\n");
-	Logger.debug("[Dialplan] Generated XML:\n" .. XML_STRING)
+	Logger.debug("Generated XML:\n" .. XML_STRING)
 end
