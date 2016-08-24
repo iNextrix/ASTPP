@@ -258,7 +258,7 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
 		return 'ORIGNATION_RATE_NOT_FOUND'
 	end
 
-	if (call_direction == "local") then
+	if (call_direction == "local" or config['free_inbound'] ~= nil) then
 		rates = {}
 		rates['pattern'] = destination_number
 		rates['comment'] = "Local"

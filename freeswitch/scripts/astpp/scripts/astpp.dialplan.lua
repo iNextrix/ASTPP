@@ -276,11 +276,16 @@ if (userinfo ~= nil) then
 		
 		-- ********* Check RECEIVER Balance and status of the Account *************
 		local dialuserinfo
+
+        if (INB_FREE ~= nil) then        
+            config['free_inbound'] = true
+        end
+
 		dialuserinfo = doauthorization(didinfo['accountid'],call_direction,destination_number,number_loop)	
 		-- ********* Check & get Dialer Rate card information *********
 			origination_array_DID = get_call_maxlength(customer_userinfo,destination_number,"outbound",number_loop_str,config)
 			--customer_userinfo['id'] = didinfo['accountid'];
-			if(origination_array_DID ~= nil) then 
+			if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND') then 
 				Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
 				xml_did_rates = origination_array_DID[3]
 			else
@@ -293,7 +298,7 @@ if (userinfo ~= nil) then
 			dialuserinfo = doauthorization(dialuserinfo['reseller_id'],call_direction,destination_number,number_loop)	
 			origination_array_DID = get_call_maxlength(dialuserinfo,destination_number,"outbound",number_loop_str,config)
 
-			if(origination_array_DID ~= nil) then 
+			if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND') then 
 				Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
 				xml_did_rates = xml_did_rates .."||"..origination_array_DID[3]
 			else
