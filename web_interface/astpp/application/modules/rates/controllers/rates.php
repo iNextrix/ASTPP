@@ -937,7 +937,7 @@ For Add Initial Increment field
         $json_data = array();
         $account_data = $this->session->userdata("accountinfo");
         $markup = $this->common->get_field_name('markup', 'pricelists', array('id'=>$account_data["pricelist_id"]));
-        $markup = ($markup > 0)?$markup:1;
+        //$markup = ($markup > 0)?$markup:1;
         $count_all = $this->rates_model->getreseller_rates_list(false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
