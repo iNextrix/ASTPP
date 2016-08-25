@@ -30,7 +30,7 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<context name="]]..params:getHeader("Caller-Context")..[[">]]);
 	table.insert(xml, [[<extension name="]]..params:getHeader("Caller-Destination-Number")..[[">]]); 
 	table.insert(xml, [[<condition field="destination_number" expression="]]..params:getHeader("Caller-Destination-Number")..[[">]]);
-	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..destination_number..[["/>]]); 
+	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..params:getHeader("Caller-Destination-Number")..[["/>]]); 
 	table.insert(xml, [[<action application="sched_hangup" data="+]]..((maxlength) * 60)..[[ normal_clearing"/>]]);  
 
 	table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);

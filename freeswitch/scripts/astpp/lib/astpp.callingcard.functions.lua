@@ -41,8 +41,8 @@ function auth_callingcard()
 		  cardnum = cardinfo['number'];		 
 
 		  local card_flag = validate_card_usage(cardinfo);
-		  if (card_flag ~= nil)then
-		      error_xml_without_cdr("","ACCOUNT_EXPIRE")
+		  if (card_flag ~= nil) then
+              error_xml_without_cdr("","ACCOUNT_EXPIRE","ASTPP-CALLINGCARD",config['playback_audio_notification'])
 		      session:hangup();
 		  end
 		  ani_flag = 1
@@ -151,9 +151,7 @@ end
 function get_ani(ani_number)
     
     local query = "SELECT * FROM ani_map WHERE number = ".. ani_number .." AND status=0"
-
-    Logger.debug("[CHECK_DID] Query :" .. query)
-   
+    Logger.debug("[CHECK_DID] Query :" .. query)  
     assert (dbh:query(query, function(u)
 	ani = u;
     end))
@@ -185,6 +183,11 @@ function validate_card_usage(carddata)
     
         elseif ( tonumber(carddata['validfordays']) > 0 ) then
         
+                if (carddata['expiry'] == '0000-00-00 00:00:00') then
+                    local query = "UPDATE accounts SET expiry = DATE_ADD('"..callstart.."', INTERVAL " .. carddata['validfordays'].." day) WHERE id = "..carddata['id']
+    	            dbh:query(query);
+                end
+
                 local query = "SELECT DATE_FORMAT('"..carddata['expiry'].."' , '\%Y\%m\%d\%H\%i\%s') AS expiry"  
                 assert (dbh:query(query, function(u)
                 	expiry = u
@@ -195,8 +198,7 @@ function validate_card_usage(carddata)
                 	now = u
                 end))
                 
-                if(tonumber(now['expiry']) >= tonumber(expiry['expiry'])) then
-
+                if(tonumber(expiry['expiry']) <= tonumber(now['expiry'])) then
                     local query = "DELETE FROM ani_map WHERE accountid = ".. carddata['id'];                    
 	                dbh:query(query);
                     return 1
@@ -247,30 +249,12 @@ function say_balance(cardinfo)
     local balance = get_balance(cardinfo)  
     if ( balance > 0 ) then
 
-    	local balance_value = string.format("%."..config['decimal_points'].."f", balance)
+--    	local balance_value = string.format("%.2f", balance)
 
 		if (tonumber(config['calling_cards_balance_announce']) == tonumber('0')) then
-
-	        local first, last = string.match(tostring(balance_value), "([^.]+)%.(.+)")
-
-		    session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
-		    if ( first == 1 ) then
-		        session:execute( "say", "en number pronounced " ..first );
-		        session:streamFile( "astpp-dollar.wav" );
-		    
-		    elseif ( first ~= 1 ) then
-		        session:execute(  "say", "en number pronounced " ..first);
-		        session:streamFile( "astpp-dollars.wav" );
-		    end
-		    if ( last == 1 ) then
-		        session:execute(  "say", "en number pronounced " ..last );
-		        session:streamFile("astpp-cent.wav" );
-		    elseif ( last ~= 1 ) then
-		        session:execute(  "say", "en number pronounced " .. last );
-		        session:streamFile( "astpp-cents.wav" );
-		    end
-	       
-	    	end
+            session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
+            session:execute("say", "en currency pronounced " ..  balance);
+        end
 	
 	else     
 		 session:streamFile( "astpp-card-is-empty.wav" )
@@ -286,52 +270,16 @@ function say_cost(numberinfo)
 
     if ( tonumber(config['calling_cards_rate_announce']) == tonumber('0') ) then
         
-        if ( tonumber(numberinfo['cost']) > 0 ) then
-
-            local number, decimal=tostring(numberinfo['cost']):match"([^.]*).(.*)"
-
+        if ( tonumber(numberinfo['cost']) > 0 ) then    
             session:streamFile( "astpp-willcost.wav" );
-            if (tonumber(number) > 0) then
-                session:execute(  "say", "en number pronounced " .. number );
-                if (number == 1) then
-                    session:streamFile( "astpp-dollar.wav" ) ;
-                else 
-                    session:streamFile( "astpp-dollars.wav" ) ;
-                end
-            end
-            if ( tonumber(decimal) > 0 ) then
-                session:execute(  "say", "en number pronounced "  .. decimal );
-                if (decimal == 1) then
-                    session:streamFile( "astpp-cent.wav" ) ;
-                else 
-                    session:streamFile( "astpp-cents.wav" ) ;
-                end
-            end
+	        session:execute("say", "en currency pronounced " ..  numberinfo['cost']);
             session:streamFile( "astpp-per.wav" );
             session:streamFile( "astpp-minutes.wav" );
         end
         
         if ( tonumber(numberinfo['connectcost']) > 0 ) then
             session:streamFile( "astpp-connectcharge.wav" );
-
-		    local connectcost, connectcostdecimal = string.match(tostring(numberinfo['connectcost']/1), "([^.]+)%.(.+)")          
-		    if (connectcost ~= nil and connectcost ~= 0) then
-		        session:execute(  "say", "en number pronounced " .. connectcost );
-		        if (connectcost == 1) then
-		            session:streamFile( "astpp-dollar.wav" ) ;
-		         else 
-		            session:streamFile( "astpp-dollars.wav" ) ;
-		        end
-		    end            
-		    if ( connectcostdecimal > 0 ) then
-		        session:streamFile(  "say", "en number pronounced "  ..connectcostdecimal );
-		        if (connectcostdecimal == 1) then
-		            session:streamFile( "astpp-cent.wav" ) ;
-		         else 
-		            session:streamFile( "astpp-cents.wav" ) ;
-		        end
-		    end
-	   
+	        session:execute("say", "en currency pronounced " ..  numberinfo['connectcost']);            	   
             session:streamFile( "astpp-willapply.wav" );
         end
     end
@@ -518,9 +466,6 @@ function process_destination(userinfo)
 	local  maxlength = tmp_array[1]
 	local  user_rates = tmp_array[2]
 	local  xml_user_rates = tmp_array[3] or ""
-
-	Logger.debug("[CHECK_destination] Dialed destination number :" .. maxlength)
-
 	
 	if (user_rates['id'] == "" or  user_rates['id'] == nil) then
 		return

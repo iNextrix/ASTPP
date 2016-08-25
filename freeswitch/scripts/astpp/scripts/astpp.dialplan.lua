@@ -251,7 +251,7 @@ if (userinfo ~= nil) then
 			end
 
 			if (tonumber(reseller_maxlength) < 1 or tonumber(reseller_rates['cost']) > tonumber(user_rates['cost'])) then
-				error_xml_without_cdr(destination_number,"RESELLER_COST_CHEAP",calltype,config['playback_audio_notification'],customer_userinfo['id']); 
+				error_xml_without_cdr(destination_number,"RESELLER_COST_CHEAP",calltype,1,customer_userinfo['id']); 
 				Logger.info("Reseller cost : "..reseller_rates['cost'].." User cost : "..user_rates['cost'])
 		    	Logger.error("[Dialplan] Reseller call price is cheaper, so we cannot allow call to process!!")
 				return
