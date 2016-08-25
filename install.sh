@@ -275,6 +275,7 @@ install_freeswitch_for_astpp ()
 		sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
 		sed -i "s#\#mod_db#mod_db#g" /usr/local/src/freeswitch/modules.conf
 		sed -i "s#\#event_handlers/mod_json_cdr#event_handlers/mod_json_cdr#g" /usr/local/src/freeswitch/modules.conf
+		sed -i "s#\#applications/mod_voicemail#applications/mod_voicemail#g" /usr/local/src/freeswitch/modules.conf
 		
 		# Compile the Source
 		./configure -C
@@ -521,6 +522,8 @@ setup_cron()
 		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowBalance		
 		# Update currency rate
 		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php CurrencyUpdate
+		# Email Broadcasting
+		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php BroadcastEmail
 		" > $CRONPATH
 		chmod 600 $CRONPATH
 		crontab $CRONPATH
