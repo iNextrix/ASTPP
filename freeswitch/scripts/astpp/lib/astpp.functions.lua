@@ -26,7 +26,7 @@ function load_conf()
 
 
     local query = "SELECT name,value FROM "..TBL_CONFIG.." WHERE group_title IN ('global','opensips','callingcard')";
-    Logger.debug("[Functions] [LOAD_CONF] Query :" .. query)
+    Logger.debug("[LOAD_CONF] Query :" .. query)
     
     local config = {}
     assert (dbh:query(query, function(u)
@@ -39,7 +39,7 @@ end
 function get_speeddial_number(destination_number,accountid)  
 	local query = "SELECT A.number FROM "..TBL_SPEED_DIAL.." as A,"..TBL_USERS.." as B WHERE B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.speed_num =\"" ..destination_number .."\" AND A.accountid = '"..accountid.."' limit 1";
 
-   Logger.debug("[Functions] [CHECK_SPEEDDIAL] Query :" .. query)
+   Logger.debug("[CHECK_SPEEDDIAL] Query :" .. query)
    
     assert (dbh:query(query, function(u)
 	speeddial = u;
@@ -57,7 +57,6 @@ end
 function define_call_direction(destination_number,accountcode,config)  
     local didinfo = check_did(destination_number,config); 
 	local sip2sipinfo
-	Logger.error("[Functions] [CHECK_sip2sipinfo] sip2sipinfo :" )
 
 	if(didinfo == nil) then
   		sip2sipinfo = check_local_call(destination_number);
@@ -83,7 +82,7 @@ function check_did(destination_number,config)
 
 	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
 
-	Logger.debug("[Functions] [CHECK_DID] Query :" .. query)
+	Logger.debug("[CHECK_DID] Query :" .. query)
 
 	assert (dbh:query(query, function(u)
 	didinfo = u;
@@ -99,7 +98,7 @@ function check_did_reseller(destination_number,userinfo,config)
 
 	local query = "SELECT A.id as id, A.number AS number,B.cost AS cost,B.connectcost AS connectcost,B.includedseconds AS includedseconds,B.inc AS inc,A.city AS city,A.province,A.call_type,A.extensions AS extensions,A.maxchannels AS maxchannels,A.init_inc FROM "..TBL_DIDS.." AS A,"..TBL_RESELLER_PRICING.." as B WHERE A.number = \"" ..destination_number .."\"  AND B.type = '1' AND B.reseller_id = \"" ..userinfo['reseller_id'].."\" AND B.note =\"" ..destination_number .."\"";
 
-	Logger.debug("[Functions] [CHECK_DID_RESELLER] Query :" .. query)
+	Logger.debug("[CHECK_DID_RESELLER] Query :" .. query)
 	
 	assert (dbh:query(query, function(u)
 	didinfo = u;
@@ -113,7 +112,7 @@ function check_local_call(destination_number)
     
     local query = "SELECT sip_devices.username as username,number as accountcode,sip_devices.accountid as accountid FROM "..TBL_SIP_DEVICES.." as sip_devices,"..TBL_USERS.." as  accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND username=\"" ..destination_number .."\" limit 1";
 
-   Logger.debug("[Functions] [CHECK_LOCAL_CALL] Query :" .. query)
+   Logger.debug("[CHECK_LOCAL_CALL] Query :" .. query)
     assert (dbh:query(query, function(u)
 	sip2sipinfo = u;
     end))
@@ -130,7 +129,7 @@ function ipauthentication(destination_number)
 
     local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. params:getHeader('Hunt-Network-Addr').. "\" AND prefix IN (NULL,'') OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. params:getHeader('Hunt-Network-Addr').. "\" AND \"" .. destination_number .. "\"  RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1"
 
-    Logger.debug("[Functions] [IPAUTHENTICATION] Query :" .. query)
+    Logger.debug("[IPAUTHENTICATION] Query :" .. query)
     
     local ipinfo;
     assert (dbh:query(query, function(u)
@@ -145,9 +144,9 @@ end
 function doauthorization(accountcode,call_direction,destination_number,number_loop)
 	local callstart = os.date("!%Y-%m-%d %H:%M:%S")
     local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 AND (expiry >= '".. callstart .."' OR expiry = '0000-00-00 00:00:00') limit 1";
-    Logger.debug("[Functions] [DOAUTHORIZATION] Query :" .. query)
+    Logger.debug("[DOAUTHORIZATION] Query :" .. query)
     
-    userinfo = "";
+    userinfo = nil;
     assert (dbh:query(query, function(u)
 	    userinfo = u;	
     end))
@@ -157,19 +156,19 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
 
     	balance = get_balance(userinfo);
     	if (balance <= 0) then
-    	    Logger.warning("[Functions] [DOAUTHORIZATION] ["..accountcode.."] Insufficent balance ("..balance..") to make calls..!!");
+    	    Logger.warning("[DOAUTHORIZATION] ["..accountcode.."] Insufficent balance ("..balance..") to make calls..!!");
     	    userinfo['ACCOUNT_ERROR'] = 'NO_SUFFICIENT_FUND'
     	else
     	    if (call_direction == 'outbound') then     
     		    if (check_blocked_prefix (userinfo,destination_number,number_loop) == false) then
-	    	        Logger.warning("[Functions] [DOAUTHORIZATION] ["..accountcode.."] You are not allowed to dial number..!!");
+	    	        Logger.warning("[DOAUTHORIZATION] ["..accountcode.."] You are not allowed to dial number..!!");
                     userinfo['ACCOUNT_ERROR'] = 'DESTINATION_BLOCKED'
 	    	        return userinfo
 	    	    end
 	        end
 	    end
     else
-    	Logger.warning("[Functions] [DOAUTHORIZATION] ["..accountcode.."] Account is either Deactive/Expire or deleted..!!");
+    	Logger.warning("[DOAUTHORIZATION] ["..accountcode.."] Account is either Deactive/Expire or deleted..!!");
     	userinfo = {}
         userinfo['ACCOUNT_ERROR'] = 'ACCOUNT_INACTIVE_DELETED'
     	return userinfo
@@ -195,7 +194,7 @@ end
 function update_first_used_account(userinfo)
 	local callstart = os.date("!%Y-%m-%d %H:%M:%S")
 	local query = "update "..TBL_USERS.." SET first_used = '"..callstart .."' where id = '"..userinfo['id'].."'"
-	Logger.debug("[Functions] [update_first_used_account] Query :" .. query)
+	Logger.debug("[update_first_used_account] Query :" .. query)
 	assert (dbh:query(query))
 	return true
 end
@@ -206,7 +205,7 @@ function check_blocked_prefix(userinfo,destination_number,number_loop)
     local flag = true        
    -- local query = "SELECT * FROM  tbl_restrict_codes WHERE "..number_loop.." AND user_id="..userinfo['id'];    
     local query = "SELECT * FROM "..TBL_BLOCK_PREFIX.." WHERE "..number_loop.." AND accountid = "..userinfo['id'].. " limit 1 ";
-    Logger.debug("[Functions] [CHECK_BLOCKED_PREFIX] Query :" .. query)
+    Logger.debug("[CHECK_BLOCKED_PREFIX] Query :" .. query)
     assert (dbh:query(query, function(u)
 	flag = false
     end))
@@ -224,7 +223,7 @@ function do_number_translation(number_translation,destination_number)
       tmp_str = split(tmp_value,"/")      
       local prefix = string.sub(destination_number,0,string.len(tmp_str[1]));        
       if (prefix == tmp_str[1] or tmp_str[1] == '*') then
-	    Logger.warning("[Functions] [DONUMBERTRANSLATION] Before number translation : " .. destination_number)
+	    Logger.warning("[DONUMBERTRANSLATION] Before number translation : " .. destination_number)
 		if(tmp_str[2] ~= nil) then
             if (tmp_str[2] == '*') then
     			destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
@@ -238,7 +237,7 @@ function do_number_translation(number_translation,destination_number)
 		else
 		    destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
 		end
-	    Logger.warning("[Functions] [DONUMBERTRANSLATION] After  number translation : " .. destination_number)
+	    Logger.warning("[DONUMBERTRANSLATION] After  number translation : " .. destination_number)
       end
     end
     return destination_number
@@ -255,11 +254,11 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
     
     rate_group = get_pricelists (userinfo,destination_number,number_loop,call_direction)
     if (rate_group == nil) then
-		--Logger.warning("[Functions] [FIND_MAXLENGTH] Rate group not found or Inactive !!!")
-		return
+		Logger.warning("[FIND_MAXLENGTH] Rate group not found or Inactive!!!")
+		return 'ORIGNATION_RATE_NOT_FOUND'
 	end
 
-	if (call_direction == "local") then
+	if (call_direction == "local" or config['free_inbound'] ~= nil) then
 		rates = {}
 		rates['pattern'] = destination_number
 		rates['comment'] = "Local"
@@ -274,8 +273,8 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
 	else
         rates = get_rates (userinfo,destination_number,number_loop,call_direction,config)
 		if (rates == nil) then
-			Logger.info("[Functions] [FIND_MAXLENGTH] Rates not found!!!")
-			return
+			Logger.info("[FIND_MAXLENGTH] Rates not found!!!")
+			return 'ORIGNATION_RATE_NOT_FOUND'
 		end
 		if( call_direction == "inbound" ) then
 			rates['pattern'] = '^.'..destination_number..".*"
@@ -327,17 +326,17 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
 
 		balance = get_balance(userinfo)
 		if (balance <= (rates['connectcost'] + rates['cost'])) then
-		      Logger.info("[Functions] [FIND_MAXLENGTH] Your balance is not sufficent to dial "..destination_number.." !!!")
-		      return 
+		      Logger.info("[FIND_MAXLENGTH] Your balance is not sufficent to dial "..destination_number.." !!!")
+		      return 'NO_SUFFICIENT_FUND'
 		end
 		if (tonumber(rates['cost']) > 0 ) then
 		      maxlength = ( balance -  rates['connectcost'] ) / rates['cost']
 		      if ( config['call_max_length'] and (tonumber(maxlength) > tonumber(config['call_max_length']) / 1000)) then
 				maxlength = config['call_max_length'] / 1000 / 60
-			      Logger.info("[Functions] [FIND_MAXLENGTH] LIMITING CALL TO CONFIG MAX LENGTH "..maxlength.."!!!")
+			      Logger.info("[FIND_MAXLENGTH] LIMITING CALL TO CONFIG MAX LENGTH "..maxlength.."!!!")
 		      end
 		else
-		      Logger.info("[Functions] [FIND_MAXLENGTH] Call is free - assigning max length!!! :: " .. config['max_free_length'] )
+		      Logger.info("[FIND_MAXLENGTH] Call is free - assigning max length!!! :: " .. config['max_free_length'] )
 		      maxlength = config['max_free_length']
 		end      
 
@@ -363,7 +362,7 @@ function get_rates(userinfo,destination_number,number_loop,call_direction,config
 
     	local query  = "SELECT * FROM "..TBL_ORIGINATION_RATES.." WHERE "..number_loop.." AND status = 0 AND pricelist_id = "..userinfo['pricelist_id'].."  ORDER BY LENGTH(pattern) DESC,cost DESC LIMIT 1";
 
-    	Logger.debug("[Functions] [GET_RATES] Query :" .. query)
+    	Logger.debug("[GET_RATES] Query :" .. query)
 		assert (dbh:query(query, function(u)
     		rates_info = u
     	end))  
@@ -374,7 +373,7 @@ end
 -- get pricelist information 
 function get_pricelists (userinfo,destination_number,number_loop,call_direction) 
 	local query = "select * from "..TBL_RATE_GROUP.." WHERE id = " ..userinfo['pricelist_id'].." AND status = 0";
-	Logger.debug("[Functions] [GET_PRICELIST_INFO] Query :" .. query)
+	Logger.debug("[GET_PRICELIST_INFO] Query :" .. query)
 	assert (dbh:query(query, function(u)
 		rategroup_info = u
 		end))  
@@ -390,7 +389,7 @@ function package_calculation (destination_number,userinfo,call_direction)
 	custom_destination = number_loop(destination_number,"patterns")
 
 	local query = "SELECT * FROM ".. TBL_PACKAGE.."  as P inner join "..TBL_PACKAGE_PATTERN.." as PKGPTR on P.id = PKGPTR.package_id WHERE ".. custom_destination.." AND status = 0 AND pricelist_id = ".. userinfo['pricelist_id'] .. " ORDER BY LENGTH(PKGPTR.patterns) DESC LIMIT 1";
-	Logger.debug("[Functions] [GET_PACKAGE_INFO] Query :" .. query)
+	Logger.debug("[GET_PACKAGE_INFO] Query :" .. query)
 	assert (dbh:query(query, function(u)
 		package_info = u
 		end))  
@@ -404,16 +403,16 @@ function package_calculation (destination_number,userinfo,call_direction)
 
 			if(counter_info == nil or counter_info['seconds'] == nil) then
 				freeseconds = 0
-			else
-			
+			else			
 				freeseconds = counter_info['seconds']
 			end
 			
 			remaining_sec = tonumber(package_info['includedseconds']) - tonumber(freeseconds)
 			Logger.info("Remaining Sec : "..remaining_sec)
-			if(remaining_sec > 5) then
+			if(remaining_sec > 0) then
 					userinfo['balance'] = 100
-                    userinfo['NO_SUFFICIENT_FUND'] = ''
+			        userinfo['NO_SUFFICIENT_FUND'] = ''
+                    remaining_sec = remaining_sec + 5
 					package_maxlength = remaining_sec / 60;	
 			end
 		end 
@@ -426,7 +425,7 @@ end
 function get_counters(userinfo,package_info)
 	local counter_info;
 	local query_counter = "SELECT seconds FROM ".. TBL_COUNTERS.."  WHERE  accountid = "..userinfo['id'].." AND package_id = ".. package_info['package_id'] .." AND status=1 LIMIT 1";
-		Logger.debug("[Functions] [GET_COUNTER_INFO] Query :" .. query_counter)
+		Logger.debug("[GET_COUNTER_INFO] Query :" .. query_counter)
 		assert (dbh:query(query_counter, function(u)
 			counter_info = u
 		end))
@@ -451,7 +450,7 @@ function get_carrier_rates(destination_number,number_loop_str,ratecard_id,rate_c
 
         local trunk_ids=0
         local query_trunks  = "SELECT GROUP_CONCAT(trunk_id) as ids FROM "..TBL_ROUTING.." WHERE pricelist_id="..ratecard_id;    
-        Logger.debug("[Functions] [GET_CARRIER_RATES_TRUNKS] Query :" .. query_trunks)
+        Logger.debug("[GET_CARRIER_RATES_TRUNKS] Query :" .. query_trunks)
         assert (dbh:query(query_trunks, function(u)
 	        trunk_ids = u
         end))
@@ -469,7 +468,7 @@ function get_carrier_rates(destination_number,number_loop_str,ratecard_id,rate_c
         query = query.." ORDER by LENGTH (pattern) DESC,TR.cost ASC,TR.precedence ASC, TK.precedence"
     end
 
-    Logger.debug("[Functions] [GET_CARRIER_RATES] Query :" .. query)
+    Logger.debug("[GET_CARRIER_RATES] Query :" .. query)
     local i = 1
     assert (dbh:query(query, function(u)
 	    carrier_rates[i] = u
@@ -482,7 +481,7 @@ end
 function get_override_callerid(userinfo)
     local callerid
     local query  = "SELECT * FROM "..TBL_ACCOUNTS_CALLERID.." WHERE accountid = "..userinfo['id'].." AND status=0 LIMIT 1";    
-    Logger.debug("[Functions] [GET_OVERRIDE_CALLERID] Query :" .. query)
+    Logger.debug("[GET_OVERRIDE_CALLERID] Query :" .. query)
     assert (dbh:query(query, function(u)
 	    callerid = u
     end))    

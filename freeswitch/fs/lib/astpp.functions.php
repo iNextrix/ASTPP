@@ -21,39 +21,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-//Calculate cost
-function calc_call_cost($xml_cdr, $rates_array, $logger, $new_duration = 0) {
-    $call_cost = 0;
-    $duration = ($new_duration > 0 ) ? $new_duration : $xml_cdr->variables->duration;
-
-
-    $xml_cdr->variables->hangup_cause = (isset($xml_cdr->variables->bridge_hangup_cause) && $xml_cdr->variables->bridge_hangup_cause != "") ? $xml_cdr->variables->bridge_hangup_cause : ((isset($xml_cdr->variables->last_bridge_hangup_cause) && $xml_cdr->variables->last_bridge_hangup_cause != "") ? $xml_cdr->variables->last_bridge_hangup_cause : $xml_cdr->variables->hangup_cause);
-
-
-    if ($xml_cdr->variables->hangup_cause != 'NORMAL_CLEARING' && $xml_cdr->variables->hangup_cause != 'ALLOTTED_TIMEOUT') {
-        $duration = 0;
-        $xml_cdr->variables->duration = 0;
-    }
-
-    if ($duration > 0 && ($xml_cdr->variables->hangup_cause == 'NORMAL_CLEARING' || $xml_cdr->variables->hangup_cause == 'ALLOTTED_TIMEOUT')) {
-        //Check if any free seconds are there. 
-        if ($rates_array['freeseconds'] > 0)
-            $duration -= $rates_array['freeseconds'];
-
-        //If any free seconds left to calculate call cost,
-        if ($duration > 0) {
-            if ($rates_array['initial_billing_block'] > 0) {
-                $duration -= $rates_array['initial_billing_block'];
-                $call_cost += ($rates_array['initial_billing_block'] * $rates_array['cost']) / 60;
-
-                if ($duration > 0) {
-                    $call_cost += ceil($duration / $rates_array['billing_block']) * ($rates_array['billing_block'] * $rates_array['cost']) / 60;
-                }
-            }
-        }
-    }
-    return $call_cost;
-}
 
 //Parse user and rates array which we got in cdr xml
 function parse_rates_array($xml_rate, $constant_array, $logger) {
