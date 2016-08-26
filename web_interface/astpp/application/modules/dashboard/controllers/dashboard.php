@@ -205,7 +205,7 @@ class dashboard extends CI_Controller {
            foreach ($result->result_array() as $data){
             $data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
             $json_data[$i][]= $data['accountid'];
-            $json_data[$i][]= (float)$data['billseconds'];
+            $json_data[$i][]= round($data['billseconds']/60,0);
             $i++;
            } 
     	}else{
