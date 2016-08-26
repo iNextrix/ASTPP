@@ -100,7 +100,7 @@ function auth_callingcard()
 	      -- Validate customer
 	      local card_flag = validate_card_usage(cardinfo);
 	      if (card_flag) then	      
-		    error_xml_without_cdr("","ACCOUNT_EXPIRE")
+		    error_xml_without_cdr("","ACCOUNT_EXPIRE","ASTPP-CALLINGCARD",config['playback_audio_notification'])
 		    session:hangup();
 	      end
 
