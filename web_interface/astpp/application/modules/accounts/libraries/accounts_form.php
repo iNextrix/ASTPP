@@ -82,8 +82,8 @@ class Accounts_form {
 			$account,
             $password,
             $pin,
-            array(gettext('First Name'), 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'class' => "text field medium"), 'required|alpha_numeric', 'tOOL TIP', ''),
-            array(gettext('Last Name'), 'INPUT', array('name' => 'last_name', 'size' => '15',  'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', ''),
+            array(gettext('First Name'), 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'class' => "text field medium"), 'required', 'tOOL TIP', ''),
+            array(gettext('Last Name'), 'INPUT', array('name' => 'last_name', 'size' => '15',  'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
             array(gettext('Company'), 'INPUT', array('name' => 'company_name', 'size' => '15', 'class' => 'text field medium'), 'trim|xss_clean', 'tOOL TIP', ''),
             array(gettext('Phone'), 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array(gettext('Mobile'), 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
@@ -295,8 +295,8 @@ else{
         );
 	}
         $form[gettext('Reseller Profile')] = array(
-            array(gettext('First Name'), 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '50',  'class' => "text field medium"), 'trim|required|alpha_numeric|xss_clean', 'tOOL TIP', ''),
-            array(gettext('Last Name'), 'INPUT', array('name' => 'last_name', 'size' => '15',  'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', ''),
+            array(gettext('First Name'), 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '50',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', ''),
+            array(gettext('Last Name'), 'INPUT', array('name' => 'last_name', 'size' => '15',  'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
             array(gettext('Company'), 'INPUT', array('name' => 'company_name',  'size' => '50', 'class' => 'text field medium'), 'trim|xss_clean', 'tOOL TIP', ''),
             array(gettext('Telephone 1'), 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array(gettext('Telephone 2'), 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
@@ -350,8 +350,8 @@ else{
                 /*                 * ********************* */
         );
         $form[gettext($entity_type . ' Profile')] = array(
-            array(gettext('First Name'), 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '40', 'class' => "text field medium"), 'trim|required|alpha_numeric|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array(gettext('Last Name'), 'INPUT', array('name' => 'last_name', 'size' => '15', 'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+            array(gettext('First Name'), 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '40', 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter account number'),
+            array(gettext('Last Name'), 'INPUT', array('name' => 'last_name', 'size' => '15', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', 'Please Enter Password'),
             array(gettext('Company'), 'INPUT', array('name' => 'company_name',  'size' => '15', 'class' => 'text field medium'), 'trim|xss_clean', 'tOOL TIP', ''),
             array(gettext('Telephone 1'), 'INPUT', array('name' => 'telephone_1', 'size' => '15',  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array(gettext('Telephone 2'), 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
