@@ -1619,9 +1619,10 @@ function invoice_screen(){
         if ( $accountdata['country_id'] != "")
             $customer_address .= $this->common->get_field_name('country', 'countrycode', $accountdata['country_id'])."<br/>";            
         if ( $accountdata['postal_code'] != "")
-            $customer_address .= "Pincode - " . $accountdata['postal_code'] . "<br/></div>";
+            $customer_address .= "Pincode - " . $accountdata['postal_code'] . "<br/>";
         else
             $customer_address .= "\n";
+        $customer_address .= "</div>"
            // $customer_address .= "Date of Invoice: " .date('d/m/Y', strtotime($invoicedata['invoice_date']))."<br/>";
 
 
