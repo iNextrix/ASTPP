@@ -233,7 +233,7 @@ Email test
 
     function send_email($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
 	$this->get_email_settings();
-	if($this->email){
+	if(!$this->email){
 		if(!$resend){
 			$this->build_template($template_type,$details,$detail_type);
 		}else{
@@ -245,7 +245,7 @@ Email test
 		else	
 			$history_id=$details['history_id'];
 		if(isset($this->from) && $this->from!='' && isset($this->to) && $this->to!='' && !$mass_mail){
-			if($this->smtp){
+			if(!$this->smtp){
 				$this->get_smtp_details();
 			}			
 			$this->CI->email->from($this->from, $this->company_name);
@@ -276,7 +276,7 @@ Add For Signup Module
 **/
     function send_mail($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
 	$this->get_email_settings();
-	if($this->email){
+	if(!$this->email){
 		
 		if(!$resend){
 			$this->build_template($template_type,$details,$detail_type);
@@ -289,7 +289,7 @@ Add For Signup Module
 		else	
 			$history_id=$details['history_id'];
 		if(isset($this->from) && $this->from!='' && isset($this->to) && $this->to!='' && !$mass_mail){
-			if($this->smtp){
+			if(!$this->smtp){
 				$this->get_smtp_details();
 			}			
 			$this->CI->email->from($this->from, $this->company_name);
