@@ -40,8 +40,9 @@ ASTPP  3.0
         }
 
         $types = array('0','3');
-        $this->db->or_where_in('type', $types);    
-
+        //$this->db->or_where_in('type', $types);    
+		$this->db->where_in('type', $types);  
+		
         $this->db->where($where);
         if (isset($_GET['sortname']) && $_GET['sortname'] != 'undefined'){
           $this->db->order_by($_GET['sortname'], ($_GET['sortorder']=='undefined')?'desc':$_GET['sortorder']);
