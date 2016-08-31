@@ -1405,7 +1405,8 @@ class common {
     /*     * ************************** */
 
     function email_status($select = "", $table = "", $status) {
-        return ($status == 0) ? "Sent" : "Not Sent";
+        $status = ($status['status'] == 0) ? "Sent" : "Not Sent";
+	return $status;    
     }
 
     function email_search_status($select = '') {
