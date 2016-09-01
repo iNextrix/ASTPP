@@ -66,11 +66,10 @@ class Accounts_form {
             $account_val='accounts.number';
              if (common_model::$global_config['system_config']['opensips'] == 0) {
 				$sip_device = array('Create Opensips Device', 'opensips_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_prorate');
-				$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>'); 
             } else {
-              $sip_device = array('Create SIP Device', 'sip_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_prorate');
-				$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>');         
+              $sip_device = array('Create SIP Device', 'sip_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_prorate');   
 	    }
+			$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>');      
             $password = array('Password', 'INPUT', array('name' => 'password', 'value' => $password, 'size' => '20', 'class' => "text field medium", 'id' => 'password'), 'required|', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Reset Password" class="change_pass fa fa-refresh" ></i>');
             $balance = array('Balance', 'INPUT', array('name' => 'balance', 'size' => '20','class' => "text field medium"), 'valid_decimal', 'tOOL TIP', '');
         }
