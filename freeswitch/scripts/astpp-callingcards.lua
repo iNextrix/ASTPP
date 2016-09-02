@@ -84,12 +84,19 @@ end
 session:setAutoHangup(false);
 
 if(config['calling_cards_welcome_file'] ~= "") then
-	session:streamFile(sound_path.."astpp-welcome.wav");          
+        session:streamFile(sound_path..config['calling_cards_welcome_file']);
+else
+        session:streamFile(sound_path.."astpp-welcome.wav");          
 end
 
 userinfo = auth_callingcard();
 
---say_balance(userinfo)
+if (session:ready() ~= true) then
+	return
+end
+
+Logger.notice("[Accountcode : ".. userinfo['number'] .."]" )
+say_balance(userinfo)
 
 
 --Process for dialing destination number

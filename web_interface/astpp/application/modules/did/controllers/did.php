@@ -639,9 +639,26 @@ class DID extends MX_Controller {
         
             if (isset($csv_data['number']) && $csv_data['number'] != '' && $i != 0) {
                 $str = null;
+                if(isset($csv_data['call_type'])){
+					if(strtolower($csv_data['call_type']) == 'sip-did'){
+						$call_type = '3';
+					}
+					else if(strtolower($csv_data['call_type']) == 'did-local'){
+						$call_type = '1';
+					}
+					else if(strtolower($csv_data['call_type']) == 'other'){
+						$call_type = '2';
+					}
+					else {
+						$call_type = '0';
+					}
+				}else{
+					$call_type = '0';
+				}
                 $csv_data['accountid'] = isset($csv_data['accountid']) ? $csv_data['accountid'] : 0;
                 $csv_data['country_id'] = isset($csv_data['country_id']) ? $csv_data['country_id'] : 0;
-                $csv_data['call_type'] = isset($csv_data['call_type']) && (strtolower($csv_data['call_type']) == 'local' || strtolower($csv_data['call_type']) == 'pstn' || strtolower($csv_data['call_type']) == 'other' ) ? $this->common->get_custom_call_type(strtoupper($csv_data['call_type'])) : 0;
+                //$csv_data['call_type'] = isset($csv_data['call_type']) && (strtolower($csv_data['call_type']) == 'local' || strtolower($csv_data['call_type']) == 'pstn' || strtolower($csv_data['call_type']) == 'other' ) ? $this->common->get_custom_call_type(strtoupper($csv_data['call_type'])) : 0;
+				$csv_data['call_type'] = $call_type;
                 $csv_data['extensions'] = isset($csv_data['extensions']) ? $csv_data['extensions'] : '';
                 $csv_data['includedseconds'] = isset($csv_data['includedseconds']) ? $csv_data['includedseconds'] : 0;
                 $csv_data['cost'] = !empty($csv_data['cost']) && is_numeric($csv_data['cost']) && $csv_data['cost'] ? $csv_data['cost'] : 0;

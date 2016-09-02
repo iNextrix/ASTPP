@@ -403,8 +403,9 @@ class Signup extends MX_Controller {
                 $acountdata = $acountdata->result_array();
                 $user_data = $acountdata[0];
             }
-            $updateArr = array("password" => $passwordconf['password'], "status" => 0);
-            $where_arr = array("email" => $email1);
+            $user_data['password'] = $this->common->encode($passwordconf['password']);
+            $updateArr = array("password" => $user_data['password']);
+            $where_arr = array("email" => $email1, "status" => 0);
             $this->db->where($where_arr);
             $this->db->update("accounts", $updateArr);
             //$activation = $this->encrypt->encode($user_data['number']);

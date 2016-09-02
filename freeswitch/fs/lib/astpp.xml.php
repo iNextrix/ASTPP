@@ -124,14 +124,16 @@ function load_sofia($logger, $db) {
 		//$logger->log(print_r($settings,true));
         $xml .= "   <profile name=\"" . $sp_value['name'] . "\">\n";
 
-	$xml .= "   <domains>\n";
+	    $xml .= "   <domains>\n";
             $xml .= "       <domain name=\"" . $sp_value['sip_ip'] . "\" alias=\"true\" parse=\"true\"/>\n";
         $xml .= "   </domains>\n";
-        $xml .= "   <aliases>\n";
+        /*$xml .= "   <aliases>\n";
             $xml .= "       <alias name=\"" . $sp_value['sip_ip'] . "\"/>\n";
-        $xml .= "   </aliases>\n";
+        $xml .= "   </aliases>\n";*/
 
 	$xml .= "   <settings>\n";
+    $xml .= "       <param name=\"sip-ip\" value=\"" . $sp_value['sip_ip'] . "\"/>\n";
+    $xml .= "       <param name=\"sip-port\" value=\"" . $sp_value['sip_port'] . "\"/>\n";    
 	foreach($settings as $set_key => $set_val)
 	{
         	$xml .= "       <param name=\"" . $set_key . "\" value=\"" . $set_val . "\"/>\n";
