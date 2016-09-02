@@ -1498,7 +1498,7 @@ class common {
         return $status_array;
     }
     function default_signup_rategroup(){
-        $this->CI->db->select("name");
+        $this->CI->db->select("id,name");
         $this->CI->db->where("status",0);
         $this->CI->db->where("reseller_id",0);
         $pricelist_result=$this->CI->db->get("pricelists")->result_array();
