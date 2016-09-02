@@ -1504,7 +1504,7 @@ class common {
         $pricelist_result=$this->CI->db->get("pricelists")->result_array();
         $pricelist_arr=array();
         foreach($pricelist_result as $result){
-            $pricelist_arr[$result['name']]=$result['name'];
+            $pricelist_arr[$result['id']]=$result['name'];
         }
         return $pricelist_arr;
         
@@ -1868,6 +1868,8 @@ function get_invoice_template($invoicedata,$accountdata,$flag){
       $decimal_amount=Common_model::$global_config['system_config']['decimalpoints'];
       ob_start();
       $this->CI->load->library('/html2pdf/html2pdf');
+      $this->CI->html2pdf = new HTML2PDF('P','A4','en');
+      $this->CI->html2pdf->pdf->SetDisplayMode('fullpage');
       $template_config=$this->CI->config->item('invoice_template');
       include($template_config.'invoice_template.php');
       $content = ob_get_clean();

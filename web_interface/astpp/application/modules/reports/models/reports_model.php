@@ -120,11 +120,12 @@ ASTPP  3.0
         return $result;
     }
      function users_cdrs_list($flag,$accountid,$entity_type,$start,$limit) {
-        
-	$where = array('callstart >= '=>date('Y-m-d 00:00:00'),"callstart <= "=>date('Y-m-d 23:59:59') );
-	$account_type= $entity_type =='provider' ? 'provider_id' :'accountid';
-	$where[$account_type]= $accountid;
-	$table=$entity_type=='reseller'?'reseller_cdrs' : 'cdrs';
+		$where = "callstart >= '".date('Y-m-d 00:00:00')."' AND callstart <='".date('Y-m-d 23:59:59')."' AND ";
+        $account_type= $entity_type =='provider' ? 'provider_id' :'accountid';
+        $where.="accountid = '".$accountid."' ";
+        if($entity_type == 'provider'){
+         $where.="OR provider_id = '".$accountid."'";
+        } 
         if ($flag) {
             $query = $this->db_model->select("*", $table, $where, "callstart", "DESC", $limit, $start);
         } else {
