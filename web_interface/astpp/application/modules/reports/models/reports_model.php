@@ -123,9 +123,9 @@ ASTPP  3.0
 		$where = "callstart >= '".date('Y-m-d 00:00:00')."' AND callstart <='".date('Y-m-d 23:59:59')."' AND ";
         $account_type= $entity_type =='provider' ? 'provider_id' :'accountid';
         $where.="accountid = '".$accountid."' ";
-        if($entity_type == 'provider'){
-         $where.="OR provider_id = '".$accountid."'";
-        }
+        //~ if($entity_type == 'provider'){
+         //~ $where.="OR provider_id = '".$accountid."'";
+        //~ }
         $table=$entity_type=='reseller'?'reseller_cdrs' : 'cdrs';
         if ($flag) {
             $query = $this->db_model->select("*", $table, $where, "callstart", "DESC", $limit, $start);
