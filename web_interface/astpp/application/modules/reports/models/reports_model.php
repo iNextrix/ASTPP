@@ -125,7 +125,8 @@ ASTPP  3.0
         $where.="accountid = '".$accountid."' ";
         if($entity_type == 'provider'){
          $where.="OR provider_id = '".$accountid."'";
-        } 
+        }
+        $table=$entity_type=='reseller'?'reseller_cdrs' : 'cdrs';
         if ($flag) {
             $query = $this->db_model->select("*", $table, $where, "callstart", "DESC", $limit, $start);
         } else {
