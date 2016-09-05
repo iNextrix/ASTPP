@@ -592,7 +592,7 @@ class Form {
 ASTPP  3.0 
 For Edit on Account number or name
 **/
-		     $Actionkey = array_search('Action', $this->CI->common->array_column($grid_fields,0));
+		     $Actionkey = array_search(gettext('Action'), $this->CI->common->array_column($grid_fields,0));
 /*********************************/
                     if ($field_arr[2] != "") {
                         if ($field_arr[3] != "") {
