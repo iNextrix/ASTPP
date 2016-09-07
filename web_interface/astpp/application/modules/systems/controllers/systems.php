@@ -568,12 +568,12 @@ function database_restore_json()
                             $run_gzip = $GUNZIP_EXE." < ".$path." | ";
               }
               $MYSQL="/usr/bin/mysql";
-              $run_restore = $run_gzip.$MYSQL."-h".$db_hostname." -u".$db_username." -p".$db_password." ".$db_name;
+              $run_restore = $run_gzip.$MYSQL." -h".$db_hostname." -u".$db_username." -p".$db_password." ".$db_name;
               exec($run_restore);
-              $this->session->set_flashdata('astpp_notification', 'Database Restore successfully.');
+              $this->session->set_flashdata('astpp_errormsg', 'Database Restore successfully.');
               redirect(base_url() . 'systems/database_restore/');
             }else{
-              $this->session->set_flashdata('astpp_errormsg', 'File not exists!');
+              $this->session->set_flashdata('astpp_notification', 'File not exists!');
               redirect(base_url() . 'systems/database_restore/');
             }
       }

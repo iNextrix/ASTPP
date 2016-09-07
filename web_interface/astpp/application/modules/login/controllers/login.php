@@ -76,7 +76,35 @@ class Login extends MX_Controller {
 		*
 		*/
 		$this->db->select("*");
-		$this->db->where(array("domain"=>$_SERVER["HTTP_HOST"]));
+		if($result['type'] == '2' || $result['type'] == '-1'){
+			$this->db->where(array("accountid"=>$result["id"]));
+		}else if($result['type'] == '0'){
+			if($result['reseller_id'] == 0){
+				$this->db->where(array("accountid"=>"1"));
+			}else{
+				$this->db->where(array("accountid"=>$result["reseller_id"]));
+			}
+		}else if($result['type'] == '1'){
+			if($result['reseller_id'] == 0){
+				$result_invoice = $this->common->get_field_name('id','invoice_conf', array("accountid" => $result['id']));
+				
+				if($result_invoice){
+					$this->db->where(array("accountid"=>$result["id"]));
+				}else{
+					$this->db->where(array("accountid"=>"1"));
+				}
+				
+			}else{
+				$result_invoice = $this->common->get_field_name('id','invoice_conf', array("accountid" => $result['reseller_id']));
+				if($result_invoice){
+					$this->db->where(array("accountid"=>$result["reseller_id"]));
+				}else{
+					$this->db->where(array("accountid"=>"1"));
+				}
+			}
+		}else {
+			$this->db->where(array("accountid"=>"1"));
+		}
 		$res = $this->db->get("invoice_conf");
 		$logo_arr = $res->result();
 	$data['user_logo'] = (isset($logo_arr[0]->logo) && $logo_arr[0]->logo != "" ) ? $logo_arr[0]->accountid."_".$logo_arr[0]->logo:"logo.png" ;

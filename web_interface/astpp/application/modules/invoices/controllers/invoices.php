@@ -1032,7 +1032,7 @@ class Invoices extends MX_Controller {
         if (!empty($post_array)) {
             $invoice_prefix = trim($post_array['invoice_prefix']);
             if ($_FILES['file']['name'] == '') {
-                $invoiceconf = $this->invoices_model->get_invoiceconf();
+                $invoiceconf = $this->invoices_model->get_invoiceconf($post_array['accountid']);
                 $file_name=($invoiceconf['logo'] != '') ? $invoiceconf['logo'] : '';
             }
             if ($invoice_prefix == '') {
