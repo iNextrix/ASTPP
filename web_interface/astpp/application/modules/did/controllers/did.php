@@ -548,7 +548,13 @@ class DID extends MX_Controller {
     function did_download_sample_file($file_name) {
         $this->load->helper('download');
         $full_path = base_url() . "assets/Rates_File/" . $file_name . ".csv";
-        $file = file_get_contents($full_path);
+        $arrContextOptions=array(
+			"ssl"=>array(
+			"verify_peer"=>false,
+			"verify_peer_name"=>false,
+			),
+		);  
+        $file = file_get_contents($full_path, false, stream_context_create($arrContextOptions));
         force_download("samplefile.csv", $file);
     }
     /* -------Here we write code for controller did functions did_import------

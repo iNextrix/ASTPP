@@ -158,7 +158,7 @@ class Accounts_form {
             $loginid = $account_data['id'];
         } else {
             $loginid = "0";
-            if (common_model::$global_config['system_config']['opensips'] == 1) {
+            if (common_model::$global_config['system_config']['opensips'] == 0) {
                  $opensips_device = array(gettext('Create Opensips Device'), 'opensips_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status');
             } else {
                 $sip_device = array(gettext('Create SIP Device'), 'sip_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status');

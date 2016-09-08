@@ -515,8 +515,8 @@ class Systems extends CI_Controller {
            $error_zip=0;
            exec($run_backup,$output,$error);
            if ($do_gzip){
-              $gzip =  exec("which gzip");
-              $run_gzip = $gzip." '$backup_file'";
+              $gzip = $this->config->item('gzip-path');
+              $run_gzip = $gzip." ".$backup_file;
               exec($run_gzip,$output,$error_zip);
            }
           
@@ -564,7 +564,7 @@ function database_restore_json()
             $path=DATABASE_DIRECTORY.$result_array[0]['path'];
             if(file_exists($path)){
               if (substr($path,-3)=='.gz') {
-                            $GUNZIP_EXE =     exec("which gunzip");
+                            $GUNZIP_EXE = $this->config->item('gunzip-path');
                             $run_gzip = $GUNZIP_EXE." < ".$path." | ";
               }
               $MYSQL="/usr/bin/mysql";
