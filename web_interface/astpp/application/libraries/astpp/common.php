@@ -722,7 +722,16 @@ class common {
             "ORIGINATOR_CANCEL" => "ORIGINATOR_CANCEL",
             "ALLOTTED_TIMEOUT" => "ALLOTTED_TIMEOUT",
             "MEDIA_TIMEOUT" => "MEDIA_TIMEOUT",
-            "PROGRESS_TIMEOUT" => "PROGRESS_TIMEOUT"
+            "PROGRESS_TIMEOUT" => "PROGRESS_TIMEOUT",
+            "AUTHENTICATION_FAIL" => "AUTHENTICATION_FAIL",
+			"ACCOUNT_INACTIVE_DELETED" => "ACCOUNT_INACTIVE_DELETED",
+			"ACCOUNT_EXPIRE" => "ACCOUNT_EXPIRE",
+			"NO_SUFFICIENT_FUND" => "NO_SUFFICIENT_FUND",
+			"DESTINATION_BLOCKED" => "DESTINATION_BLOCKED",
+			"ORIGNATION_RATE_NOT_FOUND" => "ORIGNATION_RATE_NOT_FOUND",
+			"RESELLER_COST_CHEAP" => "RESELLER_COST_CHEAP",
+			"TERMINATION_RATE_NOT_FOUND" => "TERMINATION_RATE_NOT_FOUND",
+			"DID_DESTINATION_NOT_FOUND" => "DID_DESTINATION_NOT_FOUND",
         );
         return $status_array;
     }
@@ -731,7 +740,8 @@ class common {
         $status_array = array("" => "--Select Type--",
             "STANDARD" => "STANDARD",
             "DID" => "DID",
-            "CALLINGCARD" => "CALLINGCARD"
+            "CALLINGCARD" => "CALLINGCARD",
+            "FREE" => "FREE",
         );
         return $status_array;
     }
