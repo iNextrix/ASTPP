@@ -1623,7 +1623,7 @@ function invoice_screen(){
         else
             $customer_address .= "\n";
            // $customer_address .= "Date of Invoice: " .date('d/m/Y', strtotime($invoicedata['invoice_date']))."<br/>";
-$customer_address .= "</div>"
+$customer_address .= "</div>";
 
     $reseller_id=$accountdata['reseller_id'];     
         $logo='';
