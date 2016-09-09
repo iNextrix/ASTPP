@@ -1622,7 +1622,6 @@ function invoice_screen(){
             $customer_address .= "Pincode - " . $accountdata['postal_code'] . "<br/>";
         else
             $customer_address .= "\n";
-        $customer_address .= "</div>"
            // $customer_address .= "Date of Invoice: " .date('d/m/Y', strtotime($invoicedata['invoice_date']))."<br/>";
 $customer_address .= "</div>";
 
