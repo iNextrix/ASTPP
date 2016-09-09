@@ -610,6 +610,12 @@ For Edit on Account number or name
 			    $row[$field_arr[2]] = $jsn_tmp[$field_key];
             } if(array_search("EDITABLE", $field_arr)){
 			    $ActionArr = $grid_fields[$Actionkey];
+                if($ActionArr[5]->EDIT->url =="accounts/customer_edit/" || $ActionArr[5]->EDIT->url =="accounts/provider_edit/"){
+                   $ActionArr[5]->EDIT->url=$row['type']==0 ?  "accounts/customer_edit/"  : "accounts/provider_edit/";
+                }
+                if($ActionArr[5]->EDIT->url =="accounts/admin_edit/" || $ActionArr[5]->EDIT->url =="accounts/subadmin_edit/"){
+                   $ActionArr[5]->EDIT->url=$row['type']==4 ?  "accounts/subadmin_edit/"  : "accounts/admin_edit/";
+                }
                 $acctype = "";
                 if(isset($row["type"]) && ($row["type"] == '0' || $row["type"] == '1' || $row["type"] == '3')){
                     $acctype = (isset($row["posttoexternal"]) && $row["posttoexternal"] != '')? "<span class='label label-default pull-right'>".$this->CI->common->get_account_type("","",$row["posttoexternal"])."</span>":"";
@@ -695,16 +701,22 @@ For Edit on Account number or name
                          if($field_arr[2]=="status"){
                             $row['id'] = $row_id;
                             $jsn_tmp[$field_key] = call_user_func_array(array($this->CI->common, $field_arr[5]), array($field_arr[3], $field_arr[4], $row));
-			   }else{
+						 }else{
                             $jsn_tmp[$field_key] = call_user_func_array(array($this->CI->common, $field_arr[5]), array($field_arr[3], $field_arr[4], $row[$field_arr[2]]));
-			   }
+						 }
 /**
 ASTPP  3.0 
 For Edit on Account number or name
 **/
  			$row[$field_arr[2]] = $jsn_tmp[$field_key];
-                        } if(array_search("EDITABLE", $field_arr)){
+                      } if(array_search("EDITABLE", $field_arr)){
 			    $ActionArr = $grid_fields[$Actionkey];
+                if($ActionArr[5]->EDIT->url =="accounts/customer_edit/" || $ActionArr[5]->EDIT->url =="accounts/provider_edit/"){
+                   $ActionArr[5]->EDIT->url=$row['type']==0 ?  "accounts/customer_edit/"  : "accounts/provider_edit/";
+                }
+                if($ActionArr[5]->EDIT->url =="accounts/admin_edit/" || $ActionArr[5]->EDIT->url =="accounts/subadmin_edit/"){
+                   $ActionArr[5]->EDIT->url=$row['type']==4 ?  "accounts/subadmin_edit/"  : "accounts/admin_edit/";
+                }
 			    $jsn_tmp[$field_key] = $this->CI->common->build_custome_edit_button($ActionArr[5]->EDIT,$row[$field_arr[2]],$row["id"]);
 /*******************************/
 		    }else {

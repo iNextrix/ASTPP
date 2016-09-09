@@ -1032,7 +1032,7 @@ class Invoices extends MX_Controller {
         if (!empty($post_array)) {
             $invoice_prefix = trim($post_array['invoice_prefix']);
             if ($_FILES['file']['name'] == '') {
-                $invoiceconf = $this->invoices_model->get_invoiceconf();
+                $invoiceconf = $this->invoices_model->get_invoiceconf($post_array['accountid']);
                 $file_name=($invoiceconf['logo'] != '') ? $invoiceconf['logo'] : '';
             }
             if ($invoice_prefix == '') {
@@ -1619,11 +1619,11 @@ function invoice_screen(){
         if ( $accountdata['country_id'] != "")
             $customer_address .= $this->common->get_field_name('country', 'countrycode', $accountdata['country_id'])."<br/>";            
         if ( $accountdata['postal_code'] != "")
-            $customer_address .= "Pincode - " . $accountdata['postal_code'] . "<br/></div>";
+            $customer_address .= "Pincode - " . $accountdata['postal_code'] . "<br/>";
         else
             $customer_address .= "\n";
            // $customer_address .= "Date of Invoice: " .date('d/m/Y', strtotime($invoicedata['invoice_date']))."<br/>";
-
+$customer_address .= "</div>";
 
     $reseller_id=$accountdata['reseller_id'];     
         $logo='';

@@ -41,7 +41,7 @@ class Accounts_model extends CI_Model {
         /*         * ******************************** */
         $accountinfo['creation'] = gmdate('Y-m-d H:i:s');
         $accountinfo['expiry'] = gmdate('Y-m-d H:i:s', strtotime('+20 years'));
-        if(isset($accountinfo['is_recording'])){
+        /*if(isset($accountinfo['is_recording'])){
 	  $accountinfo['is_recording']=0;
         }else{
 	  $accountinfo['is_recording']=1;
@@ -50,7 +50,7 @@ class Accounts_model extends CI_Model {
 	  $accountinfo['allow_ip_management']=0;
         }else{
 	  $accountinfo['allow_ip_management']=1;
-        }
+        }*/
         if(isset($accountinfo['local_call'])){
 	  $accountinfo['local_call']=0;
         }else{

@@ -66,15 +66,14 @@ class Accounts_form {
             $account_val='accounts.number';
              if (common_model::$global_config['system_config']['opensips'] == 0) {
 				$sip_device = array('Create Opensips Device', 'opensips_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_prorate');
-				$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>'); 
             } else {
-              $sip_device = array('Create SIP Device', 'sip_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_prorate');
-				$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>');         
+              $sip_device = array('Create SIP Device', 'sip_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_prorate');   
 	    }
+			$account = array('Account', 'INPUT',$params, 'required|integer|greater_than[0]|is_unique[' . $account_val . ']', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Account" class="change_number fa fa-refresh" ></i>');      
             $password = array('Password', 'INPUT', array('name' => 'password', 'value' => $password, 'size' => '20', 'class' => "text field medium", 'id' => 'password'), 'required|', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Reset Password" class="change_pass fa fa-refresh" ></i>');
             $balance = array('Balance', 'INPUT', array('name' => 'balance', 'size' => '20','class' => "text field medium"), '', 'tOOL TIP', '');
         }
-        $pin = array('Pin', 'INPUT', array('name' => 'pin', 'value' => $pin_number, 'size' => '20', 'class' => "text field medium", 'id' => 'change_pin'), 'required|', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Pin" class="change_pin fa fa-refresh" ></i>');
+        $pin = array('Pin', 'INPUT', array('name' => 'pin', 'value' => $pin_number, 'size' => '20', 'class' => "text field medium", 'id' => 'change_pin'), 'required|is_numeric', 'tOOL TIP', '', '<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;color: #1bcb61;" title="Generate Pin" class="change_pin fa fa-refresh" ></i>');
         $form['forms'] = array(base_url() . 'accounts/' . $entity_type . '_save/'.$id."/", array("id" => "customer_form", "name" => "customer_form"));
         $form[gettext('Account Profile')] = array(
 	    array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
@@ -159,7 +158,7 @@ class Accounts_form {
             $loginid = $account_data['id'];
         } else {
             $loginid = "0";
-            if (common_model::$global_config['system_config']['opensips'] == 1) {
+            if (common_model::$global_config['system_config']['opensips'] == 0) {
                  $opensips_device = array(gettext('Create Opensips Device'), 'opensips_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status');
             } else {
                 $sip_device = array(gettext('Create SIP Device'), 'sip_device_flag', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status');

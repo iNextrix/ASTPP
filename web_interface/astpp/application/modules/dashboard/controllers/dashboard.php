@@ -130,7 +130,7 @@ class dashboard extends CI_Controller {
 		  $json_data['total'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['sum']);
 		  $json_data['answered'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['answered']);
 		  $json_data['failed'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['failed']);
-		  $json_data['profit'][]=  array((string)$acc_arr[$day]['day'],(float) $this->common_model->calculate_currency($acc_arr[$day]['profit']));
+		  $json_data['profit'][]=  array((string)$acc_arr[$day]['day'],(float)  str_replace(",", "", $this->common_model->calculate_currency($acc_arr[$day]['profit'])));
                   $json_data['acd'][]=array((string)$acc_arr[$day]['day'],(float)$acd);
                   $json_data['mcd'][]=array((string)$acc_arr[$day]['day'],(float)$acc_arr[$day]['mcd']);
                   $json_data['asr'][]=array((string)$acc_arr[$day]['day'],(float)$asr);

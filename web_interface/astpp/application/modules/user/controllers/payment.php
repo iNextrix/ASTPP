@@ -54,7 +54,7 @@ class Payment extends MX_Controller {
   
   function convert_amount($amount){
        $amount = $this->common_model->add_calculate_currency($amount,"","",true,false);
-       echo number_format($amount,2);
+       echo number_format((float)$amount,2);
   }
 }
 ?> 

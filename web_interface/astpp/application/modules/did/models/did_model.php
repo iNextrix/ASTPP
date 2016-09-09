@@ -165,7 +165,7 @@ For Email broadcast
 	  $this->common->mail_to_users('email_remove_did', $accountinfo);
 	}elseif($did_info['accountid'] > 0 ){
 	  $accountinfo=(array)$this->db->get_where('accounts',array("id"=>$did_info['accountid']))->first_row();
-	  $accountinfo['did_number'] = $accountinfo['number'];
+	  $accountinfo['did_number'] = $did_info['number'];
 	  $this->common->mail_to_users('email_remove_did', $accountinfo);
 	}
         return true;

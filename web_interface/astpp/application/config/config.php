@@ -424,5 +424,7 @@ $config['package-code-field'] = array('code' => 'patterns',
 $config['invoices_path'] = FCPATH . "invoices/";
 $config['invoice_template'] = APPPATH."views/";
 $config['invoice_screen'] = APPPATH . "controllers/";
+$config['gzip-path'] = "/bin/gzip";
+$config['gunzip-path'] = "/bin/gunzip";
 /* End of file config.php */
 /* Location: ./application/config/config.php */
