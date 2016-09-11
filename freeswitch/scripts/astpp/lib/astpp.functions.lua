@@ -120,14 +120,14 @@ function check_local_call(destination_number)
 end
 
 -- Do Authentication 
-function doauthentication (destination_number)
-    return ipauthentication (destination_number)
+function doauthentication (destination_number,from_ip)
+    return ipauthentication (destination_number,from_ip)
 end
 
 -- Do IP base authentication 
-function ipauthentication(destination_number)
+function ipauthentication(destination_number,from_ip)
 
-    local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. params:getHeader('Hunt-Network-Addr').. "\" AND prefix IN (NULL,'') OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. params:getHeader('Hunt-Network-Addr').. "\" AND \"" .. destination_number .. "\"  RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1"
+    local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" ..from_ip.. "\" AND prefix IN (NULL,'') OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" ..from_ip.. "\" AND \"" .. destination_number .. "\"  RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1"
 
     Logger.debug("[IPAUTHENTICATION] Query :" .. query)
     
@@ -153,6 +153,10 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
 
     if (userinfo ~= nil) then
 	    userinfo['ACCOUNT_ERROR'] = ''
+
+        if (call_direction == 'local' and userinfo['local_call']=='0') then
+                userinfo['balance']=100            
+        end
 
     	balance = get_balance(userinfo);
     	if (balance <= 0) then

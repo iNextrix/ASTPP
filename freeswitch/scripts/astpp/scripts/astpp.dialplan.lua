@@ -69,7 +69,16 @@ end
 
 -- If no account code found then do further authentication of call
 if (accountcode == nil or accountcode == '') then
-    authinfo = doauthentication(destination_number)
+
+    from_ip = ""	
+    if(config['opensips']=='0') then
+    	from_ip = params:getHeader("variable_sip_h_X-AUTH-IP")
+    else
+    	from_ip = params:getHeader('Hunt-Network-Addr')
+    end	
+
+    authinfo = doauthentication(destination_number,from_ip)
+
     if (authinfo ~= nil and authinfo['type'] == 'acl') then      
     	accountcode = authinfo['account_code']
         if (authinfo['prefix'] ~= '') then
@@ -119,7 +128,7 @@ if(userinfo ~= nil) then
 		return 0
 	end
 
-	if(userinfo['local_call'] ~= 1 and call_direction == "LOCAL") then
+	if(userinfo['local_call'] == '1' and call_direction == "local") then
         Logger.warning("[Functions] [DOAUTHORIZATION] ["..accountcode.."] LOCAL CALL IS DISABLE....!!");
 		call_direction = 'outbound'
 	end

@@ -41,7 +41,7 @@ function auth_callingcard()
 		  cardnum = cardinfo['number'];		 
 
 		  local card_flag = validate_card_usage(cardinfo);
-		  if (card_flag ~= nil) then
+          if (card_flag==1) then
               error_xml_without_cdr("","ACCOUNT_EXPIRE","ASTPP-CALLINGCARD",config['playback_audio_notification'])
 		      session:hangup();
 		  end
@@ -99,7 +99,7 @@ function auth_callingcard()
 
 	      -- Validate customer
 	      local card_flag = validate_card_usage(cardinfo);
-	      if (card_flag) then	      
+	      if (card_flag==1) then
 		    error_xml_without_cdr("","ACCOUNT_EXPIRE","ASTPP-CALLINGCARD",config['playback_audio_notification'])
 		    session:hangup();
 	      end
@@ -177,23 +177,34 @@ function validate_card_usage(carddata)
             if ( tonumber(carddata['validfordays']) > 0 ) then
                 -- Check if the card is set to expire and deal with that as appropriate.            
                 local query = "UPDATE accounts SET expiry = DATE_ADD('"..callstart.."', INTERVAL " .. carddata['validfordays'].." day) WHERE id = "..carddata['id']
+                Logger.debug("[validate_card_usage] Query :" .. query)
 	            dbh:query(query);
-                return 0;
+                return 0
             end
     
-        elseif ( tonumber(carddata['validfordays']) > 0 ) then
+        elseif ( tonumber(carddata['validfordays']) >= 0 ) then
         
                 if (carddata['expiry'] == '0000-00-00 00:00:00') then
                     local query = "UPDATE accounts SET expiry = DATE_ADD('"..callstart.."', INTERVAL " .. carddata['validfordays'].." day) WHERE id = "..carddata['id']
+                    Logger.debug("[validate_card_usage] Query :" .. query)
     	            dbh:query(query);
+
+                    local query = "SELECT DATE_ADD('"..callstart.."', INTERVAL " .. carddata['validfordays'].." day) AS expiry"  
+                    Logger.debug("[validate_card_usage] Query :" .. query)
+                    assert (dbh:query(query, function(u)
+                    	new_expiry = u
+                    end))
+                    carddata['expiry'] = new_expiry['expiry']
                 end
 
-                local query = "SELECT DATE_FORMAT('"..carddata['expiry'].."' , '\%Y\%m\%d\%H\%i\%s') AS expiry"  
+                local query = "SELECT DATE_FORMAT('"..carddata['expiry'].."' , '%Y%m%d%H%i%s') AS expiry"  
+                Logger.debug("[validate_card_usage] Query :" .. query)
                 assert (dbh:query(query, function(u)
                 	expiry = u
                 end))
 
-                local query = "SELECT DATE_FORMAT('"..callstart.."' , '\%Y\%m\%d\%H\%i\%s') AS expiry"
+                local query = "SELECT DATE_FORMAT('"..callstart.."' , '%Y%m%d%H%i%s') AS expiry"
+                Logger.debug("[validate_card_usage] Query :" .. query)
                 assert (dbh:query(query, function(u)
                 	now = u
                 end))
@@ -205,8 +216,9 @@ function validate_card_usage(carddata)
                 end    
             
         elseif ( tonumber(carddata['validfordays']) < 0) then
-           		 return 1;
+           		 return 1
    	    end
+        return 0
     end
 end	
 
@@ -231,11 +243,11 @@ function playback_ivr(userinfo)
 		    Logger.debug("Got DTMF digits: "..result .."retries:".. retries )
 		     retries = retries + 1
 		     if (tonumber(result) == 1) then
-
 	    		userinfo = get_account(userinfo['id']);     
 				process_destination(userinfo);  
     	     elseif (tonumber(result) == 2) then
-				say_balance(userinfo,config); 
+                config['calling_cards_balance_announce'] = '0';
+				say_balance(userinfo); 
 				retries = retries - 1   
 		     elseif (tonumber(result) == 3) then
 				session:streamFile( "astpp-goodbye.wav" );
@@ -248,14 +260,10 @@ end
 function say_balance(cardinfo)
     local balance = get_balance(cardinfo)  
     if ( balance > 0 ) then
-
---    	local balance_value = string.format("%.2f", balance)
-
 		if (tonumber(config['calling_cards_balance_announce']) == tonumber('0')) then
             session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
             session:execute("say", "en currency pronounced " ..  balance);
-        end
-	
+        end	
 	else     
 		 session:streamFile( "astpp-card-is-empty.wav" )
 		 session:streamFile( "astpp-goodbye.wav" )
@@ -320,7 +328,7 @@ function dialout( original_destination_number, destination_number, maxlength, us
 		    local termination_rates_array = {}
 		    local xml_termination_rates
 		    for termination_rate_key,termination_rate_value in pairs(termination_rates) do
-			if ( termination_rate_value['cost'] > user_rates['cost'] ) then		    
+			if ( tonumber(termination_rate_value['cost']) > tonumber(user_rates['cost']) ) then		    
 			    Logger.notice(termination_rate_value['path']..": "..termination_rate_value['cost'] .." > "..user_rates['cost']..", skipping")  
 			else
 			    Logger.info("=============== Termination Rates Information ===================")
