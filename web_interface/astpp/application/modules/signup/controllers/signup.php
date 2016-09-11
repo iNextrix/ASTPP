@@ -224,12 +224,18 @@ class Signup extends MX_Controller {
                 if ($signup_sipdevice_flag == '0') {
                     $query = $this->db_model->select("*", "sip_profiles", array('name' => "default"), "id", "ASC", '1', '0');
                     $sip_id = $query->result_array();
+                    if($reseller_id > 0){
+						$reseller_id = $reseller_id;
+					}else{
+						$reseller_id = '0';
+					}
                     $free_switch_array = array('fs_username' => $user_data['number'],
                         'fs_password' => $user_data['password'],
                         'context' => 'default',
                         'effective_caller_id_name' => $user_data['number'],
                         'effective_caller_id_number' => $user_data['number'],
                         'sip_profile_id' => $sip_id[0]['id'],
+                        'reseller_id' => $reseller_id,
                         'pricelist_id' => $user_data['pricelist_id'],
                         'accountcode' => $last_id,
                         'status' => $user_data['status'],
@@ -397,8 +403,9 @@ class Signup extends MX_Controller {
                 $acountdata = $acountdata->result_array();
                 $user_data = $acountdata[0];
             }
-            $updateArr = array("password" => $passwordconf['password'], "status" => 0);
-            $where_arr = array("email" => $email1);
+            $user_data['password'] = $this->common->encode($passwordconf['password']);
+            $updateArr = array("password" => $user_data['password']);
+            $where_arr = array("email" => $email1, "status" => 0);
             $this->db->where($where_arr);
             $this->db->update("accounts", $updateArr);
             //$activation = $this->encrypt->encode($user_data['number']);

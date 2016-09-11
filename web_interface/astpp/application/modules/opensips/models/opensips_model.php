@@ -58,6 +58,8 @@ class Opensips_model extends CI_Model {
         $like_str=!empty($instant_search) ? "(username like '%$instant_search%'
                                             OR  password like '%$instant_search%'
                                             OR  domain like '%$instant_search%'
+                                            OR  effective_caller_id_name like '%$instant_search%'
+                                            OR  effective_caller_id_number like '%$instant_search%'
                                                 )"
                                            :null;
         if(!empty($like_str))
@@ -109,13 +111,14 @@ class Opensips_model extends CI_Model {
         unset($data["action"]);
         $data['creation_date']=gmdate("Y-m-d H:i:s");
         $accountinfo=$this->session->userdata('accountinfo');
-	$data['reseller_id']=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
+		$data['reseller_id']=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
+        unset($data["id"]);	
         $this->opensips_db->insert("subscriber", $data);
     }
 
     function edit_opensipsdevices($data, $id) {
       unset($data["action"]);
-      $data=array("username"=>$data['username'],"password"=>$data['password'],"accountcode"=>$data['accountcode'],"domain"=>$data['domain']);
+      $data=array("username"=>$data['username'],"password"=>$data['password'],"accountcode"=>$data['accountcode'],"domain"=>$data['domain'],"effective_caller_id_name"=>$data['effective_caller_id_name'],"effective_caller_id_number"=>$data['effective_caller_id_number'],"status"=>$data['status']);
       $this->opensips_db->where("id", $id);
       $data['last_modified_date']=gmdate("Y-m-d H:i:s");
       $this->opensips_db->update("subscriber", $data);

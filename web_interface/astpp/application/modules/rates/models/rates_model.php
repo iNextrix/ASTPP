@@ -280,13 +280,15 @@ Rate insert
     }
 
     function bulk_insert_termination_rate($field_value) {
-        $this->db->insert_batch('outbound_routes', $field_value);
+        //$this->db->insert_batch('outbound_routes', $field_value);
+        $this->db->insert_on_duplicate_update_batch('outbound_routes', $field_value);
         $affected_row = $this->db->affected_rows();
         return $affected_row;
     }
 
     function bulk_insert_origination_rate($inserted_array) {
-        $this->db->insert_batch('routes', $inserted_array);
+        //$this->db->insert_batch('routes', $inserted_array);
+        $this->db->insert_on_duplicate_update_batch('routes', $inserted_array);
         $affected_row = $this->db->affected_rows();
         return $affected_row;
     }

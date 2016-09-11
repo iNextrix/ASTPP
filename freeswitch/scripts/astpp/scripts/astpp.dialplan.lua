@@ -59,7 +59,7 @@ accountcode = params:getHeader("variable_accountcode")
 sipcall = params:getHeader("variable_sipcall")
 
 call_direction = define_call_direction(destination_number,accountcode,config)
-Logger.info("[Dialplan] Call Direction : ".. call_direction)
+Logger.info("[Dialplan] Call direction : ".. call_direction)
 
 --IF opensips then check then get account code from $params->{'variable_sip_h_P-Accountcode'}
 if(config['opensips']=='0' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == nil)
@@ -69,9 +69,21 @@ end
 
 -- If no account code found then do further authentication of call
 if (accountcode == nil or accountcode == '') then
-    authinfo = doauthentication(destination_number)
+
+    from_ip = ""	
+    if(config['opensips']=='0') then
+    	from_ip = params:getHeader("variable_sip_h_X-AUTH-IP")
+    else
+    	from_ip = params:getHeader('Hunt-Network-Addr')
+    end	
+
+    authinfo = doauthentication(destination_number,from_ip)
+
     if (authinfo ~= nil and authinfo['type'] == 'acl') then      
     	accountcode = authinfo['account_code']
+        if (authinfo['prefix'] ~= '') then
+            destination_number = do_number_translation(authinfo['prefix'].."/*",destination_number)
+        end
     	auth_type = 'acl';
     	accountname = authinfo['name'] or ""
     end
@@ -100,7 +112,7 @@ if(userinfo ~= nil) then
 	end
     
     if(userinfo['ACCOUNT_ERROR'] == 'ACCOUNT_INACTIVE_DELETED') then
-		-- error_xml_without_cdr(destination_number,"ACCOUNT_INACTIVE_DELETED",calltype,config['playback_audio_notification'],userinfo)
+		error_xml_without_cdr(destination_number,"ACCOUNT_INACTIVE_DELETED",calltype,config['playback_audio_notification'],'0')
 		return 0
 	end
 
@@ -116,7 +128,7 @@ if(userinfo ~= nil) then
 		return 0
 	end
 
-	if(userinfo['local_call'] ~= 1 and call_direction == "LOCAL") then
+	if(userinfo['local_call'] == '1' and call_direction == "local") then
         Logger.warning("[Functions] [DOAUTHORIZATION] ["..accountcode.."] LOCAL CALL IS DISABLE....!!");
 		call_direction = 'outbound'
 	end
@@ -124,7 +136,6 @@ end
 
 --------------------------------------- SPEED DIAL --------------------------------------
 if(string.len(destination_number) == 1 ) then
-	Logger.info("[Dialplan] SPEED DIAL SECTION ")
 	destination_number = get_speeddial_number(destination_number,userinfo['id'])
 	Logger.info("[Dialplan] SPEED DIAL NUMBER : "..destination_number)
 end
@@ -157,8 +168,8 @@ if (userinfo ~= nil) then
 	-- Fine max length of call based on origination rates.
 	origination_array = get_call_maxlength(userinfo,destination_number,call_direction,number_loop_str,config,didinfo)
 	    
-	if( origination_array == nil ) then
-	    error_xml_without_cdr(destination_number,"ORIGNATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification'],userinfo['id']) 
+	if( origination_array == 'NO_SUFFICIENT_FUND' or origination_array == 'ORIGNATION_RATE_NOT_FOUND') then
+	    error_xml_without_cdr(destination_number,origination_array,calltype,config['playback_audio_notification'],userinfo['id']) 
 	    return
 	end
 	
@@ -184,9 +195,7 @@ if (userinfo ~= nil) then
 		Logger.notice("FINDING LIMIT FOR RESELLER: "..userinfo['reseller_id'])
 
 		reseller_userinfo = doauthorization(userinfo['reseller_id'],call_direction,destination_number,number_loop_str)
-
-
-----	            
+         
         if(reseller_userinfo['ACCOUNT_ERROR'] == 'ACCOUNT_INACTIVE_DELETED') then
 		    -- error_xml_without_cdr(destination_number,"ACCOUNT_INACTIVE_DELETED",calltype,config['playback_audio_notification'],userinfo)
 		    return 0
@@ -223,6 +232,11 @@ if (userinfo ~= nil) then
 			
 			origination_array_reseller=get_call_maxlength(reseller_userinfo,destination_number,call_direction,number_loop_str,config,didinfo)
 
+            if( origination_array_reseller == 'NO_SUFFICIENT_FUND' or origination_array_reseller == 'ORIGNATION_RATE_NOT_FOUND') then
+	            error_xml_without_cdr(destination_number,origination_array_reseller,calltype,1,reseller_userinfo['id']) 
+        	    return
+        	end 
+
 			reseller_maxlength = origination_array_reseller[1];
 			reseller_rates = origination_array_reseller[2];
 			xml_reseller_rates = origination_array_reseller[3];
@@ -245,8 +259,8 @@ if (userinfo ~= nil) then
 				maxlength = reseller_maxlength
 			end
 
-			if (tonumber(reseller_maxlength) < 1 or reseller_rates['cost'] > user_rates['cost']) then
-				error_xml_without_cdr(destination_number,"RESELLER_COST_CHEAP",calltype,config['playback_audio_notification'],customer_userinfo['id']); 
+			if (tonumber(reseller_maxlength) < 1 or tonumber(reseller_rates['cost']) > tonumber(user_rates['cost'])) then
+				error_xml_without_cdr(destination_number,"RESELLER_COST_CHEAP",calltype,1,customer_userinfo['id']); 
 				Logger.info("Reseller cost : "..reseller_rates['cost'].." User cost : "..user_rates['cost'])
 		    	Logger.error("[Dialplan] Reseller call price is cheaper, so we cannot allow call to process!!")
 				return
@@ -271,11 +285,16 @@ if (userinfo ~= nil) then
 		
 		-- ********* Check RECEIVER Balance and status of the Account *************
 		local dialuserinfo
+
+        if (INB_FREE ~= nil) then        
+            config['free_inbound'] = true
+        end
+
 		dialuserinfo = doauthorization(didinfo['accountid'],call_direction,destination_number,number_loop)	
 		-- ********* Check & get Dialer Rate card information *********
 			origination_array_DID = get_call_maxlength(customer_userinfo,destination_number,"outbound",number_loop_str,config)
 			--customer_userinfo['id'] = didinfo['accountid'];
-			if(origination_array_DID ~= nil) then 
+			if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND') then 
 				Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
 				xml_did_rates = origination_array_DID[3]
 			else
@@ -288,7 +307,7 @@ if (userinfo ~= nil) then
 			dialuserinfo = doauthorization(dialuserinfo['reseller_id'],call_direction,destination_number,number_loop)	
 			origination_array_DID = get_call_maxlength(dialuserinfo,destination_number,"outbound",number_loop_str,config)
 
-			if(origination_array_DID ~= nil) then 
+			if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND') then 
 				Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
 				xml_did_rates = xml_did_rates .."||"..origination_array_DID[3]
 			else
@@ -355,7 +374,23 @@ xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_di
 			calleridinfo = get_override_callerid(userinfo)
 			if (calleridinfo ~= nil) then
     			xml = freeswitch_xml_callerid(xml,calleridinfo)	    	      
-			end
+			else
+                if(config['opensips'] == '0') then
+                    calleridinfo = {}
+                    if (params:getHeader('variable_sip_h_P-effective_caller_id_name') ~= nil) then 
+                        calleridinfo['cid_name'] = params:getHeader('variable_sip_h_P-effective_caller_id_name')
+                    else
+                        calleridinfo['cid_name'] = ''
+                    end
+
+                    if (params:getHeader('variable_sip_h_P-effective_caller_id_number') ~= nil) then 
+                        calleridinfo['cid_number'] = params:getHeader('variable_sip_h_P-effective_caller_id_number')
+                    else
+                        calleridinfo['cid_number'] = ''
+                    end
+                    xml = freeswitch_xml_callerid(xml,calleridinfo)	 
+                end   	      
+            end
 
 			for carrier_arr_key,carrier_arr_array in pairs(carrier_array) do
 			    xml = freeswitch_xml_outbound(xml,destination_number,carrier_arr_array)

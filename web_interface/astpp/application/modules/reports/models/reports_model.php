@@ -33,11 +33,16 @@ ASTPP  3.0
         $this->db_model->build_search('customer_cdr_list_search');
         $account_data = $this->session->userdata("accountinfo");
         $where['reseller_id']=$account_data['type']== 1 ? $account_data['id']:0;
-        $where['type']=0;
+        //$where['type']=0;
         if($this->session->userdata('advance_search') != 1){
 	    $where['callstart >= ']=date("Y-m-d")." 00:00:00";
             $where['callstart <=']=date("Y-m-d")." 23:59:59";
         }
+
+        $types = array('0','3');
+        //$this->db->or_where_in('type', $types);    
+		$this->db->where_in('type', $types);  
+		
         $this->db->where($where);
         if (isset($_GET['sortname']) && $_GET['sortname'] != 'undefined'){
           $this->db->order_by($_GET['sortname'], ($_GET['sortorder']=='undefined')?'desc':$_GET['sortorder']);
@@ -96,6 +101,7 @@ ASTPP  3.0
 	    $where['callstart >= ']=date("Y-m-d")." 00:00:00";
             $where['callstart <=']=date("Y-m-d")." 23:59:59";
         }
+        $this->db->where('trunk_id !=', '');
         $this->db->where($where);
         if (isset($_GET['sortname']) && $_GET['sortname'] != 'undefined'){
           $this->db->order_by($_GET['sortname'], ($_GET['sortorder']=='undefined')?'desc':$_GET['sortorder']);
@@ -114,11 +120,13 @@ ASTPP  3.0
         return $result;
     }
      function users_cdrs_list($flag,$accountid,$entity_type,$start,$limit) {
-        
-	$where = array('callstart >= '=>date('Y-m-d 00:00:00'),"callstart <= "=>date('Y-m-d 23:59:59') );
-	$account_type= $entity_type =='provider' ? 'provider_id' :'accountid';
-	$where[$account_type]= $accountid;
-	$table=$entity_type=='reseller'?'reseller_cdrs' : 'cdrs';
+		$where = "callstart >= '".date('Y-m-d 00:00:00')."' AND callstart <='".date('Y-m-d 23:59:59')."' AND ";
+        $account_type= $entity_type =='provider' ? 'provider_id' :'accountid';
+        $where.="accountid = '".$accountid."' ";
+        //~ if($entity_type == 'provider'){
+         //~ $where.="OR provider_id = '".$accountid."'";
+        //~ }
+        $table=$entity_type=='reseller'?'reseller_cdrs' : 'cdrs';
         if ($flag) {
             $query = $this->db_model->select("*", $table, $where, "callstart", "DESC", $limit, $start);
         } else {

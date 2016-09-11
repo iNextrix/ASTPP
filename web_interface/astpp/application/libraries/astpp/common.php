@@ -722,7 +722,16 @@ class common {
             "ORIGINATOR_CANCEL" => "ORIGINATOR_CANCEL",
             "ALLOTTED_TIMEOUT" => "ALLOTTED_TIMEOUT",
             "MEDIA_TIMEOUT" => "MEDIA_TIMEOUT",
-            "PROGRESS_TIMEOUT" => "PROGRESS_TIMEOUT"
+            "PROGRESS_TIMEOUT" => "PROGRESS_TIMEOUT",
+            "AUTHENTICATION_FAIL" => "AUTHENTICATION_FAIL",
+			"ACCOUNT_INACTIVE_DELETED" => "ACCOUNT_INACTIVE_DELETED",
+			"ACCOUNT_EXPIRE" => "ACCOUNT_EXPIRE",
+			"NO_SUFFICIENT_FUND" => "NO_SUFFICIENT_FUND",
+			"DESTINATION_BLOCKED" => "DESTINATION_BLOCKED",
+			"ORIGNATION_RATE_NOT_FOUND" => "ORIGNATION_RATE_NOT_FOUND",
+			"RESELLER_COST_CHEAP" => "RESELLER_COST_CHEAP",
+			"TERMINATION_RATE_NOT_FOUND" => "TERMINATION_RATE_NOT_FOUND",
+			"DID_DESTINATION_NOT_FOUND" => "DID_DESTINATION_NOT_FOUND",
         );
         return $status_array;
     }
@@ -731,7 +740,8 @@ class common {
         $status_array = array("" => "--Select Type--",
             "STANDARD" => "STANDARD",
             "DID" => "DID",
-            "CALLINGCARD" => "CALLINGCARD"
+            "CALLINGCARD" => "CALLINGCARD",
+            "FREE" => "FREE",
         );
         return $status_array;
     }
@@ -1053,7 +1063,7 @@ class common {
                 $message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
                 $message = str_replace('#NUMBER#', $accountinfo['number'], $message);
                 $message = str_replace('#PASSWORD#', $accountinfo['password'], $message);
-                $message = str_replace('#CONFIRM#', $accountinfo['confirm'], $message);
+                $message = str_replace('#LINK#', $accountinfo['confirm'], $message);
                 break;
             case 'email_forgot_user':
                 $message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
@@ -1079,13 +1089,13 @@ class common {
                               
             case 'voip_account_refilled':
                 $message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
-                $message = str_replace('#REFILL_BALANCE#', $accountinfo['refill_amount'], $message);
-                $message = str_replace('#BALANCE#', $accountinfo['balance'], $message);
+                $message = str_replace('#REFILLBALANCE#', $accountinfo['refill_amount'], $message);
+                $message = str_replace('#BALANCE#', $accountinfo['refill_amount'] + $accountinfo['balance'], $message);
                 break;
             case 'voip_child_account_refilled':
                 $reseller_number= $this->CI->common->get_field_name('number', 'accounts', $accountinfo['reseller_id']);
                 $message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
-                $message = str_replace('#REFILL_BALANCE#', $accountinfo['refill_amount'], $message);
+                $message = str_replace('#REFILLBALANCE#', $accountinfo['refill_amount'], $message);
                 $message = str_replace('#BALANCE#', $accountinfo['balance'], $message);
                 $message = str_replace('#ACCOUNTNUMBER#',$reseller_number, $message);
                 break;
@@ -1405,7 +1415,8 @@ class common {
     /*     * ************************** */
 
     function email_status($select = "", $table = "", $status) {
-        return ($status == 0) ? "Sent" : "Not Sent";
+        $status = ($status['status'] == 0) ? "Sent" : "Not Sent";
+	return $status;    
     }
 
     function email_search_status($select = '') {
@@ -1497,13 +1508,13 @@ class common {
         return $status_array;
     }
     function default_signup_rategroup(){
-        $this->CI->db->select("name");
+        $this->CI->db->select("id,name");
         $this->CI->db->where("status",0);
         $this->CI->db->where("reseller_id",0);
         $pricelist_result=$this->CI->db->get("pricelists")->result_array();
         $pricelist_arr=array();
         foreach($pricelist_result as $result){
-            $pricelist_arr[$result['name']]=$result['name'];
+            $pricelist_arr[$result['id']]=$result['name'];
         }
         return $pricelist_arr;
         
@@ -1867,6 +1878,8 @@ function get_invoice_template($invoicedata,$accountdata,$flag){
       $decimal_amount=Common_model::$global_config['system_config']['decimalpoints'];
       ob_start();
       $this->CI->load->library('/html2pdf/html2pdf');
+      $this->CI->html2pdf = new HTML2PDF('P','A4','en');
+      $this->CI->html2pdf->pdf->SetDisplayMode('fullpage');
       $template_config=$this->CI->config->item('invoice_template');
       include($template_config.'invoice_template.php');
       $content = ob_get_clean();

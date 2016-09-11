@@ -22,11 +22,21 @@ if ( ! function_exists('array_to_csv'))
 {
 	function array_to_csv($array, $download = "")
 	{
+		//~ if ($download != "")
+		//~ {	
+			//~ header('Content-Type: text/csv');
+//~ // 			header('Content-Type: application/csv');
+			//~ header('Content-Disposition: attachement; filename="' . $download . '"');
+			//~ header("Pragma: no-cache");
+			//~ header("Expires: 0");
+		//~ }	
 		if ($download != "")
 		{	
-			header('Content-Type: text/csv');
+			header('Content-type: text/csv; charset=UTF-8');
+			header('Content-Encoding: UTF-8');
 // 			header('Content-Type: application/csv');
 			header('Content-Disposition: attachement; filename="' . $download . '"');
+			echo "\xEF\xBB\xBF"; // UTF-8 BOM
 			header("Pragma: no-cache");
 			header("Expires: 0");
 		}		

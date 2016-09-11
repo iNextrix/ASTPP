@@ -689,9 +689,14 @@ Batch Delete
     }
     function customer_rates_download_sample_file($file_name){
         $this->load->helper('download');
-	$full_path = base_url()."assets/Rates_File/".$file_name.".csv";
-//         $full_path = "var/www/html/celero_new/assets/Rates_File/".$file_name.".csv";
-        $file = file_get_contents($full_path);
+		$full_path = base_url()."assets/Rates_File/".$file_name.".csv";
+		$arrContextOptions=array(
+			"ssl"=>array(
+			"verify_peer"=>false,
+			"verify_peer_name"=>false,
+			),
+		);  
+        $file = file_get_contents($full_path, false, stream_context_create($arrContextOptions));
         force_download("samplefile.csv", $file); 
     }
     function termination_rate_batch_update(){
@@ -937,7 +942,7 @@ For Add Initial Increment field
         $json_data = array();
         $account_data = $this->session->userdata("accountinfo");
         $markup = $this->common->get_field_name('markup', 'pricelists', array('id'=>$account_data["pricelist_id"]));
-        $markup = ($markup > 0)?$markup:1;
+        //$markup = ($markup > 0)?$markup:1;
         $count_all = $this->rates_model->getreseller_rates_list(false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];

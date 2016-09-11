@@ -52,9 +52,6 @@ config = load_conf()
 dofile(script_path.."scripts/astpp.xml.lua");
 
 
-local test = string.gsub(debug.getinfo(1).short_src, "^(.+\\)[^\\]+$", "%1");
-Logger.notice ("SECTION " .. test)
-
 if (not params) then
 	params = {}
 	function params:getHeader(name)
@@ -65,8 +62,7 @@ if (not params) then
 	end
 end
 
-
-if (config['debug']==1) then
+if (config['debug']==2) then
     -- print all params 
     if (params:serialize() ~= nil) then
     	Logger.notice ("[xml_handler] Params:\n" .. params:serialize())
@@ -77,7 +73,5 @@ if (config['debug']==1) then
     end
 end
 
-
-Logger.notice ("SECTION " .. XML_REQUEST["section"])
-   dofile(script_path.."scripts/astpp."..XML_REQUEST["section"]..".lua")
+dofile(script_path.."scripts/astpp."..XML_REQUEST["section"]..".lua")
 

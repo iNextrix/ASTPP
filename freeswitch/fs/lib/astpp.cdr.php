@@ -43,8 +43,19 @@ function process_cdr($data,$db,$logger,$decimal_points)
 	$dataVariable['effective_caller_id_name'] = (isset($dataVariable['effective_caller_id_name'])) ? $dataVariable['effective_caller_id_name'] : $dataCallflow['caller_profile']['caller_id_name'];
 	$dataVariable['effective_caller_id_number'] = (isset($dataVariable['effective_caller_id_number'])) ? $dataVariable['effective_caller_id_number'] : $dataCallflow['caller_profile']['caller_id_number'];
 
-    //Get actual hangup cause 
-    $hangup_cause= (isset($dataVariable['error_cdr'])) ? $dataVariable['last_bridge_hangup_cause'] : $dataVariable['hangup_cause'];
+
+    if ($dataVariable['billsec'] == 0 && $dataVariable['hangup_cause'] == 'NORMAL_CLEARING')
+    {
+        $hangup_cause = isset($dataVariable['last_bridge_hangup_cause'])?$dataVariable['last_bridge_hangup_cause']:$dataVariable['hangup_cause'];
+    }else{
+        $hangup_cause = $dataVariable['hangup_cause'];
+    }   
+
+    if ($dataVariable['error_cdr'] == '1')
+    {
+        //Get actual hangup cause 
+        $hangup_cause= (isset($dataVariable['error_cdr'])) ? $dataVariable['last_bridge_hangup_cause'] : (isset($dataVariable['last_bridge_hangup_cause'])?$dataVariable['last_bridge_hangup_cause']:$dataVariable['hangup_cause']); 
+    }
 
 	/*#### PATCH FOR ONE WAY AUDIO ####*/
 	if ($hangup_cause == "NORMAL_UNSPECIFIED" && $dataVariable['billsec'] > 0)
@@ -159,12 +170,12 @@ function process_cdr($data,$db,$logger,$decimal_points)
         }
         
 
-        //For additional cdr entry of receiver
-		insert_extra_receiver_entry($dataVariable,$origination_rate,$termination_rate,$account_type,$actual_duration,$provider_cost,$parentid,$flag_parent,$dataVariable['receiver_accid'],$logger,$db,$decimal_points);
-
         //Get call receiver account information 
 		$receiver_carddata = get_accounts($dataVariable['receiver_accid'],$logger,$db);
 		$receiver_parentid = $receiver_carddata['reseller_id'];
+
+        //For additional cdr entry of receiver
+		insert_extra_receiver_entry($dataVariable,$origination_rate,$termination_rate,$account_type,$actual_duration,$provider_cost,$receiver_parentid,$flag_parent,$dataVariable['receiver_accid'],$logger,$db,$decimal_points);
 
 		$flag_parent = true;
 		$dataVariable['uuid'] = $dataVariable['uuid'].$dataVariable['calltype']."_".$receiver_parentid;
@@ -190,11 +201,11 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 		$debit = calc_cost($dataVariable,$origination_rate[$accountid],$logger,$decimal_points);
 
         //If receiver account id found then explicitly set call direction and call type
-        if(isset($dataVariable['receiver_accid']))
+        /*if(isset($dataVariable['receiver_accid']))
         {
             $dataVariable['call_direction'] = "outbound";
             $dataVariable['calltype'] = "STANDARD";
-        }
+        }*/
 
         //Check if reseller have any package seconds left to use        
 		if ($actual_duration > 0)		{
@@ -221,7 +232,7 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 
 		}else{
 
-		    $cdr_string = get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$accountid,$debit,$cost);	
+		    $cdr_string = get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,$debit,$cost);	
 
  			$query = "INSERT INTO reseller_cdrs (uniqueid,accountid,callerid,callednum,billseconds,disposition,callstart,debit,cost,pricelist_id,package_id,pattern,notes,rate_cost,
 		reseller_id,reseller_code,reseller_code_destination,reseller_cost,call_direction,calltype) values ($cdr_string)";
@@ -359,6 +370,7 @@ function calc_cost($dataVariable, $rates, $logger,$decimal_points)
 	//$logger->log(print_r($rates,true));
 	$duration = $dataVariable['billsec'];
 	$call_cost=0;  
+	$duration -= $rates['INCLUDEDSECONDS'];
 	if ($duration > 0 && ($dataVariable['hangup_cause'] == 'NORMAL_CLEARING' || $dataVariable['hangup_cause']  == 'ALLOTTED_TIMEOUT')) {
 
     		$rates['INC'] = ($rates['INC'] == 0) ? 1 : $rates['INC'];
@@ -371,7 +383,6 @@ function calc_cost($dataVariable, $rates, $logger,$decimal_points)
                 $call_cost += (ceil($billseconds/$rates['INC'])*$rates['INC'])*($rates['COST']/60);
             }
     }
-    $logger->log("calculated cost ".$call_cost."...".$decimal_points);
     $call_cost = number_format($call_cost,$decimal_points);
     $logger->log("Return cost ".$call_cost);
     return $call_cost;
