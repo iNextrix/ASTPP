@@ -36,31 +36,25 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);
 	table.insert(xml, [[<action application="set" data="hangup_after_bridge=true"/>]]);    
 	table.insert(xml, [[<action application="set" data="continue_on_fail=true"/>]]);  
-	table.insert(xml, [[<action application="set" data="ignore_early_media=true"/>]]);       
+	--table.insert(xml, [[<action application="set" data="ignore_early_media=true"/>]]);       
 
 	table.insert(xml, [[<action application="set" data="account_id=]]..customer_userinfo['id']..[["/>]]);              
 	table.insert(xml, [[<action application="set" data="parent_id=]]..customer_userinfo['reseller_id']..[["/>]]);
 	table.insert(xml, [[<action application="set" data="entity_id=]]..customer_userinfo['type']..[["/>]]);
 	table.insert(xml, [[<action application="set" data="call_processed=internal"/>]]);    
-	table.insert(xml, [[<action application="set" data="call_direction=]]..call_direction..[["/>]]); 
-	
+	table.insert(xml, [[<action application="set" data="call_direction=]]..call_direction..[["/>]]); 	
 	table.insert(xml, [[<action application="set" data="accountname=]]..accountname..[["/>]]);
-	--Logger.info(" outbound FAX ::: "..call_direction .."----".. config['outbound_fax']);
 
 	if (call_direction == "inbound" and tonumber(config['inbound_fax']) > 0) then
 		table.insert(xml, [[<action application="export" data="t38_passthru=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38_request=true"/>]]);    
 	elseif (call_direction == "outbound" and tonumber(config['outbound_fax']) > 0) then
-		--Logger.info(" outbound FAX ::: "..call_direction .."----".. config['outbound_fax']);
 		table.insert(xml, [[<action application="export" data="t38_passthru=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38_request=true"/>]]);    
 	end
 
-		--table.insert(xml, [[<action application="ring_ready" data="TRUE"/>]]);
-
-		
 	if(tonumber(config['balance_announce']) == 0) then
 		table.insert(xml, [[<action application="sleep" data="1000"/>]]);
 		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-card-has-a-balance-of.wav"/>]]);
@@ -74,8 +68,6 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-minute.wav"/>]]);       
 	end
     
-
-		
 	if (call_direction == "inbound") then 
 		table.insert(xml, [[<action application="set" data="origination_rates_did=]]..xml_user_rates..[["/>]]);
 	else
