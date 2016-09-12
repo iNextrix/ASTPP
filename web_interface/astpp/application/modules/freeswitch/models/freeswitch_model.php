@@ -91,47 +91,15 @@ Voicemail add in database
         $account_data=$query[0];
        
         $log_type = $this->session->userdata("logintype");
-        
-	//$account_data = $this->session->userdata("accountinfo");
-		if(isset($add_array['voicemail_enabled'])){
-		  $add_array['voicemail_enabled']=0;
-		}else{
-		  $add_array['voicemail_enabled']=1;
-		}
-		if(isset($add_array['voicemail_attach_file'])){
-		  $add_array['voicemail_attach_file']=0;
-		}else{
-		  $add_array['voicemail_attach_file']=1;
-		}
-		if(isset($add_array['vm_keep_local_after_email'])){
-		  $add_array['vm_keep_local_after_email']=0;
-		}else{
-		  $add_array['vm_keep_local_after_email']=1;
-		}
-		if(isset($add_array['vm_send_all_message'])){
-		  $add_array['vm_send_all_message']=0;
-		}else{
-		  $add_array['vm_send_all_message']=1;
-		}
-		//echo "<pre>";print_r($add_array);exit;
-	
-	
+        	
         $reseller_id = $log_type==1 ? $account_data['reseller_id']:0;
         
-       // echo"<pre>"; print_r($reseller_id); exit;
-        
-        
-	if(isset($add_array['sip_profile_id'])){
-		$sip_profile_id=$add_array['sip_profile_id'];
-	} else{
-		$sip_profile_id=$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
-	}
-	
+	    $sip_profile_id = isset($add_array['sip_profile_id'])?$add_array['sip_profile_id']:$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
 	
 	$parms_array = array('password' => $add_array['fs_password'],
 			'vm-enabled' => $add_array['voicemail_enabled'],
 			'vm-password' => $add_array['fs_password'],
-			'vm-mailto' => '',
+			'vm-mailto' => $add_array['voicemail_mail_to'],
 			'vm-attach-file' => $add_array['voicemail_attach_file'],
 			'vm-keep-local-after-email' => $add_array['vm_keep_local_after_email'],
 			'vm-email-all-messages' => $add_array['vm_send_all_message']
@@ -160,15 +128,8 @@ Voicemail add in database
 ASTPP  3.0 
 Email broadcast when Sip Device create
 ******/
-        if(isset($add_array['email']) && $add_array != ''){
-        $mail=$add_array['email'];
-        }else{
-        $mail=$account_data['email'];
-        }
-        
-        
-     //   echo "<pre>"; print_r($add_array); exit;
-        
+		$mail = (isset($add_array['voicemail_mail_to']) && $add_array['voicemail_mail_to'] != "")?$add_array['voicemail_mail_to']:"";
+    
         $add_array['id']=$add_array['accountcode'];
         $add_array['reseller_id']=$account_data['reseller_id'];
         $add_array['email']=$mail;
@@ -178,7 +139,7 @@ Email broadcast when Sip Device create
         //$add_array['password']=$this->common->decode($add_array['fs_password']);
 		$add_array['password']=$add_array['fs_password'];
 		//echo "<pre>"; print_r($add_array); exit;		
-	$this->common->mail_to_users('add_sip_device', $add_array);
+		$this->common->mail_to_users('add_sip_device', $add_array);
 /****************************/
 	return true;
     }
@@ -188,27 +149,7 @@ ASTPP  3.0
 Voicemail edit 
 ******/
     function edit_freeswith($add_array, $id) {
-	 if(isset($add_array['voicemail_enabled']) && $add_array['voicemail_enabled'] !=''){
-	  $voicemail_enabled=1;
-        }else{
-        $voicemail_enabled=0;
-        }
-        	 if(isset($add_array['voicemail_attach_file']) && $add_array['voicemail_attach_file'] !=''){
-	  $voicemail_attach_file=1;
-        }else{
-        $voicemail_attach_file=0;
-        }
-        	 if(isset($add_array['vm_keep_local_after_email']) && $add_array['vm_keep_local_after_email'] !=''){
-	  $vm_keep_local_after_email=1;
-        }else{
-        $vm_keep_local_after_email=0;
-        }
-       if(isset($add_array['vm_send_all_message']) && $add_array['vm_send_all_message'] !=''){
-	  $vm_send_all_message=1;
-        }else{
-        $vm_send_all_message=0;
-        }
-		
+	
 	$parms_array = array('password' => $add_array['fs_password'],
 			'vm-enabled' => $add_array['voicemail_enabled'],
 			'vm-password' => $add_array['voicemail_password'],
