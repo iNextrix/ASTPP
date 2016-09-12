@@ -66,14 +66,14 @@ Voicemail add edit
 			array('Password', 'INPUT', array('name' => 'voicemail_password', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
 			array('Mail To', 'INPUT', array('name' => 'voicemail_mail_to', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             
-            array('Attach File', 'voicemail_attach_file', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
+            array('Attach File', 'voicemail_attach_file', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_voicemail'),
             
             
-            array('Local After Email', 'vm_keep_local_after_email', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
+            array('Local After Email', 'vm_keep_local_after_email', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_voicemail'),
             
             
             
-            array('Send all Message', 'vm_send_all_message', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
+            array('Send all Message', 'vm_send_all_message', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_voicemail'),
 
 
         );
@@ -502,10 +502,10 @@ Voicemail add edit
 			array('Password', 'INPUT', array('name' => 'voicemail_password', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
 			array('Mail To', 'INPUT', array('name' => 'voicemail_mail_to', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
 			
-			array('Attach File', 'voicemail_attach_file', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_true'),	
-			array('Local After Email', 'vm_keep_local_after_email', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_true'),
+			array('Attach File', 'voicemail_attach_file', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_voicemail'),	
+			array('Local After Email', 'vm_keep_local_after_email', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_voicemail'),
 			
-			array('Send all Message', 'vm_send_all_message', 'CHECKBOX', array('name' => 'vm_send_all_message', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', 'Please Select Status', 'custom_status_true', '', '', ''),
+			array('Send all Message', 'vm_send_all_message', 'CHECKBOX', array('name' => 'vm_send_all_message', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', 'Please Select Status', 'custom_status_voicemail', '', '', ''),
         
         );   
 /*******************/           
@@ -543,12 +543,12 @@ Voicemail add edit
             array('Enable', 'voicemail_enabled', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_sip_config_option'),
 			array('Password', 'INPUT', array('name' => 'voicemail_password', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'PleaseEnter account number'),
 			array('Mail To', 'INPUT', array('name' => 'voicemail_mail_to', 'size' => '20',  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-			array('Attach File', 'voicemail_attach_file', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
+			array('Attach File', 'voicemail_attach_file', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_voicemail'),
 			//array('Local After Email', 'vm_keep_local_after_email', 'CHECKBOX', array('name' => 'vm_keep_local_after_email', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', 'Please Select Status', 'custom_status_true', '', '', ''),
-			array('Local After Email', 'vm_keep_local_after_email', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
+			array('Local After Email', 'vm_keep_local_after_email', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_voicemail'),
 			//array('Send all Message', 'vm_send_all_message', 'CHECKBOX', array('name' => 'vm_send_all_message', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', 'Please Select Status', 'custom_status_true', '', '', ''),
 			
-			array('Send all Message', 'vm_send_all_message', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
+			array('Send all Message', 'vm_send_all_message', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status_voicemail'),
 	 
         
         );

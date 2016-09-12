@@ -94,22 +94,12 @@ Voicemail add in database
         	
         $reseller_id = $log_type==1 ? $account_data['reseller_id']:0;
         
-	if(isset($add_array['sip_profile_id'])){
-		$sip_profile_id=$add_array['sip_profile_id'];
-	} else{
-		$sip_profile_id=$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
-	}
-	if(isset($add_array['voicemail_mail_to'])){
-			$mail=$add_array['voicemail_mail_to'];
-		} else{
-			$mail="";
-	}
-
+	    $sip_profile_id = isset($add_array['sip_profile_id'])?$add_array['sip_profile_id']:$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
 	
 	$parms_array = array('password' => $add_array['fs_password'],
 			'vm-enabled' => $add_array['voicemail_enabled'],
 			'vm-password' => $add_array['fs_password'],
-			'vm-mailto' => $mail,
+			'vm-mailto' => $add_array['voicemail_mail_to'],
 			'vm-attach-file' => $add_array['voicemail_attach_file'],
 			'vm-keep-local-after-email' => $add_array['vm_keep_local_after_email'],
 			'vm-email-all-messages' => $add_array['vm_send_all_message']
@@ -138,11 +128,7 @@ Voicemail add in database
 ASTPP  3.0 
 Email broadcast when Sip Device create
 ******/
-		if(isset($mail) && $mail != ''){
-        $mail=$mail;
-        }else{
-        $mail=$account_data['email'];
-        }
+		$mail = (isset($add_array['voicemail_mail_to']) && $add_array['voicemail_mail_to'] != "")?$add_array['voicemail_mail_to']:"";
     
         $add_array['id']=$add_array['accountcode'];
         $add_array['reseller_id']=$account_data['reseller_id'];

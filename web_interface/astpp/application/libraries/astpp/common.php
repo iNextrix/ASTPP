@@ -1457,6 +1457,10 @@ class common {
       $status_array = array('0' => 'TRUE', '1' => 'FALSE');
       return $status_array;
     }
+    function custom_status_voicemail($status){
+      $status_array = array('true' => 'True', 'false' => 'False');
+      return $status_array;
+    }
 
     /******
       For enable Signup module
