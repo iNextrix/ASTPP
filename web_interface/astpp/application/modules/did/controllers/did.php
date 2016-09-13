@@ -832,7 +832,7 @@ class DID extends MX_Controller {
 	    $outbound_array[] = array(
 		$row['number'],
 		$this->common->get_field_name("country", "countrycode", $row['country_id']),
-		$this->common->get_field_name_coma_new("first_name,last_name,number", "accounts", $row['accountid']),
+		$this->common->get_field_name("number", "accounts", $row['accountid']),
 		$this->common_model->calculate_currency($row['cost'], '', '',true, false),
 		$row['init_inc'],
 		$row['inc'],
