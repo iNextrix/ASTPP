@@ -181,7 +181,7 @@ class Accounts_form {
         $form[gettext('Default Settings')] = array(
             array(gettext('Rate Group'), array('name' => 'pricelist_id', 'class' => 'pricelist_id'), 'SELECT', '', "required", 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0", "reseller_id" => $loginid)),
             array(gettext('Account Type'), 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type'),
-            array(gettext('Billing Schedule'), array('name' => 'sweep_id', 'class' => 'sweep_id'), 'SELECT', '', '', 'tOOL TIP', '', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
+            array(gettext('Billing Schedule'), array('name' => 'sweep_id', 'id' => 'sweep_id', 'class' => 'sweep_id'), 'SELECT', '', '', 'tOOL TIP', '', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
             array(gettext('Billing Day'), array("name" => 'invoice_day', "class" => "invoice_day"), 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_invoice_option'),
             array(gettext('Currency'), array('name' => 'currency_id', 'class' => 'currency_id'), 'SELECT', '', array("name" => "currency_id", "rules" => "required"), 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
             array(gettext('Balance'), 'INPUT', array('name' => 'balance', 'size' => '20',  'class' => "text field medium"), 'trim|numeric|greater_than[0]|currency_decimal|xss_clean', 'tOOL TIP', ''),
