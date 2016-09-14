@@ -213,10 +213,14 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates)
 	 elseif (tonumber(didinfo['call_type']) == 3 and didinfo['extensions'] ~= '') then
 
 		table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);     
-		table.insert(xml, [[<action application="bridge" data="{sip_contact_user=]]..destination_number..[[}sofia/default/]]..destination_number..[[${regex(${sofia_contact(]]..didinfo['extensions']..[[@${domain_name})}|^[^@]+(.*)|%1)}]]..[["/>]]); 
-		--table.insert(xml, [[<action application="answer"/>]]);    
-		table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);  
-		table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]]);
+		if (config['opensips'] == '1') then
+            table.insert(xml, [[<action application="bridge" data="{sip_contact_user=]]..destination_number..[[}sofia/default/]]..destination_number..[[${regex(${sofia_contact(]]..didinfo['extensions']..[[@${domain_name})}|^[^@]+(.*)|%1)}]]..[["/>]]);
+                        --table.insert(xml, [[<action application="answer"/>]]);    
+            table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);
+            table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]]);
+        else
+            table.insert(xml, [[<action application="bridge" data="{sip_invite_params=user=LOCAL,sip_from_uri=]]..didinfo['extensions']..[[@${domain_name}}sofia/default/]]..didinfo['extensions']..[[@]]..config['opensips_domain']..[["/>]]);
+        end
 	elseif(tonumber(didinfo['call_type']) == 2 and didinfo['extensions'] ~= '') then
 		table.insert(xml, [[<action application="set" data="calltype=OTHER"/>]]); 
 		table.insert(xml, [[<action application="bridge" data="]]..didinfo['extensions']..[["/>]]);
@@ -238,15 +242,16 @@ function freeswitch_xml_local(xml,destination_number,destinationinfo)
 end
 
 -- Set callerid to override in calls
-function freeswitch_xml_callerid(xml,calleridinfo)    
-	if (calleridinfo['cid_name'] ~= '')  then
-		table.insert(xml, [[<action application="set" data="effective_caller_id_name=]]..calleridinfo['cid_name']..[["/>]]);    
-	end
-	if (calleridinfo['cid_number'] ~= '')  then
-		table.insert(xml, [[<action application="set" data="effective_caller_id_number=]]..calleridinfo['cid_number']..[["/>]]);      
-	end
-	return xml
+function freeswitch_xml_callerid(xml,calleridinfo)
+        if (calleridinfo['cid_name'] ~= '' and calleridinfo['cid_name'] ~= '<null>')  then
+                table.insert(xml, [[<action application="set" data="effective_caller_id_name=]]..calleridinfo['cid_name']..[["/>]]);
+        end
+        if (calleridinfo['cid_number'] ~= '' and calleridinfo['cid_number'] ~= '<null>')  then
+                table.insert(xml, [[<action application="set" data="effective_caller_id_number=]]..calleridinfo['cid_number']..[["/>]]);
+        end
+        return xml
 end
+
 
 -- not found dialplan
 function not_found(xml)
