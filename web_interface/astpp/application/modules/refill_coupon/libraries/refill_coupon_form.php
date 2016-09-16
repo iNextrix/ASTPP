@@ -59,7 +59,7 @@ class Refill_coupon_form {
         $form['Search'] = array(
             array('Coupon Number', 'INPUT', array('name' => 'number[number]', '', 'id' => 'number', 'size' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
             array('Description', 'INPUT', array('name' => 'description[description]', '', 'id' => 'description', 'size' => '15','class' => "text field "), '', 'tOOL TIP', '1', 'description[description-string]', '', '', '', 'search_string_type', ''),
-            array('Account', 'account_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => $reseller_id,"type "=>"0", "deleted" => "0")),
+           array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'build_dropdown_deleted', 'where_arr', array("reseller_id" => $reseller_id,"type"=>"GLOBAL")),
             array('Amount', 'INPUT', array('name' => 'amount[amount]', '', 'id' => 'amount', 'size' => '15',  'class' => "text field "), '', 'tOOL TIP', '1', 'amount[amount-integer]', '', '', '', 'search_int_type', ''),
             array('Used?', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_refill_coupon_status', '', ''),
              
