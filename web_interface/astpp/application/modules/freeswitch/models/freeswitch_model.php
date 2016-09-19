@@ -128,7 +128,7 @@ Voicemail add in database
 ASTPP  3.0 
 Email broadcast when Sip Device create
 ******/
-		$mail = (isset($add_array['voicemail_mail_to']) && $add_array['voicemail_mail_to'] != "")?$add_array['voicemail_mail_to']:"";
+		$mail = (isset($add_array['voicemail_mail_to']) && $add_array['voicemail_mail_to'] != "")?$add_array['voicemail_mail_to']:$account_data['email'];
     
         $add_array['id']=$add_array['accountcode'];
         $add_array['reseller_id']=$account_data['reseller_id'];

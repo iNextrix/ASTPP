@@ -158,6 +158,7 @@ Batch Delete
 	    $csv_data['inc']= isset($csv_data['inc']) ? $csv_data['inc'] :0;
 	    $csv_data['precedence']= isset($csv_data['precedence']) ? $csv_data['precedence'] :'';
 	    $csv_data['strip']= isset($csv_data['strip']) ? $csv_data['strip'] :'';
+	    $csv_data['last_modified_date'] = date("Y-m-d H:i:s");
 	    $str=$this->data_validate($csv_data);
 	    if($str != ""){
 	      $invalid_array[$i]=$csv_data;
@@ -302,6 +303,7 @@ Batch Delete
 	    $csv_data['cost']= !empty($csv_data['cost']) && is_numeric( $csv_data['cost']) ? $csv_data['cost'] :0;
 	    $csv_data['inc']= isset($csv_data['inc']) ? $csv_data['inc'] :0;
 	    $csv_data['precedence']= isset($csv_data['precedence']) ? $csv_data['precedence'] :'';
+	    $csv_data['last_modified_date'] = date("Y-m-d H:i:s");
 	    $str=$this->data_validate($csv_data);
 	    if($str != ""){
 	      $invalid_array[$i]=$csv_data;

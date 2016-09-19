@@ -108,7 +108,8 @@ class Common_model extends CI_Model {
                               "status" => 1,
                               "balance" => $accountinfo['balance'],
                               "amount" => $amount,
-                              "type" => 'R'
+                              "type" => 'R',
+			      "confirm"=>'1'
                              );
         $this->db->insert("invoices", $invoice_data);
         return  $this->db->insert_id();
