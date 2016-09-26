@@ -4,21 +4,26 @@ $(document).ready(function() {
  <?php if($entity_name != 'admin' && $entity_name !='subadmin'){ ?>
    document.getElementsByName("sweep_id")[0].selectedIndex = <?=1?>;
 
-	 $(".sweep_id").change(function(e){
-            if(this.value != 0){
+		$("#sweep_id").change(function(e){
+			var id_mass = document.getElementById("sweep_id").value;
+            if(id_mass != 0){
                 $.ajax({
                     type:'POST',
-                    url: "<?= base_url()?>/accounts/customer_invoice_option",
-                    data:"sweepid="+this.value, 
+                    url: "<?= base_url()?>/accounts/customer_invoice_option/",
+                    data:"sweepid="+id_mass, 
                     success: function(response) {
+						response = response.replace('col-md-5', 'col-md-6');
+                        $('.invoice_day').selectpicker('show');
                         $(".invoice_day").html(response);
+                        $('.selectpicker').selectpicker('refresh');
                         $('.invoice_day').show();
-                        $('label[for="Billing Day"]').show()
+                        $('label[for="Billing Day"]').show();
                     }
                 });
             }else{
-                $('label[for="Billing Day"]').hide()
-                $('.invoice_day').css('display','none');                
+                $('label[for="Billing Day"]').hide();
+                $('.invoice_day').css('display','none');   
+                             
             }
         });
         $(".sweep_id").change();

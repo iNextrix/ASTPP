@@ -1338,6 +1338,7 @@ class common {
             "16" => "Email remove subscription",
             "17" => "Email add package",
             "18" => "Email remove package",
+            "19" => "Voip child accont refilled",
         );
         return $status_array;
     }
@@ -1454,6 +1455,10 @@ class common {
     }
     function custom_status_true($status){
       $status_array = array('0' => 'TRUE', '1' => 'FALSE');
+      return $status_array;
+    }
+    function custom_status_voicemail($status){
+      $status_array = array('true' => 'True', 'false' => 'False');
       return $status_array;
     }
 

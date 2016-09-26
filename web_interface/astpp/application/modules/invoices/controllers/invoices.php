@@ -1574,19 +1574,36 @@ function invoice_screen(){
 	$query="select item_type,description,created_date,invoiceid,debit,credit from invoice_details where invoiceid = ".$invoiceid." And ( item_type='POSTCHARG' Or item_type='Refill') Group By item_type"; 	
 	$invoice_total_query=$this->db->query($query);
 	if($invoice_total_query ->num_rows() > 0) {
-          $invoice_total_query= $invoice_total_query->result_array();
-          foreach($invoice_total_query as $key=>$value){
-	  $data['item_type']=$value['item_type'];
-          $data['description']=$value['description'];
-	  if($value['item_type'] == 'Refill'){
-	          $data['debit']=$value['credit'];
-	  }else{
-	          $data['debit']=$value['debit'];
-	  }	   
-          $created_date=$value['created_date'];
-          $invoicedata['invoiceid']=$value['invoiceid'];
-          }
-          }
+		  $invoice_total_query= $invoice_total_query->result_array();
+		  foreach($invoice_total_query as $key=>$value){
+			  $data['item_type']=$value['item_type'];
+			  $data['description']=$value['description'];
+			  if($value['item_type'] == 'Refill'){
+				  $data['debit']=$value['credit'];
+			  }else{
+				  $data['debit']=$value['debit'];
+			  }	   
+			  $created_date=$value['created_date'];
+			  $invoicedata['invoiceid']=$value['invoiceid'];
+		  }
+          }else{
+		$query="select item_type,description,created_date,invoiceid,debit,credit from invoice_details where invoiceid = ".$invoiceid." And item_type='SUBCHRG' Group By item_type"; 	
+		$invoice_total_query=$this->db->query($query);
+		if($invoice_total_query ->num_rows() > 0) {
+		  $invoice_total_query= $invoice_total_query->result_array();
+		  foreach($invoice_total_query as $key=>$value){
+			  $data['item_type']=$value['item_type'];
+			  $data['description']=$value['description'];
+			  if($value['item_type'] == 'Refill'){
+				  $data['debit']=$value['credit'];
+			  }else{
+				  $data['debit']=$value['debit'];
+			  }	   
+			  $created_date=$value['created_date'];
+			  $invoicedata['invoiceid']=$value['invoiceid'];
+		  }
+		}
+	  }
           $data['accountinfo'] = $accountdata;
          //Get invoice header information
         if($accountdata['reseller_id']=='0')
@@ -1698,7 +1715,7 @@ $customer_address .= "</div>";
 			$logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='".$src."'>";
 		}
 	}else{
-		$dir_path= getcwd()."/upload/logo.png";
+		$dir_path= base_url()."/upload/logo.png";
 		$src=$dir_path;
 		$logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='".$src."'>";
 	}

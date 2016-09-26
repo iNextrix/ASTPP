@@ -82,13 +82,15 @@ function build_packages_list_for_user(){
             $val = 'accounts.email';
 			$uname = $this->CI->common->find_uniq_rendno(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
 			$password = $this->CI->common->generate_password();
+			$logintype=$this->CI->session->userdata('logintype');
+			$pin = ($logintype == '0')?array(gettext('Pin'), 'INPUT', array('name' => 'pin', 'size' => '20', 'class' => "text field medium"),  'tOOL TIP', ''):array('', 'HIDDEN', array('name' => 'Pin'), '', '', '', '');
 			$form['forms'] = array(base_url() . 'user/user_myprofile/', array("id" => "user_form", "name" => "user_form"));
 
 			$form['User Profile'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '0'), '', '', ''),
             array(gettext('Account Number'), 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true,  'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array(gettext('Pin'), 'INPUT', array('name' => 'pin', 'size' => '20', 'class' => "text field medium"),  'tOOL TIP', ''),
+            $pin,
             array(gettext('Company'), 'INPUT', array('name' => 'company_name', 'size' => '15', 'class' => 'text field medium'), 'trim|xss_clean', 'tOOL TIP', ''),
             array(gettext('First Name'), 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter account number'),
             array(gettext('Last Name'), 'INPUT', array('name' => 'last_name', 'size' => '15',  'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', 'Please Enter Password'),

@@ -221,7 +221,25 @@ class UpdateBalance extends MX_Controller {
         $invoiceid = 0;
         $Bal = "0.00"; 
         if ($AccountData["posttoexternal"] == 0) {
-            $invoiceid = $this->common_model->generate_receipt($AccountData["id"], $charge);
+	    $reseller_id = $AccountData['type'] == 1 ? $AccountData['id'] : 0;
+	    $where = "accountid IN ('" . $reseller_id . "','1')";
+	    $this->db->where($where);
+	    $this->db->select('*');
+	    $this->db->order_by('accountid', 'desc');
+	    $this->db->limit(1);
+	    $invoiceconf = $this->db->get('invoice_conf');
+	    $invoice_conf = (array) $invoiceconf->first_row();
+	    $last_invoiceid = $this->common->get_invoice_date('invoiceid', '', $AccountData['reseller_id']);
+	    if ($last_invoiceid && $last_invoiceid > 0) {
+	    	$last_invoiceid = ($last_invoiceid + 1);
+  	    } else {
+	    	$last_invoiceid = $invoice_conf['invoice_start_from'];
+	    }
+	    $last_invoiceid = str_pad($last_invoiceid, (strlen($last_invoiceid) + 4), '0', STR_PAD_LEFT);
+	    $invoice_prefix = $invoice_conf['invoice_prefix'];
+	    $due_date = gmdate("Y-m-d H:i:s", strtotime(gmdate("Y-m-d H:i:s") . " +" . $invoice_conf['interval'] . " days"));
+
+            $invoiceid = $this->common_model->generate_receipt($AccountData["id"], $charge, $AccountData, $last_invoiceid, $invoice_prefix, $due_date);
             $this->db->set('balance', 'balance-' . $charge, FALSE);
             $this->db->where('id', $AccountData["id"]);
             $this->db->update("accounts");

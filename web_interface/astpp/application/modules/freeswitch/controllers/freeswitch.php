@@ -388,7 +388,7 @@ Customer side show voice mail detials
             $data = explode("\n",$response);
             for ($i = 0; $i < count($data) - 2; $i++) {
                 if (trim($data[$i]) != '') {
-                    if (count($data_header) ==0 ) {
+                    if (count($data_header) ==0 || substr($data[$i],0,4) == "uuid") {
                         $data_header = explode(",", $data[$i]);
                     } else {
                         $data_call = explode(",", $data[$i]);
