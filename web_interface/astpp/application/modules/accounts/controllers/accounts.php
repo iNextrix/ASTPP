@@ -211,9 +211,9 @@ class Accounts extends MX_Controller {
     function customer_save($add_array = false) {
         $add_array = $this->input->post();
         $entity_name = strtolower($this->common->get_entity_type('', '', $add_array['type']));
-        $data['country_id'] = $add_array['country_id'];
-        $data['timezone_id'] = $add_array['timezone_id'];
-        $data['currency_id'] = $add_array['currency_id'];
+        $data['country_id'] = isset($add_array['country_id'])? $add_array['country_id']:'';
+        $data['timezone_id'] = isset($add_array['timezone_id']) ? $add_array['timezone_id']:'';
+        $data['currency_id'] = isset($add_array['currency_id']) ? $add_array['currency_id']:'';
         $data['entity_name'] = $entity_name;
         $data['callingcard'] = Common_model::$global_config['system_config']['pinlength'];
         $data['edit_id']=$add_array['id'];

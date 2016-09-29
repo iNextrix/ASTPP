@@ -198,8 +198,22 @@ class Form {
                         }
 			            if(isset($fieldvalue[4]) && $fieldvalue[4] != ''){
                         	if(is_array($fieldvalue[4])){
+								
+								if(isset($fieldvalue[1]['name'])){
+									$fieldvalue_pass=$fieldvalue[1]['name'];
+								}else{
+									$fieldvalue_pass=$fieldvalue[1];
+								}
+								
         				        $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]['rules']);
         				    }else{
+								
+								if(isset($fieldvalue[1]['name'])){
+									$fieldvalue_pass=$fieldvalue[1]['name'];
+								}else{
+									$fieldvalue_pass=$fieldvalue[1];
+								}
+								
         				       $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]);
         				    }   
                         }
