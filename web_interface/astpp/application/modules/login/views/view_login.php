@@ -81,7 +81,7 @@ For Enable signup module
 			<?php 
 			if (Common_model::$global_config['system_config']['enable_signup'] == 0)
 			{?>
-			<a href="/signup/">Signup up now!</a> 
+			<a href="/signup/">Signup now!</a> 
 			<?php
 			}
 			?>
