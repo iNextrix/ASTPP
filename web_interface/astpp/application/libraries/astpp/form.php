@@ -205,7 +205,7 @@ class Form {
 									$fieldvalue_pass=$fieldvalue[1];
 								}
 								
-        				        $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]['rules']);
+        				        $this->CI->form_validation->set_rules($fieldvalue_pass, $fieldvalue[0], $fieldvalue[4]['rules']);
         				    }else{
 								
 								if(isset($fieldvalue[1]['name'])){
@@ -214,7 +214,7 @@ class Form {
 									$fieldvalue_pass=$fieldvalue[1];
 								}
 								
-        				       $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]);
+        				       $this->CI->form_validation->set_rules($fieldvalue_pass, $fieldvalue[0], $fieldvalue[4]);
         				    }   
                         }
                         $form_contents.= '<div class="tooltips error_div pull-left no-padding" id="'.(is_array($fieldvalue[1])?$fieldvalue[1]['name']:$fieldvalue[1]).'_error_div" ><i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>';
