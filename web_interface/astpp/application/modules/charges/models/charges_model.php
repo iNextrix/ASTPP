@@ -94,6 +94,10 @@ class Charges_model extends CI_Model {
     }
 
     function remove_charge($id) {
+		$this->db->where("id", $id);
+		$this->db->delete("charges");
+		$this->db->where("charge_id", $id);
+        $this->db->delete("charge_to_account");
         $data = $this->db_model->getSelect("*", "charges", array("id" => $id));
         $data = $data->result_array();
         $data = $data[0];
