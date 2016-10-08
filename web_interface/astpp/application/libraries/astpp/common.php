@@ -1698,6 +1698,7 @@ class common {
     }
 
     function currency_decimal($amount) {
+		$amount = str_replace( ',', '', $amount );
         $decimal_amount = Common_model::$global_config['system_config']['decimalpoints'];
         $number_convert = number_format((float) $amount, $decimal_amount, '.', '');
         return $number_convert;
@@ -2059,7 +2060,7 @@ exit;*/
 		$ACCOUNT_TOTAL .= '<td style="width:20%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;"></td>';
 		$ACCOUNT_TOTAL .= '<td style="width:40%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;"></td>';
 		$ACCOUNT_TOTAL .= '<td style="width:20%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;"><b>Total TAX:</b></td>';
-		$ACCOUNT_TOTAL .= '<td style="width:20%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;text-align:right;">'.$this->currency_decimal($this->CI->common_model->calculate_currency($total_vat)) .'</td>';
+		$ACCOUNT_TOTAL .= '<td style="width:20%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;text-align:right;">'.$this->currency_decimal($total_vat) .'</td>';
 		$ACCOUNT_TOTAL .= '</tr>';
 
 	}
@@ -2068,7 +2069,7 @@ exit;*/
 	$ACCOUNT_TOTAL .= '<td style="width:20%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;"></td>';
 	$ACCOUNT_TOTAL .= '<td style="width:40%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;"></td>';
 	$ACCOUNT_TOTAL .= '<td style="width:20%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;"><b>Sub Total:</b></td>';
-	$ACCOUNT_TOTAL .= '<td style="width:20%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;text-align:right;">'.$this->currency_decimal($this->CI->common_model->calculate_currency($sub_total)) .'</td>';
+	$ACCOUNT_TOTAL .= '<td style="width:20%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;text-align:right;">'.$this->currency_decimal($sub_total) .'</td>';
 	$ACCOUNT_TOTAL .= '</tr>';
 
 

@@ -97,6 +97,7 @@ class Common_model extends CI_Model {
      * Changes for invoices
      */
      function generate_receipt($accountid, $amount, $accountinfo, $last_invoice_ID, $invoice_prefix, $due_date) {
+		$amount = str_replace( ',', '', $amount );
         $invoice_data = array("accountid" => $accountid,
                               "invoice_prefix" => $invoice_prefix,
                               "invoiceid" => $last_invoice_ID,
@@ -124,12 +125,14 @@ class Common_model extends CI_Model {
         }
         $from_cur_rate = (self::$global_config['currency_list'][$from_currency] > 0)?self::$global_config['currency_list'][$from_currency]:1;
         $to_cur_rate = (self::$global_config['currency_list'][$to_currency])?self::$global_config['currency_list'][$to_currency]:1;
+        $amount = str_replace( ',', '', $amount );
         $cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
         if ($format_currency)
             $cal_amount = $this->format_currency($cal_amount);
         if ($append_currency){
             $cal_amount = $cal_amount . " " . $to_currency;
         }
+        $cal_amount = str_replace( ',', '', $cal_amount );
         return $cal_amount;
     }
     function calculate_currency_customer($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
@@ -141,29 +144,33 @@ class Common_model extends CI_Model {
         }        
         $from_cur_rate = (self::$global_config['currency_list'][$from_currency] > 0)?self::$global_config['currency_list'][$from_currency]:1;
         $to_cur_rate = (self::$global_config['currency_list'][$to_currency])?self::$global_config['currency_list'][$to_currency]:1;
+        $amount = str_replace( ',', '', $amount );
         $cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
         if ($format_currency)
             $cal_amount = $this->format_currency($cal_amount);
         if ($append_currency)
             $cal_amount = $cal_amount ;
+        $cal_amount = str_replace( ',', '', $cal_amount );
         return $cal_amount;
         }
 
     function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
+        $amount = str_replace( ',', '', $amount );
         if ($from_currency == '') {
                 $from_currency1 = $this->session->userdata['accountinfo']['currency_id'];
                 $from_currency = $this->common->get_field_name('currency', 'currency', $from_currency1);
         }
         $to_currency = ($to_currency == '') ? self::$global_config['system_config']['base_currency'] : $to_currency;
         if(self::$global_config['currency_list'][$from_currency] > 0){
-	  $cal_amount = ($amount * self::$global_config['currency_list'][$to_currency]) / self::$global_config['currency_list'][$from_currency];
-	}else{
-	  $cal_amount=$amount;
-	}
+			$cal_amount = ($amount * self::$global_config['currency_list'][$to_currency]) / self::$global_config['currency_list'][$from_currency];
+		}else{
+			$cal_amount=$amount;
+		}
         if ($format_currency)
             $cal_amount = $this->format_currency($cal_amount);
         if ($append_currency)
             $cal_amount = $cal_amount . " " . $to_currency;
+        $cal_amount = str_replace( ',', '', $cal_amount );
         return $cal_amount;
     }
 
@@ -176,16 +183,18 @@ class Common_model extends CI_Model {
 
         $from_cur_rate = (self::$global_config['currency_list'][$from_currency] > 0)?self::$global_config['currency_list'][$from_currency]:1;
         $to_cur_rate = (self::$global_config['currency_list'][$to_currency])?self::$global_config['currency_list'][$to_currency]:1;
-        
+        $amount = str_replace( ',', '', $amount );
         $cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
         if ($format_currency)
             $cal_amount = $this->format_currency($cal_amount);
         if ($append_currency)
             $cal_amount = $cal_amount . " " . $to_currency;
+        $cal_amount = str_replace( ',', '', $cal_amount );
         return $cal_amount;
     }
 
     function format_currency($amount) {
+		$amount = str_replace( ',', '', $amount );
         return  number_format($amount,Common_model::$global_config['system_config']['decimalpoints']);
 	//	return $amount;
     }
