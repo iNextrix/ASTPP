@@ -641,9 +641,14 @@ function build_concat_select_dropdown($select, $table, $id_where = '', $id_value
 
     function get_date_array($field, $value) {
         if ($value != '') {
-            if (!empty($value[0])) {
+             if (!empty($value[0])) {
+				if($field == 'invoice_date'){
+					$this->db->where($field . ' >= ', gmdate("Y-m-d", strtotime($value['0']))." 00:00:01");
+					$this->db->where($field . ' <= ', gmdate("Y-m-d", strtotime($value['0']))." 23:59:59");
+				}else{
                 $this->db->where($field . ' >= ', gmdate('Y-m-d H:i:s',strtotime($value[0])));
-            }
+				}
+			}
             if (!empty($value[1])) {
                 $this->db->where($field . ' <= ', gmdate('Y-m-d H:i:s',strtotime($value[1])));
             }
