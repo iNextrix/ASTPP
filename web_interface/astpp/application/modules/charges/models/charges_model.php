@@ -61,13 +61,14 @@ class Charges_model extends CI_Model {
 
         unset($add_array['action']);
         $this->db->insert("charges", $add_array);
+        $insert_id = $this->db->insert_id(); 
         $data = $this->db_model->getSelect("*", "accounts", array("pricelist_id" => $add_array['pricelist_id']));
         if($data->num_rows > 0){
            foreach ($data->result_array() as $key => $value){
                 $this->common->mail_to_users('add_subscription', $value);  
            }
         }
-        return $this->db->insert_id();
+        return $insert_id;
     }
 
     function edit_charge($data, $id) {
