@@ -92,7 +92,7 @@ class System_form {
             array("Value", "190", "value", "", "", ""),
             array("Description", "320", "comment", "", "", ""),
             array("Group", "120", "group_title", "", "", ""),
-            array("Action", "442", "", "", "",array("EDIT" => array("url" => "systems/configuration_edit/", "mode" => "popup"),
+            array(gettext("Action"), "442", "", "", "",array("EDIT" => array("url" => "systems/configuration_edit/", "mode" => "popup"),
             ))
                 ));
         return $grid_field_arr;
@@ -107,7 +107,7 @@ class System_form {
     function build_template_list_for_admin() {
         $grid_field_arr = json_encode(array(array("Name", "425", "name", "", "", "","","true","center"),
             array("Subject", "650", "subject", "", "", "","","true","center"),
-            array("Action", "200", "", "", "",array("EDIT" => array("url" => "systems/template_edit/", "mode" => "single"),
+            array(gettext("Action"), "200", "", "", "",array("EDIT" => array("url" => "systems/template_edit/", "mode" => "single"),
             ))
                 ));
         return $grid_field_arr;
@@ -120,7 +120,7 @@ class System_form {
         $grid_field_arr = json_encode(array(
 	    array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "50", "", "", "", "","","false","center"),
             array("Name", "705", "country", "", "", "","","true","center"),
-               array("Action", "100", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
+               array(gettext("Action"), "100", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
                     "DELETE" => array("url" => "$action_remove", "mode" => "single")
                 ))
                 ));
@@ -174,7 +174,7 @@ class System_form {
             array("Name", "320", "currencyname", "", "", "","","true","center"),
 	    array("Code", "290", "currency", "", "", "","","true","center"),
 	    array(" Rate", "330", "currencyrate", "", "", "","","true","right"),
-               array("Action", "265", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
+               array(gettext("Action"), "265", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
                     "DELETE" => array("url" => "$action_remove", "mode" => "single")
                 ))
                 ));
@@ -241,7 +241,7 @@ class System_form {
 			array("Date", "260", "date", "date", "date", "convert_GMT_to","","true","center"),
 			array("Name", "295", "backup_name", "", "", "","","true","center"),
 			array("File Name", "480", "path", "", "", "","","true","center"),
-			array("Action", "185", "", "", "",
+			array(gettext("Action"), "185", "", "", "",
 			array("EDIT_RESTORE" => array("url" => "systems/database_restore_one/", "mode" => ""),
 			"DOWNLOAD_DATABASE" => array("url" => "systems/database_download/", "mode" => ""),
 			"Delete" => array("url" => "systems/database_delete/", "mode" => ""),

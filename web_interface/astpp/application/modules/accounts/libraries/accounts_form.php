@@ -535,7 +535,7 @@ else{
             array(gettext("Country"), "110", "country_id", "country", "countrycode", "get_field_name","","true","center"),
             array(gettext("Status"), "110", "status", "status", "accounts", "get_status","","true","center"),
             /*******************************************************************/
-            array("Action", "100", "", "", "", array(
+            array(gettext("Action"), "100", "", "", "", array(
                     "EDIT" => array("url" => "accounts/admin_edit/", "mode" => "single"),
                     "DELETE" => array("url" => "accounts/admin_delete/", "mode" => "single")
             ))
@@ -590,7 +590,7 @@ else{
             array(gettext("Status"), "110", "status", "status", "accounts", "get_status","","true","center"),
             array(gettext("Created Date"), "90", "creation", "", "", "","","true","center"),          
             /**************************************************************/
-            array("Action", "139", "", "", "", array("PAYMENT" => array("url" => "accounts/customer_payment_process_add/", "mode" => "single"),
+            array(gettext("Action"), "139", "", "", "", array("PAYMENT" => array("url" => "accounts/customer_payment_process_add/", "mode" => "single"),
                     "CALLERID" => array("url" => "accounts/customer_add_callerid/", "mode" => 'popup'),
                     "EDIT" => array("url" => "accounts/reseller_edit/", "mode" => "single"),
                     "DELETE" => array("url" => "accounts/reseller_delete/", "mode" => "single")

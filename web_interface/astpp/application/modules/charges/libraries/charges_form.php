@@ -106,7 +106,7 @@ For DID edit on DID number
             */
             
             /***********************************************/
-            array("Action", "150", "", "", "", array("EDIT" => array("url" => "charges/periodiccharges_edit/", "mode" => "popup", 'popup'),
+            array(gettext("Action"), "150", "", "", "", array("EDIT" => array("url" => "charges/periodiccharges_edit/", "mode" => "popup", 'popup'),
                     "DELETE" => array("url" => "charges/periodiccharges_delete/", "mode" => "single")))
                 ));
         return $grid_field_arr;

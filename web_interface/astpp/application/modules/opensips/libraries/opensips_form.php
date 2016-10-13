@@ -109,7 +109,7 @@ class Opensips_form {
             array("Domain", "317", "domain", "", "", "","","true","center"),
             array("Caller Name", "200", "effective_caller_id_name", "", "", "","","true","center"),
             array("Caller Number", "200", "effective_caller_id_number", "", "", "","","true","center"),
-            array("Action", "100", "", "", "", array("EDIT" => array("url" => "/opensips/opensips_edit/", "mode" => "popup"),
+            array(gettext("Action"), "100", "", "", "", array("EDIT" => array("url" => "/opensips/opensips_edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "/opensips/opensips_remove/", "mode" => "single")))
                 ));
         return $grid_field_arr;
@@ -123,7 +123,7 @@ class Opensips_form {
             array("Weight", "190", "weight", "", "", "","","true","center"),
             array("Attrs", "180", "attrs", "", "", "","","true","center"),
             array("Description", "190", "description", "", "", "","","true","center"),
-            array("Action", "170", "", "", "", array("EDIT" => array("url" => "/opensips/dispatcher_edit/", "mode" => "popup"),
+            array(gettext("Action"), "170", "", "", "", array("EDIT" => array("url" => "/opensips/dispatcher_edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "/opensips/dispatcher_remove/", "mode" => "single")))
                 ));
         return $grid_field_arr;
