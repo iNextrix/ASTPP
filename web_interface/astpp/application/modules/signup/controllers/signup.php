@@ -143,12 +143,14 @@ class Signup extends MX_Controller {
                     'expiration' => '3600'
                 );
                 //echo "<pre>"; print_r($_POST); exit;
-                $data['country_id'] = Common_model::$global_config['system_config']['country'];
                 if (isset($_POST['key_unique']) && $_POST['key_unique'] == "admin") {
                     $data['key_unique'] = $_POST['key_unique'];
                 }
-                $data['currency_id'] = $this->common->get_field_name('id', 'currency', array('currency' => Common_model::$global_config['system_config']['base_currency']));
-                $data['timezone_id'] = Common_model::$global_config['system_config']['default_timezone'];
+
+				$accountinfo=(array)$this->db->get_where('accounts',array('type'=>-1))->first_row();
+				$data['timezone_id'] = (!$accountinfo['timezone_id']) ? 1 : $accountinfo['timezone_id'];
+				$data['currency_id'] = (!$accountinfo['currency_id']) ? 1 : $accountinfo['currency_id'];
+				$data['country_id'] = (!$accountinfo['country_id']) ? 1 : $accountinfo['country_id'];
 
                 $data['timezone_id'] = (!$data['timezone_id']) ? 1 : $data['timezone_id'];
                 $data['currency_id'] = (!$data['currency_id']) ? 1 : $data['currency_id'];

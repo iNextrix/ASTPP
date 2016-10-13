@@ -634,7 +634,7 @@ For Edit on Account number or name
                             $jsn_tmp[$field_key] = $row[$field_arr[2]];
                   }                  				
             } else {
-                if ($field_arr[0] == "Action") {
+                if ($field_arr[0] == gettext("Action")) {
 			    if(isset($field_arr[5]) && isset($field_arr[5]->EDIT) && isset($field_arr[5]->DELETE)){
 		             
 		              if($field_arr[5]->EDIT->url == 'accounts/customer_edit/' || $field_arr[5]->EDIT->url == 'accounts/provider_edit/' || $field_arr[5]->DELETE->url == 'accounts/provider_delete/' ||$field_arr[5]->DELETE->url == 'accounts/customer_delete/'){
@@ -665,7 +665,7 @@ For edit on account number or name
                             $jsn_tmp[$field_key] = $this->CI->common->get_action_buttons($field_arr[5], $row_id);
                             /****************************************************************************/
                         }
-                        elseif($field_arr[0] == "Profile Action")
+                        elseif($field_arr[0] == gettext("Profile Action"))
                         {
                            if(isset($field_arr[5]) && isset($field_arr[5]->START) && isset($field_arr[5]->STOP) && isset($field_arr[5]->RELOAD) && isset($field_arr[5]->RESCAN)){
                             }
