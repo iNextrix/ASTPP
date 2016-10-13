@@ -309,7 +309,7 @@ class Invoices extends MX_Controller {
  	$data['from_date']=$result['from_date'];
 	$data['to_date']=$result['to_date'];
 	$data['invoice_date']=$result['invoice_date'];
-	$data['amount'] =  $result['amount'];
+	$data['amount'] =  $this->common_model->calculate_currency($result['amount'],'','','','');
 	$data['invoice_prefix'] =  $result['invoice_prefix'];
 	$data['page_title'] =  'Invoice Summary';
 	$data['invoice_date']=$result['invoice_date'];
@@ -444,7 +444,7 @@ class Invoices extends MX_Controller {
 	$data['to_date']=$result['to_date'];
  	$data['invoice_notes']=$result['notes'];
 	$data['invoice_date']=$result['invoice_date'];
-	$data['amount'] =  $result['amount'];
+	$data['amount'] =  $this->common_model->calculate_currency($result['amount'],'','','','');
 	$data['invoice_prefix'] =  $result['invoice_prefix'];
 	$data['page_title'] =  'Invoice Summary';
 	$data['invoice_date']=$result['invoice_date'];
