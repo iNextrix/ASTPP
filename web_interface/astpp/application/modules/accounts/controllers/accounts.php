@@ -150,15 +150,16 @@ class Accounts extends MX_Controller {
     }
 
     function customer_add($type = 0) {
+		$accountinfo = $this->session->userdata('accountinfo');
         $entity_type = strtolower($this->common->get_entity_type('', '', $type));
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
         $data['page_title'] = 'Create ' . $entity_type;
         $data['back_flag'] = true;
-        $data['country_id'] = Common_model::$global_config['system_config']['country'];
+        $data['country_id'] = $accountinfo['country_id'];
         $data['callingcard'] = Common_model::$global_config['system_config']['pinlength'];
-        $data['currency_id'] = $this->common->get_field_name('id', 'currency', array('currency' => Common_model::$global_config['system_config']['base_currency']));
-        $data['timezone_id'] = Common_model::$global_config['system_config']['default_timezone'];
+        $data['currency_id'] = $accountinfo['currency_id'];
+        $data['timezone_id'] = $accountinfo['timezone_id'];
         $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields($entity_type), '');
         if (!$data['timezone_id']) {
             $data['timezone_id'] = 1;
@@ -1470,14 +1471,15 @@ class Accounts extends MX_Controller {
         $this->load->view('view_accounts_add_callerid', $data);
     }
     function reseller_add($type = "") {
+		$accountinfo = $this->session->userdata('accountinfo');
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
         $data['page_title'] = 'Create Reseller';
         $data['back_flag'] = true;
         $data['form'] = $this->form->build_form($this->accounts_form->get_form_reseller_fields(), '');
-        $data['country_id'] = Common_model::$global_config['system_config']['country'];
-        $data['currency_id'] = $this->common->get_field_name('id', 'currency', array('currency' => Common_model::$global_config['system_config']['base_currency']));
-        $data['timezone_id'] = Common_model::$global_config['system_config']['default_timezone'];
+        $data['country_id'] = $accountinfo['country_id'];
+		$data['currency_id'] = $accountinfo['currency_id'];
+        $data['timezone_id'] = $accountinfo['timezone_id'];
         if (!$data['timezone_id']) {
             $data['timezone_id'] = 1;
         }
@@ -1636,16 +1638,17 @@ class Accounts extends MX_Controller {
     }
 
     function admin_add($type = 2) {
-	$entity_type = strtolower($this->common->get_entity_type('', '', $type));
+		$accountinfo = $this->session->userdata('accountinfo');
+		$entity_type = strtolower($this->common->get_entity_type('', '', $type));
         $entitytype = str_replace(' ', '', $entity_type);
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
         $data['page_title'] = 'Create ' . ucfirst($entity_type);
         $data['back_flag'] = true;
         $data['form'] = $this->form->build_form($this->accounts_form->get_form_admin_fields($entitytype), '');
-        $data['country_id'] = Common_model::$global_config['system_config']['country'];
-        $data['currency_id'] = $this->common->get_field_name('id', 'currency', array('currency' => Common_model::$global_config['system_config']['base_currency']));
-        $data['timezone_id'] = Common_model::$global_config['system_config']['default_timezone'];
+        $data['country_id'] = $accountinfo['country_id'];
+        $data['currency_id'] = $accountinfo['currency_id'];
+        $data['timezone_id'] = $accountinfo['timezone_id'];
         if (!$data['timezone_id']) {
             $data['timezone_id'] = 1;
         }
