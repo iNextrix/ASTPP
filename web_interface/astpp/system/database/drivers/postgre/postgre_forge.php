@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -29,7 +31,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 *
 	 * @access	private
 	 * @param	string	the database name
-	 * @return	bool
+	 * @return	string
 	 */
 	function _create_database($name)
 	{
@@ -43,7 +45,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 *
 	 * @access	private
 	 * @param	string	the database name
-	 * @return	bool
+	 * @return	string
 	 */
 	function _drop_database($name)
 	{
@@ -86,8 +88,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 			if (is_numeric($field))
 			{
 				$sql .= "\n\t$attributes";
-			}
-			else
+			} else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
@@ -132,10 +133,9 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 					&& $attributes['AUTO_INCREMENT'] === TRUE)
 				{
 					$sql .= ' SERIAL';
-				}
-				else
+				} else
 				{
-					$sql .=  ' '.$attributes['TYPE'];
+					$sql .= ' '.$attributes['TYPE'];
 				}
 
 				// Modified to prevent constraints with integer data types
@@ -152,8 +152,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
 				{
 					$sql .= ' NULL';
-				}
-				else
+				} else
 				{
 					$sql .= ' NOT NULL';
 				}
@@ -180,7 +179,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				$primary_keys[$index] = $this->db->_protect_identifiers($key);
 			}
 
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).")";
 		}
 
 		$sql .= "\n);";
@@ -192,15 +191,14 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 				if (is_array($key))
 				{
 					$key = $this->db->_protect_identifiers($key);
-				}
-				else
+				} else
 				{
 					$key = array($this->db->_protect_identifiers($key));
 				}
 
 				foreach ($key as $field)
 				{
-					$sql .= "CREATE INDEX " . $table . "_" . str_replace(array('"', "'"), '', $field) . "_index ON $table ($field); ";
+					$sql .= "CREATE INDEX ".$table."_".str_replace(array('"', "'"), '', $field)."_index ON $table ($field); ";
 				}
 			}
 		}
@@ -214,7 +212,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * Drop Table
 	 *
 	 * @access    private
-	 * @return    bool
+	 * @return    string
 	 */
 	function _drop_table($table)
 	{
@@ -237,7 +235,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	 * @param	string	the default value
 	 * @param	boolean	should 'NOT NULL' be added
 	 * @param	string	the field after which we should add the new field
-	 * @return	object
+	 * @return	string
 	 */
 	function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
@@ -259,15 +257,14 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 		if ($null === NULL)
 		{
 			$sql .= ' NULL';
-		}
-		else
+		} else
 		{
 			$sql .= ' NOT NULL';
 		}
 
 		if ($after_field != '')
 		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+			$sql .= ' AFTER '.$this->db->_protect_identifiers($after_field);
 		}
 
 		return $sql;

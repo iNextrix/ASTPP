@@ -48,8 +48,12 @@ class CI
 		global $LANG, $CFG;
 		
 		/* re-assign language and config for modules */
-		if ( ! is_a($LANG, 'MX_Lang')) $LANG = new MX_Lang;
-		if ( ! is_a($CFG, 'MX_Config')) $CFG = new MX_Config;
+		if ( ! is_a($LANG, 'MX_Lang')) {
+			$LANG = new MX_Lang;
+		}
+		if ( ! is_a($CFG, 'MX_Config')) {
+			$CFG = new MX_Config;
+		}
 		
 		/* assign the core loader */
 		self::$APP->load = new MX_Loader;

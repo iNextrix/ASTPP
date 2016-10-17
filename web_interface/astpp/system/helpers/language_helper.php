@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -41,7 +43,7 @@ if ( ! function_exists('lang'))
 {
 	function lang($line, $id = '')
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$line = $CI->lang->line($line);
 
 		if ($id != '')

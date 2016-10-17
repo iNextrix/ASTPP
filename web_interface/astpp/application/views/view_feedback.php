@@ -1,6 +1,6 @@
 
  <link href="<?= base_url() ?>assets/css/popup.css" rel="stylesheet" type="text/css">
- <script type="text/javascript" src="<?php echo base_url();?>assets/js/popup/custom.js"></script>
+ <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/popup/custom.js"></script>
 <script type="text/javascript">
 
     

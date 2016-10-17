@@ -24,103 +24,103 @@
 
 class IPMAP_model extends CI_Model {
 
-    function IPMAP_model() {
-        parent::__construct();
-    }
+	function IPMAP_model() {
+		parent::__construct();
+	}
 
-    function ipmap_list($flag, $start = 0, $limit = 0) {
-        $accountinfo = $this->session->userdata('accountinfo');
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $qry = $this->db_model->getselect('id', 'accounts', array('reseller_id' => $accountinfo['id']));
-            $result = $qry->result_array();
-         	foreach ($result as $value1) {
-                $value[] = $value1['id'];
+	function ipmap_list($flag, $start = 0, $limit = 0) {
+		$accountinfo = $this->session->userdata('accountinfo');
+		if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+			$qry = $this->db_model->getselect('id', 'accounts', array('reseller_id' => $accountinfo['id']));
+			$result = $qry->result_array();
+		 	foreach ($result as $value1) {
+				$value[] = $value1['id'];
 		 	}
-		 	if(!empty($value)){
+		 	if ( ! empty($value)) {
 		 		$this->db->where_in('accountid', $value);	
-		 	}else{
+		 	} else {
 		 		$this->db->where_in('accountid', '0');
 		 	}
             
-        } else {
+		} else {
 
-            $qry = $this->db_model->getselect('id', 'accounts', array('reseller_id' => 0));
-            $result = $qry->result_array();
+			$qry = $this->db_model->getselect('id', 'accounts', array('reseller_id' => 0));
+			$result = $qry->result_array();
 
-            foreach ($result as $value1) {
-                $value[] = $value1['id'];
-            }
-            //$this->db->where_in('accountid', $value);
+			foreach ($result as $value1) {
+				$value[] = $value1['id'];
+			}
+			//$this->db->where_in('accountid', $value);
 			if(!empty($value)){
 		 		$this->db->where_in('accountid', $value);	
-		 	}else{
+		 	} else{
 		 		$this->db->where_in('accountid', '0');
 		 	}            
-        }
-         $this->db_model->build_search('ipmap_list_search');
-        /*******
+		}
+		 $this->db_model->build_search('ipmap_list_search');
+		/*******
          ASTPP  3.0 
 	 in customer login show ipmap (ACL) module
  	 *******/
-        if( $accountinfo['type'] == '0'){
-        $where=array('accountid'=>$accountinfo['id']);
-        }else{
-        $where='';
-        }
-        /**************************************************************************************************************/
-        if ($flag) {
-           /*******
+		if( $accountinfo['type'] == '0'){
+		$where=array('accountid'=>$accountinfo['id']);
+		}else{
+		$where='';
+		}
+		/**************************************************************************************************************/
+		if ($flag) {
+		   /*******
            ASTPP  3.0 
 	   in customer login show ipmap (ACL) module
  	   *******/
-         $query = $this->db_model->select("*", "ip_map", $where, "id", "ASC", $limit, $start);
-        /*******************************************************************************************/
-           } else {
-           /*******
+		 $query = $this->db_model->select("*", "ip_map", $where, "id", "ASC", $limit, $start);
+		/*******************************************************************************************/
+		   } else {
+		   /*******
          ASTPP  3.0 
 	 in customer login show ipmap (ACL) module
  	 *******/
-        $query = $this->db_model->countQuery("*", "ip_map", $where);
-        /*************************************************************************************************************/
-        }
-          return $query;
-    }
+		$query = $this->db_model->countQuery("*", "ip_map", $where);
+		/*************************************************************************************************************/
+		}
+		  return $query;
+	}
 
-    function add_ipmap($add_array) {
+	function add_ipmap($add_array) {
 		
-    /*******
+	/*******
     ASTPP  3.0 
     in customer login show ipmap (ACL) module
     *******/
-    $account_data = $this->session->userdata("accountinfo");
-    if($account_data['type'] == '0'){
-    $add_array['accountid'] = $account_data['id'];
-     }
-     /*******************************************************************/
+	$account_data = $this->session->userdata("accountinfo");
+	if($account_data['type'] == '0'){
+	$add_array['accountid'] = $account_data['id'];
+	 }
+	 /*******************************************************************/
 	$data = array('created_date'=>gmdate('Y-m-d H:i:s'),'name' => $add_array['name'], 'ip' => $add_array['ip'], 'prefix' => $add_array['prefix'], 'accountid' => $add_array['accountid'],'status' => $add_array['status'] ,'context' => 'default');
-    $this->db->insert("ip_map", $data);
-    return $this->db->insert_id();
-    }
+	$this->db->insert("ip_map", $data);
+	return $this->db->insert_id();
+	}
 
-    function edit_ipmap($add_array, $id) {
-      /*******
+	function edit_ipmap($add_array, $id) {
+	  /*******
     ASTPP  3.0 
     in customer login show ipmap (ACL) module
     *******/
-     $account_data = $this->session->userdata("accountinfo");
-       if($account_data['type'] == '0'){
-       $add_array['accountid'] = $account_data['id'];
-       }
-       /************************************************************************************************/
+	 $account_data = $this->session->userdata("accountinfo");
+	   if($account_data['type'] == '0'){
+	   $add_array['accountid'] = $account_data['id'];
+	   }
+	   /************************************************************************************************/
 		$data = array('last_modified_date'=>gmdate('Y-m-d H:i:s'),'name' => $add_array['name'], 'ip' => $add_array['ip'], 'prefix' => $add_array['prefix'], 'accountid' => $add_array['accountid'],'status' => $add_array['status'] , 'context' => 'default');
-        $this->db->where("id", $id);
-        return $this->db->update("ip_map", $data);
+		$this->db->where("id", $id);
+		return $this->db->update("ip_map", $data);
        
-    }
+	}
 
-    function remove_ipmap($id) {
-        $this->db->where("id", $id);
-        $this->db->delete("ip_map");
-       return true;
-    }
-    }
+	function remove_ipmap($id) {
+		$this->db->where("id", $id);
+		$this->db->delete("ip_map");
+	   return true;
+	}
+	}

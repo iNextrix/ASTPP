@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -120,7 +122,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * @access	public
 	 * @param	string
 	 * @param	string
-	 * @return	resource
+	 * @return	boolean
 	 */
 	function db_set_charset($charset, $collation)
 	{
@@ -293,13 +295,13 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Insert ID
-	*
-	* Returns the last id created in the Identity column.
-	*
-	* @access public
-	* @return integer
-	*/
+	 * Insert ID
+	 *
+	 * Returns the last id created in the Identity column.
+	 *
+	 * @access public
+	 * @return integer
+	 */
 	function insert_id()
 	{
 		$ver = self::_parse_major_version($this->version());
@@ -319,7 +321,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	*
 	* @access private
 	* @param string $version
-	* @return int16 major version number
+	* @return string major version number
 	*/
 	function _parse_major_version($version)
 	{
@@ -330,11 +332,11 @@ class CI_DB_mssql_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Version number query string
-	*
-	* @access public
-	* @return string
-	*/
+	 * Version number query string
+	 *
+	 * @access public
+	 * @return string
+	 */
 	function _version()
 	{
 		return "SELECT @@VERSION AS ver";
@@ -350,7 +352,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	string
+	 * @return	integer
 	 */
 	function count_all($table = '')
 	{
@@ -359,7 +361,7 @@ class CI_DB_mssql_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string.$this->_protect_identifiers('numrows')." FROM ".$this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
 		if ($query->num_rows() == 0)
 		{
@@ -368,7 +370,7 @@ class CI_DB_mssql_driver extends CI_DB {
 
 		$row = $query->row();
 		$this->_reset_select();
-		return (int) $row->numrows;
+		return (int)$row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -421,7 +423,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	string
 	 */
 	function _field_data($table)
 	{
@@ -447,7 +449,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * The error message number
 	 *
 	 * @access	private
-	 * @return	integer
+	 * @return	string
 	 */
 	function _error_number()
 	{
@@ -477,7 +479,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
+				$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.', $item);
 
 				// remove duplicates if the user already included the escape
 				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
@@ -487,8 +489,7 @@ class CI_DB_mssql_driver extends CI_DB {
 		if (strpos($item, '.') !== FALSE)
 		{
 			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
-		}
-		else
+		} else
 		{
 			$str = $this->_escape_char.$item.$this->_escape_char;
 		}
@@ -507,7 +508,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	type
-	 * @return	type
+	 * @return	string
 	 */
 	function _from_tables($tables)
 	{
@@ -561,11 +562,11 @@ class CI_DB_mssql_driver extends CI_DB {
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+		$orderby = (count($orderby) >= 1) ? ' ORDER BY '.implode(", ", $orderby) : '';
 
 		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' AND count($where) >= 1) ? " WHERE ".implode(" ", $where) : '';
 
 		$sql .= $orderby.$limit;
 
@@ -642,7 +643,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	{
 		$i = $limit + $offset;
 
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i', '\\1 TOP '.$i.' ', $sql);
 	}
 
 	// --------------------------------------------------------------------

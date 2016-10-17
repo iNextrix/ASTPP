@@ -3,8 +3,8 @@
   <?php echo $page_title; ?>
 <? endblock() ?>
 <?php
-    $accountinfo=$this->session->userdata('accountinfo');
-    $currency=$this->common->get_field_name('currency','currency',array("id"=>$accountinfo['currency_id']));
+	$accountinfo=$this->session->userdata('accountinfo');
+	$currency=$this->common->get_field_name('currency','currency',array("id"=>$accountinfo['currency_id']));
 
 ?>
 <? startblock('extra_head') ?>
@@ -28,7 +28,7 @@
      function get_invoices_data(){
             $.ajax({
 	      type:'POST',
-	      url: "<?php echo base_url();?>"+'user/user_dashboard_invoices_data/',
+	      url: "<?php echo base_url(); ?>"+'user/user_dashboard_invoices_data/',
 	      cache    : false,
 	      async    : false,
               success: function(response_data) {
@@ -73,7 +73,7 @@
        function get_payment_data(){
             $.ajax({
             type:'POST',
-            url: "<?php echo base_url();?>"+'user/user_dashboard_recent_payments/',
+            url: "<?php echo base_url(); ?>"+'user/user_dashboard_recent_payments/',
             cache    : false,
             async    : false,
                 success: function(response_data) {
@@ -113,7 +113,7 @@
 function get_package_data(){
             $.ajax({
             type:'POST',
-    url: "<?php echo base_url();?>"+'user/user_dashboard_package_data/',
+    url: "<?php echo base_url(); ?>"+'user/user_dashboard_package_data/',
     cache    : false,
     async    : false,
                 success: function(response_data) {
@@ -154,7 +154,7 @@ function get_package_data(){
  function get_subscription_data(){
             $.ajax({
             type:'POST',
-    url: "<?php echo base_url();?>"+'user/user_dashboard_subscription_data/',
+    url: "<?php echo base_url(); ?>"+'user/user_dashboard_subscription_data/',
     cache    : false,
     async    : false,
                 success: function(response_data) {

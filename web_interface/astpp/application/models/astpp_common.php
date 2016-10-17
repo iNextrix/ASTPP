@@ -38,9 +38,9 @@ class Astpp_common extends CI_Model {
      * @return return array of applyable chargelist.
      */
     function list_applyable_charges($accountid = '') {
-        $accountinfo=$this->session->userdata('accountinfo');
-        $reseller_id=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
-	$q= " SELECT * FROM `charges` where reseller_id =$reseller_id and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid) AND pricelist_id = '0'";
+        $accountinfo = $this->session->userdata('accountinfo');
+        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
+	$q = " SELECT * FROM `charges` where reseller_id =$reseller_id and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid) AND pricelist_id = '0'";
         $item_arr = array();
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
@@ -48,14 +48,19 @@ class Astpp_common extends CI_Model {
                 if ($row['charge'] > 0) {
                     $row['charge'] = $this->common_model->calculate_currency($row['charge']);
                 }
-                $item_arr[$row['id']] = $row['description'] . ' - ' . $row['charge'];
+                $item_arr[$row['id']] = $row['description'].' - '.$row['charge'];
             }
         }
         return $item_arr;
     }
     function quote($inp) {
-        return "'" . $this->db->escape_str($inp) . "'";
+        return "'".$this->db->escape_str($inp)."'";
     }
+
+    /**
+     * @param string $q
+     * @param string $colname
+     */
     function db_get_item($q, $colname) {
         $item_arr = array();
         $query = $this->db->query($q);
@@ -68,27 +73,27 @@ class Astpp_common extends CI_Model {
     // Return the balance for a specific ASTPP account.
     function accountbalance($account) {
         $debit = 0;
-        $q = "SELECT SUM(debit) as val1 FROM cdrs WHERE accountid=" . $this->quote($account) . " AND status NOT IN (1, 2)";
+        $q = "SELECT SUM(debit) as val1 FROM cdrs WHERE accountid=".$this->quote($account)." AND status NOT IN (1, 2)";
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
             $row = $query->row_array();
             $debit = $row['val1'];
         }
         $credit = 0;
-        $q = "SELECT SUM(credit) as val1  FROM cdrs WHERE accountid= " . $this->quote($account) . " AND status NOT IN (1, 2)";
+        $q = "SELECT SUM(credit) as val1  FROM cdrs WHERE accountid= ".$this->quote($account)." AND status NOT IN (1, 2)";
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
             $row = $query->row_array();
             $credit = $row['val1'];
         }
         $posted_balance = 0;
-        $q = "SELECT * FROM accounts WHERE id = " . $this->quote($account);
+        $q = "SELECT * FROM accounts WHERE id = ".$this->quote($account);
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
             $row = $query->row_array();
             $posted_balance = $row['balance'];
         }
-        $balance = ( $debit - $credit + $posted_balance );
+        $balance = ($debit - $credit + $posted_balance);
         return $balance;
     }
     function accounts_total_balance($reseller) {
@@ -103,45 +108,45 @@ class Astpp_common extends CI_Model {
 
             $tmp = "SELECT SUM(balance) as val1 FROM accounts WHERE reseller_id = ''";
         } else {
-            $tmp = "SELECT SUM(balance) as val1 FROM accounts WHERE reseller_id = " . $this->quote($reseller);
+            $tmp = "SELECT SUM(balance) as val1 FROM accounts WHERE reseller_id = ".$this->quote($reseller);
         }
         $posted_balance = $this->db_get_item($tmp, "val1");
 
-        $balance = ( $debit - $credit + $posted_balance );
+        $balance = ($debit - $credit + $posted_balance);
         return $balance;
     }
     function count_dids($test) {
-        $tmp = "SELECT COUNT(*) as val1 FROM dids " . $test;
+        $tmp = "SELECT COUNT(*) as val1 FROM dids ".$test;
         return $this->db_get_item($tmp, 'val1');
     }
 
     function count_callingcards($where, $field = 'COUNT(*)') {
-        $tmp = "SELECT $field as val FROM callingcards " . $where;
+        $tmp = "SELECT $field as val FROM callingcards ".$where;
         return $this->db_get_item($tmp, 'val');
     }
 
     function count_accounts($test) {
-        $tmp = "SELECT COUNT(*) as val1 FROM accounts " . $test;
+        $tmp = "SELECT COUNT(*) as val1 FROM accounts ".$test;
         return $this->db_get_item($tmp, 'val1');
     }
 
-    function count_rategroup($test){
-	 $tmp = "SELECT COUNT(*) as val1 FROM pricelists " . $test;
+    function count_rategroup($test) {
+	 $tmp = "SELECT COUNT(*) as val1 FROM pricelists ".$test;
         return $this->db_get_item($tmp, 'val1');
     }
 
-    function count_termination($test = ''){
-	 $tmp = "SELECT COUNT(*) as val1 FROM outbound_routes " . $test;
+    function count_termination($test = '') {
+	 $tmp = "SELECT COUNT(*) as val1 FROM outbound_routes ".$test;
         return $this->db_get_item($tmp, 'val1');
     }
 
-    function count_trunk($test = ''){
-	 $tmp = "SELECT COUNT(*) as val1 FROM trunks " . $test;
+    function count_trunk($test = '') {
+	 $tmp = "SELECT COUNT(*) as val1 FROM trunks ".$test;
         return $this->db_get_item($tmp, 'val1');
     }
 
-    function count_origination($test = ''){
-	 $tmp = "SELECT COUNT(*) as val1 FROM routes " . $test;
+    function count_origination($test = '') {
+	 $tmp = "SELECT COUNT(*) as val1 FROM routes ".$test;
         return $this->db_get_item($tmp, 'val1');
     }
 

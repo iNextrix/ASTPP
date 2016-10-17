@@ -1,5 +1,5 @@
 <? extend('master.php') ?>
-<?php error_reporting(E_ERROR);?>
+<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 <?php endblock() ?>
 <?php startblock('page-title') ?>
@@ -13,7 +13,7 @@
         <div class="w-section inverse no-padding">
             <?php echo $form; ?>
             <?php
-            if(isset($validation_errors) && $validation_errors != ''){ ?>
+			if(isset($validation_errors) && $validation_errors != ''){ ?>
                 <script>
                 var ERR_STR = '<?php echo $validation_errors; ?>';
                 print_error(ERR_STR);

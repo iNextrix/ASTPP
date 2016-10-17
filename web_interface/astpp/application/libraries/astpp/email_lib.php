@@ -22,61 +22,61 @@
 ###############################################################################
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+	exit('No direct script access allowed');
 
 /**
  * Dynamically build forms for display
  */
 class email_lib {
 
-    protected $CI; // codeigniter
-    public $email='';
-    public $smtp='';
-    public $smtp_host='';
-    public $smtp_user='';
-    public $smtp_pass='';
-    public $smtp_port='';
-    public $message='';
-    public $from='';
-    public $to='';
-    public $subject='';
-    public $company_name='';
-    public $company_website='';
-    public $account_id='';
+	protected $CI; // codeigniter
+	public $email='';
+	public $smtp='';
+	public $smtp_host='';
+	public $smtp_user='';
+	public $smtp_pass='';
+	public $smtp_port='';
+	public $message='';
+	public $from='';
+	public $to='';
+	public $subject='';
+	public $company_name='';
+	public $company_website='';
+	public $account_id='';
 
-    function __construct($library_name = '') {
+	function __construct($library_name = '') {
 
-        $this->CI = & get_instance();
-        $this->CI->load->model('db_model');
-        $this->CI->load->library('email');
-        $this->CI->load->library('session');
-    }
+		$this->CI = & get_instance();
+		$this->CI->load->model('db_model');
+		$this->CI->load->library('email');
+		$this->CI->load->library('session');
+	}
 
-    function get_email_settings()
-    {
+	function get_email_settings()
+	{
 		$where = array('group_title' =>'email');
-	        $query = $this->CI->db_model->getSelect("*", "system", $where);
-	        $query = $query->result_array();
+			$query = $this->CI->db_model->getSelect("*", "system", $where);
+			$query = $query->result_array();
 		foreach($query as $key=>$val){
 			$tempvar = strtolower($val['name']);
 			$this->$tempvar=$val['value'];
 		}
-    }
+	}
 
-    function get_template( $type)
-    {
+	function get_template( $type)
+	{
 	$where = array('name' => $type);
-        $query = $this->CI->db_model->getSelect("*", "default_templates", $where);
-        $query = $query->result();
-        $this->message = $query[0]->template;
-        $this->subject = $query[0]->subject;
-    }
+		$query = $this->CI->db_model->getSelect("*", "default_templates", $where);
+		$query = $query->result();
+		$this->message = $query[0]->template;
+		$this->subject = $query[0]->subject;
+	}
 
-    function get_account_info($accountid)
-    {
+	function get_account_info($accountid)
+	{
 	$where = array('id' => $accountid);
-        $query = $this->CI->db_model->getSelect("*", "accounts", $where);
-        $query = $query->result_array();
+		$query = $this->CI->db_model->getSelect("*", "accounts", $where);
+		$query = $query->result_array();
 	if(isset($query[0]['email']) && $query[0]['email']!=''){
 		$query[0]['currency_name']=$this->CI->common->get_field_name('currency', 'currency', $query[0]['currency_id']);
 		$query[0]['timezone_name']=$this->CI->common->get_field_name('gmtzone', 'timezone', $query[0]['timezone_id']);
@@ -91,6 +91,9 @@ class email_lib {
         return false;
     }
 
+    /**
+     * @param string $detail_type
+     */
     function get_info($id,$detail_type)
     {
 	$where = array('id' => $id);
@@ -115,9 +118,9 @@ class email_lib {
 		return true;
 	}
 	return false;
-    }
+	}
 
-    function build_template($template_type,$detail,$detail_type='') {
+	function build_template($template_type,$detail,$detail_type='') {
 	if(!is_array($template_type))
 		$this->get_template($template_type);
 	else{
@@ -142,11 +145,11 @@ Email test
 /*************/
 		$this->account_id=$templateinfo['accountid'];
 		unset($templateinfo['number']);
+	} else if(!is_array($detail) && $detail_type=='') {
+			$templateinfo=$this->get_account_info($detail);
+	} else {
+			$templateinfo=$this->get_info($detail,$detail_type);
 	}
-	else if(!is_array($detail) && $detail_type=='')
-		$templateinfo=$this->get_account_info($detail);
-	else
-		$templateinfo=$this->get_info($detail,$detail_type);
 
 	if($this->get_admin_details() && is_array($templateinfo) && isset($templateinfo['first_name']) && $templateinfo['first_name']!=''){
 		$this->message = html_entity_decode($this->message);
@@ -183,6 +186,10 @@ Email test
 		}
 	}
     }
+
+    /**
+     * @param string $attachment
+     */
     function mail_history($attachment)
     {
 		$send_mail_details = array('from'=>$this->from,
@@ -195,15 +202,15 @@ Email test
 			  );
 		$this->CI->db->insert('mail_details',$send_mail_details);
 		return $this->CI->db->insert_id();
-    }
-    function update_mail_history($id)
-    {
+	}
+	function update_mail_history($id)
+	{
 		$this->CI->db->where(array('id' => $id));
 		$send_mail_details = array('status'=>'0');
 		$this->CI->db->update('mail_details',$send_mail_details);
-    }
-    function set_email_paramenters($details)
-    {
+	}
+	function set_email_paramenters($details)
+	{
 		if(!is_array($details)){
 			$this->get_admin_details();
 			$where = array('id'=>$details);
@@ -216,9 +223,9 @@ Email test
 		$this->to=$details['to'];
 		$this->subject=$details['subject'];
 		$this->account_id=$details['accountid'];
-    }
-    function get_smtp_details()
-    {
+	}
+	function get_smtp_details()
+	{
 	if($this->smtp_port=='' || $this->smtp_host=='' || $this->smtp_user=='' || $this->smtp_pass=='')exit;
 		$config['protocol'] = "smtp";
 		$config['smtp_host'] = $this->smtp_host;
@@ -229,9 +236,9 @@ Email test
 		$config['mailtype'] = "html";
 		$config['newline'] = "\r\n";
 		$this->CI->email->initialize($config);
-    }
+	}
 
-    function send_email($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
+	function send_email($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
 	$this->get_email_settings();
 	if(!$this->email){
 		if(!$resend){
@@ -241,7 +248,7 @@ Email test
 		}
 
 		if(!$brodcast)
-	        	$history_id=$this->mail_history($attachment);
+				$history_id=$this->mail_history($attachment);
 		else	
 			$history_id=$details['history_id'];
 		if(isset($this->from) && $this->from!='' && isset($this->to) && $this->to!='' && !$mass_mail){
@@ -257,10 +264,10 @@ Email test
 
 			if($attachment!="")
 			{
-			        $attac_exp=explode(",",$attachment);
-		       	  	foreach($attac_exp as $key=>$value){
+					$attac_exp=explode(",",$attachment);
+			   	  	foreach($attac_exp as $key=>$value){
 			   		if($value != ''){
-			       	$this->CI->email->attach(getcwd()."/attachments/".$value);       	  	
+				   	$this->CI->email->attach(getcwd()."/attachments/".$value);       	  	
 				   	}
 				}
 			}
@@ -269,12 +276,12 @@ Email test
 			$this->update_mail_history($history_id);
 		}					
 	}
-    }
+	}
 /**
 ASTPP  3.0 
 Add For Signup Module
 **/
-    function send_mail($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
+	function send_mail($template_type,$details,$detail_type='',$attachment='',$resend=0,$mass_mail=0,$brodcast=0) {
 	$this->get_email_settings();
 	if(!$this->email){
 		
@@ -285,7 +292,7 @@ Add For Signup Module
 		}
 
 		if(!$brodcast)
-	        	$history_id=$this->mail_history($attachment);
+				$history_id=$this->mail_history($attachment);
 		else	
 			$history_id=$details['history_id'];
 		if(isset($this->from) && $this->from!='' && isset($this->to) && $this->to!='' && !$mass_mail){
@@ -302,6 +309,6 @@ Add For Signup Module
 			$this->update_mail_history($history_id);
 		}					
 	}
-    }
+	}
 }
 

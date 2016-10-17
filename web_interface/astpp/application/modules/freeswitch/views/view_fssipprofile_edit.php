@@ -97,27 +97,30 @@ function cancel(){
         	<div class="row">
                   <div class="col-md-12 spacer" style='margin-top:15px;' align=center > 
 		      <div style="color:red;margin-left: 60px;">
-			  <?php if (isset($validation_errors)) echo $validation_errors; ?> 
+			  <?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
 		      </div>
 		     <form method="post" action="<?= base_url() ?>freeswitch/fssipprofile_add/edit/" enctype="multipart/form-data" name='form1' id ="myForm1">
 			<input type='hidden' name='id' value="<?=$id?>" />
-			<div class='col-md-12'><div style="width:550px;" ><label style="text-align:right;" class="col-md-3">Name *</label><input class="col-md-5 form-control" value="<?=$sip_name;?>" id="sip_name" name="name" size="20" type="text"></div>
+			<div class='col-md-12'><div style="width:550px;" ><label style="text-align:right;" class="col-md-3">Name *</label><input class="col-md-5 form-control" value="<?=$sip_name; ?>" id="sip_name" name="name" size="20" type="text"></div>
 			<span style="color:red;margin-left: 10px;float:left;" id="error_msg_sip"></span>
 			</div>
 			<div class='col-md-12'>  
-			<div style="width:550px;" ><label style="text-align:right;" class="col-md-3">SIP IP  *</label><input class="col-md-5 form-control " value="<?=@$sip_ip;?>" name="sip_ip" size="20" id="sip_ip" type="text"></div>
+			<div style="width:550px;" ><label style="text-align:right;" class="col-md-3">SIP IP  *</label><input class="col-md-5 form-control " value="<?=@$sip_ip; ?>" name="sip_ip" size="20" id="sip_ip" type="text"></div>
 			<span style="color:red;margin-left: 10px;float:left;" id="error_msg_ip"></span>
 			</div>
 			<div>
-			<div style="width:550px;"><label style="text-align:right;"  class="col-md-3">SIP Port *</label><input class="col-md-5 form-control" value="<?=@$sip_port;?>" name="sip_port" size="20" id="sip_port" type="text"></div>
+			<div style="width:550px;"><label style="text-align:right;"  class="col-md-3">SIP Port *</label><input class="col-md-5 form-control" value="<?=@$sip_port; ?>" name="sip_port" size="20" id="sip_port" type="text"></div>
 			<span style="color:red;margin-left: 10px;float:left;" id="error_msg_port"></span>
 			</div>
 			<div class='col-md-12'>
 			<div style="width:550px;"><label style="text-align:right;" class="col-md-3">Status </label>
 			<select name="sipstatus" class="col-md-5 form-control selectpicker" data-live-search='true'>
 			    
-			    <option value="0" <?if($status==0)echo 'selected=selected;'?>>Active</option>
-			    <option value="1" <?if($status==1)echo 'selected=selected;'?>>Inactive</option>
+			    <option value="0" <?if ($status == 0)echo 'selected=selected;'?>>Active</option>
+			    <option value="1" <?if ($status == 1)echo 'selected=selected;'?>>Inactive</option>
 			  </select>
                        </div>
 		       </div>
@@ -143,7 +146,9 @@ function cancel(){
     	<div class="container">
    	    <div class="row">
             	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_search; ?>
+                    	<?php echo $form_search;
+}
+?>
     	        </div>
             </div>
         </div>
@@ -158,7 +163,10 @@ function cancel(){
                         
                        
                         <div style="color:red;margin-left: 60px;">
-			<?php if (isset($validation_errors)) echo $validation_errors; ?> 
+			<?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
 		    </div>
                     <form method="post" name="form2" id="form2" action="<?= base_url() ?>freeswitch/fssipprofile_edit" enctype="multipart/form-data">
 			<input type='hidden' name='id' value=<?=$id?> />
@@ -185,9 +193,9 @@ function cancel(){
 			<?
 			  if($params_name!='')
 			  {
-			    $type="edit_setting";
+				$type="edit_setting";
 			  }else{
-			    $type="add_setting";
+				$type="add_setting";
 			  }
 			?>
 			<input type='hidden' name='type_settings' value='<?=$type?>' />

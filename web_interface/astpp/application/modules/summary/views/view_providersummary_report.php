@@ -50,19 +50,19 @@
                                     <select name="provider_id" class='col-md-5 form-control selectpicker' data-live-search='true'>
                                         <option value=''>--Select--</option>
                                         <?php if (!empty($accountlist)) {
-                                            foreach ($accountlist as $key => $value) {
-                                                ?>
+											foreach ($accountlist as $key => $value) {
+												?>
                                                 <optgroup label="<?php echo $key ?>">
                                                     <?php
-                                                    foreach ($value as $sub_key => $sub_value) {
-                                                        $selected = null;
-                                                        if (isset($session_info['provider_id']) && $session_info['provider_id'] > 0 && $sub_key == $session_info['provider_id']) {
-                                                            $selected = "selected";
-                                                        }
-                                                        ?>
+													foreach ($value as $sub_key => $sub_value) {
+														$selected = null;
+														if (isset($session_info['provider_id']) && $session_info['provider_id'] > 0 && $sub_key == $session_info['provider_id']) {
+															$selected = "selected";
+														}
+														?>
                                                         <option value='<?php echo $sub_key; ?>'<?php echo $selected; ?>><?php echo $sub_value ?></option>
                                                 <? }
-                                                ?>
+												?>
                                                 </optgroup>
     <? }
 }
@@ -74,16 +74,16 @@
                                     <select name="trunk_id" class='col-md-5 form-control selectpicker' data-live-search='true'>
                                         <option value=''>--Select--</option>
                                         <?php
-                                        if (!empty($trunklist)) {
-                                            foreach ($trunklist as $key => $value) {
-                                                $selected = null;
-                                                if (isset($session_info['trunk_id']) && $session_info['trunk_id'] > 0 && $key == $session_info['trunk_id']) {
-                                                    $selected = "selected";
-                                                }
-                                                ?>
+										if (!empty($trunklist)) {
+											foreach ($trunklist as $key => $value) {
+												$selected = null;
+												if (isset($session_info['trunk_id']) && $session_info['trunk_id'] > 0 && $key == $session_info['trunk_id']) {
+													$selected = "selected";
+												}
+												?>
                                                 <option value='<?php echo $key; ?>'<?php echo $selected; ?>><?php echo $value ?></option>
                                             <? }
-                                        } ?>
+										} ?>
                                     </select>
                                 </div>
                                 <div class="col-md-4 no-padding">
@@ -91,17 +91,17 @@
                                     <input type="text" name="pattern[pattern]" value="<?php echo (isset($session_info['pattern']) && isset($session_info['pattern']['pattern']) && !empty($session_info['pattern']['pattern'])) ? $session_info['pattern']['pattern'] : ''; ?>" size="20" maxlength="15" class="col-md-5 form-control text field "/>
                                     <select name="pattern[pattern-string]" class='col-md-5 form-control selectpicker' style='margin-left:5px;' data-live-search='true'>
                                         <?php
-                                        if (!empty($search_string_type)) {
-                                            foreach ($search_string_type as $key => $value) {
-                                                $selected = null;
-                                                if (isset($session_info['pattern']) && isset($session_info['pattern']['pattern']) && !empty($session_info['pattern']['pattern']) && $session_info['pattern']['pattern-string'] == $key) {
-                                                    $selected = "selected";
-                                                }
-                                                ?>
+										if (!empty($search_string_type)) {
+											foreach ($search_string_type as $key => $value) {
+												$selected = null;
+												if (isset($session_info['pattern']) && isset($session_info['pattern']['pattern']) && !empty($session_info['pattern']['pattern']) && $session_info['pattern']['pattern-string'] == $key) {
+													$selected = "selected";
+												}
+												?>
                                                 <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value ?></option>
                                             <?php }
-                                        }
-                                        ?>       
+										}
+										?>       
                                     </select>
                                 </div>
                                 <div class="col-md-4 no-padding">
@@ -109,17 +109,17 @@
                                     <input type="text" name="notes[notes]" value="<?php echo (isset($session_info['notes']) && isset($session_info['notes']['notes']) && !empty($session_info['notes']['notes'])) ? $session_info['notes']['notes'] : ''; ?>" size="20" class="col-md-5 form-control text field "  />
                                     <select name="notes[notes-string]" class='col-md-5 form-control selectpicker' style='margin-left:5px;' data-live-search='true'>
                                     <?php
-                                       if (!empty($search_string_type)) {
-                                        foreach ($search_string_type as $key => $value) {
-                                            $selected = null;
-                                            if (isset($session_info['notes']) && isset($session_info['notes']['notes']) && !empty($session_info['notes']['notes']) && $session_info['notes']['notes-string'] == $key) {
-                                                $selected = "selected";
-                                            }
-                                    ?>
+									   if (!empty($search_string_type)) {
+										foreach ($search_string_type as $key => $value) {
+											$selected = null;
+											if (isset($session_info['notes']) && isset($session_info['notes']['notes']) && !empty($session_info['notes']['notes']) && $session_info['notes']['notes-string'] == $key) {
+												$selected = "selected";
+											}
+									?>
                                             <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value ?></option>
                                     <?php }
-                                    }
-                                    ?>       
+									}
+									?>       
                                     </select>
                                 </div>
                                 <div class="col-md-4 no-padding">
@@ -137,47 +137,47 @@
                                     <label class="search_label col-md-12 no-padding">Group By #time</label>
                                     <select name="time" class='col-md-5 form-control selectpicker' style='margin-left:5px;'data-live-search='true'>
                                         <?php
-                                        if (!empty($groupby_time)) {
-                                            foreach ($groupby_time as $key => $value) {
-                                                $selected = null;
-                                                if (isset($session_info['time']) && !empty($session_info['time']) && $session_info['time'] == $key) {
-                                                    $selected = "selected";
-                                                }
-                                                ?>
+										if (!empty($groupby_time)) {
+											foreach ($groupby_time as $key => $value) {
+												$selected = null;
+												if (isset($session_info['time']) && !empty($session_info['time']) && $session_info['time'] == $key) {
+													$selected = "selected";
+												}
+												?>
                                                 <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value ?></option>
                                             <?php }
-                                        }
-                                        ?>  
+										}
+										?>  
                                     </select>
                                  </div>
                                 <div class="col-md-3 no-padding">
                                     <label class="search_label col-md-12 no-padding">Group By #1</label>
                                     <select name="groupby_1" class='col-md-5 form-control selectpicker' style='margin-left:5px;' data-live-search='true'>
                                         <?php
-                                        if (!empty($groupby_field)) {
-                                            foreach ($groupby_field as $key => $value) {
-                                                $selected = null;
-                                                if (isset($session_info['groupby_1']) && !empty($session_info['groupby_1']) && $session_info['groupby_1'] == $key) {
-                                                    $selected = "selected";
-                                                }
-                                                ?>
+										if (!empty($groupby_field)) {
+											foreach ($groupby_field as $key => $value) {
+												$selected = null;
+												if (isset($session_info['groupby_1']) && !empty($session_info['groupby_1']) && $session_info['groupby_1'] == $key) {
+													$selected = "selected";
+												}
+												?>
                                                 <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value ?></option>
                                             <?php }
-                                        }
-                                        ?>        
+										}
+										?>        
                                     </select>
                                 </div>
                                 <div class="col-md-3 no-padding">
                                     <label class="search_label col-md-12 no-padding">Group By #2</label>
                                     <select name="groupby_2" class='col-md-5 form-control selectpicker' style='margin-left:5px;' data-live-search='true'>
                                         <?php
-                                        if (!empty($groupby_field)) {
-                                            foreach ($groupby_field as $key => $value) {
-                                                $selected = null;
-                                                if (isset($session_info['groupby_2']) && !empty($session_info['groupby_2']) && $session_info['groupby_2'] == $key) {
-                                                    $selected = "selected";
-                                                }
-                                                ?>
+										if (!empty($groupby_field)) {
+											foreach ($groupby_field as $key => $value) {
+												$selected = null;
+												if (isset($session_info['groupby_2']) && !empty($session_info['groupby_2']) && $session_info['groupby_2'] == $key) {
+													$selected = "selected";
+												}
+												?>
                                                 <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value ?></option>
     <?php }
 }
@@ -188,17 +188,17 @@
                                     <label class="search_label col-md-12 no-padding">Group By #3</label>
                                     <select name="groupby_3" class='col-md-5 form-control selectpicker' style='margin-left:5px;' data-live-search='true'>
                                         <?php
-                                        if (!empty($groupby_field)) {
-                                            foreach ($groupby_field as $key => $value) {
-                                                $selected = null;
-                                                if (isset($session_info['groupby_3']) && !empty($session_info['groupby_3']) && $session_info['groupby_3'] == $key) {
-                                                    $selected = "selected";
-                                                }
-                                                ?>
+										if (!empty($groupby_field)) {
+											foreach ($groupby_field as $key => $value) {
+												$selected = null;
+												if (isset($session_info['groupby_3']) && !empty($session_info['groupby_3']) && $session_info['groupby_3'] == $key) {
+													$selected = "selected";
+												}
+												?>
                                                 <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value ?></option>
                                             <?php }
-                                        }
-                                        ?>
+										}
+										?>
                                     </select>
                                 </div>
                             </fieldset>
@@ -211,13 +211,13 @@
                                     <select name="search_in" class='col-md-5 form-control selectpicker' style='background: #ddd; width: 23% !important;' data-live-search='true'>
 <?php
 if (!empty($search_report)) {
-    foreach ($search_report as $key => $value) {
-        $selected = null;
-        if (isset($session_info['search_in']) && isset($session_info['search_in']) && !empty($session_info['search_in']) && $session_info['search_in'] == $key) {
-            //echo $key;exit;
-            $selected = "selected";
-        }
-        ?>
+	foreach ($search_report as $key => $value) {
+		$selected = null;
+		if (isset($session_info['search_in']) && isset($session_info['search_in']) && !empty($session_info['search_in']) && $session_info['search_in'] == $key) {
+			//echo $key;exit;
+			$selected = "selected";
+		}
+		?>
                                                 <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value ?></option>
     <?php }
 }

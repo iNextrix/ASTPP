@@ -42,7 +42,7 @@ ASTPP work best with JavaScript enabled
                         <?php if (isset($astpp_notification)){ ?>
                         Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.
 						<?php }else{
-                         echo "&nbsp;";
+						 echo "&nbsp;";
 						} ?>
                     </span>
                 </div> 
@@ -56,17 +56,17 @@ ASTPP work best with JavaScript enabled
 								<div class="">	
 											<!-- Header Start-->
 												<div class="col-md-12">
-													  <? if($this->session->userdata('userlevel_logintype') != '0'){?>
-															<a class="col-md-8" style="padding:0px 0px 10px 0px" href="<?php echo base_url();?>">
-																<img style="height: 44px; width:180px;" id="logo" alt="dashboard" src="<?php echo base_url();?>assets/images/logo.png">
-														<? } else{?> 
-																<a class="col-md-8" style="padding:0px 0px 20px 0px" href="<?php echo base_url();?>">
-																<img style="height: 44px; width:180px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url();?>assets/images/logo.png">
+													  <? if ($this->session->userdata('userlevel_logintype') != '0') {?>
+															<a class="col-md-8" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
+																<img style="height: 44px; width:180px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>assets/images/logo.png">
+														<? } else {?> 
+																<a class="col-md-8" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
+																<img style="height: 44px; width:180px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>assets/images/logo.png">
 														<? }?>
 															</a>
 												
 												<div class="col-md-3 no-padding">
-													<a href="<?php echo base_url();?>">
+													<a href="<?php echo base_url(); ?>">
 														<input type="submit" value="Login" name="Login" style="border-radius:4px;" class="btn btn-success col-md-12 margin-t-10">
 													</a>
 												</div>
@@ -78,10 +78,10 @@ ASTPP work best with JavaScript enabled
 										<div class="input-group col-md-12 margin-t-15 padding-r-32 padding-l-32">
 												<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 
-												<input type="text" class="form-control" id="email" name="email" placeholder="User Name OR Email" value = "<?php if(isset($value['email'])) echo  $value['email']; else '';?>" style="height:40px;">
+												<input type="text" class="form-control" id="email" name="email" placeholder="User Name OR Email" value = "<?php if (isset($value['email'])) echo  $value['email']; else ''; ?>" style="height:40px;">
 										</div> 
 
-												<?php if(isset($error['email'])) echo $error['email'];?>              
+												<?php if (isset($error['email'])) echo $error['email']; ?>              
 											<div style="width: 97.67%; float: left;text-align: left; margin: 2% 22%;">
 													<span id="e_name" style="color:red;"> </span>
 											</div>

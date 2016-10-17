@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -28,7 +30,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 * List databases
 	 *
 	 * @access	private
-	 * @return	bool
+	 * @return	string
 	 */
 	function _list_databases()
 	{
@@ -44,7 +46,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 *
 	 * @access	private
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	string
 	 */
 	function _optimize_table($table)
 	{
@@ -60,7 +62,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 *
 	 * @access	private
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	string
 	 */
 	function _repair_table($table)
 	{
@@ -73,7 +75,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 *
 	 * @access	private
 	 * @param	array	Preferences
-	 * @return	mixed
+	 * @return	false|string
 	 */
 	function _backup($params = array())
 	{
@@ -158,7 +160,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			}
 
 			// Trim off the end comma
-			$field_str = preg_replace( "/, $/" , "" , $field_str);
+			$field_str = preg_replace("/, $/", "", $field_str);
 
 
 			// Build the insert string
@@ -173,15 +175,13 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 					if ($v === NULL)
 					{
 						$val_str .= 'NULL';
-					}
-					else
+					} else
 					{
 						// Escape the data if it's not an integer
 						if ($is_int[$i] == FALSE)
 						{
 							$val_str .= $this->db->escape($v);
-						}
-						else
+						} else
 						{
 							$val_str .= $v;
 						}
@@ -193,7 +193,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 				}
 
 				// Remove the comma at the end of the string
-				$val_str = preg_replace( "/, $/" , "" , $val_str);
+				$val_str = preg_replace("/, $/", "", $val_str);
 
 				// Build the INSERT string
 				$output .= 'INSERT INTO '.$table.' ('.$field_str.') VALUES ('.$val_str.');'.$newline;

@@ -50,16 +50,16 @@ ASTPP work best with JavaScript enabled
           <div class="w-section inverse no-padding margin-t-20">                       
              <div class="w-box dark sign-in-wr box_shadow margin-b-10">
 		    	<div class="col-md-12 no-padding">
-			  <? if($this->session->userdata('userlevel_logintype') != '0'){?>
-				<a class="col-md-9" href="<?php echo base_url();?>">
-						<img id="logo" alt="dashboard" src="<?php echo base_url();?>assets/images/logo.png">
-			  <? } else{?> 
-						<a class="col-md-9" href="<?php echo base_url();?>">
-						<img id="logo" alt="user_logo" src="<?php echo base_url();?>assets/images/logo.png">
+			  <? if ($this->session->userdata('userlevel_logintype') != '0') {?>
+				<a class="col-md-9" href="<?php echo base_url(); ?>">
+						<img id="logo" alt="dashboard" src="<?php echo base_url(); ?>assets/images/logo.png">
+			  <? } else {?> 
+						<a class="col-md-9" href="<?php echo base_url(); ?>">
+						<img id="logo" alt="user_logo" src="<?php echo base_url(); ?>assets/images/logo.png">
 			<? }?>
 				</a>
 
-			<div class="col-md-3"><a href="<?php echo base_url();?>"><input type="submit" value="Login" name="Login" class="btn btn-success col-md-12 margin-t-10"></a></div>
+			<div class="col-md-3"><a href="<?php echo base_url(); ?>"><input type="submit" value="Login" name="Login" class="btn btn-success col-md-12 margin-t-10"></a></div>
 
 
 </div>
@@ -68,7 +68,7 @@ ASTPP work best with JavaScript enabled
 
 <form class="form-light col-md-12 no-padding" action="<?php echo base_url(); ?>confirmpass" method="post" accept-charset="utf-8" id="customer_form" name="customer_form">
 
-<input type="hidden" name="email" value=<?php echo $email;?>>
+<input type="hidden" name="email" value=<?php echo $email; ?>>
 
 <div class="col-md-12 margin-t-20 padding-r-32 padding-l-32">
 <h3 style="color: #173D77 !important; padding: 0 0 10px;border-bottom: 1px solid #ddd;">Enter Your Password</h3>
@@ -77,16 +77,16 @@ ASTPP work best with JavaScript enabled
 <div class="col-md-12 margin-t-20 padding-r-32 padding-l-32">
 <label class="col-md-5 no-padding" style="text-align: left;">Password</label>
 <div class="col-md-7 no-padding">
-<input type="text" name="password" required value="<?php if(isset($value['password'])) echo  $value['password']; else '';?>" id="password" size="15" maxlength="40" class="form-control"  />
-<div class='error-style col-md-12 no-padding' style='color:red; font-size: 13px;' id="une"><?php if(isset($error['password'])) echo $error['password'];?></div>
+<input type="text" name="password" required value="<?php if (isset($value['password'])) echo  $value['password']; else ''; ?>" id="password" size="15" maxlength="40" class="form-control"  />
+<div class='error-style col-md-12 no-padding' style='color:red; font-size: 13px;' id="une"><?php if (isset($error['password'])) echo $error['password']; ?></div>
 </div>
 </div>
 
 <div class="col-md-12 margin-t-10 padding-r-32 padding-l-32">
 <label class="col-md-5 no-padding" style="text-align: left;">Confirm Password</label>
 <div class="col-md-7 no-padding">
-<input type="text" name="confirmpassword" required value="<?php if(isset($value['confirm_password'])) echo  $value['confirm_password']; else '';?>" id="confirm_password" size="15" maxlength="40" class="form-control"  />
-<div class='error-style col-md-12' style='color:red; font-size: 13px;' id="conpas"><?php if(isset($error['confirm_password'])) echo $error['confirm_password'];?></div>
+<input type="text" name="confirmpassword" required value="<?php if (isset($value['confirm_password'])) echo  $value['confirm_password']; else ''; ?>" id="confirm_password" size="15" maxlength="40" class="form-control"  />
+<div class='error-style col-md-12' style='color:red; font-size: 13px;' id="conpas"><?php if (isset($error['confirm_password'])) echo $error['confirm_password']; ?></div>
 </div>
 </div>
 
@@ -94,7 +94,7 @@ ASTPP work best with JavaScript enabled
 <button name="action" type="submit" value="Submit" class="btn btn-line-parrot col-md-12" onclick="return check_function();" >Submit</button>
 
 
-<!--<div style="color:black" >Already have an account <a style="color:blue" href="<?=base_url();?>"> Log in </a> </div>-->
+<!--<div style="color:black" >Already have an account <a style="color:blue" href="<?=base_url(); ?>"> Log in </a> </div>-->
 
 </div></form>			     
 

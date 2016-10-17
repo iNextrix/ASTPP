@@ -52,7 +52,7 @@
  * Array of WEB safe colors
  */
 global $webcolor;
-$webcolor = array (
+$webcolor = array(
 'aliceblue' => 'f0f8ff',
 'antiquewhite' => 'faebd7',
 'aqua' => '00ffff',

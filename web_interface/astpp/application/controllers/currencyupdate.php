@@ -29,30 +29,30 @@ class Currencyupdate extends CI_Controller {
         $this->load->model("db_model");
         $this->load->library("astpp/common");
     }
-    function update_currency(){
+    function update_currency() {
         $where = array("currency <>"=> Common_model::$global_config['system_config']['base_currency']);
         $query = $this->db_model->getSelect("*", "currency", $where);
 
-        if($query->num_rows >0){
-            $currency_data =$query->result_array();
+        if ($query->num_rows > 0) {
+            $currency_data = $query->result_array();
     		$url = "http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=";
 	    	foreach ($currency_data as $currency_value) {
 	    	    $url .= Common_model::$global_config['system_config']['base_currency'].$currency_value['currency'].'=X+';
 	    	}
 	    	$url .= '&f=l1';
 
-	    	$sql='';
+	    	$sql = '';
 	    	$response = $this->curl_response($url);
-	    	$content_data = explode(' ',$response);
+	    	$content_data = explode(' ', $response);
 
-	    	foreach ($content_data as $content_data1){
-	    	   $currency_arr= explode("\n", $content_data1);
-	    	    foreach($currency_arr as $final_val)
+	    	foreach ($content_data as $content_data1) {
+	    	   $currency_arr = explode("\n", $content_data1);
+	    	    foreach ($currency_arr as $final_val)
 	    	    {
 	    	        $currency_final = array();
-	    		    $currency_final= explode(',', $final_val);
-	    		    if(isset($currency_final[1]) && $currency_final[1] != "" && $currency_final[0]!='' && $currency_final[1] != 'N/A'){
-			      $sql = "UPDATE currency SET currencyRate = ".$currency_final[1]." WHERE currency = '".substr($currency_final[0],4,3)."'";
+	    		    $currency_final = explode(',', $final_val);
+	    		    if (isset($currency_final[1]) && $currency_final[1] != "" && $currency_final[0] != '' && $currency_final[1] != 'N/A') {
+			      $sql = "UPDATE currency SET currencyRate = ".$currency_final[1]." WHERE currency = '".substr($currency_final[0], 4, 3)."'";
 			      $this->db->query($sql);
 	    		    }
 	    	    }
@@ -64,16 +64,20 @@ class Currencyupdate extends CI_Controller {
 	      redirect(base_url()."/systems/currency_list/");
 	      exit;
 	}
+
+	/**
+	 * @param string $url
+	 */
 	function curl_response($url)
 	{
-		    $ch = curl_init();  // Initialising cURL
-		    curl_setopt ( $ch, CURLOPT_URL, $url );
-		    curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, 1 );
-		    curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		    curl_setopt ( $ch, CURLOPT_ENCODING, "" );
-		    curl_setopt ( $ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6 (.NET CLR 3.5.30729)" );
+		    $ch = curl_init(); // Initialising cURL
+		    curl_setopt($ch, CURLOPT_URL, $url);
+		    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		    curl_setopt($ch, CURLOPT_ENCODING, "");
+		    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6 (.NET CLR 3.5.30729)");
 		    $data = curl_exec($ch); // Executing the cURL request and assigning the returned data to the $data variable
-		    curl_close($ch);        // Closing cURL
+		    curl_close($ch); // Closing cURL
 		    return $data;
 	}
 }

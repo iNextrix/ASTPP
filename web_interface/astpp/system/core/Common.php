@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -81,7 +83,7 @@ if ( ! function_exists('is_really_writable'))
 		// write a file then read it.  Bah...
 		if (is_dir($file))
 		{
-			$file = rtrim($file, '/').'/'.md5(mt_rand(1,100).mt_rand(1,100));
+			$file = rtrim($file, '/').'/'.md5(mt_rand(1, 100).mt_rand(1, 100));
 
 			if (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 			{
@@ -92,8 +94,7 @@ if ( ! function_exists('is_really_writable'))
 			@chmod($file, DIR_WRITE_MODE);
 			@unlink($file);
 			return TRUE;
-		}
-		elseif ( ! is_file($file) OR ($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
+		} elseif ( ! is_file($file) OR ($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 		{
 			return FALSE;
 		}
@@ -254,7 +255,7 @@ if ( ! function_exists('get_config'))
 			}
 		}
 		$_config[0] =& $config;
-                return $_config[0];
+				return $_config[0];
 
 	}
 }
@@ -275,7 +276,7 @@ if ( ! function_exists('config_item'))
 
 		if ( ! isset($_config_item[$item]))
 		{
-			$config =& get_config();
+			$config = & get_config();
 
 			if ( ! isset($config[$item]))
 			{
@@ -306,7 +307,7 @@ if ( ! function_exists('show_error'))
 {
 	function show_error($message, $status_code = 500, $heading = 'An Error Was Encountered')
 	{
-		$_error =& load_class('Exceptions', 'core');
+		$_error = & load_class('Exceptions', 'core');
 		echo $_error->show_error($heading, $message, 'error_general', $status_code);
 		exit;
 	}
@@ -328,7 +329,7 @@ if ( ! function_exists('show_404'))
 {
 	function show_404($page = '', $log_error = TRUE)
 	{
-		$_error =& load_class('Exceptions', 'core');
+		$_error = & load_class('Exceptions', 'core');
 		$_error->show_404($page, $log_error);
 		exit;
 	}
@@ -356,7 +357,7 @@ if ( ! function_exists('log_message'))
 			return;
 		}
 
-		$_log =& load_class('Log');
+		$_log = & load_class('Log');
 		$_log->write_log($level, $message, $php_error);
 	}
 }
@@ -437,12 +438,10 @@ if ( ! function_exists('set_status_header'))
 		if (substr(php_sapi_name(), 0, 3) == 'cgi')
 		{
 			header("Status: {$code} {$text}", TRUE);
-		}
-		elseif ($server_protocol == 'HTTP/1.1' OR $server_protocol == 'HTTP/1.0')
+		} elseif ($server_protocol == 'HTTP/1.1' OR $server_protocol == 'HTTP/1.0')
 		{
 			header($server_protocol." {$code} {$text}", TRUE, $code);
-		}
-		else
+		} else
 		{
 			header("HTTP/1.1 {$code} {$text}", TRUE, $code);
 		}
@@ -467,6 +466,9 @@ if ( ! function_exists('set_status_header'))
 */
 if ( ! function_exists('_exception_handler'))
 {
+	/**
+	 * @param integer $severity
+	 */
 	function _exception_handler($severity, $message, $filepath, $line)
 	{
 		 // We don't bother with "strict" notices since they tend to fill up
@@ -479,7 +481,7 @@ if ( ! function_exists('_exception_handler'))
 			return;
 		}
 
-		$_error =& load_class('Exceptions', 'core');
+		$_error = & load_class('Exceptions', 'core');
 
 		// Should we display the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
@@ -521,11 +523,11 @@ if ( ! function_exists('remove_invisible_characters'))
 		
 		if ($url_encoded)
 		{
-			$non_displayables[] = '/%0[0-8bcef]/';	// url encoded 00-08, 11, 12, 14, 15
-			$non_displayables[] = '/%1[0-9a-f]/';	// url encoded 16-31
+			$non_displayables[] = '/%0[0-8bcef]/'; // url encoded 00-08, 11, 12, 14, 15
+			$non_displayables[] = '/%1[0-9a-f]/'; // url encoded 16-31
 		}
 		
-		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';	// 00-08, 11, 12, 14-31, 127
+		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S'; // 00-08, 11, 12, 14-31, 127
 
 		do
 		{
@@ -553,8 +555,7 @@ if ( ! function_exists('html_escape'))
 		if (is_array($var))
 		{
 			return array_map('html_escape', $var);
-		}
-		else
+		} else
 		{
 			return htmlspecialchars($var, ENT_QUOTES, config_item('charset'));
 		}

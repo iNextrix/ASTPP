@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -34,7 +36,7 @@ class CI_URI {
 	 * @var array
 	 * @access public
 	 */
-	var	$keyval			= array();
+	var	$keyval = array();
 	/**
 	 * Current uri string
 	 *
@@ -48,7 +50,7 @@ class CI_URI {
 	 * @var array
 	 * @access public
 	 */
-	var $segments		= array();
+	var $segments = array();
 	/**
 	 * Re-indexed list of uri segments
 	 * Starts at 1 instead of 0
@@ -56,7 +58,7 @@ class CI_URI {
 	 * @var array
 	 * @access public
 	 */
-	var $rsegments		= array();
+	var $rsegments = array();
 
 	/**
 	 * Constructor
@@ -69,7 +71,7 @@ class CI_URI {
 	 */
 	function __construct()
 	{
-		$this->config =& load_class('Config', 'core');
+		$this->config = & load_class('Config', 'core');
 		log_message('debug', "URI Class Initialized");
 	}
 
@@ -110,7 +112,7 @@ class CI_URI {
 			}
 
 			// No PATH_INFO?... What about QUERY_STRING?
-			$path =  (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
+			$path = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : @getenv('QUERY_STRING');
 			if (trim($path, '/') != '')
 			{
 				$this->_set_uri_string($path);
@@ -135,8 +137,7 @@ class CI_URI {
 		{
 			$this->_set_uri_string($this->_detect_uri());
 			return;
-		}
-		elseif ($uri == 'CLI')
+		} elseif ($uri == 'CLI')
 		{
 			$this->_set_uri_string($this->_parse_cli_args());
 			return;
@@ -162,13 +163,13 @@ class CI_URI {
 //================ITPL=======================
   $pos = strpos($str, "_json");
  if($pos > 0 && !isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
-       $this->uri_string = str_replace('_json', '', trim($str, '/'));
+	   $this->uri_string = str_replace('_json', '', trim($str, '/'));
  }else{
 		// If the URI contains only a slash we'll kill it
 		$this->uri_string = ($str == '/') ? '' : $str;
 }
 /*===============================*/	
-        }
+		}
 
 	// --------------------------------------------------------------------
 
@@ -192,8 +193,7 @@ class CI_URI {
 		if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
 		{
 			$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
-		}
-		elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+		} elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
 		{
 			$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
 		}
@@ -210,8 +210,7 @@ class CI_URI {
 		{
 			$_SERVER['QUERY_STRING'] = $parts[1];
 			parse_str($_SERVER['QUERY_STRING'], $_GET);
-		}
-		else
+		} else
 		{
 			$_SERVER['QUERY_STRING'] = '';
 			$_GET = array();
@@ -242,7 +241,7 @@ class CI_URI {
 	{
 		$args = array_slice($_SERVER['argv'], 1);
 
-		return $args ? '/' . implode('/', $args) : '';
+		return $args ? '/'.implode('/', $args) : '';
 	}
 
 	// --------------------------------------------------------------------
@@ -267,8 +266,8 @@ class CI_URI {
 		}
 
 		// Convert programatic characters to entities
-		$bad	= array('$',		'(',		')',		'%28',		'%29');
-		$good	= array('&#36;',	'&#40;',	'&#41;',	'&#40;',	'&#41;');
+		$bad = array('$', '(', ')', '%28', '%29');
+		$good = array('&#36;', '&#40;', '&#41;', '&#40;', '&#41;');
 
 		return str_replace($bad, $good, $str);
 	}
@@ -283,7 +282,7 @@ class CI_URI {
 	 */
 	function _remove_url_suffix()
 	{
-		if  ($this->config->item('url_suffix') != "")
+		if ($this->config->item('url_suffix') != "")
 		{
 			$this->uri_string = preg_replace("|".preg_quote($this->config->item('url_suffix'))."$|", "", $this->uri_string);
 		}
@@ -426,8 +425,7 @@ class CI_URI {
 		{
 			$total_segments = 'total_segments';
 			$segment_array = 'segment_array';
-		}
-		else
+		} else
 		{
 			$total_segments = 'total_rsegments';
 			$segment_array = 'rsegment_array';
@@ -468,8 +466,7 @@ class CI_URI {
 			if ($i % 2)
 			{
 				$retval[$lastval] = $seg;
-			}
-			else
+			} else
 			{
 				$retval[$seg] = FALSE;
 				$lastval = $seg;
@@ -502,7 +499,7 @@ class CI_URI {
 	 *
 	 * @access	public
 	 * @param	array	an associative array of key/values
-	 * @return	array
+	 * @return	string
 	 */
 	function assoc_to_uri($array)
 	{
@@ -559,16 +556,16 @@ class CI_URI {
 	 */
 	function _slash_segment($n, $where = 'trailing', $which = 'segment')
 	{
-		$leading	= '/';
-		$trailing	= '/';
+		$leading = '/';
+		$trailing = '/';
 
 		if ($where == 'trailing')
 		{
-			$leading	= '';
+			$leading = '';
 		}
 		elseif ($where == 'leading')
 		{
-			$trailing	= '';
+			$trailing = '';
 		}
 
 		return $leading.$this->$which($n).$trailing;

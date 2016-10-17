@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -28,13 +30,13 @@
  */
 class CI_Table {
 
-	var $rows				= array();
+	var $rows = array();
 	var $heading			= array();
-	var $auto_heading		= TRUE;
+	var $auto_heading = TRUE;
 	var $caption			= NULL;
 	var $template			= NULL;
 	var $newline			= "\n";
-	var $empty_cells		= "";
+	var $empty_cells = "";
 	var	$function			= FALSE;
 
 	public function __construct()
@@ -49,7 +51,7 @@ class CI_Table {
 	 *
 	 * @access	public
 	 * @param	array
-	 * @return	void
+	 * @return	false|null
 	 */
 	function set_template($template)
 	{
@@ -185,15 +187,13 @@ class CI_Table {
 					if (is_array($val) && isset($val['data']))
 					{
 						$args[$key] = $val;
-					}
-					else
+					} else
 					{
 						$args[$key] = array('data' => $val);
 					}
 				}
 			}
-		}
-		else
+		} else
 		{
 			foreach ($args as $key => $val)
 			{
@@ -239,8 +239,7 @@ class CI_Table {
 			if (is_object($table_data))
 			{
 				$this->_set_from_object($table_data);
-			}
-			elseif (is_array($table_data))
+			} elseif (is_array($table_data))
 			{
 				$set_heading = (count($this->heading) == 0 AND $this->auto_heading == FALSE) ? FALSE : TRUE;
 				$this->_set_from_array($table_data, $set_heading);
@@ -268,7 +267,7 @@ class CI_Table {
 		if ($this->caption)
 		{
 			$out .= $this->newline;
-			$out .= '<caption>' . $this->caption . '</caption>';
+			$out .= '<caption>'.$this->caption.'</caption>';
 			$out .= $this->newline;
 		}
 
@@ -341,14 +340,12 @@ class CI_Table {
 					if ($cell === "" OR $cell === NULL)
 					{
 						$out .= $this->empty_cells;
-					}
-					else
+					} else
 					{
 						if ($function !== FALSE && is_callable($function))
 						{
 							$out .= call_user_func($function, $cell);
-						}
-						else
+						} else
 						{
 							$out .= $cell;
 						}
@@ -383,9 +380,9 @@ class CI_Table {
 	 */
 	function clear()
 	{
-		$this->rows				= array();
-		$this->heading			= array();
-		$this->auto_heading		= TRUE;
+		$this->rows = array();
+		$this->heading = array();
+		$this->auto_heading = TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -395,7 +392,7 @@ class CI_Table {
 	 *
 	 * @access	public
 	 * @param	object
-	 * @return	void
+	 * @return	false|null
 	 */
 	function _set_from_object($query)
 	{
@@ -433,7 +430,7 @@ class CI_Table {
 	 *
 	 * @access	public
 	 * @param	array
-	 * @return	void
+	 * @return	false|null
 	 */
 	function _set_from_array($data, $set_heading = TRUE)
 	{
@@ -449,8 +446,7 @@ class CI_Table {
 			if ($i == 0 AND count($data) > 1 AND count($this->heading) == 0 AND $set_heading == TRUE)
 			{
 				$this->heading = $this->_prep_args($row);
-			}
-			else
+			} else
 			{
 				$this->rows[] = $this->_prep_args($row);
 			}
@@ -495,7 +491,7 @@ class CI_Table {
 	 */
 	function _default_template()
 	{
-		return  array (
+		return  array(
 						'table_open'			=> '<table border="0" cellpadding="4" cellspacing="0">',
 
 						'thead_open'			=> '<thead>',

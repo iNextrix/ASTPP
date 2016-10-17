@@ -24,32 +24,32 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "package/package_list/";?>">Package List </a></li>
+                        <li><a href="<?= base_url()."package/package_list/"; ?>">Package List </a></li>
                         <li class="active">
-                            <a href="<?= base_url() . "package/package_edit/". $edit_id . "/";?>">Details </a>
+                            <a href="<?= base_url()."package/package_edit/".$edit_id."/"; ?>">Details </a>
                         </li>
                         <li class="active">
-                            <a href="<?= base_url() . "package/package_pattern_list/". $edit_id . "/";?>">Codes </a>
+                            <a href="<?= base_url()."package/package_pattern_list/".$edit_id."/"; ?>">Codes </a>
                         </li>
                     </ul>
                 </div>
                   <ul class="breadcrumb">
                 <li class="active pull-right">
-		      <a href="<?= base_url() . "package/package_edit/" . strtolower($accounttype) . $edit_id . "/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."package/package_edit/".strtolower($accounttype).$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
 		      </ul>
             </div> 
             <div class="padding-15 col-md-12">
                 <div class="col-md-12 no-padding">
                     <div class="pull-left margin-t-10">
                         <span class="btn btn-line-warning">
-                            <a href='<?php echo base_url() . "/package/package_patterns_add/" . $edit_id . "/"; ?>' rel="facebox_medium" title="Add">
+                            <a href='<?php echo base_url()."/package/package_patterns_add/".$edit_id."/"; ?>' rel="facebox_medium" title="Add">
                                 <i class="fa fa-plus-circle fa-lg"></i> Add
                             </a>
                         </span>
                     </div>
                     
                     <div class="pull-left margin-t-10" style="padding-left:5px">
-						<a href='<?php echo base_url() . "/package/package_patterns_import/" . $edit_id . "/"; ?>' title="Import">
+						<a href='<?php echo base_url()."/package/package_patterns_import/".$edit_id."/"; ?>' title="Import">
                         <span class="btn btn-line-blue">
                             
                                 <i class="fa fa-upload fa-lg"></i> Import

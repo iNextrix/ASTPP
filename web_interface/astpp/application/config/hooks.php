@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /*
 | -------------------------------------------------------------------------
 | Hooks
@@ -14,7 +16,7 @@
 * Purpose : Display logo based on domain name
 *
 */
-$hook['pre_system']	= array(
+$hook['pre_system'] = array(
 	'class'		=> 'Router',
 	'function'	=> 'route',
 	'filename'	=> 'router.php',

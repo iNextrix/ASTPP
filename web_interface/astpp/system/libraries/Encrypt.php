@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -30,7 +32,7 @@ class CI_Encrypt {
 
 	var $CI;
 	var $encryption_key	= '';
-	var $_hash_type	= 'sha1';
+	var $_hash_type = 'sha1';
 	var $_mcrypt_exists = FALSE;
 	var $_mcrypt_cipher;
 	var $_mcrypt_mode;
@@ -43,7 +45,7 @@ class CI_Encrypt {
 	 */
 	public function __construct()
 	{
-		$this->CI =& get_instance();
+		$this->CI = & get_instance();
 		$this->_mcrypt_exists = ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
 		log_message('debug', "Encrypt Class Initialized");
 	}
@@ -69,7 +71,7 @@ class CI_Encrypt {
 				return $this->encryption_key;
 			}
 
-			$CI =& get_instance();
+			$CI = & get_instance();
 			$key = $CI->config->item('encryption_key');
 
 			if ($key == FALSE)
@@ -120,8 +122,7 @@ class CI_Encrypt {
 		if ($this->_mcrypt_exists === TRUE)
 		{
 			$enc = $this->mcrypt_encode($string, $key);
-		}
-		else
+		} else
 		{
 			$enc = $this->_xor_encode($string, $key);
 		}
@@ -158,8 +159,7 @@ class CI_Encrypt {
 			{
 				return FALSE;
 			}
-		}
-		else
+		} else
 		{
 			$dec = $this->_xor_decode($dec, $key);
 		}
@@ -233,6 +233,7 @@ class CI_Encrypt {
 	 * @access	private
 	 * @param	string
 	 * @param	string
+	 * @param string $key
 	 * @return	string
 	 */
 	function _xor_encode($string, $key)
@@ -265,6 +266,8 @@ class CI_Encrypt {
 	 * @access	private
 	 * @param	string
 	 * @param	string
+	 * @param string $string
+	 * @param string $key
 	 * @return	string
 	 */
 	function _xor_decode($string, $key)
@@ -312,6 +315,7 @@ class CI_Encrypt {
 	 * @access	public
 	 * @param	string
 	 * @param	string
+	 * @param string $key
 	 * @return	string
 	 */
 	function mcrypt_encode($data, $key)
@@ -329,6 +333,8 @@ class CI_Encrypt {
 	 * @access	public
 	 * @param	string
 	 * @param	string
+	 * @param string $data
+	 * @param string $key
 	 * @return	string
 	 */
 	function mcrypt_decode($data, $key)
@@ -358,6 +364,7 @@ class CI_Encrypt {
 	 * @access	private
 	 * @param	string
 	 * @param	string
+	 * @param string $data
 	 * @return	string
 	 */
 	function _add_cipher_noise($data, $key)
@@ -389,7 +396,7 @@ class CI_Encrypt {
 	 *
 	 * @access	public
 	 * @param	type
-	 * @return	type
+	 * @return	string
 	 */
 	function _remove_cipher_noise($data, $key)
 	{
@@ -527,13 +534,11 @@ class CI_Encrypt {
 				require_once(BASEPATH.'libraries/Sha1.php');
 				$SH = new CI_SHA;
 				return $SH->generate($str);
-			}
-			else
+			} else
 			{
 				return bin2hex(mhash(MHASH_SHA1, $str));
 			}
-		}
-		else
+		} else
 		{
 			return sha1($str);
 		}

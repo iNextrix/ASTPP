@@ -43,7 +43,7 @@
     </div> 
 <br/>
 
-<?php if(isset($trunkid) && $trunkid != ""){ ?>
+<?php if (isset($trunkid) && $trunkid != "") { ?>
 <div class="col-md-12 padding-b-10">
                    <div class="pull-right">
                         <a href="<?= base_url().'rates/termination_rates_list/'?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Back to Termination Rates List" /> </a>
@@ -51,7 +51,7 @@
                         <a href="<?= base_url().'rates/termination_rate_error_download/'?>"><input class="btn btn-line-parrot" id="ok" type="button" name="action" value="Download Errors" /> </a>
              </div></div>       <?}?>    
 
-                    <?php if(isset($pricelistid) && $pricelistid != ""){ ?>
+                    <?php if (isset($pricelistid) && $pricelistid != "") { ?>
 <div class="col-md-12 padding-b-10">
                    <div class="pull-right">
                         <a href="<?= base_url().'rates/origination_rates_list/'?>"><input class="btn btn-line-sky margin-x-10" id="back_to_list" type="button" name="action" value="Back to Origination Rates List" /> </a>

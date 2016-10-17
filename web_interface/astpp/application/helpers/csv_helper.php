@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 
 // ------------------------------------------------------------------------
 
@@ -35,7 +37,7 @@ if ( ! function_exists('array_to_csv'))
 			header('Content-type: text/csv; charset=UTF-8');
 			header('Content-Encoding: UTF-8');
 // 			header('Content-Type: application/csv');
-			header('Content-Disposition: attachement; filename="' . $download . '"');
+			header('Content-Disposition: attachement; filename="'.$download.'"');
 			echo "\xEF\xBB\xBF"; // UTF-8 BOM
 			header("Pragma: no-cache");
 			header("Expires: 0");
@@ -59,8 +61,7 @@ if ( ! function_exists('array_to_csv'))
 		if ($download == "")
 		{
 			return $str;	
-		}
-		else
+		} else
 		{	
 			echo $str;
 		}		

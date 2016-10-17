@@ -23,459 +23,459 @@
 
 class System_model extends CI_Model {
 
-    function System_model() {
-        parent::__construct();
-    }
+	function System_model() {
+		parent::__construct();
+	}
 
-    function add_config($data) {
-        $this->load->library("curl");
-        $url = "astpp-wraper.cgi";
-        $data['mode'] = "Configuration";
-        $data['action'] = "Add Item";
-        $data['logintype'] = $this->session->userdata('logintype');
-        $data['username'] = $this->session->userdata('username');
-        return $this->curl->sendRequestToPerlScript($url, $data);
-    }
+	function add_config($data) {
+		$this->load->library("curl");
+		$url = "astpp-wraper.cgi";
+		$data['mode'] = "Configuration";
+		$data['action'] = "Add Item";
+		$data['logintype'] = $this->session->userdata('logintype');
+		$data['username'] = $this->session->userdata('username');
+		return $this->curl->sendRequestToPerlScript($url, $data);
+	}
 
-    function edit_config($data) {
-        $this->load->library("curl");
-        $url = "astpp-wraper.cgi";
-        $data['mode'] = "Configuration";
-        $data['action'] = "Save Item";
-        $data['logintype'] = $this->session->userdata('logintype');
-        $data['username'] = $this->session->userdata('username');
-        return $this->curl->sendRequestToPerlScript($url, $data);
-    }
+	function edit_config($data) {
+		$this->load->library("curl");
+		$url = "astpp-wraper.cgi";
+		$data['mode'] = "Configuration";
+		$data['action'] = "Save Item";
+		$data['logintype'] = $this->session->userdata('logintype');
+		$data['username'] = $this->session->userdata('username');
+		return $this->curl->sendRequestToPerlScript($url, $data);
+	}
 
-    function get_config_by_id($id) {
-        $this->db->where("id", $id);
-        $query = $this->db->get("system");
+	function get_config_by_id($id) {
+		$this->db->where("id", $id);
+		$query = $this->db->get("system");
 
-        if ($query->num_rows() > 0)
-            return $query->row_array();
-        else
-            return false;
-    }
+		if ($query->num_rows() > 0)
+			return $query->row_array();
+		else
+			return false;
+	}
 
-    function remove_config($data) {
-        $this->load->library("curl");
-        $url = "astpp-wraper.cgi";
-        $data['mode'] = "Configuration";
-        $data['action'] = "Delete";
-        $data['logintype'] = $this->session->userdata('logintype');
-        $data['username'] = $this->session->userdata('username');
-        return $this->curl->sendRequestToPerlScript($url, $data);
-    }
+	function remove_config($data) {
+		$this->load->library("curl");
+		$url = "astpp-wraper.cgi";
+		$data['mode'] = "Configuration";
+		$data['action'] = "Delete";
+		$data['logintype'] = $this->session->userdata('logintype');
+		$data['username'] = $this->session->userdata('username');
+		return $this->curl->sendRequestToPerlScript($url, $data);
+	}
 
-    function add_tax($data) {
-        $this->load->library("curl");
-        $url = "astpp-wraper.cgi";
-        $data['mode'] = "Taxes";
-        $data['logintype'] = $this->session->userdata('logintype');
-        $data['username'] = $this->session->userdata('username');
-        $this->curl->sendRequestToPerlScript($url, $data);
-    }
+	function add_tax($data) {
+		$this->load->library("curl");
+		$url = "astpp-wraper.cgi";
+		$data['mode'] = "Taxes";
+		$data['logintype'] = $this->session->userdata('logintype');
+		$data['username'] = $this->session->userdata('username');
+		$this->curl->sendRequestToPerlScript($url, $data);
+	}
 
-    function edit_tax($data) {
-        $this->load->library("curl");
-        $url = "astpp-wraper.cgi";
-        $data['mode'] = "Taxes";
-        $data['logintype'] = $this->session->userdata('logintype');
-        $data['username'] = $this->session->userdata('username');
-        $this->curl->sendRequestToPerlScript($url, $data);
-    }
+	function edit_tax($data) {
+		$this->load->library("curl");
+		$url = "astpp-wraper.cgi";
+		$data['mode'] = "Taxes";
+		$data['logintype'] = $this->session->userdata('logintype');
+		$data['username'] = $this->session->userdata('username');
+		$this->curl->sendRequestToPerlScript($url, $data);
+	}
 
-    function get_tax_by_id($id) {
-        $this->db->where("taxes_id", $id);
-        $query = $this->db->get("taxes");
+	function get_tax_by_id($id) {
+		$this->db->where("taxes_id", $id);
+		$query = $this->db->get("taxes");
 
-        if ($query->num_rows() > 0)
-            return $query->row_array();
-        else
-            return false;
-    }
+		if ($query->num_rows() > 0)
+			return $query->row_array();
+		else
+			return false;
+	}
 
-    function remove_tax($data) {
-        $this->load->library("curl");
-        $url = "astpp-wraper.cgi";
-        $data['mode'] = "Taxes";
-        $data['action'] = "Delete";
-        $data['logintype'] = $this->session->userdata('logintype');
-        $data['username'] = $this->session->userdata('username');
-        $this->curl->sendRequestToPerlScript($url, $data);
-    }
+	function remove_tax($data) {
+		$this->load->library("curl");
+		$url = "astpp-wraper.cgi";
+		$data['mode'] = "Taxes";
+		$data['action'] = "Delete";
+		$data['logintype'] = $this->session->userdata('logintype');
+		$data['username'] = $this->session->userdata('username');
+		$this->curl->sendRequestToPerlScript($url, $data);
+	}
 
-    function purge_deactivated_records() {
-        $this->load->library("curl");
-        $url = "astpp-wraper.cgi";
-        $data['mode'] = "Purge Deactivated";
-        $data['action'] = "Yes, Drop Them";
-        $data['logintype'] = $this->session->userdata('logintype');
-        $data['username'] = $this->session->userdata('username');
-        $feedback = $this->curl->sendRequestToPerlScript($url, $data);
+	function purge_deactivated_records() {
+		$this->load->library("curl");
+		$url = "astpp-wraper.cgi";
+		$data['mode'] = "Purge Deactivated";
+		$data['action'] = "Yes, Drop Them";
+		$data['logintype'] = $this->session->userdata('logintype');
+		$data['username'] = $this->session->userdata('username');
+		$feedback = $this->curl->sendRequestToPerlScript($url, $data);
 
-        return $feedback = str_replace(".", ".<br />", $feedback);
-    }
+		return $feedback = str_replace(".", ".<br />", $feedback);
+	}
 
-    function getTaxesCount() {
-        if ($this->session->userdata('advance_search') == 1) {
+	function getTaxesCount() {
+		if ($this->session->userdata('advance_search') == 1) {
 
-            $taxes_search = $this->session->userdata('taxes_search');
+			$taxes_search = $this->session->userdata('taxes_search');
 
-            $amount_operator = $taxes_search['amount_operator'];
+			$amount_operator = $taxes_search['amount_operator'];
 
-            if (!empty($taxes_search['amount'])) {
-                switch ($amount_operator) {
-                    case "1":
-                        $this->db->where('taxes_amount ', $taxes_search['amount']);
-                        break;
-                    case "2":
-                        $this->db->where('taxes_amount <>', $taxes_search['amount']);
-                        break;
-                    case "3":
-                        $this->db->where('taxes_amount > ', $taxes_search['amount']);
-                        break;
-                    case "4":
-                        $this->db->where('taxes_amount < ', $taxes_search['amount']);
-                        break;
-                    case "5":
-                        $this->db->where('taxes_amount >= ', $taxes_search['amount']);
-                        break;
-                    case "6":
-                        $this->db->where('taxes_amount <= ', $taxes_search['amount']);
-                        break;
-                }
-            }
+			if (!empty($taxes_search['amount'])) {
+				switch ($amount_operator) {
+					case "1":
+						$this->db->where('taxes_amount ', $taxes_search['amount']);
+						break;
+					case "2":
+						$this->db->where('taxes_amount <>', $taxes_search['amount']);
+						break;
+					case "3":
+						$this->db->where('taxes_amount > ', $taxes_search['amount']);
+						break;
+					case "4":
+						$this->db->where('taxes_amount < ', $taxes_search['amount']);
+						break;
+					case "5":
+						$this->db->where('taxes_amount >= ', $taxes_search['amount']);
+						break;
+					case "6":
+						$this->db->where('taxes_amount <= ', $taxes_search['amount']);
+						break;
+				}
+			}
 
-            $rate_operator = $taxes_search['rate_operator'];
+			$rate_operator = $taxes_search['rate_operator'];
 
-            if (!empty($taxes_search['rate'])) {
-                switch ($rate_operator) {
-                    case "1":
-                        $this->db->where('taxes_rate ', $taxes_search['rate']);
-                        break;
-                    case "2":
-                        $this->db->where('taxes_rate <>', $taxes_search['rate']);
-                        break;
-                    case "3":
-                        $this->db->where('taxes_rate > ', $taxes_search['rate']);
-                        break;
-                    case "4":
-                        $this->db->where('taxes_rate < ', $taxes_search['rate']);
-                        break;
-                    case "5":
-                        $this->db->where('taxes_rate >= ', $taxes_search['rate']);
-                        break;
-                    case "6":
-                        $this->db->where('taxes_rate <= ', $taxes_search['rate']);
-                        break;
-                }
-            }
+			if (!empty($taxes_search['rate'])) {
+				switch ($rate_operator) {
+					case "1":
+						$this->db->where('taxes_rate ', $taxes_search['rate']);
+						break;
+					case "2":
+						$this->db->where('taxes_rate <>', $taxes_search['rate']);
+						break;
+					case "3":
+						$this->db->where('taxes_rate > ', $taxes_search['rate']);
+						break;
+					case "4":
+						$this->db->where('taxes_rate < ', $taxes_search['rate']);
+						break;
+					case "5":
+						$this->db->where('taxes_rate >= ', $taxes_search['rate']);
+						break;
+					case "6":
+						$this->db->where('taxes_rate <= ', $taxes_search['rate']);
+						break;
+				}
+			}
 
-            $description_operator = $taxes_search['description_operator'];
-            if (!empty($taxes_search['description'])) {
-                switch ($description_operator) {
-                    case "1":
-                        $this->db->like('taxes_description', $taxes_search['description']);
-                        break;
-                    case "2":
-                        $this->db->not_like('taxes_description', $taxes_search['description']);
-                        break;
-                    case "3":
-                        $this->db->where('taxes_description', $taxes_search['description']);
-                        break;
-                    case "4":
-                        $this->db->where('taxes_description <>', $taxes_search['description']);
-                        break;
-                }
-            }
-        }
-        $this->db->from('taxes');
-        $providercnt = $this->db->count_all_results();
-        return $providercnt;
-    }
+			$description_operator = $taxes_search['description_operator'];
+			if (!empty($taxes_search['description'])) {
+				switch ($description_operator) {
+					case "1":
+						$this->db->like('taxes_description', $taxes_search['description']);
+						break;
+					case "2":
+						$this->db->not_like('taxes_description', $taxes_search['description']);
+						break;
+					case "3":
+						$this->db->where('taxes_description', $taxes_search['description']);
+						break;
+					case "4":
+						$this->db->where('taxes_description <>', $taxes_search['description']);
+						break;
+				}
+			}
+		}
+		$this->db->from('taxes');
+		$providercnt = $this->db->count_all_results();
+		return $providercnt;
+	}
 
-    function getTaxesList($start, $limit) {
-        if ($this->session->userdata('advance_search') == 1) {
+	function getTaxesList($start, $limit) {
+		if ($this->session->userdata('advance_search') == 1) {
 
-            $taxes_search = $this->session->userdata('taxes_search');
+			$taxes_search = $this->session->userdata('taxes_search');
 
-            $amount_operator = $taxes_search['amount_operator'];
+			$amount_operator = $taxes_search['amount_operator'];
 
-            if (!empty($taxes_search['amount'])) {
-                switch ($amount_operator) {
-                    case "1":
-                        $this->db->where('taxes_amount =', $taxes_search['amount']);
-                        break;
-                    case "2":
-                        $this->db->where('taxes_amount <>', $taxes_search['amount']);
-                        break;
-                    case "3":
-                        $this->db->where('taxes_amount > ', $taxes_search['amount']);
-                        break;
-                    case "4":
-                        $this->db->where('taxes_amount < ', $taxes_search['amount']);
-                        break;
-                    case "5":
-                        $this->db->where('taxes_amount >= ', $taxes_search['amount']);
-                        break;
-                    case "6":
-                        $this->db->where('taxes_amount <= ', $taxes_search['amount']);
-                        break;
-                }
-            }
+			if (!empty($taxes_search['amount'])) {
+				switch ($amount_operator) {
+					case "1":
+						$this->db->where('taxes_amount =', $taxes_search['amount']);
+						break;
+					case "2":
+						$this->db->where('taxes_amount <>', $taxes_search['amount']);
+						break;
+					case "3":
+						$this->db->where('taxes_amount > ', $taxes_search['amount']);
+						break;
+					case "4":
+						$this->db->where('taxes_amount < ', $taxes_search['amount']);
+						break;
+					case "5":
+						$this->db->where('taxes_amount >= ', $taxes_search['amount']);
+						break;
+					case "6":
+						$this->db->where('taxes_amount <= ', $taxes_search['amount']);
+						break;
+				}
+			}
 
-            $rate_operator = $taxes_search['rate_operator'];
+			$rate_operator = $taxes_search['rate_operator'];
 
-            if (!empty($taxes_search['rate'])) {
-                switch ($rate_operator) {
-                    case "1":
-                        $this->db->where('taxes_rate == ', $taxes_search['rate']);
-                        break;
-                    case "2":
-                        $this->db->where('taxes_rate <>', $taxes_search['rate']);
-                        break;
-                    case "3":
-                        $this->db->where('taxes_rate > ', $taxes_search['rate']);
-                        break;
-                    case "4":
-                        $this->db->where('taxes_rate < ', $taxes_search['rate']);
-                        break;
-                    case "5":
-                        $this->db->where('taxes_rate >= ', $taxes_search['rate']);
-                        break;
-                    case "6":
-                        $this->db->where('taxes_rate <= ', $taxes_search['rate']);
-                        break;
-                }
-            }
+			if (!empty($taxes_search['rate'])) {
+				switch ($rate_operator) {
+					case "1":
+						$this->db->where('taxes_rate == ', $taxes_search['rate']);
+						break;
+					case "2":
+						$this->db->where('taxes_rate <>', $taxes_search['rate']);
+						break;
+					case "3":
+						$this->db->where('taxes_rate > ', $taxes_search['rate']);
+						break;
+					case "4":
+						$this->db->where('taxes_rate < ', $taxes_search['rate']);
+						break;
+					case "5":
+						$this->db->where('taxes_rate >= ', $taxes_search['rate']);
+						break;
+					case "6":
+						$this->db->where('taxes_rate <= ', $taxes_search['rate']);
+						break;
+				}
+			}
 
-            $description_operator = $taxes_search['description_operator'];
-            if (!empty($taxes_search['description'])) {
-                switch ($description_operator) {
-                    case "1":
-                        $this->db->like('taxes_description', $taxes_search['description']);
-                        break;
-                    case "2":
-                        $this->db->not_like('taxes_description', $taxes_search['description']);
-                        break;
-                    case "3":
-                        $this->db->where('taxes_description', $taxes_search['description']);
-                        break;
-                    case "4":
-                        $this->db->where('taxes_description <>', $taxes_search['description']);
-                        break;
-                }
-            }
-        }
-        $this->db->limit($limit, $start);
-        $this->db->order_by("taxes_priority,taxes_description desc");
-        $this->db->from('taxes');
-        $query = $this->db->get();
-        //echo $this->db->last_query();		
-        return $query;
-    }
+			$description_operator = $taxes_search['description_operator'];
+			if (!empty($taxes_search['description'])) {
+				switch ($description_operator) {
+					case "1":
+						$this->db->like('taxes_description', $taxes_search['description']);
+						break;
+					case "2":
+						$this->db->not_like('taxes_description', $taxes_search['description']);
+						break;
+					case "3":
+						$this->db->where('taxes_description', $taxes_search['description']);
+						break;
+					case "4":
+						$this->db->where('taxes_description <>', $taxes_search['description']);
+						break;
+				}
+			}
+		}
+		$this->db->limit($limit, $start);
+		$this->db->order_by("taxes_priority,taxes_description desc");
+		$this->db->from('taxes');
+		$query = $this->db->get();
+		//echo $this->db->last_query();		
+		return $query;
+	}
 
-    function getAuthInfo() {
-        $this->db->where('name', 'auth');
-        $this->db->limit(1);
-        $query = $this->db->get('system');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        }
-    }
+	function getAuthInfo() {
+		$this->db->where('name', 'auth');
+		$this->db->limit(1);
+		$query = $this->db->get('system');
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
 
-    function get_template_count() {
-        if ($this->session->userdata['userlevel_logintype'] == 1 || $this->session->userdata['userlevel_logintype'] == 4 || $this->session->userdata['userlevel_logintype'] == 5) {
-            $acountid = $this->session->userdata['accountinfo']['accountid'];
-            $this->db->where('accountid', $acountid);
-        }
-        return $this->db->get('templates');
-    }
+	function get_template_count() {
+		if ($this->session->userdata['userlevel_logintype'] == 1 || $this->session->userdata['userlevel_logintype'] == 4 || $this->session->userdata['userlevel_logintype'] == 5) {
+			$acountid = $this->session->userdata['accountinfo']['accountid'];
+			$this->db->where('accountid', $acountid);
+		}
+		return $this->db->get('templates');
+	}
 
-    function get_templates() {
-        if ($this->session->userdata('advance_search') == 1) {
-            $templatesearch = $this->session->userdata('template_search');
-            $template_name_operator = $templatesearch['template_name_operator'];
-
-
-            if (!empty($templatesearch['template_name'])) {
-                switch ($template_name_operator) {
-                    case "1":
-                        $this->db->like('name', $templatesearch['template_name']);
-                        break;
-                    case "2":
-                        $this->db->not_like('name', $templatesearch['template_name']);
-                        break;
-                    case "3":
-                        $this->db->where('name', $templatesearch['template_name']);
-                        break;
-                    case "4":
-                        $this->db->where('name <>', $templatesearch['template_name']);
-                        break;
-                }
-            }
-
-            $template_subject = $templatesearch['subject_operator'];
-            if (!empty($templatesearch['subject'])) {
-                switch ($template_subject) {
-                    case "1":
-                        $this->db->like('subject', $templatesearch['subject']);
-                        break;
-                    case "2":
-                        $this->db->not_like('subject', $templatesearch['subject']);
-                        break;
-                    case "3":
-                        $this->db->where('subject', $templatesearch['subject']);
-                        break;
-                    case "4":
-                        $this->db->where('subject <>', $templatesearch['subject']);
-                        break;
-                }
-            }
-            $template_op = $templatesearch['template_operator'];
-            if (!empty($templatesearch['template_desc'])) {
-
-                switch ($template_op) {
-                    case "1":
-                        $this->db->like('template', mysql_real_escape_string(($templatesearch['template_desc'])));
-                        break;
-                    case "2":
-                        $this->db->not_like('template', mysql_real_escape_string($templatesearch['template_desc']));
-                        break;
-                    case "3":
-                        $this->db->where('template', mysql_real_escape_string($templatesearch['template_desc']));
-                        break;
-                    case "4":
-                        $this->db->where('template <>', mysql_real_escape_string($templatesearch['template_desc']));
-                        break;
-                }
-            }
+	function get_templates() {
+		if ($this->session->userdata('advance_search') == 1) {
+			$templatesearch = $this->session->userdata('template_search');
+			$template_name_operator = $templatesearch['template_name_operator'];
 
 
-            if (!empty($templatesearch['accountid'])) {
-                $this->db->like('accountid', $templatesearch['accountid']);
-            }
-        }
+			if (!empty($templatesearch['template_name'])) {
+				switch ($template_name_operator) {
+					case "1":
+						$this->db->like('name', $templatesearch['template_name']);
+						break;
+					case "2":
+						$this->db->not_like('name', $templatesearch['template_name']);
+						break;
+					case "3":
+						$this->db->where('name', $templatesearch['template_name']);
+						break;
+					case "4":
+						$this->db->where('name <>', $templatesearch['template_name']);
+						break;
+				}
+			}
 
-        if ($this->session->userdata['userlevel_logintype'] == 1 || $this->session->userdata['userlevel_logintype'] == 4 || $this->session->userdata['userlevel_logintype'] == 5) {
-            $acountid = $this->session->userdata['accountinfo']['accountid'];
-            $this->db->where('accountid', $acountid);
-        }
-        return $this->db->get('templates');
-    }
+			$template_subject = $templatesearch['subject_operator'];
+			if (!empty($templatesearch['subject'])) {
+				switch ($template_subject) {
+					case "1":
+						$this->db->like('subject', $templatesearch['subject']);
+						break;
+					case "2":
+						$this->db->not_like('subject', $templatesearch['subject']);
+						break;
+					case "3":
+						$this->db->where('subject', $templatesearch['subject']);
+						break;
+					case "4":
+						$this->db->where('subject <>', $templatesearch['subject']);
+						break;
+				}
+			}
+			$template_op = $templatesearch['template_operator'];
+			if (!empty($templatesearch['template_desc'])) {
 
-    function get_template_by_id($id) {
-        $this->db->delete('templates', array('id' => $id));
-        return true;
-    }
+				switch ($template_op) {
+					case "1":
+						$this->db->like('template', mysql_real_escape_string(($templatesearch['template_desc'])));
+						break;
+					case "2":
+						$this->db->not_like('template', mysql_real_escape_string($templatesearch['template_desc']));
+						break;
+					case "3":
+						$this->db->where('template', mysql_real_escape_string($templatesearch['template_desc']));
+						break;
+					case "4":
+						$this->db->where('template <>', mysql_real_escape_string($templatesearch['template_desc']));
+						break;
+				}
+			}
 
-    function get_template_by_id_all($id) {
-        $this->db->where('id', $id);
-        $query = $this->db->get('templates');
-        if ($query->num_rows() > 0)
-            return $query->row_array();
-        else
-            return false;
-    }
 
-    function edit_template($edit_id, $data) {
-        $updatedata = array(
-            "name" => trim($data['tem_name']),
-            "template" => trim($data['template']),
-            "subject" => trim($data['subject']),
-            "modified_date" => trim(date('Y-m-d H:i:s'))
-        );
-        $this->db->where('id', $edit_id);
-        $this->db->update('templates', $updatedata);
-        return true;
-    }
+			if (!empty($templatesearch['accountid'])) {
+				$this->db->like('accountid', $templatesearch['accountid']);
+			}
+		}
 
-    function build_systems_configuration() {
-        if ($this->session->userdata('advance_search') == 1) {
-            $configuration_search = $this->session->userdata('configuration_search');
+		if ($this->session->userdata['userlevel_logintype'] == 1 || $this->session->userdata['userlevel_logintype'] == 4 || $this->session->userdata['userlevel_logintype'] == 5) {
+			$acountid = $this->session->userdata['accountinfo']['accountid'];
+			$this->db->where('accountid', $acountid);
+		}
+		return $this->db->get('templates');
+	}
 
-            if (!empty($configuration_search['reseller'])) {
-                $this->db->where('reseller ', $configuration_search['reseller']);
-            }
-            if (!empty($configuration_search['brand'])) {
-                $this->db->where('brand', $configuration_search['brand']);
-            }
-            if (!empty($configuration_search['group_title'])) {
-                $this->db->where('group_title', $configuration_search['group_title']);
-            }
+	function get_template_by_id($id) {
+		$this->db->delete('templates', array('id' => $id));
+		return true;
+	}
 
-            $name_operator = $configuration_search['name_operator'];
+	function get_template_by_id_all($id) {
+		$this->db->where('id', $id);
+		$query = $this->db->get('templates');
+		if ($query->num_rows() > 0)
+			return $query->row_array();
+		else
+			return false;
+	}
 
-            if (!empty($configuration_search['name'])) {
-                switch ($name_operator) {
-                    case "1":
-                        $this->db->like('name', $configuration_search['name']);
-                        break;
-                    case "2":
-                        $this->db->not_like('name', $configuration_search['name']);
-                        break;
-                    case "3":
-                        $this->db->where('name', $configuration_search['name']);
-                        break;
-                    case "4":
-                        $this->db->where('name <>', $configuration_search['name']);
-                        break;
-                }
-            }
+	function edit_template($edit_id, $data) {
+		$updatedata = array(
+			"name" => trim($data['tem_name']),
+			"template" => trim($data['template']),
+			"subject" => trim($data['subject']),
+			"modified_date" => trim(date('Y-m-d H:i:s'))
+		);
+		$this->db->where('id', $edit_id);
+		$this->db->update('templates', $updatedata);
+		return true;
+	}
 
-            $value_operator = $configuration_search['value_operator'];
+	function build_systems_configuration() {
+		if ($this->session->userdata('advance_search') == 1) {
+			$configuration_search = $this->session->userdata('configuration_search');
 
-            if (!empty($configuration_search['value'])) {
-                switch ($value_operator) {
-                    case "1":
-                        $this->db->like('value', $configuration_search['value']);
-                        break;
-                    case "2":
-                        $this->db->not_like('value', $configuration_search['value']);
-                        break;
-                    case "3":
-                        $this->db->where('value', $configuration_search['value']);
-                        break;
-                    case "4":
-                        $this->db->where('value <>', $configuration_search['value']);
-                        break;
-                }
-            }
+			if (!empty($configuration_search['reseller'])) {
+				$this->db->where('reseller ', $configuration_search['reseller']);
+			}
+			if (!empty($configuration_search['brand'])) {
+				$this->db->where('brand', $configuration_search['brand']);
+			}
+			if (!empty($configuration_search['group_title'])) {
+				$this->db->where('group_title', $configuration_search['group_title']);
+			}
 
-            $comment_operator = $configuration_search['comment_operator'];
+			$name_operator = $configuration_search['name_operator'];
 
-            if (!empty($configuration_search['comment'])) {
-                switch ($comment_operator) {
-                    case "1":
-                        $this->db->like('comment', $configuration_search['comment']);
-                        break;
-                    case "2":
-                        $this->db->not_like('comment', $configuration_search['comment']);
-                        break;
-                    case "3":
-                        $this->db->where('comment', $configuration_search['comment']);
-                        break;
-                    case "4":
-                        $this->db->where('comment <>', $configuration_search['comment']);
-                        break;
-                }
-            }
-        }
-    }
+			if (!empty($configuration_search['name'])) {
+				switch ($name_operator) {
+					case "1":
+						$this->db->like('name', $configuration_search['name']);
+						break;
+					case "2":
+						$this->db->not_like('name', $configuration_search['name']);
+						break;
+					case "3":
+						$this->db->where('name', $configuration_search['name']);
+						break;
+					case "4":
+						$this->db->where('name <>', $configuration_search['name']);
+						break;
+				}
+			}
 
-    function systems_configuration($flag, $start = '', $limit = '') {
-        $this->build_systems_configuration();
-        $this->db->from('system');
-        if ($flag) {
-            $this->db->order_by("id ASC");
-            $this->db->limit($limit, $start);
-            $query = $this->db->get();
-        } else {
-            $query = $this->db->count_all_results();
-        }
-        return $query;
-    }
+			$value_operator = $configuration_search['value_operator'];
+
+			if (!empty($configuration_search['value'])) {
+				switch ($value_operator) {
+					case "1":
+						$this->db->like('value', $configuration_search['value']);
+						break;
+					case "2":
+						$this->db->not_like('value', $configuration_search['value']);
+						break;
+					case "3":
+						$this->db->where('value', $configuration_search['value']);
+						break;
+					case "4":
+						$this->db->where('value <>', $configuration_search['value']);
+						break;
+				}
+			}
+
+			$comment_operator = $configuration_search['comment_operator'];
+
+			if (!empty($configuration_search['comment'])) {
+				switch ($comment_operator) {
+					case "1":
+						$this->db->like('comment', $configuration_search['comment']);
+						break;
+					case "2":
+						$this->db->not_like('comment', $configuration_search['comment']);
+						break;
+					case "3":
+						$this->db->where('comment', $configuration_search['comment']);
+						break;
+					case "4":
+						$this->db->where('comment <>', $configuration_search['comment']);
+						break;
+				}
+			}
+		}
+	}
+
+	function systems_configuration($flag, $start = '', $limit = '') {
+		$this->build_systems_configuration();
+		$this->db->from('system');
+		if ($flag) {
+			$this->db->order_by("id ASC");
+			$this->db->limit($limit, $start);
+			$query = $this->db->get();
+		} else {
+			$query = $this->db->count_all_results();
+		}
+		return $query;
+	}
 
 }
 
