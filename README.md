@@ -1,4 +1,4 @@
-[![Project Stats](https://www.openhub.net/p/astpp/widgets/project_thin_badge.gif)](https://www.openhub.net/p/astpp)
+##ASTPP [![Project Stats](https://www.openhub.net/p/astpp/widgets/project_thin_badge.gif)](https://www.openhub.net/p/astpp)
 
 
 ASTPP - Open source VoIP billing
