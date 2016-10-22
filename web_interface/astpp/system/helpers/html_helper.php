@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -120,13 +122,12 @@ if ( ! function_exists('_list'))
 			$atts = '';
 			foreach ($attributes as $key => $val)
 			{
-				$atts .= ' ' . $key . '="' . $val . '"';
+				$atts .= ' '.$key.'="'.$val.'"';
 			}
 			$attributes = $atts;
-		}
-		elseif (is_string($attributes) AND strlen($attributes) > 0)
+		} elseif (is_string($attributes) AND strlen($attributes) > 0)
 		{
-			$attributes = ' '. $attributes;
+			$attributes = ' '.$attributes;
 		}
 
 		// Write the opening list tag
@@ -146,8 +147,7 @@ if ( ! function_exists('_list'))
 			if ( ! is_array($val))
 			{
 				$out .= $val;
-			}
-			else
+			} else
 			{
 				$out .= $_last_list_item."\n";
 				$out .= _list($type, $val, '', $depth + 4);
@@ -199,7 +199,7 @@ if ( ! function_exists('img'))
 {
 	function img($src = '', $index_page = FALSE)
 	{
-		if ( ! is_array($src) )
+		if ( ! is_array($src))
 		{
 			$src = array('src' => $src);
 		}
@@ -217,18 +217,16 @@ if ( ! function_exists('img'))
 
 			if ($k == 'src' AND strpos($v, '://') === FALSE)
 			{
-				$CI =& get_instance();
+				$CI = & get_instance();
 
 				if ($index_page === TRUE)
 				{
 					$img .= ' src="'.$CI->config->site_url($v).'"';
-				}
-				else
+				} else
 				{
 					$img .= ' src="'.$CI->config->slash_item('base_url').$v.'"';
 				}
-			}
-			else
+			} else
 			{
 				$img .= " $k=\"$v\"";
 			}
@@ -266,8 +264,7 @@ if ( ! function_exists('doctype'))
 			if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php'))
 			{
 				include(APPPATH.'config/'.ENVIRONMENT.'/doctypes.php');
-			}
-			elseif (is_file(APPPATH.'config/doctypes.php'))
+			} elseif (is_file(APPPATH.'config/doctypes.php'))
 			{
 				include(APPPATH.'config/doctypes.php');
 			}
@@ -281,8 +278,7 @@ if ( ! function_exists('doctype'))
 		if (isset($_doctypes[$type]))
 		{
 			return $_doctypes[$type];
-		}
-		else
+		} else
 		{
 			return FALSE;
 		}
@@ -309,7 +305,7 @@ if ( ! function_exists('link_tag'))
 {
 	function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 
 		$link = '<link ';
 
@@ -338,7 +334,7 @@ if ( ! function_exists('link_tag'))
 		}
 		else
 		{
-			if ( strpos($href, '://') !== FALSE)
+			if (strpos($href, '://') !== FALSE)
 			{
 				$link .= 'href="'.$href.'" ';
 			}
@@ -353,12 +349,12 @@ if ( ! function_exists('link_tag'))
 
 			$link .= 'rel="'.$rel.'" type="'.$type.'" ';
 
-			if ($media	!= '')
+			if ($media != '')
 			{
 				$link .= 'media="'.$media.'" ';
 			}
 
-			if ($title	!= '')
+			if ($title != '')
 			{
 				$link .= 'title="'.$title.'" ';
 			}
@@ -389,8 +385,7 @@ if ( ! function_exists('meta'))
 		if ( ! is_array($name))
 		{
 			$name = array(array('name' => $name, 'content' => $content, 'type' => $type, 'newline' => $newline));
-		}
-		else
+		} else
 		{
 			// Turn single array into multidimensional
 			if (isset($name['name']))
@@ -403,9 +398,9 @@ if ( ! function_exists('meta'))
 		foreach ($name as $meta)
 		{
 			$type		= ( ! isset($meta['type']) OR $meta['type'] == 'name') ? 'name' : 'http-equiv';
-			$name		= ( ! isset($meta['name']))		? ''	: $meta['name'];
-			$content	= ( ! isset($meta['content']))	? ''	: $meta['content'];
-			$newline	= ( ! isset($meta['newline']))	? "\n"	: $meta['newline'];
+			$name		= ( ! isset($meta['name'])) ? '' : $meta['name'];
+			$content	= ( ! isset($meta['content'])) ? '' : $meta['content'];
+			$newline	= ( ! isset($meta['newline'])) ? "\n" : $meta['newline'];
 
 			$str .= '<meta '.$type.'="'.$name.'" content="'.$content.'" />'.$newline;
 		}

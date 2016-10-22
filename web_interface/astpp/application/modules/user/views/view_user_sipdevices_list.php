@@ -28,12 +28,12 @@
                 <div class="pull-left">
                     <ul class="breadcrumb">
                          <?php $accountinfo=$this->session->userdata('accountinfo');
-                          if($accountinfo['type']==1){ ?>
+						  if($accountinfo['type']==1){ ?>
                           <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
-                          <?php }else{ ?>
+                          <?php } else{ ?>
 			    <li><a href="#">Configuration</a></li>
                           <?php }
-                    ?>
+					?>
                         
                         <li class='active'>
                            <a href="<?= base_url() . "user/user_sipdevices/"; ?>">SIP Devices</a>
@@ -52,7 +52,7 @@
             <div class="padding-15 col-md-12">
                 <div class="col-md-12 no-padding">
                     <div class="pull-left margin-t-10">
-                        <a href='<?php echo base_url() . "user/user_sipdevices_add/"; ?>' rel="facebox_medium" title="Add">
+                        <a href='<?php echo base_url()."user/user_sipdevices_add/"; ?>' rel="facebox_medium" title="Add">
                             <span class="btn btn-line-warning">
                                 <i class="fa fa-plus-circle fa-lg"></i> Create
                             </span>

@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -41,35 +43,35 @@ class CI_Router {
 	 * @var array
 	 * @access public
 	 */
-	var $routes			= array();
+	var $routes = array();
 	/**
 	 * List of error routes
 	 *
 	 * @var array
 	 * @access public
 	 */
-	var $error_routes	= array();
+	var $error_routes = array();
 	/**
 	 * Current class name
 	 *
 	 * @var string
 	 * @access public
 	 */
-	var $class			= '';
+	var $class = '';
 	/**
 	 * Current method name
 	 *
 	 * @var string
 	 * @access public
 	 */
-	var $method			= 'index';
+	var $method = 'index';
 	/**
 	 * Sub-directory that contains the requested controller class
 	 *
 	 * @var string
 	 * @access public
 	 */
-	var $directory		= '';
+	var $directory = '';
 	/**
 	 * Default controller (and method if specific)
 	 *
@@ -85,8 +87,8 @@ class CI_Router {
 	 */
 	function __construct()
 	{
-		$this->config =& load_class('Config', 'core');
-		$this->uri =& load_class('URI', 'core');
+		$this->config = & load_class('Config', 'core');
+		$this->uri = & load_class('URI', 'core');
 		log_message('debug', "Router Class Initialized");
 	}
 
@@ -132,8 +134,7 @@ class CI_Router {
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
-		}
-		elseif (is_file(APPPATH.'config/routes.php'))
+		} elseif (is_file(APPPATH.'config/routes.php'))
 		{
 			include(APPPATH.'config/routes.php');
 		}
@@ -195,8 +196,7 @@ class CI_Router {
 			$this->set_class($x[0]);
 			$this->set_method($x[1]);
 			$this->_set_request($x);
-		}
-		else
+		} else
 		{
 			$this->set_class($this->default_controller);
 			$this->set_method('index');
@@ -237,8 +237,7 @@ class CI_Router {
 		{
 			// A standard method request
 			$this->set_method($segments[1]);
-		}
-		else
+		} else
 		{
 			// This lets the "routed" segment array identify that the default
 			// index method is being used.
@@ -295,14 +294,12 @@ class CI_Router {
 						$this->set_method(isset($x[1]) ? $x[1] : 'index');
 
 						return $x;
-					}
-					else
+					} else
 					{
 						show_404($this->fetch_directory().$segments[0]);
 					}
 				}
-			}
-			else
+			} else
 			{
 				// Is the method being specified in the route?
 				if (strpos($this->default_controller, '/') !== FALSE)
@@ -311,8 +308,7 @@ class CI_Router {
 
 					$this->set_class($x[0]);
 					$this->set_method($x[1]);
-				}
-				else
+				} else
 				{
 					$this->set_class($this->default_controller);
 					$this->set_method('index');

@@ -24,15 +24,15 @@
 
 class Signup_model extends CI_Model 
 {
-    function Signup_model()
+	function Signup_model()
 	{
-        parent::__construct();
+		parent::__construct();
 	
-        $this->load->model('Astpp_common');
-        $this->load->helper('form');
-        $this->load->model('common_model');
+		$this->load->model('Astpp_common');
+		$this->load->helper('form');
+		$this->load->model('common_model');
 	$this->load->library('session');
-    	}
+		}
 
 	function get_rate()
 	{
@@ -41,13 +41,13 @@ class Signup_model extends CI_Model
 
 		$this->db->select("id,name");
 		$this->db->from('pricelists');
-		$this->db->where("status","0");
+		$this->db->where("status", "0");
 		$query = $this->db->get();
 		return $query->row();
 
 	}
-	    function add_user($data)
-	    {	
+		function add_user($data)
+		{	
 		$data['reseller_id'] = $data['key_unique'];	
 		unset($data['agreeCheck']);
 		unset($data['key_unique']);
@@ -55,31 +55,31 @@ class Signup_model extends CI_Model
 		$data['expiry'] = date('Y-m-d H:i:s', strtotime('+10 years'));
 		$this->db->insert("accounts",$data);
 		return   $this->db->insert_id();
-	    }
+		}
 
 	function check_user($accno,$email,$balance)
 	{
 		$info = array("number"=>$accno,"email"=>$email,"status"=>1);
-                        $this->db->where($info);
-                        $this->db->select('*');
+						$this->db->where($info);
+						$this->db->select('*');
 		$acc_res=$this->db->get('accounts');
 		if($acc_res->num_rows() > 0)	
 		{         
-                        $acc_res=$acc_res->result_array();
-                        $acc_res=$acc_res[0];
-                        $this->db->where('pricelist_id',$acc_res['pricelist_id']);
-                        $this->db->select("*");
-                        $charge_res=$this->db->get('charges');
+						$acc_res=$acc_res->result_array();
+						$acc_res=$acc_res[0];
+						$this->db->where('pricelist_id',$acc_res['pricelist_id']);
+						$this->db->select("*");
+						$charge_res=$this->db->get('charges');
                         
 			if($charge_res->num_rows() > 0){
 			$charge_res=$charge_res->result_array();
-                        $charge_res=$charge_res[0];
-                        $charge_acc_arr=array(
+						$charge_res=$charge_res[0];
+						$charge_acc_arr=array(
 						"charge_id"=>$charge_res['id'],
 						"accountid"=>$acc_res['id'],
 						"status"=>0,
 						"assign_date"=>date('Y-m-d H:i:s')
-					     );
+						 );
 			}else{
 			$charge_res=$charge_res->result_array();
 			//echo "<pre>"; print_r($charge_res); exit;
@@ -87,13 +87,13 @@ class Signup_model extends CI_Model
 						"accountid"=>$acc_res['id'],
 						"assign_date"=>date('Y-m-d H:i:s'));
 			}
-                        $result=$this->db->insert("charge_to_account",$charge_acc_arr);
+						$result=$this->db->insert("charge_to_account",$charge_acc_arr);
 			$update = array("status" => 0,"balance" => $balance );
 			$this->db->where($info);
 			$result = $this->db->update('accounts', $update);
 			$sip_device_update = array('username'=>$accno,"status"=>1);
 			return 1;
-		}else{
+		} else{
 			return 0;
 		}
 	}

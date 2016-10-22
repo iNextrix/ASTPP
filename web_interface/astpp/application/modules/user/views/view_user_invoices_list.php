@@ -53,12 +53,12 @@
                 <div class="pull-left">
                     <ul class="breadcrumb">
                     <?php $accountinfo=$this->session->userdata('accountinfo');
-                          if($accountinfo['type']==1){ ?>
+						  if($accountinfo['type']==1){ ?>
                           <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
-                          <?php }else{ ?>
+                          <?php } else{ ?>
 			    <li><a href="#">Billing</a></li>
                           <?php }
-                    ?>
+					?>
                         
                         <li class='active'>
                             <a href="<?= base_url() . "user/user_invoices_list/"; ?>">Invoices </a>

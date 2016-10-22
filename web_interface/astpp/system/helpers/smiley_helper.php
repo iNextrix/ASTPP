@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -96,8 +98,7 @@ if ( ! function_exists('smiley_js'))
 					}
 				}
 EOF;
-		}
-		else
+		} else
 		{
 			if (is_array($alias))
 			{
@@ -111,8 +112,7 @@ EOF;
 		if ($inline)
 		{
 			return '<script type="text/javascript" charset="utf-8">/*<![CDATA[ */'.$r.'// ]]></script>';
-		}
-		else
+		} else
 		{
 			return $r;
 		}
@@ -204,7 +204,7 @@ if ( ! function_exists('parse_smileys'))
 		}
 
 		// Add a trailing slash to the file path if needed
-		$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
+		$image_url = preg_replace("/(.+?)\/*$/", "\\1/", $image_url);
 
 		foreach ($smileys as $key => $val)
 		{
@@ -231,7 +231,7 @@ if ( ! function_exists('_get_smiley_array'))
 	{
 		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/smileys.php'))
 		{
-		    include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
+			include(APPPATH.'config/'.ENVIRONMENT.'/smileys.php');
 		}
 		elseif (file_exists(APPPATH.'config/smileys.php'))
 		{

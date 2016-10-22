@@ -1,8 +1,14 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 
 function create_csv_string($data) {
-	if (!$fp = fopen('php://temp', 'w+')) return FALSE;
-	foreach ($data as $line) fputcsv($fp, $line);
+	if (!$fp = fopen('php://temp', 'w+')) {
+		return FALSE;
+	}
+	foreach ($data as $line) {
+		fputcsv($fp, $line);
+	}
 	rewind($fp);
 	return stream_get_contents($fp);
 }
@@ -10,8 +16,8 @@ function create_csv_string($data) {
 function send_csv_mail ($csvData, $body, $to, $subject,$file_name) {
 	//print_r($csvData);
 	$where = array('group_title' =>'email');
-        $query = $this->CI->db_model->getSelect("*", "system", $where);
-        $query = $query->result_array();
+		$query = $this->CI->db_model->getSelect("*", "system", $where);
+		$query = $query->result_array();
 	foreach($query as $key=>$val){
 		$from=$val['value'];
 	}

@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -44,7 +46,7 @@ class CI_Parser {
 	 */
 	public function parse($template, $data, $return = FALSE)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$template = $CI->load->view($template, $data, TRUE);
 
 		return $this->_parse($template, $data, $return);
@@ -95,8 +97,7 @@ class CI_Parser {
 			if (is_array($val))
 			{
 				$template = $this->_parse_pair($key, $val, $template);
-			}
-			else
+			} else
 			{
 				$template = $this->_parse_single($key, (string)$val, $template);
 			}
@@ -104,7 +105,7 @@ class CI_Parser {
 
 		if ($return == FALSE)
 		{
-			$CI =& get_instance();
+			$CI = & get_instance();
 			$CI->output->append_output($template);
 		}
 
@@ -172,8 +173,7 @@ class CI_Parser {
 				if ( ! is_array($val))
 				{
 					$temp = $this->_parse_single($key, $val, $temp);
-				}
-				else
+				} else
 				{
 					$temp = $this->_parse_pair($key, $val, $temp);
 				}
@@ -197,7 +197,7 @@ class CI_Parser {
 	 */
 	function _match_pair($string, $variable)
 	{
-		if ( ! preg_match("|" . preg_quote($this->l_delim) . $variable . preg_quote($this->r_delim) . "(.+?)". preg_quote($this->l_delim) . '/' . $variable . preg_quote($this->r_delim) . "|s", $string, $match))
+		if ( ! preg_match("|".preg_quote($this->l_delim).$variable.preg_quote($this->r_delim)."(.+?)".preg_quote($this->l_delim).'/'.$variable.preg_quote($this->r_delim)."|s", $string, $match))
 		{
 			return FALSE;
 		}

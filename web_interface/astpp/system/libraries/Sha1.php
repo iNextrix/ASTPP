@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -74,10 +76,10 @@ class CI_SHA1 {
 
 		$x[$n * 16 - 1] = strlen($str) * 8;
 
-		$a =  1732584193;
+		$a = 1732584193;
 		$b = -271733879;
 		$c = -1732584194;
-		$d =  271733878;
+		$d = 271733878;
 		$e = -1009589776;
 
 		for ($i = 0; $i < count($x); $i += 16)
@@ -93,8 +95,7 @@ class CI_SHA1 {
 				if ($j < 16)
 				{
 					$w[$j] = $x[$i + $j];
-				}
-				else
+				} else
 				{
 					$w[$j] = $this->_rol($w[$j - 3] ^ $w[$j - 8] ^ $w[$j - 14] ^ $w[$j - 16], 1);
 				}
@@ -146,15 +147,19 @@ class CI_SHA1 {
 	 *
 	 * @access	private
 	 * @return	string
+	 * @param integer $t
 	 */
 	function _ft($t, $b, $c, $d)
 	{
-		if ($t < 20)
-			return ($b & $c) | ((~$b) & $d);
-		if ($t < 40)
-			return $b ^ $c ^ $d;
-		if ($t < 60)
-			return ($b & $c) | ($b & $d) | ($c & $d);
+		if ($t < 20) {
+					return ($b & $c) | ((~$b) & $d);
+		}
+		if ($t < 40) {
+					return $b ^ $c ^ $d;
+		}
+		if ($t < 60) {
+					return ($b & $c) | ($b & $d) | ($c & $d);
+		}
 
 		return $b ^ $c ^ $d;
 	}
@@ -165,23 +170,21 @@ class CI_SHA1 {
 	 * Determine the additive constant
 	 *
 	 * @access	private
-	 * @return	string
+	 * @return	integer
+	 * @param integer $t
 	 */
 	function _kt($t)
 	{
 		if ($t < 20)
 		{
 			return 1518500249;
-		}
-		else if ($t < 40)
+		} else if ($t < 40)
 		{
 			return 1859775393;
-		}
-		else if ($t < 60)
+		} else if ($t < 60)
 		{
 			return -1894007588;
-		}
-		else
+		} else
 		{
 			return -899497514;
 		}
@@ -210,6 +213,7 @@ class CI_SHA1 {
 	 *
 	 * @access	private
 	 * @return	integer
+	 * @param integer $cnt
 	 */
 	function _rol($num, $cnt)
 	{
@@ -231,13 +235,12 @@ class CI_SHA1 {
 		if (strlen($bin) < $b)
 		{
 			$bin = 0;
-		}
-		else
+		} else
 		{
 			$bin = substr($bin, 0, strlen($bin) - $b);
 		}
 
-		for ($i=0; $i < $b; $i++)
+		for ($i = 0; $i < $b; $i++)
 		{
 			$bin = "0".$bin;
 		}

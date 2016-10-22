@@ -24,84 +24,83 @@
 
 class Refill_coupon_model extends CI_Model {
 
-    function refill_coupon_model() {
-        parent::__construct();
-    }
-    function get_refill_coupon_list($flag,$start = 0, $limit = 0,$export=false){
-        $this->db_model->build_search('refill_coupon_list_search');
-        $accountinfo=$this->session->userdata('accountinfo');
-        $reseller_id=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
-        $where=array('reseller_id'=>$reseller_id);
-        if ($flag) {
-	    if($export)
-	      $query = $this->db_model->select("*", "refill_coupon",$where, "id", "ASC",'','');
-	    else
-	    $query = $this->db_model->select("*", "refill_coupon",$where, "id", "ASC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "refill_coupon",$where);
-        }
-        return $query;
-    }
-    function get_customer_refill_coupon_list($flag,$start = 0, $limit = 0,$accountid){
-        $this->db_model->build_search('refill_coupon_list_search');
-        $accountinfo=$this->session->userdata('accountinfo');
-        $reseller_id=$accountinfo['type']==1 ? $accountinfo['id'] : ($accountinfo['type']== 0 ? $accountinfo['reseller_id']: 0 );
-        $where=array('reseller_id'=>$reseller_id,"account_id"=>$accountid);
-        if ($flag) {
-	    $query = $this->db_model->select("*", "refill_coupon",$where, "id", "ASC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "refill_coupon",$where);
-        }
-        return $query;
-    }
-    function add_refill_coupon($add_array){
-      $count = $add_array['count'];
-        unset($add_array['action']);
-        unset($add_array['count']);
-        $prefix=$add_array['prefix'];
-        unset($add_array['prefix']);
-    	$accountinfo=$this->session->userdata('accountinfo');
-    	$reseller_id=$accountinfo['type']==1 ? $accountinfo['id']:0;
-    	$insert_arr=array();
-    	$account_length=Common_model::$global_config['system_config']['refill_coupon_length'];
-    	$length=strlen($prefix);
-        if($length !=0){
-	  $number_length=$account_length-$length;
+	function refill_coupon_model() {
+		parent::__construct();
 	}
-	else{
+	function get_refill_coupon_list($flag,$start = 0, $limit = 0,$export=false){
+		$this->db_model->build_search('refill_coupon_list_search');
+		$accountinfo=$this->session->userdata('accountinfo');
+		$reseller_id=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
+		$where=array('reseller_id'=>$reseller_id);
+		if ($flag) {
+		if($export)
+		  $query = $this->db_model->select("*", "refill_coupon",$where, "id", "ASC",'','');
+		else
+		$query = $this->db_model->select("*", "refill_coupon",$where, "id", "ASC", $limit, $start);
+		} else {
+			$query = $this->db_model->countQuery("*", "refill_coupon",$where);
+		}
+		return $query;
+	}
+	function get_customer_refill_coupon_list($flag,$start = 0, $limit = 0,$accountid){
+		$this->db_model->build_search('refill_coupon_list_search');
+		$accountinfo=$this->session->userdata('accountinfo');
+		$reseller_id=$accountinfo['type']==1 ? $accountinfo['id'] : ($accountinfo['type']== 0 ? $accountinfo['reseller_id']: 0 );
+		$where=array('reseller_id'=>$reseller_id,"account_id"=>$accountid);
+		if ($flag) {
+		$query = $this->db_model->select("*", "refill_coupon",$where, "id", "ASC", $limit, $start);
+		} else {
+			$query = $this->db_model->countQuery("*", "refill_coupon",$where);
+		}
+		return $query;
+	}
+	function add_refill_coupon($add_array){
+	  $count = $add_array['count'];
+		unset($add_array['action']);
+		unset($add_array['count']);
+		$prefix=$add_array['prefix'];
+		unset($add_array['prefix']);
+		$accountinfo=$this->session->userdata('accountinfo');
+		$reseller_id=$accountinfo['type']==1 ? $accountinfo['id']:0;
+		$insert_arr=array();
+		$account_length=Common_model::$global_config['system_config']['refill_coupon_length'];
+		$length=strlen($prefix);
+		if($length !=0){
+	  $number_length=$account_length-$length;
+	} else{
 	  $number_length=$account_length;
 	}
 	$add_array['amount'] = $this->common_model->add_calculate_currency($add_array['amount'], '', '', false, false);
 	$number=$this->common->find_uniq_rendno_accno($number_length, 'number', 'refill_coupon',$prefix,$count);
 	$date=gmdate('Y-m-d H:i:s');
-        for ($i = 0; $i < $count; $i++) {
-            $add_array['number'] = trim($number[$i]);
-	    $add_array['currency_id']=$accountinfo['currency_id'];
-	    $add_array['reseller_id']=$reseller_id;
-	    $add_array['creation_date']=$date;
-	    $insert_arr[$i]=$add_array;
-        }
-        $this->db->insert_batch("refill_coupon",$insert_arr);
-        return true;
-    }
-    function remove_refill_coupon($id){
+		for ($i = 0; $i < $count; $i++) {
+			$add_array['number'] = trim($number[$i]);
+		$add_array['currency_id']=$accountinfo['currency_id'];
+		$add_array['reseller_id']=$reseller_id;
+		$add_array['creation_date']=$date;
+		$insert_arr[$i]=$add_array;
+		}
+		$this->db->insert_batch("refill_coupon",$insert_arr);
+		return true;
+	}
+	function remove_refill_coupon($id){
 		$this->db->where("id", $id);
-        $this->db->delete("refill_coupon");
-        return true;
-    }
-    function get_refill_coupon_details($id){
-       $this->db->where("id", $id);
-       $result=$this->db->get('refill_coupon');
-       return $result;
-    }
-    function refill_coupon_count($add_array){
-        $account_length=Common_model::$global_config['system_config']['refill_coupon_length'];
-        $this->db->where("length(number)",$account_length);
-        $this->db->like('number',$add_array['prefix'],'after');
-        $this->db->select("count(id) as count");
-        $this->db->from('refill_coupon');
-        $result=$this->db->get();
-        $result=$result->result_array();
+		$this->db->delete("refill_coupon");
+		return true;
+	}
+	function get_refill_coupon_details($id){
+	   $this->db->where("id", $id);
+	   $result=$this->db->get('refill_coupon');
+	   return $result;
+	}
+	function refill_coupon_count($add_array){
+		$account_length=Common_model::$global_config['system_config']['refill_coupon_length'];
+		$this->db->where("length(number)",$account_length);
+		$this->db->like('number',$add_array['prefix'],'after');
+		$this->db->select("count(id) as count");
+		$this->db->from('refill_coupon');
+		$result=$this->db->get();
+		$result=$result->result_array();
 	return $result;
-    }
+	}
 }

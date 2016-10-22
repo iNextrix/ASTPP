@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -94,9 +96,9 @@ class CI_DB_mysql_result extends CI_DB_result {
 			$F				= new stdClass();
 			$F->name		= $field->Field;
 			$F->type		= $type;
-			$F->default		= $field->Default;
-			$F->max_length	= $length;
-			$F->primary_key = ( $field->Key == 'PRI' ? 1 : 0 );
+			$F->default = $field->Default;
+			$F->max_length = $length;
+			$F->primary_key = ($field->Key == 'PRI' ? 1 : 0);
 
 			$retval[] = $F;
 		}
@@ -130,7 +132,7 @@ class CI_DB_mysql_result extends CI_DB_result {
 	 * result set starts at zero
 	 *
 	 * @access	private
-	 * @return	array
+	 * @return	boolean
 	 */
 	function _data_seek($n = 0)
 	{

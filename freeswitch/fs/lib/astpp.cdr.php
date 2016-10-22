@@ -22,40 +22,40 @@
 ###############################################################################
 
 //Process CDR 
-function process_cdr($data,$db,$logger,$decimal_points)
+function process_cdr($data, $db, $logger, $decimal_points)
 {
 	//$logger->log(print_r($data,true));//exit;
 
-    //Initializing variables 
+	//Initializing variables 
 	$origination_rate = array();
 	$termination_rate = array();
 
-    //FS CDR variables 
+	//FS CDR variables 
 	$dataVariable = $data['variables'];
 
-    //FS CDR Call flow variables 
+	//FS CDR Call flow variables 
 	$dataCallflow = $data['callflow'];
 
-    //Get account id
+	//Get account id
 	$accountid = isset($dataVariable['account_id']) ? $dataVariable['account_id'] : '0';
 
-    //Get caller id name and number 
+	//Get caller id name and number 
 	$dataVariable['effective_caller_id_name'] = (isset($dataVariable['effective_caller_id_name'])) ? $dataVariable['effective_caller_id_name'] : $dataCallflow['caller_profile']['caller_id_name'];
 	$dataVariable['effective_caller_id_number'] = (isset($dataVariable['effective_caller_id_number'])) ? $dataVariable['effective_caller_id_number'] : $dataCallflow['caller_profile']['caller_id_number'];
 
 
-    if ($dataVariable['billsec'] == 0 && $dataVariable['hangup_cause'] == 'NORMAL_CLEARING')
-    {
-        $hangup_cause = isset($dataVariable['last_bridge_hangup_cause'])?$dataVariable['last_bridge_hangup_cause']:$dataVariable['hangup_cause'];
-    }else{
-        $hangup_cause = $dataVariable['hangup_cause'];
-    }   
+	if ($dataVariable['billsec'] == 0 && $dataVariable['hangup_cause'] == 'NORMAL_CLEARING')
+	{
+		$hangup_cause = isset($dataVariable['last_bridge_hangup_cause'])?$dataVariable['last_bridge_hangup_cause']:$dataVariable['hangup_cause'];
+	}else{
+		$hangup_cause = $dataVariable['hangup_cause'];
+	}   
 
-    if ($dataVariable['error_cdr'] == '1')
-    {
-        //Get actual hangup cause 
-        $hangup_cause= (isset($dataVariable['error_cdr'])) ? $dataVariable['last_bridge_hangup_cause'] : (isset($dataVariable['last_bridge_hangup_cause'])?$dataVariable['last_bridge_hangup_cause']:$dataVariable['hangup_cause']); 
-    }
+	if ($dataVariable['error_cdr'] == '1')
+	{
+		//Get actual hangup cause 
+		$hangup_cause= (isset($dataVariable['error_cdr'])) ? $dataVariable['last_bridge_hangup_cause'] : (isset($dataVariable['last_bridge_hangup_cause'])?$dataVariable['last_bridge_hangup_cause']:$dataVariable['hangup_cause']); 
+	}
 
 	/*#### PATCH FOR ONE WAY AUDIO ####*/
 	if ($hangup_cause == "NORMAL_UNSPECIFIED" && $dataVariable['billsec'] > 0)
@@ -64,13 +64,13 @@ function process_cdr($data,$db,$logger,$decimal_points)
 	}
 	/*#### ************* END *************####*/
 
-    //Don't thing this will be useful anytime. Need to remove it after testing. 
+	//Don't thing this will be useful anytime. Need to remove it after testing. 
 	if($hangup_cause == "NONE")
 	{
 		$hangup_cause = $dataVariable['current_application_data'];
 	}
 
-    $dataVariable['hangup_cause'] = $hangup_cause;
+	$dataVariable['hangup_cause'] = $hangup_cause;
 
 	if ( ($dataVariable['hangup_cause'] != 'NORMAL_CLEARING') && ($dataVariable['hangup_cause'] != 'ALLOTTED_TIMEOUT')) {
 	  	$dataVariable['billsec'] = 0;
@@ -85,22 +85,22 @@ function process_cdr($data,$db,$logger,$decimal_points)
 	$dataVariable['calltype'] = isset($dataVariable['calltype']) ? $dataVariable['calltype'] : "STANDARD";
 	$actual_calltype = $dataVariable['calltype'];
 	
-    //Normalize origination and termination rates array 		   
+	//Normalize origination and termination rates array 		   
 	if(isset($dataVariable['origination_rates']))
 	   $origination_rate = normalize_origination_rate($dataVariable['origination_rates']);
 	if(isset($dataVariable['termination_rates']))
 	   $termination_rate = normalize_rate($dataVariable['termination_rates']);
 
-    //If receiver account id found then explicitly set call direction and call type 
+	//If receiver account id found then explicitly set call direction and call type 
 	if(isset($dataVariable['receiver_accid']))
 	{
 		$dataVariable['call_direction'] = "outbound";
-        $dataVariable['calltype'] = "STANDARD";
+		$dataVariable['calltype'] = "STANDARD";
 	}
 
-    //Check if cusotmer have any package seconds left to use
+	//Check if cusotmer have any package seconds left to use
 	if ($actual_duration > 0)			
-    {
+	{
 			$package_array = package_calculation( $dataVariable['effective_destination_number'],$origination_rate[$accountid]['RATEGROUP'],$actual_duration,$dataVariable['call_direction'],$accountid,$db,$logger);
 			if(!empty($package_array))
 			{
@@ -109,20 +109,20 @@ function process_cdr($data,$db,$logger,$decimal_points)
 			}
 	}
 	
-    //Calculate debit of customer call 			
+	//Calculate debit of customer call 			
 	$debit = calc_cost($dataVariable,$origination_rate[$accountid],$logger,$decimal_points);
 
-    //Calculate cost for customer call for provider
+	//Calculate cost for customer call for provider
 	$provider_cost = calc_cost($dataVariable,$termination_rate,$logger,$decimal_points);
 
-    //Calculate parent cost if customer have any parent 
+	//Calculate parent cost if customer have any parent 
 	$parent_cost = ($parentid > 0) ? calc_cost($dataVariable,$origination_rate[$parentid],$logger,$decimal_points) : $provider_cost;
-    $logger->log("Debit :".$debit ." Cost : ".$cost ." Provider Cost : ".$parent_cost);
+	$logger->log("Debit :".$debit ." Cost : ".$cost ." Provider Cost : ".$parent_cost);
     
-    //Initialize final cost variable to use for billing
+	//Initialize final cost variable to use for billing
 	$cost = ($parent_cost > 0) ? $parent_cost : $provider_cost;    
 	
-    //Outbound call entry for all type of calls 
+	//Outbound call entry for all type of calls 
 	$logger->log("*********************** OUTBOUND CALL ENTRY START *************");
 
 	$cdr_string = get_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,$debit,$cost,$logger);
@@ -131,64 +131,68 @@ function process_cdr($data,$db,$logger,$decimal_points)
 	$logger->log($query);
 	$db->run($query);
 	
-    //Update customer balance
+	//Update customer balance
 	if($debit > 0 && $dataVariable['calltype'] != "FREE")
 	{
 		update_balance($accountid, $debit, 0, $logger, $db);
 	}
 
-    //Update parent or provider balance
+	//Update parent or provider balance
 	if($parent_cost > 0){
 		update_balance($termination_rate['PROVIDER'], ($parent_cost * -1), 3, $logger, $db);
 	}
 
-    //Resellers CDR entry
-    $flag_parent = false;
-    insert_parent_data($dataVariable,$actual_calltype,$parentid,$origination_rate,$actual_duration,$provider_cost,$flag_parent,$logger,$db,$decimal_points);
+	//Resellers CDR entry
+	$flag_parent = false;
+	insert_parent_data($dataVariable,$actual_calltype,$parentid,$origination_rate,$actual_duration,$provider_cost,$flag_parent,$logger,$db,$decimal_points);
 
-    $logger->log("*********************** OUTBOUND CALL ENTRY END *************");
+	$logger->log("*********************** OUTBOUND CALL ENTRY END *************");
 
    
-    //************ ADDING EXTRA ENTRY For local/DID Inbound call ****************************
+	//************ ADDING EXTRA ENTRY For local/DID Inbound call ****************************
 	$receiver_parentid=0;
 	if(isset($dataVariable['receiver_accid']) && $dataVariable['receiver_accid'] != "")
 	{
-    	$logger->log("*********************** EXTRA ENTRY SECTION FOR BILLING START *************");            
+		$logger->log("*********************** EXTRA ENTRY SECTION FOR BILLING START *************");            
 
-        //Explicitly set call direction and call type 
+		//Explicitly set call direction and call type 
 		$dataVariable['call_direction'] = "inbound";
-        $dataVariable['calltype'] = "DID";
+		$dataVariable['calltype'] = "DID";
 
-        //Override variables if call for DID PSTN
-        if(isset($dataVariable['caller_did_account_id']))
-        {
-            $dataVariable['receiver_accid'] = $dataVariable['caller_did_account_id'];
-    		$dataVariable['call_direction'] = "outbound";
-            $dataVariable['calltype'] = "STANDARD";
-            unset($termination_rate);
-            unset($provider_cost);
-        }
+		//Override variables if call for DID PSTN
+		if(isset($dataVariable['caller_did_account_id']))
+		{
+			$dataVariable['receiver_accid'] = $dataVariable['caller_did_account_id'];
+			$dataVariable['call_direction'] = "outbound";
+			$dataVariable['calltype'] = "STANDARD";
+			unset($termination_rate);
+			unset($provider_cost);
+		}
         
 
-        //Get call receiver account information 
+		//Get call receiver account information 
 		$receiver_carddata = get_accounts($dataVariable['receiver_accid'],$logger,$db);
 		$receiver_parentid = $receiver_carddata['reseller_id'];
 
-        //For additional cdr entry of receiver
+		//For additional cdr entry of receiver
 		insert_extra_receiver_entry($dataVariable,$origination_rate,$termination_rate,$account_type,$actual_duration,$provider_cost,$receiver_parentid,$flag_parent,$dataVariable['receiver_accid'],$logger,$db,$decimal_points);
 
 		$flag_parent = true;
 		$dataVariable['uuid'] = $dataVariable['uuid'].$dataVariable['calltype']."_".$receiver_parentid;
 
-        //Insert parent reseller cdr
+		//Insert parent reseller cdr
 		insert_parent_data($dataVariable,$actual_calltype,$receiver_parentid,$origination_rate,$actual_duration,$provider_cost,$flag_parent,$logger,$db,$decimal_points);
-    	$logger->log("*********************** EXTRA ENTRY SECTION FOR BILLING END *************");            
+		$logger->log("*********************** EXTRA ENTRY SECTION FOR BILLING END *************");            
 	}
-    //*****************************************************************************************
+	//*****************************************************************************************
 	$logger->log("*************************** CDR ends ********************************");
 }
 
 //Insert parent resellers cdr
+/**
+ * @param string $provider_cost
+ * @param boolean $flag_parent
+ */
 function insert_parent_data($dataVariable,$actual_calltype,$parentid,$origination_rate,$actual_duration,$provider_cost,$flag_parent,$logger,$db,$decimal_points)
 {
 	while($parentid > 0 )
@@ -200,14 +204,14 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 
 		$debit = calc_cost($dataVariable,$origination_rate[$accountid],$logger,$decimal_points);
 
-        //If receiver account id found then explicitly set call direction and call type
-        /*if(isset($dataVariable['receiver_accid']))
+		//If receiver account id found then explicitly set call direction and call type
+		/*if(isset($dataVariable['receiver_accid']))
         {
             $dataVariable['call_direction'] = "outbound";
             $dataVariable['calltype'] = "STANDARD";
         }*/
 
-        //Check if reseller have any package seconds left to use        
+		//Check if reseller have any package seconds left to use        
 		if ($actual_duration > 0)		{
 			$package_array = package_calculation( $dataVariable['effective_destination_number'],$origination_rate[$accountid]['RATEGROUP'],$actual_duration,$dataVariable['call_direction'],$accountid,$db,$logger);
 			if(!empty($package_array))
@@ -217,7 +221,7 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 			}
 		}	
 
-        //Get parent id for cost calculation 
+		//Get parent id for cost calculation 
 		$parentid = $carddata['reseller_id'];
 		$parent_cost = ($parentid > 0) ? calc_cost($dataVariable,$origination_rate[$parentid],$logger,$decimal_points) : $provider_cost;
 		$cost = ($parent_cost > 0) ? $parent_cost : $provider_cost;
@@ -227,12 +231,12 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 			$logger->log("********* IN RESELLER FOR RECEIVER ENTRY START ******");
 			$flag_parent = true;
 			insert_extra_receiver_entry($dataVariable,$origination_rate,$termination_rate,$account_type,$actual_duration,$provider_cost,$parentid,$flag_parent,$accountid,$logger,$db,$decimal_points);
-    		$logger->log("********* IN RESELLER FOR RECEIVER ENTRY END ******");
+			$logger->log("********* IN RESELLER FOR RECEIVER ENTRY END ******");
 			return true;	
 
-		}else{
+		} else{
 
-		    $cdr_string = get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,$debit,$cost);	
+			$cdr_string = get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,$debit,$cost);	
 
  			$query = "INSERT INTO reseller_cdrs (uniqueid,accountid,callerid,callednum,billseconds,disposition,callstart,debit,cost,pricelist_id,package_id,pattern,notes,rate_cost,
 		reseller_id,reseller_code,reseller_code_destination,reseller_cost,call_direction,calltype) values ($cdr_string)";
@@ -240,7 +244,7 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 			$db->run($query);
 
 			//Update reseller balance
-			if( $debit > 0 && $dataVariable['calltype'] != "FREE"){
+			if ($debit > 0 && $dataVariable['calltype'] != "FREE") {
 				update_balance($accountid, $debit, 0, $logger, $db);
 			}
 		}
@@ -250,6 +254,9 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 }
 
 //Insert callee cdr entry for DID calls
+/**
+ * @param boolean $flag_parent
+ */
 function insert_extra_receiver_entry($dataVariable,$origination_rate,$termination_rate,$account_type,$actual_duration,$provider_cost,$parentid,$flag_parent,$accountid,$logger,$db,$decimal_points)
 {
 		$localVariable = $dataVariable;
@@ -262,11 +269,10 @@ function insert_extra_receiver_entry($dataVariable,$origination_rate,$terminatio
 			$origination_rate[$accountid]['DESTINATION'] = $dataVariable['calltype'];
 			if($flag_parent == false){
 				$cdr_string = get_cdr_string($localVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,0,0,$logger);
-			}
-			else{
+			} else{
 				$cdr_string = get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,$debit,$cost);
 			}
-		}else{
+		} else{
 
 			$origination_rate_did = normalize_origination_rate($dataVariable['origination_rates_did']);
 			$debit = calc_cost($dataVariable,$origination_rate_did[$accountid],$logger,$decimal_points);
@@ -274,8 +280,7 @@ function insert_extra_receiver_entry($dataVariable,$origination_rate,$terminatio
 			if($flag_parent == false){
 				
 				$cdr_string = get_cdr_string($localVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate_did,$provider_cost,$parentid,$debit,0,$logger);
-			}
-			else{
+			} else{
 				$cdr_string = get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,$debit,$cost);
 			}
 		}
@@ -283,7 +288,7 @@ function insert_extra_receiver_entry($dataVariable,$origination_rate,$terminatio
 		if($flag_parent == false)
 		{
 			$query = "INSERT INTO cdrs(uniqueid,accountid,type,callerid,callednum,billseconds,trunk_id,trunkip,callerip,disposition,callstart,debit,cost,provider_id,pricelist_id,package_id,pattern,notes,rate_cost,reseller_id,reseller_code,reseller_code_destination,reseller_cost,provider_code,provider_code_destination,provider_cost,provider_call_cost,call_direction,calltype,profile_start_stamp,answer_stamp,bridge_stamp,progress_stamp,progress_media_stamp,end_stamp,billmsec,answermsec,waitmsec,progress_mediamsec,flow_billmsec) values ($cdr_string)";
-		}else{
+		} else{
 			$query = "INSERT INTO reseller_cdrs (uniqueid,accountid,callerid,callednum,billseconds,disposition,callstart,debit,cost,pricelist_id,package_id,pattern,notes,rate_cost,
 	reseller_id,reseller_code,reseller_code_destination,reseller_cost,call_direction,calltype) values ($cdr_string)";
 		}
@@ -291,7 +296,7 @@ function insert_extra_receiver_entry($dataVariable,$origination_rate,$terminatio
 		$logger->log($query);
 		$db->run($query);	
 
-		if($debit > 0 && ($dataVariable['calltype'] != "FREE" && $dataVariable['calltype'] != "LOCAL"))
+		if ($debit > 0 && ($dataVariable['calltype'] != "FREE" && $dataVariable['calltype'] != "LOCAL"))
 		{
 			update_balance($accountid, $debit, 0, $logger, $db);
 		}
@@ -302,7 +307,7 @@ function insert_extra_receiver_entry($dataVariable,$origination_rate,$terminatio
 function get_cdr_string($dataVariable,$accountid,$account_type,$actual_duration,$termination_rate,$origination_rate,$provider_cost,$parentid,$debit,$cost,$logger)
 {
 
-        $dataVariable['calltype'] = ($dataVariable['calltype'] == 'DID-LOCAL' || $dataVariable['calltype'] == 'SIP-DID' || $dataVariable['calltype'] == 'OTHER')?"DID":$dataVariable['calltype'];
+		$dataVariable['calltype'] = ($dataVariable['calltype'] == 'DID-LOCAL' || $dataVariable['calltype'] == 'SIP-DID' || $dataVariable['calltype'] == 'OTHER')?"DID":$dataVariable['calltype'];
 
 		return  $cdr_string = "'".($dataVariable['uuid'])."','".$accountid."','".$account_type."','".(urldecode($dataVariable['caller_id']))."','".($dataVariable['effective_destination_number'])."','".$actual_duration."',".(($termination_rate['TRUNK']) ? $termination_rate['TRUNK'] : '0').",".(($dataVariable['sip_via_host']) ? "'".$dataVariable['sip_via_host']."'" : '').",".(($dataVariable['sip_contact_host']) ? "'".$dataVariable['sip_contact_host']."'" : '').",'".($dataVariable['hangup_cause'])."','".urldecode($dataVariable['callstart'])."','".$debit."','".$cost."',".(($termination_rate['PROVIDER']) ? $termination_rate['PROVIDER'] : '0').",'".$origination_rate[$accountid]['RATEGROUP']."','".$dataVariable['package_id']."','".($origination_rate[$accountid]['CODE'])."',".(($origination_rate[$accountid]['DESTINATION']) ? "'".htmlentities($origination_rate[$accountid]['DESTINATION'],ENT_COMPAT, 'UTF-8')."'" : "'".''."'").",".(($origination_rate[$accountid]['COST']) ? "'".$origination_rate[$accountid]['COST']."'" : "'".'0'."'").",
 '".$parentid."',".(($origination_rate[$parentid]['CODE'] ) ? "'".$origination_rate[$parentid]['CODE']."'" : "'".'0'."'").",".(($origination_rate[$parentid]['DESTINATION']) ?  "'".$origination_rate[$parentid]['DESTINATION']."'" : "'".''."'").",".(($origination_rate[$parentid]['COST']) ?  "'".$origination_rate[$parentid]['COST']."'" :  '0').",".(($termination_rate['CODE']) ? "'".$termination_rate['CODE']."'" : "'".''."'" ).",
@@ -318,6 +323,9 @@ function get_reseller_cdr_string($dataVariable,$accountid,$account_type,$actual_
 }
 
 //Update user balance
+/**
+ * @param integer $entity_id
+ */
 function update_balance($user_id, $amount, $entity_id, $logger, $db) {
     $math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
     $query = "UPDATE accounts SET balance=balance-" . $amount . " WHERE id=" . $user_id;
@@ -329,13 +337,13 @@ function update_balance($user_id, $amount, $entity_id, $logger, $db) {
 function normalize_rate($dataVariable)
 {
 	$rates = urldecode($dataVariable);
-    $data = explode("|",$rates);
+    $data = explode("|", $rates);
 
 	$newarray = array();
-    foreach($data as $key => $value)
+    foreach ($data as $key => $value)
     {
-            $data1 = explode(":",$value);
-            foreach($data1 as $newkey => $newvalue)
+            $data1 = explode(":", $value);
+            foreach ($data1 as $newkey => $newvalue)
             {
                     $newarray[$data1[0]] = $data1[$newkey];
             }
@@ -347,16 +355,16 @@ function normalize_rate($dataVariable)
 function normalize_origination_rate($dataVariable)
 {
 	$rates = urldecode($dataVariable);
-	$data = explode("|",$rates);
+	$data = explode("|", $rates);
 	$newarray = array();
 	$newarray1 = array();	
-	foreach($data as $key => $value)
+	foreach ($data as $key => $value)
 	{
-		$data1 = explode(":",$value);
-		foreach($data1 as $newkey => $newvalue)
+		$data1 = explode(":", $value);
+		foreach ($data1 as $newkey => $newvalue)
 		{
 			$newarray[$data1[0]] = $data1[$newkey];
-			if($newvalue == "ACCID" ){
+			if ($newvalue == "ACCID") {
 				$newarray1[$data1[1]] = $newarray;
 			}
 		}
@@ -365,27 +373,27 @@ function normalize_origination_rate($dataVariable)
 }
 
 // Calculate cost for billing 
-function calc_cost($dataVariable, $rates, $logger,$decimal_points)
+function calc_cost($dataVariable, $rates, $logger, $decimal_points)
 {
 	//$logger->log(print_r($rates,true));
 	$duration = $dataVariable['billsec'];
-	$call_cost=0;  
+	$call_cost = 0;  
 	$duration -= $rates['INCLUDEDSECONDS'];
-	if ($duration > 0 && ($dataVariable['hangup_cause'] == 'NORMAL_CLEARING' || $dataVariable['hangup_cause']  == 'ALLOTTED_TIMEOUT')) {
+	if ($duration > 0 && ($dataVariable['hangup_cause'] == 'NORMAL_CLEARING' || $dataVariable['hangup_cause'] == 'ALLOTTED_TIMEOUT')) {
 
-    		$rates['INC'] = ($rates['INC'] == 0) ? 1 : $rates['INC'];
-            $call_cost = $rates['CONNECTIONCOST'];
-	    	$call_cost += ($rates['INITIALBLOCK'] * $rates['COST']) / 60;
-            $billseconds = $duration - $rates['INITIALBLOCK'];
+			$rates['INC'] = ($rates['INC'] == 0) ? 1 : $rates['INC'];
+			$call_cost = $rates['CONNECTIONCOST'];
+			$call_cost += ($rates['INITIALBLOCK'] * $rates['COST']) / 60;
+			$billseconds = $duration - $rates['INITIALBLOCK'];
     
-            if ($billseconds > 0)
-            {
-                $call_cost += (ceil($billseconds/$rates['INC'])*$rates['INC'])*($rates['COST']/60);
-            }
-    }
-    $call_cost = number_format($call_cost,$decimal_points);
-    $logger->log("Return cost ".$call_cost);
-    return $call_cost;
+			if ($billseconds > 0)
+			{
+				$call_cost += (ceil($billseconds/$rates['INC'])*$rates['INC'])*($rates['COST']/60);
+			}
+	}
+	$call_cost = number_format($call_cost,$decimal_points);
+	$logger->log("Return cost ".$call_cost);
+	return $call_cost;
 }
 
 // get intial package information
@@ -434,9 +442,9 @@ function get_counters($accountid,$package_id,$db,$logger)
 	$counter = $db->run($query_counter);
 	$logger->log("GET Counters  : " . $query_counter);
 	if($counter)
-	    return $counter[0];	
+		return $counter[0];	
 	else
-	    return "";
+		return "";
 }
 
 //Get user info
@@ -457,6 +465,9 @@ function load_configuration($logger)
 }
 
 // String append prefix for checking rates
+/**
+ * @param string $field
+ */
 function number_loop($destination,$field,$db)
 {
 	$max_len_prefix  = strlen($destination);
@@ -471,6 +482,9 @@ function number_loop($destination,$field,$db)
 }
 
 //Convert current time to GMT
+/**
+ * @param string $date
+ */
 function convert_to_gmt($date)
 {
 	return gmdate('Y-m-d H:i:s', strtotime($date) );

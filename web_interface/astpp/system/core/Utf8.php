@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -58,13 +60,11 @@ class CI_Utf8 {
 			{
 				define('MB_ENABLED', TRUE);
 				mb_internal_encoding('UTF-8');
-			}
-			else
+			} else
 			{
 				define('MB_ENABLED', FALSE);
 			}
-		}
-		else
+		} else
 		{
 			log_message('debug', "UTF-8 Support Disabled");
 			define('UTF8_ENABLED', FALSE);
@@ -127,12 +127,10 @@ class CI_Utf8 {
 		if (function_exists('iconv'))
 		{
 			$str = @iconv($encoding, 'UTF-8', $str);
-		}
-		elseif (function_exists('mb_convert_encoding'))
+		} elseif (function_exists('mb_convert_encoding'))
 		{
 			$str = @mb_convert_encoding($str, 'UTF-8', $encoding);
-		}
-		else
+		} else
 		{
 			return FALSE;
 		}

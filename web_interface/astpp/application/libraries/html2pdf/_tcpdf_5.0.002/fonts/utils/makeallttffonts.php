@@ -55,7 +55,7 @@
 
 // read directory for files (only graphics files).
 $handle = opendir('.');
-while($file = readdir($handle)) {
+while ($file = readdir($handle)) {
 	$path_parts = pathinfo($file);
 	$file_ext = strtolower($path_parts['extension']);
 	if ($file_ext == 'ttf') {

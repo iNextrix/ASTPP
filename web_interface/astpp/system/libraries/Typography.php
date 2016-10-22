@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -30,7 +32,7 @@ class CI_Typography {
 	var $block_elements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
 
 	// Elements that should not have <p> and <br /> tags within them.
-	var $skip_elements	= 'p|pre|ol|ul|dl|object|table|h\d';
+	var $skip_elements = 'p|pre|ol|ul|dl|object|table|h\d';
 
 	// Tags we want the parser to completely ignore when splitting the string.
 	var $inline_elements = 'a|abbr|acronym|b|bdo|big|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|q|samp|select|small|span|strong|sub|sup|textarea|tt|var';
@@ -124,7 +126,7 @@ class CI_Typography {
 		//		[2] = <closing tag>
 		//		Etc...
 		//	}
-		$chunks = preg_split('/(<(?:[^<>]+(?:"[^"]*"|\'[^\']*\')?)+>)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+		$chunks = preg_split('/(<(?:[^<>]+(?:"[^"]*"|\'[^\']*\')?)+>)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
 		// Build our finalized string.  We cycle through the array, skipping tags, and processing the contained text
 		$str = '';
@@ -143,7 +145,7 @@ class CI_Typography {
 			{
 				if (preg_match("#".$this->skip_elements."#", $match[2]))
 				{
-					$process =  ($match[1] == '/') ? TRUE : FALSE;
+					$process = ($match[1] == '/') ? TRUE : FALSE;
 				}
 
 				if ($match[1] == '')
@@ -228,8 +230,7 @@ class CI_Typography {
 		if ($reduce_linebreaks === TRUE)
 		{
 			$table['#<p>\n*</p>#'] = '';
-		}
-		else
+		} else
 		{
 			// If we have empty paragraph tags we add a non-breaking space
 			// otherwise most browsers won't treat them as true paragraphs
@@ -251,6 +252,7 @@ class CI_Typography {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param string $str
 	 * @return	string
 	 */
 	function format_characters($str)
@@ -324,7 +326,7 @@ class CI_Typography {
 			return $str;
 		}
 
-		if (strpos($str, "\n") === FALSE  && ! in_array($this->last_block_element, $this->inner_block_required))
+		if (strpos($str, "\n") === FALSE && ! in_array($this->last_block_element, $this->inner_block_required))
 		{
 			return $str;
 		}
@@ -341,7 +343,7 @@ class CI_Typography {
 			// We trim off the right-side new line so that the closing </p> tag
 			// will be positioned immediately following the string, matching
 			// the behavior of the opening <p> tag
-			$str =  '<p>'.rtrim($str).'</p>';
+			$str = '<p>'.rtrim($str).'</p>';
 		}
 
 		// Remove empty paragraphs if they are on the first line, as this
@@ -367,7 +369,7 @@ class CI_Typography {
 	 */
 	function _protect_characters($match)
 	{
-		return str_replace(array("'",'"','--','  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
+		return str_replace(array("'", '"', '--', '  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
 	}
 
 	// --------------------------------------------------------------------
@@ -381,7 +383,7 @@ class CI_Typography {
 	 */
 	function nl2br_except_pre($str)
 	{
-		$ex = explode("pre>",$str);
+		$ex = explode("pre>", $str);
 		$ct = count($ex);
 
 		$newstr = "";
@@ -390,14 +392,14 @@ class CI_Typography {
 			if (($i % 2) == 0)
 			{
 				$newstr .= nl2br($ex[$i]);
-			}
-			else
+			} else
 			{
 				$newstr .= $ex[$i];
 			}
 
-			if ($ct - 1 != $i)
-				$newstr .= "pre>";
+			if ($ct - 1 != $i) {
+							$newstr .= "pre>";
+			}
 		}
 
 		return $newstr;

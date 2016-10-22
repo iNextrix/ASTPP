@@ -52,17 +52,17 @@ ASTPP work best with JavaScript enabled
 		    	<div class="col-md-12 no-padding">
 
 
-	      <? if($this->session->userdata('userlevel_logintype') != '0'){?>
-			<a class="col-md-9" href="<?php echo base_url();?>">
-                	<img id="logo" alt="dashboard" src="<?php echo base_url();?>assets/images/logo.png">
-	      <? } else{?> 
-                	<a class="col-md-9" href="<?php echo base_url();?>">
-                	<img id="logo" alt="user_logo" src="<?php echo base_url();?>assets/images/logo.png">
+	      <? if ($this->session->userdata('userlevel_logintype') != '0') {?>
+			<a class="col-md-9" href="<?php echo base_url(); ?>">
+                	<img id="logo" alt="dashboard" src="<?php echo base_url(); ?>assets/images/logo.png">
+	      <? } else {?> 
+                	<a class="col-md-9" href="<?php echo base_url(); ?>">
+                	<img id="logo" alt="user_logo" src="<?php echo base_url(); ?>assets/images/logo.png">
 		<? }?>
                 </a>
       
 	
-		<div class="col-md-3"><a href="<?php echo base_url();?>"><input type="submit" value="Login" name="Login" class="btn btn-success col-md-12"></a></div>
+		<div class="col-md-3"><a href="<?php echo base_url(); ?>"><input type="submit" value="Login" name="Login" class="btn btn-success col-md-12"></a></div>
 	
 </div>
 
@@ -71,7 +71,7 @@ ASTPP work best with JavaScript enabled
 
 <form class="form-light col-md-12 no-padding" action="<?php echo base_url(); ?>signup/successpassword/" method="post" accept-charset="utf-8" id="customer_form" name="customer_form">
 
-<input type="hidden" name="email" value=<?php echo $email;?>>
+<input type="hidden" name="email" value=<?php echo $email; ?>>
 <div class="col-md-12 margin-t-20 padding-r-32 padding-l-32">
 <h3 style="color: #37A137 !important; padding: 0 0 10px;"><i class="fa fa-check-circle" style="color:#37A137;"></i> Your password successfully changed</h3>
 </div> 

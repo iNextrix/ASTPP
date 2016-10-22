@@ -1,4 +1,6 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -34,7 +36,7 @@ class CI_Cache_file extends CI_Driver {
 	 */
 	public function __construct()
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$CI->load->helper('file');
 		
 		$path = $CI->config->item('cache_path');
@@ -60,7 +62,7 @@ class CI_Cache_file extends CI_Driver {
 		$data = read_file($this->_cache_path.$id);
 		$data = unserialize($data);
 		
-		if (time() >  $data['time'] + $data['ttl'])
+		if (time() > $data['time'] + $data['ttl'])
 		{
 			unlink($this->_cache_path.$id);
 			return FALSE;

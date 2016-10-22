@@ -1,4 +1,6 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -27,9 +29,9 @@
 
 class CI_Cache_memcached extends CI_Driver {
 
-	private $_memcached;	// Holds the memcached object
+	private $_memcached; // Holds the memcached object
 
-	protected $_memcache_conf 	= array(
+	protected $_memcache_conf = array(
 					'default' => array(
 						'default_host'		=> '127.0.0.1',
 						'default_port'		=> 11211,
@@ -67,8 +69,7 @@ class CI_Cache_memcached extends CI_Driver {
 		if (get_class($this->_memcached) == 'Memcached')
 		{
 			return $this->_memcached->set($id, array($data, time(), $ttl), $ttl);
-		}
-		else if (get_class($this->_memcached) == 'Memcache')
+		} else if (get_class($this->_memcached) == 'Memcache')
 		{
 			return $this->_memcached->set($id, array($data, time(), $ttl), 0, $ttl);
 		}
@@ -148,7 +149,7 @@ class CI_Cache_memcached extends CI_Driver {
 	private function _setup_memcached()
 	{
 		// Try to load memcached server info from the config file.
-		$CI =& get_instance();
+		$CI = & get_instance();
 		if ($CI->config->load('memcached', TRUE, TRUE))
 		{
 			if (is_array($CI->config->config['memcached']))

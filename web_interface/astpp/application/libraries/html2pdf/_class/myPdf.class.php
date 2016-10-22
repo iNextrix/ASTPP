@@ -37,12 +37,12 @@ class HTML2PDF_myPdf extends TCPDF
      * @access public
      */
     public function __construct(
-        $orientation='P',
-        $unit='mm',
-        $format='A4',
-        $unicode=true,
-        $encoding='UTF-8',
-        $diskcache=false)
+        $orientation = 'P',
+        $unit = 'mm',
+        $format = 'A4',
+        $unicode = true,
+        $encoding = 'UTF-8',
+        $diskcache = false)
     {
         // call the parent constructor
         parent::__construct($orientation, $unit, $format, $unicode, $encoding, $diskcache);
@@ -93,19 +93,19 @@ class HTML2PDF_myPdf extends TCPDF
             $txt = (HTML2PDF_locale::get('pdf05'));
         }
         if ($this->_footerParam['date'] && $this->_footerParam['hour']) {
-            $txt.= ($txt ? ' - ' : '').(HTML2PDF_locale::get('pdf03'));
+            $txt .= ($txt ? ' - ' : '').(HTML2PDF_locale::get('pdf03'));
         }
-        if ($this->_footerParam['date'] && !$this->_footerParam['hour']) {
-            $txt.= ($txt ? ' - ' : '').(HTML2PDF_locale::get('pdf01'));
+        if ($this->_footerParam['date'] && ! $this->_footerParam['hour']) {
+            $txt .= ($txt ? ' - ' : '').(HTML2PDF_locale::get('pdf01'));
         }
-        if (!$this->_footerParam['date'] && $this->_footerParam['hour']) {
-            $txt.= ($txt ? ' - ' : '').(HTML2PDF_locale::get('pdf02'));
+        if ( ! $this->_footerParam['date'] && $this->_footerParam['hour']) {
+            $txt .= ($txt ? ' - ' : '').(HTML2PDF_locale::get('pdf02'));
         }
         if ($this->_footerParam['page']) {
-            $txt.= ($txt ? ' - ' : '').(HTML2PDF_locale::get('pdf04'));
+            $txt .= ($txt ? ' - ' : '').(HTML2PDF_locale::get('pdf04'));
         }
 
-        if (strlen($txt)>0) {
+        if (strlen($txt) > 0) {
             // replace some values
             $toReplace = array(
                 '[[date_d]]'  => date('d'),
@@ -131,6 +131,7 @@ class HTML2PDF_myPdf extends TCPDF
      * because it take a lot a time and a lot of memory => we use reference
      *
      * @param &HTML2PDF_myPdf object
+     * @param HTML2PDF_myPdf $pdf
      * @access public
      */
     public function cloneFontFrom(&$pdf)
@@ -222,10 +223,10 @@ class HTML2PDF_myPdf extends TCPDF
      * @param float word spacing
      * @access public
      */
-    public function setWordSpacing($ws=0.)
+    public function setWordSpacing($ws = 0.)
     {
         $this->ws = $ws;
-        $this->_out(sprintf('%.3F Tw', $ws*$this->k));
+        $this->_out(sprintf('%.3F Tw', $ws * $this->k));
     }
 
     /**
@@ -246,114 +247,114 @@ class HTML2PDF_myPdf extends TCPDF
         $y = null,
         $w = null,
         $h = null,
-        $cornerTL=null,
-        $cornerTR=null,
-        $cornerBL=null,
-        $cornerBR=null)
+        $cornerTL = null,
+        $cornerTR = null,
+        $cornerBL = null,
+        $cornerBR = null)
     {
         // init the path
         $path = '';
 
         // if we have the position and the size of the rectangle, we can proceed
-        if ($x!==null && $y!==null && $w!==null && $h!==null) {
+        if ($x !== null && $y !== null && $w !== null && $h !== null) {
             // the positions of the rectangle's corners
-            $x1 = $x*$this->k;
-            $y1 = ($this->h-$y)*$this->k;
+            $x1 = $x * $this->k;
+            $y1 = ($this->h - $y) * $this->k;
 
-            $x2 = ($x+$w)*$this->k;
-            $y2 = ($this->h-$y)*$this->k;
+            $x2 = ($x + $w) * $this->k;
+            $y2 = ($this->h - $y) * $this->k;
 
-            $x3 = ($x+$w)*$this->k;
-            $y3 = ($this->h-$y-$h)*$this->k;
+            $x3 = ($x + $w) * $this->k;
+            $y3 = ($this->h - $y - $h) * $this->k;
 
-            $x4 = $x*$this->k;
-            $y4 = ($this->h-$y-$h)*$this->k;
+            $x4 = $x * $this->k;
+            $y4 = ($this->h - $y - $h) * $this->k;
 
             // if we have at least one radius corner, then we proceed to a specific path, else it is just a rectangle
             if ($cornerTL || $cornerTR || $cornerBL || $cornerBR) {
                 // prepare the radius values
                 if ($cornerTL) {
-                    $cornerTL[0] = $cornerTL[0]*$this->k;
-                    $cornerTL[1] =-$cornerTL[1]*$this->k;
+                    $cornerTL[0] = $cornerTL[0] * $this->k;
+                    $cornerTL[1] = -$cornerTL[1] * $this->k;
                 }
                 if ($cornerTR) {
-                    $cornerTR[0] = $cornerTR[0]*$this->k;
-                    $cornerTR[1] =-$cornerTR[1]*$this->k;
+                    $cornerTR[0] = $cornerTR[0] * $this->k;
+                    $cornerTR[1] = -$cornerTR[1] * $this->k;
                 }
                 if ($cornerBL) {
-                    $cornerBL[0] = $cornerBL[0]*$this->k;
-                    $cornerBL[1] =-$cornerBL[1]*$this->k;
+                    $cornerBL[0] = $cornerBL[0] * $this->k;
+                    $cornerBL[1] = -$cornerBL[1] * $this->k;
                 }
                 if ($cornerBR) {
-                    $cornerBR[0] = $cornerBR[0]*$this->k;
-                    $cornerBR[1] =-$cornerBR[1]*$this->k;
+                    $cornerBR[0] = $cornerBR[0] * $this->k;
+                    $cornerBR[1] = -$cornerBR[1] * $this->k;
                 }
 
                 // if TL radius then specific start else (X1,Y1)
                 if ($cornerTL) {
-                    $path.= sprintf('%.2F %.2F m ', $x1+$cornerTL[0], $y1);
+                    $path .= sprintf('%.2F %.2F m ', $x1 + $cornerTL[0], $y1);
                 } else {
-                    $path.= sprintf('%.2F %.2F m ', $x1, $y1);
+                    $path .= sprintf('%.2F %.2F m ', $x1, $y1);
                 }
 
                 // if TR radius then line + arc, else line to (X2,Y2)
                 if ($cornerTR) {
-                    $xt1 = ($x2-$cornerTR[0])+$cornerTR[0]*self::MY_ARC;
-                    $yt1 = ($y2+$cornerTR[1])-$cornerTR[1];
-                    $xt2 = ($x2-$cornerTR[0])+$cornerTR[0];
-                    $yt2 = ($y2+$cornerTR[1])-$cornerTR[1]*self::MY_ARC;
+                    $xt1 = ($x2 - $cornerTR[0]) + $cornerTR[0] * self::MY_ARC;
+                    $yt1 = ($y2 + $cornerTR[1]) - $cornerTR[1];
+                    $xt2 = ($x2 - $cornerTR[0]) + $cornerTR[0];
+                    $yt2 = ($y2 + $cornerTR[1]) - $cornerTR[1] * self::MY_ARC;
 
-                    $path.= sprintf('%.2F %.2F l ', $x2-$cornerTR[0], $y2);
-                    $path.= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $x2, $y2+$cornerTR[1]);
+                    $path .= sprintf('%.2F %.2F l ', $x2 - $cornerTR[0], $y2);
+                    $path .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $x2, $y2 + $cornerTR[1]);
                 } else {
-                    $path.= sprintf('%.2F %.2F l ', $x2, $y2);
+                    $path .= sprintf('%.2F %.2F l ', $x2, $y2);
                 }
 
                 // if BR radius then line + arc, else line to (X3, Y3)
                 if ($cornerBR) {
-                    $xt1 = ($x3-$cornerBR[0])+$cornerBR[0];
-                    $yt1 = ($y3-$cornerBR[1])+$cornerBR[1]*self::MY_ARC;
-                    $xt2 = ($x3-$cornerBR[0])+$cornerBR[0]*self::MY_ARC;
-                    $yt2 = ($y3-$cornerBR[1])+$cornerBR[1];
+                    $xt1 = ($x3 - $cornerBR[0]) + $cornerBR[0];
+                    $yt1 = ($y3 - $cornerBR[1]) + $cornerBR[1] * self::MY_ARC;
+                    $xt2 = ($x3 - $cornerBR[0]) + $cornerBR[0] * self::MY_ARC;
+                    $yt2 = ($y3 - $cornerBR[1]) + $cornerBR[1];
 
-                    $path.= sprintf('%.2F %.2F l ', $x3, $y3-$cornerBR[1]);
-                    $path.= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $x3-$cornerBR[0], $y3);
+                    $path .= sprintf('%.2F %.2F l ', $x3, $y3 - $cornerBR[1]);
+                    $path .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $x3 - $cornerBR[0], $y3);
                 } else {
-                    $path.= sprintf('%.2F %.2F l ', $x3, $y3);
+                    $path .= sprintf('%.2F %.2F l ', $x3, $y3);
                 }
 
                 // if BL radius then line + arc, else line to (X4, Y4)
                 if ($cornerBL) {
-                    $xt1 = ($x4+$cornerBL[0])-$cornerBL[0]*self::MY_ARC;
-                    $yt1 = ($y4-$cornerBL[1])+$cornerBL[1];
-                    $xt2 = ($x4+$cornerBL[0])-$cornerBL[0];
-                    $yt2 = ($y4-$cornerBL[1])+$cornerBL[1]*self::MY_ARC;
+                    $xt1 = ($x4 + $cornerBL[0]) - $cornerBL[0] * self::MY_ARC;
+                    $yt1 = ($y4 - $cornerBL[1]) + $cornerBL[1];
+                    $xt2 = ($x4 + $cornerBL[0]) - $cornerBL[0];
+                    $yt2 = ($y4 - $cornerBL[1]) + $cornerBL[1] * self::MY_ARC;
 
-                    $path.= sprintf('%.2F %.2F l ', $x4+$cornerBL[0], $y4);
-                    $path.= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $x4, $y4-$cornerBL[1]);
+                    $path .= sprintf('%.2F %.2F l ', $x4 + $cornerBL[0], $y4);
+                    $path .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $x4, $y4 - $cornerBL[1]);
                 } else {
-                    $path.= sprintf('%.2F %.2F l ', $x4, $y4);
+                    $path .= sprintf('%.2F %.2F l ', $x4, $y4);
                 }
 
                 // if RL radius then line + arc
                 if ($cornerTL) {
-                    $xt1 = ($x1+$cornerTL[0])-$cornerTL[0];
-                    $yt1 = ($y1+$cornerTL[1])-$cornerTL[1]*self::MY_ARC;
-                    $xt2 = ($x1+$cornerTL[0])-$cornerTL[0]*self::MY_ARC;
-                    $yt2 = ($y1+$cornerTL[1])-$cornerTL[1];
+                    $xt1 = ($x1 + $cornerTL[0]) - $cornerTL[0];
+                    $yt1 = ($y1 + $cornerTL[1]) - $cornerTL[1] * self::MY_ARC;
+                    $xt2 = ($x1 + $cornerTL[0]) - $cornerTL[0] * self::MY_ARC;
+                    $yt2 = ($y1 + $cornerTL[1]) - $cornerTL[1];
 
-                    $path.= sprintf('%.2F %.2F l ', $x1, $y1+$cornerTL[1]);
-                    $path.= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $x1+$cornerTL[0], $y1);
+                    $path .= sprintf('%.2F %.2F l ', $x1, $y1 + $cornerTL[1]);
+                    $path .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $x1 + $cornerTL[0], $y1);
                 }
             } else {
-                $path.= sprintf('%.2F %.2F m ', $x1, $y1);
-                $path.= sprintf('%.2F %.2F l ', $x2, $y2);
-                $path.= sprintf('%.2F %.2F l ', $x3, $y3);
-                $path.= sprintf('%.2F %.2F l ', $x4, $y4);
+                $path .= sprintf('%.2F %.2F m ', $x1, $y1);
+                $path .= sprintf('%.2F %.2F l ', $x2, $y2);
+                $path .= sprintf('%.2F %.2F l ', $x3, $y3);
+                $path .= sprintf('%.2F %.2F l ', $x4, $y4);
             }
 
             // close the path
-            $path.= ' h W n';
+            $path .= ' h W n';
         }
 
         // using the path as a clipping path
@@ -396,51 +397,51 @@ class HTML2PDF_myPdf extends TCPDF
     public function drawCurve($ext1X, $ext1Y, $ext2X, $ext2Y, $int1X, $int1Y, $int2X, $int2Y, $cenX, $cenY)
     {
         // prepare the coordinates
-        $ext1X = $ext1X*$this->k;
-        $ext2X = $ext2X*$this->k;
-        $int1X = $int1X*$this->k;
-        $int2X = $int2X*$this->k;
-        $cenX  = $cenX*$this->k;
+        $ext1X = $ext1X * $this->k;
+        $ext2X = $ext2X * $this->k;
+        $int1X = $int1X * $this->k;
+        $int2X = $int2X * $this->k;
+        $cenX  = $cenX * $this->k;
 
-        $ext1Y = ($this->h-$ext1Y)*$this->k;
-        $ext2Y = ($this->h-$ext2Y)*$this->k;
-        $int1Y = ($this->h-$int1Y)*$this->k;
-        $int2Y = ($this->h-$int2Y)*$this->k;
-        $cenY  = ($this->h-$cenY) *$this->k;
+        $ext1Y = ($this->h - $ext1Y) * $this->k;
+        $ext2Y = ($this->h - $ext2Y) * $this->k;
+        $int1Y = ($this->h - $int1Y) * $this->k;
+        $int2Y = ($this->h - $int2Y) * $this->k;
+        $cenY  = ($this->h - $cenY) * $this->k;
 
         // init the curve
         $path = '';
 
-        if ($ext1X-$cenX!=0) {
-            $xt1 = $cenX+($ext1X-$cenX);
-            $yt1 = $cenY+($ext2Y-$cenY)*self::MY_ARC;
-            $xt2 = $cenX+($ext1X-$cenX)*self::MY_ARC;
-            $yt2 = $cenY+($ext2Y-$cenY);
+        if ($ext1X - $cenX != 0) {
+            $xt1 = $cenX + ($ext1X - $cenX);
+            $yt1 = $cenY + ($ext2Y - $cenY) * self::MY_ARC;
+            $xt2 = $cenX + ($ext1X - $cenX) * self::MY_ARC;
+            $yt2 = $cenY + ($ext2Y - $cenY);
         } else {
-            $xt1 = $cenX+($ext2X-$cenX)*self::MY_ARC;
-            $yt1 = $cenY+($ext1Y-$cenY);
-            $xt2 = $cenX+($ext2X-$cenX);
-            $yt2 = $cenY+($ext1Y-$cenY)*self::MY_ARC;
+            $xt1 = $cenX + ($ext2X - $cenX) * self::MY_ARC;
+            $yt1 = $cenY + ($ext1Y - $cenY);
+            $xt2 = $cenX + ($ext2X - $cenX);
+            $yt2 = $cenY + ($ext1Y - $cenY) * self::MY_ARC;
         }
-        $path.= sprintf('%.2F %.2F m ', $ext1X, $ext1Y);
-        $path.= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $ext2X, $ext2Y);
+        $path .= sprintf('%.2F %.2F m ', $ext1X, $ext1Y);
+        $path .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $ext2X, $ext2Y);
 
-        if ($int1X-$cenX!=0) {
-            $xt1 = $cenX+($int1X-$cenX)*self::MY_ARC;
-            $yt1 = $cenY+($int2Y-$cenY);
-            $xt2 = $cenX+($int1X-$cenX);
-            $yt2 = $cenY+($int2Y-$cenY)*self::MY_ARC;
+        if ($int1X - $cenX != 0) {
+            $xt1 = $cenX + ($int1X - $cenX) * self::MY_ARC;
+            $yt1 = $cenY + ($int2Y - $cenY);
+            $xt2 = $cenX + ($int1X - $cenX);
+            $yt2 = $cenY + ($int2Y - $cenY) * self::MY_ARC;
         } else {
-            $xt1 = $cenX+($int2X-$cenX);
-            $yt1 = $cenY+($int1Y-$cenY)*self::MY_ARC;
-            $xt2 = $cenX+($int2X-$cenX)*self::MY_ARC;
-            $yt2 = $cenY+($int1Y-$cenY);
+            $xt1 = $cenX + ($int2X - $cenX);
+            $yt1 = $cenY + ($int1Y - $cenY) * self::MY_ARC;
+            $xt2 = $cenX + ($int2X - $cenX) * self::MY_ARC;
+            $yt2 = $cenY + ($int1Y - $cenY);
         }
-        $path.= sprintf('%.2F %.2F l ', $int2X, $int2Y);
-        $path.= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $int1X, $int1Y);
+        $path .= sprintf('%.2F %.2F l ', $int2X, $int2Y);
+        $path .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $int1X, $int1Y);
 
         // draw the curve
-        $this->_out($path . 'f');
+        $this->_out($path.'f');
     }
 
     /**
@@ -467,37 +468,37 @@ class HTML2PDF_myPdf extends TCPDF
     public function drawCorner($ext1X, $ext1Y, $ext2X, $ext2Y, $intX, $intY, $cenX, $cenY)
     {
         // prepare the coordinates
-        $ext1X = $ext1X*$this->k;
-        $ext2X = $ext2X*$this->k;
-        $intX  = $intX*$this->k;
-        $cenX  = $cenX*$this->k;
+        $ext1X = $ext1X * $this->k;
+        $ext2X = $ext2X * $this->k;
+        $intX  = $intX * $this->k;
+        $cenX  = $cenX * $this->k;
 
-        $ext1Y = ($this->h-$ext1Y)*$this->k;
-        $ext2Y = ($this->h-$ext2Y)*$this->k;
-        $intY  = ($this->h-$intY)*$this->k;
-        $cenY  = ($this->h-$cenY)*$this->k;
+        $ext1Y = ($this->h - $ext1Y) * $this->k;
+        $ext2Y = ($this->h - $ext2Y) * $this->k;
+        $intY  = ($this->h - $intY) * $this->k;
+        $cenY  = ($this->h - $cenY) * $this->k;
 
         // init the curve
         $path = '';
 
-        if ($ext1X-$cenX!=0) {
-            $xt1 = $cenX+($ext1X-$cenX);
-            $yt1 = $cenY+($ext2Y-$cenY)*self::MY_ARC;
-            $xt2 = $cenX+($ext1X-$cenX)*self::MY_ARC;
-            $yt2 = $cenY+($ext2Y-$cenY);
+        if ($ext1X - $cenX != 0) {
+            $xt1 = $cenX + ($ext1X - $cenX);
+            $yt1 = $cenY + ($ext2Y - $cenY) * self::MY_ARC;
+            $xt2 = $cenX + ($ext1X - $cenX) * self::MY_ARC;
+            $yt2 = $cenY + ($ext2Y - $cenY);
         } else {
-            $xt1 = $cenX+($ext2X-$cenX)*self::MY_ARC;
-            $yt1 = $cenY+($ext1Y-$cenY);
-            $xt2 = $cenX+($ext2X-$cenX);
-            $yt2 = $cenY+($ext1Y-$cenY)*self::MY_ARC;
+            $xt1 = $cenX + ($ext2X - $cenX) * self::MY_ARC;
+            $yt1 = $cenY + ($ext1Y - $cenY);
+            $xt2 = $cenX + ($ext2X - $cenX);
+            $yt2 = $cenY + ($ext1Y - $cenY) * self::MY_ARC;
         }
-        $path.= sprintf('%.2F %.2F m ', $ext1X, $ext1Y);
-        $path.= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $ext2X, $ext2Y);
-        $path.= sprintf('%.2F %.2F l ', $intX, $intY);
-        $path.= sprintf('%.2F %.2F l ', $ext1X, $ext1Y);
+        $path .= sprintf('%.2F %.2F m ', $ext1X, $ext1Y);
+        $path .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $xt1, $yt1, $xt2, $yt2, $ext2X, $ext2Y);
+        $path .= sprintf('%.2F %.2F l ', $intX, $intY);
+        $path .= sprintf('%.2F %.2F l ', $ext1X, $ext1Y);
 
         // draw the curve
-        $this->_out($path . 'f');
+        $this->_out($path.'f');
     }
 
     /**
@@ -523,19 +524,17 @@ class HTML2PDF_myPdf extends TCPDF
     /**
      * add a Translate transformation
      *
-     * @param float $Tx
-     * @param float $Ty
      * @access public
      */
     public function setTranslate($xT, $yT)
     {
         // Matrix for Translate
-        $tm[0]=1;
-        $tm[1]=0;
-        $tm[2]=0;
-        $tm[3]=1;
-        $tm[4]=$xT*$this->k;
-        $tm[5]=-$yT*$this->k;
+        $tm[0] = 1;
+        $tm[1] = 0;
+        $tm[2] = 0;
+        $tm[3] = 1;
+        $tm[4] = $xT * $this->k;
+        $tm[5] = -$yT * $this->k;
 
         // apply the Transform Matric
         $this->_out(sprintf('%.3F %.3F %.3F %.3F %.3F %.3F cm', $tm[0], $tm[1], $tm[2], $tm[3], $tm[4], $tm[5]));
@@ -545,27 +544,25 @@ class HTML2PDF_myPdf extends TCPDF
      * add a Rotate transformation
      *
      * @param float $angle
-     * @param float $Cx
-     * @param float $Cy
      * @access public
      */
-    public function setRotation($angle, $xC=null, $yC=null)
+    public function setRotation($angle, $xC = null, $yC = null)
     {
         // if no center, rotate around the current posiition
-        if($xC === null) $xC=$this->x;
-        if($yC === null) $yC=$this->y;
+        if ($xC === null) $xC = $this->x;
+        if ($yC === null) $yC = $this->y;
 
         // prepare the coordinate
-        $yC=($this->h-$yC)*$this->k;
-        $xC*=$this->k;
+        $yC = ($this->h - $yC) * $this->k;
+        $xC *= $this->k;
 
         // Matrix for Rotate
-        $tm[0]=cos(deg2rad($angle));
-        $tm[1]=sin(deg2rad($angle));
-        $tm[2]=-$tm[1];
-        $tm[3]=$tm[0];
-        $tm[4]=$xC+$tm[1]*$yC-$tm[0]*$xC;
-        $tm[5]=$yC-$tm[0]*$yC-$tm[1]*$xC;
+        $tm[0] = cos(deg2rad($angle));
+        $tm[1] = sin(deg2rad($angle));
+        $tm[2] = -$tm[1];
+        $tm[3] = $tm[0];
+        $tm[4] = $xC + $tm[1] * $yC - $tm[0] * $xC;
+        $tm[5] = $yC - $tm[0] * $yC - $tm[1] * $xC;
 
         // apply the Transform Matric
         $this->_out(sprintf('%.3F %.3F %.3F %.3F %.3F %.3F cm', $tm[0], $tm[1], $tm[2], $tm[3], $tm[4], $tm[5]));
@@ -579,9 +576,9 @@ class HTML2PDF_myPdf extends TCPDF
      * @param boolean $rtloff NOT USED
      * @access public
      */
-    public function SetX($x, $rtloff=false)
+    public function SetX($x, $rtloff = false)
     {
-        $this->x=$x;
+        $this->x = $x;
     }
 
     /**
@@ -593,12 +590,12 @@ class HTML2PDF_myPdf extends TCPDF
      * @param boolean $rtloff NOT USED
      * @access public
      */
-    public function SetY($y, $resetx=true, $rtloff=false)
+    public function SetY($y, $resetx = true, $rtloff = false)
     {
         if ($resetx)
-            $this->x=$this->lMargin;
+            $this->x = $this->lMargin;
 
-        $this->y=$y;
+        $this->y = $y;
     }
 
     /**
@@ -610,10 +607,10 @@ class HTML2PDF_myPdf extends TCPDF
      * @param boolean $rtloff NOT USED
      * @access public
      */
-    public function SetXY($x, $y, $rtloff=false)
+    public function SetXY($x, $y, $rtloff = false)
     {
-        $this->x=$x;
-        $this->y=$y;
+        $this->x = $x;
+        $this->y = $y;
     }
 
     /**
@@ -627,10 +624,18 @@ class HTML2PDF_myPdf extends TCPDF
     {
         return $this->k;
     }
+
+    /**
+     * @return double
+     */
     public function getW()
     {
         return $this->w;
     }
+
+    /**
+     * @return double
+     */
     public function getH()
     {
         return $this->h;
@@ -639,10 +644,18 @@ class HTML2PDF_myPdf extends TCPDF
     {
         return $this->lMargin;
     }
+
+    /**
+     * @return double
+     */
     public function getrMargin()
     {
         return $this->rMargin;
     }
+
+    /**
+     * @return double
+     */
     public function gettMargin()
     {
         return $this->tMargin;
@@ -653,7 +666,7 @@ class HTML2PDF_myPdf extends TCPDF
     }
     public function setbMargin($v)
     {
-        $this->bMargin=$v;
+        $this->bMargin = $v;
     }
 
     /**
@@ -671,14 +684,14 @@ class HTML2PDF_myPdf extends TCPDF
         // Style : fill
         if ($styles['fill']) {
             $this->setFillColorArray($styles['fill']);
-            $style.= 'F';
+            $style .= 'F';
         }
 
         // Style : stroke
         if ($styles['stroke'] && $styles['stroke-width']) {
             $this->SetDrawColorArray($styles['stroke']);
             $this->SetLineWidth($styles['stroke-width']);
-            $style.= 'D';
+            $style .= 'D';
         }
 
         // Style : opacity
@@ -702,20 +715,20 @@ class HTML2PDF_myPdf extends TCPDF
     public function svgRect($x, $y, $w, $h, $style)
     {
         // prepare the 4 corners
-        $x1=$x;
-        $x2=$x+$w;
-        $x3=$x+$w;
-        $x4=$x;
+        $x1 = $x;
+        $x2 = $x + $w;
+        $x3 = $x + $w;
+        $x4 = $x;
 
-        $y1=$y;
-        $y2=$y;
-        $y3=$y+$h;
-        $y4=$y+$h;
+        $y1 = $y;
+        $y2 = $y;
+        $y3 = $y + $h;
+        $y4 = $y + $h;
 
         // get the Closing operator from the PDF Style
-        if($style=='F') $op='f';
-        elseif($style=='FD' || $style=='DF') $op='B';
-        else $op='S';
+        if ($style == 'F') $op = 'f';
+        elseif ($style == 'FD' || $style == 'DF') $op = 'B';
+        else $op = 'S';
 
         // drawing
         $this->_Point($x1, $y1, true);
@@ -738,7 +751,7 @@ class HTML2PDF_myPdf extends TCPDF
     public function svgLine($x1, $y1, $x2, $y2)
     {
         // get the Closing operator
-        $op='S';
+        $op = 'S';
 
         // drawing
         $this->_Point($x1, $y1, true);
@@ -759,12 +772,12 @@ class HTML2PDF_myPdf extends TCPDF
     public function svgEllipse($x0, $y0, $rx, $ry, $style)
     {
         // get the Closing operator from the PDF Style
-        if($style=='F') $op='f';
-        elseif($style=='FD' || $style=='DF') $op='B';
-        else $op='S';
+        if ($style == 'F') $op = 'f';
+        elseif ($style == 'FD' || $style == 'DF') $op = 'B';
+        else $op = 'S';
 
         // drawing
-        $this->_Arc($x0, $y0, $rx, $ry, 0, 2*M_PI, true, true, true);
+        $this->_Arc($x0, $y0, $rx, $ry, 0, 2 * M_PI, true, true, true);
         $this->_out($op);
     }
 
@@ -778,16 +791,16 @@ class HTML2PDF_myPdf extends TCPDF
     public function svgPolygone($actions, $style)
     {
         // get the Closing operator from the PDF Style
-        if($style=='F') $op='f';
-        elseif($style=='FD' || $style=='DF') $op='B';
-        else $op='S';
+        if ($style == 'F') $op = 'f';
+        elseif ($style == 'FD' || $style == 'DF') $op = 'B';
+        else $op = 'S';
 
         // To save the First action and the last point
         $first = array('', 0, 0);
         $last = array(0, 0, 0, 0);
 
         foreach ($actions as $action) {
-            switch($action[0])
+            switch ($action[0])
             {
                 // Start the Path
                 case 'M':
@@ -812,7 +825,7 @@ class HTML2PDF_myPdf extends TCPDF
 
                 // Make a Line (vector from last point)
                 case 'l':
-                    $x = $last[0]+$action[1]; $y = $last[1]+$action[2]; $xc = $x; $yc = $y;
+                    $x = $last[0] + $action[1]; $y = $last[1] + $action[2]; $xc = $x; $yc = $y;
                     $this->_Line($x, $y, true);
                     break;
 
@@ -824,7 +837,7 @@ class HTML2PDF_myPdf extends TCPDF
 
                 // Make a Horisontal Line (vector from last point)
                 case 'h':
-                    $x = $last[0]+$action[1]; $y = $last[1]; $xc = $x; $yc = $y;
+                    $x = $last[0] + $action[1]; $y = $last[1]; $xc = $x; $yc = $y;
                     $this->_Line($x, $y, true);
                     break;
 
@@ -836,21 +849,21 @@ class HTML2PDF_myPdf extends TCPDF
 
                 // Make a Vertical Line (vector from last point)
                 case 'v':
-                    $x = $last[0]; $y = $last[1]+$action[1]; $xc = $x; $yc = $y;
+                    $x = $last[0]; $y = $last[1] + $action[1]; $xc = $x; $yc = $y;
                     $this->_Line($x, $y, true);
                     break;
 
                 // Make a Arc (new point)
                 case 'A':
-                    $rx = $action[1];   // rx
-                    $ry = $action[2];   // ry
-                    $a = $action[3];    // deviation angle of the axis X
-                    $l = $action[4];    // large-arc-flag
-                    $s = $action[5];    // sweep-flag
-                    $x1 = $last[0];     // begin x
-                    $y1 = $last[1];     // begin y
-                    $x2 = $action[6];   // final x
-                    $y2 = $action[7];   // final y
+                    $rx = $action[1]; // rx
+                    $ry = $action[2]; // ry
+                    $a = $action[3]; // deviation angle of the axis X
+                    $l = $action[4]; // large-arc-flag
+                    $s = $action[5]; // sweep-flag
+                    $x1 = $last[0]; // begin x
+                    $y1 = $last[1]; // begin y
+                    $x2 = $action[6]; // final x
+                    $y2 = $action[7]; // final y
 
                     $this->_Arc2($x1, $y1, $x2, $y2, $rx, $ry, $a, $l, $s, true);
                     $x = $x2; $y = $y2; $xc = $x; $yc = $y;
@@ -858,15 +871,15 @@ class HTML2PDF_myPdf extends TCPDF
 
                 // Make a Arc (vector from last point)
                 case 'a':
-                    $rx = $action[1];   // rx
-                    $ry = $action[2];   // ry
-                    $a = $action[3];    // deviation angle of the axis X
-                    $l = $action[4];    // large-arc-flag
-                    $s = $action[5];    // sweep-flag
-                    $x1 = $last[0];     // begin x
-                    $y1 = $last[1];     // begin y
-                    $x2 = $last[0]+$action[6]; // final x
-                    $y2 = $last[1]+$action[7]; // final y
+                    $rx = $action[1]; // rx
+                    $ry = $action[2]; // ry
+                    $a = $action[3]; // deviation angle of the axis X
+                    $l = $action[4]; // large-arc-flag
+                    $s = $action[5]; // sweep-flag
+                    $x1 = $last[0]; // begin x
+                    $y1 = $last[1]; // begin y
+                    $x2 = $last[0] + $action[6]; // final x
+                    $y2 = $last[1] + $action[7]; // final y
 
                     $this->_Arc2($x1, $y1, $x2, $y2, $rx, $ry, $a, $l, $s, true);
                     $x = $x2; $y = $y2; $xc = $x; $yc = $y;
@@ -886,12 +899,12 @@ class HTML2PDF_myPdf extends TCPDF
 
                 // Make a Bezier Curve (vector from last point)
                 case 'c':
-                    $x1 = $last[0]+$action[1];
-                    $y1 = $last[1]+$action[2];
-                    $x2 = $last[0]+$action[3];
-                    $y2 = $last[1]+$action[4];
-                    $xf = $last[0]+$action[5];
-                    $yf = $last[1]+$action[6];
+                    $x1 = $last[0] + $action[1];
+                    $y1 = $last[1] + $action[2];
+                    $x2 = $last[0] + $action[3];
+                    $y2 = $last[1] + $action[4];
+                    $xf = $last[0] + $action[5];
+                    $yf = $last[1] + $action[6];
                     $this->_Curve($x1, $y1, $x2, $y2, $xf, $yf, true);
                     $x = $xf; $y = $yf; $xc = $x2; $yc = $y2;
                     break;
@@ -919,7 +932,9 @@ class HTML2PDF_myPdf extends TCPDF
      */
     protected function _Point($x, $y, $trans = false)
     {
-        if ($trans) $this->ptTransform($x, $y);
+        if ($trans) {
+        	$this->ptTransform($x, $y);
+        }
 
         $this->_out(sprintf('%.2F %.2F m', $x, $y));
     }
@@ -934,7 +949,9 @@ class HTML2PDF_myPdf extends TCPDF
      */
     protected function _Line($x, $y, $trans = false)
     {
-        if ($trans) $this->ptTransform($x, $y);
+        if ($trans) {
+        	$this->ptTransform($x, $y);
+        }
 
         $this->_out(sprintf('%.2F %.2F l', $x, $y));
     }
@@ -969,7 +986,7 @@ class HTML2PDF_myPdf extends TCPDF
      * @param float $rx
      * @param float $ry
      * @param float $angleBegin in radians
-     * @param float $angleEng in radians
+     * @param float $angleEnd in radians
      * @param boolean $direction
      * @param boolean $drawFirst, true => add the first point
      * @param boolean $trans apply transformation
@@ -984,14 +1001,14 @@ class HTML2PDF_myPdf extends TCPDF
         $angleEnd,
         $direction = true,
         $drawFirst = true,
-        $trans=false)
+        $trans = false)
     {
         // if we want the no trigo direction : add 2PI to the begin angle, to invert the direction
-        if (!$direction) $angleBegin+= M_PI*2.;
+        if ( ! $direction) $angleBegin += M_PI * 2.;
 
         // cut in segment to convert in berize curv
-        $dt = ($angleEnd - $angleBegin)/self::ARC_NB_SEGMENT;
-        $dtm = $dt/3;
+        $dt = ($angleEnd - $angleBegin) / self::ARC_NB_SEGMENT;
+        $dtm = $dt / 3;
 
         // center of the arc
         $x0 = $xc; $y0 = $yc;
@@ -1004,12 +1021,14 @@ class HTML2PDF_myPdf extends TCPDF
         $d0 = $ry * cos($t1);
 
         // if drawFirst => draw the first point
-        if ($drawFirst) $this->_Point($a0, $b0, $trans);
+        if ($drawFirst) {
+        	$this->_Point($a0, $b0, $trans);
+        }
 
         // foreach segment
         for ($i = 1; $i <= self::ARC_NB_SEGMENT; $i++) {
             // calculing the next point
-            $t1 = ($i * $dt)+$angleBegin;
+            $t1 = ($i * $dt) + $angleBegin;
             $a1 = $x0 + ($rx * cos($t1));
             $b1 = $y0 + ($ry * sin($t1));
             $c1 = -$rx * sin($t1);
@@ -1041,12 +1060,12 @@ class HTML2PDF_myPdf extends TCPDF
      * @param float $rx
      * @param float $ry
      * @param float $angle deviation angle of the axis X
-     * @param boolean $l large-arc-flag
-     * @param boolean $s sweep-flag
+     * @param integer $l large-arc-flag
+     * @param integer $s sweep-flag
      * @param boolean $trans apply transformation
      * @access protected
      */
-    protected function _Arc2($x1, $y1, $x2, $y2, $rx, $ry, $angle=0., $l=0, $s=0, $trans = false)
+    protected function _Arc2($x1, $y1, $x2, $y2, $rx, $ry, $angle = 0., $l = 0, $s = 0, $trans = false)
     {
         // array to stock the parameters
         $v = array();
@@ -1060,52 +1079,52 @@ class HTML2PDF_myPdf extends TCPDF
         $v['ry'] = $ry;
 
         // rotate with the deviation angle of the axis X
-        $v['xr1'] = $v['x1']*cos($angle) - $v['y1']*sin($angle);
-        $v['yr1'] = $v['x1']*sin($angle) + $v['y1']*cos($angle);
-        $v['xr2'] = $v['x2']*cos($angle) - $v['y2']*sin($angle);
-        $v['yr2'] = $v['x2']*sin($angle) + $v['y2']*cos($angle);
+        $v['xr1'] = $v['x1'] * cos($angle) - $v['y1'] * sin($angle);
+        $v['yr1'] = $v['x1'] * sin($angle) + $v['y1'] * cos($angle);
+        $v['xr2'] = $v['x2'] * cos($angle) - $v['y2'] * sin($angle);
+        $v['yr2'] = $v['x2'] * sin($angle) + $v['y2'] * cos($angle);
 
         // the normalized vector
-        $v['Xr1'] = $v['xr1']/$v['rx'];
-        $v['Yr1'] = $v['yr1']/$v['ry'];
-        $v['Xr2'] = $v['xr2']/$v['rx'];
-        $v['Yr2'] = $v['yr2']/$v['ry'];
-        $v['dXr'] = $v['Xr2']-$v['Xr1'];
-        $v['dYr'] = $v['Yr2']-$v['Yr1'];
-        $v['D'] = $v['dXr']*$v['dXr'] + $v['dYr']*$v['dYr'];
+        $v['Xr1'] = $v['xr1'] / $v['rx'];
+        $v['Yr1'] = $v['yr1'] / $v['ry'];
+        $v['Xr2'] = $v['xr2'] / $v['rx'];
+        $v['Yr2'] = $v['yr2'] / $v['ry'];
+        $v['dXr'] = $v['Xr2'] - $v['Xr1'];
+        $v['dYr'] = $v['Yr2'] - $v['Yr1'];
+        $v['D'] = $v['dXr'] * $v['dXr'] + $v['dYr'] * $v['dYr'];
 
         // if |vector| is Null, or if |vector| > 2 : impossible to make a arc => Line
-        if ($v['D']==0 || $v['D']>4) {
+        if ($v['D'] == 0 || $v['D'] > 4) {
             $this->_Line($x2, $y2, $trans);
             return false;
         }
 
         // convert paramters for make a arc with Center, Radius, from angleBegin to angleEnd
         $v['s1'] = array();
-        $v['s1']['t'] = sqrt((4.-$v['D'])/$v['D']);
-        $v['s1']['Xr'] = ($v['Xr1']+$v['Xr2'])/2. + $v['s1']['t']*($v['Yr2']-$v['Yr1'])/2.;
-        $v['s1']['Yr'] = ($v['Yr1']+$v['Yr2'])/2. + $v['s1']['t']*($v['Xr1']-$v['Xr2'])/2.;
-        $v['s1']['xr'] = $v['s1']['Xr']*$v['rx'];
-        $v['s1']['yr'] = $v['s1']['Yr']*$v['ry'];
-        $v['s1']['x'] = $v['s1']['xr']*cos($angle)+$v['s1']['yr']*sin($angle);
-        $v['s1']['y'] =-$v['s1']['xr']*sin($angle)+$v['s1']['yr']*cos($angle);
-        $v['s1']['a1'] = atan2($v['y1']-$v['s1']['y'], $v['x1']-$v['s1']['x']);
-        $v['s1']['a2'] = atan2($v['y2']-$v['s1']['y'], $v['x2']-$v['s1']['x']);
-        if ($v['s1']['a1']>$v['s1']['a2']) $v['s1']['a1']-=2*M_PI;
+        $v['s1']['t'] = sqrt((4. - $v['D']) / $v['D']);
+        $v['s1']['Xr'] = ($v['Xr1'] + $v['Xr2']) / 2. + $v['s1']['t'] * ($v['Yr2'] - $v['Yr1']) / 2.;
+        $v['s1']['Yr'] = ($v['Yr1'] + $v['Yr2']) / 2. + $v['s1']['t'] * ($v['Xr1'] - $v['Xr2']) / 2.;
+        $v['s1']['xr'] = $v['s1']['Xr'] * $v['rx'];
+        $v['s1']['yr'] = $v['s1']['Yr'] * $v['ry'];
+        $v['s1']['x'] = $v['s1']['xr'] * cos($angle) + $v['s1']['yr'] * sin($angle);
+        $v['s1']['y'] = -$v['s1']['xr'] * sin($angle) + $v['s1']['yr'] * cos($angle);
+        $v['s1']['a1'] = atan2($v['y1'] - $v['s1']['y'], $v['x1'] - $v['s1']['x']);
+        $v['s1']['a2'] = atan2($v['y2'] - $v['s1']['y'], $v['x2'] - $v['s1']['x']);
+        if ($v['s1']['a1'] > $v['s1']['a2']) $v['s1']['a1'] -= 2 * M_PI;
 
         $v['s2'] = array();
         $v['s2']['t'] = -$v['s1']['t'];
-        $v['s2']['Xr'] = ($v['Xr1']+$v['Xr2'])/2. + $v['s2']['t']*($v['Yr2']-$v['Yr1'])/2.;
-        $v['s2']['Yr'] = ($v['Yr1']+$v['Yr2'])/2. + $v['s2']['t']*($v['Xr1']-$v['Xr2'])/2.;
-        $v['s2']['xr'] = $v['s2']['Xr']*$v['rx'];
-        $v['s2']['yr'] = $v['s2']['Yr']*$v['ry'];
-        $v['s2']['x'] = $v['s2']['xr']*cos($angle)+$v['s2']['yr']*sin($angle);
-        $v['s2']['y'] =-$v['s2']['xr']*sin($angle)+$v['s2']['yr']*cos($angle);
-        $v['s2']['a1'] = atan2($v['y1']-$v['s2']['y'], $v['x1']-$v['s2']['x']);
-        $v['s2']['a2'] = atan2($v['y2']-$v['s2']['y'], $v['x2']-$v['s2']['x']);
-        if ($v['s2']['a1']>$v['s2']['a2']) $v['s2']['a1']-=2*M_PI;
+        $v['s2']['Xr'] = ($v['Xr1'] + $v['Xr2']) / 2. + $v['s2']['t'] * ($v['Yr2'] - $v['Yr1']) / 2.;
+        $v['s2']['Yr'] = ($v['Yr1'] + $v['Yr2']) / 2. + $v['s2']['t'] * ($v['Xr1'] - $v['Xr2']) / 2.;
+        $v['s2']['xr'] = $v['s2']['Xr'] * $v['rx'];
+        $v['s2']['yr'] = $v['s2']['Yr'] * $v['ry'];
+        $v['s2']['x'] = $v['s2']['xr'] * cos($angle) + $v['s2']['yr'] * sin($angle);
+        $v['s2']['y'] = -$v['s2']['xr'] * sin($angle) + $v['s2']['yr'] * cos($angle);
+        $v['s2']['a1'] = atan2($v['y1'] - $v['s2']['y'], $v['x1'] - $v['s2']['x']);
+        $v['s2']['a2'] = atan2($v['y2'] - $v['s2']['y'], $v['x2'] - $v['s2']['x']);
+        if ($v['s2']['a1'] > $v['s2']['a2']) $v['s2']['a1'] -= 2 * M_PI;
 
-        if (!$l) {
+        if ( ! $l) {
             if ($s) {
                 $xc = $v['s2']['x'];
                 $yc = $v['s2']['y'];
@@ -1142,23 +1161,25 @@ class HTML2PDF_myPdf extends TCPDF
      * @param float &$x
      * @param float &$y
      * @param boolean $trans true => convert into PDF unit
+     * @param double $x
+     * @param double $y
      * @return boolean
      * @access public
      */
-    public function ptTransform(&$x,  &$y, $trans=true)
+    public function ptTransform(&$x, &$y, $trans = true)
     {
         // load the last Transfomation Matrix
         $nb = count($this->_transf);
-        if ($nb)    $m = $this->_transf[$nb-1];
-        else        $m = array(1,0,0,1,0,0);
+        if ($nb)    $m = $this->_transf[$nb - 1];
+        else        $m = array(1, 0, 0, 1, 0, 0);
 
         // apply the Transformation Matrix
-        list($x,$y) = array(($x*$m[0]+$y*$m[2]+$m[4]),($x*$m[1]+$y*$m[3]+$m[5]));
+        list($x, $y) = array(($x * $m[0] + $y * $m[2] + $m[4]), ($x * $m[1] + $y * $m[3] + $m[5]));
 
         // if true => convert into PDF unit
         if ($trans) {
-            $x = $x*$this->k;
-            $y = ($this->h-$y)*$this->k;
+            $x = $x * $this->k;
+            $y = ($this->h - $y) * $this->k;
         }
 
         return true;
@@ -1174,20 +1195,20 @@ class HTML2PDF_myPdf extends TCPDF
     {
         // get the last Transformation Matrix
         $nb = count($this->_transf);
-        if ($nb)    $m = $this->_transf[$nb-1];
-        else        $m = array(1,0,0,1,0,0);
+        if ($nb)    $m = $this->_transf[$nb - 1];
+        else        $m = array(1, 0, 0, 1, 0, 0);
 
         // if no transform, get the Identity Matrix
-        if (!$n) $n = array(1,0,0,1,0,0);
+        if ( ! $n) $n = array(1, 0, 0, 1, 0, 0);
 
         // create the new Transformation Matrix
         $this->_transf[] = array(
-            $m[0]*$n[0]+$m[2]*$n[1],
-            $m[1]*$n[0]+$m[3]*$n[1],
-            $m[0]*$n[2]+$m[2]*$n[3],
-            $m[1]*$n[2]+$m[3]*$n[3],
-            $m[0]*$n[4]+$m[2]*$n[5]+$m[4],
-            $m[1]*$n[4]+$m[3]*$n[5]+$m[5]
+            $m[0] * $n[0] + $m[2] * $n[1],
+            $m[1] * $n[0] + $m[3] * $n[1],
+            $m[0] * $n[2] + $m[2] * $n[3],
+            $m[1] * $n[2] + $m[3] * $n[3],
+            $m[0] * $n[4] + $m[2] * $n[5] + $m[4],
+            $m[1] * $n[4] + $m[3] * $n[5] + $m[5]
         );
     }
 
@@ -1228,7 +1249,7 @@ class HTML2PDF_myPdf extends TCPDF
         $this->write1DBarcode($code, $type, $x, $y, $w, $h, '', $style, 'N');
 
         // it Label => add the FontSize to the height
-        if ($labelFontsize) $h+= ($labelFontsize);
+        if ($labelFontsize) $h += ($labelFontsize);
 
         // return the size of the barcode
         return array($w, $h);
@@ -1258,7 +1279,9 @@ class HTML2PDF_myPdf extends TCPDF
         $fontName = 'helvetica')
     {
         // bookmark the Title if wanted
-        if ($bookmarkTitle) $this->Bookmark($titre, 0, -1);
+        if ($bookmarkTitle) {
+        	$this->Bookmark($titre, 0, -1);
+        }
 
         // display the Title with the good Font size
         $this->SetFont($fontName, '', $sizeTitle);
@@ -1269,48 +1292,48 @@ class HTML2PDF_myPdf extends TCPDF
         $this->Ln(10);
 
         // get the number of bookmarks
-        $size=sizeof($this->outlines);
+        $size = sizeof($this->outlines);
 
         // get the size of the "P. xx" cell
-        $pageCellSize=$this->GetStringWidth('p. '.$this->outlines[$size-1]['p'])+2;
+        $pageCellSize = $this->GetStringWidth('p. '.$this->outlines[$size - 1]['p']) + 2;
 
         // Foreach bookmark
-        for ($i=0;$i<$size;$i++) {
+        for ($i = 0; $i < $size; $i++) {
             // if we need a new page => add a new page
-            if ($this->getY()+$this->FontSize>=($this->h - $this->bMargin)) {
+            if ($this->getY() + $this->FontSize >= ($this->h - $this->bMargin)) {
                 $obj->_INDEX_NewPage($page);
                 $this->SetFont($fontName, '', $sizeBookmark);
             }
 
             // Offset of the current level
-            $level=$this->outlines[$i]['l'];
-            if($level>0) $this->Cell($level*8);
+            $level = $this->outlines[$i]['l'];
+            if ($level > 0) $this->Cell($level * 8);
 
             // Caption (cut to fit on the width page)
-            $str=$this->outlines[$i]['t'];
-            $strsize=$this->GetStringWidth($str);
-            $availableSize=$this->w-$this->lMargin-$this->rMargin-$pageCellSize-($level*8)-4;
-            while ($strsize>=$availableSize) {
-                $str=substr($str, 0, -1);
-                $strsize=$this->GetStringWidth($str);
+            $str = $this->outlines[$i]['t'];
+            $strsize = $this->GetStringWidth($str);
+            $availableSize = $this->w - $this->lMargin - $this->rMargin - $pageCellSize - ($level * 8) - 4;
+            while ($strsize >= $availableSize) {
+                $str = substr($str, 0, -1);
+                $strsize = $this->GetStringWidth($str);
             }
 
             // if we want to display the page nmber
             if ($displayPage) {
                 // display the Bookmark Caption
-                $this->Cell($strsize+2, $this->FontSize+2, $str);
+                $this->Cell($strsize + 2, $this->FontSize + 2, $str);
 
                 //Filling dots
-                $w=$this->w-$this->lMargin-$this->rMargin-$pageCellSize-($level*8)-($strsize+2);
-                $nb=$w/$this->GetStringWidth('.');
-                $dots=str_repeat('.', $nb);
-                $this->Cell($w, $this->FontSize+2, $dots, 0, 0, 'R');
+                $w = $this->w - $this->lMargin - $this->rMargin - $pageCellSize - ($level * 8) - ($strsize + 2);
+                $nb = $w / $this->GetStringWidth('.');
+                $dots = str_repeat('.', $nb);
+                $this->Cell($w, $this->FontSize + 2, $dots, 0, 0, 'R');
 
                 //Page number
-                $this->Cell($pageCellSize, $this->FontSize+2, 'p. '.$this->outlines[$i]['p'], 0, 1, 'R');
+                $this->Cell($pageCellSize, $this->FontSize + 2, 'p. '.$this->outlines[$i]['p'], 0, 1, 'R');
             } else {
                 // display the Bookmark Caption
-                $this->Cell($strsize+2, $this->FontSize+2, $str, 0, 1);
+                $this->Cell($strsize + 2, $this->FontSize + 2, $str, 0, 1);
             }
         }
     }
@@ -1324,7 +1347,7 @@ class HTML2PDF_myPdf extends TCPDF
      */
     public function getMyAliasNbPages()
     {
-        if ($this->_myLastPageGroupNb==0) {
+        if ($this->_myLastPageGroupNb == 0) {
             return $this->getAliasNbPages();
         } else {
             $old = $this->currpagegroup;
@@ -1343,16 +1366,16 @@ class HTML2PDF_myPdf extends TCPDF
      * @param  integer $page
      * @return integer;
      */
-    public function getMyNumPage($page=null)
+    public function getMyNumPage($page = null)
     {
-        if ($page===null) {
+        if ($page === null) {
             $page = $this->page;
         }
 
-        if ($this->_myLastPageGroupNb==0) {
+        if ($this->_myLastPageGroupNb == 0) {
             return $page;
         } else {
-            return $page-$this->_myLastPageGroup;
+            return $page - $this->_myLastPageGroup;
         }
     }
 
@@ -1365,7 +1388,7 @@ class HTML2PDF_myPdf extends TCPDF
      */
     public function myStartPageGroup()
     {
-        $this->_myLastPageGroup = $this->page-1;
+        $this->_myLastPageGroup = $this->page - 1;
         $this->_myLastPageGroupNb++;
     }
 
@@ -1385,6 +1408,7 @@ class HTML2PDF_myPdf extends TCPDF
      *
      * @access public
      * @param integer $myLastPageGroup;
+     * @param integer $myLastPageGroup
      */
     public function setMyLastPageGroup($myLastPageGroup)
     {
@@ -1407,6 +1431,7 @@ class HTML2PDF_myPdf extends TCPDF
      *
      * @access public
      * @param integer $myLastPageGroupNb;
+     * @param integer $myLastPageGroupNb
      */
     public function setMyLastPageGroupNb($myLastPageGroupNb)
     {

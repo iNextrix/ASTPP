@@ -12,7 +12,7 @@
         <div class="w-section inverse no-padding">
             <?php echo $form; ?>
              <?php
-                if(isset($validation_errors) && $validation_errors != ''){ ?>
+				if(isset($validation_errors) && $validation_errors != ''){ ?>
                     <script>
                         var ERR_STR = '<?php echo $validation_errors; ?>';
                         print_error(ERR_STR);

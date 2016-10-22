@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
 <script type="text/javascript">
@@ -24,7 +24,10 @@
     <section class="slice color-three no-margin">
 	<div class="w-section inverse no-padding">
             <div style="color:red;margin-left: 60px;">
-                <?php if (isset($validation_errors)) echo $validation_errors; ?> 
+                <?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
             </div>
             <?php echo $form; ?>
         </div>      

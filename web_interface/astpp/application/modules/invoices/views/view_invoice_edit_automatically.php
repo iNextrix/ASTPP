@@ -156,10 +156,10 @@ for (l = 1; l <= cnt; l++) {
 			<td>
 	 		 <font style="font-weight:bold;" >Email :</font> <font style="color:#a09d9d;" >
 				 <?php /**** harsh ***/ 
-				if($accountdata['email']!=""){
-					$attac_exp=explode(",",$accountdata['email']);
-					foreach($attac_exp as $key=>$value){
-						if($value != ''){
+				if ($accountdata['email'] != "") {
+					$attac_exp = explode(",", $accountdata['email']);
+					foreach ($attac_exp as $key=>$value) {
+						if ($value != '') {
 							echo $value;
 						}
 					}
@@ -187,7 +187,7 @@ for (l = 1; l <= cnt; l++) {
 	<tr>
 		<td>
  		<b>Due Date : </b><span style="color:#a09d9d;"><?php 
-                echo date('Y-m-d', strtotime($payment_due_date)) ;
+				echo date('Y-m-d', strtotime($payment_due_date)) ;
 		?></span>
 		 </td>
 	</tr>
@@ -200,7 +200,7 @@ for (l = 1; l <= cnt; l++) {
 <table width="50%"  border="1" colspan="2" class="invoice_table4 pull-right">
 		<tr style='background-color:#375c7c;color:#fff;height:30px;'>
 		 <td><b >Invoice Amount :</b></td>
-		 <td><span class="pull-right" style="color:#3278b6"><b><?php echo $this->common->currency_decimal($amount); ?> <?php  echo $to_currency;  ?></b> </span></td>
+		 <td><span class="pull-right" style="color:#3278b6"><b><?php echo $this->common->currency_decimal($amount); ?> <?php  echo $to_currency; ?></b> </span></td>
 		 <input type="hidden" name="total_amount" id="total_amount" class="article" value="<?php echo $amount; ?>" >
 		  <input type="hidden" readonly name="recharge" value="paypal_invoice">
 	 </tr> 
@@ -221,9 +221,9 @@ for (l = 1; l <= cnt; l++) {
 $j=1;
 
  foreach($invoice_total_query as $value){
-       $id=$value['id'];
-       $debit=$value['debit'];
-       $created_date=$value['created_date'];
+	   $id=$value['id'];
+	   $debit=$value['debit'];
+	   $created_date=$value['created_date'];
 ?>	
 <tr>
 <td width="20" align="center">
@@ -239,11 +239,11 @@ $j=1;
 <?php
 $j++;
  }
-for($i=1;$i<=$row_count;$i++){
-if($get_data['invoice_amount_'.$i] > 0){
-$invoice_amt=$this->common->currency_decimal($this->common_model->calculate_currency($get_data['invoice_amount_'.$i]));
-}else{
-$invoice_amt='';
+for ($i = 1; $i <= $row_count; $i++) {
+if ($get_data['invoice_amount_'.$i] > 0) {
+$invoice_amt = $this->common->currency_decimal($this->common_model->calculate_currency($get_data['invoice_amount_'.$i]));
+} else {
+$invoice_amt = '';
 }
 ?>
 <tr>
@@ -274,8 +274,8 @@ $invoice_amt='';
 </tr>
 -->
 <?php
-$taxi=0;
-foreach($taxes_to_accounts as $tax_val){
+$taxi = 0;
+foreach ($taxes_to_accounts as $tax_val) {
 
 ?>
 	<input type="hidden" id="total_tax_input_<?= $taxi; ?>" name="total_tax_input_<?= $taxi; ?>" value="<?= $tax_val['taxes_rate']; ?>" >

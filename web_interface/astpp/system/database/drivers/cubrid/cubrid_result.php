@@ -1,4 +1,6 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -83,11 +85,11 @@ class CI_DB_cubrid_result extends CI_DB_result {
 
 		while ($field = cubrid_fetch_field($this->result_id))
 		{
-			$F				= new stdClass();
+			$F = new stdClass();
 			$F->name		= $field->name;
 			$F->type		= $field->type;
-			$F->default		= $field->def;
-			$F->max_length	= $field->max_length;
+			$F->default = $field->def;
+			$F->max_length = $field->max_length;
 
 			// At this moment primary_key property is not returned when
 			// cubrid_fetch_field is called. The following code will
@@ -103,17 +105,16 @@ class CI_DB_cubrid_result extends CI_DB_result {
 			// The query will search for exact single columns, thus
 			// compound PK is not supported.
 			$res = cubrid_query($this->conn_id,
-				"SELECT COUNT(*) FROM db_index WHERE class_name = '" . $field->table .
-				"' AND is_primary_key = 'YES' AND index_name = 'pk_" .
-				$field->table . "_" . $field->name . "'"
+				"SELECT COUNT(*) FROM db_index WHERE class_name = '".$field->table.
+				"' AND is_primary_key = 'YES' AND index_name = 'pk_".
+				$field->table."_".$field->name."'"
 			);
 
 			if ($res)
 			{
 				$row = cubrid_fetch_array($res, CUBRID_NUM);
 				$F->primary_key = ($row[0] > 0 ? 1 : null);
-			}
-			else
+			} else
 			{
 				$F->primary_key = null;
 			}
@@ -139,7 +140,7 @@ class CI_DB_cubrid_result extends CI_DB_result {
 	 */
 	function free_result()
 	{
-		if(is_resource($this->result_id) ||
+		if (is_resource($this->result_id) ||
 			get_resource_type($this->result_id) == "Unknown" &&
 			preg_match('/Resource id #/', strval($this->result_id)))
 		{

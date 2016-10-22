@@ -1,5 +1,5 @@
 <? extend('left_panel_setting_master.php') ?>
-<?php error_reporting(E_ERROR);?>
+<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 <?php endblock() ?>
 
@@ -160,11 +160,11 @@ function validateform(){
         <div class="pull-right">
             <ul class="breadcrumb">
                 <li>
-                    <a href="<?= base_url() . "systems/configuration/global"; ?>"> Global</a>
+                    <a href="<?= base_url()."systems/configuration/global"; ?>"> Global</a>
                 </li>
-                <?php if($group_title != "global") { ?>
+                <?php if ($group_title != "global") { ?>
                 <li class="active">
-                    <a href="<?= base_url() . "systems/configuration/".$group_title ; ?>"> <?php echo ucfirst($group_title); ?></a>
+                    <a href="<?= base_url()."systems/configuration/".$group_title; ?>"> <?php echo ucfirst($group_title); ?></a>
                 </li>
                 <?php } ?>
             </ul>
@@ -180,25 +180,25 @@ function validateform(){
                     <?php $count=ceil(sizeof($details)/2); $i=0; $class="tleft";?>
                     <?php foreach($details as$key=>$val){ ?>
                           <?php if($count==$i){
-                              echo '</div><div style="width:50%;float:left;">';
-                              $class="tright";
-                          } ?>
+							  echo '</div><div style="width:50%;float:left;">';
+							  $class="tright";
+						  } ?>
                           <div class="col-md-12">
                             <div class="<?=$class?>" href='#'>
                             <label class="col-md-5 no-padding"><?php echo $val['display_name'];?> * </label>
                             <?php if(method_exists($this->common,$val['field_type'])){
-                                $option_array =  $this->common->$val['field_type'](); 
-                                $drpstr = '<select name="'.$val['name'].'" class="col-md-5 form-control selectpicker"  data-live-search="true">';
-                                      foreach($option_array as $option_key=>$option_val){
-                                        $selected = ($val['value'] == $option_key)? "selected='selected'":"";
-                                        $drpstr .= '<option value="'.$option_key.'"'.$selected.'>'.$option_val.'</option>';
-                                      }
-                                $drpstr .= '</select>';
-                                echo $drpstr;
-                                unset($drpstr);
-                            } else{
-                                echo '<input name="'.$val["name"].'" value="'.$val['value'].'" size="20" maxlength="100" class="col-md-5 form-control" type="text">'; 
-                            }?>
+								$option_array =  $this->common->$val['field_type'](); 
+								$drpstr = '<select name="'.$val['name'].'" class="col-md-5 form-control selectpicker"  data-live-search="true">';
+									  foreach($option_array as $option_key=>$option_val){
+										$selected = ($val['value'] == $option_key)? "selected='selected'":"";
+										$drpstr .= '<option value="'.$option_key.'"'.$selected.'>'.$option_val.'</option>';
+									  }
+								$drpstr .= '</select>';
+								echo $drpstr;
+								unset($drpstr);
+							} else{
+								echo '<input name="'.$val["name"].'" value="'.$val['value'].'" size="20" maxlength="100" class="col-md-5 form-control" type="text">'; 
+							}?>
                               <span class="demo"><?php echo str_replace('smtp',"SMTP",$val['comment']);?></span>
 
                             </div>

@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -29,7 +31,7 @@
  */
 class CI_Driver_Library {
 
-	protected $valid_drivers	= array();
+	protected $valid_drivers = array();
 	protected static $lib_name;
 
 	// The first time a child is used it won't exist, so we instantiate it
@@ -152,8 +154,7 @@ class CI_Driver {
 			}
 
 			self::$reflections[$class_name] = array($this->methods, $this->properties);
-		}
-		else
+		} else
 		{
 			list($this->methods, $this->properties) = self::$reflections[$class_name];
 		}

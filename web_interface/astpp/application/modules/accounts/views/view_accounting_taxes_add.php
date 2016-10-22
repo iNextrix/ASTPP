@@ -54,30 +54,30 @@
                     <div style="float:left; width:275px; margin-left:6px;">
                         <li>
                             <?php
-                            $i = 1;
+							$i = 1;
                             
-                            if (isset($taxesList) && is_array($taxesList) && count($taxesList) > 0) {
-                                echo "<table>";
-                                foreach ($taxesList as $values) {
-                                    if ($i == 1)
-                                        echo"<tr>";
-                                    ?>
+							if (isset($taxesList) && is_array($taxesList) && count($taxesList) > 0) {
+								echo "<table>";
+								foreach ($taxesList as $values) {
+									if ($i == 1)
+										echo"<tr>";
+									?>
                                 <td style="padding-left: 10px;">
                                     <input type="checkbox" id="tax_<?= $values->id; ?>"name="tax_<?= $values->id; ?>" value="<?= $values->id; ?>" <? if (in_array($values->id, $tax_ids)) {
-                                echo "checked";
-                            } ?>/> <?= $values->taxes_description; ?></label><br />        
+								echo "checked";
+							} ?>/> <?= $values->taxes_description; ?></label><br />        
                                 </td>
                                 <?php
-                                if ($i % 3 == 0) {
-                                    echo"</tr>";
-                                    $i = 1;
-                                } else {
-                                    $i++;
-                                }
-                            }
-                            echo "</table>";
-                        }
-                        ?>
+								if ($i % 3 == 0) {
+									echo"</tr>";
+									$i = 1;
+								} else {
+									$i++;
+								}
+							}
+							echo "</table>";
+						}
+						?>
                         </li>
                     </div>
                 </fieldset>
