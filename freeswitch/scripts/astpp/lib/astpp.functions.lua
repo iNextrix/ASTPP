@@ -293,8 +293,10 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
         if (tonumber(rate_group['markup']) > 0) then
             Logger.info("Markup : "..rate_group['markup'])  
             rates['cost'] = rates['cost'] + ((rate_group['markup']*rates['cost'])/100)
-	    end
-
+	end
+        if( rates['cost'] == nil) then
+            rates['cost']=0
+	end
 		Logger.info("=============== Rates Information ===================")
 		Logger.info("ID : "..rates['id'])  
 		Logger.info("Connectcost : "..rates['connectcost'])  
