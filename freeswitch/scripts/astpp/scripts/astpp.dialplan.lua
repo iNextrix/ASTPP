@@ -371,7 +371,7 @@ xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_di
 		if (i > 1) then
 
 			xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config)
-			calleridinfo = get_override_callerid(userinfo)
+			calleridinfo = get_override_callerid(customer_userinfo)
 			if (calleridinfo ~= nil) then
     			xml = freeswitch_xml_callerid(xml,calleridinfo)	    	      
 			else
