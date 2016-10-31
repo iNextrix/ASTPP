@@ -201,8 +201,8 @@ class Accounts_form {
 			array('', 'HIDDEN', array('name' => 'flag'), '', '', '', ''),
 			array(gettext('Account'), 'INPUT', array('name' => 'accountid', 'size' => '20', 'readonly' => true, 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
 			array(gettext('Enable'), 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'custom_status'),
-			array(gettext('Caller Id Name'), 'INPUT', array('name' => 'callerid_name', 'size' => '20', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', ''),
-			array(gettext('Caller Id Number'), 'INPUT', array('name' => 'callerid_number', 'size' => '20', 'class' => "text field medium"), 'trim|numeric', 'tOOL TIP', '')
+			array(gettext('Caller Id Name'), 'INPUT', array('name' => 'callerid_name', 'size' => '20', 'class' => "text field medium"), 'trim', 'tOOL TIP', ''),
+			array(gettext('Caller Id Number'), 'INPUT', array('name' => 'callerid_number', 'size' => '20', 'class' => "text field medium"), 'trim', 'tOOL TIP', '')
 		);
 		$form['button_save'] = array('name' => 'action', 'content' => gettext('Save'), 'value' => 'save', "id" => "submit", 'type' => 'button', 'class' => 'btn btn-line-parrot');
 		 $form['button_cancel'] = array('name' => 'action', 'content' => gettext('Close'), 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'NULL\')');
