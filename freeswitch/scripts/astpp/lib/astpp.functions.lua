@@ -474,9 +474,13 @@ function get_carrier_rates(destination_number,number_loop_str,ratecard_id,rate_c
 
     Logger.debug("[GET_CARRIER_RATES] Query :" .. query)
     local i = 1
+    local carrier_ignore_duplicate = {}
     assert (dbh:query(query, function(u)
-	    carrier_rates[i] = u
-	    i = i+1
+	    if (carrier_ignore_duplicate[u['trunk_id']] == nil) then
+	    	    carrier_rates[i] = u
+	    	    i = i+1
+		    carrier_ignore_duplicate[u['trunk_id']] = true
+	    end
     end))    
     return carrier_rates
 end
