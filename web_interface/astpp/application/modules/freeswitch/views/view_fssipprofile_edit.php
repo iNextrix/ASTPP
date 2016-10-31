@@ -147,7 +147,7 @@ function cancel(){
    	    <div class="row">
             	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
                     	<?php echo $form_search;
-}
+
 ?>
     	        </div>
             </div>
