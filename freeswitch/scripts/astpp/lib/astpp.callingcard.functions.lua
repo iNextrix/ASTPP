@@ -320,9 +320,10 @@ end
 
 
 -- To termination call to destination. Have all termination calculation inside this function.
-function dialout( original_destination_number, destination_number, maxlength, userinfo, user_rates , origination_dp_string ,number_loop_str)
+function dialout( original_destination_number, destination_number, maxlength, userinfo, user_rates , origination_dp_string ,number_loop_str,parentinfo)
 	if ( session:ready() ) then
-		termination_rates = get_carrier_rates (destination_number,number_loop_str,userinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'])
+
+		termination_rates = get_carrier_rates (destination_number,number_loop_str,parentinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'])
 		if (termination_rates ~= nil) then
 		    local i = 1
 		    local termination_rates_array = {}
@@ -361,7 +362,8 @@ function dialout( original_destination_number, destination_number, maxlength, us
 				session:execute("set","hangup_after_bridge=true");
 				session:execute("export","account_id="..userinfo['id']);
 				session:execute("export","account_type="..userinfo['type']);
-				session:execute("export","resellerid="..userinfo['reseller_id']);        
+				session:execute("export","resellerid="..userinfo['reseller_id']);
+				session:execute("export","parent_id="..userinfo['reseller_id']);
 				session:execute("export","accountcode="..userinfo['number']);
 				session:execute("export","call_direction=outbound");    
 				session:execute("export","calltype=CALLINGCARD");    
@@ -496,6 +498,8 @@ function process_destination(userinfo)
 	local cust_resellerid = userinfo['reseller_id'];
 	local cust_type = userinfo['type'];
 
+	local reseller_ids = {}
+	local i = 1
 
 	while (tonumber(userinfo['reseller_id']) > 0 and tonumber(maxlength) > 0 ) do 
 		local number_loop_string = number_loop(destination,'blocked_patterns') 
@@ -528,8 +532,8 @@ function process_destination(userinfo)
 		Logger.info("Type : "..reseller_userinfo['posttoexternal'].." [0:prepaid,1:postpaid]")  
 		Logger.info("Ratecard id : "..reseller_userinfo['pricelist_id'])  
 		Logger.info("========================================================")  
-		           
-		tmp_array_reseller = get_call_maxlength(reseller_userinfo,destination,call_direction,number_loop_str)	    
+		        
+		tmp_array_reseller = get_call_maxlength(reseller_userinfo,destination,call_direction,number_loop_str,config)	    
 		
         if( tmp_array_reseller == 'NO_SUFFICIENT_FUND' or tmp_array_reseller == 'ORIGNATION_RATE_NOT_FOUND') then
     	    error_xml_without_cdr(destination,tmp_array_reseller,"ASTPP-CALLINGCARD",1,reseller_userinfo['id']) 
@@ -546,7 +550,7 @@ function process_destination(userinfo)
 	    		maxlength = reseller_maxlength
 		    end
 		    
-		    if (tonumber(reseller_maxlength) < 1 or reseller_rates['cost'] > user_rates['cost']) then
+		    if (tonumber(reseller_maxlength) < 1 or tonumber(reseller_rates['cost']) > tonumber(user_rates['cost'])) then
 			    error_xml_without_cdr(destination,"RESELLER_COST_CHEAP","ASTPP-CALLINGCARD",config['playback_audio_notification']); 
 		        Logger.info("Reseller cost : "..reseller_rates['cost'].." User cost : "..user_rates['cost'])
 		    	Logger.notice("Reseller call price is cheaper, so we cannot allow call to process!!")
@@ -555,7 +559,8 @@ function process_destination(userinfo)
 		    rate_carrier_id = reseller_rates['trunk_id']
 		    userinfo = reseller_userinfo
 		end
-		if(userinfo['maxchannels'] > 0) then
+
+		if(tonumber(userinfo['maxchannels']) > 0) then
 			sesion:execute("limit","db "..userinfo['number'].." db_"..userinfo['number'].." "..userinfo['maxchannels']) 
 		end
     end -- End while 
@@ -569,6 +574,6 @@ function process_destination(userinfo)
         say_cost( customer_origination_rates_info )
         say_timelimit(maxlength)
 
-        dialout( original_destination_number, destination, maxlength, customer_carddata, customer_origination_rates_info , origination_dp_string ,number_loop_str);
+        dialout( original_destination_number, destination, maxlength, customer_carddata, customer_origination_rates_info , origination_dp_string ,number_loop_str,userinfo);
 
 end
