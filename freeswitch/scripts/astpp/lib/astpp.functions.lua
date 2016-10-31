@@ -488,7 +488,7 @@ end
 -- Get outbound callerid to override in calls
 function get_override_callerid(userinfo)
     local callerid
-    local query  = "SELECT callerid_name as cid_name,callerid_number as cid_number,accountid FROM "..TBL_ACCOUNTS_CALLERID.." WHERE accountid = "..userinfo['id'].." AND status=0 LIMIT 1";
+    local query  = "SELECT callerid_name as cid_name,callerid_number as cid_number,accountid FROM "..TBL_ACCOUNTS_CALLERID.." WHERE accountid = "..userinfo['id'].." AND status=0 LIMIT 1";    
     Logger.debug("[GET_OVERRIDE_CALLERID] Query :" .. query)
     assert (dbh:query(query, function(u)
 	    callerid = u
@@ -514,3 +514,14 @@ function number_loop(destination_number,code)
 	return number_loop_str
 
 end    
+
+-- Adding slash \ if number starting with +. 
+function plus_destination_number(destination_number)
+
+    local dnumber = destination_number
+	local dfirst =  string.match(dnumber, "^(.)")
+	if (dfirst == "+") then
+		dnumber = "\\"..dnumber
+	end
+    return dnumber
+end
