@@ -1103,7 +1103,7 @@ function termination_rate_mapper_preview_file()
 		if (isset($_FILES['terminationimport']['name']) && $_FILES['terminationimport']['name'] != "" && isset($_POST['trunk_id']) && $_POST['trunk_id'] != '') {
 
 			list($txt, $ext) = explode(".", $_FILES['terminationimport']['name']);
-			if ($ext == "csv" && $_FILES['terminationimport']['size'] > 0) {
+			if ($ext == "csv") {
 				$error = $_FILES['terminationimport']['error'];
 				if ($error == 0) {
 					$uploadedFile = $_FILES["terminationimport"]["tmp_name"];
