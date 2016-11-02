@@ -83,9 +83,21 @@ if (!isset($csv_tmp_data)) { ?>
                   <input type="hidden" name="logintype" value="<?php echo $this->session->userdata('logintype') ?>" />
                   <input type="hidden" name="username" value="<?php echo $this->session->userdata('username') ?>" />
                   <label class="col-md-3">Select the file:</label>
-                  <div class="col-md-5"><span class="no-padding form-control"  style="overflow-x:hidden;width:260px;">
-                    <input class="text field large" type="file" name="terminationimport"  size="15" id="terminationimport" style="height:33px;"/>
-                  </div>
+                 <label class="col-md-3">Select the file:</label>
+
+
+                                            <div class="col-md-5 no-padding">
+                                               <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                		                            <div class="form-control" data-trigger="fileinput">
+
+                		                                <span class="fileinput-filename"></span>
+                		                            </div>
+                	                               <span class="input-group-addon btn btn-primary btn-file" style="display: table-cell;">
+                	                               <span class="fileinput-new">Select file</span>
+                	                               <input style="height:33px;" type="file" name="termination_rate_import"  size="15" id="termination_rate_import"></span>
+                                               </div>
+                                               </div>
+                                           </div>
                 </div>
                 <label class="col-md-3">File has Header Record.:</label>
                 <div class="col-md-1">
