@@ -51,7 +51,7 @@ if (!isset($csv_tmp_data)) { ?>
 <section class="slice color-three padding-t-20">
   <div class="w-section inverse no-padding">
     <div class="container">
-      <form method="post" action="<?php echo base_url() ?>rates/termination_rate_mapper_preview_file/" enctype="multipart/form-data" id="termination_rates">
+      <form method="post" action="<?php echo base_url() ?>rates/termination_rate_mapper_preview_file/" enctype="multipart/form-data" id="termination_rate">
         <div class="row">
           <div class="col-md-12">
             <div class="w-box"> <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
