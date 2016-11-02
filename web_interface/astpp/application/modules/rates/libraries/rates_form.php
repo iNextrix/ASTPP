@@ -365,6 +365,7 @@ For Add Initial Increment field
 		$buttons_json = json_encode(array(array("Create","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/rates/termination_rate_add/", "popup","medium"),
 			array("Delete", "btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/rates/termination_rate_delete_multiple/"),
 			array("import","btn btn-line-blue" ,"fa fa-upload fa-lg", "button_action", "/rates/termination_rate_import/", 'single'),
+			array("Import with field map","btn btn-line-blue" ,"fa fa-upload fa-lg", "button_action", "/rates/termination_rate_import_mapper/", 'single'),
 			array("Export","btn btn-xing" ," fa fa-download fa-lg", "button_action", "/rates/termination_rate_export_cdr_xls/", 'single')
 			));
 		return $buttons_json;
@@ -374,7 +375,7 @@ For Add Initial Increment field
 		$buttons_json = json_encode(array(array("Create","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/rates/origination_rate_add/", "popup","medium"),
 			array("Delete", "btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/rates/origination_rate_delete_multiple/"),
 			array("import", "btn btn-line-blue","fa fa-upload fa-lg", "button_action", "/rates/origination_rate_import/", 'single'),
-			array("Import with field map","btn btn-line-blue" ,"fa fa-upload fa-lg", "button_action", "/rates/termination_rate_import_mapper/", 'single'),
+
 			array("Export","btn btn-xing" ," fa fa-download fa-lg", "button_action", "/rates/origination_rate_export_cdr_xls/", 'single')
             
 			));
