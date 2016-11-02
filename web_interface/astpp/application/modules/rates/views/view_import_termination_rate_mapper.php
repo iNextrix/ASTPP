@@ -79,7 +79,7 @@ if (!isset($csv_tmp_data)) { ?>
                   </div>
                 </div>
                 <div class="col-md-12 no-padding">
-                  <input type="hidden" name="mode" value="import_terminationrates" />
+                  <input type="hidden" name="mode" value="import_termination_rate_mapper" />
                   <input type="hidden" name="logintype" value="<?php echo $this->session->userdata('logintype') ?>" />
                   <input type="hidden" name="username" value="<?php echo $this->session->userdata('username') ?>" />
                   <label class="col-md-3">Select the file:</label>
@@ -116,13 +116,13 @@ if (isset($csv_tmp_data) && !empty($csv_tmp_data)) { ?>
   <div class="w-section inverse no-padding">
     <div class="container">
      <div class="row">
-        
-   
+
+
     </div>
     </div>
       <div class="row">
         <div class="col-md-12">
-          <form id="import_form" name="import_form" action="<?php echo base_url() ?>rates/terminationrates_rates_mapper_import" enctype="multipart/form-data" method="POST">
+          <form id="import_form" name="import_form" action="<?php echo base_url() ?>rates/termination_rate_rates_mapper_import" enctype="multipart/form-data" method="POST">
 			 <table class="table">
       <thead>
         <tr>
@@ -135,13 +135,13 @@ if (isset($csv_tmp_data) && !empty($csv_tmp_data)) { ?>
       <tbody>
        <?php
 	foreach($mapto_fields as $csv_key => $csv_value) {
-		
+
 			echo "<tr>";
 			echo "<td>" . $csv_key . '(' . $csv_value . ")</td>";
 			echo "<td><input type='text' name='".$csv_value ."-prefix' id='".$csv_value ."-prefix'></td>";
-			echo "<td>"; 
+			echo "<td>";
 			echo "<select name='".$csv_value ."-select' id='".$csv_value ."-select'>";
-			?> 
+			?>
 			<option value=""></option>
 			<?php
 			$keys = array_keys($file_data);
@@ -154,14 +154,14 @@ if (isset($csv_tmp_data) && !empty($csv_tmp_data)) { ?>
 			echo "</td>";
 			echo "<td><input type='text' name='".$csv_value ."-display' id='".$csv_value ."-display'></td>";
 			echo "</tr>";
-		
+
 	} ?>
-      	
+
       </tbody>
     </table>
     			  <input type="hidden" name="trunkid" value="<?php echo $trunkid ?>" />
     			  <input type="hidden" name="check_header" value="<?php echo $check_header ?>" />
-           		  <input type="hidden" name="mode" value="import_terminationrates" />
+           		  <input type="hidden" name="mode" value="import_termination_rate_mapper" />
                    <input type="hidden" name="filefields" value="<?php echo htmlspecialchars($field_select); ?>"  />
                   <input type="hidden" name="logintype" value="<?php echo $this->session->userdata('logintype') ?>" />
                   <input type="hidden" name="username" value="<?php echo $this->session->userdata('username') ?>" />

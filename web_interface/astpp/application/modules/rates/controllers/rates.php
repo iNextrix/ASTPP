@@ -1143,7 +1143,7 @@ function termination_rate_mapper_preview_file()
 			}
 			else {
 				$data['error'] = "Invalid file format : Only CSV file allows to import records(Can't import empty file)";
-				$data['error'] =  var_dump($_POST);
+				$data['error'] =  var_dump($data);
 			}
 		}
 		else {
