@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-
+git pull
 NOW=$(date +"%m-%d-%Y-%H-%M-%S")
 BACKUPDIR="/opt/ASTPP3_Backup"
 TEMPDIR="/opt/ASTPP3_patch"
