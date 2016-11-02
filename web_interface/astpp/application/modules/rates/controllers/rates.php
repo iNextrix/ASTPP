@@ -32,7 +32,7 @@ class Rates extends MX_Controller {
 		$this->load->library('astpp/form');
 		$this->load->model('rates_model');
 		$this->load->library('csvreader');
-	ini_set("memory_limit","2048M");
+	ini_set("memory_limit","20048M");
 	ini_set("max_execution_time","259200");
 		if ($this->session->userdata('user_login') == FALSE)
 			redirect(base_url() . '/astpp/login');
