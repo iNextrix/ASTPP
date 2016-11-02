@@ -242,7 +242,7 @@ Batch Delete
 					$uploadedFile = $_FILES["origination_rate_import"]["tmp_name"];
 					$csv_data=$this->csvreader->parse_file($uploadedFile,$new_final_arr_key,$check_header);
 					if(!empty($csv_data)){
-			$full_path = $this->config->item('rates-file-path')
+			$full_path = $this->config->item('rates-file-path');
 					$actual_file_name = "ASTPP-ORIGIN-RATES-".date("Y-m-d H:i:s"). "." . $ext;
 					if (move_uploaded_file($uploadedFile,$full_path.$actual_file_name)) {
 			$flag=false;
