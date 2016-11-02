@@ -59,7 +59,7 @@
                            </div>
                            
                            
-                           <label class="col-md-3">Check Header1:</label>
+                           <label class="col-md-3">Check Header:</label>
                                                        <div class="col-md-1"><input type='checkbox' name='check_header'/></div>
                            </div>
                      </div>
