@@ -1051,8 +1051,8 @@ Batch delete
 	function termination_rate_import_mapper()
 	{
 		$data['page_title'] = 'Import Termination Rates using field mapper';
-		$this->session->set_userdata('import_termination_rate_csv', "");
-		$this->session->set_userdata('import_termination_rate_csv_error', "");
+		$this->session->set_userdata('import_termination_rate_mapper_csv', "");
+		$this->session->set_userdata('import_termination_rate_mapper_csv_error', "");
 
 		$this->load->view('view_import_termination_rate_mapper', $data);
 	}
@@ -1130,7 +1130,7 @@ function termination_rate_mapper_preview_file()
 							$data['trunkid'] = $_POST['trunk_id'];
 							$data['check_header'] = $check_header;
 							$data['page_title'] = 'Map CSV to Termination Rates';
-							$this->session->set_userdata('import_termination_rate_csv', $actual_file_name);
+							$this->session->set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
 						}
 						else {
 							$data['error'] = "File Uploading Fail Please Try Again";
@@ -1143,7 +1143,7 @@ function termination_rate_mapper_preview_file()
 			}
 			else {
 				$data['error'] = "Invalid file format : Only CSV file allows to import records(Can't import empty file)";
-				$data['error'] =  var_dump($data);
+				$data['error'] =  var_dump($_FILES);
 			}
 		}
 		else {
@@ -1218,7 +1218,7 @@ function termination_rate_rates_mapper_import()
 		}
 
 		$full_path = $this->config->item('rates-file-path');
-		$terminationrate_file_name = $this->session->userdata('import_termination_rate_csv');
+		$terminationrate_file_name = $this->session->userdata('import_termination_rate_mapper_csv');
 		//echo "File name: " . $terminationrate_file_name;
 		$csv_tmp_data = $this->csvreader->parse_file($full_path . $terminationrate_file_name, $new_final_arr_key, $check_header);
 
@@ -1306,7 +1306,7 @@ function termination_rate_rates_mapper_import()
 			}
 
 			fclose($fp);
-			$this->session->set_userdata('import_termination_rate_csv_error', $session_id . ".csv");
+			$this->session->set_userdata('import_termination_rate_mapper_csv_error', $session_id . ".csv");
 			$data["error"] = $invalid_array;
 			$data['trunkid'] = $trunkID;
 			$data['impoted_count'] = count($new_final_arr);
