@@ -1099,6 +1099,7 @@ function termination_rate_mapper_preview_file()
 		 redirect(base_url()."rates/termination_rates_list/");
 		}
 		$data['mapto_fields'] = $new_final_arr_key;
+
 		if (isset($_FILES['terminationimport']['name']) && $_FILES['terminationimport']['name'] != "" && isset($_POST['trunk_id']) && $_POST['trunk_id'] != '') {
 
 			list($txt, $ext) = explode(".", $_FILES['terminationimport']['name']);
@@ -1142,6 +1143,7 @@ function termination_rate_mapper_preview_file()
 			}
 			else {
 				$data['error'] = "Invalid file format : Only CSV file allows to import records(Can't import empty file)";
+				$data['error'] =  var_dump($_FILES);
 			}
 		}
 		else {
