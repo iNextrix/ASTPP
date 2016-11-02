@@ -32,7 +32,7 @@ class Rates extends MX_Controller {
 		$this->load->library('astpp/form');
 		$this->load->model('rates_model');
 		$this->load->library('csvreader');
-	ini_set("memory_limit","20048M");
+	ini_set("memory_limit","2048M");
 	ini_set("max_execution_time","259200");
 		if ($this->session->userdata('user_login') == FALSE)
 			redirect(base_url() . '/astpp/login');
@@ -242,7 +242,7 @@ Batch Delete
 					$uploadedFile = $_FILES["origination_rate_import"]["tmp_name"];
 					$csv_data=$this->csvreader->parse_file($uploadedFile,$new_final_arr_key,$check_header);
 					if(!empty($csv_data)){
-			$full_path = $this->config->item('rates-file-path');
+			$full_path = $this->config->item('rates-file-path')
 					$actual_file_name = "ASTPP-ORIGIN-RATES-".date("Y-m-d H:i:s"). "." . $ext;
 					if (move_uploaded_file($uploadedFile,$full_path.$actual_file_name)) {
 			$flag=false;
@@ -1118,6 +1118,7 @@ function termination_rate_mapper_preview_file()
 			if ($ext == "csv" && $_FILES['termination_rate_import_mapper']['size'] > 0) {
 			        echo "3";
 				$error = $_FILES['termination_rate_import_mapper']['error'];
+				echo "Error" . $error;
 				if ($error == 0) {
 				    echo "4";
 					$uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
