@@ -1100,13 +1100,13 @@ function termination_rate_mapper_preview_file()
 		}
 		$data['mapto_fields'] = $new_final_arr_key;
 
-		if (isset($_FILES['terminationimport']['name']) && $_FILES['terminationimport']['name'] != "" && isset($_POST['trunk_id']) && $_POST['trunk_id'] != '') {
+		if (isset($_FILES['termination_rate_import_mapper']['name']) && $_FILES['termination_rate_import_mapper']['name'] != "" && isset($_POST['trunk_id']) && $_POST['trunk_id'] != '') {
 
-			list($txt, $ext) = explode(".", $_FILES['terminationimport']['name']);
-			if ($ext == "csv" && $_FILES['terminationimport']['size'] > 0) {
-				$error = $_FILES['terminationimport']['error'];
+			list($txt, $ext) = explode(".", $_FILES['termination_rate_import_mapper']['name']);
+			if ($ext == "csv" && $_FILES['termination_rate_import_mapper']['size'] > 0) {
+				$error = $_FILES['termination_rate_import_mapper']['error'];
 				if ($error == 0) {
-					$uploadedFile = $_FILES["terminationimport"]["tmp_name"];
+					$uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
 					$file_data = $this->csv_to_array($uploadedFile);
 					$field_select = (array_keys($file_data[0]));
 					$data['file_data'] = $field_select;
@@ -1156,7 +1156,7 @@ function termination_rate_mapper_preview_file()
 				$str.= '<br/>Please Create Trunk.';
 			}
 
-			if (empty($_FILES['terminationimport']['name'])) {
+			if (empty($_FILES['termination_rate_import_mapper']['name'])) {
 				$str.= '<br/>Please Select  File.';
 			}
 
