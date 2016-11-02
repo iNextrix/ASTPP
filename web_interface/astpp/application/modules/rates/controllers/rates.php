@@ -1106,9 +1106,13 @@ function termination_rate_mapper_preview_file()
 			        echo "3";
 				$error = $_FILES['termination_rate_import_mapper']['error'];
 				if ($error == 0) {
+				    echo "4";
 					$uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
+					echo "5";
 					$file_data = $this->csv_to_array($uploadedFile);
+					echo "6";
 					$field_select = (array_keys($file_data[0]));
+					echo "7";
 					$data['file_data'] = $field_select;
 
 					//$csv_data = $this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header);
