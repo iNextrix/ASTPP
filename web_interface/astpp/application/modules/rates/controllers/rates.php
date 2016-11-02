@@ -102,7 +102,7 @@ Batch Delete
 					$csv_data=$this->csvreader->parse_file($uploadedFile,$new_final_arr_key,$check_header);
 			if(!empty($csv_data)){
 			$full_path = $this->config->item('rates-file-path');
-			$actual_file_name = "ASTPP-TERMINATION-RATES-".date("Y-m-d H:i:s"). "." . $ext;
+			$actual_file_name = "ASTPP-TERMINATION-RATES-".date("Y-m-d-H:i:s"). "." . $ext;
 			if (move_uploaded_file($uploadedFile,$full_path.$actual_file_name)) {
 			  $data['csv_tmp_data'] = $csv_data;
 			  $data['trunkid'] = $_POST['trunk_id'];
