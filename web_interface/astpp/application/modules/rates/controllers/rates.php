@@ -1094,7 +1094,7 @@ function termination_rate_mapper_preview_file()
 		$check_header = $this->input->post('check_header', true);
 		$data['page_title'] = 'Import Termination Rates';
 		$new_final_arr_key = $this->config->item('Termination-rates-field');
-
+        echo var_dump($_POST);
 		if (empty($_FILES) || !isset($_FILES)) {
 		 redirect(base_url()."rates/termination_rates_list/");
 		}
@@ -1103,7 +1103,7 @@ function termination_rate_mapper_preview_file()
 		if (isset($_FILES['terminationimport']['name']) && $_FILES['terminationimport']['name'] != "" && isset($_POST['trunk_id']) && $_POST['trunk_id'] != '') {
 
 			list($txt, $ext) = explode(".", $_FILES['terminationimport']['name']);
-			if ($ext == "csv") {
+			if ($ext == "csv" && $_FILES['terminationimport']['size'] > 0) {
 				$error = $_FILES['terminationimport']['error'];
 				if ($error == 0) {
 					$uploadedFile = $_FILES["terminationimport"]["tmp_name"];
