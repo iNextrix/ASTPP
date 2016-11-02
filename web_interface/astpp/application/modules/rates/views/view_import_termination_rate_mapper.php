@@ -112,7 +112,7 @@ if (!isset($csv_tmp_data)) { ?>
 <section class="slice color-three padding-t-20">
 	<div class="w-section inverse no-padding">
 	    <div class="container">
-	    <form method="post" action="<?= base_url()?>rates/termination_rate_preview_file/" enctype="multipart/form-data" id="termination_rate">
+	    <form method="post" action="<?= base_url()?>rates/termination_rate_mapper_preview_file/" enctype="multipart/form-data" id="termination_rate">
 	       <div class="row">
                <div class="col-md-12">
             	<div class="w-box">
@@ -137,7 +137,7 @@ if (!isset($csv_tmp_data)) { ?>
 							echo $trunklist; ?></div>
                            </div>
                            <div class="col-md-12 no-padding">
-                            <input type="hidden" name="mode" value="import_termination_rate" />
+                            <input type="hidden" name="mode" value="import_termination_rate_mapper" />
                             <input type="hidden" name="logintype" value="<?= $this->session->userdata('logintype') ?>" />
                             <input type="hidden" name="username" value="<?= $this->session->userdata('username') ?>" />
 
@@ -173,7 +173,7 @@ if (!isset($csv_tmp_data)) { ?>
                </div>
                <div class="col-md-12 padding-b-10">
                    <div class="pull-right">
-		<input class="btn btn-line-parrot" id="import_termination_rate" type="submit" name="action" value="Import" />
+		<input class="btn btn-line-parrot" id="import_termination_rate_mapper" type="submit" name="action" value="Import" />
                         <a href="<?= base_url().'rates/termination_rates_list/'?>" ><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Cancel"/></a>
 
                    </div>
