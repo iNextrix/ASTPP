@@ -1098,22 +1098,24 @@ function termination_rate_mapper_preview_file()
 		 redirect(base_url()."rates/termination_rates_list/");
 		}
 		$data['mapto_fields'] = $new_final_arr_key;
+		
         echo "1";
+        echo "<table>";
+                    foreach ($_POST as $key => $value) {
+                            echo "<tr>";
+                            echo "<td>";
+                            echo $key;
+                            echo "</td>";
+                            echo "<td>";
+                            echo $value;
+                            echo "</td>";
+                            echo "</tr>";
+                        }
+                        echo "</table>";
+                        echo var_dump($_FILES);
 		if (isset($_FILES['termination_rate_import_mapper']['name']) && $_FILES['termination_rate_import_mapper']['name'] != "" && isset($_POST['trunk_id']) && $_POST['trunk_id'] != '') {
             echo "2";
-            echo "<table>";
-            foreach ($_POST as $key => $value) {
-                    echo "<tr>";
-                    echo "<td>";
-                    echo $key;
-                    echo "</td>";
-                    echo "<td>";
-                    echo $value;
-                    echo "</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
-                echo var_dump($_FILES);
+
 			list($txt, $ext) = explode(".", $_FILES['termination_rate_import_mapper']['name']);
                 echo "EXT:";
                 echo  $ext;
