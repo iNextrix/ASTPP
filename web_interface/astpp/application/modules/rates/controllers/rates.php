@@ -1101,7 +1101,18 @@ function termination_rate_mapper_preview_file()
         echo "1";
 		if (isset($_FILES['termination_rate_import_mapper']['name']) && $_FILES['termination_rate_import_mapper']['name'] != "" && isset($_POST['trunk_id']) && $_POST['trunk_id'] != '') {
             echo "2";
+            foreach ($_POST as $key => $value) {
+                    echo "<tr>";
+                    echo "<td>";
+                    echo $key;
+                    echo "</td>";
+                    echo "<td>";
+                    echo $value;
+                    echo "</td>";
+                    echo "</tr>";
+                }
 			list($txt, $ext) = explode(".", $_FILES['termination_rate_import_mapper']['name']);
+
 			if ($ext == "csv" && $_FILES['termination_rate_import_mapper']['size'] > 0) {
 			        echo "3";
 				$error = $_FILES['termination_rate_import_mapper']['error'];
