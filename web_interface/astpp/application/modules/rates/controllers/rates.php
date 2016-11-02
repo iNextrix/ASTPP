@@ -1113,12 +1113,13 @@ function termination_rate_mapper_preview_file()
                     echo "</tr>";
                 }
                 echo "</table>";
+                echo var_dump($_FILES);
 			list($txt, $ext) = explode(".", $_FILES['termination_rate_import_mapper']['name']);
 
 			if ($ext == "csv" && $_FILES['termination_rate_import_mapper']['size'] > 0) {
 			        echo "3";
 				$error = $_FILES['termination_rate_import_mapper']['error'];
-				echo "Error" + $error;
+
 				if ($error == 0) {
 				    echo "4";
 					$uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
