@@ -1161,7 +1161,7 @@ function termination_rate_mapper_preview_file()
 			$data['error'] = $str;
 		}
 
-		$this->load->view('view_import_termination_rates_mapper', $data);
+		$this->load->view('view_import_termination_rate_mapper', $data);
 	}
 
 
