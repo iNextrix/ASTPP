@@ -1612,16 +1612,12 @@ class Rates extends MX_Controller
 			$i++;
 		}
 
-		echo "<pre>";
-		echo "Valid Array";
-		print_r($new_final_arr);
-		echo "Invalid Array";
-		print_r($invalid_array);
-		echo "</pre>";
 		if (!empty($new_final_arr))
 		{
 			echo "Performing Insert";
 			$result = $this->rates_model->bulk_insert_termination_rate($new_final_arr);
+			} else {
+			echo "Array Looks Empty!";
 		}
 
 		unlink($full_path . $terminationrate_file_name);
