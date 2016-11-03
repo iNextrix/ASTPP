@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-git pull
+
 NOW=$(date +"%m-%d-%Y-%H-%M-%S")
 BACKUPDIR="/opt/ASTPP3_Backup"
 TEMPDIR="/opt/ASTPP3_patch"
@@ -41,14 +41,13 @@ echo "Backups files created at location "${BACKUPDIR}
 
 mkdir ${TEMPDIR}
 cd ${TEMPDIR}
-git clone -v -b v3.0 https://github.com/countrdd/ASTPP
+git clone https://github.com/iNextrix/ASTPP
 cd ASTPP
 echo "Updating your current source with latest one . . . . . "
 rm -rf /var/www/html/astpp/*
 cp -rf web_interface/astpp/* /var/www/html/astpp/.
 chown -Rf root.root /var/www/html/astpp
 chmod -Rf 755 /var/www/html/astpp
-chmod -Rf 777 /var/www/html/astpp/assets/Rates_File/uploaded_files
 rm -rf /var/www/html/fs/*
 cp -rf freeswitch/fs/* /var/www/html/fs/.
 chown -Rf root.root /var/www/html/fs
