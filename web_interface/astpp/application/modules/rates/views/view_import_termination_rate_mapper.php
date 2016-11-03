@@ -4,10 +4,6 @@
    startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
    $(document).ready(function() {
-
-
-
-
    });
 </script> <script type="text/javascript" language="javascript"><?
    if (isset($mapto_fields) && !empty($mapto_fields)) {
@@ -17,7 +13,7 @@
     echo 'var answer = select.options[select.selectedIndex].value;';
     echo 'document.getElementById("'.$csv_value .'-display").value =  (!answer) ? document.getElementById("'.$csv_value .'-prefix").value : document.getElementById("'.$csv_value .'-prefix").value + csv_tmp_data[2][answer];';
     echo '});';
-     echo '$("#'.$csv_value .'-select").live("change", function () {';
+    echo '$("#'.$csv_value .'-select").live("change", function () {';
     echo 'var select = document.getElementById("'.$csv_value .'-select");';
     echo 'var answer = select.options[select.selectedIndex].value;';
     echo 'document.getElementById("'.$csv_value .'-display").value = (!answer) ? document.getElementById("'.$csv_value .'-prefix").value : document.getElementById("'.$csv_value .'-prefix").value + csv_tmp_data[2][answer];';
@@ -84,6 +80,22 @@
                            <label class="col-md-3">Select the file:</label>
                            <div class="col-md-5"><span class="no-padding form-control"  style="overflow-x:hidden;width:260px;">
                               <input class="text field large" type="file" name="termination_rate_import_mapper"  size="15" id="termination_rate_import_mapper" style="height:33px;"/>
+                           </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                           <input type="hidden" name="mode" value="import_termination_rate_mapper" />
+                           <input type="hidden" name="logintype" value="<?= $this->session->userdata('logintype') ?>" />
+                           <input type="hidden" name="username" value="<?= $this->session->userdata('username') ?>" />
+                           <label class="col-md-3">Select the file:</label>
+                           <div class="col-md-5 no-padding">
+                              <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                 <div class="form-control" data-trigger="fileinput">
+                                    <span class="fileinput-filename"></span>
+                                 </div>
+                                 <span class="input-group-addon btn btn-primary btn-file" style="display: table-cell;">
+                                 <span class="fileinput-new">Select file</span>
+                                 <input style="height:33px;" type="file" name="termination_rate_import_mapper"  size="15" id="termination_rate_import_mapper"></span>
+                              </div>
                            </div>
                         </div>
                         <label class="col-md-3">File has Header Record.:</label>
