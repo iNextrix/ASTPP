@@ -1088,7 +1088,7 @@ function utf8_converter($array) {
 function termination_rate_mapper_preview_file() {
     $invalid_flag = false;
     $check_header = $this - > input - > post('check_header', true);
- $data['page_title'] = 'Import Termination Rates using field mapper';
+    $data['page_title'] = 'Import Termination Rates';
     $new_final_arr_key = $this - > config - > item('Termination-rates-field');
     if (empty($_FILES) || !isset($_FILES)) {
         redirect(base_url().
