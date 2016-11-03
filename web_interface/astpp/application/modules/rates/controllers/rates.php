@@ -1281,7 +1281,8 @@ function termination_rate_rates_mapper_import() {
        echo "</pre>";
 
     if (!empty($new_final_arr)) {
-        $result = $this->rates_model->bulk_insert_termination_rates($new_final_arr);
+        //$result = $this->rates_model->bulk_insert_termination_rates($new_final_arr);
+        $result = $this->rates_model->bulk_insert_termination_rate($new_final_arr);
     }
 
     unlink($full_path.$terminationrate_file_name);
