@@ -41,7 +41,6 @@
    startblock('content') ?>
 <?php
    if (!isset($csv_tmp_data)) { ?>
-/*
 <section class="slice color-three padding-t-20">
    <div class="w-section inverse no-padding">
       <div class="container">
