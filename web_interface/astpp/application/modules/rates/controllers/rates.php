@@ -1282,16 +1282,12 @@ function termination_rate_rates_mapper_import() {
        print_r($invalid_array);exit;
        echo "</pre>";
        echo !empty($new_final_arr);
-    if (!empty($new_final_arr)) {
 
         echo "Performing Insert";
         //$result = $this->rates_model->bulk_insert_termination_rates($new_final_arr);
           $result = $this->rates_model->bulk_insert_termination_rate($new_final_arr);
           echo "Inserted";
           echo $result;
-      } else {
-        echo "Fin Array Empty.";
-    }
 
     unlink($full_path.$terminationrate_file_name);
     $count = count($invalid_array);
