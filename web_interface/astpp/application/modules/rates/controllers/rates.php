@@ -1281,7 +1281,7 @@ function termination_rate_rates_mapper_import() {
        echo "Invalid Array";
        print_r($invalid_array);exit;
        echo "</pre>";
-       echo
+       echo !empty($new_final_arr);
     if (!empty($new_final_arr)) {
 
         echo "Performing Insert";
@@ -1290,7 +1290,7 @@ function termination_rate_rates_mapper_import() {
           echo "Inserted";
           echo $result;
       } else {
-        echo "Fin Array Empty."
+        echo "Fin Array Empty.";
     }
 
     unlink($full_path.$terminationrate_file_name);
