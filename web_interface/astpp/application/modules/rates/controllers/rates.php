@@ -1281,7 +1281,7 @@ function termination_rate_rates_mapper_import() {
        echo "Invalid Array";
        print_r($invalid_array);exit;
        echo "</pre>";
-       echo !empty($new_final_arr);
+
 
         echo "Performing Insert";
         //$result = $this->rates_model->bulk_insert_termination_rates($new_final_arr);
