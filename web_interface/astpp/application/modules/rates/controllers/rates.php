@@ -1503,40 +1503,13 @@ class Rates extends MX_Controller
 		$filefields = unserialize($this->input->post("filefields"));
 		$new_final_arr = array();
 		$invalid_array = array();
-
-		// Remap the new_final_arr_key
-		// $new_final_arr_key = $this->config->item('Termination-rates-field');
-
 		$new_final_arr_key = array();
-
-		// echo "-----------------------------d----<br />";
-
 		foreach($filefields as $item)
-		{ //foreach element in $arr
+		{
 			$new_final_arr_key[$item] = $item;
-			echo "Item is : " . $item . "<br /><br />";
 		}
 
-		// echo "---------------------------------<br />";
 
-		/*	$new_final_arr_key = array(
-		$this->input->post("pattern-select") => "pattern",
-		$this->input->post("comment-select") => "comment",
-		$this->input->post("connectcost-select") => "connectcost",
-		$this->input->post("includedseconds-select") => "includedseconds",
-		$this->input->post("cost-select") => "cost",
-		$this->input->post("inc-select") => "increment",
-		$this->input->post("precedence") => "precedence",
-		$this->input->post("strip") => "strip",
-		$this->input->post("prepend") => "prepend",
-		);
-		*/
-
-		// Final Arr Keyarray(9) { ["code"]=> string(7) "pattern" ["destination"]=> string(7) "comment" ["connect cost"]=> string(11) "connectcost" ["included seconds"]=> string(15) "includedseconds" ["per minute cost"]=> string(4) "cost" ["increment"]=> string(3) "inc" ["precedence"]=> string(10) "precedence" ["strip"]=> string(5) "strip" ["prepend"]=> string(7) "prepend" }
-
-		echo "<br /><br /> Final Arr Key";
-		echo var_dump($new_final_arr_key);
-		echo "<br /><br />";
 		$screen_path = $this->config->item('screen_path');
 		if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5)
 		{
@@ -1545,7 +1518,6 @@ class Rates extends MX_Controller
 
 		$full_path = $this->config->item('rates-file-path');
 		$terminationrate_file_name = $this->session->userdata('import_termination_rate_mapper_csv');
-		echo "File name: " . $terminationrate_file_name;
 		$csv_tmp_data = $this->csvreader->parse_file($full_path . $terminationrate_file_name, $new_final_arr_key, $check_header);
 		$i = 0;
 		foreach($csv_tmp_data as $key => $csv_data)
@@ -1570,15 +1542,6 @@ class Rates extends MX_Controller
 				$csv_data['precedence'] = ($this->input->post("precedence-prefix")) ? $this->input->post("precedence-prefix") . $csv_data['precedence'] : $csv_data['precedence'];
 				$csv_data['strip'] = ($this->input->post("strip-select")) ? $csv_data[$this->input->post("strip-select") ] : "";
 				$csv_data['strip'] = ($this->input->post("strip-prefix")) ? $this->input->post("strip-prefix") . $csv_data['strip'] : $csv_data['strip'];
-
-				// $csv_data['comment'] = isset($csv_data['comment']) ? $csv_data['comment'] : '';
-				// $csv_data['connectcost'] = isset($csv_data['connectcost']) ? $csv_data['connectcost'] : 0;
-				// $csv_data['includedseconds'] = isset($csv_data['includedseconds']) ? $csv_data['includedseconds'] : 0;
-				// $csv_data['cost'] = !empty($csv_data['cost']) && is_numeric($csv_data['cost']) ? $csv_data['cost'] : 0;
-				// $csv_data['inc'] = isset($csv_data['inc']) ? $csv_data['inc'] : 0;
-				// $csv_data['precedence'] = isset($csv_data['precedence']) ? $csv_data['precedence'] : '';
-				// $csv_data['strip'] = isset($csv_data['strip']) ? $csv_data['strip'] : '';
-
 				$csv_data['last_modified_date'] = date("Y-m-d H:i:s");
 				$str = $this->data_validate($csv_data);
 				if ($str != "")
@@ -1588,10 +1551,6 @@ class Rates extends MX_Controller
 				}
 				else
 				{
-
-					// $csv_data['trunk_id'] = $trunkID;
-					// $csv_data['pattern'] = "^" . $csv_data['pattern'] . ".*";
-
 					$new_final_arr[$i]['trunk_id'] = $trunkID;
 					$new_final_arr[$i]['pattern'] = "^" . $csv_data['pattern'] . ".*";
 					$new_final_arr[$i]['prepend'] = $csv_data['prepend'];
@@ -1603,9 +1562,6 @@ class Rates extends MX_Controller
 					$new_final_arr[$i]['inc'] = isset($csv_data['inc']) ? $csv_data['inc'] : 0;
 					$new_final_arr[$i]['precedence'] = isset($csv_data['precedence']) ? $csv_data['precedence'] : '';
 					$new_final_arr[$i]['strip'] = isset($csv_data['strip']) ? $csv_data['strip'] : '';
-
-					// $new_final_arr[$i] = $csv_data;
-
 				}
 			}
 
@@ -1614,10 +1570,7 @@ class Rates extends MX_Controller
 
 		if (!empty($new_final_arr))
 		{
-			echo "Performing Insert";
 			$result = $this->rates_model->bulk_insert_termination_rate($new_final_arr);
-			} else {
-			echo "Array Looks Empty!";
 		}
 
 		unlink($full_path . $terminationrate_file_name);
