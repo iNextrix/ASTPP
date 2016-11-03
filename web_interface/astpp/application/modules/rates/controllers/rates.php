@@ -1222,8 +1222,7 @@ function termination_rate_rates_mapper_import() {
         if (isset($csv_data[$this->input->post("pattern-select")]) && $csv_data[$this->input->post("pattern-select")] != '' && $i != 0) {
             $str = null;
             $csv_data['pattern'] = ($this->input->post("pattern-prefix")) ? $this->input->post("pattern-prefix").$csv_data[$this->input->post("pattern-select")] : $csv_data[$this->input->post("pattern-select")];
-
-
+		    $csv_data['last_modified_date'] = date("Y-m-d H:i:s");
             $csv_data['cost'] = ($this->input->post("cost-select")) ? $csv_data[$this->input->post("cost-select")] : "";
             $csv_data['cost'] = ($this->input->post("cost-prefix")) ? $this->input->post("cost-prefix").$csv_data['cost'] : $csv_data['cost'];
             $csv_data['prepend'] = ($this->input->post("prepend-select")) ? $csv_data[$this->input->post("prepend-select")] : "";
