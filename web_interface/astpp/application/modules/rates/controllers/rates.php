@@ -1222,7 +1222,8 @@ function termination_rate_rates_mapper_import() {
         if (isset($csv_data[$this->input->post("pattern-select")]) && $csv_data[$this->input->post("pattern-select")] != '' && $i != 0) {
             $str = null;
             $csv_data['pattern'] = ($this->input->post("pattern-prefix")) ? $this->input->post("pattern-prefix").$csv_data[$this->input->post("pattern-select")] : $csv_data[$this->input->post("pattern-select")];
-		    $csv_data['last_modified_date'] = date("Y-m-d H:i:s");
+
+
             $csv_data['cost'] = ($this->input->post("cost-select")) ? $csv_data[$this->input->post("cost-select")] : "";
             $csv_data['cost'] = ($this->input->post("cost-prefix")) ? $this->input->post("cost-prefix").$csv_data['cost'] : $csv_data['cost'];
             $csv_data['prepend'] = ($this->input->post("prepend-select")) ? $csv_data[$this->input->post("prepend-select")] : "";
@@ -1246,6 +1247,7 @@ function termination_rate_rates_mapper_import() {
             //$csv_data['inc'] = isset($csv_data['inc']) ? $csv_data['inc'] : 0;
             //$csv_data['precedence'] = isset($csv_data['precedence']) ? $csv_data['precedence'] : '';
             //$csv_data['strip'] = isset($csv_data['strip']) ? $csv_data['strip'] : '';
+              $csv_data['last_modified_date'] = date("Y-m-d H:i:s");
             $str = $this->data_validate($csv_data);
             if ($str != "") {
                 $invalid_array[$i] = $csv_data;
@@ -1257,6 +1259,7 @@ function termination_rate_rates_mapper_import() {
                 $new_final_arr[$i]['pattern'] = "^".$csv_data['pattern'].
                 ".*";
                 $new_final_arr[$i]['prepend'] = $csv_data['prepend'];
+                $new_final_arr[$i]['last_modified_date'] = $csv_data['last_modified_date'];
                 $new_final_arr[$i]['comment'] = $csv_data['comment'];
                 $new_final_arr[$i]['connectcost'] = $csv_data['connectcost'];
                 $new_final_arr[$i]['includedseconds'] = $csv_data['includedseconds'];
