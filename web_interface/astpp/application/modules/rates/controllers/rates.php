@@ -1180,7 +1180,7 @@ function termination_rate_rates_mapper_import() {
 
     foreach($filefields as $item) { //foreach element in $arr
         $new_final_arr_key[$item] = $item;
-        //	echo "Item is : " .$item . "<br><br>";
+        	echo "Item is : " .$item . "<br><br>";
     }
 
     //echo "---------------------------------<br>";
@@ -1203,9 +1203,9 @@ function termination_rate_rates_mapper_import() {
     //Final Arr Keyarray(9) { ["code"]=> string(7) "pattern" ["destination"]=> string(7) "comment" ["connect cost"]=> string(11) "connectcost" ["included seconds"]=> string(15) "includedseconds" ["per minute cost"]=> string(4) "cost" ["increment"]=> string(3) "inc" ["precedence"]=> string(10) "precedence" ["strip"]=> string(5) "strip" ["prepend"]=> string(7) "prepend" }
 
 
-    //echo "<br><br> Final Arr Key";
-    //var_dump($new_final_arr_key);
-    // echo "<br><br>";
+    echo "<br><br> Final Arr Key";
+    echo var_dump($new_final_arr_key);
+    echo "<br><br>";
     $screen_path = $this->config->item('screen_path');
     if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
         $account_data = $this->session->userdata("accountinfo");
@@ -1213,7 +1213,7 @@ function termination_rate_rates_mapper_import() {
 
     $full_path = $this->config->item('rates-file-path');
     $terminationrate_file_name = $this->session->userdata('import_termination_rate_mapper_csv');
-    //echo "File name: " . $terminationrate_file_name;
+    echo "File name: " . $terminationrate_file_name;
     $csv_tmp_data = $this->csvreader->parse_file($full_path.$terminationrate_file_name, $new_final_arr_key, $check_header);
 
     $i = 0;
