@@ -1273,12 +1273,12 @@ function termination_rate_rates_mapper_import() {
         $i++;
     }
 
-    //                   echo "<pre>";
-    //   echo "Valid Array";
-    //  print_r($new_final_arr);
-    //   echo "Invalid Array";
-    //   print_r($invalid_array);exit;
-    //   echo "</pre>";
+                       echo "<pre>";
+       echo "Valid Array";
+      print_r($new_final_arr);
+       echo "Invalid Array";
+       print_r($invalid_array);exit;
+       echo "</pre>";
 
     if (!empty($new_final_arr)) {
         $result = $this->rates_model->bulk_insert_termination_rates($new_final_arr);
