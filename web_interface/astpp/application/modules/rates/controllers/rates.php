@@ -34,6 +34,7 @@ class Rates extends MX_Controller {
 		$this->load->library('csvreader');
 	ini_set("memory_limit","2048M");
 	ini_set("max_execution_time","259200");
+	ini_set("upload_max_filesize","200M");
 		if ($this->session->userdata('user_login') == FALSE)
 			redirect(base_url() . '/astpp/login');
 	}
