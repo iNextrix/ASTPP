@@ -1050,10 +1050,10 @@ Batch delete
 /********* Import Mapper Code - ISSUE-142 **********/
 function termination_rate_import_mapper() {
     $data['page_title'] = 'Import Termination Rates using field mapper';
-    $this - > session - > set_userdata('import_termination_rate_mapper_csv', "");
-    $this - > session - > set_userdata('import_termination_rate_mapper_csv_error', "");
+    $this->session->set_userdata('import_termination_rate_mapper_csv', "");
+    $this->session->set_userdata('import_termination_rate_mapper_csv_error', "");
 
-    $this - > load - > view('view_import_termination_rate_mapper', $data);
+    $this->load->view('view_import_termination_rate_mapper', $data);
 }
 
 
@@ -1087,9 +1087,9 @@ function utf8_converter($array) {
 
 function termination_rate_mapper_preview_file() {
     $invalid_flag = false;
-    $check_header = $this - > input - > post('check_header', true);
+    $check_header = $this->input->post('check_header', true);
     $data['page_title'] = 'Import Termination Rates';
-    $new_final_arr_key = $this - > config - > item('Termination-rates-field');
+    $new_final_arr_key = $this->config->item('Termination-rates-field');
     if (empty($_FILES) || !isset($_FILES)) {
         redirect(base_url().
             "rates/termination_rates_list/");
@@ -1104,13 +1104,13 @@ function termination_rate_mapper_preview_file() {
             $error = $_FILES['termination_rate_import_mapper']['error'];
             if ($error == 0) {
                 $uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
-                $file_data = $this - > csv_to_array($uploadedFile);
+                $file_data = $this->csv_to_array($uploadedFile);
                 $field_select = (array_keys($file_data[0]));
                 echo "7";
                 $data['file_data'] = $field_select;
 
                 //$csv_data = $this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header);
-                $csv_data = $this - > utf8_converter($this - > csvreader - > parse_file($uploadedFile, $field_select, true));
+                $csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, true));
                 // echo "<br><br>";
                 // var_dump($field_select);
                 //echo "<br><br>";
@@ -1119,7 +1119,7 @@ function termination_rate_mapper_preview_file() {
                 //$csv_data = $this->csvreader->parse_file($uploadedFile,$field_select);
 
                 if (!empty($csv_data)) {
-                    $full_path = $this - > config - > item('rates-file-path');
+                    $full_path = $this->config->item('rates-file-path');
                     $actual_file_name = "ASTPP-TERMINATION-RATES-".date("Y-m-d H:i:s").
                     ".".$ext;
                     if (move_uploaded_file($uploadedFile, $full_path.$actual_file_name)) {
@@ -1129,7 +1129,7 @@ function termination_rate_mapper_preview_file() {
                         $data['trunkid'] = $_POST['trunk_id'];
                         $data['check_header'] = $check_header;
                         $data['page_title'] = 'Map CSV to Termination Rates';
-                        $this - > session - > set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
+                        $this->session->set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
                     } else {
                         $data['error'] = "File Uploading Fail Please Try Again";
                     }
@@ -1158,17 +1158,17 @@ function termination_rate_mapper_preview_file() {
         $data['error'] = $str;
     }
 
-    $this - > load - > view('view_import_termination_rate_mapper', $data);
+    $this->load->view('view_import_termination_rate_mapper', $data);
 }
 
 
 function termination_rate_rates_mapper_import() {
     //var_dump($this->input->post());
-    $trunkID = $this - > input - > post("trunkid");
-    $check_header = $this - > input - > post("check_header");
-    $pattern_prefix = $this - > input - > post("pattern-prefix");
+    $trunkID = $this->input->post("trunkid");
+    $check_header = $this->input->post("check_header");
+    $pattern_prefix = $this->input->post("pattern-prefix");
 
-    $filefields = unserialize($this - > input - > post("filefields"));
+    $filefields = unserialize($this->input->post("filefields"));
     $new_final_arr = array();
     $invalid_array = array();
 
@@ -1206,40 +1206,40 @@ function termination_rate_rates_mapper_import() {
     //echo "<br><br> Final Arr Key";
     //var_dump($new_final_arr_key);
     // echo "<br><br>";
-    $screen_path = $this - > config - > item('screen_path');
-    if ($this - > session - > userdata('logintype') == 1 || $this - > session - > userdata('logintype') == 5) {
-        $account_data = $this - > session - > userdata("accountinfo");
+    $screen_path = $this->config->item('screen_path');
+    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+        $account_data = $this->session->userdata("accountinfo");
     }
 
-    $full_path = $this - > config - > item('rates-file-path');
-    $terminationrate_file_name = $this - > session - > userdata('import_termination_rate_mapper_csv');
+    $full_path = $this->config->item('rates-file-path');
+    $terminationrate_file_name = $this->session->userdata('import_termination_rate_mapper_csv');
     //echo "File name: " . $terminationrate_file_name;
-    $csv_tmp_data = $this - > csvreader - > parse_file($full_path.$terminationrate_file_name, $new_final_arr_key, $check_header);
+    $csv_tmp_data = $this->csvreader->parse_file($full_path.$terminationrate_file_name, $new_final_arr_key, $check_header);
 
     $i = 0;
     foreach($csv_tmp_data as $key => $csv_data) {
 
-        if (isset($csv_data[$this - > input - > post("pattern-select")]) && $csv_data[$this - > input - > post("pattern-select")] != '' && $i != 0) {
+        if (isset($csv_data[$this->input->post("pattern-select")]) && $csv_data[$this->input->post("pattern-select")] != '' && $i != 0) {
             $str = null;
-            $csv_data['pattern'] = ($this - > input - > post("pattern-prefix")) ? $this - > input - > post("pattern-prefix").$csv_data[$this - > input - > post("pattern-select")] : $csv_data[$this - > input - > post("pattern-select")];
+            $csv_data['pattern'] = ($this->input->post("pattern-prefix")) ? $this->input->post("pattern-prefix").$csv_data[$this->input->post("pattern-select")] : $csv_data[$this->input->post("pattern-select")];
 
 
-            $csv_data['cost'] = ($this - > input - > post("cost-select")) ? $csv_data[$this - > input - > post("cost-select")] : "";
-            $csv_data['cost'] = ($this - > input - > post("cost-prefix")) ? $this - > input - > post("cost-prefix").$csv_data['cost'] : $csv_data['cost'];
-            $csv_data['prepend'] = ($this - > input - > post("prepend-select")) ? $csv_data[$this - > input - > post("prepend-select")] : "";
-            $csv_data['prepend'] = ($this - > input - > post("prepend-prefix")) ? $this - > input - > post("prepend-prefix").$csv_data['prepend'] : $csv_data['prepend'];
-            $csv_data['comment'] = ($this - > input - > post("comment-select")) ? $csv_data[$this - > input - > post("comment-select")] : "";
-            $csv_data['comment'] = ($this - > input - > post("comment-prefix")) ? $this - > input - > post("comment-prefix").$csv_data['comment'] : $csv_data['comment'];
-            $csv_data['connectcost'] = ($this - > input - > post("connectcost-select")) ? $csv_data[$this - > input - > post("connectcost-select")] : "0";
-            $csv_data['connectcost'] = ($this - > input - > post("connectcost-prefix")) ? $this - > input - > post("connectcost-prefix").$csv_data['connectcost'] : $csv_data['connectcost'];
-            $csv_data['includedseconds'] = ($this - > input - > post("includedseconds-select")) ? $csv_data[$this - > input - > post("includedseconds-select")] : "0";
-            $csv_data['includedseconds'] = ($this - > input - > post("includedseconds-prefix")) ? $this - > input - > post("includedseconds-prefix").$csv_data['includedseconds'] : $csv_data['includedseconds'];
-            $csv_data['inc'] = ($this - > input - > post("inc-select")) ? $csv_data[$this - > input - > post("inc-select")] : "0";
-            $csv_data['inc'] = ($this - > input - > post("inc-prefix")) ? $this - > input - > post("inc-prefix").$csv_data['inc'] : $csv_data['inc'];
-            $csv_data['precedence'] = ($this - > input - > post("precedence-select")) ? $csv_data[$this - > input - > post("precedence-select")] : "";
-            $csv_data['precedence'] = ($this - > input - > post("precedence-prefix")) ? $this - > input - > post("precedence-prefix").$csv_data['precedence'] : $csv_data['precedence'];
-            $csv_data['strip'] = ($this - > input - > post("strip-select")) ? $csv_data[$this - > input - > post("strip-select")] : "";
-            $csv_data['strip'] = ($this - > input - > post("strip-prefix")) ? $this - > input - > post("strip-prefix").$csv_data['strip'] : $csv_data['strip'];
+            $csv_data['cost'] = ($this->input->post("cost-select")) ? $csv_data[$this->input->post("cost-select")] : "";
+            $csv_data['cost'] = ($this->input->post("cost-prefix")) ? $this->input->post("cost-prefix").$csv_data['cost'] : $csv_data['cost'];
+            $csv_data['prepend'] = ($this->input->post("prepend-select")) ? $csv_data[$this->input->post("prepend-select")] : "";
+            $csv_data['prepend'] = ($this->input->post("prepend-prefix")) ? $this->input->post("prepend-prefix").$csv_data['prepend'] : $csv_data['prepend'];
+            $csv_data['comment'] = ($this->input->post("comment-select")) ? $csv_data[$this->input->post("comment-select")] : "";
+            $csv_data['comment'] = ($this->input->post("comment-prefix")) ? $this->input->post("comment-prefix").$csv_data['comment'] : $csv_data['comment'];
+            $csv_data['connectcost'] = ($this->input->post("connectcost-select")) ? $csv_data[$this->input->post("connectcost-select")] : "0";
+            $csv_data['connectcost'] = ($this->input->post("connectcost-prefix")) ? $this->input->post("connectcost-prefix").$csv_data['connectcost'] : $csv_data['connectcost'];
+            $csv_data['includedseconds'] = ($this->input->post("includedseconds-select")) ? $csv_data[$this->input->post("includedseconds-select")] : "0";
+            $csv_data['includedseconds'] = ($this->input->post("includedseconds-prefix")) ? $this->input->post("includedseconds-prefix").$csv_data['includedseconds'] : $csv_data['includedseconds'];
+            $csv_data['inc'] = ($this->input->post("inc-select")) ? $csv_data[$this->input->post("inc-select")] : "0";
+            $csv_data['inc'] = ($this->input->post("inc-prefix")) ? $this->input->post("inc-prefix").$csv_data['inc'] : $csv_data['inc'];
+            $csv_data['precedence'] = ($this->input->post("precedence-select")) ? $csv_data[$this->input->post("precedence-select")] : "";
+            $csv_data['precedence'] = ($this->input->post("precedence-prefix")) ? $this->input->post("precedence-prefix").$csv_data['precedence'] : $csv_data['precedence'];
+            $csv_data['strip'] = ($this->input->post("strip-select")) ? $csv_data[$this->input->post("strip-select")] : "";
+            $csv_data['strip'] = ($this->input->post("strip-prefix")) ? $this->input->post("strip-prefix").$csv_data['strip'] : $csv_data['strip'];
             //$csv_data['comment'] = isset($csv_data['comment']) ? $csv_data['comment'] : '';
             //$csv_data['connectcost'] = isset($csv_data['connectcost']) ? $csv_data['connectcost'] : 0;
             //$csv_data['includedseconds'] = isset($csv_data['includedseconds']) ? $csv_data['includedseconds'] : 0;
@@ -1247,7 +1247,7 @@ function termination_rate_rates_mapper_import() {
             //$csv_data['inc'] = isset($csv_data['inc']) ? $csv_data['inc'] : 0;
             //$csv_data['precedence'] = isset($csv_data['precedence']) ? $csv_data['precedence'] : '';
             //$csv_data['strip'] = isset($csv_data['strip']) ? $csv_data['strip'] : '';
-            $str = $this - > data_validate($csv_data);
+            $str = $this->data_validate($csv_data);
             if ($str != "") {
                 $invalid_array[$i] = $csv_data;
                 $invalid_array[$i]['error'] = $str;
@@ -1281,7 +1281,7 @@ function termination_rate_rates_mapper_import() {
     //   echo "</pre>";
 
     if (!empty($new_final_arr)) {
-        $result = $this - > rates_model - > bulk_insert_termination_rates($new_final_arr);
+        $result = $this->rates_model->bulk_insert_termination_rates($new_final_arr);
     }
 
     unlink($full_path.$terminationrate_file_name);
@@ -1301,16 +1301,16 @@ function termination_rate_rates_mapper_import() {
         }
 
         fclose($fp);
-        $this - > session - > set_userdata('import_termination_rate_mapper_csv_error', $session_id.
+        $this->session->set_userdata('import_termination_rate_mapper_csv_error', $session_id.
             ".csv");
         $data["error"] = $invalid_array;
         $data['trunkid'] = $trunkID;
         $data['impoted_count'] = count($new_final_arr);
         $data['failure_count'] = count($invalid_array) - 1;
         $data['page_title'] = 'Termination Rates Import Error';
-        $this - > load - > view('view_import_error', $data);
+        $this->load->view('view_import_error', $data);
     } else {
-        $this - > session - > set_flashdata('astpp_errormsg', 'Total '.count($new_final_arr).
+        $this->session->set_flashdata('astpp_errormsg', 'Total '.count($new_final_arr).
             ' Termination rates imported successfully!');
         redirect(base_url().
             "rates/termination_rate_list/");
