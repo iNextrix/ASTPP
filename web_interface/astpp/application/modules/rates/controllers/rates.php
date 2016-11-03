@@ -1148,11 +1148,11 @@ function termination_rate_mapper_preview_file() {
     if ($invalid_flag) {
         $str = '';
         if (!isset($_POST['trunk_id']) || empty($_POST['trunk_id'])) {
-            $str. = '<br/>Please Create Trunk.';
+            $str.= '<br/>Please Create Trunk.';
         }
 
         if (empty($_FILES['termination_rate_import_mapper']['name'])) {
-            $str. = '<br/>Please Select  File.';
+            $str.= '<br/>Please Select  File.';
         }
 
         $data['error'] = $str;
