@@ -48,6 +48,7 @@ rm -rf /var/www/html/astpp/*
 cp -rf web_interface/astpp/* /var/www/html/astpp/.
 chown -Rf root.root /var/www/html/astpp
 chmod -Rf 755 /var/www/html/astpp
+chmod -Rf 777 /var/www/html/astpp/assets/Rates_File/uploaded_files/
 rm -rf /var/www/html/fs/*
 cp -rf freeswitch/fs/* /var/www/html/fs/.
 chown -Rf root.root /var/www/html/fs
