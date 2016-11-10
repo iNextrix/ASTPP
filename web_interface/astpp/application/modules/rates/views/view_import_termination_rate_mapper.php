@@ -167,13 +167,13 @@
                <input type="hidden" name="username" value="<?php echo $this->session->userdata('username') ?>" />
 
                <div class="w-section inverse no-padding">
-                     <H2> Import File Data..</H2>
+
                    	<div class="container">
                        	<div class="row">
                                <div class="col-md-12 margin-t-10">
                            <form id="import_form" name="import_form" action="<?=base_url()?>rates/termination_rate_rates_import/<?= $trunkid?>/<?=$check_header?>/" method="POST">
                            <table width="100%" border="1"  class="details_table table">
-                               <?  $cnt =7;
+                               <?  $cnt =1;
                					foreach($csv_tmp_data as $csv_key => $csv_value){
                						if($csv_key <  15){
                							echo "<tr>";
@@ -182,6 +182,7 @@
                									echo "<th>".ucfirst($field_name)."</th>";
                								}else{
                									echo "<td class='portlet-content'>".$field_val."</td>";
+               									$cnt++;
                								}
                							}
                							echo "</tr>";
