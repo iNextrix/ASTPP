@@ -83,7 +83,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,'admin',0,0,0,2,'2016-07-25 00:00:01',0.00000,0,1.00000,'drwcmIaIlzzUaQ9PwgOGRn2KcKmSq44tWvKGgHfkpl0','Administrator','Admin','Your Company','ADDRESS','','','','',85,'','','your@email.com',1,139,1,0,'',-1,27,0,0,0,0,'0',0,0,'','2016-07-26 11:26:24','2046-07-25 11:26:24',60000,0.00000,0,0,'1',0,0),(2,'2457848300',0,1,0,2,'2016-07-25 11:26:24',0.00000,0,1.00000,'GpMl9v2b32xNILRXMxHxrStFNd4I26bTNDAEG2eYQDM','default','customer','ASTPP','adress','','','','',85,'','','yourcustomer@test.com',0,59,1,0,'',0,49,0,0,0,1,'',0,1,'2457848300','2016-07-26 11:26:24','2046-07-25 11:26:24',3652,0.00000,0,0,'1',0,0),(3,'7335503421',0,1,0,2,'2016-07-26 15:15:20',0.00000,0,0.00000,'gaiaRg3lAZI$nTbTjVVe4Z0-hFxXrxCzQTOIug0SHow','IPComms','SIPTrunk','IPComms','1925 Vaughn Rd','','30144','Georgia','Kennesaw',2,'+1.678.460.4302','+1.678.460.1475','no-reply@ipcomms.net',0,139,0,0,'',3,8,0,0,0,0,'',0,0,'320736','0000-00-00 00:00:00','2026-07-26 15:12:18',0,0.00000,0,0,'',0,0);
+INSERT INTO `accounts` VALUES (1,'admin',0,0,0,2,'2016-07-25 00:00:01',0.00000,0,1.00000,'drwcmIaIlzzUaQ9PwgOGRn2KcKmSq44tWvKGgHfkpl0','Administrator','Admin','Your Company','ADDRESS','','','','',85,'','','your@email.com',1,139,1,0,'',-1,27,0,0,0,0,'0',0,0,'','2016-07-26 11:26:24','2046-07-25 11:26:24',60000,0.00000,0,0,'1',0,0),(2,'2457848300',0,1,0,2,'2016-07-25 11:26:24',0.00000,0,1.00000,'GpMl9v2b32xNILRXMxHxrStFNd4I26bTNDAEG2eYQDM','default','customer','ASTPP','adress','','','','',85,'','','yourcustomer@test.com',0,59,1,0,'',0,49,0,0,0,1,'',0,1,'2457848300','2016-07-26 11:26:24','2046-07-25 11:26:24',3652,0.00000,0,0,'1',0,0),(3, '7335503421', 0, 1, 0, 2, '2016-07-26 15:15:20', 0.00000, 0, 0.00000, 'gaiaRg3lAZI$nTbTjVVe4Z0-hFxXrxCzQTOIug0SHow', 'default', 'provider', 'ASTPP', 'adress', '', '', '', '', 85, '', '', 'yourprovider@test.com', 0, 59, 0, 0, '', 3, 49, 0, 0, 0, 0, '', 0, 1, '320736', '0000-00-00 00:00:00', '2026-07-26 15:12:18', 0, 0.00000, 0, 0, '', 0, 0);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -569,7 +569,7 @@ CREATE TABLE `gateways` (
 
 LOCK TABLES `gateways` WRITE;
 /*!40000 ALTER TABLE `gateways` DISABLE KEYS */;
-INSERT INTO `gateways` VALUES (1,1,'IPComms','{\"username\":\"USERNAME\",\"password\":\"PASSWORD\",\"proxy\":\"siptrunk.ipcomms.net\",\"register\":\"false\",\"caller-id-in-from\":\"true\"}','2016-07-25 10:59:26',0,0,'','2016-07-26 15:21:09');
+INSERT INTO `gateways` VALUES (1,1,'YourProvider','{\"username\":\"USERNAME\",\"password\":\"PASSWORD\",\"proxy\":\"sip.provider.com\",\"register\":\"false\",\"caller-id-in-from\":\"true\"}','2016-07-25 10:59:26',0,0,'','2016-07-26 15:21:09');
 /*!40000 ALTER TABLE `gateways` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1543,7 +1543,7 @@ CREATE TABLE `trunks` (
 
 LOCK TABLES `trunks` WRITE;
 /*!40000 ALTER TABLE `trunks` DISABLE KEYS */;
-INSERT INTO `trunks` VALUES (1,'IPComms','',1,0,0,3,0,'','0',0,0,0,'PCMA,G729,PCMA','0000-00-00 00:00:00','2016-07-26 15:16:00'),(2,'YourTrunk','',1,0,0,3,0,'','0',0,0,0,'PCMA,G729,PCMU','0000-00-00 00:00:00','2016-07-26 15:16:03');
+INSERT INTO `trunks` VALUES (1,'YourTrunk','',1,0,0,3,0,'','0',0,0,0,'PCMA,G729,PCMA','0000-00-00 00:00:00','2016-07-26 15:16:00');
 /*!40000 ALTER TABLE `trunks` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
