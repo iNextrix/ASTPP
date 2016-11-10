@@ -1436,9 +1436,9 @@ class Rates extends MX_Controller
 					{
 					    echo "Checkpoint 3";
 						$full_path = $this->config->item('rates-file-path');
-						$actual_file_name = "ASTPP-TERMINATION-RATES-" . date("Y-m-d-H:i:s") . "." . $ext;
+						$actual_file_name = "ASTPP-TERMINATION-RATES-" . date("Y-m-d H:i:s") . "." . $ext;
 						if (move_uploaded_file($uploadedFile, $full_path . $actual_file_name))
-						{
+						{echo "Checkpoint 4";
 							$data['field_select'] = serialize($field_select);
 							$data['csv_tmp_data'] = $csv_data;
 							$data['trunkid'] = $_POST['trunk_id'];
@@ -1447,7 +1447,7 @@ class Rates extends MX_Controller
 							$this->session->set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
 						}
 						else
-						{
+						{    print_r(error_get_last());
 							$data['error'] = "File Uploading Fail Please Try Again";
 						}
 					}
