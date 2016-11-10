@@ -1431,7 +1431,7 @@ class Rates extends MX_Controller
 					// $csv_data = $this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header);
 
 					$csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, $check_header));
-
+                    echo var_dump(csv_data);
 					if (!empty($csv_data))
 					{
 					    echo "Checkpoint 3";
@@ -1447,7 +1447,7 @@ class Rates extends MX_Controller
 							$this->session->set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
 						}
 						else
-						{    print_r(error_get_last());
+						{   print_r(error_get_last());
 							$data['error'] = "File Uploading Fail Please Try Again";
 						}
 					}
