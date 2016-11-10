@@ -1567,9 +1567,8 @@ class Rates extends MX_Controller
 			$result = $this->rates_model->bulk_insert_termination_rate($new_final_arr);
 		}
         		else
-        		{
-		    echo "Nothing Selected!";
-		    exit;
+        {
+		    $this->load->view('view_import_termination_rate_mapper', $data);
 		}
 
 		unlink($full_path . $terminationrate_file_name);
