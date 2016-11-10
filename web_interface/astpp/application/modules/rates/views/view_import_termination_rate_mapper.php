@@ -46,6 +46,7 @@
       <div class="container">
          <form method="post" action="<?php echo base_url() ?>rates/termination_rate_mapper_preview_file/" enctype="multipart/form-data" id="termination_rate">
             <div class="row">
+
                <div class="col-md-12">
                   <div class="w-box">
                      <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
@@ -165,33 +166,36 @@
                <input type="hidden" name="logintype" value="<?php echo $this->session->userdata('logintype') ?>" />
                <input type="hidden" name="username" value="<?php echo $this->session->userdata('username') ?>" />
                <H2> Import File Data..</H2>
-               <table width="100%" border="1"  class="details_table">
-                  <?php
-                     $cnt = 1;
-                     foreach($csv_tmp_data as $csv_key => $csv_value) {
-                     	if ($csv_key < 15) {
-                     		echo "<tr>";
-                     		foreach($csv_value as $field_name => $field_val) {
-                     			if ($csv_key == 0) {
+               <div class="w-section inverse no-padding">
+                   	<div class="container">
+                       	<div class="row">
+                               <div class="col-md-12 margin-t-10">
+                           <form id="import_form" name="import_form" action="<?=base_url()?>rates/termination_rate_rates_import/<?= $trunkid?>/<?=$check_header?>/" method="POST">
+                           <table width="100%" border="1"  class="details_table table">
+                               <?  $cnt =7;
+               					foreach($csv_tmp_data as $csv_key => $csv_value){
+               						if($csv_key <  15){
+               							echo "<tr>";
+               							foreach($csv_value as $field_name => $field_val){
+               								if($csv_key == 0){
+               									echo "<th>".ucfirst($field_name)."</th>";
+               								}else{
+               									echo "<td class='portlet-content'>".$field_val."</td>";
+               								}
+               							}
+               							echo "</tr>";
+               						}
+               					}
 
-                     				 echo "<th>".ucfirst($field_val)."</th>";
-
-                     			}
-                     			else {
-                     				echo "<td class='portlet-content'>" . $field_val . "</td>";
-                     				$cnt++;
-                     			}
-                     		}
-
-                     		echo "</tr>";
-                     	}
-                     }
-
-                     echo "<tr><td colspan='" . $cnt . "'>
-                                            <a href='" . base_url() . "rates/termination_rate_list/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
-                                            <input type='submit' class='btn btn-line-parrot pull-right'' id='Process' value='Process Records'/></td></tr>";
-                     ?>
-               </table>
+               					echo "<tr><td colspan='".$cnt."'>
+                                       <a href='".base_url()."rates/termination_rates_list/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
+                                       <input type='submit' class='btn btn-line-parrot pull-right'' id='Process' value='Process'/></td></tr>";
+               		?> </table></form>
+                    </div>
+                           </div>
+                       </div>
+                   </div>
+              
             </form>
          </div>
       </div>
