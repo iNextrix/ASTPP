@@ -1430,8 +1430,8 @@ class Rates extends MX_Controller
 
 					// $csv_data = $this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header);
 
-					$csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, true));
-
+					$csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, $check_header));
+                    echo var_dump($csv_data);
 					if (!empty($csv_data))
 					{
 					    echo "Checkpoint 3";
