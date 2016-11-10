@@ -354,11 +354,16 @@ class Summary extends MX_Controller {
         $new_arr['search_in'] = 'minutes';
         $i = 0;
         $db_field_name = $entity == 'provider' ? 'provider_id' : 'accountid';
+	$account_data = $this->session->userdata('accountinfo');
+	$this->db->select('gmttime');
+	$timezone_result=(array)$this->db->get_where("timezone",array('id' =>$account_data['timezone_id'] ))->first_row();
+	$timezone_info=$timezone_result['gmttime'];
+	$timezone_arr = explode("GMT",$timezone_info);
         if ($this->session->userdata('advance_search') == 1) {
             $custom_search = $this->session->userdata($entity.'summary_reports_search');
             if (isset($custom_search['time']) && ! empty($custom_search['time'])) {
                 $group_by_str .= $custom_search['time']."(callstart),";
-                $select_str .= $custom_search['time']."(callstart) as ".$custom_search['time'].",";
+                $select_str .= $custom_search['time']."(convert_tz(callstart,'+00:00','".$timezone_arr[1]."')) as ".$custom_search['time'].",";
                 $order_str .= $custom_search['time'].",";
                 $group_by_time = $custom_search['time'];
                 $export_select_str .= $custom_search['time'].",";

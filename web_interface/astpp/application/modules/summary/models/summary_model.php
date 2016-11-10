@@ -42,11 +42,13 @@ class Summary_model extends CI_Model {
 		if(!empty($group_by))
 			$this->db->group_by($group_by);
 		if ($flag) {
-			if ($export) {
-				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "reseller_cdrs", '', $order, 'asc', '', '', '');
-			} else {
-				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "reseller_cdrs", '', $order, 'asc', $limit, $start, '');
+			$custom_select=$select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost";
+			$this->db->select($custom_select,false);
+			$this->db->order_by($order,'asc');
+			if (!$export) {
+				$this->db->limit($limit,$start);
 			}
+			$result=$this->db->get('reseller_cdrs');
 		} else {
 			$result = $this->db_model->getSelect("count(*) as total_count", "reseller_cdrs", '');
 			if ($result->num_rows() > 0) {
@@ -69,11 +71,14 @@ class Summary_model extends CI_Model {
 		if(!empty($group_by))
 			$this->db->group_by($group_by);
 		if ($flag) {
-			if ($export) {
-				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost", "cdrs", '', $order, 'asc', '', '', '');
-			} else {
-				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost", "cdrs", '', $order, 'asc', $limit, $start, '');
+
+			$custom_select=$select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost";
+			$this->db->select($custom_select,false);
+			$this->db->order_by($order,'asc');
+			if (!$export) {
+				$this->db->limit($limit,$start);
 			}
+			$result=$this->db->get('cdrs');
 		} else {
 			$result = $this->db_model->getSelect("count(*) as total_count", "cdrs", '');
 			if ($result->num_rows() > 0) {
@@ -99,11 +104,13 @@ class Summary_model extends CI_Model {
 		if(!empty($group_by))
 			$this->db->group_by($group_by);
 		if ($flag) {
-			if ($export) {
-				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "cdrs", '', $order, 'asc', '', '', '');
-			} else {
-				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "cdrs", '', $order, 'asc', $limit, $start, '');
+			$custom_select=$select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost";
+			$this->db->select($custom_select,false);
+			$this->db->order_by($order,'asc');
+			if (!$export) {
+				$this->db->limit($limit,$start);
 			}
+			$result=$this->db->get('cdrs');
 		} else {
 			$result = $this->db_model->getSelect("count(*) as total_count", "cdrs", '');
 			if ($result->num_rows() > 0) {
