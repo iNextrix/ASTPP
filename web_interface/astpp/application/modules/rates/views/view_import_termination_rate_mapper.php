@@ -64,7 +64,7 @@
                         <h3 class="padding-t-10 padding-l-16 padding-b-10">Import Termination Rates:</h3>
                         <div class="col-md-12 no-padding">
                            <label class="col-md-3">Trunk List:</label>
-                           <div class="">
+                           <div class="col-md-8">
                               <?php
                                  $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "where_arr", array(
                                  	"status " => "0"
@@ -72,9 +72,8 @@
                                  echo $trunklist; ?>
                            </div>
                         </div>
-                     </div>
-                  </div>
-                <div class="col-md-12 no-padding">
+
+                        <div class="col-md-12 no-padding">
                            <input type="hidden" name="mode" value="import_termination_rate_mapper" />
                            <input type="hidden" name="logintype" value="<?= $this->session->userdata('logintype') ?>" />
                            <input type="hidden" name="username" value="<?= $this->session->userdata('username') ?>" />
@@ -95,7 +94,7 @@
                            <input type='checkbox' name='has_header'/>
                         </div>
                      </div>
-                   </div>
+                  </div>
                </div>
             </div>
             <div class="col-md-12 padding-b-10">
