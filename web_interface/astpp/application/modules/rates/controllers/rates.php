@@ -1437,7 +1437,8 @@ class Rates extends MX_Controller
 					    echo "Checkpoint 3";
 						$full_path = $this->config->item('rates-file-path');
 						$actual_file_name = "ASTPP-TERMINATION-RATES-" . date("Y-m-d H:i:s") . "." . $ext;
-						$actual_file_name = str_replace(' ', '_', $actual_file_name);
+						$actual_file_name = str_replace(' ', '-', $actual_file_name);
+						$actual_file_name = str_replace(':', '-', $actual_file_name);
 						echo "Upload file: " . $uploadedFile;
 						echo "Move to: " . $full_path . $actual_file_name;
 						if (move_uploaded_file($uploadedFile, $full_path . $actual_file_name))
