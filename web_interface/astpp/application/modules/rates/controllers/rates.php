@@ -1418,28 +1418,23 @@ class Rates extends MX_Controller
 			list($txt, $ext) = explode(".", $_FILES['termination_rate_import_mapper']['name']);
 			if ($ext == "csv" && $_FILES['termination_rate_import_mapper']['size'] > 0)
 			{
+			    echo "Checkpoint 1";
 				$error = $_FILES['termination_rate_import_mapper']['error'];
 				if ($error == 0)
 				{
+				echo "Checkpoint 2";
 					$uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
 					$file_data = $this->csv_to_array($uploadedFile);
 					$field_select = (array_keys($file_data[0]));
-					echo "7";
 					$data['file_data'] = $field_select;
 
 					// $csv_data = $this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header);
 
 					$csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, true));
 
-					// echo "<br /><br />";
-					// var_dump($field_select);
-					// echo "<br /><br />";
-					// var_dump($csv_data);
-					// echo "<br /><br />";
-					// $csv_data = $this->csvreader->parse_file($uploadedFile,$field_select);
-
 					if (!empty($csv_data))
 					{
+					    echo "Checkpoint 3";
 						$full_path = $this->config->item('rates-file-path');
 						$actual_file_name = "ASTPP-TERMINATION-RATES-" . date("Y-m-d H:i:s") . "." . $ext;
 						if (move_uploaded_file($uploadedFile, $full_path . $actual_file_name))
@@ -1465,7 +1460,7 @@ class Rates extends MX_Controller
 			else
 			{
 				$data['error'] = "Invalid file format : Only CSV file allows to import records(Can't import empty file)";
-				$data['error'] = var_dump($_FILES);
+
 			}
 		}
 		else
@@ -1475,6 +1470,7 @@ class Rates extends MX_Controller
 
 		if ($invalid_flag)
 		{
+		    echo "Checkpoint 4";
 			$str = '';
 			if (!isset($_POST['trunk_id']) || empty($_POST['trunk_id']))
 			{
@@ -1483,7 +1479,7 @@ class Rates extends MX_Controller
 
 			if (empty($_FILES['termination_rate_import_mapper']['name']))
 			{
-				$str.= '<br/>Please Select  File.';
+				$str.= '<br/>Please Select File.';
 			}
 
 			$data['error'] = $str;
