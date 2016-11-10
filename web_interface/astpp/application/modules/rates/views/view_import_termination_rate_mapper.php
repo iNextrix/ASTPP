@@ -79,7 +79,7 @@
                            <input type="hidden" name="logintype" value="<?= $this->session->userdata('logintype') ?>" />
                            <input type="hidden" name="username" value="<?= $this->session->userdata('username') ?>" />
                            <label class="col-md-3">Select the file:</label>
-                           <div class="col-md-5 no-padding">
+                           <div class="col-md-8">
                               <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                  <div class="form-control" data-trigger="fileinput">
                                     <span class="fileinput-filename"></span>
