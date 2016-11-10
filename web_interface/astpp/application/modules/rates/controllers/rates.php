@@ -1570,6 +1570,8 @@ class Rates extends MX_Controller
         {
 
             $this->session->set_flashdata('astpp_errormsg', 'Error - Nothing selected to import/process!');
+            echo base_url() . "rates/termination_rate_list/";
+            exit;
             redirect(base_url() . "rates/termination_rate_list/");
 		}
 
