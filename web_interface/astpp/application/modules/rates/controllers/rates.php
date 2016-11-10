@@ -1568,8 +1568,16 @@ class Rates extends MX_Controller
 		}
         		else
         {
+            $data['page_title'] = 'Map CSV to Termination Rates';
             $data['error'] = "You Must populate at least Prefix to continue!";
-		    $this->load->view('view_import_termination_rate_mapper',  $this->session->userdata);
+            $data['field_select'] = serialize($field_select);
+    		$data['csv_tmp_data'] = $csv_data;
+        	$data['trunkid'] = $_POST['trunk_id'];
+        	$data['check_header'] = $check_header;
+        	$data['page_title'] = 'Map CSV to Termination Rates';
+        	$this->session->set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
+        	$this->load->view('view_import_termination_rate_mapper', $data);
+		    #$this->load->view('view_import_termination_rate_mapper',  $this->session->userdata);
 
 		}
 
