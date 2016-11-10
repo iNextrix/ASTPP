@@ -1568,16 +1568,7 @@ class Rates extends MX_Controller
 		}
         		else
         {
-            $data['page_title'] = 'Map CSV to Termination Rates';
-            $data['error'] = "You Must populate at least Prefix to continue!";
-            $data['field_select'] = serialize($field_select);
-    		$data['csv_tmp_data'] = $csv_data;
-        	$data['trunkid'] = $_POST['trunk_id'];
-        	$data['check_header'] = $check_header;
-        	$data['page_title'] = 'Map CSV to Termination Rates';
-        	$this->session->set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
-        	#$this->load->view('view_import_termination_rate_mapper', $data);
-		    $this->load->view('view_import_termination_rate_mapper',  $data);
+            $data['error'] = "Error - Nothing selected to import/process";
 
 		}
 
@@ -1610,10 +1601,10 @@ class Rates extends MX_Controller
 		}
 		else
 		{
-			if (!empty($new_final_arr)) {
+
 			$this->session->set_flashdata('astpp_errormsg', 'Total ' . count($new_final_arr) . ' Termination rates imported successfully!');
 			redirect(base_url() . "rates/termination_rate_list/");
-			}
+
 		}
 	}
 
