@@ -1569,10 +1569,8 @@ class Rates extends MX_Controller
         		else
         {
 
-            $this->session->set_flashdata('astpp_errormsg', 'Error - Nothing selected to import/process!');
-            echo base_url() . "rates/termination_rate_list/";
-            exit;
-            redirect(base_url() . "rates/termination_rate_list/");
+           $this->session->set_flashdata('astpp_errormsg', 'Error - Nothing selected to import/process!');
+           redirect(base_url() . 'rates/termination_rates_list/');
 		}
 
 		unlink($full_path . $terminationrate_file_name);
@@ -1606,8 +1604,7 @@ class Rates extends MX_Controller
 		{
 
 			$this->session->set_flashdata('astpp_errormsg', 'Total ' . count($new_final_arr) . ' Termination rates imported successfully!');
-			redirect(base_url() . "rates/termination_rate_list/");
-
+			redirect(base_url() . 'rates/termination_rates_list/');
 		}
 	}
 
