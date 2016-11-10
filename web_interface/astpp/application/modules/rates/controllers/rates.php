@@ -1570,7 +1570,10 @@ class Rates extends MX_Controller
 
 		if (!empty($new_final_arr))
 		{
-			$result = $this->rates_model->bulk_insert_termination_rate($new_final_arr);
+			$result = $this->rates_model->bulk_insert_termination_rate($new_final_arr)
+		} else {
+		    echo "Nothing Selected!";
+		    exit;
 		}
 
 		unlink($full_path . $terminationrate_file_name);
