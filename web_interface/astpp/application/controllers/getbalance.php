@@ -27,7 +27,7 @@ class Getbalance extends MX_Controller
 	{
 		parent::__construct();
 		$this->load->model('common_model');
-                $this->load->library('common');
+				$this->load->library('common');
 		$this->load->model('db_model');
 		$this->load->model('Astpp_common');
 	}
@@ -35,19 +35,19 @@ class Getbalance extends MX_Controller
 	$opensips_flag=common_model::$global_config['system_config']['opensips'];
 	$accountid_arr=0;
  	if($opensips_flag == '1'){
-            $where=array('username'=>$sipnumber);
-            $accountid_arr=$this->db_model->getSelect('accountid','sip_devices',$where);
-        }
+			$where=array('username'=>$sipnumber);
+			$accountid_arr=$this->db_model->getSelect('accountid','sip_devices',$where);
+		}
 	else{
-	      $db_config = Common_model::$global_config['system_config'];
-	      $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
-	    $this->opensips_db = $this->load->database($opensipdsn, true);
-	    $this->opensips_db->where(array("username"=>$sipnumber));
-	    $accountnum_arr=$this->opensips_db->get("subscriber");
-            $accountnum_arr=$accountnum_arr->result_array();
-	    foreach($accountnum_arr as $value_num){
-	    $accountid_arr = $this->db_model->getSelect('id','accounts',array('number'=>$value_num['accountcode']));
-	    }
+		  $db_config = Common_model::$global_config['system_config'];
+		  $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+		$this->opensips_db = $this->load->database($opensipdsn, true);
+		$this->opensips_db->where(array("username"=>$sipnumber));
+		$accountnum_arr=$this->opensips_db->get("subscriber");
+			$accountnum_arr=$accountnum_arr->result_array();
+		foreach($accountnum_arr as $value_num){
+		$accountid_arr = $this->db_model->getSelect('id','accounts',array('number'=>$value_num['accountcode']));
+		}
 	}
 	if($accountid_arr == ''){
 		echo "Please enter proper username of SIP Account";
@@ -63,12 +63,10 @@ class Getbalance extends MX_Controller
 		   }
 		  if($key== 'id'){
 			$accountid=$accountid_arr[0]['id'];
-		  }
-		  else{
+		  } else{
 			$accountid=$accountid_arr[0]['accountid'];
 		 }
-		}
-		else{
+		} else{
 			$accountid=$accountid_arr[0]['id'];
 		}
 		$to_currency = common_model::$global_config['system_config']['base_currency'];
@@ -97,8 +95,7 @@ class Getbalance extends MX_Controller
 					$user_currency_info=$user_currency_info->result_array();
 					$user_currency=$user_currency_info['0']['currencyrate'];
 					$user_currency_name=$user_currency_info['0']['currency'];
-				}
-				else{
+				} else{
 					$user_currency=$base_currency_rate;
 					$user_currency_name=$base_currency_name;
 				}
@@ -107,12 +104,10 @@ class Getbalance extends MX_Controller
 				$convert_balance=sprintf("%.2f", $convert_balance).' '.$user_currency_name;
 				echo "Balance : ".$convert_balance;
 			}
-		}
-		else{
+		} else{
 			echo "0.00 ".$to_currency;
 		}
-	}
-	else{
+	} else{
 		echo "Please enter proper username of SIP Account";
 	}
   }

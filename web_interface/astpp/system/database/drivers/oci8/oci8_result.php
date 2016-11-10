@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -112,10 +114,10 @@ class CI_DB_oci8_result extends CI_DB_result {
 		$retval = array();
 		for ($c = 1, $fieldCount = $this->num_fields(); $c <= $fieldCount; $c++)
 		{
-			$F			= new stdClass();
+			$F = new stdClass();
 			$F->name		= oci_field_name($this->stmt_id, $c);
 			$F->type		= oci_field_type($this->stmt_id, $c);
-			$F->max_length		= oci_field_size($this->stmt_id, $c);
+			$F->max_length = oci_field_size($this->stmt_id, $c);
 
 			$retval[] = $F;
 		}
@@ -205,7 +207,7 @@ class CI_DB_oci8_result extends CI_DB_result {
 	 * result set starts at zero
 	 *
 	 * @access	protected
-	 * @return	array
+	 * @return	boolean
 	 */
 	protected function _data_seek($n = 0)
 	{

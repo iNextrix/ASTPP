@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -42,12 +44,12 @@ class CI_Javascript {
 
 		extract($defaults);
 
-		$this->CI =& get_instance();
+		$this->CI = & get_instance();
 
 		// load the requested js library
 		$this->CI->load->library('javascript/'.$js_library_driver, array('autoload' => $autoload));
 		// make js to refer to current library
-		$this->js =& $this->CI->$js_library_driver;
+		$this->js = & $this->CI->$js_library_driver;
 
 		log_message('debug', "Javascript Class Initialized and loaded.  Driver used: $js_library_driver");
 	}
@@ -168,6 +170,8 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @param	string	- Javascript code for mouse over
 	 * @param	string	- Javascript code for mouse out
+	 * @param string $over
+	 * @param string $out
 	 * @return	string
 	 */
 	function hover($element = 'this', $over, $out)
@@ -570,7 +574,7 @@ class CI_Javascript {
 	 * @param	string	- element
 	 * @return	string
 	 */
-	function toggleClass($element = 'this', $class='')
+	function toggleClass($element = 'this', $class = '')
 	{
 		return $this->js->_toggleClass($element, $class);
 	}
@@ -639,8 +643,7 @@ class CI_Javascript {
 		if ($external_file !== '')
 		{
 			$this->_javascript_location = $external_file;
-		}
-		else
+		} else
 		{
 			if ($this->CI->config->item('javascript_location') != '')
 			{
@@ -651,12 +654,10 @@ class CI_Javascript {
 		if ($relative === TRUE OR strncmp($external_file, 'http://', 7) == 0 OR strncmp($external_file, 'https://', 8) == 0)
 		{
 			$str = $this->_open_script($external_file);
-		}
-		elseif (strpos($this->_javascript_location, 'http://') !== FALSE)
+		} elseif (strpos($this->_javascript_location, 'http://') !== FALSE)
 		{
 			$str = $this->_open_script($this->_javascript_location.$external_file);
-		}
-		else
+		} else
 		{
 			$str = $this->_open_script($this->CI->config->slash_item('base_url').$this->_javascript_location.$external_file);
 		}
@@ -675,6 +676,7 @@ class CI_Javascript {
 	 * @access	public
 	 * @param	string	The element to attach the event to
 	 * @param	boolean	If a CDATA section should be added
+	 * @param string $script
 	 * @return	string
 	 */
 	function inline($script, $cdata = TRUE)
@@ -763,17 +765,14 @@ class CI_Javascript {
 			if (is_object($result))
 			{
 				$json_result = $result->result_array();
-			}
-			elseif (is_array($result))
+			} elseif (is_array($result))
 			{
 				$json_result = $result;
-			}
-			else
+			} else
 			{
 				return $this->_prep_args($result);
 			}
-		}
-		else
+		} else
 		{
 			return 'null';
 		}
@@ -784,8 +783,7 @@ class CI_Javascript {
 		if ( ! is_array($json_result) AND empty($json_result))
 		{
 			show_error("Generate JSON Failed - Illegal key, value pair.");
-		}
-		elseif ($match_array_type)
+		} elseif ($match_array_type)
 		{
 			$_is_assoc = $this->_is_associative_array($json_result);
 		}
@@ -795,8 +793,7 @@ class CI_Javascript {
 			if ($_is_assoc)
 			{
 				$json[] = $this->_prep_args($k, TRUE).':'.$this->generate_json($v, $match_array_type);
-			}
-			else
+			} else
 			{
 				$json[] = $this->generate_json($v, $match_array_type);
 			}
@@ -817,7 +814,7 @@ class CI_Javascript {
 	 *
 	 * @access	public
 	 * @param	type
-	 * @return	type
+	 * @return	boolean
 	 */
 	function _is_associative_array($arr)
 	{
@@ -848,16 +845,13 @@ class CI_Javascript {
 		if (is_null($result))
 		{
 			return 'null';
-		}
-		elseif (is_bool($result))
+		} elseif (is_bool($result))
 		{
 			return ($result === TRUE) ? 'true' : 'false';
-		}
-		elseif (is_string($result) OR $is_key)
+		} elseif (is_string($result) OR $is_key)
 		{
 			return '"'.str_replace(array('\\', "\t", "\n", "\r", '"', '/'), array('\\\\', '\\t', '\\n', "\\r", '\"', '\/'), $result).'"';			
-		}
-		elseif (is_scalar($result))
+		} elseif (is_scalar($result))
 		{
 			return $result;
 		}

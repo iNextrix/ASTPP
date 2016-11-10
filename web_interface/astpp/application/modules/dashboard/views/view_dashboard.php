@@ -355,7 +355,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 
                                           <div class='col-sm-11 no-padding'>
 											   <div style="font-size: 13px; width: auto; background:rgba(243, 236, 49, 0.34) none repeat scroll 0% 0% !important;" class="pull-left back_strip panel_padding" >
-													<div id="month_year_name" class='pull-left'><?=date('F');?></div>
+													<div id="month_year_name" class='pull-left'><?=date('F'); ?></div>
 	                                           </div>
 											   <div style="width: 91%; font-size: 13px;" class="pull-left back_strip panel_padding">
 												    <div id="month_total_info" style="color:#FFFC00;font-weight: 500;" class="pull-left"></div>
@@ -369,28 +369,28 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                                     <div class="col-md-5 no-padding pull-right ">
                                         <select id="year_dropdown" name='year' class="form-control no-margin" style="z-index:9;height:29px;width:100% !important;">
                                             <?php
-                                            $currentyear = gmdate('Y');
-                                            $start_year = $currentyear - 1;
-                                            $end_year = $currentyear;
-                                            $yearArray = range($start_year, $end_year);
-                                            foreach ($yearArray as $year) {
-                                                $selected = ($year == $currentyear) ? 'selected' : '';
-                                                echo '<option ' . $selected . ' value="' . $year . '">' . $year . '</option>';
-                                            }
-                                            ?>
+											$currentyear = gmdate('Y');
+											$start_year = $currentyear - 1;
+											$end_year = $currentyear;
+											$yearArray = range($start_year, $end_year);
+											foreach ($yearArray as $year) {
+												$selected = ($year == $currentyear) ? 'selected' : '';
+												echo '<option ' . $selected . ' value="' . $year . '">' . $year . '</option>';
+											}
+											?>
                                         </select>
                                     </div>
                                            <div class="col-md-6 no-padding pull-right margin-x-4">
                                         <select id="month_dropdown" name="month" class="form-control no-margin" style="z-index:9;height:29px;width:100% !important;">
                                             <?php
-                                            $monthArray = range(1, 12);
-                                            foreach ($monthArray as $month) {
-                                                $monthPadding = str_pad($month, 2, "0", STR_PAD_LEFT);
-                                                $fdate = date("F", strtotime($monthPadding));
-                                                $selected = (date("m") == $monthPadding) ? 'selected' : null;
-                                                echo '<option value="' . $monthPadding . '" ' . $selected . '>' . date("F", mktime(null, null, null, $monthPadding, 1)) . '</option>';
-                                            }
-                                            ?>
+											$monthArray = range(1, 12);
+											foreach ($monthArray as $month) {
+												$monthPadding = str_pad($month, 2, "0", STR_PAD_LEFT);
+												$fdate = date("F", strtotime($monthPadding));
+												$selected = (date("m") == $monthPadding) ? 'selected' : null;
+												echo '<option value="' . $monthPadding . '" ' . $selected . '>' . date("F", mktime(null, null, null, $monthPadding, 1)) . '</option>';
+											}
+											?>
                                         </select>
                                     </div>
                                      </div>

@@ -45,7 +45,7 @@ class CI_Migration {
 
 		foreach ($config as $key => $val)
 		{
-			$this->{'_' . $key} = $val;
+			$this->{'_'.$key} = $val;
 		}
 
 		log_message('debug', 'Migrations class initialized');
@@ -57,7 +57,7 @@ class CI_Migration {
 		}
 
 		// If not set, set it
-		$this->_migration_path == '' OR $this->_migration_path = APPPATH . 'migrations/';
+		$this->_migration_path == '' OR $this->_migration_path = APPPATH.'migrations/';
 
 		// Add trailing slash if not set
 		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
@@ -91,6 +91,7 @@ class CI_Migration {
 	 *
 	 * @access	public
 	 * @param $version integer	Target schema version
+	 * @param integer $target_version
 	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
 	 */
 	public function version($target_version)
@@ -104,9 +105,7 @@ class CI_Migration {
 			++$start;
 			++$stop;
 			$step = 1;
-		}
-
-		else
+		} else
 		{
 			// Moving Down
 			$step = -1;
@@ -119,7 +118,7 @@ class CI_Migration {
 		// But first let's make sure that everything is the way it should be
 		for ($i = $start; $i != $stop; $i += $step)
 		{
-			$f = glob(sprintf($this->_migration_path . '%03d_*.php', $i));
+			$f = glob(sprintf($this->_migration_path.'%03d_*.php', $i));
 
 			// Only one migration per step is permitted
 			if (count($f) > 1)
@@ -160,7 +159,7 @@ class CI_Migration {
 				}
 
 				include $f[0];
-				$class = 'Migration_' . ucfirst($match[1]);
+				$class = 'Migration_'.ucfirst($match[1]);
 
 				if ( ! class_exists($class))
 				{
@@ -175,15 +174,14 @@ class CI_Migration {
 				}
 
 				$migrations[] = $match[1];
-			}
-			else
+			} else
 			{
 				$this->_error_string = sprintf($this->lang->line('migration_invalid_filename'), $file);
 				return FALSE;
 			}
 		}
 
-		log_message('debug', 'Current migration: ' . $current_version);
+		log_message('debug', 'Current migration: '.$current_version);
 
 		$version = $i + ($step == 1 ? -1 : 0);
 
@@ -193,13 +191,13 @@ class CI_Migration {
 			return TRUE;
 		}
 
-		log_message('debug', 'Migrating from ' . $method . ' to version ' . $version);
+		log_message('debug', 'Migrating from '.$method.' to version '.$version);
 
 		// Loop through the migrations
 		foreach ($migrations AS $migration)
 		{
 			// Run the migration class
-			$class = 'Migration_' . ucfirst(strtolower($migration));
+			$class = 'Migration_'.ucfirst(strtolower($migration));
 			call_user_func(array(new $class, $method));
 
 			$current_version += $step;
@@ -231,7 +229,7 @@ class CI_Migration {
 		
 		// Calculate the last migration step from existing migration
 		// filenames and procceed to the standard version migration
-		return $this->version((int) substr($last_migration, 0, 3));
+		return $this->version((int)substr($last_migration, 0, 3));
 	}
 
 	// --------------------------------------------------------------------
@@ -271,7 +269,7 @@ class CI_Migration {
 	protected function find_migrations()
 	{
 		// Load all *_*.php files in the migrations path
-		$files = glob($this->_migration_path . '*_*.php');
+		$files = glob($this->_migration_path.'*_*.php');
 		$file_count = count($files);
 		
 		for ($i = 0; $i < $file_count; $i++)
@@ -309,7 +307,7 @@ class CI_Migration {
 	 * Stores the current schema version
 	 *
 	 * @access	protected
-	 * @param $migrations integer	Migration reached
+	 * @param integer $migrations integer	Migration reached
 	 * @return	void					Outputs a report of the migration
 	 */
 	protected function _update_version($migrations)

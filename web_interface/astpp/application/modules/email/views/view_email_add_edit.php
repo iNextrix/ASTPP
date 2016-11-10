@@ -22,20 +22,23 @@
     <section class="slice color-three no-margin">
 	<div class="w-section inverse no-padding">
             <div style="color:red;margin-left: 60px;">
-                <?php if (isset($validation_errors)) echo $validation_errors; ?> 
+                <?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
             </div>
             <?php echo $form; ?>
         </div>    
         <?php if(isset($maildata) && $maildata != ''){
-          echo "<div class='col-md-12 no-padding'>Attachments :</div>";
-          $imgArr = explode(",",$maildata);
-          foreach($imgArr as $key => $imgname){
-            $imgpath = base_url()."email/email_history_list_attachment/".$imgname;
-            echo "<div class='col-md-4 no-padding'>
+		  echo "<div class='col-md-12 no-padding'>Attachments :</div>";
+		  $imgArr = explode(",",$maildata);
+		  foreach($imgArr as $key => $imgname){
+			$imgpath = base_url()."email/email_history_list_attachment/".$imgname;
+			echo "<div class='col-md-4 no-padding'>
                   <a href='".$imgpath."'>".$imgname."</a>
                 </div>";
-          }
-        } ?>          
+		  }
+		} ?>          
     </section>
   </div>
 </div>

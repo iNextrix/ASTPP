@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -28,10 +30,10 @@
  */
 class CI_User_agent {
 
-	var $agent		= NULL;
+	var $agent = NULL;
 
-	var $is_browser	= FALSE;
-	var $is_robot	= FALSE;
+	var $is_browser = FALSE;
+	var $is_robot = FALSE;
 	var $is_mobile	= FALSE;
 
 	var $languages	= array();
@@ -42,11 +44,11 @@ class CI_User_agent {
 	var $mobiles	= array();
 	var $robots		= array();
 
-	var $platform	= '';
+	var $platform = '';
 	var $browser	= '';
 	var $version	= '';
 	var $mobile		= '';
-	var $robot		= '';
+	var $robot = '';
 
 	/**
 	 * Constructor
@@ -87,12 +89,10 @@ class CI_User_agent {
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/user_agents.php');
-		}
-		elseif (is_file(APPPATH.'config/user_agents.php'))
+		} elseif (is_file(APPPATH.'config/user_agents.php'))
 		{
 			include(APPPATH.'config/user_agents.php');
-		}
-		else
+		} else
 		{
 			return FALSE;
 		}
@@ -136,7 +136,7 @@ class CI_User_agent {
 	 * Compile the User Agent Data
 	 *
 	 * @access	private
-	 * @return	bool
+	 * @return	boolean|null
 	 */
 	private function _compile_data()
 	{
@@ -157,7 +157,7 @@ class CI_User_agent {
 	 * Set the Platform
 	 *
 	 * @access	private
-	 * @return	mixed
+	 * @return	boolean|null
 	 */
 	private function _set_platform()
 	{
@@ -473,7 +473,7 @@ class CI_User_agent {
 	 * Get the referrer
 	 *
 	 * @access	public
-	 * @return	bool
+	 * @return	string
 	 */
 	public function referrer()
 	{

@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -32,11 +34,11 @@ class CI_Calendar {
 	var $lang;
 	var $local_time;
 	var $template		= '';
-	var $start_day		= 'sunday';
-	var $month_type		= 'long';
+	var $start_day = 'sunday';
+	var $month_type = 'long';
 	var $day_type		= 'abr';
-	var $show_next_prev	= FALSE;
-	var $next_prev_url	= '';
+	var $show_next_prev = FALSE;
+	var $next_prev_url = '';
 
 	/**
 	 * Constructor
@@ -45,7 +47,7 @@ class CI_Calendar {
 	 */
 	public function __construct($config = array())
 	{
-		$this->CI =& get_instance();
+		$this->CI = & get_instance();
 
 		if ( ! in_array('calendar_lang.php', $this->CI->lang->is_loaded, TRUE))
 		{
@@ -98,25 +100,30 @@ class CI_Calendar {
 	function generate($year = '', $month = '', $data = array())
 	{
 		// Set and validate the supplied month/year
-		if ($year == '')
-			$year  = date("Y", $this->local_time);
+		if ($year == '') {
+					$year  = date("Y", $this->local_time);
+		}
 
-		if ($month == '')
-			$month = date("m", $this->local_time);
+		if ($month == '') {
+					$month = date("m", $this->local_time);
+		}
 
-		if (strlen($year) == 1)
-			$year = '200'.$year;
+		if (strlen($year) == 1) {
+					$year = '200'.$year;
+		}
 
-		if (strlen($year) == 2)
-			$year = '20'.$year;
+		if (strlen($year) == 2) {
+					$year = '20'.$year;
+		}
 
-		if (strlen($month) == 1)
-			$month = '0'.$month;
+		if (strlen($month) == 1) {
+					$month = '0'.$month;
+		}
 
 		$adjusted_date = $this->adjust_date($month, $year);
 
-		$month	= $adjusted_date['month'];
-		$year	= $adjusted_date['year'];
+		$month = $adjusted_date['month'];
+		$year = $adjusted_date['year'];
 
 		// Determine the total days in the month
 		$total_days = $this->get_total_days($month, $year);
@@ -137,9 +144,9 @@ class CI_Calendar {
 
 		// Set the current month/year/day
 		// We use this to determine the "today" date
-		$cur_year	= date("Y", $this->local_time);
-		$cur_month	= date("m", $this->local_time);
-		$cur_day	= date("j", $this->local_time);
+		$cur_year = date("Y", $this->local_time);
+		$cur_month = date("m", $this->local_time);
+		$cur_day = date("j", $this->local_time);
 
 		$is_current_month = ($cur_year == $year AND $cur_month == $month) ? TRUE : FALSE;
 
@@ -158,7 +165,7 @@ class CI_Calendar {
 		if ($this->show_next_prev == TRUE)
 		{
 			// Add a trailing slash to the  URL if needed
-			$this->next_prev_url = preg_replace("/(.+?)\/*$/", "\\1/",  $this->next_prev_url);
+			$this->next_prev_url = preg_replace("/(.+?)\/*$/", "\\1/", $this->next_prev_url);
 
 			$adjusted_date = $this->adjust_date($month - 1, $year);
 			$out .= str_replace('{previous_url}', $this->next_prev_url.$adjusted_date['year'].'/'.$adjusted_date['month'], $this->temp['heading_previous_cell']);
@@ -192,9 +199,9 @@ class CI_Calendar {
 
 		$day_names = $this->get_day_names();
 
-		for ($i = 0; $i < 7; $i ++)
+		for ($i = 0; $i < 7; $i++)
 		{
-			$out .= str_replace('{week_day}', $day_names[($start_day + $i) %7], $this->temp['week_day_cell']);
+			$out .= str_replace('{week_day}', $day_names[($start_day + $i) % 7], $this->temp['week_day_cell']);
 		}
 
 		$out .= "\n";
@@ -219,15 +226,13 @@ class CI_Calendar {
 						// Cells with content
 						$temp = ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
 						$out .= str_replace('{day}', $day, str_replace('{content}', $data[$day], $temp));
-					}
-					else
+					} else
 					{
 						// Cells with no content
 						$temp = ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_no_content_today'] : $this->temp['cal_cell_no_content'];
 						$out .= str_replace('{day}', $day, $temp);
 					}
-				}
-				else
+				} else
 				{
 					// Blank cells
 					$out .= $this->temp['cal_cell_blank'];
@@ -265,8 +270,7 @@ class CI_Calendar {
 		if ($this->month_type == 'short')
 		{
 			$month_names = array('01' => 'cal_jan', '02' => 'cal_feb', '03' => 'cal_mar', '04' => 'cal_apr', '05' => 'cal_may', '06' => 'cal_jun', '07' => 'cal_jul', '08' => 'cal_aug', '09' => 'cal_sep', '10' => 'cal_oct', '11' => 'cal_nov', '12' => 'cal_dec');
-		}
-		else
+		} else
 		{
 			$month_names = array('01' => 'cal_january', '02' => 'cal_february', '03' => 'cal_march', '04' => 'cal_april', '05' => 'cal_mayl', '06' => 'cal_june', '07' => 'cal_july', '08' => 'cal_august', '09' => 'cal_september', '10' => 'cal_october', '11' => 'cal_november', '12' => 'cal_december');
 		}
@@ -295,18 +299,17 @@ class CI_Calendar {
 	 */
 	function get_day_names($day_type = '')
 	{
-		if ($day_type != '')
-			$this->day_type = $day_type;
+		if ($day_type != '') {
+					$this->day_type = $day_type;
+		}
 
 		if ($this->day_type == 'long')
 		{
 			$day_names = array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
-		}
-		elseif ($this->day_type == 'short')
+		} elseif ($this->day_type == 'short')
 		{
 			$day_names = array('sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat');
-		}
-		else
+		} else
 		{
 			$day_names = array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa');
 		}
@@ -338,8 +341,8 @@ class CI_Calendar {
 	{
 		$date = array();
 
-		$date['month']	= $month;
-		$date['year']	= $year;
+		$date['month'] = $month;
+		$date['year'] = $year;
 
 		while ($date['month'] > 12)
 		{
@@ -373,7 +376,7 @@ class CI_Calendar {
 	 */
 	function get_total_days($month, $year)
 	{
-		$days_in_month	= array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+		$days_in_month = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
 
 		if ($month < 1 OR $month > 12)
 		{
@@ -404,7 +407,7 @@ class CI_Calendar {
 	 */
 	function default_template()
 	{
-		return  array (
+		return  array(
 						'table_open'				=> '<table border="0" cellpadding="4" cellspacing="0">',
 						'heading_row_start'			=> '<tr>',
 						'heading_previous_cell'		=> '<th><a href="{previous_url}">&lt;&lt;</a></th>',
@@ -451,13 +454,12 @@ class CI_Calendar {
 
 		$today = array('cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today');
 
-		foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content',  'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today') as $val)
+		foreach (array('table_open', 'table_close', 'heading_row_start', 'heading_previous_cell', 'heading_title_cell', 'heading_next_cell', 'heading_row_end', 'week_row_start', 'week_day_cell', 'week_row_end', 'cal_row_start', 'cal_cell_start', 'cal_cell_content', 'cal_cell_no_content', 'cal_cell_blank', 'cal_cell_end', 'cal_row_end', 'cal_cell_start_today', 'cal_cell_content_today', 'cal_cell_no_content_today', 'cal_cell_end_today') as $val)
 		{
 			if (preg_match("/\{".$val."\}(.*?)\{\/".$val."\}/si", $this->template, $match))
 			{
 				$this->temp[$val] = $match['1'];
-			}
-			else
+			} else
 			{
 				if (in_array($val, $today, TRUE))
 				{

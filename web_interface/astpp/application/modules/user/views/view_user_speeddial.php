@@ -63,7 +63,7 @@
                     <ul class="breadcrumb">
                         <li><a href="#">Configuration</a></li>
                        <li class="active">
-                            <a href="<?= base_url() . "user/user_speeddial/"; ?>"> Speed Dial </a>
+                            <a href="<?= base_url()."user/user_speeddial/"; ?>"> Speed Dial </a>
                         </li>
                     </ul>
                 </div>
@@ -79,14 +79,14 @@
                                 <div class="col-md-4">Action</div>
                                  </div>
                                 <?php
-                                $res = $this->db_model->getSelect("*", "speed_dial", array("accountid" => $account_data[0]['id']));
-                                if ($res->num_rows() > 0) {
-                                    $result = $res->result_array();
-                                } else {
-                                    $result = 0;
-                                }
-                                for ($i = 0; $i <= 9; $i++) {
-                                    ?>
+								$res = $this->db_model->getSelect("*", "speed_dial", array("accountid" => $account_data[0]['id']));
+								if ($res->num_rows() > 0) {
+									$result = $res->result_array();
+								} else {
+									$result = 0;
+								}
+								for ($i = 0; $i <= 9; $i++) {
+									?>
                                     <div class="col-md-12">
                                         <div id="key<?php echo $i; ?><?php echo $i + 1; ?>" style="display:block;">
                                             <div class="col-md-1">
@@ -97,8 +97,8 @@
                                             <div class="col-md-3">
                                                 <label class="col-md-2" name="speed_dial" size="16"> 
                                                     <?php if ($result[$i]['speed_num'] == $i) {
-                                                        echo $result[$i]['number'];
-                                                    } ?> 
+														echo $result[$i]['number'];
+													} ?> 
                                                 </label>
                                             </div>
                                             <div class="col-md-4 margin-b-10">
@@ -120,8 +120,8 @@
                                             </div>
                                                <div class="col-md-3">
                                             <input class="col-md-2 form-control" name="speed_dial_<?php echo $i; ?>" id="speed_dial_<?php echo $i; ?>" size="16" type="text"  value="<?php if (isset($speeddial[$i]) && !empty($speeddial[$i])) {
-        echo $speeddial[$i];
-    } ?>">
+		echo $speeddial[$i];
+	} ?>">
                                                </div>
                                             <div class="col-md-4">
                                           <div class="col-md-2 no-padding">

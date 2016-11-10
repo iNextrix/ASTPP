@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -88,7 +90,7 @@ class CI_Exceptions {
 	{
 		$severity = ( ! isset($this->levels[$severity])) ? $severity : $this->levels[$severity];
 
-		log_message('error', 'Severity: '.$severity.'  --> '.$message. ' '.$filepath.' '.$line, TRUE);
+		log_message('error', 'Severity: '.$severity.'  --> '.$message.' '.$filepath.' '.$line, TRUE);
 	}
 
 	// --------------------------------------------------------------------
@@ -130,6 +132,8 @@ class CI_Exceptions {
 	 * @param	string	the message
 	 * @param	string	the template name
 	 * @param 	int		the status code
+	 * @param string $heading
+	 * @param string $message
 	 * @return	string
 	 */
 	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
@@ -171,7 +175,7 @@ class CI_Exceptions {
 		if (FALSE !== strpos($filepath, '/'))
 		{
 			$x = explode('/', $filepath);
-			$filepath = $x[count($x)-2].'/'.end($x);
+			$filepath = $x[count($x) - 2].'/'.end($x);
 		}
 
 		if (ob_get_level() > $this->ob_level + 1)

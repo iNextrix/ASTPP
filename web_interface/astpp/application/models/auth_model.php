@@ -30,7 +30,7 @@ class Auth_model extends CI_Model {
      * -------Here we write code for model auth_model functions verify_login------
      * Purpose: Validate Login Name and Password.
      * @param $username,$password.
-     * @return If login user name and password is valid then return true else return false.
+     * @return integer login user name and password is valid then return true else return false.
      */
        function verify_login($username, $password) {
         $q = "SELECT COUNT(*) as cnt FROM accounts WHERE (number = '".$this->db->escape_str($username)."'";

@@ -1,4 +1,6 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -28,7 +30,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 * List databases
 	 *
 	 * @access	private
-	 * @return	array
+	 * @return	string|false
 	 */
 	function _list_databases()
 	{
@@ -39,7 +41,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 		// connected database.
 		if ($this->conn_id)
 		{
-			return "SELECT '" . $this->database . "'";
+			return "SELECT '".$this->database."'";
 		}
 		else
 		{
@@ -56,7 +58,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 *
 	 * @access	private
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	boolean
 	 * @link 	http://www.cubrid.org/manual/840/en/Optimize%20Database
 	 */
 	function _optimize_table($table)
@@ -76,7 +78,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 *
 	 * @access	private
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	boolean
 	 * @link 	http://www.cubrid.org/manual/840/en/Checking%20Database%20Consistency
 	 */
 	function _repair_table($table)

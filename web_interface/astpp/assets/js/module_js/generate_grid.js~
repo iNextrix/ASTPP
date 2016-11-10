@@ -4,7 +4,6 @@ $(document).ready(function() {
     });  
     $("#global_clearsearch_filter").click(function(){
         $("#search_bar").slideToggle("slow");
-        $("#left_panel_search_form").slideToggle("slow");
     }); 
     $("#left_panel_add").click(function(){
             $("#left_panel_form").slideToggle("slow");

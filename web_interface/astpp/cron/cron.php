@@ -12,20 +12,20 @@ define('CRON_BETA_MODE', $config['CRON_BETA_MODE']);
 
 // Set index.php location
 if (isset($config['CRON_CI_INDEX']) && $config['CRON_CI_INDEX'])
-    define('CRON_CI_INDEX', $config['CRON_CI_INDEX']);
+	define('CRON_CI_INDEX', $config['CRON_CI_INDEX']);
 else
-    define('CRON_CI_INDEX', '../index.php');
+	define('CRON_CI_INDEX', '../index.php');
 
 if (count($argv) <= 2)
-    if (count($config['argv'])) {
-        $path = $argv[1];
-        unset($argv[1]);
+	if (count($config['argv'])) {
+		$path = $argv[1];
+		unset($argv[1]);
 //        $argv = array_merge($argv, $config["argv"][$path]);
-        $argv[0] = $argv[0];
-        $argv[1] =$config["argv"][$path];
-        $_SERVER['argv'] = $argv;
-    } else
-        die('Use: php cron.php controller/method');
+		$argv[0] = $argv[0];
+		$argv[1] =$config["argv"][$path];
+		$_SERVER['argv'] = $argv;
+	} else
+		die('Use: php cron.php controller/method');
 
 // Simulate an HTTP request
 $_SERVER['PATH_INFO'] = $argv[1];
@@ -45,9 +45,9 @@ require( CRON_CI_INDEX );           // main CI index.php file
 $output = ob_get_contents();
 
 if (CRON_FLUSH_BUFFERS === TRUE)
-    while (@ob_end_flush());          // display buffer contents
-        else
-    ob_end_clean();
+	while (@ob_end_flush());          // display buffer contents
+		else
+	ob_end_clean();
 
 echo "\n";
 ?>

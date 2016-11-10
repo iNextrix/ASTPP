@@ -25,19 +25,19 @@
 define('ENVIRONMENT', 'production');
 
 if (defined('ENVIRONMENT')) {
-    switch (ENVIRONMENT) {
-        case 'development':
-            error_reporting(E_ALL);
-            break;
+	switch (ENVIRONMENT) {
+		case 'development':
+			error_reporting(E_ALL);
+			break;
 
-        case 'testing':
-        case 'production':
-            error_reporting(0);
-            break;
+		case 'testing':
+		case 'production':
+			error_reporting(0);
+			break;
 
-        default:
-            error_reporting(E_ALL);
-    }
+		default:
+			error_reporting(E_ALL);
+	}
 }
 
 //Include file
@@ -59,8 +59,8 @@ $logger = new logger($lib);
 //set_error_handler('xml_not_found');
 
 //Define file name
-$file = "astpp." . $_REQUEST['section'] . ".php";
+$file = "astpp.".$_REQUEST['section'].".php";
 
 //Include file
-include_once("scripts/" . $file);
+include_once("scripts/".$file);
 ?>

@@ -1,4 +1,6 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -76,12 +78,11 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 			if (is_numeric($field))
 			{
 				$sql .= "\n\t$attributes";
-			}
-			else
+			} else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
-				$sql .= "\n\t\"" . $this->db->_protect_identifiers($field) . "\"";
+				$sql .= "\n\t\"".$this->db->_protect_identifiers($field)."\"";
 
 				if (array_key_exists('NAME', $attributes))
 				{
@@ -128,8 +129,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
 				{
 					$sql .= ' NULL';
-				}
-				else
+				} else
 				{
 					$sql .= ' NOT NULL';
 				}
@@ -166,7 +166,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @return	string
 	 */
 	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
@@ -185,11 +185,11 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 		// If there is a PK defined
 		if (count($primary_keys) > 0)
 		{
-			$key_name = "pk_" . $table . "_" .
+			$key_name = "pk_".$table."_".
 				$this->db->_protect_identifiers(implode('_', $primary_keys));
 			
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
-			$sql .= ",\n\tCONSTRAINT " . $key_name . " PRIMARY KEY(" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tCONSTRAINT ".$key_name." PRIMARY KEY(".implode(', ', $primary_keys).")";
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -200,14 +200,13 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 				{
 					$key_name = $this->db->_protect_identifiers(implode('_', $key));
 					$key = $this->db->_protect_identifiers($key);
-				}
-				else
+				} else
 				{
 					$key_name = $this->db->_protect_identifiers($key);
 					$key = array($key_name);
 				}
 				
-				$sql .= ",\n\tKEY \"{$key_name}\" (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tKEY \"{$key_name}\" (".implode(', ', $key).")";
 			}
 		}
 
@@ -242,7 +241,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 	 * @param	string	the column name
 	 * @param	array	fields
 	 * @param	string	the field after which we should add the new field
-	 * @return	object
+	 * @return	string
 	 */
 	function _alter_table($alter_type, $table, $fields, $after_field = '')
 	{
@@ -258,7 +257,7 @@ class CI_DB_cubrid_forge extends CI_DB_forge {
 
 		if ($after_field != '')
 		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+			$sql .= ' AFTER '.$this->db->_protect_identifiers($after_field);
 		}
 
 		return $sql;

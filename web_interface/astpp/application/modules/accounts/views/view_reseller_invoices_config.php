@@ -62,12 +62,12 @@ $(function() {
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
                         <li>
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"><?= ucfirst($accounttype); ?> Profile </a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"><?= ucfirst($accounttype); ?> Profile </a>
                         </li>
                         <li class="active">
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_invoice_config/" . $edit_id . "/"; ?>">
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_invoice_config/".$edit_id."/"; ?>">
                                 Company Profile
                             </a>
                         </li>
@@ -76,7 +76,7 @@ $(function() {
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div>
@@ -103,8 +103,8 @@ $(function() {
 				<div class='col-md-4 no-padding'><label>Invoice Due Notification:</label></div>
 				<div class='col-md-6'>
 				<select name="invoice_due_notification" value="<?= $account_data['invoice_due_notification'] ?>" class="col-md-12 form-control selectpicker" data-live-search='true'>
-                                    <option value=0 <?=$account_data['invoice_due_notification'] ==0 ? 'selected':''; ?>>Enable</option>
-                                    <option value=1 <?=$account_data['invoice_due_notification'] ==1 ? 'selected':''; ?>>Disable</option>
+                                    <option value=0 <?=$account_data['invoice_due_notification'] == 0 ? 'selected' : ''; ?>>Enable</option>
+                                    <option value=1 <?=$account_data['invoice_due_notification'] == 1 ? 'selected' : ''; ?>>Disable</option>
 				</select>
 			</div>	
 		</div>
@@ -118,8 +118,8 @@ $(function() {
 				<div class='col-md-4 no-padding '><label>Invoice Notification:</label></div>
 				<div class='col-md-6'>
 				<select name="invoice_notification" value="<?= $account_data['invoice_notification'] ?>" class="col-md-12 form-control selectpicker" data-live-search='true'>
-					<option value=0 <?=$account_data['invoice_notification'] ==0 ? 'selected':''; ?> >Enable</option>
-					<option value=1 <?=$account_data['invoice_notification'] ==1 ? 'selected':''; ?> >Disable</option>
+					<option value=0 <?=$account_data['invoice_notification'] == 0 ? 'selected' : ''; ?> >Enable</option>
+					<option value=1 <?=$account_data['invoice_notification'] == 1 ? 'selected' : ''; ?> >Disable</option>
 				</select>
 				</div>
 			</div>
@@ -207,12 +207,12 @@ $(function() {
 		</div>	
 <?php
 	if($account_data['logo']  != ''){
-	     $logo=$account_data['file'];
+		 $logo=$account_data['file'];
 	}else{
-	     $logo=$account_data['logo'];
+		 $logo=$account_data['logo'];
 	}
-          if($logo != ''){        
-             $file_name= base_url()."upload/$logo";
+		  if($logo != ''){        
+			 $file_name= base_url()."upload/$logo";
 ?>
 
 		<div class='col-md-12 no-padding'>
@@ -238,7 +238,7 @@ $(function() {
 		<center>
 		<div class="col-md-12 margin-t-20 margin-b-20">
 			<input type="submit" value="Save" name='submit' class="btn btn-line-parrot">
-			<button name="action" type="button" value="cancel" class="btn btn-line-sky margin-x-10" onclick="return redirect_page('<?= base_url() . 'accounts/' . strtolower($accounttype) . '_edit/' . $edit_id . '/'; ?>')">Cancel</button>
+			<button name="action" type="button" value="cancel" class="btn btn-line-sky margin-x-10" onclick="return redirect_page('<?= base_url().'accounts/'.strtolower($accounttype).'_edit/'.$edit_id.'/'; ?>')">Cancel</button>
 		</div>
 		</center>
 		</form>

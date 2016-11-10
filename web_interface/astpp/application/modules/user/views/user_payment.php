@@ -1,6 +1,6 @@
 
 <? extend('master.php') ?>
-<?php error_reporting(E_ERROR);?>
+<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 <style>
 body{
@@ -68,7 +68,10 @@ return false;
 				
             <div class="col-md-12" style='margin-top:15px;' > 
 		    <div style="color:red;text-align:center;">
-			<?php if (isset($validation_errors)) echo $validation_errors; ?> 
+			<?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
 		    </div>
       
 			<div class='col-md-12'>
@@ -82,7 +85,7 @@ return false;
 				  <input type="text" name="gross_amount" id="gross_amount" value="0" class="form-control">
 		  </div> 
           <div class='col-md-7 no-padding'>	  
-				  <label style=" float: left;">Tax Rate: (<?= $paypal_tax;?>%):</label> 	 
+				  <label style=" float: left;">Tax Rate: (<?= $paypal_tax; ?>%):</label> 	 
 		  </div>
 		  <div class='col-md-5'>	  
 				  <input type="text" name="tax_amount" id="tax_amount" readonly value="0"  class="form-control">	 
@@ -111,7 +114,7 @@ return false;
 			  <input type="hidden" readonly name="quantity" value="1"> 
 			  <input type="hidden" readonly name="rm" value="2">
 			  <input type="hidden" readonly name="no_shipping" value="1">
-			  <input type="hidden" readonly name="PHPSESSID" value="<?=session_id();?>">
+			  <input type="hidden" readonly name="PHPSESSID" value="<?=session_id(); ?>">
 			  <input type="hidden" readonly name="currency_code" value="USD">
 			  <input type="hidden" readonly name="notify_url" value="<?= base_url()?>login/paypal_response/">
 			  <input type="hidden" readonly name="return" value="<?= base_url()?>login/paypal_response/">
@@ -127,7 +130,7 @@ return false;
 	  
 		  <div class="col-md-12 margin-b-10 margin-t-10">
 		      <div style="text-align:center;">
-			    <img src="<?php echo base_url();?>/assets/images/paypal_logo11.png" alt="paypal">
+			    <img src="<?php echo base_url(); ?>/assets/images/paypal_logo11.png" alt="paypal">
 		      </div>			
 		  </div>
 

@@ -1,4 +1,6 @@
-<?php if ( ! defined('CRON')) exit('CLI script access allowed only');
+<?php if ( ! defined('CRON')) {
+	exit('CLI script access allowed only');
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +14,7 @@ $config['CRON_TIME_LIMIT']	= 0;								// 0 = no time limit
 $config['argv']			= array("LowBalance"=>"lowbalance/low_balance",
 					"Lowcredit"=>"lowcreditlimit/low_creditlimit",
 					"UpdateBalance" => "updateBalance/GetUpdateBalance",
-				        "CurrencyUpdate" => "currencyupdate/update_currency",
+						"CurrencyUpdate" => "currencyupdate/update_currency",
 					"GenerateInvoice" => "generateInvoice/getInvoiceData",
 					"FeedBack"=>"feedback/customer_feedback_result/TRUE",
 					"BroadcastEmail" => "broadcastemail/broadcast_email");

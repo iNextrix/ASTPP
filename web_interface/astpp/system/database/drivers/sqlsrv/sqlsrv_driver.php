@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -69,7 +71,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		
 		// If the username and password are both empty, assume this is a 
 		// 'Windows Authentication Mode' connection.
-		if(empty($connection['UID']) && empty($connection['PWD'])) {
+		if (empty($connection['UID']) && empty($connection['PWD'])) {
 			unset($connection['UID'], $connection['PWD']);
 		}
 
@@ -115,7 +117,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function db_select()
 	{
-		return $this->_execute('USE ' . $this->database);
+		return $this->_execute('USE '.$this->database);
 	}
 
 	// --------------------------------------------------------------------
@@ -126,7 +128,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @access	public
 	 * @param	string
 	 * @param	string
-	 * @return	resource
+	 * @return	boolean
 	 */
 	function db_set_charset($charset, $collation)
 	{
@@ -141,6 +143,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @access	private called by the base class
 	 * @param	string	an SQL query
+	 * @param string $sql
 	 * @return	resource
 	 */
 	function _execute($sql)
@@ -277,13 +280,13 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Insert ID
-	*
-	* Returns the last id created in the Identity column.
-	*
-	* @access public
-	* @return integer
-	*/
+	 * Insert ID
+	 *
+	 * Returns the last id created in the Identity column.
+	 *
+	 * @access public
+	 * @return integer
+	 */
 	function insert_id()
 	{
 		return $this->query('select @@IDENTITY as insert_id')->row('insert_id');
@@ -299,7 +302,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	*
 	* @access private
 	* @param string $version
-	* @return int16 major version number
+	* @return string major version number
 	*/
 	function _parse_major_version($version)
 	{
@@ -310,11 +313,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	// --------------------------------------------------------------------
 
 	/**
-	* Version number query string
-	*
-	* @access public
-	* @return string
-	*/
+	 * Version number query string
+	 *
+	 * @access public
+	 * @return string
+	 */
 	function _version()
 	{
 		$info = sqlsrv_server_info($this->conn_id);
@@ -338,7 +341,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		if ($table == '')
 			return '0';
 	
-		$query = $this->query("SELECT COUNT(*) AS numrows FROM " . $this->dbprefix . $table);
+		$query = $this->query("SELECT COUNT(*) AS numrows FROM ".$this->dbprefix.$table);
 		
 		if ($query->num_rows() == 0)
 			return '0';
@@ -389,11 +392,11 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	string
 	 */
 	function _field_data($table)
 	{
-		return "SELECT TOP 1 * FROM " . $this->_escape_table($table);	
+		return "SELECT TOP 1 * FROM ".$this->_escape_table($table);	
 	}
 
 	// --------------------------------------------------------------------
@@ -407,7 +410,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	function _error_message()
 	{
 		$error = array_shift(sqlsrv_errors());
-		return !empty($error['message']) ? $error['message'] : null;
+		return ! empty($error['message']) ? $error['message'] : null;
 	}
 
 	// --------------------------------------------------------------------
@@ -466,7 +469,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	type
-	 * @return	type
+	 * @return	string
 	 */
 	function _from_tables($tables)
 	{
@@ -513,7 +516,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _update($table, $values, $where)
 	{
-		foreach($values as $key => $val)
+		foreach ($values as $key => $val)
 		{
 			$valstr[] = $key." = ".$val;
 		}
@@ -574,7 +577,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	{
 		$i = $limit + $offset;
 	
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i', '\\1 TOP '.$i.' ', $sql);		
 	}
 
 	// --------------------------------------------------------------------

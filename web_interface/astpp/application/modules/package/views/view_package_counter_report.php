@@ -2,7 +2,7 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-       build_grid("package_counter_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons;?>);
+       build_grid("package_counter_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
 	//build_grid("package_counter_grid","",<? echo $grid_fields; ?>);
     });
 </script>

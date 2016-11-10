@@ -28,7 +28,7 @@ if (defined('ENVIRONMENT'))
 	{
 		case 'development':
 //			error_reporting(E_ALL);
-            error_reporting(E_ERROR|E_WARNING|E_PARSE);
+			error_reporting(E_ERROR|E_WARNING|E_PARSE);
 		break;
 	
 		case 'testing':
@@ -62,11 +62,11 @@ $logger = new logger($lib);
 
 if(isset($_SERVER["CONTENT_TYPE"]) && $_SERVER["CONTENT_TYPE"] == "application/json") {
 
-    $db->run("SET NAMES utf8");
-    $data = json_decode(file_get_contents("php://input"),true);
-    //error_log(print_r($data,true));
-    $logger->log(print_r($data,true));
-    process_cdr($data,$db,$logger,$decimal_points);
+	$db->run("SET NAMES utf8");
+	$data = json_decode(file_get_contents("php://input"),true);
+	//error_log(print_r($data,true));
+	$logger->log(print_r($data,true));
+	process_cdr($data,$db,$logger,$decimal_points);
 }
 
 //$db->cleanup();

@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/> 
  <title>
 	 <?php
-	$user_header= $this->session->userdata('user_header');
-	if(isset($user_header) && $user_header!='') { ?>
+	$user_header = $this->session->userdata('user_header');
+	if (isset($user_header) && $user_header != '') { ?>
 		<? start_block_marker('page-title') ?><? end_block_marker() ?> | <?php echo $user_header; ?>
 	<?php
-	}else{ ?>
+	} else { ?>
 		<? start_block_marker('page-title') ?><? end_block_marker() ?> | ASTPP - Open Source Voip Billing Solution
 	<?php
 	}
@@ -18,7 +18,7 @@
 </title>
     <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico"/>
     <script language="javascript" type="text/javascript">
-	var base_url = '<?php echo base_url();?>';
+	var base_url = '<?php echo base_url(); ?>';
 	function seetext(x){
 		x.type = "text";
 	}
@@ -47,17 +47,17 @@
      <link rel="stylesheet" media="all" type="text/css" href="<?php echo base_url(); ?>/assets/css/tabcontent.css"/>
      <link href="<?= base_url() ?>assets/fonts/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet"/>
      <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css"/>
-     <link href="<?php echo base_url();?>assets/css/facebox.css" rel="stylesheet" media="all" />	
-     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/flexigrid.css" type="text/css"/>
-     <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-1.7.1.js"></script>
-     <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
+     <link href="<?php echo base_url(); ?>assets/css/facebox.css" rel="stylesheet" media="all" />	
+     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/flexigrid.css" type="text/css"/>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.7.1.js"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/jquery.datetimepicker.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/fileinput.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/tabcontent.js"></script>
-     <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.js"></script>
-     <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.src.js"></script> 
-     <script type="text/javascript" src="<?php echo base_url();?>assets/js/facebox.js"></script>
-     <script type="text/javascript" src="<?php echo base_url();?>assets/js/flexigrid.js"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.js"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.src.js"></script> 
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
     <noscript>
       <div id="noscript-warning">
@@ -93,23 +93,23 @@ jQuery(document).ready(function() {
     <div class="container">
     	<div class="navbar-header pull-left col-md-12_new">	
 		  <div class="navbar-header col-md-9_new">
-	        <? if($this->session->userdata('userlevel_logintype') != '0'){
+	        <? if ($this->session->userdata('userlevel_logintype') != '0') {
 			$user_logo = $this->session->userdata('user_logo');	
-			if(!isset($user_logo) && $user_logo=='') { 
+			if ( ! isset($user_logo) && $user_logo == '') { 
 				echo "logo.png";
 			}
 
 		?>
-			<a class="navbar-brand no-padding margin-t-15" href="<?php echo base_url();?>dashboard/">
-                	<img id="logo" alt="dashboard" src="<?php echo base_url();?>upload/<?= $user_logo?>" width="187" height="71" border="0">
-	      <? } else{
+			<a class="navbar-brand no-padding margin-t-15" href="<?php echo base_url(); ?>dashboard/">
+                	<img id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?= $user_logo?>" width="187" height="71" border="0">
+	      <? } else {
 			$user_logo = $this->session->userdata('user_logo');	
-			if(!isset($user_logo) && $user_logo=='') { 
+			if ( ! isset($user_logo) && $user_logo == '') { 
 				echo "logo.png";
 			}
 		?> 
-                	<a class="navbar-brand no-padding margin-t-15" href="<?php echo base_url();?>user/user/">
-                	<img id="logo" alt="user_logo" src="<?php echo base_url();?>upload/<?= $user_logo?>" width="187" height="71" border="0">
+                	<a class="navbar-brand no-padding margin-t-15" href="<?php echo base_url(); ?>user/user/">
+                	<img id="logo" alt="user_logo" src="<?php echo base_url(); ?>upload/<?= $user_logo?>" width="187" height="71" border="0">
 		<? }?>
                 </a>
               
@@ -131,32 +131,32 @@ jQuery(document).ready(function() {
          	 <li>
          	 
          	 <?php
-         	 $acc_info=$this->session->userdata('accountinfo');
-         	 if($this->session->userdata('userlevel_logintype') != '0'){?>
+		 	 $acc_info=$this->session->userdata('accountinfo');
+		 	 if($this->session->userdata('userlevel_logintype') != '0'){?>
 		      <a href="<?php echo base_url();?>dashboard/" class=""> <? } else{?>    
 		    <a href="<?php echo base_url();?>user/user/" class="">	
 		<? }
-                if($this->session->userdata('logintype')!=2){
-        	        $result=(array)$this->db->get_where('accounts',array("id"=>$acc_info['id']),1)->first_row();
+				if($this->session->userdata('logintype')!=2){
+					$result=(array)$this->db->get_where('accounts',array("id"=>$acc_info['id']),1)->first_row();
 			$variable =$result['posttoexternal']==1 ? 'Credit' : gettext('Bal');  
 			$amount=$result['posttoexternal']==1 ? $result['credit_limit'] :$result['balance'];
-                        $value= $this->common_model->calculate_currency($amount,'','',true);
-                        if($value >0){
-                            $color='#397A13';
-                        }
-                        if($value < 0){
-                            $color='#EE0E43';
-                        }
-                        if($value == 0){
-                            $color='#1A1919';
-                        }
-                        $balance_str = '<span style="color:'.$color.'; font-size: 10px;"><b>('.$variable.' : '.$value.')</b></span>';
-                 }else{
-                    $balance_str = '';
-                }
+						$value= $this->common_model->calculate_currency($amount,'','',true);
+						if($value >0){
+							$color='#397A13';
+						}
+						if($value < 0){
+							$color='#EE0E43';
+						}
+						if($value == 0){
+							$color='#1A1919';
+						}
+						$balance_str = '<span style="color:'.$color.'; font-size: 10px;"><b>('.$variable.' : '.$value.')</b></span>';
+				 }else{
+					$balance_str = '';
+				}
                 
 		$logged_user=$acc_info['first_name']." ".$acc_info['last_name'];
-                	?>
+					?>
                 	<span>
                             <span class="profile_name">
                                 <?= $logged_user?>
@@ -203,27 +203,27 @@ jQuery(document).ready(function() {
 
 	  <?php 
 			$menu_info = unserialize($this->session->userdata("menuinfo"));
-            foreach($menu_info as $menu_key => $menu_values){
+			foreach($menu_info as $menu_key => $menu_values){
 	  ?>
                 
      <?php
 		  if(common_model::$global_config['system_config']['opensips']== 0 &&  $menu_key !='SIP Devices'){
-		      echo '<li><a href="">'.gettext($menu_key).'<b class="caret"></b></a>';
+			  echo '<li><a href="">'.gettext($menu_key).'<b class="caret"></b></a>';
 		  }
 		  if(common_model::$global_config['system_config']['opensips']== 1 &&  $menu_key != 'Opensips'){
-		      echo '<li><a href="">'.gettext($menu_key).'<b class="caret"></b></a>';  
+			  echo '<li><a href="">'.gettext($menu_key).'<b class="caret"></b></a>';  
 		  }
-    ?>
+	?>
                 
                          <ul class="dropdown-menu">
                     <? foreach($menu_values as $sub_menu_key => $sub_menu_values){?>
                        
                            <?  if($sub_menu_key === 0){ ?>
                             <? foreach($sub_menu_values as $sub_key => $sub_menu_lables){
-                                if((common_model::$global_config['system_config']['paypal_status']== 1 && strtolower($sub_menu_lables["menu_label"]) =='recharge') ||(common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Opensips')||
-                                (common_model::$global_config['system_config']['opensips']== 0 &&  $sub_menu_lables["menu_label"] =='SIP Devices') ||
-                                (($acc_info['type'] == '3' || $acc_info['type'] == '0') && $acc_info['allow_ip_management'] == '1' && strtolower($sub_menu_lables["menu_label"]) == 'ip settings')){
-                                }else{?>
+								if((common_model::$global_config['system_config']['paypal_status']== 1 && strtolower($sub_menu_lables["menu_label"]) =='recharge') ||(common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Opensips')||
+								(common_model::$global_config['system_config']['opensips']== 0 &&  $sub_menu_lables["menu_label"] =='SIP Devices') ||
+								(($acc_info['type'] == '3' || $acc_info['type'] == '0') && $acc_info['allow_ip_management'] == '1' && strtolower($sub_menu_lables["menu_label"]) == 'ip settings')){
+								}else{?>
                                 <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?php echo gettext($sub_menu_lables["menu_label"]);?></a></li>
 				<?}?>
 				<?} ?>
@@ -235,13 +235,13 @@ jQuery(document).ready(function() {
 				<?php }if(($acc_info['type']==3 || $acc_info['type']== 0) && $acc_info['allow_ip_management']== 1 && strtolower($sub_menu_lables["menu_label"]) !='ip settings'){ ?>
 				    <li><a href=""><span><?=$sub_menu_key;?></span><i class="fa fa-caret-right pull-right"></i></a>
 				<? }
-                            ?>
+							?>
                                  <div class="col-4"><div class="col-md-6 no-padding">
 									 <ul class="col-12 padding-x-8">
                                 <? foreach($sub_menu_values as $sub_menu_lables){ 
-				     if($sub_menu_lables['menu_label'] != 'Configuration'){
+					 if($sub_menu_lables['menu_label'] != 'Configuration'){
 				  if(common_model::$global_config['system_config']['opensips']==0 &&  $sub_menu_lables["menu_label"] !='SIP Devices'){
-				      ?>
+					  ?>
 				      <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?php echo gettext($sub_menu_lables["menu_label"]);?></a></li>
 				  <? }
 				  if(common_model::$global_config['system_config']['opensips']== 1 && $sub_menu_key !='opensips'){ ?>
@@ -251,12 +251,12 @@ jQuery(document).ready(function() {
 				} ?>
 				</ul></div></div>         
                         <?} 
-                        }  ?> 
+						}  ?> 
                   </ul>   
                 </li> 
             <? } 
-     echo '<li>&nbsp;</li>';
-             ?>
+	 echo '<li>&nbsp;</li>';
+			 ?>
             </ul>
             </div>
         </div>

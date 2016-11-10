@@ -11,8 +11,8 @@
     <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css">
     
      <!-- IE -->
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.src.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
     <noscript>
 	 <div id="noscript-warning">
 	  ASTPP work best with JavaScript enabled
@@ -39,8 +39,8 @@
                         <?php if (isset($astpp_notification)){ ?>
                         Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.
                     <?php }else{
-                         echo "&nbsp;";
-                    } ?>
+						 echo "&nbsp;";
+					} ?>
                     </span></div> <br/>
                     <br/>
                     <br/>
@@ -81,7 +81,7 @@ For Enable signup module
 			<?php 
 			if (Common_model::$global_config['system_config']['enable_signup'] == 0)
 			{?>
-			<a href="/signup/">Signup up now!</a> 
+			<a href="/signup/">Signup now!</a> 
 			<?php
 			}
 			?>

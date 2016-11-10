@@ -24,95 +24,95 @@
 
 class Summary_model extends CI_Model {
 
-    function Summary_model() {
-        parent::__construct();
-    }
+	function Summary_model() {
+		parent::__construct();
+	}
 
-    function get_resellersummary_report_list($flag, $start = 0, $limit = 0,$group_by, $select,$order, $export = false) {
+	function get_resellersummary_report_list($flag, $start = 0, $limit = 0,$group_by, $select,$order, $export = false) {
 
-        $this->db_model->build_search('summary_reseller_search');
-        $accountinfo=$this->session->userdata('accountinfo');
-        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
-        $where['reseller_id']=$reseller_id;
-        if ($this->session->userdata('advance_search') != 1) {
-            $where['callstart >=']=date('Y-m-d') . " 00:00:00";
-            $where['callstart <=']=date('Y-m-d') . " 23:59:59";
-        }
-        $this->db->where($where);
-        if(!empty($group_by))
-            $this->db->group_by($group_by);
-        if ($flag) {
-            if ($export) {
-                $result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "reseller_cdrs", '', $order, 'asc', '', '', '');
-            } else {
-                $result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "reseller_cdrs", '', $order, 'asc', $limit, $start, '');
-            }
-        } else {
-            $result = $this->db_model->getSelect("count(*) as total_count", "reseller_cdrs", '');
-            if ($result->num_rows() > 0) {
-                return $result->num_rows();
-            } else {
-                return 0;
-            }
-        }
-        return $result;
-    }
+		$this->db_model->build_search('summary_reseller_search');
+		$accountinfo=$this->session->userdata('accountinfo');
+		$reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
+		$where['reseller_id']=$reseller_id;
+		if ($this->session->userdata('advance_search') != 1) {
+			$where['callstart >=']=date('Y-m-d') . " 00:00:00";
+			$where['callstart <=']=date('Y-m-d') . " 23:59:59";
+		}
+		$this->db->where($where);
+		if(!empty($group_by))
+			$this->db->group_by($group_by);
+		if ($flag) {
+			if ($export) {
+				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "reseller_cdrs", '', $order, 'asc', '', '', '');
+			} else {
+				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "reseller_cdrs", '', $order, 'asc', $limit, $start, '');
+			}
+		} else {
+			$result = $this->db_model->getSelect("count(*) as total_count", "reseller_cdrs", '');
+			if ($result->num_rows() > 0) {
+				return $result->num_rows();
+			} else {
+				return 0;
+			}
+		}
+		return $result;
+	}
 
-    function get_providersummary_report_list($flag, $start = 0, $limit = 0, $group_by, $select,$order, $export = false) {
-        $this->db_model->build_search('summary_provider_search');
-        $where['provider_id >']=0;
-        if ($this->session->userdata('advance_search') != 1) {
-            $where['callstart >=']=date('Y-m-d') . " 00:00:00";
-            $where['callstart <=']=date('Y-m-d') . " 23:59:59";
-        }
-        $this->db->where($where);
-        if(!empty($group_by))
-            $this->db->group_by($group_by);
-        if ($flag) {
-            if ($export) {
-                $result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost", "cdrs", '', $order, 'asc', '', '', '');
-            } else {
-                $result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost", "cdrs", '', $order, 'asc', $limit, $start, '');
-            }
-        } else {
-            $result = $this->db_model->getSelect("count(*) as total_count", "cdrs", '');
-            if ($result->num_rows() > 0) {
-                return $result->num_rows();
-            } else {
-                return 0;
-            }
-        }
-        return $result;
-    }
+	function get_providersummary_report_list($flag, $start = 0, $limit = 0, $group_by, $select,$order, $export = false) {
+		$this->db_model->build_search('summary_provider_search');
+		$where['provider_id >']=0;
+		if ($this->session->userdata('advance_search') != 1) {
+			$where['callstart >=']=date('Y-m-d') . " 00:00:00";
+			$where['callstart <=']=date('Y-m-d') . " 23:59:59";
+		}
+		$this->db->where($where);
+		if(!empty($group_by))
+			$this->db->group_by($group_by);
+		if ($flag) {
+			if ($export) {
+				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost", "cdrs", '', $order, 'asc', '', '', '');
+			} else {
+				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost", "cdrs", '', $order, 'asc', $limit, $start, '');
+			}
+		} else {
+			$result = $this->db_model->getSelect("count(*) as total_count", "cdrs", '');
+			if ($result->num_rows() > 0) {
+				return $result->num_rows();
+			} else {
+				return 0;
+			}
+		}
+		return $result;
+	}
 
-    function get_customersummary_report_list($flag, $start = 0, $limit = 0, $group_by, $select,$order, $export) {
-        $this->db_model->build_search('summary_customer_search');
-        $accountinfo=$this->session->userdata('accountinfo');
-        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
-        $where['reseller_id']=$reseller_id;
-        $where['type']=0;
-        if ($this->session->userdata('advance_search') != 1) {
-            $where['callstart >=']=date('Y-m-d') . " 00:00:00";
-            $where['callstart <=']=date('Y-m-d') . " 23:59:59";
-        }
-        $this->db->where($where);
-        if(!empty($group_by))
-            $this->db->group_by($group_by);
-        if ($flag) {
-            if ($export) {
-                $result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "cdrs", '', $order, 'asc', '', '', '');
-            } else {
-                $result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "cdrs", '', $order, 'asc', $limit, $start, '');
-            }
-        } else {
-            $result = $this->db_model->getSelect("count(*) as total_count", "cdrs", '');
-            if ($result->num_rows() > 0) {
-                return $result->num_rows();
-            } else {
-                return 0;
-            }
-        }
-        return $result;
-    }
+	function get_customersummary_report_list($flag, $start = 0, $limit = 0, $group_by, $select,$order, $export) {
+		$this->db_model->build_search('summary_customer_search');
+		$accountinfo=$this->session->userdata('accountinfo');
+		$reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
+		$where['reseller_id']=$reseller_id;
+		$where['type']=0;
+		if ($this->session->userdata('advance_search') != 1) {
+			$where['callstart >=']=date('Y-m-d') . " 00:00:00";
+			$where['callstart <=']=date('Y-m-d') . " 23:59:59";
+		}
+		$this->db->where($where);
+		if(!empty($group_by))
+			$this->db->group_by($group_by);
+		if ($flag) {
+			if ($export) {
+				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "cdrs", '', $order, 'asc', '', '', '');
+			} else {
+				$result = $this->db_model->select($select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free'  THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", "cdrs", '', $order, 'asc', $limit, $start, '');
+			}
+		} else {
+			$result = $this->db_model->getSelect("count(*) as total_count", "cdrs", '');
+			if ($result->num_rows() > 0) {
+				return $result->num_rows();
+			} else {
+				return 0;
+			}
+		}
+		return $result;
+	}
 
 }

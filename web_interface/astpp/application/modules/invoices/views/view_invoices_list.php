@@ -126,7 +126,7 @@ function validateForm(){
 <?php
 $login_type = $this->session->userdata['userlevel_logintype']; 
  $account_data = $this->session->userdata("accountinfo");
- $id= $account_data['id'];
+ $id = $account_data['id'];
 
 ?>   
 
@@ -165,7 +165,7 @@ $login_type = $this->session->userdata['userlevel_logintype'];
 		        </div>
 	<div class="col-md-5"><label style="text-align:left;float:left;" class="col-md-3"><?php echo gettext('Accounts'); ?> </label>
 			<?php
-			        if($login_type == -1){
+					if($login_type == -1){
 				$where="deleted = '0' AND reseller_id = '0' AND status = '0' AND (type= '0' OR type= '3' OR type= '1')";
 				}if($login_type == 1){
 				 $where="deleted = '0' AND reseller_id = '$id' AND status = '0' AND (type= '0' OR type= '3' OR type='1')";

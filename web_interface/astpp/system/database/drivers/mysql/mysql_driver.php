@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -144,8 +146,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		if ($this->use_set_names === TRUE)
 		{
 			return @mysql_query("SET NAMES '".$this->escape_str($charset)."' COLLATE '".$this->escape_str($collation)."'", $this->conn_id);
-		}
-		else
+		} else
 		{
 			return @mysql_set_charset($charset, $this->conn_id);
 		}
@@ -313,16 +314,13 @@ class CI_DB_mysql_driver extends CI_DB {
 		if (function_exists('mysql_real_escape_string') AND is_resource($this->conn_id))
 		{
 			$str = mysql_real_escape_string($str, $this->conn_id);
-		}
-		elseif (function_exists('mysql_real_escape_string'))
+		} elseif (function_exists('mysql_real_escape_string'))
 		{
 			$str = mysql_real_escape_string($str);
-		}
-		elseif (function_exists('mysql_escape_string'))
+		} elseif (function_exists('mysql_escape_string'))
 		{
 			$str = mysql_escape_string($str);
-		}
-		else
+		} else
 		{
 			$str = addslashes($str);
 		}
@@ -372,7 +370,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	string
+	 * @return	integer
 	 */
 	function count_all($table = '')
 	{
@@ -381,7 +379,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string.$this->_protect_identifiers('numrows')." FROM ".$this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
 		if ($query->num_rows() == 0)
 		{
@@ -390,7 +388,7 @@ class CI_DB_mysql_driver extends CI_DB {
 
 		$row = $query->row();
 		$this->_reset_select();
-		return (int) $row->numrows;
+		return (int)$row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -441,7 +439,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	string
 	 */
 	function _field_data($table)
 	{
@@ -496,7 +494,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
+				$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.', $item);
 
 				// remove duplicates if the user already included the escape
 				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
@@ -506,8 +504,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		if (strpos($item, '.') !== FALSE)
 		{
 			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
-		}
-		else
+		} else
 		{
 			$str = $this->_escape_char.$item.$this->_escape_char;
 		}
@@ -526,7 +523,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	 *
 	 * @access	public
 	 * @param	type
-	 * @return	type
+	 * @return	string
 	 */
 	function _from_tables($tables)
 	{
@@ -613,16 +610,16 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		foreach ($values as $key => $val)
 		{
-			$valstr[] = $key . ' = ' . $val;
+			$valstr[] = $key.' = '.$val;
 		}
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+		$orderby = (count($orderby) >= 1) ? ' ORDER BY '.implode(", ", $orderby) : '';
 
 		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' AND count($where) >= 1) ? " WHERE ".implode(" ", $where) : '';
 
 		$sql .= $orderby.$limit;
 
@@ -646,7 +643,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	function _update_batch($table, $values, $index, $where = NULL)
 	{
 		$ids = array();
-		$where = ($where != '' AND count($where) >=1) ? implode(" ", $where).' AND ' : '';
+		$where = ($where != '' AND count($where) >= 1) ? implode(" ", $where).' AND ' : '';
 
 		foreach ($values as $key => $val)
 		{
@@ -656,7 +653,7 @@ class CI_DB_mysql_driver extends CI_DB {
 			{
 				if ($field != $index)
 				{
-					$final[$field][] =  'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
+					$final[$field][] = 'WHEN '.$index.' = '.$val[$index].' THEN '.$val[$field];
 				}
 			}
 		}
@@ -753,8 +750,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		if ($offset == 0)
 		{
 			$offset = '';
-		}
-		else
+		} else
 		{
 			$offset .= ", ";
 		}

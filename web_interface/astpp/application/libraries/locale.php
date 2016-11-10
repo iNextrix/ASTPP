@@ -22,43 +22,43 @@
 ###############################################################################
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+	exit('No direct script access allowed');
 
 /**
  * Dynamically build forms for display
  */
 class Locale{
 
-    function __construct($library_name = '') {
+	function __construct($library_name = '') {
 
-        $this->CI = & get_instance();
-        $this->CI->load->model('db_model');
-        $this->CI->load->library('email');
-        $this->CI->load->library('session');
-        $this->CI->load->driver('cache');
+		$this->CI = & get_instance();
+		$this->CI->load->model('db_model');
+		$this->CI->load->library('email');
+		$this->CI->load->library('session');
+		$this->CI->load->driver('cache');
 	$this->set_lang();
-    }
-    function set_lang($lang=FALSE){
+	}
+	function set_lang($lang=FALSE){
 
-        $current_locale=$this->CI->session->userdata('user_language');
-        if(empty($current_locale)){
-             $current_locale= 'en_US';
-        }
+		$current_locale=$this->CI->session->userdata('user_language');
+		if(empty($current_locale)){
+			 $current_locale= 'en_US';
+		}
 	putenv("LANG=$current_locale");
 	setlocale(LC_ALL, $current_locale.".UTF-8");
-        setlocale(LC_MESSAGES,$current_locale);
+		setlocale(LC_MESSAGES,$current_locale);
 	setlocale(LC_TIME, $current_locale);
-        setlocale(LC_CTYPE,$current_locale);
+		setlocale(LC_CTYPE,$current_locale);
 	$domain='messages';
 	$uri_segment='';
 	 $uri_segment = $this->CI->uri->segments;
 	if(isset($uri_segment[1])){	
 		$filename = getcwd().'/application/modules/user/language/'.$lang.'/LC_MESSAGES/messages.mo';
-                bindtextdomain(WEBSITE_DOMAIN,getcwd().'/application/modules/'.$uri_segment[1].'/language/');
+				bindtextdomain(WEBSITE_DOMAIN,getcwd().'/application/modules/'.$uri_segment[1].'/language/');
 	}
 	bind_textdomain_codeset(WEBSITE_DOMAIN, 'UTF-8');
 	textdomain(WEBSITE_DOMAIN);
-         return true;
+		 return true;
 	}
 }
 

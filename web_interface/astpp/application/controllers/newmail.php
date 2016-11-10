@@ -25,7 +25,7 @@ class Newmail extends MX_Controller
 {
 	function __construct()
 	{
-        $this->load->library('astpp/email_lib');
+		$this->load->library('astpp/email_lib');
 		parent::__construct();
 	}
 	
@@ -37,7 +37,7 @@ class Newmail extends MX_Controller
 	}
 	function customer_mail_result($flag=FALSE){
 	$account_info = $this->session->userdata['accountinfo'];
-        $post_array = $this->input->post();
+		$post_array = $this->input->post();
 	$post_array['accountid']=$account_info['id'];
 	$post_array['history_id']=0;
 	$post_array['email']=$post_array['to'];
@@ -46,7 +46,7 @@ class Newmail extends MX_Controller
 		$this->thanks();
 	}
 	function thanks(){
-            $this->load->view('view_mail_response');
+			$this->load->view('view_mail_response');
 	}	
 
 }

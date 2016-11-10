@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -39,7 +41,7 @@ if ( ! function_exists('xss_clean'))
 {
 	function xss_clean($str, $is_image = FALSE)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		return $CI->security->xss_clean($str, $is_image);
 	}
 }
@@ -57,7 +59,7 @@ if ( ! function_exists('sanitize_filename'))
 {
 	function sanitize_filename($filename)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		return $CI->security->sanitize_filename($filename);
 	}
 }
@@ -73,13 +75,15 @@ if ( ! function_exists('sanitize_filename'))
  */
 if ( ! function_exists('do_hash'))
 {
+	/**
+	 * @param string $str
+	 */
 	function do_hash($str, $type = 'sha1')
 	{
 		if ($type == 'sha1')
 		{
 			return sha1($str);
-		}
-		else
+		} else
 		{
 			return md5($str);
 		}
@@ -119,7 +123,7 @@ if ( ! function_exists('encode_php_tags'))
 {
 	function encode_php_tags($str)
 	{
-		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
+		return str_replace(array('<?php', '<?PHP', '<?', '?>'), array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
 }
 

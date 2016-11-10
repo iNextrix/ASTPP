@@ -32,7 +32,7 @@
             }
     }
     $(document).ready(function() {
-    build_grid("animap_list","<?php echo base_url(); ?>accounts/customer_animap_list_json/<?=$animap_id;?>",<? echo $grid_fields ?>,<?= $grid_buttons ?>);
+    build_grid("animap_list","<?php echo base_url(); ?>accounts/customer_animap_list_json/<?=$animap_id; ?>",<? echo $grid_fields ?>,<?= $grid_buttons ?>);
         $("#animap").click(function(){
             var b=document.getElementById('id').value;
          document.getElementById('error_1').innerHTML="";
@@ -47,7 +47,7 @@
 
              $.ajax({
                 type:'POST',
-                url: "<?= base_url()?>accounts/customer_animap_list_action/<?=$animap_id;?>",
+                url: "<?= base_url()?>accounts/customer_animap_list_action/<?=$animap_id; ?>",
                 data:$('#ip_map').serialize(), 
                 success: function(response) {
                 document.getElementById('number').value="";
@@ -95,7 +95,7 @@
 		<div class="row">
                 <div class="col-md-12" >
 			<form method="post" name="ip_map" id="ip_map" action="" enctype="multipart/form-data">
-                                <input type="hidden" id="animap_id" name="animap_id" value="<?=$animap_id;?>" />
+                                <input type="hidden" id="animap_id" name="animap_id" value="<?=$animap_id; ?>" />
                                 <input type="hidden" name="id" id='id' value='' />
                                 <label>ANI<span style="color:red"> *</span>: </label>
 				<input type="input" name="number" id="number" maxlength="15">

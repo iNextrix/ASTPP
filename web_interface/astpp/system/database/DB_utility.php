@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * Code Igniter
  *
@@ -25,7 +27,7 @@
 class CI_DB_utility extends CI_DB_forge {
 
 	var $db;
-	var $data_cache		= array();
+	var $data_cache = array();
 
 	/**
 	 * Constructor
@@ -36,8 +38,8 @@ class CI_DB_utility extends CI_DB_forge {
 	function __construct()
 	{
 		// Assign the main database object to $this->db
-		$CI =& get_instance();
-		$this->db =& $CI->db;
+		$CI = & get_instance();
+		$this->db = & $CI->db;
 
 		log_message('debug', "Database Utility Class Initialized");
 	}
@@ -89,8 +91,7 @@ class CI_DB_utility extends CI_DB_forge {
 		if (method_exists($this, '_database_exists'))
 		{
 			return $this->_database_exists($database_name);
-		}
-		else
+		} else
 		{
 			return ( ! in_array($database_name, $this->list_databases())) ? FALSE : TRUE;
 		}
@@ -260,7 +261,7 @@ class CI_DB_utility extends CI_DB_forge {
 		extract($params);
 
 		// Load the xml helper
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$CI->load->helper('xml');
 
 		// Generate the result
@@ -345,7 +346,7 @@ class CI_DB_utility extends CI_DB_forge {
 		// Is the encoder supported?  If not, we'll either issue an
 		// error or use plain text depending on the debug settings
 		if (($prefs['format'] == 'gzip' AND ! @function_exists('gzencode'))
-		OR ($prefs['format'] == 'zip'  AND ! @function_exists('gzcompress')))
+		OR ($prefs['format'] == 'zip' AND ! @function_exists('gzcompress')))
 		{
 			if ($this->db->db_debug)
 			{
@@ -399,7 +400,7 @@ class CI_DB_utility extends CI_DB_forge {
 
 			// Load the Zip class and output it
 
-			$CI =& get_instance();
+			$CI = & get_instance();
 			$CI->load->library('zip');
 			$CI->zip->add_data($prefs['filename'], $this->_backup($prefs));
 			return $CI->zip->get_zip();

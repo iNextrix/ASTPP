@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -86,12 +88,12 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		$retval = array();
 		for ($i = 0; $i < $this->num_fields(); $i++)
 		{
-			$F				= new stdClass();
+			$F = new stdClass();
 			$F->name		= sqlite_field_name($this->result_id, $i);
 			$F->type		= 'varchar';
-			$F->max_length	= 0;
+			$F->max_length = 0;
 			$F->primary_key = 0;
-			$F->default		= '';
+			$F->default = '';
 
 			$retval[] = $F;
 		}
@@ -121,7 +123,7 @@ class CI_DB_sqlite_result extends CI_DB_result {
 	 * result set starts at zero
 	 *
 	 * @access	private
-	 * @return	array
+	 * @return	boolean
 	 */
 	function _data_seek($n = 0)
 	{
@@ -158,13 +160,12 @@ class CI_DB_sqlite_result extends CI_DB_result {
 		if (function_exists('sqlite_fetch_object'))
 		{
 			return sqlite_fetch_object($this->result_id);
-		}
-		else
+		} else
 		{
 			$arr = sqlite_fetch_array($this->result_id, SQLITE_ASSOC);
 			if (is_array($arr))
 			{
-				$obj = (object) $arr;
+				$obj = (object)$arr;
 				return $obj;
 			} else {
 				return NULL;
