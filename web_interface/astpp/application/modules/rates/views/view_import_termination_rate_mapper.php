@@ -72,8 +72,9 @@
                                  echo $trunklist; ?>
                            </div>
                         </div>
-
-                        <div class="col-md-12 no-padding">
+                     </div>
+                  </div>
+                <div class="col-md-12 no-padding">
                            <input type="hidden" name="mode" value="import_termination_rate_mapper" />
                            <input type="hidden" name="logintype" value="<?= $this->session->userdata('logintype') ?>" />
                            <input type="hidden" name="username" value="<?= $this->session->userdata('username') ?>" />
@@ -94,7 +95,7 @@
                            <input type='checkbox' name='has_header'/>
                         </div>
                      </div>
-                  </div>
+                   </div>
                </div>
             </div>
             <div class="col-md-12 padding-b-10">
