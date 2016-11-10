@@ -1568,7 +1568,9 @@ class Rates extends MX_Controller
 		}
         		else
         {
+            $data['error'] = "You Must populate at least Prefix to continue!";
 		    $this->load->view('view_import_termination_rate_mapper', $data);
+		    exit;
 		}
 
 		unlink($full_path . $terminationrate_file_name);
