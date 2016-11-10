@@ -1576,8 +1576,7 @@ class Rates extends MX_Controller
         	$data['check_header'] = $check_header;
         	$data['page_title'] = 'Map CSV to Termination Rates';
         	$this->session->set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
-        	#$this->load->view('view_import_termination_rate_mapper', $data);
-		    $this->load->view('view_import_termination_rate_mapper',  $this->session->userdata);
+		    $this->load->view('termination_rate_mapper_preview_file',  $this->session->userdata);
 
 		}
 
