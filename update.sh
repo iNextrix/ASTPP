@@ -41,7 +41,7 @@ echo "Backups files created at location "${BACKUPDIR}
 mkdir ${TEMPDIR}
 cd ${TEMPDIR}
 #git clone https://github.com/iNextrix/ASTPP
-git clone -v -b ISSUE-148 https://github.com/countrdd/ASTPP
+git clone -v -b ISSUE-142 https://github.com/countrdd/ASTPP
 cd ASTPP
 echo "Updating your current source with latest one . . . . . "
 rm -rf /var/www/html/astpp/*
