@@ -1405,7 +1405,7 @@ class Rates extends MX_Controller
 	{
 		$invalid_flag = false;
 		$check_header = $this->input->post('check_header', true);
-		$data['page_title'] = 'Import Termination Rates';
+		$data['page_title'] = 'Import Termination Rates using field mapper';
 		$new_final_arr_key = $this->config->item('Termination-rates-field');
 		if (empty($_FILES) || !isset($_FILES))
 		{
