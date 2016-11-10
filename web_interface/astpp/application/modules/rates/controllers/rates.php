@@ -1418,11 +1418,9 @@ class Rates extends MX_Controller
 			list($txt, $ext) = explode(".", $_FILES['termination_rate_import_mapper']['name']);
 			if ($ext == "csv" && $_FILES['termination_rate_import_mapper']['size'] > 0)
 			{
-			    echo "Checkpoint 1";
 				$error = $_FILES['termination_rate_import_mapper']['error'];
 				if ($error == 0)
 				{
-				echo "Checkpoint 2";
 					$uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
 					$file_data = $this->csv_to_array($uploadedFile);
 					$field_select = (array_keys($file_data[0]));
@@ -1431,18 +1429,14 @@ class Rates extends MX_Controller
 					// $csv_data = $this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header);
 
 					$csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, $check_header));
-                    echo var_dump($csv_data);
-					if (!empty($csv_data))
+        			if (!empty($csv_data))
 					{
-					    echo "Checkpoint 3";
 						$full_path = $this->config->item('rates-file-path');
 						$actual_file_name = "ASTPP-TERMINATION-RATES-" . date("Y-m-d H:i:s") . "." . $ext;
 						$actual_file_name = str_replace(' ', '-', $actual_file_name);
 						$actual_file_name = str_replace(':', '-', $actual_file_name);
-						echo "Upload file: " . $uploadedFile;
-						echo "Move to: " . $full_path . $actual_file_name;
 						if (move_uploaded_file($uploadedFile, $full_path . $actual_file_name))
-						{echo "Checkpoint 4";
+						{
 							$data['field_select'] = serialize($field_select);
 							$data['csv_tmp_data'] = $csv_data;
 							$data['trunkid'] = $_POST['trunk_id'];
@@ -1451,7 +1445,7 @@ class Rates extends MX_Controller
 							$this->session->set_userdata('import_termination_rate_mapper_csv', $actual_file_name);
 						}
 						else
-						{   print_r(error_get_last());
+						{
 							$data['error'] = "File Uploading Fail Please Try Again";
 						}
 					}
@@ -1474,7 +1468,7 @@ class Rates extends MX_Controller
 
 		if ($invalid_flag)
 		{
-		    echo "Checkpoint 4";
+
 			$str = '';
 			if (!isset($_POST['trunk_id']) || empty($_POST['trunk_id']))
 			{
