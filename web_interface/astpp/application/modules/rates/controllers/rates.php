@@ -1570,7 +1570,7 @@ class Rates extends MX_Controller
         {
             $data['error'] = "You Must populate at least Prefix to continue!";
 		    $this->load->view('view_import_termination_rate_mapper', $data);
-		    exit;
+
 		}
 
 		unlink($full_path . $terminationrate_file_name);
@@ -1602,8 +1602,10 @@ class Rates extends MX_Controller
 		}
 		else
 		{
+			if (!empty($new_final_arr)) {
 			$this->session->set_flashdata('astpp_errormsg', 'Total ' . count($new_final_arr) . ' Termination rates imported successfully!');
 			redirect(base_url() . "rates/termination_rate_list/");
+			}
 		}
 	}
 
