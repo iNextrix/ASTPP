@@ -64,7 +64,7 @@
                         <h3 class="padding-t-10 padding-l-16 padding-b-10">Import Termination Rates:</h3>
                         <div class="col-md-12 no-padding">
                            <label class="col-md-3">Trunk List:</label>
-                           <div class="col-md-8">
+                           <div class="">
                               <?php
                                  $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "where_arr", array(
                                  	"status " => "0"
