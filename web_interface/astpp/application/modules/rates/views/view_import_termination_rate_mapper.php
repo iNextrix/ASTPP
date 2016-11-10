@@ -179,7 +179,7 @@
                							echo "<tr>";
                							foreach($csv_value as $field_name => $field_val){
                								if($csv_key == 0){
-               									echo "<th>".ucfirst($field_name)."</th>";
+               									echo "<th>".ucfirst($field_val)."</th>";
                								}else{
                									echo "<td class='portlet-content'>".$field_val."</td>";
                									$cnt++;
@@ -197,33 +197,7 @@
                            </div>
                        </div>
                    </div>
-               <table width="100%" border="1"  class="details_table">
-                  <?php
-                     $cnt = 1;
-                     foreach($csv_tmp_data as $csv_key => $csv_value) {
-                     	if ($csv_key < 15) {
-                     		echo "<tr>";
-                     		foreach($csv_value as $field_name => $field_val) {
-                     			if ($csv_key == 0) {
 
-                     				 echo "<th>".ucfirst($field_val)."</th>";
-
-                     			}
-                     			else {
-                     				echo "<td class='portlet-content'>" . $field_val . "</td>";
-                     				$cnt++;
-                     			}
-                     		}
-
-                     		echo "</tr>";
-                     	}
-                     }
-
-                     echo "<tr><td colspan='" . $cnt . "'>
-                                            <a href='" . base_url() . "rates/termination_rate_list/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
-                                            <input type='submit' class='btn btn-line-parrot pull-right'' id='Process' value='Process Records'/></td></tr>";
-                     ?>
-               </table>
             </form>
          </div>
       </div>
