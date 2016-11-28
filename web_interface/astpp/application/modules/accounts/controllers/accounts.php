@@ -753,7 +753,6 @@ class Accounts extends MX_Controller {
 		/*         * ****************************** */
 		if ($action == "add") {
 			$charge_id = $this->input->post("applayable_charge", true);
-
 			if ($charge_id != "") {
 				$insert_arr = array("charge_id" => $charge_id, "accountid" => $accountid, "assign_date" => gmdate("Y-m-d H:i:s"));
 				$this->db->insert("charge_to_account", $insert_arr);
