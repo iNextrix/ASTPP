@@ -4,11 +4,8 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e65b2463-0dcc-42b2-91f7-2c5eb44ce54a" name="Default" comment="Issue-148 - Add QTY Field to Subscriptions">
+    <list default="true" id="e65b2463-0dcc-42b2-91f7-2c5eb44ce54a" name="Default" comment="Add">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_interface/astpp/application/modules/accounts/controllers/accounts.php" afterPath="$PROJECT_DIR$/web_interface/astpp/application/modules/accounts/controllers/accounts.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_interface/nginx/cent_astpp.conf" afterPath="$PROJECT_DIR$/web_interface/nginx/cent_astpp.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web_interface/nginx/deb_astpp.conf" afterPath="$PROJECT_DIR$/web_interface/nginx/deb_astpp.conf" />
     </list>
     <ignored path="ASTPP.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -327,14 +324,7 @@
       <workItem from="1479781099252" duration="310000" />
       <workItem from="1480080171290" duration="225000" />
       <workItem from="1480261835168" duration="147000" />
-      <workItem from="1480335158107" duration="652000" />
-    </task>
-    <task id="LOCAL-00094" summary="Issue-148 - Add QTY Field to Subscriptions">
-      <created>1478598244231</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1478598244231</updated>
+      <workItem from="1480335158107" duration="773000" />
     </task>
     <task id="LOCAL-00095" summary="Issue-148 - Add QTY Field to Subscriptions">
       <created>1478598509761</created>
@@ -672,11 +662,18 @@
       <option name="project" value="LOCAL" />
       <updated>1478801659537</updated>
     </task>
-    <option name="localTasksCounter" value="143" />
+    <task id="LOCAL-00143" summary="Issue-148 - Add QTY Field to Subscriptions">
+      <created>1480335819572</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1480335819572</updated>
+    </task>
+    <option name="localTasksCounter" value="144" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70482000" />
+    <option name="totallyTimeSpent" value="70603000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="5" y="23" width="1915" height="977" extended-state="6" />
