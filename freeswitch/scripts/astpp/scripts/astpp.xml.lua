@@ -211,8 +211,7 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates)
         end
 
 	 elseif (tonumber(didinfo['call_type']) == 3 and didinfo['extensions'] ~= '') then
-
-		table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);     
+	    table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);     
 		if (config['opensips'] == '1') then
             table.insert(xml, [[<action application="bridge" data="{sip_contact_user=]]..destination_number..[[}sofia/default/]]..destination_number..[[${regex(${sofia_contact(]]..didinfo['extensions']..[[@${domain_name})}|^[^@]+(.*)|%1)}]]..[["/>]]);
             table.insert(xml, [[<action application="answer"/>]]);    
@@ -239,7 +238,7 @@ function freeswitch_xml_local(xml,destination_number,destinationinfo)
       table.insert(xml, [[<action application="bridge" data="user/]]..destination_number..[[@${domain_name}"/>]]);
       table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);
 	  table.insert(xml, [[<action application="answer"/>]]);      
-      table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]]);
+      table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..destination_number..[["/>]]);
     else
       table.insert(xml, [[<action application="set" data="sip_h_X-call-type=did"/>]]);
       table.insert(xml, [[<action application="set" data="sip_h_X-did-call-type=DID-LOCAL"/>]]);
