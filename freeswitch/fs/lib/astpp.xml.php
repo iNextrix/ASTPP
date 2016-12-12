@@ -177,7 +177,7 @@ function load_sofia($logger, $db) {
 function load_directory($logger, $db) {
 	$xml = "";
 
-	$query = "SELECT username,dir_params,dir_vars,number as accountcode,accountid FROM sip_devices,accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND username='" . $_REQUEST['user']."' limit 1";
+  $query = "SELECT username,dir_params,dir_vars,number as accountcode,accountid FROM sip_devices,accounts WHERE sip_devices.status=0 AND accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND username='" . $_REQUEST['user']."' limit 1";
 	
 	$logger->log("Directory Query : " . $query);
 	$res_dir = $db->run($query);
