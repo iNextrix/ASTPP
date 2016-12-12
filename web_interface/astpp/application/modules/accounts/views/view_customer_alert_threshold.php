@@ -21,12 +21,12 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
                         <li>
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> Profile </a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> Profile </a>
                         </li>
                         <li class="active">
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_alert_threshold/" . $edit_id . "/"; ?>">
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_alert_threshold/".$edit_id."/"; ?>">
                                 Alert Threshold
                             </a>
                         </li>
@@ -35,7 +35,7 @@
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div>    
@@ -48,12 +48,12 @@
                             print_error(ERR_STR);
                         </script>
                     <?php
-                    }
-                    $data_errrors = json_decode($validation_errors);
-                    foreach ($data_errrors as $key => $value) {
-                        echo $value . "<br/>";
-                    }
-                    ?> 
+					}
+					$data_errrors = json_decode($validation_errors);
+					foreach ($data_errrors as $key => $value) {
+						echo $value . "<br/>";
+					}
+					?> 
                 </div>
             </div> 
         </div>

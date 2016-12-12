@@ -42,20 +42,20 @@ Remove hr
   </div>
 </div>
 <?php
-    $astpp_msg = false;
-    $msg_type = "";
-    $astpp_err_msg = $this->session->flashdata('astpp_errormsg');
-    if ($astpp_err_msg) {
-        $astpp_msg = $astpp_err_msg;
-        $msg_type = "error";
-    }
+	$astpp_msg = false;
+	$msg_type = "";
+	$astpp_err_msg = $this->session->flashdata('astpp_errormsg');
+	if ($astpp_err_msg) {
+		$astpp_msg = $astpp_err_msg;
+		$msg_type = "error";
+	}
     
    $astpp_notify_msg = $this->session->flashdata('astpp_notification');
    if ($astpp_notify_msg) {  
-        $astpp_msg = $astpp_notify_msg;
-        $msg_type = "notification";
+		$astpp_msg = $astpp_notify_msg;
+		$msg_type = "notification";
    }
-   if($astpp_msg){
+   if ($astpp_msg) {
 ?>
 <script> 
     var validate_ERR = '<?= $astpp_msg; ?>';
@@ -65,16 +65,16 @@ Remove hr
 <?php } ?>
 
 <?php
-$class="active";
+$class = "active";
 ?>
 <div class="sidebar">
 	<ul class='sidemenu'>
-	<li class="<?php if($group_title == 'global'){ echo $class; } ?>"><a href ='<?php echo base_url();  ?>systems/configuration/global'>Global</a></li>
-	<li class="<?php if($group_title == 'email'){ echo $class; } ?>"><a href ='<?php echo base_url();  ?>systems/configuration/email'>Email</a></li>
-	<li class="<?php if($group_title == 'callingcard'){ echo $class; } ?>"><a href ='<?php echo base_url();  ?>systems/configuration/callingcard'>Callingcard</a></li>
-	<li class="<?php if($group_title == 'opensips'){ echo $class; } ?>"><a href ='<?php echo base_url();  ?>systems/configuration/opensips'>Opensips</a></li>
-	<li class="<?php if($group_title == 'paypal'){ echo $class; } ?>"><a href ='<?php echo base_url();  ?>systems/configuration/paypal'>Paypal</a></li>
-	<li class="<?php if($group_title == 'signup'){ echo $class; } ?>"><a href ='<?php echo base_url();  ?>systems/configuration/signup'>Signup</a></li>
+	<li class="<?php if ($group_title == 'global') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/global'>Global</a></li>
+	<li class="<?php if ($group_title == 'email') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/email'>Email</a></li>
+	<li class="<?php if ($group_title == 'callingcard') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/callingcard'>Callingcard</a></li>
+	<li class="<?php if ($group_title == 'opensips') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/opensips'>Opensips</a></li>
+	<li class="<?php if ($group_title == 'paypal') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/paypal'>Paypal</a></li>
+	<li class="<?php if ($group_title == 'signup') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/signup'>Signup</a></li>
                </ul>
                
 </div>		

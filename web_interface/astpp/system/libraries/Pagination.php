@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -26,39 +28,39 @@
  */
 class CI_Pagination {
 
-	var $base_url			= ''; // The page we are linking to
+	var $base_url = ''; // The page we are linking to
 	var $prefix				= ''; // A custom prefix added to the path.
 	var $suffix				= ''; // A custom suffix added to the path.
 
-	var $total_rows			=  0; // Total number of items (database results)
+	var $total_rows = 0; // Total number of items (database results)
 	var $per_page			= 10; // Max number of items you want shown per page
-	var $num_links			=  2; // Number of "digit" links to show before/after the currently viewed page
-	var $cur_page			=  0; // The current page being viewed
-	var $use_page_numbers	= FALSE; // Use page number for segment instead of offset
-	var $first_link			= '&lsaquo; First';
+	var $num_links = 2; // Number of "digit" links to show before/after the currently viewed page
+	var $cur_page			= 0; // The current page being viewed
+	var $use_page_numbers = FALSE; // Use page number for segment instead of offset
+	var $first_link = '&lsaquo; First';
 	var $next_link			= '&gt;';
 	var $prev_link			= '&lt;';
 	var $last_link			= 'Last &rsaquo;';
-	var $uri_segment		= 3;
-	var $full_tag_open		= '';
+	var $uri_segment = 3;
+	var $full_tag_open = '';
 	var $full_tag_close		= '';
 	var $first_tag_open		= '';
 	var $first_tag_close	= '&nbsp;';
-	var $last_tag_open		= '&nbsp;';
+	var $last_tag_open = '&nbsp;';
 	var $last_tag_close		= '';
-	var $first_url			= ''; // Alternative URL for the First Page.
-	var $cur_tag_open		= '&nbsp;<strong>';
+	var $first_url = ''; // Alternative URL for the First Page.
+	var $cur_tag_open = '&nbsp;<strong>';
 	var $cur_tag_close		= '</strong>';
 	var $next_tag_open		= '&nbsp;';
 	var $next_tag_close		= '&nbsp;';
 	var $prev_tag_open		= '&nbsp;';
 	var $prev_tag_close		= '';
-	var $num_tag_open		= '&nbsp;';
+	var $num_tag_open = '&nbsp;';
 	var $num_tag_close		= '';
-	var $page_query_string	= FALSE;
+	var $page_query_string = FALSE;
 	var $query_string_segment = 'per_page';
 	var $display_pages		= TRUE;
-	var $anchor_class		= '';
+	var $anchor_class = '';
 
 	/**
 	 * Constructor
@@ -133,14 +135,13 @@ class CI_Pagination {
 		if ($this->use_page_numbers)
 		{
 			$base_page = 1;
-		}
-		else
+		} else
 		{
 			$base_page = 0;
 		}
 
 		// Determine the current page number.
-		$CI =& get_instance();
+		$CI = & get_instance();
 
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
@@ -149,17 +150,16 @@ class CI_Pagination {
 				$this->cur_page = $CI->input->get($this->query_string_segment);
 
 				// Prep the current page - no funny business!
-				$this->cur_page = (int) $this->cur_page;
+				$this->cur_page = (int)$this->cur_page;
 			}
-		}
-		else
+		} else
 		{
 			if ($CI->uri->segment($this->uri_segment) != $base_page)
 			{
 				$this->cur_page = $CI->uri->segment($this->uri_segment);
 
 				// Prep the current page - no funny business!
-				$this->cur_page = (int) $this->cur_page;
+				$this->cur_page = (int)$this->cur_page;
 			}
 		}
 		
@@ -189,8 +189,7 @@ class CI_Pagination {
 			{
 				$this->cur_page = $num_pages;
 			}
-		}
-		else
+		} else
 		{
 			if ($this->cur_page > $this->total_rows)
 			{
@@ -202,7 +201,7 @@ class CI_Pagination {
 		
 		if ( ! $this->use_page_numbers)
 		{
-			$this->cur_page = floor(($this->cur_page/$this->per_page) + 1);
+			$this->cur_page = floor(($this->cur_page / $this->per_page) + 1);
 		}
 
 		// Calculate the start and end numbers. These determine
@@ -215,30 +214,28 @@ class CI_Pagination {
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
 			$this->base_url = rtrim($this->base_url).'&amp;'.$this->query_string_segment.'=';
-		}
-		else
+		} else
 		{
-			$this->base_url = rtrim($this->base_url, '/') .'/';
+			$this->base_url = rtrim($this->base_url, '/').'/';
 		}
 
 		// And here we go...
 		$output = '';
 
 		// Render the "First" link
-		if  ($this->first_link !== FALSE AND $this->cur_page > ($this->num_links + 1))
+		if ($this->first_link !== FALSE AND $this->cur_page > ($this->num_links + 1))
 		{
 			$first_url = ($this->first_url == '') ? $this->base_url : $this->first_url;
 			$output .= $this->first_tag_open.'<a '.$this->anchor_class.'href="'.$first_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
 		}
 
 		// Render the "previous" link
-		if  ($this->prev_link !== FALSE AND $this->cur_page != 1)
+		if ($this->prev_link !== FALSE AND $this->cur_page != 1)
 		{
 			if ($this->use_page_numbers)
 			{
 				$i = $uri_page_number - 1;
-			}
-			else
+			} else
 			{
 				$i = $uri_page_number - $this->per_page;
 			}
@@ -246,8 +243,7 @@ class CI_Pagination {
 			if ($i == 0 && $this->first_url != '')
 			{
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
-			}
-			else
+			} else
 			{
 				$i = ($i == 0) ? '' : $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
@@ -259,13 +255,12 @@ class CI_Pagination {
 		if ($this->display_pages !== FALSE)
 		{
 			// Write the digit links
-			for ($loop = $start -1; $loop <= $end; $loop++)
+			for ($loop = $start - 1; $loop <= $end; $loop++)
 			{
 				if ($this->use_page_numbers)
 				{
 					$i = $loop;
-				}
-				else
+				} else
 				{
 					$i = ($loop * $this->per_page) - $this->per_page;
 				}
@@ -275,16 +270,14 @@ class CI_Pagination {
 					if ($this->cur_page == $loop)
 					{
 						$output .= $this->cur_tag_open.$loop.$this->cur_tag_close; // Current page
-					}
-					else
+					} else
 					{
 						$n = ($i == $base_page) ? '' : $i;
 
 						if ($n == '' && $this->first_url != '')
 						{
 							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$loop.'</a>'.$this->num_tag_close;
-						}
-						else
+						} else
 						{
 							$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
 
@@ -301,8 +294,7 @@ class CI_Pagination {
 			if ($this->use_page_numbers)
 			{
 				$i = $this->cur_page + 1;
-			}
-			else
+			} else
 			{
 				$i = ($this->cur_page * $this->per_page);
 			}
@@ -316,8 +308,7 @@ class CI_Pagination {
 			if ($this->use_page_numbers)
 			{
 				$i = $num_pages;
-			}
-			else
+			} else
 			{
 				$i = (($num_pages * $this->per_page) - $this->per_page);
 			}

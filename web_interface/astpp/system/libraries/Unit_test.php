@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -31,14 +33,14 @@ class CI_Unit_test {
 	var $active					= TRUE;
 	var $results				= array();
 	var $strict					= FALSE;
-	var $_template				= NULL;
-	var $_template_rows			= NULL;
-	var $_test_items_visible	= array();
+	var $_template = NULL;
+	var $_template_rows = NULL;
+	var $_test_items_visible = array();
 
 	public function __construct()
 	{
 		// These are the default items visible when a test is run.
-		$this->_test_items_visible = array (
+		$this->_test_items_visible = array(
 							'test_name',
 							'test_datatype',
 							'res_datatype',
@@ -95,20 +97,20 @@ class CI_Unit_test {
 			$expected = str_replace('is_float', 'is_double', $expected);
 			$result = ($expected($test)) ? TRUE : FALSE;
 			$extype = str_replace(array('true', 'false'), 'bool', str_replace('is_', '', $expected));
-		}
-		else
+		} else
 		{
-			if ($this->strict == TRUE)
-				$result = ($test === $expected) ? TRUE : FALSE;
-			else
-				$result = ($test == $expected) ? TRUE : FALSE;
+			if ($this->strict == TRUE) {
+							$result = ($test === $expected) ? TRUE : FALSE;
+			} else {
+							$result = ($test == $expected) ? TRUE : FALSE;
+			}
 
 			$extype = gettype($expected);
 		}
 
 		$back = $this->_backtrace();
 
-		$report[] = array (
+		$report[] = array(
 							'test_name'			=> $test_name,
 							'test_datatype'		=> gettype($test),
 							'res_datatype'		=> $extype,
@@ -140,7 +142,7 @@ class CI_Unit_test {
 			$result = $this->result();
 		}
 
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$CI->load->language('unit_test');
 
 		$this->_parse_template();
@@ -157,8 +159,7 @@ class CI_Unit_test {
 					if ($val == $CI->lang->line('ut_passed'))
 					{
 						$val = '<span style="color: #0C0;">'.$val.'</span>';
-					}
-					elseif ($val == $CI->lang->line('ut_failed'))
+					} elseif ($val == $CI->lang->line('ut_failed'))
 					{
 						$val = '<span style="color: #C00;">'.$val.'</span>';
 					}
@@ -220,7 +221,7 @@ class CI_Unit_test {
 	 */
 	function result($results = array())
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$CI->load->language('unit_test');
 
 		if (count($results) == 0)
@@ -249,8 +250,7 @@ class CI_Unit_test {
 						}
 						$temp[$CI->lang->line('ut_'.$k)] = $v;
 					}
-				}
-				else
+				} else
 				{
 					if (FALSE !== ($line = $CI->lang->line(strtolower('ut_'.$val))))
 					{

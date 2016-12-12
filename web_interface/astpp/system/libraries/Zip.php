@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -30,12 +32,12 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/zip.html
  */
-class CI_Zip  {
+class CI_Zip {
 
 	var $zipdata	= '';
-	var $directory	= '';
+	var $directory = '';
 	var $entries	= 0;
-	var $file_num	= 0;
+	var $file_num = 0;
 	var $offset		= 0;
 	var $now;
 
@@ -103,6 +105,7 @@ class CI_Zip  {
 	 *
 	 * @access	private
 	 * @param	string	the directory name
+	 * @param integer $file_mdate
 	 * @return	void
 	 */
 	function _add_dir($dir, $file_mtime, $file_mdate)
@@ -128,9 +131,9 @@ class CI_Zip  {
 			"\x50\x4b\x01\x02\x00\x00\x0a\x00\x00\x00\x00\x00"
 			.pack('v', $file_mtime)
 			.pack('v', $file_mdate)
-			.pack('V',0) // crc32
-			.pack('V',0) // compressed filesize
-			.pack('V',0) // uncompressed filesize
+			.pack('V', 0) // crc32
+			.pack('V', 0) // compressed filesize
+			.pack('V', 0) // uncompressed filesize
 			.pack('v', strlen($dir)) // length of pathname
 			.pack('v', 0) // extra field length
 			.pack('v', 0) // file comment length
@@ -156,6 +159,7 @@ class CI_Zip  {
 	 * @access	public
 	 * @param	mixed
 	 * @param	string
+	 * @param string $data
 	 * @return	void
 	 */
 	function add_data($filepath, $data = NULL)
@@ -168,8 +172,7 @@ class CI_Zip  {
 
 				$this->_add_data($path, $data, $file_data['file_mtime'], $file_data['file_mdate']);
 			}
-		}
-		else
+		} else
 		{
 			$file_data = $this->_get_mod_time($filepath);
 
@@ -185,6 +188,7 @@ class CI_Zip  {
 	 * @access	private
 	 * @param	string	the file name/path
 	 * @param	string	the data to be encoded
+	 * @param integer $file_mdate
 	 * @return	void
 	 */
 	function _add_data($filepath, $data, $file_mtime, $file_mdate)
@@ -297,8 +301,7 @@ class CI_Zip  {
 			if (@is_dir($path.$file))
 			{
 				$this->read_dir($path.$file."/", $preserve_filepath, $root_path);
-			}
-			else
+			} else
 			{
 				if (FALSE !== ($data = file_get_contents($path.$file)))
 				{
@@ -323,7 +326,7 @@ class CI_Zip  {
 	 * Get the Zip file
 	 *
 	 * @access	public
-	 * @return	binary string
+	 * @return	false|string string
 	 */
 	function get_zip()
 	{
@@ -378,7 +381,7 @@ class CI_Zip  {
 	 * @access	public
 	 * @param	string	the file name
 	 * @param	string	the data to be encoded
-	 * @return	bool
+	 * @return	boolean|null
 	 */
 	function download($filename = 'backup.zip')
 	{
@@ -387,12 +390,12 @@ class CI_Zip  {
 			$filename .= '.zip';
 		}
 
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$CI->load->helper('download');
 
 		$get_zip = $this->get_zip();
 
-		$zip_content =& $get_zip;
+		$zip_content = & $get_zip;
 
 		force_download($filename, $zip_content);
 	}
@@ -414,7 +417,7 @@ class CI_Zip  {
 		$this->directory	= '';
 		$this->entries		= 0;
 		$this->file_num		= 0;
-		$this->offset		= 0;
+		$this->offset = 0;
 	}
 
 }

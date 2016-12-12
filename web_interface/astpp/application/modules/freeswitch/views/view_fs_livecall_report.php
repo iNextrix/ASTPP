@@ -5,7 +5,7 @@ $(document).ready(function() {
   var showOrHide=false;
   $("#search_bar").toggle(showOrHide);
   $("#flex1").flexigrid({
-    url: "<?php echo base_url();?>freeswitch/livecall_report_json/",
+    url: "<?php echo base_url(); ?>freeswitch/livecall_report_json/",
     method: 'GET',
     dataType: 'json',
 	colModel : [
@@ -39,8 +39,8 @@ $(document).ready(function() {
 	//preProcess: formatContactResults,
 	onSuccess: function(data){
 	  $('a[rel*=facebox]').facebox({
-		    loadingImage : '<?php echo base_url();?>/images/loading.gif',
-		    closeImage   : '<?php echo base_url();?>/images/closelabel.png'
+		    loadingImage : '<?php echo base_url(); ?>/images/loading.gif',
+		    closeImage   : '<?php echo base_url(); ?>/images/closelabel.png'
 	    });
 	},
 	/*onError: function(){

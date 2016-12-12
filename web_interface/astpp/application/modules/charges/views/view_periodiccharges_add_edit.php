@@ -22,7 +22,10 @@
 	<div class="w-section inverse no-padding">
             <div style="color:red;">
              <?php echo $form; ?>
-                <?php if (isset($validation_errors)) echo $validation_errors; ?> 
+                <?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
             </div>
            
         </div>      

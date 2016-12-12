@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -28,7 +30,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 * List databases
 	 *
 	 * @access	private
-	 * @return	bool
+	 * @return	string
 	 */
 	function _list_databases()
 	{
@@ -44,7 +46,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 *
 	 * @access	private
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	boolean
 	 */
 	function _optimize_table($table)
 	{
@@ -60,7 +62,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 *
 	 * @access	private
 	 * @param	string	the table name
-	 * @return	object
+	 * @return	boolean
 	 */
 	function _repair_table($table)
 	{

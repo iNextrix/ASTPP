@@ -11,8 +11,8 @@
     <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css">
     
      <!-- IE -->
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.src.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
     <noscript>
 	 <div id="noscript-warning">
 	  ASTPP work best with JavaScript enabled
@@ -38,12 +38,12 @@
                         <?php if (isset($astpp_notification)){ ?>
                         Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.
                     <?php }else{
-                         echo "&nbsp;";
-                    } 
+						 echo "&nbsp;";
+					} 
 			$astpp_err_msg = $this->session->flashdata('astpp_signupmsg');
-			    if ($astpp_err_msg) {
+				if ($astpp_err_msg) {
 				echo $astpp_err_msg;
-			    }
+				}
 			?>
                     </span></div> <br/>
                     <br/>
@@ -60,7 +60,7 @@
                            	<img alt="login" src="<?= base_url() ?>assets/images/logo.png">
                            </div>
                            <div class="col-md-3">
-							   <a class="btn btn-success col-md-12 margin-t-10" href="<?php echo base_url();?>">Login</a>
+							   <a class="btn btn-success col-md-12 margin-t-10" href="<?php echo base_url(); ?>">Login</a>
 
 						   </div>
                            
@@ -79,11 +79,11 @@ if ($user_data['success'])
 	echo "<div <div class=\"col-md-12 margin-t-10 margin-b-10 padding-r-32 padding-l-32\" style=\"color: #232222;\">Password : ".$this->common->decode($user_data['password'])."</div>";
 	echo "<br><br>";
 	  
-	 }else
+	 } else
 	 {
 	echo "<div class=\"col-md-12 margin-t-10 margin-b-20 padding-r-32 padding-l-32\" style=\"color: #232222;\">Link is Expire Please Try Again</div><br>";
 echo "";
-       }
+	   }
 ?>
 	
                         

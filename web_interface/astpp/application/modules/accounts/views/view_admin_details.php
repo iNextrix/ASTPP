@@ -18,7 +18,7 @@
   <div class="w-section inverse no-padding">
 				     <?php echo $form; ?>
 				     <?php
-					if(isset($validation_errors) && $validation_errors != ''){ ?>
+					if (isset($validation_errors) && $validation_errors != '') { ?>
 					    <script>
 						var ERR_STR = '<?php echo $validation_errors; ?>';
 						print_error(ERR_STR);
@@ -26,11 +26,11 @@
 				     <? } ?>
 
 <!--                                <?php
-                                $data_errrors = json_decode($validation_errors);
-                                foreach ($data_errrors as $key => $value) {
-                                    echo $value . "<br/>";
-                                }
-                                ?> 
+								$data_errrors = json_decode($validation_errors);
+								foreach ($data_errrors as $key => $value) {
+									echo $value . "<br/>";
+								}
+								?> 
                           </div>
                         <?php echo $form; ?> -->
                           </div> 

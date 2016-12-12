@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -32,14 +34,14 @@ class CI_Security {
 	 * @var string
 	 * @access protected
 	 */
-	protected $_xss_hash			= '';
+	protected $_xss_hash = '';
 	/**
 	 * Random Hash for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 * @access protected
 	 */
-	protected $_csrf_hash			= '';
+	protected $_csrf_hash = '';
 	/**
 	 * Expiration time for Cross Site Request Forgery Protection Cookie
 	 * Defaults to two hours (in seconds)
@@ -47,21 +49,21 @@ class CI_Security {
 	 * @var int
 	 * @access protected
 	 */
-	protected $_csrf_expire			= 7200;
+	protected $_csrf_expire = 7200;
 	/**
 	 * Token name for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 * @access protected
 	 */
-	protected $_csrf_token_name		= 'ci_csrf_token';
+	protected $_csrf_token_name = 'ci_csrf_token';
 	/**
 	 * Cookie name for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 * @access protected
 	 */
-	protected $_csrf_cookie_name	= 'ci_csrf_token';
+	protected $_csrf_cookie_name = 'ci_csrf_token';
 	/**
 	 * List of never allowed strings
 	 *
@@ -101,7 +103,7 @@ class CI_Security {
 	public function __construct()
 	{
 		// CSRF config
-		foreach(array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
+		foreach (array('csrf_expire', 'csrf_token_name', 'csrf_cookie_name') as $key)
 		{
 			if (FALSE !== ($val = config_item($key)))
 			{
@@ -351,10 +353,9 @@ class CI_Security {
 			// closing tags every so often so we skip those and only
 			// do the long opening tags.
 			$str = preg_replace('/<\?(php)/i', "&lt;?\\1", $str);
-		}
-		else
+		} else
 		{
-			$str = str_replace(array('<?', '?'.'>'),  array('&lt;?', '?&gt;'), $str);
+			$str = str_replace(array('<?', '?'.'>'), array('&lt;?', '?&gt;'), $str);
 		}
 
 		/*
@@ -407,7 +408,7 @@ class CI_Security {
 				$str = preg_replace("#<(/*)(script|xss)(.*?)\>#si", '[removed]', $str);
 			}
 		}
-		while($original != $str);
+		while ($original != $str);
 
 		unset($original);
 
@@ -458,7 +459,7 @@ class CI_Security {
 
 		if ($is_image === TRUE)
 		{
-			return ($str == $converted_string) ? TRUE: FALSE;
+			return ($str == $converted_string) ? TRUE : FALSE;
 		}
 
 		log_message('debug', "XSS Filtering completed");
@@ -500,7 +501,7 @@ class CI_Security {
 	 * @param	string
 	 * @return	string
 	 */
-	public function entity_decode($str, $charset='UTF-8')
+	public function entity_decode($str, $charset = 'UTF-8')
 	{
 		if (stristr($str, '&') === FALSE)
 		{
@@ -543,17 +544,17 @@ class CI_Security {
 						'?',
 						"%20",
 						"%22",
-						"%3c",		// <
-						"%253c",	// <
-						"%3e",		// >
-						"%0e",		// >
-						"%28",		// (
-						"%29",		// )
-						"%2528",	// (
-						"%26",		// &
-						"%24",		// $
-						"%3f",		// ?
-						"%3b",		// ;
+						"%3c", // <
+						"%253c", // <
+						"%3e", // >
+						"%0e", // >
+						"%28", // (
+						"%29", // )
+						"%2528", // (
+						"%26", // &
+						"%24", // $
+						"%3f", // ?
+						"%3b", // ;
 						"%3d"		// =
 					);
 
@@ -576,7 +577,7 @@ class CI_Security {
 	 * things like j a v a s c r i p t
 	 *
 	 * @param	type
-	 * @return	type
+	 * @return	string
 	 */
 	protected function _compact_exploded_words($matches)
 	{
@@ -619,7 +620,7 @@ class CI_Security {
 			$attribs = array();
 			
 			// find occurrences of illegal attribute strings without quotes
-			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*([^\s]*)/is",  $str, $matches, PREG_SET_ORDER);
+			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*([^\s]*)/is", $str, $matches, PREG_SET_ORDER);
 			
 			foreach ($matches as $attr)
 			{
@@ -627,7 +628,7 @@ class CI_Security {
 			}
 			
 			// find occurrences of illegal attribute strings with quotes (042 and 047 are octal quotes)
-			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is",  $str, $matches, PREG_SET_ORDER);
+			preg_match_all("/(".implode('|', $evil_attributes).")\s*=\s*(\042|\047)([^\\2]*?)(\\2)/is", $str, $matches, PREG_SET_ORDER);
 
 			foreach ($matches as $attr)
 			{
@@ -797,7 +798,7 @@ class CI_Security {
 		 * Just as above, adds a semicolon if missing.
 		 *
 		 */
-		$str = preg_replace('#(&\#x?)([0-9A-F]+);?#i',"\\1\\2;",$str);
+		$str = preg_replace('#(&\#x?)([0-9A-F]+);?#i', "\\1\\2;", $str);
 
 		/*
 		 * Un-Protect GET variables in URLs

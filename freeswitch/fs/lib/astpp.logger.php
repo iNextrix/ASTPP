@@ -23,29 +23,29 @@
 
 class logger {
 
-    var $fp;
-    var $config;
+	var $fp;
+	var $config;
 
-    function logger($lib) {
-        $this->config = $lib->config;
-	    $this->config['log_path'] = "/var/log/astpp/";
-        if ($this->config['debug'] == '0')
-            $this->fp = fopen($this->config['log_path'] . 'astpp_' . date('Y-m-d') . '.txt', 'a');
-    }
+	function logger($lib) {
+		$this->config = $lib->config;
+		$this->config['log_path'] = "/var/log/astpp/";
+		if ($this->config['debug'] == '0')
+			$this->fp = fopen($this->config['log_path'] . 'astpp_' . date('Y-m-d') . '.txt', 'a');
+	}
 
-    function log($log) {
-        if ($this->config['debug'] == '0') {
-            if (is_array($log))
-                fwrite($this->fp, "[" . date('Y-m-d H:i:s') . "] " . print_r($log, TRUE));
-            else
-                fwrite($this->fp, "[" . date('Y-m-d H:i:s') . "] " . $log . "\n");
-        }
-    }
+	function log($log) {
+		if ($this->config['debug'] == '0') {
+			if (is_array($log))
+				fwrite($this->fp, "[" . date('Y-m-d H:i:s') . "] " . print_r($log, TRUE));
+			else
+				fwrite($this->fp, "[" . date('Y-m-d H:i:s') . "] " . $log . "\n");
+		}
+	}
 
-    function close() {
-        if ($this->config['debug'] == '0')
-            fclose($this->fp);
-    }
+	function close() {
+		if ($this->config['debug'] == '0')
+			fclose($this->fp);
+	}
 
 }
 

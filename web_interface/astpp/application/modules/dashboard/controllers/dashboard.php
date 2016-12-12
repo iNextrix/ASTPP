@@ -24,127 +24,127 @@
 
 class dashboard extends CI_Controller {
 
-    function dashboard() 
-    {
-        parent::__construct();
-        $this->load->helper('form');
-        $this->load->model('Auth_model');
-        $this->load->library("astpp/form");
-        $this->load->model('Astpp_common');
-	$this->load->model('dashboard_model');
-        $this->load->library('freeswitch_lib');  
-    }
-
-    function index() 
-    {
-        if ($this->session->userdata('user_login') == FALSE) 
-            redirect(base_url() . 'login/login');
-            $data['page_title'] = 'Dashboard';
-        if ($this->session->userdata('logintype') == 0) 
+	function dashboard() 
 	{
-            $this->load->view('view_user_dashboard', $data);
-        } else {
-	    $gmtoffset=$this->common->get_timezone_offset();	    
-            $this->load->view('view_dashboard', $data);
-        }
-    }
-    function user_recent_payments(){
-      $this->customerReport_recent_payments();
-    }     
-    function customerReport_recent_payments() 
-    {
+		parent::__construct();
+		$this->load->helper('form');
+		$this->load->model('Auth_model');
+		$this->load->library("astpp/form");
+		$this->load->model('Astpp_common');
+	$this->load->model('dashboard_model');
+		$this->load->library('freeswitch_lib');  
+	}
+
+	function index() 
+	{
+		if ($this->session->userdata('user_login') == FALSE) 
+			redirect(base_url() . 'login/login');
+			$data['page_title'] = 'Dashboard';
+		if ($this->session->userdata('logintype') == 0) 
+	{
+			$this->load->view('view_user_dashboard', $data);
+		} else {
+		$gmtoffset=$this->common->get_timezone_offset();	    
+			$this->load->view('view_dashboard', $data);
+		}
+	}
+	function user_recent_payments(){
+	  $this->customerReport_recent_payments();
+	}     
+	function customerReport_recent_payments() 
+	{
 	$accountinfo=$this->session->userdata('accountinfo');
 	$currency=$this->common->get_field_name('currency','currency',array("id"=>$accountinfo['currency_id']));
-        $json_data = array();
+		$json_data = array();
 	$i=1;
 	$result = $this->dashboard_model->get_recent_recharge();
 	$gmtoffset=$this->common->get_timezone_offset();
-        if($result->num_rows() > 0)
+		if($result->num_rows() > 0)
 	{
 		 $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts','');
 		 $json_data[0]['accountid']='Accounts';
 		 $json_data[0]['credit']='Amount('.$currency.")";
 		 $json_data[0]['payment_date']='Date';
 		 foreach($result->result_array() as $key=>$data){
-		      $current_timestamp=strtotime($data['payment_date']);
-		      $modified_date=$current_timestamp+$gmtoffset;
-          	      $data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
-		      $json_data[$i]['accountid']=$data['accountid'];
-		      $json_data[$i]['credit']=$this->common_model->calculate_currency($data['credit'],'','',true,false);
-		      $json_data[$i]['payment_date']=date('Y-m-d H:i:s',strtotime($data['payment_date'])+$gmtoffset);
-		      $i++;
-          	}
-          }
-         echo json_encode($json_data); 
-    }
-    function  user_call_statistics_with_profit(){
-      $this->customerReport_call_statistics_with_profit();
-     }
-    function customerReport_call_statistics_with_profit() {
-        $post=$this->input->post();
-        $year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
-        $month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
+			  $current_timestamp=strtotime($data['payment_date']);
+			  $modified_date=$current_timestamp+$gmtoffset;
+		  		  $data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
+			  $json_data[$i]['accountid']=$data['accountid'];
+			  $json_data[$i]['credit']=$this->common_model->calculate_currency($data['credit'],'','',true,false);
+			  $json_data[$i]['payment_date']=date('Y-m-d H:i:s',strtotime($data['payment_date'])+$gmtoffset);
+			  $i++;
+		  	}
+		  }
+		 echo json_encode($json_data); 
+	}
+	function  user_call_statistics_with_profit(){
+	  $this->customerReport_call_statistics_with_profit();
+	 }
+	function customerReport_call_statistics_with_profit() {
+		$post=$this->input->post();
+		$year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
+		$month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
 	$json_data = array();
 	$start_date=date($year.'-'.$month.'-01');
-        $end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
+		$end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
 	$gmtoffset=$this->common->get_timezone_offset();
 	$end_date=date($year."-".$month."-".$end_day.' H:i:s');
 	$end_date=date('Y-m-d',strtotime($end_date)+$gmtoffset);
 	$current_date=(int)date("d");
-        $count=0;
-        $i=0;
-        $begin = new DateTime($start_date);
+		$count=0;
+		$i=0;
+		$begin = new DateTime($start_date);
 	$end = new DateTime($end_date);
 	$end=$end->modify('+1 day');
 	$daterange = new DatePeriod($begin, new DateInterval('P1D'), $end);
 	$records_date=array();
 	$accountinfo=$this->session->userdata('accountinfo');
 	$parent_id= ($accountinfo['type'] == 1) ? $accountinfo['id'] : 0;
-        $customerresult = $this->dashboard_model->get_call_statistics('cdrs',$parent_id,$start_date,$end_date);
-        $resellerresult = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id,$start_date,$end_date);
-        $acc_arr = array();
+		$customerresult = $this->dashboard_model->get_call_statistics('cdrs',$parent_id,$start_date,$end_date);
+		$resellerresult = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id,$start_date,$end_date);
+		$acc_arr = array();
 	foreach ($customerresult->result_array() as $data) {
 	  $acc_arr[$data['day']] = $data;
 	}
 	foreach($resellerresult->result_array() as $data){
 	  $reseller_arr[$data['day']]=$data;
 	  if(isset($acc_arr[$data['day']])){
-	    $acc_arr[$data['day']]['sum']= $data['sum']+$acc_arr[$data['day']]['sum'];
-	    $acc_arr[$data['day']]['answered']= $data['answered']+$acc_arr[$data['day']]['answered'];
-	    $acc_arr[$data['day']]['failed']= $data['failed']+$acc_arr[$data['day']]['failed'];
-	    $acc_arr[$data['day']]['profit']= $data['profit']+$acc_arr[$data['day']]['profit'];
-            $acc_arr[$data['day']]['completed']= $data['completed']+$acc_arr[$data['day']]['completed'];
-            $acc_arr[$data['day']]['duration'] = $data['duration']+$acc_arr[$data['day']]['duration'];
-            $acc_arr[$data['day']]['mcd'] =$data['mcd'] > $acc_arr[$data['day']]['mcd'] ? $data['mcd']: $acc_arr[$data['day']]['mcd'];
+		$acc_arr[$data['day']]['sum']= $data['sum']+$acc_arr[$data['day']]['sum'];
+		$acc_arr[$data['day']]['answered']= $data['answered']+$acc_arr[$data['day']]['answered'];
+		$acc_arr[$data['day']]['failed']= $data['failed']+$acc_arr[$data['day']]['failed'];
+		$acc_arr[$data['day']]['profit']= $data['profit']+$acc_arr[$data['day']]['profit'];
+			$acc_arr[$data['day']]['completed']= $data['completed']+$acc_arr[$data['day']]['completed'];
+			$acc_arr[$data['day']]['duration'] = $data['duration']+$acc_arr[$data['day']]['duration'];
+			$acc_arr[$data['day']]['mcd'] =$data['mcd'] > $acc_arr[$data['day']]['mcd'] ? $data['mcd']: $acc_arr[$data['day']]['mcd'];
 	  }else{
-	    $acc_arr[$data['day']]=$data;
+		$acc_arr[$data['day']]=$data;
 	  }
 	}
 	if(!empty($acc_arr)){
-	    foreach($daterange as $date){
+		foreach($daterange as $date){
 		$json_data['date'][]=$date->format("d");
 		$day = (int) $date->format("d");
 		if(isset($acc_arr[$day])){
-                  $asr= ($acc_arr[$day]['sum'] > 0 ) ? (round(($acc_arr[$day]['completed'] / $acc_arr[$day]['sum']) * 100,2)) : 0;
-                  $acd= ($acc_arr[$day]['completed'] > 0 ) ? round($acc_arr[$day]['duration'] / $acc_arr[$day]['completed'],2) : 0;
+				  $asr= ($acc_arr[$day]['sum'] > 0 ) ? (round(($acc_arr[$day]['completed'] / $acc_arr[$day]['sum']) * 100,2)) : 0;
+				  $acd= ($acc_arr[$day]['completed'] > 0 ) ? round($acc_arr[$day]['duration'] / $acc_arr[$day]['completed'],2) : 0;
 		  $json_data['total'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['sum']);
 		  $json_data['answered'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['answered']);
 		  $json_data['failed'][]=  array((string)$acc_arr[$day]['day'],(int) $acc_arr[$day]['failed']);
 		  $json_data['profit'][]=  array((string)$acc_arr[$day]['day'],(float)  str_replace(",", "", $this->common_model->calculate_currency($acc_arr[$day]['profit'])));
-                  $json_data['acd'][]=array((string)$acc_arr[$day]['day'],(float)$acd);
-                  $json_data['mcd'][]=array((string)$acc_arr[$day]['day'],(float)$acc_arr[$day]['mcd']);
-                  $json_data['asr'][]=array((string)$acc_arr[$day]['day'],(float)$asr);
+				  $json_data['acd'][]=array((string)$acc_arr[$day]['day'],(float)$acd);
+				  $json_data['mcd'][]=array((string)$acc_arr[$day]['day'],(float)$acc_arr[$day]['mcd']);
+				  $json_data['asr'][]=array((string)$acc_arr[$day]['day'],(float)$asr);
 		}else{
 		  $json_data['total'][]=  array($date->format("d"), 0);
 		  $json_data['answered'][]=  array($date->format("d"), 0);
 		  $json_data['failed'][]=  array($date->format("d"), 0);
 		  $json_data['profit'][]=  array($date->format("d"), 0);
-                  $json_data['acd'][]=array($date->format("d"), 0);
-                  $json_data['mcd'][]=array($date->format("d"), 0);
-                  $json_data['asr'][]=array($date->format("d"),0);
+				  $json_data['acd'][]=array($date->format("d"), 0);
+				  $json_data['mcd'][]=array($date->format("d"), 0);
+				  $json_data['asr'][]=array($date->format("d"),0);
 		}
 		
-	    }
+		}
 	}
 	else{
 	foreach($daterange as $date){
@@ -154,105 +154,103 @@ class dashboard extends CI_Controller {
 		$json_data['answered'][]=  array($date->format("d"), 0);
 		$json_data['failed'][]=  array($date->format("d"), 0);
 		$json_data['profit'][]=  array($date->format("d"), 0);
-                $json_data['acd'][]=array($date->format("d"), 0);
-                $json_data['mcd'][]=array($date->format("d"), 0);
-                $json_data['asr'][]=array($date->format("d"), 0);
+				$json_data['acd'][]=array($date->format("d"), 0);
+				$json_data['mcd'][]=array($date->format("d"), 0);
+				$json_data['asr'][]=array($date->format("d"), 0);
 	}
 	}
-        $customer_total_result = $this->dashboard_model->get_call_statistics('cdrs',$parent_id,$start_date,$end_date,false);
-        $reseller_total_result = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id,$start_date,$end_date,false);
-        $customer_total_result=(array)$customer_total_result->first_row();
-        $reseller_total_result=(array)$reseller_total_result->first_row();
+		$customer_total_result = $this->dashboard_model->get_call_statistics('cdrs',$parent_id,$start_date,$end_date,false);
+		$reseller_total_result = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id,$start_date,$end_date,false);
+		$customer_total_result=(array)$customer_total_result->first_row();
+		$reseller_total_result=(array)$reseller_total_result->first_row();
 	$json_data['total_count']['sum']=$reseller_total_result['sum']+$customer_total_result['sum'];
-        $json_data['total_count']['debit']=$this->common_model->to_calculate_currency($reseller_total_result['debit']+$customer_total_result['debit'],'','',true,true);
-        $json_data['total_count']['cost']=$this->common_model->to_calculate_currency($reseller_total_result['cost']+$customer_total_result['cost'],'','',true,true);
-        $json_data['total_count']['profit']=$this->common_model->to_calculate_currency($reseller_total_result['profit']+$customer_total_result['profit'],'','',true,true);
-        $json_data['total_count']['completed']=$reseller_total_result['completed']+$customer_total_result['completed'];
-        $json_data['total_count']['duration']=$reseller_total_result['duration']+$customer_total_result['duration'];
-        $json_data['total_count']['acd']=$json_data['total_count']['completed'] > 0 ? round($json_data['total_count']['duration']/$json_data['total_count']['completed'],2):0;
-        $json_data['total_count']['mcd']=($customer_total_result['mcd'] > 0 || $reseller_total_result['mcd'] > 0 ) ? ($customer_total_result['mcd'] > $reseller_total_result['mcd'] ? $customer_total_result['mcd']:$reseller_total_result['mcd']) : 0;
-        $json_data['total_count']['asr']=($json_data['total_count']['sum'] > 0 ) ? (round(($json_data['total_count']['completed'] / $json_data['total_count']['sum']) * 100,2)) : 0;
-        $json_data['total_count']['asr']=$this->common_model->format_currency($json_data['total_count']['asr']);
+		$json_data['total_count']['debit']=$this->common_model->to_calculate_currency($reseller_total_result['debit']+$customer_total_result['debit'],'','',true,true);
+		$json_data['total_count']['cost']=$this->common_model->to_calculate_currency($reseller_total_result['cost']+$customer_total_result['cost'],'','',true,true);
+		$json_data['total_count']['profit']=$this->common_model->to_calculate_currency($reseller_total_result['profit']+$customer_total_result['profit'],'','',true,true);
+		$json_data['total_count']['completed']=$reseller_total_result['completed']+$customer_total_result['completed'];
+		$json_data['total_count']['duration']=$reseller_total_result['duration']+$customer_total_result['duration'];
+		$json_data['total_count']['acd']=$json_data['total_count']['completed'] > 0 ? round($json_data['total_count']['duration']/$json_data['total_count']['completed'],2):0;
+		$json_data['total_count']['mcd']=($customer_total_result['mcd'] > 0 || $reseller_total_result['mcd'] > 0 ) ? ($customer_total_result['mcd'] > $reseller_total_result['mcd'] ? $customer_total_result['mcd']:$reseller_total_result['mcd']) : 0;
+		$json_data['total_count']['asr']=($json_data['total_count']['sum'] > 0 ) ? (round(($json_data['total_count']['completed'] / $json_data['total_count']['sum']) * 100,2)) : 0;
+		$json_data['total_count']['asr']=$this->common_model->format_currency($json_data['total_count']['asr']);
 	echo json_encode($json_data);
 }
 
-     function user_maximum_callminutes(){
-      $this->customerReport_maximum_callminutes();
-    }
-     function customerReport_maximum_callminutes()
-     {
-        $post=$this->input->post();
-        $year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
-        $month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
+	 function user_maximum_callminutes(){
+	  $this->customerReport_maximum_callminutes();
+	}
+	 function customerReport_maximum_callminutes()
+	 {
+		$post=$this->input->post();
+		$year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
+		$month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
 	$start_date=date($year.'-'.$month.'-01');
-        $end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
+		$end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
 	$gmtoffset=$this->common->get_timezone_offset();
 	$end_date=date($year."-".$month."-".$end_day.' H:i:s');
 	$end_date=date('Y-m-d',strtotime($end_date)+$gmtoffset);
-     	$json_data = array();
+	 	$json_data = array();
  	$result = $this->dashboard_model->get_customer_maximum_callminutes($start_date,$end_date);
 	$i=0;
 	$accountinfo=$this->session->userdata('accountinfo');
 	$reseller_id=$accountinfo['type']== -1 ? 0 : $accountinfo['id'];
 	if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3){
 	  $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts',array('reseller_id'=>$reseller_id));
-	} 
-	else{
+	} else{
 	 $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts',array('id'=>$reseller_id));
 	}
-    	if($result->num_rows() > 0 )
+		if($result->num_rows() > 0 )
 	{	
-           foreach ($result->result_array() as $data){
-            $data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
-            $json_data[$i][]= $data['accountid'];
-            $json_data[$i][]= round($data['billseconds']/60,0);
-            $i++;
-           } 
-    	}else{
+		   foreach ($result->result_array() as $data){
+			$data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
+			$json_data[$i][]= $data['accountid'];
+			$json_data[$i][]= round($data['billseconds']/60,0);
+			$i++;
+		   } 
+		}else{
 	  $json_data[] = array();
-      	}
-     	echo json_encode($json_data);
-     }
+	  	}
+	 	echo json_encode($json_data);
+	 }
 
-     function user_maximum_callcount(){
-       $this->customerReport_maximum_callcount();
-     }
-     function customerReport_maximum_callcount()
-     {
-     	$post=$this->input->post();
-        $year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
-        $month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
+	 function user_maximum_callcount(){
+	   $this->customerReport_maximum_callcount();
+	 }
+	 function customerReport_maximum_callcount()
+	 {
+	 	$post=$this->input->post();
+		$year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
+		$month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
 	$start_date=date($year.'-'.$month.'-01');
-        $end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
+		$end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
 	$gmtoffset=$this->common->get_timezone_offset();
 	$end_date=date($year."-".$month."-".$end_day.' H:i:s');
 	$end_date=date('Y-m-d',strtotime($end_date)+$gmtoffset);
-     	$json_data = array();
+	 	$json_data = array();
 	$result = $this->dashboard_model->get_customer_maximum_callcount($start_date,$end_date);
 	$accountinfo=$this->session->userdata('accountinfo');
 	$reseller_id=$accountinfo['type']== -1 ? 0 : $accountinfo['id'];
 	if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3){
 	  $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts',array('reseller_id'=>$reseller_id));
-	} 
-	else{
+	} else{
 	 $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts',array('id'=>$reseller_id));
 	}
 	$i=0;
-    	if($result->num_rows() > 0 )
+		if($result->num_rows() > 0 )
 	{
-	    foreach ($result->result_array() as $data) 
-	    {
-		        $data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
-		        $json_data[$i][]= $data['accountid'];
-		        $json_data[$i][]= (int)$data['call_count'];
-		        $i++;
-            }
+		foreach ($result->result_array() as $data) 
+		{
+				$data['accountid'] = ($data['accountid'] != '' && isset($account_arr[$data['accountid']])) ? $account_arr[$data['accountid']] :"Anonymous";
+				$json_data[$i][]= $data['accountid'];
+				$json_data[$i][]= (int)$data['call_count'];
+				$i++;
+			}
     	    
-        }else{
-    	        $json_data[] = array();
-     	     }
+		}else{
+				$json_data[] = array();
+	 		 }
 	echo json_encode($json_data);
-     }
+	 }
 }
 
 ?>

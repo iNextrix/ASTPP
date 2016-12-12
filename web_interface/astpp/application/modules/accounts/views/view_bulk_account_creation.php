@@ -1,33 +1,38 @@
 <?php include(FCPATH.'application/views/popup_header.php'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
- <?php if($entity_name != 'admin' && $entity_name !='subadmin'){ ?>
+ <?php if ($entity_name != 'admin' && $entity_name != 'subadmin') { ?>
    document.getElementsByName("sweep_id")[0].selectedIndex = <?=1?>;
 
-	 $(".sweep_id").change(function(e){
-            if(this.value != 0){
+		$("#sweep_id").change(function(e){
+			var id_mass = document.getElementById("sweep_id").value;
+            if(id_mass != 0){
                 $.ajax({
                     type:'POST',
-                    url: "<?= base_url()?>/accounts/customer_invoice_option",
-                    data:"sweepid="+this.value, 
+                    url: "<?= base_url()?>/accounts/customer_invoice_option/",
+                    data:"sweepid="+id_mass, 
                     success: function(response) {
+						response = response.replace('col-md-5', 'col-md-6');
+                        $('.invoice_day').selectpicker('show');
                         $(".invoice_day").html(response);
+                        $('.selectpicker').selectpicker('refresh');
                         $('.invoice_day').show();
-                        $('label[for="Billing Day"]').show()
+                        $('label[for="Billing Day"]').show();
                     }
                 });
             }else{
-                $('label[for="Billing Day"]').hide()
-                $('.invoice_day').css('display','none');                
+                $('label[for="Billing Day"]').hide();
+                $('.invoice_day').css('display','none');   
+                             
             }
         });
         $(".sweep_id").change();
         <?php } ?> 
-document.getElementsByName("currency_id")[0].selectedIndex = <?=$currency_id-1?>;
-document.getElementsByName("timezone_id")[0].selectedIndex = <?=$timezone_id-1?>;
-document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-2?>;
+document.getElementsByName("currency_id")[0].selectedIndex = <?=$currency_id - 1?>;
+document.getElementsByName("timezone_id")[0].selectedIndex = <?=$timezone_id - 1?>;
+document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id - 2?>;
     $("#submit").click(function(){
-        submit_form("customer_bulk_form","<?php echo base_url();?>accounts/customer_bulk_save/");
+        submit_form("customer_bulk_form","<?php echo base_url(); ?>accounts/customer_bulk_save/");
     });
 });
 </script>
@@ -51,18 +56,18 @@ document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-2?>;
                 <div class="w-section inverse no-padding"> 
                     <div style="color:red;margin-left: 60px;">
                         <?php
-                        if (isset($validation_errors)) {
-                           $validation_array=json_decode($validation_errors);
-                           if(is_object($validation_array)){
-                           $validation_array = get_object_vars($validation_array);
-                           foreach($validation_array as $key=>$value)
-		              echo $value."<br/>";
-                           }
-                           else
-		              echo $validation_errors;
+						if (isset($validation_errors)) {
+						   $validation_array=json_decode($validation_errors);
+						   if(is_object($validation_array)){
+						   $validation_array = get_object_vars($validation_array);
+						   foreach($validation_array as $key=>$value)
+					  echo $value."<br/>";
+						   }
+						   else
+					  echo $validation_errors;
                            
-                        }
-                        ?>
+						}
+						?>
                     </div>
         <?php echo $form; ?>
                 </div>      

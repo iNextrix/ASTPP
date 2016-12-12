@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * Code Igniter
  *
@@ -24,10 +26,10 @@
  */
 class CI_DB_forge {
 
-	var $fields			= array();
-	var $keys			= array();
-	var $primary_keys	= array();
-	var $db_char_set	=	'';
+	var $fields = array();
+	var $keys = array();
+	var $primary_keys = array();
+	var $db_char_set = '';
 
 	/**
 	 * Constructor
@@ -38,8 +40,8 @@ class CI_DB_forge {
 	function __construct()
 	{
 		// Assign the main database object to $this->db
-		$CI =& get_instance();
-		$this->db =& $CI->db;
+		$CI = & get_instance();
+		$this->db = & $CI->db;
 		log_message('debug', "Database Forge Class Initialized");
 	}
 
@@ -115,8 +117,7 @@ class CI_DB_forge {
 		if ($primary === TRUE)
 		{
 			$this->primary_keys[] = $key;
-		}
-		else
+		} else
 		{
 			$this->keys[] = $key;
 		}
@@ -150,8 +151,7 @@ class CI_DB_forge {
 													)
 								));
 				$this->add_key('id', TRUE);
-			}
-			else
+			} else
 			{
 				if (strpos($field, ' ') === FALSE)
 				{
@@ -371,9 +371,9 @@ class CI_DB_forge {
 	 */
 	function _reset()
 	{
-		$this->fields		= array();
-		$this->keys			= array();
-		$this->primary_keys	= array();
+		$this->fields = array();
+		$this->keys = array();
+		$this->primary_keys = array();
 	}
 
 }

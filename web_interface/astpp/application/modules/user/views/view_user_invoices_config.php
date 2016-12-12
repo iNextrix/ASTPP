@@ -60,16 +60,16 @@ $(function() {
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
+                        <li><a href="<?= base_url()."user/user_myprofile/"; ?>">My Profile</a></li>
                         <li class='active'>
-                            <a href="<?= base_url() . "user/user_invoice_config/"; ?>">Company Profile</a>
+                            <a href="<?= base_url()."user/user_invoice_config/"; ?>">Company Profile</a>
                         </li>
                     </ul>
                 </div>
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div>
@@ -96,8 +96,8 @@ $(function() {
 				<div class='col-md-4 no-padding'><label>Invoice Due Notification:</label></div>
 				<div class='col-md-6'>
 				<select name="invoice_due_notification" value="<?= $account_data['invoice_due_notification'] ?>" class="col-md-12 form-control">
-                                    <option value=0 <?=$account_data['invoice_due_notification'] ==0 ? 'selected':''; ?>>Enable</option>
-                                    <option value=1 <?=$account_data['invoice_due_notification'] ==1 ? 'selected':''; ?>>Disable</option>
+                                    <option value=0 <?=$account_data['invoice_due_notification'] == 0 ? 'selected' : ''; ?>>Enable</option>
+                                    <option value=1 <?=$account_data['invoice_due_notification'] == 1 ? 'selected' : ''; ?>>Disable</option>
 				</select>
 			</div>	
 		</div>
@@ -111,8 +111,8 @@ $(function() {
 				<div class='col-md-4 no-padding '><label>Invoice Notification:</label></div>
 				<div class='col-md-6'>
 				<select name="invoice_notification" value="<?= $account_data['invoice_notification'] ?>" class="col-md-12 form-control">
-					<option value=0 <?=$account_data['invoice_notification'] ==0 ? 'selected':''; ?> >Enable</option>
-					<option value=1 <?=$account_data['invoice_notification'] ==1 ? 'selected':''; ?> >Disable</option>
+					<option value=0 <?=$account_data['invoice_notification'] == 0 ? 'selected' : ''; ?> >Enable</option>
+					<option value=1 <?=$account_data['invoice_notification'] == 1 ? 'selected' : ''; ?> >Disable</option>
 				</select>
 				</div>
 			</div>
@@ -199,12 +199,12 @@ $(function() {
 		</div>	
 <?php
 	if($account_data['logo']  != ''){
-	     $logo=$account_data['file'];
+		 $logo=$account_data['file'];
 	}else{
-	     $logo=$account_data['logo'];
+		 $logo=$account_data['logo'];
 	}
-          if($logo != ''){        
-             $file_name= base_url()."upload/$logo";
+		  if($logo != ''){        
+			 $file_name= base_url()."upload/$logo";
 ?>
 
 		<div class='col-md-12 no-padding'>

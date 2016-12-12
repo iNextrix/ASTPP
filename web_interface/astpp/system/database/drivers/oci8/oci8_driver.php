@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -116,7 +118,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Select the database
 	 *
 	 * @access  private called by the base class
-	 * @return  resource
+	 * @return  boolean
 	 */
 	public function db_select()
 	{
@@ -132,7 +134,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * @access	public
 	 * @param	string
 	 * @param	string
-	 * @return	resource
+	 * @return	boolean
 	 */
 	public function db_set_charset($charset, $collation)
 	{
@@ -209,7 +211,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * getCursor.  Returns a cursor from the datbase
 	 *
 	 * @access  public
-	 * @return  cursor id
+	 * @return  resource id
 	 */
 	public function get_cursor()
 	{
@@ -255,14 +257,14 @@ class CI_DB_oci8_driver extends CI_DB {
 		$have_cursor = FALSE;
 		foreach ($params as $param)
 		{
-			$sql .= $param['name'] . ",";
+			$sql .= $param['name'].",";
 
 			if (array_key_exists('type', $param) && ($param['type'] === OCI_B_CURSOR))
 			{
 				$have_cursor = TRUE;
 			}
 		}
-		$sql = trim($sql, ",") . "); end;";
+		$sql = trim($sql, ",")."); end;";
 
 		$this->stmt_id = FALSE;
 		$this->_set_stmt_id($sql);
@@ -408,7 +410,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		// escape LIKE condition wildcards
 		if ($like === TRUE)
 		{
-			$str = str_replace(	array('%', '_', $this->_like_escape_chr),
+			$str = str_replace(array('%', '_', $this->_like_escape_chr),
 								array($this->_like_escape_chr.'%', $this->_like_escape_chr.'_', $this->_like_escape_chr.$this->_like_escape_chr),
 								$str);
 		}
@@ -453,7 +455,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * @access  public
 	 * @param   string
-	 * @return  string
+	 * @return  integer
 	 */
 	public function count_all($table = '')
 	{
@@ -462,7 +464,7 @@ class CI_DB_oci8_driver extends CI_DB {
 			return 0;
 		}
 
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows') . " FROM " . $this->_protect_identifiers($table, TRUE, NULL, FALSE));
+		$query = $this->query($this->_count_string.$this->_protect_identifiers('numrows')." FROM ".$this->_protect_identifiers($table, TRUE, NULL, FALSE));
 
 		if ($query == FALSE)
 		{
@@ -471,7 +473,7 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		$row = $query->row();
 		$this->_reset_select();
-		return (int) $row->numrows;
+		return (int)$row->numrows;
 	}
 
 	// --------------------------------------------------------------------
@@ -522,7 +524,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * @access  public
 	 * @param   string  the table name
-	 * @return  object
+	 * @return  string
 	 */
 	protected function _field_data($table)
 	{
@@ -581,7 +583,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		{
 			if (strpos($item, '.'.$id) !== FALSE)
 			{
-				$str = $this->_escape_char. str_replace('.', $this->_escape_char.'.', $item);
+				$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.', $item);
 
 				// remove duplicates if the user already included the escape
 				return preg_replace('/['.$this->_escape_char.']+/', $this->_escape_char, $str);
@@ -591,8 +593,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		if (strpos($item, '.') !== FALSE)
 		{
 			$str = $this->_escape_char.str_replace('.', $this->_escape_char.'.'.$this->_escape_char, $item).$this->_escape_char;
-		}
-		else
+		} else
 		{
 			$str = $this->_escape_char.$item.$this->_escape_char;
 		}
@@ -611,7 +612,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 *
 	 * @access	protected
 	 * @param	type
-	 * @return	type
+	 * @return	string
 	 */
 	protected function _from_tables($tables)
 	{
@@ -661,7 +662,7 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		for ($i = 0, $c = count($values); $i < $c; $i++)
 		{
-			$sql .= '	INTO ' . $table . ' (' . $keys . ') VALUES ' . $values[$i] . "\n";
+			$sql .= '	INTO '.$table.' ('.$keys.') VALUES '.$values[$i]."\n";
 		}
 
 		$sql .= 'SELECT * FROM dual';
@@ -693,11 +694,11 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		$limit = ( ! $limit) ? '' : ' LIMIT '.$limit;
 
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
+		$orderby = (count($orderby) >= 1) ? ' ORDER BY '.implode(", ", $orderby) : '';
 
 		$sql = "UPDATE ".$table." SET ".implode(', ', $valstr);
 
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
+		$sql .= ($where != '' AND count($where) >= 1) ? " WHERE ".implode(" ", $where) : '';
 
 		$sql .= $orderby.$limit;
 

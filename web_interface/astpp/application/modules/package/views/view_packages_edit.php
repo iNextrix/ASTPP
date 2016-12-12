@@ -10,15 +10,15 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "package/package_list/";?>">Package List </a></li>
+                        <li><a href="<?= base_url()."package/package_list/"; ?>">Package List </a></li>
                         <li class="active">
-                            <a href="<?= base_url() . "package/package_edit/". $edit_id . "/";?>">Details </a>
+                            <a href="<?= base_url()."package/package_edit/".$edit_id."/"; ?>">Details </a>
                         </li>
                     </ul>
                 </div>
                   <ul class="breadcrumb">
                 <li class="active pull-right">
-		      <a href="<?= base_url() . "package/package_list/"?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."package/package_list/"?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
 		      </ul>
             </div>
             <div class="padding-15 col-md-12">

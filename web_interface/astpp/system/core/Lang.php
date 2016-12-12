@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -31,13 +33,13 @@ class CI_Lang {
 	 *
 	 * @var array
 	 */
-	var $language	= array();
+	var $language = array();
 	/**
 	 * List of loaded language files
 	 *
 	 * @var array
 	 */
-	var $is_loaded	= array();
+	var $is_loaded = array();
 
 	/**
 	 * Constructor
@@ -78,7 +80,7 @@ class CI_Lang {
 			return;
 		}
 
-		$config =& get_config();
+		$config = & get_config();
 
 		if ($idiom == '')
 		{
@@ -90,8 +92,7 @@ class CI_Lang {
 		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
 		{
 			include($alt_path.'language/'.$idiom.'/'.$langfile);
-		}
-		else
+		} else
 		{
 			$found = FALSE;
 

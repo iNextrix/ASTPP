@@ -63,7 +63,7 @@ function get_alert_msg(id)
 <div align="left">
 <table border="0"  class="details_table">
 <tr class="invoice_heading"><td>
-To : <?=$accountinfo['first_name'];?> <?=$accountinfo['last_name']?>
+To : <?=$accountinfo['first_name']; ?> <?=$accountinfo['last_name']?>
 </td></tr>
 <tr><td>
 Company name : <?=$accountinfo['company_name']?>
@@ -91,8 +91,8 @@ Addres : <?=$accountinfo['address_1']?>
     <td width="25%"><div align="center">Invoice Date</div></td>
   </tr>
   <tr>
-    <td><div align="center"><?=$accountinfo['cc'];?></div></td>
-    <td><div align="center"><?=$accountinfo['number'];?></div></td>
+    <td><div align="center"><?=$accountinfo['cc']; ?></div></td>
+    <td><div align="center"><?=$accountinfo['number']; ?></div></td>
     <td><div align="center"><?=@$invoiceid?></div></td>
     <td><div align="center"><?=@$invoicedate?></div></td>
   </tr>
@@ -109,8 +109,8 @@ Addres : <?=$accountinfo['address_1']?>
       </tr>
      
       <?php 
-	  if(sizeof($invoice_cdr_list)>0) {
-	  foreach($invoice_cdr_list as $key => $value) {?>
+	  if (sizeof($invoice_cdr_list) > 0) {
+	  foreach ($invoice_cdr_list as $key => $value) {?>
             <TR>
                <TD><?=$value['callstart']?></TD>
                <TD><?=$value['callerid']?></TD>
@@ -133,8 +133,8 @@ Addres : <?=$accountinfo['address_1']?>
       </tr>
     
       <?php 
-	   if(sizeof($invoice_total_list)>0) {
-	  foreach($invoice_total_list as $key => $value)
+	   if (sizeof($invoice_total_list) > 0) {
+	  foreach ($invoice_total_list as $key => $value)
 	  {?>
             <TR>
 	       <TD></td>

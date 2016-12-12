@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -28,12 +30,12 @@
  */
 class CI_DB_result {
 
-	var $conn_id				= NULL;
-	var $result_id				= NULL;
-	var $result_array			= array();
-	var $result_object			= array();
-	var $custom_result_object	= array();
-	var $current_row			= 0;
+	var $conn_id = NULL;
+	var $result_id = NULL;
+	var $result_array = array();
+	var $result_object = array();
+	var $custom_result_object = array();
+	var $current_row = 0;
 	var $num_rows				= 0;
 	var $row_data				= NULL;
 
@@ -47,9 +49,13 @@ class CI_DB_result {
 	 */
 	public function result($type = 'object')
 	{
-		if ($type == 'array') return $this->result_array();
-		else if ($type == 'object') return $this->result_object();
-		else return $this->custom_result_object($type);
+		if ($type == 'array') {
+			return $this->result_array();
+		} else if ($type == 'object') {
+			return $this->result_object();
+		} else {
+			return $this->custom_result_object($type);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -185,9 +191,13 @@ class CI_DB_result {
 			$n = 0;
 		}
 
-		if ($type == 'object') return $this->row_object($n);
-		else if ($type == 'array') return $this->row_array($n);
-		else return $this->custom_row_object($n, $type);
+		if ($type == 'object') {
+			return $this->row_object($n);
+		} else if ($type == 'array') {
+			return $this->row_array($n);
+		} else {
+			return $this->custom_row_object($n, $type);
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -229,6 +239,7 @@ class CI_DB_result {
 	 *
 	 * @access	public
 	 * @return	object
+	 * @param string $type
 	 */
 	public function custom_row_object($n, $type)
 	{
@@ -331,7 +342,7 @@ class CI_DB_result {
 		{
 			return $result;
 		}
-		return $result[count($result) -1];
+		return $result[count($result) - 1];
 	}
 
 	// --------------------------------------------------------------------

@@ -50,21 +50,21 @@ class Modules
 	public static $routes, $registry, $locations;
 	
 	/**
-	* Run a module controller method
-	* Output from module is buffered and returned.
-	**/
+	 * Run a module controller method
+	 * Output from module is buffered and returned.
+	 **/
 	public static function run($module) {
 		
 		$method = 'index';
 		
-		if(($pos = strrpos($module, '/')) != FALSE) {
+		if (($pos = strrpos($module, '/')) != FALSE) {
 			$method = substr($module, $pos + 1);		
 			$module = substr($module, 0, $pos);
 		}
 
-		if($class = self::load($module)) {
+		if ($class = self::load($module)) {
 			
-			if (method_exists($class, $method))	{
+			if (method_exists($class, $method)) {
 				ob_start();
 				$args = func_get_args();
 				$output = call_user_func_array(array($class, $method), array_slice($args, 1));
@@ -91,7 +91,9 @@ class Modules
 			list($class) = CI::$APP->router->locate(explode('/', $module));
 	
 			/* controller cannot be located */
-			if (empty($class)) return;
+			if (empty($class)) {
+				return;
+			}
 	
 			/* set the module directory */
 			$path = APPPATH.'controllers/'.CI::$APP->router->fetch_directory();
@@ -112,7 +114,9 @@ class Modules
 	public static function autoload($class) {
 		
 		/* don't autoload CI_ prefixed classes or those using the config subclass_prefix */
-		if (strstr($class, 'CI_') OR strstr($class, config_item('subclass_prefix'))) return;
+		if (strstr($class, 'CI_') OR strstr($class, config_item('subclass_prefix'))) {
+			return;
+		}
 
 		/* autoload Modular Extensions MX core classes */
 		if (strstr($class, 'MX_') AND is_file($location = dirname(__FILE__).'/'.substr($class, 3).EXT)) {
@@ -121,26 +125,26 @@ class Modules
 		}
 		
 		/* autoload core classes */
-		if(is_file($location = APPPATH.'core/'.$class.EXT)) {
+		if (is_file($location = APPPATH.'core/'.$class.EXT)) {
 			include_once $location;
 			return;
 		}		
 		
 		/* autoload library classes */
-		if(is_file($location = APPPATH.'libraries/'.$class.EXT)) {
+		if (is_file($location = APPPATH.'libraries/'.$class.EXT)) {
 			include_once $location;
 			return;
 		}		
 	}
 
 	/** Load a module file **/
-	public static function load_file($file, $path, $type = 'other', $result = TRUE)	{
+	public static function load_file($file, $path, $type = 'other', $result = TRUE) {
 		
 		$file = str_replace(EXT, '', $file);		
 		$location = $path.$file.EXT;
 		
 		if ($type === 'other') {			
-			if (class_exists($file, FALSE))	{
+			if (class_exists($file, FALSE)) {
 				log_message('debug', "File already loaded: {$location}");				
 				return $result;
 			}	
@@ -150,8 +154,9 @@ class Modules
 			/* load config or language array */
 			include $location;
 
-			if ( ! isset($$type) OR ! is_array($$type))				
-				show_error("{$location} does not contain a valid {$type} array");
+			if ( ! isset($$type) OR ! is_array($$type)) {
+							show_error("{$location} does not contain a valid {$type} array");
+			}
 
 			$result = $$type;
 		}
@@ -160,11 +165,11 @@ class Modules
 	}
 
 	/** 
-	* Find a file
-	* Scans for files located within modules directories.
-	* Also scans application directories for models, plugins and views.
-	* Generates fatal error if file not found.
-	**/
+	 * Find a file
+	 * Scans for files located within modules directories.
+	 * Also scans application directories for models, plugins and views.
+	 * Generates fatal error if file not found.
+	 **/
 	public static function find($file, $module, $base) {
 	
 		$segments = explode('/', $file);
@@ -176,17 +181,20 @@ class Modules
 		$module ? $modules[$module] = $path : $modules = array();
 		
 		if ( ! empty($segments)) {
-			$modules[array_shift($segments)] = ltrim(implode('/', $segments).'/','/');
+			$modules[array_shift($segments)] = ltrim(implode('/', $segments).'/', '/');
 		}	
 
 		foreach (Modules::$locations as $location => $offset) {					
-			foreach($modules as $module => $subpath) {			
+			foreach ($modules as $module => $subpath) {			
 				$fullpath = $location.$module.'/'.$base.$subpath;
 				
-				if ($base == 'libraries/' AND is_file($fullpath.ucfirst($file_ext))) 
-					return array($fullpath, ucfirst($file));
+				if ($base == 'libraries/' AND is_file($fullpath.ucfirst($file_ext))) {
+									return array($fullpath, ucfirst($file));
+				}
 					
-				if (is_file($fullpath.$file_ext)) return array($fullpath, $file);
+				if (is_file($fullpath.$file_ext)) {
+					return array($fullpath, $file);
+				}
 			}
 		}
 		
@@ -198,11 +206,14 @@ class Modules
 		
 		/* load the route file */
 		if ( ! isset(self::$routes[$module])) {
-			if (list($path) = self::find('routes', $module, 'config/') AND $path)
-				self::$routes[$module] = self::load_file('routes', $path, 'route');
+			if (list($path) = self::find('routes', $module, 'config/') AND $path) {
+							self::$routes[$module] = self::load_file('routes', $path, 'route');
+			}
 		}
 
-		if ( ! isset(self::$routes[$module])) return;
+		if ( ! isset(self::$routes[$module])) {
+			return;
+		}
 			
 		/* parse module routes */
 		foreach (self::$routes[$module] as $key => $val) {						

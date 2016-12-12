@@ -4,7 +4,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("animap_list","<?php echo base_url() . "accounts/customer_animap_json/$edit_id/$accounttype/"; ?>",<? echo $grid_fields; ?>,"");
+        build_grid("animap_list","<?php echo base_url()."accounts/customer_animap_json/$edit_id/$accounttype/"; ?>",<? echo $grid_fields; ?>,"");
         $('#ani_map').validate({
             rules: {
                 number: {
@@ -46,19 +46,19 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
                         <li>
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> Profile</a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> Profile</a>
                         </li>
                         <li class="active">
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_animap/" . $edit_id . "/"; ?>"> Caller ID</a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_animap/".$edit_id."/"; ?>"> Caller ID</a>
                         </li>
                     </ul>
                 </div>
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div>

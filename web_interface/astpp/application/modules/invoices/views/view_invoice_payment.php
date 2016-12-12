@@ -42,9 +42,9 @@
   </h2>	        	        	            
   </div>
   <div class="col-md-12" style="border: 1px solid #ccc; border-radius: 5px;">    
-    <?php  if($logintype == 0){ ?>  
+    <?php  if ($logintype == 0) { ?>  
     <form name="payment_form" id="payment_form"  method="POST" >
-  	<?php } else{?>
+  	<?php } else {?>
             <form name="admin_form" id="admin_form" action="/invoices/invoice_admin_payment/" method="POST">
    		<?php } ?>
 	<br/>
@@ -72,10 +72,10 @@
 			<td>
 	 		 <font style="font-weight:bold;" >Email :</font> <font style="color:#a09d9d;" >
 				 <?php /**** harsh ***/ 
-				if($accountdata['email']!=""){
-					$attac_exp=explode(",",$accountdata['email']);
-					foreach($attac_exp as $key=>$value){
-						if($value != ''){
+				if ($accountdata['email'] != "") {
+					$attac_exp = explode(",", $accountdata['email']);
+					foreach ($attac_exp as $key=>$value) {
+						if ($value != '') {
 							echo "<br/>".$value;
 						}
 					}
@@ -106,7 +106,7 @@
 	<tr>
 		<td>
  		<b>Due Date : </b><span style="color:#a09d9d;"><?php 
-                echo date('Y-m-d', strtotime($payment_due_date)) ;
+				echo date('Y-m-d', strtotime($payment_due_date)) ;
 		?></span>
 		 </td>
 	</tr>
@@ -120,9 +120,9 @@
 		<tr style="">
 		 <td><b >Invoice Amount :</b></td>
 <?php
-if(!empty($invoice_date)){
+if ( ! empty($invoice_date)) {
  ?>
-		 <td><span class="pull-right" style="color:#3278b6"><b><?php echo $this->common->currency_decimal($amount); ?> <?php  echo $to_currency;  ?></b> </span></td>
+		 <td><span class="pull-right" style="color:#3278b6"><b><?php echo $this->common->currency_decimal($amount); ?> <?php  echo $to_currency; ?></b> </span></td>
 		 <input type="hidden" name="total_amount" id="total_amount" class="article" value="<?php echo $amount; ?>" >
 		  <input type="hidden" readonly name="recharge" value="paypal_invoice">
 	 </tr> 
@@ -143,14 +143,14 @@ if(!empty($invoice_date)){
 $paypal=0;
  foreach($invoice_final_query as $value){
  
-    if($value['item_type'] != 'INVPAY' && $value['item_type'] != 'PAYMENT')    {
-       $debit=$value['debit'];
-       $credit=$value['credit'];
-       $paypal+=$credit;
-       $created_date=$value['created_date'];
-       $paypalid=$value['item_id'];
-       $outstanding=$amount-$paypal;
-       $amount_visible='0000';
+	if($value['item_type'] != 'INVPAY' && $value['item_type'] != 'PAYMENT')    {
+	   $debit=$value['debit'];
+	   $credit=$value['credit'];
+	   $paypal+=$credit;
+	   $created_date=$value['created_date'];
+	   $paypalid=$value['item_id'];
+	   $outstanding=$amount-$paypal;
+	   $amount_visible='0000';
       
       
      
@@ -201,13 +201,13 @@ if($invoice_date){
  foreach($invoice_total_query as $value){
  
      
-       $debit=$value['debit'];
-       $credit=$value['credit'];
-       $paypal+=$credit;
-       $created_date=$value['created_date'];
-       $paypalid=$value['item_id'];
-       $outstanding=$amount-$paypal;
-       $amount_visible='0000';
+	   $debit=$value['debit'];
+	   $credit=$value['credit'];
+	   $paypal+=$credit;
+	   $created_date=$value['created_date'];
+	   $paypalid=$value['item_id'];
+	   $outstanding=$amount-$paypal;
+	   $amount_visible='0000';
       
       
      
@@ -215,14 +215,14 @@ if($invoice_date){
  	 <tr>
 			 <td> <?php echo date('Y-m-d	', strtotime($created_date)) ?></td>
 			 <td><?php echo $value['description']; ?>  <?php echo $paypalid; ?></td>
-			 <td><div class="pull-right"><?php echo $this->common->currency_decimal($this->common_model->calculate_currency($credit)); ?> <?php  echo $to_currency;  ?></div></td>
+			 <td><div class="pull-right"><?php echo $this->common->currency_decimal($this->common_model->calculate_currency($credit)); ?> <?php  echo $to_currency; ?></div></td>
 			 <input type="hidden" name="new_amount" value="<?php echo $this->common->currency_decimal($this->common_model->calculate_currency($debit)); ?>">
 			 
 			
 	 </tr> 
 	 	
     	 <?php   }
-    } ?>
+	} ?>
     	 	<tr  style="background-color:#f6f6f6;">
 	    	 	<th  colspan="2"  width="30%" >
 	    	 	  <span class="pull-right" style="color:#474747;">Paid Amount</span>
@@ -230,7 +230,7 @@ if($invoice_date){
 	    	 	</th>
 	    	 	<td align="right">
 	    	 	<!--0-->
-	    	 	<b><?php if($paypal){ echo   $this->common->currency_decimal($this->common_model->calculate_currency($paypal));  }else { echo $this->common->currency_decimal($this->common_model->calculate_currency($amount_visible)); ;}?> <?php  echo $to_currency;  ?></b>
+	    	 	<b><?php if ($paypal) { echo   $this->common->currency_decimal($this->common_model->calculate_currency($paypal)); } else { echo $this->common->currency_decimal($this->common_model->calculate_currency($amount_visible)); ;}?> <?php  echo $to_currency; ?></b>
 	    	 	</td>
 	    	 	
 	    	 	
@@ -251,7 +251,7 @@ if($invoice_date){
 		
 		<tr style="">
 		 <td><b >Outstanding Amount :</b></td>
-	<td><span class="pull-right" style="color:#3278b6"><b><?php if($debit == ''){ echo  $this->common->currency_decimal($outstanding); ?> <?php  echo $to_currency; }else {  echo $this->common->currency_decimal($outstanding); ?> <?php  echo $to_currency; } ?></b> </span></td>
+	<td><span class="pull-right" style="color:#3278b6"><b><?php if ($debit == '') { echo  $this->common->currency_decimal($outstanding); ?> <?php  echo $to_currency; } else {  echo $this->common->currency_decimal($outstanding); ?> <?php  echo $to_currency; } ?></b> </span></td>
 		 <input type="hidden" name="total_amount" id="total_amount" class="article" value="<?php echo  $this->common->currency_decimal($amount); ?>" >
 	 </tr> 
 </table>
@@ -262,7 +262,7 @@ if($invoice_date){
 	<td width="50%" valign="top">
 	</td>
 	<td width="50%" valign="top" style="border-left:2px solid #ccc;">
- <?php  if($logintype == 0 || $logintype == 3){ ?>
+ <?php  if ($logintype == 0 || $logintype == 3) { ?>
 	  <table class="invoice_table1  pull-right">
 	    <tr style="border-bottom:2px solid #dfdfe1; color:#474747;"><th colspan="2">Payment Amount :</th></tr>
 	      <tr>
@@ -298,7 +298,7 @@ if($invoice_date){
 		</td>
 	     </tr>
 	</table>
-<?php }elseif($logintype == 1){?>
+<?php }elseif ($logintype == 1) {?>
 	  <table class="invoice_table1  pull-right">
 	    <tr style="border-bottom:2px solid #dfdfe1; color:#474747;"><th colspan="2">Payment Amount :</th></tr>
 	      <tr>
@@ -320,7 +320,7 @@ if($invoice_date){
 	     </tr>
 	</table>
 
-<?php }else{ ?>
+<?php } else { ?>
 	<table class="invoice_table1  pull-right">
   	  <tr style="border-bottom:2px solid #dfdfe1; color:#474747;"><th colspan="2">Payment Amount :</th></tr>
   	    <tr>
@@ -352,15 +352,15 @@ if($invoice_date){
 	
 <div class="col-md-12 padding-b-20">
 <div class="" style="margin-left:400px;">
- <?php  if($logintype == 0 ){ ?>
+ <?php  if ($logintype == 0) { ?>
 <?php
-if($logintype == 0 && $accountdata['paypal_permission']== 0){ 
+if ($logintype == 0 && $accountdata['paypal_permission'] == 0) { 
 ?>
-  <input class="btn btn-line-parrot search_generate_bar"  name="Paynow" id="Paynow" value="Pay With Paypal" type="button" onclick="return payment('<?php echo $paypal_url;  ?>'); "> 
+  <input class="btn btn-line-parrot search_generate_bar"  name="Paynow" id="Paynow" value="Pay With Paypal" type="button" onclick="return payment('<?php echo $paypal_url; ?>'); "> 
 <input id="ok" class="btn btn-line-sky margin-x-10" type="button" value="Cancel" onclick="window.history.back();"; name="action">
  <?php } } ?>
  <div  class="margin-t-20 ">
-  <?php  if($logintype == 2 || $logintype == 1){ ?>
+  <?php  if ($logintype == 2 || $logintype == 1) { ?>
   <input class="btn btn-line-parrot search_generate_bar" name="action" name="save" id="save" value="Pay Now" type="button" onclick="return amidn_pay(); "> 
 <input id="ok" class="btn btn-line-sky margin-x-10" type="button" value="Cancel" onclick="window.history.back();" name="action">
   </div>
@@ -398,7 +398,7 @@ if($logintype == 0 && $accountdata['paypal_permission']== 0){
  		  <input type="hidden" readonly name="quantity" value="1"> 
 		  <input type="hidden" readonly name="rm" value="2">
 		  <input type="hidden" readonly name="no_shipping" value="1">
-		  <input type="hidden" readonly name="PHPSESSID" value="<?=session_id();?>">
+		  <input type="hidden" readonly name="PHPSESSID" value="<?=session_id(); ?>">
 		  <input type="hidden" readonly name="currency_code" value="USD">
 		  <input type="hidden" readonly name="notify_url" value="<?=$notify_url?>">
 		  <input type="hidden" readonly name="return" value="<?=$response_url?>">

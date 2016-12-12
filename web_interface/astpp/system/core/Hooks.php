@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -33,19 +35,19 @@ class CI_Hooks {
 	 *
 	 * @var bool
 	 */
-	var $enabled		= FALSE;
+	var $enabled = FALSE;
 	/**
 	 * List of all hooks set in config/hooks.php
 	 *
 	 * @var array
 	 */
-	var $hooks			= array();
+	var $hooks = array();
 	/**
 	 * Determines wether hook is in progress, used to prevent infinte loops
 	 *
 	 * @var bool
 	 */
-	var $in_progress	= FALSE;
+	var $in_progress = FALSE;
 
 	/**
 	 * Constructor
@@ -67,7 +69,7 @@ class CI_Hooks {
 	 */
 	function _initialize()
 	{
-		$CFG =& load_class('Config', 'core');
+		$CFG = & load_class('Config', 'core');
 
 		// If hooks are not enabled in the config file
 		// there is nothing else to do
@@ -82,7 +84,7 @@ class CI_Hooks {
 
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/hooks.php'))
 		{
-		    include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
+			include(APPPATH.'config/'.ENVIRONMENT.'/hooks.php');
 		}
 		elseif (is_file(APPPATH.'config/hooks.php'))
 		{
@@ -95,7 +97,7 @@ class CI_Hooks {
 			return;
 		}
 
-		$this->hooks =& $hook;
+		$this->hooks = & $hook;
 		$this->enabled = TRUE;
 	}
 
@@ -108,7 +110,7 @@ class CI_Hooks {
 	 *
 	 * @access	private
 	 * @param	string	the hook name
-	 * @return	mixed
+	 * @return	boolean
 	 */
 	function _call_hook($which = '')
 	{
@@ -123,8 +125,7 @@ class CI_Hooks {
 			{
 				$this->_run_hook($val);
 			}
-		}
-		else
+		} else
 		{
 			$this->_run_hook($this->hooks[$which]);
 		}
@@ -141,7 +142,7 @@ class CI_Hooks {
 	 *
 	 * @access	private
 	 * @param	array	the hook details
-	 * @return	bool
+	 * @return	null|boolean
 	 */
 	function _run_hook($data)
 	{
@@ -182,9 +183,9 @@ class CI_Hooks {
 		// Set class/function name
 		// -----------------------------------
 
-		$class		= FALSE;
-		$function	= FALSE;
-		$params		= '';
+		$class = FALSE;
+		$function = FALSE;
+		$params = '';
 
 		if (isset($data['class']) AND $data['class'] != '')
 		{
@@ -225,8 +226,7 @@ class CI_Hooks {
 
 			$HOOK = new $class;
 			$HOOK->$function($params);
-		}
-		else
+		} else
 		{
 			if ( ! function_exists($function))
 			{

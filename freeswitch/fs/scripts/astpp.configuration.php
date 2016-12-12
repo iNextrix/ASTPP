@@ -25,15 +25,15 @@ $logger->log("*************************** Configuration Starts *****************
 
 $xml = "";
 if ($_REQUEST['key_value'] == 'sofia.conf') {
-    $xml = load_sofia($logger, $db);
-    header('Content-Type: text/xml');
-    echo $xml;
+	$xml = load_sofia($logger, $db);
+	header('Content-Type: text/xml');
+	echo $xml;
 } elseif ($_REQUEST['key_value'] == 'acl.conf') {
-    $xml = load_acl($logger, $db,$config);
-    header('Content-Type: text/xml');
-    echo $xml;
+	$xml = load_acl($logger, $db,$config);
+	header('Content-Type: text/xml');
+	echo $xml;
 } else {
-    xml_not_found();
+	xml_not_found();
 }
 $logger->log("*************************** Configuration Ends **********************************");
 exit();

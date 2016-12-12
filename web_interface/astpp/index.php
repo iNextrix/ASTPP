@@ -18,7 +18,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-        ini_set("date.timezone", "UTC");
+		ini_set("date.timezone", "UTC");
 	define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
@@ -68,7 +68,7 @@ if (defined('ENVIRONMENT'))
  * as this file.
  *
  */
-       $assets_path='assets';
+	   $assets_path='assets';
 /*
  *---------------------------------------------------------------
  * APPLICATION FOLDER NAME
@@ -187,14 +187,13 @@ if (defined('ENVIRONMENT'))
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 	
 	//Name of the "assets folder'
-	define('ASSETSDIR',realpath($assets_path).'/');
+	define('ASSETSDIR', realpath($assets_path).'/');
 	
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{
 		define('APPPATH', $application_folder.'/');
-	}
-	else
+	} else
 	{
 		if ( ! is_dir(BASEPATH.$application_folder.'/'))
 		{

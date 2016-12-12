@@ -22,26 +22,26 @@
 ###############################################################################
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+	exit('No direct script access allowed');
 
 /**
  * Dynamically build forms for display
  */
 class locale_Menu{
 
-    function __construct($library_name = '') {
+	function __construct($library_name = '') {
 
-        $this->CI = & get_instance();
-        $this->CI->load->model('db_model');
-        $this->CI->load->library('email');
-        $this->CI->load->library('session');
+		$this->CI = & get_instance();
+		$this->CI->load->model('db_model');
+		$this->CI->load->library('email');
+		$this->CI->load->library('session');
 	$current_locale=$this->CI->session->userdata('user_language');
 	putenv("LC_ALL=$current_locale");
 	setlocale(LC_ALL, $current_locale); 
 	bindtextdomain(WEBSITE_DOMAIN, FCPATH.'/application/modules/dashboard/language');
 	bind_textdomain_codeset(WEBSITE_DOMAIN, 'UTF-8');
 	textdomain(WEBSITE_DOMAIN);
-    }
+	}
     
     
  }

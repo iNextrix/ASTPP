@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -46,19 +48,19 @@ if ( ! function_exists('xml_convert'))
 
 		if ($protect_all === TRUE)
 		{
-			$str = preg_replace("/&(\w+);/",  "$temp\\1;", $str);
+			$str = preg_replace("/&(\w+);/", "$temp\\1;", $str);
 		}
 
-		$str = str_replace(array("&","<",">","\"", "'", "-"),
+		$str = str_replace(array("&", "<", ">", "\"", "'", "-"),
 							array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"),
 							$str);
 
 		// Decode the temp markers back to entities
-		$str = preg_replace("/$temp(\d+);/","&#\\1;",$str);
+		$str = preg_replace("/$temp(\d+);/", "&#\\1;", $str);
 
 		if ($protect_all === TRUE)
 		{
-			$str = preg_replace("/$temp(\w+);/","&\\1;", $str);
+			$str = preg_replace("/$temp(\w+);/", "&\\1;", $str);
 		}
 
 		return $str;

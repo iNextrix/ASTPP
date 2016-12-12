@@ -26,16 +26,16 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
+                        <li><a href="<?= base_url()."user/user_myprofile/"; ?>">My Profile</a></li>
                         <li class='active'>
-                            <a href="<?= base_url() . "user/user_refill_report/"; ?>">Refill Report</a>
+                            <a href="<?= base_url()."user/user_refill_report/"; ?>">Refill Report</a>
                         </li>
                     </ul>
                 </div>
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div>     

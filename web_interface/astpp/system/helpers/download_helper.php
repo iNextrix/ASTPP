@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -61,8 +63,7 @@ if ( ! function_exists('force_download'))
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/mimes.php');
-		}
-		elseif (is_file(APPPATH.'config/mimes.php'))
+		} elseif (is_file(APPPATH.'config/mimes.php'))
 		{
 			include(APPPATH.'config/mimes.php');
 		}
@@ -71,8 +72,7 @@ if ( ! function_exists('force_download'))
 		if ( ! isset($mimes[$extension]))
 		{
 			$mime = 'application/octet-stream';
-		}
-		else
+		} else
 		{
 			$mime = (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
 		}
@@ -87,8 +87,7 @@ if ( ! function_exists('force_download'))
 			header("Content-Transfer-Encoding: binary");
 			header('Pragma: public');
 			header("Content-Length: ".strlen($data));
-		}
-		else
+		} else
 		{
 			header('Content-Type: "'.$mime.'"');
 			header('Content-Disposition: attachment; filename="'.$filename.'"');
