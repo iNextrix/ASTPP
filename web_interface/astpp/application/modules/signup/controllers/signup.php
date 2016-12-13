@@ -94,6 +94,17 @@ class Signup extends MX_Controller {
         }
         $data['captcha'] = create_captcha($vals);
         $this->session->set_userdata('captchaWord', $data['captcha']['word']);
+        $this->db->select("*");
+		$this->db->where(array("domain"=>$_SERVER["HTTP_HOST"]));
+		$res = $this->db->get("invoice_conf");
+		$logo_arr = $res->result();
+		//~ echo "<pre>"; print_r($_SERVER); exit;
+		$data['user_logo'] = (isset($logo_arr[0]->logo) && $logo_arr[0]->logo != "") ? $logo_arr[0]->accountid."_".$logo_arr[0]->logo : "logo.png";
+		$data['website_header'] = (isset($logo_arr[0]->website_title) && $logo_arr[0]->website_title != "") ? $logo_arr[0]->website_title : "ASTPP - Open Source Voip Billing Solution";
+		$data['website_footer'] = (isset($logo_arr[0]->website_footer) && $logo_arr[0]->website_footer != "") ? $logo_arr[0]->website_footer : "Inextrix Technologies Pvt. Ltd All Rights Reserved.";
+		$this->session->set_userdata('user_logo', $data['user_logo']);
+		$this->session->set_userdata('user_header', $data['user_header']);
+		$this->session->set_userdata('user_footer', $data['user_footer']);
         $this->load->view('view_signup', $data);
     }
 
