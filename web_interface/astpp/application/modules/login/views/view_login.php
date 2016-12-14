@@ -4,7 +4,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>	ASTPP - Open Source Voip Billing Solution</title>
+    <title>
+	<?php       
+        $this->db->where('domain',$_SERVER['HTTP_HOST']);
+        $this->db->select('*');
+        $this->db->order_by('accountid', 'desc');
+        $this->db->limit(1);
+        $invoiceconf = $this->db->get('invoice_conf');
+        $invoiceconf = (array)$invoiceconf->first_row();
+	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
+	?>
+	Log In | <?php echo $invoiceconf['website_title']; ?>
+	<?php
+		}else{ 
+	?>
+	Log In | ASTPP - Open Source Voip Billing Solution
+	<?php
+	}
+	?>
+	</title>
     <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico">
     <link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/fonts/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet">
@@ -51,7 +69,21 @@
                           <div class="padding-l-32 padding-r-32">
                         	<h2 class="text-center">
                           
-                            	<img alt="login" src="<?= base_url() ?>upload/<?= $user_logo?>" style="height:auto;widht:auto;">
+							<?php
+							if(isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != ""){
+								$logo = $this->session->userdata['user_logo'];
+							}else{
+								$logo = 'logo.png';
+							}
+
+							if ($this->session->userdata('userlevel_logintype') != '0') {?>
+								<a class="col-md-12" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
+									<img style="height: 44px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<? } else {?> 
+									<a class="col-md-12" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
+									<img style="height: 44px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<? }?>
+								</a>
                             	<div class="clear"></div>
                             
                             </h2>
