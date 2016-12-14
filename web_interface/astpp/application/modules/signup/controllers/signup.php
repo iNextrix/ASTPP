@@ -103,8 +103,8 @@ class Signup extends MX_Controller {
 		$data['website_header'] = (isset($logo_arr[0]->website_title) && $logo_arr[0]->website_title != "") ? $logo_arr[0]->website_title : "ASTPP - Open Source Voip Billing Solution";
 		$data['website_footer'] = (isset($logo_arr[0]->website_footer) && $logo_arr[0]->website_footer != "") ? $logo_arr[0]->website_footer : "Inextrix Technologies Pvt. Ltd All Rights Reserved.";
 		$this->session->set_userdata('user_logo', $data['user_logo']);
-		$this->session->set_userdata('user_header', $data['user_header']);
-		$this->session->set_userdata('user_footer', $data['user_footer']);
+		$this->session->set_userdata('user_header', $data['website_header']);
+		$this->session->set_userdata('user_footer', $data['website_footer']);
         $this->load->view('view_signup', $data);
     }
 
