@@ -77,10 +77,10 @@ ASTPP work best with JavaScript enabled
 
 					if ($this->session->userdata('userlevel_logintype') != '0') {?>
 						<a class="col-md-9" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
-							<img style="height: 44px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<img style="height: 44px; width:216px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
 					<? } else {?> 
 							<a class="col-md-9" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
-							<img style="height: 44px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<img style="height: 44px; width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
 					<? }?>	
 			
 				</a>
