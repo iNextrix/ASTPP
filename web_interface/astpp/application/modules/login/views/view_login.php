@@ -77,9 +77,9 @@
 							}
 
 							if ($this->session->userdata('userlevel_logintype') != '0') {?>
-									<img style="height:53px;widht:216px;" id="logo" alt="login" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+									<img style="height:53px;width:216px;" id="logo" alt="login" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
 							<? } else {?> 
-									<img style="height:53px;widht:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='login' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+									<img style="height:53px;width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='login' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
 							<? }?>
                             	<div class="clear"></div>
                             
