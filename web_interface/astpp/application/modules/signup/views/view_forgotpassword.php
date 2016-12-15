@@ -3,8 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">    <title>
-ASTPP - Open Source Voip Billing Solution</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">    
+<title>
+	<?php       
+        $this->db->where('domain',$_SERVER['HTTP_HOST']);
+        $this->db->select('*');
+        $this->db->order_by('accountid', 'desc');
+        $this->db->limit(1);
+        $invoiceconf = $this->db->get('invoice_conf');
+        $invoiceconf = (array)$invoiceconf->first_row();
+	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
+	?>
+	Forgot Password | <?php echo $invoiceconf['website_title']; ?>
+	<?php
+		}else{ 
+	?>
+	Forgot Password | ASTPP - Open Source Voip Billing Solution
+	<?php
+	}
+	?>
+</title>
 <link rel="icon" href="<?php echo base_url(); ?>/assets/images/favicon.ico">
 
 <link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -56,13 +74,21 @@ ASTPP work best with JavaScript enabled
 								<div class="">	
 											<!-- Header Start-->
 												<div class="col-md-12">
-													  <? if ($this->session->userdata('userlevel_logintype') != '0') {?>
+													  <?php
+														if(isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != ""){
+															$logo = $this->session->userdata['user_logo'];
+														}else{
+															$logo = 'logo.png';
+														}
+														
+													if ($this->session->userdata('userlevel_logintype') != '0') {?>
 															<a class="col-md-8" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
-																<img style="height: 44px; width:180px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>assets/images/logo.png">
+																<img style="height: 44px; width:216px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
 														<? } else {?> 
 																<a class="col-md-8" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
-																<img style="height: 44px; width:180px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>assets/images/logo.png">
+																<img style="height: 44px; width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
 														<? }?>
+													
 															</a>
 												
 												<div class="col-md-3 no-padding">
