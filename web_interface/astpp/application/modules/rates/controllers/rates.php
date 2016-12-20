@@ -1116,19 +1116,13 @@ Batch delete
 
 					// $csv_data = $this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header);
 
-					$csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, true));
-
-					// echo "<br /><br />";
-					// var_dump($field_select);
-					// echo "<br /><br />";
-					// var_dump($csv_data);
-					// echo "<br /><br />";
-					// $csv_data = $this->csvreader->parse_file($uploadedFile,$field_select);
-
+					$csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, $check_header));
 					if (!empty($csv_data))
 					{
 						$full_path = $this->config->item('rates-file-path');
 						$actual_file_name = "ASTPP-TERMINATION-RATES-" . date("Y-m-d H:i:s") . "." . $ext;
+						$actual_file_name = str_replace(' ', '-', $actual_file_name);
+						$actual_file_name = str_replace(':', '-', $actual_file_name);
 						if (move_uploaded_file($uploadedFile, $full_path . $actual_file_name))
 						{
 							$data['field_select'] = serialize($field_select);
@@ -1258,6 +1252,12 @@ Batch delete
 		if (!empty($new_final_arr))
 		{
 			$result = $this->rates_model->bulk_insert_termination_rate($new_final_arr);
+		}
+        		else
+        {
+
+           $this->session->set_flashdata('astpp_errormsg', 'Error - Nothing selected to import/process!');
+           redirect(base_url() . 'rates/termination_rates_list/');
 		}
 
 		unlink($full_path . $terminationrate_file_name);
