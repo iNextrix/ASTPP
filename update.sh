@@ -20,7 +20,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-
+# Lets make sure yum install php-mbstring is installed
+yum install php-mbstring
 NOW=$(date +"%m-%d-%Y-%H-%M-%S")
 BACKUPDIR="/opt/ASTPP3_Backup"
 TEMPDIR="/opt/ASTPP3_patch"
@@ -49,11 +50,13 @@ rm -rf /var/www/html/astpp/*
 cp -rf web_interface/astpp/* /var/www/html/astpp/.
 chown -Rf root.root /var/www/html/astpp
 chmod -Rf 755 /var/www/html/astpp
+chmod -Rf 777 /var/www/html/astpp/assets/Rates_File/uploaded_files
 rm -rf /var/www/html/fs/*
 cp -rf freeswitch/fs/* /var/www/html/fs/.
 chown -Rf root.root /var/www/html/fs
 rm -rf /usr/local/freeswitch/scripts/*
 cp -rf freeswitch/scripts/* /usr/local/freeswitch/scripts/.
+
 echo "Update successfully Completed !!!!!!"
 
 rm -rf ${TEMPDIR}
