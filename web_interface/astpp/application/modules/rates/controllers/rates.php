@@ -1112,7 +1112,6 @@ Batch delete
 					$uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
 					$file_data = $this->csv_to_array($uploadedFile);
 					$field_select = (array_keys($file_data[0]));
-					echo "7";
 					$data['file_data'] = $field_select;
 
 					// $csv_data = $this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header);
