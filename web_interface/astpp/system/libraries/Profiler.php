@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -53,12 +55,12 @@ class CI_Profiler {
 
 	public function __construct($config = array())
 	{
-		$this->CI =& get_instance();
+		$this->CI = & get_instance();
 		$this->CI->load->language('profiler');
 
 		if (isset($config['query_toggle_count']))
 		{
-			$this->_query_toggle_count = (int) $config['query_toggle_count'];
+			$this->_query_toggle_count = (int)$config['query_toggle_count'];
 			unset($config['query_toggle_count']);
 		}
 
@@ -105,7 +107,7 @@ class CI_Profiler {
 	 * and "_end" respectively).  It then compiles the execution times for
 	 * all points and returns it as an array
 	 *
-	 * @return	array
+	 * @return	string
 	 */
 	protected function _compile_benchmarks()
 	{
@@ -160,7 +162,7 @@ class CI_Profiler {
 		// Let's determine which databases are currently connected to
 		foreach (get_object_vars($this->CI) as $CI_object)
 		{
-			if (is_object($CI_object) && is_subclass_of(get_class($CI_object), 'CI_DB') )
+			if (is_object($CI_object) && is_subclass_of(get_class($CI_object), 'CI_DB'))
 			{
 				$dbs[] = $CI_object;
 			}
@@ -174,7 +176,7 @@ class CI_Profiler {
 			$output .= '<legend style="color:#0000FF;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_queries').'&nbsp;&nbsp;</legend>';
 			$output .= "\n";
 			$output .= "\n\n<table style='border:none; width:100%;'>\n";
-			$output .="<tr><td style='width:100%;color:#0000FF;font-weight:normal;background-color:#eee;padding:5px'>".$this->CI->lang->line('profiler_no_db')."</td></tr>\n";
+			$output .= "<tr><td style='width:100%;color:#0000FF;font-weight:normal;background-color:#eee;padding:5px'>".$this->CI->lang->line('profiler_no_db')."</td></tr>\n";
 			$output .= "</table>\n";
 			$output .= "</fieldset>";
 
@@ -187,7 +189,7 @@ class CI_Profiler {
 		// Key words we want bolded
 		$highlight = array('SELECT', 'DISTINCT', 'FROM', 'WHERE', 'AND', 'LEFT&nbsp;JOIN', 'ORDER&nbsp;BY', 'GROUP&nbsp;BY', 'LIMIT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'OR&nbsp;', 'HAVING', 'OFFSET', 'NOT&nbsp;IN', 'IN', 'LIKE', 'NOT&nbsp;LIKE', 'COUNT', 'MAX', 'MIN', 'ON', 'AS', 'AVG', 'SUM', '(', ')');
 
-		$output  = "\n\n";
+		$output = "\n\n";
 
 		$count = 0;
 
@@ -213,8 +215,7 @@ class CI_Profiler {
 			if (count($db->queries) == 0)
 			{
 				$output .= "<tr><td style='width:100%;color:#0000FF;font-weight:normal;background-color:#eee;padding:5px;'>".$this->CI->lang->line('profiler_no_queries')."</td></tr>\n";
-			}
-			else
+			} else
 			{
 				foreach ($db->queries as $key => $val)
 				{
@@ -258,8 +259,7 @@ class CI_Profiler {
 		if (count($_GET) == 0)
 		{
 			$output .= "<div style='color:#cd6e00;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_get')."</div>";
-		}
-		else
+		} else
 		{
 			$output .= "\n\n<table style='width:100%; border:none'>\n";
 
@@ -273,7 +273,7 @@ class CI_Profiler {
 				$output .= "<tr><td style='width:50%;color:#000;background-color:#ddd;padding:5px'>&#36;_GET[".$key."]&nbsp;&nbsp; </td><td style='width:50%;padding:5px;color:#cd6e00;font-weight:normal;background-color:#ddd;'>";
 				if (is_array($val))
 				{
-					$output .= "<pre>" . htmlspecialchars(stripslashes(print_r($val, true))) . "</pre>";
+					$output .= "<pre>".htmlspecialchars(stripslashes(print_r($val, true)))."</pre>";
 				}
 				else
 				{
@@ -307,8 +307,7 @@ class CI_Profiler {
 		if (count($_POST) == 0)
 		{
 			$output .= "<div style='color:#009900;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_post')."</div>";
-		}
-		else
+		} else
 		{
 			$output .= "\n\n<table style='width:100%'>\n";
 
@@ -322,7 +321,7 @@ class CI_Profiler {
 				$output .= "<tr><td style='width:50%;padding:5px;color:#000;background-color:#ddd;'>&#36;_POST[".$key."]&nbsp;&nbsp; </td><td style='width:50%;padding:5px;color:#009900;font-weight:normal;background-color:#ddd;'>";
 				if (is_array($val))
 				{
-					$output .= "<pre>" . htmlspecialchars(stripslashes(print_r($val, TRUE))) . "</pre>";
+					$output .= "<pre>".htmlspecialchars(stripslashes(print_r($val, TRUE)))."</pre>";
 				}
 				else
 				{
@@ -356,8 +355,7 @@ class CI_Profiler {
 		if ($this->CI->uri->uri_string == '')
 		{
 			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_uri')."</div>";
-		}
-		else
+		} else
 		{
 			$output .= "<div style='color:#000;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->uri->uri_string."</div>";
 		}
@@ -409,8 +407,7 @@ class CI_Profiler {
 		if (function_exists('memory_get_usage') && ($usage = memory_get_usage()) != '')
 		{
 			$output .= "<div style='color:#5a0099;font-weight:normal;padding:4px 0 4px 0'>".number_format($usage).' bytes</div>';
-		}
-		else
+		} else
 		{
 			$output .= "<div style='color:#5a0099;font-weight:normal;padding:4px 0 4px 0'>".$this->CI->lang->line('profiler_no_memory')."</div>";
 		}
@@ -439,7 +436,7 @@ class CI_Profiler {
 
 		$output .= "\n\n<table style='width:100%;display:none' id='ci_profiler_httpheaders_table'>\n";
 
-		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD',' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR') as $header)
+		foreach (array('HTTP_ACCEPT', 'HTTP_USER_AGENT', 'HTTP_CONNECTION', 'SERVER_PORT', 'SERVER_NAME', 'REMOTE_ADDR', 'SERVER_SOFTWARE', 'HTTP_ACCEPT_LANGUAGE', 'SCRIPT_NAME', 'REQUEST_METHOD', ' HTTP_HOST', 'REMOTE_HOST', 'CONTENT_TYPE', 'SERVER_PROTOCOL', 'QUERY_STRING', 'HTTP_ACCEPT_ENCODING', 'HTTP_X_FORWARDED_FOR') as $header)
 		{
 			$val = (isset($_SERVER[$header])) ? $_SERVER[$header] : '';
 			$output .= "<tr><td style='vertical-align: top;width:50%;padding:5px;color:#900;background-color:#ddd;'>".$header."&nbsp;&nbsp;</td><td style='width:50%;padding:5px;color:#000;background-color:#ddd;'>".$val."</td></tr>\n";

@@ -6,7 +6,7 @@
 <?=$page_title?><br/>
 <? endblock() ?>
 <? startblock('content') ?>
-<?php 	$command_show = str_replace("api ","",$command); ?>
+<?php 	$command_show = str_replace("api ", "", $command); ?>
 <script>
 $(document).ready(function(){
   $("#freeswitch_command").change(function(){
@@ -39,10 +39,10 @@ function validateForm(){
 		<div class="col-md-2">
 		  <select class="form-control" name="host_id" id="host_id">
   		      <?php
-    			foreach($fs_data as $name) { ?>
+				foreach($fs_data as $name) { ?>
      			 <option value="<?= $name['id'] ?>"<?php if(isset($host_id) && ($name['id'] == $host_id))echo 'selected';?>><?= $name['freeswitch_host'] ?></option>
   			  <?php
-    			  } ?>
+				  } ?>
 		   </select>
                 </div>	
 		<div class="col-md-2 " style="text-align:left;">
@@ -57,7 +57,7 @@ function validateForm(){
 		</div>
 		<span style="color:red;margin-left:655px;float:left;" id="error_field_command"></span>
 		</div>
-	     <?php if($command != ''){ ?>
+	     <?php if ($command != '') { ?>
              <div style="margin-left:00px;"><h2>Command : <font color="blue"><?php echo $command_show; ?></font></h2></div>
 	
 	     <div class="col-md-12"> 

@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -42,7 +44,7 @@ if ( ! function_exists('form_open'))
 {
 	function form_open($action = '', $attributes = '', $hidden = array())
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 
 		if ($attributes == '')
 		{
@@ -79,14 +81,14 @@ if ( ! function_exists('form_open'))
 	}
 }
 if(!function_exists('form_breadcrumb')){
-    function form_breadcrumb($info=''){
-     $form=false;
-     if(!empty($info))
+	function form_breadcrumb($info=''){
+	 $form=false;
+	 if(!empty($info))
  	$form.="<div class='breadcrumb'>
 	        <a href='".$info['url']."'>".$info['name']."</a>
 		</div>";
-    return $form;
-    }
+	return $form;
+	}
 }
 // ------------------------------------------------------------------------
 
@@ -108,8 +110,7 @@ if ( ! function_exists('form_open_multipart'))
 		if (is_string($attributes))
 		{
 			$attributes .= ' enctype="multipart/form-data"';
-		}
-		else
+		} else
 		{
 			$attributes['enctype'] = 'multipart/form-data';
 		}
@@ -154,8 +155,7 @@ if ( ! function_exists('form_hidden'))
 		if ( ! is_array($value))
 		{
 			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value, $name).'" />'."\n";
-		}
-		else
+		} else
 		{
 			foreach ($value as $k => $v)
 			{
@@ -183,7 +183,7 @@ if ( ! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
-        	$data["class"] = "col-md-5 form-control";
+			$data["class"] = "col-md-5 form-control";
 		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
@@ -198,9 +198,9 @@ if ( ! function_exists('form_image'))
 	function form_image($data = '', $value = '', $extra = '')
 	{
 		//print_r($data);exit;
-    	//$data["class"] = "col-md-5 form-control";
+		//$data["class"] = "col-md-5 form-control";
 		$defaults = array('type' => 'image', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
-		if($data['value'] != ''){
+		if ($data['value'] != '') {
 			return	'<div class="col-md-5 no-padding">
                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 	                    <div class="form-control" data-trigger="fileinput">
@@ -212,9 +212,9 @@ if ( ! function_exists('form_image'))
                    		</span>
                    </div>
                </div>';
-        }else{
-        	return "<div class='col-md-5 no-padding'><image "._parse_form_attributes($data, $defaults).$extra." /></div>";
-        }	
+		}else{
+			return "<div class='col-md-5 no-padding'><image "._parse_form_attributes($data, $defaults).$extra." /></div>";
+		}	
 		
 	}
 }
@@ -224,9 +224,9 @@ if ( ! function_exists('form_img_delete'))
 {
 	function form_img_delete($data = '', $value = '', $extra = '')
 	{
-	            //  echo '<pre>'; print_r($data); exit;
-        	//$data["class"] = "col-md-5 form-control";
-        	$data['value']='Delete';
+				//  echo '<pre>'; print_r($data); exit;
+			//$data["class"] = "col-md-5 form-control";
+			$data['value']='Delete';
 		$defaults = array('type' => 'button', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => 'Delete');
 
 		return "<div class='col-md-5 no-padding'><input "._parse_form_attributes($data, $defaults).$extra." /></div>";
@@ -306,8 +306,7 @@ if ( ! function_exists('form_textarea'))
 		if ( ! is_array($data) OR ! isset($data['value']))
 		{
 			$val = $value;
-		}
-		else
+		} else
 		{
 			$val = $data['value'];
 			unset($data['value']); // textareas don't use the value attribute
@@ -335,7 +334,7 @@ if ( ! function_exists('form_multiselect'))
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
             
-            if ( ! strpos($extra, 'multiple'))
+			if ( ! strpos($extra, 'multiple'))
 		{
                 
 			$extra .= ' multiple="multiple"';
@@ -378,30 +377,30 @@ if ( ! function_exists('form_dropdown'))
 
 		if ($extra != '') $extra = ' '.$extra;
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
-                if(is_array($name)){
-                     $str=null;
-                     foreach($name as $key=>$value){
-                      if($key !='class' && $key!='disabled')
-                      $str.=$key."='$value' ";
-                     }
-                     if(isset($name['disabled']) && $name['disabled']== 'disabled'){
-                      $str.='disabled = "disabled"';
-                     }
-                               $form = '<select '.$str." class='col-md-5 form-control selectpicker ".$name['class'].$extra."' data-live-search='true'>\n";
-                }else{
-                    if(!empty($extra)){
-                        $form = '<select  name="'.$name.'"' .$multiple." class='col-md-5 form-control selectpicker ".$extra."' data-live-search='true'>\n";
-                    }else{
-                        $form = '<select  name="'.$name.'"' .$multiple." class='col-md-5 form-control selectpicker' data-live-search='true'>\n";
-                    }
-                }
+				if(is_array($name)){
+					 $str=null;
+					 foreach($name as $key=>$value){
+					  if($key !='class' && $key!='disabled')
+					  $str.=$key."='$value' ";
+					 }
+					 if(isset($name['disabled']) && $name['disabled']== 'disabled'){
+					  $str.='disabled = "disabled"';
+					 }
+							   $form = '<select '.$str." class='col-md-5 form-control selectpicker ".$name['class'].$extra."' data-live-search='true'>\n";
+				}else{
+					if(!empty($extra)){
+						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-5 form-control selectpicker ".$extra."' data-live-search='true'>\n";
+					}else{
+						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-5 form-control selectpicker' data-live-search='true'>\n";
+					}
+				}
 //                if($extra != '' ){
 //                    $form .= '<option value=""></option>';
 //                }
 //                 echo $form;exit;
 		foreach ($options as $key => $val)
 		{
-			$key = (string) $key;
+			$key = (string)$key;
 
 			if (is_array($val) && ! empty($val))
 			{
@@ -411,22 +410,21 @@ if ( ! function_exists('form_dropdown'))
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
 				}
 
 				$form .= '</optgroup>'."\n";
-			}
-			else
+			} else
 			{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
 				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
 			}
 		}
-                if(isset($name['option_value']) && isset($name['option_text'])){
+				if(isset($name['option_value']) && isset($name['option_text'])){
 		  $sel= isset($name['value']) && $name['value']==$name['option_value']?'selected ="selected"':'';
 		  $form .= '<option value="'.$name['option_value'].'"'.$sel.'>'.(string) $name['option_text']."</option>\n";
-                }
+				}
 		$form .= '</select>';
 //echo $form; exit;
 		return $form;
@@ -451,16 +449,16 @@ if ( ! function_exists('form_dropdown_all'))
 			}
 		}
 		if ($extra != '') $extra = ' '.$extra;
-                $class= isset($name['class']) && !empty($name['class']) ? "col-md-5 form-control selectpicker $name[class]" :"col-md-5 form-control selectpicker";
+				$class= isset($name['class']) && !empty($name['class']) ? "col-md-5 form-control selectpicker $name[class]" :"col-md-5 form-control selectpicker";
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 		if(is_array($name) && !isset($name["id"])){
-                    $form = '<select name="'.$name['name'].'"'." class='$class' data-live-search='true'>\n";
-                }else if(is_array($name) && isset($name["id"])){
-                    $form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='$class' data-live-search='true'>\n";
-                }
-                else{
-                    $form = '<select name="'.$name.'"' .$multiple." class='$class' data-live-search='true'>\n";
-                }   
+					$form = '<select name="'.$name['name'].'"'." class='$class' data-live-search='true'>\n";
+				}else if(is_array($name) && isset($name["id"])){
+					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='$class' data-live-search='true'>\n";
+				}
+				else{
+					$form = '<select name="'.$name.'"' .$multiple." class='$class' data-live-search='true'>\n";
+				}   
 
 		$form .= '<option value=""> --Select-- </option>';
 		foreach ($options as $key => $val)
@@ -475,22 +473,21 @@ if ( ! function_exists('form_dropdown_all'))
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
 				}
 
 				$form .= '</optgroup>'."\n";
-			}
-			else
+			} else
 			{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
 				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
 			}
 		}
-                if(isset($name['option_value']) && isset($name['option_text'])){
+				if(isset($name['option_value']) && isset($name['option_text'])){
 		  $sel= isset($name['value']) && $name['value']==$name['option_value']?'selected ="selected"':'';
 		  $form .= '<option value="'.$name['option_value'].'"'.$sel.'>'.(string) $name['option_text']."</option>\n";
-                }
+				}
 		$form .= '</select>';
 
 		return $form;
@@ -521,30 +518,30 @@ if ( ! function_exists('form_dropdown_all_search'))
 		  ASTPP  3.0  For Search Display In
 		*/
 		if ($extra != '' && !is_array($extra)) $extra = ' '.$extra;
-	        /**********************************************************/
+			/**********************************************************/
 
-	    $class= isset($name['class']) && !empty($name['class']) ? "col-md-5 form-control selectpicker $name[class]" :"col-md-5 form-control selectpicker";
+		$class= isset($name['class']) && !empty($name['class']) ? "col-md-5 form-control selectpicker $name[class]" :"col-md-5 form-control selectpicker";
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
-                /*
+				/*
 		  ASTPP  3.0  For Search Display In
 		*/
-                if(empty($extra)){
-                /*********************************/
+				if(empty($extra)){
+				/*********************************/
 		if(is_array($name) && !isset($name["id"])){
-                    $form = '<select name="'.$name['name'].'"'." class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
-                }else if(is_array($name) && isset($name["id"])){
-                    $form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
-                }else{
-                    $form = '<select name="'.$name.'"' .$multiple." class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
-                }   
+					$form = '<select name="'.$name['name'].'"'." class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
+				}else if(is_array($name) && isset($name["id"])){
+					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
+				}else{
+					$form = '<select name="'.$name.'"' .$multiple." class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
+				}   
  /*
 		  ASTPP  3.0  For Search Display In
 		*/
-                }else{
+				}else{
 
-                    $form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='".$extra['class']." $class' style='".$extra['style']."' data-live-search='true'>\n";
-                 }
+					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='".$extra['class']." $class' style='".$extra['style']."' data-live-search='true'>\n";
+				 }
 		//$form .= '<option value=""> --Select-- </option>';
 		foreach ($options as $key => $val)
 		{
@@ -558,16 +555,15 @@ if ( ! function_exists('form_dropdown_all_search'))
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
 				}
 
 				$form .= '</optgroup>'."\n";
-			}
-			else
+			} else
 			{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
-				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+				$form .= '<option value="'.$key.'"'.$sel.'>'.(string)$val."</option>\n";
 			}
 		}
 
@@ -597,14 +593,16 @@ if ( ! function_exists('form_dropdown_multiselect'))
 			}
 		}
 
-		if ($extra != '') $extra = ' '.$extra;
+		if ($extra != '') {
+			$extra = ' '.$extra;
+		}
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 		$form = '<select name="'.$name.'"'." multiple='multiple' class='select field multiselectable col-md-5 form-control'>\n";
                 
 		foreach ($options as $key => $val)
 		{
-			$key = (string) $key;
+			$key = (string)$key;
 
 			if (is_array($val) && ! empty($val))
 			{
@@ -614,16 +612,15 @@ if ( ! function_exists('form_dropdown_multiselect'))
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
 				}
 
 				$form .= '</optgroup>'."\n";
-			}
-			else
+			} else
 			{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
-				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+				$form .= '<option value="'.$key.'"'.$sel.'>'.(string)$val."</option>\n";
 			}
 		}
 
@@ -655,10 +652,10 @@ if ( ! function_exists('form_checkbox'))
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
 		
-		if(isset($data) && $data != ''){
+		if (isset($data) && $data != '') {
 			$name = "'".$data."'";
-		}else{
-			$name='';
+		} else {
+			$name = '';
 		}
 		
 		/*if(isset($value) && $value != ''){
@@ -667,7 +664,7 @@ if ( ! function_exists('form_checkbox'))
 			$value='0';
 		}*/
 		
-		$defaults = array('class'=>'onoffswitch-checkbox' ,'type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('class'=>'onoffswitch-checkbox', 'type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 		
 		if (is_array($data) AND array_key_exists('checked', $data))
 		{
@@ -676,8 +673,7 @@ if ( ! function_exists('form_checkbox'))
 			if ($checked == FALSE)
 			{
 				unset($data['checked']);
-			}
-			else
+			} else
 			{
 				$data['checked'] = 'checked';
 			}
@@ -685,19 +681,18 @@ if ( ! function_exists('form_checkbox'))
 		if ($checked == TRUE)
 		{
 			$defaults['checked'] = 'checked';
-		}
-		else
+		} else
 		{
 			unset($defaults['checked']);
 		}
 		$class=NULL;
 
 //echo "<pre>".$value; print_r($extra); exit;
-	    if(isset($extra[$value]) && !empty($extra) && $extra[$value] == '0'){
+		if(isset($extra[$value]) && !empty($extra) && $extra[$value] == '0'){
 		$class='onoffswitch-inner';
-	    }else{
+		}else{
 		$class='onoffswitch-inner';
- 	    }
+ 		}
 /*            if(isset($extra) && $extra != ''){
 	      if(isset($extra[0])){
 	      if(strtolower($extra[0]) == 'enable' || $value == "0"){
@@ -718,11 +713,11 @@ if ( ! function_exists('form_checkbox'))
             }*/
 //            }
 		//return "<input "._parse_form_attributes($data, $defaults).$extra." />";
-		if($class == "onoffswitch-inner_true"){
+		if ($class == "onoffswitch-inner_true") {
 				return '<div style="width: 49%; text-align: -moz-center; padding: 0;">
 				<input '._parse_form_attributes($data, $defaults).' type="checkbox" id="switch'.$name.'" name="onoffswitch" class="onoffswitch-checkbox" content="Yes">
 				<label class="onoffswitch-label" for="switch'.$name.'"><span class="'.$class.'"></span></label></div>';	
-		}else{
+		} else {
 				return '<div style="width: 41%; text-align: -moz-center; padding: 0;">
 				<input  type="checkbox" id="switch'.$name.'" name="onoffswitch"  class="onoffswitch-checkbox" content="Yes">
 				<label class="onoffswitch-label" for="switch'.$name.'"><span class="'.$class.'"></span></label></div>';
@@ -816,7 +811,7 @@ if ( ! function_exists('form_button'))
 	{
 		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'button');
 
-		if ( is_array($data) AND isset($data['content']))
+		if (is_array($data) AND isset($data['content']))
 		{
 			$content = $data['content'];
 			unset($data['content']); // content is not an attribute
@@ -1002,7 +997,7 @@ if ( ! function_exists('set_value'))
 {
 	function set_value($field = '', $default = '')
 	{
-		if (FALSE === ($OBJ =& _get_validation_object()))
+		if (FALSE === ($OBJ = & _get_validation_object()))
 		{
 			if ( ! isset($_POST[$field]))
 			{
@@ -1034,7 +1029,7 @@ if ( ! function_exists('set_select'))
 {
 	function set_select($field = '', $value = '', $default = FALSE)
 	{
-		$OBJ =& _get_validation_object();
+		$OBJ = & _get_validation_object();
 
 		if ($OBJ === FALSE)
 		{
@@ -1055,8 +1050,7 @@ if ( ! function_exists('set_select'))
 				{
 					return '';
 				}
-			}
-			else
+			} else
 			{
 				if (($field == '' OR $value == '') OR ($field != $value))
 				{
@@ -1089,7 +1083,7 @@ if ( ! function_exists('set_checkbox'))
 {
 	function set_checkbox($field = '', $value = '', $default = FALSE)
 	{
-		$OBJ =& _get_validation_object();
+		$OBJ = & _get_validation_object();
 
 		if ($OBJ === FALSE)
 		{
@@ -1110,8 +1104,7 @@ if ( ! function_exists('set_checkbox'))
 				{
 					return '';
 				}
-			}
-			else
+			} else
 			{
 				if (($field == '' OR $value == '') OR ($field != $value))
 				{
@@ -1144,7 +1137,7 @@ if ( ! function_exists('set_radio'))
 {
 	function set_radio($field = '', $value = '', $default = FALSE)
 	{
-		$OBJ =& _get_validation_object();
+		$OBJ = & _get_validation_object();
 
 		if ($OBJ === FALSE)
 		{
@@ -1165,8 +1158,7 @@ if ( ! function_exists('set_radio'))
 				{
 					return '';
 				}
-			}
-			else
+			} else
 			{
 				if (($field == '' OR $value == '') OR ($field != $value))
 				{
@@ -1199,7 +1191,7 @@ if ( ! function_exists('form_error'))
 {
 	function form_error($field = '', $prefix = '', $suffix = '')
 	{
-		if (FALSE === ($OBJ =& _get_validation_object()))
+		if (FALSE === ($OBJ = & _get_validation_object()))
 		{
 			return '';
 		}
@@ -1225,7 +1217,7 @@ if ( ! function_exists('validation_errors'))
 {
 	function validation_errors($prefix = '', $suffix = '')
 	{
-		if (FALSE === ($OBJ =& _get_validation_object()))
+		if (FALSE === ($OBJ = & _get_validation_object()))
 		{
 			return '';
 		}
@@ -1276,7 +1268,7 @@ if ( ! function_exists('_parse_form_attributes'))
 				$val = form_prep($val, $default['name']);
 			}
 
-			$att .= $key . '="' . $val . '" ';
+			$att .= $key.'="'.$val.'" ';
 		}
 
 		return $att;
@@ -1358,7 +1350,7 @@ if ( ! function_exists('_get_validation_object'))
 {
 	function &_get_validation_object()
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 
 		// We set this as a variable since we're returning by reference.
 		$return = FALSE;
@@ -1388,40 +1380,39 @@ if ( ! function_exists('_get_validation_object'))
  * @return	string
  */
 
-if( !function_exists( 'form_countries' ) )
+if ( ! function_exists('form_countries'))
 {
-	function form_countries( $name, $selected = FALSE, $attributes, $form_name="" )
+	function form_countries($name, $selected = FALSE, $attributes, $form_name = "")
 	{
 		$country_list = Common_model::$global_config['country_list'];
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 		
-		if($form_name!=""){
+		if ($form_name != "") {
 			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
 		}
 
-		foreach( $country_list as $key => $value )
+		foreach ($country_list as $key => $value)
 		{
-			$form .= "\n".'<option value="'.ucwords( strtolower( $value ) ).'"';
+			$form .= "\n".'<option value="'.ucwords(strtolower($value)).'"';
 
-			if(strtolower(trim($value)) == strtolower(trim($selected)))
+			if (strtolower(trim($value)) == strtolower(trim($selected)))
 			{
                             
-                            $form .= ' selected="selected" >';
+							$form .= ' selected="selected" >';
                                 
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 			
-			$form .= ucwords( strtolower( $value ) ).'</option>';
+			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -1430,35 +1421,34 @@ if( !function_exists( 'form_countries' ) )
 	}
 }
 //=========================================
-if( !function_exists( 'form_languagelist' ) )
+if ( ! function_exists('form_languagelist'))
 {
-	function form_languagelist( $name, $selected = FALSE, $attributes )
+	function form_languagelist($name, $selected = FALSE, $attributes)
 	{
 		$language_list = Common_model::$global_config['language_list'];
 
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 
-		foreach( $language_list as $key => $value )
+		foreach ($language_list as $key => $value)
 		{
-			$form .= "\n".'<option value="'.( strtolower( $key ) ).'"';
+			$form .= "\n".'<option value="'.(strtolower($key)).'"';
 
-			if( $key == $selected )
+			if ($key == $selected)
 			{
 				$form .= ' selected>';
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 
-			$form .=  ucfirst(strtolower($value)).'</option>';
+			$form .= ucfirst(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -1468,37 +1458,36 @@ if( !function_exists( 'form_languagelist' ) )
 }
 
 //-----------------------------------------
-if( !function_exists( 'form_select_default' ) )
+if ( ! function_exists('form_select_default'))
 {
-	function form_select_default( $name,$data, $selected = "", $attributes, $form_name="" )
+	function form_select_default($name, $data, $selected = "", $attributes, $form_name = "")
 	{
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 		
-		if($form_name!=""){
+		if ($form_name != "") {
 			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
 		}
 		
-		foreach( $data as $key => $value )
+		foreach ($data as $key => $value)
 		{
 			$form .= "\n".'<option value="'.$key.'"';
 			
-			if( $key == $selected )
+			if ($key == $selected)
 			{
 				$form .= ' selected>';
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 
-			$form .= ucwords( strtolower( $value ) ).'</option>';
+			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -1508,39 +1497,38 @@ if( !function_exists( 'form_select_default' ) )
 	}
 }	
 // ------------------------------------------------------------------------
-if( !function_exists( 'form_timezone' ) )
+if ( ! function_exists('form_timezone'))
 {
-	function form_timezone( $name, $selected = FALSE, $attributes )
+	function form_timezone($name, $selected = FALSE, $attributes)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 
-		$CI->config->load( 'countries' );
+		$CI->config->load('countries');
 
-		$country_list = $CI->config->item( 'timezone1_list' );
+		$country_list = $CI->config->item('timezone1_list');
 
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 
-		foreach( $country_list as $key => $value )
+		foreach ($country_list as $key => $value)
 		{
-			$form .= "\n".'<option value="'.ucwords( strtolower( $value ) ).'"';
+			$form .= "\n".'<option value="'.ucwords(strtolower($value)).'"';
 
-			if( strtolower($value) == strtolower($selected) )
+			if (strtolower($value) == strtolower($selected))
 			{
 				$form .= '  selected="selected">';
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 
-			$form .= ucwords( strtolower( $value ) ).'</option>';
+			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";

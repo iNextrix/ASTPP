@@ -19,9 +19,9 @@
         
     });
 </script>
- <script src="<?php echo base_url();?>assets/demo/sh/shBrushJScript.js"></script>   
- <script src="<?php echo base_url();?>assets/demo/sh/shCore.js"></script>   
- <script src="<?php echo base_url();?>assets/demo/jquery.searchabledropdown-1.0.8.src.js"></script>  
+ <script src="<?php echo base_url(); ?>assets/demo/sh/shBrushJScript.js"></script>   
+ <script src="<?php echo base_url(); ?>assets/demo/sh/shCore.js"></script>   
+ <script src="<?php echo base_url(); ?>assets/demo/jquery.searchabledropdown-1.0.8.src.js"></script>  
 
 
 <? endblock() ?>

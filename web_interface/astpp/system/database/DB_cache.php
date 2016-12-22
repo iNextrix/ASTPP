@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -25,20 +27,21 @@
 class CI_DB_Cache {
 
 	var $CI;
-	var $db;	// allows passing of db object so that multiple database connections and returned db objects can be supported
+	var $db; // allows passing of db object so that multiple database connections and returned db objects can be supported
 
 	/**
 	 * Constructor
 	 *
 	 * Grabs the CI super object instance so we can access it.
 	 *
+	 * @param CI_DB_driver $db
 	 */
 	function __construct(&$db)
 	{
 		// Assign the main CI object to $this->CI
 		// and load the file helper since we use it a lot
-		$this->CI =& get_instance();
-		$this->db =& $db;
+		$this->CI = & get_instance();
+		$this->db = & $db;
 		$this->CI->load->helper('file');
 	}
 
@@ -64,7 +67,7 @@ class CI_DB_Cache {
 		}
 
 		// Add a trailing slash to the path if needed
-		$path = preg_replace("/(.+?)\/*$/", "\\1/",  $path);
+		$path = preg_replace("/(.+?)\/*$/", "\\1/", $path);
 
 		if ( ! is_dir($path) OR ! is_really_writable($path))
 		{
@@ -115,6 +118,7 @@ class CI_DB_Cache {
 	 *
 	 * @access	public
 	 * @return	bool
+	 * @param CI_DB_result $object
 	 */
 	function write($sql, $object)
 	{
@@ -156,13 +160,13 @@ class CI_DB_Cache {
 	 * Delete cache files within a particular directory
 	 *
 	 * @access	public
-	 * @return	bool
+	 * @return	boolean|null
 	 */
 	function delete($segment_one = '', $segment_two = '')
 	{
 		if ($segment_one == '')
 		{
-			$segment_one  = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
+			$segment_one = ($this->CI->uri->segment(1) == FALSE) ? 'default' : $this->CI->uri->segment(1);
 		}
 
 		if ($segment_two == '')
@@ -181,7 +185,7 @@ class CI_DB_Cache {
 	 * Delete all existing cache files
 	 *
 	 * @access	public
-	 * @return	bool
+	 * @return	boolean|null
 	 */
 	function delete_all()
 	{

@@ -45,7 +45,7 @@
    $(".country_id").val(<?=$country_id?>);
    $(".timezone_id").val(<?=$timezone_id?>);
    $(".currency_id").val(<?=$currency_id?>);
-   <?php if($entity_name != 'admin' && $entity_name !='subadmin'){ ?>
+   <?php if ($entity_name != 'admin' && $entity_name != 'subadmin') { ?>
    document.getElementsByName("sweep_id")[0].selectedIndex = <?=1?>;
 
 	 $(".sweep_id").change(function(e){
@@ -85,7 +85,7 @@
 			<div class="w-section inverse no-padding">
 				<?php echo $form; ?>
 					<?php
-						if(isset($validation_errors) && $validation_errors != ''){ ?>
+						if (isset($validation_errors) && $validation_errors != '') { ?>
 						<script>
 							var ERR_STR = '<?php echo $validation_errors; ?>';
 							print_error(ERR_STR);

@@ -3,8 +3,8 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript">
 $(document).ready(function() {
-var country_id = "<?php echo $account_data[0]['country_id'];?>"
-var timezone_id = "<?php echo $account_data[0]['timezone_id'];?>"
+var country_id = "<?php echo $account_data[0]['country_id']; ?>"
+var timezone_id = "<?php echo $account_data[0]['timezone_id']; ?>"
 $("#country_id").val(country_id);
 $("#timezone_id").val(timezone_id);
 

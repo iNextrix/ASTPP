@@ -2,10 +2,10 @@
 <? startblock('extra_head') ?>
 <? endblock() ?>
 <? startblock('page-title') ?>
-<?= $page_title;?>
+<?= $page_title; ?>
 <? endblock() ?>
 <? startblock('content') ?>        
-   <?php if(!isset($csv_tmp_data)){ ?>
+   <?php if ( ! isset($csv_tmp_data)) { ?>
    
 <section class="slice color-three padding-t-20">
 	<div class="w-section inverse no-padding">
@@ -16,8 +16,8 @@
             	<div class="w-box">
                    <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
                     <? if(isset($error) && !empty($error)) {
-                        echo $error;
-                    }?>
+						echo $error;
+					}?>
                    </span>            	
                    <h3 class="padding-t-10 padding-l-16">File must be in the following format(.csv):</h3>
                    <p>Code,Destination,Connect Cost,Included Seconds,Per Minute Cost,Initial Increment,Increment.</p>
@@ -32,23 +32,22 @@
                                <label class="col-md-3">Rate Group:</label>
                                <div>
                                <? $pricelists = form_dropdown('pricelist_id', $this->db_model->build_dropdown("id,name", "pricelists","where_arr", array("reseller_id" => "0", "status" => "0")), '');
-                                    echo $pricelists;
-                               ?>
+									echo $pricelists;
+							   ?>
                                </div>
                            </div>
 				<?
 				 $logintype=$this->session->userdata('userlevel_logintype');
-				       // $trunk=null;
+					   // $trunk=null;
 				 if($logintype !=1) { ?>
                            <div class="col-md-12 no-padding">
                                <label class="col-md-3">Force Trunk:</label>
                                <div>
                                <? $trunklist = form_dropdown_all('trunk_id', $this->db_model->build_dropdown("id,name", "trunks","where_arr", array("status" => "0")), '');
-                                    echo $trunklist;
-                               ?>
+									echo $trunklist;
+							   ?>
                                </div>
-                           </div><? }
-				else {?>
+                           </div><? } else {?>
 							    <input type="hidden" name="trunk_id" value="0" />
 				<?} ?>
                            <div class="col-md-12 no-padding">
@@ -101,7 +100,7 @@
 <?}?>    
         
 <?php
-    if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
+	if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
@@ -111,24 +110,24 @@
             <form id="import_form" name="import_form" action="<?=base_url()?>rates/origination_rate_import_file/<?= $pricelistid?>/<?=$trunkid?><?=$check_header?>/" method="POST">
             <table width="100%" border="1"  class="details_table table">
                 <?  $cnt =7;
-                    foreach($csv_tmp_data as $csv_key => $csv_value){
-                        if($csv_key <  15){
-                            echo "<tr>";
-                            foreach($csv_value as $field_name => $field_val){
-                                if($csv_key == 0){
-                                    echo "<th>".ucfirst($field_name)."</th>";
-                                }else{
-                                    echo "<td class='portlet-content'>".$field_val."</td>";   
-                                }
-                            }
-                            echo "</tr>";
-                        }
-                    }
+					foreach($csv_tmp_data as $csv_key => $csv_value){
+						if($csv_key <  15){
+							echo "<tr>";
+							foreach($csv_value as $field_name => $field_val){
+								if($csv_key == 0){
+									echo "<th>".ucfirst($field_name)."</th>";
+								}else{
+									echo "<td class='portlet-content'>".$field_val."</td>";   
+								}
+							}
+							echo "</tr>";
+						}
+					}
                     
-                    echo "<tr><td colspan='".$cnt."'>
+					echo "<tr><td colspan='".$cnt."'>
                         <a href='".base_url()."rates/origination_rate_import/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
                         <input type='submit' class='btn btn-line-parrot pull-right' id='Process' value='Process'/></td></tr>";
-        ?> </table></form>  
+		?> </table></form>  
         </div>
 </div></div></div>
     </section>  

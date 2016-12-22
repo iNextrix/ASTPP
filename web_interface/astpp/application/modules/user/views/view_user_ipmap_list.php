@@ -22,12 +22,12 @@
                 <div class="pull-left">
                     <ul class="breadcrumb">
                          <?php $accountinfo=$this->session->userdata('accountinfo');
-                          if($accountinfo['type']==1){ ?>
+						  if($accountinfo['type']==1){ ?>
                           <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
-                          <?php }else{ ?>
+                          <?php } else{ ?>
 			    <li><a href="#">Configuration</a></li>
                           <?php }
-                    ?>
+					?>
                         
                         <li class='active'>
                             <a href="<?= base_url() . "user/user_ipmap/"; ?>">IP Settings</a>
@@ -54,7 +54,7 @@
                     <div class="margin-b-10 slice color-three pull-left content_border col-md-12" id="left_panel_form" style="cursor: pointer; display: none;">
                     <fieldset class="margin-b-20">
                         <legend>IP Settings</legend>
-                        <form method="post" name="ip_map" id="ip_map" action="<?= base_url() . "user/user_ipmap_action/add/" ?>">
+                        <form method="post" name="ip_map" id="ip_map" action="<?= base_url()."user/user_ipmap_action/add/" ?>">
                             <div class='col-md-4'> 
                                 <label class="col-md-1 no-padding">Name</label>
                                 <input class="col-md-2 form-control" name="name" size="16" type="text"/>

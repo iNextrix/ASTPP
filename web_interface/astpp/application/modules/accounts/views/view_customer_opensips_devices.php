@@ -4,7 +4,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
 		$('a[rel*=facebox]').facebox();
-        build_grid("opensips_grid","<?php echo base_url() . "accounts/customer_details_json/opensips/$edit_id/"; ?>",<? echo $grid_fields ?>,"");
+        build_grid("opensips_grid","<?php echo base_url()."accounts/customer_details_json/opensips/$edit_id/"; ?>",<? echo $grid_fields ?>,"");
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
@@ -25,12 +25,12 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
                         <li>
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"><?= ucfirst($accounttype); ?> Profile </a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"><?= ucfirst($accounttype); ?> Profile </a>
                         </li>
                        <li class="active">
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_opensips/" . $edit_id . "/"; ?>"> Opensips Devices </a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_opensips/".$edit_id."/"; ?>"> Opensips Devices </a>
                         </li>
                     </ul>
                 </div>
@@ -39,7 +39,7 @@
             <div class="col-md-12 no-padding">
                 <div class="pull-left margin-t-10">
                     <span class="btn btn-line-warning">
-                        <a href='<?php echo base_url()."opensips/customer_opensips_add/".$edit_id."/";?>' rel="facebox" title="Add">
+                        <a href='<?php echo base_url()."opensips/customer_opensips_add/".$edit_id."/"; ?>' rel="facebox" title="Add">
                         <i class="fa fa-plus-circle fa-lg"></i> Create
                         </a>
                     </span>

@@ -16,8 +16,8 @@
             	<div class="w-box">
                    <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
                     <? if(isset($error) && !empty($error)) {
-                        echo $error;
-                    }?>
+						echo $error;
+					}?>
                    </span>            	
                    <h3 class="padding-t-10 padding-l-16">File must be in the following format(.csv):</h3>
                    <p>Code,Destination.</p>
@@ -36,15 +36,14 @@
                            </div>
 				<?
 				 $logintype=$this->session->userdata('userlevel_logintype');
-				       // $trunk=null;
+					   // $trunk=null;
 				 if($logintype !=1) { ?>
                            <div class="col-md-12 no-padding">
                               
                                <div>
                               
                                </div>
-                           </div><? }
-				else {?>
+                           </div><? } else {?>
 							    <input type="hidden" name="trunk_id" value="0" />
 				<?} ?>
                            <div class="col-md-12 no-padding">
@@ -85,7 +84,7 @@
                <div class="col-md-12 padding-b-10">
                    <div class="pull-right">
                      <input class="btn btn-line-parrot" id="import_package_code" type="submit" name="action" value="Import" />
-					<a href="<?= base_url().'package/package_pattern_list/'. $edit_id . "/"?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Cancel"/> </a>
+					<a href="<?= base_url().'package/package_pattern_list/'.$edit_id."/"?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Cancel"/> </a>
 
                    </div>
                </div>
@@ -98,7 +97,7 @@
 <?}?>    
         
 <?php
-    if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
+	if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
@@ -108,24 +107,24 @@
             <form id="import_form" name="import_form" action="<?=base_url()?>package/package_patterns_import_file/<?=$edit_id?>/<?=$check_header?>/" method="POST">
             <table width="100%" border="1"  class="details_table table">
                 <?  $cnt =7;
-                    foreach($csv_tmp_data as $csv_key => $csv_value){
-                        if($csv_key <  15){
-                            echo "<tr>";
-                            foreach($csv_value as $field_name => $field_val){
-                                if($csv_key == 0){
-                                    echo "<th>".ucfirst($field_name)."</th>";
-                                }else{
-                                    echo "<td class='portlet-content'>".$field_val."</td>";   
-                                }
-                            }
-                            echo "</tr>";
-                        }
-                    }
+					foreach($csv_tmp_data as $csv_key => $csv_value){
+						if($csv_key <  15){
+							echo "<tr>";
+							foreach($csv_value as $field_name => $field_val){
+								if($csv_key == 0){
+									echo "<th>".ucfirst($field_name)."</th>";
+								}else{
+									echo "<td class='portlet-content'>".$field_val."</td>";   
+								}
+							}
+							echo "</tr>";
+						}
+					}
                     
-                    echo "<tr><td colspan='".$cnt."'>
+					echo "<tr><td colspan='".$cnt."'>
                         <a href='".base_url()."package/package_patterns_import/$edit_id'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
                         <input type='submit' class='btn btn-line-parrot pull-right' id='Process' value='Process'/></td></tr>";
-        ?> </table></form>  
+		?> </table></form>  
         </div>
 </div></div></div>
     </section>  

@@ -3,8 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">    <title>
-ASTPP - Open Source Voip Billing Solution</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">    
+<title>
+	<?php       
+        $this->db->where('domain',$_SERVER['HTTP_HOST']);
+        $this->db->select('*');
+        $this->db->order_by('accountid', 'desc');
+        $this->db->limit(1);
+        $invoiceconf = $this->db->get('invoice_conf');
+        $invoiceconf = (array)$invoiceconf->first_row();
+	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
+	?>
+	Signup | <?php echo $invoiceconf['website_title']; ?>
+	<?php
+		}else{ 
+	?>
+	Signup | ASTPP - Open Source Voip Billing Solution
+	<?php
+	}
+	?>
+</title>
 <link rel="icon" href="<?php echo base_url(); ?>/assets/images/favicon.ico">
 
 <link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -51,17 +69,25 @@ ASTPP work best with JavaScript enabled
           <div class="w-section inverse no-padding margin-t-20">                       
              <div class="w-box dark sign-in-wr box_shadow margin-b-10">
 		    	<div class="col-md-12 no-padding">
-					  <? if($this->session->userdata('userlevel_logintype') != '0'){?>
-						<a class="col-md-9" href="<?php echo base_url();?>">
-								<img id="logo" alt="dashboard" src="<?php echo base_url();?>assets/images/logo.png">
-					  <? } else{?> 
-								<a class="col-md-9" href="<?php echo base_url();?>">
-								<img id="logo" alt="user_logo" src="<?php echo base_url();?>assets/images/logo.png">
-					<? }?>
-							</a>
+					  <?php
+						if(isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != ""){
+						$logo = $this->session->userdata['user_logo'];
+						}else{
+						$logo = 'logo.png';
+						}
+
+						if ($this->session->userdata('userlevel_logintype') != '0') {?>
+						<a class="col-md-12" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
+						<img style="height: 44px; width:216px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+						<? } else {?> 
+						<a class="col-md-12" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
+						<img style="height: 44px; width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+						<? }?>	
+						</a>
+
 
 			
-					<div class="col-md-3"><a href="<?php echo base_url();?>"><input type="submit" value="Login" name="Login" class="btn btn-success col-md-12 margin-t-10"></a></div>
+					<div class="col-md-3"><a href="<?php echo base_url(); ?>"><input type="submit" value="Login" name="Login" class="btn btn-success col-md-12 margin-t-10"></a></div>
 		
 		</div>
 	
@@ -70,7 +96,7 @@ ASTPP work best with JavaScript enabled
 <br>
 
 <form class="form-light col-md-12 no-padding" action="<?php echo base_url(); ?>signup/successpassword/" method="post" accept-charset="utf-8" id="customer_form" name="customer_form">
-<input type="hidden" name="email" value=<?php echo $email;?>>
+<input type="hidden" name="email" value=<?php echo $email; ?>>
 <div class="col-md-12 margin-t-20 margin-b-10 padding-r-32 padding-l-32" style="color:#232222;">
 <br/>	Sorry, we cannot process for singup at this time.<br>Please contact administrator for more information<br><br>
 </div>

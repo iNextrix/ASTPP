@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -28,12 +30,12 @@
  */
 class CI_Trackback {
 
-	var $time_format	= 'local';
-	var $charset		= 'UTF-8';
-	var $data			= array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
-	var $convert_ascii	= TRUE;
-	var $response		= '';
-	var $error_msg		= array();
+	var $time_format = 'local';
+	var $charset = 'UTF-8';
+	var $data = array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
+	var $convert_ascii = TRUE;
+	var $response = '';
+	var $error_msg = array();
 
 	/**
 	 * Constructor
@@ -89,12 +91,10 @@ class CI_Trackback {
 				if ($item == 'excerpt')
 				{
 					$$item = $this->convert_ascii($$item);
-				}
-				elseif ($item == 'title')
+				} elseif ($item == 'title')
 				{
 					$$item = $this->convert_ascii($$item);
-				}
-				elseif ($item == 'blog_name')
+				} elseif ($item == 'blog_name')
 				{
 					$$item = $this->convert_ascii($$item);
 				}
@@ -226,6 +226,7 @@ class CI_Trackback {
 	 * @access	public
 	 * @param	string
 	 * @param	string
+	 * @param string $data
 	 * @return	bool
 	 */
 	function process($url, $data)
@@ -251,12 +252,12 @@ class CI_Trackback {
 		}
 
 		// Transfer the data
-		fputs ($fp, "POST " . $path . " HTTP/1.0\r\n" );
-		fputs ($fp, "Host: " . $target['host'] . "\r\n" );
-		fputs ($fp, "Content-type: application/x-www-form-urlencoded\r\n" );
-		fputs ($fp, "Content-length: " . strlen($data) . "\r\n" );
-		fputs ($fp, "Connection: close\r\n\r\n" );
-		fputs ($fp, $data);
+		fputs($fp, "POST ".$path." HTTP/1.0\r\n");
+		fputs($fp, "Host: ".$target['host']."\r\n");
+		fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
+		fputs($fp, "Content-length: ".strlen($data)."\r\n");
+		fputs($fp, "Connection: close\r\n\r\n");
+		fputs($fp, $data);
 
 		// Was it successful?
 		$this->response = "";
@@ -359,34 +360,33 @@ class CI_Trackback {
 		if (strpos($url, '?') !== FALSE)
 		{
 			$tb_array = explode('/', $url);
-			$tb_end   = $tb_array[count($tb_array)-1];
+			$tb_end   = $tb_array[count($tb_array) - 1];
 
 			if ( ! is_numeric($tb_end))
 			{
-				$tb_end  = $tb_array[count($tb_array)-2];
+				$tb_end  = $tb_array[count($tb_array) - 2];
 			}
 
 			$tb_array = explode('=', $tb_end);
-			$tb_id	= $tb_array[count($tb_array)-1];
+			$tb_id = $tb_array[count($tb_array) - 1];
 		}
 		else
 		{
 			$url = rtrim($url, '/');
 
 			$tb_array = explode('/', $url);
-			$tb_id	= $tb_array[count($tb_array)-1];
+			$tb_id = $tb_array[count($tb_array) - 1];
 
 			if ( ! is_numeric($tb_id))
 			{
-				$tb_id  = $tb_array[count($tb_array)-2];
+				$tb_id = $tb_array[count($tb_array) - 2];
 			}
 		}
 
-		if ( ! preg_match ("/^([0-9]+)$/", $tb_id))
+		if ( ! preg_match("/^([0-9]+)$/", $tb_id))
 		{
 			return FALSE;
-		}
-		else
+		} else
 		{
 			return $tb_id;
 		}
@@ -399,6 +399,7 @@ class CI_Trackback {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param string $str
 	 * @return	string
 	 */
 	function convert_xml($str)
@@ -406,14 +407,14 @@ class CI_Trackback {
 		$temp = '__TEMP_AMPERSANDS__';
 
 		$str = preg_replace("/&#(\d+);/", "$temp\\1;", $str);
-		$str = preg_replace("/&(\w+);/",  "$temp\\1;", $str);
+		$str = preg_replace("/&(\w+);/", "$temp\\1;", $str);
 
-		$str = str_replace(array("&","<",">","\"", "'", "-"),
+		$str = str_replace(array("&", "<", ">", "\"", "'", "-"),
 							array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"),
 							$str);
 
-		$str = preg_replace("/$temp(\d+);/","&#\\1;",$str);
-		$str = preg_replace("/$temp(\w+);/","&\\1;", $str);
+		$str = preg_replace("/$temp(\d+);/", "&#\\1;", $str);
+		$str = preg_replace("/$temp(\w+);/", "&\\1;", $str);
 
 		return $str;
 	}
@@ -470,9 +471,9 @@ class CI_Trackback {
 	 */
 	function convert_ascii($str)
 	{
-		$count	= 1;
-		$out	= '';
-		$temp	= array();
+		$count = 1;
+		$out = '';
+		$temp = array();
 
 		for ($i = 0, $s = strlen($str); $i < $s; $i++)
 		{
@@ -481,8 +482,7 @@ class CI_Trackback {
 			if ($ordinal < 128)
 			{
 				$out .= $str[$i];
-			}
-			else
+			} else
 			{
 				if (count($temp) == 0)
 				{
@@ -512,6 +512,7 @@ class CI_Trackback {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param string $msg
 	 * @return	void
 	 */
 	function set_error($msg)

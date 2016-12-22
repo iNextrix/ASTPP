@@ -3,7 +3,7 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("cdrs_grid","<?php echo base_url() . "accounts/reseller_details_json/packages/$edit_id/"; ?>",<? echo $grid_fields ?>,"");
+        build_grid("cdrs_grid","<?php echo base_url()."accounts/reseller_details_json/packages/$edit_id/"; ?>",<? echo $grid_fields ?>,"");
         $("#left_panel_quick_search").keyup(function(){
             quick_search("accounts/customer_details_search/"+'<?php echo $accounttype?>'+"_packages/");
         });
@@ -21,12 +21,12 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
                         <li>
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"><?= ucfirst($accounttype); ?> Profile </a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"><?= ucfirst($accounttype); ?> Profile </a>
                         </li>
                         <li class="active">
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_packages/" . $edit_id . "/"; ?>">
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_packages/".$edit_id."/"; ?>">
                                 Packages
                             </a>
                         </li>
@@ -35,7 +35,7 @@
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div>

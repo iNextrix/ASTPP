@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -67,7 +69,7 @@ class CI_Benchmark {
 	 * @param	string	a particular marked point
 	 * @param	string	a particular marked point
 	 * @param	integer	the number of decimal places
-	 * @return	mixed
+	 * @return	string
 	 */
 	function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
 	{

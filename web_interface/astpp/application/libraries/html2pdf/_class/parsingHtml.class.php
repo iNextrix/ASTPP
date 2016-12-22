@@ -11,11 +11,11 @@
 
 class HTML2PDF_parsingHtml
 {
-    protected    $_html     = '';        // HTML code to parse
-    protected    $_num      = 0;         // table number
-    protected    $_level    = 0;         // table level
-    protected    $_encoding = '';        // encoding
-    public       $code      = array();   // parsed HTML codfe
+    protected    $_html     = ''; // HTML code to parse
+    protected    $_num      = 0; // table number
+    protected    $_level    = 0; // table level
+    protected    $_encoding = ''; // encoding
+    public       $code      = array(); // parsed HTML codfe
 
     const HTML_TAB = '        ';
 
@@ -30,7 +30,7 @@ class HTML2PDF_parsingHtml
         $this->_num   = 0;
         $this->_level = array($this->_num);
         $this->_html  = '';
-        $this->code  = array();
+        $this->code = array();
         $this->setEncoding($encoding);
     }
 
@@ -38,6 +38,7 @@ class HTML2PDF_parsingHtml
      * change the encoding
      *
      * @param   string encoding
+     * @param string $encoding
      * @access  public
      */
     public function setEncoding($encoding)
@@ -99,7 +100,7 @@ class HTML2PDF_parsingHtml
         // foreach part of the HTML code
         foreach ($tmp as $part) {
             // if it is a tag code
-            if ($part[0]=='code') {
+            if ($part[0] == 'code') {
                 // analise the HTML code
                 $res = $this->_analiseCode($part[1]);
 
@@ -110,16 +111,16 @@ class HTML2PDF_parsingHtml
                     $res['html_pos'] = $part[2];
 
                     // if the tag must be closed
-                    if (!in_array($res['name'], $tagsNotClosed)) {
+                    if ( ! in_array($res['name'], $tagsNotClosed)) {
                         // if it is a closure tag
                         if ($res['close']) {
                             // HTML validation
-                            if (count($parents)<1)
+                            if (count($parents) < 1)
                                 throw new HTML2PDF_exception(3, $res['name'], $this->getHtmlErrorCode($res['html_pos']));
-                            else if ($parents[count($parents)-1]!=$res['name'])
+                            else if ($parents[count($parents) - 1] != $res['name'])
                                 throw new HTML2PDF_exception(4, $parents, $this->getHtmlErrorCode($res['html_pos']));
                             else
-                                unset($parents[count($parents)-1]);
+                                unset($parents[count($parents) - 1]);
                         } else {
                             // if it is a autoclosed tag
                             if ($res['autoclose']) {
@@ -131,26 +132,27 @@ class HTML2PDF_parsingHtml
                                 $res['close'] = true;
                             }
                             // else :add a child for validation
-                            else
-                                $parents[count($parents)] = $res['name'];
+                            else {
+                                                            $parents[count($parents)] = $res['name'];
+                            }
                         }
 
                         // if it is a <pre> tag (or <code> tag) not auclosed => update the flag
-                        if (($res['name']=='pre' || $res['name']=='code') && !$res['autoclose']) {
-                            $tagPreIn = !$res['close'];
+                        if (($res['name'] == 'pre' || $res['name'] == 'code') && ! $res['autoclose']) {
+                            $tagPreIn = ! $res['close'];
                         }
                     }
 
                     // save the actions to convert
                     $actions[] = $res;
                 } else { // else (it is not a real HTML tag => we transform it in Texte
-                    $part[0]='txt';
+                    $part[0] = 'txt';
                 }
             }
             // if it is text
-            if ($part[0]=='txt') {
+            if ($part[0] == 'txt') {
                 // if we are not in a <pre> tag
-                if (!$tagPreIn) {
+                if ( ! $tagPreIn) {
                     // save the action
                     $actions[] = array(
                         'name'    => 'write',
@@ -169,7 +171,7 @@ class HTML2PDF_parsingHtml
                         $txt = str_replace(' ', '&nbsp;', $txt);
 
                         // add a break line
-                        if ($k>0) $actions[] = $tagPreBr;
+                        if ($k > 0) $actions[] = $tagPreBr;
 
                         // save the action
                         $actions[] = array(
@@ -198,19 +200,19 @@ class HTML2PDF_parsingHtml
 
         // foreach action
         $nb = count($actions);
-        for ($k=0; $k<$nb; $k++) {
+        for ($k = 0; $k < $nb; $k++) {
             // if it is a Text
-            if ($actions[$k]['name']=='write') {
+            if ($actions[$k]['name'] == 'write') {
                 // if the tag before the text is a tag to clean => ltrim on the text
-                if ($k>0 && in_array($actions[$k-1]['name'], $tagsToClean))
+                if ($k > 0 && in_array($actions[$k - 1]['name'], $tagsToClean))
                     $actions[$k]['param']['txt'] = ltrim($actions[$k]['param']['txt']);
 
                 // if the tag after the text is a tag to clean => rtrim on the text
-                if ($k<$nb-1 && in_array($actions[$k+1]['name'], $tagsToClean))
+                if ($k < $nb - 1 && in_array($actions[$k + 1]['name'], $tagsToClean))
                     $actions[$k]['param']['txt'] = rtrim($actions[$k]['param']['txt']);
 
                 // if the text is empty => remove the action
-                if (!strlen($actions[$k]['param']['txt']))
+                if ( ! strlen($actions[$k]['param']['txt']))
                     unset($actions[$k]);
             }
         }
@@ -232,7 +234,9 @@ class HTML2PDF_parsingHtml
      */
     protected function _prepareTxt($txt, $spaces = true)
     {
-        if ($spaces) $txt = preg_replace('/\s+/is', ' ', $txt);
+        if ($spaces) {
+        	$txt = preg_replace('/\s+/is', ' ', $txt);
+        }
         $txt = str_replace('&euro;', '€', $txt);
         $txt = html_entity_decode($txt, ENT_QUOTES, $this->_encoding);
         return $txt;
@@ -261,7 +265,7 @@ class HTML2PDF_parsingHtml
             // if it is a tag
             if ($parse[1][0]) {
                 // save the previous text if it exists
-                if ($str!=='')    $tmp[] = array('txt', $str);
+                if ($str !== '')    $tmp[] = array('txt', $str);
 
                 // save the tag, with the offset
                 $tmp[] = array('code', trim($parse[1][0]), $offset);
@@ -270,7 +274,7 @@ class HTML2PDF_parsingHtml
                 $str = '';
             } else { // else (if it is a text)
                 // add the new text to the current text
-                $str.= $parse[2][0];
+                $str .= $parse[2][0];
             }
 
             // Update offset to the end of the match
@@ -278,7 +282,7 @@ class HTML2PDF_parsingHtml
             unset($parse);
         }
         // if a text is present in the end, we save it
-        if ($str!='') $tmp[] = array('txt', $str);
+        if ($str != '') $tmp[] = array('txt', $str);
         unset($str);
     }
 
@@ -292,38 +296,38 @@ class HTML2PDF_parsingHtml
     {
         // name of the tag, opening, closure, autoclosure
         $tag = '<([\/]{0,1})([_a-z0-9]+)([\/>\s]+)';
-        if (!preg_match('/'.$tag.'/isU', $code, $match)) return null;
-        $close     = ($match[1]=='/' ? true : false);
+        if ( ! preg_match('/'.$tag.'/isU', $code, $match)) return null;
+        $close     = ($match[1] == '/' ? true : false);
         $autoclose = preg_match('/\/>$/isU', $code);
         $name      = strtolower($match[2]);
 
         // required parameters (depends on the tag name)
-        $param    = array();
+        $param = array();
         $param['style'] = '';
-        if ($name=='img') {
+        if ($name == 'img') {
             $param['alt'] = '';
             $param['src'] = '';
         }
-        if ($name=='a') {
+        if ($name == 'a') {
             $param['href'] = '';
         }
 
         // read the parameters : nom=valeur
         $prop = '([a-zA-Z0-9_]+)=([^"\'\s>]+)';
         preg_match_all('/'.$prop.'/is', $code, $match);
-        for($k=0; $k<count($match[0]); $k++)
+        for ($k = 0; $k < count($match[0]); $k++)
             $param[trim(strtolower($match[1][$k]))] = trim($match[2][$k]);
 
         // read the parameters : nom="valeur"
         $prop = '([a-zA-Z0-9_]+)=["]([^"]*)["]';
         preg_match_all('/'.$prop.'/is', $code, $match);
-        for($k=0; $k<count($match[0]); $k++)
+        for ($k = 0; $k < count($match[0]); $k++)
             $param[trim(strtolower($match[1][$k]))] = trim($match[2][$k]);
 
         // read the parameters : nom='valeur'
         $prop = "([a-zA-Z0-9_]+)=[']([^']*)[']";
         preg_match_all('/'.$prop.'/is', $code, $match);
-        for($k=0; $k<count($match[0]); $k++)
+        for ($k = 0; $k < count($match[0]); $k++)
             $param[trim(strtolower($match[1][$k]))] = trim($match[2][$k]);
 
         // compliance of each parameter
@@ -331,7 +335,7 @@ class HTML2PDF_parsingHtml
         $border = null;
         foreach ($param as $key => $val) {
             $key = strtolower($key);
-            switch($key)
+            switch ($key)
             {
                 case 'width':
                     unset($param[$key]);
@@ -339,10 +343,10 @@ class HTML2PDF_parsingHtml
                     break;
 
                 case 'align':
-                    if ($name==='img') {
+                    if ($name === 'img') {
                         unset($param[$key]);
                         $param['style'] .= 'float: '.$val.'; ';
-                    } elseif ($name!=='table') {
+                    } elseif ($name !== 'table') {
                         unset($param[$key]);
                         $param['style'] .= 'text-align: '.$val.'; ';
                     }
@@ -382,14 +386,14 @@ class HTML2PDF_parsingHtml
                 case 'colspan':
                 case 'rowspan':
                     $val = preg_replace('/[^0-9]/isU', '', $val);
-                    if (!$val) $val = 1;
+                    if ( ! $val) $val = 1;
                     $param[$key] = $val;
                     break;
             }
         }
 
         // compliance of the border
-        if ($border!==null) {
+        if ($border !== null) {
             if ($border)    $border = 'border: solid '.$border.' '.$color;
             else            $border = 'border: none';
 
@@ -402,7 +406,7 @@ class HTML2PDF_parsingHtml
         $param['style'] = array();
         foreach ($styles as $style) {
             $tmp = explode(':', $style);
-            if (count($tmp)>1) {
+            if (count($tmp) > 1) {
                 $cod = $tmp[0];
                 unset($tmp[0]);
                 $tmp = implode(':', $tmp);
@@ -411,26 +415,34 @@ class HTML2PDF_parsingHtml
         }
 
         // determining the level of table opening, with an added level
-        if (in_array($name, array('ul', 'ol', 'table')) && !$close) {
+        if (in_array($name, array('ul', 'ol', 'table')) && ! $close) {
             $this->_num++;
             $this->_level[count($this->_level)] = $this->_num;
         }
 
         // get the level of the table containing the element
-        if (!isset($param['num'])) {
-            $param['num'] = $this->_level[count($this->_level)-1];
+        if ( ! isset($param['num'])) {
+            $param['num'] = $this->_level[count($this->_level) - 1];
         }
 
         // for closures table: remove a level
         if (in_array($name, array('ul', 'ol', 'table')) && $close) {
-            unset($this->_level[count($this->_level)-1]);
+            unset($this->_level[count($this->_level) - 1]);
         }
 
         // prepare the parameters
-        if (isset($param['value']))  $param['value']  = $this->_prepareTxt($param['value']);
-        if (isset($param['alt']))    $param['alt']    = $this->_prepareTxt($param['alt']);
-        if (isset($param['title']))  $param['title']  = $this->_prepareTxt($param['title']);
-        if (isset($param['class']))  $param['class']  = $this->_prepareTxt($param['class']);
+        if (isset($param['value'])) {
+        	$param['value']  = $this->_prepareTxt($param['value']);
+        }
+        if (isset($param['alt'])) {
+        	$param['alt']    = $this->_prepareTxt($param['alt']);
+        }
+        if (isset($param['title'])) {
+        	$param['title']  = $this->_prepareTxt($param['title']);
+        }
+        if (isset($param['class'])) {
+        	$param['class']  = $this->_prepareTxt($param['class']);
+        }
 
         // return the new action to do
         return array('name' => $name, 'close' => $close ? 1 : 0, 'autoclose' => $autoclose, 'param' => $param);
@@ -440,63 +452,64 @@ class HTML2PDF_parsingHtml
      * get a full level of HTML, between an opening and closing corresponding
      *
      * @param   integer key
+     * @param integer $k
      * @return  array   actions
      */
     public function getLevel($k)
     {
         // if the code does not exist => return empty
-        if (!isset($this->code[$k])) return array();
+        if ( ! isset($this->code[$k])) return array();
 
         // the tag to detect
         $detect = $this->code[$k]['name'];
 
         // if it is a text => return
-        if ($detect=='write') {
+        if ($detect == 'write') {
             return array($this->code[$k]);
         }
 
         //
-        $level = 0;      // depth level
-        $end = false;    // end of the search
+        $level = 0; // depth level
+        $end = false; // end of the search
         $code = array(); // extract code
 
         // while it's not ended
-        while (!$end) {
+        while ( ! $end) {
             // current action
             $row = $this->code[$k];
 
             // if 'write' => we add the text
-            if ($row['name']=='write') {
+            if ($row['name'] == 'write') {
                 $code[] = $row;
             } else { // else, it is a html tag
                 $not = false; // flag for not taking into account the current tag
 
                 // if it is the searched tag
-                if ($row['name']==$detect) {
+                if ($row['name'] == $detect) {
                     // if we are just at the root level => dont take it
-                    if ($level==0) {
+                    if ($level == 0) {
                         $not = true;
                     }
 
                     // update the level
-                    $level+= ($row['close'] ? -1 : 1);
+                    $level += ($row['close'] ? -1 : 1);
 
                     // if we are now at the root level => it is the end, and dont take it
-                    if ($level==0) {
+                    if ($level == 0) {
                         $not = true;
                         $end = true;
                     }
                 }
 
                 // if we can takin into account the current tag => save it
-                if (!$not) {
+                if ( ! $not) {
                     if (isset($row['style']['text-align'])) unset($row['style']['text-align']);
                     $code[] = $row;
                 }
             }
 
             // it continues as long as there has code to analise
-            if (isset($this->code[$k+1]))
+            if (isset($this->code[$k + 1]))
                 $k++;
             else
                 $end = true;
@@ -514,8 +527,8 @@ class HTML2PDF_parsingHtml
      * @param   integer take after
      * @return  string  part of the html code
      */
-    public function getHtmlErrorCode($pos, $before=30, $after=40)
+    public function getHtmlErrorCode($pos, $before = 30, $after = 40)
     {
-        return substr($this->_html, $pos-$before, $before+$after);
+        return substr($this->_html, $pos - $before, $before + $after);
     }
 }

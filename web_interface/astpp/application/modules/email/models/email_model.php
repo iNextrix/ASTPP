@@ -24,14 +24,14 @@
 
 class Email_model extends CI_Model {
 
-    function Email_model() {
-        parent::__construct();
-    }
+	function Email_model() {
+		parent::__construct();
+	}
 
 /**
 For Email History show in Reseller login    
 **/
-    function get_email_list($flag, $start = 0, $limit = 0) {
+	function get_email_list($flag, $start = 0, $limit = 0) {
 	$account_data = $this->session->userdata("accountinfo");
 
 	$account_id = $account_data['id'];
@@ -43,68 +43,67 @@ For Email History show in Reseller login
 	}
 	if($account_type == 1){
 	  $this->db->where_in('reseller_id');
-          $this->db->select('id');
-          $email_address=$this->db->get('accounts');
+		  $this->db->select('id');
+		  $email_address=$this->db->get('accounts');
 
-          $email_address=$email_address->result_array();
+		  $email_address=$email_address->result_array();
 
 	  if(empty($email_address)){
 		$this->db->or_where('accountid',0);
-	  }else{
+	  } else{
 		$this->db->where('reseller_id',$account_id);
 	  }
 	  }
-          $this->db_model->build_search('email_search_list');
-          if ($flag) {
-	       $query = $this->db_model->select("*", "mail_details", '', "id", "DESC", $limit, $start);
-          } else {
-            $query = $this->db_model->countQuery("*", "mail_details",'');
-          }
-        return $query;
-    }
-    function add_email($add_array) {
-        $this->db->insert("mail_details", $add_array);
-        return true;
-    }
+		  $this->db_model->build_search('email_search_list');
+		  if ($flag) {
+		   $query = $this->db_model->select("*", "mail_details", '', "id", "DESC", $limit, $start);
+		  } else {
+			$query = $this->db_model->countQuery("*", "mail_details",'');
+		  }
+		return $query;
+	}
+	function add_email($add_array) {
+		$this->db->insert("mail_details", $add_array);
+		return true;
+	}
 
-    function remove_email($id) {
-        $this->db->where("id", $id);
-        $this->db->delete("mail_details");
-        return true;
-    }
+	function remove_email($id) {
+		$this->db->where("id", $id);
+		$this->db->delete("mail_details");
+		return true;
+	}
 
 
-    function edit_email($data, $id) {
-        $this->db->where("id", $id);
-        $this->db->update("mail_details", $data);
-    }
+	function edit_email($data, $id) {
+		$this->db->where("id", $id);
+		$this->db->update("mail_details", $data);
+	}
    function customer_get_email_list($flag,$accountid, $start = 0, $limit = 0) {
 
 	  $this->db->where('accountid',$accountid);
-       	    if ($flag) {
-            $query = $this->db_model->select("*", "mail_details", '', "id", "desc", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "mail_details", '');
-        }
+	   		if ($flag) {
+			$query = $this->db_model->select("*", "mail_details", '', "id", "desc", $limit, $start);
+		} else {
+			$query = $this->db_model->countQuery("*", "mail_details", '');
+		}
 
 
-        return $query;
-    }
-    function get_email_client_data($data, $start = 0, $limit = 0){
+		return $query;
+	}
+	function get_email_client_data($data, $start = 0, $limit = 0){
 	if($data['type'] == ''){
 		$where = array('pricelist_id'=>$data['pricelist_id'],'posttoexternal'=>$data['posttoexternal'],'status'=>$data['status'],'deleted'=>'0');
-	}
-	else{
+	} else{
 		$where = array('pricelist_id'=>$data['pricelist_id'],'posttoexternal'=>$data['posttoexternal'],'status'=>$data['status'],'type'=>$data['type'],'deleted'=>'0');
 	}
 	
-        $query = $this->db_model->getSelect("email,id", "accounts", $where);
-        $query = $query->result_array();
+		$query = $this->db_model->getSelect("email,id", "accounts", $where);
+		$query = $query->result_array();
 	return $query;	
-    }
-    /*Mass mail*/
-    function multipal_email($data){
-       $mail_ids=explode(',',$data['to']);
+	}
+	/*Mass mail*/
+	function multipal_email($data){
+	   $mail_ids=explode(',',$data['to']);
 	foreach($mail_ids as $key=>$val)
 	{
 		if($val!='')
@@ -118,17 +117,16 @@ For Email History show in Reseller login
 			{
 				$account_info['email']=$val;
 				$account_info['accountid']='0';
-			}
-			else{
+			} else{
 				$res_data = $act_details->result_array();
 				$account_info=$res_data[0];
 				$account_info['accountid']=$account_info['id'];
 			}
-		    $account_info['password'] = $this->common->decode($account_info['password']);	
-		    $this->email_lib->send_email($template_type,$account_info,'',$data['file'],0,1);
+			$account_info['password'] = $this->common->decode($account_info['password']);	
+			$this->email_lib->send_email($template_type,$account_info,'',$data['file'],0,1);
 		}
 	}
-        return true;
+		return true;
    }
 	/*************************************************************/
 }

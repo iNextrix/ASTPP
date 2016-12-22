@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -56,8 +58,7 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 
 		$params = $db[$active_group];
-	}
-	elseif (is_string($params))
+	} elseif (is_string($params))
 	{
 
 		/* parse the URL from the DSN string
@@ -91,8 +92,7 @@ function &DB($params = '', $active_record_override = NULL)
 				if (strtoupper($val) == "TRUE")
 				{
 					$val = TRUE;
-				}
-				elseif (strtoupper($val) == "FALSE")
+				} elseif (strtoupper($val) == "FALSE")
 				{
 					$val = FALSE;
 				}
@@ -128,8 +128,7 @@ function &DB($params = '', $active_record_override = NULL)
 		{
 			eval('class CI_DB extends CI_DB_active_record { }');
 		}
-	}
-	else
+	} else
 	{
 		if ( ! class_exists('CI_DB'))
 		{

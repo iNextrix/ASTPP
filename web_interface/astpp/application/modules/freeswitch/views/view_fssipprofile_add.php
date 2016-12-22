@@ -98,7 +98,10 @@ function validateForm(){
     <section class="slice color-three no-margin">
 	<div class="w-section inverse no-padding">
             <div style="color:red;margin-left: 60px;">
-                <?php if (isset($validation_errors)) echo $validation_errors; ?> 
+                <?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
             </div>
             <?php echo $form; ?>
         </div>      
@@ -113,7 +116,10 @@ function validateForm(){
         	<div class="row">
                   <div class="col-md-12" align=center style='margin-top:15px;' > 
 		    <div style="color:red;margin-left: 60px;">
-			<?php if (isset($validation_errors)) echo $validation_errors; ?> 
+			<?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
 		    </div>
 		  <form method="post" action="<?= base_url() ?>freeswitch/fssipprofile_add/add/" enctype="multipart/form-data" name='form1' id ="myForm1" >
 			

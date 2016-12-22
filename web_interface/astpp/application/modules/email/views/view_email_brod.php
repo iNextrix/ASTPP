@@ -46,7 +46,7 @@ tinymce.init({
 <!--***************************************************************-->
 
 
-	<script type="text/javascript" src="<?php echo base_url();?>assets/markup/markitup/sets/default/set.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>assets/markup/markitup/sets/default/set.js"></script>
 <script type="text/javascript">
 $(function() {
 	$('#template').markItUp(mySettings);
@@ -237,8 +237,8 @@ table {
  <form method="post" action="<?= base_url()?>email/email_client_get/" enctype="multipart/form-data" name="myform" id="myform" onsubmit="return(regvalidate())">
      <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
                     <? if(isset($error) && !empty($error)) {
-                        echo $error;
-                    }?>
+						echo $error;
+					}?>
                  </span>
  
    <div class="col-md-12 no-padding margin-t-15 margin-b-10">

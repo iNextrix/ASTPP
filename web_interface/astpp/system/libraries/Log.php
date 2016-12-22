@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -27,17 +29,17 @@
 class CI_Log {
 
 	protected $_log_path;
-	protected $_threshold	= 1;
-	protected $_date_fmt	= 'Y-m-d H:i:s';
-	protected $_enabled	= TRUE;
-	protected $_levels	= array('ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4');
+	protected $_threshold = 1;
+	protected $_date_fmt = 'Y-m-d H:i:s';
+	protected $_enabled = TRUE;
+	protected $_levels = array('ERROR' => '1', 'DEBUG' => '2', 'INFO' => '3', 'ALL' => '4');
 
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		$config =& get_config();
+		$config = & get_config();
 
 		$this->_log_path = ($config['log_path'] != '') ? $config['log_path'] : APPPATH.'logs/';
 
@@ -96,7 +98,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$message .= $level.' '.(($level == 'INFO') ? ' -' : '-').' '.date($this->_date_fmt). ' --> '.$msg."\n";
+		$message .= $level.' '.(($level == 'INFO') ? ' -' : '-').' '.date($this->_date_fmt).' --> '.$msg."\n";
 
 		flock($fp, LOCK_EX);
 		fwrite($fp, $message);

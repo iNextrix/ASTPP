@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -26,55 +28,55 @@
  */
 class CI_Image_lib {
 
-	var $image_library		= 'gd2';	// Can be:  imagemagick, netpbm, gd, gd2
+	var $image_library = 'gd2'; // Can be:  imagemagick, netpbm, gd, gd2
 	var $library_path		= '';
-	var $dynamic_output		= FALSE;	// Whether to send to browser or write to disk
+	var $dynamic_output = FALSE; // Whether to send to browser or write to disk
 	var $source_image		= '';
-	var $new_image			= '';
-	var $width				= '';
+	var $new_image = '';
+	var $width = '';
 	var $height				= '';
 	var $quality			= '90';
 	var $create_thumb		= FALSE;
 	var $thumb_marker		= '_thumb';
-	var $maintain_ratio		= TRUE;		// Whether to maintain aspect ratio when resizing or use hard values
-	var $master_dim			= 'auto';	// auto, height, or width.  Determines what to use as the master dimension
+	var $maintain_ratio		= TRUE; // Whether to maintain aspect ratio when resizing or use hard values
+	var $master_dim = 'auto'; // auto, height, or width.  Determines what to use as the master dimension
 	var $rotation_angle		= '';
 	var $x_axis				= '';
 	var	$y_axis				= '';
 
 	// Watermark Vars
-	var $wm_text			= '';			// Watermark text if graphic is not used
-	var $wm_type			= 'text';		// Type of watermarking.  Options:  text/overlay
+	var $wm_text			= ''; // Watermark text if graphic is not used
+	var $wm_type			= 'text'; // Type of watermarking.  Options:  text/overlay
 	var $wm_x_transp		= 4;
 	var $wm_y_transp		= 4;
-	var $wm_overlay_path	= '';			// Watermark image path
-	var $wm_font_path		= '';			// TT font
-	var $wm_font_size		= 17;			// Font size (different versions of GD will either use points or pixels)
-	var $wm_vrt_alignment	= 'B';			// Vertical alignment:   T M B
-	var $wm_hor_alignment	= 'C';			// Horizontal alignment: L R C
-	var $wm_padding			= 0;			// Padding around text
-	var $wm_hor_offset		= 0;			// Lets you push text to the right
-	var $wm_vrt_offset		= 0;			// Lets you push  text down
-	var $wm_font_color		= '#ffffff';	// Text color
-	var $wm_shadow_color	= '';			// Dropshadow color
-	var $wm_shadow_distance	= 2;			// Dropshadow distance
-	var $wm_opacity			= 50;			// Image opacity: 1 - 100  Only works with image
+	var $wm_overlay_path = ''; // Watermark image path
+	var $wm_font_path		= ''; // TT font
+	var $wm_font_size		= 17; // Font size (different versions of GD will either use points or pixels)
+	var $wm_vrt_alignment	= 'B'; // Vertical alignment:   T M B
+	var $wm_hor_alignment	= 'C'; // Horizontal alignment: L R C
+	var $wm_padding = 0; // Padding around text
+	var $wm_hor_offset		= 0; // Lets you push text to the right
+	var $wm_vrt_offset		= 0; // Lets you push  text down
+	var $wm_font_color		= '#ffffff'; // Text color
+	var $wm_shadow_color = ''; // Dropshadow color
+	var $wm_shadow_distance = 2; // Dropshadow distance
+	var $wm_opacity = 50; // Image opacity: 1 - 100  Only works with image
 
 	// Private Vars
-	var $source_folder		= '';
+	var $source_folder = '';
 	var $dest_folder		= '';
-	var $mime_type			= '';
+	var $mime_type = '';
 	var $orig_width			= '';
 	var $orig_height		= '';
 	var $image_type			= '';
-	var $size_str			= '';
+	var $size_str = '';
 	var $full_src_path		= '';
 	var $full_dst_path		= '';
-	var $create_fnc			= 'imagecreatetruecolor';
-	var $copy_fnc			= 'imagecopyresampled';
-	var $error_msg			= array();
-	var $wm_use_drop_shadow	= FALSE;
-	var $wm_use_truetype	= FALSE;
+	var $create_fnc = 'imagecreatetruecolor';
+	var $copy_fnc = 'imagecopyresampled';
+	var $error_msg = array();
+	var $wm_use_drop_shadow = FALSE;
+	var $wm_use_truetype = FALSE;
 
 	/**
 	 * Constructor
@@ -176,8 +178,7 @@ class CI_Image_lib {
 		if (function_exists('realpath') AND @realpath($this->source_image) !== FALSE)
 		{
 			$full_source_path = str_replace("\\", "/", realpath($this->source_image));
-		}
-		else
+		} else
 		{
 			$full_source_path = $this->source_image;
 		}
@@ -205,21 +206,18 @@ class CI_Image_lib {
 		{
 			$this->dest_image = $this->source_image;
 			$this->dest_folder = $this->source_folder;
-		}
-		else
+		} else
 		{
 			if (strpos($this->new_image, '/') === FALSE)
 			{
 				$this->dest_folder = $this->source_folder;
 				$this->dest_image = $this->new_image;
-			}
-			else
+			} else
 			{
 				if (function_exists('realpath') AND @realpath($this->new_image) !== FALSE)
 				{
 					$full_dest_path = str_replace("\\", "/", realpath($this->new_image));
-				}
-				else
+				} else
 				{
 					$full_dest_path = $this->new_image;
 				}
@@ -229,8 +227,7 @@ class CI_Image_lib {
 				{
 					$this->dest_folder = $full_dest_path.'/';
 					$this->dest_image = $this->source_image;
-				}
-				else
+				} else
 				{
 					$x = explode('/', $full_dest_path);
 					$this->dest_image = end($x);
@@ -254,7 +251,7 @@ class CI_Image_lib {
 			$this->thumb_marker = '';
 		}
 
-		$xp	= $this->explode_name($this->dest_image);
+		$xp = $this->explode_name($this->dest_image);
 
 		$filename = $xp['name'];
 		$file_ext = $xp['ext'];
@@ -283,17 +280,20 @@ class CI_Image_lib {
 		 * from the actual file
 		 *
 		 */
-		if ($this->width == '')
-			$this->width = $this->orig_width;
+		if ($this->width == '') {
+					$this->width = $this->orig_width;
+		}
 
-		if ($this->height == '')
-			$this->height = $this->orig_height;
+		if ($this->height == '') {
+					$this->height = $this->orig_height;
+		}
 
 		// Set the quality
 		$this->quality = trim(str_replace("%", "", $this->quality));
 
-		if ($this->quality == '' OR $this->quality == 0 OR ! is_numeric($this->quality))
-			$this->quality = 90;
+		if ($this->quality == '' OR $this->quality == 0 OR ! is_numeric($this->quality)) {
+					$this->quality = 90;
+		}
 
 		// Set the x/y coordinates
 		$this->x_axis = ($this->x_axis == '' OR ! is_numeric($this->x_axis)) ? 0 : $this->x_axis;
@@ -405,13 +405,13 @@ class CI_Image_lib {
 		// Reassign the width and height
 		if ($this->rotation_angle == 90 OR $this->rotation_angle == 270)
 		{
-			$this->width	= $this->orig_height;
-			$this->height	= $this->orig_width;
+			$this->width = $this->orig_height;
+			$this->height = $this->orig_width;
 		}
 		else
 		{
-			$this->width	= $this->orig_width;
-			$this->height	= $this->orig_height;
+			$this->width = $this->orig_width;
+			$this->height = $this->orig_height;
 		}
 
 
@@ -426,8 +426,7 @@ class CI_Image_lib {
 		if ($this->rotation_angle == 'hor' OR $this->rotation_angle == 'vrt')
 		{
 			return $this->image_mirror_gd();
-		}
-		else
+		} else
 		{
 			return $this->image_rotate_gd();
 		}
@@ -479,8 +478,7 @@ class CI_Image_lib {
 				$gd_version = str_replace('0', '', $this->gd_version());
 				$v2_override = ($gd_version == 2) ? TRUE : FALSE;
 			}
-		}
-		else
+		} else
 		{
 			// If resizing the x/y axis must be zero
 			$this->x_axis = 0;
@@ -502,20 +500,22 @@ class CI_Image_lib {
 		//  if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor') AND $v2_override == FALSE)
 		if ($this->image_library == 'gd2' AND function_exists('imagecreatetruecolor'))
 		{
-			$create	= 'imagecreatetruecolor';
-			$copy	= 'imagecopyresampled';
+			$create = 'imagecreatetruecolor';
+			$copy = 'imagecopyresampled';
 		}
 		else
 		{
-			$create	= 'imagecreate';
-			$copy	= 'imagecopyresized';
+			$create = 'imagecreate';
+			$copy = 'imagecopyresized';
 		}
 
 		$dst_img = $create($this->width, $this->height);
 
-		if ($this->image_type == 3) // png we can actually preserve transparency
+		if ($this->image_type == 3) {
+			// png we can actually preserve transparency
 		{
 			imagealphablending($dst_img, FALSE);
+		}
 			imagesavealpha($dst_img, TRUE);
 		}
 
@@ -525,8 +525,7 @@ class CI_Image_lib {
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($dst_img);
-		}
-		else
+		} else
 		{
 			// Or save it
 			if ( ! $this->image_save_gd($dst_img))
@@ -578,8 +577,7 @@ class CI_Image_lib {
 		if ($action == 'crop')
 		{
 			$cmd .= " -crop ".$this->width."x".$this->height."+".$this->x_axis."+".$this->y_axis." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
-		}
-		elseif ($action == 'rotate')
+		} elseif ($action == 'rotate')
 		{
 			switch ($this->rotation_angle)
 			{
@@ -592,8 +590,7 @@ class CI_Image_lib {
 			}
 
 			$cmd .= " ".$angle." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
-		}
-		else  // Resize
+		} else  // Resize
 		{
 			$cmd .= " -resize ".$this->width."x".$this->height." \"$this->full_src_path\" \"$this->full_dst_path\" 2>&1";
 		}
@@ -654,8 +651,7 @@ class CI_Image_lib {
 		if ($action == 'crop')
 		{
 			$cmd_inner = 'pnmcut -left '.$this->x_axis.' -top '.$this->y_axis.' -width '.$this->width.' -height '.$this->height;
-		}
-		elseif ($action == 'rotate')
+		} elseif ($action == 'rotate')
 		{
 			switch ($this->rotation_angle)
 			{
@@ -672,8 +668,7 @@ class CI_Image_lib {
 			}
 
 			$cmd_inner = 'pnmflip -'.$angle.' ';
-		}
-		else // Resize
+		} else // Resize
 		{
 			$cmd_inner = 'pnmscale -xysize '.$this->width.' '.$this->height;
 		}
@@ -694,8 +689,8 @@ class CI_Image_lib {
 		// With NetPBM we have to create a temporary image.
 		// If you try manipulating the original it fails so
 		// we have to rename the temp file.
-		copy ($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
-		unlink ($this->dest_folder.'netpbm.tmp');
+		copy($this->dest_folder.'netpbm.tmp', $this->full_dst_path);
+		unlink($this->dest_folder.'netpbm.tmp');
 		@chmod($this->full_dst_path, FILE_WRITE_MODE);
 
 		return TRUE;
@@ -722,7 +717,7 @@ class CI_Image_lib {
 		// going to have to figure out how to determine the color
 		// of the alpha channel in a future release.
 
-		$white	= imagecolorallocate($src_img, 255, 255, 255);
+		$white = imagecolorallocate($src_img, 255, 255, 255);
 
 		//  Rotate it!
 		$dst_img = imagerotate($src_img, $this->rotation_angle, $white);
@@ -731,8 +726,7 @@ class CI_Image_lib {
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($dst_img);
-		}
-		else
+		} else
 		{
 			// Or save it
 			if ( ! $this->image_save_gd($dst_img))
@@ -777,7 +771,7 @@ class CI_Image_lib {
 			for ($i = 0; $i < $height; $i++)
 			{
 				$left  = 0;
-				$right = $width-1;
+				$right = $width - 1;
 
 				while ($left < $right)
 				{
@@ -791,13 +785,12 @@ class CI_Image_lib {
 					$right--;
 				}
 			}
-		}
-		else
+		} else
 		{
 			for ($i = 0; $i < $width; $i++)
 			{
 				$top = 0;
-				$bot = $height-1;
+				$bot = $height - 1;
 
 				while ($top < $bot)
 				{
@@ -817,8 +810,7 @@ class CI_Image_lib {
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($src_img);
-		}
-		else
+		} else
 		{
 			// Or save it
 			if ( ! $this->image_save_gd($src_img))
@@ -853,8 +845,7 @@ class CI_Image_lib {
 		if ($this->wm_type == 'overlay')
 		{
 			return $this->overlay_watermark();
-		}
-		else
+		} else
 		{
 			return $this->text_watermark();
 		}
@@ -880,10 +871,10 @@ class CI_Image_lib {
 		$this->get_image_properties();
 
 		//  Fetch watermark image properties
-		$props			= $this->get_image_properties($this->wm_overlay_path, TRUE);
-		$wm_img_type	= $props['image_type'];
-		$wm_width		= $props['width'];
-		$wm_height		= $props['height'];
+		$props = $this->get_image_properties($this->wm_overlay_path, TRUE);
+		$wm_img_type = $props['image_type'];
+		$wm_width = $props['width'];
+		$wm_height = $props['height'];
 
 		//  Create two image resources
 		$wm_img  = $this->image_create_gd($this->wm_overlay_path, $wm_img_type);
@@ -899,11 +890,13 @@ class CI_Image_lib {
 		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
 		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
 
-		if ($this->wm_vrt_alignment == 'B')
-			$this->wm_vrt_offset = $this->wm_vrt_offset * -1;
+		if ($this->wm_vrt_alignment == 'B') {
+					$this->wm_vrt_offset = $this->wm_vrt_offset * -1;
+		}
 
-		if ($this->wm_hor_alignment == 'R')
-			$this->wm_hor_offset = $this->wm_hor_offset * -1;
+		if ($this->wm_hor_alignment == 'R') {
+					$this->wm_hor_offset = $this->wm_hor_offset * -1;
+		}
 
 		//  Set the base x and y axis values
 		$x_axis = $this->wm_hor_offset + $this->wm_padding;
@@ -946,8 +939,7 @@ class CI_Image_lib {
 		{
 			// copy the image directly, the image's alpha transparency being the sole determinant of blending
 			imagecopy($src_img, $wm_img, $x_axis, $y_axis, 0, 0, $wm_width, $wm_height);
-		}
-		else
+		} else
 		{
 			// set our RGB value from above to be transparent and merge the images with the specified opacity
 			imagecolortransparent($wm_img, imagecolorat($wm_img, $this->wm_x_transp, $this->wm_y_transp));
@@ -958,8 +950,7 @@ class CI_Image_lib {
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($src_img);
-		}
-		else
+		} else
 		{
 			if ( ! $this->image_save_gd($src_img))
 			{
@@ -998,8 +989,8 @@ class CI_Image_lib {
 		$this->get_image_properties();
 
 		// Set RGB values for text and shadow
-		$this->wm_font_color	= str_replace('#', '', $this->wm_font_color);
-		$this->wm_shadow_color	= str_replace('#', '', $this->wm_shadow_color);
+		$this->wm_font_color = str_replace('#', '', $this->wm_font_color);
+		$this->wm_shadow_color = str_replace('#', '', $this->wm_shadow_color);
 
 		$R1 = hexdec(substr($this->wm_font_color, 0, 2));
 		$G1 = hexdec(substr($this->wm_font_color, 2, 2));
@@ -1033,7 +1024,7 @@ class CI_Image_lib {
 			if ($this->wm_font_size == '')
 				$this->wm_font_size = '17';
 
-			$fontwidth  = $this->wm_font_size-($this->wm_font_size/4);
+			$fontwidth  = $this->wm_font_size - ($this->wm_font_size / 4);
 			$fontheight = $this->wm_font_size;
 			$this->wm_vrt_offset += $this->wm_font_size;
 		}
@@ -1048,8 +1039,9 @@ class CI_Image_lib {
 		$y_axis = $this->wm_vrt_offset + $this->wm_padding;
 
 		// Set verticle alignment
-		if ($this->wm_use_drop_shadow == FALSE)
-			$this->wm_shadow_distance = 0;
+		if ($this->wm_use_drop_shadow == FALSE) {
+					$this->wm_shadow_distance = 0;
+		}
 
 		$this->wm_vrt_alignment = strtoupper(substr($this->wm_vrt_alignment, 0, 1));
 		$this->wm_hor_alignment = strtoupper(substr($this->wm_hor_alignment, 0, 1));
@@ -1058,9 +1050,9 @@ class CI_Image_lib {
 		{
 			case	 "T" :
 				break;
-			case "M":	$y_axis += ($this->orig_height/2)+($fontheight/2);
+			case "M":	$y_axis += ($this->orig_height / 2) + ($fontheight / 2);
 				break;
-			case "B":	$y_axis += ($this->orig_height - $fontheight - $this->wm_shadow_distance - ($fontheight/2));
+			case "B":	$y_axis += ($this->orig_height - $fontheight - $this->wm_shadow_distance - ($fontheight / 2));
 				break;
 		}
 
@@ -1074,27 +1066,28 @@ class CI_Image_lib {
 				break;
 			case "R":
 						if ($this->wm_use_drop_shadow)
-							$x_shad += ($this->orig_width - $fontwidth*strlen($this->wm_text));
-							$x_axis += ($this->orig_width - $fontwidth*strlen($this->wm_text));
+							$x_shad += ($this->orig_width - $fontwidth * strlen($this->wm_text));
+							$x_axis += ($this->orig_width - $fontwidth * strlen($this->wm_text));
 				break;
 			case "C":
 						if ($this->wm_use_drop_shadow)
-							$x_shad += floor(($this->orig_width - $fontwidth*strlen($this->wm_text))/2);
-							$x_axis += floor(($this->orig_width  -$fontwidth*strlen($this->wm_text))/2);
+							$x_shad += floor(($this->orig_width - $fontwidth * strlen($this->wm_text)) / 2);
+							$x_axis += floor(($this->orig_width - $fontwidth * strlen($this->wm_text)) / 2);
 				break;
 		}
 
 		//  Add the text to the source image
 		if ($this->wm_use_truetype)
 		{
-			if ($this->wm_use_drop_shadow)
-				imagettftext($src_img, $this->wm_font_size, 0, $x_shad, $y_shad, $drp_color, $this->wm_font_path, $this->wm_text);
+			if ($this->wm_use_drop_shadow) {
+							imagettftext($src_img, $this->wm_font_size, 0, $x_shad, $y_shad, $drp_color, $this->wm_font_path, $this->wm_text);
+			}
 				imagettftext($src_img, $this->wm_font_size, 0, $x_axis, $y_axis, $txt_color, $this->wm_font_path, $this->wm_text);
-		}
-		else
+		} else
 		{
-			if ($this->wm_use_drop_shadow)
-				imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
+			if ($this->wm_use_drop_shadow) {
+							imagestring($src_img, $this->wm_font_size, $x_shad, $y_shad, $this->wm_text, $drp_color);
+			}
 				imagestring($src_img, $this->wm_font_size, $x_axis, $y_axis, $this->wm_text, $txt_color);
 		}
 
@@ -1102,8 +1095,7 @@ class CI_Image_lib {
 		if ($this->dynamic_output == TRUE)
 		{
 			$this->image_display_gd($src_img);
-		}
-		else
+		} else
 		{
 			$this->image_save_gd($src_img);
 		}
@@ -1127,11 +1119,13 @@ class CI_Image_lib {
 	 */
 	function image_create_gd($path = '', $image_type = '')
 	{
-		if ($path == '')
-			$path = $this->full_src_path;
+		if ($path == '') {
+					$path = $this->full_src_path;
+		}
 
-		if ($image_type == '')
-			$image_type = $this->image_type;
+		if ($image_type == '') {
+					$image_type = $this->image_type;
+		}
 
 
 		switch ($image_type)
@@ -1280,16 +1274,18 @@ class CI_Image_lib {
 	 */
 	function image_reproportion()
 	{
-		if ( ! is_numeric($this->width) OR ! is_numeric($this->height) OR $this->width == 0 OR $this->height == 0)
-			return;
+		if ( ! is_numeric($this->width) OR ! is_numeric($this->height) OR $this->width == 0 OR $this->height == 0) {
+					return;
+		}
 
-		if ( ! is_numeric($this->orig_width) OR ! is_numeric($this->orig_height) OR $this->orig_width == 0 OR $this->orig_height == 0)
-			return;
+		if ( ! is_numeric($this->orig_width) OR ! is_numeric($this->orig_height) OR $this->orig_width == 0 OR $this->orig_height == 0) {
+					return;
+		}
 
-		$new_width	= ceil($this->orig_width*$this->height/$this->orig_height);
-		$new_height	= ceil($this->width*$this->orig_height/$this->orig_width);
+		$new_width = ceil($this->orig_width * $this->height / $this->orig_height);
+		$new_height = ceil($this->width * $this->orig_height / $this->orig_width);
 
-		$ratio = (($this->orig_height/$this->orig_width) - ($this->height/$this->width));
+		$ratio = (($this->orig_height / $this->orig_width) - ($this->height / $this->width));
 
 		if ($this->master_dim != 'width' AND $this->master_dim != 'height')
 		{
@@ -1301,8 +1297,7 @@ class CI_Image_lib {
 			if ($this->master_dim == 'height')
 			{
 				$this->width = $new_width;
-			}
-			else
+			} else
 			{
 				$this->height = $new_height;
 			}
@@ -1325,8 +1320,9 @@ class CI_Image_lib {
 		// For now we require GD but we should
 		// find a way to determine this using IM or NetPBM
 
-		if ($path == '')
-			$path = $this->full_src_path;
+		if ($path == '') {
+					$path = $this->full_src_path;
+		}
 
 		if ( ! file_exists($path))
 		{
@@ -1345,14 +1341,14 @@ class CI_Image_lib {
 			$v['width']			= $vals['0'];
 			$v['height']		= $vals['1'];
 			$v['image_type']	= $vals['2'];
-			$v['size_str']		= $vals['3'];
+			$v['size_str'] = $vals['3'];
 			$v['mime_type']		= $mime;
 
 			return $v;
 		}
 
 		$this->orig_width	= $vals['0'];
-		$this->orig_height	= $vals['1'];
+		$this->orig_height = $vals['1'];
 		$this->image_type	= $vals['2'];
 		$this->size_str		= $vals['3'];
 		$this->mime_type	= $mime;
@@ -1391,8 +1387,9 @@ class CI_Image_lib {
 
 		foreach ($allowed as $item)
 		{
-			if ( ! isset($vals[$item]) OR $vals[$item] == '')
-				$vals[$item] = 0;
+			if ( ! isset($vals[$item]) OR $vals[$item] == '') {
+							$vals[$item] = 0;
+			}
 		}
 
 		if ($vals['width'] == 0 OR $vals['height'] == 0)
@@ -1402,11 +1399,11 @@ class CI_Image_lib {
 
 		if ($vals['new_width'] == 0)
 		{
-			$vals['new_width'] = ceil($vals['width']*$vals['new_height']/$vals['height']);
+			$vals['new_width'] = ceil($vals['width'] * $vals['new_height'] / $vals['height']);
 		}
 		elseif ($vals['new_height'] == 0)
 		{
-			$vals['new_height'] = ceil($vals['new_width']*$vals['height']/$vals['width']);
+			$vals['new_height'] = ceil($vals['new_width'] * $vals['height'] / $vals['width']);
 		}
 
 		return $vals;
@@ -1489,7 +1486,7 @@ class CI_Image_lib {
 	 */
 	function set_error($msg)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$CI->lang->load('imglib');
 
 		if (is_array($msg))
@@ -1501,8 +1498,7 @@ class CI_Image_lib {
 				$this->error_msg[] = $msg;
 				log_message('error', $msg);
 			}
-		}
-		else
+		} else
 		{
 			$msg = ($CI->lang->line($msg) == FALSE) ? $msg : $CI->lang->line($msg);
 			$this->error_msg[] = $msg;

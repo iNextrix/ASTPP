@@ -1,6 +1,6 @@
 <?php
-$type='cidfont0';
-$name='HYSMyeongJoStd-Medium-Acro'; // AdobeMyungjoStd-Medium-Acro in acrobat 6
+$type = 'cidfont0';
+$name = 'HYSMyeongJoStd-Medium-Acro'; // AdobeMyungjoStd-Medium-Acro in acrobat 6
 $displayname = 'MyungJo Medium (Korean)';
 $desc = array(
 	'Ascent' => 880,
@@ -40,9 +40,9 @@ $_cr = array(
 	//array(97, 97, 500),
 	array(8094, 8190, 500)
 );
-foreach($_cr as $_r) {
-	for($i = $_r[0]; $i <= $_r[1]; $i++) {
-		$cw[$i+31] = $_r[2];
+foreach ($_cr as $_r) {
+	for ($i = $_r[0]; $i <= $_r[1]; $i++) {
+		$cw[$i + 31] = $_r[2];
 	}
 }
 ?>

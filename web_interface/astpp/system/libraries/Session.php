@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -26,24 +28,24 @@
  */
 class CI_Session {
 
-	var $sess_encrypt_cookie		= FALSE;
-	var $sess_use_database			= FALSE;
+	var $sess_encrypt_cookie = FALSE;
+	var $sess_use_database = FALSE;
 	var $sess_table_name			= '';
 	var $sess_expiration			= 7200;
 	var $sess_expire_on_close		= FALSE;
 	var $sess_match_ip				= FALSE;
 	var $sess_match_useragent		= TRUE;
-	var $sess_cookie_name			= 'ci_session';
+	var $sess_cookie_name = 'ci_session';
 	var $cookie_prefix				= '';
-	var $cookie_path				= '';
+	var $cookie_path = '';
 	var $cookie_domain				= '';
 	var $cookie_secure				= FALSE;
-	var $sess_time_to_update		= 300;
+	var $sess_time_to_update = 300;
 	var $encryption_key				= '';
 	var $flashdata_key				= 'flash';
 	var $time_reference				= 'time';
 	var $gc_probability				= 5;
-	var $userdata					= array();
+	var $userdata = array();
 	var $CI;
 	var $now;
 
@@ -58,7 +60,7 @@ class CI_Session {
 		log_message('debug', "Session Class Initialized");
 
 		// Set the super object to a local variable for use throughout the class
-		$this->CI =& get_instance();
+		$this->CI = & get_instance();
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
@@ -95,7 +97,7 @@ class CI_Session {
 		// set to zero we'll set the expiration two years from now.
 		if ($this->sess_expiration == 0)
 		{
-			$this->sess_expiration = (60*60*24*365*2);
+			$this->sess_expiration = (60 * 60 * 24 * 365 * 2);
 		}
 		
 		// Set the cookie name
@@ -106,8 +108,7 @@ class CI_Session {
 		if ( ! $this->sess_read())
 		{
 			$this->sess_create();
-		}
-		else
+		} else
 		{
 			$this->sess_update();
 		}
@@ -148,15 +149,14 @@ class CI_Session {
 		if ($this->sess_encrypt_cookie == TRUE)
 		{
 			$session = $this->CI->encrypt->decode($session);
-		}
-		else
+		} else
 		{
 			// encryption was not used, so we need to check the md5 hash
-			$hash	 = substr($session, strlen($session)-32); // get last 32 chars
-			$session = substr($session, 0, strlen($session)-32);
+			$hash = substr($session, strlen($session) - 32); // get last 32 chars
+			$session = substr($session, 0, strlen($session) - 32);
 
 			// Does the md5 hash match?  This is to prevent manipulation of session data in userspace
-			if ($hash !==  md5($session.$this->encryption_key))
+			if ($hash !== md5($session.$this->encryption_key))
 			{
 				log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
 				$this->sess_destroy();
@@ -266,7 +266,7 @@ class CI_Session {
 		// Before continuing, we need to determine if there is any custom data to deal with.
 		// Let's determine this by removing the default indexes to see if there's anything left in the array
 		// and set the session data while we're at it
-		foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+		foreach (array('session_id', 'ip_address', 'user_agent', 'last_activity') as $val)
 		{
 			unset($custom_userdata[$val]);
 			$cookie_userdata[$val] = $this->userdata[$val];
@@ -277,8 +277,7 @@ class CI_Session {
 		if (count($custom_userdata) === 0)
 		{
 			$custom_userdata = '';
-		}
-		else
+		} else
 		{
 			// Serialize the custom data array so we can store it
 			$custom_userdata = $this->_serialize($custom_userdata);
@@ -376,7 +375,7 @@ class CI_Session {
 		{
 			// set cookie explicitly to only have our session data
 			$cookie_data = array();
-			foreach (array('session_id','ip_address','user_agent','last_activity') as $val)
+			foreach (array('session_id', 'ip_address', 'user_agent', 'last_activity') as $val)
 			{
 				$cookie_data[$val] = $this->userdata[$val];
 			}
@@ -423,6 +422,7 @@ class CI_Session {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param string $item
 	 * @return	string
 	 */
 	function userdata($item)
@@ -614,7 +614,7 @@ class CI_Session {
 	 * Get the "now" time
 	 *
 	 * @access	private
-	 * @return	string
+	 * @return	integer
 	 */
 	function _get_time()
 	{
@@ -622,8 +622,7 @@ class CI_Session {
 		{
 			$now = time();
 			$time = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));
-		}
-		else
+		} else
 		{
 			$time = time();
 		}
@@ -652,8 +651,7 @@ class CI_Session {
 		if ($this->sess_encrypt_cookie == TRUE)
 		{
 			$cookie_data = $this->CI->encrypt->encode($cookie_data);
-		}
-		else
+		} else
 		{
 			// if encryption is not used, we provide an md5 hash to prevent userside tampering
 			$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
@@ -695,8 +693,7 @@ class CI_Session {
 					$data[$key] = str_replace('\\', '{{slash}}', $val);
 				}
 			}
-		}
-		else
+		} else
 		{
 			if (is_string($data))
 			{

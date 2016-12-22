@@ -53,15 +53,15 @@ class Signup extends MX_Controller {
 
         $userCaptcha = $this->input->post('userCaptcha');
         $random_number = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
-        $accountinfo=(array)$this->db->get_where('accounts',array('type'=>-1))->first_row();
-        $data['timezone_id'] = (!$accountinfo['timezone_id']) ? 1 : $accountinfo['timezone_id'];
-        $data['currency_id'] = (!$accountinfo['currency_id']) ? 1 : $accountinfo['currency_id'];
-        $data['country_id'] = (!$accountinfo['country_id']) ? 1 : $accountinfo['country_id'];
+        $accountinfo = (array)$this->db->get_where('accounts', array('type'=>-1))->first_row();
+        $data['timezone_id'] = ( ! $accountinfo['timezone_id']) ? 1 : $accountinfo['timezone_id'];
+        $data['currency_id'] = ( ! $accountinfo['currency_id']) ? 1 : $accountinfo['currency_id'];
+        $data['country_id'] = ( ! $accountinfo['country_id']) ? 1 : $accountinfo['country_id'];
 
         $vals = array(
             'word' => $random_number,
-            'img_path' => getcwd() . '/assets/captcha/',
-            'img_url' => base_url() . 'assets/captcha/',
+            'img_path' => getcwd().'/assets/captcha/',
+            'img_url' => base_url().'assets/captcha/',
             //'font_path' => './fonts/impact.ttf',
             'img_width' => '243',
             'img_height' => '50',
@@ -81,19 +81,30 @@ class Signup extends MX_Controller {
             $unique = $decoded_str;
             $query = $this->db_model->getSelect("*", 'accounts', array('id' => $unique, "deleted" => "0"));
             if ($query->num_rows() == 0) {
-                redirect(base_url() . "signup/signup_inactive");
+                redirect(base_url()."signup/signup_inactive");
             }
             if ($query->num_rows() > 0) {
                 $query = $query->result_array();
                 $query = $query[0];
 
                 if ($query['status'] != 0) {
-                    redirect(base_url() . "signup/signup_inactive");
+                    redirect(base_url()."signup/signup_inactive");
                 }
             }
         }
         $data['captcha'] = create_captcha($vals);
         $this->session->set_userdata('captchaWord', $data['captcha']['word']);
+        $this->db->select("*");
+		$this->db->where(array("domain"=>$_SERVER["HTTP_HOST"]));
+		$res = $this->db->get("invoice_conf");
+		$logo_arr = $res->result();
+		//~ echo "<pre>"; print_r($_SERVER); exit;
+		$data['user_logo'] = (isset($logo_arr[0]->logo) && $logo_arr[0]->logo != "") ? $logo_arr[0]->accountid."_".$logo_arr[0]->logo : "logo.png";
+		$data['website_header'] = (isset($logo_arr[0]->website_title) && $logo_arr[0]->website_title != "") ? $logo_arr[0]->website_title : "ASTPP - Open Source Voip Billing Solution";
+		$data['website_footer'] = (isset($logo_arr[0]->website_footer) && $logo_arr[0]->website_footer != "") ? $logo_arr[0]->website_footer : "Inextrix Technologies Pvt. Ltd All Rights Reserved.";
+		$this->session->set_userdata('user_logo', $data['user_logo']);
+		$this->session->set_userdata('user_header', $data['website_header']);
+		$this->session->set_userdata('user_footer', $data['website_footer']);
         $this->load->view('view_signup', $data);
     }
 
@@ -108,22 +119,23 @@ class Signup extends MX_Controller {
     }
 
     function terms_check() {
-        if (isset($_POST['agreeCheck']))
-            return true;
+        if (isset($_POST['agreeCheck'])) {
+                    return true;
+        }
         $this->form_validation->set_message('terms_check', 'THIS IS SOOOOO REQUIRED, DUDE!');
         return false;
     }
 
      function signup_save($id = "") {
         if (empty($_POST)) {
-            redirect(base_url() . "signup/");
+            redirect(base_url()."signup/");
         } else {
             $post_values = $this->input->post();
             $userCaptcha = $this->input->post('userCaptcha');
             $cnt_result = $this->db_model->countQuery("*", 'accounts', array('email' => $post_values['email']));
 
-            if ($userCaptcha != $this->session->userdata('captchaWord') || !filter_var($this->input->post('email'), FILTER_VALIDATE_EMAIL) || $cnt_result > 0) {
-                if (!filter_var($this->input->post('email'), FILTER_VALIDATE_EMAIL)) {
+            if ($userCaptcha != $this->session->userdata('captchaWord') || ! filter_var($this->input->post('email'), FILTER_VALIDATE_EMAIL) || $cnt_result > 0) {
+                if ( ! filter_var($this->input->post('email'), FILTER_VALIDATE_EMAIL)) {
                     $data['error']['email'] = "<div style='color: red;'> Please enter proper email </div>";
                 }
                 if ($userCaptcha != $this->session->userdata('captchaWord')) {
@@ -135,8 +147,8 @@ class Signup extends MX_Controller {
                 $random_number = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
                 $vals = array(
                     'word' => $random_number,
-                    'img_path' => getcwd() . '/assets/captcha/',
-                    'img_url' => base_url() . 'assets/captcha/',
+                    'img_path' => getcwd().'/assets/captcha/',
+                    'img_url' => base_url().'assets/captcha/',
                     //'font_path' => './fonts/impact.ttf',
                     'img_width' => '243',
                     'img_height' => '50',
@@ -147,14 +159,14 @@ class Signup extends MX_Controller {
                     $data['key_unique'] = $_POST['key_unique'];
                 }
 
-				$accountinfo=(array)$this->db->get_where('accounts',array('type'=>-1))->first_row();
-				$data['timezone_id'] = (!$accountinfo['timezone_id']) ? 1 : $accountinfo['timezone_id'];
-				$data['currency_id'] = (!$accountinfo['currency_id']) ? 1 : $accountinfo['currency_id'];
-				$data['country_id'] = (!$accountinfo['country_id']) ? 1 : $accountinfo['country_id'];
+				$accountinfo = (array)$this->db->get_where('accounts', array('type'=>-1))->first_row();
+				$data['timezone_id'] = ( ! $accountinfo['timezone_id']) ? 1 : $accountinfo['timezone_id'];
+				$data['currency_id'] = ( ! $accountinfo['currency_id']) ? 1 : $accountinfo['currency_id'];
+				$data['country_id'] = ( ! $accountinfo['country_id']) ? 1 : $accountinfo['country_id'];
 
-                $data['timezone_id'] = (!$data['timezone_id']) ? 1 : $data['timezone_id'];
-                $data['currency_id'] = (!$data['currency_id']) ? 1 : $data['currency_id'];
-                $data['country_id'] = (!$data['country_id']) ? 1 : $data['country_id'];
+                $data['timezone_id'] = ( ! $data['timezone_id']) ? 1 : $data['timezone_id'];
+                $data['currency_id'] = ( ! $data['currency_id']) ? 1 : $data['currency_id'];
+                $data['country_id'] = ( ! $data['country_id']) ? 1 : $data['country_id'];
 
                 $data['value'] = $post_values;
                 $data['captcha'] = create_captcha($vals);
@@ -166,8 +178,8 @@ class Signup extends MX_Controller {
                 //AVTLATP		
                 $user_data = $this->input->post();
                
-                if (!isset($_POST['key_unique']) || !isset($_POST['email'])) {
-                    redirect(base_url() . "signup/");
+                if ( ! isset($_POST['key_unique']) || ! isset($_POST['email'])) {
+                    redirect(base_url()."signup/");
                 }
                 $reseller_id = 0;
                 if (isset($_POST['key_unique']) && $_POST['key_unique'] != "admin") {
@@ -207,7 +219,7 @@ class Signup extends MX_Controller {
                     $result = $this->db_model->getSelect("*", "pricelists", array("reseller_id" => $reseller_id), "ASC");
                     $result_arr = $result->result_array();
                     $selection_rategroup_signup = $result_arr[0]['id'];
-                    $user_data['pricelist_id'] = (isset($selection_rategroup_signup) && $selection_rategroup_signup > 0 ) ? $selection_rategroup_signup : 0;
+                    $user_data['pricelist_id'] = (isset($selection_rategroup_signup) && $selection_rategroup_signup > 0) ? $selection_rategroup_signup : 0;
                 } else {
                     $pricelist_id = $this->common->get_field_name('id', 'pricelists', array('name' => $selection_rategroup_signup));
                     /* if($pricelis_id != "")
@@ -216,19 +228,19 @@ class Signup extends MX_Controller {
                       $user_data['pricelist_id'] = 0; */
                     $user_data['pricelist_id'] = ($pricelist_id != "") ? $pricelist_id : 0;
                 }
-                $last_id='0';
+                $last_id = '0';
                 //Insert or Update record
                 $signup_sipdevice_flag = $system_config['create_sipdevice'];
                 $last_id = $this->signup_model->add_user($user_data);
                 if ($last_id == "") {
-                    redirect(base_url() . "signup/signup_inactive");
+                    redirect(base_url()."signup/signup_inactive");
                 }
                 if ($signup_sipdevice_flag == '0') {
                     $query = $this->db_model->select("*", "sip_profiles", array('name' => "default"), "id", "ASC", '1', '0');
                     $sip_id = $query->result_array();
-                    if($reseller_id > 0){
+                    if ($reseller_id > 0) {
 						$reseller_id = $reseller_id;
-					}else{
+					} else {
 						$reseller_id = '0';
 					}
                     $free_switch_array = array('fs_username' => $user_data['number'],
@@ -248,26 +260,26 @@ class Signup extends MX_Controller {
                         'vm_keep_local_after_email'=>true,
                         'vm_send_all_message'=>true,
                         );
-                    $user_custom_array=array_merge($user_data,$free_switch_array);
-                    $user_custom_array['id']=$last_id;
-                    $user_custom_array['email']=$user_data['email'];
+                    $user_custom_array = array_merge($user_data, $free_switch_array);
+                    $user_custom_array['id'] = $last_id;
+                    $user_custom_array['email'] = $user_data['email'];
                    
                     $this->load->model('freeswitch/freeswitch_model');
                     $this->freeswitch_model->add_freeswith($user_custom_array);
                 }
              // echo "<pre>"; print_r ($user_data); exit;
                 $activation = $this->encrypt->encode($user_data['number']);
-                $message = base_url() . 'signup/signup_confirm?email=' . urlencode($user_data['email']) . "&key=" . urlencode($activation);
+                $message = base_url().'signup/signup_confirm?email='.urlencode($user_data['email'])."&key=".urlencode($activation);
                 $user_data['confirm'] = $message;
 
                 $this->send_mail($last_id, 'email_signup_confirmation', $user_data);
-                redirect(base_url() . "signup/signup_success");
+                redirect(base_url()."signup/signup_success");
             }
         }
     }
 
     function signup_confirm() {
-        if (!empty($_GET)) {
+        if ( ! empty($_GET)) {
 
             $system_config = common_model::$global_config['system_config'];
             $balance = $system_config["balance"];
@@ -315,14 +327,14 @@ class Signup extends MX_Controller {
         unset($_POST['action']);        
         $where = array('email' => $email);
         $this->db->where($where);
-        $this->db->or_where('number',$email);
+        $this->db->or_where('number', $email);
         $cnt_result = $this->db_model->countQuery("*", 'accounts', "");
-        if (!empty($email)) {
+        if ( ! empty($email)) {
             $names = array('0', '1', '3');
             $this->db->where_in('type', $names);
             $where_arr = array("email" => $email);
             $this->db->where($where_arr);
-			$this->db->or_where('number',$email);
+			$this->db->or_where('number', $email);
             $acountdata = $this->db_model->getSelect("*", "accounts", "");
             if ($acountdata->num_rows() > 0) {
                 $user_data = $acountdata->result_array();
@@ -333,8 +345,8 @@ class Signup extends MX_Controller {
                     exit;
                 }
             }            
-            if ($acountdata->num_rows() == 0 && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if ($acountdata->num_rows() == 0 && ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if ( ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $data['error']['email'] = "<div id='error_mail' style='color: red; margin: 2% 22%; float: left; width:100%;'>Please enter proper Username or Email.</div>";
 
                     $this->load->view('view_forgotpassword', $data);
@@ -343,7 +355,7 @@ class Signup extends MX_Controller {
 
                     $this->load->view('view_forgotpassword', $data);
                 }
-            } else if($acountdata->num_rows() == 0){
+            } else if ($acountdata->num_rows() == 0) {
                     $data['error']['email'] = "<div id='error_mail' style='color: red; margin: 2% 22%; float: left; width:100%;'>Please enter proper Username or Email.</div>";
                     $this->load->view('view_forgotpassword', $data);
             } else {
@@ -352,7 +364,7 @@ class Signup extends MX_Controller {
                 
                 $email = $this->encrypt->encode($user_data['email']);
                 $activation = $this->encrypt->encode($user_data['number']);
-                $message = base_url() . 'confirm_pass?email=' . urlencode($email) . "&key=" . urlencode($activation);
+                $message = base_url().'confirm_pass?email='.urlencode($email)."&key=".urlencode($activation);
                 $user_data['confirm'] = $message;
                 $where = array("email" => $user_data['email']);
                 $data = array("pass_link_status" => 1);
@@ -374,7 +386,7 @@ class Signup extends MX_Controller {
         $balance = '';
         $email1 = $this->encrypt->decode($confirm_pass['email']);
         $success = $this->signup_model->check_user($accno, $email1, $balance);
-        if (!empty($confirm_pass)) {
+        if ( ! empty($confirm_pass)) {
             $where_arr = array("email" => $email1, "status" => 0);
             $acountdata = $this->db_model->getSelect("*", "accounts", $where_arr);
             if ($acountdata->num_rows() > 0) {
@@ -398,7 +410,7 @@ class Signup extends MX_Controller {
     function confirmpass() {
         $passwordconf = $_POST;
         $email1 = $this->encrypt->decode($passwordconf['email']);
-        if (!empty($passwordconf)) {
+        if ( ! empty($passwordconf)) {
             $acountdata = $this->db_model->getSelect("*", "accounts", array("email" => $email1));
             //echo $this->db->last_query();exit;
             if ($acountdata->num_rows() > 0) {
@@ -426,6 +438,9 @@ class Signup extends MX_Controller {
         }
     }
 
+    /**
+     * @param string $temp_name
+     */
     function send_mail($account_id, $temp_name, $user_data) {
 		
 		
@@ -440,8 +455,8 @@ class Signup extends MX_Controller {
         
         $where = array('name' => $temp_name);
         $EmailTemplate = $this->db_model->getSelect("*", "default_templates", $where);
-        $reseller_id = ($user_data['reseller_id'] >0) ? $user_data['reseller_id'] : 1;
-        $where="accountid IN ('".$reseller_id."','1')";
+        $reseller_id = ($user_data['reseller_id'] > 0) ? $user_data['reseller_id'] : 1;
+        $where = "accountid IN ('".$reseller_id."','1')";
         $this->db->where($where);
         $this->db->select('*');
         $this->db->order_by('accountid', 'desc');
@@ -457,8 +472,8 @@ class Signup extends MX_Controller {
         
         foreach ($EmailTemplate->result_array() as $value) {
             $TemplateData = $value;
-            $TemplateData['subject'] = str_replace('#NAME#', $user_data['first_name'] . " " . $user_data['last_name'], $TemplateData['subject']);
-            $TemplateData['template'] = str_replace('#NAME#', $user_data['first_name'] . " " . $user_data['last_name'], $TemplateData['template']);
+            $TemplateData['subject'] = str_replace('#NAME#', $user_data['first_name']." ".$user_data['last_name'], $TemplateData['subject']);
+            $TemplateData['template'] = str_replace('#NAME#', $user_data['first_name']." ".$user_data['last_name'], $TemplateData['template']);
             $TemplateData['template'] = str_replace('#NUMBER#', $user_data['number'], $TemplateData['template']);
             $TemplateData['template'] = str_replace('#PASSWORD#', $user_data['password'], $TemplateData['template']);
             $TemplateData['template'] = str_replace('#COMPANY_WEBSITE#', $company_website, $TemplateData['template']);

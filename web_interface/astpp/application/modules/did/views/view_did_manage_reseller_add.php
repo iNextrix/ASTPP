@@ -1,5 +1,5 @@
 <?php include(FCPATH.'application/views/popup_header.php'); ?>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
 <script type="text/javascript" src="/js/validate.js"></script>
@@ -47,11 +47,11 @@
                         <label class="col-md-3 no-padding">Call Type</label>
                   		  <select name="call_type" class="col-md-5 form-control selectpicker" data-live-search='true'>
                   		  <?php $calltype=$this->common->set_call_type();
-                  		     foreach($calltype as $key=>$value){
-                  		       $selected=$reseller_didinfo['call_type']==$key ? "selected='selected'" : '';
-                  		       echo "<option value='$key'$selected>$value</option>";
-                  		     }
-                  		     ?>
+				  			 foreach($calltype as $key=>$value){
+				  			   $selected=$reseller_didinfo['call_type']==$key ? "selected='selected'" : '';
+				  			   echo "<option value='$key'$selected>$value</option>";
+				  			 }
+				  			 ?>
                 		    </select>
         		    </li>
                  <li class="col-md-12">

@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+	exit('No direct script access allowed');
 
 /*
   |--------------------------------------------------------------------------
@@ -374,56 +374,56 @@ $config['rewrite_short_tags'] = TRUE;
  */
 $config['proxy_ips'] = '';
 $config['Origination-rates-field'] = array('code' => 'pattern',
-    'destination' => 'comment',
-    'connect cost' => 'connectcost',
-    'included seconds' => 'includedseconds',
-    'per minute cost' => 'cost',
-    'initial increment' => 'init_inc',
-    'increment' => 'inc',
+	'destination' => 'comment',
+	'connect cost' => 'connectcost',
+	'included seconds' => 'includedseconds',
+	'per minute cost' => 'cost',
+	'initial increment' => 'init_inc',
+	'increment' => 'inc',
 );
 $config['Termination-rates-field'] = array('code' => 'pattern',
-    'destination' => 'comment',
-    'connect cost' => 'connectcost',
-    'included seconds' => 'includedseconds',
-    'per minute cost' => 'cost',
-    'initial increment' => 'init_inc',
-    'increment' => 'inc',
-    'precedence' => 'precedence',
-    'strip' => "strip",
-    'prepend' => 'prepend',
+	'destination' => 'comment',
+	'connect cost' => 'connectcost',
+	'included seconds' => 'includedseconds',
+	'per minute cost' => 'cost',
+	'initial increment' => 'init_inc',
+	'increment' => 'inc',
+	'precedence' => 'precedence',
+	'strip' => "strip",
+	'prepend' => 'prepend',
 );
 $config['DID-rates-field'] = array('DID' => 'number',
-    'Country' => 'country_id',
-    'Account' => 'accountid',
-    'Per Minute Cost(CURRENCY)' => 'cost',
-    "Initial Increment" => "init_inc",
-    'Increment' => 'inc',
-    'Setup Fee(CURRENCY)' => 'setup',
-    'Monthly Fee(CURRENCY)' => 'monthlycost',
-    'Call Type' => 'call_type',
-    'Destination' => 'extensions',
-    "Status" => 'status',
+	'Country' => 'country_id',
+	'Account' => 'accountid',
+	'Per Minute Cost(CURRENCY)' => 'cost',
+	"Initial Increment" => "init_inc",
+	'Increment' => 'inc',
+	'Setup Fee(CURRENCY)' => 'setup',
+	'Monthly Fee(CURRENCY)' => 'monthlycost',
+	'Call Type' => 'call_type',
+	'Destination' => 'extensions',
+	"Status" => 'status',
 );
-$config['invoices_path'] = FCPATH . "invoices/";
-$config['invoice_screen'] = FCPATH . APPPATH . "controllers/";
-$config['rates-file-path'] = ASSETSDIR . "Rates_File/uploaded_files/";
+$config['invoices_path'] = FCPATH."invoices/";
+$config['invoice_screen'] = FCPATH.APPPATH."controllers/";
+$config['rates-file-path'] = ASSETSDIR."Rates_File/uploaded_files/";
 $config['db_upload-file-path'] = "/tmp/";
 $config['Origin-rates-field'] = array('code' => 'pattern',
-    'prepend' => 'prepend',
-    'destination' => 'comment',
-    'connect cost' => 'connectcost',
-    'included seconds' => 'includedseconds',
-    'per minute cost' => 'cost',
-    'increment' => 'inc',
-    'precedence' => 'precedence',
-    'strip' => "strip",
+	'prepend' => 'prepend',
+	'destination' => 'comment',
+	'connect cost' => 'connectcost',
+	'included seconds' => 'includedseconds',
+	'per minute cost' => 'cost',
+	'increment' => 'inc',
+	'precedence' => 'precedence',
+	'strip' => "strip",
 );
 $config['package-code-field'] = array('code' => 'patterns',
-    'destination' => 'destination',
+	'destination' => 'destination',
 );
-$config['invoices_path'] = FCPATH . "invoices/";
+$config['invoices_path'] = FCPATH."invoices/";
 $config['invoice_template'] = APPPATH."views/";
-$config['invoice_screen'] = APPPATH . "controllers/";
+$config['invoice_screen'] = APPPATH."controllers/";
 $config['gzip-path'] = "/bin/gzip";
 $config['gunzip-path'] = "/bin/gunzip";
 /* End of file config.php */

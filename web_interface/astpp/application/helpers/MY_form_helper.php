@@ -1,4 +1,4 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	
 // ------------------------------------------------------------------------
 
@@ -12,40 +12,39 @@
  * @return	string
  */
 
-if( !function_exists( 'form_countries' ) )
+if ( ! function_exists('form_countries'))
 {
-	function form_countries( $name, $selected = FALSE, $attributes, $form_name="" )
+	function form_countries($name, $selected = FALSE, $attributes, $form_name = "")
 	{
 		$country_list = Common_model::$global_config['country_list'];
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 		
-		if($form_name!=""){
+		if ($form_name != "") {
 			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
 		}
 
-		foreach( $country_list as $key => $value )
+		foreach ($country_list as $key => $value)
 		{
-			$form .= "\n".'<option value="'.ucwords( strtolower( $value ) ).'"';
+			$form .= "\n".'<option value="'.ucwords(strtolower($value)).'"';
 
-			if(strtolower(trim($value)) == strtolower(trim($selected)))
+			if (strtolower(trim($value)) == strtolower(trim($selected)))
 			{
                             
-                            $form .= ' selected="selected" >';
+							$form .= ' selected="selected" >';
                                 
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 			
-			$form .= ucwords( strtolower( $value ) ).'</option>';
+			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -54,39 +53,38 @@ if( !function_exists( 'form_countries' ) )
 	}
 }
 
-if(!function_exists('form_devicetype'))
+if ( ! function_exists('form_devicetype'))
 {
-	function form_devicetype( $name, $selected = FALSE, $attributes )
+	function form_devicetype($name, $selected = FALSE, $attributes)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 
-		$CI->config->load( 'countries' );
+		$CI->config->load('countries');
 
-		$type_list = $CI->config->item( 'device_types' );
+		$type_list = $CI->config->item('device_types');
 
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 
-		foreach( $type_list as $key => $value )
+		foreach ($type_list as $key => $value)
 		{
 			$form .= "\n".'<option value="'.$key.'"';
 
-			if( $key == $selected )
+			if ($key == $selected)
 			{
 				$form .= '  selected="selected">';
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 
-			$form .= ucwords( strtolower( $value ) ).'</option>';
+			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -96,39 +94,38 @@ if(!function_exists('form_devicetype'))
 }
 
 // ------------------------------------------------------------------------
-if( !function_exists( 'form_timezone' ) )
+if ( ! function_exists('form_timezone'))
 {
-	function form_timezone( $name, $selected = FALSE, $attributes )
+	function form_timezone($name, $selected = FALSE, $attributes)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 
-		$CI->config->load( 'countries' );
+		$CI->config->load('countries');
 
-		$country_list = $CI->config->item( 'timezone1_list' );
+		$country_list = $CI->config->item('timezone1_list');
 
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 
-		foreach( $country_list as $key => $value )
+		foreach ($country_list as $key => $value)
 		{
-			$form .= "\n".'<option value="'.ucwords( strtolower( $value ) ).'"';
+			$form .= "\n".'<option value="'.ucwords(strtolower($value)).'"';
 
-			if( strtolower($value) == strtolower($selected) )
+			if (strtolower($value) == strtolower($selected))
 			{
 				$form .= '  selected="selected">';
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 
-			$form .= ucwords( strtolower( $value ) ).'</option>';
+			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -137,35 +134,34 @@ if( !function_exists( 'form_timezone' ) )
 	}
 }
 //=========================================
-if( !function_exists( 'form_languagelist' ) )
+if ( ! function_exists('form_languagelist'))
 {
-	function form_languagelist( $name, $selected = FALSE, $attributes )
+	function form_languagelist($name, $selected = FALSE, $attributes)
 	{
 		$language_list = Common_model::$global_config['language_list'];
 
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 
-		foreach( $language_list as $key => $value )
+		foreach ($language_list as $key => $value)
 		{
-			$form .= "\n".'<option value="'.( strtolower( $key ) ).'"';
+			$form .= "\n".'<option value="'.(strtolower($key)).'"';
 
-			if( $key == $selected )
+			if ($key == $selected)
 			{
 				$form .= ' selected>';
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 
-			$form .=  ucfirst(strtolower($value)).'</option>';
+			$form .= ucfirst(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -175,37 +171,36 @@ if( !function_exists( 'form_languagelist' ) )
 }
 
 //-----------------------------------------
-if( !function_exists( 'form_select_default' ) )
+if ( ! function_exists('form_select_default'))
 {
-	function form_select_default( $name,$data, $selected = "", $attributes, $form_name="" )
+	function form_select_default($name, $data, $selected = "", $attributes, $form_name = "")
 	{
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 		
-		if($form_name!=""){
+		if ($form_name != "") {
 			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
 		}
 		
-		foreach( $data as $key => $value )
+		foreach ($data as $key => $value)
 		{
 			$form .= "\n".'<option value="'.$key.'"';
 			
-			if( $key == $selected )
+			if ($key == $selected)
 			{
 				$form .= ' selected>';
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 
-			$form .= ucwords( strtolower( $value ) ).'</option>';
+			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -215,39 +210,38 @@ if( !function_exists( 'form_select_default' ) )
 	}
 }	
 //-----------------------------------------
-if(!function_exists('form_disposition'))
+if ( ! function_exists('form_disposition'))
 {
-	function form_disposition( $name, $selected = FALSE, $attributes )
+	function form_disposition($name, $selected = FALSE, $attributes)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 
-		$CI->config->load( 'countries' );
+		$CI->config->load('countries');
 
-		$type_list = $CI->config->item( 'disposition' );
+		$type_list = $CI->config->item('disposition');
 
 		$form = '<select name="'.$name.'"';
 
-		foreach( $attributes as $key => $value )
+		foreach ($attributes as $key => $value)
 		{
 			$form .= " ".$key.'="'.$value.'"';
 		}
 
 		$form .= ">";
 
-		foreach( $type_list as $key => $value )
+		foreach ($type_list as $key => $value)
 		{
 			$form .= "\n".'<option value="'.$key.'"';
 
-			if( $key == $selected )
+			if ($key == $selected)
 			{
 				$form .= '  selected="selected">';
-			}
-			else
+			} else
 			{
 				$form .= '>';
 			}
 
-			$form .=  $value  .'</option>';
+			$form .= $value.'</option>';
 		}
 
 		$form .= "\n</select>";
@@ -257,27 +251,27 @@ if(!function_exists('form_disposition'))
 }
 
 //-----------------------------------------
-if( !function_exists( 'form_table_row' ) )
+if ( ! function_exists('form_table_row'))
 {
-	function form_table_row($label,$field,$span){
+	function form_table_row($label, $field, $span) {
 		echo '<tr><th width="10%"><label>'.$label.'</label></th><td>';
 		echo $field;
 		echo '<br/><span class="helptext">'.$span.'</span>';
 		echo '</td></tr>';	
 	}
 }	
-if( !function_exists( 'form_table_row1' ) )
+if ( ! function_exists('form_table_row1'))
 {
-	function form_table_row1($label,$field,$span){
+	function form_table_row1($label, $field, $span) {
 		echo '<tr><th width="10%"><label>'.$label.'</label></th><td>';
 		echo $field;
 		echo '<br/><span class="helptext">'.$span.'</span>';
 		echo '</td>';	
 	}
 }
-if( !function_exists( 'form_table_row2' ) )
+if ( ! function_exists('form_table_row2'))
 {
-	function form_table_row2($label,$field,$span){
+	function form_table_row2($label, $field, $span) {
 		echo '<th width="10%" style="padding-left: 20px"><label>'.$label.'</label></th><td>';
 		echo $field;
 		echo '<br/><span class="helptext">'.$span.'</span>';
@@ -285,37 +279,37 @@ if( !function_exists( 'form_table_row2' ) )
 	}
 }
 //-------------------------------------		
-if( !function_exists( 'form_table_row_1' ) )
+if ( ! function_exists('form_table_row_1'))
 {
-	function form_table_row_1($label,$field,$span,$wh='5',$wd='15'){
+	function form_table_row_1($label, $field, $span, $wh = '5', $wd = '15') {
 		echo '<tr><th width="'.$wh.'%"><label>'.$label.'</label></th><td width="'.$wd.'%">';
 		echo $field;
 		echo '<br/><span class="helptext">'.$span.'</span>';
 		echo '</td>';	
 	}
 }
-if( !function_exists( 'form_table_row_2' ) )
+if ( ! function_exists('form_table_row_2'))
 {
-	function form_table_row_2($label,$field,$span,$wh='10',$wd='10'){
+	function form_table_row_2($label, $field, $span, $wh = '10', $wd = '10') {
 		echo '<th width="'.$wh.'%"><label>'.$label.'</label></th><td width="'.$wd.'%">';
 		echo $field;
 		echo '<br/><span class="helptext">'.$span.'</span>';
 		echo '</td>';	
 	}
 }
-if( !function_exists( 'form_table_row_3' ) )
+if ( ! function_exists('form_table_row_3'))
 {
-	function form_table_row_3($label,$field,$span,$wh='10',$wd='15'){
+	function form_table_row_3($label, $field, $span, $wh = '10', $wd = '15') {
 		echo '<th width="'.$wh.'%"><label>'.$label.'</label></th><td width="'.$wd.'%">';
 		echo $field;
 		echo '<br/><span class="helptext">'.$span.'</span>';
 		echo '</td>';	
 	}
 }
-if( !function_exists( 'form_table_row_4' ) )
+if ( ! function_exists('form_table_row_4'))
 {
-	function form_table_row_4($label,$field,$span,$wh='10',$wd=''){
-		if(wd == '')
+	function form_table_row_4($label, $field, $span, $wh = '10', $wd = '') {
+		if (wd == '')
 			echo '<th width="'.$wh.'%"><label>'.$label.'</label></th><td>';
 		else 
 			echo '<th width="'.$wh.'%"><label>'.$label.'</label></th><td width="'.$wd.'%">';

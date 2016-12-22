@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -39,9 +41,12 @@
  */
 if ( ! function_exists('site_url'))
 {
+	/**
+	 * @return integer|null
+	 */
 	function site_url($uri = '')
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		return $CI->config->site_url($uri);
 	}
 }
@@ -61,9 +66,12 @@ if ( ! function_exists('site_url'))
  */
 if ( ! function_exists('base_url'))
 {
+	/**
+	 * @return string
+	 */
 	function base_url($uri = '')
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		return $CI->config->base_url($uri);
 	}
 }
@@ -83,7 +91,7 @@ if ( ! function_exists('current_url'))
 {
 	function current_url()
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		return $CI->config->site_url($CI->uri->uri_string());
 	}
 }
@@ -101,7 +109,7 @@ if ( ! function_exists('uri_string'))
 {
 	function uri_string()
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		return $CI->uri->uri_string();
 	}
 }
@@ -120,7 +128,7 @@ if ( ! function_exists('index_page'))
 {
 	function index_page()
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		return $CI->config->item('index_page');
 	}
 }
@@ -142,13 +150,12 @@ if ( ! function_exists('anchor'))
 {
 	function anchor($uri = '', $title = '', $attributes = '')
 	{
-		$title = (string) $title;
+		$title = (string)$title;
 
 		if ( ! is_array($uri))
 		{
 			$site_url = ( ! preg_match('!^\w+://! i', $uri)) ? site_url($uri) : $uri;
-		}
-		else
+		} else
 		{
 			$site_url = site_url($uri);
 		}
@@ -185,7 +192,7 @@ if ( ! function_exists('anchor_popup'))
 {
 	function anchor_popup($uri = '', $title = '', $attributes = FALSE)
 	{
-		$title = (string) $title;
+		$title = (string)$title;
 
 		$site_url = ( ! preg_match('!^\w+://! i', $uri)) ? site_url($uri) : $uri;
 
@@ -204,7 +211,7 @@ if ( ! function_exists('anchor_popup'))
 			$attributes = array();
 		}
 
-		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0', ) as $key => $val)
+		foreach (array('width' => '800', 'height' => '600', 'scrollbars' => 'yes', 'status' => 'yes', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0',) as $key => $val)
 		{
 			$atts[$key] = ( ! isset($attributes[$key])) ? $val : $attributes[$key];
 			unset($attributes[$key]);
@@ -234,7 +241,7 @@ if ( ! function_exists('mailto'))
 {
 	function mailto($email, $title = '', $attributes = '')
 	{
-		$title = (string) $title;
+		$title = (string)$title;
 
 		if ($title == "")
 		{
@@ -262,9 +269,12 @@ if ( ! function_exists('mailto'))
  */
 if ( ! function_exists('safe_mailto'))
 {
+	/**
+	 * @param string $email
+	 */
 	function safe_mailto($email, $title = '', $attributes = '')
 	{
-		$title = (string) $title;
+		$title = (string)$title;
 
 		if ($title == "")
 		{
@@ -289,15 +299,14 @@ if ( ! function_exists('safe_mailto'))
 			{
 				foreach ($attributes as $key => $val)
 				{
-					$x[] =  ' '.$key.'="';
+					$x[] = ' '.$key.'="';
 					for ($i = 0; $i < strlen($val); $i++)
 					{
 						$x[] = "|".ord(substr($val, $i, 1));
 					}
 					$x[] = '"';
 				}
-			}
-			else
+			} else
 			{
 				for ($i = 0; $i < strlen($attributes); $i++)
 				{
@@ -316,8 +325,7 @@ if ( ! function_exists('safe_mailto'))
 			if ($ordinal < 128)
 			{
 				$x[] = "|".$ordinal;
-			}
-			else
+			} else
 			{
 				if (count($temp) == 0)
 				{
@@ -345,7 +353,7 @@ if ( ! function_exists('safe_mailto'))
 	var l=new Array();
 	<?php
 	$i = 0;
-	foreach ($x as $val){ ?>l[<?php echo $i++; ?>]='<?php echo $val; ?>';<?php } ?>
+	foreach ($x as $val) { ?>l[<?php echo $i++; ?>]='<?php echo $val; ?>';<?php } ?>
 
 	for (var i = l.length-1; i >= 0; i=i-1){
 	if (l[i].substring(0, 1) == '|') document.write("&#"+unescape(l[i].substring(1))+";");
@@ -482,8 +490,7 @@ if ( ! function_exists('url_title'))
 		{
 			$search		= '_';
 			$replace	= '-';
-		}
-		else
+		} else
 		{
 			$search		= '-';
 			$replace	= '_';
@@ -539,7 +546,7 @@ if ( ! function_exists('redirect'))
 			$uri = site_url($uri);
 		}
 
-		switch($method)
+		switch ($method)
 		{
 			case 'refresh'	: header("Refresh:0;url=".$uri);
 				break;
@@ -576,11 +583,11 @@ if ( ! function_exists('_parse_attributes'))
 		{
 			if ($javascript == TRUE)
 			{
-				$att .= $key . '=' . $val . ',';
+				$att .= $key.'='.$val.',';
 			}
 			else
 			{
-				$att .= ' ' . $key . '="' . $val . '"';
+				$att .= ' '.$key.'="'.$val.'"';
 			}
 		}
 

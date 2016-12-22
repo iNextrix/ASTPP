@@ -4,10 +4,10 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("dids_list","<?php echo base_url() . "accounts/customer_details_json/did/$edit_id/"; ?>",<? echo $grid_fields; ?>,"");
+        build_grid("dids_list","<?php echo base_url()."accounts/customer_details_json/did/$edit_id/"; ?>",<? echo $grid_fields; ?>,"");
         $("#country_id" ).change(function() {
             var country_id= $('#country_id').val();
-            var url ='<?php echo base_url() . "accounts/customer_did_country/"; ?>';
+            var url ='<?php echo base_url()."accounts/customer_did_country/"; ?>';
             var accountid ='<?php echo $edit_id; ?>';
             $.ajax({
                 type: "POST",
@@ -64,19 +64,19 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
                         <li>
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> Profile </a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> Profile </a>
                         </li>
                         <li class="active">
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_dids/" . $edit_id . "/"; ?>"><?= $page_title; ?></a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_dids/".$edit_id."/"; ?>"><?= $page_title; ?></a>
                         </li>
                     </ul>
                 </div>
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div>
@@ -99,15 +99,15 @@
                      <fieldset class="margin-b-20">
                         <legend>Purchase DID</legend>
 
-                        <form method="post" id="did_purchase" name="did_purchase" action="<?= base_url() . "accounts/customer_dids_action/add/$edit_id/$accounttype/"; ?>" enctype="multipart/form-data">
+                        <form method="post" id="did_purchase" name="did_purchase" action="<?= base_url()."accounts/customer_dids_action/add/$edit_id/$accounttype/"; ?>" enctype="multipart/form-data">
                             <div class="col-md-4">
                                 <label for="Country" class="col-md-3 no-padding">Country : </label>
                                 <div class="col-md-8 no-padding sel_drop">
                                  <?php
-                                $country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
-                                $country = form_dropdown($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""), $country_id);
-                                echo $country;
-                                ?>
+								$country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
+								$country = form_dropdown($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""), $country_id);
+								echo $country;
+								?>
                                 </div>
                             </div>
                             <div class="col-md-4">

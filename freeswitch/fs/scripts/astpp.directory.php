@@ -27,12 +27,12 @@ $logger->log($_REQUEST);
 
 
 if (isset($_REQUEST['user']) && isset($_REQUEST['domain'])) {
-    $xml = load_directory($logger, $db);
-    if ($xml == "")
-        xml_not_found();
-    echo $xml;
+	$xml = load_directory($logger, $db);
+	if ($xml == "")
+		xml_not_found();
+	echo $xml;
 }else {
-    xml_not_found();
+	xml_not_found();
 }
 $logger->log("*************************** Directory Ends **********************************");
 exit();

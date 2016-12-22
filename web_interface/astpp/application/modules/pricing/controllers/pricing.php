@@ -22,213 +22,213 @@
 ###############################################################################
 class pricing extends CI_Controller {
 
-    function pricing() {
-        parent::__construct();
+	function pricing() {
+		parent::__construct();
 
-        $this->load->helper('template_inheritance');
+		$this->load->helper('template_inheritance');
 
-        $this->load->library('session');
-        $this->load->library("pricing_form");
-        $this->load->library('astpp/form');
-        $this->load->model('pricing_model');
+		$this->load->library('session');
+		$this->load->library("pricing_form");
+		$this->load->library('astpp/form');
+		$this->load->model('pricing_model');
 
-        if ($this->session->userdata('user_login') == FALSE)
-            redirect(base_url() . '/astpp/login');
-    }
+		if ($this->session->userdata('user_login') == FALSE)
+			redirect(base_url() . '/astpp/login');
+	}
 
-    function price_add($type = "") {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['flag'] = 'Create Rate Group';
-        $data['page_title'] = 'Create Rate Group';
-        $data['form'] = $this->form->build_form($this->pricing_form->get_pricing_form_fields(), '');
+	function price_add($type = "") {
+		$data['username'] = $this->session->userdata('user_name');
+		$data['flag'] = 'Create Rate Group';
+		$data['page_title'] = 'Create Rate Group';
+		$data['form'] = $this->form->build_form($this->pricing_form->get_pricing_form_fields(), '');
 
-        $this->load->view('view_price_add_edit', $data);
-    }
+		$this->load->view('view_price_add_edit', $data);
+	}
 
-    function price_edit($edit_id = '') {
-        $data['page_title'] = 'Edit Rate Group';
-        $where = array('id' => $edit_id);
-        $account = $this->db_model->getSelect("*", " pricelists", $where);
-        foreach ($account->result_array() as $key => $value) {
-            $edit_data = $value;
-        }
+	function price_edit($edit_id = '') {
+		$data['page_title'] = 'Edit Rate Group';
+		$where = array('id' => $edit_id);
+		$account = $this->db_model->getSelect("*", " pricelists", $where);
+		foreach ($account->result_array() as $key => $value) {
+			$edit_data = $value;
+		}
 	$routing_data = $this->db_model->getSelect("trunk_id", "routing",array("pricelist_id"=>$edit_id));
 	if($routing_data->num_rows > 0){
 	  foreach($routing_data->result_array() as $trunkid){
-	    $edit_data["trunk_id"][] = $trunkid["trunk_id"];
+		$edit_data["trunk_id"][] = $trunkid["trunk_id"];
 	  }
 	}
-        $data['form'] = $this->form->build_form($this->pricing_form->get_pricing_form_fields(), $edit_data);
-        $this->load->view('view_price_add_edit', $data);
-    }
+		$data['form'] = $this->form->build_form($this->pricing_form->get_pricing_form_fields(), $edit_data);
+		$this->load->view('view_price_add_edit', $data);
+	}
 
-    function price_save() {
-        $add_array = $this->input->post();
+	function price_save() {
+		$add_array = $this->input->post();
 
-        $data['form'] = $this->form->build_form($this->pricing_form->get_pricing_form_fields(), $add_array);
-        if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Price Details';
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-                echo $data['validation_errors'];
-                exit;
-            } else {
+		$data['form'] = $this->form->build_form($this->pricing_form->get_pricing_form_fields(), $add_array);
+		if ($add_array['id'] != '') {
+			$data['page_title'] = 'Edit Price Details';
+			if ($this->form_validation->run() == FALSE) {
+				$data['validation_errors'] = validation_errors();
+				echo $data['validation_errors'];
+				exit;
+			} else {
 	  	  $where = array("pricelist_id"=>$add_array['id']);
-	  	  $this->db->delete("routing",$where);
-		if(isset($add_array['trunk_id']) && $add_array['trunk_id'] != ''){
-		  $this->set_force_routing($add_array['id'],$add_array['trunk_id']);
+	  	  $this->db->delete("routing", $where);
+		if (isset($add_array['trunk_id']) && $add_array['trunk_id'] != '') {
+		  $this->set_force_routing($add_array['id'], $add_array['trunk_id']);
 		  unset($add_array['trunk_id']);
 		}
-                $this->pricing_model->edit_price($add_array, $add_array['id']);
-                echo json_encode(array("SUCCESS"=> $add_array["name"]." rate group updated successfully!"));
-                exit;
-            }
-            $this->load->view('view_price_add_edit', $data);
-       }else {
-            $data['page_title'] = 'Create Price Details';
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-                echo $data['validation_errors'];
-                exit;
-            } else {
+				$this->pricing_model->edit_price($add_array, $add_array['id']);
+				echo json_encode(array("SUCCESS"=> $add_array["name"]." rate group updated successfully!"));
+				exit;
+			}
+			$this->load->view('view_price_add_edit', $data);
+	   }else {
+			$data['page_title'] = 'Create Price Details';
+			if ($this->form_validation->run() == FALSE) {
+				$data['validation_errors'] = validation_errors();
+				echo $data['validation_errors'];
+				exit;
+			} else {
 		if(isset($add_array['trunk_id']) && !empty($add_array['trunk_id']))
-                $trunk_id=$add_array['trunk_id'];
-                unset($add_array['trunk_id']);
-                $priceid=$this->pricing_model->add_price($add_array);
+				$trunk_id=$add_array['trunk_id'];
+				unset($add_array['trunk_id']);
+				$priceid=$this->pricing_model->add_price($add_array);
 		if(isset($trunk_id) && $trunk_id != ''){
 		  $this->set_force_routing($priceid,$trunk_id);
 		}
-                echo json_encode(array("SUCCESS"=> $add_array["name"]." rate group added successfully!"));
-                exit;
-            }
-        }
-    }
-    function set_force_routing($priceid,$trunkid){
+				echo json_encode(array("SUCCESS"=> $add_array["name"]." rate group added successfully!"));
+				exit;
+			}
+		}
+	}
+	function set_force_routing($priceid,$trunkid){
 // 	echo "<pre>".$priceid; print_r($trunkid);
 	foreach($trunkid as $id){
 	  $routing_arr = array("trunk_id" => $id, "pricelist_id"=>$priceid);
 	  $this->db->insert("routing",$routing_arr);
 	}
-    }
-    function price_list_search() {
-        $ajax_search = $this->input->post('ajax_search', 0);
+	}
+	function price_list_search() {
+		$ajax_search = $this->input->post('ajax_search', 0);
 
-        if ($this->input->post('advance_search', TRUE) == 1) {
-            $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
-            $action = $this->input->post();
-            unset($action['action']);
-            unset($action['advance_search']);
-            $this->session->set_userdata('price_list_search', $action);
-        }
-        if (@$ajax_search != 1) {
-            redirect(base_url() . 'accounts/customer_list/');
-        }
-    }
+		if ($this->input->post('advance_search', TRUE) == 1) {
+			$this->session->set_userdata('advance_search', $this->input->post('advance_search'));
+			$action = $this->input->post();
+			unset($action['action']);
+			unset($action['advance_search']);
+			$this->session->set_userdata('price_list_search', $action);
+		}
+		if (@$ajax_search != 1) {
+			redirect(base_url() . 'accounts/customer_list/');
+		}
+	}
 
-    function price_list_clearsearchfilter() {
-        $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
-    }
+	function price_list_clearsearchfilter() {
+		$this->session->set_userdata('advance_search', 0);
+		$this->session->set_userdata('account_search', "");
+	}
 
-    function price_list() {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Rate Groups';
+	function price_list() {
+		$data['username'] = $this->session->userdata('user_name');
+		$data['page_title'] = 'Rate Groups';
 		$data['search_flag'] = true;
-        $this->session->set_userdata('advance_search', 0);
-        $data['grid_fields'] = $this->pricing_form->build_pricing_list_for_admin();
-        $data["grid_buttons"] = $this->pricing_form->build_grid_buttons();
-        $data['form_search'] = $this->form->build_serach_form($this->pricing_form->get_pricing_search_form());
-        $this->load->view('view_price_list', $data);
-    }
+		$this->session->set_userdata('advance_search', 0);
+		$data['grid_fields'] = $this->pricing_form->build_pricing_list_for_admin();
+		$data["grid_buttons"] = $this->pricing_form->build_grid_buttons();
+		$data['form_search'] = $this->form->build_serach_form($this->pricing_form->get_pricing_search_form());
+		$this->load->view('view_price_list', $data);
+	}
 
-    /**
-     * -------Here we write code for controller accounts functions account_list------
-     * Listing of Accounts table data through php function json_encode
-     */
-    function price_list_json() {
-        $json_data = array();
-        $count_all = $this->pricing_model->getpricing_list(false);
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
-        $json_data = $paging_data["json_paging"];
+	/**
+	 * -------Here we write code for controller accounts functions account_list------
+	 * Listing of Accounts table data through php function json_encode
+	 */
+	function price_list_json() {
+		$json_data = array();
+		$count_all = $this->pricing_model->getpricing_list(false);
+		$paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
+		$json_data = $paging_data["json_paging"];
 
-        $query = $this->pricing_model->getpricing_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-        $grid_fields = json_decode($this->pricing_form->build_pricing_list_for_admin());
-        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
+		$query = $this->pricing_model->getpricing_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+		$grid_fields = json_decode($this->pricing_form->build_pricing_list_for_admin());
+		$json_data['rows'] = $this->form->build_grid($query, $grid_fields);
 
-        echo json_encode($json_data);
-    }
+		echo json_encode($json_data);
+	}
 
-    function price_delete($pricelist_id) {
-        $where = array("id" => $pricelist_id);
-        $this->db_model->update("pricelists", array("status" => "2"), $where);
+	function price_delete($pricelist_id) {
+		$where = array("id" => $pricelist_id);
+		$this->db_model->update("pricelists", array("status" => "2"), $where);
 	$this->db->delete("routing",array("pricelist_id"=>$pricelist_id));
-        $this->session->set_flashdata('astpp_notification', 'Rate group removed successfully!');
-        redirect(base_url() . 'pricing/price_list/');
-    }
+		$this->session->set_flashdata('astpp_notification', 'Rate group removed successfully!');
+		redirect(base_url() . 'pricing/price_list/');
+	}
 
  function price_delete_multiple() {
-        $add_array = $this->input->post();
-        $where = 'IN ('.$add_array['selected_ids'].')';
-        if (isset($add_array['flag'])) {            
-            $update_data = array('status' => '2');
-            $this->db->where('pricelist_id '.$where);
-            $this->db->delete('routes');            
-            $this->db->delete("routing",array("pricelist_id"=>$where));
-            $this->db->where('id '.$where);
-            echo $this->db->update('pricelists', $update_data);
-        } else {
-            $pricelist_arr=array();
-            //Get selected Rategroup Name from database.
-            $this->db->select('id,name');
-            $this->db->where('id '.$where);
-            $pricelist_res=$this->db->get('pricelists');
-            $pricelist_res=$pricelist_res->result_array();
-            foreach($pricelist_res as $value){
-                $pricelist_arr[$value['id']]['name']=$value['name'];
-            }
-            //Get count of accounts which are using selected rategroups.
-            $this->db->where('pricelist_id '.$where);
-            $this->db->where('deleted',0);
-            $this->db->select('count(id) as cnt,pricelist_id');
-            $this->db->group_by('pricelist_id');
-            $account_res=$this->db->get('accounts');
-            if($account_res->num_rows() > 0){
-             $account_res=$account_res->result_array();
-             foreach($account_res as $key=>$value){
-                $pricelist_arr[$value['pricelist_id']]['account']=$value['cnt'];
-             }
-            }
-            //Get count of routes which are using selected rategroups.
-            $this->db->where('pricelist_id '.$where);
-            $this->db->select('count(id) as cnt,pricelist_id');
-            $this->db->group_by('pricelist_id');
-            $routes_res=$this->db->get('routes');
-            if($routes_res->num_rows() > 0){
-             $routes_res=$routes_res->result_array();
-             foreach($routes_res as $key=>$value){
-                $pricelist_arr[$value['pricelist_id']]['routes']=$value['cnt'];
-             }
-            }
-            $str=null;
-            foreach($pricelist_arr as $key=>$value){
-               $custom_str=null;
-               if(isset($value['account']) || isset($value['routes'])){
-                 if(isset($value['account'])){
-                     $custom_str.= $value['account']." accounts and ";
-                 }
-                 if(isset($value['routes'])){
-                     $custom_str.= $value['routes']." origination rates and ";
-                 }
-                 $str.=" Rate group Name : ".$value['name']." using by ".rtrim($custom_str," and ")."\n";
-               }
-            }
-            if(!empty($str)){
-                $data['str']=$str;
-            }    
-            $data['selected_ids']=$add_array['selected_ids'];
-            echo json_encode($data);
-        }
-    }
+		$add_array = $this->input->post();
+		$where = 'IN ('.$add_array['selected_ids'].')';
+		if (isset($add_array['flag'])) {            
+			$update_data = array('status' => '2');
+			$this->db->where('pricelist_id '.$where);
+			$this->db->delete('routes');            
+			$this->db->delete("routing",array("pricelist_id"=>$where));
+			$this->db->where('id '.$where);
+			echo $this->db->update('pricelists', $update_data);
+		} else {
+			$pricelist_arr=array();
+			//Get selected Rategroup Name from database.
+			$this->db->select('id,name');
+			$this->db->where('id '.$where);
+			$pricelist_res=$this->db->get('pricelists');
+			$pricelist_res=$pricelist_res->result_array();
+			foreach($pricelist_res as $value){
+				$pricelist_arr[$value['id']]['name']=$value['name'];
+			}
+			//Get count of accounts which are using selected rategroups.
+			$this->db->where('pricelist_id '.$where);
+			$this->db->where('deleted',0);
+			$this->db->select('count(id) as cnt,pricelist_id');
+			$this->db->group_by('pricelist_id');
+			$account_res=$this->db->get('accounts');
+			if($account_res->num_rows() > 0){
+			 $account_res=$account_res->result_array();
+			 foreach($account_res as $key=>$value){
+				$pricelist_arr[$value['pricelist_id']]['account']=$value['cnt'];
+			 }
+			}
+			//Get count of routes which are using selected rategroups.
+			$this->db->where('pricelist_id '.$where);
+			$this->db->select('count(id) as cnt,pricelist_id');
+			$this->db->group_by('pricelist_id');
+			$routes_res=$this->db->get('routes');
+			if($routes_res->num_rows() > 0){
+			 $routes_res=$routes_res->result_array();
+			 foreach($routes_res as $key=>$value){
+				$pricelist_arr[$value['pricelist_id']]['routes']=$value['cnt'];
+			 }
+			}
+			$str=null;
+			foreach($pricelist_arr as $key=>$value){
+			   $custom_str=null;
+			   if(isset($value['account']) || isset($value['routes'])){
+				 if(isset($value['account'])){
+					 $custom_str.= $value['account']." accounts and ";
+				 }
+				 if(isset($value['routes'])){
+					 $custom_str.= $value['routes']." origination rates and ";
+				 }
+				 $str.=" Rate group Name : ".$value['name']." using by ".rtrim($custom_str," and ")."\n";
+			   }
+			}
+			if(!empty($str)){
+				$data['str']=$str;
+			}    
+			$data['selected_ids']=$add_array['selected_ids'];
+			echo json_encode($data);
+		}
+	}
 /***********************************************************/
     
 }

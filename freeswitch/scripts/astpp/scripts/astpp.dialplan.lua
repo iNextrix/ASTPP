@@ -293,6 +293,8 @@ if (userinfo ~= nil) then
 		dialuserinfo = doauthorization(didinfo['accountid'],call_direction,destination_number,number_loop)	
 		-- ********* Check & get Dialer Rate card information *********
 			origination_array_DID = get_call_maxlength(customer_userinfo,destination_number,"outbound",number_loop_str,config)
+			local actual_userinfo = customer_userinfo
+			 Logger.info("[userinfo] Actual CustomerInfo XML:" .. actual_userinfo['id'])
 			--customer_userinfo['id'] = didinfo['accountid'];
 			if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND') then 
 				Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
@@ -302,10 +304,10 @@ if (userinfo ~= nil) then
 				return
 			end
 		-- ********* END *********
-		while (tonumber(dialuserinfo['reseller_id']) > 0  ) do 
-			Logger.info("[WHILE DID CONDITION] FOR CHECKING RESELLER :" .. dialuserinfo['reseller_id']) 
-			dialuserinfo = doauthorization(dialuserinfo['reseller_id'],call_direction,destination_number,number_loop)	
-			origination_array_DID = get_call_maxlength(dialuserinfo,destination_number,"outbound",number_loop_str,config)
+		while (tonumber(customer_userinfo['reseller_id']) > 0  ) do 
+			Logger.info("[WHILE DID CONDITION] FOR CHECKING RESELLER :" .. customer_userinfo['reseller_id']) 
+			customer_userinfo = doauthorization(customer_userinfo['reseller_id'],call_direction,destination_number,number_loop)	
+			origination_array_DID = get_call_maxlength(customer_userinfo,destination_number,"outbound",number_loop_str,config)
 
 			if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND') then 
 				Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
@@ -316,10 +318,9 @@ if (userinfo ~= nil) then
 			end
 		end
 		-- ********* END *********
-		
-xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config,xml_did_rates)
-		
-		xml = freeswitch_xml_inbound(xml,didinfo,customer_userinfo,config,xml_did_rates)
+		 Logger.info("[userinfo] Actual CustomerInfo XML : " .. actual_userinfo['id'])
+xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,actual_userinfo,config,xml_did_rates)
+		xml = freeswitch_xml_inbound(xml,didinfo,actual_userinfo,config,xml_did_rates)
 		xml = freeswitch_xml_footer(xml)	   	    
 		XML_STRING = table.concat(xml, "\n");
 		Logger.debug("[Dialplan] Generated XML:" .. XML_STRING)  
@@ -371,7 +372,7 @@ xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_di
 		if (i > 1) then
 
 			xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config)
-			calleridinfo = get_override_callerid(userinfo)
+			calleridinfo = get_override_callerid(customer_userinfo)
 			if (calleridinfo ~= nil) then
     			xml = freeswitch_xml_callerid(xml,calleridinfo)	    	      
 			else

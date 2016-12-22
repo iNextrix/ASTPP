@@ -4,15 +4,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>	ASTPP - Open Source Voip Billing Solution</title>
+   <title>
+	<?php       
+        $this->db->where('domain',$_SERVER['HTTP_HOST']);
+        $this->db->select('*');
+        $this->db->order_by('accountid', 'desc');
+        $this->db->limit(1);
+        $invoiceconf = $this->db->get('invoice_conf');
+        $invoiceconf = (array)$invoiceconf->first_row();
+	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
+	?>
+	Signup | <?php echo $invoiceconf['website_title']; ?>
+	<?php
+		}else{ 
+	?>
+	Signup | ASTPP - Open Source Voip Billing Solution
+	<?php
+	}
+	?>
+</title>
     <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico">
     <link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/fonts/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css">
     
      <!-- IE -->
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.src.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
     <noscript>
 	 <div id="noscript-warning">
 	  ASTPP work best with JavaScript enabled
@@ -38,12 +56,12 @@
                         <?php if (isset($astpp_notification)){ ?>
                         Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.
                     <?php }else{
-                         echo "&nbsp;";
-                    } 
+						 echo "&nbsp;";
+					} 
 			$astpp_err_msg = $this->session->flashdata('astpp_signupmsg');
-			    if ($astpp_err_msg) {
+				if ($astpp_err_msg) {
 				echo $astpp_err_msg;
-			    }
+				}
 			?>
                     </span></div> <br/>
                     <br/>
@@ -55,17 +73,32 @@
                           <div class="padding-l-32 padding-r-32">
                         	<h2 class="text-center">
                           
-                            	<img alt="login" src="<?= base_url() ?>assets/images/logo.png" style="height: 44px;width:180px;">
+                            	
+                            	<?php
+							if(isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != ""){
+							$logo = $this->session->userdata['user_logo'];
+							}else{
+							$logo = 'logo.png';
+							}
+
+							if ($this->session->userdata('userlevel_logintype') != '0') {?>
+							<a class="col-md-12" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
+							<img style="height: 44px; width:216px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<? } else {?> 
+							<a class="col-md-12" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
+							<img style="height: 44px; width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<? }?>	
+                            	</a>
                             	<div class="col-md-12 no-padding"></div>
                             
                             </h2>
                            
                            </div> 
                            <div class="margin-t-15 padding-r-32 padding-l-32"><h2 class="no-padding" style="color:#79c57b;text-align:left;"><i class="fa fa-check-circle"></i> Successful!</h2></div>
-                            <div class="margin-t-15 padding-r-32 padding-l-32" style="color: #232222; text-align:left;"><?php echo "Your account has been created successfully!!! <br> Please check your Email!!!";?></div>
+                            <div class="margin-t-15 padding-r-32 padding-l-32" style="color: #232222; text-align:left;"><?php echo "Your account has been created successfully!!! <br> Please check your Email!!!"; ?></div>
                             <div class="margin-b-20 padding-r-32 padding-l-32">
                             <div class="col-md-12 no-padding">
-													<a href="<?php echo base_url();?>">
+													<a href="<?php echo base_url(); ?>">
 														<input type="submit" value="Go to Login Page" name="Login" style="border-radius: 3px" class="btn btn-success col-md-12 margin-t-10">
 													</a>
 									  				</div>

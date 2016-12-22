@@ -43,7 +43,10 @@
     <section class="slice color-three no-margin">
 	<div class="w-section inverse no-padding">
             <div style="color:red;margin-left: 60px;">
-                <?php if (isset($validation_errors)) echo $validation_errors; ?> 
+                <?php if (isset($validation_errors)) {
+	echo $validation_errors;
+}
+?> 
             </div>
             <?php echo $form; ?>
         </div>      

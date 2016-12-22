@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER
@@ -53,7 +55,7 @@ $autoload['packages'] = array();
 */
 
 //$autoload['libraries'] = array('database','session');
-$autoload['libraries'] = array('database','session','locale','global_locale');
+$autoload['libraries'] = array('database', 'session', 'locale', 'global_locale');
 
 
 /*
@@ -65,7 +67,7 @@ $autoload['libraries'] = array('database','session','locale','global_locale');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url','template_inheritance','form');
+$autoload['helper'] = array('url', 'template_inheritance', 'form');
 
 
 /*
@@ -110,7 +112,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('common_model','db_model');
+$autoload['model'] = array('common_model', 'db_model');
 
 
 /* End of file autoload.php */

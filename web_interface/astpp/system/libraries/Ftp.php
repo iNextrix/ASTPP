@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -29,9 +31,9 @@ class CI_FTP {
 	var $hostname	= '';
 	var $username	= '';
 	var $password	= '';
-	var $port		= 21;
+	var $port = 21;
 	var $passive	= TRUE;
-	var $debug		= FALSE;
+	var $debug = FALSE;
 	var $conn_id	= FALSE;
 
 
@@ -233,6 +235,8 @@ class CI_FTP {
 	 * @param	string
 	 * @param	string
 	 * @param	string
+	 * @param string $locpath
+	 * @param string $rempath
 	 * @return	bool
 	 */
 	function upload($locpath, $rempath, $mode = 'auto', $permissions = NULL)
@@ -417,7 +421,7 @@ class CI_FTP {
 		}
 
 		// Add a trailing slash to the file path if needed
-		$filepath = preg_replace("/(.+?)\/*$/", "\\1/",  $filepath);
+		$filepath = preg_replace("/(.+?)\/*$/", "\\1/", $filepath);
 
 		$list = $this->list_files($filepath);
 
@@ -456,6 +460,7 @@ class CI_FTP {
 	 * @access	public
 	 * @param	string	the file path
 	 * @param	string	the permissions
+	 * @param integer $perm
 	 * @return	bool
 	 */
 	function chmod($path, $perm)
@@ -547,8 +552,7 @@ class CI_FTP {
 				if (@is_dir($locpath.$file) && substr($file, 0, 1) != '.')
 				{
 					$this->mirror($locpath.$file."/", $rempath.$file."/");
-				}
-				elseif (substr($file, 0, 1) != ".")
+				} elseif (substr($file, 0, 1) != ".")
 				{
 					// Get the file extension so we can se the upload type
 					$ext = $this->_getext($file);
@@ -592,6 +596,7 @@ class CI_FTP {
 	 *
 	 * @access	private
 	 * @param	string
+	 * @param string $ext
 	 * @return	string
 	 */
 	function _settype($ext)
@@ -624,7 +629,7 @@ class CI_FTP {
 	 * @access	public
 	 * @param	string	path to source
 	 * @param	string	path to destination
-	 * @return	bool
+	 * @return	false|null
 	 */
 	function close()
 	{
@@ -643,11 +648,12 @@ class CI_FTP {
 	 *
 	 * @access	private
 	 * @param	string
-	 * @return	bool
+	 * @param string $line
+	 * @return	boolean|null
 	 */
 	function _error($line)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$CI->lang->load('ftp');
 		show_error($CI->lang->line($line));
 	}

@@ -8,7 +8,7 @@
 <? endblock() ?>
 
 <? startblock('content') ?>        
-   <?php if(!isset($csv_tmp_data)){ ?>
+   <?php if ( ! isset($csv_tmp_data)) { ?>
    
 <section class="slice color-three padding-t-20">
 	<div class="w-section inverse no-padding">
@@ -19,8 +19,8 @@
             	<div class="w-box">
             	 <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
                     <? if(isset($error) && !empty($error)) {
-                        echo $error;
-                    }?>
+						echo $error;
+					}?>
                  </span>
                    <h3 class="padding-t-10 padding-l-16">File must be in the following format(.csv):</h3>
                    <p>Code,Destination,Connect Cost,Included Seconds,Per Minute Cost,Initial Increment,Increment,Precedence,Strip,Prepend.</p>
@@ -35,7 +35,7 @@
                                <label class="col-md-3">Trunk List:</label>
                                <div class="">
                                <? $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "where_arr",array("status " => "0")), '');
-                            echo $trunklist; ?></div>
+							echo $trunklist; ?></div>
                            </div>
                            <div class="col-md-12 no-padding">
                             <input type="hidden" name="mode" value="import_termination_rate" />
@@ -88,7 +88,7 @@
 <?}?>    
         
 <?php
-    if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
+	if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
         
 <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">
@@ -98,24 +98,24 @@
             <form id="import_form" name="import_form" action="<?=base_url()?>rates/termination_rate_rates_import/<?= $trunkid?>/<?=$check_header?>/" method="POST">
             <table width="100%" border="1"  class="details_table table">
                 <?  $cnt =7;
-                    foreach($csv_tmp_data as $csv_key => $csv_value){
-                        if($csv_key <  15){
-                            echo "<tr>";
-                            foreach($csv_value as $field_name => $field_val){
-                                if($csv_key == 0){
-                                    echo "<th>".ucfirst($field_name)."</th>";
-                                }else{
-                                    echo "<td class='portlet-content'>".$field_val."</td>";   
-                                }
-                            }
-                            echo "</tr>";
-                        }
-                    }
+					foreach($csv_tmp_data as $csv_key => $csv_value){
+						if($csv_key <  15){
+							echo "<tr>";
+							foreach($csv_value as $field_name => $field_val){
+								if($csv_key == 0){
+									echo "<th>".ucfirst($field_name)."</th>";
+								}else{
+									echo "<td class='portlet-content'>".$field_val."</td>";   
+								}
+							}
+							echo "</tr>";
+						}
+					}
                     
-                    echo "<tr><td colspan='".$cnt."'>
+					echo "<tr><td colspan='".$cnt."'>
                         <a href='".base_url()."rates/termination_rates_list/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
                         <input type='submit' class='btn btn-line-parrot pull-right'' id='Process' value='Process'/></td></tr>";
-        ?> </table></form>  
+		?> </table></form>  
      </div>  
             </div>
         </div>

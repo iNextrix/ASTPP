@@ -41,7 +41,7 @@ class Run_CRON extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		if(!defined( 'CRON' ) )  
+		if ( ! defined('CRON'))  
 		  exit();
 	}
 
@@ -76,7 +76,7 @@ class Run_CRON extends CI_Controller {
 	function generate_sitemap()
 	{	
 		// Live Mode:
-		if( ! CRON_BETA_MODE )
+		if ( ! CRON_BETA_MODE)
 			$cron_id = $this->cron->create('Sitemap (Google|Bing|Ask|Yahoo!)');
 		
 		// Example Code
@@ -89,7 +89,7 @@ class Run_CRON extends CI_Controller {
 		// ...
 
 		// Sandbox Mode:
-		if( CRON_BETA_MODE )
+		if (CRON_BETA_MODE)
 			$this->sitemap->generate_xml(null, false);
 			
 		// Live Mode:
@@ -97,7 +97,7 @@ class Run_CRON extends CI_Controller {
 			echo 'live';
 		
 			$this->sitemap->generate_xml();
-			$this->cron->update( $cron_id );
+			$this->cron->update($cron_id);
 		}
 		
 	}

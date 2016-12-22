@@ -22,97 +22,97 @@
 ###############################################################################
 class rates_model extends CI_Model {
 
-    function rates_model() {
-        parent::__construct();
-    }
+	function rates_model() {
+		parent::__construct();
+	}
 
-    function get_termination_rates_list($flag, $start = 0, $limit = 0) {
-        $this->db_model->build_search('termination_rates_list_search');
+	function get_termination_rates_list($flag, $start = 0, $limit = 0) {
+		$this->db_model->build_search('termination_rates_list_search');
 /********
 ASTPP  3.0 
 Batch Delete
 ********/
-        if($this->session->userdata('advance_batch_delete') == 1){
-           $this->db->where(array("trunk_id >"=>"0"));
-           $this->db->delete("outbound_routes");
-           $this->session->set_userdata('advance_batch_delete','0');
-	       $this->session->unset_userdata('advance_batch_delete');
+		if($this->session->userdata('advance_batch_delete') == 1){
+		   $this->db->where(array("trunk_id >"=>"0"));
+		   $this->db->delete("outbound_routes");
+		   $this->session->set_userdata('advance_batch_delete','0');
+		   $this->session->unset_userdata('advance_batch_delete');
 	   }
 /**************/
-        if ($flag) {
-            $query = $this->db_model->select("*", "outbound_routes", "", "id", "ASC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "outbound_routes", "");
-        }
-        return $query;
-    }
-    function get_termination_rate($flag, $start = 0, $limit = 0, $export = true) {
-        $this->db_model->build_search('termination_rates_list_search');
-        $this->db->from('outbound_routes');
-        if ($flag) {
-            if ($export)
-                $this->db->limit($limit, $start);
-            $result = $this->db->get();
-        }else {
-            $result = $this->db->count_all_results();
-        }
-        return $result;
-    }
+		if ($flag) {
+			$query = $this->db_model->select("*", "outbound_routes", "", "id", "ASC", $limit, $start);
+		} else {
+			$query = $this->db_model->countQuery("*", "outbound_routes", "");
+		}
+		return $query;
+	}
+	function get_termination_rate($flag, $start = 0, $limit = 0, $export = true) {
+		$this->db_model->build_search('termination_rates_list_search');
+		$this->db->from('outbound_routes');
+		if ($flag) {
+			if ($export)
+				$this->db->limit($limit, $start);
+			$result = $this->db->get();
+		}else {
+			$result = $this->db->count_all_results();
+		}
+		return $result;
+	}
 
-    function get_origination_rate($flag, $start = 0, $limit = 0, $export = true) {
-        $this->db_model->build_search('origination_rate_list_search');
-	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $account_data = $this->session->userdata("accountinfo");
-            $reseller = $account_data['id'];
-            $where = array("reseller_id" => $reseller);
-        } else {
-            $where = array('reseller_id'=>'0');
-        }
+	function get_origination_rate($flag, $start = 0, $limit = 0, $export = true) {
+		$this->db_model->build_search('origination_rate_list_search');
+		if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+			$account_data = $this->session->userdata("accountinfo");
+			$reseller = $account_data['id'];
+			$where = array("reseller_id" => $reseller);
+		} else {
+			$where = array('reseller_id'=>'0');
+		}
        
-	    $this->db_model->build_search('origination_rate_list_search');
-        if ($flag) {
-            if ($export)
-                $this->db->limit($limit, $start);
-            $result = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
-        }else {
-            $result = $this->db_model->countQuery("*", "routes", $where);
-        }
+		$this->db_model->build_search('origination_rate_list_search');
+		if ($flag) {
+			if ($export)
+				$this->db->limit($limit, $start);
+			$result = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
+		}else {
+			$result = $this->db_model->countQuery("*", "routes", $where);
+		}
 // 	echo "<pre>";print_r($result->result());exit;
-        return $result;
-    }
+		return $result;
+	}
 
-    function get_origination_rate_for_user($flag, $start = 0, $limit = 0,$export = true) {
-        $this->db_model->build_search('origination_rate_list_search');
+	function get_origination_rate_for_user($flag, $start = 0, $limit = 0,$export = true) {
+		$this->db_model->build_search('origination_rate_list_search');
 
-        $account_data = $this->session->userdata("accountinfo");
+		$account_data = $this->session->userdata("accountinfo");
 
-        $where = array("pricelist_id" => $account_data["pricelist_id"]);
+		$where = array("pricelist_id" => $account_data["pricelist_id"]);
 
-        $this->db_model->build_search('origination_rate_list_search');
-        if ($flag) {
-            if ($export)
-                $this->db->limit($limit, $start);
-            $result = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
-        }else {
-            $result = $this->db_model->countQuery("*", "routes", $where);
-        }
-        return $result;
-    }
+		$this->db_model->build_search('origination_rate_list_search');
+		if ($flag) {
+			if ($export)
+				$this->db->limit($limit, $start);
+			$result = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
+		}else {
+			$result = $this->db_model->countQuery("*", "routes", $where);
+		}
+		return $result;
+	}
 // ==============================================
-    function get_origination_rate_list($flag, $start = 0, $limit = 0) {
-        $this->db_model->build_search('origination_rate_list_search');
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $account_data = $this->session->userdata("accountinfo");
-            $where = array("reseller_id" => $account_data['id']);
-        } else {
-            $where = array('reseller_id'=>'0');
-        }        
+	function get_origination_rate_list($flag, $start = 0, $limit = 0) {
+		$this->db_model->build_search('origination_rate_list_search');
+		if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+			$account_data = $this->session->userdata("accountinfo");
+			$where = array("reseller_id" => $account_data['id']);
+		} else {
+			$where = array('reseller_id'=>'0');
+		}        
 /***********
 ASTPP  3.0 
 Batch delete
 ************/
-        if($this->session->userdata('advance_batch_delete') == 1){
-            $this->db->where($where);
+		if($this->session->userdata('advance_batch_delete') == 1){
+			$this->db->where($where);
 			$this->db->delete("routes");
 			//echo $this->db->last_query(); exit;
 			$this->session->set_userdata('advance_batch_delete','0');
@@ -131,14 +131,14 @@ Batch delete
         //echo $this->db->last_query();
         return $query;
     }
-    function getunblocked_pattern_list($accountid,$flag, $start = 0, $limit = 0) {
+    function getunblocked_pattern_list($accountid, $flag, $start = 0, $limit = 0) {
         $this->db_model->build_search('origination_rate_list_search');
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $reseller = $account_data['id'];
             $where = array("reseller_id" => $reseller, "status" => "0");
         } else {
-            $where = array("status" => "0",'reseller_id'=>'0');
+            $where = array("status" => "0", 'reseller_id'=>'0');
         }
         $where1 = '(pattern NOT IN (select blocked_patterns from block_patterns where accountid = "'.$accountid.'"))';
         $this->db->where($where1);        
@@ -150,14 +150,14 @@ Batch delete
         }
         return $query;
     }
-    function getunblocked_package_pattern($accountid,$flag, $start = 0, $limit = 0) {
+    function getunblocked_package_pattern($accountid, $flag, $start = 0, $limit = 0) {
         $this->db_model->build_search('origination_rate_list_search');
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $reseller = $account_data['id'];
             $where = array("reseller_id" => $reseller, "status" => "0");
         } else {
-            $where = array("status" => "0",'reseller_id'=>'0');
+            $where = array("status" => "0", 'reseller_id'=>'0');
         }
         $where1 = '(pattern NOT IN (select DISTINCT patterns from package_patterns where package_id = "'.$accountid.'"))';
         $this->db->where($where1);       
@@ -173,7 +173,7 @@ Batch delete
         $this->db_model->build_search('user_rates_list_search');
 
         $account_data = $this->session->userdata("accountinfo");
-        $where = array("pricelist_id" => $account_data["pricelist_id"],"status" => '0');
+        $where = array("pricelist_id" => $account_data["pricelist_id"], "status" => '0');
 
         $this->db_model->build_search('origination_rate_list_search');
         if ($flag) {
@@ -192,15 +192,15 @@ Batch delete
             $reseller = $account_data['id'];
             $add_array['reseller_id'] = $reseller;
         }
-        $add_array['pattern'] = "^" . $add_array['pattern'] . ".*";
+        $add_array['pattern'] = "^".$add_array['pattern'].".*";
         $add_array['prepend'] = $add_array['prepend'];
         /*
         ASTPP  3.0 
          add creation date.
         */
-        $add_array['creation_date']=gmdate('Y-m-d H:i:s');
+        $add_array['creation_date'] = gmdate('Y-m-d H:i:s');
         /*******************************************************/
-        $this->insert_if_not_exitst($add_array,"outbound_routes");
+        $this->insert_if_not_exitst($add_array, "outbound_routes");
         //$this->db->insert("outbound_routes", $add_array);
         return true;
     }
@@ -211,9 +211,9 @@ Batch delete
         ASTPP  3.0
          Edit time last modified date
         */
-        $data['last_modified_date']=gmdate('Y-m-d H:i:s');
+        $data['last_modified_date'] = gmdate('Y-m-d H:i:s');
         /***************************************************/
-        $data['pattern'] = "^" . $data['pattern'] . ".*";
+        $data['pattern'] = "^".$data['pattern'].".*";
         $this->db->where("id", $id);
         $this->db->update("outbound_routes", $data);
     }
@@ -231,7 +231,7 @@ Batch delete
         ASTPP  3.0 
         ADD time put creation date in routes table 
         */
-        $add_array['creation_date']=gmdate('Y-m-d H:i:s');
+        $add_array['creation_date'] = gmdate('Y-m-d H:i:s');
         /**********************************************/
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
@@ -239,12 +239,12 @@ Batch delete
             $add_array['reseller_id'] = $reseller;
         }
 	
-        $add_array['pattern'] = "^" . $add_array['pattern'] . ".*";
+        $add_array['pattern'] = "^".$add_array['pattern'].".*";
 /*************
 ASTPP  3.0 
 Rate insert
 *************/
-        $this->insert_if_not_exitst($add_array,"routes");
+        $this->insert_if_not_exitst($add_array, "routes");
 //        $this->db->insert("routes", $add_array);
 /*******************************/
         return true;
@@ -256,9 +256,9 @@ Rate insert
         ASTPP  3.0
          Edit tile last modified date update
         */
-        $data['last_modified_date']=gmdate('Y-m-d H:i:s');
+        $data['last_modified_date'] = gmdate('Y-m-d H:i:s');
         /********************************************************/
-        $data['pattern'] = "^" . $data['pattern'] . ".*";
+        $data['pattern'] = "^".$data['pattern'].".*";
         $this->db->where("id", $id);
         $this->db->update("routes", $data);
     }
@@ -273,10 +273,11 @@ Rate insert
         $this->db->where("name", $field_value);
         $query = $this->db->get('trunks');
         $data = $query->result();
-        if ($query->num_rows > 0)
-            return $data[0]->id;
-        else
-            return '';
+        if ($query->num_rows > 0) {
+                    return $data[0]->id;
+        } else {
+                    return '';
+        }
     }
 
     function bulk_insert_termination_rate($field_value) {
@@ -292,35 +293,35 @@ Rate insert
         $affected_row = $this->db->affected_rows();
         return $affected_row;
     }
-    function termination_rate_batch_update($update_array){
+    function termination_rate_batch_update($update_array) {
         $this->db_model->build_search('termination_rates_list_search');
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
-            $this->db->where("reseller_id",$account_data['id']);
+            $this->db->where("reseller_id", $account_data['id']);
         }
         
         $updateflg = $this->db_model->build_batch_update_array($update_array);
-        if($updateflg)
+        if ($updateflg)
             return $this->db->update("outbound_routes");
         else
             return false;
     }
-    function origination_rate_batch_update($update_array){
+    function origination_rate_batch_update($update_array) {
         $this->db_model->build_search('origination_rate_list_search');
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
-            $this->db->where("reseller_id",$account_data['id']);
+            $this->db->where("reseller_id", $account_data['id']);
         }
         $updateflg = $this->db_model->build_batch_update_array($update_array);
-        if($updateflg)
+        if ($updateflg)
             return $this->db->update("routes");
         else
             return false;
     }
-    function getreseller_rates_list($flag, $start = 0, $limit = 0,$export=false) {
+    function getreseller_rates_list($flag, $start = 0, $limit = 0, $export = false) {
         $this->db_model->build_search('resellerrates_list_search');
         $account_data = $this->session->userdata("accountinfo");
-        $where = array("status"=>"0","pricelist_id" => $account_data["pricelist_id"]);
+        $where = array("status"=>"0", "pricelist_id" => $account_data["pricelist_id"]);
         if ($flag) {
             $query = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);            
         } else {
@@ -332,6 +333,9 @@ Rate insert
 ASTPP  3.0
 Rate insert
 *************/
+    /**
+     * @param string $table_name
+     */
     function insert_if_not_exitst($add_array,$table_name){
         $insert_str = "Insert into $table_name (";
         $insert_key = "";

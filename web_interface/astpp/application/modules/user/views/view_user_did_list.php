@@ -52,7 +52,7 @@
 <? endblock() ?>
 
 <? startblock('page-title') ?>
-<?= $page_title;?>
+<?= $page_title; ?>
 <? endblock() ?>
 <? startblock('content') ?>   
 <section class="slice color-three">

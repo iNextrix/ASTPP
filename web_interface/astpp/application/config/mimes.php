@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /*
 | -------------------------------------------------------------------
 | MIME TYPES
@@ -8,7 +10,7 @@
 |
 */
 
-$mimes = array(	'hqx'	=>	'application/mac-binhex40',
+$mimes = array('hqx'	=>	'application/mac-binhex40',
 				'cpt'	=>	'application/mac-compactpro',
 				'csv'	=>	array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel'),
 				'bin'	=>	'application/macbinary',
@@ -71,7 +73,7 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 				'jpeg'	=>	array('image/jpeg', 'image/pjpeg'),
 				'jpg'	=>	array('image/jpeg', 'image/pjpeg'),
 				'jpe'	=>	array('image/jpeg', 'image/pjpeg'),
-				'png'	=>	array('image/png',  'image/x-png'),
+				'png'	=>	array('image/png', 'image/x-png'),
 				'tiff'	=>	'image/tiff',
 				'tif'	=>	'image/tiff',
 				'css'	=>	'text/css',

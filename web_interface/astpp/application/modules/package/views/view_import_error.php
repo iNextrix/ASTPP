@@ -43,7 +43,7 @@
     </div> 
 <br/>
 
-                    <?php if(isset($packageid) && $packageid!= ""){ ?>
+                    <?php if (isset($packageid) && $packageid != "") { ?>
 <div class="col-md-12 padding-b-10">
                    <div class="pull-right">
                         <a href="<?= base_url().'package/package_pattern_list/'.$packageid?>"><input class="btn btn-line-sky margin-x-10" id="back_to_list" type="button" name="action" value="Back to Package Patterns List" /> </a>

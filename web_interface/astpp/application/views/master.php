@@ -10,7 +10,7 @@ Add classes
 <!--******************************************-->   
 
 <?php
-$url =  "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+$url = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
 if (strpos($url, 'customer_cdrs') != true) {
    
@@ -27,19 +27,19 @@ if (strpos($url, 'customer_cdrs') != true) {
 ASTPP  3.0
 Email host test
 -->
-	        <?php if(isset($test_email_flag) && $test_email_flag){ ?>
+	        <?php if (isset($test_email_flag) && $test_email_flag) { ?>
 	                <div id="show_search" class="pull-right btn btn-warning btn margin-t-51"><a onclick="PopupCenter('<?=base_url()?>newmail/',resizable=1,width=580,height=700) "><font color="#fff"><i class= " fa fa-envelope-o"></i> &nbsp;Test Mail</font></a></div>
                 <?php } ?>
 
 <!--/*******************************/ -->
 	        <div class="col-sm-4 no-padding">
-		 <?php if(isset($batch_update_flag) && $batch_update_flag){ ?>
+		 <?php if (isset($batch_update_flag) && $batch_update_flag) { ?>
                 <div id="updatebar" class="pull-right btn btn-update btn margin-t-51 margin-l-10"><i class="fa fa-retweet fa-lg"></i> <?php echo gettext('Batch Update'); ?></div>
                 <?php } ?>
-	        <?php if(isset($search_flag) && $search_flag){ ?>
+	        <?php if (isset($search_flag) && $search_flag) { ?>
 	                <div id="show_search" class="pull-right btn btn-warning btn margin-t-51"><i class="fa fa-search"></i><?php echo gettext('Search'); ?></div>
                 <?php } ?>
-                <?php if(isset($back_flag) && $back_flag){?>
+                <?php if (isset($back_flag) && $back_flag) {?>
 					<ul class="breadcrumb">
                 <li class="active pull-right">
 				<a href="<?= $_SERVER['HTTP_REFERER']?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a>
@@ -79,20 +79,20 @@ Email host test
   </div>
 </div>
 <?php
-    $astpp_msg = false;
-    $msg_type = "";
-    $astpp_err_msg = $this->session->flashdata('astpp_errormsg');
-    if ($astpp_err_msg) {
-        $astpp_msg = ucfirst($astpp_err_msg);
-        $msg_type = "error";
-    }
+	$astpp_msg = false;
+	$msg_type = "";
+	$astpp_err_msg = $this->session->flashdata('astpp_errormsg');
+	if ($astpp_err_msg) {
+		$astpp_msg = ucfirst($astpp_err_msg);
+		$msg_type = "error";
+	}
     
    $astpp_notify_msg = $this->session->flashdata('astpp_notification');
    if ($astpp_notify_msg) {  
-        $astpp_msg = ucfirst($astpp_notify_msg);
-        $msg_type = "notification";
+		$astpp_msg = ucfirst($astpp_notify_msg);
+		$msg_type = "notification";
    }
-   if($astpp_msg){
+   if ($astpp_msg) {
 ?>
 <script> 
     var validate_ERR = '<?= $astpp_msg; ?>';

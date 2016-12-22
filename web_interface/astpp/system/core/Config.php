@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -56,11 +58,11 @@ class CI_Config {
 	 * @param   string	the config file name
 	 * @param   boolean  if configuration values should be loaded into their own section
 	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
-	 * @return  boolean  if the file was successfully loaded or not
+	 * @return  boolean|null  if the file was successfully loaded or not
 	 */
 	function __construct()
 	{
-		$this->config =& get_config();
+		$this->config = & get_config();
 		log_message('debug', "Config Class Initialized");
 
 		// Set the base_url automatically if none was provided
@@ -69,11 +71,9 @@ class CI_Config {
 			if (isset($_SERVER['HTTP_HOST']))
 			{
 				$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
-				$base_url .= '://'. $_SERVER['HTTP_HOST'];
+				$base_url .= '://'.$_SERVER['HTTP_HOST'];
 				$base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-			}
-
-			else
+			} else
 			{
 				$base_url = 'http://localhost/';
 			}
@@ -143,13 +143,11 @@ class CI_Config {
 				if (isset($this->config[$file]))
 				{
 					$this->config[$file] = array_merge($this->config[$file], $config);
-				}
-				else
+				} else
 				{
 					$this->config[$file] = $config;
 				}
-			}
-			else
+			} else
 			{
 				$this->config = array_merge($this->config, $config);
 			}
@@ -196,8 +194,7 @@ class CI_Config {
 			}
 
 			$pref = $this->config[$item];
-		}
-		else
+		} else
 		{
 			if ( ! isset($this->config[$index]))
 			{
@@ -223,6 +220,7 @@ class CI_Config {
 	 * @access	public
 	 * @param	string	the config item name
 	 * @param	bool
+	 * @param string $item
 	 * @return	string
 	 */
 	function slash_item($item)
@@ -231,7 +229,7 @@ class CI_Config {
 		{
 			return FALSE;
 		}
-		if( trim($this->config[$item]) == '')
+		if (trim($this->config[$item]) == '')
 		{
 			return '';
 		}
@@ -260,8 +258,7 @@ class CI_Config {
 		{
 			$suffix = ($this->item('url_suffix') == FALSE) ? '' : $this->item('url_suffix');
 			return $this->slash_item('base_url').$this->slash_item('index_page').$this->_uri_string($uri).$suffix;
-		}
-		else
+		} else
 		{
 			return $this->slash_item('base_url').$this->item('index_page').'?'.$this->_uri_string($uri);
 		}
@@ -279,7 +276,7 @@ class CI_Config {
 	 */
 	function base_url($uri = '')
 	{
-		return $this->slash_item('base_url').ltrim($this->_uri_string($uri),'/');
+		return $this->slash_item('base_url').ltrim($this->_uri_string($uri), '/');
 	}
 
 	// -------------------------------------------------------------
@@ -288,7 +285,7 @@ class CI_Config {
 	 * Build URI string for use in Config::site_url() and Config::base_url()
 	 *
 	 * @access protected
-	 * @param  $uri
+	 * @param  string $uri
 	 * @return string
 	 */
 	protected function _uri_string($uri)
@@ -300,8 +297,7 @@ class CI_Config {
 				$uri = implode('/', $uri);
 			}
 			$uri = trim($uri, '/');
-		}
-		else
+		} else
 		{
 			if (is_array($uri))
 			{
@@ -316,7 +312,7 @@ class CI_Config {
 				$uri = $str;
 			}
 		}
-	    return $uri;
+		return $uri;
 	}
 
 	// --------------------------------------------------------------------

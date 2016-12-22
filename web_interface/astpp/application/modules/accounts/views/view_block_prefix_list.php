@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/flexigrid.css" type="text/css">

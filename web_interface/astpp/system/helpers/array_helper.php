@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -104,8 +106,7 @@ if ( ! function_exists('elements'))
 			if (isset($array[$item]))
 			{
 				$return[$item] = $array[$item];
-			}
-			else
+			} else
 			{
 				$return[$item] = $default;
 			}
