@@ -3,8 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">    <title>
-ASTPP - Open Source Voip Billing Solution</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">    
+<title>
+	<?php       
+        $this->db->where('domain',$_SERVER['HTTP_HOST']);
+        $this->db->select('*');
+        $this->db->order_by('accountid', 'desc');
+        $this->db->limit(1);
+        $invoiceconf = $this->db->get('invoice_conf');
+        $invoiceconf = (array)$invoiceconf->first_row();
+	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
+	?>
+	Signup | <?php echo $invoiceconf['website_title']; ?>
+	<?php
+		}else{ 
+	?>
+	Signup | ASTPP - Open Source Voip Billing Solution
+	<?php
+	}
+	?>
+</title>
 <link rel="icon" href="<?php echo base_url(); ?>/assets/images/favicon.ico">
 
 <link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -98,7 +116,7 @@ ASTPP work best with JavaScript enabled
                         <?php if (isset($astpp_notification)){ ?>
                         Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.
 						<?php }else{
-                         echo "&nbsp;";
+						 echo "&nbsp;";
 						} ?>
                     </span>
                 </div> 
@@ -113,17 +131,23 @@ ASTPP work best with JavaScript enabled
 								<div class="">	
 											<!-- Header Start-->
 												<div class="col-md-12">
-													  <? if($this->session->userdata('userlevel_logintype') != '0'){?>
-															<a class="col-md-10" style="padding:0px 0px 10px 0px" href="<?php echo base_url();?>">
-																<img style="height: 44px;" id="logo" alt="dashboard" src="<?php echo base_url();?>assets/images/logo.png">
-														<? } else{?> 
-																<a class="col-md-10" style="padding:0px 0px 20px 0px" href="<?php echo base_url();?>">
-																<img style="height: 44px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url();?>assets/images/logo.png">
+													 <?php
+														if(isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != ""){
+															$logo = $this->session->userdata['user_logo'];
+														}else{
+															$logo = 'logo.png';
+														}
+														
+													if ($this->session->userdata('userlevel_logintype') != '0') {?>
+															<a class="col-md-10" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
+																<img style="height: 44px; width:216px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+														<? } else {?> 
+																<a class="col-md-10" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
+																<img style="height: 44px; width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
 														<? }?>
 															</a>
-												
 												<div class="col-md-2">
-													<a href="<?php echo base_url();?>">
+													<a href="<?php echo base_url(); ?>">
 														<input type="submit" value="Login" name="Login" style="border-radius: 2px" class="btn btn-success col-md-12 margin-t-10">
 													</a>
 									  				</div>
@@ -136,14 +160,24 @@ ASTPP work best with JavaScript enabled
 	
 		<div class="margin-t-15 padding-r-32 padding-l-32">
 
-		<input type="hidden" name="key_unique"  value="<?php if (isset($key_unique)) echo $key_unique; else ''; ?>"
+		<input type="hidden" name="key_unique"  value="<?php if (isset($key_unique)) {
+	echo $key_unique;
+} else {
+	'';
+}
+?>"
 		id="key_unique" size="15" maxlength="250" class="col-md-5 form-control"/>
 	<div class="col-md-12 no-padding">
 
 			<li class="col-md-6 no-padding">
 				<label class="col-md-3 no-padding" style="text-align: left;">First Name *</label>
 				<div class='col-md-9'>
-				<input type="text" name="first_name" value="<?php if (isset($value['first_name'])) echo $value['first_name']; else ''; ?>" id="first_name" size="15" maxlength="40" class="form-control"/>
+				<input type="text" name="first_name" value="<?php if (isset($value['first_name'])) {
+	echo $value['first_name'];
+} else {
+	'';
+}
+?>" id="first_name" size="15" maxlength="40" class="form-control"/>
 				<div style="width: 97.67%; float: left;text-align: left;">
 					<span id="f_name" style="color:red;"> </span>
 				</div>
@@ -152,7 +186,12 @@ ASTPP work best with JavaScript enabled
 			<li class="col-md-6  no-padding">
 				<label class="col-md-3 no-padding" style="text-align: left;">Last Name</label>
 				<div class='col-md-9'>
-				<input type="text" name="last_name" id="last_name" value="<?php if (isset($value['last_name'])) echo $value['last_name']; else ''; ?>"  size="15" maxlength="40" class="form-control"/>
+				<input type="text" name="last_name" id="last_name" value="<?php if (isset($value['last_name'])) {
+	echo $value['last_name'];
+} else {
+	'';
+}
+?>"  size="15" maxlength="40" class="form-control"/>
 				<div style="width: 97.67%; float: left;text-align: left;">
 					<span id="l_name" style="color:red;"> </span>
 				</div>
@@ -166,13 +205,23 @@ ASTPP work best with JavaScript enabled
 			<li class="col-md-6 no-padding">
 				<label class="col-md-3 no-padding" style="text-align: left;">Company</label>
 				<div class='col-md-9'>
-				<input type="text" id="company_name" name="company_name" value="<?php if (isset($value['company_name'])) echo $value['company_name']; else ''; ?>" maxlength="40" size="15" class="form-control"/>
+				<input type="text" id="company_name" name="company_name" value="<?php if (isset($value['company_name'])) {
+	echo $value['company_name'];
+} else {
+	'';
+}
+?>" maxlength="40" size="15" class="form-control"/>
 				</div>
 			</li>
 			<li class="col-md-6 no-padding">
 				<label class="col-md-3 no-padding" style="text-align: left;">Telephone</label>
 				<div class='col-md-9'>
-				<input type="text" id="telephone_1" name="telephone_1" value="<?php if (isset($value['telephone_1'])) echo $value['telephone_1']; else ''; ?>" size="15" maxlength="20" class="form-control"/>
+				<input type="text" id="telephone_1" name="telephone_1" value="<?php if (isset($value['telephone_1'])) {
+	echo $value['telephone_1'];
+} else {
+	'';
+}
+?>" size="15" maxlength="20" class="form-control"/>
 				<div style="width: 100%; float: left;text-align: left;">
 					<span id="phonenumber" style="color:red;"> </span>
 				</div>
@@ -186,9 +235,17 @@ ASTPP work best with JavaScript enabled
 			<li class="col-md-6 no-padding">	
 				<label class="col-md-3 no-padding" style="text-align: left;">Email *</label>
 				<div class='col-md-9'>
-				<input type="text" name="email" id="email" value="<?php if (isset($value['email'])) echo $value['email']; else ''; ?>" size="50" maxlength="80" class="form-control"/>
+				<input type="text" name="email" id="email" value="<?php if (isset($value['email'])) {
+	echo $value['email'];
+} else {
+	'';
+}
+?>" size="50" maxlength="80" class="form-control"/>
 				<span id="email_error" style="color:red;"> 
-				<div style="width: 100%; float: left;text-align: left;"><?php if (isset($error['email'])) echo $error['email']; ?></div></span>
+				<div style="width: 100%; float: left;text-align: left;"><?php if (isset($error['email'])) {
+	echo $error['email'];
+}
+?></div></span>
 				</div>
 			</li>
 			<li class="col-md-6  no-padding">
@@ -196,7 +253,7 @@ ASTPP work best with JavaScript enabled
 				<div class='col-md-9'>
 				<?
 				$js = 'id="country_id"';
-				$country = form_dropdown(array('id'=>'country_id','name'=>'country_id'), $this->db_model->build_dropdown("id,country", "countrycode", "", ""), '', 'id="country_id"');
+				$country = form_dropdown(array('id'=>'country_id', 'name'=>'country_id'), $this->db_model->build_dropdown("id,country", "countrycode", "", ""), '', 'id="country_id"');
 				echo $country;
 				?>
 				</div>
@@ -210,7 +267,7 @@ ASTPP work best with JavaScript enabled
 				<label for="Timezone" class="col-md-3 no-padding add_settings" style="text-align: left;">Timezone</label>
 				<div class='col-md-9'>
 				<?
-				$timezone = form_dropdown(array('id'=>'timezone_id','name'=>'timezone_id'), $this->db_model->build_dropdown("id,gmtzone", "timezone", "", ""), '', 'id="timezone_id"');
+				$timezone = form_dropdown(array('id'=>'timezone_id', 'name'=>'timezone_id'), $this->db_model->build_dropdown("id,gmtzone", "timezone", "", ""), '', 'id="timezone_id"');
 				echo $timezone;
 				?>
 				</div>
@@ -219,7 +276,7 @@ ASTPP work best with JavaScript enabled
 				<label for="Currency" class="col-md-3  no-padding add_settings" style="text-align: left;">Currency</label>
 				<div class='col-md-9'>
 				<?
-				$currency = form_dropdown(array('id'=>'currency_id','name'=>'currency_id'), $this->db_model->build_dropdown("id,currencyname", "currency", "", ""), '', 'id="currency_id"');
+				$currency = form_dropdown(array('id'=>'currency_id', 'name'=>'currency_id'), $this->db_model->build_dropdown("id,currencyname", "currency", "", ""), '', 'id="currency_id"');
 				echo $currency;
 				?>
 				</div>
@@ -229,7 +286,12 @@ ASTPP work best with JavaScript enabled
 		  	<li class="col-md-6  no-padding">
 				<label class="col-md-3  no-padding" style="text-align: left;">Address</label>
 				<div class='col-md-9'>
-				<textarea id="address_1" name="address_1" value="" size="15" maxlength="200" class="form-control"> <?php if (isset($value['address_1'])) echo $value['address_1']; else ''; ?> </textarea>
+				<textarea id="address_1" name="address_1" value="" size="15" maxlength="200" class="form-control"> <?php if (isset($value['address_1'])) {
+	echo $value['address_1'];
+} else {
+	'';
+}
+?> </textarea>
 				</div>
 			</li>
 			<li class="col-md-6 no-padding">
@@ -243,7 +305,10 @@ ASTPP work best with JavaScript enabled
 				<div class="col-md-3 no-padding"></div>
 				<div class='col-md-9 margin-t-10'>															
 				<input class='form-control posttoexternal' id="userCaptcha" name="userCaptcha" type="text" autocomplete="off" placeholder="Enter above text"/>
-				<div style="width: 100%; float: left;text-align: left;"><?php if (isset($error['userCaptcha'])) echo $error['userCaptcha']; ?></div>
+				<div style="width: 100%; float: left;text-align: left;"><?php if (isset($error['userCaptcha'])) {
+	echo $error['userCaptcha'];
+}
+?></div>
 				</div>
 			</li>
 		</div>

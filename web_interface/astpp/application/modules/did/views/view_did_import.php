@@ -17,8 +17,8 @@
             	<div class="w-box">
             	 <span  style="margin-left:10px; text-align: center;background-color: none;color:#1c8400;">
                     <? if(isset($error) && !empty($error)) {
-                        echo $error;
-                    }?>
+						echo $error;
+					}?>
                  </span>
                    <h3 class="padding-t-10 padding-l-16">File must be in the following format:<br />
                 number,account,connectcost,includedseconds,monthlyfee,cost,extensions,status,provider,country,province,city,increment
@@ -34,7 +34,7 @@
                                <label class="col-md-3">Trunk List:</label>
                                <div>
                                <? $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "", ""), '');
-                            echo $trunklist; ?></div>
+							echo $trunklist; ?></div>
                            </div>
                            <div class="col-md-12 no-padding"s>
                             <input type="hidden" name="mode" value="Import DIDs" />

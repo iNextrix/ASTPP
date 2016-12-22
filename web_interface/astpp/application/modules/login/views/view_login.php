@@ -4,15 +4,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>	ASTPP - Open Source Voip Billing Solution</title>
+    <title>
+	<?php       
+        $this->db->where('domain',$_SERVER['HTTP_HOST']);
+        $this->db->select('*');
+        $this->db->order_by('accountid', 'desc');
+        $this->db->limit(1);
+        $invoiceconf = $this->db->get('invoice_conf');
+        $invoiceconf = (array)$invoiceconf->first_row();
+	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
+	?>
+	Log In | <?php echo $invoiceconf['website_title']; ?>
+	<?php
+		}else{ 
+	?>
+	Log In | ASTPP - Open Source Voip Billing Solution
+	<?php
+	}
+	?>
+	</title>
     <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico">
     <link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/fonts/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css">
     
      <!-- IE -->
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.src.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
     <noscript>
 	 <div id="noscript-warning">
 	  ASTPP work best with JavaScript enabled
@@ -39,8 +57,8 @@
                         <?php if (isset($astpp_notification)){ ?>
                         Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.
                     <?php }else{
-                         echo "&nbsp;";
-                    } ?>
+						 echo "&nbsp;";
+					} ?>
                     </span></div> <br/>
                     <br/>
                     <br/>
@@ -51,7 +69,18 @@
                           <div class="padding-l-32 padding-r-32">
                         	<h2 class="text-center">
                           
-                            	<img alt="login" src="<?= base_url() ?>upload/<?= $user_logo?>" style="height:auto;widht:auto;">
+							<?php
+							if(isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != ""){
+								$logo = $this->session->userdata['user_logo'];
+							}else{
+								$logo = 'logo.png';
+							}
+
+							if ($this->session->userdata('userlevel_logintype') != '0') {?>
+									<img style="height:53px;width:216px;" id="logo" alt="login" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<? } else {?> 
+									<img style="height:53px;width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='login' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<? }?>
                             	<div class="clear"></div>
                             
                             </h2>

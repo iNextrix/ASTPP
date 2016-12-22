@@ -4,7 +4,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("ipsettings_list","<?php echo base_url() . "accounts/customer_ipmap_json/$edit_id/$accounttype/"; ?>",<? echo $grid_fields; ?>,"");
+        build_grid("ipsettings_list","<?php echo base_url()."accounts/customer_ipmap_json/$edit_id/$accounttype/"; ?>",<? echo $grid_fields; ?>,"");
         $.validator.addMethod('IP4Checker', function(value) {
             //var pattern = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/;
             var n = value.indexOf("/");
@@ -21,7 +21,7 @@
 	  var prefix=$("#prefix").val();        
 	  var ip =$("#ip").val();
           $.ajax({
-                 url: "<?=base_url();?>accounts/customer_validate_ip/",
+                 url: "<?=base_url(); ?>accounts/customer_validate_ip/",
                  type: "post",
                  async:false,
                  data: {
@@ -87,19 +87,19 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
                         <li>
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> Profile</a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> Profile</a>
                         </li>
                         <li class="active">
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_ipmap/" . $edit_id . "/"; ?>"> IP Settings</a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_ipmap/".$edit_id."/"; ?>"> IP Settings</a>
                         </li>
                     </ul>
                 </div>
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div>     
@@ -117,7 +117,7 @@
                 <div class="margin-b-10 slice color-three pull-left content_border col-md-12" id="left_panel_form" style="cursor: pointer; display: none;">
                     <fieldset class="margin-b-20">
                         <legend>New IP</legend>
-                        <form method="post" name="ip_map" id="ip_map" action="<?= base_url() . "accounts/customer_ipmap_action/add/$edit_id/$accounttype/" ?>">
+                        <form method="post" name="ip_map" id="ip_map" action="<?= base_url()."accounts/customer_ipmap_action/add/$edit_id/$accounttype/" ?>">
                             <div class='col-md-4'> 
                                 <label class="col-md-1 no-padding">Name</label>
                                 <input class="col-md-2 form-control" name="name" size="16" type="text"/>

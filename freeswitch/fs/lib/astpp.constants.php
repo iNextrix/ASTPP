@@ -22,7 +22,7 @@
 ###############################################################################
 
 //Define user rates array for parsing
-$CONST_USER_RATE = array (
+$CONST_USER_RATE = array(
 'RID' => 'id',
 'RCD' => 'code',
 'RDS' => 'destination',
@@ -36,7 +36,7 @@ $CONST_USER_RATE = array (
 );
 
 //Define carrier rates array for parsing
-$CONST_CARRIER_RATE = array (
+$CONST_CARRIER_RATE = array(
 'CID' => 'id',
 'CCD' => 'code',
 'CDS' => 'destination',

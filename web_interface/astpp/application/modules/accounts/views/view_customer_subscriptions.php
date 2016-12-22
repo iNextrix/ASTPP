@@ -4,7 +4,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("subscription_list","<?php echo base_url() . "accounts/customer_details_json/subscription/$edit_id/"; ?>",<? echo $grid_fields; ?>,"");
+        build_grid("subscription_list","<?php echo base_url()."accounts/customer_details_json/subscription/$edit_id/"; ?>",<? echo $grid_fields; ?>,"");
         $("#left_panel_quick_search").keyup(function(){
             quick_search("accounts/customer_details_search/"+'<?php echo $accounttype?>'+"_subscription/");
         });
@@ -45,12 +45,12 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
                         <li>
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> Profile </a>
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> Profile </a>
                         </li>
                         <li class="active">
-                            <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_subscription/" . $edit_id . "/"; ?>">
+                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_subscription/".$edit_id."/"; ?>">
                                 Subscriptions
                             </a>
                         </li>
@@ -59,7 +59,7 @@
                 <div class="pull-right">
                     <ul class="breadcrumb">
 		      <li class="active pull-right">
-		      <a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
+		      <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
                     </ul>
                 </div>
             </div> 
@@ -77,7 +77,7 @@
                 <div class="slice color-three pull-left content_border col-md-12">
                      <fieldset class="margin-b-20">
                         <legend>Subscriptions</legend>
-                        <form method="post" name="purchase_subscription" id="purchase_subscription" action="<?= base_url() . "accounts/customer_subscription_action/add/" . $edit_id . "/" . $accounttype . "/"; ?>" enctype="multipart/form-data">
+                        <form method="post" name="purchase_subscription" id="purchase_subscription" action="<?= base_url()."accounts/customer_subscription_action/add/".$edit_id."/".$accounttype."/"; ?>" enctype="multipart/form-data">
                             
                             <div class="col-md-8">
                                 <label class="col-md-3 no-padding">Subscriptions:</label>

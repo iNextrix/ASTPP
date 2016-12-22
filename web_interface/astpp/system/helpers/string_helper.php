@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -71,8 +73,7 @@ if ( ! function_exists('strip_slashes'))
 			{
 				$str[$key] = strip_slashes($val);
 			}
-		}
-		else
+		} else
 		{
 			$str = stripslashes($str);
 		}
@@ -115,7 +116,7 @@ if ( ! function_exists('quotes_to_entities'))
 {
 	function quotes_to_entities($str)
 	{
-		return str_replace(array("\'","\"","'",'"'), array("&#39;","&quot;","&#39;","&quot;"), $str);
+		return str_replace(array("\'", "\"", "'", '"'), array("&#39;", "&quot;", "&#39;", "&quot;"), $str);
 	}
 }
 
@@ -195,7 +196,7 @@ if ( ! function_exists('random_string'))
 {
 	function random_string($type = 'alnum', $len = 8)
 	{
-		switch($type)
+		switch ($type)
 		{
 			case 'basic'	: return mt_rand();
 				break;
@@ -217,9 +218,9 @@ if ( ! function_exists('random_string'))
 					}
 
 					$str = '';
-					for ($i=0; $i < $len; $i++)
+					for ($i = 0; $i < $len; $i++)
 					{
-						$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
+						$str .= substr($pool, mt_rand(0, strlen($pool) - 1), 1);
 					}
 					return $str;
 				break;
@@ -231,7 +232,7 @@ if ( ! function_exists('random_string'))
 			case 'encrypt'	:
 			case 'sha1'	:
 
-						$CI =& get_instance();
+						$CI = & get_instance();
 						$CI->load->helper('security');
 
 						return do_hash(uniqid(mt_rand(), TRUE), 'sha1');
@@ -247,7 +248,7 @@ if ( ! function_exists('random_string'))
  *
  * @param   string  $str  required
  * @param   string  $separator  What should the duplicate number be appended with
- * @param   string  $first  Which number should be used for the first dupe increment
+ * @param   integer  $first  Which number should be used for the first dupe increment
  * @return  string
  */
 function increment_string($str, $separator = '_', $first = 1)

@@ -22,16 +22,16 @@
 ###############################################################################
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+	exit('No direct script access allowed');
 
 /**
  * Dynamically build forms for display
  */
 class Global_locale{
 
-    function __construct($library_name = '') {
+	function __construct($library_name = '') {
 
-        $this->CI = & get_instance();
+		$this->CI = & get_instance();
 	header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
 	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -42,7 +42,7 @@ class Global_locale{
 	
 	
 	
-    }
+	}
     
     
  }

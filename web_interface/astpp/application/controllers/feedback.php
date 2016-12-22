@@ -56,7 +56,7 @@ class Feedback extends MX_Controller
 
 				$data=array("name"=>"Admin","company_name"=>$company_name,"address"=>$address,"city"=>$city,"province"=>$province,"country"=>$country,"zipcode"=>$zipcode,"telephone"=>$telephone,"fax"=>$fax,"emailaddress"=>$emailaddress,"website"=>$website,"serverip"=>$_SERVER['SERVER_NAME'],"FLAG"=>"TRUE");				
 			}
-		}else{
+		} else{
 			$account_info = array();
 			$this->db->where("type","-1");
 			$res = $this->db->get('accounts');
@@ -80,10 +80,10 @@ class Feedback extends MX_Controller
 
 			$data=array("name"=>$name,"email"=>$email,"feedback"=>$feedback,"first_name"=>$first_name,"last_name"=>$last_name,"city"=>$city,"telephone_1"=>$telephone_1,"account_email"=>$account_email,"company_name"=>$company_name,"address_1"=>$address_1,"address_2"=>$address_2,"telephone_2"=>$telephone_2,"province"=>$province,"serverip"=>$_SERVER['SERVER_ADDR'],"FLAG"=>"FALSE");
 
-		        $data_new= json_encode($data);
-	        }
+				$data_new= json_encode($data);
+			}
 		}
-        $ch = curl_init();
+		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'http://feedback.astppbilling.org/feedback.php');  
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST'); 
 		curl_setopt($ch, CURLOPT_HEADER, 1);  
@@ -95,14 +95,14 @@ class Feedback extends MX_Controller
 		curl_setopt($ch, CURLINFO_HEADER_OUT, 1);  
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
-        $response = curl_exec($ch);
-        if(!$flag)
-	     redirect(base_url() . 'feedback/thanks');
+		$response = curl_exec($ch);
+		if(!$flag)
+		 redirect(base_url() . 'feedback/thanks');
 	    
 
 	}
 	function thanks(){
-            $this->load->view('view_feedback_response');
+			$this->load->view('view_feedback_response');
 	}	
 
 }

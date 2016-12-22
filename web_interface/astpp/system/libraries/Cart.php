@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -27,12 +29,12 @@
 class CI_Cart {
 
 	// These are the regular expression rules that we use to validate the product ID and product name
-	var $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
-	var $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
+	var $product_id_rules = '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
+	var $product_name_rules = '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
 
 	// Private variables.  Do not change!
 	var $CI;
-	var $_cart_contents	= array();
+	var $_cart_contents = array();
 
 
 	/**
@@ -43,7 +45,7 @@ class CI_Cart {
 	public function __construct($params = array())
 	{
 		// Set the super object to a local variable for use later
-		$this->CI =& get_instance();
+		$this->CI = & get_instance();
 
 		// Are any config settings being passed manually?  If so, set them
 		$config = array();
@@ -62,8 +64,7 @@ class CI_Cart {
 		if ($this->CI->session->userdata('cart_contents') !== FALSE)
 		{
 			$this->_cart_contents = $this->CI->session->userdata('cart_contents');
-		}
-		else
+		} else
 		{
 			// No cart exists so we'll set some base values
 			$this->_cart_contents['cart_total'] = 0;
@@ -80,7 +81,7 @@ class CI_Cart {
 	 *
 	 * @access	public
 	 * @param	array
-	 * @return	bool
+	 * @return	string|boolean
 	 */
 	function insert($items = array())
 	{
@@ -103,8 +104,7 @@ class CI_Cart {
 			{
 				$save_cart = TRUE;
 			}
-		}
-		else
+		} else
 		{
 			foreach ($items as $val)
 			{
@@ -135,7 +135,7 @@ class CI_Cart {
 	 *
 	 * @access	private
 	 * @param	array
-	 * @return	bool
+	 * @return	false|string
 	 */
 	function _insert($items = array())
 	{
@@ -218,8 +218,7 @@ class CI_Cart {
 		if (isset($items['options']) AND count($items['options']) > 0)
 		{
 			$rowid = md5($items['id'].implode('', $items['options']));
-		}
-		else
+		} else
 		{
 			// No options were submitted so we simply MD5 the product ID.
 			// Technically, we don't need to MD5 the ID in this case, but it makes
@@ -281,8 +280,7 @@ class CI_Cart {
 			{
 				$save_cart = TRUE;
 			}
-		}
-		else
+		} else
 		{
 			foreach ($items as $val)
 			{
@@ -349,8 +347,7 @@ class CI_Cart {
 		if ($items['qty'] == 0)
 		{
 			unset($this->_cart_contents[$items['rowid']]);
-		}
-		else
+		} else
 		{
 			$this->_cart_contents[$items['rowid']]['qty'] = $items['qty'];
 		}
@@ -469,7 +466,7 @@ class CI_Cart {
 	 * that has options associated with it.
 	 *
 	 * @access	public
-	 * @return	array
+	 * @return	boolean
 	 */
 	function has_options($rowid = '')
 	{
@@ -509,7 +506,7 @@ class CI_Cart {
 	 * Returns the supplied number with commas and a decimal point.
 	 *
 	 * @access	public
-	 * @return	integer
+	 * @return	string
 	 */
 	function format_number($n = '')
 	{

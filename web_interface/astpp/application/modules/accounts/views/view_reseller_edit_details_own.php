@@ -26,9 +26,9 @@
 //         $(".invoice_day").hide();
 //         $('label[for="Billing Day"]').hide()
        
-document.getElementsByName("currency_id")[0].selectedIndex = <?=$currency_id-1?>;
-document.getElementsByName("timezone_id")[0].selectedIndex = <?=$timezone_id-1?>;
-document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-1?>;
+document.getElementsByName("currency_id")[0].selectedIndex = <?=$currency_id - 1?>;
+document.getElementsByName("timezone_id")[0].selectedIndex = <?=$timezone_id - 1?>;
+document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id - 1?>;
 document.getElementsByName("sweep_id")[0].selectedIndex = <?=2?>;
  
 	 $(".sweep_id").change(function(e){
@@ -62,7 +62,7 @@ document.getElementsByName("sweep_id")[0].selectedIndex = <?=2?>;
  <div class="w-section inverse no-padding">
 				     <?php echo $form; ?>
 				     <?php
-					if(isset($validation_errors) && $validation_errors != ''){ ?>
+					if (isset($validation_errors) && $validation_errors != '') { ?>
 					    <script>
 						var ERR_STR = '<?php echo $validation_errors; ?>';
 						print_error(ERR_STR);

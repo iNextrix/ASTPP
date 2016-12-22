@@ -4,15 +4,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>	ASTPP - Open Source Voip Billing Solution</title>
+    <title>
+	<?php       
+        $this->db->where('domain',$_SERVER['HTTP_HOST']);
+        $this->db->select('*');
+        $this->db->order_by('accountid', 'desc');
+        $this->db->limit(1);
+        $invoiceconf = $this->db->get('invoice_conf');
+        $invoiceconf = (array)$invoiceconf->first_row();
+	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
+	?>
+	Signup | <?php echo $invoiceconf['website_title']; ?>
+	<?php
+		}else{ 
+	?>
+	Signup | ASTPP - Open Source Voip Billing Solution
+	<?php
+	}
+	?>
+</title>
     <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico">
     <link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/fonts/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css">
     
      <!-- IE -->
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.src.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
     <noscript>
 	 <div id="noscript-warning">
 	  ASTPP work best with JavaScript enabled
@@ -38,12 +56,12 @@
                         <?php if (isset($astpp_notification)){ ?>
                         Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.
                     <?php }else{
-                         echo "&nbsp;";
-                    } 
+						 echo "&nbsp;";
+					} 
 			$astpp_err_msg = $this->session->flashdata('astpp_signupmsg');
-			    if ($astpp_err_msg) {
+				if ($astpp_err_msg) {
 				echo $astpp_err_msg;
-			    }
+				}
 			?>
                     </span></div> <br/>
                     <br/>
@@ -57,10 +75,24 @@
                         <div class="w-box dark sign-in-wr box_shadow margin-b-10">
                           <div class="">
                           <div class="col-md-9">
-                           	<img alt="login" src="<?= base_url() ?>assets/images/logo.png">
+                           	<?php
+							if(isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != ""){
+							$logo = $this->session->userdata['user_logo'];
+							}else{
+							$logo = 'logo.png';
+							}
+
+							if ($this->session->userdata('userlevel_logintype') != '0') {?>
+							<a class="col-md-12" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
+							<img style="height: 44px; width:216px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<? } else {?> 
+							<a class="col-md-12" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
+							<img style="height: 44px; width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
+							<? }?>	
+                            	</a>
                            </div>
                            <div class="col-md-3">
-							   <a class="btn btn-success col-md-12 margin-t-10" href="<?php echo base_url();?>">Login</a>
+							   <a class="btn btn-success col-md-12 margin-t-10" href="<?php echo base_url(); ?>">Login</a>
 
 						   </div>
                            
@@ -79,11 +111,11 @@ if ($user_data['success'])
 	echo "<div <div class=\"col-md-12 margin-t-10 margin-b-10 padding-r-32 padding-l-32\" style=\"color: #232222;\">Password : ".$this->common->decode($user_data['password'])."</div>";
 	echo "<br><br>";
 	  
-	 }else
+	 } else
 	 {
 	echo "<div class=\"col-md-12 margin-t-10 margin-b-20 padding-r-32 padding-l-32\" style=\"color: #232222;\">Link is Expire Please Try Again</div><br>";
 echo "";
-       }
+	   }
 ?>
 	
                         

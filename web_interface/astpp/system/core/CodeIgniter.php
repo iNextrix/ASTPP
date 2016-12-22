@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -58,8 +60,7 @@
 	if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
 	{
 		require(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
-	}
-	else
+	} else
 	{
 		require(APPPATH.'config/constants.php');
 	}
@@ -112,7 +113,7 @@
  *  Start the timer... tick tock tick tock...
  * ------------------------------------------------------
  */
-	$BM =& load_class('Benchmark', 'core');
+	$BM = & load_class('Benchmark', 'core');
 	$BM->mark('total_execution_time_start');
 	$BM->mark('loading_time:_base_classes_start');
 
@@ -121,7 +122,7 @@
  *  Instantiate the hooks class
  * ------------------------------------------------------
  */
-	$EXT =& load_class('Hooks', 'core');
+	$EXT = & load_class('Hooks', 'core');
 
 /*
  * ------------------------------------------------------
@@ -135,7 +136,7 @@
  *  Instantiate the config class
  * ------------------------------------------------------
  */
-	$CFG =& load_class('Config', 'core');
+	$CFG = & load_class('Config', 'core');
 
 	// Do we have any manually set config items in the index.php file?
 	if (isset($assign_to_config))
@@ -155,21 +156,21 @@
  *
  */
 
-	$UNI =& load_class('Utf8', 'core');
+	$UNI = & load_class('Utf8', 'core');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the URI class
  * ------------------------------------------------------
  */
-	$URI =& load_class('URI', 'core');
+	$URI = & load_class('URI', 'core');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
-	$RTR =& load_class('Router', 'core');
+	$RTR = & load_class('Router', 'core');
 	$RTR->_set_routing();
 
 	// Set any routing overrides that may exist in the main index file
@@ -183,7 +184,7 @@
  *  Instantiate the output class
  * ------------------------------------------------------
  */
-	$OUT =& load_class('Output', 'core');
+	$OUT = & load_class('Output', 'core');
 
 /*
  * ------------------------------------------------------
@@ -203,21 +204,21 @@
  * Load the security class for xss and csrf support
  * -----------------------------------------------------
  */
-	$SEC =& load_class('Security', 'core');
+	$SEC = & load_class('Security', 'core');
 
 /*
  * ------------------------------------------------------
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
-	$IN	=& load_class('Input', 'core');
+	$IN = & load_class('Input', 'core');
 
 /*
  * ------------------------------------------------------
  *  Load the Language class
  * ------------------------------------------------------
  */
-	$LANG =& load_class('Lang', 'core');
+	$LANG = & load_class('Lang', 'core');
 
 /*
  * ------------------------------------------------------
@@ -283,8 +284,7 @@
 
 				include_once(APPPATH.'controllers/'.$class.'.php');
 			}
-		}
-		else
+		} else
 		{
 			show_404("{$class}/{$method}");
 		}
@@ -323,8 +323,7 @@
 	if (method_exists($CI, '_remap'))
 	{
 		$CI->_remap($method, array_slice($URI->rsegments, 2));
-	}
-	else
+	} else
 	{
 		// is_callable() returns TRUE on some versions of PHP 5 for private and protected
 		// methods, so we'll use this workaround for consistent behavior
@@ -347,8 +346,7 @@
 					unset($CI);
 					$CI = new $class();
 				}
-			}
-			else
+			} else
 			{
 				show_404("{$class}/{$method}");
 			}

@@ -28,9 +28,9 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<document type="freeswitch/xml">]]);
 	table.insert(xml, [[<section name="dialplan" description="ASTPP Dialplan">]]);
 	table.insert(xml, [[<context name="]]..params:getHeader("Caller-Context")..[[">]]);
-	table.insert(xml, [[<extension name="]]..params:getHeader("Caller-Destination-Number")..[[">]]); 
-	table.insert(xml, [[<condition field="destination_number" expression="]]..params:getHeader("Caller-Destination-Number")..[[">]]);
-	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..params:getHeader("Caller-Destination-Number")..[["/>]]); 
+	table.insert(xml, [[<extension name="]]..destination_number..[[">]]); 
+	table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(params:getHeader("Caller-Destination-Number"))..[[">]]);
+	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..destination_number..[["/>]]); 
 	table.insert(xml, [[<action application="sched_hangup" data="+]]..((maxlength) * 60)..[[ normal_clearing"/>]]);  
 
 	table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);
@@ -203,7 +203,7 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates)
 
         if (config['opensips'] == '1') then
           table.insert(xml, [[<action application="bridge" data="user/]]..didinfo['extensions']..[[@${domain_name}"/>]]);
-          --table.insert(xml, [[<action application="answer"/>]]);    
+          table.insert(xml, [[<action application="answer"/>]]);    
     	  table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);  
 		  table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]]);    
         else      
@@ -211,11 +211,10 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates)
         end
 
 	 elseif (tonumber(didinfo['call_type']) == 3 and didinfo['extensions'] ~= '') then
-
-		table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);     
+	    table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);     
 		if (config['opensips'] == '1') then
             table.insert(xml, [[<action application="bridge" data="{sip_contact_user=]]..destination_number..[[}sofia/default/]]..destination_number..[[${regex(${sofia_contact(]]..didinfo['extensions']..[[@${domain_name})}|^[^@]+(.*)|%1)}]]..[["/>]]);
-                        --table.insert(xml, [[<action application="answer"/>]]);    
+            table.insert(xml, [[<action application="answer"/>]]);    
             table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);
             table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]]);
         else
@@ -233,12 +232,19 @@ end
 
 -- Dialplan for sip2sip calls
 function freeswitch_xml_local(xml,destination_number,destinationinfo)
-	table.insert(xml, [[<action application="set" data="calltype=LOCAL"/>]]);     
-	table.insert(xml, [[<action application="set" data="receiver_accid=]]..destinationinfo['accountid']..[["/>]]);    
-	table.insert(xml, [[<action application="bridge" data="user/]]..destination_number..[[@${domain_name}"/>]]);
-	--table.insert(xml, [[<action application="answer"/>]]);      
-	table.insert(xml, [[<action application="voicemail" data="default ${domain_name} ]]..destination_number..[["/>]]);
-	return xml
+    table.insert(xml, [[<action application="set" data="calltype=LOCAL"/>]]);
+    table.insert(xml, [[<action application="set" data="receiver_accid=]]..destinationinfo['accountid']..[["/>]]);
+    if (config['opensips'] == '1') then
+      table.insert(xml, [[<action application="bridge" data="user/]]..destination_number..[[@${domain_name}"/>]]);
+      table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);
+	  table.insert(xml, [[<action application="answer"/>]]);      
+      table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..destination_number..[["/>]]);
+    else
+      table.insert(xml, [[<action application="set" data="sip_h_X-call-type=did"/>]]);
+      table.insert(xml, [[<action application="set" data="sip_h_X-did-call-type=DID-LOCAL"/>]]);
+      table.insert(xml, [[<action application="bridge" data="{sip_invite_params=user=LOCAL,sip_from_uri=]]..destination_number..[[@${domain_name}}sofia/default/]]..destination_number..[[@]]..config['opensips_domain']..[["/>]]);
+    end
+    return xml
 end
 
 -- Set callerid to override in calls
@@ -267,12 +273,12 @@ end
 
 -- Generate header 
 function xml_header(xml,destination_number)
-	table.insert(xml, [[<?xml version="1.0" encoding="UTF-8" standalone="no"?>]]);
+    table.insert(xml, [[<?xml version="1.0" encoding="UTF-8" standalone="no"?>]]);
 	table.insert(xml, [[<document type="freeswitch/xml">]]);
 	table.insert(xml, [[<section name="dialplan" description="ASTPP Dialplan">]]);
 	table.insert(xml, [[<context name="]]..params:getHeader("Caller-Context")..[[">]]);
 	table.insert(xml, [[<extension name="]]..destination_number..[[">]]); 
-	table.insert(xml, [[<condition field="destination_number" expression="]]..destination_number..[[">]]);
+	table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(destination_number)..[[">]]);
 	return xml
 end
 
@@ -409,9 +415,9 @@ function generate_cc_dialplan(destination_number)
 		table.insert(xml, [[<section name="dialplan" description="ASTPP Dialplan">]]);
 			table.insert(xml, [[<context name="]]..params:getHeader("Caller-Context")..[[">]]);
 				table.insert(xml, [[<extension name="]]..destination_number..[[">]]); 
-				table.insert(xml, [[<condition field="destination_number" expression="]]..destination_number..[[">]]);
+				table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(destination_number)..[[">]]);
 					table.insert(xml, [[<action application="log" data="INFO ASTPP - Calling Card Call"/>]]);        
---					table.insert(xml, [[<action application="answer"/>]]);
+					table.insert(xml, [[<action application="answer"/>]]);
 					table.insert(xml, [[<action application="sleep" data="2000"/>]]);                    
 					table.insert(xml, [[<action application="lua" data="astpp-callingcards.lua"/>]]);    
 				table.insert(xml,[[</condition>]]);

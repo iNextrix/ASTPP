@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -47,7 +49,7 @@ if ( ! function_exists('word_limiter'))
 			return $str;
 		}
 
-		preg_match('/^\s*+(?:\S++\s*+){1,'.(int) $limit.'}/', $str, $matches);
+		preg_match('/^\s*+(?:\S++\s*+){1,'.(int)$limit.'}/', $str, $matches);
 
 		if (strlen($str) == strlen($matches[0]))
 		{
@@ -117,9 +119,9 @@ if ( ! function_exists('ascii_to_entities'))
 {
 	function ascii_to_entities($str)
 	{
-		$count	= 1;
-		$out	= '';
-		$temp	= array();
+		$count = 1;
+		$out = '';
+		$temp = array();
 
 		for ($i = 0, $s = strlen($str); $i < $s; $i++)
 		{
@@ -138,8 +140,7 @@ if ( ! function_exists('ascii_to_entities'))
 				}
 
 				$out .= $str[$i];
-			}
-			else
+			} else
 			{
 				if (count($temp) == 0)
 				{
@@ -191,13 +192,11 @@ if ( ! function_exists('entities_to_ascii'))
 				{
 					$out .= chr($digits);
 
-				}
-				elseif ($digits < 2048)
+				} elseif ($digits < 2048)
 				{
 					$out .= chr(192 + (($digits - ($digits % 64)) / 64));
 					$out .= chr(128 + ($digits % 64));
-				}
-				else
+				} else
 				{
 					$out .= chr(224 + (($digits - ($digits % 4096)) / 4096));
 					$out .= chr(128 + ((($digits % 4096) - ($digits % 64)) / 64));
@@ -211,7 +210,7 @@ if ( ! function_exists('entities_to_ascii'))
 		if ($all)
 		{
 			$str = str_replace(array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"),
-								array("&","<",">","\"", "'", "-"),
+								array("&", "<", ">", "\"", "'", "-"),
 								$str);
 		}
 
@@ -256,8 +255,7 @@ if ( ! function_exists('word_censor'))
 			if ($replacement != '')
 			{
 				$str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/i", "\\1{$replacement}\\3", $str);
-			}
-			else
+			} else
 			{
 				$str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'", $str);
 			}
@@ -369,8 +367,7 @@ if ( ! function_exists('convert_accented_characters'))
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php');
-		}
-		elseif (is_file(APPPATH.'config/foreign_chars.php'))
+		} elseif (is_file(APPPATH.'config/foreign_chars.php'))
 		{
 			include(APPPATH.'config/foreign_chars.php');
 		}
@@ -403,8 +400,9 @@ if ( ! function_exists('word_wrap'))
 	function word_wrap($str, $charlim = '76')
 	{
 		// Se the character limit
-		if ( ! is_numeric($charlim))
-			$charlim = 76;
+		if ( ! is_numeric($charlim)) {
+					$charlim = 76;
+		}
 
 		// Reduce multiple spaces
 		$str = preg_replace("| +|", " ", $str);
@@ -454,8 +452,8 @@ if ( ! function_exists('word_wrap'))
 				}
 
 				// Trim the word down
-				$temp .= substr($line, 0, $charlim-1);
-				$line = substr($line, $charlim-1);
+				$temp .= substr($line, 0, $charlim - 1);
+				$line = substr($line, $charlim - 1);
 			}
 
 			// If $temp contains data it means we had to split up an over-length
@@ -463,8 +461,7 @@ if ( ! function_exists('word_wrap'))
 			if ($temp != '')
 			{
 				$output .= $temp."\n".$line;
-			}
-			else
+			} else
 			{
 				$output .= $line;
 			}
@@ -521,8 +518,7 @@ if ( ! function_exists('ellipsize'))
 		if ($position === 1)
 		{
 			$end = substr($str, 0, -($max_length - strlen($beg)));
-		}
-		else
+		} else
 		{
 			$end = substr($str, -($max_length - strlen($beg)));
 		}

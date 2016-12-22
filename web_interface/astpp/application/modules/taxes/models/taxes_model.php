@@ -22,46 +22,46 @@
 ###############################################################################
 class Taxes_model extends CI_Model {
 
-    function Taxes_model() {
-        parent::__construct();
-    }
+	function Taxes_model() {
+		parent::__construct();
+	}
 
-    function get_taxes_list($flag, $start = 0, $limit = 0) {
-        $this->db_model->build_search('taxes_list_search');
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $where = array("reseller_id"=>$this->session->userdata["accountinfo"]['id']);
-        }else{
-	    $where =array("reseller_id"=>0);
-        }
-        if ($flag) {
-            $query = $this->db_model->select("*", "taxes", $where, "id", "ASC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "taxes", $where);
-        }
-        return $query;
-    }
+	function get_taxes_list($flag, $start = 0, $limit = 0) {
+		$this->db_model->build_search('taxes_list_search');
+		if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+			$where = array("reseller_id"=>$this->session->userdata["accountinfo"]['id']);
+		}else{
+		$where =array("reseller_id"=>0);
+		}
+		if ($flag) {
+			$query = $this->db_model->select("*", "taxes", $where, "id", "ASC", $limit, $start);
+		} else {
+			$query = $this->db_model->countQuery("*", "taxes", $where);
+		}
+		return $query;
+	}
 
-    function add_tax($data) {
-        unset($data["action"]);
-        $data["creation_date"] = date("Y-m-d H:i:s");
-         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+	function add_tax($data) {
+		unset($data["action"]);
+		$data["creation_date"] = date("Y-m-d H:i:s");
+		 if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
 	  $data['reseller_id'] = $this->session->userdata["accountinfo"]['id'];
-         }else{
+		 }else{
 	  $data['reseller_id'] =0;
-         }
-        $this->db->insert("taxes", $data);
-    }
+		 }
+		$this->db->insert("taxes", $data);
+	}
 
-    function edit_tax($data, $id) {
-        unset($data["action"]);
-        $data["last_modified_date"] = date("Y-m-d H:i:s");
-        $this->db->where("id", $id);
-        $this->db->update("taxes", $data);
-    }
+	function edit_tax($data, $id) {
+		unset($data["action"]);
+		$data["last_modified_date"] = date("Y-m-d H:i:s");
+		$this->db->where("id", $id);
+		$this->db->update("taxes", $data);
+	}
 
-    function remove_taxes($id) {
-        $this->db->delete('taxes_to_accounts',array('taxes_id'=>$id));
-        return $this->db->delete("taxes",array('id'=>$id));
-    }
+	function remove_taxes($id) {
+		$this->db->delete('taxes_to_accounts',array('taxes_id'=>$id));
+		return $this->db->delete("taxes",array('id'=>$id));
+	}
 
 }

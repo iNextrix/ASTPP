@@ -24,13 +24,13 @@
 
 class Dashboard_model extends CI_Model {
 
-    function Dashboard_model() 
-    {
-        parent::__construct();
-    }
+	function Dashboard_model() 
+	{
+		parent::__construct();
+	}
 
-    function get_recent_recharge()
-    {
+	function get_recent_recharge()
+	{
 	$accountinfo=$this->session->userdata('accountinfo');
 	$userlevel_logintype=$this->session->userdata('userlevel_logintype');
 	
@@ -41,15 +41,15 @@ class Dashboard_model extends CI_Model {
 	if($userlevel_logintype == 0 || $userlevel_logintype == 3){
 	  $where_arr=array('accountid'=>$accountinfo['id']);
 	}
-        $this->db->where($where_arr);
-        $this->db->select('id,accountid,credit,payment_date');
-        $this->db->limit(12);
-        $this->db->order_by('payment_date','desc');
+		$this->db->where($where_arr);
+		$this->db->select('id,accountid,credit,payment_date');
+		$this->db->limit(12);
+		$this->db->order_by('payment_date','desc');
 	return $this->db->get('payments');
-    }
-     function get_call_statistics($table,$parent_id,$start_date='',$end_date='',$group_flag=true) 
-    {
-        $this->db->select("count(uniqueid) as sum,
+	}
+	 function get_call_statistics($table,$parent_id,$start_date='',$end_date='',$group_flag=true) 
+	{
+		$this->db->select("count(uniqueid) as sum,
                            count(CASE WHEN billseconds > 0 THEN 1 END) as answered,
                            MAX(billseconds) AS mcd,
                            SUM(billseconds) AS duration,
@@ -59,48 +59,50 @@ class Dashboard_model extends CI_Model {
                            sum(cost) as cost,
                            SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,
                            DAY(callstart) as day",false);
-        $this->db->where('callstart >=',$start_date." 00:00:00");
-        $this->db->where('callstart <=',$end_date." 23:59:59");
-        $this->db->where('reseller_id',$parent_id);
-        if($group_flag)
-        $this->db->group_by("DAY(callstart)");
-        $result=$this->db->get($table);
+		$this->db->where('callstart >=',$start_date." 00:00:00");
+		$this->db->where('callstart <=',$end_date." 23:59:59");
+		$this->db->where('reseller_id',$parent_id);
+		if($group_flag)
+		$this->db->group_by("DAY(callstart)");
+		$result=$this->db->get($table);
 	return $result;
-    }
-    function get_customer_maximum_callminutes($start_date,$end_date)
-    {
+	}
+	function get_customer_maximum_callminutes($start_date,$end_date)
+	{
 	$start_date=$start_date." 00:00:00";
 	$end_date=$end_date." 23:59:59";
 	$accountinfo=$this->session->userdata('accountinfo');
 	$parent_id= ($accountinfo['type'] == 1) ? $accountinfo['id']:0;
-	if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3)
-	 $where ="reseller_id ='$parent_id'";
-	else
-	 $where ="accountid ='$parent_id'";
+	if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3) {
+		 $where ="reseller_id ='$parent_id'";
+	} else {
+		 $where ="accountid ='$parent_id'";
+	}
 	$where= $where." AND callstart >= '".$start_date."' AND  callstart <= '".$end_date."'";
 	$select_query= "(SELECT sum( billseconds ) AS billseconds,accountid FROM (cdrs) WHERE $where group by accountid order by sum(billseconds) desc limit 10)
 			union
 			(SELECT sum( billseconds ) AS billseconds,accountid FROM (reseller_cdrs) WHERE $where 
 			group by accountid order by sum(billseconds) desc limit 10 ) ORDER BY billseconds DESC LIMIT 10 ";
 	return $this->db->query($select_query);
-    }
+	}
 
-    function get_customer_maximum_callcount($start_date,$end_date)
-    {
+	function get_customer_maximum_callcount($start_date,$end_date)
+	{
 	$start_date=$start_date." 00:00:00";
 	$end_date=$end_date." 23:59:59";
 	$accountinfo=$this->session->userdata('accountinfo');
 	$parent_id= ($accountinfo['type'] == 1) ? $accountinfo['id']:0;
-	  if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3)
-	  $where ="reseller_id ='$parent_id'";
-	else
-	  $where ="accountid ='$parent_id'";
+	  if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3) {
+	  	  $where ="reseller_id ='$parent_id'";
+	  } else {
+		  $where ="accountid ='$parent_id'";
+	}
 	  $where= $where." AND callstart >= '".$start_date."' AND  callstart <= '".$end_date."'";
 	  $select_query="(SELECT count(uniqueid) as call_count, `accountid` FROM (`cdrs`) WHERE $where GROUP BY `accountid` ORDER BY `call_count` desc LIMIT 10)
 	  UNION
 	  (SELECT count(uniqueid) as call_count,accountid FROM (reseller_cdrs) WHERE $where GROUP BY `accountid` ORDER BY `call_count` desc LIMIT 10)
 	  ORDER BY call_count desc limit 10";
 	return $this->db->query($select_query);
-    }
+	}
 }
 ?>

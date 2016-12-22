@@ -27,16 +27,16 @@ class Getstatus extends MX_Controller
 	{
 		parent::__construct();
 		$this->load->model("db_model");
-               $this->load->library("astpp/common");
+			   $this->load->library("astpp/common");
 	}
 	
 	
 	function customer_list_status($id){
 			 $post_data = $this->input->post();
-             $post_data['table']=$this->common->decode($post_data['table']);
-             $data['status']=$post_data['status'] =='true'? 0:1;
-             $result=$post_data['table'] =='accounts' && $post_data['id'] == 1 ? null:$this->db->update($post_data['table'],$data,array("id"=>$post_data['id']));
-             echo TRUE;
+			 $post_data['table']=$this->common->decode($post_data['table']);
+			 $data['status']=$post_data['status'] =='true'? 0:1;
+			 $result=$post_data['table'] =='accounts' && $post_data['id'] == 1 ? null:$this->db->update($post_data['table'],$data,array("id"=>$post_data['id']));
+			 echo TRUE;
 	}
 		
 

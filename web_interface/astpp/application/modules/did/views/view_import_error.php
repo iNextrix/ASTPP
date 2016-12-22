@@ -28,7 +28,7 @@
         	<div class="row">
                 <div class="col-md-12">      
           
-                    Records Imported Successfully: <?= $import_record_count;?><br/>
+                    Records Imported Successfully: <?= $import_record_count; ?><br/>
                     Records Not Imported : <?= $failure_count?></div>  
             </div>
         </div>
@@ -38,7 +38,7 @@
         </div>
     </div> 
 <br/>
-                    <?php if(isset($provider_id) && $provider_id != ""){ ?><div class="col-md-12 padding-b-10">
+                    <?php if (isset($provider_id) && $provider_id != "") { ?><div class="col-md-12 padding-b-10">
                    <div class="pull-right">
                         <a href="<?= base_url().'did/did_error_download/'?>"><input class="btn btn-line-sky margin-x-10" id="dwnld_err" type="button" name="action" value="Download Errors" /> </a>
                        

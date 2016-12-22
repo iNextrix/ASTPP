@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -61,7 +63,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
 	 * @param	boolean	should 'IF NOT EXISTS' be added to the SQL
-	 * @return	bool
+	 * @return	string
 	 */
 	function _create_table($table, $fields, $primary_keys, $keys, $if_not_exists)
 	{
@@ -83,14 +85,13 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 			if (is_numeric($field))
 			{
 				$sql .= "\n\t$attributes";
-			}
-			else
+			} else
 			{
 				$attributes = array_change_key_case($attributes, CASE_UPPER);
 
 				$sql .= "\n\t".$this->db->_protect_identifiers($field);
 
-				$sql .=  ' '.$attributes['TYPE'];
+				$sql .= ' '.$attributes['TYPE'];
 
 				if (array_key_exists('CONSTRAINT', $attributes))
 				{
@@ -110,8 +111,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 				if (array_key_exists('NULL', $attributes) && $attributes['NULL'] === TRUE)
 				{
 					$sql .= ' NULL';
-				}
-				else
+				} else
 				{
 					$sql .= ' NOT NULL';
 				}
@@ -132,7 +132,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 		if (count($primary_keys) > 0)
 		{
 			$primary_keys = $this->db->_protect_identifiers($primary_keys);
-			$sql .= ",\n\tPRIMARY KEY (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).")";
 		}
 
 		if (is_array($keys) && count($keys) > 0)
@@ -142,13 +142,12 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 				if (is_array($key))
 				{
 					$key = $this->db->_protect_identifiers($key);
-				}
-				else
+				} else
 				{
 					$key = array($this->db->_protect_identifiers($key));
 				}
 
-				$sql .= ",\n\tUNIQUE COLUMNS (" . implode(', ', $key) . ")";
+				$sql .= ",\n\tUNIQUE COLUMNS (".implode(', ', $key).")";
 			}
 		}
 
@@ -186,7 +185,7 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 	 * @param	string	the default value
 	 * @param	boolean	should 'NOT NULL' be added
 	 * @param	string	the field after which we should add the new field
-	 * @return	object
+	 * @return	string
 	 */
 	function _alter_table($alter_type, $table, $column_name, $column_definition = '', $default_value = '', $null = '', $after_field = '')
 	{
@@ -208,15 +207,14 @@ class CI_DB_oci8_forge extends CI_DB_forge {
 		if ($null === NULL)
 		{
 			$sql .= ' NULL';
-		}
-		else
+		} else
 		{
 			$sql .= ' NOT NULL';
 		}
 
 		if ($after_field != '')
 		{
-			$sql .= ' AFTER ' . $this->db->_protect_identifiers($after_field);
+			$sql .= ' AFTER '.$this->db->_protect_identifiers($after_field);
 		}
 
 		return $sql;

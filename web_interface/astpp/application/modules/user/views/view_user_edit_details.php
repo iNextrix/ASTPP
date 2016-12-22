@@ -3,8 +3,8 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript">
 $(document).ready(function() {
-var country_id = "<?php echo $account_data[0]['country_id'];?>"
-var timezone_id = "<?php echo $account_data[0]['timezone_id'];?>"
+var country_id = "<?php echo $account_data[0]['country_id']; ?>"
+var timezone_id = "<?php echo $account_data[0]['timezone_id']; ?>"
 $("#country_id").val(country_id);
 $("#timezone_id").val(timezone_id);
 });
@@ -50,8 +50,8 @@ function form_submit(){
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_list/";?>"><?= ucfirst($accounttype); ?>s</a></li>
-                        <li class="active"><a href="<?= base_url() . "accounts/" . strtolower($accounttype) . "_edit/" . $edit_id . "/";?>"> <?= ucfirst($accounttype); ?> Profile </a></li>
+                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
+                        <li class="active"><a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <?= ucfirst($accounttype); ?> Profile </a></li>
                     </ul>
                 </div>
             </div>     

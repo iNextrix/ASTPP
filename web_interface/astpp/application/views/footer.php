@@ -10,8 +10,8 @@
 	$this->db->where('domain',$_SERVER['HTTP_HOST']);
 	$result=$this->db->get('invoice_conf');
 	if($result->num_rows() > 0){
-	    $result=$result->result_array();
-	    $footer = $result[0]['website_footer'];
+		$result=$result->result_array();
+		$footer = $result[0]['website_footer'];
 	}else{
 		$footer = '';
 	}
@@ -24,8 +24,8 @@
             <button class="btn no-padding" title="Français" id="close-image" type="button" name="fr_FR" value="fr_FR" onclick="get_lang('fr_FR')" ;=""><img style="width: 20px; height: 18px;vertical-align:top;" src="<?php echo  base_url(); ?>assets/images/flags/france.png"></button> </div>
 		 
 		  </div>
-	<?php	}else{
-	if($this->session->userdata['logintype'] == 2){ ?>
+	<?php	} else {
+	if ($this->session->userdata['logintype'] == 2) { ?>
 	    <div  class="pull-left col-md-3">
 			<span>Powered by </span>
 			<a href="http://www.astppbilling.org" target="_blank">
@@ -51,11 +51,11 @@
 			<a href="mailto:sales@inextrix.com?subject=Feedback :&body=ASTPP" style=" margin-left: 7%; font-weight: bold; color: #216397;text-shadow: 0px 1px 1px #FFF;">FEEDBACK</a>
 	</span>
 
-	<?php }else{
+	<?php } else {
 		$user_footer = $this->session->userdata('user_footer');	
-		if( $user_footer  != '') { ?>
+		if ($user_footer != '') { ?>
 		 <div class="col-md-offset-4 col-md-4"><?=$user_footer ?> </div>
-		<?}else{?>
+		<?} else {?>
 	    <div class="col-md-offset-4 col-md-4">Copyright @ <?php echo date("Y"); ?> <a style="color:#3989c0;" href="http://www.inextrix.com" target="_blank"> Inextrix Technologies Pvt. Ltd</a>. All Rights Reserved.
 	    
 	    </div>

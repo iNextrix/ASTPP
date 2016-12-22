@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -41,35 +43,35 @@ class CI_Output {
 	 * @var int
 	 * @access 	protected
 	 */
-	protected $cache_expiration	= 0;
+	protected $cache_expiration = 0;
 	/**
 	 * List of server headers
 	 *
 	 * @var array
 	 * @access 	protected
 	 */
-	protected $headers			= array();
+	protected $headers = array();
 	/**
 	 * List of mime types
 	 *
 	 * @var array
 	 * @access 	protected
 	 */
-	protected $mime_types		= array();
+	protected $mime_types = array();
 	/**
 	 * Determines wether profiler is enabled
 	 *
 	 * @var book
 	 * @access 	protected
 	 */
-	protected $enable_profiler	= FALSE;
+	protected $enable_profiler = FALSE;
 	/**
 	 * Determines if output compression is enabled
 	 *
 	 * @var bool
 	 * @access 	protected
 	 */
-	protected $_zlib_oc			= FALSE;
+	protected $_zlib_oc = FALSE;
 	/**
 	 * List of profiler sections
 	 *
@@ -83,7 +85,7 @@ class CI_Output {
 	 * @var bool
 	 * @access 	protected
 	 */
-	protected $parse_exec_vars	= TRUE;
+	protected $parse_exec_vars = TRUE;
 
 	/**
 	 * Constructor
@@ -96,7 +98,7 @@ class CI_Output {
 		// Get mime types for later
 		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/mimes.php'))
 		{
-		    include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
+			include APPPATH.'config/'.ENVIRONMENT.'/mimes.php';
 		}
 		else
 		{
@@ -133,7 +135,7 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	void
+	 * @return	CI_Output
 	 */
 	function set_output($output)
 	{
@@ -151,15 +153,14 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param	string
-	 * @return	void
+	 * @return	CI_Output
 	 */
 	function append_output($output)
 	{
 		if ($this->final_output == '')
 		{
 			$this->final_output = $output;
-		}
-		else
+		} else
 		{
 			$this->final_output .= $output;
 		}
@@ -180,7 +181,7 @@ class CI_Output {
 	 * @access	public
 	 * @param	string
 	 * @param 	bool
-	 * @return	void
+	 * @return	null|CI_Output
 	 */
 	function set_header($header, $replace = TRUE)
 	{
@@ -206,7 +207,7 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param	string	extension of the file we're outputting
-	 * @return	void
+	 * @return	CI_Output
 	 */
 	function set_content_type($mime_type)
 	{
@@ -217,7 +218,7 @@ class CI_Output {
 			// Is this extension supported?
 			if (isset($this->mime_types[$extension]))
 			{
-				$mime_type =& $this->mime_types[$extension];
+				$mime_type = & $this->mime_types[$extension];
 
 				if (is_array($mime_type))
 				{
@@ -242,7 +243,7 @@ class CI_Output {
 	 * @access	public
 	 * @param	int		the status code
 	 * @param	string
-	 * @return	void
+	 * @return	CI_Output
 	 */
 	function set_status_header($code = 200, $text = '')
 	{
@@ -258,7 +259,7 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param	bool
-	 * @return	void
+	 * @return	CI_Output
 	 */
 	function enable_profiler($val = TRUE)
 	{
@@ -276,7 +277,7 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param	array
-	 * @return	void
+	 * @return	CI_Output
 	 */
 	function set_profiler_sections($sections)
 	{
@@ -295,7 +296,7 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param	integer
-	 * @return	void
+	 * @return	CI_Output
 	 */
 	function cache($time)
 	{
@@ -319,7 +320,7 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param 	string
-	 * @return	mixed
+	 * @return	boolean|null
 	 */
 	function _display($output = '')
 	{
@@ -331,7 +332,7 @@ class CI_Output {
 		// Grab the super object if we can.
 		if (class_exists('CI_Controller'))
 		{
-			$CI =& get_instance();
+			$CI = & get_instance();
 		}
 
 		// --------------------------------------------------------------------
@@ -339,7 +340,7 @@ class CI_Output {
 		// Set the output data
 		if ($output == '')
 		{
-			$output =& $this->final_output;
+			$output = & $this->final_output;
 		}
 
 		// --------------------------------------------------------------------
@@ -361,7 +362,7 @@ class CI_Output {
 
 		if ($this->parse_exec_vars === TRUE)
 		{
-			$memory	 = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage()/1024/1024, 2).'MB';
+			$memory = ( ! function_exists('memory_get_usage')) ? '0' : round(memory_get_usage() / 1024 / 1024, 2).'MB';
 
 			$output = str_replace('{elapsed_time}', $elapsed, $output);
 			$output = str_replace('{memory_usage}', $memory, $output);
@@ -425,8 +426,7 @@ class CI_Output {
 				$output  = preg_replace("|</body>.*?</html>|is", '', $output);
 				$output .= $CI->profiler->run();
 				$output .= '</body></html>';
-			}
-			else
+			} else
 			{
 				$output .= $CI->profiler->run();
 			}
@@ -439,10 +439,9 @@ class CI_Output {
 		if (method_exists($CI, '_output'))
 		{
 			$CI->_output($output);
-		}
-		else
+		} else
 		{
-			echo $output;  // Send it to the browser!
+			echo $output; // Send it to the browser!
 		}
 
 		log_message('debug', "Final output sent to browser");
@@ -456,11 +455,12 @@ class CI_Output {
 	 *
 	 * @access	public
 	 * @param 	string
+	 * @param string $output
 	 * @return	void
 	 */
 	function _write_cache($output)
 	{
-		$CI =& get_instance();
+		$CI = & get_instance();
 		$path = $CI->config->item('cache_path');
 
 		$cache_path = ($path == '') ? APPPATH.'cache/' : $path;
@@ -471,7 +471,7 @@ class CI_Output {
 			return;
 		}
 
-		$uri =	$CI->config->item('base_url').
+		$uri = $CI->config->item('base_url').
 				$CI->config->item('index_page').
 				$CI->uri->uri_string();
 
@@ -489,8 +489,7 @@ class CI_Output {
 		{
 			fwrite($fp, $expire.'TS--->'.$output);
 			flock($fp, LOCK_UN);
-		}
-		else
+		} else
 		{
 			log_message('error', "Unable to secure a file lock for file at: ".$cache_path);
 			return;
@@ -509,14 +508,14 @@ class CI_Output {
 	 * @access	public
 	 * @param 	object	config class
 	 * @param 	object	uri class
-	 * @return	void
+	 * @return	boolean
 	 */
 	function _display_cache(&$CFG, &$URI)
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
 		// Build the file path.  The file name is an MD5 hash of the full URI
-		$uri =	$CFG->item('base_url').
+		$uri = $CFG->item('base_url').
 				$CFG->item('index_page').
 				$URI->uri_string;
 

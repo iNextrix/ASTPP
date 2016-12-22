@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 /**
  * CodeIgniter
  *
@@ -40,16 +42,16 @@ class CI_DB_driver {
 	var $dbcollat		= 'utf8_general_ci';
 	var $autoinit		= TRUE; // Whether to automatically initialize the DB
 	var $swap_pre		= '';
-	var $port			= '';
+	var $port = '';
 	var $pconnect		= FALSE;
-	var $conn_id		= FALSE;
+	var $conn_id = FALSE;
 	var $result_id		= FALSE;
 	var $db_debug		= FALSE;
 	var $benchmark		= 0;
 	var $query_count	= 0;
 	var $bind_marker	= '?';
-	var $save_queries	= TRUE;
-	var $queries		= array();
+	var $save_queries = TRUE;
+	var $queries = array();
 	var $query_times	= array();
 	var $data_cache		= array();
 	var $trans_enabled	= TRUE;
@@ -62,8 +64,8 @@ class CI_DB_driver {
 	var $CACHE; // The cache class object
 
 	// Private variables
-	var $_protect_identifiers	= TRUE;
-	var $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
+	var $_protect_identifiers = TRUE;
+	var $_reserved_identifiers = array('*'); // Identifiers that should NOT be escaped
 
 	// These are use with Oracle
 	var $stmt_id;
@@ -98,7 +100,7 @@ class CI_DB_driver {
 	 *
 	 * @access	private Called by the constructor
 	 * @param	mixed
-	 * @return	void
+	 * @return	boolean
 	 */
 	function initialize()
 	{
@@ -140,8 +142,7 @@ class CI_DB_driver {
 					$this->display_error('db_unable_to_select', $this->database);
 				}
 				return FALSE;
-			}
-			else
+			} else
 			{
 				// We've selected the DB. Now we set the character set
 				if ( ! $this->db_set_charset($this->char_set, $this->dbcollat))
@@ -164,7 +165,9 @@ class CI_DB_driver {
 	 * @access	public
 	 * @param	string
 	 * @param	string
-	 * @return	resource
+	 * @param string $charset
+	 * @param string $collation
+	 * @return	boolean
 	 */
 	function db_set_charset($charset, $collation)
 	{
@@ -223,8 +226,7 @@ class CI_DB_driver {
 		if (in_array($this->dbdriver, $driver_version_exceptions))
 		{
 			return $sql;
-		}
-		else
+		} else
 		{
 			$query = $this->query($sql);
 			return $query->row('ver');
@@ -260,7 +262,7 @@ class CI_DB_driver {
 		}
 
 		// Verify table prefix and replace if necessary
-		if ( ($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre) )
+		if (($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre))
 		{
 			$sql = preg_replace("/(\W)".$this->swap_pre."(\S+?)/", "\\1".$this->dbprefix."\\2", $sql);
 		}
@@ -369,21 +371,21 @@ class CI_DB_driver {
 
 		// Load and instantiate the result driver
 
-		$driver			= $this->load_rdriver();
-		$RES			= new $driver();
-		$RES->conn_id	= $this->conn_id;
-		$RES->result_id	= $this->result_id;
+		$driver = $this->load_rdriver();
+		$RES = new $driver();
+		$RES->conn_id = $this->conn_id;
+		$RES->result_id = $this->result_id;
 
 		if ($this->dbdriver == 'oci8')
 		{
 			$RES->stmt_id		= $this->stmt_id;
 			$RES->curs_id		= NULL;
-			$RES->limit_used	= $this->limit_used;
-			$this->stmt_id		= FALSE;
+			$RES->limit_used = $this->limit_used;
+			$this->stmt_id = FALSE;
 		}
 
 		// oci8 vars must be set before calling this
-		$RES->num_rows	= $RES->num_rows();
+		$RES->num_rows = $RES->num_rows();
 
 		// Is query caching enabled?  If so, we'll serialize the
 		// result object and save it to a cache file.
@@ -396,13 +398,13 @@ class CI_DB_driver {
 			// result object, so we'll have to compile the data
 			// and save it)
 			$CR = new CI_DB_result();
-			$CR->num_rows		= $RES->num_rows();
-			$CR->result_object	= $RES->result_object();
-			$CR->result_array	= $RES->result_array();
+			$CR->num_rows = $RES->num_rows();
+			$CR->result_object = $RES->result_object();
+			$CR->result_array = $RES->result_array();
 
 			// Reset these since cached objects can not utilize resource IDs.
-			$CR->conn_id		= NULL;
-			$CR->result_id		= NULL;
+			$CR->conn_id = NULL;
+			$CR->result_id = NULL;
 
 			$this->CACHE->write($sql, $CR);
 		}
@@ -490,7 +492,7 @@ class CI_DB_driver {
 	 * Start Transaction
 	 *
 	 * @access	public
-	 * @return	void
+	 * @return	false|null
 	 */
 	function trans_start($test_mode = FALSE)
 	{
@@ -573,6 +575,7 @@ class CI_DB_driver {
 	 * @access	public
 	 * @param	string	the sql statement
 	 * @param	array	an array of bind data
+	 * @param boolean $binds
 	 * @return	string
 	 */
 	function compile_binds($sql, $binds)
@@ -593,7 +596,7 @@ class CI_DB_driver {
 		// The count of bind should be 1 less then the count of segments
 		// If there are more bind arguments trim it down
 		if (count($binds) >= count($segments)) {
-			$binds = array_slice($binds, 0, count($segments)-1);
+			$binds = array_slice($binds, 0, count($segments) - 1);
 		}
 
 		// Construct the binded query
@@ -633,7 +636,7 @@ class CI_DB_driver {
 	 *
 	 * @access	public
 	 * @param	integer	The number of decimal places
-	 * @return	integer
+	 * @return	string
 	 */
 	function elapsed_time($decimals = 6)
 	{
@@ -683,12 +686,10 @@ class CI_DB_driver {
 		if (is_string($str))
 		{
 			$str = "'".$this->escape_str($str)."'";
-		}
-		elseif (is_bool($str))
+		} elseif (is_bool($str))
 		{
 			$str = ($str === FALSE) ? 0 : 1;
-		}
-		elseif (is_null($str))
+		} elseif (is_null($str))
 		{
 			$str = 'NULL';
 		}
@@ -772,8 +773,7 @@ class CI_DB_driver {
 				if (isset($row['TABLE_NAME']))
 				{
 					$retval[] = $row['TABLE_NAME'];
-				}
-				else
+				} else
 				{
 					$retval[] = array_shift($row);
 				}
@@ -839,8 +839,7 @@ class CI_DB_driver {
 			if (isset($row['COLUMN_NAME']))
 			{
 				$retval[] = $row['COLUMN_NAME'];
-			}
-			else
+			} else
 			{
 				$retval[] = current($row);
 			}
@@ -940,8 +939,7 @@ class CI_DB_driver {
 		if ( ! is_array($where))
 		{
 			$dest = array($where);
-		}
-		else
+		} else
 		{
 			$dest = array();
 			foreach ($where as $key => $val)
@@ -1011,8 +1009,7 @@ class CI_DB_driver {
 				return $this->display_error('db_unsupported_function');
 			}
 			return FALSE;
-		}
-		else
+		} else
 		{
 			$args = (func_num_args() > 1) ? array_splice(func_get_args(), 1) : null;
 
@@ -1040,7 +1037,7 @@ class CI_DB_driver {
 	 * Enable Query Caching
 	 *
 	 * @access	public
-	 * @return	void
+	 * @return	boolean
 	 */
 	function cache_on()
 	{
@@ -1054,7 +1051,7 @@ class CI_DB_driver {
 	 * Disable Query Caching
 	 *
 	 * @access	public
-	 * @return	void
+	 * @return	boolean
 	 */
 	function cache_off()
 	{
@@ -1069,7 +1066,7 @@ class CI_DB_driver {
 	 * Delete the cache files associated with a particular URI
 	 *
 	 * @access	public
-	 * @return	void
+	 * @return	boolean|null
 	 */
 	function cache_delete($segment_one = '', $segment_two = '')
 	{
@@ -1086,7 +1083,7 @@ class CI_DB_driver {
 	 * Delete All cache files
 	 *
 	 * @access	public
-	 * @return	void
+	 * @return	boolean|null
 	 */
 	function cache_delete_all()
 	{
@@ -1104,7 +1101,7 @@ class CI_DB_driver {
 	 * Initialize the Cache Class
 	 *
 	 * @access	private
-	 * @return	void
+	 * @return	boolean
 	 */
 	function _cache_init()
 	{
@@ -1155,7 +1152,7 @@ class CI_DB_driver {
 	 */
 	function display_error($error = '', $swap = '', $native = FALSE)
 	{
-		$LANG =& load_class('Lang', 'core');
+		$LANG = & load_class('Lang', 'core');
 		$LANG->load('db');
 
 		$heading = $LANG->line('db_error_heading');
@@ -1163,8 +1160,7 @@ class CI_DB_driver {
 		if ($native == TRUE)
 		{
 			$message = $error;
-		}
-		else
+		} else
 		{
 			$message = ( ! is_array($error)) ? array(str_replace('%s', $swap, $LANG->line($error))) : $error;
 		}
@@ -1187,7 +1183,7 @@ class CI_DB_driver {
 			}
 		}
 
-		$error =& load_class('Exceptions', 'core');
+		$error = & load_class('Exceptions', 'core');
 		echo $error->show_error($heading, $message, 'error_db');
 		exit;
 	}
@@ -1282,7 +1278,7 @@ class CI_DB_driver {
 		// with an alias. While we're at it, we will escape the components
 		if (strpos($item, '.') !== FALSE)
 		{
-			$parts	= explode('.', $item);
+			$parts = explode('.', $item);
 
 			// Does the first segment of the exploded item match
 			// one of the aliases previously identified?  If so,

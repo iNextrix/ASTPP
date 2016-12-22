@@ -17855,7 +17855,7 @@ $unicode = array(
  * at http://www.unicode.org/unicode/reports/tr9/
  */
 global $unicode_mirror;
-$unicode_mirror = array (
+$unicode_mirror = array(
 0x0028=>0x0029,
 0x0029=>0x0028,
 0x003C=>0x003E,
@@ -18298,7 +18298,7 @@ $unicode_arlet = array(
  * char code=>isolated, final, initial, medial
  */
 global $laa_array;
-$laa_array = array (
+$laa_array = array(
 1570 =>array(65269, 65270, 65269, 65270),
 1571 =>array(65271, 65272, 65271, 65272),
 1573 =>array(65273, 65274, 65273, 65274),
@@ -18312,7 +18312,7 @@ $laa_array = array (
  * second NSM char code=>substitution char
  */
 global $diacritics;
-$diacritics = array (
+$diacritics = array(
 1612=>64606, # Shadda + Dammatan
 1613=>64607, # Shadda + Kasratan
 1614=>64608, # Shadda + Fatha
@@ -18324,23 +18324,23 @@ $diacritics = array (
  * Array of character substitutions from UTF-8 unicode to latin1
  */
 global $utf8tolatin;
-$utf8tolatin = array (
+$utf8tolatin = array(
 8364=>128, # Euro1
-338=>140,  # OE
-352=>138,  # Scaron
-376=>159,  # Ydieresis
-381=>142,  # Zcaron2
+338=>140, # OE
+352=>138, # Scaron
+376=>159, # Ydieresis
+381=>142, # Zcaron2
 8226=>149, # bullet3
-710=>136,  # circumflex
+710=>136, # circumflex
 8224=>134, # dagger
 8225=>135, # daggerdbl
 8230=>133, # ellipsis
 8212=>151, # emdash
 8211=>150, # endash
-402=>131,  # florin
+402=>131, # florin
 8249=>139, # guilsinglleft
 8250=>155, # guilsinglright
-339=>156,  # oe
+339=>156, # oe
 8240=>137, # perthousand
 8222=>132, # quotedblbase
 8220=>147, # quotedblleft
@@ -18348,8 +18348,8 @@ $utf8tolatin = array (
 8216=>145, # quoteleft
 8217=>146, # quoteright
 8218=>130, # quotesinglbase
-353=>154,  # scaron
-732=>152,  # tilde
+353=>154, # scaron
+732=>152, # tilde
 8482=>153, # trademark
 382=>158   # zcaron2
 );
