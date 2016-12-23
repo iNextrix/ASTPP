@@ -487,66 +487,66 @@ else{
 			array(gettext('Account Type'), 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type_search'),
 			array(gettext('Balance'), 'INPUT', array('name' => 'balance[balance]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'balance[balance-integer]', '', '', '', 'search_int_type', ''),
             
-			array(gettext('Credit Limit'), 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
-			array(gettext('Status'), 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
-			array(gettext('Created Date'), 'INPUT', array('name' => 'creation[0]', '', 'size' => '20', 'class' => "text field", 'id' => 'creation'), '', 'tOOL TIP', '', 'creation[creation-date]'),
-			array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-			array('', 'HIDDEN', 'advance_search', '1', '', '', '')
-		);
+            array(gettext('Credit Limit'), 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
+            array(gettext('Status'), 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
+            array(gettext('Created Date'), 'INPUT', array('name' => 'creation[0]', '', 'size' => '20', 'class' => "text field", 'id' => 'creation'), '', 'tOOL TIP', '', 'creation[creation-date]'),
+            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'advance_search', '1', '', '', '')
+        );
 
-		$form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => gettext('Search'), 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
-		$form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => gettext('Clear'), 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
+        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => gettext('Search'), 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => gettext('Clear'), 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
-		return $form;
-	}
+        return $form;
+    }
 
-	function get_admin_search_form() {
-		$form['forms'] = array("", array('id' => "account_search"));
-		$form['Search'] = array(
-			array(gettext('Account'), 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'class' => "text field"), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
-			array(gettext('First Name'), 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
-			array(gettext('Last Name'), 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
-			array(gettext('Company'), 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
-			array(gettext('Email'), 'INPUT', array('name' => 'email[email]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'email[email-string]', '', '', '', 'search_string_type', ''),
-			array(gettext('Entity Type'), 'type', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_entity_type_admin'),
-			array(gettext('Phone'), 'INPUT', array('name' => 'telephone_1[telephone_1]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'telephone_1[telephone_1-integer]', '', '', '', 'search_int_type', ''),
-			array(gettext('Country'), 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''), array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
-			array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-			array('', 'HIDDEN', 'advance_search', '1', '', '', '')
-		);
+    function get_admin_search_form() {
+        $form['forms'] = array("", array('id' => "account_search"));
+        $form['Search'] = array(
+            array(gettext('Account'), 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'class' => "text field"), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
+            array(gettext('First Name'), 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
+            array(gettext('Last Name'), 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
+            array(gettext('Company'), 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
+            array(gettext('Email'), 'INPUT', array('name' => 'email[email]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'email[email-string]', '', '', '', 'search_string_type', ''),
+            array(gettext('Entity Type'), 'type', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_entity_type_admin'),
+            array(gettext('Phone'), 'INPUT', array('name' => 'telephone_1[telephone_1]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'telephone_1[telephone_1-integer]', '', '', '', 'search_int_type', ''),
+            array(gettext('Country'), 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''), array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
+            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'advance_search', '1', '', '', '')
+        );
 
-		$form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => gettext('Search'), 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
-		$form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => gettext('Clear'), 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
+        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => gettext('Search'), 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => gettext('Clear'), 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
-		return $form;
-	}
+        return $form;
+    }
 
 
-	function build_account_list_for_admin() {
-		// array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-		$grid_field_arr = json_encode(array(
-			array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", "","","false","center"),
-			array(gettext("Account"), "135", "number", "number", "accounts", "account_number_icon", "EDITABLE","true","left"),
-			array(gettext("First Name"), "150", "first_name", "", "", "","","true","center"),
-			array(gettext("Last Name"), "150", "last_name", "", "", "","","true","center"),
-			array(gettext("Company"), "150", "company_name", "", "", "","","true","center"),
-			array(gettext("Email"), "170", "email", "", "", "","","true","center"),
-			array(gettext("Phone"), "150", "telephone_1", "", "", "","","true","center"),
-			array(gettext("Country"), "110", "country_id", "country", "countrycode", "get_field_name","","true","center"),
-			array(gettext("Status"), "110", "status", "status", "accounts", "get_status","","true","center"),
-			/*******************************************************************/
-			array("Action", "100", "", "", "", array(
-					"EDIT" => array("url" => "accounts/admin_edit/", "mode" => "single"),
-					"DELETE" => array("url" => "accounts/admin_delete/", "mode" => "single")
-			))
-				));
-		return $grid_field_arr;
-	}
+    function build_account_list_for_admin() {
+        // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
+        $grid_field_arr = json_encode(array(
+            array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", "","","false","center"),
+            array(gettext("Account"), "135", "number", "number", "accounts", "account_number_icon", "EDITABLE","true","left"),
+            array(gettext("First Name"), "150", "first_name", "", "", "","","true","center"),
+            array(gettext("Last Name"), "150", "last_name", "", "", "","","true","center"),
+            array(gettext("Company"), "150", "company_name", "", "", "","","true","center"),
+            array(gettext("Email"), "170", "email", "", "", "","","true","center"),
+            array(gettext("Phone"), "150", "telephone_1", "", "", "","","true","center"),
+            array(gettext("Country"), "110", "country_id", "country", "countrycode", "get_field_name","","true","center"),
+            array(gettext("Status"), "110", "status", "status", "accounts", "get_status","","true","center"),
+            /*******************************************************************/
+            array(gettext("Action"), "100", "", "", "", array(
+                    "EDIT" => array("url" => "accounts/admin_edit/", "mode" => "single"),
+                    "DELETE" => array("url" => "accounts/admin_delete/", "mode" => "single")
+            ))
+                ));
+        return $grid_field_arr;
+    }
 
-	function build_account_list_for_customer() {
-	  $account_info = $accountinfo = $this->CI->session->userdata('accountinfo');
-	  $currency_id=$account_info['currency_id'];
-	  $currency=$this->CI->common->get_field_name('currency', 'currency', $currency_id);
+    function build_account_list_for_customer() {
+      $account_info = $accountinfo = $this->CI->session->userdata('accountinfo');
+      $currency_id=$account_info['currency_id'];
+      $currency=$this->CI->common->get_field_name('currency', 'currency', $currency_id);
       
 	  // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
 	  $grid_field_arr = json_encode(array(
@@ -577,118 +577,118 @@ else{
 	$currency_id=$account_info['currency_id'];
 	$currency=$this->CI->common->get_field_name('currency', 'currency', $currency_id);
 	
-		// array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-		$grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", "","","false","center"),
-			array(gettext("Account"), "105", "number", "", "", "", "EDITABLE","true","center"),
-			array(gettext("First Name"), "120", "first_name", "", "", "","","true","center"),
-			array(gettext("Last Name"), "115", "last_name", "", "", "","","true","center"),
-			array(gettext("Company"), "130", "company_name", "", "", "","","true","center"),
-			array(gettext("Rate Group"), "95", "pricelist_id", "name", "pricelists", "get_field_name","","true","center"),
-			array(gettext("Account Type"), "107", "posttoexternal", "posttoexternal", "posttoexternal", "get_account_type","","true","center"),
-			array(gettext("Balance")." ($currency)", "100", "balance", "balance", "balance", "convert_to_currency","","true","right"),
-			array(gettext("Credit Limit")." ($currency)", "120", "credit_limit", "credit_limit", "credit_limit", "convert_to_currency","","true","right"),
-			array(gettext("Status"), "110", "status", "status", "accounts", "get_status","","true","center"),
-			array(gettext("Created Date"), "90", "creation", "", "", "","","true","center"),          
-			/**************************************************************/
-			array("Action", "139", "", "", "", array("PAYMENT" => array("url" => "accounts/customer_payment_process_add/", "mode" => "single"),
-					"CALLERID" => array("url" => "accounts/customer_add_callerid/", "mode" => 'popup'),
-					"EDIT" => array("url" => "accounts/reseller_edit/", "mode" => "single"),
-					"DELETE" => array("url" => "accounts/reseller_delete/", "mode" => "single")
-			))
-				));
-		return $grid_field_arr;
-	}
+        // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
+        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", "","","false","center"),
+            array(gettext("Account"), "105", "number", "", "", "", "EDITABLE","true","center"),
+            array(gettext("First Name"), "120", "first_name", "", "", "","","true","center"),
+            array(gettext("Last Name"), "115", "last_name", "", "", "","","true","center"),
+            array(gettext("Company"), "130", "company_name", "", "", "","","true","center"),
+            array(gettext("Rate Group"), "95", "pricelist_id", "name", "pricelists", "get_field_name","","true","center"),
+            array(gettext("Account Type"), "107", "posttoexternal", "posttoexternal", "posttoexternal", "get_account_type","","true","center"),
+            array(gettext("Balance")." ($currency)", "100", "balance", "balance", "balance", "convert_to_currency","","true","right"),
+            array(gettext("Credit Limit")." ($currency)", "120", "credit_limit", "credit_limit", "credit_limit", "convert_to_currency","","true","right"),
+            array(gettext("Status"), "110", "status", "status", "accounts", "get_status","","true","center"),
+            array(gettext("Created Date"), "90", "creation", "", "", "","","true","center"),          
+            /**************************************************************/
+            array(gettext("Action"), "139", "", "", "", array("PAYMENT" => array("url" => "accounts/customer_payment_process_add/", "mode" => "single"),
+                    "CALLERID" => array("url" => "accounts/customer_add_callerid/", "mode" => 'popup'),
+                    "EDIT" => array("url" => "accounts/reseller_edit/", "mode" => "single"),
+                    "DELETE" => array("url" => "accounts/reseller_delete/", "mode" => "single")
+            ))
+                ));
+        return $grid_field_arr;
+    }
 
 
-	function build_grid_buttons_customer() {
-		$logintype = $this->CI->session->userdata('userlevel_logintype');
-		$provider = null;
-		if ($logintype != 1)
-			$provider = array(gettext("Create Provider"), "btn btn-line-blue btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/provider_add/");
-			 // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-		$buttons_json = json_encode(array(
-			array(gettext("Create Customer"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/customer_add/"),
-			array(gettext("Mass Create"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/customer_bulk_creation/", "popup","medium"),
-			$provider,
-			array(gettext("Export"), "btn btn-xing", " fa fa-download fa-lg", "button_action", "/accounts/customer_export_cdr_xls/", 'single'),
-			array(gettext("Delete"), "btn btn-line-danger", "fa fa-times-circle fa-lg", "button_action", "/accounts/customer_selected_delete/")
-				));
-		return $buttons_json;
-	}
+    function build_grid_buttons_customer() {
+        $logintype = $this->CI->session->userdata('userlevel_logintype');
+        $provider = null;
+        if ($logintype != 1)
+            $provider = array(gettext("Create Provider"), "btn btn-line-blue btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/provider_add/");
+             // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
+        $buttons_json = json_encode(array(
+            array(gettext("Create Customer"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/customer_add/"),
+            array(gettext("Mass Create"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/customer_bulk_creation/", "popup","medium"),
+            $provider,
+            array(gettext("Export"), "btn btn-xing", " fa fa-download fa-lg", "button_action", "/accounts/customer_export_cdr_xls/", 'single'),
+            array(gettext("Delete"), "btn btn-line-danger", "fa fa-times-circle fa-lg", "button_action", "/accounts/customer_selected_delete/")
+                ));
+        return $buttons_json;
+    }
 
-	function build_grid_buttons_admin() {
-		$buttons_json = json_encode(array(
-			array(gettext("Create Admin"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/admin_add/"),
-			array(gettext("Create Subadmin"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/subadmin_add/4"),
-			array(gettext("Delete"), "btn btn-line-danger", "fa fa-times-circle fa-lg", "button_action", "/accounts/admin_selected_delete/")
-				));
-		return $buttons_json;
-	}
+    function build_grid_buttons_admin() {
+        $buttons_json = json_encode(array(
+            array(gettext("Create Admin"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/admin_add/"),
+            array(gettext("Create Subadmin"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/subadmin_add/4"),
+            array(gettext("Delete"), "btn btn-line-danger", "fa fa-times-circle fa-lg", "button_action", "/accounts/admin_selected_delete/")
+                ));
+        return $buttons_json;
+    }
 
-	function build_grid_buttons_reseller() {
-		$buttons_json = json_encode(array(
-			array(gettext("Create"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/reseller_add/"),
-			array(gettext("Export"), "btn btn-xing", " fa fa-download fa-lg", "button_action", "/accounts/reseller_export_cdr_xls", 'single'),
-			array(gettext("Delete"), "btn btn-line-danger", "fa fa-times-circle fa-lg", "button_action", "/accounts/reseller_selected_delete/")
-				));
-		return $buttons_json;
-	}
+    function build_grid_buttons_reseller() {
+        $buttons_json = json_encode(array(
+            array(gettext("Create"), "btn btn-line-warning btn", "fa fa-plus-circle fa-lg", "button_action", "/accounts/reseller_add/"),
+            array(gettext("Export"), "btn btn-xing", " fa fa-download fa-lg", "button_action", "/accounts/reseller_export_cdr_xls", 'single'),
+            array(gettext("Delete"), "btn btn-line-danger", "fa fa-times-circle fa-lg", "button_action", "/accounts/reseller_selected_delete/")
+                ));
+        return $buttons_json;
+    }
 
-	function build_ip_list_for_customer($accountid, $accountype) {
-		$grid_field_arr = json_encode(array(
-			array(gettext('Name'), "180", "name", "", "", "","","true","center"),
-			array(gettext('IP'), "180", "ip", "", "", "","","true","center"),
-			array(gettext('Prefix'), "180", "prefix", "", "", "","","true","center"),
-			array(gettext('Created Date'), "174", "created_date", "created_date", "created_date", "convert_GMT_to","","true","center"),
-			array(gettext('Modified Date'), "160", "last_modified_date", "last_modified_date", "last_modified_date", "convert_GMT_to","","true","center"),
-			array(gettext('Action'), "150", "", "", "", array("DELETE" => array("url" => "accounts/" . $accountype . "_ipmap_action/delete/$accountid/$accountype/", "mode" => "single")))
-				));
-		return $grid_field_arr;
-	}
+    function build_ip_list_for_customer($accountid, $accountype) {
+        $grid_field_arr = json_encode(array(
+            array(gettext('Name'), "180", "name", "", "", "","","true","center"),
+            array(gettext('IP'), "180", "ip", "", "", "","","true","center"),
+            array(gettext('Prefix'), "180", "prefix", "", "", "","","true","center"),
+            array(gettext('Created Date'), "174", "created_date", "created_date", "created_date", "convert_GMT_to","","true","center"),
+            array(gettext('Modified Date'), "160", "last_modified_date", "last_modified_date", "last_modified_date", "convert_GMT_to","","true","center"),
+            array(gettext('Action'), "150", "", "", "", array("DELETE" => array("url" => "accounts/" . $accountype . "_ipmap_action/delete/$accountid/$accountype/", "mode" => "single")))
+                ));
+        return $grid_field_arr;
+    }
 
-	function build_animap_list_for_customer($accountid, $accounttype) {
-		$grid_field_arr = json_encode(array(
-			array(gettext("Caller ID"), "200", "number", "", "", "","","true","center"),
-			array(gettext("Status"), "180", "status", "status", "ani_map", "get_status_new","","true","center"),
-			array(gettext("Created Date"), "200", "creation_date", "creation_date", "creation_date", "convert_GMT_to","","true","center"),
-			array(gettext("Modified Date"), "170", "last_modified_date", "last_modified_date", "last_modified_date", "convert_GMT_to","","true","center"),
-			array(gettext("Action"), "200", "", "", "", array("DELETE" => array("url" => "accounts/" . $accounttype . "_animap_action/delete/$accountid/", "mode" => "single")))
-				));
-		return $grid_field_arr;
-	}
+    function build_animap_list_for_customer($accountid, $accounttype) {
+        $grid_field_arr = json_encode(array(
+            array(gettext("Caller ID"), "200", "number", "", "", "","","true","center"),
+            array(gettext("Status"), "180", "status", "status", "ani_map", "get_status_new","","true","center"),
+            array(gettext("Created Date"), "200", "creation_date", "creation_date", "creation_date", "convert_GMT_to","","true","center"),
+            array(gettext("Modified Date"), "170", "last_modified_date", "last_modified_date", "last_modified_date", "convert_GMT_to","","true","center"),
+            array(gettext("Action"), "200", "", "", "", array("DELETE" => array("url" => "accounts/" . $accounttype . "_animap_action/delete/$accountid/", "mode" => "single")))
+                ));
+        return $grid_field_arr;
+    }
 
-	function build_sipiax_list_for_customer() {
-		$grid_field_arr = json_encode(array(array("Tech", "150", "tech", "", "", ""),
-			array(gettext("Type"), "150", "type", "", "", ""),
-			array(gettext("User Name"), "150", "username", "sweep", "sweeplist", "get_field_name"),
-			array(gettext("Password"), "150", "secret", "", "", ""),
-			array(gettext("Context"), "150", "context", "", "", "")));
-		return $grid_field_arr;
-	}
+    function build_sipiax_list_for_customer() {
+        $grid_field_arr = json_encode(array(array("Tech", "150", "tech", "", "", ""),
+            array(gettext("Type"), "150", "type", "", "", ""),
+            array(gettext("User Name"), "150", "username", "sweep", "sweeplist", "get_field_name"),
+            array(gettext("Password"), "150", "secret", "", "", ""),
+            array(gettext("Context"), "150", "context", "", "", "")));
+        return $grid_field_arr;
+    }
 
-	function set_block_pattern_action_buttons($id) {
-		$ret_url = '';
-		$ret_url .= '<a href="/did/delete/' . $id . '/" class="icon delete_image" title="Delete" onClick="return get_alert_msg();">&nbsp;</a>';
-		return $ret_url;
-	}
+    function set_block_pattern_action_buttons($id) {
+        $ret_url = '';
+        $ret_url .= '<a href="/did/delete/' . $id . '/" class="icon delete_image" title="Delete" onClick="return get_alert_msg();">&nbsp;</a>';
+        return $ret_url;
+    }
 
-	function build_animap_list() {
-		$grid_field_arr = json_encode(array(array("Caller ID", "180", "number", "", "", ""),
-			array(gettext("status"),"180","status","status","animap","get_status"),    
-			array(gettext("Action"), "130", "", "", "",
-				array(
-					"EDIT_ANIMAP" => array("url" => "accounts/callingcards_animap_list_edit/", "mode" => "single"),
-					"DELETE_ANIMAP" => array("url" => "accounts/callingcards_animap_list_remove/", "mode" => "single")
-				)
-			)));
-		return $grid_field_arr;
-	}
+    function build_animap_list() {
+        $grid_field_arr = json_encode(array(array("Caller ID", "180", "number", "", "", ""),
+            array(gettext("status"),"180","status","status","animap","get_status"),    
+            array(gettext("Action"), "130", "", "", "",
+                array(
+                    "EDIT_ANIMAP" => array("url" => "accounts/callingcards_animap_list_edit/", "mode" => "single"),
+                    "DELETE_ANIMAP" => array("url" => "accounts/callingcards_animap_list_remove/", "mode" => "single")
+                )
+            )));
+        return $grid_field_arr;
+    }
 
-	function build_grid_buttons_destination() {
-		$buttons_json = json_encode(array(
-				));
-		return $buttons_json;
-	}
+    function build_grid_buttons_destination() {
+        $buttons_json = json_encode(array(
+                ));
+        return $buttons_json;
+    }
 
 }
 
