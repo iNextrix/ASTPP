@@ -80,7 +80,7 @@ function check_did(destination_number,config)
 	number_translation = config['did_global_translation'];
 	destination_number = do_number_translation(number_translation,destination_number)
 
-	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
+	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE A.status=0 AND B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
 
 	Logger.debug("[CHECK_DID] Query :" .. query)
 
