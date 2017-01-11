@@ -1671,6 +1671,8 @@ INSERT  INTO  `menu_modules` ( `id` , `menu_label` , `module_name` , `module_url
 
 UPDATE `userlevels` SET `module_permissions` = '31,32,37,36,34,35,33,63,64,67,70,71,73,74,76' WHERE `userlevels`.`userlevelid` =0;
 
+ALTER TABLE `charge_to_account` ADD `status` TINYINT(1) NOT NULL DEFAULT '0' AFTER `accountid`;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
