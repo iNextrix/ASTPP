@@ -107,7 +107,7 @@ return false;
           <div> 
 			  <input type="hidden" readonly name="cmd" value="_xclick">
 			  <input type="hidden" readonly  name="business" value="<?=$paypal_email_id?>">
-			  <input type="hidden" readonly name="item_name" value="ASTPP Store">
+			  <input type="hidden" readonly name="item_name" value="Billing Store">
 			  <input type="hidden" readonly name="item_number" value="<?=$accountid?>"> 
 			  <input type="hidden" readonly name="LC" value="US">
 			  <input type="hidden" readonly name="country" value="USA">
@@ -115,7 +115,7 @@ return false;
 			  <input type="hidden" readonly name="rm" value="2">
 			  <input type="hidden" readonly name="no_shipping" value="1">
 			  <input type="hidden" readonly name="PHPSESSID" value="<?=session_id(); ?>">
-			  <input type="hidden" readonly name="currency_code" value="USD">
+			  <input type="hidden" readonly name="currency_code" value="<?=$to_currency?>">
 			  <input type="hidden" readonly name="notify_url" value="<?= base_url()?>login/paypal_response/">
 			  <input type="hidden" readonly name="return" value="<?= base_url()?>login/paypal_response/">
 			  <input type="hidden" readonly name="cancel_return" value="<?= base_url()?>/user/user_payment/">
