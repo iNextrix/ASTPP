@@ -2,7 +2,7 @@
     <settings>
 
       <!-- Global parameters -->
-      <param name="log-b-leg" value="false"/>
+      <param name="log-b-leg" value="true"/>
       <param name="prefix-a-leg" value="false"/>
 
       <!-- Whether to URL encode the individual JSON values. Defaults to true, set to false for standard JSON. -->

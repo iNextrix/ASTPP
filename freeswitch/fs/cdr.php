@@ -66,7 +66,14 @@ if(isset($_SERVER["CONTENT_TYPE"]) && $_SERVER["CONTENT_TYPE"] == "application/j
 	$data = json_decode(file_get_contents("php://input"),true);
 	//error_log(print_r($data,true));
 	$logger->log(print_r($data,true));
-	process_cdr($data,$db,$logger,$decimal_points);
+	if($data['variables']['calltype']== "CALLINGCARD"){
+    		if(isset($data['variables']['originating_leg_uuid']))
+    		{
+	     		process_cdr($data,$db,$logger,$decimal_points);
+    		}
+    	}else{
+        	process_cdr($data,$db,$logger,$decimal_points);
+    	}
 }
 
 //$db->cleanup();

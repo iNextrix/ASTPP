@@ -135,7 +135,8 @@ function save_ani(cardinfo)
 end
 
 function get_account(accountcode)
-	local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 limit 1";
+	local query = "SELECT *,(select currencyrate from currency where id=currency_id) as currencyrate FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 limit 1";
+
 	Logger.debug("[DOAUTHORIZATION] Query :" .. query)
 
 	local userinfo;
@@ -262,7 +263,11 @@ function say_balance(cardinfo)
     if ( balance > 0 ) then
 		if (tonumber(config['calling_cards_balance_announce']) == tonumber('0')) then
             session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
-            session:execute("say", "en currency pronounced " ..  balance);
+	        -- Doing currency conversion to play audio file in customer currency
+		    customer_balance = (balance * cardinfo['currencyrate'])
+		    play_amount(customer_balance)
+ 	        ---------------------------------	
+            --session:execute("say", "en currency pronounced " ..  customer_balance);
         end	
 	else     
 		 session:streamFile( "astpp-card-is-empty.wav" )
@@ -273,21 +278,48 @@ function say_balance(cardinfo)
     return balance
 end
 
---Say how much the call will cost.
-function say_cost(numberinfo)        
+-- Play amount audio file 
+function play_amount(amount)
+    amount_array = explode(".",amount)
+    amount_first_part = amount_array[1]
+    if (amount_array[2] == '0' or amount_array[2] == nil) then
+        amount_array[2] = '00'
+    end
+    amount_second_part = string.sub(amount_array[2],0,2)
+    Logger.debug("[Play Amount First Part] Query :" .. amount_first_part)
+    Logger.debug("[Play Amount Second Part] Query :" .. amount_second_part)
+    session:execute("say", "en number pronounced " ..  amount_first_part);
+    session:streamFile( "astpp-point.wav" )
+    if(tonumber(amount_second_part) > 0 and string.sub(amount_second_part,0,1) == '0') then
+        session:execute("say", "en number pronounced " ..  string.sub(amount_second_part,0,1));
+        session:execute("say", "en number pronounced " ..  string.sub(amount_second_part,1,2));
+    else
+        session:execute("say", "en number pronounced " ..  amount_second_part);
+    end
+end
 
+--Say how much the call will cost.
+function say_cost(numberinfo,customer_carddata)        
     if ( tonumber(config['calling_cards_rate_announce']) == tonumber('0') ) then
         
         if ( tonumber(numberinfo['cost']) > 0 ) then    
             session:streamFile( "astpp-willcost.wav" );
-	        session:execute("say", "en currency pronounced " ..  numberinfo['cost']);
+            -- Doing currency conversion to play audio file in customer currency
+            or_cost = (numberinfo['cost'] * customer_carddata['currencyrate'])
+		    play_amount(or_cost) 
+            --------------------------------------------------------------------
+            --session:execute("say", "en currency pronounced " ..  or_cost);
             session:streamFile( "astpp-per.wav" );
             session:streamFile( "astpp-minutes.wav" );
         end
         
         if ( tonumber(numberinfo['connectcost']) > 0 ) then
             session:streamFile( "astpp-connectcharge.wav" );
-	        session:execute("say", "en currency pronounced " ..  numberinfo['connectcost']);            	   
+            -- Doing currency conversion to play audio file in customer currency
+            or_connectcost = (numberinfo['connectcost'] * customer_carddata['currencyrate'])
+		    play_amount(or_connectcost) 
+            --------------------------------------------------------------------
+            --session:execute("say", "en currency pronounced " ..  or_connectcost);
             session:streamFile( "astpp-willapply.wav" );
         end
     end
@@ -449,14 +481,14 @@ function process_destination(userinfo)
 	Logger.debug("[CHECK_destination] Dialed destination number :" .. destination)
 
 	local original_destination_number = destination	
-	 	--Check if destination blocked
 
-	    local number_loop_string = number_loop(destination,'blocked_patterns')
-	    local block_prefix = check_blocked_prefix(userinfo, destination,number_loop_string);
-	    if( block_prefix ~= "") then
-	   		--error_xml_without_cdr(destination,"DESTINATION_BLOCKED") ;
-		        --return 1
-	    end
+ 	--Check if destination blocked
+    local number_loop_string = number_loop(destination,'blocked_patterns')
+    local block_prefix = check_blocked_prefix(userinfo, destination,number_loop_string);
+    if(block_prefix == "false") then
+	   		error_xml_without_cdr(destination,"DESTINATION_BLOCKED","ASTPP-CALLINGCARD",config['playback_audio_notification'],userinfo['id']) ;
+	        return 
+    end
 	
 	if(userinfo['dialed_modify'] ~= nil) then
 	      destination = do_number_translation(userinfo['dialed_modify'],destination)
@@ -502,49 +534,52 @@ function process_destination(userinfo)
 	local i = 1
 
 	while (tonumber(userinfo['reseller_id']) > 0 and tonumber(maxlength) > 0 ) do 
-		local number_loop_string = number_loop(destination,'blocked_patterns') 
 
-	    local block_prefix = check_blocked_prefix(userinfo, destination,number_loop_string);
-		if( block_prefix ~= "") then
-	   		--error_xml_without_cdr(destination,"DESTINATION_BLOCKED") ;
-		        --return 1
-		end
 		Logger.notice("FINDING LIMIT FOR RESELLER: "..userinfo['reseller_id'])
-
 		reseller_userinfo = get_account(userinfo['reseller_id'])
 
-		if (reseller_userinfo == nil) then
+        if (reseller_userinfo == nil) then
 	    	    error_xml_without_cdr(destination,"ACCOUNT_INACTIVE_DELETED","ASTPP-CALLINGCARD",config['playback_audio_notification']); 
-		    return
-		else	    
-		    -- If call is pstn and dialed modify defined then do number translation
-		if (reseller_userinfo['dialed_modify'] ~= '') then
-		    destination = do_number_translation(reseller_userinfo['dialed_modify'],destination)
-		end    
-		    number_loop_str = number_loop(destination)
-		    reseller_ids[i] = reseller_userinfo
-		    
-		    -- print reseller information 
-		Logger.info("=============== Reseller Information ===================")
-		Logger.info("User id : "..reseller_userinfo['id'])  
-		Logger.info("Account code : "..reseller_userinfo['number'])
-		Logger.info("Balance : "..get_balance(reseller_userinfo))  
-		Logger.info("Type : "..reseller_userinfo['posttoexternal'].." [0:prepaid,1:postpaid]")  
-		Logger.info("Ratecard id : "..reseller_userinfo['pricelist_id'])  
-		Logger.info("========================================================")  
+		        return
+		else
+
+		    local number_loop_string = number_loop(destination,'blocked_patterns') 
+	        local block_prefix = check_blocked_prefix(reseller_userinfo, destination,number_loop_string);
+		    if( block_prefix == false) then
+			    Logger.notice("Reseller call should be blocked here")
+			    error_xml_without_cdr(destination,"DESTINATION_BLOCKED","ASTPP-CALLINGCARD",config['playback_audio_notification']) ;
+	            return
+		    end
+			    
+	        -- If call is pstn and dialed modify defined then do number translation
+		    if (reseller_userinfo['dialed_modify'] ~= '') then
+		        destination = do_number_translation(reseller_userinfo['dialed_modify'],destination)
+		    end    
+
+	        number_loop_str = number_loop(destination)
+	        reseller_ids[i] = reseller_userinfo
 		        
-		tmp_array_reseller = get_call_maxlength(reseller_userinfo,destination,call_direction,number_loop_str,config)	    
+	        -- print reseller information 
+		    Logger.info("=============== Reseller Information ===================")
+		    Logger.info("User id : "..reseller_userinfo['id'])  
+		    Logger.info("Account code : "..reseller_userinfo['number'])
+		    Logger.info("Balance : "..get_balance(reseller_userinfo))  
+		    Logger.info("Type : "..reseller_userinfo['posttoexternal'].." [0:prepaid,1:postpaid]")  
+		    Logger.info("Ratecard id : "..reseller_userinfo['pricelist_id'])  
+		    Logger.info("========================================================")  
+		        
+		    tmp_array_reseller = get_call_maxlength(reseller_userinfo,destination,call_direction,number_loop_str,config)	    
 		
-        if( tmp_array_reseller == 'NO_SUFFICIENT_FUND' or tmp_array_reseller == 'ORIGNATION_RATE_NOT_FOUND') then
-    	    error_xml_without_cdr(destination,tmp_array_reseller,"ASTPP-CALLINGCARD",1,reseller_userinfo['id']) 
-    	    return
-    	end
+            if( tmp_array_reseller == 'NO_SUFFICIENT_FUND' or tmp_array_reseller == 'ORIGNATION_RATE_NOT_FOUND') then
+        	    error_xml_without_cdr(destination,tmp_array_reseller,"ASTPP-CALLINGCARD",1,reseller_userinfo['id']) 
+        	    return
+        	end
     
-		reseller_maxlength = tmp_array_reseller[1];
-		reseller_rates = tmp_array_reseller[2];
-		xml_reseller_rates = tmp_array_reseller[3];
+		    reseller_maxlength = tmp_array_reseller[1];
+		    reseller_rates = tmp_array_reseller[2];
+		    xml_reseller_rates = tmp_array_reseller[3];
 	
-		origination_dp_string = origination_dp_string.."||"..xml_reseller_rates	
+		    origination_dp_string = origination_dp_string.."||"..xml_reseller_rates	
 
 		    if (tonumber(reseller_maxlength) < tonumber(maxlength)) then 
 	    		maxlength = reseller_maxlength
@@ -558,21 +593,20 @@ function process_destination(userinfo)
 		    end
 		    rate_carrier_id = reseller_rates['trunk_id']
 		    userinfo = reseller_userinfo
-		end
-
-		if(tonumber(userinfo['maxchannels']) > 0) then
-			sesion:execute("limit","db "..userinfo['number'].." db_"..userinfo['number'].." "..userinfo['maxchannels']) 
-		end
+            if(tonumber(userinfo['maxchannels']) > 0) then
+    			sesion:execute("limit","db "..userinfo['number'].." db_"..userinfo['number'].." "..userinfo['maxchannels']) 
+    		end
+		end		
     end -- End while 
 	
 	maxlength = math.floor(maxlength);
-    	Logger.notice(""..maxlength .." Minutes")
+	Logger.notice(""..maxlength .." Minutes")
 
-        --&error_xml_without_cdr($destination,"NO_SUFFICIENT_FUND") if($maxlength<=0);
+    --&error_xml_without_cdr($destination,"NO_SUFFICIENT_FUND") if($maxlength<=0);
 
-        --  Congratulations, we now have a working card,pin, and phone number.
-        say_cost( customer_origination_rates_info )
-        say_timelimit(maxlength)
+    --  Congratulations, we now have a working card,pin, and phone number.
+    say_cost( customer_origination_rates_info,customer_carddata )
+    say_timelimit(maxlength)
 
         dialout( original_destination_number, destination, maxlength, customer_carddata, customer_origination_rates_info , origination_dp_string ,number_loop_str,userinfo);
 

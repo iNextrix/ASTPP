@@ -206,12 +206,12 @@ end
 
 -- Check if dialed number prefix is blocked or not 
 function check_blocked_prefix(userinfo,destination_number,number_loop)
-    local flag = true        
+    local flag = "true"
    -- local query = "SELECT * FROM  tbl_restrict_codes WHERE "..number_loop.." AND user_id="..userinfo['id'];    
     local query = "SELECT * FROM "..TBL_BLOCK_PREFIX.." WHERE "..number_loop.." AND accountid = "..userinfo['id'].. " limit 1 ";
     Logger.debug("[CHECK_BLOCKED_PREFIX] Query :" .. query)
     assert (dbh:query(query, function(u)
-	flag = false
+	flag = "false"
     end))
     return flag
 end
