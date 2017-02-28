@@ -10,7 +10,7 @@
 	$this->db->select('*');	
 	$this->db->where('domain',$_SERVER['HTTP_HOST']);
 	$this->db->or_where('domain','http://'.$_SERVER['HTTP_HOST']);
-	$this->db->or_where('domain','https://'.$_SERVER['HTTP_HOST'])
+	$this->db->or_where('domain','https://'.$_SERVER['HTTP_HOST']);
 	$result=$this->db->get('invoice_conf');
 	if($result->num_rows() > 0){
 		$result=$result->result_array();
