@@ -1,7 +1,23 @@
-ALTER table subscriber Add accountcode int(11) after `password`;
-ALTER table subscriber Add pricelist_id int(11) after `accountcode`;
-
-ALTER TABLE `subscriber` ADD `status` TINYINT( 1 ) NOT NULL DEFAULT '0' COMMENT '0:active,1:inactive',
-ADD `creation_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-ADD `last_modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
-ALTER TABLE `subscriber` ADD `reseller_id` INT( 4 ) NOT NULL ;
+drop TABLE subscriber;
+CREATE TABLE IF NOT EXISTS `subscriber` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `username` char(64) NOT NULL DEFAULT '',
+  `domain` char(64) NOT NULL DEFAULT '',
+  `password` char(25) NOT NULL DEFAULT '',
+  `email_address` char(64) NOT NULL DEFAULT '',
+  `ha1` char(64) NOT NULL DEFAULT '',
+  `ha1b` char(64) NOT NULL DEFAULT '',
+  `rpid` char(64) DEFAULT NULL,
+  `accountcode` varchar(20) NOT NULL,
+  `pricelist_id` int(11) NOT NULL DEFAULT '0',
+  `channel_limit` int(5) DEFAULT NULL,
+  `effective_caller_id_name` varchar(50) NOT NULL,
+  `effective_caller_id_number` varchar(50) NOT NULL,
+  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `reseller_id` int(4) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `account_idx` (`username`,`domain`),
+  KEY `username_idx` (`username`)
+) ENGINE=MyISAM  DEFAULT CHARSET=ascii AUTO_INCREMENT=1 ;
