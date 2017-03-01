@@ -107,7 +107,7 @@
     	<div class="container">
 	<div class="row">
              <div class="col-md-12 margin-t-10">
-            <form id="import_form" name="import_form" action="<?=base_url()?>rates/origination_rate_import_file/<?= $pricelistid?>/<?=$trunkid?><?=$check_header?>/" method="POST">
+            <form id="import_form" name="import_form" action="<?=base_url()?>rates/origination_rate_import_file/<?= $pricelistid?>/<?=$trunkid?>/<?=$check_header?>/" method="POST">
             <table width="100%" border="1"  class="details_table table">
                 <?  $cnt =7;
 					foreach($csv_tmp_data as $csv_key => $csv_value){

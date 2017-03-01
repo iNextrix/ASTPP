@@ -108,9 +108,9 @@
                                             </div>   
                                             <div class="col-md-3">
                                                 <label class="col-md-2" name="speed_dial" size="16"> 
-                                                    <?php if ($result[$i]['speed_num'] == $i) {
+                                                    <?php 
 														echo $result[$i]['number'];
-													} ?> 
+													 ?> 
                                                 </label>
                                             </div>
                                             <div class="col-md-4 margin-b-10">

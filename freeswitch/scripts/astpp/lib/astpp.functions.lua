@@ -80,7 +80,7 @@ function check_did(destination_number,config)
 	number_translation = config['did_global_translation'];
 	destination_number = do_number_translation(number_translation,destination_number)
 
-	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
+	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE A.status=0 AND B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
 
 	Logger.debug("[CHECK_DID] Query :" .. query)
 
@@ -127,7 +127,7 @@ end
 -- Do IP base authentication 
 function ipauthentication(destination_number,from_ip)
 
-    local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" ..from_ip.. "\" AND prefix IN (NULL,'') OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" ..from_ip.. "\" AND \"" .. destination_number .. "\"  RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1"
+    local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE (INET_ATON(\"" .. from_ip.. "\") & (0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1)))) =  ((0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1))) & INET_ATON(SUBSTRING_INDEX(ip,'/',1))) OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND prefix IN (NULL,'') OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND \"" .. destination_number .. "\"  RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1"
 
     Logger.debug("[IPAUTHENTICATION] Query :" .. query)
     
@@ -206,12 +206,12 @@ end
 
 -- Check if dialed number prefix is blocked or not 
 function check_blocked_prefix(userinfo,destination_number,number_loop)
-    local flag = true        
+    local flag = "true"
    -- local query = "SELECT * FROM  tbl_restrict_codes WHERE "..number_loop.." AND user_id="..userinfo['id'];    
     local query = "SELECT * FROM "..TBL_BLOCK_PREFIX.." WHERE "..number_loop.." AND accountid = "..userinfo['id'].. " limit 1 ";
     Logger.debug("[CHECK_BLOCKED_PREFIX] Query :" .. query)
     assert (dbh:query(query, function(u)
-	flag = false
+	flag = "false"
     end))
     return flag
 end

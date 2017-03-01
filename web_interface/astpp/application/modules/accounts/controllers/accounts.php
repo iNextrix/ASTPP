@@ -245,7 +245,7 @@ class Accounts extends MX_Controller {
 					unset($add_array['tax_id']);
 				}
 				//Completed
-				unset($add_array['posttoexternal'],$add_array['number']);
+				unset($add_array['posttoexternal'],$add_array['number'],$add_array['balance']);
 				$this->accounts_model->edit_account($add_array, $add_array['id']);
 				$this->session->set_flashdata('astpp_errormsg', ucfirst($entity_name) . ' updated successfully!');
 				redirect(base_url() . 'accounts/customer_list/');

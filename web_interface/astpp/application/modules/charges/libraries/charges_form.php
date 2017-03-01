@@ -105,13 +105,13 @@ For DID edit on DID number
             change status active or inactive.
             */
             
-			/***********************************************/
-			array("Action", "150", "", "", "", array("EDIT" => array("url" => "charges/periodiccharges_edit/", "mode" => "popup", 'popup'),
-					"DELETE" => array("url" => "charges/periodiccharges_delete/", "mode" => "single")))
-				));
-		return $grid_field_arr;
-	}
-	/********************************************/
+            /***********************************************/
+            array(gettext("Action"), "150", "", "", "", array("EDIT" => array("url" => "charges/periodiccharges_edit/", "mode" => "popup", 'popup'),
+                    "DELETE" => array("url" => "charges/periodiccharges_delete/", "mode" => "single")))
+                ));
+        return $grid_field_arr;
+    }
+    /********************************************/
 
 	function build_grid_buttons() {
 		$buttons_json = json_encode(array(array("Create" , "btn btn-line-warning btn" , "fa fa-plus-circle fa-lg", "button_action", "/charges/periodiccharges_add/", "popup"),

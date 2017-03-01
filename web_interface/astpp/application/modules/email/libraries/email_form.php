@@ -166,8 +166,8 @@ class Email_form {
 	$form['Email Template'] = array(
 	array('Email Template', 'temp', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_temp'),          
 	);
-$form['button_cancel'] = array('name' => 'action', 'content' => 'Reset', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'NULL\')');
 	$form['button_save'] = array('name' => 'action', 'content' => 'Search', 'value' => 'save', 'id' => 'submit', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
+	$form['button_cancel'] = array('name' => 'action', 'content' => 'Reset', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'redirect_page(\'/email/email_mass/\')');
 
 	
        

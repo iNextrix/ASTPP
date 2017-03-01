@@ -86,17 +86,17 @@ class System_form {
 		return $form;
 	}
 
-	function build_system_list_for_admin() {
-		$grid_field_arr = json_encode(array(
-			array("Name", "190", "name", "", "", ""),
-			array("Value", "190", "value", "", "", ""),
-			array("Description", "320", "comment", "", "", ""),
-			array("Group", "120", "group_title", "", "", ""),
-			array("Action", "442", "", "", "",array("EDIT" => array("url" => "systems/configuration_edit/", "mode" => "popup"),
-			))
-				));
-		return $grid_field_arr;
-	}
+    function build_system_list_for_admin() {
+        $grid_field_arr = json_encode(array(
+            array("Name", "190", "name", "", "", ""),
+            array("Value", "190", "value", "", "", ""),
+            array("Description", "320", "comment", "", "", ""),
+            array("Group", "120", "group_title", "", "", ""),
+            array(gettext("Action"), "442", "", "", "",array("EDIT" => array("url" => "systems/configuration_edit/", "mode" => "popup"),
+            ))
+                ));
+        return $grid_field_arr;
+    }
 
 	function build_grid_buttons() {
 		$buttons_json = json_encode(array(
@@ -104,28 +104,29 @@ class System_form {
 		return $buttons_json;
 	}
 
-	function build_template_list_for_admin() {
-		$grid_field_arr = json_encode(array(array("Name", "425", "name", "", "", "","","true","center"),
-			array("Subject", "650", "subject", "", "", "","","true","center"),
-			array("Action", "200", "", "", "",array("EDIT" => array("url" => "systems/template_edit/", "mode" => "single"),
-			))
-				));
-		return $grid_field_arr;
-	}
+    function build_template_list_for_admin() {
+        $grid_field_arr = json_encode(array(array("Name", "425", "name", "", "", "","","true","center"),
+            array("Subject", "650", "subject", "", "", "","","true","center"),
+            array(gettext("Action"), "200", "", "", "",array("EDIT" => array("url" => "systems/template_edit/", "mode" => "single"),
+            ))
+                ));
+        return $grid_field_arr;
+    }
 
-	function build_country_list_for_admin() {     
-			$action = 'systems/country_list_edit/';
-			$action_remove = 'systems/country_remove/';
-			$mode="popup";
-		$grid_field_arr = json_encode(array(
-		array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "50", "", "", "", "","","false","center"),
-			array("Name", "705", "country", "", "", "","","true","center"),
-			   array("Action", "100", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
-					"DELETE" => array("url" => "$action_remove", "mode" => "single")
-				))
-				));
-		return $grid_field_arr;
-	 }
+    function build_country_list_for_admin() {     
+            $action = 'systems/country_list_edit/';
+            $action_remove = 'systems/country_remove/';
+            $mode="popup";
+        $grid_field_arr = json_encode(array(
+	    array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "50", "", "", "", "","","false","center"),
+            array("Name", "705", "country", "", "", "","","true","center"),
+               array(gettext("Action"), "100", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
+                    "DELETE" => array("url" => "$action_remove", "mode" => "single")
+                ))
+                ));
+        return $grid_field_arr;
+     }
+
     
 	 function build_admin_grid_buttons() {
 		$buttons_json = json_encode(array(array("Create","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "systems/country_add/", "popup"),
@@ -169,17 +170,17 @@ class System_form {
 			$action_remove = 'systems/currency_remove/';
 			$mode="popup";
         
-		$grid_field_arr = json_encode(array(
-		array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "70", "", "", "", "","","false","center"),
-			array("Name", "320", "currencyname", "", "", "","","true","center"),
-		array("Code", "290", "currency", "", "", "","","true","center"),
-		array(" Rate", "330", "currencyrate", "", "", "","","true","right"),
-			   array("Action", "265", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
-					"DELETE" => array("url" => "$action_remove", "mode" => "single")
-				))
-				));
-		return $grid_field_arr;
-	 }
+        $grid_field_arr = json_encode(array(
+	    array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "70", "", "", "", "","","false","center"),
+            array("Name", "320", "currencyname", "", "", "","","true","center"),
+	    array("Code", "290", "currency", "", "", "","","true","center"),
+	    array(" Rate", "330", "currencyrate", "", "", "","","true","right"),
+               array(gettext("Action"), "265", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
+                    "DELETE" => array("url" => "$action_remove", "mode" => "single")
+                ))
+                ));
+        return $grid_field_arr;
+     }
 
 	function get_search_currency_form() {
 
@@ -241,7 +242,7 @@ class System_form {
 			array("Date", "260", "date", "date", "date", "convert_GMT_to","","true","center"),
 			array("Name", "295", "backup_name", "", "", "","","true","center"),
 			array("File Name", "480", "path", "", "", "","","true","center"),
-			array("Action", "185", "", "", "",
+			array(gettext("Action"), "185", "", "", "",
 			array("EDIT_RESTORE" => array("url" => "systems/database_restore_one/", "mode" => ""),
 			"DOWNLOAD_DATABASE" => array("url" => "systems/database_download/", "mode" => ""),
 			"Delete" => array("url" => "systems/database_delete/", "mode" => ""),
