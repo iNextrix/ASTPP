@@ -1673,6 +1673,28 @@ UPDATE `userlevels` SET `module_permissions` = '31,32,37,36,34,35,33,63,64,67,70
 
 ALTER TABLE `charge_to_account` ADD `status` TINYINT(1) NOT NULL DEFAULT '0' AFTER `accountid`;
 
+--
+-- Added below query to remove default indexes of cdrs table and create new for better performance
+--
+
+ALTER TABLE cdrs
+    DROP INDEX uniqueid,
+    DROP INDEX user_id
+;
+
+CREATE INDEX cdr_index ON cdrs (callstart,reseller_id,type);
+
+ALTER TABLE reseller_cdrs
+    DROP INDEX uk_uniquekey,
+    DROP INDEX reseller_id
+;
+
+CREATE INDEX rs_cdr_index ON reseller_cdrs (callstart,reseller_id);
+
+--
+-- ---------------------------------------------------------
+--
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
