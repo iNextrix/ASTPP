@@ -106,7 +106,6 @@ class User extends MX_Controller {
 			$json_data[0]['from_date'] = 'From Date';
 			$json_data[0]['invoice_date'] = 'Generated Date';
 			$json_data[0]['amount'] = 'Amount ('.$currency.')';
-			$json_data[0]['inv_type'] = 'Recharge Type';
 			$i = 1;
 			foreach ($result as $key => $data) {
 			$invoice_prefix= $entity_type =$this->common->get_field_name('invoice_prefix','invoices',array('id'=>$data['id']));
@@ -120,7 +119,7 @@ class User extends MX_Controller {
 			if($inv_type == 'manual_inv'){
 			  $inv_type='Manually';
 			}
-			$inv_debit=$this->common->get_invoice_total('debit', '', $data['id']);
+			$inv_debit=$this->common->convert_to_currency('', '', $data['amount']);
 			if($inv_debit == ''){
 			  $inv_debit=$this->common->convert_to_currency('', '',0);
 			}
@@ -129,7 +128,6 @@ class User extends MX_Controller {
 			$json_data[$i]['from_date'] = date('Y-m-d H:i:s', strtotime($data['from_date']) + $gmtoffset);
 			$json_data[$i]['invoice_date'] = date('Y-m-d H:i:s', strtotime($data['invoice_date']) + $gmtoffset);
 			$json_data[$i]['amount'] = $inv_debit;
-			$json_data[$i]['inv_type'] = $inv_type;
 			$i++;
 			}
 		}

@@ -84,28 +84,65 @@ class dashboard extends CI_Controller {
 		$post=$this->input->post();
 		$year=isset($post['year']) && $post['year'] >0 ? $post['year']:date("Y");
 		$month=isset($post['month'])&& $post['month'] >0 ? $post['month']:date("m");
-	$json_data = array();
-	$start_date=date($year.'-'.$month.'-01');
+		$json_data = array();
+		$start_date=date($year.'-'.$month.'-01');
 		$end_day= $year==date("Y") && $month ==date("m") ? date("d") :cal_days_in_month(CAL_GREGORIAN, $month, $year);
-	$gmtoffset=$this->common->get_timezone_offset();
-	$end_date=date($year."-".$month."-".$end_day.' H:i:s');
-	$end_date=date('Y-m-d',strtotime($end_date)+$gmtoffset);
-	$current_date=(int)date("d");
+		$gmtoffset=$this->common->get_timezone_offset();
+		$end_date=date($year."-".$month."-".$end_day.' H:i:s');
+		$end_date=date('Y-m-d',strtotime($end_date)+$gmtoffset);
+		$current_date=(int)date("d");
 		$count=0;
 		$i=0;
 		$begin = new DateTime($start_date);
-	$end = new DateTime($end_date);
-	$end=$end->modify('+1 day');
-	$daterange = new DatePeriod($begin, new DateInterval('P1D'), $end);
-	$records_date=array();
-	$accountinfo=$this->session->userdata('accountinfo');
-	$parent_id= ($accountinfo['type'] == 1) ? $accountinfo['id'] : 0;
+		$end = new DateTime($end_date);
+		$end=$end->modify('+1 day');
+		$daterange = new DatePeriod($begin, new DateInterval('P1D'), $end);
+		$records_date=array();
+		$accountinfo=$this->session->userdata('accountinfo');
+		$parent_id= ($accountinfo['type'] == 1) ? $accountinfo['id'] : 0;
 		$customerresult = $this->dashboard_model->get_call_statistics('cdrs',$parent_id,$start_date,$end_date);
 		$resellerresult = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id,$start_date,$end_date);
 		$acc_arr = array();
-	foreach ($customerresult->result_array() as $data) {
-	  $acc_arr[$data['day']] = $data;
-	}
+/*Date: 08-Mar-2017
+Reason: Improvement of Dashboard Performance*/
+		$customer_total_result = array();
+		$customer_total_result['sum'] = '';
+		$customer_total_result['answered'] = '';
+		$customer_total_result['mcd'] = '';
+		$customer_total_result['duration'] = '';
+		$customer_total_result['failed'] = '';
+		$customer_total_result['profit'] = '';
+		$customer_total_result['debit'] = '';
+		$customer_total_result['cost'] = '';
+		$customer_total_result['completed'] = '';
+		$reseller_total_result = array();
+		$reseller_total_result['sum'] = '';
+		$reseller_total_result['answered'] = '';
+		$reseller_total_result['mcd'] = '';
+		$reseller_total_result['duration'] = '';
+		$reseller_total_result['failed'] = '';
+		$reseller_total_result['profit'] = '';
+		$reseller_total_result['debit'] = '';
+		$reseller_total_result['cost'] = '';
+		$reseller_total_result['completed'] = '';
+		$mcd = 0;
+		$res_mcd = 0;
+/********************************************/		
+		foreach ($customerresult->result_array() as $data) {
+		  $acc_arr[$data['day']] = $data;
+		  $customer_total_result['sum'] += $data['sum'];
+		  $customer_total_result['answered'] += $data['answered'];
+		  if($data['mcd'] > $mcd){
+			  $mcd = $data['mcd'];
+		  }
+		  $customer_total_result['mcd'] = $mcd;
+		  $customer_total_result['duration'] += $data['duration'];
+		  $customer_total_result['failed'] += $data['failed'];
+		  $customer_total_result['profit'] += $data['profit'];
+		  $customer_total_result['debit'] += $data['debit'];
+		  $customer_total_result['cost'] += $data['cost'];
+		  $customer_total_result['completed'] += $data['completed'];
+		}
 	foreach($resellerresult->result_array() as $data){
 	  $reseller_arr[$data['day']]=$data;
 	  if(isset($acc_arr[$data['day']])){
@@ -119,6 +156,16 @@ class dashboard extends CI_Controller {
 	  }else{
 		$acc_arr[$data['day']]=$data;
 	  }
+		$reseller_total_result['sum'] += $acc_arr[$data['day']]['sum'];
+		$reseller_total_result['answered'] += $acc_arr[$data['day']]['answered'];
+		if($data['mcd'] > $res_mcd){
+		  $res_mcd = $data['mcd'];
+		}
+		$reseller_total_result['mcd'] = $res_mcd;
+		$reseller_total_result['duration'] += $acc_arr[$data['day']]['duration'];
+		$reseller_total_result['failed'] += $acc_arr[$data['day']]['failed'];
+		$reseller_total_result['profit'] += $acc_arr[$data['day']]['profit'];
+		$reseller_total_result['completed'] += $acc_arr[$data['day']]['completed'];
 	}
 	if(!empty($acc_arr)){
 		foreach($daterange as $date){
@@ -154,16 +201,13 @@ class dashboard extends CI_Controller {
 		$json_data['answered'][]=  array($date->format("d"), 0);
 		$json_data['failed'][]=  array($date->format("d"), 0);
 		$json_data['profit'][]=  array($date->format("d"), 0);
-				$json_data['acd'][]=array($date->format("d"), 0);
-				$json_data['mcd'][]=array($date->format("d"), 0);
-				$json_data['asr'][]=array($date->format("d"), 0);
+		$json_data['acd'][]=array($date->format("d"), 0);
+		$json_data['mcd'][]=array($date->format("d"), 0);
+		$json_data['asr'][]=array($date->format("d"), 0);
 	}
 	}
-		$customer_total_result = $this->dashboard_model->get_call_statistics('cdrs',$parent_id,$start_date,$end_date,false);
-		$reseller_total_result = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id,$start_date,$end_date,false);
-		$customer_total_result=(array)$customer_total_result->first_row();
-		$reseller_total_result=(array)$reseller_total_result->first_row();
-	$json_data['total_count']['sum']=$reseller_total_result['sum']+$customer_total_result['sum'];
+		
+		$json_data['total_count']['sum']=$reseller_total_result['sum']+$customer_total_result['sum'];
 		$json_data['total_count']['debit']=$this->common_model->to_calculate_currency($reseller_total_result['debit']+$customer_total_result['debit'],'','',true,true);
 		$json_data['total_count']['cost']=$this->common_model->to_calculate_currency($reseller_total_result['cost']+$customer_total_result['cost'],'','',true,true);
 		$json_data['total_count']['profit']=$this->common_model->to_calculate_currency($reseller_total_result['profit']+$customer_total_result['profit'],'','',true,true);
@@ -173,7 +217,7 @@ class dashboard extends CI_Controller {
 		$json_data['total_count']['mcd']=($customer_total_result['mcd'] > 0 || $reseller_total_result['mcd'] > 0 ) ? ($customer_total_result['mcd'] > $reseller_total_result['mcd'] ? $customer_total_result['mcd']:$reseller_total_result['mcd']) : 0;
 		$json_data['total_count']['asr']=($json_data['total_count']['sum'] > 0 ) ? (round(($json_data['total_count']['completed'] / $json_data['total_count']['sum']) * 100,2)) : 0;
 		$json_data['total_count']['asr']=$this->common_model->format_currency($json_data['total_count']['asr']);
-	echo json_encode($json_data);
+		echo json_encode($json_data);
 }
 
 	 function user_maximum_callminutes(){
