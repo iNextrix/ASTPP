@@ -237,7 +237,7 @@ Reason: Improvement of Dashboard Performance*/
  	$result = $this->dashboard_model->get_customer_maximum_callminutes($start_date,$end_date);
 	$i=0;
 	$accountinfo=$this->session->userdata('accountinfo');
-	$reseller_id=$accountinfo['type']== -1 ? 0 : $accountinfo['id'];
+	$reseller_id=($accountinfo['type']== -1 OR $accountinfo['type']== 2) ? 0 : $accountinfo['id'];
 	if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3){
 	  $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts',array('reseller_id'=>$reseller_id));
 	} else{
@@ -273,7 +273,7 @@ Reason: Improvement of Dashboard Performance*/
 	 	$json_data = array();
 	$result = $this->dashboard_model->get_customer_maximum_callcount($start_date,$end_date);
 	$accountinfo=$this->session->userdata('accountinfo');
-	$reseller_id=$accountinfo['type']== -1 ? 0 : $accountinfo['id'];
+	$reseller_id=($accountinfo['type']== -1 OR $accountinfo['type']== 2) ? 0 : $accountinfo['id'];
 	if($this->session->userdata('userlevel_logintype')!= 0 && $this->session->userdata('userlevel_logintype')!= 3){
 	  $account_arr = $this->common->get_array('id,number,first_name,last_name', 'accounts',array('reseller_id'=>$reseller_id));
 	} else{
