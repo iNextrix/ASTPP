@@ -221,12 +221,13 @@ class Signup extends MX_Controller {
                     $selection_rategroup_signup = $result_arr[0]['id'];
                     $user_data['pricelist_id'] = (isset($selection_rategroup_signup) && $selection_rategroup_signup > 0) ? $selection_rategroup_signup : 0;
                 } else {
-                    $pricelist_id = $this->common->get_field_name('id', 'pricelists', array('name' => $selection_rategroup_signup));
+                    //$pricelist_id = $this->common->get_field_name('id', 'pricelists', array('name' => $selection_rategroup_signup));
                     /* if($pricelis_id != "")
                       $user_data['pricelist_id'] = $pricelis_id;
                       else
                       $user_data['pricelist_id'] = 0; */
-                    $user_data['pricelist_id'] = ($pricelist_id != "") ? $pricelist_id : 0;
+                    //$user_data['pricelist_id'] = ($pricelist_id != "") ? $pricelist_id : 0;
+		      $user_data['pricelist_id']=$selection_rategroup_signup;
                 }
                 $last_id = '0';
                 //Insert or Update record
