@@ -163,7 +163,7 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info)
 	end
 
 	if(tonumber(outbound_info['maxchannels']) > 0) then    
-		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);   
+		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['trunk_id']..[[ ]]..outbound_info['maxchannels']..[[ bridge sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	else
 		table.insert(xml, [[<action application="bridge" data="sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);      
 	end
