@@ -421,6 +421,13 @@ function dialout( original_destination_number, destination_number, maxlength, us
 					end
 				    
 					if(termination_rate_arr_value['prepend'] ~= '' or termination_rate_arr_value['strip'] ~= '') then
+						if (termination_rate_arr_value['prepend'] == '') then 
+                            				termination_rate_arr_value['prepend'] = '*'                        
+                        			end
+
+					        if (termination_rate_arr_value['strip'] == '') then 
+			                            termination_rate_arr_value['strip'] = '*'
+                        			end
 						destination_number = do_number_translation(termination_rate_arr_value['strip'].."/"..termination_rate_arr_value['prepend'],destination_number)
 					end
 	
