@@ -38,16 +38,17 @@ tar czf ASTPP3_html_astpp_${NOW}.tar.gz /var/www/html/astpp
 tar czf ASTPP3_html_fs_${NOW}.tar.gz /var/www/html/fs
 tar czf ASTPP3_local_fsscripts_${NOW}.tar.gz /usr/local/freeswitch/scripts
 echo "Backups files created at location "${BACKUPDIR}
-
 mkdir ${TEMPDIR}
 cd ${TEMPDIR}
-git clone https://github.com/iNextrix/ASTPP
+#git clone https://github.com/iNextrix/ASTPP
+git clone -v -b ISSUE-142 https://github.com/countrdd/ASTPP
 cd ASTPP
 echo "Updating your current source with latest one . . . . . "
 rm -rf /var/www/html/astpp/*
 cp -rf web_interface/astpp/* /var/www/html/astpp/.
 chown -Rf root.root /var/www/html/astpp
 chmod -Rf 755 /var/www/html/astpp
+chmod -Rf 777 /var/www/html/astpp/assets/Rates_File/uploaded_files/
 rm -rf /var/www/html/fs/*
 cp -rf freeswitch/fs/* /var/www/html/fs/.
 chown -Rf root.root /var/www/html/fs
