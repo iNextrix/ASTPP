@@ -47,14 +47,12 @@
 			      str=str+"<th style='text-align:center;'>"+custom_data[i].from_date+"</th>";  
 			      str=str+"<th style='text-align:center;'>"+custom_data[i].invoice_date+"</th>";  
 			      str=str+"<th style='text-align:center;'>"+custom_data[i].amount+"</th>";  
-			      str=str+"<th style='text-align:center;'>"+custom_data[i].inv_type+"</th>"; 
 			    }else{
 			      str=str+"<td style='text-align:center;'>"+custom_data[i].type+"</td>";            
 			      str=str+"<td style='text-align:center;'>"+custom_data[i].id+"</td>";  
 			      str=str+"<td style='text-align:center;'>"+custom_data[i].from_date+"</td>";  
 			      str=str+"<td style='text-align:center;'>"+custom_data[i].invoice_date+"</td>";            
 			      str=str+"<td style='text-align:center;'>"+custom_data[i].amount+"</td>";
-			      str=str+"<th style='text-align:center;'>"+custom_data[i].inv_type+"</th>"; 
 			    }
 			    str=str+"</tr>";
 			  }   

@@ -163,7 +163,7 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info)
 	end
 
 	if(tonumber(outbound_info['maxchannels']) > 0) then    
-		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);   
+		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['trunk_id']..[[ ]]..outbound_info['maxchannels']..[[ bridge sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	else
 		table.insert(xml, [[<action application="bridge" data="sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);      
 	end
@@ -203,9 +203,12 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates)
 
         if (config['opensips'] == '1') then
           table.insert(xml, [[<action application="bridge" data="user/]]..didinfo['extensions']..[[@${domain_name}"/>]]);
+          table.insert(xml, [[<condition field="${cond(${user_data ]]..didinfo['extensions']..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]])
           table.insert(xml, [[<action application="answer"/>]]);    
     	  table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);  
 		  table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]]);    
+          table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]])
+          table.insert(xml, [[</condition>]])
         else      
     	  table.insert(xml, [[<action application="bridge" data="{sip_invite_params=user=LOCAL,sip_from_uri=]]..didinfo['extensions']..[[@${domain_name}}sofia/default/]]..didinfo['extensions']..[[@]]..config['opensips_domain']..[["/>]]);
         end
@@ -213,10 +216,13 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates)
 	 elseif (tonumber(didinfo['call_type']) == 3 and didinfo['extensions'] ~= '') then
 	    table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);     
 		if (config['opensips'] == '1') then
-            table.insert(xml, [[<action application="bridge" data="{sip_contact_user=]]..destination_number..[[}sofia/default/]]..destination_number..[[${regex(${sofia_contact(]]..didinfo['extensions']..[[@${domain_name})}|^[^@]+(.*)|%1)}]]..[["/>]]);
-            table.insert(xml, [[<action application="answer"/>]]);    
-            table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);
-            table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]]);
+            table.insert(xml, [[<action application="bridge" data="{sip_contact_user=]]..destination_number..[[}sofia/default/]]..destination_number..[[${regex(${sofia_contact(]]..didinfo['extensions']..[[@${domain_name})}|^[^@]+(.*)|%1)}]]..[["/>]])
+            table.insert(xml, [[<condition field="${cond(${user_data ]]..didinfo['extensions']..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]])
+            table.insert(xml, [[<action application="answer"/>]])
+            table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]])
+            table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]])
+            table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]])
+            table.insert(xml, [[</condition>]])
         else
             table.insert(xml, [[<action application="bridge" data="{sip_invite_params=user=LOCAL,sip_from_uri=]]..didinfo['extensions']..[[@${domain_name}}sofia/default/]]..didinfo['extensions']..[[@]]..config['opensips_domain']..[["/>]]);
         end
@@ -236,9 +242,12 @@ function freeswitch_xml_local(xml,destination_number,destinationinfo)
     table.insert(xml, [[<action application="set" data="receiver_accid=]]..destinationinfo['accountid']..[["/>]]);
     if (config['opensips'] == '1') then
       table.insert(xml, [[<action application="bridge" data="user/]]..destination_number..[[@${domain_name}"/>]]);
+      table.insert(xml, [[<condition field="${cond(${user_data ]]..destination_number..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]]);
       table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);
 	  table.insert(xml, [[<action application="answer"/>]]);      
       table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..destination_number..[["/>]]);
+      table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]]);
+      table.insert(xml, [[</condition>]]);
     else
       table.insert(xml, [[<action application="set" data="sip_h_X-call-type=did"/>]]);
       table.insert(xml, [[<action application="set" data="sip_h_X-did-call-type=DID-LOCAL"/>]]);

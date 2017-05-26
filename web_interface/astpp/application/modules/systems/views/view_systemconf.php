@@ -196,9 +196,9 @@ function validateform(){
 								$drpstr .= '</select>';
 								echo $drpstr;
 								unset($drpstr);
-							} else{
-								echo '<input name="'.$val["name"].'" value="'.$val['value'].'" size="20" maxlength="100" class="col-md-5 form-control" type="text">'; 
-							}?>
+							} else{ ?>
+								<input name="<?php echo $val['name'] ?>" value='<?php echo isset($val['value'])?$val['value']:''; ?>' size="20" maxlength="100" class="col-md-5 form-control" type="text">
+						<?php }?>
                               <span class="demo"><?php echo str_replace('smtp',"SMTP",$val['comment']);?></span>
 
                             </div>

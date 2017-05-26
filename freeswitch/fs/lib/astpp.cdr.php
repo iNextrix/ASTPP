@@ -234,7 +234,7 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 			$flag_parent = true;
 			insert_extra_receiver_entry($dataVariable,$origination_rate,$termination_rate,$account_type,$actual_duration,$provider_cost,$parentid,$flag_parent,$accountid,$logger,$db,$decimal_points);
 			$logger->log("********* IN RESELLER FOR RECEIVER ENTRY END ******");
-			return true;	
+			//return true;	
 
 		} else{
 
@@ -250,7 +250,7 @@ function insert_parent_data($dataVariable,$actual_calltype,$parentid,$originatio
 				update_balance($accountid, $debit, 0, $logger, $db);
 			}
 		}
-		return true;
+		//return true;
 	}
 	return true;
 }

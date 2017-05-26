@@ -155,7 +155,7 @@ class DID extends MX_Controller {
 	}
 	 }
 	 if($accountinfo['type'] == -1){
-	  $update_array = array('parent_id' => 0, 'accountid' => 0, 'assign_date' => '0000-00-00 00:00:00', "charge_upto" => "0000-00-00 00:00:00","last_modified_date"=>gmdate("Y-m-d H:i:s"));
+	  $update_array = array('parent_id' => 0, 'accountid' => 0, 'assign_date' => '0000-00-00 00:00:00', "charge_upto" => "0000-00-00 00:00:00","last_modified_date"=>gmdate("Y-m-d H:i:s"),'call_type'=>'-1','extensions'=>'');
 	  $where = array('id' => $id);
 	  $this->db->where($where);
 	  $this->db->update('dids', $update_array);
@@ -171,9 +171,9 @@ class DID extends MX_Controller {
 	  $this->db->delete('reseller_pricing',$where);  
 	  }
 	  if($accountinfo['type']==1){
-		  $update_array = array('parent_id' => $accountinfo['id'], 'accountid' => 0, 'assign_date' => '0000-00-00 00:00:00', "charge_upto" => "0000-00-00 00:00:00","last_modified_date"=>gmdate("Y-m-d H:i:s"));
+		  $update_array = array('parent_id' => $accountinfo['id'], 'accountid' => 0, 'assign_date' => '0000-00-00 00:00:00', "charge_upto" => "0000-00-00 00:00:00","last_modified_date"=>gmdate("Y-m-d H:i:s"),'call_type'=>'-1','extensions'=>'');
 	  }else{
-	  $update_array = array('parent_id' => 0, 'accountid' => 0, 'assign_date' => '0000-00-00 00:00:00', "charge_upto" => "0000-00-00 00:00:00","last_modified_date"=>gmdate("Y-m-d H:i:s"));
+    	  $update_array = array('parent_id' => 0, 'accountid' => 0, 'assign_date' => '0000-00-00 00:00:00', "charge_upto" => "0000-00-00 00:00:00","last_modified_date"=>gmdate("Y-m-d H:i:s"),'call_type'=>'-1','extensions'=>'');
 	  }
 	  $where = array('id' => $id);
 	  $this->db->where($where);
