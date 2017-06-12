@@ -209,22 +209,21 @@ class Accounts extends MX_Controller {
 		}
 	}
 
-	function customer_save($add_array = false) {
-		$add_array = $this->input->post();
-		$entity_name = strtolower($this->common->get_entity_type('', '', $add_array['type']));
-		$data['country_id'] = $add_array['country_id'];
-		$data['timezone_id'] = $add_array['timezone_id'];
-		$data['currency_id'] = $add_array['currency_id'];
-		$data['entity_name'] = $entity_name;
-		$data['callingcard'] = Common_model::$global_config['system_config']['pinlength'];
-		$data['edit_id']=$add_array['id'];
-		$data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields($entity_name, $add_array['id']), $add_array);
-		if ($add_array['id'] != '') {
-			$data['page_title'] = 'Edit ' . $this->common->get_entity_type('', '', $add_array['type']);
-			if ($this->form_validation->run() == FALSE) {
-				$data['validation_errors'] = validation_errors();
-			} else {
-				/*                 * ****
+    function customer_save($add_array = false) {
+        $add_array = $this->input->post();
+        $entity_name = strtolower($this->common->get_entity_type('', '', $add_array['type']));
+        $data['country_id'] = isset($add_array['country_id'])? $add_array['country_id']:'';
+        $data['timezone_id'] = isset($add_array['timezone_id']) ? $add_array['timezone_id']:'';
+        $data['currency_id'] = isset($add_array['currency_id']) ? $add_array['currency_id']:'';
+        $data['entity_name'] = $entity_name;
+        $data['callingcard'] = Common_model::$global_config['system_config']['pinlength'];
+        $data['edit_id']=$add_array['id'];
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields($entity_name, $add_array['id']), $add_array);
+        if ($add_array['id'] != '') {
+            $data['page_title'] = 'Edit ' . $this->common->get_entity_type('', '', $add_array['type']);
+            if ($this->form_validation->run() == FALSE) {
+                $data['validation_errors'] = validation_errors();
+            } else {
                   ASTPP  3.0 
                   Password encode
                  * **** */
