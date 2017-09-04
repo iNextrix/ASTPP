@@ -350,7 +350,6 @@ class user_model extends CI_Model {
 				$accountid=$this->common_model->get_parent_info($accountid);
 				$parent_id=$accountid > 0 ? $accountid : -1;
 
-				$balance = $this->db_model->update_balance($data['credit'], $customer_id,$accountinfo['posttoexternal']);
 
 				if($data['payment_mode'] == 0){
 					$insert_arr = array("accountid" => $customer_id,

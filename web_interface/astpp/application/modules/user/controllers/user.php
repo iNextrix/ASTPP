@@ -1803,6 +1803,9 @@ class User extends MX_Controller {
 
 					$response = $this->user_model->user_fund_transfer($from,$accountinfo);
 
+					$query = "update accounts set balance =  IF(posttoexternal=1,balance+".$from['credit'] . ",balance-".$from['credit'].") where id ='".$from['id']."'";
+					$this->db->query($query);
+
 			                $from_arr = array("accountid" => $from['id'],
 					          "description" => trim($post_array['notes']),
 					          "debit" => $from['credit'],
@@ -1850,6 +1853,10 @@ class User extends MX_Controller {
 						$after_balance = $account_balance+$to['credit'] ;
 
 						$toresponse = $this->user_model->user_fund_transfer($to,$accountinfo);
+
+						$query = "update accounts set balance =  IF(posttoexternal=1,balance-".$to['credit'] . ",balance+".$to['credit'].") where id ='".$to['id']."'";
+						$this->db->query($query);
+
 			                	$to_arr = array("accountid" => $to['id'],
 					          "description" => trim($post_array['notes']),
 					          "debit" => '0',
