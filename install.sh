@@ -369,7 +369,11 @@ mySQL_for_astpp ()
 		echo "MySQL astppuser password:  ${ASTPPUSER_MYSQL_PASSWORD} " >>  ~/.mysql_passwd
 		chmod 400 ~/.mysql_passwd
 		read -n 1 -p "*** Press any key to continue ..."
-		
+
+        if  [ ${DIST} = "CENTOS" ]; then
+            mysql -uroot -e "UPDATE mysql.user SET password=PASSWORD('${MYSQL_ROOT_PASSWORD}') WHERE user='root'; FLUSH PRIVILEGES;"		
+        fi 
+
 		# Create astpp database
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "create database ${ASTPP_DATABASE_NAME};"
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER 'astppuser'@'localhost' IDENTIFIED BY '${ASTPPUSER_MYSQL_PASSWORD}';"
