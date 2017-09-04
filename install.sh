@@ -167,8 +167,8 @@ ask_to_install_astpp ()
 		else
 			echo "Licence accepted!"
 			echo "============checking your working directory=================="			
-			git clone https://gitlab.com/ASTPP/Enterprise.git
-			cp -rf Enterprise latest			
+			git clone https://github.com/iNextrix/ASTPP.git
+			cp -rf ASTPP latest			
 			if [ ${CURRENT_DIR} == ${DOWNLOAD_DIR} ]; then
 				echo "dir is '$CURRENT_DIR' and it's matched!!!"			
 			else			
@@ -304,8 +304,8 @@ astpp_freeswitch_startup_script ()
 		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
 			echo "ASTPP source doesn't exists, downloading it..."
 			cd /usr/src/			
-			git clone https://gitlab.com/ASTPP/Enterprise.git
-			cp -rf Enterprise latest			
+			git clone https://github.com/iNextrix/ASTPP.git
+			cp -rf ASTPP latest			
 		fi 		
 		if [ ${DIST} = "DEBIAN" ]; then
 			adduser --disabled-password  --quiet --system --home ${FS_DIR} --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch
@@ -393,8 +393,8 @@ install_astpp ()
 		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
 			echo "ASTPP source doesn't exists, downloading it..."
 			cd /usr/src/
-			git clone https://gitlab.com/ASTPP/Enterprise.git
-			cp -rf Enterprise latest			
+			git clone https://github.com/iNextrix/ASTPP.git
+			cp -rf ASTPP latest			
     	fi
     	if [ ${DIST} = "DEBIAN" ]; then
 			# Install ASTPP pre-requisite packages using apt-get
