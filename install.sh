@@ -140,8 +140,10 @@ ASTPPUSER_MYSQL_PASSWORD=$(genpasswd)
 
 # Ask to install astpp
 ask_to_install_astpp () 
-{
-
+{        
+        if [ ${DIST} = "CENTOS" ]; then
+            yum install -y wget
+        fi
 		# License acceptance		
 		clear		
 		echo "********************"
