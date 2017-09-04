@@ -335,32 +335,33 @@ class user_model extends CI_Model {
 		$result = $this->db->get ( $table_name );
 		return $result;
 	}
-	function user_fund_transfer($data) {
-		$accountinfo = $this->session->userdata ['accountinfo'];
-		$data ["payment_by"] = $accountinfo ['reseller_id'] > 0 ? $accountinfo ['reseller_id'] : - 1;
-		$data ['accountid'] = $data ['id'];
-		$data ['payment_mode'] = $data ['payment_type'];
-		unset ( $data ['action'], $data ['id'], $data ['account_currency'], $data ['payment_type'] );
-		if (isset ( $data )) {
-			$data ['credit'] = $data ['credit'] == '' ? 0 : $data ['credit'];
-			$date = gmdate ( 'Y-m-d H:i:s' );
-			$accountid = $data ['accountid'];
-			while ( $accountid > 0 ) {
-				$customer_id = $accountid;
-				$accountid = $this->common_model->get_parent_info ( $accountid );
-				$parent_id = $accountid > 0 ? $accountid : - 1;
-				$balance = $this->db_model->update_balance ( $data ['credit'], $customer_id, $data ['payment_mode'] );
-				if ($data ['payment_mode'] == 0) {
-					$insert_arr = array (
-							"accountid" => $customer_id,
-							"credit" => $data ['credit'],
-							'payment_mode' => $data ['payment_mode'],
-							'type' => "SYSTEM",
-							"notes" => $data ['notes'],
-							"payment_date" => $date,
-							'payment_by' => $parent_id 
+	function user_fund_transfer($data,$accountinfo){
+//	$accountinfo = $this->session->userdata['accountinfo'];
+		$data["payment_by"] = $accountinfo['reseller_id'] > 0 ? $accountinfo['reseller_id'] : -1 ;
+		$data['accountid'] = $data['id'];
+		$data['payment_mode'] = $data['payment_type'];
+		unset($data['action'],$data['id'],$data['account_currency'],$data['payment_type']);
+		if (isset($data)) {
+			$data['credit']=$data['credit'] =='' ?  0 : $data['credit'];
+			$date = gmdate('Y-m-d H:i:s');
+			$accountid=$data['accountid'];
+			while($accountid > 0 ){
+				$customer_id=$accountid;
+				$accountid=$this->common_model->get_parent_info($accountid);
+				$parent_id=$accountid > 0 ? $accountid : -1;
+
+				$balance = $this->db_model->update_balance($data['credit'], $customer_id,$accountinfo['posttoexternal']);
+
+				if($data['payment_mode'] == 0){
+					$insert_arr = array("accountid" => $customer_id,
+					"credit" => $data['credit'],
+					'payment_mode'=>$data['payment_mode'],
+					'type'=>"SYSTEM",
+					"notes" => $data['notes'],
+					"payment_date" => $date, 
+					'payment_by'=>$parent_id,
 					);
-					return $this->db->insert ( "payments", $insert_arr );
+			return $this->db->insert("payments", $insert_arr);
 				}
 			}
 		}

@@ -623,13 +623,15 @@ class User extends MX_Controller {
 			$this->load->module ( 'invoices/invoices' );
 			$invoice_id = $this->invoices->invoices->generate_receipt ( $accountinfo ['id'], $amount, $accountinfo, $last_invoice_ID + 1, $invoice_prefix, $due_date );
 			$account_balance = $this->common->get_field_name ( 'balance', 'accounts', $accountinfo ['id'] );
-			if ($accountinfo ['posttoexternal'] == 0) {
-				$before_balance = $account_balance - $amount;
-				$after_balance = $account_balance;
+
+			if ($accountinfo['posttoexternal'] == 1) {
+				$account_balance = ($accountinfo['creditlimit']*$accountinfo['posttoexternal']) - $account_balance;
 			} else {
-				$before_balance = $account_balance - $amount;
-				$after_balance = $account_balance - $amount - $amount;
-			}
+				$account_balance = $account_balance;
+			}						
+			$before_balance = $account_balance - $amount ;
+			$after_balance = $account_balance;
+
 			$insert_arr = array (
 					"accountid" => $accountinfo ['id'],
 					"description" => 'Recharge using Refill coupon,Refill coupon No. ' . $refill_coupon_no . '',
@@ -1688,125 +1690,194 @@ class User extends MX_Controller {
 			$this->payment->index ();
 		}
 	}
-	function user_fund_transfer() {
-		$data ['page_title'] = gettext ( 'Fund Transfer' );
-		$accountinfo = $this->session->userdata ( 'accountinfo' );
-		$account = ( array ) $this->db->get_where ( 'accounts', array (
-				"id" => $accountinfo ['id'] 
-		) )->first_row ();
-		$currency = ( array ) $this->db->get_where ( 'currency', array (
-				"id" => $account ['currency_id'] 
-		) )->first_row ();
-		$data ['form'] = $this->form->build_form ( $this->user_form->build_user_fund_transfer_form ( $account ['number'], $currency ['currency'], $accountinfo ['id'] ), '' );
-		$this->load->view ( 'view_user_fund_transfer', $data );
+	function user_fund_transfer(){
+		$data['page_title'] = gettext('Fund Transfer');
+		$accountinfo = $this->session->userdata('accountinfo');
+		$account=(array)$this->db->get_where('accounts',array("id"=>$accountinfo['id']))->first_row();
+		$currency = (array)$this->db->get_where('currency',array("id"=>$account['currency_id']))->first_row();
+		$data['form'] = $this->form->build_form($this->user_form->build_user_fund_transfer_form($account['number'], $currency['currency'], $accountinfo['id']), '');
+		$this->load->view('view_user_fund_transfer', $data);
 	}
 	function user_fund_transfer_save() {
-		$data ['page_title'] = gettext ( 'Fund Transfer' );
-		$post_array = $this->input->post ();
-		$accountinfo = $this->session->userdata ( 'accountinfo' );
-		$account = ( array ) $this->db->get_where ( 'accounts', array (
-				"id" => $accountinfo ['id'] 
-		) )->first_row ();
-		$currency = ( array ) $this->db->get_where ( 'currency', array (
-				"id" => $account ['currency_id'] 
-		) )->first_row ();
-		$data ['form'] = $this->form->build_form ( $this->user_form->build_user_fund_transfer_form ( $account ['number'], $currency ['currency'], $accountinfo ['id'] ), $post_array );
-		if ($this->form_validation->run () == FALSE) {
-			$data ['validation_errors'] = validation_errors ();
+		$data['page_title'] = gettext('Fund Transfer');
+		$post_array = $this->input->post();
+		$accountinfo = $this->session->userdata('accountinfo');
+		$account=(array)$this->db->get_where('accounts',array("id"=>$accountinfo['id']))->first_row();
+		$currency = (array)$this->db->get_where('currency',array("id"=>$account['currency_id']))->first_row();
+		$data['form'] = $this->form->build_form($this->user_form->build_user_fund_transfer_form($account['number'], $currency['currency'], $accountinfo['id']), $post_array);
+		if ($this->form_validation->run() == FALSE) {
+			$data['validation_errors'] = validation_errors();
 		} else {
-			if (trim ( $post_array ['fromaccountid'] ) != trim ( $post_array ['toaccountid'] )) {
-				$account_info = $this->session->userdata ( 'accountinfo' );
-				$acc_balance = $this->common->get_field_name ( 'balance', 'accounts', array (
-						'id' => $account_info ['id'],
-						'status' => 0,
-						'type' => 0,
-						'deleted' => 0 
-				) );
-				
-				$balance = ($account_info ["posttoexternal"] == 1) ? ($account_info ["credit_limit"] - $acc_balance) : ($acc_balance);
-				
-				$toid = $this->common->get_field_name ( 'id', 'accounts', array (
-						'number' => $post_array ['toaccountid'],
-						'status' => 0,
-						'type' => 0,
-						'deleted' => 0 
-				) );
-				$toaccountinfo = ( array ) $this->db->get_where ( 'accounts', array (
-						'number' => $post_array ['toaccountid'],
-						'status' => 0,
-						'type' => 0,
-						'deleted' => 0 
-				), 1 )->first_row ();
-				if ($toaccountinfo) {
-					$reseller_id = $toaccountinfo ['reseller_id'];
-					$post_array ['credit'] = $this->common_model->add_calculate_currency ( $post_array ['credit'], '', '', false, false );
-					$minimum_fund = ( array ) $this->db->get_where ( 'system', array (
-							"name" => "minimum_fund_transfer" 
-					), 1 )->first_row ();
-					if ($post_array ['toaccountid'] == $account_info ['number']) {
-						$this->session->set_flashdata ( 'astpp_notification', 'You can not transfer fund in same account.' );
-					} elseif ($reseller_id != $account_info ['reseller_id']) {
-						$this->session->set_flashdata ( 'astpp_notification', 'You can only transfer fund in same level account.' );
-					} elseif ($post_array ['toaccountid'] == '') {
-						$this->session->set_flashdata ( 'astpp_notification', 'Please enter To account number.' );
-					} elseif (empty ( $post_array ['credit'] )) {
-						$this->session->set_flashdata ( 'astpp_notification', 'Please enter a amount.' );
-					} elseif ($post_array ['credit'] > $balance) {
-						$this->session->set_flashdata ( 'astpp_notification', 'You have insufficient balance.' );
-					} elseif ($toid <= 0 || ! isset ( $post_array ['toaccountid'] )) {
-						$this->session->set_flashdata ( 'astpp_notification', 'Please enter valid account number.' );
-					} elseif ($post_array ['credit'] < 0) {
-						$this->session->set_flashdata ( 'astpp_notification', 'Please enter amount greater then 0.' );
-					} elseif ($minimum_fund ['value'] >= $post_array ['credit']) {
-						$this->session->set_flashdata ( 'astpp_notification', 'You need to enter minimum ' . $minimum_fund ['value'] . ' for fund transfer.' );
-					} elseif (! isset ( $toid ) || ! isset ( $post_array ['toaccountid'] )) {
-						$this->session->set_flashdata ( 'astpp_notification', 'Please enter valid account number!' );
-					} elseif ($post_array ['credit'] < 0 || $post_array ['credit'] > $balance) {
-						$this->session->set_flashdata ( 'astpp_notification', 'Insuffiecient amount !' );
-					} else {
-						$from ['id'] = $post_array ['id'];
-						$from ['account_currency'] = $post_array ['account_currency'];
-						$from ['accountid'] = $post_array ['fromaccountid'];
-						if ($account ['posttoexternal'] == 1) {
-							$from ['credit'] = abs ( $post_array ['credit'] );
-							$from ['payment_type'] = '0';
-						} else {
-							$from ['credit'] = abs ( $post_array ['credit'] );
-							$from ['payment_type'] = 'debit';
-						}
-						$from ['posttoexternal'] = $account ['posttoexternal'];
-						
-						$from ['notes'] = $post_array ['notes'];
-						$from ['action'] = 'save';
-						$to ['id'] = $toid;
-						$to ['account_currency'] = $post_array ['account_currency'];
-						$to ['accountid'] = $post_array ['toaccountid'];
-						if ($toaccountinfo ['posttoexternal'] == 0) {
-							$to ['credit'] = abs ( $post_array ['credit'] );
-							$to ['payment_type'] = '0';
-						} else {
-							$to ['credit'] = abs ( $post_array ['credit'] );
-							$to ['payment_type'] = 'debit';
-						}
-						$to ['notes'] = $post_array ['notes'];
-						$to ['action'] = 'save';
-						$response = $this->user_model->user_fund_transfer ( $from );
-						if ($response) {
-							$toresponse = $this->user_model->user_fund_transfer ( $to );
-							$this->session->set_flashdata ( 'astpp_errormsg', 'Transfer success!' );
-						} else {
-							$this->session->set_flashdata ( 'astpp_notification', 'Sorry We are not able to process this request.' );
-						}
-					}
-				} else {
-					$this->session->set_flashdata ( 'astpp_notification', 'Account number not found.' );
+			if (trim($post_array['fromaccountid']) != trim($post_array['toaccountid'])) {
+				$account_info = $this->session->userdata('accountinfo');      
+				$acc_balance = $this->common->get_field_name('balance', 'accounts', array('id' => $account_info['id'], 'status' => 0, 'type' => 0, 'deleted' => 0));
+
+                                $balance = ($account_info["posttoexternal"] == 1) ? ($account_info["credit_limit"] - $acc_balance) :($acc_balance );       
+               
+				$toid = $this->common->get_field_name('id', 'accounts', array('number' => $post_array['toaccountid'], 'status' => 0, 'type' => 0, 'deleted' => 0));
+				$toaccountinfo=(array)$this->db->get_where('accounts',array('number' => $post_array['toaccountid'], 'status' => 0, 'type' => 0, 'deleted' => 0),1)->first_row();
+				if($toaccountinfo){
+				$reseller_id = $toaccountinfo['reseller_id'];
+				$post_array['credit'] = $this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false);
+				$minimum_fund=(array)$this->db->get_where('system',array("name"=>"minimum_fund_transfer"),1)->first_row();
+				if ($post_array['toaccountid'] == $account_info['number']) {
+					$this->session->set_flashdata('astpp_notification', 'You can not transfer fund in same account.');
 				}
-			} else {
-				$this->session->set_flashdata ( 'astpp_notification', 'You can not transfer fund in same account.' );
+				elseif ($reseller_id != $account_info['reseller_id']) {
+					$this->session->set_flashdata('astpp_notification', 'You can only transfer fund in same level account.');
+				}
+				elseif ($post_array['toaccountid'] == '') {
+					$this->session->set_flashdata('astpp_notification', 'Please enter To account number.');
+				}
+				elseif (empty($post_array['credit'])) {
+					$this->session->set_flashdata('astpp_notification', 'Please enter a amount.');
+				}
+				elseif ($post_array['credit'] > $balance) {
+					$this->session->set_flashdata('astpp_notification', 'You have insufficient balance.');
+				}
+				elseif ($toid <= 0 || !isset($post_array['toaccountid'])) {
+					$this->session->set_flashdata('astpp_notification', 'Please enter valid account number.');
+				}
+				elseif ($post_array['credit'] < 0) {
+					$this->session->set_flashdata('astpp_notification', 'Please enter amount greater then 0.');
+				}
+				elseif ($minimum_fund['value'] >= $post_array['credit']) {
+					 $this->session->set_flashdata('astpp_notification', 'You need to enter minimum '.$minimum_fund['value'].' for fund transfer.');
+				}
+				elseif (!isset($toid) || !isset($post_array['toaccountid'])) {
+					$this->session->set_flashdata('astpp_notification', 'Please enter valid account number!');
+				}
+				elseif ($post_array['credit'] < 0 || $post_array['credit'] > $balance) {
+					$this->session->set_flashdata('astpp_notification', 'Insuffiecient amount !');
+				}else{
+					$from['id'] = $post_array['id'];
+					$from['account_currency'] = $post_array['account_currency'];
+					$from['accountid'] = $post_array['fromaccountid'];
+					if ($account['posttoexternal'] == 1) {
+						$from['credit'] = abs($post_array['credit']);
+						$from['payment_type'] = '0';
+					} else {
+						$from['credit'] = abs($post_array['credit']);
+						$from['payment_type'] = 'debit';
+					}
+					$from['posttoexternal'] = $account['posttoexternal'];
+                    
+					$from['notes'] = $post_array['notes'];
+					$from['action'] = 'save';
+					$to['id'] = $toid;
+					$to['account_currency'] = $post_array['account_currency'];
+					$to['accountid'] = $post_array['toaccountid'];
+					if ($toaccountinfo['posttoexternal'] == 0) {
+						$to['credit'] = abs($post_array['credit']);
+						$to['payment_type'] = '0';
+					} else {
+						$to['credit'] = abs($post_array['credit']);
+						$to['payment_type'] = 'debit';
+					}
+					$to['notes'] = $post_array['notes'];
+					$to['action'] = 'save';
+
+					if($account['reseller_id'] == 0){
+						$where = array("accountid"=> 1);
+					}else{
+						$where = array("accountid"=> $account['id']);    
+					}
+					$query = $this->db_model->getSelect("*", "invoice_conf", $where);
+					if($query->num_rows >0){
+						$invoice_conf = $query->result_array();
+						$invoice_conf = $invoice_conf[0];
+					}else{
+						$query = $this->db_model->getSelect("*", "invoice_conf",array("accountid"=> 1));
+						$invoice_conf = $query->result_array();
+						$invoice_conf = $invoice_conf[0];            
+					}
+
+					$last_invoice_ID = $this->user_invoice_date("invoiceid",$account["id"]);
+					$invoice_prefix=$invoice_conf['invoice_prefix'];
+					$due_date = gmdate("Y-m-d H:i:s",strtotime(gmdate("Y-m-d H:i:s")." +".$invoice_conf['interval']." days"));
+					$this->load->module('invoices/invoices');
+					$invoice_id=$this->invoices->invoices->generate_receipt($account['id'],$from['credit'],$accountinfo,$last_invoice_ID+1,$invoice_prefix,$due_date);
+					$account_balance = $this->common->get_field_name('balance', 'accounts', $from['id']);
+					$before_balance = $account_balance;
+					$after_balance = $account_balance  - $from['credit'] ;
+
+					$response = $this->user_model->user_fund_transfer($from,$accountinfo);
+
+			                $from_arr = array("accountid" => $from['id'],
+					          "description" => trim($post_array['notes']),
+					          "debit" => $from['credit'],
+					          "credit" =>'0',
+					          "created_date" => gmdate("Y-m-d H:i:s"), 
+					          "invoiceid"=>0,
+					          "reseller_id"=>'0',
+					          "item_type"=>'Refill',
+					          "item_id"=>'0',
+          					  'before_balance'=>$before_balance,
+					          'after_balance'=>$after_balance,
+					        );
+			                $this->db->insert("invoice_details", $from_arr);
+					if ($response) {
+ 						$accountinfo=(array)$this->db->get_where('accounts',array("id"=> $to['id']))->first_row();
+
+						if($accountinfo['reseller_id'] == 0){
+							$where = array("accountid"=> 1);
+						}else{
+							$where = array("accountid"=> $accountinfo['id']);    
+						}
+						$query = $this->db_model->getSelect("*", "invoice_conf", $where);
+						if($query->num_rows >0){
+							$invoice_conf = $query->result_array();
+							$invoice_conf = $invoice_conf[0];
+						}else{
+							$query = $this->db_model->getSelect("*", "invoice_conf",array("accountid"=> 1));
+							$invoice_conf = $query->result_array();
+							$invoice_conf = $invoice_conf[0];            
+						}
+
+						$last_invoice_ID = $this->user_invoice_date("invoiceid",$accountinfo["id"]);
+						$invoice_prefix=$invoice_conf['invoice_prefix'];
+						$due_date = gmdate("Y-m-d H:i:s",strtotime(gmdate("Y-m-d H:i:s")." +".$invoice_conf['interval']." days"));
+						$this->load->module('invoices/invoices');
+						$invoice_id=$this->invoices->invoices->generate_receipt($accountinfo['id'],$to['credit'],$accountinfo,$last_invoice_ID+1,$invoice_prefix,$due_date);
+						if ($account['posttoexternal'] == 1) {
+							$account_balance = ($accountinfo['creditlimit']*$accountinfo['posttoexternal']) - $accountinfo['balance'];
+						} else {
+							$account_balance = $accountinfo['balance'];
+						}						
+						
+
+						$before_balance = $account_balance ;
+						$after_balance = $account_balance+$to['credit'] ;
+
+						$toresponse = $this->user_model->user_fund_transfer($to,$accountinfo);
+			                	$to_arr = array("accountid" => $to['id'],
+					          "description" => trim($post_array['notes']),
+					          "debit" => '0',
+					          "credit" =>$to['credit'],
+					          "created_date" => gmdate("Y-m-d H:i:s"), 
+					          "invoiceid"=>0,
+					          "reseller_id"=>'0',
+					          "item_type"=>'Refill',
+					          "item_id"=>'0',
+          					  'before_balance'=>$before_balance,
+					          'after_balance'=>$after_balance,
+					        );
+				                $this->db->insert("invoice_details", $to_arr);
+
+						$this->session->set_flashdata('astpp_errormsg', 'Transfer success!');
+					} else {
+						$this->session->set_flashdata('astpp_notification', 'Sorry We are not able to process this request.');
+					}
+				}
+			}else{
+		$this->session->set_flashdata('astpp_notification', 'Account number not found.');
 			}
-			redirect ( base_url () . 'user/user_fund_transfer/' );
+			} else {
+				$this->session->set_flashdata('astpp_notification', 'You can not transfer fund in same account.');
+			}
+			redirect(base_url() . 'user/user_fund_transfer/');
 		}
-		$this->load->view ( 'view_user_fund_transfer', $data );
+		$this->load->view('view_user_fund_transfer', $data);
 	}
 	function user_opensips() {
 		$data ['username'] = $this->session->userdata ( 'user_name' );

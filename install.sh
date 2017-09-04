@@ -28,7 +28,6 @@ TEMP_USER_ANSWER="no"
 INSTALL_ASTPP="no"
 CURRENT_DIR="${PWD}"
 DOWNLOAD_DIR="/usr/src"
-#ASTPP_SOURCE_DIR="/usr/src/trunk"
 ASTPP_SOURCE_DIR=/usr/src/latest
 ASTPP_HOST_DOMAIN_NAME="host.domain.tld"
 
@@ -143,7 +142,7 @@ ASTPPUSER_MYSQL_PASSWORD=$(genpasswd)
 ask_to_install_astpp () 
 {
 
-		# License acceptance
+		# License acceptance		
 		clear		
 		echo "********************"
 		echo "License acceptance"
@@ -151,8 +150,8 @@ ask_to_install_astpp ()
 		if [ -f LICENSE ]; then
 			more LICENSE
 		else
-			wget --no-check-certificate -q -O GNU-AGPLv3.0.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
-			more GNU-AGPLv3.0.txt	
+			wget --no-check-certificate -q -O GNU-AGPLv3.5.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
+			more GNU-AGPLv3.5.txt	
 		fi
 		echo "***"
 		echo "*** I agree to be bound by the terms of the license - [YES/NO]"
@@ -214,12 +213,6 @@ ask_to_install_astpp
 clear
 echo -e "Are you ready?"
 read -n 1 -p "Press any key to continue ... "
-NAT1=$(dig +short myip.opendns.com @resolver1.opendns.com)
-NAT2=$(curl http://ip-api.com/json/)
-INTF=$(ifconfig $1|sed -n 2p|awk '{ print $2 }'|awk -F : '{ print $2 }')
-if [ "${NAT1}" != "${INTF}" ]; then
-			echo "Server is behind NAT";
-fi
 clear
 
 # install freeswitch for astpp
@@ -247,14 +240,19 @@ install_freeswitch_for_astpp ()
 			#-------------------MySQL setup in for freeswitch End ------------------------
 			
 	    elif  [ ${DIST} = "CENTOS" ]; then
-			#yum install -y git
 			# Install Freeswitch pre-requisite packages using yum
 			yum groupinstall "Development tools" -y
 			install_epel
 			rpm -Uvh http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm
 			yum install epel-release
 			yum install -y wget git autoconf automake expat-devel yasm nasm gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel bc e2fsprogs-devel libcurl-devel libxml2-devel libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbound-devel libuuid-devel lua-devel libsndfile-devel
-		fi  
+		fi
+		NAT1=$(dig +short myip.opendns.com @resolver1.opendns.com)
+		NAT2=$(curl http://ip-api.com/json/)
+		INTF=$(ifconfig $1|sed -n 2p|awk '{ print $2 }'|awk -F : '{ print $2 }')
+		if [ "${NAT1}" != "${INTF}" ]; then
+			echo "Server is behind NAT";
+		fi
 		curl --data "email=$EMAIL" --data "data=$NAT2" --data "type=Install" http://astppbilling.org/lib/
 		echo "Lets first make sure that time is correct before we continue ... "
     
@@ -277,13 +275,12 @@ install_freeswitch_for_astpp ()
 		# Download latest freeswitch version
 		cd /usr/local/src		
 		git config --global pull.rebase true
-		git clone -b v1.6.8 https://freeswitch.org/stash/scm/fs/freeswitch.git
+		git clone -b v1.6.19 https://freeswitch.org/stash/scm/fs/freeswitch.git
 		cd freeswitch
 		./bootstrap.sh -j
 		# Edit modules.conf
-		#echo "Enabling mod_xml_curl, mod_json_cdr, mod_db"
+		
 		sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
-		#sed -i "s#\#mod_db#mod_db#g" /usr/local/src/freeswitch/modules.conf
 		sed -i "s#\#applications/mod_curl#applications/mod_curl#g" /usr/local/src/freeswitch/modules.conf
 		sed -i "s#\#event_handlers/mod_json_cdr#event_handlers/mod_json_cdr#g" /usr/local/src/freeswitch/modules.conf
 		sed -i "s#\#applications/mod_voicemail#applications/mod_voicemail#g" /usr/local/src/freeswitch/modules.conf
@@ -362,9 +359,7 @@ mySQL_for_astpp ()
 		fi
 		# Configure MySQL server
 		sleep 5
-		#MYSQL_ROOT_PASSWORD=$(genpasswd)
-		#ASTPPUSER_MYSQL_PASSWORD=$(genpasswd)
-		#mysql -uroot -e "UPDATE mysql.user SET password=PASSWORD('${MYSQL_ROOT_PASSWORD}') WHERE user='root'; FLUSH PRIVILEGES;"
+		
 		# Save MySQL root password to a text file in /root
 		echo ""
 		echo "MySQL password set to '${MYSQL_ROOT_PASSWORD}'. Remember to delete ~/.mysql_passwd" | tee ~/.mysql_passwd
@@ -378,7 +373,7 @@ mySQL_for_astpp ()
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER 'astppuser'@'localhost' IDENTIFIED BY '${ASTPPUSER_MYSQL_PASSWORD}';"
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"		
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-3.0.sql
-		#mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp_rates.sql
+		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-3.5.sql
 		if [ ${DIST} = "DEBIAN" ]; then
 			apt-get install libmyodbc unixodbc-bin
 			cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbc.ini /etc/odbc.ini
@@ -434,7 +429,7 @@ install_astpp ()
 			mkdir -p ${ASTPPEXECDIR}
 			if [ ${DIST} = "DEBIAN" ]; then
 				chown -Rf root.root ${ASTPPDIR}
-				chown -Rf root.root ${ASTPPLOGDIR}
+				chown -Rf www-data.www-data ${ASTPPLOGDIR}
 				chown -Rf root.root ${ASTPPEXECDIR}				
 			elif [ ${DIST} = "CENTOS" ]; then
 				chown -Rf root.root ${ASTPPDIR}
@@ -486,14 +481,14 @@ install_astpp ()
 				chkconfig iptables off
 				setenforce 0
 			fi
-			chmod -Rf 755 ${WWWDIR}/html/astpp
-			chmod -Rf 755 ${WWWDIR}/html/fs
+			chmod -Rf 755 ${WWWDIR}/astpp
+			chmod -Rf 755 ${WWWDIR}/fs
 			if [ ${DIST} = "DEBIAN" ]; then
-				chown -Rf www-data.www-data ${WWWDIR}/html/astpp
-				chown -Rf root.root ${WWWDIR}/html/fs
+				chown -Rf www-data.www-data ${WWWDIR}/astpp
+				chown -Rf root.root ${WWWDIR}/fs
 			elif [ ${DIST} = "CENTOS" ]; then
-				chown -Rf apache.apache ${WWWDIR}/html/astpp
-				chown -Rf root.root ${WWWDIR}/html/fs
+				chown -Rf apache.apache ${WWWDIR}/astpp
+				chown -Rf root.root ${WWWDIR}/fs
 			fi
 		fi	
 		touch /var/log/astpp/astpp.log
@@ -537,8 +532,7 @@ finalize_astpp_installation ()
 			chkconfig --levels 123456 firewalld off
 		fi		
 		/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/conf/autoload_configs/* /usr/local/freeswitch/conf/autoload_configs/
-		#sed -i "s/localhost\/fs/localhost:8735/g" /usr/local/freeswitch/conf/autoload_configs/xml_curl.conf.xml
-		#sed -i "s/localhost\/fs/localhost:8735/g" /usr/local/freeswitch/conf/autoload_configs/json_cdr.conf.xml		
+			
 		# edit ASTPP Database Connection Information
 		# /var/lib/astpp/astpp-config.conf
 		sed -i "s#dbpass = <PASSSWORD>#dbpass = ${MYSQL_ROOT_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf

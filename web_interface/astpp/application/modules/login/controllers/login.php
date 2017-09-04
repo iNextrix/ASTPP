@@ -126,7 +126,7 @@ class Login extends MX_Controller {
 					$data ['user_logo'] = (isset ( $logo_arr [0]->logo ) && $logo_arr [0]->logo != "") ? $logo_arr [0]->accountid . "_" . $logo_arr [0]->logo : "logo.png";
 					$data ['user_header'] = (isset ( $logo_arr [0]->website_title ) && $logo_arr [0]->website_title != "") ? $logo_arr [0]->website_title : "ASTPP - Open Source Voip Billing Solution";
 					$data ['user_footer'] = (isset ( $logo_arr [0]->website_footer ) && $logo_arr [0]->website_footer != "") ? $logo_arr [0]->website_footer : "Inextrix Technologies Pvt. Ltd All Rights Reserved.";
-					$data ['user_favicon'] = (isset ( $logo_arr [0]->favicon ) && $logo_arr [0]->favicon != "") ? $logo_arr [0]->favicon : "favicon.ico";
+					$data ['user_favicon'] = (isset ( $logo_arr [0]->favicon ) && $logo_arr [0]->favicon != "") ? $logo_arr [0]->accountid . "_" .$logo_arr [0]->favicon : "favicon.ico";
 					$this->session->set_userdata ( 'user_logo', $data ['user_logo'] );
 					$this->session->set_userdata ( 'user_header', $data ['user_header'] );
 					$this->session->set_userdata ( 'user_footer', $data ['user_footer'] );
@@ -168,7 +168,7 @@ class Login extends MX_Controller {
 			$data ['user_logo'] = (isset ( $logo_arr [0]->logo ) && $logo_arr [0]->logo != "") ? $logo_arr [0]->accountid . "_" . $logo_arr [0]->logo : "logo.png";
 			$data ['website_header'] = (isset ( $logo_arr [0]->website_title ) && $logo_arr [0]->website_title != "") ? $logo_arr [0]->website_title : "ASTPP - Open Source Voip Billing Solution";
 			$data ['website_footer'] = (isset ( $logo_arr [0]->website_footer ) && $logo_arr [0]->website_footer != "") ? $logo_arr [0]->website_footer : "Inextrix Technologies Pvt. Ltd All Rights Reserved.";
-			$data ['user_favicon'] = (isset ( $logo_arr [0]->favicon ) && $logo_arr [0]->favicon != "") ? $logo_arr [0]->favicon : "favicon.ico";
+			$data ['user_favicon'] = (isset ( $logo_arr [0]->favicon ) && $logo_arr [0]->favicon != "") ? $logo_arr [0]->accountid . "_" .$logo_arr [0]->favicon : "favicon.ico";
 			$this->session->set_userdata ( 'user_logo', $data ['user_logo'] );
 			$this->session->set_userdata ( 'user_header', $data ['website_header'] );
 			$this->session->set_userdata ( 'user_footer', $data ['website_footer'] );
@@ -198,7 +198,7 @@ class Login extends MX_Controller {
 			$data ['user_logo'] = (isset ( $logo_arr [0]->logo ) && $logo_arr [0]->logo != "") ? $logo_arr [0]->accountid . "_" . $logo_arr [0]->logo : "logo.png";
 			$data ['user_header'] = (isset ( $logo_arr [0]->website_title ) && $logo_arr [0]->website_title != "") ? $logo_arr [0]->website_title : "ASTPP - Open Source Voip Billing Solution";
 			$data ['user_footer'] = (isset ( $logo_arr [0]->website_footer ) && $logo_arr [0]->website_footer != "") ? $logo_arr [0]->website_footer : "Inextrix Technologies Pvt. Ltd All Rights Reserved.";
-			$data ['user_favicon'] = (isset ( $logo_arr [0]->favicon ) && $logo_arr [0]->favicon != "") ? $logo_arr [0]->favicon : "favicon.ico";
+			$data ['user_favicon'] = (isset ( $logo_arr [0]->favicon ) && $logo_arr [0]->favicon != "") ? $logo_arr [0]->accountid . "_" .$logo_arr [0]->favicon : "favicon.ico";
 			
 			$this->session->set_userdata ( 'user_logo', $data ['user_logo'] );
 			$this->session->set_userdata ( 'user_header', $data ['user_header'] );

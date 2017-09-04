@@ -17,7 +17,12 @@
 	?>
 </title>
 <?php  $user_favicon = $this->session->userdata('user_favicon'); ?>
-    <link rel="icon" href="<? echo base_url(); ?>assets/images/<? echo $user_favicon ?>"/>
+<?php if($user_favicon) {  ?>
+        <link rel="icon" href="<? echo base_url(); ?>upload/<? echo $user_favicon ?>"/>
+<?php } else { ?>
+    <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico"/>
+<?php } ?>
+
     <script language="javascript" type="text/javascript">
 	var base_url = '<?php echo base_url(); ?>';
 	function seetext(x){

@@ -54,6 +54,7 @@ class Dashboard_model extends CI_Model {
                            MAX(billseconds) AS mcd,
                            SUM(billseconds) AS duration,
                            count(CASE WHEN disposition NOT IN ('NORMAL_CLEARING','SUCCESS') THEN 1 END) as failed,
+                           SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,
                            sum(debit-cost) as profit,
                            sum(debit) as debit,
                            sum(cost) as cost,
