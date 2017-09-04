@@ -67,7 +67,7 @@ read -p "Enter your email address: ${EMAIL}"
 EMAIL=${REPLY}
 apt-get update
 apt-get install -y dnsutils
-git clone -b v3.5 http://git.inextrix.com/ITPLATP/ASTPP.git
+git clone https://github.com/iNextrix/ASTPP.git
 NAT1=$(dig +short myip.opendns.com @resolver1.opendns.com)
 NAT2=$(curl http://ip-api.com/json/)
 INTF=$(ifconfig $1|sed -n 2p|awk '{ print $2 }'|awk -F : '{ print $2 }')
