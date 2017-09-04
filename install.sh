@@ -485,9 +485,11 @@ install_astpp ()
 			chmod -Rf 755 ${WWWDIR}/fs
 			if [ ${DIST} = "DEBIAN" ]; then
 				chown -Rf www-data.www-data ${WWWDIR}/astpp
+                chown -Rf www-data.www-data ${ASTPPLOGDIR}
 				chown -Rf root.root ${WWWDIR}/fs
 			elif [ ${DIST} = "CENTOS" ]; then
 				chown -Rf apache.apache ${WWWDIR}/astpp
+                chown -Rf apache.apache ${ASTPPLOGDIR}
 				chown -Rf root.root ${WWWDIR}/fs
 			fi
 		fi	
