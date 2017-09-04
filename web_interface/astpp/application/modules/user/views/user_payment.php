@@ -35,6 +35,7 @@ body{
                 url: "<?= base_url()?>/user/user_payment/GET_AMT/",
                 data:"value="+Final_amt, 
                 success: function(response) {
+					response = response.replace(",","");
                     $("#amt_in_currency").html(Final_amt +" "+from_cur + " To " + response +" "+to_cur);
                     $("#tax_amount").val(tax);
                     $("#tax_amount").val(tax);
@@ -75,23 +76,23 @@ return false;
 		    </div>
       
 			<div class='col-md-12'>
-				<h1 style="color: #30A1E9;font-size: 2em;text-align: center;">Account Recharge</h1>
+				<h1 style="color: #30A1E9;font-size: 2em;text-align: center;"><?php echo gettext('Account Recharge')?></h1>
 			</div>
 			
           <div class='col-md-7 no-padding margin-t-10'>		
-				  <label style=" float: left;">Enter Recharge Amount In <?= $from_currency?>:</label>
+				  <label style=" float: left;"><?php echo gettext('Enter Recharge Amount In')?> <?= $from_currency?>:</label>
 		  </div> 
 		  <div class='col-md-5 margin-t-10'>
 				  <input type="text" name="gross_amount" id="gross_amount" value="0" class="form-control">
 		  </div> 
           <div class='col-md-7 no-padding'>	  
-				  <label style=" float: left;">Tax Rate: (<?= $paypal_tax; ?>%):</label> 	 
+				  <label style=" float: left;"><?php echo gettext('Tax Rate:')?> (<?= $paypal_tax; ?>%):</label> 	 
 		  </div>
 		  <div class='col-md-5'>	  
 				  <input type="text" name="tax_amount" id="tax_amount" readonly value="0"  class="form-control">	 
 		  </div>		
           <div class='col-md-7 no-padding'>
-				  <label style=" float: left;">Your Amount In <?= $to_currency?>:</label>
+				  <label style=" float: left;"><?php echo gettext('Your Amount In')?> <?= $to_currency?>:</label>
 		  </div>			
 		  <div class='col-md-5'>
 				  <span id="amt_in_currency" style="color:green;text-align:left !important;font-size:11px; ">0 <?= $from_currency?> is equals to 0 <?= $to_currency?></span>
@@ -99,7 +100,7 @@ return false;
     
     <form name="payment_form" id="payment_form" action="<?=$paypal_url?>" method="POST" onSubmit="return form_submit();">
           <div class='col-md-7 no-padding  margin-t-10'>
-				  <label style=" float: left;">Net Payable Amount in <?= $to_currency?>:</label>
+				  <label style=" float: left;"><?php echo gettext('Net Payable Amount in')?> <?= $to_currency?>:</label>
 		  </div>
 		  <div class='col-md-5  margin-t-10'>
 				  <input type="text" name="amount" readonly id="amount" value="0"  class="form-control">	 

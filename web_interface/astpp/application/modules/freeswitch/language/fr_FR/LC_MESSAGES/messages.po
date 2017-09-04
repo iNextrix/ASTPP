@@ -597,5 +597,128 @@ msgid " The Username field is required."
 msgstr "Le champ Nom d'utilisateur est nécessaire"
 
 
+####### Mayur start
+
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Follow us on:"
+msgstr "Suivez-nous sur:"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+
+
+msgid "Close"
+msgstr "Fermer"
+###
+msgid "Refill Report"
+msgstr "Rapport de recharge"
+
+msgid "Refill Coupon"
+msgstr "Coupon de recharge"
+
+msgid "Charges History"
+msgstr "Historique des frais"
+
+
+
+
+msgid "SIP Devices"
+msgstr "Périphériques SIP"
+
+
+
+msgid "IP setting"
+msgstr "Réglage IP"
+
+msgid "Caller ID"
+msgstr "Identification de l'appelant"
+
+msgid "Detail Report"
+msgstr "Rapport détaillé"
+
+msgid "Customer"
+msgstr "Client"
+
+
+
+
+msgid "Summary Report"
+msgstr "Rapport sommaire"
+
+msgid "Company Profile"
+msgstr "Profil de la société"
+
+msgid "Setting"
+msgstr "Réglage"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Active"
+msgstr "actif"
+
+msgid "Inactive"
+msgstr "Inactif"
+
+msgid "User Name"
+msgstr "Nom d'utilisateur"
+
+
+
+
+msgid "Create Date"
+msgstr "créer un rendez-vous"
+
+
+msgid "Modify Date"
+msgstr "Modifier la date"
+
+msgid "Caller-Id-In-Form"
+msgstr "Identification de l'appelant sous forme"
+
+
+msgid "True"
+msgstr "Vrai"
+
+msgid "False"
+msgstr "Faux"
+
+
+
+###### mayur  end
+
 
 

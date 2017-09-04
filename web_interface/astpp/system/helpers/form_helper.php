@@ -875,6 +875,7 @@ if ( ! function_exists('form_fieldset'))
 {
 	function form_fieldset($legend_text = '', $attributes = array())
 	{
+
 		$fieldset = "<fieldset";
 
 		$fieldset .= _attributes_to_string($attributes, FALSE);

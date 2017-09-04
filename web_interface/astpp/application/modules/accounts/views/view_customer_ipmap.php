@@ -129,8 +129,8 @@
                             </div>
                             <div class='col-md-4'>
                                 <label class="col-md-1 no-padding">Prefix</label>
-                                <!--<input id='prefix' class="col-md-2 form-control" name="prefix" size="16" type="text">-->
-                                <input id='prefix' class="col-md-2 form-control" name="prefix" size="16" type="number">
+                                <input id='prefix' class="col-md-2 form-control" name="prefix" size="16" type="text">
+                                
                             </div>
                             <div class="col-md-12">
                             <input class=" btn btn-success" name="action" value="Save" type="submit">

@@ -447,9 +447,6 @@ msgstr "Proveedor"
 msgid "summary reports"
 msgstr "Sumario de Reportes"
 
-msgid "Detail reports"
-msgstr "Detalle de Reportes"
-
 msgid "Caller Id"
 msgstr "Identificador de Llamadas"
 
@@ -474,9 +471,6 @@ msgstr "Clientes"
 msgid "Admins"
 msgstr "Administradores"
 
-msgid "Detail Reports"
-msgstr "Detalle de Reportes"
-
 msgid "Download Database"
 msgstr "Descargar Base de Datos"
 
@@ -500,3 +494,156 @@ msgstr "<b>Iniciar"
 
 msgid "Reset"
 msgstr "Restablecer"
+
+msgid "Refill Report"
+msgstr "Informe de relleno"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajuste"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+msgid "IP Setting"
+msgstr "Configuración de IP"
+
+msgid "Detail Reports"
+msgstr "Informes detallados"
+
+
+##### Mayur Start
+
+msgid "Register Gateways"
+msgstr "Registrar gateways"
+
+msgid "Live Call Graph"
+msgstr "Gráfico de llamadas en vivo"
+
+msgid "Begins With"
+msgstr "Empieza con"
+
+msgid "Contains"
+msgstr "Contiene"
+
+msgid "Doesnt Contain"
+msgstr "No contiene"
+
+msgid "Is Equal To"
+msgstr "Es igual a"
+
+msgid "Is Not Equal To"
+msgstr "No es igual a"
+
+msgid "Ends With"
+msgstr "Termina con"
+
+msgid "Greater Than"
+msgstr "Mas grande que"
+
+msgid "Less Than"
+msgstr "Menos que"
+
+msgid "Greater Or Equal Than"
+msgstr "Mayor o igual que"
+
+msgid "Less Or Equal Than"
+msgstr "Menos o igual que"
+
+
+msgid "default"
+msgstr "defecto"
+
+msgid "Clientes"
+msgstr "Clientes"
+
+msgid "Prepaid"
+msgstr "Pagado por adelantado"
+
+msgid "Postpaid"
+msgstr "Postpago"
+
+msgid "Voip Account Reffiled"
+msgstr "Voip Cuenta Reffiled"
+
+msgid "Email Add User"
+msgstr "Correo electrónico agregar usuario"
+
+msgid "Add Sip Device"
+msgstr "Agregar un dispositivo de sip"
+
+msgid "Email Add Did"
+msgstr "Enviar Correo Electrónico"
+
+msgid "Email Remove Did"
+msgstr "Eliminar Correo Electrónico"
+
+msgid "Email New Invoice"
+msgstr "Enviar nueva factura por correo electrónico"
+
+msgid "Email Low Balance"
+msgstr "Equilibrio de correo electrónico bajo"
+
+msgid "Email Singup Confirmation"
+msgstr "Confirmación de correo electrónico de confirmación"
+
+msgid "Password Successfully Changed"
+msgstr "Contraseña cambiada correctamente"
+
+msgid "Reset Your Password"
+msgstr "Restablecer su contraseña	"
+
+msgid "Email Add Subscription"
+msgstr "Suscripción de correo electrónico"
+
+msgid "Email Remove Subscription"
+msgstr "Eliminar Suscripción por Correo Electrónico"
+
+msgid "Email Add Package"
+msgstr "Enviar paquete de correo electrónico"
+
+msgid "Email Remove Package"
+msgstr "Enviar paquete de correo electrónico"
+
+msgid "Voip Child Account Refilled"
+msgstr "Cuenta de voip niño rellenada"
+
+msgid "Close"
+msgstr "Cerca"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+
+msgid "Account"
+msgstr "Cuenta"
+
+msgid "Yes"
+msgstr "sí"
+
+msgid "No"
+msgstr "No"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Inactive"
+msgstr "Inactivo"
+
+
+
+
+#### Mayur End
+
+

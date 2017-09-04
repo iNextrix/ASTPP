@@ -70,18 +70,11 @@ msgstr "Rapport CDR"
 msgid "Before Balance"
 msgstr "Avant la balance"
 
-
-
-
-
 msgid "Debit"
 msgstr "Débit"
 
 msgid "Cost"
 msgstr "Coût"
-
-
-
 
 
 msgid "Disposition"
@@ -97,7 +90,7 @@ msgid "Call Type"
 msgstr "Type d'appel"
 
 msgid "Date"
-msgstr "Date"
+msgstr "Rendez-vous amoureux"
 
 msgid "Attempted Calls"
 msgstr "les tentatives d'appel"
@@ -424,26 +417,14 @@ msgstr "Appareils OpenSIPS"
 msgid "Dispatcher list"
 msgstr "liste Dispatcher"
 
-
-
-
-
-msgid "Amount"
-msgstr "Quantité"
-
 msgid "Note"
-msgstr "Note"
+msgstr "Remarque"
 
 
 msgid "Payment By"
 msgstr "Paiement Par"
 
 
-
-
-
-msgid "Trunk"
-msgstr "Tronc"
 
 
 msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
@@ -501,3 +482,94 @@ msgstr "después de Equilibrio"
 
 msgid "Description"
 msgstr "La description"
+
+
+##### Mayur Start
+
+msgid "Company Name"
+msgstr "Nom de la compagnie"
+
+msgid "Amount"
+msgstr "Montant	"
+
+msgid "Refill By"
+msgstr "Rechargez par"
+
+msgid "Payment Date"
+msgstr "date de paiement"
+
+msgid "Bank Name"
+msgstr "Nom de banque"
+
+msgid "Bank Branch"
+msgstr "Succursale bancaire"
+
+msgid "Bank Account Number"
+msgstr "numéro de compte bancaire"
+
+msgid "Payment Status"
+msgstr "statut de paiement"
+
+msgid "No Records"
+msgstr "Pas d'enregistrements"
+
+
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+msgid "Follow us on:"
+msgstr "Suivez-nous sur:"
+
+msgid "Export"
+msgstr "Exportation"
+
+msgid "Refill Report"
+msgstr "Rapport de recharge"
+
+msgid "Charges History"
+msgstr "Historique des frais"
+
+msgid "Trunk"
+msgstr "Tronc"
+
+msgid "Coupon Recharge"
+msgstr "Recharge de coupon"
+
+##### Mayur end

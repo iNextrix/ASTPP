@@ -2,6 +2,12 @@
 <?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
+    function isNumberKey(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
     function showdiv(key1,key2) {
         document.getElementById(key1).style.display = "none";
         document.getElementById(key2).style.display = "block";
@@ -10,8 +16,12 @@
         var accountid= "<?= $account_data['id'] ?>";
         var speed_dial="speed_dial_"+speed_num;
         var speeddial_number =document.getElementById(speed_dial).value;
-        if (!/^[0-9]+$/.test(speeddial_number)) {
-            $('#error_'+speed_dial).text( "Please enter only numeric value" );
+        if (speeddial_number == '') {
+            $('#error_'+speed_dial).text( "Please enter number" );
+            document.getElementById(speed_dial).focus();
+            return false;
+        }else if (!/^[A-Za-z0-9]+$/.test(speeddial_number)) {
+            $('#error_'+speed_dial).text( "Please enter only alpha-numeric value" );
             document.getElementById(speed_dial).focus();
             return false;
         }
@@ -26,14 +36,17 @@
     }
     function remove_save_speed_dial(speed_num){
         var accountid= "<?= $account_data['id'] ?>";
-        $.ajax({
-            type: "POST",
-            url: "<?= base_url() ?>/user/user_speeddial_remove/",
-            data:{number:speed_num},
-            success:function() {
-                location.reload(true);
-            }
-        }); 
+	var result = confirm("Are you sure want to delete speed dial record?");
+	if(result == true){
+		$.ajax({
+		    type: "POST",
+		    url: "<?= base_url() ?>/user/user_speeddial_remove/",
+		    data:{number:speed_num},
+		    success:function() {
+		        location.reload(true);
+		    }
+		}); 
+	}
     }
 
 </script>
@@ -61,9 +74,9 @@
             <div class="col-md-12 no-padding color-three border_box"> 
                 <div class="pull-left">
                     <ul class="breadcrumb">
-                        <li><a href="#">Configuration</a></li>
+                        <li><a href="#"><?php echo gettext('Configuration')?></a></li>
                        <li class="active">
-                            <a href="<?= base_url()."user/user_speeddial/"; ?>"> Speed Dial </a>
+                            <a href="<?= base_url()."user/user_speeddial/"; ?>"><?php echo gettext('Speed Dial')?></a>
                         </li>
                     </ul>
                 </div>
@@ -79,7 +92,7 @@
                                 <div class="col-md-4">Action</div>
                                  </div>
                                 <?php
-								$res = $this->db_model->getSelect("*", "speed_dial", array("accountid" => $account_data[0]['id']));
+								$res = $this->db_model->getSelect("*", "speed_dial", array("accountid" => $account_data['id']));
 								if ($res->num_rows() > 0) {
 									$result = $res->result_array();
 								} else {
@@ -97,8 +110,9 @@
                                             <div class="col-md-3">
                                                 <label class="col-md-2" name="speed_dial" size="16"> 
                                                     <?php if ($result[$i]['speed_num'] == $i) {
-														echo $result[$i]['number'];
-													} ?> 
+							        //echo $result[$i]['number'];
+							         echo $speeddial[$i];
+							  } ?> 
                                                 </label>
                                             </div>
                                             <div class="col-md-4 margin-b-10">
@@ -119,7 +133,7 @@
                                             </label>
                                             </div>
                                                <div class="col-md-3">
-                                            <input class="col-md-2 form-control" name="speed_dial_<?php echo $i; ?>" id="speed_dial_<?php echo $i; ?>" size="16" type="text"  value="<?php if (isset($speeddial[$i]) && !empty($speeddial[$i])) {
+                                            <input class="col-md-2 form-control" name="speed_dial_<?php echo $i; ?>" id="speed_dial_<?php echo $i; ?>" size="16" type="text"  onkeypress="return isNumberKey(event)" value="<?php if (isset($speeddial[$i]) && !empty($speeddial[$i])) {
 		echo $speeddial[$i];
 	} ?>">
                                                </div>
@@ -135,7 +149,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <span style="color:red;float:left;margin-top:-10px; margin-left:115px;" id="error_speed_dial_<?php echo $i; ?>"></span>  
+                                        <span class="speed_dial" style="color:red;float:left;" id="error_speed_dial_<?php echo $i; ?>"></span>  
                                     </div>
 <?php } ?>
                             </form>

@@ -74,13 +74,13 @@
             <div class="row">
                 <div class="portlet-content">
                     <form method="post" name="refill_coupon_add" id="refill_coupon_add" action="#" enctype="multipart/form-data" class="margin-t-20">
-			          <label class="col-md-2" >Coupon Number :</label>
+			          <label class="col-md-2" ><?php echo gettext('Coupon Number:')?></label>
 						  <div class="col-md-2">
 				  	  	<input type="input" class="col-md-4 form-control" name="refill_coupon_number" id="refill_coupon_number" maxlength="20">
 				  	  </div>
 			       </form>
 			       <div class="col-md-2">
-				<a class="btn btn-line-parrot margin-l-10" id="refill_coupon_recharge">Recharge</a>
+				<a class="btn btn-line-parrot margin-l-10" id="refill_coupon_recharge"><?php echo gettext('Recharge')?></a>
 			       </div>
 			       <div class ='col-md-12 no-padding '  style="color:red;display:block;margin-left:17.8%;!important" id="refill_coupon_number_error" name='refill_coupon_number_error'></div>
 

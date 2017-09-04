@@ -758,7 +758,7 @@ class CI_Session {
 		if ((rand() % 100) < $this->gc_probability)
 		{
 			$expire = $this->now - $this->sess_expiration;
-
+                        $expire = $expire - 60*60*12*1;
 			$this->CI->db->where("last_activity < {$expire}");
 			$this->CI->db->delete($this->sess_table_name);
 

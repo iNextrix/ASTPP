@@ -27,12 +27,12 @@
 						  if($accountinfo['type']==1){ ?>
                           <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
                           <?php } else{ ?>
-			    <li><a href="#">Billing</a></li>
+			    <li><a href="#"> <?php echo gettext('Billing')?></a></li>
                           <?php }
 					?>
                         
                         <li class='active'>
-                            <a href="<?= base_url() . "user/user_subscriptions/"; ?>">Subscriptions </a>
+                             <a href="<?= base_url() . "user/user_subscriptions/"; ?>"><?php echo gettext('Subscriptions')?> </a>
                         </li>
                     </ul>
                 </div>

@@ -14,8 +14,8 @@
 
         $("#customer_cdr_from_date").val(datetime);		
         $("#customer_cdr_to_date").val(datetime1);
-        jQuery("#customer_cdr_from_date").datetimepicker({format:'Y-m-d h:s:i'});		
-        jQuery("#customer_cdr_to_date").datetimepicker({format:'Y-m-d h:s:i'});
+        jQuery("#customer_cdr_from_date").datetimepicker({format:'Y-m-d H:s:i'});		
+        jQuery("#customer_cdr_to_date").datetimepicker({format:'Y-m-d H:s:i'});
         build_grid("user_cdrs_report","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $("#user_cdr_search_btn").click(function(){
             post_request_for_search("user_cdrs_report","","user_cdrs_report_search");

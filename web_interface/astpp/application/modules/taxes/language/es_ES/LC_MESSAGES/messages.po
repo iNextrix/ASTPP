@@ -397,3 +397,84 @@ msgstr "El campo Prioridad debe contener sólo números."
 
 msgid "The Amount field must contain only numbers."
 msgstr "El campo Monto debe contener sólo números."
+
+msgid "Create Tax"
+msgstr "Crear impuesto"
+
+
+msgid "Refill Report"
+msgstr "Informe de relleno"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajuste"
+
+msgid "Invoices"
+msgstr "Facturas"
+
+msgid "IP Setting"
+msgstr "Configuración de IP"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+###
+
+msgid "Begins With"
+msgstr "Empieza con"
+
+msgid "Contains"
+msgstr "Contiene"
+
+msgid "Doesnt Contain"
+msgstr "No contiene"
+
+msgid "Is Equal To"
+msgstr "Es igual a"
+
+msgid "Is Not Equal To"
+msgstr "No es igual a"
+
+msgid "Ends With"
+msgstr "Termina con"
+
+msgid "Greater Than"
+msgstr "Mas grande que"
+
+msgid "Less Than"
+msgstr "Menos que"
+
+msgid "Greater Or Equal Than"
+msgstr "Mayor o igual que"
+
+msgid "Less Or Equal Than"
+msgstr "Menos o igual que"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Inactive"
+msgstr "Inactivo"
+
+msgid "Close"
+msgstr "Cerca"
+
+
+#####
+
+msgid "Powered by"
+msgstr "Energizado por"
+
+msgid " Follow us on"
+msgstr "Siga con nosotros"

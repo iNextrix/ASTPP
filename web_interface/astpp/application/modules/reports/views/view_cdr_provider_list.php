@@ -18,19 +18,16 @@
 <script>
        $(document).ready(function() {
         var currentdate = new Date(); 
-        var datetime = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + currentdate.getDate() + " 00:00:01";
+        var from_date = currentdate.getFullYear() + "-"
+            +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
+            + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
             
-        var datetime1 = currentdate.getFullYear() + "-"
+        var to_date = currentdate.getFullYear() + "-"
            +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            + currentdate.getDate() + " 23:59:59"
+           +("0" + currentdate.getDate()).slice(-2) + " 23:59:59";
 
-        $("#customer_cdr_from_date").val(datetime);		
-        $("#customer_cdr_to_date").val(datetime1);
-
-        jQuery("#customer_cdr_from_date").datetimepicker({format:'Y-m-d H:i:s'});		
-        jQuery("#customer_cdr_to_date").datetimepicker({format:'Y-m-d H:i:s'});
+        $("#customer_cdr_from_date").val(from_date);		
+        $("#customer_cdr_to_date").val(to_date);
     });
 </script>
 <? endblock() ?>

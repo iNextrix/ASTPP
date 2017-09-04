@@ -48,8 +48,13 @@
                    <div class="pull-right">
                         <a href="<?= base_url().'rates/termination_rates_list/'?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Back to Termination Rates List" /> </a>
 
+                       <?php $profile_url = explode("/",base_url(uri_string()));
+        if($profile_url[4] == 'termination_rate_rates_import'){ ?>
                         <a href="<?= base_url().'rates/termination_rate_error_download/'?>"><input class="btn btn-line-parrot" id="ok" type="button" name="action" value="Download Errors" /> </a>
-             </div></div>       <?}?>    
+             </div></div>       <? }else{ ?>
+             <a href="<?= base_url().'rates/termination_rate_mapper_error_download/'?>"><input class="btn btn-line-parrot" id="ok" type="button" name="action" value="Download Errors" /> </a>
+             
+           <?  } }?>    
 
                     <?php if (isset($pricelistid) && $pricelistid != "") { ?>
 <div class="col-md-12 padding-b-10">

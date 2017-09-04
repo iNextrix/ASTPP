@@ -133,6 +133,14 @@
 			$value_flag=false;
 			  }
 		  }
+		  if(common_model::$global_config['system_config']['enterprise'] == 0 ){
+			  if(common_model::$global_config['system_config']['opensips']== 0 && $value == "accounts/".$entity_name."_sipdevices/"){
+						  $value_flag=true;	
+			  }
+			  if(common_model::$global_config['system_config']['opensips']== 0 && $value == "accounts/".$entity_name."_opensips/"){
+						  $value_flag=false;	
+			  }
+		  }
 				}
 
 				if($value_flag){
@@ -140,7 +148,7 @@
 					if($i==0)
 						$class=($uri_arr[1]== $entity_name."_save") ? 'active': $class;
                     
-					echo "<li class='$class'><a href ='$url'>$key</a></li>";
+					echo "<li class='$class'><a href ='$url'>".gettext($key)."</a></li>";
 				}
 				$i++;
 				}

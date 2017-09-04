@@ -214,7 +214,7 @@ function get_package_data(){
 				    <h3 class="panel-title col-md-10">
                                           <div class='col-sm-6 no-padding'>
                     					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-file-text-o fa-fw"></i> Invoice Information
+                    					        <i class="fa fa-file-text-o fa-fw"></i><?php echo gettext('Invoice Information')?>
                     					     </div>
                                           </div>
                                     </h3>
@@ -232,7 +232,7 @@ function get_package_data(){
 				    <h3 class="panel-title col-md-10">
                                           <div class='col-sm-6 no-padding'>
                     					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-usd fa-fw"></i> Refill Information
+                    					        <i class="fa fa-usd fa-fw"></i><?php echo gettext('Refill Information')?>
                     					     </div>
                                           </div>
                                     </h3>
@@ -255,7 +255,7 @@ function get_package_data(){
 				    <h3 class="panel-title col-md-10">
                                           <div class='col-sm-6 no-padding'>
                     					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-money fa-fw"></i> Subscription Information
+                    					        <i class="fa fa-money fa-fw"></i><?php echo gettext('Subscription Information')?>
                     					     </div>
                                           </div>
                                     </h3>
@@ -273,7 +273,7 @@ function get_package_data(){
 				    <h3 class="panel-title col-md-10">
                                           <div class='col-sm-6 no-padding'>
                     					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-dropbox fa-fw"></i> Package Information
+                    					        <i class="fa fa-dropbox fa-fw"></i><?php echo gettext('Package Information')?>
                     					     </div>
                                           </div>
                                     </h3>

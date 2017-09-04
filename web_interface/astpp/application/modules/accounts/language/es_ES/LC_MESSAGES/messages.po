@@ -260,19 +260,13 @@ msgstr "Incrementos"
 msgid "Cost"
 msgstr "Costo"
 
-msgid "Setup<br>Fee"
+msgid "Setup Fee"
 msgstr "Cuota de Instalación"
 
 msgid "Monthly<br>Fee"
 msgstr "Cuota Mensual"
 
-msgid "Setup Fee"
-msgstr "Cuota de Instalación"
-
-msgid "Monthly Fee"
-msgstr "Cuota Mensual"
-
-msgid "Connection Fee"
+msgid "Connection<br>Fee"
 msgstr "Cargo Por Conexión"
 
 msgid "Invoices"
@@ -304,9 +298,6 @@ msgstr "Resumenes"
 
 msgid "Add Subscriptions"
 msgstr "Añadir Suscripciones"
-
-msgid "Included Seconds"
-msgstr "Segundos Incluídos"
 
 msgid "Included<br>Seconds"
 msgstr "Segundos Incluídos"
@@ -468,6 +459,8 @@ msgstr "Monto a Pagar"
 
 msgid "is equals to"
 msgstr "es igual a"
+
+
 
 msgid "Dialstring"
 msgstr "Marcar Cadena"
@@ -845,6 +838,7 @@ msgstr "Cliente Bulk generado correctamente!"
 msgid "Account refilled successfully!"
 msgstr "Cuenta completado correctamente!"
 
+
 msgid "You are not allowed to add amount to this account."
 msgstr "No se le permite añadir la cantidad a esta cuenta."
 
@@ -899,17 +893,17 @@ msgstr "Ver Detalles"
 msgid "Download Database"
 msgstr "Descargar Base de Datos"
 
-msgid "<b>Rescan"
-msgstr "<b>Volver a explorar"
+msgid "<br>Rescan"
+msgstr "<br>Volver a explorar"
 
-msgid "<b>Reload"
-msgstr "<b> Actualizar"
+msgid "<br>Reload"
+msgstr "<br>Actualizar"
 
-msgid "<b>Stop"
-msgstr "<b>Detener"
+msgid "<br>Stop"
+msgstr "<br>Detener"
 
-msgid "<b>Start"
-msgstr "<b>Comenzar"
+msgid "<br>Start"
+msgstr "<br>Comenzar"
 
 msgid "Recharge successfully!"
 msgstr "Recarga con éxito!"
@@ -1031,4 +1025,178 @@ msgstr "lotes de actualización"
 msgid "Close"
 msgstr "Cerca"
 
+msgid "Refill Report"
+msgstr "Informe de relleno"
 
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajuste"
+
+
+
+###### Mayur start
+
+msgid "Is Equal To"
+msgstr "Es igual a"
+
+msgid "Is Not Equal To"
+msgstr "No es igual a"
+
+
+msgid "Ends With"
+msgstr "Termina con"
+
+msgid "Begins With"
+msgstr "Empieza con"
+
+msgid "Contains"
+msgstr "Contiene"
+
+msgid "Doesnt Contain"
+msgstr "No contiene"
+
+msgid "USD"
+msgstr "Dólar estadounidense"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Pages"
+msgstr "Páginas"
+
+msgid "of"
+msgstr "de"
+
+msgid "Inactive"
+msgstr "Inactivo"
+
+msgid "Refill"
+msgstr "Rellenar"
+
+msgid "Records"
+msgstr "Archivos"
+
+msgid "No Records"
+msgstr "No hay registros"
+
+msgid "Powered by"
+msgstr "Energizado por"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Follow us on:"
+msgstr "Siga con nosotros:"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+
+msgid "Prepaid"
+msgstr "Pagado por adelantado"
+
+
+msgid "Postpaid"
+msgstr "Postpago"
+
+msgid "Monthly"
+msgstr "Mensual"
+
+msgid "Daily"
+msgstr "Diariamente"
+
+msgid "Yearly"
+msgstr "Anual"
+
+msgid "Greater Than"
+msgstr "Mas grande que"
+
+msgid "Less Than"
+msgstr "Menos que"
+
+msgid "Greater Or Equal Than"
+msgstr "Mayor o igual que"
+
+msgid "Less Or Equal Than"
+msgstr "Menos o igual que"
+
+msgid "Preserve"
+msgstr "preservar"
+
+msgid "Set To"
+msgstr "Ajustado a"
+
+msgid "Increase By"
+msgstr "Aumentado por"
+
+msgid "Decrease By"
+msgstr "Disminuir por"
+
+
+msgid "Mobile"
+msgstr "Móvil"
+
+msgid "No"
+msgstr "No"
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "Concurrent Calls"
+msgstr "Llamadas concurrentes"
+
+msgid "Interval"
+msgstr "Intervel"
+
+msgid "Account Valid Days"
+msgstr "Días válidos de la cuenta"
+
+msgid "Allow Local Calls"
+msgstr "Permitir llamadas locales"
+
+msgid "LC Charge / Min"
+msgstr "Carga LC / Min"
+
+msgid "Email Alerts"
+msgstr "Alertas de correo electrónico"
+
+msgid "Balance Below"
+msgstr "Equilibrio abajo"
+
+msgid "Acc. Number Length *"
+msgstr "Acc. Número de longitud *"
+
+msgid "Account Count *"
+msgstr "Cuenta Cuenta *"
+
+msgid "Default Settings"
+msgstr "Configuración predeterminada"
+
+msgid "​Refill Process"
+msgstr "Proceso de Relleno"
+
+msgid "​Process"
+msgstr "Proceso"
+
+msgid "Registration URL"
+msgstr "URL de registro"
+
+msgid "Account Status"
+msgstr "estado de la cuenta"
+
+
+
+
+
+##### Mayur End

@@ -6,7 +6,6 @@
 <? startblock('page-title') ?>
     <?= $page_title ?>
 <? endblock() ?>
-
 <? startblock('content') ?>        
    <?php if ( ! isset($csv_tmp_data)) { ?>
    
@@ -29,7 +28,7 @@
                </div>
                <div class="col-md-12  no-padding">
                	  <div class="col-md-6">
-                     <div class="w-box">
+                     <div class="w-box trunklist">
                        <h3 class="padding-t-10 padding-l-16 padding-b-10">Import Termination Rates:</h3>
                            <div class="col-md-12 no-padding">
                                <label class="col-md-3">Trunk List:</label>

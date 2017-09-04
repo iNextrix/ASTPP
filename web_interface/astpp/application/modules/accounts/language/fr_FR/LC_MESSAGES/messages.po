@@ -34,7 +34,8 @@ msgstr "Goupille"
 
 msgid "Account Settings"
 msgstr "Paramètres de compte"
-msgid "create reseller"
+
+msgid "Create Reseller"
 msgstr "Crear Distribuidor"
 msgid "Status"
 msgstr "Statut"
@@ -574,7 +575,7 @@ msgid "Taxes"
 msgstr "Tmpôts"
 
 msgid "Email Templates"
-msgstr "Email Templates"
+msgstr "Modèles de messagerie"
 
 msgid "Countries"
 msgstr "Pays"
@@ -857,16 +858,16 @@ msgid "Are you sure want to restore this database?"
 msgstr "Êtes-vous sûr de vouloir restaurer cette base de données?"
 msgid "Download Database"
 msgstr "téléchargement base de données"
-msgid "<b>Rescan"
-msgstr "<b> Rescan"
+msgid "Rescan"
+msgstr "Rescan"
 msgid "Update"
 msgstr "Mise À Jour"
-msgid "<b>Reload"
-msgstr "<b> Recharger"
-msgid "<b>Stop"
-msgstr "<b> Arrêter"
-msgid "<b>Start"
-msgstr "<b> Démarrer"
+msgid "Reload"
+msgstr "Recharger"
+msgid "Stop"
+msgstr "Arrêter"
+msgid "Start"
+msgstr "Démarrer"
 msgid "Prefixes List"
 msgstr "Liste préfixes"
 msgid "Add To List"
@@ -997,7 +998,135 @@ msgid "Close"
 msgstr "Fermer"
 
 
+####### MAYUR START
 
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+msgid "Provider"
+msgstr "Fournisseur"
+
+msgid "Prepaid"
+msgstr "Prépayé"
+
+msgid "Postpaid"
+msgstr "Port payé"
+
+msgid "Back"
+msgstr "Arrière"
+
+msgid "Cif / Nif"
+msgstr "Cif / Nif"
+
+
+msgid "Tarifa_coste"
+msgstr "Tarifa_coste"
+
+msgid "Monthly"
+msgstr "Mensuel"
+
+msgid "Daily"
+msgstr "du quotidien"
+
+msgid "Yearly"
+msgstr "Annuel"
+
+msgid "Alert Threshold"
+msgstr "Seuil d'alerte"
+
+msgid "Default Settings"
+msgstr "Paramètres par défaut"
+
+
+msgid "Preserve"
+msgstr "Préserver"
+
+msgid "Set To"
+msgstr "Mis à"
+
+msgid "Increase By"
+msgstr "Augmenté de"
+
+msgid "Decrease By"
+msgstr "Diminuer par"
+
+msgid "Active"
+msgstr "actif"
+
+msgid "Inactive"
+msgstr "Inactif"
+
+
+msgid "Follow us on"
+msgstr "Suivez-nous sur"
+
+msgid "Process"
+msgstr "Processus"
+
+msgid "Mobile"
+msgstr "Mobile"
+
+msgid "Email Alerts"
+msgstr "Alertes par courrier électronique"
+
+msgid "Account Valid Days"
+msgstr "Jours de validité du compte"
+
+msgid "Allow Local Calls"
+msgstr "Autoriser les appels locaux"
+
+msgid "LC Charge / Min"
+msgstr "Charge LC / Min"
+
+msgid "Account Count"
+msgstr "Compte compte"
+
+
+msgid "Balance Below"
+msgstr "Balance au-dessous"
+
+msgid "Records"
+msgstr "Enregistrements"
+
+msgid "Rate Group "
+msgstr "Groupe tarifaire"
+
+
+
+####### MAYUR END
 
 
 

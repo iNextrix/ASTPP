@@ -482,8 +482,8 @@ msgstr "La description"
 msgid "Created Date"
 msgstr "date de création"
 
-msgid "Used"
-msgstr "Utilisé"
+msgid "Used?"
+msgstr "Utilisé?"
 
 msgid "Used Date"
 msgstr "occasion date de"
@@ -505,3 +505,52 @@ msgstr "Exportation"
 
 msgid "Refill Coupon"
 msgstr "Coupon Recharge"
+
+#######mayur start
+
+msgid "Quantity"
+msgstr "Quantité"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+
+####### mayur end
+
+
+
+
+

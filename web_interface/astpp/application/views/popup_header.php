@@ -13,6 +13,8 @@
     
     $(document).ready(function() {
         $('.selectpicker').selectpicker('refresh');
+        $(".selectpicker").removeClass("col-md-5");  
+        $(".selectpicker").addClass("col-md-3"); 
   });        
 </script>
 </head>

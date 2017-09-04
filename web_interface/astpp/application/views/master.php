@@ -37,7 +37,7 @@ Email host test
                 <div id="updatebar" class="pull-right btn btn-update btn margin-t-51 margin-l-10"><i class="fa fa-retweet fa-lg"></i> <?php echo gettext('Batch Update'); ?></div>
                 <?php } ?>
 	        <?php if (isset($search_flag) && $search_flag) { ?>
-	                <div id="show_search" class="pull-right btn btn-warning btn margin-t-51"><i class="fa fa-search"></i><?php echo gettext('Search'); ?></div>
+	                <div id="show_search" class="pull-right btn btn-warning btn margin-t-51"><i class="fa fa-search"></i> <?php echo gettext('Search'); ?></div>
                 <?php } ?>
                 <?php if (isset($back_flag) && $back_flag) {?>
 					<ul class="breadcrumb">

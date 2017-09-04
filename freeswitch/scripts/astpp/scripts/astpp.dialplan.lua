@@ -44,6 +44,38 @@ return;
 end
 ------------------------- VOICEMAIL LISTEN END --------------------------------------
 
+---- Getting callerid for caller id translation feature ---- 
+if (params:getHeader('variable_effective_caller_id_number') ~= nil) then
+    callerid_number = params:getHeader('variable_effective_caller_id_number')
+    callerid_name = params:getHeader('variable_effective_caller_id_name')
+else
+    callerid_number = params:getHeader('Caller-Caller-ID-Number')
+    callerid_name = params:getHeader('Caller-Caller-ID-Name')
+end       
+
+if(config['opensips'] == '0') then
+    if (params:getHeader('variable_sip_h_P-effective_caller_id_name') ~= nil) then 
+        callerid_name = params:getHeader('variable_sip_h_P-effective_caller_id_name')
+    else
+        callerid_name = ''
+    end
+
+    if (params:getHeader('variable_sip_h_P-effective_caller_id_number') ~= nil) then 
+        callerid_number = params:getHeader('variable_sip_h_P-effective_caller_id_number')
+    else
+        callerid_number = ''
+    end
+end   	      
+Logger.info("[Dialplan] Caller Id name / number  : "..callerid_name.." / "..callerid_number)
+
+--Saving caller id information in array
+callerid_array = {}
+callerid_array['cid_name'] = callerid_name
+callerid_array['cid_number'] = callerid_number
+callerid_array['original_cid_name'] = callerid_name
+callerid_array['original_cid_number'] = callerid_number
+--------------------------------------
+
 -- Define default variables 
 local call_direction = 'outbound'
 local calltype = 'ASTPP-STANDARD'
@@ -138,6 +170,10 @@ end
 if(string.len(destination_number) == 1 ) then
 	destination_number = get_speeddial_number(destination_number,userinfo['id'])
 	Logger.info("[Dialplan] SPEED DIAL NUMBER : "..destination_number)
+    
+    -- Overriding call direction if speed dial destination is for DID or local extension 
+    call_direction = define_call_direction(destination_number,accountcode,config)
+    Logger.info("[Dialplan] New Call direction : ".. call_direction)
 end
 -----------------------------------------------------------------------------------------
 
@@ -157,6 +193,14 @@ if (userinfo ~= nil) then
 	-- If call is pstn and dialed modify defined then do number translation
 	if (call_direction == 'outbound' and userinfo['dialed_modify'] ~= '') then
 		destination_number = do_number_translation(userinfo['dialed_modify'],destination_number)
+	end
+
+     -- If call is pstn and caller id translation defined then do caller id translation 
+	if (userinfo['std_cid_translation'] ~= '') then
+        Logger.info("[DIALPLAN] Caller ID Translation Starts")
+		callerid_array['cid_name'] = do_number_translation(userinfo['std_cid_translation'],callerid_array['cid_name'])
+		callerid_array['cid_number'] = do_number_translation(userinfo['std_cid_translation'],callerid_array['cid_number'])
+        Logger.info("[DIALPLAN] Caller ID Translation Ends")
 	end
 
 	if(call_direction == 'inbound'  and config['did_global_translation'] ~= '') then
@@ -185,7 +229,7 @@ if (userinfo ~= nil) then
     -- Reseller validation starts
 	local reseller_ids = {}
 	local i = 1
-    
+    local reseller_cc_limit = ""
 	-- Set customer information in new variable
 	customer_userinfo = userinfo
 	rate_carrier_id = user_rates['trunk_id']
@@ -259,6 +303,11 @@ if (userinfo ~= nil) then
 				maxlength = reseller_maxlength
 			end
 
+            -- ITPL : Added checkout for reseller concurrent calls.    
+            if (tonumber(reseller_userinfo['maxchannels']) > 0) then
+                reseller_cc_limit = set_cc_limit_resellers(reseller_userinfo)
+            end
+
 			if (tonumber(reseller_maxlength) < 1 or tonumber(reseller_rates['cost']) > tonumber(user_rates['cost'])) then
 				error_xml_without_cdr(destination_number,"RESELLER_COST_CHEAP",calltype,1,customer_userinfo['id']); 
 				Logger.info("Reseller cost : "..reseller_rates['cost'].." User cost : "..user_rates['cost'])
@@ -319,8 +368,9 @@ if (userinfo ~= nil) then
 		end
 		-- ********* END *********
 		 Logger.info("[userinfo] Actual CustomerInfo XML : " .. actual_userinfo['id'])
-xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,actual_userinfo,config,xml_did_rates)
-		xml = freeswitch_xml_inbound(xml,didinfo,actual_userinfo,config,xml_did_rates)
+xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,actual_userinfo,config,xml_did_rates,nil,callerid_array)
+
+		xml = freeswitch_xml_inbound(xml,didinfo,actual_userinfo,config,xml_did_rates,callerid_array)
 		xml = freeswitch_xml_footer(xml)	   	    
 		XML_STRING = table.concat(xml, "\n");
 		Logger.debug("[Dialplan] Generated XML:" .. XML_STRING)  
@@ -329,8 +379,9 @@ xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_di
 		local SipDestinationInfo;
 		SipDestinationInfo = check_local_call(destination_number)
 		
-		xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config)
-		xml = freeswitch_xml_local(xml,destination_number,SipDestinationInfo)
+		xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config,nil,nil,callerid_array)
+
+		xml = freeswitch_xml_local(xml,destination_number,SipDestinationInfo,callerid_array)
 		xml = freeswitch_xml_footer(xml)	   	    
 		XML_STRING = table.concat(xml, "\n");
 		Logger.debug("[Dialplan] Generated XML:\n" .. XML_STRING)  
@@ -371,30 +422,21 @@ xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_di
 		-- If we get any valid carrier rates then build dialplan for outbound call
 		if (i > 1) then
 
-			xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config)
-			calleridinfo = get_override_callerid(customer_userinfo)
-			if (calleridinfo ~= nil) then
-    			xml = freeswitch_xml_callerid(xml,calleridinfo)	    	      
-			else
-                if(config['opensips'] == '0') then
-                    calleridinfo = {}
-                    if (params:getHeader('variable_sip_h_P-effective_caller_id_name') ~= nil) then 
-                        calleridinfo['cid_name'] = params:getHeader('variable_sip_h_P-effective_caller_id_name')
-                    else
-                        calleridinfo['cid_name'] = ''
-                    end
+            callerid = get_override_callerid(customer_userinfo,callerid_name,callerid_number)
+            if (callerid['cid_name'] ~= nil) then
+                callerid_array['cid_name'] = callerid['cid_name']
+                callerid_array['cid_number'] = callerid['cid_number']
+                callerid_array['original_cid_name'] = callerid['cid_name']
+                callerid_array['original_cid_number'] = callerid['cid_number']
+            end 
 
-                    if (params:getHeader('variable_sip_h_P-effective_caller_id_number') ~= nil) then 
-                        calleridinfo['cid_number'] = params:getHeader('variable_sip_h_P-effective_caller_id_number')
-                    else
-                        calleridinfo['cid_number'] = ''
-                    end
-                    xml = freeswitch_xml_callerid(xml,calleridinfo)	 
-                end   	      
-            end
+			xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config,nil,reseller_cc_limit,callerid_array)
+
+			-- Added code to override callerid
+            --xml = override_callerid_management(xml,customer_userinfo)
 
 			for carrier_arr_key,carrier_arr_array in pairs(carrier_array) do
-			    xml = freeswitch_xml_outbound(xml,destination_number,carrier_arr_array)
+			    xml = freeswitch_xml_outbound(xml,destination_number,carrier_arr_array,callerid_array)
 			end
 
 			xml = freeswitch_xml_footer(xml)
