@@ -394,10 +394,9 @@ class rates_form {
 						'trim|numeric|xss_clean',
 						'tOOL TIP',
 						'' 
-				) 
-		)
-		// $trunk,
-		;
+				),
+				 $trunk,
+		);
 		
 		$form ['button_cancel'] = array (
 				'name' => 'action',
