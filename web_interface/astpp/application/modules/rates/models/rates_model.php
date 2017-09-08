@@ -314,7 +314,8 @@ class rates_model extends CI_Model {
 		$arr_key = array_keys ( $field_values [$keys [0]] );
 		$str = null;
 		$i = 0;
-		$update_fields [] = "connectcost=VALUES(connectcost),
+		$update_fields [] = "comment=VALUES(comment),
+		connectcost=VALUES(connectcost),
 		includedseconds=VALUES(includedseconds),
 		cost=VALUES(cost),
 		init_inc=VALUES(init_inc),
@@ -348,9 +349,7 @@ class rates_model extends CI_Model {
 		$arr_key = array_keys ( $field_values [$keys [0]] );
 		$str = null;
 		$i = 0;
-		$update_fields [] = "old_cost = IF(VALUES(cost) != cost,cost,old_cost),
-		effective_date = IF(VALUES(cost) > cost,'" . $future_date . "',(IF(VALUES(cost) < cost,'" . $current_date . "',effective_date))),
-		comment=VALUES(comment),
+		$update_fields [] = "comment=VALUES(comment),
 		connectcost=VALUES(connectcost),
 		includedseconds=VALUES(includedseconds),
 		cost=VALUES(cost),
