@@ -75,7 +75,7 @@ class Login extends MX_Controller {
 					$this->db->select ( "*" );
 					if ($result ['type'] == '2' || $result ['type'] == '-1') {
 						$this->db->where ( array (
-								"accountid" => $result ["id"] 
+								"accountid" => "1"
 						) );
 					} else if ($result ['type'] == '0') {
 						if ($result ['reseller_id'] == 0) {

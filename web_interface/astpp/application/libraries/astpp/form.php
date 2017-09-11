@@ -63,7 +63,7 @@ class Form {
 			} else {
 				$module = $file_name;
 			}
-			if ($this->CI->session->userdata ( 'userlevel_logintype' ) == 1 || $this->CI->session->userdata ( 'logintype' ) == 4) {
+			if ($this->CI->session->userdata ( 'userlevel_logintype' ) != -1) {
 				$module_info [] = 'user';
 			}
 			if (in_array ( $module [0], $module_info )) {
