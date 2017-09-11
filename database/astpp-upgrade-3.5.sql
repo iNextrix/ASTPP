@@ -3,7 +3,7 @@
 -- =================================================================================================
 
 -- Accounts table update queries
-update `accounts`  balance = balance*(-1) where posttoexternal=1;
+update `accounts`  set balance = balance*(-1) where posttoexternal=1;
 
 -- cdr table queries 
 ALTER TABLE `cdrs` CHANGE `callerid` `callerid` VARCHAR( 120 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
