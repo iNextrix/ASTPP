@@ -35,8 +35,11 @@ EMAIL=""
 get_linux_distribution () {
         if [ -f /etc/debian_version ]; then
                 DIST="DEBIAN"
+		 apt-get update
+		 apt-get install -y dnsutils
         elif  [ -f /etc/redhat-release ]; then
                 DIST="CENTOS"
+		yum install bind-utils
         else
                 DIST="OTHER"
         fi
@@ -65,8 +68,6 @@ cd /usr/src/
 echo ""
 read -p "Enter your email address: ${EMAIL}"
 EMAIL=${REPLY}
-apt-get update
-apt-get install -y dnsutils
 git clone https://github.com/iNextrix/ASTPP.git
 NAT1=$(dig +short myip.opendns.com @resolver1.opendns.com)
 NAT2=$(curl http://ip-api.com/json/)
