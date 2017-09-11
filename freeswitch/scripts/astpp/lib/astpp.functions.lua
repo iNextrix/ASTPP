@@ -152,8 +152,9 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
     if (userinfo ~= nil) then
 	    userinfo['ACCOUNT_ERROR'] = ''
 
-        if (call_direction == 'local' and userinfo['local_call']=='0') then
-                userinfo['balance']=100            
+        if (userinfo['charge_per_min'] == nil or userinfo['charge_per_min']== '') then userinfo['charge_per_min'] = 0 end
+        if (call_direction == 'local' and userinfo['local_call']=='0' and tonumber(userinfo['charge_per_min'])<=0) then
+                    userinfo['balance'] = (tonumber(userinfo['posttoexternal']) == 1) and 0 or 100
         end
 
     	balance = get_balance(userinfo);
