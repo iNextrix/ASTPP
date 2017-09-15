@@ -1,5 +1,6 @@
 [![Project Stats](https://www.openhub.net/p/astpp/widgets/project_thin_badge.gif)](https://www.openhub.net/p/astpp)
 
+[![Join the chat at https://gitter.im/ASTPP-Official/Lobby](https://badges.gitter.im/ASTPP-Official/Lobby.svg)](https://gitter.im/ASTPP-Official/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ASTPP - Open source VoIP billing 
 
@@ -18,9 +19,3 @@ https://groups.google.com/forum/#!forum/astpp
 
 Bug Tracker : 
 http://github.com/iNextrix/ASTPP/issues
-
-
-
-
-
-[![Join the chat at https://gitter.im/ASTPP-Official/Lobby](https://badges.gitter.im/ASTPP-Official/Lobby.svg)](https://gitter.im/ASTPP-Official/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
