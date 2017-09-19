@@ -32,9 +32,11 @@ $(document).ready(function() {
         $("#toast-container_error").css("display","none");
     });
 });
-function quick_search(destination){
+function quick_search(destination, elementId){
      url = base_url+destination;
-     var value= document.getElementById("left_panel_quick_search").value;
+     //var value= document.getElementById("left_panel_quick_search").value;
+     elementId = elementId || 'left_panel_quick_search';
+     var value= document.getElementById(elementId).value;
            $.ajax({
                 type: "POST",
                 url: url,
@@ -650,3 +652,24 @@ function gettext_custom(collumn_property)
 	return collumn;
 }
 /********************/
+
+// Function, that restores search results on certain pages
+function update_search_form_from_session_json(session_json) {
+    var session_data = JSON.parse(session_json);
+    var form_data = {};
+    $.each(session_data,function(key, item) {
+    var field_name = key;
+     if (typeof(item) === 'object') {
+       $.each(item, function(subkey, subitem) {
+         field_name = key + '[' + subkey + ']';
+         form_data[field_name] = subitem;
+       });
+     } else {
+       form_data[field_name] = item;
+     }
+   });
+   $.each(form_data, function(field, value) {
+     $('[name="' + field + '"]').val(value);
+   });
+   $('#search_bar').show();
+ } 

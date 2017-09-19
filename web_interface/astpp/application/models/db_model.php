@@ -605,8 +605,12 @@ class Db_model extends CI_Model {
 		return $drp_list;
 	}
 	function build_search($accounts_list_search) {
-		if ($this->session->userdata ( 'advance_search' ) == 1) {
-			$account_search = $this->session->userdata ( $accounts_list_search );
+		// Restore search status
+		$account_search = $this->session->userdata ( $accounts_list_search );
+		//if ($this->session->userdata ( 'advance_search' ) == 1) {
+		if ($this->session->userdata('advance_search') == 1 || !empty($account_search) && !empty($account_search['restore_search'])) {
+			//$account_search = $this->session->userdata ( $accounts_list_search );
+			unset ( $account_search ["restore_search"] );
 			unset ( $account_search ["ajax_search"] );
 			unset ( $account_search ["advance_search"] );
 			/*

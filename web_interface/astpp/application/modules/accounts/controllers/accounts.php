@@ -86,6 +86,7 @@ class Accounts extends MX_Controller {
 			$action = $this->input->post ();
 			unset ( $action ['action'] );
 			unset ( $action ['advance_search'] );
+			$action['restore_search'] = 1;
 			if (isset ( $action ['balance'] ['balance'] ) && $action ['balance'] ['balance'] != '') {
 				$action ['balance'] ['balance'] = $this->common_model->add_calculate_currency ( $action ['balance'] ['balance'], "", '', false, false );
 			}

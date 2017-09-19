@@ -3,6 +3,11 @@
 
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
+
+        var session_data = '<?php echo !empty($this->session->userdata['customer_list_search']) ? json_encode($this->session->userdata['customer_list_search']) : ''; ?>';
+        if (session_data) {
+            update_search_form_from_session_json(session_data);
+        }
       
         build_grid("flex1","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
