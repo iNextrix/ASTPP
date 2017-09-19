@@ -14,6 +14,9 @@
 			$('.PatternChkBox').attr('checked', this.checked);//if you want to select/deselect checkboxes use this
 			$("#add_patterns_btn").removeAttr('disabled');
         });   
+        $("#left_panel_prefix_quick_search").keyup(function() {
+            quick_search("package/package_prefix_quick_search/", "left_panel_prefix_quick_search");
+        });
     });
     
     function add_package_pattern(){
@@ -64,16 +67,31 @@
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">  
  <!--   <div class="portlet-header ui-widget-header">Rates List<span class="ui-icon ui-icon-circle-arrow-s"></span></div> -->
     <div class="portlet-content">
-    
-<div style="width:690px;">
-    <form action="" id="addlist_form" name="addlist_form" method="POST" enctype="multipart/form-data" style="display:block">
-        <input type="hidden" id="add_patterns" name="add_patterns" readonly /><br/>
-        <button id="add_patterns_btn"  class="btn btn-line-warning btn" name="add_patterns_btn" onclick="add_package_pattern();"><i class="fa fa-plus-circle fa-lg"></i>Add To List</button>        
-    </form>
-</div>
-	<form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">        
-		<table id="prefixes_grid" style="display:none;"></table>
-	</form>
+        <div class="row">
+            <div class="padding-15 col-md-12">
+                <div class="col-md-12 no-padding">
+                    <div class="pull-left margin-t-10">
+                        <form action="" id="addlist_form" name="addlist_form" method="POST" enctype="multipart/form-data" style="display:block">
+                            <input type="hidden" id="add_patterns" name="add_patterns" readonly />
+                            <button id="add_patterns_btn"  class="btn btn-line-warning btn" name="add_patterns_btn" onclick="add_package_pattern();"><i class="fa fa-plus-circle fa-lg"></i>Add To List</button>
+                        </form>
+                    </div>
+                    <div id="show_search" class="pull-right margin-t-10 col-md-4 no-padding">
+                        <input type="text" name="origination_rate_list_search" id="left_panel_prefix_quick_search" class="col-md-5 form-control pull-right" value="<?php
+                            $search_data = $this->session->userdata('origination_rate_list_search');
+                            if ( is_array($search_data) && !empty($search_data['pattern']) && !empty($search_data['pattern']['pattern-string']) ) {
+                                echo $search_data['pattern']['pattern-string'];
+                            } else {
+                                echo "";
+                            }
+                            ?>" placeholder="Search"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                <table id="prefixes_grid" style="display:none;"></table>
+            </form>
     </div>
 </div>
 

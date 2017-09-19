@@ -32,9 +32,11 @@ $(document).ready(function() {
         $("#toast-container_error").css("display","none");
     });
 });
-function quick_search(destination){
+function quick_search(destination, elementId){
      url = base_url+destination;
-     var value= document.getElementById("left_panel_quick_search").value;
+     //var value= document.getElementById("left_panel_quick_search").value;
+     elementId = elementId || 'left_panel_quick_search';
+     var value= document.getElementById(elementId).value;
            $.ajax({
                 type: "POST",
                 url: url,

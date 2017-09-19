@@ -330,6 +330,22 @@ class Package extends MX_Controller {
 			$this->session->set_userdata ( 'left_panel_search_package_pattern', $action ['left_panel_search'] );
 		}
 	}
+
+	function package_prefix_quick_search(){
+ 		$action = $this->input->post();
+ 		$this->session->set_userdata('origination_rate_list_search',"");
+ 		if(!empty($action['left_panel_search'])){
+ 			$this->session->set_userdata('origination_rate_list_search', array(
+ 				'pattern' => array(
+ 					'pattern-string' => 5,
+ 					'pattern' => $action['left_panel_search']
+ 				),
+ 				'restore_search' => 1
+ 			));
+ 			$this->session->set_userdata('advance_search', 1);
+ 		}
+ 	}
+
 	function package_patterns_import($edit_id) {
 		// echo "nick";exit;
 		$data ['page_title'] = gettext ( 'Import Package Patterns' );
