@@ -108,7 +108,7 @@ end
 -- Check local info 
 function check_local_call(destination_number)
     
-    local query = "SELECT sip_devices.username as username,number as accountcode,sip_devices.accountid as accountid,accounts.did_cid_translation as did_cid_translation FROM "..TBL_SIP_DEVICES.." as sip_devices,"..TBL_USERS.." as  accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND username=\"" ..destination_number .."\" limit 1";
+    local query = "SELECT sip_devices.username as username,accounts.number as accountcode,sip_devices.accountid as accountid,accounts.did_cid_translation as did_cid_translation FROM "..TBL_SIP_DEVICES.." as sip_devices,"..TBL_USERS.." as  accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND sip_devices.username=\"" ..destination_number .."\" limit 1";
 
    Logger.debug("[CHECK_LOCAL_CALL] Query :" .. query)
     assert (dbh:query(query, function(u)
@@ -151,7 +151,7 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
 
     if (userinfo ~= nil) then
 	    userinfo['ACCOUNT_ERROR'] = ''
-
+    
         if (userinfo['charge_per_min'] == nil or userinfo['charge_per_min']== '') then userinfo['charge_per_min'] = 0 end
         if (call_direction == 'local' and userinfo['local_call']=='0' and tonumber(userinfo['charge_per_min'])<=0) then
                     userinfo['balance'] = (tonumber(userinfo['posttoexternal']) == 1) and 0 or 100

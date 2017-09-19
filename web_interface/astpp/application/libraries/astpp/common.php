@@ -2267,11 +2267,11 @@ class common {
 		$invoice_conf_res = array ();
 		$reseller_id = ($accountdata ['reseller_id'] == 0) ? 1 : $accountdata ['reseller_id'];
 		$where = "accountid IN ('" . $reseller_id . "','1')";
-		$this->db->select ( '*' );
-		$this->db->where ( $where );
-		$this->db->order_by ( 'accountid', 'desc' );
-		$this->db->limit ( 1 );
-		$invoice_conf = $this->db->get ( 'invoice_conf' );
+		$this->CI->db->select ( '*' );
+		$this->CI->db->where ( $where );
+		$this->CI->db->order_by ( 'accountid', 'desc' );
+		$this->CI->db->limit ( 1 );
+		$invoice_conf = $this->CI->db->get ( 'invoice_conf' );
 		$invoice_conf_res = ( array ) $invoice_conf->first_row ();
 		
 		$accountdata ["currency_id"] = $this->get_field_name ( 'currency', 'currency', $accountdata ["currency_id"] );
