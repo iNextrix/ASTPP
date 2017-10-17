@@ -440,7 +440,15 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 
 
 	    local callstart = os.date("!%Y-%m-%d %H:%M:%S")
-        table.insert(xml, [[<action application="set" data="error_cdr=1"/>]]);
+	
+	    if (callerid_array['original_cid_name'] ~= '' and callerid_array['original_cid_name'] ~= '<null>')  then
+               table.insert(xml, [[<action application="set" data="original_caller_id_name=]]..callerid_array['original_cid_name']..[["/>]]);
+            end
+            if (callerid_array['cid_number'] ~= '' and callerid_array['cid_number'] ~= '<null>')  then
+               table.insert(xml, [[<action application="set" data="original_caller_id_number=]]..callerid_array['original_cid_name']..[["/>]]);
+            end
+		
+            table.insert(xml, [[<action application="set" data="error_cdr=1"/>]]);
 	    table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);
 	    table.insert(xml, [[<action application="set" data="account_id=]]..account_id..[["/>]]);
 	    table.insert(xml, [[<action application="set" data="call_direction=outbound"/>]]);
