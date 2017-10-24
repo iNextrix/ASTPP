@@ -41,8 +41,7 @@ msgstr "Ville"
 msgid "Province"
 msgstr "Province"
 
-msgid "Provider"
-msgstr "Fournisseur"
+
 
 msgid "DID Billing"
 msgstr "Facturation DID"
@@ -105,6 +104,12 @@ msgstr "Est acheté?"
 
 msgid "Action"
 msgstr "Action"
+
+msgid "Active"
+msgstr "actif"
+
+msgid "Inactive"
+msgstr "Inactif"
 
 
 
@@ -273,7 +278,7 @@ msgid "Taxes"
 msgstr "Impôts"
 
 msgid "Email Templates"
-msgstr "Email Templates"
+msgstr "Modèles d'email"
 
 msgid "Countries"
 msgstr "Pays"
@@ -590,5 +595,116 @@ msgstr "détails de facturation"
 msgid "Created Date"
 msgstr "date de création"
 
+msgid "Modified Date"
+msgstr "Date modifiée"
+
 msgid "Is Purchased?"
 msgstr "Est acheté ?"
+
+
+####### Mayur start
+
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Follow us on:"
+msgstr "Suivez-nous sur:"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+msgid "Delete"
+msgstr "Effacer"
+
+msgid "Close"
+msgstr "Fermer"
+###
+msgid "Refill Report"
+msgstr "Rapport de recharge"
+
+msgid "Refill Coupon"
+msgstr "Coupon de recharge"
+
+msgid "Charges History"
+msgstr "Historique des frais"
+
+msgid "Packages"
+msgstr "Paquets"
+
+msgid "Usage Report"
+msgstr "Rapport d'utilisation"
+
+msgid "Trunks"
+msgstr "Les troncs"
+
+msgid "SIP Devices"
+msgstr "Périphériques SIP"
+
+msgid "SIP Profile"
+msgstr "Profil SIP"
+
+msgid "IP setting"
+msgstr "Réglage IP"
+
+msgid "Caller ID"
+msgstr "Identification de l'appelant"
+
+msgid "Detail Report"
+msgstr "Rapport détaillé"
+
+msgid "Customer"
+msgstr "Client"
+
+msgid "Reseller"
+msgstr "Revendeur"
+
+msgid "Provider Outbound"
+msgstr "Fournisseur sortant"
+
+msgid "Provider"
+msgstr "Fournisseur"
+
+msgid "Summary Report"
+msgstr "Rapport sommaire"
+
+msgid "Company Profile"
+msgstr "Profil de la société"
+
+msgid "Setting"
+msgstr "Réglage"
+
+
+
+
+###### mayur  end
+

@@ -249,7 +249,7 @@ table {
  <font color='red'> <DIV id="from"> </DIV> </font>
  </div>   
      <li class="col-md-12">
-     <label class="col-md-2 no-padding">From </label>
+     <label class="col-md-2 no-padding">From *</label>
 <div class="col-md-5 no-padding" height='10'>
 
     <input  class="form-control" type="input" name="from" value="<?= $from   ?>" size="80" id="from"  style="height:33px;"/> 
@@ -260,7 +260,7 @@ table {
 </div>
 </li>    
    
-  <li class="col-md-12"><label class="col-md-2 no-padding">To </label>
+  <li class="col-md-12"><label class="col-md-2 no-padding">To *</label>
 <div class="col-md-5 no-padding" height='10'>
 <span>
 <textarea name = 'to'  size = '' class = "form-control" cols="40" rows="3"  style="width: 523px; height: 90px;"><?php echo $to  ?></textarea>  
@@ -271,7 +271,7 @@ table {
  <div style="margin-left:225px;">
  <font color='red'> <DIV id="to"> </DIV> </font>
  </div>
- <li class="col-md-12"><label class="col-md-2 no-padding">Subject </label>
+ <li class="col-md-12"><label class="col-md-2 no-padding">Subject *</label>
  <span class="no-padding col-md-5">
      <input type="text" name="subject" value="<?= $subject   ?>" id="subject" size="80" value="" maxlength="200"class="form-control" style="height:33px;" />
   

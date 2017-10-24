@@ -16,7 +16,13 @@
 	}
 	?>
 </title>
+<?php  $user_favicon = $this->session->userdata('user_favicon'); ?>
+<?php if($user_favicon) {  ?>
+        <link rel="icon" href="<? echo base_url(); ?>upload/<? echo $user_favicon ?>"/>
+<?php } else { ?>
     <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico"/>
+<?php } ?>
+
     <script language="javascript" type="text/javascript">
 	var base_url = '<?php echo base_url(); ?>';
 	function seetext(x){
@@ -136,10 +142,12 @@ jQuery(document).ready(function() {
 		      <a href="<?php echo base_url();?>dashboard/" class=""> <? } else{?>    
 		    <a href="<?php echo base_url();?>user/user/" class="">	
 		<? }
-				if($this->session->userdata('logintype')!=2){
+				if($this->session->userdata('logintype')!=2 && $this->session->userdata('logintype')!=4){
 					$result=(array)$this->db->get_where('accounts',array("id"=>$acc_info['id']),1)->first_row();
 			$variable =$result['posttoexternal']==1 ? 'Credit' : gettext('Bal');  
-			$amount=$result['posttoexternal']==1 ? $result['credit_limit'] :$result['balance'];
+			$amount=$result['posttoexternal']==1 ? $result['credit_limit']-$result['balance'] :$result['balance'];
+
+			
 						$value= $this->common_model->calculate_currency($amount,'','',true);
 						if($value >0){
 							$color='#397A13';
@@ -180,11 +188,11 @@ jQuery(document).ready(function() {
 }?>
 	    
 		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
-		      <li style="-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;"><a href="http://bugs.astppbilling.org/" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>
+		      <li style="-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;"><a href="https://github.com/iNextrix/ASTPP/issues" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>
 		    <?}?>
 		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
 		    <li><a href="https://astppdoc.atlassian.net/wiki/display/ASTPP/Welcome+to+ASTPP" target="_blank"><i class="fa fa-file-text"></i> &nbsp;Documentation</a></li>
-		    <li><a href="http://www.astppbilling.org/sip-dialer" target="_blank"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i> &nbsp;Get App</a></li>
+		    <li><a href="http://www.astppbilling.org/mobile-dialers/" target="_blank"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i> &nbsp;Get App</a></li>
 		    <?}?>
 				
                 <li><a href="<?php echo base_url();?>logout"><i class="fa fa-power-off"></i> &nbsp;Log out</a></li>
@@ -193,10 +201,10 @@ jQuery(document).ready(function() {
               </ul>    	
 		</div>
 	</div>
-<div class="col-md-9 col-xs-9 no-padding">
+<div class="col-md-9 col-xs-9">
 		<div class="col-md-12 col-xs-7 no-padding ">
 
-  <div id="navbar" class="navbar navbar-white pull-right" role="navigation">     
+  <div id="navbar" class="navbar navbar-white pull-left" role="navigation">     
       <div class="container no-padding">
       <div class="navbar-collapse collapse no-padding">
                 <ul class="nav navbar-nav pull-right">
@@ -208,10 +216,10 @@ jQuery(document).ready(function() {
                 
      <?php
 		  if(common_model::$global_config['system_config']['opensips']== 0 &&  $menu_key !='SIP Devices'){
-			  echo '<li><a href="">'.gettext($menu_key).'<b class="caret"></b></a>';
+			  echo '<li><a href="#">'.gettext($menu_key).'<b class="caret"></b></a>';
 		  }
 		  if(common_model::$global_config['system_config']['opensips']== 1 &&  $menu_key != 'Opensips'){
-			  echo '<li><a href="">'.gettext($menu_key).'<b class="caret"></b></a>';  
+			  echo '<li><a href="#">'.gettext($menu_key).'<b class="caret"></b></a>';  
 		  }
 	?>
                 
@@ -220,20 +228,18 @@ jQuery(document).ready(function() {
                        
                            <?  if($sub_menu_key === 0){ ?>
                             <? foreach($sub_menu_values as $sub_key => $sub_menu_lables){
-								if((common_model::$global_config['system_config']['paypal_status']== 1 && strtolower($sub_menu_lables["menu_label"]) =='recharge') ||(common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Opensips')||
-								(common_model::$global_config['system_config']['opensips']== 0 &&  $sub_menu_lables["menu_label"] =='SIP Devices') ||
-								(($acc_info['type'] == '3' || $acc_info['type'] == '0') && $acc_info['allow_ip_management'] == '1' && strtolower($sub_menu_lables["menu_label"]) == 'ip settings')){
+				if((common_model::$global_config['system_config']['paypal_status']== 1 && strtolower($sub_menu_lables["menu_label"]) =='recharge')|| (common_model::$global_config['system_config']['enterprise']== 0 &&  $sub_menu_lables["menu_label"] =='Opensips devices')  || (common_model::$global_config['system_config']['enterprise']== 0 &&  $sub_menu_lables["menu_label"] =='Opensips')  || (common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Dispatcher list') || (common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Opensips devices')  || (common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Opensips') || (common_model::$global_config['system_config']['enterprise']== 1 && common_model::$global_config['system_config']['opensips']== 0 &&  $sub_menu_lables["menu_label"] =='SIP Devices') || (($acc_info['type'] == '3' || $acc_info['type'] == '0') && $acc_info['allow_ip_management'] == '1' && strtolower($sub_menu_lables["menu_label"]) == 'ip settings')){
 								}else{?>
                                 <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?php echo gettext($sub_menu_lables["menu_label"]);?></a></li>
 				<?}?>
 				<?} ?>
                             <?php }else{
 				if(common_model::$global_config['system_config']['opensips']==0 && $menu_key !='System Configuration'){ ?>    
-				    <li><a href=""><span><?=$sub_menu_key;?></span><i class="fa fa-caret-right pull-right"></i></a>
+				    <li><a href="#"><span><?=$sub_menu_key;?></span><i class="fa fa-caret-right pull-right"></i></a>
 				<? } if(common_model::$global_config['system_config']['opensips']==1) {?>
-				    <li><a href=""><span><?=$sub_menu_key;?></span><i class="fa fa-caret-right pull-right"></i></a>
+				    <li><a href="#"><span><?=$sub_menu_key;?></span><i class="fa fa-caret-right pull-right"></i></a>
 				<?php }if(($acc_info['type']==3 || $acc_info['type']== 0) && $acc_info['allow_ip_management']== 1 && strtolower($sub_menu_lables["menu_label"]) !='ip settings'){ ?>
-				    <li><a href=""><span><?=$sub_menu_key;?></span><i class="fa fa-caret-right pull-right"></i></a>
+				    <li><a href="#"><span><?=$sub_menu_key;?></span><i class="fa fa-caret-right pull-right"></i></a>
 				<? }
 							?>
                                  <div class="col-4"><div class="col-md-6 no-padding">

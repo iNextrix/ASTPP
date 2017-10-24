@@ -23,8 +23,6 @@
 -- Load configuration variables from database 
 function load_conf()
 
-
-
     local query = "SELECT name,value FROM "..TBL_CONFIG.." WHERE group_title IN ('global','opensips','callingcard')";
     Logger.debug("[LOAD_CONF] Query :" .. query)
     
@@ -80,7 +78,7 @@ function check_did(destination_number,config)
 	number_translation = config['did_global_translation'];
 	destination_number = do_number_translation(number_translation,destination_number)
 
-	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE A.status=0 AND B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
+	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,B.did_cid_translation as did_cid_translation,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc,A.leg_timeout FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE A.status=0 AND B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
 
 	Logger.debug("[CHECK_DID] Query :" .. query)
 
@@ -110,7 +108,7 @@ end
 -- Check local info 
 function check_local_call(destination_number)
     
-    local query = "SELECT sip_devices.username as username,number as accountcode,sip_devices.accountid as accountid FROM "..TBL_SIP_DEVICES.." as sip_devices,"..TBL_USERS.." as  accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND username=\"" ..destination_number .."\" limit 1";
+    local query = "SELECT sip_devices.username as username,accounts.number as accountcode,sip_devices.accountid as accountid,accounts.did_cid_translation as did_cid_translation FROM "..TBL_SIP_DEVICES.." as sip_devices,"..TBL_USERS.." as  accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND sip_devices.username=\"" ..destination_number .."\" limit 1";
 
    Logger.debug("[CHECK_LOCAL_CALL] Query :" .. query)
     assert (dbh:query(query, function(u)
@@ -127,7 +125,7 @@ end
 -- Do IP base authentication 
 function ipauthentication(destination_number,from_ip)
 
-    local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE (INET_ATON(\"" .. from_ip.. "\") & (0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1)))) =  ((0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1))) & INET_ATON(SUBSTRING_INDEX(ip,'/',1))) OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND prefix IN (NULL,'') OR SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND \"" .. destination_number .. "\"  RLIKE prefix ORDER BY LENGTH(prefix) DESC LIMIT 1"
+    local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE ((INET_ATON(\"" .. from_ip.. "\") & (0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1)))) =  ((0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1))) & INET_ATON(SUBSTRING_INDEX(ip,'/',1)))) AND ((SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND prefix IN (NULL,'')) OR (SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND \"" .. destination_number .. "\"  RLIKE prefix)) ORDER BY LENGTH(prefix) DESC LIMIT 1"
 
     Logger.debug("[IPAUTHENTICATION] Query :" .. query)
     
@@ -153,9 +151,10 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
 
     if (userinfo ~= nil) then
 	    userinfo['ACCOUNT_ERROR'] = ''
-
-        if (call_direction == 'local' and userinfo['local_call']=='0') then
-                userinfo['balance']=100            
+    
+        if (userinfo['charge_per_min'] == nil or userinfo['charge_per_min']== '') then userinfo['charge_per_min'] = 0 end
+        if (call_direction == 'local' and userinfo['local_call']=='0' and tonumber(userinfo['charge_per_min'])<=0) then
+                    userinfo['balance'] = (tonumber(userinfo['posttoexternal']) == 1) and 0 or 100
         end
 
     	balance = get_balance(userinfo);
@@ -164,7 +163,7 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
     	    userinfo['ACCOUNT_ERROR'] = 'NO_SUFFICIENT_FUND'
     	else
     	    if (call_direction == 'outbound') then     
-    		    if (check_blocked_prefix (userinfo,destination_number,number_loop) == false) then
+    		    if (check_blocked_prefix (userinfo,destination_number,number_loop) == "false") then
 	    	        Logger.warning("[DOAUTHORIZATION] ["..accountcode.."] You are not allowed to dial number..!!");
                     userinfo['ACCOUNT_ERROR'] = 'DESTINATION_BLOCKED'
 	    	        return userinfo
@@ -186,8 +185,8 @@ end
 
 -- Get balance from account info 
 function get_balance(userinfo)
-    balance = (userinfo['balance']) + (userinfo['credit_limit'] * userinfo['posttoexternal']);    
-
+--    balance = (userinfo['balance']) + (userinfo['credit_limit'] * userinfo['posttoexternal']);
+    balance = tonumber(userinfo['posttoexternal']) == 1 and tonumber(userinfo['credit_limit'])+(tonumber(userinfo['balance'])*(-1)) or tonumber(userinfo['balance'])
     -- Override balance if call is DID / inbound and coming from provider to avoid provider balance checking upon DID call. 
     if (userinfo['type'] == '3' and call_direction == 'inbound') then            
             balance = 10000
@@ -211,7 +210,7 @@ function check_blocked_prefix(userinfo,destination_number,number_loop)
     local query = "SELECT * FROM "..TBL_BLOCK_PREFIX.." WHERE "..number_loop.." AND accountid = "..userinfo['id'].. " limit 1 ";
     Logger.debug("[CHECK_BLOCKED_PREFIX] Query :" .. query)
     assert (dbh:query(query, function(u)
-	flag = "false"
+    	flag = "false"
     end))
     return flag
 end
@@ -444,9 +443,9 @@ function get_carrier_rates(destination_number,number_loop_str,ratecard_id,rate_c
     local carrier_rates = {}
 	local query
 	 if(routing_type == 1) then
-		    query = "SELECT TK.id as trunk_id,TK.codec,GW.name as path,GW.dialplan_variable,TK.provider_id,TR.init_inc,TK.status,TK.dialed_modify,TK.maxchannels,TR.pattern,TR.id as outbound_route_id,TR.connectcost,TR.comment,TR.includedseconds,TR.cost,TR.inc,TR.prepend,TR.strip,(select name from "..TBL_GATEWAYS.." where status=0 AND id = TK.failover_gateway_id) as path1,(select name from "..TBL_GATEWAYS.." where status=0 AND id = TK.failover_gateway_id1) as path2 FROM (select * from "..TBL_TERMINATION_RATES.." order by LENGTH (pattern) DESC) as TR "..TBL_TRUNKS.." as TK,"..TBL_GATEWAYS.." as GW WHERE GW.status=0 AND GW.id= TK.gateway_id AND TK.status=0 AND TK.id= TR.trunk_id AND "..number_loop_str.." AND TR.status = 0 "
+		    query = "SELECT TK.id as trunk_id,TK.codec,GW.name as path,GW.dialplan_variable,TK.provider_id,TK.cid_translation,TR.init_inc,TK.status,TK.dialed_modify,TK.maxchannels,TK.leg_timeout,TR.pattern,TR.id as outbound_route_id,TR.connectcost,TR.comment,TR.includedseconds,TR.cost,TR.inc,TR.prepend,TR.strip,(select name from "..TBL_GATEWAYS.." where status=0 AND id = TK.failover_gateway_id) as path1,(select name from "..TBL_GATEWAYS.." where status=0 AND id = TK.failover_gateway_id1) as path2 FROM (select * from "..TBL_TERMINATION_RATES.." order by LENGTH (pattern) DESC) as TR "..TBL_TRUNKS.." as TK,"..TBL_GATEWAYS.." as GW WHERE GW.status=0 AND GW.id= TK.gateway_id AND TK.status=0 AND TK.id= TR.trunk_id AND "..number_loop_str.." AND TR.status = 0 "
 	else
-		 query = "SELECT TK.id as trunk_id,TK.codec,GW.name as path,GW.dialplan_variable,TK.provider_id,TR.init_inc,TK.status,TK.dialed_modify,TK.maxchannels,TR.pattern,TR.id as outbound_route_id,TR.connectcost,TR.comment,TR.includedseconds,TR.cost,TR.inc,TR.prepend,TR.strip,(select name from "..TBL_GATEWAYS.." where status=0 AND id = TK.failover_gateway_id) as path1,(select name from "..TBL_GATEWAYS.." where status=0 AND id = TK.failover_gateway_id1) as path2 FROM "..TBL_TERMINATION_RATES.." as TR,"..TBL_TRUNKS.." as TK,"..TBL_GATEWAYS.." as GW WHERE GW.status=0 AND GW.id= TK.gateway_id AND TK.status=0 AND TK.id= TR.trunk_id AND "..number_loop_str.." AND TR.status = 0 "
+		 query = "SELECT TK.id as trunk_id,TK.codec,GW.name as path,GW.dialplan_variable,TK.provider_id,TK.cid_translation,TR.init_inc,TK.status,TK.dialed_modify,TK.maxchannels,TK.leg_timeout,TR.pattern,TR.id as outbound_route_id,TR.connectcost,TR.comment,TR.includedseconds,TR.cost,TR.inc,TR.prepend,TR.strip,(select name from "..TBL_GATEWAYS.." where status=0 AND id = TK.failover_gateway_id) as path1,(select name from "..TBL_GATEWAYS.." where status=0 AND id = TK.failover_gateway_id1) as path2 FROM "..TBL_TERMINATION_RATES.." as TR,"..TBL_TRUNKS.." as TK,"..TBL_GATEWAYS.." as GW WHERE GW.status=0 AND GW.id= TK.gateway_id AND TK.status=0 AND TK.id= TR.trunk_id AND "..number_loop_str.." AND TR.status = 0 "
 	end
 
     if(tonumber(rate_carrier_id) > 0) then
@@ -488,13 +487,19 @@ function get_carrier_rates(destination_number,number_loop_str,ratecard_id,rate_c
 end
 
 -- Get outbound callerid to override in calls
-function get_override_callerid(userinfo)
-    local callerid
+function get_override_callerid(userinfo,callerid_name,callerid_number)
+    local callerid = {}
     local query  = "SELECT callerid_name as cid_name,callerid_number as cid_number,accountid FROM "..TBL_ACCOUNTS_CALLERID.." WHERE accountid = "..userinfo['id'].." AND status=0 LIMIT 1";    
     Logger.debug("[GET_OVERRIDE_CALLERID] Query :" .. query)
     assert (dbh:query(query, function(u)
 	    callerid = u
-    end))    
+    end))
+
+    if (callerid['cid_number'] ~= nil and callerid['cid_number'] ~= '') then
+        callerid['cid_number'] = callerid['cid_number']
+        callerid['cid_name'] = callerid['cid_name']
+    end
+    
     return callerid
 end
 

@@ -1,120 +1,87 @@
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
-
 <script type="text/javascript" language="javascript">
-function invoice_delete(inv_id){
-	      	$.ajax({
-		type: "POST",
-		url: "<?= base_url()?>/invoices/invoice_delete_statically/"+inv_id,
-		data:'',
-		success:function(alt) {
-		       var confirm_string = "Are you sure want to delete record.";
-			var answer = confirm(confirm_string);
-			if(answer){
-			    window.location.href="<?= base_url()?>/invoices/invoice_delete_massege/";
+	function invoice_delete(inv_id){
+				$.ajax({
+			type: "POST",
+			url: "<?= base_url()?>/invoices/invoice_delete_statically/"+inv_id,
+			data:'',
+			success:function(alt) {
+				   var confirm_string = "Are you sure want to delete record.";
+				var answer = confirm(confirm_string);
+				if(answer){
+					window.location.href="<?= base_url()?>/invoices/invoice_delete_massege/";
+				}
+				else{
+					return false;
+				}
 			}
-			else{
+		});
+	}
+	function validateForm(){
+		  if(document.getElementById('from_date').value == ""){
+			$('#error_msg_from').text( "Please select from date" );
+			document.getElementById('from_date').focus();
+			return false;
+		  }
+		  if(document.getElementById('to_date').value == ""){
+			$('#error_msg_to').text( "Please select to date" );
+			document.getElementById('to_date').focus();
+			return false;
+		  }
+		  if(document.getElementById('to_date').value < document.getElementById('from_date').value){
+			$('#error_msg_to').text( "Please select to date bigger than from date" );
+				document.getElementById('to_date').focus();
 				return false;
-			}
-		}
-	});
-}
+		  }
+		  document.getElementById('invoice').disabled = 'true';
+		  document.getElementById("myForm2").submit();     
+		  event.preventDefault();
+	}
     $(document).ready(function() {
-      
         build_grid("invoices_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+            $('.chkRefNos').attr('checked', this.checked);
         });
         $("#invoice_search_btn").click(function(){
-            
             post_request_for_search("invoices_grid","","invoice_search");
         });        
         $("#id_reset").click(function(){
             clear_search_request("invoices_grid","");
         });
         $("#generate_search").click(function(){
-	  $("#search_generate_bar").slideToggle("slow");
+			$("#search_generate_bar").slideToggle("slow");
         });
-        $("#from_date").val('');
-        $("#to_date").val('');
-	$("#invoice_date").datetimepicker({format:'Y-m-d'});		
-       $("#invoice_from_date").datetimepicker({format:'Y-m-d'});
-       $("#invoice_to_date").datetimepicker({format:'Y-m-d'});
-       
-	  $("#from_date").change(function(){
-	    $('#error_msg_from').text('');
-	    return false;
-	  });
-	  $("#to_date").change(function(){
-	    $('#error_msg_to').text('');
-	    return false;
-	  });
-	  $("#accountid").change(function(){
-	    $('#error_msg_port').text('');
-	    return false;
-	  });
-
-    });
-    
-     $(document).ready(function() {
+        $("#invoice_date").datetimepicker({format:'Y-m-d',timepicker: false});		
         var currentdate = new Date(); 
-        var datetime = currentdate.getFullYear() + "-"
+        var invoice_from_date = currentdate.getFullYear() + "-"
             + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + currentdate.getDate() + " ";
-            
-        var datetime1 = currentdate.getFullYear() + "-"
+            + ('0' + (currentdate.getDate()+1)).slice(-2) + "";
+        var invoice_to_date = currentdate.getFullYear() + "-"
            +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            + currentdate.getDate() + ""
-
-        $("#invoice_from_date").val(datetime);		
-        $("#invoice_to_date").val(datetime1);
+            + ('0' + (currentdate.getDate()+1)).slice(-2) + "";
+		$("#invoice_from_date").val(invoice_from_date);		
+        $("#invoice_from_date").datetimepicker({format:'Y-m-d',timepicker: false});
+        $("#invoice_to_date").val(invoice_to_date);
+        $("#invoice_to_date").datetimepicker({format:'Y-m-d',timepicker: false});
+        $("#from_date").val('');
+        $("#from_date").datetimepicker({format:'Y-m-d',timepicker: false});		
+        $("#from_date").change(function(){
+			$('#error_msg_from').text('');
+			return false;
+		});
+        $("#to_date").val('');
+        $("#to_date").datetimepicker({format:'Y-m-d',timepicker: false});
+	    $("#to_date").change(function(){
+			$('#error_msg_to').text('');
+			return false;
+		});
+		$("#accountid").change(function(){
+			$('#error_msg_port').text('');
+			return false;
+		});
     });
 </script>
-<script type='text/javascript'>
-function validateForm(){
-
-      if(document.getElementById('from_date').value == "")
-      {
-//           
-	  $('#error_msg_from').text( "Please select from date" );
-	  document.getElementById('from_date').focus();
-	  return false;
-      }
-      if(document.getElementById('to_date').value == "")
-      {
-//           
-	  $('#error_msg_to').text( "Please select to date" );
-	  document.getElementById('to_date').focus();
-	  return false;
-      }
-      if(document.getElementById('to_date').value < document.getElementById('from_date').value)
-      {
-//           
-	  $('#error_msg_to').text( "Please select to date bigger than from date" );
-	  document.getElementById('to_date').focus();
-	  return false;
-      }
-     document.getElementById('invoice').disabled = 'true';
-      document.getElementById("myForm2").submit();     
-//       $('#myForm2').submit();
-       event.preventDefault();
-        
-       
-}     
-     
-    
-</script>
-<script>
-       $(document).ready(function() {
-       
-//         $("#invoice_date").datetimepicker({ dateFormat: 'yy-mm-dd' });		
-         jQuery("#from_date").datetimepicker({format:'Y-m-d'});		
-       jQuery("#to_date").datetimepicker({format:'Y-m-d'});
-//         		customer_cdr_from_date
-    });
-</script>
-
-<? // echo "<pre>"; print_r($grid_fields); exit;?>
 	
 <? endblock() ?>
 
@@ -165,10 +132,11 @@ $login_type = $this->session->userdata['userlevel_logintype'];
 		        </div>
 	<div class="col-md-5"><label style="text-align:left;float:left;" class="col-md-3"><?php echo gettext('Accounts'); ?> </label>
 			<?php
-					if($login_type == -1){
-				$where="deleted = '0' AND reseller_id = '0' AND status = '0' AND (type= '0' OR type= '3' OR type= '1')";
-				}if($login_type == 1){
-				 $where="deleted = '0' AND reseller_id = '$id' AND status = '0' AND (type= '0' OR type= '3' OR type='1')";
+				if($login_type == -1 || $login_type == 4 || $login_type == 2){
+				        $where="deleted = '0' AND reseller_id = '0' AND status = '0' AND (type= '0' OR type= '3' OR type= '1')";
+				}if($login_type == 1 ){
+
+				        $where="deleted = '0' AND reseller_id = '$id' AND status = '0' AND (type= '0' OR type= '3' OR type='1')";
 				
 				}
 		$account=$this->db_model->build_dropdown_invoices('id,first_name,last_name,number,type', 'accounts', '', $where);?>

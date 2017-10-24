@@ -47,12 +47,12 @@
 						  if($accountinfo['type']==1){ ?>
                           <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
                           <?php } else{ ?>
-			    <li><a href="#">Configuration</a></li>
+			    <li><a href="#"><?php echo gettext('Configuration')?></a></li>
                           <?php }
 					?>
                         
                         <li class='active'>
-                           <a href="<?= base_url() . "user/user_animap_list/"; ?>">Caller ID</a>
+                           <a href="<?= base_url() . "user/user_animap_list/"; ?>"><?php echo gettext('Caller ID')?></a>
                         </li>
                     </ul>
                 </div>

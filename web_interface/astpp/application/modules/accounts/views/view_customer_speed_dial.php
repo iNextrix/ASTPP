@@ -10,8 +10,12 @@
         var accountid= "<?= $account_data['id'] ?>";
         var speed_dial="speed_dial_"+speed_num;
         var speeddial_number =document.getElementById(speed_dial).value;
-        if (!/^[0-9]+$/.test(speeddial_number)) {
-            $('#error_'+speed_dial).text( "Please enter only numeric value" );
+        if (speeddial_number == '') {
+            $('#error_'+speed_dial).text( "Please enter number" );
+            document.getElementById(speed_dial).focus();
+            return false;
+        }else if (!/^[A-Za-z0-9]+$/.test(speeddial_number)) {
+            $('#error_'+speed_dial).text( "Please enter only alpha-numeric value" );
             document.getElementById(speed_dial).focus();
             return false;
         }
@@ -109,8 +113,13 @@
                                             <div class="col-md-3">
                                                 <label class="col-md-2" name="speed_dial" size="16"> 
                                                     <?php 
-														echo $result[$i]['number'];
-													 ?> 
+                                                    /* Date : 09-Feb-2017
+													   Purpose : To see speed dial number without click on edit
+													   Done By : itpl */
+                                                      echo $speeddial[$i];
+                                                    //if ($result[$i]['speed_num'] == $i) {
+														//echo $result[$i]['number'];
+													//} ?>
                                                 </label>
                                             </div>
                                             <div class="col-md-4 margin-b-10">
@@ -147,7 +156,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <span style="color:red;float:left;margin-top:-10px; margin-left:115px;" id="error_speed_dial_<?php echo $i; ?>"></span>  
+                                        <span class="speed_dial" style="color:red;float:left;" id="error_speed_dial_<?php echo $i; ?>"></span>   
                                     </div>
 <?php } ?>
                             </form>

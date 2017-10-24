@@ -209,7 +209,7 @@ msgstr "MAPA IP (ACL)"
 msgid "Call Reports"
 msgstr "Reporte de Llamadas"
 
-msgid "Details Reports"
+msgid "Detail Reports"
 msgstr "Detalles de Reportes"
 
 msgid "customer"
@@ -442,7 +442,7 @@ msgstr "Clientes"
 msgid "Admins"
 msgstr "Administradores"
 
-msgid "Detail Reports"
+msgid "Details Reports"
 msgstr "Reporte Detalle"
 
 msgid "View Details"
@@ -489,3 +489,93 @@ msgstr "después de Equilibrio"
 
 msgid "Description"
 msgstr "Descripción"
+
+msgid "Refill Report"
+msgstr "Informe de recarga"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajuste"
+
+msgid "Invoices"
+msgstr "Facturas"
+
+msgid "IP Setting"
+msgstr "Configuración de IP"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+
+##### Mayur start
+
+msgid "Begins With"
+msgstr "Empieza con"
+
+msgid "Contains"
+msgstr "Contiene"
+
+msgid "Doesnt Contain"
+msgstr "No contiene"
+
+msgid "Is Equal To"
+msgstr "Es igual a"
+
+msgid "Is Not Equal To"
+msgstr "No es igual a"
+
+msgid "Ends With"
+msgstr "Termina con"
+
+msgid "Greater Than"
+msgstr "Mas grande que"
+
+msgid "Less Than"
+msgstr "Menos que"
+
+msgid "Greater Or Equal Than"
+msgstr "Mayor o igual que"
+
+msgid "Less Or Equal Than"
+msgstr "Menos o igual que"
+
+msgid "Close"
+msgstr "Cerca"
+
+msgid "Export"
+msgstr "Exportar"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+
+msgid "Refill By"
+msgstr "Rellenar por"
+
+msgid "Records"
+msgstr "Archivos"
+
+msgid "No Records"
+msgstr "No hay registros"
+
+msgid "Powered by"
+msgstr "Energizado por"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Follow us on:"
+msgstr "Siga con nosotros:"
+
+##### Mayur end
+
+
+

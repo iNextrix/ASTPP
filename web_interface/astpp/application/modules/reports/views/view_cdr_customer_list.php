@@ -17,16 +17,16 @@
 <script>
        $(document).ready(function() {
         var currentdate = new Date(); 
-        var datetime = currentdate.getFullYear() + "-"
+        var from_date = currentdate.getFullYear() + "-"
             + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
                 + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
             
-        var datetime1 = currentdate.getFullYear() + "-"
+        var to_date = currentdate.getFullYear() + "-"
            +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
             +("0" + currentdate.getDate()).slice(-2) + " 23:59:59"
 
-        $("#customer_cdr_from_date").val(datetime);		
-        $("#customer_cdr_to_date").val(datetime1);
+        $("#customer_cdr_from_date").val(from_date);		
+        $("#customer_cdr_to_date").val(to_date);
     });
 </script>
 <? endblock() ?>

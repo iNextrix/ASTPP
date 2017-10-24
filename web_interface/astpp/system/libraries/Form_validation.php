@@ -1119,6 +1119,8 @@ class CI_Form_validation {
 	 */
 	public function valid_ip($ip)
 	{
+		$explode_ip = explode('/',$ip);
+		$ip = (isset($explode_ip[0]) && $explode_ip[0] != '')?$explode_ip[0]:$ip;
 		return $this->CI->input->valid_ip($ip);
 	}
 
@@ -1421,9 +1423,12 @@ class CI_Form_validation {
 	{
 			return ( ! preg_match("/^([.a-z0-9])+$/i", $str)) ? FALSE : TRUE;
 	}
-	public function valid_decimal($str){
+	
+	/** Do not use this function 
+		public function valid_decimal($str){
 			return (bool) preg_match('#^\d+(?:\.\d{1,5})?$#', $str);
-		}
+		}*/
+
 		public function alpha_numeric_space($str)
 	{
 		return ( ! preg_match("/^[A-Za-z0-9\s]+$/", $str)) ? FALSE : TRUE;
@@ -1433,7 +1438,7 @@ class CI_Form_validation {
 //                return ( ! preg_match("/^([-a-z0-9_-\s])+$/i", $str)) ? FALSE : TRUE;
 	}
 		public function currency_decimal($str){
-			return (bool) preg_match('#^\d{0,5}+(?:\.\d{1,5})?$#', $str);
+			return (bool) preg_match('#^\d{0,15}+(?:\.\d{0,5})?$#', $str);
 //            test(num)
 		}
 		/* ASTPP  3.0 
@@ -1462,7 +1467,7 @@ class CI_Form_validation {
 		  $this->CI->db->select('posttoexternal,balance,credit_limit');
 		  $acc_result=$this->CI->db->get('accounts');
 		  $customer_info=(array)$acc_result->first_row();
-		  $available_bal = ($customer_info["balance"]) + $customer_info["posttoexternal"] * ($customer_info["credit_limit"]);
+		  $available_bal = ($customer_info["posttoexternal"] == 1) ? ($customer_info["credit_limit"] - $customer_info["balance"]) :($customer_info["balance"]);
 		  if($available_bal >= $post_array['setup']){
 		   return TRUE;
 		  }else{
@@ -1472,6 +1477,10 @@ class CI_Form_validation {
 		   return TRUE;
 		  }
 		}
+		public function phn_number($str)
+	        {
+		        return (!preg_match('/^[0-9 +-]+$/', $str)) ? FALSE : TRUE;
+	        }
 
 }
 // END Form Validation Class

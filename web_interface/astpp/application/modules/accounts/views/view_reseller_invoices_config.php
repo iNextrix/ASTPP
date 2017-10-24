@@ -1,4 +1,4 @@
-<? /*****harsh_304******/ extend('left_panel_master.php') ?>
+<? extend('left_panel_master.php') ?>
 <?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 <script type="text/javascript">
@@ -7,7 +7,6 @@ $(document).ready(function() {
 });
 </script>
 <script type="text/javascript">
-//harsh_304	
 $( "#imagePreview" ).hide();
 
 $(function() {

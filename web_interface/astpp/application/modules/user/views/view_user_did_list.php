@@ -66,7 +66,9 @@
         </div>
     </div>
 </section>
-<input type="button" class="btn btn-line-parrot margin-l-20 margin-b-10" name="purchase_did" value="Purchase DID" id="purchase_did" style="margin-left:1200px; margin-top:10px;">    
+<section style="text-align:right" class="slice">
+<input type="button" class="btn btn-line-parrot margin-l-20 margin-b-10" name="purchase_did" value=<?php echo gettext("Purchase DID")?> id="purchase_did" style="margin-top:10px;"> 
+</section>  
 <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">
     	<div class="container">
@@ -75,13 +77,13 @@
                 <div class="slice color-three pull-left col-md-12 padding-t-20" id="search_generate_bar" style="display:none;cursor: pointer;">
                         <form id="purchase_did_form" name='purchase_did_form' method="post" action="<?= base_url() ?>user/user_dids_action/add/" enctype="multipart/form-data">
                             <div class="col-md-4">
-                                <label class="col-md-4 no-padding">Available DIDs : </label>
+                                <label class="col-md-4 no-padding"><?php echo gettext('Available DIDs:')?> </label>
                                    <div class="col-md-8 no-padding sel_drop">
                                         <? echo $didlist; ?>
                                         <span id="err"></span>
                                    </div>                                
                             </div>
-                            <input class="margin-l-20 btn btn-success" name="action" value="Purchase DID" type="submit">
+                            <input class="margin-l-20 btn btn-success" name="action" value=<?php echo gettext("Purchase DID")?> type="submit">
                         </form>
                 </div>
             </div>

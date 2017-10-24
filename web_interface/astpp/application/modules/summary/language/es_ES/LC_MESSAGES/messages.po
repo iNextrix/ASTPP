@@ -468,3 +468,33 @@ msgstr "<b>Deténer"
 
 msgid "<b>Start"
 msgstr "<b>Iniciar"
+
+
+msgid "Refill Report"
+msgstr "Informe de relleno"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajuste"
+
+msgid "Invoices"
+msgstr "Facturas"
+
+msgid "IP Setting"
+msgstr "Configuración de IP"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+

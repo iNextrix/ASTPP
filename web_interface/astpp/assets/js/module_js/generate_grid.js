@@ -329,14 +329,19 @@ function redirect_page(url)
         window.location.href = newURL;
     }
 }
+///*ASTPP_invoice_changes_05_05_start*/
 function delete_multiple(btn_url,flag){
+
     var result = "";                        
+    var idarr = [];
     $(".chkRefNos").each( function () {
         if(this.checked == true) {     
             result += ",'"+$(this).val()+"'";
+	    idarr.push($(this).val());
         } 
     });     
     result = result.substr(1);
+
     if(result){
         if(flag >0){
 	  confirm_string = 'Are you sure want to delete? This action will delete all other data which belongs to this account(s).';
@@ -352,18 +357,25 @@ function delete_multiple(btn_url,flag){
                 url: btn_url,
                 data: "selected_ids="+result,
                 success: function(data){
-                    if(data == 1)
-                    {
-                        $('.flex_grid').flexOptions({
-                            newp:1
-                        }).flexReload(); 
-                        $('input:checkbox').removeAttr('checked');
-			$("#toast-container_error").css("display","block");
-			$(".toast-message").html("Selected records has been deleted.");
-			$('.toast-top-right').delay(5000).fadeOut();
-                    } else{
-                        alert("Problem to delete records");
-                    }
+					var tmpdata = '';
+					if(data.trim() == 'SUBSCRIPTION'){
+						process_subscription('SUBSCRIPTION',idarr);
+						tmpdata = 1;
+					}else if(data.trim() == 'DIDs'){
+						process_DIDs('DIDs',idarr);
+						tmpdata = 1;
+					}
+					if(data == 1 || tmpdata == 1){
+						$('.flex_grid').flexOptions({
+							newp:1
+						}).flexReload(); 
+						$('input:checkbox').removeAttr('checked');
+						$("#toast-container_error").css("display","block");
+						$(".toast-message").html("Selected records has been deleted.");
+						$('.toast-top-right').delay(5000).fadeOut();
+					} else{
+						alert("Problem to delete records");
+					}
                 }
             });
         }
@@ -371,6 +383,29 @@ function delete_multiple(btn_url,flag){
         alert("Please select atleast one record to delete.");
     }
 }
+function process_subscription(type,idarr){
+
+	for(i=0; i<idarr.length; i++){
+
+	   $.ajax({ 
+                type: "GET",
+                cache    : false,
+                async    : true,  
+                url: base_url+'ProcessCharges/BillAccountCharges/'+type+"/"+idarr[i]
+	   })
+	}
+}
+function process_DIDs(type,idarr){
+	for(i=0; i<idarr.length; i++){
+	   $.ajax({ 
+                type: "GET",
+                cache    : false,
+                async    : true,  
+                url: base_url+'ProcessCharges/BillAccountCharges/'+type+"/"+idarr[i]
+	   })
+	}
+}
+//END
 function delete_multiple_selected(btn_url){
     var result = "";                        
     $(".chkRefNos").each( function () {
@@ -408,11 +443,23 @@ function delete_multiple_selected(btn_url){
                             data: post_data,
                             success: function(data){ 
                                $('input:checkbox').removeAttr('checked');
+			    if(data.trim() == 'SUBSCRIPTION'){
+
+				process_subscription('SUBSCRIPTION',idarr);
+				data = 1;
+			    }
+			    if(data.trim() == 'DIDs'){
+
+				process_DIDs('DIDs',idarr);
+				data = 1;
+			    }
                                 if(data == 1)
                                 {
-				    $('.flex_grid').flexOptions({
+/*				    $('.flex_grid').flexOptions({
 					newp:1
 				    }).flexReload(); 
+*/
+			            $('.flex_grid').flexReload();
 				    $('input:checkbox').removeAttr('checked');
 				    $("#toast-container_error").css("display","block");
 				    $(".toast-message").html("Selected records has been deleted.");
@@ -452,7 +499,7 @@ function button_action(t){
     if(t.name == 'Refresh'){
         $('.flex_grid').flexReload();
     }
-    else if(t.name == "DELETE" || t.name == "Delete"){
+    else if(t.name == "DELETE" || t.name == "Delete"  || t.name == "Effacer" || t.name == "Borrar"){
         if(flag == '1'){
 	  delete_multiple_selected(newURL);    
         }
@@ -476,7 +523,7 @@ function button_action_popup(t, grid){
         if(t.name == 'Refresh'){
             $('.flex_grid').flexReload();
         }
-        else if(t.name=="DELETE"){
+        else if(t.name=="DELETE" || t.name == "Delete" || t.name == "Effacer" || t.name == "Borrar"){
             delete_multiple(t.btn_url);
         }else{ 
             jQuery.facebox({
@@ -489,6 +536,8 @@ function button_action_popup(t, grid){
 function submit_form(form_id){
     $('#error_msg').fadeIn();
     var form = $('#'+form_id);
+    $('input').removeClass('borderred');
+    $('.tooltips').css('display',"none");
     $.ajax({
         type:'POST',
         url: form.attr('action'),
@@ -556,9 +605,9 @@ function post_request_for_batch_delete(grid_id,destination,form_id){
             url: destination,
             data:$('#'+form_id).serialize(), 
             success: function(response) { 
-		/*$('.flex_grid').flexOptions({
+		$('.flex_grid').flexOptions({
                     newp:1
-                }).flexReload(); */
+                }).flexReload();
                 $('#'+grid_id).flexOptions({
                     newp:1
                 }).flexReload();

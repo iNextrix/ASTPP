@@ -47,8 +47,22 @@
 
 <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/validate.js"></script>
 <script type="text/javascript">
+         $(window).on('resize', function () {
+
+                if ($(window).width() <500){
+
+                        $('img').css('width','153');
+                }else{
+                        $('img').css('width','253');    
+                }
+        });
 $('document').ready(function()
 { 
+                        if ($(window).width() <500){
+			      $('img').css('width','153');
+		        }else{
+		              $('img').css('width','253');    
+		        }
 			$('.form-control').focus(function(){ 
 					$('#email_error').value = '';
 				
@@ -68,20 +82,20 @@ $('document').ready(function()
 						Alphaonly: true,
 					},
 					telephone_1: {
-						number: true,
-					},
+                                            phn_number: true,
+                                         },
                 },
                 messages: {
-                    userCaptcha: "<div style='color: red; margin-right: 113px; margin-top: -8px; text-transform: none;'>Captcha is required</div>",
+                    userCaptcha: "<div id= 'capcha_error' style='color: red; margin-right: 113px; margin-top: -8px; text-transform: none;'>Captcha is required</div>",
                     email: {
-						required: '<div style="color: red; margin-right: 132px; margin-top: -8px; text-transform: none;">Email is required</div>',
-						email: '<div style="color: red; margin-right: 32px; margin-top: -8px; text-transform: none;">Please enter a valid email address</div>',
+						required: '<div id= "email_error" style="color: red; margin-right: 132px; margin-top: -8px; text-transform: none;">Email is required</div>',
+						email: '<div id= "email_error" style="color: red; margin-right: 32px; margin-top: -8px; text-transform: none;">Please enter a valid email address</div>',
 					},
 					first_name: {
-						required: "<div style='color: red; margin-right: 100px; margin-top: -8px; text-transform: none;'>First name is required</div>",
+						required: "<div id= 'first_name_error' style='color: red; margin-right: 100px; margin-top: -8px; text-transform: none;'>First name is required</div>",
 					},
 					telephone_1: {
-						number: "<div style='color: red; margin-right: 70px; margin-top: -8px; text-transform: none;'>Phone number is not valid</div>",
+						phn_number: "<div id='telephone_1_error' style='color: red; margin-right: 70px; margin-top: -8px; text-transform: none;'>Phone number is not valid</div>",
 					},
                 },
                 submitHandler: function(form) {
@@ -123,7 +137,7 @@ ASTPP work best with JavaScript enabled
 					<br/>
                     <br/>
                    
-                  
+                   <center><h1 style='color:yellow !important;'>Registration/SignUp</h1></center>
             	<div class="col-md-8 col-md-offset-2">
                     <div class="w-section inverse no-padding margin-t-20">                       
                         <div class="w-box dark sign-in-wr box_shadow">
@@ -203,7 +217,7 @@ ASTPP work best with JavaScript enabled
 
 
 			<li class="col-md-6 no-padding">
-				<label class="col-md-3 no-padding" style="text-align: left;">Company</label>
+				<label class="col-md-3 no-padding" style="text-align: left;">Company&nbsp;Name&nbsp;</label>
 				<div class='col-md-9'>
 				<input type="text" id="company_name" name="company_name" value="<?php if (isset($value['company_name'])) {
 	echo $value['company_name'];
@@ -354,6 +368,10 @@ ASTPP work best with JavaScript enabled
 		$("#currency_id").val(currency);
 		$("#address_1").val("");
 		$("#userCaptcha").val("");
+		$("#email_error").hide("");
+		$("#capcha_error").hide("");
+		$("#first_name_error").hide("");
+		$("#telephone_1_error").hide("");
 	});
 </script>
 

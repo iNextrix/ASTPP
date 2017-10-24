@@ -71,8 +71,8 @@ msgstr "Perfiles Sip"
 msgid "Freeswitch Server"
 msgstr "Servidor Freeswitch "
 
-msgid "IP MAP (ACL)"
-msgstr "MAPA IP (ACL)"
+msgid "IP MAP"
+msgstr "MAPA IP"
 
 msgid "Call Reports"
 msgstr "Reporte de Llamadas"
@@ -556,3 +556,271 @@ msgstr "Ciclo de facturación"
 
 msgid "Billing"
 msgstr "Facturación"
+
+msgid "Alert Threshold"
+msgstr "Umbral de alerta"
+
+msgid "Speed Dial"
+msgstr "De marcación rápida"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "Refill Reports"
+msgstr "Informes de recarga"
+
+msgid "Purchase DIDs"
+msgstr "DID de compra"
+
+msgid "Refill Report"
+msgstr "Informe de recarga"
+
+msgid "Refill Coupon List"
+msgstr "Lista de cupones de recarga"
+
+msgid "IP Settings"
+msgstr "Configuración de IP"
+
+msgid "Number"
+msgstr "Número"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Generated Date"
+msgstr "Fecha Generada"
+
+msgid "Due Date"
+msgstr "Fecha de vencimiento"
+
+msgid "Last Pay Date"
+msgstr "Última fecha de pago"
+
+msgid "Amount"
+msgstr "Cantidad"
+
+msgid "Outstanding Amount"
+msgstr "Monto pendiente"
+
+msgid "Page"
+msgstr "Página"
+
+msgid "of"
+msgstr "de"
+
+msgid "No Records"
+msgstr "No hay registros"
+
+msgid "Begins With"
+msgstr "Empieza con"
+
+msgid "Contains"
+msgstr "Contiene"
+
+msgid "Doesnt Contain"
+msgstr "No contiene"
+
+msgid "Is Equal To"
+msgstr "Es igual a"
+
+msgid "Is Not Equal To"
+msgstr "No es igual a"
+
+msgid "Ends With"
+msgstr "Termina con"
+
+msgid "Greater Than"
+msgstr "Mas grande que"
+
+msgid "Less Than"
+msgstr "Menos que"
+
+msgid "Greater Or Equal Than"
+msgstr "Mayor o igual que"
+
+msgid "Less Or Equal Than"
+msgstr "Menos o igual que"
+
+msgid "Close"
+msgstr "Cerca"
+
+msgid "Bill Cycle"
+msgstr "Ciclo de Bill"
+
+msgid "Daily"
+msgstr "Diariamente"
+
+msgid "Monthly"
+msgstr "Mensual"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+msgid "Available DIDs :"
+msgstr "Disponible DIDs :"
+
+msgid "The Available DIDs field is required."
+msgstr "Se requiere el campo DID disponibles."
+
+msgid " Initial Increment"
+msgstr "Inicial Incremento"
+
+msgid "Modified Date"
+msgstr "Fecha modificada"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Prefix"
+msgstr "Prefijo"
+
+msgid "Map IP"
+msgstr "Mapa IP"
+
+msgid "User Name"
+msgstr "Nombre de usuario"
+
+msgid "Caller Name"
+msgstr "Nombre de la persona que llama"
+
+msgid "Caller Number"
+msgstr "Número de llamada"
+
+msgid "Voicemail"
+msgstr "Mensaje de voz"
+
+msgid "Edit SIP Device"
+msgstr "Editar dispositivo SIP"
+
+msgid "Device Information"
+msgstr "Información del dispositivo"
+
+msgid "Voicemail Options"
+msgstr "Opciones de correo de voz"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Inactive"
+msgstr "Inactivo"
+
+msgid "Enable"
+msgstr "Habilitar"
+
+msgid "True"
+msgstr "Cierto"
+
+msgid "False"
+msgstr "Falso"
+
+msgid "Mail To"
+msgstr "Correo a"
+
+msgid "Attach File"
+msgstr "Adjuntar archivo"
+
+msgid "Local After Email"
+msgstr "Local después del correo electrónico"
+
+msgid "Send all Message"
+msgstr "Enviar todo Mensaje"
+
+msgid "SIP Device Updated Successfully!"
+msgstr "Dispositivo SIP actualizado con éxito!"
+
+msgid "Selected records has been deleted."
+msgstr "Se han eliminado los registros seleccionados."
+
+msgid "SIP Device Removed Sucessfully!"
+msgstr "SIP dispositivo eliminado con éxito!"
+
+msgid "IP Added Sucessfully."
+msgstr "IP añadido con éxito."
+
+msgid "IP Removed Sucessfully."
+msgstr "IP eliminado con éxito."
+
+msgid "Alert Threshold updated successfully!"
+msgstr "¡El umbral de alerta ha sido actualizado correctamente!"
+
+msgid "Extension"
+msgstr "Extensión"
+
+msgid "(#Digits)"
+msgstr "(#Digits)"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "This field is required."
+msgstr "Este campo es requerido."
+
+msgid "Display records in"
+msgstr "Mostrar registros en"
+
+msgid "Export"
+msgstr "Exportar"
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "Refill By"
+msgstr "Rellenar por"
+
+msgid "Note"
+msgstr "Nota"
+
+msgid "Enter Recharge Amount In USD"
+msgstr "Introduzca la cantidad de recarga en USD"
+
+msgid "Tax Rate:"
+msgstr "Impuestos:"
+
+msgid "Your Amount In USD:"
+msgstr "Su cantidad en USD:"
+
+msgid "Net Payable Amount in USD:"
+msgstr "Importe neto pagadero en USD:"
+
+msgid "Coupon Number:"
+msgstr "Número de cupón:"
+
+msgid "Coupon Number"
+msgstr "Número de cupón"
+
+msgid "Used Date"
+msgstr "Fecha de uso"
+
+msgid "The Coupon Number field is required."
+msgstr "Se requiere el campo Número de Cupón."
+
+msgid "My Profile"
+msgstr "Mi perfil"
+
+msgid "Log out"
+msgstr "Cerrar sesión"
+
+msgid "Invoice Information "
+msgstr "Información de la factura"
+
+msgid "Refill Information "
+msgstr "Información de recarga"
+
+msgid "Package Information"
+msgstr "Información del paquete"
+
+msgid "Subscription Information "
+msgstr "Información de suscripción"
+
+
+
+
+
+
+
+
+
+
+
+
+

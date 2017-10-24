@@ -51,6 +51,9 @@ config = load_conf()
 -- Include file to build xml for fs
 dofile(script_path.."scripts/astpp.xml.lua");
 
+-- Include custom file to load custom function
+dofile(script_path.."lib/astpp.custom.lua");
+
 
 if (not params) then
 	params = {}

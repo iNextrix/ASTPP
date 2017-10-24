@@ -481,6 +481,134 @@ msgstr "Vous avez télécharger quatre fichier maximale dans la pièce jointe"
 
 
 
+##### Mayur start
+
+
+msgid "default"
+msgstr "défaut"
+
+msgid "Default"
+msgstr "défaut"
+
+msgid "clientes"
+msgstr "clientèle"
+
+msgid "Prepaid"
+msgstr "prépayé"
+
+msgid "Postpaid"
+msgstr "port payé"
+
+#msgid "voip account refilled"
+#msgstr "Le compte voip est rempli"
+
+#msgid "Email add user"
+#msgstr "Email ajouter un utilisateur"
+
+#msgid "Add sip device"
+#msgstr "Ajouter un sac à dos"
+
+#msgid "Email new Invoice"
+#msgstr "Email nouvelle facture"
+
+#msgid "Email SignUp confirmation"
+#msgstr "Confirmation de l'inscription par courrier électronique"
+
+msgid "Password successfully changed"
+msgstr "Mot de passe changé avec succès"
+
+msgid "Reset your password"
+msgstr "réinitialisez votre mot de passe"
+
+#msgid "Email add subscription"
+#msgstr "Email ajouter un abonnement"
+
+#msgid "Email remove subscription"
+#msgstr "Email supprimer l'abonnement"
+
+#msgid "Email add package"
+#msgstr "Email ajouter un paquet"
+
+#msgid "Email remove package"
+#msgstr "Email supprimer le paquet"
+
+#msgid "Voip child accont refilled"
+#msgstr "Voip child accont rempli"
+ 
+msgid "Close"
+msgstr "Fermer"
+
+
+msgid "Import"
+msgstr "Importer"
+
+msgid "--Select--"
+msgstr "--Sélectionner--"
+
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "No"
+msgstr "Non"
+
+
+msgid "Active"
+msgstr "actif"
+
+msgid "Inactive"
+msgstr "Inactif"
+
+msgid "Follow us on"
+msgstr "Suivez-nous sur"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Account"
+msgstr "Compte"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+
+msgid "Follow us on:"
+msgstr "Suivez-nous sur:"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+
+
+
+##### Mayur end
 
 
 

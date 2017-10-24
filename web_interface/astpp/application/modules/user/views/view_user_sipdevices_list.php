@@ -31,12 +31,12 @@
 						  if($accountinfo['type']==1){ ?>
                           <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
                           <?php } else{ ?>
-			    <li><a href="#">Configuration</a></li>
+			    <li><a href="#"><?php echo gettext('Configuration')?></a></li>
                           <?php }
 					?>
                         
                         <li class='active'>
-                           <a href="<?= base_url() . "user/user_sipdevices/"; ?>">SIP Devices</a>
+                           <a href="<?= base_url() . "user/user_sipdevices/"; ?>"><?php echo gettext('SIP Devices')?></a>
                         </li>
                     </ul>
                 </div>

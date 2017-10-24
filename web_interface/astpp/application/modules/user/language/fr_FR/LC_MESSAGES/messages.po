@@ -271,17 +271,17 @@ msgid "View Details"
 msgstr "Voir Les Détailss"
 msgid "Download Database"
 msgstr "Téléchargement Base De Données"
-msgid "<b>Rescan"
-msgstr "<b> Rescan"
+msgid "Rescan"
+msgstr "Rescan"
 
 msgid "Edit"
 msgstr "Modifier"
-msgid "<b>Reload"
-msgstr "<b> Recharger"
-msgid "<b>Stop"
-msgstr "<b> Arrêter"
-msgid "<b>Start"
-msgstr "<b> Démarrer"
+msgid "Reload"
+msgstr "Recharger"
+msgid "Stop"
+msgstr "Arrêter"
+msgid "Start"
+msgstr "Démarrer"
 msgid "Update"
 msgstr "Mise À Jour"
 msgid "Delete"
@@ -401,3 +401,215 @@ msgstr "Cycle de facturation"
 
 msgid "Billing"
 msgstr "Facturation"
+
+msgid "Due Date"
+msgstr "Date d'échéance"
+
+msgid "Last Pay Date"
+msgstr "Dernière date de paye"
+
+msgid "Outstanding Amount"
+msgstr "Montant en souffrance"
+
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+msgid "Daily"
+msgstr "du quotidien"
+
+msgid "Monthly"
+msgstr "Mensuel"
+
+msgid "Initial Increment"
+msgstr "Incrément initial"
+
+msgid "Modified Date"
+msgstr "Date modifiée"
+
+msgid "Available DIDs:"
+msgstr "DID disponibles:"
+
+msgid "The Available DIDs field is required."
+msgstr "Le champ DID disponible est requis."
+
+msgid "--Select--"
+msgstr "--Sélectionner--"
+
+msgid "Purchase DIDs "
+msgstr "Acheter des DID"
+
+msgid "IP Setting"
+msgstr "Réglage IP"
+
+msgid "IP Settings"
+msgstr "Paramètres IP"
+
+msgid "My Profile"
+msgstr "Mon profil"
+
+msgid "Log out"
+msgstr "Connectez - Out"
+
+msgid "Prefix"
+msgstr "Préfixe"
+
+msgid "Create SIP Device"
+msgstr "Créer un périphérique SIP"
+
+msgid "Device Information"
+msgstr "Informations sur l'appareil"
+
+msgid "Voicemail Options"
+msgstr "Options de messagerie vocale"
+
+msgid "Enable"
+msgstr "Activer"
+
+msgid "Mail To"
+msgstr "Envoyer à"
+
+msgid "Attach File"
+msgstr "Pièce jointe"
+
+msgid "Local After Email"
+msgstr "Local après le courrier électronique"
+
+msgid "Send all Message"
+msgstr "Envoyer tout message"
+
+msgid "Voicemail"
+msgstr "Messagerie vocale"
+
+msgid "SIP Device Updated Successfully!"
+msgstr "Dispositif SIP mis à jour avec succès!"
+
+msgid "SIP Device Removed Sucessfully!"
+msgstr "Dispositif SIP supprimé avec succès!"
+
+msgid "Selected records has been deleted."
+msgstr "Les enregistrements sélectionnés ont été supprimés."
+
+msgid "This field is required."
+msgstr "Ce champ est requis."
+
+msgid "Caller ID:"
+msgstr "Identification de l'appelant:"
+
+msgid "Alert Threshold"
+msgstr "Seuil d'alerte"
+
+msgid "Alert Threshold updated successfully!"
+msgstr "Le seuil d'alerte a été mis à jour avec succès!"
+
+msgid "Speed Dial"
+msgstr "Numérotation abrégée"
+
+msgid "Export"
+msgstr "Exportation"
+
+msgid "Refill Report"
+msgstr "Rapport de recharge"
+
+msgid "Refill By"
+msgstr "Rechargez par"
+
+msgid "Tax Rate: (0%):"
+msgstr "Taux d'imposition:"
+
+msgid "Refill Coupon List "
+msgstr "Liste de coupons de rechange"
+
+msgid "The Coupon Number field is required."
+msgstr "Le champ Numéro de coupon est requis."
+
+msgid "This Coupon Number is not found."
+msgstr "Ce numéro de coupon n'est pas trouvé."
+
+msgid "Used Date"
+msgstr "Date utilisée"
+
+msgid "SIP Devices"
+msgstr "Périphériques SIP"
+
+msgid "CDRs Reports"
+msgstr "CDRs Rapports"
+
+msgid "Refill Reports"
+msgstr "Rapports de recharge"
+
+msgid "Refill Coupon"
+msgstr "Coupon de recharge"
+
+msgid "Map IP"
+msgstr "Carte IP"
+
+msgid "Display records in"
+msgstr "Afficher les enregistrements dans"
+
+msgid "--Select Type--"
+msgstr "--Sélectionner le genre--"
+
+msgid "STANDARD"
+msgstr "LA NORME"
+
+msgid "CALLINGCARD"
+msgstr "CARTE TÉLÉPHONIQUE"
+
+msgid "FREE"
+msgstr "GRATUIT"
+
+msgid "Invoice Information"
+msgstr "Informations sur les factures"
+
+msgid "Refill Information"
+msgstr "Renseignements sur les recharges"
+
+msgid "Subscription Information "
+msgstr "Information d'abonnement"
+
+msgid "Package Information"
+msgstr "Informations sur l'emballage"
+
+msgid "No Records Found"
+msgstr "Aucun enregistrement trouvé"
+
+
+
+
+
+
+
+
+
+
+

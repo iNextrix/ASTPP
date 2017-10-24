@@ -24,8 +24,6 @@ msgid "Subscriptions"
 msgstr "Abonnements"
 msgid "Create"
 msgstr "Créer"
-msgid "Name"
-msgstr "Nom"
 
 msgid "Search"
 msgstr "Recherche"
@@ -33,14 +31,10 @@ msgstr "Recherche"
 msgid "Rate Group"
 msgstr "Tarif de groupe"
 
-msgid "Amount"
-msgstr "Montant"
 
 msgid "Bill Cycle"
 msgstr "Cycle du Projet de loi"
 
-msgid "Status"
-msgstr "Statut"
 
 msgid "Edit Subscription"
 msgstr "Modifier l'abonnement"
@@ -187,9 +181,6 @@ msgstr "Live report Appel"
 
 msgid "Email History"
 msgstr "Email Histoire"
-
-msgid "Configuration"
-msgstr "Configuration"
 
 msgid "Invoice Config"
 msgstr "Facture Config"
@@ -400,7 +391,168 @@ msgid "Information"
 msgstr "Information"
 
 
+##### Mayur start
 
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+
+msgid "Company Profile"
+msgstr "Profil de la société"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Invoice Configuration "
+msgstr "Configuration de la facture"
+
+msgid "Company personalization"
+msgstr "Personnalisation de l'entreprise"
+
+msgid "Invoice Notification"
+msgstr "Notification de facture"
+
+msgid "Invoice Due Notification"
+msgstr "Notification due à la facture"
+
+msgid "Invoice Date Interval"
+msgstr "Intervalle de date de facture"
+
+msgid "Notify before days"
+msgstr "Notifier avant les jours"
+
+
+msgid "Invoice Prefix"
+msgstr "Préfixe de facture"
+
+
+msgid "Invoice Start Form"
+msgstr "Formulaire de début de facture"
+
+
+msgid "Invoice Taxes number"
+msgstr "Facture Numéro d'impot"
+
+
+msgid "Invoice Footer"
+msgstr "Pied de facture"
+
+msgid "Website Domain"
+msgstr "Domaine du site"
+
+
+msgid "Website Header"
+msgstr "En-tête du site Web"
+
+
+msgid "Website Footer"
+msgstr "Pied de page du site"
+
+
+msgid "Company logo"
+msgstr "Logo d'entreprise"
+
+
+msgid "Delete logo"
+msgstr "Supprimer le logo"
+
+
+msgid "Existing Image"
+msgstr "Image existante"
+
+
+msgid "Select File"
+msgstr "Choisir le dossier"
+
+
+msgid "Yes"
+msgstr "Oui"
+
+
+msgid "No"
+msgstr "Non"
+
+
+msgid "IVA Tax updated successfully"
+msgstr "Taxe TVA mise à jour avec succès"
+
+msgid "Name"
+msgstr "prénom"
+
+msgid "Priority"
+msgstr "Priorité"
+
+msgid "Amount"
+msgstr "Montant"
+
+msgid "Rate"
+msgstr "Taux"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Records"
+msgstr "Enregistrements"
+
+msgid "Follow us on:"
+msgstr "Suivez-nous sur:"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Active"
+msgstr "Actif"
+
+msgid "Inactive"
+msgstr "Inactif"
+
+msgid "default"
+msgstr "défaut"
+
+msgid "clientes"
+msgstr "clientèle"
+
+msgid "Daily"
+msgstr "du quotidien"
+
+msgid "Monthly"
+msgstr "Mensuel"
+
+msgid "--Select--"
+msgstr "--Sélectionner--"
+
+##### Mayur end
 
 
 

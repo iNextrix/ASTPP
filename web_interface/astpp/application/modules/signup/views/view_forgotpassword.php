@@ -69,7 +69,7 @@ ASTPP work best with JavaScript enabled
                     <br/>
                     <br/>
             	<div class="col-lg-4 col-md-offset-4" >
-                    <div class="w-section inverse no-padding margin-t-20">                       
+                    <div class="w-section inverse no-padding margin-t-20 forget_center">                       
                         <div class="w-box dark sign-in-wr box_shadow margin-b-10">
 								<div class="">	
 											<!-- Header Start-->
@@ -93,7 +93,7 @@ ASTPP work best with JavaScript enabled
 												
 												<div class="col-md-3 no-padding">
 													<a href="<?php echo base_url(); ?>">
-														<input type="submit" value="Login" name="Login" style="border-radius:4px;" class="btn btn-success col-md-12 margin-t-10">
+														<input type="submit" value="Login" name="Login" style="border-radius:4px;" class="btn btn-success col-md-12 margin-t-10 forget_login">
 													</a>
 												</div>
 												</div>

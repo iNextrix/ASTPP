@@ -47,13 +47,8 @@
                             var ERR_STR = '<?php echo $validation_errors; ?>';
                             print_error(ERR_STR);
                         </script>
-                    <?php
-					}
-					$data_errrors = json_decode($validation_errors);
-					foreach ($data_errrors as $key => $value) {
-						echo $value . "<br/>";
-					}
-					?> 
+                    <? } ?> 
+					
                 </div>
             </div> 
         </div>

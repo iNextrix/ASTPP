@@ -2342,6 +2342,45 @@ font-weight: normal;
 padding: 3px 7px !important;
 /*margin: 10px 10px -26px 0px;*/
 }
+.close {
+    color: #000 !important;
+    float: right !important;
+    font-size: 21px !important;
+    font-weight: bold !important;
+    line-height: 1 !important;
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #fff;
+}
+
+
+@media (min-width: 992px) and (max-width: 1024px) {
+	.col-md-offset-4 {
+		margin-left: 0% !important;
+	}
+}
+
+
+@media (max-width: 992px) and (min-width: 1024px) {
+	.col-md-offset-4 {
+		margin-left: 33.33% !important;
+		margin-right: 33.33% !important;
+	}
+}
+
+
+@media (max-width: 1024px) and (min-width: 992px) {
+	.col-md-offset-4 {
+		margin-right: 33.33% !important;
+		margin-left: 33.33% !important;
+	}
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+	.col-md-offset-4 {
+		margin-left: 24.33%;
+		margin-right: 33.33%;
+	}
+}
 
 
 /*@media only screen and (min-width : 1367px)  {
@@ -2486,6 +2525,31 @@ div:hover.tooltips span {
     box-shadow: 0.3em 0px 0px 0px rgb(217, 92, 92) inset;
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
+}
+/* termination rate  import*/
+.w-box.trunklist {
+    height: 172px;
+    overflow: unset;
+}
+@media (min-width: 768px) and (max-width: 1280px) {
+
+	.speed_dial{margin-top:-8px !important; margin-left:12% !important; }
+}
+@media (min-width: 980px) and (max-width: 1280px) {
+
+	.speed_dial{margin-top:-8px !important; margin-left:10% !important; }
+}
+@media (min-width: 1280px) {
+.speed_dial{margin-top:-10px !important; margin-left:13% !important; }
+}
+@media screen and (min-width: 988px) {
+.forget_center{
+margin-top:70px;}
+}
+
+@media screen and (min-width: 768px) {
+.forget_login {
+    margin-left: 20px;}
 }
 /*===========================================================*/
 

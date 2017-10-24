@@ -370,9 +370,6 @@ msgstr "Identificador de Llamadas"
 msgid "Trunks"
 msgstr "Troncales"
 
-msgid "subscriptions"
-msgstr "suscripciones"
-
 msgid "Resellers"
 msgstr "Revendedores"
 
@@ -438,4 +435,162 @@ msgstr "notas"
 
 msgid "To Date"
 msgstr "hasta la fecha"
+
+msgid "Create Profile"
+msgstr "Crear perfil"
+
+msgid "Refill Report"
+msgstr "Informe de relleno"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajuste"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+msgid "IP Setting"
+msgstr "Configuración de IP"
+
+
+
+
+####### Mayur Start
+
+
+msgid "Begins With"
+msgstr "Empieza con"
+
+msgid "Contains"
+msgstr "Contiene"
+
+msgid "Doesnt Contain"
+msgstr "No contiene"
+
+msgid "Is Equal To"
+msgstr "Es igual a"
+
+msgid "Is Not Equal To"
+msgstr "No es igual a"
+
+msgid "Ends With"
+msgstr "Termina con"
+      
+
+msgid "Invoice Footer"
+msgstr "Pie de página de la factura"
+
+msgid "Select File"
+msgstr "Seleccione Archivo"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "No"
+msgstr ""
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Priority"
+msgstr "Prioridad"
+
+msgid "Rate"
+msgstr "Tarifa"
+
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Inactive"
+msgstr "Inactivo"
+
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+msgid "page"
+msgstr "página"
+
+msgid "Records"
+msgstr "Archivos"
+
+msgid "Generated Date"
+msgstr "Fecha Generada"
+
+msgid "Close"
+msgstr "cerca"
+
+
+msgid "Powered by"
+msgstr "Energizado por"
+
+msgid "Follow us on"
+msgstr "Siga con nosotros"
+
+msgid "Invoice Date Interval"
+msgstr "Intervalo de fecha de factura"
+
+msgid "Notify before days"
+msgstr "Notificar antes de los días"
+
+msgid "Invoice Prefix"
+msgstr "Prefijo de factura"
+
+msgid "Invoice Taxes number"
+msgstr "Número de impuestos de la factura"
+
+msgid "Company personalization"
+msgstr "Personalización de la empresa"
+
+msgid "Website Domain"
+msgstr "Dominio del sitio web"
+
+msgid "Website Header"
+msgstr "Encabezado del sitio web"
+
+msgid "Website Footer"
+msgstr "Pie de página del sitio web"
+
+msgid "Company logo"
+msgstr "Logo de la compañía"
+
+
+
+###### Mayur end
+
+
+##Ishani start
+
+msgid "Invoice Notification"
+msgstr "Notificación de factura"
+
+msgid "Invoice Due Notification"
+msgstr "notificación de la factura"
+
+
+msgid "Invoice Start Form"
+msgstr "formulario de inicio de factura"
+
+##Ishani end
 
