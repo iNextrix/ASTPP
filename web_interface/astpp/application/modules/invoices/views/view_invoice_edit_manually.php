@@ -250,11 +250,12 @@ foreach ($taxes_to_accounts as $tax_val) {
    <center>  	
 <div class="col-md-12 padding-b-20">
  <div  class="margin-t-20 ">
-  <input class="btn btn-line-parrot search_generate_bar" name="save" id="save" value="Submit" type="submit"> 
+  <input class="btn btn-line-parrot search_generate_bar" name="save" id="save" value="Save" type="submit"> 
   <input class="btn btn btn-warning search_generate_bar margin-x-10" name="confirm" id="save" value="Confirm" type="button" onclick='form_confirm()'> 
 <a href = "../invoice_list/">
 <input id="ok" class="btn btn-line-sky" type="button" value="Cancel" name="action">
 </a>
+<h6><font color="#375c7c"><b>NOTE</b> : Once you confirm the invoice, you will no longer able to update it again.</font></h6>
   </div>
  </div>
  </center>

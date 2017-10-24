@@ -398,4 +398,104 @@ msgstr "Mise À Jour"
 msgid "Delete"
 msgstr "Effacer"
 
+####### Mayur start
 
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Follow us on:"
+msgstr "Suivez-nous sur:"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+
+msgid "Close"
+msgstr "Fermer"
+###
+msgid "Refill Report"
+msgstr "Rapport de recharge"
+
+msgid "Refill Coupon"
+msgstr "Coupon de recharge"
+
+msgid "Charges History"
+msgstr "Historique des frais"
+
+
+
+msgid "SIP Profile"
+msgstr "Profil SIP"
+
+msgid "IP setting"
+msgstr "Réglage IP"
+
+msgid "Caller ID"
+msgstr "Identification de l'appelant"
+
+msgid "Detail Report"
+msgstr "Rapport détaillé"
+
+msgid "Customer"
+msgstr "Client"
+
+
+msgid "Summary Report"
+msgstr "Rapport sommaire"
+
+msgid "Company Profile"
+msgstr "Profil de la société"
+
+msgid "Setting"
+msgstr "Réglage"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Name"
+msgstr "prénom"
+
+msgid "Prefix"
+msgstr "Préfixe"
+
+msgid "Created Date"
+msgstr "date de création"
+
+msgid "Modified Date"
+msgstr "Date modifiée"
+
+msgid "NOTE"
+msgstr "REMARQUE"
+
+msgid "Changing status (Active/Inactive) from here will not reload FreeSwitch ACL. That means FreeSwitch will still be able to accept the calls request from disabled IP but as the IP is disabled, their call will be failed with authentication error."
+msgstr "La modification de l'état (Active / Inactive) à partir d'ici ne va pas recharger l'ACL FreeSwitch. Cela signifie que FreeSwitch pourra toujours accepter la demande d'appels à partir d'une IP désactivée, mais comme l'IP est désactivée, son appel sera échoué avec une erreur d'authentification."

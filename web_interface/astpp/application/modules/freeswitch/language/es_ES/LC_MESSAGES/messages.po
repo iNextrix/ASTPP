@@ -4,8 +4,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-10 15:12+0530\n"
 "PO-Revision-Date: 2015-09-23 09:35-0300\n"
-"Last-Translator: Inextrix <astpp@inextrix.com>\n"
-"Language-Team: Inextrix <astpp@inextrix.com>\n"
+"Last-Translator: Inextrix \n"
+"Language-Team: Inextrix \n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -115,6 +115,9 @@ msgid "Edit Gateway"
 msgstr "Editar Adaptador"
 
 msgid "Sip Profile"
+msgstr "Perfil Sip"
+
+msgid "SIP Profile"
 msgstr "Perfil Sip"
 
 msgid "Sip profile"
@@ -307,6 +310,8 @@ msgstr ""
 msgid "Accounts"
 msgstr "Cuentas"
 
+
+
 msgid "DIDs"
 msgstr "DID's"
 
@@ -322,8 +327,6 @@ msgstr "Contabilidad"
 msgid "Tariff"
 msgstr "Tarifa"
 
-msgid "Rate Groups"
-msgstr "Grupos de Tarifas"
 
 msgid "Origination Rates"
 msgstr "Creaciones de Tarifas"
@@ -584,8 +587,8 @@ msgstr "Ver detalles"
 msgid "Download Database"
 msgstr "Descargar Base de Datos"
 
-msgid "<b>Rescan"
-msgstr "<b>Volver a explorar"
+msgid "Rescan"
+msgstr "Volver a explorar"
 
 msgid "Update"
 msgstr "Actualización"
@@ -593,14 +596,14 @@ msgstr "Actualización"
 msgid "Edit"
 msgstr "Editar"
 
-msgid "<b>Reload"
-msgstr "<b> Actualizar"
+msgid "Reload"
+msgstr " Actualizar"
 
-msgid "<b>Stop"
-msgstr "<b>Detener"
+msgid "Stop"
+msgstr "Detener"
 
-msgid "<b>Start"
-msgstr "<b>Iniciar"
+msgid "Start"
+msgstr "Iniciar"
 
 msgid "Freeswich Server"
 msgstr "Servidor Freeswich"
@@ -664,3 +667,337 @@ msgstr "VM Mantenga Local Después De Correo"
 
 msgid "VM Send all Message"
 msgstr "VM Enviar todos los Mensajes"
+
+msgid "Send all Message"
+msgstr "Enviar todos los Mensajes"
+
+msgid "Created Date"
+msgstr "Fecha de creación"
+
+msgid "Modified Date"
+msgstr "Fecha modificada"
+
+msgid "Action"
+msgstr "Acción"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "Powered by"
+msgstr "Energizado por"
+
+msgid "Create SIP Device"
+msgstr "Crear dispositivo SIP"
+
+msgid "Attach File"
+msgstr "Adjuntar archivo"
+
+msgid "Local After Email"
+msgstr "Local después del correo electrónico"
+
+msgid "Mail To"
+msgstr "Correo a"
+
+msgid "Device Information"
+msgstr "Información del dispositivo"
+
+msgid "Voicemail Options"
+msgstr "Opciones de correo de voz"
+
+msgid "Invoices"
+msgstr "facturas"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+msgid "Refill Report"
+msgstr "Informe de recarga"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Recordings"
+msgstr "Grabaciones"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "IP Settings"
+msgstr "Configuración de IP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajust"
+
+msgid "Addons"
+msgstr "Complementos"
+
+msgid "FS Monitor"
+msgstr "Monitor FS"
+
+msgid "Register Gateways"
+msgstr "Registrar gateways"
+
+msgid "Live Call Graph"
+msgstr "Gráfico de llamadas en vivo"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "Dialplan Variable"
+msgstr "Variable de Dialplan"
+
+msgid "Create SIP Profile"
+msgstr "Crear perfil SIP"
+
+msgid "Edit SIP Profile"
+msgstr "Editar perfil SIP"
+
+msgid "Create Freeswich Server"
+msgstr "Crear Freeswich Server"
+
+msgid "Begins With"
+msgstr "Empieza con"
+
+msgid "Contains"
+msgstr "Contiene"
+
+msgid "Doesnt Contain"
+msgstr "No contiene"
+
+msgid "Is Equal To"
+msgstr "Es igual a"
+
+msgid "Is Not Equal To"
+msgstr "No es igual a"
+
+msgid "Ends With"
+msgstr "Termina con"
+
+msgid "Greater Than"
+msgstr "Mas grande que"
+
+msgid "Less Than"
+msgstr "Menos que"
+
+msgid "Greater Or Equal Than"
+msgstr "Mayor o igual que"
+
+msgid "Less Or Equal Than"
+msgstr "Menos o igual que"
+
+msgid "default"
+msgstr "defecto"
+
+
+msgid "Active"
+msgstr "Activo"
+
+
+msgid "Inactive"
+msgstr "Inactivo"
+
+
+msgid "Time Before Voicemail(sg)"
+msgstr "Tiempo antes del correo de voz (sg)"
+
+
+msgid "True"
+msgstr "Cierto"
+
+
+msgid "Close"
+msgstr "Cerca"
+
+msgid "Are you sure want to delete"
+msgstr "¿Seguro que quieres eliminar"
+
+
+msgid "Page"
+msgstr "Página"
+
+
+msgid "Records"
+msgstr "Archivos"
+
+
+msgid "of"
+msgstr "de"
+
+
+msgid "Dailplan Variable"
+msgstr "Variable Dailplan"
+
+
+msgid "False"
+msgstr "hablar"
+
+
+msgid "The Name feild is required"
+msgstr "Se requiere el campo Nombre"
+
+msgid "Please Enter Name"
+msgstr "Ingrese nombre"
+
+msgid "Default SIP Profile Updated Successfully"
+msgstr "Perfil predeterminado de SIP actualizado con éxito"
+
+msgid "Freeswitch server Updated Successfully"
+msgstr "Servidor de Freeswitch actualizado con éxito"
+
+msgid "Add"
+msgstr "Añadir"
+
+msgid "Edit IP Map"
+msgstr "Editar mapa IP"
+
+msgid "IP Map Updated successfully"
+msgstr "Mapa IP actualizado con éxito"
+
+msgid "Add Caller ID"
+msgstr "Agregar identificador de llamadas"
+
+msgid "Caller ID updated successfully"
+msgstr "Identificador de llamadas actualizado correctamente"
+
+msgid "The Caller ID field is required"
+msgstr "El campo ID de llamada es obligatorio"
+
+
+###### Mayur start
+
+
+
+
+msgid "USD"
+msgstr "Dólar estadounidense"
+
+
+
+msgid "Pages"
+msgstr "Páginas"
+
+
+
+msgid "Refill"
+msgstr "Rellenar"
+
+
+
+msgid "No Records"
+msgstr "No hay registros"
+
+
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Follow us on:"
+msgstr "Siga con nosotros:"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+
+msgid "Prepaid"
+msgstr "Pagado por adelantado"
+
+
+msgid "Postpaid"
+msgstr "Postpago"
+
+msgid "Monthly"
+msgstr "Mensual"
+
+msgid "Daily"
+msgstr "Diariamente"
+
+msgid "Yearly"
+msgstr "Anual"
+
+
+msgid "Preserve"
+msgstr "preservar"
+
+msgid "Set To"
+msgstr "Ajustado a"
+
+msgid "Increase By"
+msgstr "Aumentado por"
+
+msgid "Decrease By"
+msgstr "Disminuir por"
+
+
+msgid "Mobile"
+msgstr "Móvil"
+
+msgid "No"
+msgstr "No"
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "Concurrent Calls"
+msgstr "Llamadas concurrentes"
+
+msgid "Interval"
+msgstr "Intervel"
+
+msgid "Account Valid Days"
+msgstr "Días válidos de la cuenta"
+
+msgid "Allow Local Calls"
+msgstr "Permitir llamadas locales"
+
+msgid "LC Charge / Min"
+msgstr "Carga LC / Min"
+
+msgid "Email Alerts"
+msgstr "Alertas de correo electrónico"
+
+msgid "Balance Below"
+msgstr "Equilibrio abajo"
+
+msgid "Acc. Number Length *"
+msgstr "Acc. Número de longitud *"
+
+msgid "Account Count *"
+msgstr "Cuenta Cuenta *"
+
+msgid "Default Settings"
+msgstr "Configuración predeterminada"
+
+msgid "​Refill Process"
+msgstr "Proceso de Relleno"
+
+msgid "​Process"
+msgstr "Proceso"
+
+msgid "Registration URL"
+msgstr "URL de registro"
+
+msgid "Account Status"
+msgstr "estado de la cuenta"
+
+msgid "​Status"
+msgstr "Estado"
+
+msgid "​Create date"
+msgstr "Fecha de Creación"
+
+msgid "​Modified date"
+msgstr "Fecha modificada"
+
+
+
+
+
+
+
+##### Mayur End
+
+
+

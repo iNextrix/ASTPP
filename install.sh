@@ -3,7 +3,7 @@
 # ASTPP - Open Source VoIP Billing Solution
 #
 # Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
-# ASTPP Version 3.0
+# ASTPP Version 3.5
 # License https://www.gnu.org/licenses/agpl-3.0.html
 #
 # This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
+
 #################################
 ##########  variables ###########
 #################################
@@ -27,7 +28,6 @@ TEMP_USER_ANSWER="no"
 INSTALL_ASTPP="no"
 CURRENT_DIR="${PWD}"
 DOWNLOAD_DIR="/usr/src"
-#ASTPP_SOURCE_DIR="/usr/src/trunk"
 ASTPP_SOURCE_DIR=/usr/src/latest
 ASTPP_HOST_DOMAIN_NAME="host.domain.tld"
 
@@ -93,13 +93,18 @@ get_linux_distribution ()
 { 
 	V1=`cat /etc/*release | head -n1 | tail -n1 | cut -c 14- | cut -c1-18`
 	V2=`cat /etc/*release | head -n7 | tail -n1 | cut -c 14- | cut -c1-14`
+	PHPV=`php -v |sed -n 1p|awk '{ print $1 $2 }'|cut -c 1-4`
+	if [ "$PHPV" = "PHP7" ]; then 
+		echo 'Opps!! Currently we are not supporting PHP 7 or greater, Please downgrade your PHP version to 5.6 OR below.'
+		exit 1
+	fi
 	if [ "$V1" = "Debian GNU/Linux 8" ]; then
 		DIST="DEBIAN"
 		else if [ "$V2" = "CentOS Linux 7" ]; then
 			DIST="CENTOS"
 		else
 			DIST="OTHER"
-			echo 'OOoops!!!! Quick Installation does not support your distribution'
+			echo 'Opps!! Quick Installation does not support your distribution'
 			exit 1
 		fi
 	fi
@@ -135,11 +140,11 @@ ASTPPUSER_MYSQL_PASSWORD=$(genpasswd)
 
 # Ask to install astpp
 ask_to_install_astpp () 
-{
-
-		# License acceptance
-		yum -y install wget
-		
+{        
+        if [ ${DIST} = "CENTOS" ]; then
+            yum install -y wget
+        fi
+		# License acceptance		
 		clear		
 		echo "********************"
 		echo "License acceptance"
@@ -147,8 +152,8 @@ ask_to_install_astpp ()
 		if [ -f LICENSE ]; then
 			more LICENSE
 		else
-			wget --no-check-certificate -q -O GNU-AGPLv3.0.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
-			more GNU-AGPLv3.0.txt	
+			wget --no-check-certificate -q -O GNU-AGPLv3.5.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
+			more GNU-AGPLv3.5.txt	
 		fi
 		echo "***"
 		echo "*** I agree to be bound by the terms of the license - [YES/NO]"
@@ -164,7 +169,7 @@ ask_to_install_astpp ()
 		else
 			echo "Licence accepted!"
 			echo "============checking your working directory=================="			
-			git clone https://github.com/iNextrix/ASTPP
+			git clone https://github.com/iNextrix/ASTPP.git
 			cp -rf ASTPP latest			
 			if [ ${CURRENT_DIR} == ${DOWNLOAD_DIR} ]; then
 				echo "dir is '$CURRENT_DIR' and it's matched!!!"			
@@ -174,7 +179,7 @@ ask_to_install_astpp ()
 				clear
 				echo "====================Starting installation again======================"
 				sleep 10
-				#cd ${ASTPP_SOURCE_DIR} && chmod +x install.sh && ./install.sh			
+				cd ${ASTPP_SOURCE_DIR} && chmod +x install.sh && ./install.sh			
 				clear
 			fi
 		fi
@@ -221,7 +226,7 @@ install_freeswitch_for_astpp ()
 			echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
 			apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y --force-yes freeswitch-video-deps-most
 			# Install Freeswitch pre-requisite packages using apt-get
-			apt-get install -y autoconf automake devscripts gawk chkconfig ntpdate ntp g++ git-core curl libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libgdbm-dev libyuv-dev libdb-dev libvpx2-dev gettext sudo lua5.1 php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
+			apt-get install -y autoconf automake devscripts gawk chkconfig dnsutils sendmail-bin sensible-mda ntpdate ntp g++ git-core curl libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libgdbm-dev libyuv-dev libdb-dev libvpx2-dev gettext sudo lua5.1 php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
 			
 			#-------------------MySQL setup in for freeswitch Start ------------------------
 			clear
@@ -237,15 +242,20 @@ install_freeswitch_for_astpp ()
 			#-------------------MySQL setup in for freeswitch End ------------------------
 			
 	    elif  [ ${DIST} = "CENTOS" ]; then
-			#yum install -y git
 			# Install Freeswitch pre-requisite packages using yum
 			yum groupinstall "Development tools" -y
 			install_epel
 			rpm -Uvh http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm
 			yum install epel-release
 			yum install -y wget git autoconf automake expat-devel yasm nasm gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel bc e2fsprogs-devel libcurl-devel libxml2-devel libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbound-devel libuuid-devel lua-devel libsndfile-devel
-		fi  
-		curl --data "email=$EMAIL" --data "type=script" http://demo.astppbilling.org/lib/
+		fi
+		NAT1=$(dig +short myip.opendns.com @resolver1.opendns.com)
+		NAT2=$(curl http://ip-api.com/json/)
+		INTF=$(ifconfig $1|sed -n 2p|awk '{ print $2 }'|awk -F : '{ print $2 }')
+		if [ "${NAT1}" != "${INTF}" ]; then
+			echo "Server is behind NAT";
+		fi
+		curl --data "email=$EMAIL" --data "data=$NAT2" --data "type=Install" http://astppbilling.org/lib/
 		echo "Lets first make sure that time is correct before we continue ... "
     
 		# set right time
@@ -267,13 +277,13 @@ install_freeswitch_for_astpp ()
 		# Download latest freeswitch version
 		cd /usr/local/src		
 		git config --global pull.rebase true
-		git clone -b v1.6.8 https://freeswitch.org/stash/scm/fs/freeswitch.git
+		git clone -b v1.6.19 https://freeswitch.org/stash/scm/fs/freeswitch.git
 		cd freeswitch
 		./bootstrap.sh -j
 		# Edit modules.conf
-		#echo "Enabling mod_xml_curl, mod_json_cdr, mod_db"
+		
 		sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
-		sed -i "s#\#mod_db#mod_db#g" /usr/local/src/freeswitch/modules.conf
+		sed -i "s#\#applications/mod_curl#applications/mod_curl#g" /usr/local/src/freeswitch/modules.conf
 		sed -i "s#\#event_handlers/mod_json_cdr#event_handlers/mod_json_cdr#g" /usr/local/src/freeswitch/modules.conf
 		sed -i "s#\#applications/mod_voicemail#applications/mod_voicemail#g" /usr/local/src/freeswitch/modules.conf
 		
@@ -296,7 +306,7 @@ astpp_freeswitch_startup_script ()
 		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
 			echo "ASTPP source doesn't exists, downloading it..."
 			cd /usr/src/			
-			git clone https://github.com/iNextrix/ASTPP
+			git clone https://github.com/iNextrix/ASTPP.git
 			cp -rf ASTPP latest			
 		fi 		
 		if [ ${DIST} = "DEBIAN" ]; then
@@ -351,9 +361,7 @@ mySQL_for_astpp ()
 		fi
 		# Configure MySQL server
 		sleep 5
-		#MYSQL_ROOT_PASSWORD=$(genpasswd)
-		#ASTPPUSER_MYSQL_PASSWORD=$(genpasswd)
-		mysql -uroot -e "UPDATE mysql.user SET password=PASSWORD('${MYSQL_ROOT_PASSWORD}') WHERE user='root'; FLUSH PRIVILEGES;"
+		
 		# Save MySQL root password to a text file in /root
 		echo ""
 		echo "MySQL password set to '${MYSQL_ROOT_PASSWORD}'. Remember to delete ~/.mysql_passwd" | tee ~/.mysql_passwd
@@ -361,13 +369,17 @@ mySQL_for_astpp ()
 		echo "MySQL astppuser password:  ${ASTPPUSER_MYSQL_PASSWORD} " >>  ~/.mysql_passwd
 		chmod 400 ~/.mysql_passwd
 		read -n 1 -p "*** Press any key to continue ..."
-		
+
+        if  [ ${DIST} = "CENTOS" ]; then
+            mysql -uroot -e "UPDATE mysql.user SET password=PASSWORD('${MYSQL_ROOT_PASSWORD}') WHERE user='root'; FLUSH PRIVILEGES;"		
+        fi 
+
 		# Create astpp database
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "create database ${ASTPP_DATABASE_NAME};"
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER 'astppuser'@'localhost' IDENTIFIED BY '${ASTPPUSER_MYSQL_PASSWORD}';"
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"		
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-3.0.sql
-		#mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp_rates.sql
+		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-3.5.sql
 		if [ ${DIST} = "DEBIAN" ]; then
 			apt-get install libmyodbc unixodbc-bin
 			cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbc.ini /etc/odbc.ini
@@ -387,7 +399,7 @@ install_astpp ()
 		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
 			echo "ASTPP source doesn't exists, downloading it..."
 			cd /usr/src/
-			git clone https://github.com/iNextrix/ASTPP
+			git clone https://github.com/iNextrix/ASTPP.git
 			cp -rf ASTPP latest			
     	fi
     	if [ ${DIST} = "DEBIAN" ]; then
@@ -423,7 +435,7 @@ install_astpp ()
 			mkdir -p ${ASTPPEXECDIR}
 			if [ ${DIST} = "DEBIAN" ]; then
 				chown -Rf root.root ${ASTPPDIR}
-				chown -Rf root.root ${ASTPPLOGDIR}
+				chown -Rf www-data.www-data ${ASTPPLOGDIR}
 				chown -Rf root.root ${ASTPPEXECDIR}				
 			elif [ ${DIST} = "CENTOS" ]; then
 				chown -Rf root.root ${ASTPPDIR}
@@ -436,7 +448,13 @@ install_astpp ()
 			/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/fs /var/www/html/
 						
 			/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/sounds/*.wav ${FS_SOUNDSDIR}/
-			chmod -Rf 777 ${FS_SOUNDSDIR}
+			chmod -Rf 755 ${FS_SOUNDSDIR}
+			rm -rf  /usr/local/freeswitch/conf/dialplan/*
+			touch /usr/local/freeswitch/conf/dialplan/astpp.xml
+			rm -rf  /usr/local/freeswitch/conf/directory/*
+			touch /usr/local/freeswitch/conf/directory/astpp.xml
+			rm -rf  /usr/local/freeswitch/conf/sip_profiles/*
+			touch /usr/local/freeswitch/conf/sip_profiles/astpp.xml
 		fi
 		if [ ${INSTALL_ASTPP_WEB_INTERFACE} = "yes" ]; then
 			echo "Installing ASTPP web interface"
@@ -451,7 +469,10 @@ install_astpp ()
 			if [ ${DIST} = "DEBIAN" ]; then
 				chown -Rf root.root ${WWWDIR}/astpp
 				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_astpp.conf /etc/nginx/sites-enabled/astpp.conf
-				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_fs.conf /etc/nginx/sites-enabled/fs.conf				
+				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_fs.conf /etc/nginx/sites-enabled/fs.conf		
+				sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php5/fpm/pool.d/www.conf
+				sed -i "s/client_max_body_size 8M/client_max_body_size 20M/" /etc/nginx/sites-enabled/astpp.conf
+				sed -i '35i fastcgi_read_timeout 300;' /etc/nginx/sites-enabled/astpp.conf
 				systemctl restart nginx
 			elif  [ ${DIST} = "CENTOS" ]; then
 				chown -Rf root.root ${WWWDIR}/astpp
@@ -459,11 +480,24 @@ install_astpp ()
 				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_fs.conf /etc/nginx/conf.d/fs.conf
 				sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/sysconfig/selinux
 				sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
+				sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php-fpm.d/www.conf
+				sed -i "s/client_max_body_size 8M/client_max_body_size 20M/" /etc/nginx/conf.d/astpp.conf
+				sed -i '35i fastcgi_read_timeout 300;' /etc/nginx/conf.d/astpp.conf
 				/etc/init.d/iptables stop
 				chkconfig iptables off
 				setenforce 0
 			fi
-			chmod -Rf 777 ${WWWDIR}/astpp
+			chmod -Rf 755 ${WWWDIR}/astpp
+			chmod -Rf 755 ${WWWDIR}/fs
+			if [ ${DIST} = "DEBIAN" ]; then
+				chown -Rf www-data.www-data ${WWWDIR}/astpp
+                chown -Rf www-data.www-data ${ASTPPLOGDIR}
+				chown -Rf root.root ${WWWDIR}/fs
+			elif [ ${DIST} = "CENTOS" ]; then
+				chown -Rf apache.apache ${WWWDIR}/astpp
+                chown -Rf apache.apache ${ASTPPLOGDIR}
+				chown -Rf root.root ${WWWDIR}/fs
+			fi
 		fi	
 		touch /var/log/astpp/astpp.log
 }
@@ -476,11 +510,19 @@ finalize_astpp_installation ()
 		if [ ${DIST} = "DEBIAN" ]; then
 			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php5/fpm/php.ini
 			sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php5/fpm/php.ini
+			sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php5/fpm/php.ini
+			sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php5/fpm/php.ini
+			sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php5/fpm/php.ini
+			sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php5/fpm/php.ini
 			systemctl restart php5-fpm
 			systemctl restart nginx
 		elif [ ${DIST} = "CENTOS" ]; then
 			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
 			sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php.ini
+			sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php.ini
+			sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php.ini
+			sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php.ini
+			sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php.ini
 			
 			#######   Some more steps for CentOS 7  #########
 			yum update					
@@ -498,8 +540,7 @@ finalize_astpp_installation ()
 			chkconfig --levels 123456 firewalld off
 		fi		
 		/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/conf/autoload_configs/* /usr/local/freeswitch/conf/autoload_configs/
-		#sed -i "s/localhost\/fs/localhost:8735/g" /usr/local/freeswitch/conf/autoload_configs/xml_curl.conf.xml
-		#sed -i "s/localhost\/fs/localhost:8735/g" /usr/local/freeswitch/conf/autoload_configs/json_cdr.conf.xml		
+			
 		# edit ASTPP Database Connection Information
 		# /var/lib/astpp/astpp-config.conf
 		sed -i "s#dbpass = <PASSSWORD>#dbpass = ${MYSQL_ROOT_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
@@ -574,64 +615,54 @@ install_fail2ban()
 				echo "***"
 				exit 1
 			fi
-			echo "# Fail2Ban configuration file
-			[Definition]
-			# Option: failregex
-			# Notes.: regex to match the password failures messages in the logfile. The
-			# host must be matched by a group named "host". The tag '<HOST>' can
-			# be used for standard IP/hostname matching and is only an alias for
-			# (?:::f{4,6}:)?(?P<host>[\w\-.^_]+)
-			# Values: TEXT
-			#
-			failregex = \[WARNING\] sofia_reg.c:\d+ SIP auth challenge \(REGISTER\) on sofia profile \'[^']+\' for \[.*\] from ip <HOST>
-			\[WARNING\] sofia_reg.c:\d+ SIP auth failure \(INVITE\) on sofia profile \'[^']+\' for \[.*\] from ip <HOST>
-			# Option: ignoreregex
-			# Notes.: regex to ignore. If this regex matches, the line is ignored.
-			# Values: TEXT
-			#
-			ignoreregex =" > /etc/fail2ban/filter.d/freeswitch.conf
-					echo "# Fail2Ban configuration file
-			[Definition]
-			# Option:  failregex
-			# Notes.:  regex to match the password failures messages in the logfile. The
-			#          host must be matched by a group named "host". The tag '<HOST>' can
-			#          be used for standard IP/hostname matching and is only an alias for
-			#          (?:::f{4,6}:)?(?P<host>[\w\-.^_]+)
-			# Values:  TEXT
-			#
-			failregex = \[WARNING\] sofia_reg.c:\d+ SIP auth challenge \(REGISTER\) on sofia profile \'[^']+\' for \[.*\] from ip <HOST>
-			# Option:  ignoreregex
-			# Notes.:  regex to ignore. If this regex matches, the line is ignored.
-			# Values:  TEXT
-			#
-			ignoreregex =" > /etc/fail2ban/filter.d/freeswitch-dos.conf
+			echo "
+# Fail2Ban configuration file
+[Definition]
+# Option: failregex
+# Notes.: regex to match the password failures messages in the logfile. The
+# host must be matched by a group named "host". The tag '<HOST>' can
+# be used for standard IP/hostname matching and is only an alias for
+# (?:::f{4,6}:)?(?P<host>[\w\-.^_]+)
+# Values: TEXT
+#
+failregex = \[WARNING\] sofia_reg.c:\d+ SIP auth failure \(INVITE\) on sofia profile \'[^']+\' for \[.*\] from ip <HOST>
+# Option: ignoreregex
+# Notes.: regex to ignore. If this regex matches, the line is ignored.
+# Values: TEXT
+#
+ignoreregex =" > /etc/fail2ban/filter.d/freeswitch.conf
+		echo "
+# Fail2Ban configuration file
+[Definition]
+# Option:  failregex
+# Notes.:  regex to match the password failures messages in the logfile. The
+#          host must be matched by a group named "host". The tag '<HOST>' can
+#          be used for standard IP/hostname matching and is only an alias for
+#          (?:::f{4,6}:)?(?P<host>[\w\-.^_]+)
+# Values:  TEXT
+#
+failregex = \[WARNING\] sofia_reg.c:\d+ SIP auth challenge \(REGISTER\) on sofia profile \'[^']+\' for \[.*\] from ip <HOST>
+# Option:  ignoreregex
+# Notes.:  regex to ignore. If this regex matches, the line is ignored.
+# Values:  TEXT
+#
+ignoreregex =" > /etc/fail2ban/filter.d/freeswitch-dos.conf
 			################################# FREESWITCH.CONF FILE READY ##################
 			echo "-- Modifying /etc/fail2ban/jail.conf file"
 			################################# JAIL.CONF FILE WRITING ####################
 			cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.bak
 			echo "
-			[freeswitch]
-			enabled = true
-			port = 5060,5061,5080,5081
-			filter = freeswitch
-			logpath = /usr/local/freeswitch/log/freeswitch.log
-			maxretry = 10
-			bantime = 10000000
-			findtime = 480
-			action = iptables-allports[name=freeswitch, protocol=all]
-			sendmail-whois[name=FreeSwitch, dest=$EMAIL, sender=fail2ban@${ASTPP_HOST_DOMAIN_NAME}]
-			" >> /etc/fail2ban/jail.local
-					echo "
-			[freeswitch-dos]
-			enabled = true
-			port = 5060,5061,5080,5081
-			filter = freeswitch-dos
-			logpath = /usr/local/freeswitch/log/freeswitch.log
-			action = iptables-allports[name=freeswitch-dos, protocol=all]
-			maxretry = 50
-			findtime = 30
-			bantime = 6000
-			" >> /etc/fail2ban/jail.local
+[freeswitch]
+enabled = true
+port = 5060,5061,5080,5081
+filter = freeswitch
+logpath = /usr/local/freeswitch/log/freeswitch.log
+maxretry = 10
+bantime = 10000000
+findtime = 480
+action = iptables-allports[name=freeswitch, protocol=all]
+sendmail-whois[name=FreeSwitch, dest=$EMAIL, sender=fail2ban@${ASTPP_HOST_DOMAIN_NAME}]
+			" >> /etc/fail2ban/jail.local					
 			################################# JAIL.CONF FILE READY ######################
 			echo "################################################################"
 			echo "Auto Configuration Completed"
@@ -640,6 +671,7 @@ install_fail2ban()
 				/etc/init.d/iptables start
 			fi
 			echo "Starting Fail2Ban Integration"
+			mkdir /var/run/fail2ban
 			/etc/init.d/fail2ban start
 			if [ -f /etc/redhat-release ] ; then
 				echo "Restarting IPtables"
@@ -671,18 +703,21 @@ astpp_install ()
 		finalize_astpp_installation		
 		setup_cron
 		startup_services	
+		install_fail2ban		
 		clear
-		echo "---------------------"
-		echo "| Login information |"
-		echo "---------------------"
-		echo "http://${ASTPP_HOST_DOMAIN_NAME}:8089 "
-		echo "Username= admin "
-		echo "Password= admin "
-		echo ""
-		sleep 5
-		echo ""	
-		install_fail2ban
-		init 6
+		echo "******************************************************************************************"
+		echo "******************************************************************************************"
+		echo "******************************************************************************************"
+		echo "**********                                                                      **********"
+		echo "**********           Your ASTPP is installed successfully                       **********"
+		echo "                     Browse URL: http://${ASTPP_HOST_DOMAIN_NAME}:8089"
+		echo "                     Username: admin"     
+		echo "                     Password: admin"                                       
+		echo "**********           IMPORTANT NOTE: Please reboot your server once.            **********"
+		echo "**********                                                                      **********"
+		echo "******************************************************************************************"
+		echo "******************************************************************************************"
+		echo "******************************************************************************************"
 }
 
 # Install astpp

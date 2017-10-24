@@ -32,7 +32,7 @@ $lang['alpha_space'] = "The %s field may only contain only characters and space.
 $lang['currency_decimal'] = 'The %s Field may contain only numeric and decimals EX(99999.99999)';
 $lang['password_check'] = "The %s field is not match with your old password.";
 $lang['did_account_checking'] = "This %s have not sufficient amount to purchase this DID";
-
+$lang['phn_number']	= "The %s field is Invalid.";
 
 /* End of file form_validation_lang.php */
 /* Location: ./system/language/english/form_validation_lang.php */

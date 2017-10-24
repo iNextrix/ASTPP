@@ -29,9 +29,6 @@ msgstr "Destination"
 msgid "Connect Cost"
 msgstr "Connectez Coût"
 
-msgid "Connect cost"
-msgstr "Connectez coût"
-
 msgid "Included Seconds"
 msgstr "Inclus secondes"
 
@@ -472,13 +469,18 @@ msgid "The Per Minute Cost Field Must Contain Only Numbers."
 msgstr "Le champ Coût minute par doit contenir que des chiffres."
 
 
+msgid "Create Termination Rate"
+msgstr "Créer un taux de résiliation"
 
-
+msgid "Import Termination Rates Using Field Mapper"
+msgstr "Taux de résiliation des importations utilisant Field Mapper"
 
 
 msgid "Are you sure want to release DID?"
 msgstr "Êtes-vous sûr de vouloir libérer DID?"
 
+msgid "Import with field map"
+msgstr "Importation avec carte de terrain"
 
 msgid "Are you sure to delete?"
 msgstr "Êtes-vous sûr de vouloir supprimer?"
@@ -554,5 +556,93 @@ msgid "Records Not Imported"
 msgstr "Enregistrements pas importés"
 
 
+####### Mayur start
 
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+
+
+msgid "Close"
+msgstr "Fermer"
+###
+msgid "Refill Report"
+msgstr "Rapport de recharge"
+
+msgid "Refill Coupon"
+msgstr "Coupon de recharge"
+
+msgid "Charges History"
+msgstr "Historique des frais"
+
+
+msgid "SIP Profile"
+msgstr "Profil SIP"
+
+msgid "IP setting"
+msgstr "Réglage IP"
+
+msgid "Caller ID"
+msgstr "Identification de l'appelant"
+
+msgid "Detail Report"
+msgstr "Rapport détaillé"
+
+msgid "Customer"
+msgstr "Client"
+
+
+
+
+msgid "Summary Report"
+msgstr "Rapport sommaire"
+
+msgid "Company Profile"
+msgstr "Profil de la société"
+
+msgid "Setting"
+msgstr "Réglage"
+
+
+msgid "Modified Date"
+msgstr "Date modifiée"
+
+
+msgid "Follow us on:"
+msgstr "Suivez-nous sur:"
+
+###### mayur  end
 

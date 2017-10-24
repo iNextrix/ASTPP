@@ -53,9 +53,6 @@ msgstr "Grupos de Tarifas"
 msgid "Origination Rates"
 msgstr "Creaciones de Tarifas"
 
-msgid "Packages"
-msgstr "Paquetes"
-
 msgid "Usage Report"
 msgstr "Reporte de Uso"
 
@@ -320,3 +317,15 @@ msgstr "Revendedores"
 
 msgid "Detail Reports"
 msgstr "Detalle de Reportes"
+
+msgid "Refill Report"
+msgstr "Informe de relleno"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "Packages"
+msgstr "Paquetes"

@@ -87,7 +87,7 @@
             <center>
            <div style="width:100%;float:left;height:50px;margin-top:20px;">
 	            <input type="button" class="btn btn-line-parrot" id='submit' style="margin-left:5px;" name="action" value="<?= isset($did) ? "Save" : "Insert"; ?>" /> 
-             <input type="button" onclick="location.href = '<?= base_url() ?>did/did_list/';" class="btn btn-line-sky margin-x-10" name="action" value="Close" /> 
+             <button class="btn btn-line-sky margin-x-10" name="action" type="button" value="cancel" onclick="return redirect_page('NULL')"><?php echo gettext('Close'); ?></button>
             </div></center>
         </form>
        </div>      

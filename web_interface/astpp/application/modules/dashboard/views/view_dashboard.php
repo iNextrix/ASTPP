@@ -100,6 +100,19 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
     function build_recharge_graph(){
         var year=$("#year_dropdown").val();
         var month=$("#month_dropdown").val();
+        var monthNames = ["January",
+                         "February",
+                         "March",
+                         "April",
+                         "May",
+                         "June",
+                         "July",
+                         "August",
+                         "September",
+                         "October",
+                         "November",
+                         "December"
+            ];
         $.ajax({
             type:'POST',
             dataType: 'JSON',
@@ -137,7 +150,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                     yAxis: [{
                             min: 0,
                             title: {
-                                text: 'Total Calls'
+                                text: 'Total Calls ('+monthNames[month-1] +' - '+ year +')'
                             }
                         }, {
                             min: 0,

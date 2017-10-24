@@ -67,7 +67,13 @@ Remove hr
 <?php
 $class = "active";
 ?>
-<div class="sidebar">
+ <button type="button" class="navbar-toggle nav_sidetoggle collapsed white_bar" data-toggle="collapse" data-target=".sidebar">    
+      	      <span class="sr-only">Toggle navigation</span>       
+	      <span class="icon-bar"></span> 
+	      <span class="icon-bar"></span> 
+	      <span class="icon-bar"></span>
+	</button> 
+<div class="sidebar collapse">
 	<ul class='sidemenu'>
 	<li class="<?php if ($group_title == 'global') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/global'>Global</a></li>
 	<li class="<?php if ($group_title == 'email') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/email'>Email</a></li>

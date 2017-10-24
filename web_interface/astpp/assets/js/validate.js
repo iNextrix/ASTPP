@@ -1012,7 +1012,7 @@ $.extend($.validator, {
 
 
 		Alphaonly:function(value, element){
-			return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+			return this.optional(element) || /^[a-zA-Z0-9_]+$/.test(value);
 		},
 
 		// http://docs.jquery.com/Plugins/Validation/Methods/url
@@ -1034,6 +1034,9 @@ $.extend($.validator, {
 		// http://docs.jquery.com/Plugins/Validation/Methods/number
 		number: function(value, element) {
 			return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/.test(value);
+		},
+		phn_number: function(value, element) {
+			return this.optional(element) || /^[0-9 +-]+$/.test(value);
 		},
 
 		// http://docs.jquery.com/Plugins/Validation/Methods/digits

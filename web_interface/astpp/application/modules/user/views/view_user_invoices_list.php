@@ -56,12 +56,12 @@
 						  if($accountinfo['type']==1){ ?>
                           <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
                           <?php } else{ ?>
-			    <li><a href="#">Billing</a></li>
+			    <li><a href="#"><?php echo gettext('Billing')?></a></li>
                           <?php }
 					?>
                         
                         <li class='active'>
-                            <a href="<?= base_url() . "user/user_invoices_list/"; ?>">Invoices </a>
+                            <a href="<?= base_url() . "user/user_invoices_list/"; ?>"> <?php echo gettext('Invoices')?> </a>
                         </li>
                     </ul>
                 </div>
@@ -77,7 +77,7 @@
             <div class="padding-15 col-md-12">
                 <div class="col-md-12 no-padding">
                     <div  class="pull-right margin-b-10 col-md-4 no-padding">
-                        <div  id="left_panel_search" class= "pull-right btn btn-warning btn margin-t-10"><i class="fa fa-search"></i> Search</div>
+                        <div  id="left_panel_search" class= "pull-right btn btn-warning btn margin-t-10"><i class="fa fa-search"></i>Search</div>
                     </div>
                  
                 <div class="margin-b-10 slice color-three pull-left content_border col-md-12" id="left_panel_search_form" style="cursor: pointer; display: none;">

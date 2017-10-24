@@ -5,6 +5,9 @@ $(document).ready(function() {
    document.getElementsByName("sweep_id")[0].selectedIndex = <?=1?>;
 
 		$("#sweep_id").change(function(e){
+			$('.selectpicker').selectpicker('refresh');
+			$(".selectpicker").val("2");
+			//end
 			var id_mass = document.getElementById("sweep_id").value;
             if(id_mass != 0){
                 $.ajax({

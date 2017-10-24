@@ -404,30 +404,55 @@ function dialout( original_destination_number, destination_number, maxlength, us
                 session:execute("set", "process_cdr=true" );
 				session:execute("sched_hangup","+"..(maxlength * 60 ).. "" );
 	    		   		    		    		
-		    	calleridinfo = get_override_callerid(userinfo)
-		    	if (calleridinfo ~= nil) then
-				    if (calleridinfo['cid_name'] ~= '')  then
-					    session:execute("set", "origination_caller_id_name="..calleridinfo['cid_name']);    
+		    			    	calleridinfo = get_override_callerid(userinfo)
+                callerid_array = {}			   
+		    	if (calleridinfo['cid_number'] ~= nil) then
+				    if (calleridinfo['cid_number'] ~= nil)  then	
+                        Logger.info("[DIALPLAN] Caller ID Translation Starts WHY"..calleridinfo['cid_name'])				   
+					    session:execute("export", "original_caller_id_name="..calleridinfo['cid_name']);
+                        callerid_array['cid_name'] = calleridinfo['cid_name']
+				    else
+                        session:execute("export", "original_caller_id_name="..calleridinfo['cid_number']);
+                        callerid_array['cid_name'] = calleridinfo['cid_number']
+                    end
+
+				    if (calleridinfo['cid_number'] ~= '')  then				    	
+                        session:execute("export", "original_caller_id_number="..calleridinfo['cid_number']);
+                        callerid_array['cid_number'] = calleridinfo['cid_number']
 				    end
-				    if (calleridinfo['cid_number'] ~= '')  then
-				    	session:execute("set", "origination_caller_id_number="..calleridinfo['cid_number']);      
-				    end
+                else
+                    session:execute("export", "original_caller_id_name="..session:getVariable("caller_id_name"));        
+                    session:execute("export", "original_caller_id_number="..session:getVariable("caller_id_number"));
+
+                    callerid_array['cid_name'] = session:getVariable("caller_id_name")
+                    callerid_array['cid_number'] = session:getVariable("caller_id_number")
 		    	end
+		        
+                -- If call is pstn and caller id translation defined then do caller id translation 
+	            if (userinfo['std_cid_translation'] ~= '') then
+                    Logger.info("[DIALPLAN] Caller ID Translation Starts")
+		            callerid_array['cid_name'] = do_number_translation(userinfo['std_cid_translation'],callerid_array['cid_name'])
+		            callerid_array['cid_number'] = do_number_translation(userinfo['std_cid_translation'],callerid_array['cid_number'])
+                    Logger.info("[DIALPLAN] Caller ID Translation Ends")
+	            end
 		          
 				for termination_rate_arr_key,termination_rate_arr_value in pairs(termination_rates_array) do
 	
+                    -------------- CID translation for OUTBOUND calls ---------
+                    Logger.warning("[FSCC] Caller ID Translation Starts")
+                    callerid_array['cid_name'] = do_number_translation(termination_rate_arr_value['cid_translation'],callerid_array['cid_name'])
+	                callerid_array['cid_number'] = do_number_translation(termination_rate_arr_value['cid_translation'],callerid_array['cid_number'])    
+	                session:execute("export", "origination_caller_id_name="..callerid_array['cid_name']);
+                    session:execute("export", "origination_caller_id_number="..callerid_array['cid_number']);
+
+                    Logger.warning("[FSCC] Caller ID Translation Ends")
+                    ---------------------------------------------------------------------- 
+
 					if (termination_rate_arr_value['dialed_modify'] ~= '') then 
 						destination_number = do_number_translation(termination_rate_arr_value['dialed_modify'],destination_number)
 					end
 				    
 					if(termination_rate_arr_value['prepend'] ~= '' or termination_rate_arr_value['strip'] ~= '') then
-						if (termination_rate_arr_value['prepend'] == '') then 
-                            				termination_rate_arr_value['prepend'] = '*'                        
-                        			end
-
-					        if (termination_rate_arr_value['strip'] == '') then 
-			                            termination_rate_arr_value['strip'] = '*'
-                        			end
 						destination_number = do_number_translation(termination_rate_arr_value['strip'].."/"..termination_rate_arr_value['prepend'],destination_number)
 					end
 	
@@ -443,17 +468,17 @@ function dialout( original_destination_number, destination_number, maxlength, us
 					end
     
 					if(tonumber(termination_rate_arr_value['maxchannels']) > 0) then    
-							session:execute("limit_execute","db "..termination_rate_arr_value['path'].." gw_"..termination_rate_arr_value['path'].." "..termination_rate_arr_value['maxchannels'].." bridge sofia/gateway/"..termination_rate_arr_value['path'].."/"..destination_number);
+							session:execute("limit_execute","db "..termination_rate_arr_value['path'].." gw_"..termination_rate_arr_value['path'].." "..termination_rate_arr_value['maxchannels'].." bridge [leg_timeout="..termination_rate_arr_value['leg_timeout'].."]sofia/gateway/"..termination_rate_arr_value['path'].."/"..destination_number);
 					else
-							session:execute("bridge","sofia/gateway/"..termination_rate_arr_value['path'].."/"..destination_number);   
+							session:execute("bridge","[leg_timeout="..termination_rate_arr_value['leg_timeout'].."]sofia/gateway/"..termination_rate_arr_value['path'].."/"..destination_number);   
 					end
 
 					if(termination_rate_arr_value['path1'] ~= '' and termination_rate_arr_value['path1'] ~= termination_rate_arr_value['gateway']) then
-						session:execute("bridge","sofia/gateway/"..termination_rate_arr_value['path1'].."/"..destination_number);   
+						session:execute("bridge","[leg_timeout="..termination_rate_arr_value['leg_timeout'].."]sofia/gateway/"..termination_rate_arr_value['path1'].."/"..destination_number);   
 					end
 
 					if(termination_rate_arr_value['path2'] ~= '' and termination_rate_arr_value['path2'] ~= termination_rate_arr_value['gateway']) then
-						session:execute("bridge","sofia/gateway/"..termination_rate_arr_value['path2'].."/"..destination_number);   
+						session:execute("bridge","[leg_timeout="..termination_rate_arr_value['leg_timeout'].."]sofia/gateway/"..termination_rate_arr_value['path2'].."/"..destination_number);   
 					end
 
                     end
@@ -601,7 +626,7 @@ function process_destination(userinfo)
 		    rate_carrier_id = reseller_rates['trunk_id']
 		    userinfo = reseller_userinfo
             if(tonumber(userinfo['maxchannels']) > 0) then
-    			sesion:execute("limit","db "..userinfo['number'].." db_"..userinfo['number'].." "..userinfo['maxchannels']) 
+    			session:execute("limit","db "..userinfo['number'].." db_"..userinfo['number'].." "..userinfo['maxchannels']) 
     		end
 		end		
     end -- End while 

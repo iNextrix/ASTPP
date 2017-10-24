@@ -2,7 +2,7 @@
 <? startblock('extra_head') ?>
 <? endblock() ?>
 <? startblock('page-title') ?>
-    DID Import Process <?//= isset($pricelistid)?$this->common->get_field_name('name', 'pricelists',$pricelistid):"";?><? //= $page_title ?>
+    <?php echo gettext('DID Import Process')?> <?//= isset($pricelistid)?$this->common->get_field_name('name', 'pricelists',$pricelistid):"";?><? //= $page_title ?>
 <? endblock() ?>
 <? startblock('content') ?>  
 <?php if ( ! isset($csv_tmp_data)) { ?>

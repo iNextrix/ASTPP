@@ -1953,6 +1953,37 @@ class CI_Email {
 		$msg .= "<pre>".$this->_header_str."\n".htmlspecialchars($this->_subject)."\n".htmlspecialchars($this->_finalbody).'</pre>';
 		return $msg;
 	}
+	public function print_debugger_email($data = '',$log_path)
+	{
+	
+		$msg = '';
+		$msg .= "Date : ".date("F j, Y, g:i a")."\n From :".$data['from']."\n To :".$data['to']."\n Subject :".$data['subject']."\n Attachment :".implode(',',$data['attachment'])."\n";
+		$msg .= "Error : \n" ;
+                if($this->_get_protocol() == "smtp"){
+			if (count($this->_debug_msg) > 0)
+		        {
+			        foreach ($this->_debug_msg as $key=>$val)
+			        {
+				        if(in_array($key,array(1,2,3,4,5,6,7,8,9,10,11,12,15,16,17,18))){
+				                $msg .= $val;
+				        }
+			        }
+		        }       
+                }else{
+                        if (count($this->_debug_msg) > 0)
+		        {
+			        foreach ($this->_debug_msg as $key=>$val)
+			        {
+				        $msg .= $val;
+			        }
+		        }
+
+                }
+		$fp = fopen($log_path."astpp_email.log", "a+");
+		fwrite($fp,$msg);
+		fclose($fp);
+		return $msg;
+	}
 
 	// --------------------------------------------------------------------
 

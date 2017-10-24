@@ -71,7 +71,7 @@
 		<tr>
 			<td>
 	 		 <font style="font-weight:bold;" >Email :</font> <font style="color:#a09d9d;" >
-				 <?php /**** harsh ***/ 
+				 <?php  
 				if ($accountdata['email'] != "") {
 					$attac_exp = explode(",", $accountdata['email']);
 					foreach ($attac_exp as $key=>$value) {
