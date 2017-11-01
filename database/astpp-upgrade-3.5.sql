@@ -56,3 +56,7 @@ INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comm
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES ('0', 'leg_timeout', 'Local Call Timeout (Sec.)', '30', 'default_system_input', 'Define Local SIP2SIP Call Leg Timeout. Default 30 seconds', NULL, '0', '0', 'global');
 UPDATE `system` SET `display_name` = 'Inbound Fax' WHERE `system`.`name` = 'inbound_fax';
 UPDATE `system` SET `value` = '3.5' WHERE `system`.`id` = 191;
+
+UPDATE `system` SET `value` = '1' WHERE `system`.`id` = 24;
+UPDATE `system` SET `value` = '0' WHERE `system`.`id` = 22;
+UPDATE `system` SET `value` = '1' WHERE `system`.`id` = 196;
