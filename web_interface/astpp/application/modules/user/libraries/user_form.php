@@ -395,7 +395,7 @@ class User_form {
 								'size' => '15',
 								'class' => "text field medium" 
 						),
-						'trim|alpha_dash|xss_clean',
+						'trim|alpha_numeric_space|xss_clean',
 						'tOOL TIP',
 						'Please Enter Password' 
 				),
