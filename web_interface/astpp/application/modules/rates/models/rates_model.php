@@ -356,7 +356,7 @@ class rates_model extends CI_Model {
 		init_inc=VALUES(init_inc),
 		inc=VALUES(inc),
 		last_modified_date=VALUES(last_modified_date),
-		status=IF(VALUES(cost) = '-1','1','0')";
+		status=VALUES(status)";
 		$insert_string = "INSERT INTO routes (" . implode ( ', ', $arr_key ) . ") VALUES ";
 		$update_string = " ON DUPLICATE KEY UPDATE " . implode ( ', ', $update_fields );
 		$k = 0;
