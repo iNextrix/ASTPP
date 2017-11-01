@@ -477,7 +477,7 @@ class Accounts_model extends CI_Model {
 				$acc_num = $number [$i];
 				// $current_password = $password[$i];
 				$current_password = $this->common->generate_password ();
-				$insert_array [$i] = array (
+				$insert_array = array (
 						'number' => $acc_num,
 						'password' => $this->common->encode ( $current_password ),
 						'pricelist_id' => $pricelist_id,
@@ -504,7 +504,7 @@ class Accounts_model extends CI_Model {
 				)
 				;
 				if ($pin_flag == 1) {
-					$insert_array [$i] ['pin'] = $pin [$i];
+					$insert_array ['pin'] = $pin [$i];
 				}
 				$this->db->insert ( 'accounts', $insert_array );
 				$last_id = $this->db->insert_id ();
