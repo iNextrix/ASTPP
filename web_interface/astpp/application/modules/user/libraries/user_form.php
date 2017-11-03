@@ -1286,7 +1286,7 @@ class User_form {
 						"status",
 						"status",
 						"dids",
-						"get_did_status",
+						"get_status",
 						"",
 						"true",
 						"center" 
