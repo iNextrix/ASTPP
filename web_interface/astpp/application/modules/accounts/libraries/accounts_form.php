@@ -834,7 +834,7 @@ class Accounts_form {
 		$logintype = $this->CI->session->userdata ( 'logintype' );
 		$sip_device = null;
 		$opensips_device = null;
-		if ($logintype == 1 || $logintype == 5) {
+		if ($logintype == 5) {
 			$account_data = $this->CI->session->userdata ( "accountinfo" );
 			$loginid = $account_data ['id'];
 		} else {
