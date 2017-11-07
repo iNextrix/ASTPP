@@ -1,5 +1,4 @@
-<? extend('master.php') ?>
-<?php error_reporting(E_ERROR); ?>
+<? extend('left_panel_master.php') ?>
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
@@ -12,6 +11,22 @@
         });
     });
 </script>
+<style>
+section.slice	 {
+    position: absolute !important;
+    margin-left: 20% !important;
+    color: #5E5E5E !important;
+    display: inline-block !important;
+    width: 78% !important;
+}
+.flexigrid div.hDivBox{
+    float: left !important;
+    padding-right: 40px !important;
+    width: 100% !important;
+    overflow: scroll !important;
+}
+</style>
+
 <? endblock() ?>
 
 <? startblock('page-title') ?>
@@ -31,7 +46,7 @@
         </div>
     </div>
 </section>
-<section class="slice color-three padding-b-20">
+<section class="slice color-three padding">
     <div class="w-section inverse no-padding">
         <div class="container">
             <div class="row">
