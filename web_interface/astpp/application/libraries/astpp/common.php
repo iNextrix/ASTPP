@@ -2313,29 +2313,30 @@ class common {
 		/**
 		 * ************************* Company Address Code START **************************************************
 		 */
-		
-		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_config_res ['company_name'] . '</td>';
+//ASTPP_invoice_download_issue				
+		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['company_name'] . '</td>';
 		$ACCOUNTADD .= '</tr>';
-		if ($invoice_config_res ['address'] != "") {
+		if ($invoice_conf_res ['address'] != "") {
 			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_config_res ['address'] . '</td></tr>';
+			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['address'] . '</td></tr>';
 		}
-		if ($invoice_config_res ['city'] != "") {
+		if ($invoice_conf_res ['city'] != "") {
 			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_config_res ['city'] . '</td></tr>';
+			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['city'] . '</td></tr>';
 		}
-		if ($invoice_config_res ['province'] != "") {
+		if ($invoice_conf_res ['province'] != "") {
 			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_config_res ['province'] . '</td></tr>';
+			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['province'] . '</td></tr>';
 		}
-		if ($invoice_config_res ['country'] != "") {
+		if ($invoice_conf_res ['country'] != "") {
 			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_config_res ['country'] . '</td></tr>';
+			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['country'] . '</td></tr>';
 		}
-		if ($invoice_config_res ['zipcode'] != "") {
+		if ($invoice_conf_res ['zipcode'] != "") {
 			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_config_res ['zipcode'] . '</td></tr>';
+			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['zipcode'] . '</td></tr>';
 		}
+//END
 		/**
 		 * ************************* Company Address Code END **************************************************
 		 */
@@ -2509,16 +2510,17 @@ class common {
 		/**
 		 * ************************* Invoice Note Code END **************************************************
 		 */
-		
-		if (file_exists ( getcwd () . "/upload/" . $invoice_config [0] ['accountid'] . "_" . $invoice_config [0] ['logo'] )) {
-			if ($invoice_config [0] ['logo'] != '') {
-				$content = str_replace ( "<LOGO>", base_url () . "upload/" . $invoice_config [0] ['accountid'] . "_" . $invoice_config [0] ['logo'], $content );
+//ASTPP_invoice_download_issue		
+		if (file_exists ( getcwd () . "/upload/" . $invoice_conf_res['accountid'] . "_" . $invoice_conf_res ['logo'] )) {
+			if ($invoice_conf_res['logo'] != '') {
+				$content = str_replace ( "<LOGO>", FCPATH . "upload/" . $invoice_conf_res ['accountid'] . "_" . $invoice_conf_res['logo'], $content );
 			} else {
-				$content = str_replace ( "<LOGO>", base_url () . '/assets/images/logo.png', $content );
+				$content = str_replace ( "<LOGO>", FCPATH . '/assets/images/logo.png', $content );
 			}
 		} else {
-			$content = str_replace ( "<LOGO>", base_url () . '/assets/images/logo.png', $content );
+			$content = str_replace ( "<LOGO>", FCPATH . '/assets/images/logo.png', $content );
 		}
+//END
 		
 		$content = str_replace ( "<INVOICE_NUM>", $INVOICE_NUM, $content );
 		$content = str_replace ( "<ACCOUNTADD>", $ACCOUNTADD, $content );
