@@ -33,12 +33,17 @@ class rates_model extends CI_Model {
 		 * *******
 		 */
 		if ($this->session->userdata ( 'advance_batch_delete' ) == 1) {
-			$this->db->where ( array (
-					"trunk_id >" => "0" 
-			) );
-			$this->db->delete ( "outbound_routes" );
+			
+			//Samir - Added if condition to resolve "Delete Search Record - This option deletes ALL termination rates #264"
+			if (count($this->db->ar_where) > 0)
+			{
+				$this->db->where ( array (
+						"trunk_id >" => "0" 
+				) );
+				$this->db->delete ( "outbound_routes" );				
+			}
 			$this->session->set_userdata ( 'advance_batch_delete', '0' );
-			$this->session->unset_userdata ( 'advance_batch_delete' );
+			$this->session->unset_userdata ( 'advance_batch_delete' );			
 		}
 		/**
 		 * ***********
@@ -126,10 +131,13 @@ class rates_model extends CI_Model {
 		 * ***********
 		 */
 		if ($this->session->userdata ( 'advance_batch_delete' ) == 1) {
-			$this->db->where ( $where );
-			$this->db->delete ( "routes" );
-			// echo $this->db->last_query(); exit;
-			$this->session->set_userdata ( 'advance_batch_delete', '0' );
+			//Samir - Added if condition to resolve "Delete Search Record - This option deletes ALL termination rates #264"
+			if (count($this->db->ar_where) > 0)
+			{
+				$this->db->where ( $where );
+				$this->db->delete ( "routes" );				
+			}
+			$this->session->set_userdata ( 'advance_batch_delete', '0' );	
 			$this->session->unset_userdata ( 'advance_batch_delete' );
 		}
 		$this->db_model->build_search ( 'origination_rate_list_search' );
