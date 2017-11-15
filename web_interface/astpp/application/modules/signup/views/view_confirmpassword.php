@@ -103,7 +103,7 @@ ASTPP work best with JavaScript enabled
 <div class="col-md-12 margin-t-20 padding-r-32 padding-l-32">
 <label class="col-md-5 no-padding" style="text-align: left;">Password</label>
 <div class="col-md-7 no-padding">
-<input type="text" name="password" required value="<?php if (isset($value['password'])) echo  $value['password']; else ''; ?>" id="password" size="15" maxlength="40" class="form-control"  />
+<input type="password" name="password" required value="<?php if (isset($value['password'])) echo  $value['password']; else ''; ?>" id="password" size="15" maxlength="40" class="form-control"  />
 <div class='error-style col-md-12 no-padding' style='color:red; font-size: 13px;' id="une"><?php if (isset($error['password'])) echo $error['password']; ?></div>
 </div>
 </div>
@@ -111,7 +111,7 @@ ASTPP work best with JavaScript enabled
 <div class="col-md-12 margin-t-10 padding-r-32 padding-l-32">
 <label class="col-md-5 no-padding" style="text-align: left;">Confirm Password</label>
 <div class="col-md-7 no-padding">
-<input type="text" name="confirmpassword" required value="<?php if (isset($value['confirm_password'])) echo  $value['confirm_password']; else ''; ?>" id="confirm_password" size="15" maxlength="40" class="form-control"  />
+<input type="password" name="confirmpassword" required value="<?php if (isset($value['confirm_password'])) echo  $value['confirm_password']; else ''; ?>" id="confirm_password" size="15" maxlength="40" class="form-control"  />
 <div class='error-style col-md-12' style='color:red; font-size: 13px;' id="conpas"><?php if (isset($error['confirm_password'])) echo $error['confirm_password']; ?></div>
 </div>
 </div>
