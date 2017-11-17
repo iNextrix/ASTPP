@@ -33,17 +33,17 @@ class rates_model extends CI_Model {
 		 * *******
 		 */
 		if ($this->session->userdata ( 'advance_batch_delete' ) == 1) {
-			
+
 			//Samir - Added if condition to resolve "Delete Search Record - This option deletes ALL termination rates #264"
 			if (count($this->db->ar_where) > 0)
 			{
 				$this->db->where ( array (
-						"trunk_id >" => "0" 
+						"trunk_id >" => "0"
 				) );
-				$this->db->delete ( "outbound_routes" );				
+				$this->db->delete ( "outbound_routes" );
 			}
 			$this->session->set_userdata ( 'advance_batch_delete', '0' );
-			$this->session->unset_userdata ( 'advance_batch_delete' );			
+			$this->session->unset_userdata ( 'advance_batch_delete' );
 		}
 		/**
 		 * ***********
@@ -73,14 +73,14 @@ class rates_model extends CI_Model {
 			$account_data = $this->session->userdata ( "accountinfo" );
 			$reseller = $account_data ['id'];
 			$where = array (
-					"reseller_id" => $reseller 
+					"reseller_id" => $reseller
 			);
 		} else {
 			$where = array (
-					'reseller_id' => '0' 
+					'reseller_id' => '0'
 			);
 		}
-		
+
 		$this->db_model->build_search ( 'origination_rate_list_search' );
 		if ($flag) {
 			if ($export)
@@ -94,13 +94,13 @@ class rates_model extends CI_Model {
 	}
 	function get_origination_rate_for_user($flag, $start = 0, $limit = 0, $export = true) {
 		$this->db_model->build_search ( 'origination_rate_list_search' );
-		
+
 		$account_data = $this->session->userdata ( "accountinfo" );
-		
+
 		$where = array (
-				"pricelist_id" => $account_data ["pricelist_id"] 
+				"pricelist_id" => $account_data ["pricelist_id"]
 		);
-		
+
 		$this->db_model->build_search ( 'origination_rate_list_search' );
 		if ($flag) {
 			if ($export)
@@ -117,11 +117,11 @@ class rates_model extends CI_Model {
 		if ($this->session->userdata ( 'logintype' ) == 1 || $this->session->userdata ( 'logintype' ) == 5) {
 			$account_data = $this->session->userdata ( "accountinfo" );
 			$where = array (
-					"reseller_id" => $account_data ['id'] 
+					"reseller_id" => $account_data ['id']
 			);
 		} else {
 			$where = array (
-					'reseller_id' => '0' 
+					'reseller_id' => '0'
 			);
 		}
 		/**
@@ -135,16 +135,16 @@ class rates_model extends CI_Model {
 			if (count($this->db->ar_where) > 0)
 			{
 				$this->db->where ( $where );
-				$this->db->delete ( "routes" );				
+				$this->db->delete ( "routes" );
 			}
-			$this->session->set_userdata ( 'advance_batch_delete', '0' );	
+			$this->session->set_userdata ( 'advance_batch_delete', '0' );
 			$this->session->unset_userdata ( 'advance_batch_delete' );
 		}
 		$this->db_model->build_search ( 'origination_rate_list_search' );
 		/**
 		 * ********************
 		 */
-		
+
 		if ($flag) {
 			$query = $this->db_model->select ( "*", "routes", $where, "id", "ASC", $limit, $start );
 		} else {
@@ -160,12 +160,12 @@ class rates_model extends CI_Model {
 			$reseller = $account_data ['id'];
 			$where = array (
 					"reseller_id" => $reseller,
-					"status" => "0" 
+					"status" => "0"
 			);
 		} else {
 			$where = array (
 					"status" => "0",
-					'reseller_id' => '0' 
+					'reseller_id' => '0'
 			);
 		}
 		$where1 = '(pattern NOT IN (select blocked_patterns from block_patterns where accountid = "' . $accountid . '"))';
@@ -185,12 +185,12 @@ class rates_model extends CI_Model {
 			$reseller = $account_data ['id'];
 			$where = array (
 					"reseller_id" => $reseller,
-					"status" => "0" 
+					"status" => "0"
 			);
 		} else {
 			$where = array (
 					"status" => "0",
-					'reseller_id' => '0' 
+					'reseller_id' => '0'
 			);
 		}
 		$where1 = '(pattern NOT IN (select DISTINCT patterns from package_patterns where package_id = "' . $accountid . '"))';
@@ -204,13 +204,13 @@ class rates_model extends CI_Model {
 	}
 	function get_origination_rate_list_for_user($flag, $start = 0, $limit = 0) {
 		$this->db_model->build_search ( 'user_rates_list_search' );
-		
+
 		$account_data = $this->session->userdata ( "accountinfo" );
 		$where = array (
 				"pricelist_id" => $account_data ["pricelist_id"],
-				"status" => '0' 
+				"status" => '0'
 		);
-		
+
 		$this->db_model->build_search ( 'origination_rate_list_search' );
 		if ($flag) {
 			$query = $this->db_model->select ( "*", "routes", $where, "id", "ASC", $limit, $start );
@@ -389,7 +389,7 @@ class rates_model extends CI_Model {
 			$account_data = $this->session->userdata ( "accountinfo" );
 			$this->db->where ( "reseller_id", $account_data ['id'] );
 		}
-		
+
 		$updateflg = $this->db_model->build_batch_update_array ( $update_array );
 		if ($updateflg)
 			return $this->db->update ( "outbound_routes" );
@@ -413,7 +413,7 @@ class rates_model extends CI_Model {
 		$account_data = $this->session->userdata ( "accountinfo" );
 		$where = array (
 				"status" => "0",
-				"pricelist_id" => $account_data ["pricelist_id"] 
+				"pricelist_id" => $account_data ["pricelist_id"]
 		);
 		if ($flag) {
 			$query = $this->db_model->select ( "*", "routes", $where, "id", "ASC", $limit, $start );
@@ -430,9 +430,10 @@ class rates_model extends CI_Model {
 	 */
 	/**
 	 *
-	 * @param string $table_name        	
+	 * @param string $table_name
 	 */
 	function insert_if_not_exitst($add_array, $table_name) {
+		$db = get_instance()->db->conn_id;
 		$insert_str = "Insert into $table_name (";
 		$insert_key = "";
 		$insert_value = "";
@@ -440,8 +441,8 @@ class rates_model extends CI_Model {
 		foreach ( $add_array as $key => $value ) {
 			if ($key != 'id') {
 				$insert_key .= $key . ",";
-				$insert_value .= "'" . mysql_real_escape_string ( $value ) . "',";
-				$update_str .= $key . " = '" . mysql_real_escape_string ( $value ) . "',";
+				$insert_value .= "'" . mysqli_real_escape_string ( $db, $value ) . "',";
+				$update_str .= $key . " = '" . mysqli_real_escape_string ( $db, $value ) . "',";
 			}
 		}
 		$insert_key = rtrim ( $insert_key, "," );
