@@ -110,7 +110,7 @@ class CI_Image_lib {
 
 		foreach ($props as $val)
 		{
-			$this->$val = '';
+			$this->{$val} = '';
 		}
 
 		// special consideration for master_dim
@@ -135,7 +135,7 @@ class CI_Image_lib {
 		{
 			foreach ($props as $key => $val)
 			{
-				$this->$key = $val;
+				$this->{$key} = $val;
 			}
 		}
 
@@ -148,7 +148,7 @@ class CI_Image_lib {
 		if ($this->source_image == '')
 		{
 			$this->set_error('imglib_source_image_required');
-			return FALSE;	
+			return FALSE;
 		}
 
 		/*
@@ -190,7 +190,7 @@ class CI_Image_lib {
 		// Set the Image Properties
 		if ( ! $this->get_image_properties($this->source_folder.$this->source_image))
 		{
-			return FALSE;	
+			return FALSE;
 		}
 
 		/*
@@ -354,7 +354,7 @@ class CI_Image_lib {
 			$protocol = 'image_process_gd';
 		}
 
-		return $this->$protocol('resize');
+		return $this->{$protocol}('resize');
 	}
 
 	// --------------------------------------------------------------------
@@ -377,7 +377,7 @@ class CI_Image_lib {
 			$protocol = 'image_process_gd';
 		}
 
-		return $this->$protocol('crop');
+		return $this->{$protocol}('crop');
 	}
 
 	// --------------------------------------------------------------------
@@ -399,7 +399,7 @@ class CI_Image_lib {
 		if ($this->rotation_angle == '' OR ! in_array($this->rotation_angle, $degs))
 		{
 			$this->set_error('imglib_rotation_angle_required');
-			return FALSE;	
+			return FALSE;
 		}
 
 		// Reassign the width and height
@@ -420,7 +420,7 @@ class CI_Image_lib {
 		{
 			$protocol = 'image_process_'.$this->image_library;
 
-			return $this->$protocol('rotate');
+			return $this->{$protocol}('rotate');
 		}
 
 		if ($this->rotation_angle == 'hor' OR $this->rotation_angle == 'vrt')

@@ -225,7 +225,7 @@ class CI_Hooks {
 			}
 
 			$HOOK = new $class;
-			$HOOK->$function($params);
+			$HOOK->{$function}($params);
 		} else
 		{
 			if ( ! function_exists($function))

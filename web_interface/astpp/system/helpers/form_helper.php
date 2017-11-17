@@ -66,8 +66,8 @@ if ( ! function_exists('form_open'))
 
 		$form .= '>';
 
-		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites	
-		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))	
+		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
+		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))
 		{
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
@@ -189,7 +189,7 @@ if ( ! function_exists('form_input'))
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
-/* ASTPP  3.0 
+/* ASTPP  3.0
  * For Image upload
  */
 //  IMAGE VIEW  //
@@ -214,8 +214,8 @@ if ( ! function_exists('form_image'))
                </div>';
 		}else{
 			return "<div class='col-md-5 no-padding'><image "._parse_form_attributes($data, $defaults).$extra." /></div>";
-		}	
-		
+		}
+
 	}
 }
 //  button tag delete image  //
@@ -333,10 +333,10 @@ if ( ! function_exists('form_multiselect'))
 {
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
-            
+
 			if ( ! strpos($extra, 'multiple'))
 		{
-                
+
 			$extra .= ' multiple="multiple"';
 		}
 
@@ -458,7 +458,7 @@ if ( ! function_exists('form_dropdown_all'))
 				}
 				else{
 					$form = '<select name="'.$name.'"' .$multiple." class='$class' data-live-search='true'>\n";
-				}   
+				}
 
 		$form .= '<option value=""> --Select-- </option>';
 		foreach ($options as $key => $val)
@@ -534,7 +534,7 @@ if ( ! function_exists('form_dropdown_all_search'))
 					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
 				}else{
 					$form = '<select name="'.$name.'"' .$multiple." class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
-				}   
+				}
  /*
 		  ASTPP  3.0  For Search Display In
 		*/
@@ -599,7 +599,7 @@ if ( ! function_exists('form_dropdown_multiselect'))
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 		$form = '<select name="'.$name.'"'." multiple='multiple' class='select field multiselectable col-md-5 form-control'>\n";
-                
+
 		foreach ($options as $key => $val)
 		{
 			$key = (string)$key;
@@ -641,8 +641,8 @@ if ( ! function_exists('form_dropdown_multiselect'))
  * @param	string
  * @return	string
  */
- 
- 
+
+
 /**
 ASTPP3.0
 Add button for checkbox
@@ -651,21 +651,21 @@ if ( ! function_exists('form_checkbox'))
 {
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
-		
+
 		if (isset($data) && $data != '') {
 			$name = "'".$data."'";
 		} else {
 			$name = '';
 		}
-		
+
 		/*if(isset($value) && $value != ''){
 			$value = "'".$value."'";
 		}else{
 			$value='0';
 		}*/
-		
+
 		$defaults = array('class'=>'onoffswitch-checkbox', 'type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
-		
+
 		if (is_array($data) AND array_key_exists('checked', $data))
 		{
 			$checked = $data['checked'];
@@ -705,7 +705,7 @@ if ( ! function_exists('form_checkbox'))
 		$class='onoffswitch-inner';
 	      }
 	      }
-	      
+
             /* if(isset($extra[1]) && $extra[1] == 'Disable'){
             $enable='onoffswitch-inner';
             }else{
@@ -716,13 +716,13 @@ if ( ! function_exists('form_checkbox'))
 		if ($class == "onoffswitch-inner_true") {
 				return '<div style="width: 49%; text-align: -moz-center; padding: 0;">
 				<input '._parse_form_attributes($data, $defaults).' type="checkbox" id="switch'.$name.'" name="onoffswitch" class="onoffswitch-checkbox" content="Yes">
-				<label class="onoffswitch-label" for="switch'.$name.'"><span class="'.$class.'"></span></label></div>';	
+				<label class="onoffswitch-label" for="switch'.$name.'"><span class="'.$class.'"></span></label></div>';
 		} else {
 				return '<div style="width: 41%; text-align: -moz-center; padding: 0;">
 				<input  type="checkbox" id="switch'.$name.'" name="onoffswitch"  class="onoffswitch-checkbox" content="Yes">
 				<label class="onoffswitch-label" for="switch'.$name.'"><span class="'.$class.'"></span></label></div>';
 		}
-				
+
 	}
 }
 /**********************************************************/
@@ -816,7 +816,7 @@ if ( ! function_exists('form_button'))
 			$content = $data['content'];
 			unset($data['content']); // content is not an attribute
 		}
-		
+
 		return "<button "._parse_form_attributes($data, $defaults).$extra.">".gettext($content)."</button>";
 		//return "<button "._parse_form_attributes($data, $defaults).$extra.">".$content."</button>";
 	}
@@ -1355,17 +1355,17 @@ if ( ! function_exists('_get_validation_object'))
 
 		// We set this as a variable since we're returning by reference.
 		$return = FALSE;
-		
+
 		if (FALSE !== ($object = $CI->load->is_loaded('form_validation')))
 		{
-			if ( ! isset($CI->$object) OR ! is_object($CI->$object))
+			if ( ! isset($CI->{$object}) OR ! is_object($CI->{$object}))
 			{
 				return $return;
 			}
-			
-			return $CI->$object;
+
+			return $CI->{$object};
 		}
-		
+
 		return $return;
 	}
 }
@@ -1394,7 +1394,7 @@ if ( ! function_exists('form_countries'))
 		}
 
 		$form .= ">";
-		
+
 		if ($form_name != "") {
 			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
 		}
@@ -1405,14 +1405,14 @@ if ( ! function_exists('form_countries'))
 
 			if (strtolower(trim($value)) == strtolower(trim($selected)))
 			{
-                            
+
 							$form .= ' selected="selected" >';
-                                
+
 			} else
 			{
 				$form .= '>';
 			}
-			
+
 			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
@@ -1471,15 +1471,15 @@ if ( ! function_exists('form_select_default'))
 		}
 
 		$form .= ">";
-		
+
 		if ($form_name != "") {
 			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
 		}
-		
+
 		foreach ($data as $key => $value)
 		{
 			$form .= "\n".'<option value="'.$key.'"';
-			
+
 			if ($key == $selected)
 			{
 				$form .= ' selected>';
@@ -1494,9 +1494,9 @@ if ( ! function_exists('form_select_default'))
 		$form .= "\n</select>";
 
 		return $form;
-		
+
 	}
-}	
+}
 // ------------------------------------------------------------------------
 if ( ! function_exists('form_timezone'))
 {

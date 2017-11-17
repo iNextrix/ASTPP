@@ -534,9 +534,9 @@ class CI_Form_validation {
 		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules) OR in_array('dropdown', $rules))
 			{
-			
+
 				// Set the message type
-                            
+
 				$type = (in_array('required', $rules)) ? 'required' : ((in_array('dropdown', $rules)) ? 'dropdown' : 'isset');
 				if ( ! isset($this->_error_messages[$type]))
 				{
@@ -616,7 +616,7 @@ class CI_Form_validation {
 				}
 
 				// Run the function and grab the result
-				$result = $this->CI->$rule($postdata, $param);
+				$result = $this->CI->{$rule}($postdata, $param);
 
 				// Re-assign the result to the master data array
 				if ($_in_array == TRUE)
@@ -646,7 +646,7 @@ class CI_Form_validation {
 						  $str.=$value.",";
 						}
 						$str=rtrim($str,',');
-						$postdata=$str;  
+						$postdata=$str;
 					  }
 						$result = $rule($postdata);
 
@@ -665,7 +665,7 @@ class CI_Form_validation {
 					continue;
 				}
 
-				$result = $this->$rule($postdata, $param);
+				$result = $this->{$rule}($postdata, $param);
 
 				if ($_in_array == TRUE)
 				{
@@ -961,7 +961,7 @@ class CI_Form_validation {
 
 		return ($str !== $field) ? FALSE : TRUE;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1423,8 +1423,8 @@ class CI_Form_validation {
 	{
 			return ( ! preg_match("/^([.a-z0-9])+$/i", $str)) ? FALSE : TRUE;
 	}
-	
-	/** Do not use this function 
+
+	/** Do not use this function
 		public function valid_decimal($str){
 			return (bool) preg_match('#^\d+(?:\.\d{1,5})?$#', $str);
 		}*/
@@ -1441,7 +1441,7 @@ class CI_Form_validation {
 			return (bool) preg_match('#^\d{0,15}+(?:\.\d{0,5})?$#', $str);
 //            test(num)
 		}
-		/* ASTPP  3.0 
+		/* ASTPP  3.0
          * For Old Password checking
          */
 		public function password_check($str,$table){
