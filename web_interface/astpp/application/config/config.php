@@ -1,7 +1,7 @@
 <?php
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-	
+
 	/*
  * |--------------------------------------------------------------------------
  * | Base Site URL
@@ -374,7 +374,7 @@ $config ['Origination-rates-field'] = array (
 		'included seconds' => 'includedseconds',
 		'per minute cost' => 'cost',
 		'initial increment' => 'init_inc',
-		'increment' => 'inc' 
+		'increment' => 'inc'
 );
 $config ['Termination-rates-field'] = array (
 		'code' => 'pattern',
@@ -386,7 +386,7 @@ $config ['Termination-rates-field'] = array (
 		'increment' => 'inc',
 		'precedence' => 'precedence',
 		'strip' => "strip",
-		'prepend' => 'prepend' 
+		'prepend' => 'prepend'
 );
 $config ['DID-rates-field'] = array (
 		'DID' => 'number',
@@ -399,7 +399,7 @@ $config ['DID-rates-field'] = array (
 		'Monthly Fee(CURRENCY)' => 'monthlycost',
 		'Call Type' => 'call_type',
 		'Destination' => 'extensions',
-		"Status" => 'status' 
+		"Status" => 'status'
 );
 $config ['invoices_path'] = FCPATH . "invoices/";
 $config ['invoice_screen'] = FCPATH . APPPATH . "controllers/";
@@ -414,11 +414,11 @@ $config ['Origin-rates-field'] = array (
 		'per minute cost' => 'cost',
 		'increment' => 'inc',
 		'precedence' => 'precedence',
-		'strip' => "strip" 
+		'strip' => "strip"
 );
 $config ['package-code-field'] = array (
 		'code' => 'patterns',
-		'destination' => 'destination' 
+		'destination' => 'destination'
 );
 $config ['invoices_path'] = FCPATH . "invoices/";
 $config ['invoice_template'] = APPPATH . "views/";
