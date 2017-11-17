@@ -49,18 +49,18 @@ class email_lib {
 	}
 	function get_email_settings() {
 		$where = array (
-				'group_title' => 'email' 
+				'group_title' => 'email'
 		);
 		$query = $this->CI->db_model->getSelect ( "*", "system", $where );
 		$query = $query->result_array ();
 		foreach ( $query as $key => $val ) {
 			$tempvar = strtolower ( $val ['name'] );
-			$this->$tempvar = $val ['value'];
+			$this->{$tempvar = $val ['value']};
 		}
 	}
 	function get_template($type) {
 		$where = array (
-				'name' => $type 
+				'name' => $type
 		);
 		$query = $this->CI->db_model->getSelect ( "*", "default_templates", $where );
 		$query = $query->result ();
@@ -69,7 +69,7 @@ class email_lib {
 	}
 	function get_account_info($accountid) {
 		$where = array (
-				'id' => $accountid 
+				'id' => $accountid
 		);
 		$query = $this->CI->db_model->getSelect ( "*", "accounts", $where );
 		$query = $query->result_array ();
@@ -86,14 +86,14 @@ class email_lib {
 		}
 		return false;
 	}
-	
+
 	/**
 	 *
-	 * @param string $detail_type        	
+	 * @param string $detail_type
 	 */
 	function get_info($id, $detail_type) {
 		$where = array (
-				'id' => $id 
+				'id' => $id
 		);
 		$query = $this->CI->db_model->getSelect ( "*", $detail_type, $where );
 		$query = $query->result_array ();
@@ -137,7 +137,7 @@ class email_lib {
 			if (isset ( $templateinfo ['number'] )) {
 				$templateinfo ['username'] = $templateinfo ['number'];
 			}
-			
+
 			/**
 			 * **********
 			 */
@@ -148,7 +148,7 @@ class email_lib {
 		} else {
 			$templateinfo = $this->get_info ( $detail, $detail_type );
 		}
-		
+
 		if ($this->get_admin_details () && is_array ( $templateinfo ) && isset ( $templateinfo ['first_name'] ) && $templateinfo ['first_name'] != '') {
 			$this->message = html_entity_decode ( $this->message );
 			$this->message = str_replace ( "#COMPANY_EMAIL#", $this->from, $this->message );
@@ -184,10 +184,10 @@ class email_lib {
 			}
 		}
 	}
-	
+
 	/**
 	 *
-	 * @param string $attachment        	
+	 * @param string $attachment
 	 */
 	function mail_history($attachment) {
 		$send_mail_details = array (
@@ -197,17 +197,17 @@ class email_lib {
 				'body' => $this->message,
 				'accountid' => $this->account_id,
 				'status' => '1',
-				'attachment' => $attachment 
+				'attachment' => $attachment
 		);
 		$this->CI->db->insert ( 'mail_details', $send_mail_details );
 		return $this->CI->db->insert_id ();
 	}
 	function update_mail_history($id) {
 		$this->CI->db->where ( array (
-				'id' => $id 
+				'id' => $id
 		) );
 		$send_mail_details = array (
-				'status' => '0' 
+				'status' => '0'
 		);
 		$this->CI->db->update ( 'mail_details', $send_mail_details );
 	}
@@ -215,7 +215,7 @@ class email_lib {
 		if (! is_array ( $details )) {
 			$this->get_admin_details ();
 			$where = array (
-					'id' => $details 
+					'id' => $details
 			);
 			$query = $this->CI->db_model->getSelect ( "*", "mail_details", $where );
 			$query = $query->result_array ();
@@ -248,7 +248,7 @@ class email_lib {
 			} else {
 				$this->set_email_paramenters ( $details );
 			}
-			
+
 			if (! $brodcast)
 				$history_id = $this->mail_history ( $attachment );
 			else
@@ -263,7 +263,7 @@ class email_lib {
 				$this->CI->email->set_mailtype ( "html" );
 				eval ( "\$message = \"" . $this->message . "\";" );
 				$this->CI->email->message ( $this->message );
-				
+
 				if ($attachment != "") {
 					$attac_exp = explode ( ",", $attachment );
 					foreach ( $attac_exp as $key => $value ) {
@@ -293,13 +293,13 @@ class email_lib {
 	function send_mail($template_type, $details, $detail_type = '', $attachment = '', $resend = 0, $mass_mail = 0, $brodcast = 0) {
 		$this->get_email_settings ();
 		if (! $this->email) {
-			
+
 			if (! $resend) {
 				$this->build_template ( $template_type, $details, $detail_type );
 			} else {
 				$this->set_email_paramenters ( $details );
 			}
-			
+
 			if (! $brodcast)
 				$history_id = $this->mail_history ( $attachment );
 			else

@@ -60,7 +60,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	var $ar_cache_having		= array();
 	var $ar_cache_orderby		= array();
 	var $ar_cache_set = array();
-	
+
 	var $ar_no_escape = array();
 	var $ar_cache_no_escape = array();
 
@@ -429,7 +429,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 					$v = ' '.$this->escape($v);
 				}
-				
+
 				if ( ! $this->_has_operator($k))
 				{
 					$k .= ' = ';
@@ -638,7 +638,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 	// --------------------------------------------------------------------
 
-	
+
 	/**
 	 * Like
 	 *
@@ -724,7 +724,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		}
 		return $this;
 	}
-        
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1934,12 +1934,12 @@ class CI_DB_active_record extends CI_DB_driver {
 			$ar_variable = 'ar_'.$val;
 			$ar_cache_var = 'ar_cache_'.$val;
 
-			if (count($this->$ar_cache_var) == 0)
+			if (count($this->{$ar_cache_var}) == 0)
 			{
 				continue;
 			}
 
-			$this->$ar_variable = array_unique(array_merge($this->$ar_cache_var, $this->$ar_variable));
+			$this->{$ar_variable} = array_unique(array_merge($this->{$ar_cache_var}, $this->{$ar_variable}));
 		}
 
 		// If we are "protecting identifiers" we need to examine the "from"
@@ -1966,7 +1966,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		{
 			if ( ! in_array($item, $this->ar_store_array))
 			{
-				$this->$item = $default_value;
+				$this->{$item} = $default_value;
 			}
 		}
 	}
@@ -2040,11 +2040,11 @@ class CI_DB_active_record extends CI_DB_driver {
 					}
 					return FALSE;
 				}
-                
+
 				$table = $this->ar_from[0];
 			}
-    
-        
+
+
 //            $sql = $this->_insert_update_batch($this->_protect_identifiers($this->dbprefix.$table), $this->ar_set );
 		for ($i = 1, $total = count($this->ar_set); $i < $total; $i++)
 		{
@@ -2055,7 +2055,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 			$this->query($sql);
 		}
-        
+
 			$this->_reset_write();
 			return $this->query($sql);
 	 }
@@ -2079,7 +2079,7 @@ class CI_DB_active_record extends CI_DB_driver {
 		  {
 				   $this->set_insert_batch($set);
 		  }
-        
+
 		  if (count($this->ar_set) == 0)
 		  {
 				   if ($this->db_debug)
@@ -2108,12 +2108,12 @@ class CI_DB_active_record extends CI_DB_driver {
 		  {
 				$sql = $this->_insert_on_duplicate_update_batch($this->_protect_identifiers($table, TRUE, NULL, FALSE), $this->ar_keys, array_slice($this->ar_set, $i, 500));
 
-				// echo $sql; 
+				// echo $sql;
 				$this->query($sql);
 		  }
 		  $this->_reset_write();
 		  return TRUE;
-	 }  
+	 }
 
 
 
@@ -2134,9 +2134,9 @@ class CI_DB_active_record extends CI_DB_driver {
 		 {
 				  foreach($keys as $key)
 				  $update_fields[] = $key.'=VALUES('.$key.')';
-           
+
 				  return "INSERT INTO ".$table." (".implode(', ', $keys).") VALUES ".implode(', ', $values)." ON DUPLICATE KEY UPDATE ".implode(', ', $update_fields);
-		 } 
+		 }
 
 
 	/**

@@ -66,7 +66,7 @@ class CI_Session {
 		// manually via the $params array above or via the config file
 		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
 		{
-			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
+			$this->{$key} = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
 
 		if ($this->encryption_key == '')
@@ -99,7 +99,7 @@ class CI_Session {
 		{
 			$this->sess_expiration = (60 * 60 * 24 * 365 * 2);
 		}
-		
+
 		// Set the cookie name
 		$this->sess_cookie_name = $this->cookie_prefix.$this->sess_cookie_name;
 

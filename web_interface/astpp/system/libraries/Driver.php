@@ -45,11 +45,11 @@ class CI_Driver_Library {
 
 		// The class will be prefixed with the parent lib
 		$child_class = $this->lib_name.'_'.$child;
-	
+
 		// Remove the CI_ prefix and lowercase
 		$lib_name = ucfirst(strtolower(str_replace('CI_', '', $this->lib_name)));
 		$driver_name = strtolower(str_replace('CI_', '', $child_class));
-		
+
 		if (in_array($driver_name, array_map('strtolower', $this->valid_drivers)))
 		{
 			// check and see if the driver is in a separate file
@@ -81,8 +81,8 @@ class CI_Driver_Library {
 
 			$obj = new $child_class;
 			$obj->decorate($this);
-			$this->$child = $obj;
-			return $this->$child;
+			$this->{$child} = $obj;
+			return $this->{$child};
 		}
 
 		// The requested driver isn't valid!
@@ -198,7 +198,7 @@ class CI_Driver {
 	{
 		if (in_array($var, $this->properties))
 		{
-			return $this->parent->$var;
+			return $this->parent->{$var};
 		}
 	}
 
@@ -217,7 +217,7 @@ class CI_Driver {
 	{
 		if (in_array($var, $this->properties))
 		{
-			$this->parent->$var = $val;
+			$this->parent->{$var} = $val;
 		}
 	}
 

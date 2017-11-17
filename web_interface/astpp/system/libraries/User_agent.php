@@ -144,7 +144,7 @@ class CI_User_agent {
 
 		foreach (array('_set_robot', '_set_browser', '_set_mobile') as $function)
 		{
-			if ($this->$function() === TRUE)
+			if ($this->{$function}() === TRUE)
 			{
 				break;
 			}

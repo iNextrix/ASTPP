@@ -26,7 +26,7 @@ class Db_model extends CI_Model {
 		parent::__construct ();
 		$this->db->query ( "SET time_zone='+0:00'" );
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getCriteria(Where=Condition in Array Format)
@@ -39,7 +39,7 @@ class Db_model extends CI_Model {
 		}
 		return $this->db->get ( $tableName );
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function save() for addingthe record
@@ -53,7 +53,7 @@ class Db_model extends CI_Model {
 		else
 			return $rs;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function update() for editing the record
@@ -64,7 +64,7 @@ class Db_model extends CI_Model {
 		$rs = $this->db->query ( $str );
 		return $rs;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getSelect()n for displaying record
@@ -79,7 +79,7 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getSelectWithOrder()n for displaying record
@@ -93,7 +93,7 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getSelectWithOrderAndLimit()n for displaying record
@@ -108,7 +108,7 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function delete() for deletingthe record
@@ -118,7 +118,7 @@ class Db_model extends CI_Model {
 		$this->db->where ( $where );
 		$this->db->delete ( $tableName );
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function excecute() take compelet query
@@ -128,7 +128,7 @@ class Db_model extends CI_Model {
 		$rs = $this->db->query ( $query );
 		return $rs;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function select() take full complete perms
@@ -140,7 +140,7 @@ class Db_model extends CI_Model {
 		if ($where != "") {
 			$this->db->where ( $where );
 		}
-		
+
 		if ($paging_limit)
 			$this->db->limit ( $paging_limit, $start_limit );
 		if (! empty ( $groupby ))
@@ -154,7 +154,7 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function select for In query () take full complete perms
@@ -173,13 +173,13 @@ class Db_model extends CI_Model {
 		if (! empty ( $groupby ))
 			$this->db->groupby ( $groupby );
 		$query = $this->db->get ();
-		
+
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
-	 * Function countQuery() take table name and select feild
+	 * Function countQuery() take table name and select field
 	 * ********************************************************
 	 */
 	function countQuery($select, $table, $where = "") {
@@ -191,10 +191,10 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query->num_rows ();
 	}
-	
+
 	/*
 	 * ********************************************************
-	 * Function countQuery for where in query() take table name and select feild
+	 * Function countQuery for where in query() take table name and select field
 	 * ********************************************************
 	 */
 	function countQuery_by_in($select, $table, $where = "", $key, $where_in) {
@@ -209,10 +209,10 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query->num_rows ();
 	}
-	
+
 	/*
 	 * ********************************************************
-	 * Function maxQuery() take table name and select feild
+	 * Function maxQuery() take table name and select field
 	 * ********************************************************
 	 */
 	function maxQuery($table, $select, $where = "", $name) {
@@ -224,41 +224,41 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		if ($query->num_rows () > 0) {
 			$rowP = $query->row ();
-			return $rowP->$name;
+			return $rowP->{$name};
 		} else {
 			return 0;
 		}
 	}
-	
+
 	/*
 	 * ********************************************************
-	 * Function getCurrent get current value of the feild
+	 * Function getCurrent get current value of the field
 	 * ********************************************************
 	 */
-	function getCurrent($table, $feild, $where) {
-		// echo "<pre>table====><br>".$table."field====><br>".$feild."where====><br>".print_r($where);
-		$this->db->select ( $feild );
+	function getCurrent($table, $field, $where) {
+		// echo "<pre>table====><br>".$table."field====><br>".$field."where====><br>".print_r($where);
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->where ( $where );
 		$query = $this->db->get ();
 		if ($query->num_rows () > 0) {
-			
+
 			$rowP = $query->row ();
-			return $rowP->$feild;
+			return $rowP->{$field};
 		} else {
 			return false;
 		}
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getJionQuery get result set on criteria
 	 * ********************************************************
 	 */
-	function getJionQuery($table, $feild, $where = "", $jionTable, $jionCondition, $type = 'inner', $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
+	function getJionQuery($table, $field, $where = "", $jionTable, $jionCondition, $type = 'inner', $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
 		$start = ( int ) $start;
 		$end = ( int ) $end;
-		$this->db->select ( $feild );
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->join ( $jionTable, $jionCondition, $type );
 		if ($where != "") {
@@ -270,46 +270,46 @@ class Db_model extends CI_Model {
 			if ($order_by)
 				$this->db->order_by ( $order_by, $order_type );
 		}
-		
+
 		if ($group_by != '') {
 			$this->db->group_by ( $group_by );
 		}
-		
+
 		$this->db->limit ( $start, $end );
-		
+
 		return $query = $this->db->get ();
 	}
-	function getJionQueryCount($table, $feild, $where = "", $jionTable, $jionCondition, $type = 'inner', $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
+	function getJionQueryCount($table, $field, $where = "", $jionTable, $jionCondition, $type = 'inner', $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
 		$start = ( int ) $start;
 		$end = ( int ) $end;
-		$this->db->select ( $feild );
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->join ( $jionTable, $jionCondition, $type );
 		if ($where != "") {
 			$this->db->where ( $where );
 		}
-		
+
 		if ($order_type != '' && $order_by != '') {
 			$this->db->orderby ( $order_type, $order_by );
 		}
-		
+
 		if ($group_by != '') {
 			$this->db->group_by ( $group_by );
 		}
-		
+
 		$query = $this->db->get ();
 		return $query->num_rows ();
 	}
-	function getAllJionQuery($table, $feild, $where = "", $jionTable, $jionCondition, $type, $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
+	function getAllJionQuery($table, $field, $where = "", $jionTable, $jionCondition, $type, $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
 		$start = ( int ) $start;
 		$end = ( int ) $end;
-		$this->db->select ( $feild );
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$jion_table_count = count ( $jionTable );
 		for($i = 0; $i < $jion_table_count; $i ++) {
 			$this->db->join ( $jionTable [$i], $jionCondition [$i], $type [$i] );
 		}
-		
+
 		if ($where != "") {
 			$this->db->where ( $where );
 		}
@@ -319,29 +319,29 @@ class Db_model extends CI_Model {
 			if ($order_by)
 				$this->db->order_by ( $order_by, $order_type );
 		}
-		
+
 		if ($group_by != '') {
 			$this->db->group_by ( $group_by );
 		}
-		
+
 		if ($start != '' && $end != '') {
 			$this->db->limit ( $start, $end );
 		}
-		
+
 		if ($start != '' && $end == '') {
 			$this->db->limit ( $start );
 		}
-		
+
 		return $query = $this->db->get ();
 	}
-	function getCountWithJion($table, $feild, $where = "", $jionTable, $jionCondition, $type, $group_by = '') {
-		$this->db->select ( $feild );
+	function getCountWithJion($table, $field, $where = "", $jionTable, $jionCondition, $type, $group_by = '') {
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$jion_table_count = count ( $jionTable );
 		for($i = 0; $i < $jion_table_count; $i ++) {
 			$this->db->join ( $jionTable [$i], $jionCondition [$i], $type [$i] );
 		}
-		
+
 		if ($where != "") {
 			$this->db->where ( $where );
 		}
@@ -355,14 +355,14 @@ class Db_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getCurrentWithOrder
 	 * ********************************************************
 	 */
-	function getCurrentWithOrder($table, $feild, $where, $order, $order_by, $limit, $option) {
-		$this->db->select ( $feild );
+	function getCurrentWithOrder($table, $field, $where, $order, $order_by, $limit, $option) {
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->where ( $where );
 		$this->db->order_by ( $order, $order_by );
@@ -373,7 +373,7 @@ class Db_model extends CI_Model {
 		if ($query->num_rows () > 0) {
 			$rowP = $query->row ();
 			if ($option == 'yes') {
-				return $rowP->$feild;
+				return $rowP->{$field};
 			} else {
 				return $query;
 			}
@@ -385,20 +385,20 @@ class Db_model extends CI_Model {
 			}
 		}
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getReferPatients
 	 * ********************************************************
 	 */
-	function getAllWithOrder($table, $feild, $where) {
-		$this->db->select ( $feild );
+	function getAllWithOrder($table, $field, $where) {
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->where ( $where );
 		$query = $this->db->get ();
 		if ($query->num_rows () > 0) {
 			$rowP = $query->row ();
-			return $rowP->$feild;
+			return $rowP->{$field};
 		} else {
 			return false;
 		}
@@ -415,9 +415,9 @@ class Db_model extends CI_Model {
 			$string = '';
 			if ($query->num_rows () > 0) {
 				foreach ( $query->result () as $rows ) {
-					$string .= $rows->$select . ',';
+					$string .= $rows->{$select} . ',';
 				}
-				
+
 				return substr ( $string, '', - 1 );
 			} else {
 				if ($return_message == FALSE) {
@@ -451,10 +451,10 @@ class Db_model extends CI_Model {
 		$where = $id_value;
 		$drp_array = $this->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
-		
+
 		$drp_list = array ();
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->$select_params [0]] = $drp_value->$select_params [1];
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
 	}
@@ -486,7 +486,7 @@ class Db_model extends CI_Model {
 		$drp_list = array ();
 		// $drp_list[0] = 'Admin';
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->$select_params [0]] = $drp_value->$select_params [1];
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
 	}
@@ -504,11 +504,11 @@ class Db_model extends CI_Model {
 		$where = $id_value;
 		$drp_array = $this->getSelect ( $select, $table, $id_value );
 		$drp_array = $drp_array->result ();
-		
+
 		$drp_list = array ();
 		$drp_list [0] = "--Select--";
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->$select_params [0]] = $drp_value->$select_params [1];
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
 	}
@@ -536,17 +536,17 @@ class Db_model extends CI_Model {
 					$id_value = $account_data ['id'];
 				}
 				$where = array (
-						$id_where => $id_value 
+						$id_where => $id_value
 				);
 			}
 		}
-		
+
 		$drp_array = $this->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
-		
+
 		$drp_list = array ();
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->$select_params [0]] = $drp_value->$select_params [1];
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
 	}
@@ -575,30 +575,30 @@ class Db_model extends CI_Model {
 					$id_value = $account_data ['id'];
 				}
 				$where = array (
-						$id_where => $id_value 
+						$id_where => $id_value
 				);
 			}
 		}
-		
+
 		$drp_array = $this->getSelect ( $select, $table, $where );
-		
+
 		$drp_array = $drp_array->result ();
-		
+
 		$name = explode ( "as", $select );
 		if (isset ( $name [3] )) {
 			$name = trim ( $name [3] );
 		} else {
 			$name = trim ( $name [1] );
 		}
-		
+
 		$drp_list = array ();
 		$dele = array ();
 		foreach ( $drp_array as $drp_value ) {
-			$dele = explode ( "^", $drp_value->$name );
+			$dele = explode ( "^", $drp_value->{$name} );
 			if (isset ( $dele [1] )) {
-				$drp_list ['Deleted'] [$drp_value->$select_params [0]] = str_replace ( "^", "", $drp_value->$name );
+				$drp_list ['Deleted'] [$drp_value->{$select_params [0]}] = str_replace ( "^", "", $drp_value->{$name} );
 			} else {
-				$drp_list ['Active'] [$drp_value->$select_params [0]] = $drp_value->$name;
+				$drp_list ['Active'] [$drp_value->{$select_params [0]}] = $drp_value->{$name};
 			}
 		}
 		ksort ( $drp_list );
@@ -624,7 +624,7 @@ class Db_model extends CI_Model {
 							if (array_key_exists ( $key . "-string", $value )) {
 								$this->get_string_array ( $key, $value [$key . "-string"], $value [$key] );
 							}
-							
+
 							/**
 							 * ASTPP 3.0
 							 * first used,creation,expiry search date picker
@@ -712,7 +712,7 @@ class Db_model extends CI_Model {
 						$str1 = $field . " LIKE '" . $search_array . "%'";
 						$this->db->where ( $str1 );
 					}
-					
+
 					break;
 				case "6" :
 					if ($field == "pattern") {
@@ -722,7 +722,7 @@ class Db_model extends CI_Model {
 						$str1 = $field . " LIKE '%" . $search_array . "'";
 						$this->db->where ( $str1 );
 					}
-					
+
 					break;
 			}
 		}
@@ -856,18 +856,18 @@ class Db_model extends CI_Model {
 	function get_available_bal($account_info) {
 		$available_bal = 0;
 		$available_bal = ($account_info ["posttoexternal"] == 1) ? ($account_info ["credit_limit"] - $account_info ["balance"]) : ($account_info ["balance"]);
-		
+
 		return $available_bal;
 	}
 	function update_balance($amount, $accountid, $payment_type) {
 		if ($payment_type == "debit" || $payment_type == "0") {
-			
+
 			$query = "update accounts set balance =  IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") where id ='" . $accountid . "'";
-			
+
 			return $this->db->query ( $query );
 		} else {
 			$query = "update accounts set balance =  IF(posttoexternal=1,balance-" . $amount . ",balance+" . $amount . ") where id ='" . $accountid . "'";
-			
+
 			return $this->db->query ( $query );
 		}
 	}
