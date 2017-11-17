@@ -123,6 +123,7 @@ bantime  = 6000
 
 
 ################################# JAIL.CONF FILE READY ######################
+mkdir /var/run/fail2ban
 
 echo "################################################################"
 echo "Auto Configuration Completed"
