@@ -242,7 +242,7 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
 				update_balance ( $accountid, $debit, 0, $logger, $db );
 			}
 		}
-		return true;
+		//return true;
 	}
 	return true;
 }
