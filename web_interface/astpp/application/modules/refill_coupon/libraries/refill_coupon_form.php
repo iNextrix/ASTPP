@@ -187,7 +187,7 @@ class Refill_coupon_form {
 				),
 				array (
 						gettext ( 'Account' ),
-						'accountid',
+						'account_id',
 						'SELECT',
 						'',
 						'',
