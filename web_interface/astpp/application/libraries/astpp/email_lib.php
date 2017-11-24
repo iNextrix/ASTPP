@@ -277,7 +277,7 @@ class email_lib {
 				$mail_data ['from'] = isset ( $this->from ) ? $this->from : '';
 				$mail_data ['to'] = isset ( $this->to ) ? $this->to : '';
 				$mail_data ['subject'] = isset ( $this->subject ) ? $this->subject : '';
-				if (common_model::$global_config ['system_config'] ['email_debug'] == 0) {
+				if (common_model::$global_config ['system_config'] ['mail_debug'] == 0) {
 					$this->CI->email->print_debugger_email ( $mail_data, common_model::$global_config ['system_config'] ['log_path'] );
 				}
 				$this->CI->email->clear ( true );
