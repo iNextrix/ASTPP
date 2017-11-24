@@ -48,13 +48,13 @@ class Invoices_model extends CI_Model {
 					$acc_arr [] = $data ['id'];
 				}
 				$this->db->where_in ( 'accountid', $acc_arr );
+				$this->db->where ( 'deleted', 0 );
 				if ($flag) {
 					$this->db->select ( '*' );
 				} else {
 					$this->db->select ( 'count(id) as count' );
 				}
-				if ($flag) {
-					$this->db->where ( 'deleted', 0 );
+				if ($flag) {					
 					$this->db->order_by ( 'invoice_date', 'desc' );
 					$this->db->limit ( $limit, $start );
 				}
