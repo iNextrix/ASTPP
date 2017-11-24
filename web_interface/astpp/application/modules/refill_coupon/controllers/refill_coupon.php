@@ -120,19 +120,19 @@ class Refill_coupon extends MX_Controller {
 		} else {
 			if ($account_length <= strlen ( $add_array ['prefix'] )) {
 				echo json_encode ( array (
-						"count_error" => "You Can Not Create " . $add_array ['count'] . " Accounts with " . $add_array ['prefix'] . " prefix." 
+						"count_error" => "You can not create " . $add_array ['count'] . " Refill coupon with " . $add_array ['prefix'] . " prefix." 
 				) );
 				exit ();
 			}
 			if ($currentlength <= 0) {
 				echo json_encode ( array (
-						"count_error" => "You Can Not Create " . $add_array ['count'] . " Accounts with " . $add_array ['prefix'] . " prefix" 
+						"count_error" => "You can not create " . $add_array ['count'] . " Refill coupon with " . $add_array ['prefix'] . " prefix" 
 				) );
 				exit ();
 			}
 			if ($currentlength > 0 && $add_array ['count'] > $currentlength) {
 				echo json_encode ( array (
-						"count_error" => "You Can Create Maximum " . $currentlength . " accounts with " . $add_array ['prefix'] . " prefix" 
+						"count_error" => "You can create maximum " . $currentlength . " Refill coupon with " . $add_array ['prefix'] . " prefix" 
 				) );
 				exit ();
 			} else {
