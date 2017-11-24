@@ -415,10 +415,15 @@ function package_calculation (destination_number,userinfo,call_direction)
 			remaining_sec = tonumber(package_info['includedseconds']) - tonumber(freeseconds)
 			Logger.info("Remaining Sec : "..remaining_sec)
 			if(remaining_sec > 0) then
-					userinfo['balance'] = 100
-			        userinfo['NO_SUFFICIENT_FUND'] = ''
-                    remaining_sec = remaining_sec + 5
-					package_maxlength = remaining_sec / 60;	
+				if (tonumber(balance) <= 0) then
+			    	    userinfo['balance'] = 100
+			    	    userinfo['credit_limit'] = 200
+			    	    Logger.notice("Actual Balance : "..balance)
+			    	    Logger.notice("Allocating static balance for package calls, Balance : "..userinfo['balance'].. ", Credit limit : "..userinfo['credit_limit'])
+			    	end			    	
+			        userinfo['ACCOUNT_ERROR'] = ''
+                    		remaining_sec = remaining_sec + 5
+				package_maxlength = remaining_sec / 60;	
 			end
 		end 
 	end
