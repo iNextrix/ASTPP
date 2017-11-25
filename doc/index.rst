@@ -1,9 +1,23 @@
-| Minimal System requirement
-| 2GB RAM
-| 40GB Hard drive
-| 64 bit OS (Centos/ Debian latest version)
-| Dedicated server ip
-| 100 Mbps connection
-| VoIP Requirement
-| Termination gateway to route outbound calls
-| DIDs to receive incoming calls
+============ 
+Introduction 
+============ 
+
+ASTPP is a Open Source VoIP Billing Solution for Freeswitch. It supports prepaid and postpaid billing with call rating and credit control. It also provides many other features such as,
+
+Calling cards
+
+Least cost routing (LCR),
+
+DID management,
+
+Multi level Reseller management
+
+Customer management
+
+IP & SIP Termination 
+
+Rates management
+
+Reports
+
+and many more
