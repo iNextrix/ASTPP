@@ -21,3 +21,8 @@ Rates management
 Reports
 
 and many more
+
+.. toctree::
+   :maxdepth: 2
+
+   quick_install.rst
