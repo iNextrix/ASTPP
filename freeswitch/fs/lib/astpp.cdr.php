@@ -363,7 +363,7 @@ function calc_cost($dataVariable, $rates, $logger, $decimal_points) {
 	$duration = $dataVariable ['billsec'];
 	$call_cost = 0;
 	$duration -= $rates ['INCLUDEDSECONDS'];
-	if ($duration > 0 && ($dataVariable ['hangup_cause'] == 'NORMAL_CLEARING' || $dataVariable ['hangup_cause'] == 'ALLOTTED_TIMEOUT')) {
+	if ($duration > 0) {
 		
 		$rates ['INC'] = ($rates ['INC'] == 0) ? 1 : $rates ['INC'];
 		$call_cost = $rates ['CONNECTIONCOST'];
