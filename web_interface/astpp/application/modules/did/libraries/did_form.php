@@ -390,6 +390,7 @@ class did_form {
 						'tOOL TIP',
 						'Please Enter Password' 
 				),
+				/** SD [01-Dec-2017] Removed CC field as we are going to check CC from accounts module for DID calls.
 				array (
 						gettext ( 'Concurrent Calls' ),
 						'INPUT',
@@ -401,7 +402,7 @@ class did_form {
 						'trim|is_numeric|xss_clean',
 						'tOOL TIP',
 						'Please Enter account number' 
-				),
+				),**/
 				array (
 						gettext ( 'Status' ),
 						'status',
