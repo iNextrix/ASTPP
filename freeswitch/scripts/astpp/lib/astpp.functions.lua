@@ -77,8 +77,8 @@ function check_did(destination_number,config)
 	local number_translation 
 	number_translation = config['did_global_translation'];
 	destination_number = do_number_translation(number_translation,destination_number)
-
-	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,B.did_cid_translation as did_cid_translation,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc,A.leg_timeout FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE A.status=0 AND B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
+	-- SD [01-Dec-2017] Added ,B.maxchannels as customer_maxchannels parameter to fetch account CC for DID calls.
+	local query = "SELECT A.id as id,B.id as accountid,B.number as account_code,B.did_cid_translation as did_cid_translation,B.maxchannels as customer_maxchannels, A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province,A.init_inc,A.leg_timeout FROM "..TBL_DIDS.." AS A,"..TBL_USERS.." AS B WHERE A.status=0 AND B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number =\"" ..destination_number .."\" LIMIT 1";
 
 	Logger.debug("[CHECK_DID] Query :" .. query)
 
