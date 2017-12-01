@@ -213,10 +213,18 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
     -----------------------------------------------
 
 	table.insert(xml, [[<action application="set" data="receiver_accid=]]..didinfo['accountid']..[["/>]]);  
-	-- Set max channel limit for did if > 0     
-	if(tonumber(didinfo['maxchannels']) > 0) then    
-	    table.insert(xml, [[<action application="limit" data="db ]]..destination_number..[[ did_]]..destination_number..[[ ]]..didinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);        
+	-- Set max channel limit for did if > 0
+	
+	-- SD [01-Dec-2017] : Removed CC checking from DID module and implemented CC checking from accounts module.
+	--if(tonumber(didinfo['maxchannels']) > 0) then    
+	--    table.insert(xml, [[<action application="limit" data="db ]]..destination_number..[[ did_]]..destination_number..[[ ]]..didinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);        
+	--end
+	
+	if(tonumber(didinfo['customer_maxchannels']) > 0) then    
+	    local customer_maxchannel = didinfo['customer_maxchannels']
+    	    table.insert(xml, [[<action application="limit" data="db ]]..didinfo['account_code']..[[ user_]]..didinfo['account_code']..[[ ]]..customer_maxchannel..[[ !SWITCH_CONGESTION"/>]]);      
 	end
+	---------------------------------------------------
 
 	if (tonumber(didinfo['call_type']) == 0 and didinfo['extensions'] ~= '') then
 		table.insert(xml, [[<action application="set" data="calltype=STANDARD"/>]]);     
