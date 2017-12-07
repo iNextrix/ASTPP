@@ -299,6 +299,15 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
 	$dataVariable ['calltype'] = ($dataVariable ['calltype'] == 'DID-LOCAL' || $dataVariable ['calltype'] == 'SIP-DID' || $dataVariable ['calltype'] == 'OTHER') ? "DID" : $dataVariable ['calltype'];
 	// $callerIdNumber = isset($dataVariable['effective_caller_id_number']) && !empty($dataVariable['effective_caller_id_number'])? $dataVariable['effective_caller_id_number'] :$dataVariable['caller_id'];
 	$callerIdNumber = ($dataVariable ['calltype'] == "DID") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
+
+        //Adding q.850 code in cdr table
+	if(table_exists('q850code', 'astpp', $logger, $db)==1) {
+	        $query = "SELECT code FROM q850code WHERE cause='" . ($dataVariable ['hangup_cause']) . "'";
+        	//$logger->log ( "Geting Q.850 Code Query : " . $query );
+	        $q850code = $db->run ( $query );
+        	//$logger->log("Code: " .$q850code[0]['code'] );
+	        $dataVariable ['hangup_cause'] = $dataVariable ['hangup_cause'] .' ['. $q850code [0]['code'].']';
+	}
 	
 	return $cdr_string = "'" . ($dataVariable ['uuid']) . "','" . $accountid . "','" . $account_type . "','" . (urldecode ( $callerIdNumber )) . "','" . ($dataVariable ['effective_destination_number']) . "','" . $actual_duration . "'," . (($termination_rate ['TRUNK']) ? $termination_rate ['TRUNK'] : '0') . "," . (($dataVariable ['sip_via_host']) ? "'" . $dataVariable ['sip_via_host'] . "'" : '""') . "," . (($dataVariable ['sip_contact_host']) ? "'" . $dataVariable ['sip_contact_host'] . "'" : '""') . ",'" . ($dataVariable ['hangup_cause']) . "','" . urldecode ( $dataVariable ['callstart'] ) . "','" . $debit . "','" . $cost . "'," . (($termination_rate ['PROVIDER']) ? $termination_rate ['PROVIDER'] : '0') . ",'" . $origination_rate [$accountid] ['RATEGROUP'] . "','" . $dataVariable ['package_id'] . "','" . ($origination_rate [$accountid] ['CODE']) . "'," . (($origination_rate [$accountid] ['DESTINATION']) ? "'" . htmlentities ( $origination_rate [$accountid] ['DESTINATION'], ENT_COMPAT, 'UTF-8' ) . "'" : "'" . '' . "'") . "," . (($origination_rate [$accountid] ['COST']) ? "'" . $origination_rate [$accountid] ['COST'] . "'" : "'" . '0' . "'") . ",'" . $parentid . "'," . (($origination_rate [$parentid] ['CODE']) ? "'" . $origination_rate [$parentid] ['CODE'] . "'" : "'" . '0' . "'") . "," . (($origination_rate [$parentid] ['DESTINATION']) ? "'" . $origination_rate [$parentid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$parentid] ['COST']) ? "'" . $origination_rate [$parentid] ['COST'] . "'" : '0') . "," . (($termination_rate ['CODE']) ? "'" . $termination_rate ['CODE'] . "'" : "'" . '' . "'") . "," . (($termination_rate ['DESTINATION']) ? "'" . $termination_rate ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($termination_rate ['COST']) ? "'" . $termination_rate ['COST'] . "'" : '0') . ",'" . $provider_cost . "'," . (($dataVariable ['call_direction']) ? "'" . $dataVariable ['call_direction'] . "'" : "'internal'") . ",'" . ($dataVariable ['calltype']) . "','" . urldecode ( $dataVariable ['profile_start_stamp'] ) . "','" . urldecode ( $dataVariable ['answer_stamp'] ) . "','" . urldecode ( $dataVariable ['bridge_stamp'] ) . "','" . urldecode ( @$dataVariable ['progress_stamp'] ) . "','" . urldecode ( @$dataVariable ['progress_media_stamp'] ) . "','" . urldecode ( $dataVariable ['end_stamp'] ) . "'," . $dataVariable ['billmsec'] . ",'" . $dataVariable ['answermsec'] . "','" . $dataVariable ['waitmsec'] . "','" . $dataVariable ['progress_mediamsec'] . "','" . $dataVariable ['flow_billmsec'] . "'";
 }
@@ -308,6 +317,15 @@ function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actu
 	$dataVariable ['calltype'] = ($dataVariable ['calltype'] == 'DID-LOCAL' || $dataVariable ['calltype'] == 'SIP-DID' || $dataVariable ['calltype'] == 'OTHER') ? "DID" : $dataVariable ['calltype'];
 	// $callerIdNumber = isset($dataVariable['effective_caller_id_number']) && !empty($dataVariable['effective_caller_id_number'])? $dataVariable['effective_caller_id_number'] :$dataVariable['caller_id'];
 	$callerIdNumber = ($dataVariable ['calltype'] == "DID") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
+
+        //Adding q.850 code in cdr table
+	if(table_exists('q850code', 'astpp', $logger, $db)==1) {
+	        $query = "SELECT code FROM q850code WHERE cause='" . ($dataVariable ['hangup_cause']) . "'";
+        	//$logger->log ( "Geting Q.850 Code Query : " . $query );
+	        $q850code = $db->run ( $query );
+        	//$logger->log("Code: " .$q850code[0]['code'] );
+	        $dataVariable ['hangup_cause'] = $dataVariable ['hangup_cause'] .' ['. $q850code [0]['code'].']';
+	}
 	
 	return $cdr_string = "'" . ($dataVariable ['uuid']) . "','" . $accountid . "','" . (urldecode ( $callerIdNumber )) . "','" . ($dataVariable ['effective_destination_number']) . "','" . $actual_duration . "','" . ($dataVariable ['hangup_cause']) . "','" . urldecode ( $dataVariable ['callstart'] ) . "','" . $debit . "','" . $cost . "','" . $origination_rate [$accountid] ['RATEGROUP'] . "','" . $dataVariable ['package_id'] . "','" . ($origination_rate [$accountid] ['CODE']) . "'," . (($origination_rate [$accountid] ['DESTINATION']) ? "'" . $origination_rate [$accountid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$accountid] ['COST']) ? "'" . $origination_rate [$accountid] ['COST'] . "'" : "'" . '0' . "'") . ",'" . $parentid . "'," . (($origination_rate [$parentid] ['CODE']) ? "'" . $origination_rate [$parentid] ['CODE'] . "'" : "'" . '0' . "'") . "," . (($origination_rate [$parentid] ['DESTINATION']) ? "'" . $origination_rate [$parentid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$parentid] ['COST']) ? "'" . $origination_rate [$parentid] ['COST'] . "'" : '0') . "," . (($dataVariable ['call_direction']) ? "'" . $dataVariable ['call_direction'] . "'" : "'internal'") . ",'" . ($dataVariable ['calltype']) . "'";
 }
@@ -356,6 +374,16 @@ function normalize_origination_rate($dataVariable) {
 	}
 	return $newarray1;
 }
+
+//Checking table existance
+function table_exists($tablename, $database, $logger, $db) {
+
+        $query = "SELECT COUNT(*) AS count FROM information_schema.tables WHERE table_schema = '" . $database . "' AND table_name = " . "'" . $tablename . "'" ;
+        $logger->log ( "Checking table existance : " . $query );
+        $res_user = $db->run ( $query );
+        return $res_user [0]['count'];
+}
+
 
 // Calculate cost for billing
 function calc_cost($dataVariable, $rates, $logger, $decimal_points) {

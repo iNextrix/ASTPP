@@ -636,7 +636,13 @@ class Db_model extends CI_Model {
 								$this->get_date_array ( $key, $value );
 							}
 						} else {
-							$this->db->where ( $key, $value );
+							//Getting disposition with Q.850 code
+							if($key == 'disposition'){
+                                                                $str1 = $key . " LIKE '%$value%'";
+                                                                $this->db->where ( $str1 );
+                                                        }else{
+								$this->db->where ( $key, $value );
+							}
 						}
 					}
 				}
