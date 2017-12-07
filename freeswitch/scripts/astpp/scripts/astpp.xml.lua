@@ -38,6 +38,9 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<action application="set" data="continue_on_fail=true"/>]]);  
 	--table.insert(xml, [[<action application="set" data="ignore_early_media=true"/>]]);       
 
+	--To check and alter hangup cause
+        table.insert(xml, [[<action application="set" data="execute_on_post_originate=lua alter_hangup_cause.lua ${uuid}"/>]]);
+
 	table.insert(xml, [[<action application="set" data="account_id=]]..customer_userinfo['id']..[["/>]]);              
 	table.insert(xml, [[<action application="set" data="parent_id=]]..customer_userinfo['reseller_id']..[["/>]]);
 	table.insert(xml, [[<action application="set" data="entity_id=]]..customer_userinfo['type']..[["/>]]);
