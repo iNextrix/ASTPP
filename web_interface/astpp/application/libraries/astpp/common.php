@@ -36,7 +36,7 @@ class common {
 		$this->CI->load->library ( 'email' );
 		$this->CI->load->library ( 'session' );
 	}
-	
+
 	// __construct
 	/**
 	 * adds raw html to the field array
@@ -56,7 +56,7 @@ class common {
 			$accounttype_array = array ();
 			$uname = rand ( pow ( 10, $size - 1 ), pow ( 10, $size ) - 1 );
 			$where = array (
-					$field => $uname 
+					$field => $uname
 			);
 			$acc_result = $this->CI->db_model->getSelect ( 'Count(*) as count', $tablename, $where );
 			$acc_result = $acc_result->result ();
@@ -74,7 +74,7 @@ class common {
 			$accounttype_array = array ();
 			$uname = rand ( pow ( 10, $size - 1 ), pow ( 10, $size ) - 1 );
 			$where = array (
-					$field => $uname 
+					$field => $uname
 			);
 			$acc_result = $this->CI->db_model->getSelect ( 'Count(*) as count', $tablename, $where );
 			$acc_result = $acc_result->result ();
@@ -93,10 +93,10 @@ class common {
 		}
 		return $uname;
 	}
-	
+
 	/**
 	 *
-	 * @param string $length        	
+	 * @param string $length
 	 */
 	function random_string($length) {
 		$chars = "1234567890"; // length:36
@@ -109,10 +109,10 @@ class common {
 	function find_uniq_rendno_accno($length = '', $field = '', $tablename = '', $default, $creation_count) {
 		$number = array ();
 		$j = 0;
-		
+
 		$total_count = pow ( 10, $length );
 		for($i = 1; $i <= $total_count; $i ++) {
-			
+
 			$flag = false;
 			$uname = $this->random_string ( $length );
 			$uname = strtolower ( $uname );
@@ -120,7 +120,7 @@ class common {
 				$uname = $default . $uname;
 			if (! in_array ( $uname, $number )) {
 				$where = array (
-						$field => $uname 
+						$field => $uname
 				);
 				$acc_result = $this->CI->db_model->getSelect ( 'Count(id) as count', $tablename, $where );
 				$acc_result = $acc_result->result_array ();
@@ -137,11 +137,11 @@ class common {
 		}
 		return $number;
 	}
-	
+
 	/**
 	 *
-	 * @param string $select        	
-	 * @param string $table        	
+	 * @param string $select
+	 * @param string $table
 	 */
 	function get_field_count($select, $table, $where) {
 		// echo $select."=====".$table."===".$where;
@@ -149,7 +149,7 @@ class common {
 			$where = $where;
 		} else {
 			$where = array (
-					$select => $where 
+					$select => $where
 			);
 		}
 		$field_name = $this->CI->db_model->countQuery ( $select, $table, $where );
@@ -159,33 +159,33 @@ class common {
 			return "0";
 		}
 	}
-	
+
 	/**
 	 *
-	 * @param string $select        	
-	 * @param string $table        	
+	 * @param string $select
+	 * @param string $table
 	 */
 	function get_field_name($select, $table, $where) {
 		if (is_array ( $where )) {
 			$where = $where;
 		} else {
 			$where = array (
-					"id" => $where 
+					"id" => $where
 			);
 		}
 		$field_name = $this->CI->db_model->getSelect ( $select, $table, $where );
 		$field_name = $field_name->result ();
 		if (isset ( $field_name ) && ! empty ( $field_name )) {
-			return $field_name [0]->$select;
+			return $field_name [0]->{$select};
 		} else {
 			return "";
 		}
 	}
-	
+
 	/**
 	 *
-	 * @param string $select        	
-	 * @param string $table        	
+	 * @param string $select
+	 * @param string $table
 	 */
 	function get_field_name_coma_new($select, $table, $where) {
 		$value = '';
@@ -197,17 +197,17 @@ class common {
 		$select1 = explode ( ',', $select );
 		for($i = 0; $i < count ( $where ); $i ++) {
 			$where_in = array (
-					"id" => $where [$i] 
+					"id" => $where [$i]
 			);
-			
+
 			$field_name = $this->CI->db_model->getSelect ( $select, $table, $where_in );
 			$field_name = $field_name->result ();
 			if (isset ( $field_name ) && ! empty ( $field_name )) {
 				foreach ( $select1 as $sel ) {
 					if ($sel == 'number') {
-						$value .= "(" . $field_name [0]->$sel . ")";
+						$value .= "(" . $field_name [0]->{$sel} . ")";
 					} else {
-						$value .= $field_name [0]->$sel . " ";
+						$value .= $field_name [0]->{$sel} . " ";
 					}
 				}
 			} else {
@@ -220,7 +220,7 @@ class common {
 		$accountinfo = $this->CI->session->userdata ( 'accountinfo' );
 		$flag_status = "";
 		$where = array (
-				"number" => $where 
+				"number" => $where
 		);
 		$field_name = $this->CI->db_model->getSelect ( "id,accountid,parent_id", 'dids', $where );
 		$field_name = $field_name->result ();
@@ -237,11 +237,11 @@ class common {
 				$reseller_id = $accountinfo ['type'] != 1 ? 0 : $accountinfo ['id'];
 				$where = array (
 						"note" => $field_name [0]->number,
-						'parent_id' => $reseller_id 
+						'parent_id' => $reseller_id
 				);
 				$field_name_re = $this->CI->db_model->getSelect ( "reseller_id", 'reseller_pricing', $where );
 				$field_name_re = $field_name_re->result ();
-				
+
 				if (isset ( $field_name_re ) && ! empty ( $field_name_re )) {
 					$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='Release' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Release(R)</span></a>";
 				} else {
@@ -271,7 +271,7 @@ class common {
 		} else {
 			$where_arr = array (
 					'note' => $did_info ['number'],
-					"parent_id" => $accountinfo ['id'] 
+					"parent_id" => $accountinfo ['id']
 			);
 			$this->db->where ( $where );
 			$this->CI->db->select ( 'reseller_id,parent_id' );
@@ -299,7 +299,7 @@ class common {
 			$reseller_id = $accountinfo ['type'] != 1 ? 0 : $accountinfo ['id'];
 			$where = array (
 					"note" => $did_info ['number'],
-					'parent_id' => $reseller_id 
+					'parent_id' => $reseller_id
 			);
 			$this->CI->db->where ( $where );
 			$this->CI->db->select ( 'reseller_id,id' );
@@ -312,7 +312,7 @@ class common {
 		}
 		return $flag_status;
 	}
-	
+
 	// get data for Comma seprated
 	function get_field_name_coma($select, $table, $where) {
 		$value = '';
@@ -323,13 +323,13 @@ class common {
 		}
 		for($i = 0; $i < count ( $where ); $i ++) {
 			$where_in = array (
-					"id" => $where [$i] 
+					"id" => $where [$i]
 			);
-			
+
 			$field_name = $this->CI->db_model->getSelect ( $select, $table, $where_in );
 			$field_name = $field_name->result ();
 			if (isset ( $field_name ) && ! empty ( $field_name )) {
-				$value .= $field_name [0]->$select . ",";
+				$value .= $field_name [0]->{$select} . ",";
 			} else {
 				$value = "";
 			}
@@ -341,7 +341,7 @@ class common {
 		$uri_segment = $this->CI->uri->segments;
 		if (isset ( $uri_segment [3] ) && $uri_segment [3] > 0 && empty ( $edit_value )) {
 			$field_name = $this->CI->db_model->getSelect ( "sweep_id,invoice_day", "accounts", array (
-					"id" => $uri_segment [3] 
+					"id" => $uri_segment [3]
 			) );
 			$field_name = $field_name->result_array ();
 			$select = $field_name [0] ["sweep_id"];
@@ -351,7 +351,7 @@ class common {
 		}
 		if ($select == "" || $select == "0") {
 			$daily_arr = array (
-					"0" => "0" 
+					"0" => "0"
 			);
 			return $daily_arr;
 		}
@@ -363,7 +363,7 @@ class common {
 					"4" => "Thursday",
 					"5" => "Friday",
 					"6" => "Saturday",
-					"7" => "Sunday" 
+					"7" => "Sunday"
 			);
 			$rawDate = date ( "Y-m-d" );
 			$day = date ( 'N', strtotime ( $rawDate ) );
@@ -373,7 +373,7 @@ class common {
 				$week_drp = form_dropdown ( array (
 						"name" => 'invoice_day',
 						'style' => "width: 100% !important;",
-						"class" => "invoice_day" 
+						"class" => "invoice_day"
 				), $week_arr, $day );
 				return $week_drp;
 			}
@@ -388,7 +388,7 @@ class common {
 				$day = $invoice_date > 0 ? $invoice_date : date ( 'd' );
 				$month_drp = form_dropdown ( array (
 						"name" => 'invoice_day',
-						"class" => "width_dropdown invoice_day" 
+						"class" => "width_dropdown invoice_day"
 				), $mon_arr, $day );
 				return $month_drp;
 			}
@@ -397,21 +397,21 @@ class common {
 	function set_status($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Active' ),
-				'1' => gettext ( 'Inactive' ) 
+				'1' => gettext ( 'Inactive' )
 		);
 		return $status_array;
 	}
 	function set_routetype($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'LCR' ),
-				'1' => gettext ( 'COST' ) 
+				'1' => gettext ( 'COST' )
 		);
 		return $status_array;
 	}
 	function set_prorate($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Yes' ),
-				'1' => gettext ( 'No' ) 
+				'1' => gettext ( 'No' )
 		);
 		return $status_array;
 	}
@@ -422,7 +422,7 @@ class common {
 		$package_applicable = array (
 				'0' => gettext ( 'Outbound' ),
 				'1' => gettext ( 'Inbound' ),
-				'2' => gettext ( 'Both' ) 
+				'2' => gettext ( 'Both' )
 		);
 		return $package_applicable;
 	}
@@ -430,7 +430,7 @@ class common {
 		$package_applicable = array (
 				'0' => gettext ( 'Outbound' ),
 				'1' => gettext ( 'Inbound' ),
-				'2' => gettext ( 'Both' ) 
+				'2' => gettext ( 'Both' )
 		);
 		return $package_applicable [$applicable_for];
 	}
@@ -440,28 +440,28 @@ class common {
 	function set_allow($status = '') {
 		$status_array = array (
 				'1' => gettext ( 'Yes' ),
-				'0' => gettext ( 'No' ) 
+				'0' => gettext ( 'No' )
 		);
 		return $status_array;
 	}
 	function set_allow_invoice($status = '') {
 		$status_array = array (
 				'1' => gettext ( 'Yes' ),
-				'0' => gettext ( 'No' ) 
+				'0' => gettext ( 'No' )
 		);
 		return $status_array;
 	}
 	function set_pin_allow($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Disable' ),
-				'1' => gettext ( 'Enable' ) 
+				'1' => gettext ( 'Enable' )
 		);
 		return $status_array;
 	}
 	function set_pin_allow_customer($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'No' ),
-				'1' => gettext ( 'Yes' ) 
+				'1' => gettext ( 'Yes' )
 		);
 		return $status_array;
 	}
@@ -476,7 +476,7 @@ class common {
 				'4' => gettext ( 'Direct-IP' ),
 				'2' => gettext ( 'Other' ),
 				'0' => gettext ( 'PSTN' ),
-				'3' => gettext ( 'SIP-DID' ) 
+				'3' => gettext ( 'SIP-DID' )
 		);
 		return $call_type_array;
 	}
@@ -488,7 +488,7 @@ class common {
 				'4' => gettext ( 'Direct-IP' ),
 				'2' => gettext ( 'Other' ),
 				'0' => gettext ( 'PSTN' ),
-				'3' => gettext ( 'SIP-DID' ) 
+				'3' => gettext ( 'SIP-DID' )
 		);
 		return $call_type_array;
 	}
@@ -500,7 +500,7 @@ class common {
 				'2' => gettext ( 'Other' ),
 				'0' => gettext ( 'PSTN' ),
 				'3' => gettext ( 'SIP-DID' ),
-				'-1' => "" 
+				'-1' => ""
 		);
 		return $call_type_array [$call_type];
 	}
@@ -512,14 +512,14 @@ class common {
 				'Other' => '2',
 				'PSTN' => '0',
 				'SIP-DID' => '3',
-				"" => "-1" 
+				"" => "-1"
 		);
 		return $call_type_array [$call_type];
 	}
 	function set_sip_config_option($option = "") {
 		$config_option = array (
 				"true" => "True",
-				"false" => "False" 
+				"false" => "False"
 		);
 		return $config_option;
 	}
@@ -531,7 +531,7 @@ class common {
 				'2' => 'Admin',
 				'3' => "Provider",
 				"4" => "Subadmin",
-				"5" => "Callshop" 
+				"5" => "Callshop"
 		);
 		return ($entity_array [$entity_type]);
 	}
@@ -539,7 +539,7 @@ class common {
 		$entity_array = array (
 				'' => gettext ( "--Select--" ),
 				'0' => gettext ( 'Customer' ),
-				'3' => gettext ( "Provider" ) 
+				'3' => gettext ( "Provider" )
 		);
 		return $entity_array;
 	}
@@ -547,7 +547,7 @@ class common {
 		$entity_array = array (
 				'' => gettext ( "--Select--" ),
 				'2' => gettext ( 'Admin' ),
-				"4" => gettext ( "Sub Admin" ) 
+				"4" => gettext ( "Sub Admin" )
 		);
 		return $entity_array;
 	}
@@ -556,14 +556,14 @@ class common {
 				'' => gettext ( "--Select--" ),
 				'0' => gettext ( 'Customer' ),
 				'1' => gettext ( 'Reseller' ),
-				'3' => gettext ( "Provider" ) 
+				'3' => gettext ( "Provider" )
 		);
 		return $entity_array;
 	}
 	function set_sip_config_options($option = "") {
 		$config_option = array (
 				"false" => gettext ( "False" ),
-				"true" => gettext ( "True" ) 
+				"true" => gettext ( "True" )
 		);
 		return $config_option;
 	}
@@ -571,7 +571,7 @@ class common {
 		$config_option = array (
 				"" => gettext ( "--SELECT--" ),
 				"false" => gettext ( "False" ),
-				"true" => gettext ( "True" ) 
+				"true" => gettext ( "True" )
 		);
 		return $config_option;
 	}
@@ -579,7 +579,7 @@ class common {
 		$config_option = array (
 				"" => gettext ( "--SELECT--" ),
 				"udp" => gettext ( "UDP" ),
-				"tcp" => gettext ( "TCP" ) 
+				"tcp" => gettext ( "TCP" )
 		);
 		return $config_option;
 	}
@@ -587,14 +587,14 @@ class common {
 		$config_option = array (
 				"in" => gettext ( "In" ),
 				"out" => gettext ( "Out" ),
-				"both" => gettext ( "Both" ) 
+				"both" => gettext ( "Both" )
 		);
 		return $config_option;
 	}
 	function set_sip_drp_option($option = "") {
 		$status_array = array (
 				'no' => gettext ( 'No' ),
-				'yes' => gettext ( 'Yes' ) 
+				'yes' => gettext ( 'Yes' )
 		);
 		return $status_array;
 	}
@@ -602,7 +602,7 @@ class common {
 		$status_array = array (
 				'1' => gettext ( 'Active' ),
 				'0' => gettext ( 'Inactive' ),
-				'2' => gettext ( 'Deleted' ) 
+				'2' => gettext ( 'Deleted' )
 		);
 		return $status_array;
 	}
@@ -641,21 +641,21 @@ class common {
 	function get_did_status($select, $table, $status) {
 		return ($status ['status'] == 0) ? "<span class='label label-sm label-inverse arrowed-in' title='release'>Active<span>" : "<span class='label label-sm' title='release'>Inactive<span>";
 	}
-	
+
 	/**
 	 *
-	 * @param string $select        	
+	 * @param string $select
 	 */
 	function get_invoice_date($select, $accountid = 0, $reseller_id, $order_by = 'id') {
 		$where = array (
-				"reseller_id" => $reseller_id 
+				"reseller_id" => $reseller_id
 		);
 		if ($accountid > 0) {
 			$where ['accountid'] = $accountid;
-			
+
 			// Patch to fetch correct invoice date for postpaid customer
 			$posttoexternal = $this->get_field_name ( "posttoexternal", "accounts", array (
-					"id" => $accountid 
+					"id" => $accountid
 			) );
 			if ($posttoexternal == 1)
 				$where ['type'] = "I";
@@ -677,7 +677,7 @@ class common {
 			return $amount;
 		} else {
 			$balance = $this->CI->common_model->add_calculate_currency ( ($amount), "", '', true, true );
-			
+
 			return $balance;
 		}
 	}
@@ -688,7 +688,7 @@ class common {
 	function account_number_icon($select = "", $table = "", $number) {
 		$return_value = '';
 		$where = array (
-				'number' => $number 
+				'number' => $number
 		);
 		$account_res = ( array ) $this->CI->db->get_where ( "accounts", $where )->first_row ();
 		if ($account_res ['type'] == 0) {
@@ -715,7 +715,7 @@ class common {
 	function set_account_type($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Prepaid' ),
-				'1' => gettext ( 'Postpaid' ) 
+				'1' => gettext ( 'Postpaid' )
 		);
 		return $status_array;
 	}
@@ -723,14 +723,14 @@ class common {
 		$status_array = array (
 				'' => gettext ( "--Select--" ),
 				'0' => gettext ( 'Prepaid' ),
-				'1' => gettext ( 'Postpaid' ) 
+				'1' => gettext ( 'Postpaid' )
 		);
 		return $status_array;
 	}
 	function get_account_type($select = "", $table = "", $PTE) {
 		return ($PTE == 1) ? "Postpaid" : "Prepaid";
 	}
-	
+
 	/**
 	 * ****
 	 * Payment to refill
@@ -745,7 +745,7 @@ class common {
 		}
 		return $type;
 	}
-	
+
 	/**
 	 * *****************
 	 */
@@ -754,7 +754,7 @@ class common {
 			$type = "Admin";
 		} else {
 			$type = $this->get_field_name ( "number", "accounts", array (
-					"id" => $type 
+					"id" => $type
 			) );
 		}
 		return $type;
@@ -765,7 +765,7 @@ class common {
 		 */
 		$status_array = array (
 				'0' => gettext ( 'Refill' ),
-				'1' => gettext ( 'Postcharge' ) 
+				'1' => gettext ( 'Postcharge' )
 		);
 		return $status_array;
 	}
@@ -776,7 +776,7 @@ class common {
 				'3' => gettext ( 'Greater Than' ),
 				'4' => gettext ( 'Less Than' ),
 				'5' => gettext ( 'Greater Or Equal Than' ),
-				'6' => gettext ( 'Less Or Equal Than' ) 
+				'6' => gettext ( 'Less Or Equal Than' )
 		);
 		return $status_array;
 	}
@@ -785,14 +785,14 @@ class common {
 				'1' => gettext ( 'Preserve' ),
 				'2' => gettext ( 'Set To' ),
 				'3' => gettext ( 'Increase By' ),
-				'4' => gettext ( 'Decrease By' ) 
+				'4' => gettext ( 'Decrease By' )
 		);
 		return $status_array;
 	}
 	function update_drp_type($status = '') {
 		$status_array = array (
 				'1' => gettext ( 'Preserve' ),
-				'2' => gettext ( 'Set To' ) 
+				'2' => gettext ( 'Set To' )
 		);
 		return $status_array;
 	}
@@ -803,7 +803,7 @@ class common {
 				'2' => gettext ( 'Doesnt Contain' ),
 				'3' => gettext ( 'Is Equal To' ),
 				'4' => gettext ( 'Is Not Equal To' ),
-				"6" => gettext ( "Ends With" ) 
+				"6" => gettext ( "Ends With" )
 		);
 		return $status_array;
 	}
@@ -814,11 +814,11 @@ class common {
 				'Zap' => gettext ( 'Zap' ),
 				'Local' => gettext ( 'Local' ),
 				'OH323' => gettext ( 'OH323' ),
-				'OOH323C' => gettext ( 'OOH323C' ) 
+				'OOH323C' => gettext ( 'OOH323C' )
 		);
 		return $status_array;
 	}
-	
+
 	/*
 	 *
 	 * Purpose : Add Profit Margin report
@@ -828,7 +828,7 @@ class common {
 		$status_array = array (
 				'' => gettext ( 'Select Notify By' ),
 				'0' => gettext ( 'CSV' ),
-				'1' => gettext ( 'Email' ) 
+				'1' => gettext ( 'Email' )
 		);
 		return $status_array;
 	}
@@ -842,7 +842,7 @@ class common {
 		$status_array = array (
 				'pricelist_id' => gettext ( 'Rate Group' ),
 				'accountid' => gettext ( 'Customer' ),
-				'reseller_id' => gettext ( 'Reseller' ) 
+				'reseller_id' => gettext ( 'Reseller' )
 		);
 		return $status_array;
 	}
@@ -850,11 +850,11 @@ class common {
 		$status_array = array (
 				"" => gettext ( "--Select--" ),
 				"0" => gettext ( "LCR" ),
-				"1" => gettext ( "COST" ) 
+				"1" => gettext ( "COST" )
 		);
 		return $status_array;
 	}
-	
+
 	// attachment download in email module...
 	function attachment_icons($select = "", $table = "", $attachement = "") {
 		if ($attachement != "") {
@@ -869,7 +869,7 @@ class common {
 			return "";
 		}
 	}
-	
+
 	/* * ************************************************************* */
 	function set_despostion($dis = '') {
 		$status_array = array (
@@ -917,7 +917,7 @@ class common {
 				"UNSPECIFIED" => "UNSPECIFIED",
 				"UNALLOCATED_NUMBER" => "UNALLOCATED_NUMBER",
 				"USER_BUSY" => "USER_BUSY",
-				"USER_NOT_REGISTERED" => "USER_NOT_REGISTERED" 
+				"USER_NOT_REGISTERED" => "USER_NOT_REGISTERED"
 		);
 		return $status_array;
 	}
@@ -927,7 +927,7 @@ class common {
 				"STANDARD" => gettext ( "STANDARD" ),
 				"DID" => gettext ( "DID" ),
 				"CALLINGCARD" => gettext ( "CALLINGCARD" ),
-				"FREE" => gettext ( "FREE" ) 
+				"FREE" => gettext ( "FREE" )
 		);
 		return $status_array;
 	}
@@ -935,7 +935,7 @@ class common {
 		$status_array = array (
 				"" => gettext ( "--Select--" ),
 				"0" => gettext ( "Active" ),
-				"1" => gettext ( "Inactive" ) 
+				"1" => gettext ( "Inactive" )
 		);
 		return $status_array;
 	}
@@ -943,7 +943,7 @@ class common {
 		$status_array = array (
 				"" => gettext ( "--Select--" ),
 				"0" => gettext ( "Daily" ),
-				"2" => gettext ( "Monthly" ) 
+				"2" => gettext ( "Monthly" )
 		);
 		return $status_array;
 	}
@@ -999,7 +999,7 @@ class common {
 				if (strtoupper ( $button_key ) == "RESCAN") {
 					$ret_url .= $this->build_rescan_button ( $buttons_params->url, $linkid );
 				}
-				
+
 				if (strtoupper ( $button_key ) == "DOWNLOAD_DATABASE") {
 					$ret_url .= $this->build_add_download_database_button ( $buttons_params->url, $linkid );
 				}
@@ -1030,7 +1030,7 @@ class common {
 	}
 	function build_edit_button($button_params, $linkid) {
 		$link = base_url () . $button_params->url . "" . $linkid;
-		
+
 		if ($button_params->mode == 'popup') {
 			$rel = (isset ( $button_params->layout ) && $button_params->layout != '') ? "facebox_" . $button_params->layout : "facebox";
 			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="' . $rel . '" title="Edit" ="small"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
@@ -1040,7 +1040,7 @@ class common {
 			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Edit"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
 		}
 	}
-	
+
 	/**
 	 * For Edit on Account number or name
 	 */
@@ -1060,7 +1060,7 @@ class common {
 			}
 		}
 	}
-	
+
 	/**
 	 * **********************************
 	 */
@@ -1089,15 +1089,15 @@ class common {
 		if ($flag == '1') {
 			$where = array (
 					'pricelist_id' => $linkid,
-					'deleted !=' => '1' 
+					'deleted !=' => '1'
 			);
 			$customer_cnt = $this->get_field_count ( 'id', 'accounts', $where );
 			$where = array (
-					'pricelist_id' => $linkid 
+					'pricelist_id' => $linkid
 			);
 			$rategroup_cnt = $this->get_field_count ( 'id', 'routes', $where );
 			if ($rategroup_cnt > 0 || $customer_cnt > 0) {
-				
+
 				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_message(' . $rategroup_cnt . ',' . $customer_cnt . ',' . $linkid . ',1);"><i class="fa fa-trash fa-fw"></i></a>';
 			} else {
 				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();"><i class="fa fa-trash fa-fw"></i></a>';
@@ -1105,7 +1105,7 @@ class common {
 		}
 		if ($flag == '2') {
 			$where = array (
-					'trunk_id' => $linkid 
+					'trunk_id' => $linkid
 			);
 			$trunk_cnt = $this->get_field_count ( 'id', 'outbound_routes', $where );
 			if ($trunk_cnt > 0) {
@@ -1157,7 +1157,7 @@ class common {
 	}
 	function build_start_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		
+
 		return '<a href="' . $link . '" class=""  title="Start" style="text-decoration:none;color: #428BCA;"><b>Start |</b></a>&nbsp;';
 	}
 	function build_stop_button($url, $linkid) {
@@ -1180,7 +1180,7 @@ class common {
 		$link = base_url () . $url . "" . $linkid;
 		return '<a href="' . $link . '" class="btn btn-royelblue btn-sm"  title="Download Invoice" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp;';
 	}
-	
+
 	/*
 	 * Purpose : Add following for resent icon
 	 * Version 2.1
@@ -1193,7 +1193,7 @@ class common {
 			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Resend Mail"><i class="fa fa-repeat"></i></a>&nbsp;';
 		}
 	}
-	
+
 	/*
 	 * ----------------------------------------------------------------------------
 	 */
@@ -1215,7 +1215,7 @@ class common {
 		$company_name = Common_model::$global_config ['system_config'] ['company_name'];
 		$company_website = Common_model::$global_config ['system_config'] ['company_website'];
 		$where = array (
-				'name' => $type 
+				'name' => $type
 		);
 		$query = $this->CI->db_model->getSelect ( "*", "default_templates", $where );
 		$query = $query->result ();
@@ -1232,7 +1232,7 @@ class common {
 		} else {
 			$refillamount = "0";
 		}
-		
+
 		switch ($type) {
 			case 'email_add_user' :
 				$message = str_replace ( '#NAME#', $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $message );
@@ -1246,12 +1246,12 @@ class common {
 				$message = str_replace ( '#PASSWORD#', $accountinfo ['password'], $message );
 				$message = str_replace ( '#LINK#', $accountinfo ['link'], $message );
 				break;
-			
+
 			case 'email_forgot_confirmation' :
 				$message = str_replace ( '#NAME#', $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $message );
 				$message = str_replace ( '#CONFIRM#', $accountinfo ['confirm'], $message );
 				break;
-			
+
 			case 'email_signup_confirmation' :
 				$message = str_replace ( '#NAME#', $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $message );
 				$message = str_replace ( '#CONFIRM#', $accountinfo ['confirm'], $message );
@@ -1261,7 +1261,7 @@ class common {
 				$profile_data = json_decode ( $sip_profiles ['profile_data'], true );
 				if (Common_model::$global_config ['system_config'] ['opensips'] == 0) {
 					$domain = Common_model::$global_config ['system_config'] ['opensips_domain'];
-					
+
 					$port = $sip_profiles ['sip_port'];
 				} else {
 					$fs_server = ( array ) $this->CI->db->get ( 'freeswich_servers' )->first_row ();
@@ -1275,7 +1275,7 @@ class common {
 				$message = str_replace ( '#SIPHOST#', $sip_info, $message );
 				$message = str_replace ( '#PASSWORD#', $accountinfo ['password'], $message );
 				break;
-			
+
 			case 'voip_account_refilled' :
 				$currency_id = $accountinfo ['currency_id'];
 				$currency = $this->CI->common->get_field_name ( 'currency', 'currency', $currency_id );
@@ -1352,7 +1352,7 @@ class common {
 				$subject = str_replace ( "#DIDNUMBER#", $accountinfo ['did_number'], $subject );
 				break;
 		}
-		
+
 		if ($subject == "") {
 			$subject = $query [0]->subject;
 			$subject = str_replace ( "#NAME#", $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
@@ -1362,17 +1362,17 @@ class common {
 		$reseller_id = $accountinfo ['reseller_id'];
 		if ($reseller_id != "0") {
 			$reseller_result = $this->CI->db_model->getSelect ( "email", "accounts", array (
-					"id" => $reseller_id 
+					"id" => $reseller_id
 			) );
 			$reseller_info = ( array ) $reseller_result->first_row ();
 			$settings_reply_email = $reseller_info ['email'];
 		}
 		$this->emailFunction ( $settings_reply_email, $useremail, $subject, $message, $company_name, $attachment, $account_id, $reseller_id );
 	}
-	
+
 	/**
 	 *
-	 * @param string $message        	
+	 * @param string $message
 	 */
 	function emailFunction($from, $to, $subject, $message, $company_name = "", $attachment = "", $account_id, $reseller_id) {
 		$send_mail_details = array (
@@ -1383,13 +1383,13 @@ class common {
 				'accountid' => $account_id,
 				'status' => '1',
 				'attachment' => $attachment,
-				'reseller_id' => $reseller_id 
+				'reseller_id' => $reseller_id
 		);
-		
+
 		$this->CI->db->insert ( 'mail_details', $send_mail_details );
 		return $this->CI->db->insert_id ();
 	}
-	
+
 	// Added new parameter timezone_id for API
 	function convert_GMT_to($select = "", $table = "", $date, $timezone_id = '') {
 		if ($date == '0000-00-00 00:00:00') {
@@ -1401,7 +1401,7 @@ class common {
 	function convert_GMT($date) {
 		return $this->CI->timezone->convert_to_GMT ( $select = "", $table = "", $date );
 	}
-	
+
 	// @todo : Not sure how above function working. Rather impacting on existing application, creating new function.
 	function custom_convert_GMT($date, $timezone_id) {
 		return $this->CI->timezone->convert_to_GMT ( $date, 1, $timezone_id );
@@ -1412,18 +1412,18 @@ class common {
 	function set_charge_type($status = '') {
 		$status_array = array (
 				'1' => gettext ( 'Accounts' ),
-				'2' => gettext ( 'Rate Group' ) 
+				'2' => gettext ( 'Rate Group' )
 		);
 		return $status_array;
 	}
 	function build_concat_string($select, $table, $id_where = '') {
 		$select_params = explode ( ',', $select );
 		$where = array (
-				"1" 
+				"1"
 		);
 		if ($id_where != '') {
 			$where = array (
-					"id" => $id_where 
+					"id" => $id_where
 			);
 		}
 		$select_params = explode ( ',', $select );
@@ -1436,17 +1436,17 @@ class common {
 		$drp_array = $this->CI->db_model->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
 		if (isset ( $drp_array [0] )) {
-			return $drp_array [0]->$select_params [0];
+			return $drp_array [0]->{$select_params [0]};
 		}
 	}
-	
+
 	/*
 	 * Change invoice_total to invoice details
 	 */
 	function get_invoice_total($select = '', $table = '', $id) {
 		$where_arr = array (
 				'invoiceid' => $id,
-				'item_type <>' => "FREE" 
+				'item_type <>' => "FREE"
 		);
 		$this->CI->db->where ( $where_arr );
 		$this->CI->db->select ( '*' );
@@ -1497,19 +1497,19 @@ class common {
 		$gmtoffset = 0;
 		$accountinfo = $this->CI->session->userdata ( 'accountinfo' );
 		$account_result = $this->CI->db->get_where ( 'accounts', array (
-				'id' => $accountinfo ['id'] 
+				'id' => $accountinfo ['id']
 		) );
 		$account_result = $account_result->result_array ();
 		$accountinfo = $account_result [0];
 		$timezone_id_arr = array (
-				$accountinfo ['timezone_id'] 
+				$accountinfo ['timezone_id']
 		);
 		$this->CI->db->where_in ( 'id', $timezone_id_arr );
 		$this->CI->db->select ( 'gmtoffset' );
 		$this->CI->db->from ( 'timezone' );
 		$timezone_result = $this->CI->db->get ();
 		if ($timezone_result->num_rows () > 0) {
-			
+
 			$timezone_result = $timezone_result->result_array ();
 			foreach ( $timezone_result as $data ) {
 				$gmtoffset += $data ['gmtoffset'];
@@ -1526,7 +1526,7 @@ class common {
 		$defualt_profile_data = '{"rtp_ip":"$${local_ip_v4}","dialplan":"XML","user-agent-string":"ASTPP","debug":"0","sip-trace":"no","tls":"false","inbound-reg-force-matching-username":"true","disable-transcoding":"true","all-reg-options-ping":"false","unregister-on-options-fail":"true","log-auth-failures":"true","status":"0","inbound-bypass-media":"false","inbound-proxy-media":"false","disable-transfer":"true","enable-100rel":"false","rtp-timeout-sec":"60","dtmf-duration":"2000","manual-redirect":"false","aggressive-nat-detection":"false","enable-timer":"false","minimum-session-expires":"120","session-timeout-pt":"1800","auth-calls":"true","apply-inbound-acl":"default","inbound-codec-prefs":"PCMU,PCMA,G729","outbound-codec-prefs":"PCMU,PCMA,G729","inbound-late-negotiation":"false"}';
 		return $defualt_profile_data;
 	}
-	
+
 	/*
 	 * **
 	 * Refill coupon dropdown
@@ -1536,7 +1536,7 @@ class common {
 		$refill_coupon_array = array (
 				"" => gettext ( "--Select--" ),
 				'2' => gettext ( 'Yes' ),
-				'0' => gettext ( 'No' ) 
+				'0' => gettext ( 'No' )
 		);
 		return $refill_coupon_array;
 	}
@@ -1545,7 +1545,7 @@ class common {
 				'0' => gettext ( 'Inactive' ),
 				'1' => gettext ( 'Active' ),
 				'2' => gettext ( 'Inuse' ),
-				"3" => gettext ( "Expired" ) 
+				"3" => gettext ( "Expired" )
 		);
 		return $refill_coupon_array [$status];
 	}
@@ -1558,34 +1558,34 @@ class common {
 	function get_refill_coupon_used($select = '', $table = '', $status) {
 		return $status ['status'] == 2 ? '<img src= "' . base_url () . 'assets/images/true.png" style="height:20px;width:20px;" title="Yes">' : '<img src= "' . base_url () . '/assets/images/false.png" style="height:20px;width:20px;" title="No">';
 	}
-	
+
 	/*
 	 * *******
 	 * Password encode decode
 	 * *******
 	 */
-	
+
 	/**
 	 *
-	 * @param string $string        	
+	 * @param string $string
 	 */
 	function encode_params($string) {
 		$data = base64_encode ( $string );
 		$data = str_replace ( array (
 				'+',
 				'/',
-				'=' 
+				'='
 		), array (
 				'-',
 				'$',
-				'' 
+				''
 		), $data );
 		return $data;
 	}
-	
+
 	/**
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 */
 	function encode($value) {
 		$text = $value;
@@ -1597,10 +1597,10 @@ class common {
 	function decode_params($string) {
 		$data = str_replace ( array (
 				'-',
-				'$' 
+				'$'
 		), array (
 				'+',
-				'/' 
+				'/'
 		), $string );
 		$mod4 = strlen ( $data ) % 4;
 		if ($mod4) {
@@ -1615,7 +1615,7 @@ class common {
 		$decrypttext = mcrypt_decrypt ( MCRYPT_RIJNDAEL_256, $this->CI->config->item ( 'private_key' ), $crypttext, MCRYPT_MODE_ECB, $iv );
 		return trim ( $decrypttext );
 	}
-	
+
 	/**
 	 * ****
 	 * Recording enable/disable dropdown
@@ -1624,11 +1624,11 @@ class common {
 	function set_recording($status = '') {
 		$status_array = array (
 				'0' => 'On',
-				'1' => 'Off' 
+				'1' => 'Off'
 		);
 		return $status_array;
 	}
-	
+
 	/* * ************************** */
 	function email_status($select = "", $table = "", $status) {
 		$status = ($status ['status'] == 0) ? "Sent" : "Not Sent";
@@ -1638,13 +1638,13 @@ class common {
 		$status_array = array (
 				"" => gettext ( "--Select--" ),
 				"0" => gettext ( "Sent" ),
-				"1" => gettext ( "Not Sent" ) 
+				"1" => gettext ( "Not Sent" )
 		);
 		return $status_array;
 	}
-	
+
 	/* ===================================================================== */
-	
+
 	/*
 	 * Purpose : Add following for setting page
 	 * Version 2.1
@@ -1652,53 +1652,53 @@ class common {
 	function paypal_status($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function playback_audio_notification($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function custom_status($status) {
 		$status_array = array (
 				'0' => gettext ( 'Yes' ),
-				'1' => gettext ( 'No' ) 
+				'1' => gettext ( 'No' )
 		);
 		return $status_array;
 	}
 	function custom_status_recording($status) {
 		$status_array = array (
 				'1' => gettext ( 'No' ),
-				'0' => gettext ( 'Yes' ) 
+				'0' => gettext ( 'Yes' )
 		);
 		return $status_array;
 	}
 	function custom_status_active($status) {
 		$status_array = array (
 				'0' => gettext ( 'Active' ),
-				'1' => gettext ( 'InActive' ) 
+				'1' => gettext ( 'InActive' )
 		);
 		return $status_array;
 	}
 	function custom_status_true($status) {
 		$status_array = array (
 				'0' => gettext ( 'TRUE' ),
-				'1' => gettext ( 'FALSE' ) 
+				'1' => gettext ( 'FALSE' )
 		);
 		return $status_array;
 	}
 	function custom_status_voicemail($status) {
 		$status_array = array (
 				'true' => gettext ( 'True' ),
-				'false' => gettext ( 'False' ) 
+				'false' => gettext ( 'False' )
 		);
 		return $status_array;
 	}
-	
+
 	/**
 	 * ****
 	 * For enable Signup module
@@ -1706,56 +1706,56 @@ class common {
 	function create_sipdevice($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function enable_signup($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function balance_announce($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function minutes_announce($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function enable_disable_option() {
 		$option_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $option_array;
 	}
 	function paypal_mode($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Live' ),
-				'1' => gettext ( 'Sandbox' ) 
+				'1' => gettext ( 'Sandbox' )
 		);
 		return $status_array;
 	}
 	function paypal_fee($status = '') {
 		$status_array = array (
 				'0' => gettext ( 'Paid By Admin' ),
-				'1' => gettext ( 'Paid By Customer' ) 
+				'1' => gettext ( 'Paid By Customer' )
 		);
 		return $status_array;
 	}
 	function email() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
@@ -1765,7 +1765,7 @@ class common {
 	function debug() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
@@ -1787,63 +1787,63 @@ class common {
 	function outbound_fax() {
 		$status_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function inbound_fax() {
 		$status_array = array (
 				'0' => gettext ( 'Enable' ),
-				'1' => gettext ( 'Disable' ) 
+				'1' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function opensips() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function cc_ani_auth() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function calling_cards_balance_announce() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function calling_cards_timelimit_announce() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function calling_cards_rate_announce() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function startingdigit() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
 	function SMPT() {
 		$status_array = array (
 				'1' => gettext ( 'Enable' ),
-				'0' => gettext ( 'Disable' ) 
+				'0' => gettext ( 'Disable' )
 		);
 		return $status_array;
 	}
@@ -1862,7 +1862,7 @@ class common {
 	function automatic_invoice() {
 		$status_array = array (
 				'0' => gettext ( 'Automatic' ),
-				'1' => gettext ( 'Manual' ) 
+				'1' => gettext ( 'Manual' )
 		);
 		return $status_array;
 	}
@@ -1884,14 +1884,14 @@ class common {
 			return $calculated_amount;
 		}
 	}
-	
+
 	/*
 	 * Using By Summary Report search
 	 */
 	function search_report_in($select = '') {
 		$status_array = array (
 				"minutes" => "Minutes",
-				"seconds" => "Seconds" 
+				"seconds" => "Seconds"
 		);
 		return $status_array;
 	}
@@ -1900,7 +1900,7 @@ class common {
 				'' => gettext ( "--Select--" ),
 				'accountid' => gettext ( 'Account' ),
 				'pattern' => gettext ( 'Code' ),
-				'package_id' => gettext ( "Package" ) 
+				'package_id' => gettext ( "Package" )
 		);
 		return $status_array;
 	}
@@ -1909,7 +1909,7 @@ class common {
 				'' => gettext ( "--Select--" ),
 				'provider_id' => gettext ( 'Account' ),
 				'trunk_id' => gettext ( "Trunks" ),
-				'pattern' => gettext ( 'Code' ) 
+				'pattern' => gettext ( 'Code' )
 		);
 		return $status_array;
 	}
@@ -1924,7 +1924,7 @@ class common {
 		$this->CI->db->where ( $where );
 		$this->CI->db->select ( '*' );
 		$currency_result = $this->CI->db->get ( 'currency' );
-		
+
 		if ($currency_result->num_rows () == 2) {
 			$currency_result = $currency_result->result_array ();
 			foreach ( $currency_result as $key => $records ) {
@@ -1956,7 +1956,7 @@ class common {
 				trigger_error ( "Key \"$columnKey\" does not exist in array" );
 				return false;
 			}
-			
+
 			if (is_null ( $indexKey )) {
 				$array [] = $value [$columnKey];
 			} else {
@@ -1971,7 +1971,7 @@ class common {
 				$array [$value [$indexKey]] = $value [$columnKey];
 			}
 		}
-		
+
 		return $array;
 	}
 	function group_by_time() {
@@ -1980,7 +1980,7 @@ class common {
 				'HOUR' => gettext ( 'Hour' ),
 				'DAY' => gettext ( "Day" ),
 				'MONTH' => gettext ( 'Month' ),
-				"YEAR" => gettext ( "Year" ) 
+				"YEAR" => gettext ( "Year" )
 		);
 		return $status_array;
 	}
@@ -2022,7 +2022,7 @@ class common {
 				"item_type" => $charge_type,
 				"item_id" => '0',
 				"before_balance" => $balance,
-				"after_balance" => $balance - $amount 
+				"after_balance" => $balance - $amount
 		);
 		$this->CI->db->insert ( "invoice_details", $insert_arr );
 		return true;
@@ -2032,41 +2032,41 @@ class common {
 	 */
 	function customer_delete_dependencies($id) {
 		$this->delete_data ( 'ani_map', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'block_patterns', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'charge_to_account', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'counters', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'ip_map', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'sip_devices', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'speed_dial', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'taxes_to_accounts', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'mail_details', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->update_data ( 'dids', array (
-				"accountid" => $id 
+				"accountid" => $id
 		), array (
-				'accountid' => 0 
+				'accountid' => 0
 		) );
 		$this->update_data ( "accounts", array (
-				"id" => $id 
+				"id" => $id
 		), array (
-				"deleted" => 1 
+				"deleted" => 1
 		) );
 	}
 	/*
@@ -2077,7 +2077,7 @@ class common {
 		$accountinfo = $this->CI->session->userdata ( 'accountinfo' );
 		$child_arr = $this->select_data ( "accounts", array (
 				"reseller_id" => $id,
-				"type" => 0 
+				"type" => 0
 		), 'id,reseller_id' );
 		if ($child_arr) {
 			foreach ( $child_arr as $value ) {
@@ -2085,104 +2085,104 @@ class common {
 			}
 		}
 		$package_arr = $this->select_data ( "packages", array (
-				"reseller_id" => $id 
+				"reseller_id" => $id
 		), 'id' );
 		if ($package_arr) {
 			foreach ( $package_arr as $value ) {
 				$this->delete_data ( 'package_patterns', array (
-						"id" => $value ['id'] 
+						"id" => $value ['id']
 				) );
 			}
 		}
 		$acc_arr = $this->select_data ( 'accounts', array (
-				"id" => $id 
+				"id" => $id
 		), 'id,reseller_id' );
 		$parent_id = 0;
 		if ($acc_arr) {
 			$parent_id = $acc_arr [0] ['reseller_id'];
 		}
 		$pricelist_arr = $this->select_data ( 'pricelists', array (
-				'reseller_id' => $id 
+				'reseller_id' => $id
 		), 'id' );
 		if ($pricelist_arr) {
 			foreach ( $pricelist_arr as $value ) {
 				$this->delete_data ( "routing", array (
-						"pricelist_id" => $value ['id'] 
+						"pricelist_id" => $value ['id']
 				) );
 				$this->delete_data ( "routes", array (
-						"pricelist_id" => $value ['id'] 
+						"pricelist_id" => $value ['id']
 				) );
 				$this->update_data ( 'pricelists', array (
-						'id' => $value ['id'] 
+						'id' => $value ['id']
 				), array (
-						'status' => 2 
+						'status' => 2
 				) );
 			}
 		}
 		$charge_arr = $this->select_data ( 'charges', array (
-				'reseller_id' => $id 
+				'reseller_id' => $id
 		), 'id' );
 		if ($charge_arr) {
 			foreach ( $charge_arr as $value ) {
 				$this->delete_data ( "charge_to_account", array (
-						"charge_id" => $value ['id'] 
+						"charge_id" => $value ['id']
 				) );
 			}
 		}
 		$this->delete_data ( 'charges', array (
-				'reseller_id' => $id 
+				'reseller_id' => $id
 		) );
 		$this->update_data ( 'dids', array (
-				'parent_id' => $id 
+				'parent_id' => $id
 		), array (
-				"parent_id" => $parent_id 
+				"parent_id" => $parent_id
 		) );
 		$this->delete_data ( 'reseller_pricing', array (
-				"reseller_id" => $id 
+				"reseller_id" => $id
 		) );
 		$this->delete_data ( 'refill_coupon', array (
-				"reseller_id" => $id 
+				"reseller_id" => $id
 		) );
 		$this->delete_data ( 'mail_details', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$taxes_arr = $this->select_data ( 'taxes', array (
-				"reseller_id" => $id 
+				"reseller_id" => $id
 		), 'id' );
 		if ($taxes_arr) {
 			foreach ( $taxes_arr as $value ) {
 				$this->delete_data ( "taxes_to_accounts", array (
-						"taxes_id" => $value ['id'] 
+						"taxes_id" => $value ['id']
 				) );
 			}
 		}
 		$this->delete_data ( 'taxes', array (
-				"reseller_id" => $id 
+				"reseller_id" => $id
 		) );
 		$this->delete_data ( 'default_templates', array (
-				"reseller_id" => $id 
+				"reseller_id" => $id
 		) );
 		$package_arr = $this->select_data ( 'packages', array (
-				'reseller_id' => $id 
+				'reseller_id' => $id
 		), 'id' );
 		if ($package_arr) {
 			$this->delete_data ( "counters", array (
-					"package_id" => $value ['id'] 
+					"package_id" => $value ['id']
 			) );
 			$this->delete_data ( "package_patterns", array (
-					"package_id" => $value ['id'] 
+					"package_id" => $value ['id']
 			) );
 		}
 		$this->delete_data ( 'invoice_conf', array (
-				'accountid' => $id 
+				'accountid' => $id
 		) );
 		$this->delete_data ( 'packages', array (
-				"reseller_id" => $id 
+				"reseller_id" => $id
 		) );
 		$this->update_data ( 'accounts', array (
-				"id" => $id 
+				"id" => $id
 		), array (
-				"deleted" => 1 
+				"deleted" => 1
 		) );
 	}
 	function subreseller_list($parent_id = '') {
@@ -2202,10 +2202,10 @@ class common {
 			}
 		}
 	}
-	
+
 	/**
 	 *
-	 * @param string $table_name        	
+	 * @param string $table_name
 	 */
 	function delete_data($table_name, $where_arr) {
 		$this->CI->db->where ( $where_arr );
@@ -2214,10 +2214,10 @@ class common {
 		}
 		$this->CI->db->delete ( $table_name );
 	}
-	
+
 	/**
 	 *
-	 * @param string $table_name        	
+	 * @param string $table_name
 	 */
 	function update_data($table_name, $where_arr, $update_arr) {
 		$this->CI->db->where ( $where_arr );
@@ -2226,11 +2226,11 @@ class common {
 		}
 		$this->CI->db->update ( $table_name, $update_arr );
 	}
-	
+
 	/**
 	 *
-	 * @param string $table_name        	
-	 * @param string $select        	
+	 * @param string $table_name
+	 * @param string $select
 	 */
 	function select_data($table_name, $where_arr, $select) {
 		$this->CI->db->where ( $where_arr );
@@ -2245,7 +2245,7 @@ class common {
 	function set_call_waiting($status = '') {
 		$status_array = array (
 				'0' => 'Enable',
-				'1' => 'Disable' 
+				'1' => 'Disable'
 		);
 		return $status_array;
 	}
@@ -2256,7 +2256,7 @@ class common {
 		$status_array = array (
 				"invoice_select" => gettext ( "--Select--" ),
 				"invoice_inactive" => gettext ( "Deleted Invoices" ),
-				"invoice_active" => gettext ( "All Invoices" ) 
+				"invoice_active" => gettext ( "All Invoices" )
 		);
 		return $status_array;
 	}
@@ -2273,7 +2273,7 @@ class common {
 		$this->CI->db->limit ( 1 );
 		$invoice_conf = $this->CI->db->get ( 'invoice_conf' );
 		$invoice_conf_res = ( array ) $invoice_conf->first_row ();
-		
+
 		$accountdata ["currency_id"] = $this->get_field_name ( 'currency', 'currency', $accountdata ["currency_id"] );
 		$accountdata ["country"] = $this->get_field_name ( 'country', 'countrycode', $accountdata ["country_id"] );
 		$data ["to_currency"] = Common_model::$global_config ['system_config'] ['base_currency'];
@@ -2295,7 +2295,7 @@ class common {
 		$content = ob_get_clean ();
 		ob_clean ();
 		$INVOICE_NUM = '';
-		
+
 		$ACCOUNTADD = '';
 		$ACCOUNTADD_CUSTOMER = '';
 		$INVOICE_DETAIL = '';
@@ -2313,59 +2313,59 @@ class common {
 		/**
 		 * ************************* Company Address Code START **************************************************
 		 */
-//ASTPP_invoice_download_issue				
+//ASTPP_invoice_download_issue
 		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['company_name'] . '</td>';
 		$ACCOUNTADD .= '</tr>';
 		if ($invoice_conf_res ['address'] != "") {
-			
+
 			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['address'] . '</td></tr>';
 		}
 		if ($invoice_conf_res ['city'] != "") {
-			
+
 			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['city'] . '</td></tr>';
 		}
 		if ($invoice_conf_res ['province'] != "") {
-			
+
 			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['province'] . '</td></tr>';
 		}
 		if ($invoice_conf_res ['country'] != "") {
-			
+
 			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['country'] . '</td></tr>';
 		}
 		if ($invoice_conf_res ['zipcode'] != "") {
-			
+
 			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['zipcode'] . '</td></tr>';
 		}
 //END
 		/**
 		 * ************************* Company Address Code END **************************************************
 		 */
-		
+
 		/**
 		 * ************************* Customer Address Code START **************************************************
 		 */
 		$ACCOUNTADD_CUSTOMER .= '<table align=right>';
 		$ACCOUNTADD_CUSTOMER .= '<tr>';
 		$ACCOUNTADD_CUSTOMER .= '<td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['company_name'] . '</td></tr>';
-		
+
 		if ($accountdata ['address_1'] != "") {
-			
+
 			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['address_1'] . '</td></tr>';
 		}
 		if ($accountdata ['city'] != "") {
-			
+
 			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['city'] . '</td></tr>';
 		}
 		if ($accountdata ['province'] != "") {
-			
+
 			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['province'] . '</td></tr>';
 		}
 		if ($accountdata ['country'] != "") {
-			
+
 			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['country'] . '</td></tr>';
 		}
 		if ($accountdata ['postal_code'] != "") {
-			
+
 			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['postal_code'] . '</td></tr>';
 		}
 		$ACCOUNTADD_CUSTOMER .= "</table>";
@@ -2377,21 +2377,21 @@ class common {
 		 */
 		$recharge_amount = $invoice_details = $this->CI->db_model->getSelect ( 'sum(credit) as credit', 'invoice_details', array (
 				"invoiceid" => $invoicedata ['id'],
-				'item_type' => 'INVPAY' 
+				'item_type' => 'INVPAY'
 		) )->result_array ();
-		
+
 		$recharge_amount = isset ( $recharge_amount [0] ['credit'] ) ? $recharge_amount [0] ['credit'] : '0';
 		$total_amount = $invoicedata ['amount'] - $recharge_amount;
 		$INVOICE_DETAIL .= '<tr>
                                 <td style="width:100%;">
                                 <table style="width:100%;" cellspacing="0">
                                 <tbody><tr>
-                               
+
                                 <td style="width:25%;"><b>Invoice Date :</b></td>
                                 <td style="width:25%;text-align:right;border-right:1px solid #000; padding-right: 3px;">' . date ( "Y-m-d", strtotime ( $invoicedata ['invoice_date'] ) ) . '</td>
                                 <td style="width:25%;padding-left: 5px;"><b>This Invoice Amount :</b> </td>
                                 <td style="width:25%;text-align:right;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $invoicedata ['amount'] ) ) . '</td>
-                               
+
                                 </tr>
                                 <tr> <td style="width:25%;"></td><td style="width:25%;border-right:1px solid #000;"></td></tr>
                                 <tr>
@@ -2399,7 +2399,7 @@ class common {
                                 <td style="width:25%;text-align:right;border-right:1px solid #000;padding-right: 3px;">' . $due_date . '</td>
                                  <td style="width:25%;padding-left: 5px;"><b>Recharge Payments :</b> </td>
                                 <td style="width:25%;text-align:right;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $recharge_amount ) ) . '</td>
-                                
+
                                 </tr>
                                   <tr> <td style="width:25%;"></td><td style="width:25%;border-right:1px solid #000;"></td></tr>
                                 <tr>
@@ -2417,20 +2417,20 @@ class common {
                                 </tbody></table>
                                 </td>
                              </tr>';
-		
+
 		/**
 		 * *************************Invoice detail END *******************************************************
 		 */
-		
+
 		/**
 		 * **************************charge History START *****************************************************
 		 */
-		
+
 		$INVOICE_CHARGE .= '
-                                        
+
                                         <tr><th style="width:20%;border-left:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;background-color:#EBEEF2;padding:5px;">Date </th>
                                         <th style="width:40%;border-left:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;background-color:#EBEEF2;padding:5px;">Description</th>
-                                       
+
                                         <th style="width:15%;border-left:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;background-color:#EBEEF2;padding:5px;">Unit Price (' . $currency . ')</th>
                                          <th style="width:10%;border-left:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;background-color:#EBEEF2;padding:5px;">Quantity</th>
                                         <th style="width:15%;border-left:1px solid #000;border-right:1px solid #000;border-top:1px solid #000;border-bottom:1px solid #000;background-color:#EBEEF2;padding:5px;">Cost (' . $currency . ')</th>
@@ -2439,17 +2439,17 @@ class common {
 		$this->CI->db->where ( 'item_type <>', 'INVPAY' );
 		$invoice_details = $this->CI->db_model->getSelect ( '*', 'invoice_details', array (
 				"invoiceid" => $invoicedata ['id'],
-				'item_type <>' => 'TAX' 
+				'item_type <>' => 'TAX'
 		) );
 		$invoice_details = $invoice_details->result_array ();
-		
+
 		$invoice_tax = $this->CI->db_model->getSelect ( '*', 'invoice_details', array (
 				"invoiceid" => $invoicedata ['id'],
-				'item_type ' => 'TAX' 
+				'item_type ' => 'TAX'
 		) );
-		
+
 		foreach ( $invoice_details as $charge_res ) {
-			
+
 			// echo "<pre>";print_r($charge_res['description']);exit;
 			$INVOICE_CHARGE .= '<tr >
                                                         <td style="width:20%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;padding:5px;">' . date ( 'Y-m-d', strtotime ( $charge_res ['created_date'] ) ) . '</td>
@@ -2460,13 +2460,13 @@ class common {
                                                      </tr>';
 			$total_sum += $charge_res ['debit'];
 		}
-		
+
 		$INVOICE_CHARGE .= '<tr>
                                                 <td></td><td></td>
                                                 <td colspan=2 style="border-left:1px solid #000;border-bottom:1px solid #000;width:20%;padding-left:5px;padding-top:5px;padding-bottom:5px;text-align:right;padding-right:5px;"><b>Sub Total</b></td>
                                                 <td style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;width:10%;text-align:right;padding-top:5px;padding-right:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $total_sum ) ) . '</td>
                                                 </tr>';
-		
+
 		if ($invoice_tax->num_rows () > 0) {
 			foreach ( $invoice_tax->result_array () as $invoice_tax ) {
 				$total_vat += $invoice_tax ['debit'];
@@ -2484,18 +2484,18 @@ class common {
                                                 <td colspan=2 style="border-left:1px solid #000;border-bottom:1px solid #000;width:20%;padding-left:5px;padding-top:5px;padding-bottom:5px;text-align:right;padding-right:5px;"><b>Total</b> </td>
                                                 <td style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;width:10%;text-align:right;padding-top:5px;padding-right:5px;">' . $this->currency_decimal ( $sub_total ) . '</td>
                                                 </tr>
-                                                
+
                                                ';
-		
+
 		/**
 		 * ****************************charge History END ****************************************************
 		 */
-		
+
 		/**
 		 * ************************* Invoice Note Code END **************************************************
 		 */
 		$invoice_notes = $this->CI->db_model->getSelect ( '*', 'invoices', array (
-				'id' => $invoicedata ['id'] 
+				'id' => $invoicedata ['id']
 		) );
 		$invoice_notes = $invoice_notes->result_array ();
 		if (isset ( $invoice_notes [0] ['notes'] )) {
@@ -2510,7 +2510,7 @@ class common {
 		/**
 		 * ************************* Invoice Note Code END **************************************************
 		 */
-//ASTPP_invoice_download_issue		
+//ASTPP_invoice_download_issue
 		if (file_exists ( getcwd () . "/upload/" . $invoice_conf_res['accountid'] . "_" . $invoice_conf_res ['logo'] )) {
 			if ($invoice_conf_res['logo'] != '') {
 				$content = str_replace ( "<LOGO>", FCPATH . "upload/" . $invoice_conf_res ['accountid'] . "_" . $invoice_conf_res['logo'], $content );
@@ -2521,25 +2521,25 @@ class common {
 			$content = str_replace ( "<LOGO>", FCPATH . '/assets/images/logo.png', $content );
 		}
 //END
-		
+
 		$content = str_replace ( "<INVOICE_NUM>", $INVOICE_NUM, $content );
 		$content = str_replace ( "<ACCOUNTADD>", $ACCOUNTADD, $content );
 		$content = str_replace ( "<ACCOUNTADD_CUSTOMER>", $ACCOUNTADD_CUSTOMER, $content );
 		$content = str_replace ( "<INVOICE_DETAIL>", $INVOICE_DETAIL, $content );
 		$content = str_replace ( "<INVOICE_CHARGE>", $INVOICE_CHARGE, $content );
 		$content = str_replace ( "<NOTES>", $invoice_notes, $content );
-		
+
 		// echo $content; exit;
-		
+
 		$invoice_path = $this->CI->config->item ( 'invoices_path' );
 		$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . "_invoice.pdf";
 		// echo $download_path; exit;
 		$this->CI->html2pdf->pdf->SetDisplayMode ( 'fullpage' );
 		$this->CI->html2pdf->writeHTML ( $content );
-		
+
 		if ($flag == 'TRUE') {
 			$download_path = $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . ".pdf";
-			
+
 			$this->CI->html2pdf->Output ( $download_path, "D" );
 		} else {
 			$current_dir = getcwd () . "/invoices/";
@@ -2557,11 +2557,11 @@ class common {
 	function reseller_select_value($select, $table, $id_where = '') {
 		$select_params = explode ( ',', $select );
 		$where = array (
-				"1" 
+				"1"
 		);
 		if ($id_where != '') {
 			$where = array (
-					"id" => $id_where 
+					"id" => $id_where
 			);
 		}
 		$select_params = explode ( ',', $select );
@@ -2570,7 +2570,7 @@ class common {
 		$drp_array = $this->CI->db_model->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
 		if (isset ( $drp_array [0] ))
-			return $drp_array [0]->$select_params [2];
+			return $drp_array [0]->{$select_params [2]};
 		else
 			return 'Admin';
 	}
@@ -2635,7 +2635,7 @@ class common {
 		$InvoiceConf = $this->CI->db->get ( 'invoice_conf' );
 		$InvoiceConf = ( array ) $InvoiceConf->first_row ();
 		$InvoiceConf ['invoice_prefix'] = str_pad ( $InvoiceConf ['invoice_prefix'], (strlen ( $InvoiceConf ['invoice_prefix'] ) + 4), '0', STR_PAD_RIGHT );
-		
+
 		return $InvoiceConf;
 	}
 	// END

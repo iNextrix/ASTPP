@@ -49,12 +49,12 @@ class CI_Javascript {
 		// load the requested js library
 		$this->CI->load->library('javascript/'.$js_library_driver, array('autoload' => $autoload));
 		// make js to refer to current library
-		$this->js = & $this->CI->$js_library_driver;
+		$this->js = & $this->CI->{$js_library_driver};
 
 		log_message('debug', "Javascript Class Initialized and loaded.  Driver used: $js_library_driver");
 	}
 
-	// --------------------------------------------------------------------	
+	// --------------------------------------------------------------------
 	// Event Code
 	// --------------------------------------------------------------------
 
@@ -382,7 +382,7 @@ class CI_Javascript {
 		return $this->js->_unload($element, $js);
 	}
 
-	// --------------------------------------------------------------------	
+	// --------------------------------------------------------------------
 	// Effects
 	// --------------------------------------------------------------------
 
@@ -687,7 +687,7 @@ class CI_Javascript {
 
 		return $str;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -850,7 +850,7 @@ class CI_Javascript {
 			return ($result === TRUE) ? 'true' : 'false';
 		} elseif (is_string($result) OR $is_key)
 		{
-			return '"'.str_replace(array('\\', "\t", "\n", "\r", '"', '/'), array('\\\\', '\\t', '\\n', "\\r", '\"', '\/'), $result).'"';			
+			return '"'.str_replace(array('\\', "\t", "\n", "\r", '"', '/'), array('\\\\', '\\t', '\\n', "\\r", '\"', '\/'), $result).'"';
 		} elseif (is_scalar($result))
 		{
 			return $result;

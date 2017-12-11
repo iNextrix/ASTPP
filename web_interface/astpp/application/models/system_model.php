@@ -45,7 +45,7 @@ class System_model extends CI_Model {
 	function get_config_by_id($id) {
 		$this->db->where ( "id", $id );
 		$query = $this->db->get ( "system" );
-		
+
 		if ($query->num_rows () > 0)
 			return $query->row_array ();
 		else
@@ -79,7 +79,7 @@ class System_model extends CI_Model {
 	function get_tax_by_id($id) {
 		$this->db->where ( "taxes_id", $id );
 		$query = $this->db->get ( "taxes" );
-		
+
 		if ($query->num_rows () > 0)
 			return $query->row_array ();
 		else
@@ -102,16 +102,16 @@ class System_model extends CI_Model {
 		$data ['logintype'] = $this->session->userdata ( 'logintype' );
 		$data ['username'] = $this->session->userdata ( 'username' );
 		$feedback = $this->curl->sendRequestToPerlScript ( $url, $data );
-		
+
 		return $feedback = str_replace ( ".", ".<br />", $feedback );
 	}
 	function getTaxesCount() {
 		if ($this->session->userdata ( 'advance_search' ) == 1) {
-			
+
 			$taxes_search = $this->session->userdata ( 'taxes_search' );
-			
+
 			$amount_operator = $taxes_search ['amount_operator'];
-			
+
 			if (! empty ( $taxes_search ['amount'] )) {
 				switch ($amount_operator) {
 					case "1" :
@@ -134,9 +134,9 @@ class System_model extends CI_Model {
 						break;
 				}
 			}
-			
+
 			$rate_operator = $taxes_search ['rate_operator'];
-			
+
 			if (! empty ( $taxes_search ['rate'] )) {
 				switch ($rate_operator) {
 					case "1" :
@@ -159,7 +159,7 @@ class System_model extends CI_Model {
 						break;
 				}
 			}
-			
+
 			$description_operator = $taxes_search ['description_operator'];
 			if (! empty ( $taxes_search ['description'] )) {
 				switch ($description_operator) {
@@ -184,11 +184,11 @@ class System_model extends CI_Model {
 	}
 	function getTaxesList($start, $limit) {
 		if ($this->session->userdata ( 'advance_search' ) == 1) {
-			
+
 			$taxes_search = $this->session->userdata ( 'taxes_search' );
-			
+
 			$amount_operator = $taxes_search ['amount_operator'];
-			
+
 			if (! empty ( $taxes_search ['amount'] )) {
 				switch ($amount_operator) {
 					case "1" :
@@ -211,9 +211,9 @@ class System_model extends CI_Model {
 						break;
 				}
 			}
-			
+
 			$rate_operator = $taxes_search ['rate_operator'];
-			
+
 			if (! empty ( $taxes_search ['rate'] )) {
 				switch ($rate_operator) {
 					case "1" :
@@ -236,7 +236,7 @@ class System_model extends CI_Model {
 						break;
 				}
 			}
-			
+
 			$description_operator = $taxes_search ['description_operator'];
 			if (! empty ( $taxes_search ['description'] )) {
 				switch ($description_operator) {
@@ -281,7 +281,7 @@ class System_model extends CI_Model {
 		if ($this->session->userdata ( 'advance_search' ) == 1) {
 			$templatesearch = $this->session->userdata ( 'template_search' );
 			$template_name_operator = $templatesearch ['template_name_operator'];
-			
+
 			if (! empty ( $templatesearch ['template_name'] )) {
 				switch ($template_name_operator) {
 					case "1" :
@@ -298,7 +298,7 @@ class System_model extends CI_Model {
 						break;
 				}
 			}
-			
+
 			$template_subject = $templatesearch ['subject_operator'];
 			if (! empty ( $templatesearch ['subject'] )) {
 				switch ($template_subject) {
@@ -318,28 +318,30 @@ class System_model extends CI_Model {
 			}
 			$template_op = $templatesearch ['template_operator'];
 			if (! empty ( $templatesearch ['template_desc'] )) {
-				
+
+				$db = get_instance()->db->conn_id;
+
 				switch ($template_op) {
 					case "1" :
-						$this->db->like ( 'template', mysql_real_escape_string ( ($templatesearch ['template_desc']) ) );
+						$this->db->like ( 'template', mysqli_real_escape_string ( $db, ($templatesearch ['template_desc']) ) );
 						break;
 					case "2" :
-						$this->db->not_like ( 'template', mysql_real_escape_string ( $templatesearch ['template_desc'] ) );
+						$this->db->not_like ( 'template', mysqli_real_escape_string ( $db, $templatesearch ['template_desc'] ) );
 						break;
 					case "3" :
-						$this->db->where ( 'template', mysql_real_escape_string ( $templatesearch ['template_desc'] ) );
+						$this->db->where ( 'template', mysqli_real_escape_string ( $db, $templatesearch ['template_desc'] ) );
 						break;
 					case "4" :
-						$this->db->where ( 'template <>', mysql_real_escape_string ( $templatesearch ['template_desc'] ) );
+						$this->db->where ( 'template <>', mysqli_real_escape_string ( $db, $templatesearch ['template_desc'] ) );
 						break;
 				}
 			}
-			
+
 			if (! empty ( $templatesearch ['accountid'] )) {
 				$this->db->like ( 'accountid', $templatesearch ['accountid'] );
 			}
 		}
-		
+
 		if ($this->session->userdata ['userlevel_logintype'] == 1 || $this->session->userdata ['userlevel_logintype'] == 4 || $this->session->userdata ['userlevel_logintype'] == 5) {
 			$acountid = $this->session->userdata ['accountinfo'] ['accountid'];
 			$this->db->where ( 'accountid', $acountid );
@@ -348,7 +350,7 @@ class System_model extends CI_Model {
 	}
 	function get_template_by_id($id) {
 		$this->db->delete ( 'templates', array (
-				'id' => $id 
+				'id' => $id
 		) );
 		return true;
 	}
@@ -365,7 +367,7 @@ class System_model extends CI_Model {
 				"name" => trim ( $data ['tem_name'] ),
 				"template" => trim ( $data ['template'] ),
 				"subject" => trim ( $data ['subject'] ),
-				"modified_date" => trim ( date ( 'Y-m-d H:i:s' ) ) 
+				"modified_date" => trim ( date ( 'Y-m-d H:i:s' ) )
 		);
 		$this->db->where ( 'id', $edit_id );
 		$this->db->update ( 'templates', $updatedata );
@@ -374,7 +376,7 @@ class System_model extends CI_Model {
 	function build_systems_configuration() {
 		if ($this->session->userdata ( 'advance_search' ) == 1) {
 			$configuration_search = $this->session->userdata ( 'configuration_search' );
-			
+
 			if (! empty ( $configuration_search ['reseller'] )) {
 				$this->db->where ( 'reseller ', $configuration_search ['reseller'] );
 			}
@@ -384,9 +386,9 @@ class System_model extends CI_Model {
 			if (! empty ( $configuration_search ['group_title'] )) {
 				$this->db->where ( 'group_title', $configuration_search ['group_title'] );
 			}
-			
+
 			$name_operator = $configuration_search ['name_operator'];
-			
+
 			if (! empty ( $configuration_search ['name'] )) {
 				switch ($name_operator) {
 					case "1" :
@@ -403,9 +405,9 @@ class System_model extends CI_Model {
 						break;
 				}
 			}
-			
+
 			$value_operator = $configuration_search ['value_operator'];
-			
+
 			if (! empty ( $configuration_search ['value'] )) {
 				switch ($value_operator) {
 					case "1" :
@@ -422,9 +424,9 @@ class System_model extends CI_Model {
 						break;
 				}
 			}
-			
+
 			$comment_operator = $configuration_search ['comment_operator'];
-			
+
 			if (! empty ( $configuration_search ['comment'] )) {
 				switch ($comment_operator) {
 					case "1" :

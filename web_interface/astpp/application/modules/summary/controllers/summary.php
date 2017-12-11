@@ -24,9 +24,9 @@
 class Summary extends MX_Controller {
 	function Summary() {
 		parent::__construct ();
-		
+
 		$this->load->helper ( 'template_inheritance' );
-		
+
 		$this->load->library ( 'session' );
 		$this->load->library ( 'astpp/form' );
 		$this->load->library ( "summary_form" );
@@ -35,7 +35,7 @@ class Summary extends MX_Controller {
 		$this->load->library ( 'pdf' );
 		$this->fpdf = new PDF ( 'P', 'pt' );
 		$this->fpdf->initialize ( 'P', 'mm', 'A4' );
-		
+
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
 			redirect ( base_url () . '/astpp/login' );
 	}
@@ -47,7 +47,7 @@ class Summary extends MX_Controller {
 		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
 		$accountlist = $this->db_model->build_dropdown_deleted ( 'id,IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'where_arr', array (
 				'reseller_id' => $reseller_id,
-				"type" => "GLOBAL" 
+				"type" => "GLOBAL"
 		) );
 		$data ['accountlist'] = $accountlist;
 		$data ['session_info'] = $session_info;
@@ -72,10 +72,10 @@ class Summary extends MX_Controller {
 		$this->session->set_userdata ( 'customersummary_reports_export', $search_arr );
 		echo json_encode ( $json_data );
 	}
-	
+
 	/**
 	 *
-	 * @param string $entity        	
+	 * @param string $entity
 	 */
 	function summary_column_arr($entity) {
 		$new_column_arr = array ();
@@ -90,12 +90,12 @@ class Summary extends MX_Controller {
 						$search_array ['time'] . "(callstart)",
 						"",
 						"",
-						"" 
+						""
 				);
 			}
 			if (isset ( $search_array ['groupby_1'] ) && ! empty ( $search_array ['groupby_1'] )) {
 				$first_column_groupby = $search_array ['groupby_1'];
-				
+
 				if ($first_column_groupby == 'accountid') {
 					$new_column_arr [] = array (
 							"Account",
@@ -103,7 +103,7 @@ class Summary extends MX_Controller {
 							'accountid',
 							"first_name,last_name,number",
 							"accounts",
-							"build_concat_string" 
+							"build_concat_string"
 					);
 				} elseif ($first_column_groupby == 'pattern') {
 					$new_column_arr [] = array (
@@ -112,7 +112,7 @@ class Summary extends MX_Controller {
 							"pattern",
 							"pattern",
 							"",
-							"get_only_numeric_val" 
+							"get_only_numeric_val"
 					);
 					$new_column_arr [] = array (
 							"Destination",
@@ -120,7 +120,7 @@ class Summary extends MX_Controller {
 							"notes",
 							"",
 							"",
-							"" 
+							""
 					);
 				} elseif ($first_column_groupby == 'package_id') {
 					$new_column_arr [] = array (
@@ -129,7 +129,7 @@ class Summary extends MX_Controller {
 							'package_id',
 							"package_name",
 							"packages",
-							"get_field_name" 
+							"get_field_name"
 					);
 				}
 			}
@@ -142,7 +142,7 @@ class Summary extends MX_Controller {
 							'accountid',
 							"first_name,last_name,number",
 							"accounts",
-							"build_concat_string" 
+							"build_concat_string"
 					);
 				} elseif ($third_column_groupby == 'pattern') {
 					$new_column_arr [] = array (
@@ -151,7 +151,7 @@ class Summary extends MX_Controller {
 							"pattern",
 							"pattern",
 							"",
-							"get_only_numeric_val" 
+							"get_only_numeric_val"
 					);
 					$new_column_arr [] = array (
 							"Destination",
@@ -159,7 +159,7 @@ class Summary extends MX_Controller {
 							"notes",
 							"",
 							"",
-							"" 
+							""
 					);
 				} elseif ($third_column_groupby == 'package_id') {
 					$new_column_arr [] = array (
@@ -168,7 +168,7 @@ class Summary extends MX_Controller {
 							'package_id',
 							"package_name",
 							"packages",
-							"get_field_name" 
+							"get_field_name"
 					);
 				}
 			}
@@ -181,7 +181,7 @@ class Summary extends MX_Controller {
 							'accountid',
 							"first_name,last_name,number",
 							"accounts",
-							"build_concat_string" 
+							"build_concat_string"
 					);
 				} elseif ($fifth_column_groupby == 'pattern') {
 					$new_column_arr [] = array (
@@ -190,7 +190,7 @@ class Summary extends MX_Controller {
 							"pattern",
 							"pattern",
 							"",
-							"get_only_numeric_val" 
+							"get_only_numeric_val"
 					);
 					$new_column_arr [] = array (
 							"Destination",
@@ -198,7 +198,7 @@ class Summary extends MX_Controller {
 							"notes",
 							"",
 							"",
-							"" 
+							""
 					);
 				} elseif ($fifth_column_groupby == 'package_id') {
 					$new_column_arr [] = array (
@@ -207,7 +207,7 @@ class Summary extends MX_Controller {
 							'package_id',
 							"package_name",
 							"packages",
-							"get_field_name" 
+							"get_field_name"
 					);
 				}
 			}
@@ -218,7 +218,7 @@ class Summary extends MX_Controller {
 						'accountid',
 						"first_name,last_name,number",
 						"accounts",
-						"build_concat_string" 
+						"build_concat_string"
 				);
 			}
 		} else {
@@ -228,17 +228,17 @@ class Summary extends MX_Controller {
 					'accountid',
 					"first_name,last_name,number",
 					"accounts",
-					"build_concat_string" 
+					"build_concat_string"
 			);
 		}
-		
+
 		return $new_column_arr;
 	}
-	
+
 	/**
 	 *
-	 * @param string $entity        	
-	 * @param string $purpose        	
+	 * @param string $entity
+	 * @param string $purpose
 	 */
 	function summary_report_grid($search_arr, $query, $entity, $purpose) {
 		$export_arr = array ();
@@ -290,7 +290,7 @@ class Summary extends MX_Controller {
 				} elseif ($search_arr ['groupby_1'] == 'package_id') {
 					$new_arr [] = $this->common->get_field_name ( 'package_name', 'packages', $row1 ['package_id'] );
 				}
-				
+
 				if ($search_arr ['groupby_2'] == $db_field_name) {
 					$new_arr [] = $this->common->build_concat_string ( "first_name,last_name,number", "accounts", $row1 [$db_field_name] );
 				} elseif ($search_arr ['groupby_2'] == 'pattern') {
@@ -301,7 +301,7 @@ class Summary extends MX_Controller {
 				} elseif ($search_arr ['groupby_2'] == 'package_id') {
 					$new_arr [] = $this->common->get_field_name ( 'package_name', 'packages', $row1 ['package_id'] );
 				}
-				
+
 				if ($search_arr ['groupby_3'] == $db_field_name) {
 					$new_arr [] = $this->common->build_concat_string ( "first_name,last_name,number", "accounts", $row1 [$db_field_name] );
 				} elseif ($search_arr ['groupby_3'] == 'pattern') {
@@ -329,7 +329,7 @@ class Summary extends MX_Controller {
 						$billsec,
 						$debit,
 						$cost,
-						$profit 
+						$profit
 				);
 			} else {
 				$custom_array = array (
@@ -340,17 +340,17 @@ class Summary extends MX_Controller {
 						$avgsec,
 						$maxsec,
 						$billsec,
-						$cost 
+						$cost
 				);
 			}
 			$final_array = array_merge ( $new_arr, $custom_array );
 			$json_data [] = array (
-					'cell' => $final_array 
+					'cell' => $final_array
 			);
 			$export_arr [] = $final_array;
 		}
 		$function_name = 'get_' . $entity . 'summary_report_list';
-		$total_info = $this->summary_model->$function_name ( true, '', '', '', $search_arr ['select_str'], $search_arr ['order_str'], true );
+		$total_info = $this->summary_model->{$function_name ( true, '', '', '', $search_arr ['select_str'], $search_arr ['order_str'], true )};
 		$total_info = $total_info->result_array ();
 		$total_info = $total_info [0];
 		$total_asr = ($total_info ['attempts'] > 0) ? round ( ($total_info ['completed'] / $total_info ['attempts']) * 100, 2 ) : 0;
@@ -377,7 +377,7 @@ class Summary extends MX_Controller {
 					"<b>" . $total_info ['billable'] . "</b>",
 					"<b>" . $total_debit . "</b>",
 					"<b>" . $total_cost . "</b>",
-					"<b>" . $total_profit . "</b>" 
+					"<b>" . $total_profit . "</b>"
 			);
 		} else {
 			$last_array = array (
@@ -388,7 +388,7 @@ class Summary extends MX_Controller {
 					"<b>" . $total_acd . "</b>",
 					"<b>" . $total_info ['mcd'] . "</b>",
 					"<b>" . $total_info ['billable'] . "</b>",
-					"<b>" . $total_cost . "</b>" 
+					"<b>" . $total_cost . "</b>"
 			);
 		}
 		if ($purpose == 'export') {
@@ -407,7 +407,7 @@ class Summary extends MX_Controller {
 		$custom_export_arr = array_merge ( $search_arr ['custom_total_array'], $new_export_array );
 		$export_arr [] = $custom_export_arr;
 		$json_data [] = array (
-				'cell' => $total_array 
+				'cell' => $total_array
 		);
 		return $purpose == 'grid' ? $json_data : $export_arr;
 	}
@@ -430,14 +430,14 @@ class Summary extends MX_Controller {
 				'Billable',
 				'Debit(' . $currency . ')',
 				'Cost(' . $currency . ')',
-				'Profit' 
+				'Profit'
 		);
 		$header_arr [] = array_merge ( $search_header, $fixed_header );
 		if ($query->num_rows () > 0) {
 			$data_arr = $this->summary_report_grid ( $search_arr, $query, 'customer', 'export' );
 		}
 		$customer_array = array_merge ( $header_arr, $data_arr );
-		
+
 		$this->load->helper ( 'csv' );
 		array_to_csv ( $customer_array, 'Customer_Summary_Report_' . date ( "Y-m-d" ) . '.csv' );
 	}
@@ -456,16 +456,16 @@ class Summary extends MX_Controller {
 		$this->session->set_userdata ( 'customersummary_reports_export', "" );
 		redirect ( base_url () . 'summary/customer/' );
 	}
-	
+
 	/**
 	 *
-	 * @param string $entity        	
+	 * @param string $entity
 	 */
 	function summary_search_info($entity) {
 		$accountinfo = $this->session->userdata ( 'accountinfo' );
 		$this->db->select ( 'gmttime' );
 		$timezone_info = ( array ) $this->db->get_where ( 'timezone', array (
-				"id" => $accountinfo ['timezone_id'] 
+				"id" => $accountinfo ['timezone_id']
 		) )->first_row ();
 		if (! empty ( $timezone_info ['gmttime'] )) {
 			$user_timezone = $timezone_info ['gmttime'];
@@ -518,7 +518,7 @@ class Summary extends MX_Controller {
 				$custom_total_array [$i] = null;
 				$i ++;
 			}
-			
+
 			if (isset ( $custom_search ['groupby_2'] ) && ! empty ( $custom_search ['groupby_2'] )) {
 				$group_by_str .= $custom_search ['groupby_2'] . ",";
 				$select_str .= $custom_search ['groupby_2'] . ",";
@@ -540,7 +540,7 @@ class Summary extends MX_Controller {
 				$custom_total_array [$i] = null;
 				$i ++;
 			}
-			
+
 			if (isset ( $custom_search ['groupby_3'] ) && ! empty ( $custom_search ['groupby_3'] )) {
 				$group_by_str .= $custom_search ['groupby_3'] . ",";
 				$select_str .= $custom_search ['groupby_3'] . ",";
@@ -577,7 +577,7 @@ class Summary extends MX_Controller {
 			$group_by_str = $db_field_name;
 			$export_select_str = "Account";
 		}
-		
+
 		array_pop ( $custom_total_array );
 		array_unshift ( $custom_total_array, '<b>Grand Total</b>' );
 		$new_arr ['export_str'] = $export_select_str;
@@ -596,7 +596,7 @@ class Summary extends MX_Controller {
 		$data ['search_flag'] = true;
 		$session_info = $this->session->userdata ( 'providersummary_reports_search' );
 		$accountlist = $this->db_model->build_dropdown_deleted ( 'id,IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'where_arr', array (
-				"type" => "3" 
+				"type" => "3"
 		) );
 		$trunklist = $this->db_model->build_dropdown ( 'id,name', 'trunks', '', array () );
 		$data ['trunklist'] = $trunklist;
@@ -640,14 +640,14 @@ class Summary extends MX_Controller {
 				"ACD",
 				"MCD",
 				"Billable",
-				"Cost($currency)" 
+				"Cost($currency)"
 		);
 		$header_arr [] = array_merge ( $search_header, $fixed_header );
 		if ($query->num_rows () > 0) {
 			$data_arr = $this->summary_report_grid ( $search_arr, $query, 'provider', 'export' );
 		}
 		$provider_array = array_merge ( $header_arr, $data_arr );
-		
+
 		$this->load->helper ( 'csv' );
 		array_to_csv ( $provider_array, 'Provider_Summary_Report_' . date ( "Y-m-d" ) . '.csv' );
 	}
@@ -674,7 +674,7 @@ class Summary extends MX_Controller {
 		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
 		$accountlist = $this->db_model->build_dropdown_deleted ( 'id,IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'where_arr', array (
 				'reseller_id' => $reseller_id,
-				"type" => "1" 
+				"type" => "1"
 		) );
 		$data ['accountlist'] = $accountlist;
 		$data ['seconds'] = $this->session->userdata ( 'reseller_seconds' );
@@ -718,7 +718,7 @@ class Summary extends MX_Controller {
 		$account_info = $accountinfo = $this->session->userdata ( 'accountinfo' );
 		$currency_id = $account_info ['currency_id'];
 		$currency = $this->common->get_field_name ( 'currency', 'currency', $currency_id );
-		
+
 		$search_arr = $this->session->userdata ( 'resellersummary_reports_export' );
 		$data_arr = array ();
 		$query = $this->summary_model->get_resellersummary_report_list ( true, '', '', $search_arr ['group_by_str'], $search_arr ['select_str'], $search_arr ['order_str'], true );
@@ -734,7 +734,7 @@ class Summary extends MX_Controller {
 				"Billable",
 				"Debit($currency)",
 				"Cost($currency)",
-				"Profit" 
+				"Profit"
 		);
 		$header_arr [] = array_merge ( $search_header, $fixed_header );
 		if ($query->num_rows () > 0) {
@@ -746,4 +746,4 @@ class Summary extends MX_Controller {
 	}
 }
 ?>
- 
+

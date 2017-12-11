@@ -112,16 +112,16 @@ class CI_Email {
 	{
 		foreach ($config as $key => $val)
 		{
-			if (isset($this->$key))
+			if (isset($this->{$key}))
 			{
 				$method = 'set_'.$key;
 
 				if (method_exists($this, $method))
 				{
-					$this->$method($val);
+					$this->{$method}($val);
 				} else
 				{
-					$this->$key = $val;
+					$this->{$key} = $val;
 				}
 			}
 		}
@@ -1955,7 +1955,7 @@ class CI_Email {
 	}
 	public function print_debugger_email($data = '',$log_path)
 	{
-	
+
 		$msg = '';
 		$msg .= "Date : ".date("F j, Y, g:i a")."\n From :".$data['from']."\n To :".$data['to']."\n Subject :".$data['subject']."\n Attachment :".implode(',',$data['attachment'])."\n";
 		$msg .= "Error : \n" ;
@@ -1968,7 +1968,7 @@ class CI_Email {
 				                $msg .= $val;
 				        }
 			        }
-		        }       
+		        }
                 }else{
                         if (count($this->_debug_msg) > 0)
 		        {

@@ -117,14 +117,14 @@ class CI_Upload {
 				$method = 'set_'.$key;
 				if (method_exists($this, $method))
 				{
-					$this->$method($config[$key]);
+					$this->{$method}($config[$key]);
 				} else
 				{
-					$this->$key = $config[$key];
+					$this->{$key} = $config[$key];
 				}
 			} else
 			{
-				$this->$key = $val;
+				$this->{$key} = $val;
 			}
 		}
 

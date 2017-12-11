@@ -10,7 +10,7 @@
 <style>
 div .tleft {
   position: relative;
-  
+
 }
 div.tleft .demo {
   visibility: hidden;
@@ -73,7 +73,7 @@ div.tright {
 }
 div.tright .demo {
    visibility:hidden;
-  border-radius: 6px; 
+  border-radius: 6px;
   text-align: left;
   border-radius: 6px;
   background-color: #2E4E6A !important;
@@ -131,7 +131,7 @@ function validateform(){
   var elem = document.getElementById('system_conf_form').elements;
   var flag=false;
         for(var i = 0; i < elem.length; i++)
-        { 
+        {
           if(elem[i].name!=''){
           var disp=elem[i].name+"_error";
           if(elem[i].name=='did_global_translation'){
@@ -140,7 +140,7 @@ function validateform(){
           $("#"+disp).parent().css("display","block");
           flag=true;
           }else{
-          $("#"+disp).parent().css("display","none"); 
+          $("#"+disp).parent().css("display","none");
           }
         }
         }
@@ -152,10 +152,10 @@ function validateform(){
 }
 </script>
 
-<div id="main-wrapper" class="tabcontents">  
-  <div id="content">   
-    <div class="row"> 
-      <div class="col-md-12 no-padding color-three border_box"> 
+<div id="main-wrapper" class="tabcontents">
+  <div id="content">
+    <div class="row">
+      <div class="col-md-12 no-padding color-three border_box">
         <div class="col-md-8"><h2><?= $page_title; ?></h2></div>
         <div class="pull-right">
             <ul class="breadcrumb">
@@ -169,7 +169,7 @@ function validateform(){
                 <?php } ?>
             </ul>
         </div>
-      </div>     
+      </div>
       <div class="padding-15 col-md-12">
         <div class="slice color-three pull-left content_border col-md-12">
            <form action="<?=base_url()?>/systems/configuration/<?=$group_title?>" accept-charset="utf-8" id="system_conf_form" method="POST" name="invoice_conf_form"  onsubmit='return validateform()'>
@@ -187,7 +187,7 @@ function validateform(){
                             <div class="<?=$class?>" href='#'>
                             <label class="col-md-5 no-padding"><?php echo $val['display_name'];?> * </label>
                             <?php if(method_exists($this->common,$val['field_type'])){
-								$option_array =  $this->common->$val['field_type'](); 
+								$option_array =  $this->common->{$val['field_type']}();
 								$drpstr = '<select name="'.$val['name'].'" class="col-md-5 form-control selectpicker"  data-live-search="true">';
 									  foreach($option_array as $option_key=>$option_val){
 										$selected = ($val['value'] == $option_key)? "selected='selected'":"";
@@ -202,7 +202,7 @@ function validateform(){
                               <span class="demo"><?php echo str_replace('smtp',"SMTP",$val['comment']);?></span>
 
                             </div>
-                          </div>  
+                          </div>
 
                       <?php $i++;?>
                     <?php }?>
@@ -217,11 +217,11 @@ function validateform(){
         </div>
       </div>
     </div>
-  </div>      
+  </div>
 </div>
 
 
- 
+
 
 <? endblock() ?>
 <? startblock('sidebar') ?>
