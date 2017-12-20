@@ -159,7 +159,7 @@ class Accounts extends MX_Controller {
 		$entity_type = strtolower ( $this->common->get_entity_type ( '', '', $type ) );
 		$data ['username'] = $this->session->userdata ( 'user_name' );
 		$data ['flag'] = 'create';
-		$data ['page_title'] = gettext ( 'Create Customer' );
+		$data ['page_title'] = ($type = 3)?gettext ( 'Create Provider' ):gettext ( 'Create Customer' );
 		$data ['back_flag'] = true;
 		$data ['country_id'] = $accountinfo ['country_id'];
 		$data ['callingcard'] = Common_model::$global_config ['system_config'] ['pinlength'];

@@ -257,7 +257,11 @@ class ProcessCharges extends MX_Controller {
 				if ($DIDvalue ['charge_upto'] == '0000-00-00 00:00:00') {
 					$DIDvalue ['charge_upto'] = $DIDvalue ['assign_date'];
 				}
-				if ($DIDvalue ['charge_upto'] != "0000-00-00 00:00:00" && strtotime ( $DIDvalue ['charge_upto'] ) < strtotime ( $EndDate )) {
+//ASTPP_DID_monthly_billing_issue
+				$next_invoice_date = date("Y-m-d H:i:s",strtotime($DIDvalue ['charge_upto']." + 1 month"));
+				$next_invoice_date = date("Y-m-d 23:59:59",strtotime($next_invoice_date." - 1 day"));
+				if ($DIDvalue ['charge_upto'] != "0000-00-00 00:00:00" && strtotime ( $next_invoice_date ) < strtotime ( $EndDate )) {
+//END
 					$itemArr = $this->Build_ItemArr ( $DIDvalue ['number'], $DIDvalue ['id'], "DIDCHRG", "2", $DIDvalue ['assign_date'], $DIDvalue ['charge_upto'], $NowDate );
 					if ($DIDvalue ['parent_id'] > 0) {
 						$ParentID = $DIDvalue ['parent_id'];

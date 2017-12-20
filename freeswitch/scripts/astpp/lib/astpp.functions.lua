@@ -125,7 +125,7 @@ end
 -- Do IP base authentication 
 function ipauthentication(destination_number,from_ip)
 
-    local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE ((INET_ATON(\"" .. from_ip.. "\") & (0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1)))) =  ((0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1))) & INET_ATON(SUBSTRING_INDEX(ip,'/',1)))) AND ((SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND prefix IN (NULL,'')) OR (SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND \"" .. destination_number .. "\"  RLIKE prefix)) ORDER BY LENGTH(prefix) DESC LIMIT 1"
+    local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE ((INET_ATON(\"" .. from_ip.. "\") & (0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1)))) =  ((0xFFFFFFFF & (-1 << 32 - SUBSTRING_INDEX(ip, '/',-1))) & INET_ATON(SUBSTRING_INDEX(ip,'/',1)))) AND (status =0) AND ((SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND prefix IN (NULL,'')) OR (SUBSTRING( ip, 1, CHAR_LENGTH( ip ) -3 ) = \"" .. from_ip.. "\" AND \"" .. destination_number .. "\"  RLIKE prefix)) ORDER BY LENGTH(prefix) DESC LIMIT 1"
 
     Logger.debug("[IPAUTHENTICATION] Query :" .. query)
     
@@ -415,10 +415,15 @@ function package_calculation (destination_number,userinfo,call_direction)
 			remaining_sec = tonumber(package_info['includedseconds']) - tonumber(freeseconds)
 			Logger.info("Remaining Sec : "..remaining_sec)
 			if(remaining_sec > 0) then
-					userinfo['balance'] = 100
-			        userinfo['NO_SUFFICIENT_FUND'] = ''
-                    remaining_sec = remaining_sec + 5
-					package_maxlength = remaining_sec / 60;	
+				if (tonumber(balance) <= 0) then
+			    	    userinfo['balance'] = 100
+			    	    userinfo['credit_limit'] = 200
+			    	    Logger.notice("Actual Balance : "..balance)
+			    	    Logger.notice("Allocating static balance for package calls, Balance : "..userinfo['balance'].. ", Credit limit : "..userinfo['credit_limit'])
+			    	end			    	
+			        userinfo['ACCOUNT_ERROR'] = ''
+                    		remaining_sec = remaining_sec + 5
+				package_maxlength = remaining_sec / 60;	
 			end
 		end 
 	end

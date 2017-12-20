@@ -570,7 +570,7 @@ class Systems extends CI_Controller {
 		$result = $this->system_model->get_backup_data ( $id );
 		$result_array = $result->result_array ();
 		if ($result->num_rows () > 0) {
-			$path = $result_array [0] ['path'];
+			$path = DATABASE_DIRECTORY. $result_array [0] ['path'];
 			$filename = basename ( $path );
 			$len = filesize ( $path );
 			

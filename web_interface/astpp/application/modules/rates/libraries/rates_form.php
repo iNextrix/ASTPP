@@ -602,16 +602,7 @@ class rates_form {
 						array (
 								"status" => "0" 
 						) 
-				),
-				array (
-						'',
-						'HIDDEN',
-						'ajax_search',
-						'1',
-						'',
-						'',
-						'' 
-				),
+				),				
 				array (
 						gettext ( 'Status' ),
 						'status',

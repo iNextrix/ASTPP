@@ -1835,7 +1835,9 @@ class Invoices extends MX_Controller {
 				$invoicedata ['invoiceid'] = $value ['invoiceid'];
 			}
 		} else {
-			$query = "select item_type,description,created_date,invoiceid,debit,credit from invoice_details where invoiceid = " . $invoiceid . " And item_type='SUBCHRG' Group By item_type";
+//ASTPP_receipt_description_not_display_issue
+			$query = "select item_type,description,created_date,invoiceid,debit,credit from invoice_details where invoiceid = " . $invoiceid . " And ( item_type='SUBCHRG' OR  item_type='DIDCHRG') Group By item_type";
+//END
 			$invoice_total_query = $this->db->query ( $query );
 			if ($invoice_total_query->num_rows () > 0) {
 				$invoice_total_query = $invoice_total_query->result_array ();
@@ -2066,28 +2068,28 @@ class Invoices extends MX_Controller {
 		/**
 		 * ************************* Invoice Note Code END **************************************************
 		 */
-		
+//ASTPP_invoice_download_issue
 		if (! empty ( $data ['invoiceconf'] ) && $data ['invoiceconf'] != '') {
 			$logo = $data ['invoiceconf'] ['logo'];
-			
-			$dir_path = base_url () . "upload/";
-			// echo $dir_path; exit;
+			$dir_path = getcwd () . "/upload/";
 			$path = $dir_path . $data ['invoiceconf'] ['accountid'] . "_" . $data ['invoiceconf'] ['logo'];
+
 			if (file_exists ( $path )) {
 				if ($logo != '') {
 					$src = $path;
 					$logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='" . $src . "'>";
 				} else {
-					$path = base_url () . "/assets/images/logo.png";
+					$path = FCPATH . "/assets/images/logo.png";
 					$src = $path;
 					$logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='" . $src . "'>";
 				}
 			} else {
-				$dir_path = base_url () . "/upload/logo.png";
+				$dir_path = FCPATH . "/upload/logo.png";
 				$src = $dir_path;
 				$logo = "<img style='height:50px; width:180px; margin-left:70px;' alt='logo' src='" . $src . "'>";
 			}
 		}
+//END
 		$content = str_replace ( "<INVOICE_NUM>", $INVOICE_NUM, $content );
 		$content = str_replace ( "<ACCOUNTADD>", $ACCOUNTADD, $content );
 		$content = str_replace ( "<ACCOUNTADD_CUSTOMER>", $ACCOUNTADD_CUSTOMER, $content );

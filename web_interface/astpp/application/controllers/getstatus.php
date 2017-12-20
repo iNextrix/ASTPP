@@ -36,7 +36,7 @@ class Getstatus extends MX_Controller {
 			);
 			$account_data = ( array ) $this->db_model->getSelect ( "*", "accounts", $where )->first_row ();
 		}
-		$result = $post_data ['table'] == 'accounts' && $post_data ['id'] == 1 || $account_data ['type'] == 2 ? null : $this->db->update ( $post_data ['table'], $data, array (
+		$result = $post_data ['table'] == 'accounts' && $post_data ['id'] == 1 ? null : $this->db->update ( $post_data ['table'], $data, array (
 				"id" => $post_data ['id'] 
 		) );
 		echo TRUE;
