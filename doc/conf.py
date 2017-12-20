@@ -48,7 +48,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'ASTPP Documentation'
+project = u'ASTPP'
 copyright = u'2017 iNextrix Technologies Pvt. Ltd'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -264,5 +264,5 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 html_context = {
-    "display_github": False
+    "display_github": True
 }
