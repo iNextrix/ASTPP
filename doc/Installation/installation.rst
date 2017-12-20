@@ -17,6 +17,7 @@ We provides two ways to do installation,
 
    quick_installation.rst
    manual_installation.rst
+   upgrade.rst
    quick_start.rst
   
   
