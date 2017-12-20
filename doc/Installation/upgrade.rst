@@ -1,10 +1,10 @@
 ===================
-Upgrade to latest version
+Upgrade
 ===================
 
-Important
+Note
 
-Script wil upgrade only version from 3.0 to latest. For older version, it require manual upgradation.
+	Script wil upgrade only version from 3.0 to latest. For older version, it require manual upgradation.
 
 **Upgrade Steps**
 ::
