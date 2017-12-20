@@ -5,12 +5,11 @@ Homer
 Follow below steps to integrate ASTPP with Homer.
 
 
-**Open file**
+**Open file : **
 ::
     /var/www/html/fs/lib/astpp.xml.php
 
-**Edit file**
-
+**Edit file : **
 ::
 Goto Line number : 113 (It should look like : $xml .= "   <configuration name=\"sofia.conf\" description=\"SIP Profile\">\n";)
 
