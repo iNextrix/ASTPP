@@ -20,7 +20,7 @@ $xml .= " <param name=\"sip-capture\" value=\"yes\"/>\n";
 $xml .= " <param name=\"capture-server\" value=\"udp:192.168.1.200:9060\"/>\n";
 $xml .= " </global_settings>\n";
 
-Change 192.168.1.20:9060 according to your configuration.
+Note : Change 192.168.1.20:9060 according to your configuration.
 
 **Save the file and restart freeswitch.**
  
