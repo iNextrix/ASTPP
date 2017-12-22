@@ -394,6 +394,18 @@ class Freeswitch extends MX_Controller {
 		$data ['page_title'] = gettext ( 'Live Call Report' );
 		$this->load->view ( 'view_fs_livecall_report', $data );
 	}
+		
+	#To remove leg wise dialstring parameters from live call report
+	function livecall_delete_all_between($beginning, $end, $string) {
+  		$beginningPos = strpos($string, $beginning);
+  		$endPos = strpos($string, $end);
+  		if ($beginningPos === false || $endPos === false) {
+    			return $string;
+  		}
+  		$textToDelete = substr($string, $beginningPos, ($endPos + strlen($end)) - $beginningPos);
+  		return str_replace($textToDelete, '', $string);
+	}
+	
 	function livecall_report_json() {
 		$command = "api show channels";
 		$response = $this->freeswitch_model->reload_live_freeswitch ( $command );
@@ -404,6 +416,8 @@ class Freeswitch extends MX_Controller {
 		$data = explode ( "\n", $response );
 		for($i = 0; $i < count ( $data ) - 2; $i ++) {
 			if (trim ( $data [$i] ) != '') {
+				#Calling the function feeding the altered bridge string to same variable
+				$data [$i] = $this->livecall_delete_all_between('[', ']', $data [$i]);
 				if (count ( $data_header ) == 0 || substr ( $data [$i], 0, 4 ) == "uuid") {
 					$data_header = explode ( ",", $data [$i] );
 				} else {
