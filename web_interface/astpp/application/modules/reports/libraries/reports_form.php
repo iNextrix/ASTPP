@@ -205,7 +205,7 @@ class Reports_form {
 							'' 
 					),
 					array (
-							gettext ( 'Disposition' ),
+							gettext ( 'Disposition [Q.850]' ),
 							'disposition',
 							'SELECT',
 							'',
@@ -474,7 +474,7 @@ class Reports_form {
 							'' 
 					),
 					array (
-							gettext ( 'Disposition' ),
+							gettext ( 'Disposition [Q.850]' ),
 							'disposition',
 							'SELECT',
 							'',
@@ -765,7 +765,7 @@ class Reports_form {
 				),
 				
 				array (
-						gettext ( 'Disposition' ),
+						gettext ( 'Disposition [Q.850]' ),
 						'disposition',
 						'SELECT',
 						'',
@@ -1051,7 +1051,7 @@ class Reports_form {
 				),
 				// array('Cost ', 'INPUT', array('name' => 'cost[cost]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'cost[cost-integer]', '', '', '', 'search_int_type', ''),
 				array (
-						gettext ( 'Disposition' ),
+						gettext ( 'Disposition [Q.850]' ),
 						'disposition',
 						'SELECT',
 						'',
@@ -1245,7 +1245,7 @@ class Reports_form {
 							"right" 
 					),
 					array (
-							gettext ( "Disposition" ),
+							gettext ( "Disposition [Q.850]" ),
 							"150",
 							"disposition",
 							"",
@@ -1394,7 +1394,7 @@ class Reports_form {
 							"right" 
 					),
 					array (
-							gettext ( "Disposition" ),
+							gettext ( "Disposition [Q.850]" ),
 							"130",
 							"disposition",
 							"",
@@ -1541,7 +1541,7 @@ class Reports_form {
 						"right" 
 				),
 				array (
-						gettext ( "Disposition" ),
+						gettext ( "Disposition [Q.850]" ),
 						"100",
 						"disposition",
 						"",
@@ -1673,7 +1673,7 @@ class Reports_form {
 						"right" 
 				),
 				array (
-						gettext ( "Disposition" ),
+						gettext ( "Disposition [Q.850]" ),
 						"200",
 						"disposition",
 						"",
@@ -1845,7 +1845,7 @@ class Reports_form {
 				),
 				$cost_array,
 				array (
-						gettext ( "Disposition" ),
+						gettext ( "Disposition [Q.850]" ),
 						"160",
 						"disposition",
 						"",
@@ -3502,3 +3502,4 @@ class Reports_form {
 }
 
 ?>
+
