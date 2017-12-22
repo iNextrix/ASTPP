@@ -200,6 +200,19 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
     return xml
 end
 
+--To split the DID destination number string
+function split_numbers(source, delimiters)
+        local elements = {}
+        local pattern = '([^'..delimiters..']+)'
+        string.gsub(source, pattern, function(value) elements[#elements + 1] =     value;  end);
+        return  elements
+end
+function split_delis(source, delimiters)
+        local delis = {}
+        local delipattern = '(['..delimiters..']+)'
+        string.gsub(source, delipattern, function(value) delis[#delis + 1] =     value;  end);
+        return delis
+end
 
 -- Dialplan for inbound calls
 function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,callerid_array)
@@ -218,6 +231,11 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
 	    table.insert(xml, [[<action application="limit" data="db ]]..destination_number..[[ did_]]..destination_number..[[ ]]..didinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);        
 	end
 
+        local bridge_str = ""
+        local common_chan_var = ""
+        local destination_str = split_numbers(didinfo['extensions'],",|")
+        local deli_str = split_delis(didinfo['extensions'],",|")
+
 	if (tonumber(didinfo['call_type']) == 0 and didinfo['extensions'] ~= '') then
 		table.insert(xml, [[<action application="set" data="calltype=STANDARD"/>]]);     
 		table.insert(xml, [[<action application="set" data="accountcode=]]..didinfo['account_code']..[["/>]]);
@@ -230,7 +248,13 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
 		table.insert(xml, [[<action application="set" data="calltype=DID-LOCAL"/>]]);     
         if notify then notify(xml,destination_number) end
         if (config['opensips'] == '1') then
-          table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..[[]user/]]..didinfo['extensions']..[[@${domain_name}"/>]]);
+          for i = 1, #destination_str do
+                bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]user/"..destination_str[i].."@${domain_name}"
+                if i <= #deli_str then
+                        bridge_str = bridge_str..deli_str[i]
+                end
+          end
+          table.insert(xml, [[<action application="bridge" data="]]..bridge_str..[["/>]]);
           table.insert(xml, [[<condition field="${cond(${user_data ]]..didinfo['extensions']..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]])
           table.insert(xml, [[<action application="answer"/>]]);    
     	  table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);  
@@ -238,14 +262,28 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
           table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]])
           table.insert(xml, [[</condition>]])
         else      
-    	  table.insert(xml, [[<action application="bridge" data="{sip_invite_params=user=LOCAL,sip_from_uri=]]..didinfo['extensions']..[[@${domain_name}}[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[[@]]..config['opensips_domain']..[["/>]]);
+          common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
+          for i = 1, #destination_str do
+                bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
+                if i <= #deli_str then
+                        bridge_str = bridge_str..deli_str[i]
+                end
+          end
+          table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
         end
 
 	 elseif (tonumber(didinfo['call_type']) == 3 and didinfo['extensions'] ~= '') then
 	    table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);    
         if notify then notify(xml,destination_number) end 
 		if (config['opensips'] == '1') then
-            table.insert(xml, [[<action application="bridge" data="{sip_contact_user=]]..destination_number..[[}[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..destination_number..[[${regex(${sofia_contact(]]..didinfo['extensions']..[[@${domain_name})}|^[^@]+(.*)|%1)}]]..[["/>]])
+            common_chan_var = "{sip_contact_user="..destination_number.."}"
+            for i = 1, #destination_str do
+                  bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_number.."${regex(${sofia_contact("..destination_str[i].."@${domain_name})}|^[^@]+(.*)|%1)}"
+                  if i <= #deli_str then
+                          bridge_str = bridge_str..deli_str[i]
+                  end
+            end
+            table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
             table.insert(xml, [[<condition field="${cond(${user_data ]]..didinfo['extensions']..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]])
             table.insert(xml, [[<action application="answer"/>]])
             table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]])
@@ -253,7 +291,14 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
             table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]])
             table.insert(xml, [[</condition>]])
         else
-            table.insert(xml, [[<action application="bridge" data="{sip_invite_params=user=LOCAL,sip_from_uri=]]..didinfo['extensions']..[[@${domain_name}}[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[[@]]..config['opensips_domain']..[["/>]]);
+            common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
+            for i = 1, #destination_str do
+                  bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
+                  if i <= #deli_str then
+                          bridge_str = bridge_str..deli_str[i]
+                  end
+            end
+            table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
         end
 	elseif(tonumber(didinfo['call_type']) == 2 and didinfo['extensions'] ~= '') then
 		table.insert(xml, [[<action application="set" data="calltype=OTHER"/>]]); 
