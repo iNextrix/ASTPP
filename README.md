@@ -44,6 +44,7 @@ Community
 - <a href="http://github.com/iNextrix/ASTPP/issues">Bug Tracker</a>
 - <a href="https://gitter.im/ASTPP-Official/Lobby">Community Chatter</a>
 - <a href="http://astpp.readthedocs.io/en/v3.5/Introduction/how_to_contribute.html">How to Contribute</a>
+- <a href="http://astpp.readthedocs.io/en/v3.5/Introduction/contribute_to_git.html">Guideline for Git Contribution</a>
 
 Report security issues to our Security email address security@inextrix.com.
 
