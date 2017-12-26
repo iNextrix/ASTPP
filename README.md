@@ -13,7 +13,6 @@ ASTPP is a Open Source VoIP Billing Solution for Freeswitch. It supports prepaid
 
 - Prepaid / Postpaid account management
 - Multi level Reseller management with personalization
-
 - Calling card support
 - Least cost routing (LCR)
 - DID management
@@ -23,6 +22,7 @@ ASTPP is a Open Source VoIP Billing Solution for Freeswitch. It supports prepaid
 - Integrated paypal payment gateway
 - Invoicing & Billing
 - Reports
+
 and many more
 
 
