@@ -34,19 +34,38 @@ from the documentation.
 Then follow <a href="http://astpp.readthedocs.io/en/v3.5/Installation/quick_start.html">quick setup guide</a>
 
 
-Resources
+Community
 ---------
 
-<a href="http://www.astppbilling.org/latest-news/">Latest News</a>
+- <a href="http://www.astppbilling.org/latest-news/">Latest News</a>
+- <a href="http://astpp.readthedocs.io">Documentation</a>
+- <a href="http://www.astppbilling.org/gallery/">Video Tutorials</a>
+- <a href="https://groups.google.com/forum/#!forum/astpp">Community Forums</a>
+- <a href="http://github.com/iNextrix/ASTPP/issues">Bug Tracker</a>
+- <a href="https://gitter.im/ASTPP-Official/Lobby">Community Chatter</a>
+- <a href="http://astpp.readthedocs.io/en/v3.5/Introduction/how_to_contribute.html">How to Contribute</a>
 
-<a href="http://astpp.readthedocs.io">Documentation</a>
+Report security issues to our Security email address security@inextrix.com.
 
-<a href="http://www.astppbilling.org/gallery/">Video Tutorials</a>
 
-<a href="https://groups.google.com/forum/#!forum/astpp">Community Forums</a>
+Commercial Support
+------------------
 
-<a href="http://github.com/iNextrix/ASTPP/issues">Bug Tracker</a>
+We do offer commercial services for installation, support, training and custom development.
 
-<a href="https://gitter.im/ASTPP-Official/Lobby">Community Chatter</a>
+- <a href="http://www.astppbilling.org/installation/">Installation</a>
+- <a href="http://www.astppbilling.org/support/">On Demand Support</a>
+- <a href="http://www.astppbilling.org/training/">Training</a>
+- <a href="http://www.astppbilling.org/contact-us/">Custom Development</a>
 
-Report security issues to our Security email address security@inextrix.com, thank you.
+
+Commercial Addons
+------------------
+
+- <a href="http://www.astppbilling.org/addons/mobile-dialers/">Mobile Dialers (Android & iOS)</a>
+- <a href="http://www.astppbilling.org/addons/pc-dialer/">Windows PC Dialer</a>
+- <a href="http://www.astppbilling.org/addons/freeswitch-monitoring-addon/">FreeSwitch Monitoring Addon</a>
+- <a href="http://www.astppbilling.org/addons/whmcs-integration-addon/">WHMCS Addon</a>
+- <a href="http://www.astppbilling.org/addons/truecnam-display/">TrueCNAM Display</a>
+- <a href="http://www.astppbilling.org/addons/ap-faxer/">AP Faxer for Fax Service</a>
+
