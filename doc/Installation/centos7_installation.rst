@@ -1,5 +1,5 @@
 ============================
-CentOs 7 Installation V3.5
+CentOs 7 Installation
 ============================
 
 **Install base packages**
