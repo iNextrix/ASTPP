@@ -528,8 +528,8 @@ function number_loop(destination_number,code)
 end    
 
 -- Adding slash \ if number starting with +. 
-function plus_destination_number(destination_number)
-
+function plus_destination_number(destination_number)    
+    destination_number = destination_number:gsub("%s+", "")	
     local dnumber = destination_number
 	local dfirst =  string.match(dnumber, "^(.)")
 	if (dfirst == "+") then
