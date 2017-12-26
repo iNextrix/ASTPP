@@ -282,8 +282,7 @@ Related pages
    features.rst
    components.rst
    system_requirement.rst
-   how_to_contribute.rst
-   contribute_to_git.rst
+   how_to_contribute.rst   
 .. raw:: html
 
    </ul>
