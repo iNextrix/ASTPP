@@ -91,8 +91,10 @@ Email Address          E-mail address to get Low credit notification.
 |image| `How to create customer
 <https://youtu.be/YgfcuybxlXg>`_ 
 
-|image| `How to use customer and trunk number translation in ASTPP?
+|image| `How to use customer and trunk number translation
 <https://youtu.be/KjO2sIqvCBY>`_ 
+
+
 
 .. |image| image:: /Images/favicon.png  
                                       
