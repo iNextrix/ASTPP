@@ -5,15 +5,19 @@ Accounts
 ASTPP have different types accounts based on their roles and responsibility. They are as below, 
 
 - **Customers / Providers**
- - We consider customers as (Originator) and providers as (Terminator + 
-   Originator) and will be able to do various operations like as below,
+ - We consider **Customers as (Originator)** and **Providers as (Terminator + 
+   Originator)** and will be able to do various operations like as below,
  
-     1. Purchase DIDs & configure it
-     2. Recharge account
-     3. Create own SIP Devices
-     4. Manage own caller ids
-     5. Invoices
-     6. Check their CDRs
+     1. Dashboard access
+     2. Profile management
+     3. Purchase DIDs & configure it
+     4. Recharge account
+     5. Create own SIP Devices
+     6. Manage IP Settings (If permission given by admin)
+     6. Manage own caller ids
+     7. Invoices
+     8. Check their own CDRS
+     9. Outbound CDRS **(Only to Providers)**
 
 
 
