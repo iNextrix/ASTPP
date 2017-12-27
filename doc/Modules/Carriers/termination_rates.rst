@@ -3,7 +3,7 @@ Termination Rates
 =================
 
 Termination rates belongs to Trunk. 
-**Rermination rates works as carrier rates / buy rates as these rates will be applicable on providers.**
+**Termination rates works as carrier rates / buy rates as these rates will be applicable on providers.**
 
 
 Before dialing number to gateway, system will do LCR / COST based routing process on termination rates and find out best matched code
