@@ -14,10 +14,10 @@ ASTPP have different types accounts based on their roles and responsibility. The
      4. Recharge account
      5. Create own SIP Devices
      6. Manage IP Settings (If permission given by admin)
-     6. Manage own caller ids
-     7. Invoices
-     8. Check their own CDRS
-     9. Outbound CDRS **(Only to Providers)**
+     7. Manage own caller ids
+     8. Invoices
+     9. Check their own CDRS
+     10. Outbound CDRS **(Only to Providers)**
 
 
 
