@@ -506,12 +506,13 @@ class Accounts extends MX_Controller {
 			$ip_flag = $this->db_model->delete ( "ip_map", array (
 					"id" => $ipmapid 
 			) );
-			if ($ip_flag) {
-				$this->load->library ( 'freeswitch_lib' );
-				$this->load->model ( "freeswitch_model" );
-				$command = "api reloadacl";
-				$this->freeswitch_model->reload_freeswitch ( $command );
-			}
+			//To reloadacl in freeswitch when deleting the accepted ip
+			$this->load->library ( 'freeswitch_lib' );
+                        $this->load->module ( 'freeswitch/freeswitch' );
+                        $command = "api reloadacl";
+                        $response = $this->freeswitch_model->reload_freeswitch ( $command );
+                        $this->session->set_userdata ( 'astpp_notification', $response );
+			
 			$this->session->set_flashdata ( 'astpp_notification', 'IP removed sucessfully.' );
 		}
 		redirect ( base_url () . "accounts/" . $accounttype . "_ipmap/" . $accountid . "/" );
