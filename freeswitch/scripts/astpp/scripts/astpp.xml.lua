@@ -178,23 +178,24 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 		end             
 	end
 	----------------------- END Gateway configuraiton -------------------------------
-	-- Set force code if configured
-	if (outbound_info['codec'] ~= '') then 
-		table.insert(xml, [[<action application="set" data="absolute_codec_string=]]..outbound_info['codec']..[["/>]]);           
-	end
+	-- Set force codec if configured
+        chan_var = "leg_timeout="..outbound_info['leg_timeout']
+        if (outbound_info['codec'] ~= '') then
+                chan_var = chan_var..",absolute_codec_string=".."^^:"..outbound_info['codec']:gsub("%,", ":")
+        end
 
 	if(tonumber(outbound_info['maxchannels']) > 0) then    
-		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge [leg_timeout=]]..outbound_info['leg_timeout']..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);   
+		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge []]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	else
-		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..outbound_info['leg_timeout']..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);      
+		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	end
 
 	if(outbound_info['path1'] ~= '' and outbound_info['path1'] ~= outbound_info['gateway']) then
-		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..outbound_info['leg_timeout']..[[]sofia/gateway/]]..outbound_info['path1']..[[/]]..temp_destination_number..[["/>]]); 
+		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path1']..[[/]]..temp_destination_number..[["/>]]);
 	end
 
 	if(outbound_info['path2'] ~= '' and outbound_info['path2'] ~= outbound_info['gateway']) then
-		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..outbound_info['leg_timeout']..[[]sofia/gateway/]]..outbound_info['path2']..[[/]]..temp_destination_number..[["/>]]); 
+		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path2']..[[/]]..temp_destination_number..[["/>]]);
 	end
                            
     return xml
