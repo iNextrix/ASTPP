@@ -9,7 +9,7 @@ APIs
 .. toctree::
    :maxdepth: 2
    
-    get_balance.rst
+   get_balance.rst
 
    
    
