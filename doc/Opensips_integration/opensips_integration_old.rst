@@ -3,8 +3,7 @@ Opensips Integration Old
 ========================
 
 .. note:: OpenSIPs script is for version 1.7.1. 
-
-         **Please help us in converting opensips script to latest opensips LTS version.**
+**Please help us in converting opensips script to latest opensips LTS version.**
 
 
 +------------------------------------------------------------------+
