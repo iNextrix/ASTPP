@@ -434,7 +434,8 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 	    xml = xml_header(xml,destination_number)
     	table.insert(xml, [[<action application="log" data="]]..log_type.." "..log_message..[["/>]]); 
 
-	    if (playback_audio_notification == "1") then
+	    -- Changing stat to make 'Enabled' stat by default
+	    if (playback_audio_notification == "0") then
 	    	table.insert(xml, [[<action application="playback" data="]]..audio_file..[["/>]]);
 	    end
 
