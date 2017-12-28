@@ -154,9 +154,9 @@ Opensips Install guide for CentOS 6.0
  Database changed
  
  $ mysql> show tables;
-+---------------------+
+-----------------------
 | Tables_in_opensips  |
-+---------------------+
+-----------------------
 | acc                 |    
 |                     |
 | active_watchers     |
@@ -200,7 +200,7 @@ Opensips Install guide for CentOS 6.0
 | version             |
 | watchers            |
 | xcap                |
-+---------------------+
+-----------------------
 42 rows in set (0.00 sec)
  
  
