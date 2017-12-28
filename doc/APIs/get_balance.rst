@@ -23,9 +23,9 @@ getbalance	            Method name of API
 
 If Success then :
 
-Balance : 24.25 USD
+  Balance : 24.25 USD
 
 
 If error OR Invalid Username :
 
-Please enter proper username of SIP Account
+  Please enter proper username of SIP Account
