@@ -157,7 +157,8 @@ Opensips Install guide for CentOS 6.0
 +---------------------+
 | Tables_in_opensips  |
 +---------------------+
-| acc                 |
+| acc                 |    
+|                     |
 | active_watchers     |
 | address             |
 | aliases             |
@@ -254,7 +255,7 @@ Opensips Install guide for CentOS 6.0
  and make the verification on step 6 again.
  
  
- **9.4  Final steps to enable from astpp**
+**9.4  Final steps to enable from astpp**
 ::
 
  1. Login into admin portal of ASTPP
@@ -263,51 +264,6 @@ Opensips Install guide for CentOS 6.0
  4. Now configure your details and click on Save it.
  Now you done everything :)
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
-
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
  
  
