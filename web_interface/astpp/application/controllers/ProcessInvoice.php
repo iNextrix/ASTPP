@@ -274,7 +274,7 @@ class ProcessInvoice extends MX_Controller {
 		
 		// Assign invoice id to the post entries which is already inserted from the GUI and
 		$inv_data_query = "update invoice_details SET invoiceid = '" . $InvocieID . "'";
-		$inv_data_query .= " where created_date >='" . $StartDate . "' AND created_date <= '" . $EndDate . "'  AND invoiceid=0 AND item_type !='PAYMENT'";
+		$inv_data_query .= " where created_date >='" . $StartDate . "' AND created_date <= '" . $EndDate . "'  AND invoiceid=0 AND item_type !='PAYMENT' AND accountid = '".$AccountData['id']."'";
 		$this->db->query ( $inv_data_query );
 		
 		// Reset current date for subscription billing.
