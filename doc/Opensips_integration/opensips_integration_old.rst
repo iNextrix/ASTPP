@@ -22,7 +22,7 @@ Opensips Integration Old
 |2. Enable opensips options                                                                                          |
 |3. Configure opensips database and domain variables from same page (Variables : opensips_dbname, opensips_dbuser,   |
 |   opensips_dbhost,opensips_dbpass, opensips_domain)                                                                |    
-| **Note** : If you are running opensips on separate server then please make sure ASTPP server should have grant to  | 
+|**Note** : If you are running opensips on separate server then please make sure ASTPP server should have grant to  | 
 |             access opensips database.                                                                              |
 +--------------------------------------------------------------------------------------------------------------------+
 
@@ -35,6 +35,7 @@ Opensips Integration Old
 |cp <ASTPP SOURCE DIR>/opensips/opensips.cfg /usr/local/etc/opensips/opensips.cfg |
 +---------------------------------------------------------------------------------+
 
+You are done.
 
 
 
