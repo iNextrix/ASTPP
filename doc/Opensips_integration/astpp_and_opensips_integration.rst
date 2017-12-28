@@ -154,54 +154,54 @@ Opensips Install guide for CentOS 6.0
  Database changed
  
  $ mysql> show tables;
-|---------------------|
-| Tables_in_opensips  |
-|---------------------|
-| acc                 |    
-|                     |
-| active_watchers     |
-| address             |
-| aliases             |
-| carrierfailureroute |
-| carrierroute        |
-| cpl                 |
-| dbaliases           |
-| dialog              |
-| dialplan            |
-| dispatcher          |
-| domain              |
-| domainpolicy        |
-| dr_gateways         |
-| dr_groups           |
-| dr_gw_lists         |
-| dr_rules            |
-| globalblacklist     |
-| grp                 |
-| imc_members         |
-| imc_rooms           |
-| load_balancer       |
-| location            |
-| missed_calls        |
-| nh_sockets          |
-| pdt                 |
-| presentity          |
-| pua                 |
-| re_grp              |
-| rls_presentity      |
-| rls_watchers        |
-| route_tree          |
-| silo                |
-| sip_trace           |
-| speed_dial          |
-| subscriber          |
-| uri                 |
-| userblacklist       |
-| usr_preferences     |
-| version             |
-| watchers            |
-| xcap                |
-|---------------------|
-42 rows in set (0.00 sec)
+       +---------------------+
+       | Tables_in_opensips  |
+       +---------------------+
+       | acc                 |    
+       |                     |
+       | active_watchers     |
+       | address             |
+       | aliases             |
+       | carrierfailureroute |
+       | carrierroute        |
+       | cpl                 |
+       | dbaliases           |
+       | dialog              |
+       | dialplan            |
+       | dispatcher          |
+       | domain              |
+       | domainpolicy        |
+       | dr_gateways         |
+       | dr_groups           |
+       | dr_gw_lists         |
+       | dr_rules            |
+       | globalblacklist     |
+       | grp                 |
+       | imc_members         |
+       | imc_rooms           |
+       | load_balancer       |
+       | location            |
+       | missed_calls        |
+       | nh_sockets          |
+       | pdt                 |
+       | presentity          |
+       | pua                 |
+       | re_grp              |
+       | rls_presentity      |
+       | rls_watchers        |
+       | route_tree          |
+       | silo                |
+       | sip_trace           |
+       | speed_dial          |
+       | subscriber          |
+       | uri                 |
+       | userblacklist       |
+       | usr_preferences     |
+       | version             |
+       | watchers            |
+       | xcap                |
+       +---------------------+
+   42 rows in set (0.00 sec)
  
  
 **7.4  Modify subscriber table of opensips:**
