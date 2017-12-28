@@ -201,7 +201,7 @@ Opensips Install guide for CentOS 6.0
        | watchers            |
        | xcap                |
        +---------------------+
-   42 rows in set (0.00 sec)
+      42 rows in set (0.00 sec)
  
  
 **7.4  Modify subscriber table of opensips:**
