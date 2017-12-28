@@ -4,12 +4,9 @@ Opensips Integration Old
 
 
 .. note:: OpenSIPs script is for version 1.7.1. 
+
           **Please help us in converting opensips script to latest opensips LTS version.**
 
-
-.. note:: # add a module by removing '#' comment character at the beginning of the line 
-          # remove a module by inserting the '#' comment character at the beginning of the line containing the name of 
-          the module to be skipped
 
 
 +------------------------------------------------------------------+
