@@ -1,5 +1,5 @@
 ===============================
-Astpp and OPENSIPS integration
+OpenSIPs
 ===============================
 
 
