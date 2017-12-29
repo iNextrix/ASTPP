@@ -100,3 +100,11 @@ Technical Questions
         10. ulimit -s 240         # The maximum stack size
         11. ulimit -l unlimited # The maximum size that may be locked into memory.
         12. ulimit -a           # All current limits are reported.
+
+18. What is difference between Origination rates and Termination rates ?
+      Origination rates : Customer rates or sell rates as these rates will be applicable on customers.
+      
+      Termination rates : Carrier/Provider rates or buy rates as these rates are charged from providers.
+
+19. What is difference between Customer and Provider ?
+      We consider customers as (Originator or client ) and providers as (Terminator + Originator).
