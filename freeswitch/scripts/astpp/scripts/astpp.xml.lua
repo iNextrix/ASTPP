@@ -200,20 +200,6 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
     return xml
 end
 
---To split the DID destination number string
-function split_numbers(source, delimiters)
-        local elements = {}
-        local pattern = '([^'..delimiters..']+)'
-        string.gsub(source, pattern, function(value) elements[#elements + 1] =     value;  end);
-        return  elements
-end
-function split_delis(source, delimiters)
-        local delis = {}
-        local delipattern = '(['..delimiters..']+)'
-        string.gsub(source, delipattern, function(value) delis[#delis + 1] =     value;  end);
-        return delis
-end
-
 -- Dialplan for inbound calls
 function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,callerid_array)
 
@@ -233,8 +219,11 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
 
         local bridge_str = ""
         local common_chan_var = ""
-        local destination_str = split_numbers(didinfo['extensions'],",|")
-        local deli_str = split_delis(didinfo['extensions'],",|")
+	--To split the DID destination number string
+	local destination_str = {}
+	string.gsub(didinfo['extensions'], "([^,|]+)", function(value) destination_str[#destination_str + 1] =     value;  end);
+	local deli_str = {}
+	string.gsub(didinfo['extensions'], "([,|]+)", function(value) deli_str[#deli_str + 1] =     value;  end);
 
 	if (tonumber(didinfo['call_type']) == 0 and didinfo['extensions'] ~= '') then
 		table.insert(xml, [[<action application="set" data="calltype=STANDARD"/>]]);     
