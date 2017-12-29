@@ -88,10 +88,10 @@ You can create new DID using below page,
 
 .. |image| image:: /Images/favicon.png
 
+|image| `How to use DID Global Translation 
+<https://youtu.be/GnNMPYi-HRM>`_
 
-
-
-
+.. |image| image:: /Images/favicon.png
 
 
 
