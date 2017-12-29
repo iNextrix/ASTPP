@@ -2390,7 +2390,7 @@ class common {
                                 <td style="width:25%;"><b>Invoice Date :</b></td>
                                 <td style="width:25%;text-align:right;border-right:1px solid #000; padding-right: 3px;">' . date ( "Y-m-d", strtotime ( $invoicedata ['invoice_date'] ) ) . '</td>
                                 <td style="width:25%;padding-left: 5px;"><b>This Invoice Amount :</b> </td>
-                                <td style="width:25%;text-align:right;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $invoicedata ['amount'] ) ) . '</td>
+                                <td style="width:25%;text-align:right;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $invoicedata ['amount'],"",$accountdata ["currency_id"] ) ) . '</td>
                                
                                 </tr>
                                 <tr> <td style="width:25%;"></td><td style="width:25%;border-right:1px solid #000;"></td></tr>
@@ -2398,7 +2398,7 @@ class common {
                                  <td style="width:25%;"><b>Invoice Due Date :</b></td>
                                 <td style="width:25%;text-align:right;border-right:1px solid #000;padding-right: 3px;">' . $due_date . '</td>
                                  <td style="width:25%;padding-left: 5px;"><b>Recharge Payments :</b> </td>
-                                <td style="width:25%;text-align:right;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $recharge_amount ) ) . '</td>
+                                <td style="width:25%;text-align:right;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $recharge_amount,"",$accountdata ["currency_id"] ) ) . '</td>
                                 
                                 </tr>
                                   <tr> <td style="width:25%;"></td><td style="width:25%;border-right:1px solid #000;"></td></tr>
@@ -2409,7 +2409,7 @@ class common {
                                 <table style="border:1px solid #000;width:100%;">
                                 <tbody><tr>
                                 <td style="width:50%;font-weight:bold;font-style:italic;">Total Amount :</td>
-                                <td style="width:50%;text-align:right;font-style:italic;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $total_amount ) ) . '</td>
+                                <td style="width:50%;text-align:right;font-style:italic;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $total_amount,"",$accountdata ["currency_id"] ) ) . '</td>
                                 </tr>
                                 </tbody></table>
                                 </td>
@@ -2454,9 +2454,9 @@ class common {
 			$INVOICE_CHARGE .= '<tr >
                                                         <td style="width:20%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;padding:5px;">' . date ( 'Y-m-d', strtotime ( $charge_res ['created_date'] ) ) . '</td>
                                                         <td style="width:40%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;padding:5px;">' . $charge_res ['description'] . '</td>
-                                                        <td style="width:15%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $charge_res ['debit'] ) ) . '</td>
+                                                        <td style="width:15%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $charge_res ['debit'],"",$accountdata ["currency_id"] ) ) . '</td>
                                                          <td style="width:10%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">1</td>
-                                                        <td style="width:15%;line-height:15px;border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $charge_res ['debit'] ) ) . '</td>
+                                                        <td style="width:15%;line-height:15px;border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $charge_res ['debit'] ,"",$accountdata ["currency_id"]) ) . '</td>
                                                      </tr>';
 			$total_sum += $charge_res ['debit'];
 		}
@@ -2464,7 +2464,7 @@ class common {
 		$INVOICE_CHARGE .= '<tr>
                                                 <td></td><td></td>
                                                 <td colspan=2 style="border-left:1px solid #000;border-bottom:1px solid #000;width:20%;padding-left:5px;padding-top:5px;padding-bottom:5px;text-align:right;padding-right:5px;"><b>Sub Total</b></td>
-                                                <td style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;width:10%;text-align:right;padding-top:5px;padding-right:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $total_sum ) ) . '</td>
+                                                <td style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;width:10%;text-align:right;padding-top:5px;padding-right:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $total_sum ,"",$accountdata ["currency_id"]) ) . '</td>
                                                 </tr>';
 		
 		if ($invoice_tax->num_rows () > 0) {
@@ -2474,7 +2474,7 @@ class common {
 				$INVOICE_CHARGE .= '<tr>
                                                         <td></td><td></td>
                                                         <td colspan=2 style="border-left:1px solid #000;border-bottom:1px solid #000;width:20%;padding-left:5px;padding-top:5px;padding-bottom:5px;text-align:right;padding-right:5px;"><b>Tax (' . $invoice_tax ["description"] . ')</b></td>
-                                                        <td style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;width:10%;text-align:right;padding-top:5px;padding-right:5px;">' . $this->currency_decimal ( $total_vat ) . '</td>
+                                                        <td style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;width:10%;text-align:right;padding-top:5px;padding-right:5px;">' . $this->currency_decimal ( $total_vat,"",$accountdata ["currency_id"] ) . '</td>
                                                         </tr>';
 			}
 		}
@@ -2482,7 +2482,7 @@ class common {
 		$INVOICE_CHARGE .= '<tr>
                                                 <td></td><td></td>
                                                 <td colspan=2 style="border-left:1px solid #000;border-bottom:1px solid #000;width:20%;padding-left:5px;padding-top:5px;padding-bottom:5px;text-align:right;padding-right:5px;"><b>Total</b> </td>
-                                                <td style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;width:10%;text-align:right;padding-top:5px;padding-right:5px;">' . $this->currency_decimal ( $sub_total ) . '</td>
+                                                <td style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;width:10%;text-align:right;padding-top:5px;padding-right:5px;">' . $this->currency_decimal ( $sub_total,"",$accountdata ["currency_id"] ) . '</td>
                                                 </tr>
                                                 
                                                ';
