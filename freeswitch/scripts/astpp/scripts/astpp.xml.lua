@@ -32,25 +32,8 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(params:getHeader("Caller-Destination-Number"))..[[">]]);
 	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..destination_number..[["/>]]); 
 	table.insert(xml, [[<action application="sched_hangup" data="+]]..((maxlength) * 60)..[[ normal_clearing"/>]]);  
-	--<action application="set" data="nibble_account=${accountcode}"/>
-    --<action application="set" data="nibble_rate=0"/>
-    --if(tonumber(customer_userinfo['nibble_accounts']) > 0) then
-      --table.insert(xml, [[<action application="set" data="nibble_account="]]..customer_userinfo["nibble_accounts"]..[["/>]])
-      --table.insert(xml, [[<action application="set" data="nibble_rate="]]..customer_userinfo["nibble_rates"]..[["/>]])
-      --table.insert(xml, [[<action application="set" data="nibble_init_inc="]]..customer_userinfo["nibble_init_inc"]..[["/>]])
-      --table.insert(xml, [[<action application="set" data="nibble_inc="]]..customer_userinfo["nibble_inc"]..[["/>]])
-      --table.insert(xml, [[<action application="set" data="nibble_connectcost="]]..customer_userinfo["nibble_connect_cost"]..[["/>]])
-      --table.insert(xml, [[<action application="nibblebill" data="heartbeat 5"/>]])
-      
-      --table.insert(xml, [[<action application="set" data="nibble_account=37,8,4"/>]])
-      --table.insert(xml, [[<action application="set" data="nibble_rate=0.8,0.5,0.2"/>]])
-      --table.insert(xml, [[<action application="set" data="nibble_init_inc=1,1,1"/>]])
-      --table.insert(xml, [[<action application="set" data="nibble_inc=1,1,1"/>]])
-      --table.insert(xml, [[<action application="set" data="nibble_connectcost=0,0,0"/>]])
-      --table.insert(xml, [[<action application="nibblebill" data="heartbeat 5"/>]])
-   -- end
    
-   if( call_direction == "outbound") then
+   if (call_direction == "outbound" and realtime_billing == "0") then
       table.insert(xml, [[<action application="set" data="nibble_account=]]..customer_userinfo["nibble_accounts"]..[["/>]])
       table.insert(xml, [[<action application="set" data="nibble_rate=]]..customer_userinfo["nibble_rates"]..[["/>]])
       table.insert(xml, [[<action application="set" data="nibble_init_inc=]]..customer_userinfo["nibble_init_inc"]..[["/>]])
