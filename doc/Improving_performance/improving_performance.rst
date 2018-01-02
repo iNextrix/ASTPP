@@ -1,5 +1,5 @@
 ============
-Improving_performance
+Performance Improvement
 ============
 
 .. toctree::
