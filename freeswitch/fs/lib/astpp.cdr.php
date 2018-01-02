@@ -333,12 +333,13 @@ function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actu
  * @param integer $entity_id        	
  */
 function update_balance($user_id, $amount, $entity_id, $logger, $db) {
-	/*We already billed everyone by nibble billing */
-	
-	/*$math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
-	$query = "UPDATE accounts SET balance=IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") WHERE id=" . $user_id;
-	$logger->log ( "Balance update : " . $query );
-	$db->run ( $query );*/
+	/*If not realtime billing */
+	if ($this->config ['realtime_billing'] == '1') {
+		$math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
+		$query = "UPDATE accounts SET balance=IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") WHERE id=" . $user_id;
+		$logger->log ( "Balance update : " . $query );
+		$db->run ( $query );
+	}
 }
 
 // Normalize rate string which we are getting from dialplan
