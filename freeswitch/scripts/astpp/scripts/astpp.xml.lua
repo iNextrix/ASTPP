@@ -83,15 +83,15 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 
 	if(tonumber(config['balance_announce']) == 0) then
 		table.insert(xml, [[<action application="sleep" data="1000"/>]]);
-		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-card-has-a-balance-of.G729"/>]]);
+		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-card-has-a-balance-of.wav"/>]]);
 		table.insert(xml, [[<action application="say" data="en CURRENCY PRONOUNCED ]].. customer_userinfo['balance']..[["/>]]);
 
 	end
 	if(tonumber(config['minutes_announce']) == 0) then
 		table.insert(xml, [[<action application="sleep" data="500"/>]]);
-		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-call-will-last.G729"/>]]);   
-		table.insert(xml, [[<action application="playback" data="${say_string en.G729 en NUMBER PRONOUNCED ]].. math.floor(maxlength)..[[}"/>]]);
-		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-minute.G729"/>]]);       
+		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-call-will-last.wav"/>]]);
+		table.insert(xml, [[<action application="say" data="en NUMBER PRONOUNCED ]].. math.floor(maxlength)..[["/>]]);
+		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-minute.wav"/>]]);       
 	end
     
 	if (call_direction == "inbound") then 
@@ -120,7 +120,7 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 		table.insert(xml, [[<action application="export" data="media_bug_answer_req=true"/>]]);
 		table.insert(xml, [[<action application="export" data="RECORD_STEREO=true"/>]]);
 		table.insert(xml, [[<action application="export" data="record_sample_rate=8000"/>]]);
-		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${base_dir}/recordings/${strftime(%Y-%m-%d-%H:%M:%S)}_]]..customer_userinfo['number']..[[.G729"/>]]);
+		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${base_dir}/recordings/${strftime(%Y-%m-%d-%H:%M:%S)}_]]..customer_userinfo['number']..[[.wav"/>]]);
 	end
 
     -- Set original caller id for CDRS
@@ -204,23 +204,24 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 		end             
 	end
 	----------------------- END Gateway configuraiton -------------------------------
-	-- Set force code if configured
-	if (outbound_info['codec'] ~= '') then 
-		table.insert(xml, [[<action application="set" data="absolute_codec_string=]]..outbound_info['codec']..[["/>]]);           
-	end
+	-- Set force codec if configured
+        chan_var = "leg_timeout="..outbound_info['leg_timeout']
+        if (outbound_info['codec'] ~= '') then
+                chan_var = chan_var..",absolute_codec_string=".."^^:"..outbound_info['codec']:gsub("%,", ":")
+        end
 
 	if(tonumber(outbound_info['maxchannels']) > 0) then    
-		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge [leg_timeout=]]..outbound_info['leg_timeout']..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);   
+		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge []]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	else
-		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..outbound_info['leg_timeout']..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);      
+		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	end
 
 	if(outbound_info['path1'] ~= '' and outbound_info['path1'] ~= outbound_info['gateway']) then
-		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..outbound_info['leg_timeout']..[[]sofia/gateway/]]..outbound_info['path1']..[[/]]..temp_destination_number..[["/>]]); 
+		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path1']..[[/]]..temp_destination_number..[["/>]]);
 	end
 
 	if(outbound_info['path2'] ~= '' and outbound_info['path2'] ~= outbound_info['gateway']) then
-		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..outbound_info['leg_timeout']..[[]sofia/gateway/]]..outbound_info['path2']..[[/]]..temp_destination_number..[["/>]]); 
+		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path2']..[[/]]..temp_destination_number..[["/>]]);
 	end
                            
     return xml
@@ -411,49 +412,49 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode.." is not authenticated!!";
 		hangup_cause = "AUTHENTICATION_FAIL";
-		audio_file = sound_path ..  "astpp_expired.G729";
+		audio_file = sound_path ..  "astpp_expired.wav";
 	elseif(error_code == "ACCOUNT_INACTIVE_DELETED") then
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode.." is either inactive or deleted!!";
 		hangup_cause = "ACCOUNT_INACTIVE_DELETED";
-		audio_file = sound_path ..  "astpp_expired.G729";
+		audio_file = sound_path ..  "astpp_expired.wav";
 	elseif(error_code == "ACCOUNT_EXPIRE") then
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode.." Account has been expired!!";
 		hangup_cause = "CALL_REJECTED";
-		audio_file = sound_path ..  "astpp_expired.G729";
+		audio_file = sound_path ..  "astpp_expired.wav";
 	elseif(error_code == "NO_SUFFICIENT_FUND") then
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode.." doesn't have sufficiant fund!!";
 		hangup_cause = "NO_SUFFICIENT_FUND";
-		audio_file = sound_path ..  "astpp-not-enough-credit.G729";
+		audio_file = sound_path ..  "astpp-not-enough-credit.wav";
 	elseif(error_code == "DESTINATION_BLOCKED") then
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode..". Dialed number ("..destination_number..") is blocked for account!!";
 		hangup_cause = "DESTINATION_BLOCKED";
-		audio_file = sound_path ..  "astpp-badnumber.G729";
+		audio_file = sound_path ..  "astpp-badnumber.wav";
 	elseif(error_code == "ORIGNATION_RATE_NOT_FOUND") then
 		log_type = "WARNING";
 
 		log_message = "Accountcode ".. accountcode ..". Dialed number ("..destination_number..")  origination rates not found!!";
 		hangup_cause = "ORIGNATION_RATE_NOT_FOUND";
-		audio_file = sound_path ..  "astpp-badphone.G729";
+		audio_file = sound_path ..  "astpp-badphone.wav";
 	elseif(error_code == "RESELLER_COST_CHEAP") then
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode..". Dialed number ("..destination_number..") , Reseller call is priced too cheap! Call being barred!!";
 		hangup_cause = "RESELLER_COST_CHEAP";
-		audio_file = sound_path ..  "astpp-badphone.G729";
+		audio_file = sound_path ..  "astpp-badphone.wav";
 
 	elseif(error_code == "TERMINATION_RATE_NOT_FOUND") then
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode..". Dialed number ("..destination_number..") termination rates not found!!";
 		hangup_cause = "TERMINATION_RATE_NOT_FOUND";
-		audio_file = sound_path ..  "astpp-badphone.G729";
+		audio_file = sound_path ..  "astpp-badphone.wav";
 	elseif(error_code == "DID_DESTINATION_NOT_FOUND") then
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode..". Dialed number ("..destination_number..") destination not found!!";
 		hangup_cause = "DID_DESTINATION_NOT_FOUND";
-		audio_file = sound_path ..  "astpp-badphone.G729";
+		audio_file = sound_path ..  "astpp-badphone.wav";
 	end
 
 	if(calltype ~= "ASTPP-CALLINGCARD") then
@@ -466,7 +467,15 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 
 
 	    local callstart = os.date("!%Y-%m-%d %H:%M:%S")
-        table.insert(xml, [[<action application="set" data="error_cdr=1"/>]]);
+		
+	    if (callerid_array['original_cid_name'] ~= '' and callerid_array['original_cid_name'] ~= '<null>')  then
+               table.insert(xml, [[<action application="set" data="original_caller_id_name=]]..callerid_array['original_cid_name']..[["/>]]);
+            end
+            if (callerid_array['cid_number'] ~= '' and callerid_array['cid_number'] ~= '<null>')  then
+               table.insert(xml, [[<action application="set" data="original_caller_id_number=]]..callerid_array['original_cid_name']..[["/>]]);
+            end
+		
+            table.insert(xml, [[<action application="set" data="error_cdr=1"/>]]);
 	    table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);
 	    table.insert(xml, [[<action application="set" data="account_id=]]..account_id..[["/>]]);
 	    table.insert(xml, [[<action application="set" data="call_direction=outbound"/>]]);
