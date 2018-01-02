@@ -21,6 +21,11 @@
 --------------------------------------------------------------------------------------
 
 destination_number = params:getHeader("Caller-Destination-Number")
+
+if (destination_number == nil) then
+    return;
+end
+
 Logger.info("[Dialplan] Dialed number : "..destination_number)
 
 
