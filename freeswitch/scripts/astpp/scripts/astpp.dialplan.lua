@@ -184,12 +184,14 @@ end
 
 
 if (userinfo ~= nil) then  
-    
-    local nibble_id = ""
-    local nibble_rate = ""
-    local nibble_connect_cost = ""
-    local nibble_init_inc = ""
-    local nibble_inc = ""
+
+	if (realtime_billing == "0") then
+		local nibble_id = ""
+    		local nibble_rate = ""
+    		local nibble_connect_cost = ""
+    		local nibble_init_inc = ""
+		local nibble_inc = ""
+	end
     
 	-- print customer information 
 	Logger.info("=============== Account Information ===================")
@@ -228,22 +230,22 @@ if (userinfo ~= nil) then
 	    return
 	end
 	
-	api = freeswitch.API()
-	--api:executeString("nibblebill check")
-	local result = api:execute("nibblebill", "check");
-	
-	Logger.info("Result"..result)
-	
 	maxlength = origination_array[1]
 	user_rates = origination_array[2]
 	xml_user_rates = origination_array[3] or ""
 	
-	nibble_id = userinfo['id']
-	nibble_rate = user_rates['cost']
-	nibble_connect_cost = user_rates['connectcost']
-    nibble_init_inc = user_rates['init_inc']
-    nibble_inc = user_rates['inc']
+	if (realtime_billing == "0") then
+		api = freeswitch.API()
+		--api:executeString("nibblebill check")
+		local result = api:execute("nibblebill", "check");
+		Logger.info("Result"..result)
 	
+		nibble_id = userinfo['id']
+		nibble_rate = user_rates['cost']
+		nibble_connect_cost = user_rates['connectcost']
+	        nibble_init_inc = user_rates['init_inc']
+	        nibble_inc = user_rates['inc']
+	end	
 
 	-- If customer has free seconds then override max length variable with it. 
 	if(package_maxlength ~= "") then	
@@ -310,15 +312,15 @@ if (userinfo ~= nil) then
 			reseller_rates = origination_array_reseller[2];
 			xml_reseller_rates = origination_array_reseller[3];
 			
-			Logger.info("reseller -rates : "..reseller_rates['cost'])  
-			
-			-------------NIBBLE BILLING PARAM SET STARTS----------------------------
-			nibble_id = nibble_id..","..reseller_userinfo['id']
-			nibble_rate = nibble_rate..","..reseller_rates['cost']
-			nibble_connect_cost = nibble_connect_cost..","..reseller_rates['connectcost']
-    		nibble_init_inc = nibble_init_inc..","..reseller_rates['init_inc']
-    		nibble_inc = nibble_inc..","..reseller_rates['inc']
-    		-------------NIBBLE BILLING PARAM SET ENDS----------------------------
+			if (realtime_billing == "0") then
+				-------------NIBBLE BILLING PARAM SET STARTS----------------------------
+				nibble_id = nibble_id..","..reseller_userinfo['id']
+				nibble_rate = nibble_rate..","..reseller_rates['cost']
+				nibble_connect_cost = nibble_connect_cost..","..reseller_rates['connectcost']
+    				nibble_init_inc = nibble_init_inc..","..reseller_rates['init_inc']
+    				nibble_inc = nibble_inc..","..reseller_rates['inc']
+    				-------------NIBBLE BILLING PARAM SET ENDS----------------------------
+			end
 
 			xml_user_rates = xml_user_rates.."||"..xml_reseller_rates
 			Logger.info("Reseller xml_user_rates : "..xml_user_rates)  
@@ -354,19 +356,20 @@ if (userinfo ~= nil) then
 			userinfo = reseller_userinfo
 	end -- End while 
     
-    
-    Logger.info("NIBBLE ID "..nibble_id)
-    Logger.info("NIBBLE RATE "..nibble_rate)
-    Logger.info("NIBBLE CONNECT COST "..nibble_connect_cost)
-    Logger.info("NIBBLE INITIAL INC "..nibble_init_inc)
-    Logger.info("NIBBLE INC "..nibble_inc)
-    
-    customer_userinfo["nibble_accounts"] = nibble_id
-    customer_userinfo["nibble_rates"] = nibble_rate
-    customer_userinfo["nibble_connect_cost"] = nibble_connect_cost
-    customer_userinfo["nibble_init_inc"] = nibble_init_inc
-    customer_userinfo["nibble_inc"] = nibble_inc
-    
+	if (realtime_billing == "0") then
+    		Logger.info("NIBBLE ID "..nibble_id)
+    		Logger.info("NIBBLE RATE "..nibble_rate)
+    		Logger.info("NIBBLE CONNECT COST "..nibble_connect_cost)
+    		Logger.info("NIBBLE INITIAL INC "..nibble_init_inc)
+    		Logger.info("NIBBLE INC "..nibble_inc)
+	    
+		customer_userinfo["nibble_accounts"] = nibble_id
+	    	customer_userinfo["nibble_rates"] = nibble_rate
+	    	customer_userinfo["nibble_connect_cost"] = nibble_connect_cost
+	    	customer_userinfo["nibble_init_inc"] = nibble_init_inc
+	    	customer_userinfo["nibble_inc"] = nibble_inc
+	end
+	
 	--- Reseller validation ends
 	if ( tonumber(maxlength) <= 0 ) then
 	    error_xml_without_cdr(destination_number,"NO_SUFFICIENT_FUND",calltype,config['playback_audio_notification'],customer_userinfo['id']);
