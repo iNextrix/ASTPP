@@ -9,6 +9,8 @@
 ASTPP
 -----
 
+*** NOTE: Updated ASTPP Docs http://astpp.readthedocs.io ***
+
 ASTPP is a Open Source VoIP Billing Solution for Freeswitch. It supports prepaid and postpaid billing with call rating and credit control. It also provides many other features such as,
 
 - Prepaid / Postpaid account management
