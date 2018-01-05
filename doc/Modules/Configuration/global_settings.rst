@@ -38,7 +38,7 @@ Global-Settings
 
 **Inbound Fax**                 Set enable to allow inbound fax in call.
 
-**Refill Coupon Length**        Set refill coupon generation lenght.
+**Refill Coupon Length**        Set refill coupon generation length.
 
 **Minimum Fund Transfer**       Set minimum amount for fund transfer.
   
