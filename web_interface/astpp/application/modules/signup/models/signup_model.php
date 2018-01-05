@@ -44,6 +44,7 @@ class Signup_model extends CI_Model {
 		$data ['reseller_id'] = $data ['key_unique'];
 		unset ( $data ['agreeCheck'] );
 		unset ( $data ['key_unique'] );
+		$data['type'] =0;
 		$data ['creation'] = gmdate ( 'Y-m-d H:i:s' );
 		$data ['expiry'] = date ( 'Y-m-d H:i:s', strtotime ( '+10 years' ) );
 		$this->db->insert ( "accounts", $data );
