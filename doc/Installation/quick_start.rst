@@ -36,6 +36,9 @@ For reseller configuration, create new reseller. Login as reseller. Add Routes. 
 Register it and make outbound calls.
 
 
+Outbound call flow
+^^^^^^^^^^^^^^^^^^^
+.. image:: /Images/outbound_call_flow.png
 
    
 |image| `How to ASTPP Quick Start

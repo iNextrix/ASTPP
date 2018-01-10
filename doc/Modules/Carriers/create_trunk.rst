@@ -32,7 +32,10 @@ Create Trunk
 
  Codec          Enter codecs if you want call to use specific codecs only
                     
- Precedence     Priority of trunk                    
+ Priority       Priority of trunk
+ 
+                Ex : In rate group you have selected multiple trunks and more than one selected trunks are having same prefix rates. In such case you can use priority in trunk.
+                
  ============   =========================================================================================================
   
   
