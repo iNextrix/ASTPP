@@ -34,13 +34,10 @@ For ASTPP we can configure apache,freeswitch and mysql services to monitor.
 **Configure Monit To Monitor Services**
 ::
     1) Nginx:
-
-    
-    
-    
-    
-    
-    
+        check process nginx with pidfile /var/run/nginx.pid
+        group www-data
+        start program = "/etc/init.d/nginx start" with timeout 30 seconds
+        stop program  = "/etc/init.d/nginx stop"
     
     2) MySQL
         check process mysqld with pidfile /var/run/mysqld/mysqld.pid

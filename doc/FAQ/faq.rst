@@ -9,5 +9,6 @@ FAQ
 .. toctree::
     :maxdepth: 2
     
-   questions.rst
+   general_questions.rst
+   technical_questions.rst
 
