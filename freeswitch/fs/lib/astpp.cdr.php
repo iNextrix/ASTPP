@@ -150,7 +150,7 @@ function process_cdr($data, $db, $logger, $decimal_points) {
 		$dataVariable ['calltype'] = "DID";
 		// For inbound package calculation
 		if ($actual_duration > 0) {
-			$package_array = package_calculation ( $dataVariable ['effective_destination_number'], $origination_rate [$accountid] ['RATEGROUP'], $actual_duration, $dataVariable ['call_direction'], $accountid, $db, $logger );
+			$package_array = package_calculation ( $dataVariable ['effective_destination_number'], $origination_rate [$accountid] ['RATEGROUP'], $actual_duration, $dataVariable ['call_direction'],$dataVariable ['receiver_accid'], $db, $logger );
 			if (! empty ( $package_array )) {
 				$dataVariable ['calltype'] = "FREE";
 				$dataVariable ['package_id'] = $package_array ['package_id'];
