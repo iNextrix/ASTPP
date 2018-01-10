@@ -33,7 +33,7 @@ class Permission {
 				"userlevelid" => $user_type 
 		);
 		$modules_arr = $this->CI->db_model->getSelect ( "module_permissions", "userlevels", $where );
-		if ($modules_arr->num_rows > 0) {
+		if ($modules_arr->num_rows () > 0) {
 			$modules_arr = $modules_arr->result_array ();
 			$modules_arr = $modules_arr [0] ['module_permissions'];
 			

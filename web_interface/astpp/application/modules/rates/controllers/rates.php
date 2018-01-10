@@ -416,7 +416,7 @@ class Rates extends MX_Controller {
 			);
 		}
 		$account = $this->db_model->getSelect ( "*", "routes", $where );
-		if ($account->num_rows > 0) {
+		if ($account->num_rows () > 0) {
 			foreach ( $account->result_array () as $key => $value ) {
 				$edit_data = $value;
 			}

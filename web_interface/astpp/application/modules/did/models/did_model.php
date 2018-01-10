@@ -207,7 +207,7 @@ class DID_model extends CI_Model {
 		$this->db->where ( "country", ucfirst ( $field_value ) );
 		$query = $this->db->get ( 'countrycode' );
 		$data = $query->result ();
-		if ($query->num_rows > 0)
+		if ($query->num_rows () > 0)
 			return $data [0]->id;
 		else
 			return '';

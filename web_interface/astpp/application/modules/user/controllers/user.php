@@ -606,7 +606,7 @@ class User extends MX_Controller {
 				);
 			}
 			$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-			if ($query->num_rows > 0) {
+			if ($query->num_rows () > 0) {
 				$invoice_conf = $query->result_array ();
 				$invoice_conf = $invoice_conf [0];
 			} else {
@@ -651,7 +651,7 @@ class User extends MX_Controller {
 	}
 	function user_invoice_date($select, $accountid) {
 		$query = $this->db_model->select ( $select, "invoices", '', "id", "DESC", "1", "0" );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$invoiceid = $query->result_array ();
 			$invoice_date = $invoiceid [0] [$select];
 			return $invoice_date;
@@ -1783,7 +1783,7 @@ class User extends MX_Controller {
 						$where = array("accountid"=> $account['id']);    
 					}
 					$query = $this->db_model->getSelect("*", "invoice_conf", $where);
-					if($query->num_rows >0){
+					if($query->num_rows () > 0){
 						$invoice_conf = $query->result_array();
 						$invoice_conf = $invoice_conf[0];
 					}else{
@@ -1828,7 +1828,7 @@ class User extends MX_Controller {
 							$where = array("accountid"=> $accountinfo['id']);    
 						}
 						$query = $this->db_model->getSelect("*", "invoice_conf", $where);
-						if($query->num_rows >0){
+						if($query->num_rows () > 0){
 							$invoice_conf = $query->result_array();
 							$invoice_conf = $invoice_conf[0];
 						}else{

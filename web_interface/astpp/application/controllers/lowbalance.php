@@ -41,7 +41,7 @@ class Lowbalance extends CI_Controller {
 		);
 		$this->db->where_in ( "type", $entity_array );
 		$query = $this->db_model->getSelect ( "*", "accounts", $where );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$account_data = $query->result_array ();
 			foreach ( $account_data as $data_key => $accountinfo ) {
 				if (($accountinfo ['posttoexternal'] == 0 && ($accountinfo ["balance"] <= $accountinfo ["notify_credit_limit"])) || ($accountinfo ['posttoexternal'] == 1 && ($accountinfo ["credit_limit"] - $accountinfo ["balance"]) <= $accountinfo ["notify_credit_limit"])) {

@@ -314,7 +314,7 @@ class Common_model extends CI_Model {
 				"accountid" => $account ['id'] 
 		);
 		$accounttax_query = $this->db_model->getSelectWithOrder ( "*", "taxes_to_accounts", $where, "ASC", "taxes_priority" );
-		if ($accounttax_query->num_rows > 0) {
+		if ($accounttax_query->num_rows () > 0) {
 			$accounttax_query = $accounttax_query->result_array ();
 			foreach ( $accounttax_query as $tax_value ) {
 				$taxes_info = $this->db->get_where ( 'taxes', array (

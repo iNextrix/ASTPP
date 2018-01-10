@@ -73,7 +73,7 @@ class Invoices extends MX_Controller {
 		}
 		$grid_fields = json_decode ( $this->invoices_form->build_invoices_list_for_admin () );
 		$url = ($logintype == 0 || $logintype == 3) ? "/user/user_invoice_download/" : '/invoices/invoice_download/';
-		if ($result_query->num_rows > 0) {
+		if ($result_query->num_rows () > 0) {
 			$query = $result_query->result_array ();
 			$total_value = 0;
 			$ountstanding_value = 0;
@@ -551,7 +551,7 @@ class Invoices extends MX_Controller {
 			$invoice_details = $this->db_model->getSelect ( "*", "invoice_details", array (
 					"invoiceid" => $response_arr ["invoiceid"] 
 			) );
-			if ($invoice_details->num_rows > 0) {
+			if ($invoice_details->num_rows () > 0) {
 				$invoice_details_res = $invoice_details->result_array ();
 				$after_bal = 0;
 				foreach ( $invoice_details_res as $details_key => $details_value ) {
@@ -701,7 +701,7 @@ class Invoices extends MX_Controller {
 			$invoice_details = $this->db_model->getSelect ( "*", "invoice_details", array (
 					"invoiceid" => $response_arr ["invoiceid"] 
 			) );
-			if ($invoice_details->num_rows > 0) {
+			if ($invoice_details->num_rows () > 0) {
 				$invoice_details_res = $invoice_details->result_array ();
 				$after_bal = 0;
 				foreach ( $invoice_details_res as $details_key => $details_value ) {
@@ -775,7 +775,7 @@ class Invoices extends MX_Controller {
 			);
 		}
 		$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$invoice_conf = $query->result_array ();
 			$invoice_conf = $invoice_conf [0];
 		} else {
@@ -1313,7 +1313,7 @@ class Invoices extends MX_Controller {
 		// $json_data['rows'] = $this->form->build_grid($Invoice_grid_data,$grid_fields);
 		$logintype = $this->session->userdata ( 'logintype' );
 		$url = ($logintype == 0 || $logintype == 3) ? "/user/user_invoice_download/" : '/invoices/invoice_download/';
-		if ($Invoice_grid_data->num_rows > 0) {
+		if ($Invoice_grid_data->num_rows () > 0) {
 			$query = $Invoice_grid_data->result_array ();
 			$total_value = 0;
 			$ountstanding_value = 0;
@@ -1647,7 +1647,7 @@ class Invoices extends MX_Controller {
 							);
 						}
 						$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-						if ($query->num_rows > 0) {
+						if ($query->num_rows () > 0) {
 							$invoice_conf = $query->result_array ();
 							$invoice_conf = $invoice_conf [0];
 						} else {
@@ -1728,7 +1728,7 @@ class Invoices extends MX_Controller {
 			);
 			$query = $this->db_model->select ( $select, "invoices", $where, "id", "DESC", "1", "0" );
 		}
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$invoiceid = $query->result_array ();
 			$invoice_date = $invoiceid [0] [$select];
 			return $invoice_date;
@@ -2207,7 +2207,7 @@ class Invoices extends MX_Controller {
 				"accountid" => $accountid 
 		);
 		$accounttax_query = $this->db_model->getSelectWithOrder ( "*", "taxes_to_accounts", $where, "ASC", "taxes_priority" );
-		if ($accounttax_query->num_rows > 0) {
+		if ($accounttax_query->num_rows () > 0) {
 			$accounttax_query = $accounttax_query->result_array ();
 			foreach ( $accounttax_query as $tax_key => $tax_value ) {
 				$taxes_info = $this->db->get_where ( 'taxes', array (

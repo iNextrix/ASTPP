@@ -47,7 +47,7 @@ class Freeswitch_model extends CI_Model {
 		$query = array ();
 		if ($flag) {
 			$deviceinfo = $this->db_model->select ( "*", "sip_devices", $where, "id", "ASC", $limit, $start );
-			if ($deviceinfo->num_rows > 0) {
+			if ($deviceinfo->num_rows () > 0) {
 				$add_array = $deviceinfo->result_array ();
 				foreach ( $add_array as $key => $value ) {
 					$vars = json_decode ( $value ['dir_vars'] );
@@ -283,7 +283,7 @@ class Freeswitch_model extends CI_Model {
 		
 		if ($flag) {
 			$deviceinfo = $this->db_model->select ( "*", "sip_devices", $where, "id", "ASC", $limit, $start );
-			if ($deviceinfo->num_rows > 0) {
+			if ($deviceinfo->num_rows () > 0) {
 				$add_array = $deviceinfo->result_array ();
 				foreach ( $add_array as $key => $value ) {
 					$vars = json_decode ( $value ['dir_vars'] );

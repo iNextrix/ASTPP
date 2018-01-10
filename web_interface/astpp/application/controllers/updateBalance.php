@@ -321,7 +321,7 @@ class UpdateBalance extends MX_Controller {
 	 */
 	function get_table_data($select, $table, $where) {
 		$query = $this->db_model->getSelect ( $select, $table, $where );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$query_result = $query->result_array ();
 			return $query_result;
 		} else {

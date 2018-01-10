@@ -33,7 +33,7 @@ class Broadcastemail extends CI_Controller {
 				"status" => "1" 
 		);
 		$query = $this->db_model->getSelect ( "*", "mail_details", $where );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$account_data = $query->result_array ();
 			foreach ( $account_data as $data_key => $account_value ) {
 				$account_value ['history_id'] = $account_value ['id'];

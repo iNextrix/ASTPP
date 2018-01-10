@@ -54,7 +54,7 @@ class pricing extends CI_Controller {
 		$routing_data = $this->db_model->getSelect ( "trunk_id", "routing", array (
 				"pricelist_id" => $edit_id 
 		) );
-		if ($routing_data->num_rows > 0) {
+		if ($routing_data->num_rows () > 0) {
 			foreach ( $routing_data->result_array () as $trunkid ) {
 				$edit_data ["trunk_id"] [] = $trunkid ["trunk_id"];
 			}

@@ -662,7 +662,7 @@ class Form {
 	function build_grid($query, $grid_fields) {
 		$jsn_tmp = array ();
 		$json_data = array ();
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			foreach ( $query->result_array () as $row ) {
 				/*
 				 * ASTPP 3.0

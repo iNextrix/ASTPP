@@ -188,7 +188,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account = $this->db_model->getSelect ( "*", "accounts", $where );
-		if ($account->num_rows > 0) {
+		if ($account->num_rows () > 0) {
 			$account_data = ( array ) $account->first_row ();
 			$entity_name = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$data ['page_title'] = gettext ( ucfirst ( $entity_name ) . " Profile" );
@@ -359,7 +359,7 @@ class Accounts extends MX_Controller {
 		);
 		$account = $this->db_model->getSelect ( "*", "accounts", $where );
 
-		if ($account->num_rows > 0) {
+		if ($account->num_rows () > 0) {
 			$account_data = ( array ) $account->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$data ['page_title'] = gettext ( 'Speed Dial' );
@@ -431,7 +431,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$data ["grid_fields"] = $this->accounts_form->build_ip_list_for_customer ( $edit_id, $accounttype );
@@ -534,7 +534,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$data ["grid_fields"] = $this->accounts_form->build_animap_list_for_customer ( $edit_id, $accounttype );
@@ -685,7 +685,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'freeswitch/freeswitch' );
@@ -732,7 +732,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'freeswitch/freeswitch' );
@@ -781,7 +781,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$data ['chargelist'] = form_dropdown ( 'applayable_charge', $this->Astpp_common->list_applyable_charges ( $edit_id ), '' );
@@ -812,7 +812,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$data ['chargelist'] = form_dropdown_all ( array (
@@ -910,7 +910,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type,country_id", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'did/did' );
@@ -1056,7 +1056,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'invoices/invoices' );
@@ -1083,7 +1083,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'rates/rates' );
@@ -1179,7 +1179,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'reports/reports' );
@@ -1207,7 +1207,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'package/package' );
@@ -1243,7 +1243,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'reports/reports' );
@@ -1285,7 +1285,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			$this->load->module ( 'email/email' );
@@ -1327,7 +1327,7 @@ class Accounts extends MX_Controller {
 				"reseller_id" => $reseller_id
 		);
 		$account_res = $this->db_model->getSelect ( "notify_credit_limit,notify_flag,notify_email,type,id", "accounts", $where );
-		if ($account_res->num_rows > 0) {
+		if ($account_res->num_rows () > 0) {
 			$account_data = ( array ) $account_res->first_row ();
 			$accounttype = strtolower ( $this->common->get_entity_type ( '', '', $account_data ['type'] ) );
 			unset ( $account_data ['type'] );
@@ -1362,7 +1362,7 @@ class Accounts extends MX_Controller {
 					"reseller_id" => $reseller_id
 			);
 			$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
-			if ($account_res->num_rows > 0) {
+			if ($account_res->num_rows () > 0) {
 				if ($this->form_validation->run () == FALSE) {
 					$data ['validation_errors'] = validation_errors ();
 				} else {
@@ -1478,7 +1478,7 @@ class Accounts extends MX_Controller {
 			) );
 		}
 		$did_arr = array ();
-		if ($did_list->num_rows > 0) {
+		if ($did_list->num_rows () > 0) {
 			$did_data = $did_list->result_array ();
 			foreach ( $did_data as $key => $value ) {
 				$did_arr [$value ['id']] = $value ['number'] . " (Setup Cost : " . $this->common_model->calculate_currency ( $value ['setup'], '', '', true ) . ") (Monthly cost : " . $this->common_model->calculate_currency ( $value ['monthlycost'], '', '', true ) . ")";
@@ -1529,7 +1529,7 @@ class Accounts extends MX_Controller {
 				);
 			}
 			$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-			if ($query->num_rows > 0) {
+			if ($query->num_rows () > 0) {
 				$invoice_conf = $query->result_array ();
 				$invoice_conf = $invoice_conf [0];
 			} else {
@@ -1640,7 +1640,7 @@ class Accounts extends MX_Controller {
 	 */
 	function get_invoice_date($select, $accountid) {
 		$query = $this->db_model->select ( $select, "invoices", '', "id", "DESC", "1", "0" );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$invoiceid = $query->result_array ();
 			$invoice_date = $invoiceid [0] [$select];
 			return $invoice_date;
@@ -2036,7 +2036,7 @@ class Accounts extends MX_Controller {
 			$start = 0;
 
 		$account_charge_list = $this->db_model->getAllJionQuery ( $table, $select, $where, $jionTable, $jionCondition, $type, $perpage, $start, $order_by, $order_type, "" );
-		if ($account_charge_list->num_rows > 0) {
+		if ($account_charge_list->num_rows () > 0) {
 			foreach ( $account_charge_list->result () as $key => $charges_value ) {
 				$json_data ['rows'] [] = array (
 						'cell' => array (
