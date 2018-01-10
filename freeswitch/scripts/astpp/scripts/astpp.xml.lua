@@ -32,7 +32,16 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(params:getHeader("Caller-Destination-Number"))..[[">]]);
 	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..destination_number..[["/>]]); 
 	table.insert(xml, [[<action application="sched_hangup" data="+]]..((maxlength) * 60)..[[ normal_clearing"/>]]);  
-
+   
+   if (call_direction == "outbound" and realtime_billing == "0") then
+      table.insert(xml, [[<action application="set" data="nibble_account=]]..customer_userinfo["nibble_accounts"]..[["/>]])
+      table.insert(xml, [[<action application="set" data="nibble_rate=]]..customer_userinfo["nibble_rates"]..[["/>]])
+      table.insert(xml, [[<action application="set" data="nibble_init_inc=]]..customer_userinfo["nibble_init_inc"]..[["/>]])
+      table.insert(xml, [[<action application="set" data="nibble_inc=]]..customer_userinfo["nibble_inc"]..[["/>]])
+      table.insert(xml, [[<action application="set" data="nibble_connectcost=]]..customer_userinfo["nibble_connect_cost"]..[["/>]])
+      table.insert(xml, [[<action application="nibblebill" data="heartbeat 30"/>]])
+   end
+     
 	table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);
 	table.insert(xml, [[<action application="set" data="hangup_after_bridge=true"/>]]);    
 	table.insert(xml, [[<action application="set" data="continue_on_fail=true"/>]]);  
@@ -63,7 +72,7 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	end
 	if(tonumber(config['minutes_announce']) == 0) then
 		table.insert(xml, [[<action application="sleep" data="500"/>]]);
-		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-call-will-last.wav"/>]]);   
+		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-call-will-last.wav"/>]]);
 		table.insert(xml, [[<action application="say" data="en NUMBER PRONOUNCED ]].. math.floor(maxlength)..[["/>]]);
 		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-minute.wav"/>]]);       
 	end
@@ -475,7 +484,7 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 
 
 	    local callstart = os.date("!%Y-%m-%d %H:%M:%S")
-	
+		
 	    if (callerid_array['original_cid_name'] ~= '' and callerid_array['original_cid_name'] ~= '<null>')  then
                table.insert(xml, [[<action application="set" data="original_caller_id_name=]]..callerid_array['original_cid_name']..[["/>]]);
             end

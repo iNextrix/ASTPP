@@ -227,7 +227,6 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
 			$flag_parent = true;
 			insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points );
 			$logger->log ( "********* IN RESELLER FOR RECEIVER ENTRY END ******" );
-			return true;
 		} else {
 			
 			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost );
@@ -242,9 +241,7 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
 				update_balance ( $accountid, $debit, 0, $logger, $db );
 			}
 		}
-		return true;
 	}
-	return true;
 }
 
 // Insert callee cdr entry for DID calls
@@ -336,10 +333,13 @@ function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actu
  * @param integer $entity_id        	
  */
 function update_balance($user_id, $amount, $entity_id, $logger, $db) {
-	$math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
-	$query = "UPDATE accounts SET balance=IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") WHERE id=" . $user_id;
-	$logger->log ( "Balance update : " . $query );
-	$db->run ( $query );
+	/*If not realtime billing */
+	if ($this->config ['realtime_billing'] == '1') {
+		$math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
+		$query = "UPDATE accounts SET balance=IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") WHERE id=" . $user_id;
+		$logger->log ( "Balance update : " . $query );
+		$db->run ( $query );
+	}
 }
 
 // Normalize rate string which we are getting from dialplan
@@ -496,4 +496,3 @@ function convert_to_gmt($date) {
 	return gmdate ( 'Y-m-d H:i:s', strtotime ( $date ) );
 }
 ?>
-
