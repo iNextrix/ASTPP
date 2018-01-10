@@ -33,7 +33,7 @@ class Lowcreditlimit extends CI_Controller {
 	function low_creditlimit(){
 		$where = array("posttoexternal"=>1,"deleted" => "0","status"=>"0");
 		$query = $this->db_model->getSelect("*", "accounts", $where);
-		if($query->num_rows >0){
+		if($query->num_rows () > 0){
 			$account_data = $query->result_array();
 			foreach($account_data as $data_key =>$account_value){
 				if(($account_value["balance"]) >= $account_value["credit_limit"]){

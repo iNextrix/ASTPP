@@ -34,7 +34,7 @@ class Currencyupdate extends CI_Controller {
 		);
 		$query = $this->db_model->getSelect ( "*", "currency", $where );
 		
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$currency_data = $query->result_array ();
 			$url = "http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=";
 			foreach ( $currency_data as $currency_value ) {

@@ -103,7 +103,7 @@ class Package extends MX_Controller {
 				'id' => $edit_id,
 				"reseller_id" => $reseller_id 
 		) );
-		if ($package_result->num_rows > 0) {
+		if ($package_result->num_rows () > 0) {
 			$package_info = ( array ) $package_result->first_row ();
 			$data ['form'] = $this->form->build_form ( $this->package_form->get_package_form_fields ( $package_info ['id'] ), $package_info );
 			$data ['edit_id'] = $package_info ['id'];

@@ -661,7 +661,7 @@ class common {
 				$where ['type'] = "I";
 		}
 		$invoice_res = $this->CI->db_model->select ( $select, "invoices", $where, $order_by, "DESC", "1", "0" );
-		if ($invoice_res->num_rows > 0) {
+		if ($invoice_res->num_rows () > 0) {
 			$invoice_info = ( array ) $invoice_res->first_row ();
 			return $invoice_info [$select];
 		}

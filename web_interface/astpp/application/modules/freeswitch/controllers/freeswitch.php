@@ -494,7 +494,7 @@ class Freeswitch extends MX_Controller {
 		$gateway_data = array ();
 		$query = $this->freeswitch_model->get_gateway_list ( true, $paging_data ["paging"] ["start"], $paging_data ["paging"] ["page_no"] );
 		$gateway_result = array ();
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$query = $query->result_array ();
 			foreach ( $query as $key => $query_value ) {
 				$gateway_data = array ();
@@ -842,7 +842,7 @@ class Freeswitch extends MX_Controller {
 			}
 			$sipprofile_data ['id'] = '';
 			$check_authentication = $this->freeswitch_model->profile_authentication ( $sipprofile_data );
-			if ($check_authentication->num_rows == 0) {
+			if ($check_authentication->num_rows () == 0) {
 				
 				$sipprofile_data ['created_date'] = gmdate ( 'Y-m-d H:i:s' );
 				/**
@@ -867,7 +867,7 @@ class Freeswitch extends MX_Controller {
 			unset ( $sipprofile_data ['action'] );
 			unset ( $sipprofile_data ['sipstatus'] );
 			$insert_arr = $sipprofile_data;
-			if ($check_authentication->num_rows == 0) {
+			if ($check_authentication->num_rows () == 0) {
 				$insert_arr ['last_modified_date'] = gmdate ( "Y-m-d H:i:s" );
 				$update = $this->db->update ( "sip_profiles", $insert_arr, array (
 						'id' => $sipprofile_data ['id'] 

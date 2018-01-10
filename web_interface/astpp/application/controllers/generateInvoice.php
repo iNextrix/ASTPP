@@ -48,7 +48,7 @@ class GenerateInvoice extends MX_Controller {
 				"status" => "0" 
 		);
 		$query = $this->db_model->getSelect ( "*", "accounts", $where );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$account_data = $query->result_array ();
 			foreach ( $account_data as $data_key => $account_value ) {
 				$end_date = gmdate ( "Y-m-d" ) . " 23:59:59";
@@ -154,7 +154,7 @@ class GenerateInvoice extends MX_Controller {
 		$cdr_query .= " AND callstart >='" . $start_date . "' AND callstart <= '" . $end_date . "' AND invoiceid=0 group by calltype";
 		// echo $cdr_query;
 		$cdr_data = $this->db->query ( $cdr_query );
-		if ($cdr_data->num_rows > 0) {
+		if ($cdr_data->num_rows () > 0) {
 			$cdr_data = $cdr_data->result_array ();
 			// echo '<pre>'; print_r($cdr_data); exit;
 			foreach ( $cdr_data as $cdrvalue ) {
@@ -174,7 +174,7 @@ class GenerateInvoice extends MX_Controller {
 		$inv_data_query = "select count(id) as count,sum(debit) as debit,sum(credit) as credit from invoice_details where accountid=" . $account ['id'] . " AND created_date >='" . $start_date . "' AND created_date <= '" . $end_date . "'  AND invoiceid=0 AND item_type != 'FREECALL'";
 		// echo $inv_data_query;
 		$invoice_data = $this->db->query ( $inv_data_query );
-		if ($invoice_data->num_rows > 0) {
+		if ($invoice_data->num_rows () > 0) {
 			$invoice_data = $invoice_data->result_array ();
 			foreach ( $invoice_data as $data_value ) {
 				if ($data_value ['count'] > 0) {

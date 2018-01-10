@@ -182,7 +182,7 @@ class Accounts_model extends CI_Model {
 				
 				$this->db_model->build_search ( 'reseller_list_search' );
 				$query_pricelist = $this->db_model->getSelect ( "id,reseller_id,balance", "accounts", $where );
-				if ($query_pricelist->num_rows > 0) {
+				if ($query_pricelist->num_rows () > 0) {
 					$description = '';
 					if ($update_array ['balance'] ['operator'] == '2') {
 						$description .= "Reseller update set balance by admin";
@@ -256,7 +256,7 @@ class Accounts_model extends CI_Model {
 			
 			$this->db_model->build_search ( 'customer_list_search' );
 			$query_pricelist = $this->db_model->getSelect ( "id,reseller_id,balance", "accounts", $where );
-			if ($query_pricelist->num_rows > 0) {
+			if ($query_pricelist->num_rows () > 0) {
 				$description = '';
 				if ($update_array ['balance'] ['operator'] == '2') {
 					$description .= "Customer update set balance by admin";
@@ -411,7 +411,7 @@ class Accounts_model extends CI_Model {
 						);
 					}
 					$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-					if ($query->num_rows > 0) {
+					if ($query->num_rows () > 0) {
 						$invoice_conf = $query->result_array ();
 						$invoice_conf = $invoice_conf [0];
 					} else {
@@ -533,7 +533,7 @@ class Accounts_model extends CI_Model {
 						);
 					}
 					$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-					if ($query->num_rows > 0) {
+					if ($query->num_rows () > 0) {
 						$invoice_conf = $query->result_array ();
 						$invoice_conf = $invoice_conf [0];
 					} else {

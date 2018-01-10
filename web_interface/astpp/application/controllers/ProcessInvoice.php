@@ -77,7 +77,7 @@ class ProcessInvoice extends MX_Controller {
 				"status" => "0" 
 		);
 		$query = $this->db_model->getSelect ( "*", "accounts", $where );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$account_data = $query->result_array ();
 			foreach ( $account_data as $data_key => $AccountData ) {
 				$StartDate = $this->GetLastInvoiceDate ( $AccountData );
@@ -300,7 +300,7 @@ class ProcessInvoice extends MX_Controller {
 		// Generate CDRs entry for invoices in invoice detail table.
 		$CDRqr = "select calltype,sum(debit) as debit from cdrs where accountid = " . $AccountData ['id'] . " AND callstart >='" . $StartDate . "' AND callstart <= '" . $EndDate . "' AND invoiceid=0 group by calltype";
 		$CDRdata = $this->db->query ( $CDRqr );
-		if ($CDRdata->num_rows > 0) {
+		if ($CDRdata->num_rows () > 0) {
 			$CDRdata = $CDRdata->result_array ();
 			// echo '<pre>'; print_r($cdr_data); exit;
 			foreach ( $CDRdata as $CDRvalue ) {
@@ -324,7 +324,7 @@ class ProcessInvoice extends MX_Controller {
 		// Get the subtotal.
 		$Invoicequery = "select count(id) as count,sum(debit) as debit,sum(credit) as credit from invoice_details where accountid=" . $AccountData ['id'] . " AND invoiceid =" . $InvocieID . " AND item_type != 'FREECALL'";
 		$Invoicequery = $this->db->query ( $Invoicequery );
-		if ($Invoicequery->num_rows > 0) {
+		if ($Invoicequery->num_rows () > 0) {
 			$InvData = $Invoicequery->result_array ();
 			if ($this->Error_flag) {
 				$this->PrintLogger ( $InvData );

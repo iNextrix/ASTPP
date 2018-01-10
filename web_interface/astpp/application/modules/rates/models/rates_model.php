@@ -311,7 +311,7 @@ class rates_model extends CI_Model {
 		$this->db->where ( "name", $field_value );
 		$query = $this->db->get ( 'trunks' );
 		$data = $query->result ();
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			return $data [0]->id;
 		} else {
 			return '';

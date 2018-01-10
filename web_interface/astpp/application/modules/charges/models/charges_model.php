@@ -67,7 +67,7 @@ class Charges_model extends CI_Model {
 		$data = $this->db_model->getSelect ( "*", "accounts", array (
 				"pricelist_id" => $add_array ['pricelist_id'] 
 		) );
-		if ($data->num_rows > 0) {
+		if ($data->num_rows () > 0) {
 			foreach ( $data->result_array () as $key => $value ) {
 				$this->common->mail_to_users ( 'add_subscription', $value );
 			}
@@ -111,7 +111,7 @@ class Charges_model extends CI_Model {
 		$data = $this->db_model->getSelect ( "*", "accounts", array (
 				"pricelist_id" => $data ['pricelist_id'] 
 		) );
-		if ($data->num_rows > 0) {
+		if ($data->num_rows () > 0) {
 			foreach ( $data->result_array () as $key => $value ) {
 				$this->common->mail_to_users ( 'remove_subscription', $value );
 			}
@@ -126,7 +126,7 @@ class Charges_model extends CI_Model {
 		$account = $this->db_model->getSelect ( "*", "accounts", array (
 				"pricelist_id" => $pricelistid 
 		) );
-		if ($account->num_rows > 0) {
+		if ($account->num_rows () > 0) {
 			foreach ( $account->result_array () as $key => $value ) {
 				$charge_arr = array (
 						"charge_id" => $chargeid,
