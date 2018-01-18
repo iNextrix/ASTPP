@@ -102,7 +102,7 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
             table.insert(xml, [[<action application="set" data="original_caller_id_name=]]..callerid_array['original_cid_name']..[["/>]]);
     end
     if (callerid_array['cid_number'] ~= '' and callerid_array['cid_number'] ~= '<null>')  then
-            table.insert(xml, [[<action application="set" data="original_caller_id_number=]]..callerid_array['original_cid_name']..[["/>]]);
+            table.insert(xml, [[<action application="set" data="original_caller_id_number=]]..callerid_array['cid_number']..[["/>]]);
     end
        
 	return xml
@@ -446,7 +446,7 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
                table.insert(xml, [[<action application="set" data="original_caller_id_name=]]..callerid_array['original_cid_name']..[["/>]]);
             end
             if (callerid_array['cid_number'] ~= '' and callerid_array['cid_number'] ~= '<null>')  then
-               table.insert(xml, [[<action application="set" data="original_caller_id_number=]]..callerid_array['original_cid_name']..[["/>]]);
+               table.insert(xml, [[<action application="set" data="original_caller_id_number=]]..callerid_array['cid_number']..[["/>]]);
             end
 		
             table.insert(xml, [[<action application="set" data="error_cdr=1"/>]]);
