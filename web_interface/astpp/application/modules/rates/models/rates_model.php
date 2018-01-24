@@ -441,8 +441,10 @@ class rates_model extends CI_Model {
 		foreach ( $add_array as $key => $value ) {
 			if ($key != 'id') {
 				$insert_key .= $key . ",";
-				$insert_value .= "'" . mysqli_real_escape_string ( $db, $value ) . "',";
-				$update_str .= $key . " = '" . mysqli_real_escape_string ( $db, $value ) . "',";
+				//$insert_value .= "'" . mysqli_real_escape_string ( $db, $value ) . "',";
+				//$update_str .= $key . " = '" . mysqli_real_escape_string ( $db, $value ) . "',";
+				$insert_value .= "'" .  $value  . "',";
+				$update_str .= $key . " = '" . $value  . "',";
 			}
 		}
 		$insert_key = rtrim ( $insert_key, "," );
