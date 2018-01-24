@@ -740,8 +740,8 @@ class common {
 		if ($type == '-1') {
 			$type = "Admin";
 		} else {
-			// $type = $this->get_field_name("number", "accounts", array("id" => $type));
-			$type = $this->build_concat_string ( $select, $table, $type );
+			$type = $this->get_field_name("number", "accounts", array("id" => $type));
+			//$type = $this->build_concat_string ( $select, $table, $type );
 		}
 		return $type;
 	}
