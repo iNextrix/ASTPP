@@ -685,6 +685,11 @@ class Form {
 					if ($Actionkey == '') {
 						$Actionkey = array_search ( 'Acción', $this->CI->common->array_column ( $grid_fields, 0 ) );
 					}
+					if ($Actionkey == '') {
+						$Actionkey = array_search ( 'Ação', $this->CI->common->array_column ( $grid_fields, 0 ) );
+					}
+
+					
 					/**
 					 * ******************************
 					 */

@@ -43,10 +43,15 @@ class Login extends MX_Controller {
 			$language = $post ['es_ES'];
 			$this->session->set_userdata ( 'user_language', $language );
 		}
+		if (isset ( $post ['pt_BR'] )) {
+			$language = $post ['pt_BR'];
+			$this->session->set_userdata ( 'user_language', $language );
+		}
 		if (isset ( $post ['en_EN'] )) {
 			$language = $post ['en_EN'];
 			$this->session->unset_userdata ( 'user_language', $language );
 		}
+
 		$this->locale->set_lang ();
 		return true;
 	}

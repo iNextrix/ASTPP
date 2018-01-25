@@ -83,9 +83,9 @@
 	 <div style="" class="pull-right">
              <button style="" title="English" class="btn no-padding" id="close-image" type="button" name="en_EN" value="en_EN" onclick="get_lang('en_EN')" ;=""><img style="width: 20px; height: 18px;vertical-align:top;" src="<?php echo  base_url(); ?>assets/images/flags/flag_usa.png"></button>
             <button class="btn no-padding" title="Español" id="close-image" type="button" name="es_ES" value="es_ES" onclick="get_lang('es_ES')" ;=""><img style="width: 20px; height: 18px;vertical-align:top;" src="<?php echo  base_url(); ?>assets/images/flags/spain_flag.gif"></button>
-            <button class="btn no-padding" title="Français" id="close-image" type="button" name="fr_FR" value="fr_FR" onclick="get_lang('fr_FR')" ;=""><img style="width: 20px; height: 18px;vertical-align:top;" src="<?php echo  base_url(); ?>assets/images/flags/france.png"></button> </div>
-	
-	
+            <button class="btn no-padding" title="Français" id="close-image" type="button" name="fr_FR" value="fr_FR" onclick="get_lang('fr_FR')" ;=""><img style="width: 20px; height: 18px;vertical-align:top;" src="<?php echo  base_url(); ?>assets/images/flags/france.png"></button> 
+            <button class="btn no-padding" title="Português" id="close-image" type="button" name="pt_BR" value="pt_BR" onclick="get_lang('pt_BR')" ;=""><img style="width: 20px; height: 18px;vertical-align:top;" src="<?php echo  base_url(); ?>assets/images/flags/brazil.png"></button> </div>
+        </div>
    </div>
 </footer>   
 </body>
