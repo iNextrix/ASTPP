@@ -39,7 +39,7 @@ Debian 8 Installation
 
 **3. Edit modules.conf**
 ::
-    #Enabling mod_xml_curl, mod_json_cdr, mod_db
+    #Enabling mod_xml_curl, mod_db, mod_voicemail, mod_json_cdr
     sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
     sed -i "s#\#mod_db#mod_db#g" /usr/local/src/freeswitch/modules.conf
     sed -i "s#\#applications/mod_voicemail#applications/mod_voicemail#g" /usr/local/src/freeswitch/modules.conf
@@ -146,7 +146,6 @@ Debian 8 Installation
 
 **Install ASTPP web interface**
 ::
-    mkdir -p /var/lib/astpp
     cp /usr/src/ASTPP/config/* /var/lib/astpp/
 
     #Setup web interface for ASTPP
@@ -201,7 +200,7 @@ Debian 8 Installation
 **Finalize Installation & Start Services**
 ::
     #Open php short tag
-    sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
+    sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php5/fpm/php.ini
 
     #Configure services for startup
     systemctl disable apache2   #If you are using it then change the port or update your configuration for nginx 
@@ -210,8 +209,8 @@ Debian 8 Installation
     systemctl enable php5-fpm			
     systemctl start mysql
     systemctl start freeswitch
-    chkconfig --levels 345 mariadb on
-    chkconfig --levels 345 freeswitch on
+    chkconfig --level 345 mysql on
+    chkconfig --level 345 freeswitch on
 
     Note:- If you want to use iptables then configure it to allow all port used in fs and ASTPP.
     
