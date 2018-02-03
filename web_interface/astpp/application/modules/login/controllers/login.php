@@ -56,6 +56,13 @@ class Login extends MX_Controller {
 		return true;
 	}
 	function index() {
+			    $host = explode(':',$_SERVER ["HTTP_HOST"]);
+	        
+	        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+	                $hostname = 'https://'.$host[0];
+	        else{
+	                $hostname = 'http://'.$host[0];
+	        }
 		if ($this->session->userdata ( 'user_login' ) == FALSE) {
 			if (! empty ( $_POST ) && trim ( $_POST ['username'] ) != '' && trim ( $_POST ['password'] ) != '') {
 				$_POST ['password'] = $this->common->encode ( $_POST ['password'] );
@@ -126,6 +133,7 @@ class Login extends MX_Controller {
 								"accountid" => "1" 
 						) );
 					}
+					$this->db->where ( array ("domain" => $hostname));					
 					$res = $this->db->get ( "invoice_conf" );
 					$logo_arr = $res->result ();
 					$data ['user_logo'] = (isset ( $logo_arr [0]->logo ) && $logo_arr [0]->logo != "") ? $logo_arr [0]->accountid . "_" . $logo_arr [0]->logo : "logo.png";
@@ -165,9 +173,7 @@ class Login extends MX_Controller {
 			 * Purpose : Display logo based on domain name
 			 */
 			$this->db->select ( "*" );
-			$this->db->where ( array (
-					"domain" => $_SERVER ["HTTP_HOST"] 
-			) );
+			$this->db->where ( array ("domain" => $hostname));
 			$res = $this->db->get ( "invoice_conf" );
 			$logo_arr = $res->result ();
 			$data ['user_logo'] = (isset ( $logo_arr [0]->logo ) && $logo_arr [0]->logo != "") ? $logo_arr [0]->accountid . "_" . $logo_arr [0]->logo : "logo.png";
@@ -193,9 +199,7 @@ class Login extends MX_Controller {
 			 *
 			 */
 			$this->db->select ( "*" );
-			$this->db->where ( array (
-					"domain" => $_SERVER ["HTTP_HOST"] 
-			) );
+			$this->db->where ( array ("domain" => $hostname));
 			$res = $this->db->get ( "invoice_conf" );
 			$logo_arr = $res->result ();
 			// print_r( $logo_arr );exit;
