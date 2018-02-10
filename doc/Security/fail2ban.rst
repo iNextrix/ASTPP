@@ -26,7 +26,7 @@ Fail2Ban is available at fail2ban.org as well as more documentation.
 **Configurations:**
 ::
     
-    For Both OS
+    For Cent OS
     Replace content of jail.local file with below content.
     
     --------- /etc/fail2ban/jail.local ------------------
@@ -40,6 +40,30 @@ Fail2Ban is available at fail2ban.org as well as more documentation.
     maxretry = 3
     bantime = 10000000
     [sshd-ddos]
+    enabled = true
+    maxretry = 3
+    bantime = 10000000
+    [freeswitch]
+    enabled = true
+    logpath = /usr/local/freeswitch/log/freeswitch.log
+    maxretry = 5
+    bantime = 10000000
+    -----------------------END OF File------------------
+    
+    For Debian 8 OS
+    Replace content of jail.local file with below content.
+    
+    --------- /etc/fail2ban/jail.local ------------------
+    [DEFAULT]
+    # Ban hosts for one hour:
+    bantime = -1
+    ignoreip = 127.0.0.1
+    banaction = iptables-multiport
+    [ssh]
+    enabled = true
+    maxretry = 3
+    bantime = 10000000
+    [ssh-ddos]
     enabled = true
     maxretry = 3
     bantime = 10000000
