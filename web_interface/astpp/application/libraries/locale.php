@@ -41,7 +41,7 @@ class Locale {
 			$current_locale = 'en_US';
 		}		
 		putenv ( "LANG=$current_locale" );
-		setlocale ( LC_ALL, $current_locale . ".UTF-8" );
+		//setlocale ( LC_ALL, $current_locale . ".UTF-8" );
 		setlocale ( LC_MESSAGES, $current_locale );
 		setlocale ( LC_TIME, $current_locale );
 		setlocale ( LC_CTYPE, $current_locale );
