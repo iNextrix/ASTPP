@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>
-	<?php       
-        $this->db->where('domain',$_SERVER['HTTP_HOST']);
+	<?php
+        $host = explode(':',$_SERVER ["HTTP_HOST"]);
+	        
+	        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+	                $hostname = 'https://'.$host[0];
+	        else{
+	                $hostname = 'http://'.$host[0];
+	        }      
+        $this->db->where('domain',$hostname);
         $this->db->select('*');
         $this->db->order_by('accountid', 'desc');
         $this->db->limit(1);
