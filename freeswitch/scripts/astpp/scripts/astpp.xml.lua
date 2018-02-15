@@ -244,25 +244,20 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
 
 	elseif (tonumber(didinfo['call_type']) == 1 and didinfo['extensions'] ~= '') then
 
-		table.insert(xml, [[<action application="set" data="calltype=DID-LOCAL"/>]]);     
-        if notify then notify(xml,destination_number) end
+		table.insert(xml, [[<action application="set" data="calltype=DID-LOCAL"/>]]);             
         if (config['opensips'] == '1') then
           for i = 1, #destination_str do
+          		if notify then notify(xml,destination_str[i]) end
                 bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]user/"..destination_str[i].."@${domain_name}"
                 if i <= #deli_str then
                         bridge_str = bridge_str..deli_str[i]
                 end
           end
-          table.insert(xml, [[<action application="bridge" data="]]..bridge_str..[["/>]]);
-          table.insert(xml, [[<condition field="${cond(${user_data ]]..didinfo['extensions']..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]])
-          table.insert(xml, [[<action application="answer"/>]]);    
-    	  table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);  
-		  table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]]);    
-          table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]])
-          table.insert(xml, [[</condition>]])
+          table.insert(xml, [[<action application="bridge" data="]]..bridge_str..[["/>]]);          
         else      
           common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
           for i = 1, #destination_str do
+          	    if notify then notify(xml,destination_str[i]) end
                 bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
                 if i <= #deli_str then
                         bridge_str = bridge_str..deli_str[i]
@@ -270,28 +265,24 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
           end
           table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
         end
-
+        -- To leave voicemail 
+        leave_voicemail(xml,destination_number,destination_str[1])
 	 elseif (tonumber(didinfo['call_type']) == 3 and didinfo['extensions'] ~= '') then
-	    table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);    
-        if notify then notify(xml,destination_number) end 
+	    table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);            
 		if (config['opensips'] == '1') then
             common_chan_var = "{sip_contact_user="..destination_number.."}"
             for i = 1, #destination_str do
+            	  if notify then notify(xml,destination_str[i]) end
                   bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_number.."${regex(${sofia_contact("..destination_str[i].."@${domain_name})}|^[^@]+(.*)|%1)}"
                   if i <= #deli_str then
                           bridge_str = bridge_str..deli_str[i]
                   end
             end
-            table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
-            table.insert(xml, [[<condition field="${cond(${user_data ]]..didinfo['extensions']..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]])
-            table.insert(xml, [[<action application="answer"/>]])
-            table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]])
-            table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..didinfo['extensions']..[["/>]])
-            table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]])
-            table.insert(xml, [[</condition>]])
+            table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);            
         else
             common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
             for i = 1, #destination_str do
+            	  if notify then notify(xml,destination_str[i]) end
                   bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
                   if i <= #deli_str then
                           bridge_str = bridge_str..deli_str[i]
@@ -299,6 +290,9 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
             end
             table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
         end
+        -- To leave voicemail 
+        leave_voicemail(xml,destination_number,destination_str[1])
+
 	elseif(tonumber(didinfo['call_type']) == 2 and didinfo['extensions'] ~= '') then
 		table.insert(xml, [[<action application="set" data="calltype=OTHER"/>]]); 
 		table.insert(xml, [[<action application="bridge" data="]]..didinfo['extensions']..[["/>]]);
@@ -333,17 +327,15 @@ function freeswitch_xml_local(xml,destination_number,destinationinfo,callerid_ar
 
     if (config['opensips'] == '1') then
       table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..config['leg_timeout']..[[]user/]]..destination_number..[[@${domain_name}"/>]]);
-      table.insert(xml, [[<condition field="${cond(${user_data ]]..destination_number..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]]);
-      table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..destination_number..[["/>]]);
-	  table.insert(xml, [[<action application="answer"/>]]);      
-      table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..destination_number..[["/>]]);
-      table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]]);
-      table.insert(xml, [[</condition>]]);
     else
       table.insert(xml, [[<action application="set" data="sip_h_X-call-type=did"/>]]);
       table.insert(xml, [[<action application="set" data="sip_h_X-did-call-type=DID-LOCAL"/>]]);
       table.insert(xml, [[<action application="bridge" data="{sip_invite_params=user=LOCAL,sip_from_uri=]]..destination_number..[[@${domain_name}}[leg_timeout=]]..config['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..destination_number..[[@]]..config['opensips_domain']..[["/>]]);
     end
+
+    -- To leave voicemail 
+    leave_voicemail(xml,destination_number,destination_number)
+
     return xml
 end
 
@@ -382,6 +374,15 @@ function xml_header(xml,destination_number)
 	return xml
 end
 
+-- To Leave voicemail dialplan 
+function leave_voicemail(xml,vm_alternate_greet_id,vm_destination)
+	table.insert(xml, [[<condition field="${cond(${user_data ]]..vm_destination..[[@${domain_name} param vm-enabled} == true ? YES : NO)}" expression="^YES$">]])
+    table.insert(xml, [[<action application="answer"/>]]);    
+	table.insert(xml, [[<action application="export" data="voicemail_alternate_greet_id=]]..vm_alternate_greet_id..[["/>]]);  
+    table.insert(xml, [[<action application="voicemail" data="default $${domain_name} ]]..vm_destination..[["/>]]);    
+    table.insert(xml, [[<anti-action application="hangup" data="${originate_disposition}"/>]])
+    table.insert(xml, [[</condition>]])
+end
 
 -- Generate voicemail dialplan
 function xml_voicemail(xml,destination_number)
