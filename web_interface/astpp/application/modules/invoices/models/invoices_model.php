@@ -27,8 +27,8 @@ class Invoices_model extends CI_Model {
 	function get_invoice_list($flag, $start = 100, $limit = 100) {
 		$where = array ();
 		
-		$accountinfo = $this->session->userdata ( 'accountinfo' );
-		$reseller_id = $accountinfo ['type'] == - 1 ? 0 : $accountinfo ['id'];
+		$accountinfo = $this->session->userdata ( 'accountinfo' );		
+		$reseller_id = ($accountinfo ['type'] == - 1 || $accountinfo ['type'] == 2 || $accountinfo ['type'] == 4 ) ? 0 : $accountinfo ['id'];
 		$this->db->where ( 'reseller_id', $reseller_id );
 		$this->db->select ( 'id' );
 		$result = $this->db->get ( 'accounts' );
