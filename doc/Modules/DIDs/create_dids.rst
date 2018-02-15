@@ -59,9 +59,9 @@ You can create new DID using below page,
                              Multiple Destination : DID-Local and SIP-DID call-type can send calls to multiple destination simultaneously as well as one after another.
 
                              Example, 
+
                              If Destination string is '12345,78904' than system will try to send call to both destination simultaneously, whichever receives first call will be established with it.
 							 If Destination string is '12345|78904' (with pipe sign) than system will try to send the call first to 12345 and if not received there than send the call to 78904.
-
 							 You may also use comma and pipe sign together in string as per your usage.
                              
                              
