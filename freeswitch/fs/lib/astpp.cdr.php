@@ -303,6 +303,7 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
         	//$logger->log ( "Geting Q.850 Code Query : " . $query );
 	        $q850code = $db->run ( $query );
         	//$logger->log("Code: " .$q850code[0]['code'] );
+        	$q850code [0]['code'] = ($q850code [0]['code']=='')?'31':$q850code [0]['code'];
 	        $dataVariable ['hangup_cause'] = $dataVariable ['hangup_cause'] .' ['. $q850code [0]['code'].']';
 	}
 	
