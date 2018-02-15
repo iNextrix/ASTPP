@@ -54,8 +54,6 @@ INSERT INTO `system` (`id` ,`name` ,`display_name` ,`value` ,`field_type` ,`comm
 VALUES (NULL , 'automatic_invoice', 'Automatic Invoice', '1', 'automatic_invoice', '0:Automatic 1:Manual', NULL , '0', '0', 'global');
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES ('0', 'log_path', 'Log Path', '/var/log/astpp/', 'default_system_input', 'ASTPP log files path', NULL, '0', '0', 'global');
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES ('0', 'leg_timeout', 'Local Call Timeout (Sec.)', '30', 'default_system_input', 'Define Local SIP2SIP Call Leg Timeout. Default 30 seconds', NULL, '0', '0', 'global');
---Flag added for realtime billing
-INSERT INTO system VALUES(219,'realtime_billing','Realtime Billing',1,'enable_disable_option','Set enable to use realtime billing',NULL,0,0,'global');
 UPDATE `system` SET `display_name` = 'Inbound Fax' WHERE `system`.`name` = 'inbound_fax';
 UPDATE `system` SET `value` = '3.5' WHERE `system`.`id` = 191;
 
