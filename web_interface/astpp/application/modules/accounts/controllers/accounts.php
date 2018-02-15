@@ -508,6 +508,7 @@ class Accounts extends MX_Controller {
 			) );
 			//if ($ip_flag) {
 				$this->load->library ( 'freeswitch_lib' );
+				$this->load->module ( 'freeswitch/freeswitch' );
 				$this->load->model ( "freeswitch_model" );
 				$command = "api reloadacl";
 				$this->freeswitch_model->reload_freeswitch ( $command );
