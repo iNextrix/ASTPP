@@ -62,7 +62,7 @@ class Summary extends MX_Controller {
 	}
 	function customer_json() {
 		$search_arr = $this->summary_search_info ( 'customer' );
-		$count_all = $this->summary_model->get_customersummary_report_list ( false, 0, 0, $search_arr ['group_by_str'], $search_arr ['select_str'], $search_arr ['order_str'], false );
+		$count_all = $this->summary_model->get_customersummary_report_list (false, 0, 0, $search_arr ['group_by_str'], $search_arr ['select_str'], $search_arr ['order_str'], false );
 		$paging_data = $this->form->load_grid_config ( $count_all, $_GET ['rp'], $_GET ['page'] );
 		$json_data = $paging_data ["json_paging"];
 		$query = $this->summary_model->get_customersummary_report_list ( true, $paging_data ["paging"] ["start"], $paging_data ["paging"] ["page_no"], $search_arr ['group_by_str'], $search_arr ['select_str'], $search_arr ['order_str'], false );
@@ -350,7 +350,7 @@ class Summary extends MX_Controller {
 			$export_arr [] = $final_array;
 		}
 		$function_name = 'get_' . $entity . 'summary_report_list';
-		$total_info = $this->summary_model->{$function_name ( true, '', '', '', $search_arr ['select_str'], $search_arr ['order_str'], true )};
+		$total_info = $this->summary_model->$function_name ( true, '', '', '', $search_arr ['select_str'], $search_arr ['order_str'], true );
 		$total_info = $total_info->result_array ();
 		$total_info = $total_info [0];
 		$total_asr = ($total_info ['attempts'] > 0) ? round ( ($total_info ['completed'] / $total_info ['attempts']) * 100, 2 ) : 0;
