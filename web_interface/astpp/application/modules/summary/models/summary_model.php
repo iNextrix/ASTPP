@@ -43,7 +43,7 @@ class Summary_model extends CI_Model {
 		if ($flag) {
 			$this->db->select ( $select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", false );
 			$this->db->order_by ( $order, "ASC" );
-			if (! $export) {
+			if (! $export && $limit > 0) {
 				$this->db->limit ( $limit, $start );
 			}
 			$this->db->from ( "reseller_cdrs" );
@@ -74,7 +74,7 @@ class Summary_model extends CI_Model {
 		if ($flag) {
 			$this->db->select ( $select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(cost) AS cost", "cdrs", false );
 			$this->db->order_by ( $order, "ASC" );
-			if (! $export) {
+			if (! $export && $limit > 0) {
 				$this->db->limit ( $limit, $start );
 			}
 			$this->db->from ( 'cdrs' );
@@ -112,7 +112,7 @@ class Summary_model extends CI_Model {
 		if ($flag) {
 			$this->db->select ( $select . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(debit) AS debit,SUM(cost) AS cost", false );
 			$this->db->order_by ( $order, "ASC" );
-			if (! $export) {
+			if (! $export && $limit > 0) {
 				$this->db->limit ( $limit, $start );
 			}
 			$this->db->from ( "cdrs" );
@@ -125,7 +125,7 @@ class Summary_model extends CI_Model {
 				return 0;
 			}
 		}
-		// echo $this->db->last_query();
+		 //echo $this->db->last_query();
 		return $result;
 	}
 }
