@@ -112,5 +112,8 @@ define ( "DATABASE_DIRECTORY", FCPATH . 'database_backup' . DIRECTORY_SEPARATOR 
 define ( 'LOCALE_REQUEST_PARAM', 'lang' );
 define ( 'WEBSITE_DOMAIN', 'messages' );
 
+//Define default language
+define ('DEFAULT_LANGUAGE','en_EN');
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
