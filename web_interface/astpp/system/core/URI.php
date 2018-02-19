@@ -168,6 +168,7 @@ class CI_URI {
 		// If the URI contains only a slash we'll kill it
 		$this->uri_string = ($str == '/') ? '' : $str;
 }
+$this->uri_string = ($str == '/') ? '' : $str;
 /*===============================*/
 		}
 
