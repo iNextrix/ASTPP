@@ -36,9 +36,10 @@ class Locale {
 		$this->set_lang ();
 	}
 	function set_lang($lang = FALSE) {
-		$current_locale = $this->CI->session->userdata ( 'user_language' );
+		$current_locale = $this->CI->session->userdata ( 'user_language' );		
 		if (empty ( $current_locale )) {
-			$current_locale = 'en_US';
+			//$current_locale = 'en_US';
+			$current_locale = config_item('language');
 		}
 		putenv ( "LANG=$current_locale" );
 		//setlocale ( LC_ALL, $current_locale . ".UTF-8" );
