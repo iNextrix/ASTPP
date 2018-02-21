@@ -188,10 +188,9 @@ jQuery(document).ready(function() {
 }?>
 	    
 		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
-		      <li style="-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;"><a href="https://github.com/iNextrix/ASTPP/issues" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>
-		    <?}?>
-		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
-		    <li><a href="astpp.readthedocs.io" target="_blank"><i class="fa fa-file-text"></i> &nbsp;Documentation</a></li>
+
+		      <li style="-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;"><a href="https://github.com/iNextrix/ASTPP/issues" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>		    
+		    <li><a href="http://astpp.readthedocs.io" target="_blank"><i class="fa fa-file-text"></i> &nbsp;Documentation</a></li>
 		    <li><a href="http://www.astppbilling.org/mobile-dialers/" target="_blank"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i> &nbsp;Get App</a></li>
 		    <?}?>
 				
