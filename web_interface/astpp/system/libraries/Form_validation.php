@@ -224,6 +224,37 @@ class CI_Form_validation {
 
 		return $prefix.$this->_field_data[$field]['error'].$suffix;
 	}
+        public function error_string_custom($prefix = '', $suffix = '')
+	{
+		// No errrors, validation passes!
+		if (count($this->_error_array) === 0)
+		{
+			return '';
+		}
+
+		if ($prefix == '')
+		{
+			$prefix = $this->_error_prefix;
+		}
+
+		if ($suffix == '')
+		{
+			$suffix = $this->_error_suffix;
+		}
+
+		// Generate the error string
+		$str = array();
+		foreach ($this->_error_array as $key => $val)
+		{
+			if ($val != '')
+			{
+				//$str .= $prefix.$key.$val.$suffix."\n";
+                                $str[$key.'_error'] = $val;
+			}
+		}
+
+		return json_encode($str);
+	}
 
 	// --------------------------------------------------------------------
 

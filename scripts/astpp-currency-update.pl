@@ -14,37 +14,17 @@
 # @hourly /usr/local/astpp/astpp-currency-update.pl
 
 use LWP::Simple qw(!head);
-use POSIX;
-use POSIX qw(strftime);
 use DBI;
-use CGI;
-use CGI qw/:standard Vars/;
-use Getopt::Long;
-use Locale::Country;
-use Locale::gettext_pp qw(:locale_h);
-use Data::Dumper;
-use ASTPP;
 use strict;
 
 use lib './lib', '../lib';
 require "/usr/local/astpp/astpp-common.pl";
-$ENV{'LANGUAGE'} = "en";    # de, es, br - whatever
-print STDERR "Interface language is set to: $ENV{'LANGUAGE'}\n";
-bindtextdomain( "ASTPP", "/var/locale" );
-textdomain("ASTPP");
-use vars qw($config $astpp_db $osc_db $agile_db $cdr_db
-  @output @cardlist $config $params $ASTPP);
-@output = ( "STDOUT", "LOGFILE" );
-$ASTPP     = ASTPP->new;
-$ASTPP->set_verbosity(4);    #Tell ASTPP debugging how verbose we want to be.
+use vars qw($config $astpp_db @output @cardlist $config $params $ASTPP);
 
-
-sub initialize() {
+sub initialize_cur() {
     $config     = &load_config();    
     $astpp_db = &connect_db( $config, @output );    
-    $config     = &load_config_db($astpp_db,$config) if $astpp_db;    
-    $config->{base_currency}='USD';
-    $ASTPP->set_astpp_db($astpp_db);
+    $config     = &load_config_db($astpp_db,$config) if $astpp_db; 
 }
 
 sub shutdown() {
@@ -52,11 +32,7 @@ sub shutdown() {
 }
 
 ################# Program Starts HERE #################################
-foreach my $param ( param() ) {
-    $params->{$param} = param($param);
-    print STDERR "$param $params->{$param}\n";
-}
-&initialize();
+&initialize_cur();
 
 my ( $url, @currencylist, $currency, $content, @content_data,
         @currency, @currency_arr,$sql,$val );
@@ -73,7 +49,7 @@ $content = get $url;
 
 foreach $val(@content_data){
     @currency_arr= split(',', $val,3);
-    $sql = "UPDATE currency SET CurrencyRate = ".@currency_arr[1]." WHERE Currency = ".$astpp_db->quote(substr (@currency_arr[0],4,3));
+    $sql = "UPDATE currency SET currencyRate = ".@currency_arr[1]." WHERE currency = ".$astpp_db->quote(substr (@currency_arr[0],4,3));
     $astpp_db->do($sql);
 }
 &shutdown;

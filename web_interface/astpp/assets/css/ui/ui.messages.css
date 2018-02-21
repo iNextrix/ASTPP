@@ -3,7 +3,11 @@
 .response-msg {
 	padding:6px 10px 10px 45px;
 	font-size:0.96em;
-	margin:0 0 10px;
+	/*margin:0 0 10px;*/
+	background:#e9f9e5 url('../../images/icons/success.png') 10px 50% no-repeat;
+	color:#1c8400;
+        text-align:center;
+        
 }
 
 .response-msg span {
@@ -31,10 +35,11 @@ div.error {
 }
 
 .success {
-	background:#e9f9e5 url('../../images/icons/success.png') 10px 50% no-repeat;
+	/*background:#e9f9e5 url('../../images/icons/success.png') 10px 50% no-repeat;*/
 	color:#1c8400;
-	border:#b4e8aa solid 1px;
-}
+	margin-left:400px;
+        text-align:right;
+    }
 
 .other-box {
 	margin:15px 0;

@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "astpp";
+$route['default_controller'] = "login";
 $route['404_override'] = '';
 
 

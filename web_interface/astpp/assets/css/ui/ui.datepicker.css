@@ -1,6 +1,6 @@
 /* Datepicker
 ----------------------------------*/
-.ui-datepicker { width: 17em; padding: .2em .2em 0; }
+.ui-datepicker { width: 17em; padding: .2em .2em 0; z-index:10000 !important; }
 .ui-datepicker .ui-datepicker-header { position:relative; padding:.2em 0; }
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 2px; width: 1.8em; height: 1.8em; }
 .ui-datepicker .ui-datepicker-prev-hover, .ui-datepicker .ui-datepicker-next-hover { top: 1px; }
@@ -59,4 +59,5 @@
     left: -4px; /*must have*/
     width: 200px; /*must have*/
     height: 200px; /*must have*/
+    
 }

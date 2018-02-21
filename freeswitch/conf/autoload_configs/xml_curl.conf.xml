@@ -6,8 +6,7 @@
 	   need it) -->
       <!-- one or more |-delim of configuration|directory|dialplan -->
 
-      <param name="gateway-url" value="http://localhost/cgi-bin/astpp-fs-xml.cgi" bindings="dialplan|directory"/>
-<!--      <param name="gateway-url" value="http://localhost/perl/astpp-fs-xml.pl" bindings="dialplan|directory"/> -->
+      <param name="gateway-url" value="http://localhost/cgi-bin/astpp/astpp-fs-xml.cgi" bindings="dialplan|directory|configuration"/>
 
       <!-- set this to provide authentication credentials to the server -->
       <!--<param name="gateway-credentials" value="muser:mypass"/>-->

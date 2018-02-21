@@ -282,8 +282,10 @@ if ( ! function_exists('form_multiselect'))
 {
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
-		if ( ! strpos($extra, 'multiple'))
+            
+            if ( ! strpos($extra, 'multiple'))
 		{
+                
 			$extra .= ' multiple="multiple"';
 		}
 
@@ -323,11 +325,135 @@ if ( ! function_exists('form_dropdown'))
 		}
 
 		if ($extra != '') $extra = ' '.$extra;
+		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+                if(is_array($name)){
+                    $form = '<select name="'.$name['name'].'"'." class='select field medium $name[class]'>\n";
+                }else{
+                    $form = '<select name="'.$name.'"' .$multiple." class='select field medium'>\n";
+                }
+//                if($extra != '' ){
+//                    $form .= '<option value=""></option>';
+//                }
+//                 echo $form;exit;
+		foreach ($options as $key => $val)
+		{
+			$key = (string) $key;
+
+			if (is_array($val) && ! empty($val))
+			{
+				$form .= '<optgroup label="'.$key.'">'."\n";
+
+				foreach ($val as $optgroup_key => $optgroup_val)
+				{
+					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
+
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+				}
+
+				$form .= '</optgroup>'."\n";
+			}
+			else
+			{
+				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
+
+				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+			}
+		}
+
+		$form .= '</select>';
+//echo $form; exit;
+		return $form;
+	}
+}
+if ( ! function_exists('form_dropdown_all'))
+{
+	function form_dropdown_all($name = '', $options = array(), $selected = array(), $extra = '')
+	{
+		if ( ! is_array($selected))
+		{
+			$selected = array($selected);
+		}
+
+		// If no selected state was submitted we will attempt to set it automatically
+		if (count($selected) === 0)
+		{
+			// If the form name appears in the $_POST array we have a winner!
+			if (isset($_POST[$name]))
+			{
+				$selected = array($_POST[$name]);
+			}
+		}
+
+		if ($extra != '') $extra = ' '.$extra;
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+                
+		if(is_array($name) && !isset($name["id"])){
+                    $form = '<select name="'.$name['name'].'"'." class='select field medium $name[class]'>\n";
+                }else if(is_array($name) && isset($name["id"])){
+                    $form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='select field medium'>\n";
+                }else{
+                    $form = '<select name="'.$name.'"' .$multiple." class='select field medium'>\n";
+                }   
 
-		$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
+		$form .= '<option value=""> --Select-- </option>';
+		foreach ($options as $key => $val)
+		{
+			$key = (string) $key;
 
+			if (is_array($val) && ! empty($val))
+			{
+				$form .= '<optgroup label="'.$key.'">'."\n";
+
+				foreach ($val as $optgroup_key => $optgroup_val)
+				{
+					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
+
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+				}
+
+				$form .= '</optgroup>'."\n";
+			}
+			else
+			{
+				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
+
+				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+			}
+		}
+
+		$form .= '</select>';
+
+		return $form;
+	}
+}
+
+
+
+if ( ! function_exists('form_dropdown_multiselect'))
+{
+	function form_dropdown_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
+	{
+		if ( ! is_array($selected))
+		{
+			$selected = array($selected);
+		}
+
+		// If no selected state was submitted we will attempt to set it automatically
+		if (count($selected) === 0)
+		{
+			// If the form name appears in the $_POST array we have a winner!
+			if (isset($_POST[$name]))
+			{
+				$selected = array($_POST[$name]);
+			}
+		}
+
+		if ($extra != '') $extra = ' '.$extra;
+
+		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+		$form = '<select name="'.$name.'"'." multiple='multiple' class='select field multiselectable'>\n";
+                
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;
@@ -363,7 +489,6 @@ if ( ! function_exists('form_dropdown'))
 
 /**
  * Checkbox Field
- *
  * @access	public
  * @param	mixed
  * @param	string
@@ -902,7 +1027,7 @@ if ( ! function_exists('validation_errors'))
 			return '';
 		}
 
-		return $OBJ->error_string($prefix, $suffix);
+		return $OBJ->error_string_custom($prefix, $suffix);
 	}
 }
 
@@ -1046,6 +1171,178 @@ if ( ! function_exists('_get_validation_object'))
 		}
 		
 		return $return;
+	}
+}
+
+
+/**start code to here
+ * form_countries
+ *
+ * Generates a select list of countries
+ *
+ * @access	public
+ * @param	string, boolean, array
+ * @return	string
+ */
+
+if( !function_exists( 'form_countries' ) )
+{
+	function form_countries( $name, $selected = FALSE, $attributes, $form_name="" )
+	{
+		$country_list = Common_model::$global_config['country_list'];
+		$form = '<select name="'.$name.'"';
+
+		foreach( $attributes as $key => $value )
+		{
+			$form .= " ".$key.'="'.$value.'"';
+		}
+
+		$form .= ">";
+		
+		if($form_name!=""){
+			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
+		}
+
+		foreach( $country_list as $key => $value )
+		{
+			$form .= "\n".'<option value="'.ucwords( strtolower( $value ) ).'"';
+
+			if(strtolower(trim($value)) == strtolower(trim($selected)))
+			{
+                            
+                            $form .= ' selected="selected" >';
+                                
+			}
+			else
+			{
+				$form .= '>';
+			}
+			
+			$form .= ucwords( strtolower( $value ) ).'</option>';
+		}
+
+		$form .= "\n</select>";
+
+		return $form;
+	}
+}
+//=========================================
+if( !function_exists( 'form_languagelist' ) )
+{
+	function form_languagelist( $name, $selected = FALSE, $attributes )
+	{
+		$language_list = Common_model::$global_config['language_list'];
+
+		$form = '<select name="'.$name.'"';
+
+		foreach( $attributes as $key => $value )
+		{
+			$form .= " ".$key.'="'.$value.'"';
+		}
+
+		$form .= ">";
+
+		foreach( $language_list as $key => $value )
+		{
+			$form .= "\n".'<option value="'.( strtolower( $key ) ).'"';
+
+			if( $key == $selected )
+			{
+				$form .= ' selected>';
+			}
+			else
+			{
+				$form .= '>';
+			}
+
+			$form .=  ucfirst(strtolower($value)).'</option>';
+		}
+
+		$form .= "\n</select>";
+
+		return $form;
+	}
+}
+
+//-----------------------------------------
+if( !function_exists( 'form_select_default' ) )
+{
+	function form_select_default( $name,$data, $selected = "", $attributes, $form_name="" )
+	{
+		$form = '<select name="'.$name.'"';
+
+		foreach( $attributes as $key => $value )
+		{
+			$form .= " ".$key.'="'.$value.'"';
+		}
+
+		$form .= ">";
+		
+		if($form_name!=""){
+			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
+		}
+		
+		foreach( $data as $key => $value )
+		{
+			$form .= "\n".'<option value="'.$key.'"';
+			
+			if( $key == $selected )
+			{
+				$form .= ' selected>';
+			}
+			else
+			{
+				$form .= '>';
+			}
+
+			$form .= ucwords( strtolower( $value ) ).'</option>';
+		}
+
+		$form .= "\n</select>";
+
+		return $form;
+		
+	}
+}	
+// ------------------------------------------------------------------------
+if( !function_exists( 'form_timezone' ) )
+{
+	function form_timezone( $name, $selected = FALSE, $attributes )
+	{
+		$CI =& get_instance();
+
+		$CI->config->load( 'countries' );
+
+		$country_list = $CI->config->item( 'timezone1_list' );
+
+		$form = '<select name="'.$name.'"';
+
+		foreach( $attributes as $key => $value )
+		{
+			$form .= " ".$key.'="'.$value.'"';
+		}
+
+		$form .= ">";
+
+		foreach( $country_list as $key => $value )
+		{
+			$form .= "\n".'<option value="'.ucwords( strtolower( $value ) ).'"';
+
+			if( strtolower($value) == strtolower($selected) )
+			{
+				$form .= '  selected="selected">';
+			}
+			else
+			{
+				$form .= '>';
+			}
+
+			$form .= ucwords( strtolower( $value ) ).'</option>';
+		}
+
+		$form .= "\n</select>";
+
+		return $form;
 	}
 }
 

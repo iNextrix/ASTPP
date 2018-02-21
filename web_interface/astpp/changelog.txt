@@ -1,0 +1,46 @@
+============================New Feature  ======================================
+-User can loging using username or email. Email must be unique
+-Paypal Module development.
+-Commission Feature for Resellers.
+-Low balance notification in account module.
+-Invoice day generation feature for account module.
+-Upgrade code for Ratesheet import (termination and origination)
+-Change display message style (For: Success OR Error)
+-Resellers did page development.
+-Inplement currency base changes for whole application
+  Like the user who is loggend in the system work on that users currency if is Master admin then system worked on base of system base currency.
+-In reports or other drop down display account number with customer name (concatenation)
+-Fixed out searching related issue in report module.
+-SIP profile add feature at reseller side in cutomer view detail page.
+-Provider view detail page modification (Feature: Ipsettings,cdrs)
+-Display rate count in rate group List page.
+-Display rate count in trunk list page
+-DID call type feature in DID page (PSTN,Local,Other)
+
+============================== Issues ========================================
+-Trunk page having some issue which is resolved for add,Edit feature.
+-Add two more field in sip profiles.
+-Solve issue in edit mode for customer,Reseller,Provider
+-Change field length for sip profiles page input fields.
+-Change field length for gateway's page input fields.
+-Change field length for account page input fields
+-Upgrade code for menu arrangement on sequence base define in user level table.
+-Invoice list page issue fixing.
+-Fix issue with invoice conf module.
+
+============================ Script changes ===================================
+
+-Invoice script development.
+-Low balance notification script
+
+===========================Database changes ====================================
+1) invoices
+2) invoices_total
+3) invoice_conf
+4) customer_log to invoice_item
+5) invoice_list_view
+6) taxes_to_accounts_view
+7) trunks
+8) payments
+9) payment_transaction
+10) accounts

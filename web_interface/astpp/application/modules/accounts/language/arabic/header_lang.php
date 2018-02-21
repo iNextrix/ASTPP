@@ -1,0 +1,74 @@
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+//header files
+$lang['header.welcome']='Welcome';
+$lang['header.language']='Language';
+$lang['header.logout']='Logout';
+
+$lang['header.home']='Home';
+$lang['header.manage_account']='Manage Accounts';
+$lang['header.list_account']='List Accounts';
+$lang['header.create_account']='Create Account';
+$lang['header.accounting']='Accounting';
+$lang['header.subscriptions']='Subscriptions';
+$lang['header.periodic_charges']='Periodic Charges';
+$lang['header.manage_invoices']='Manage Invoices';
+$lang['header.list_invoices']='List Invoices';
+$lang['header.conf_invoices']='Invoice Configuration';
+$lang['header.manage_taxes']='Manage Taxes';
+$lang['header.taxes']='Taxes';
+$lang['header.account_taxes']='Account Taxes';
+$lang['header.services']='Services';
+$lang['header.calling_cards']='Calling Cards';
+$lang['header.list_cards']='List Cards';
+$lang['header.cc_brands']='CC Brands';
+$lang['header.call_CDRs']='Callingcard CDRs';
+$lang['header.call_shop']='Call Shop';
+$lang['header.list_call_shop']='List Call Shop';
+$lang['header.did']='DIDs';
+$lang['header.manage_did']='Manage DIDs';
+$lang['header.routing']='Routing';
+$lang['header.providers']='Providers';
+$lang['header.providers_detail']='Provider Details';
+$lang['header.trunks']='Trunks';
+$lang['header.termination_rates']='Termination Rates';
+$lang['header.clients']='Clients';
+$lang['header.priceLists']='PriceLists';
+$lang['header.origination_rates']='Origination Rates';
+$lang['header.calc_charge']='Calc Charge';
+$lang['header.packages']='Packages';
+$lang['header.package_usage']='Package Usage Report';
+$lang['header.reports']='Reports';
+$lang['header.call_detail_reports']='Call Detail Reports';
+$lang['header.customer_report']='Customer Report';
+$lang['header.reseller_report']='Reseller Report';
+$lang['header.provider_report']='Provider Report';
+$lang['header.did_report']='DID Report';
+$lang['header.switch_reports']='Switch Reports';
+$lang['header.list_errors']='List Errors';
+$lang['header.trunk_stats']='Trunk Stats';
+$lang['header.view_freeSwitch_CDRs']='View FreeSwitch CDRs';
+$lang['header.live_call_report']='Live Call Report';
+$lang['header.registered_devices']='Registered Devices';
+$lang['header.registered_gateways']='Registered Gateways';
+$lang['header.summary_reports']='Summary Reports';
+$lang['header.customer_report']='Customer Report';
+$lang['header.reseller_report']='Reseller Report';
+$lang['header.provider_report']='Provider Report';
+$lang['header.payment_reports']='Payment Reports';
+$lang['header.system_configuration']='System Configuration';
+$lang['header.switch_config']='Switch Config';
+$lang['header.freeswitch_sip_devices']='Freeswitch SIP Devices';
+$lang['header.access_control_list']='Access Control List';
+$lang['header.system']='System';
+$lang['header.configuration']='Configuration';
+$lang['header.purge_deactivated']='Purge Deactivated';
+$lang['header.email_template']='Email Template';
+$lang['header.opensips_config_alfa']='Opensips Config Alfa';
+$lang['header.opensips_devices']='Opensips Devices';
+$lang['header.dispatcher_list']='Dispatcher List';
+
+$lang['header.statistics']='Statistics';
+$lang['header.callshop_report']='Callshop Report';
+
+
+?>

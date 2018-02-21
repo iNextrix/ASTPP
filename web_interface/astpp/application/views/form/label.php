@@ -1,0 +1,1 @@
+<label class="control-label" for="<?php echo $name; ?>"><?php echo $label; ?></label>

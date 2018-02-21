@@ -2,8 +2,7 @@
   <settings>
     <!-- the url to post to if blank web posting is disabled  -->
 
-    <param name="url" value="http://localhost/cgi-bin/astpp-fs-xml.cgi"/>
-<!--    <param name="url" value="http://localhost/perl/astpp-fs-xml.pl"/> -->
+    <param name="url" value="http://localhost/cgi-bin/astpp/astpp-cdr-xml.cgi"/>
 
     <!-- optional: credentials to send to web server -->
     <!--    <param name="cred" value="user:pass"/> -->

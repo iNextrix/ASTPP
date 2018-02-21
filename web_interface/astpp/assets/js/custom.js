@@ -32,10 +32,10 @@ jQuery(document).ready(function() {
 
 	jQuery('.sortable .column').sortable({
 		cursor: "move",
-		connectWith: '.sortable .column',
+		connectWith: '.sortable .column'
 	});
 
-	jQuery(".column").disableSelection();
+	//jQuery(".column").disableSelection();
 
 	//Sidebar only sortable boxes
 	jQuery(".side_sort").sortable({

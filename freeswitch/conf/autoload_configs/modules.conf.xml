@@ -8,7 +8,7 @@
 
     <!-- Multi-Faceted -->
     <!-- mod_enum is a dialplan interface, an application interface and an api command interface -->
-    <load module="mod_enum"/>
+<!--     <load module="mod_enum"/> -->
 
     <!-- XML Interfaces -->
     <!-- <load module="mod_xml_rpc"/> -->
@@ -18,7 +18,7 @@
     <load module="mod_xml_cdr"/>
 
     <!-- Event Handlers -->
-    <load module="mod_cdr_csv"/>
+<!--     <load module="mod_cdr_csv"/> -->
     <!-- <load module="mod_event_multicast"/> -->
     <load module="mod_event_socket"/>
     <!-- <load module="mod_xmpp_event"/> -->
@@ -39,19 +39,19 @@
 
     <!-- Applications -->
     <load module="mod_commands"/>
-    <load module="mod_conference"/>
+<!--     <load module="mod_conference"/> -->
     <load module="mod_dptools"/>
-    <load module="mod_expr"/>
-    <load module="mod_fifo"/>
-    <load module="mod_voicemail"/>
+<!--     <load module="mod_expr"/> -->
+<!--     <load module="mod_fifo"/> -->
+<!--     <load module="mod_voicemail"/> -->
     <load module="mod_limit"/>
-    <load module="mod_esf"/>
-    <load module="mod_fsv"/>
+<!--     <load module="mod_esf"/> -->
+<!--     <load module="mod_fsv"/> -->
 
     <!-- Dialplan Interfaces -->
     <!-- <load module="mod_dialplan_directory"/> -->
     <load module="mod_dialplan_xml"/>
-    <load module="mod_dialplan_asterisk"/>
+<!--     <load module="mod_dialplan_asterisk"/> -->
 
     <!-- Codec Interfaces -->
     <load module="mod_voipcodecs"/>
@@ -76,10 +76,10 @@
     <!-- Languages -->
     <!-- <load module="mod_spidermonkey"/> -->
     <!--  Required to run astpp calling card module  -->
-    <load module="mod_perl"/>
+<!--     <load module="mod_perl"/> -->
     <!-- <load module="mod_python"/> -->
     <!-- <load module="mod_java"/> -->
-    <load module="mod_lua"/>
+<!--     <load module="mod_lua"/> -->
 
     <!-- ASR /TTS -->
     <!-- <load module="mod_cepstral"/> -->

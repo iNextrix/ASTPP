@@ -25,7 +25,7 @@
  * @param 	bool	Determines if active record should be used or not
  */
 function &DB($params = '', $active_record_override = NULL)
-{  
+{
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) AND strpos($params, '://') === FALSE)
 	{

@@ -71,6 +71,79 @@
 	margin:0 5px;
 }
 
+
+
+.hastabledasb table {
+	background:#fff;
+	width:100%;
+	border:1px solid #dedede;
+	border-bottom:none;
+}
+
+.hastabledasb thead td, .hastabledasb thead th {
+	background-color:#e6e6e6;
+}
+
+.hastabledasb tr td, .hastabledasb thead th {
+	border-left:1px solid #ccc;
+	text-align:left;
+	padding:8px;
+	color:#616161;
+}
+
+.hastabledasb tr td {
+	vertical-align:middle;
+}
+
+.hastabledasb thead td, .hastabledasb thead th {
+	font-weight:bold;
+	padding:8px;
+	text-align:center;
+}
+
+.hastabledasb th, .hastabledasb td {
+	border-bottom:1px solid #dedede;
+}
+.hastabledasb tbody th {
+	padding:0 8px;
+	text-align:left;
+}
+
+.hastabledasb tbody tr.alt td, .hastabledasb tbody tr.odd td {
+	color:#464646;
+	vertical-align:middle;
+}
+
+.hastabledasb tbody tr.alt td, .hastabledasb tbody tr.alt th, .hastabledasb tbody tr.odd {
+	background-color:#f5f5f5;
+}
+.hastabledasb tbody tr:hover td, .hastabledasb tbody tr:hover th {
+	/*background-color:#FFFFCF;*/
+}
+
+.headerSortDown, .headerSortUp {
+	background-repeat:no-repeat;
+	background-color:#dcdcdc!important;
+	color:#404040!important;
+}
+
+.header span {
+	float:right;
+	margin-top:-3px;
+}
+
+.hastabledasb tr .center {
+	width:5px;
+}
+
+.hastabledasb table a.btn span.ui-icon {
+	left:0.1em;
+}
+
+.hastabledasb table a.btn {
+	margin:0 5px;
+}
+
 .content-box table {
 	margin:0;
 }

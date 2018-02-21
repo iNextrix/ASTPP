@@ -8,15 +8,32 @@
 #
 # This program is Free Software and is distributed under the
 # terms of the GNU General Public License version 2.
-use DBI;
-use POSIX qw(ceil floor);
+use LWP::Simple qw(!head);
+use POSIX;
 use POSIX qw(strftime);
+use DBI;
+use CGI;
+use CGI qw/:standard Vars/;
+use Getopt::Long;
+use Locale::Country;
+use Locale::gettext_pp qw(:locale_h);
+use Data::Dumper;
+use ASTPP;
 use strict;
-use vars qw(@output $config $astpp_db );
-@output = ("STDERR");
-require "/usr/local/astpp/astpp-common.pl";
 
-sub initialize() {
+use lib './lib', '../lib';
+require "/usr/local/astpp/astpp-common.pl";
+$ENV{'LANGUAGE'} = "en";    # de, es, br - whatever
+print STDERR "Interface language is set to: $ENV{'LANGUAGE'}\n";
+bindtextdomain( "ASTPP", "/var/locale" );
+textdomain("ASTPP");
+use vars qw($config $astpp_db $osc_db $agile_db $cdr_db
+  @output @cardlist $config $params $ASTPP);
+@output = ( "STDOUT", "LOGFILE" );
+$ASTPP     = ASTPP->new;
+$ASTPP->set_verbosity(4);    #Tell ASTPP debugging how verbose we want to be.
+
+sub initialize_cc() {
     $SIG{HUP} = 'ignore_hup';
     $config   = &load_config();
     $astpp_db = &connect_db($config);
@@ -47,7 +64,7 @@ sub update_balance() {
 }
 ################## Program starts here ##############################
 my ($sql);
-&initialize();
+&initialize_cc();
 my @cardlist = &list_active_callingcards();
 foreach my $cardinfo (@cardlist) {
     my $sql = $astpp_db->prepare("SELECT NOW() ");

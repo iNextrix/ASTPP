@@ -19,7 +19,8 @@ form ul{
 form li{
 	display:block;
 	margin:0;
-	padding:6px 0 9px;
+	padding:2px 0 0px;
+        line-height: 23px;
 	clear:both;
 }
 form li:after, form li div:after{
@@ -48,6 +49,7 @@ input.text, input.file, textarea.textarea, select.select {
 	color:#333;
 	margin:0;
 	padding:4px;
+        line-height:10px;
 }
 input.text, textarea.textarea{
 	border-top:1px solid #7c7c7c;
@@ -87,6 +89,7 @@ input.small, select.small{
 
 input.medium, select.medium{
 	width:50%;
+	margin-left:10px;
 }
 
 input.large, select.large, textarea.textarea {
@@ -139,8 +142,24 @@ form li div label, form li span label{
 form li div span label{
 	padding-bottom:12px;
 }
-label.desc{
-	font-size:95%;
+/*.desc*/
+.formlabel{
+	font-size:75%;
+	/*font-weight:bold;*/
+	color:#222;
+	line-height:150%;
+	margin:0;
+	padding:0 0 3px 0;
+	border:none;
+	display:block;
+	float:left;
+	padding-right:5px;
+	padding-top:5px;
+      	text-align: right;
+        width: 100px;
+}
+.search_label{
+	font-size:75%;
 	font-weight:bold;
 	color:#222;
 	line-height:150%;
@@ -148,6 +167,40 @@ label.desc{
 	padding:0 0 3px 0;
 	border:none;
 	display:block;
+	float:left;
+	padding-right:5px;
+        padding-top:12px;
+        width: 100px;
+}
+.desc_ccbrand{
+	font-size:75%;
+	font-weight:bold;
+	color:#222;
+	line-height:150%;
+	margin:0;
+	padding:0 0 3px 0;
+	border:none;
+	display:block;
+	float:left;
+	padding-right:5px;
+	padding-top:5px;
+	text-align: right;
+    width: 250px;
+}
+.Searchdesc{
+	font-size:75%;
+	font-weight:bold;
+	color:#222;
+	line-height:150%;
+	margin:0;
+	padding:0 0 3px 0;
+	border:none;
+	display:block;
+	float:left;
+	padding-right:5px;
+	padding-top:5px;
+	text-align: left;
+    width: 100px;
 }
 label.choice{
 	display:block;
@@ -187,4 +240,35 @@ form label.error {
 
 form .gray {
 	opacity:0.7;
+}
+select.multiselectable{
+	width:52.5%;
+	margin-left:10px;
+}
+.desc
+{
+    width:15%;
+    border:0px solid red;
+    float:left;
+    text-align: right;
+    
+    
+}
+.value_bold{
+    font-weight: bold;
+    float: left;
+    width:15%;
+    border: 0px solid blue;
+    margin-left:15px;
+    font-size:12px;
+    
+}
+.input_marg{
+    
+    margin:5px 0px 5px 0px;
+}
+.label_custom{
+	float:left;
+	padding-top:5px;
+   
 }
