@@ -192,7 +192,7 @@ function build_grid(grid_id,destination,collumn_arr,buttons){
         usepager: true,
         resizable: true,
         title: '',
-	sort:true,
+	    sort:true,
         pagetext: 'Page',
         outof: 'of',
         nomsg: 'No Records',
