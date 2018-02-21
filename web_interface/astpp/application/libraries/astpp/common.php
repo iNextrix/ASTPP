@@ -1202,7 +1202,6 @@ class common {
 	}
 	function mail_to_users($type, $accountinfo, $attachment = "", $amount = "") {
 		$subject = "";
-		$settings_reply_email = 'astpp@astpp.com';
 		$reseller_id = $accountinfo ['reseller_id'] > 0 ? $accountinfo ['reseller_id'] : 0;
 		$where = "accountid IN ('" . $reseller_id . "','1')";
 		$this->CI->db->where ( $where );
@@ -1325,11 +1324,7 @@ class common {
 				$subject = str_replace ( "#INVOICE_NUMBER#", $amount, $subject );
 				break;
 			case 'email_add_did' :
-				if (isset ( $accountinfo ['did_maxchannels'] ) && $accountinfo ['did_maxchannels'] != "") {
-					$accountinfo ['did_maxchannels'] = $accountinfo ['did_maxchannels'];
-				} else if ($accountinfo ['did_maxchannels'] == "0") {
-					$accountinfo ['did_maxchannels'] = "Unlimited";
-				} else {
+				if (isset ( $accountinfo ['did_maxchannels'] ) && $accountinfo ['did_maxchannels'] == "") {
 					$accountinfo ['did_maxchannels'] = "Unlimited";
 				}
 				$message = str_replace ( '#NAME#', $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $message );
@@ -1353,11 +1348,10 @@ class common {
 				break;
 		}
 
-		if ($subject == "") {
-			$subject = $query [0]->subject;
-			$subject = str_replace ( "#NAME#", $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
-			$subject = str_replace ( "#COMPANY_NAME#", $company_name, $subject );
-		}
+		$subject = str_replace ( "#NAME#", $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
+		$message = str_replace ( "#COMPANY#", $accountinfo ['company_name'], $message );
+		$subject = str_replace ( "#COMPANY#", $accountinfo ['company_name'], $subject );
+
 		$account_id = (isset ( $accountinfo ['last_id'] ) && $accountinfo ['last_id'] != "") ? $accountinfo ['last_id'] : $accountinfo ['id'];
 		$reseller_id = $accountinfo ['reseller_id'];
 		if ($reseller_id != "0") {
