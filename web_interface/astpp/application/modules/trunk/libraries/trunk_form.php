@@ -50,10 +50,10 @@ class trunk_form {
     function build_trunk_list_for_admin() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
-            array("Trunk Name", "150", "name", "", "", ""),
+            array("Trunk Name", "160", "name", "", "", ""),
 //             array("Protocol", "180", "tech", "", "", ""),
-            array("Provider", "160", "provider_id", "first_name,last_name,number", "accounts", "build_concat_string"),
-            array("Gateway Name", "160", "gateway_id", "name", "gateways", "get_field_name"),
+            array("Provider", "165", "provider_id", "first_name,last_name,number", "accounts", "build_concat_string"),
+            array("Gateway Name", "165", "gateway_id", "name", "gateways", "get_field_name"),
 	    array("Failover GW name", "150", "failover_gateway_id","name", "gateways", "get_field_name"),
 	    array("Max channels", "120", "maxchannels", "", "", ""),
             array("Codecs", "110", "codec", "", "", ""),

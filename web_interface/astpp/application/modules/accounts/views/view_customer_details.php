@@ -27,7 +27,33 @@
         build_grid("cdrs_grid","<?php echo base_url(); ?>accounts/customer_details_json/reports/<?= $account_data[0]['id']; ?>",<? echo $cdrs_grid_fields ?>,"");
 
 	 build_grid("animap_list","<?php echo base_url(); ?>accounts/customer_animap_json/<?= $account_data[0]['id']; ?>", <? echo json_encode($animap_grid_field) ?>,"");
-       
+        $.validator.addMethod('IP4Checker', function(value) {
+            var pattern = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/;
+            return pattern.test(value);
+        }, 'Invalid IP address');
+
+
+	$('#ip_map').validate({
+             rules: {
+                 ip: {
+                     required: true,
+                     IP4Checker: true
+                 }
+             },
+             errorPlacement: function(error, element) {
+                 error.appendTo('#err');
+             }
+         });
+    
+        $("#ani_map").validate({
+            rules: {
+                ANI: {
+                    required: true
+                }
+            }
+        });
+ 
+
         $(".sweep_id").change(function(e){
         var sweep_id =$('.sweep_id option:selected').val();
             if(sweep_id != 0){
@@ -46,12 +72,32 @@
                 $('.invoice_day').css('display','none');                
             }
         });
-        $(".sweep_id").change();
+        
+        
+          $(".change_pass").click(function(){
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>accounts/customer_generate_password/",
+                success: function(response) {
+                    $('#password').val(response.trim());
+                }
+            });
+        })
+        $(".change_number").click(function(){
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>accounts/customer_generate_number/"+10,
+                success: function(response) {
+                    var data=response.replace('-',' ');
+                    $('#number').val(data.trim());
+                }
+            });
+        })
+        
+      /*  $(".sweep_id").change();
         $.validator.addMethod('IP4Checker', function(value) {
             var pattern = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/;
             return pattern.test(value);
         }, 'Invalid IP address');
-	$("#expiry").datetimepicker({ dateFormat: 'yy-mm-dd' });
+	$("#expiry").datetimepicker({ format: 'Y-m-d H:i:00' });
         $('#ip_map').validate({
             rules: {
                 ip: {
@@ -66,17 +112,19 @@
                     required: true,
                 }
             }
-        }); 
+        }); */
         
 });
         
 
 </script>
 <style>
-   .error{
-    float:left;
-    margin-left:113px;
-    width:auto;
+     label.error {
+        float: left; color: red;
+        padding-left: .3em; vertical-align: top;  
+        padding-left:40px;
+        margin-top:20px;
+        width:1500% !important;
     }
 </style>
 <? endblock() ?>
@@ -90,7 +138,8 @@
     <ul class="tabs" data-persist="true">
         <li><a href="#customer_details"><?= ucfirst($entity_name);?> Details</a></li>
         <li><a href="#account_ip">IP Settings</a></li>
-        <li><a href="#animap">Map ANI</a></li>
+        <li><a href="#animap">
+Caller Id</a></li>
 	<li><a href="#accounts"><?=$variable?> Settings</a></li>
         <li><a href="#packages">Subscriptions</a></li>
         <li><a href="#did">DID</a></li>
@@ -131,13 +180,13 @@
                 <div class="col-md-12 color-three padding-b-20 padding-t-20">
                     <form method="post" name="ip_map" id="ip_map" action="<?= base_url() ?>accounts/customer_ipmap_action/add/<?= $account_data[0] ['id'] ?>/<?= $entity_name; ?>/" enctype="multipart/form-data">
                         <label class="col-md-1" style="padding-left:50px;">Name: </label><input class="col-md-2 form-control" name="name" size="16" type="text">
-                        <label class="col-md-1" style="padding-left:70px;">IP: </label><input class="col-md-2 form-control" name="ip" size="22" type="text">
+                        <label class="col-md-1" style="padding-left:70px;">IP:</br> <span id="err"></label></span><input class="col-md-2 form-control" name="ip" size="22" type="text">
                         <label class="col-md-1" style="padding-left:50px;">Prefix: </label><input class="col-md-2 form-control" name="prefix" size="16" type="text">
                     
                         <input class="margin-l-20 btn btn-success" name="action" value="Map IP" type="submit">
                     </form>
                 </div>                
-               <div class="col-md-12 color-three padding-b-20">
+               <div class="col-md-12 color-three ">
                         <table id="ipmap_grid" align="left" style="display:none;"></table> 
                 </div>
                
@@ -287,14 +336,15 @@
                     <form method="post" name="ani_map" id="ani_map" action="<?= base_url() ?>accounts/customer_animap_action/add/<?= $account_data[0] ['id'] ?>/<?= $entity_name; ?>" enctype="multipart/form-data">
                               <!--  <input type="hidden" id="animap_id" name="animap_id" value="" />
                                 <input type="hidden" name="id" id='id' value='' /> -->
-                                 <label class="col-md-1" style="padding-left:50px;">ANI:</label>
-				<input type="input" class="col-md-2 form-control" name="number" id="number" maxlength="15">
+                   <label class="col-md-1" style="padding-left:50px; width:10%;">Caller Id:</label>
+				<input type="input" class="col-md-2 form-control" name="number" id="number" maxlength="20">
                        <!--         <label>Status: </label>
                                 <select name="status" id="status" class="field select">
                                         <option value="0">Active</option>
                                         <option value="1">Inactive</option>
                                 </select> -->
-                                <input class="margin-l-20 btn btn-success" id="animap" name="action" value="Map ANI" type="submit">
+                                <input class="margin-l-20 btn btn-success" id="animap" name="action" value="
+Caller Id" type="submit">
                          </form>
                 </div>                 
 		<div class="col-md-12 color-three padding-b-20">

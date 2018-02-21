@@ -38,6 +38,7 @@ class Opensips extends MX_Controller {
     }
 
     function opensips_add() {
+  //echo 'dd';
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
         $data['page_title'] = 'Add Opensips';
@@ -78,36 +79,72 @@ class Opensips extends MX_Controller {
     }
     function opensips_save() {
         $add_array = $this->input->post();
-
+  //echo '<pre>'; print_r($add_array); exit;
         $data['form'] = $this->form->build_form($this->opensips_form->get_opensips_form_fields($add_array['id']), $add_array);
-        if ($add_array['id'] != '') {
+        //echo '<pre>'; print_r( $add_array['id']); exit;
+if ($add_array['id'] != '') {
             $data['page_title'] = 'Edit Opensisp';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
                 exit;
             } else {
-                $this->opensips_model->edit_opensipsdevices($add_array, $add_array['id']);
-                echo json_encode(array("SUCCESS"=> " OpenSips updated successfully!"));
-                exit;
+                $auth_flag = $this->validate_device_data($add_array);
+                if($auth_flag == "TRUE"){
+                        $this->opensips_model->edit_opensipsdevices($add_array, $add_array['id']);
+                        echo json_encode(array("SUCCESS"=> " OpenSips updated successfully!"));
+                        exit;
+                }else{
+                       echo json_encode($auth_flag);
+                        exit;
+                }
             }
         } else {
             $data['page_title'] = 'Add Opensips';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
-		echo $data['validation_errors'];
+                          echo $data['validation_errors'];
                 exit;
             } else {
-
-                $this->opensips_model->add_opensipsdevices($add_array);
-                echo json_encode(array("SUCCESS"=> "OpenSips added successfully!"));
-                exit;
+                $auth_flag = $this->validate_device_data($add_array);
+                if($auth_flag == "TRUE"){
+                        $this->opensips_model->add_opensipsdevices($add_array);
+                        echo json_encode(array("SUCCESS"=> "OpenSips added successfully!"));
+                        exit;
+                }else{
+                       echo json_encode($auth_flag);
+                        exit;
+                }
             }
         }
     }
+    function validate_device_data($data){
+
+        if(isset($data["username"]) && $data["username"] != ""){
+                $db_config = Common_model::$global_config['system_config'];
+                $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+                $this->opensips_db = $this->load->database($opensipdsn, true);
+                $where = array("username"=>$data["username"]);
+                if($data['id'] != ""){
+                    $this->opensips_db->where("id <>",$data['id']);
+                }
+                $this->opensips_db->where($where);
+                $auth_flag = $this->opensips_db->get("subscriber");
+                $auth_flag = $auth_flag->num_rows();
+                if($auth_flag == 0){
+                    return "TRUE";
+                }else{
+                    return array("username_error"=>"Duplicate Email Address Found Email Must Be Unique.");
+                }
+        }else{
+          return array("username_error"=>"User name is required field.");
+        }
+        return "0";
+    }
+
 function user_opensips_save($user_flg = false) {
         $array_add = $this->input->post();
-//         print_r($array_add);exit;
+//        
         $data['form'] = $this->form->build_form($this->opensips_form->get_opensips_form_fields_for_customer($array_add["accountcode"]), $array_add);
         if ($array_add['id'] != '') {
             $data['page_title'] = 'Edit Opensips';
@@ -178,6 +215,7 @@ function user_opensips_save($user_flg = false) {
 
 
     function opensips_add_customer($add_data) {
+  //  echo 'ada';
         $this->opensips_model->add_opensipsdevices($add_array);
     }
 

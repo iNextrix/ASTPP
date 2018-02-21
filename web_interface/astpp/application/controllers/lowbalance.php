@@ -30,7 +30,7 @@ class Lowbalance extends CI_Controller {
         $this->load->library("astpp/common");
     }
     function low_balance(){
-        $where = array("notify_flag"=>1,"deleted" => "0","status"=>"0");
+        $where = array("posttoexternal"=>0,"notify_flag"=>1,"deleted" => "0","status"=>"0");
         $query = $this->db_model->getSelect("*", "accounts", $where);
         if($query->num_rows >0){
             $account_data = $query->result_array();

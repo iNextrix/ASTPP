@@ -3,7 +3,7 @@
 $(document).ready(function() {
 document.getElementsByName("currency_id")[0].selectedIndex = <?=$currency_id-1?>;
 document.getElementsByName("timezone_id")[0].selectedIndex = <?=$timezone_id-1?>;
-document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-1?>;
+document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id-2?>;
     $("#submit").click(function(){
         submit_form("customer_bulk_form","<?php echo base_url();?>accounts/customer_bulk_save/");
     });

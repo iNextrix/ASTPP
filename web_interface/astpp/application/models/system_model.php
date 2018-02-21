@@ -204,7 +204,7 @@ class System_model extends CI_Model {
             if (!empty($taxes_search['amount'])) {
                 switch ($amount_operator) {
                     case "1":
-                        $this->db->where('taxes_amount ', $taxes_search['amount']);
+                        $this->db->where('taxes_amount =', $taxes_search['amount']);
                         break;
                     case "2":
                         $this->db->where('taxes_amount <>', $taxes_search['amount']);
@@ -229,7 +229,7 @@ class System_model extends CI_Model {
             if (!empty($taxes_search['rate'])) {
                 switch ($rate_operator) {
                     case "1":
-                        $this->db->where('taxes_rate ', $taxes_search['rate']);
+                        $this->db->where('taxes_rate == ', $taxes_search['rate']);
                         break;
                     case "2":
                         $this->db->where('taxes_rate <>', $taxes_search['rate']);

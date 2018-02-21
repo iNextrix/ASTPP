@@ -46,7 +46,8 @@
    
 
         <form action="<?= base_url() ?><?= isset($did) ? "did/did_reseller_edit/edit" : "did/did_reseller_edit/add" ?>" id="frm_manage_did" method="POST" enctype="multipart/form-data">
-
+	<fieldset>
+<legend>Edit</legend>
             <ul class="padding-15">        
                 <li class="col-md-8">
                     <label class="col-md-3 no-padding">DID :</label>
@@ -142,6 +143,7 @@
                     <input type="text" class="col-md-5 form-control" name="number" value="<?= @$did['reseller_didinfo'] ?>"/>
                 </li> -->                       
             </ul>        
+            </fieldset>
 <center>
            <div style="width:100%;float:left;height:50px;margin-top:20px;">
 	 <input type="button" class="btn btn-line-parrot" id='submit' style="margin-left:5px;" name="action" value="<?= isset($did) ? "Save" : "Insert"; ?>" /> 

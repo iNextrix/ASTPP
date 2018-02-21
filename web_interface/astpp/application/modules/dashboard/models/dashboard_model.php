@@ -45,20 +45,14 @@ class Dashboard_model extends CI_Model {
         $this->db->order_by('payment_date','desc');
 	return $this->db->get();
     }
-    function get_call_statistics() 
+     function get_call_statistics($table,$parent_id) 
     {
 	$start_date=date('Y-m-01');
 	$end_date=date('Y-m-t');
-	$accountinfo=$this->session->userdata('accountinfo');
-    	$parent_id= ($accountinfo['type'] == 1) ? $accountinfo['id']:0;
-    
-    	$table=$accountinfo['type']==1? 'reseller_cdrs':'cdrs';
-    	$profit_field_name=$table=='reseller_cdrs'?'reseller_cost' :'provider_call_cost';
-    	$field_name=$table=='reseller_cdrs'?'accountid' :'reseller_id';
-	$query = "select count(uniqueid) as sum,count(CASE WHEN disposition IN ('NORMAL_CLEARING','SUCCESS') THEN 1 END) as answered,count(CASE WHEN disposition NOT IN ('NORMAL_CLEARING','SUCCESS') THEN 1 END) as failed,sum(debit-".$profit_field_name.") as profit,DAY(callstart) as day from ".$table." where callstart >='". $start_date." 00:00:00' AND callstart <='". $end_date." 23:59:59' AND $field_name = '".$parent_id."' GROUP BY DAY(callstart)";
+	
+	$query = "select count(uniqueid) as sum,count(CASE WHEN disposition IN ('NORMAL_CLEARING','SUCCESS') THEN 1 END) as answered,count(CASE WHEN disposition NOT IN ('NORMAL_CLEARING','SUCCESS') THEN 1 END) as failed,sum(debit-cost) as profit,DAY(callstart) as day from ".$table." where callstart >='". $start_date." 00:00:00' AND callstart <='". $end_date." 23:59:59' AND reseller_id = '".$parent_id."' GROUP BY DAY(callstart)";
 	return $this->db->query($query,false);
     }
-
     function get_customer_maximum_callminutes()
     {
 	

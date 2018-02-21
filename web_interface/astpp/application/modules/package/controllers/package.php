@@ -199,7 +199,7 @@ $data['search_flag'] = true;
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
 
-        $pattern_data = $this->db_model->getSelect("*", "package_patterns", $where, "id", "ASC", $paging_data["paging"]["page_no"], $paging_data["paging"]["start"]);
+        $pattern_data = $this->db_model->select("*", "package_patterns", $where, "id", "ASC", $paging_data["paging"]["page_no"], $paging_data["paging"]["start"]);
         $grid_fields = json_decode($this->package_form->build_pattern_list_for_customer($package_id));
         $json_data['rows'] = $this->form->build_grid($pattern_data, $grid_fields);
 

@@ -32,7 +32,7 @@ class Login extends MX_Controller {
 
     function index() {
         if ($this->session->userdata('user_login') == FALSE) {
-            if (!empty($_POST)) {// AND $_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR'])
+            if (!empty($_POST) && trim($_POST['username']) != '' && trim($_POST['password']) != '') {// AND $_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR'])
                 $user_valid = $this->Auth_model->verify_login($_POST['username'], $_POST['password']);
                 
                 if ($user_valid == 1) {
@@ -143,6 +143,7 @@ class Login extends MX_Controller {
             redirect(base_url() . 'user/user/');
         }
       }         
+	redirect(base_url() . 'user/user/');
     }
 }
 

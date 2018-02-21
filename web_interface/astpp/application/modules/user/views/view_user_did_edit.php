@@ -19,6 +19,7 @@
 <div>
   <div>
     <section class="slice color-three no-margin">
+ 
 	<div class="w-section inverse no-padding">
             <div style="color:red;margin-left: 60px;">
                 <?php if (isset($validation_errors)) echo $validation_errors; ?> 
@@ -26,6 +27,8 @@
 
  <form action="<?= base_url() ?>user/user_dids_action/edit/" id="frm_callshop" method="POST" enctype="multipart/form-data">
             <ul class="padding-15">
+              <fieldset>
+    <legend>Edit</legend>
                 <input type="hidden" readonly name="didid" id="didid" value="<?= @$didinfo['id']; ?>">
                 <li class="col-md-12">   
                     <label class="col-md-3 no-padding">Number:</label>     
@@ -72,7 +75,7 @@
                 </li>-->
 		 <li class="col-md-12">   
                     <label class="col-md-3 no-padding">Call Type</label>     
-                    <label class="col-md-5 form-control"  style="width:;"><? echo $call_type; ?></label>
+                    <label class=""  style=""> <div style="width:500px;"><? echo $call_type; ?></div></label>
                 </li>
                
                 <li class="col-md-12">   
@@ -80,12 +83,15 @@
                      <input size="20" class="col-md-5 form-control" name="extension" value="<?= @$didinfo['extensions'] ?>">
                 </li>
             </ul>
-            <input type="submit" class="btn btn-line-parrot pull-right" name="action" value="Save" />
+              </fieldset>
+            <input type="submit" class="btn btn-line-parrot pull-center " style="margin-left:300px; margin-top:10px;"  name="action" value="Save" />
             <br>
             <br><hr>
             <TMPL_VAR NAME= "status">
+            
         </form>
-            </div>      
+            </div>  
+       
     </section>
   </div>
 </div>

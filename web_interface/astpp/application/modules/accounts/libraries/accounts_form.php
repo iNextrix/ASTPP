@@ -55,13 +55,15 @@ class Accounts_form {
             }
          }
          $type= $entity_type == 'customer' ? 0 : 3;
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
+        $uname = $this->CI->common->find_uniq_rendno_customer(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
+           $uname_user = $this->CI->common->find_uniq_rendno('10', 'number', 'accounts');
+	$password = $this->CI->common->generate_password();
         $form['forms'] = array(base_url() . 'accounts/'. $entity_type.'_save/', array("id" => "customer_form", "name" => "customer_form"));
         $form['Client Panel Access'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => $type), '', '', ''),
             array('Account', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), 'required|max_length[15]', 'tOOL TIP', ''),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'required|min_length[5]|max_length[20]', 'tOOL TIP', ''),
+            array('Password', 'INPUT', array('name' => 'password', 'value'=>$password,'size' => '20', 'maxlength' => '20', 'class' => "text field medium",'id'=>'password'), 'required|min_length[5]|max_length[20]', 'tOOL TIP', '','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh" ></i>'),
             array('Pin', 'INPUT', array('name' => 'pin', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'max_length[20]', 'tOOL TIP', ''));
 
         $form['Account Settings'] = array(
@@ -93,7 +95,7 @@ class Accounts_form {
             array('Timezone',array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', array("name"=>"timezone_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
         );
         $form['Billing Information'] = array(
-            array('Rate Group', 'pricelist_id', 'SELECT', '',array("name"=>"pricelist_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => $loginid)),
+            array('Rate Group', 'pricelist_id', 'SELECT', '',array("name"=>"pricelist_id","rules"=>"dropdown"), 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => $loginid)),
             array('Billing Schedule',array('name'=> 'sweep_id','class'=>'sweep_id','id'=>'sweep_id'), 'SELECT', '', '', 'tOOL TIP', '', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
             array('Billing Day',array("name"=>'invoice_day',"class"=>"invoice_day"), 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_invoice_option'),
             array('Currency',array('name'=>'currency_id','class'=>'currency_id'), 'SELECT', '',array("name"=>"currency_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
@@ -136,7 +138,7 @@ class Accounts_form {
             array('Start prefix', 'INPUT', array('name' => 'prefix', 'size' => '20', 'maxlength' => '3', 'class' => "text field medium"), 'trim|required|min_length[1]|numeric|max_length[3]|xss_clean', 'tOOL TIP', ''), 
             array('Account Length', 'INPUT', array('name' => 'account_length', 'size' => '20', 'maxlength' => '2', 'class' => "text field medium"), 'trim|required|min_length[1]|max_length[2]|numeric|xss_clean', 'tOOL TIP', ''), 
             array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '40', 'size' => '15', 'class' => 'text field medium'), 'trim|required|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
-             array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+           array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
             array('Timezone',array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', array("name"=>"timezone_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
             array('Pin', 'pin', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_allow'),
 	    $sip_device,
@@ -197,13 +199,15 @@ class Accounts_form {
             $readable='disabled';
         } else
             $val ='accounts.email';
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
+        $uname = $this->CI->common->find_uniq_rendno(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
+          $password = $this->CI->common->generate_password();
         $form['forms'] = array(base_url() . 'accounts/reseller_save/', array("id" => "reseller_form", "name" => "reseller_form"));
         $form['Client Panel Access'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '1'), '', '', ''),
             array('Account', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '20', 'class' => "text field medium"), 'required|max_length[15]', 'tOOL TIP', 'Please Enter account number'),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'));
+           array('Password', 'INPUT', array('name' => 'password', 'value'=>$password,'size' => '20', 'maxlength' => '20', 'class' => "text field medium",'id'=>'password'), 'required|min_length[5]|max_length[20]', 'tOOL TIP', '','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh" ></i>'),
+            );
 
         $form['Billing Information'] = array(
             array('Rate Group', 'pricelist_id', 'SELECT', '',array("name"=>"pricelist_id",'rules'=>'required'), 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => "0")),
@@ -248,13 +252,15 @@ class Accounts_form {
     }
 
     function get_form_provider_fields($values = '') {
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
+        $uname = $this->CI->common->find_uniq_rendno(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
+           $password = $this->CI->common->generate_password();
         $form['forms'] = array(base_url() . 'accounts/provider_save/', array("id" => "provider_form", "name" => "provider_form"));
         $form['Client Panel Access'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '3'), '', '', ''),
             array('Account', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'));
+          array('Password', 'INPUT', array('name' => 'password', 'value'=>$password,'size' => '20', 'maxlength' => '20', 'class' => "text field medium",'id'=>'password'), 'required|min_length[5]|max_length[20]', 'tOOL TIP', '','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh" ></i>'),
+          );
 
         $form['Account & Billing Information'] = array(
             array('Account Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
@@ -294,15 +300,16 @@ class Accounts_form {
             $val = 'accounts.email.' . $id;
         else
             $val ='accounts.email';
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
+        $uname = $this->CI->common->find_uniq_rendno(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
+       //   $password = $this->CI->common->generate_password();
+            $password = $this->CI->common->generate_password();
         $form['forms'] = array(base_url() . 'user/user_edit_account/', array("id" => "user_form", "name" => "user_form"));
 
         $form['User Profile'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '0'), '', '', ''),
             array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required
-            |min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+         array('Password', 'INPUT', array('name' => 'password', 'value'=>$password,'size' => '20', 'maxlength' => '20', 'class' => "text field medium",'id'=>'password'), 'required|min_length[5]|max_length[20]', 'tOOL TIP', '','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh" ></i>'),
             array('Pin', 'INPUT', array('name' => 'pin', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'max_length[20]', 'tOOL TIP', ''),
          //   array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
             array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), 'trim|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
@@ -333,14 +340,15 @@ class Accounts_form {
 
     function get_reseller_own_form_fields() {
 
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
+        $uname = $this->CI->common->find_uniq_rendno(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
+          $password = $this->CI->common->generate_password();
         $form['forms'] = array(base_url() . 'accounts/reseller_edit_account/', array("id" => "user_form", "name" => "user_form"));
 
         $form['Reseller Profile'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '0'), '', '', ''),
             array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+           array('Password', 'INPUT', array('name' => 'password', 'value'=>$password,'size' => '20', 'maxlength' => '20', 'class' => "text field medium",'id'=>'password'), 'required|min_length[5]|max_length[20]', 'tOOL TIP', '','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh" ></i>'),
         //    array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
             array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), 'trim|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
             array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|alpha_numeric|xss_clean', 'tOOL TIP', 'Please Enter account number'),
@@ -370,7 +378,7 @@ class Accounts_form {
 
     
     function get_form_admin_fields($entity_type = '') {
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
+        $uname = $this->CI->common->find_uniq_rendno(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
         $type= $entity_type == 'admin' ? 2 : 4;
         $form['forms'] = array(base_url() . 'accounts/'.$entity_type.'_save/', array("id" => "admin_form", "name" => "admin_form"));
         $form['Client Panel Access'] = array(
@@ -407,7 +415,7 @@ class Accounts_form {
     }
 
     function get_form_subadmin_fields($values = '') {
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
+        $uname = $this->CI->common->find_uniq_rendno(common_model::$global_config['system_config']['cardlength'], 'number', 'accounts');
         $form['forms'] = array(base_url() . 'accounts/subadmin_save/', array("id" => "subadmin_form", "name" => "subadmin_form"));
         $form['Client Panel Access'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
@@ -456,7 +464,8 @@ class Accounts_form {
 		array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => "0")),
 		array('Account Type', 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type_search'),
 
-            array('Balance', 'INPUT', array('name' => 'balance[balance]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'balance[balance-integer]', '', '', '', 'search_int_type', ''),
+            //array('Balance', 'INPUT', array('name' => 'balance[balance]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'balance[balance-integer]', '', '', '', 'search_int_type', ''),
+             array('Balance', 'INPUT', array('name' => 'balance[balance]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'balance[balance-integer]', '', '', '', 'search_int_type', ''),
             array('Credit Limit', 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
 	array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
           //  array('Billing Cycle', 'sweep_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
@@ -471,7 +480,21 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
 
         return $form;
     }
-
+    /*transfer*/
+	 function get_customer_transfer_fields($currency, $number, $currency_id, $id) {
+        $form['forms'] = array(base_url() . 'accounts/customer_transfer_save/', array('id' => 'transfer_form', 'method' => 'POST', 'name' => 'transfer_form'));
+        $form['Fund Transfer'] = array(
+            array('', 'HIDDEN', array('name' => 'id', 'value' => $id), '', '', '', ''),
+            array('', 'HIDDEN', array('name' => 'account_currency', 'value' => $currency_id), '', '', ''),
+            array('From Account ', 'INPUT', array('name' => 'fromaccountid', 'size' => '20', 'value' => $number, 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), 'required', 'tOOL TIP', 'Please Enter account number'),
+	     array('To Account ', 'INPUT', array('name' => 'toaccountid', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter to account number'),
+            array('Amount' , 'INPUT', array('name' => 'credit', 'size' => '20', 'maxlength' => '8', 'class' => "text field medium"), 'trim|required|numeric', 'tOOL TIP', ''),
+	    
+            array('Note', 'TEXTAREA', array('name' => 'notes', 'size' => '20','cols'=>'55','rows'=>'5', 'class' => "text field medium"), '', 'tOOL TIP', '')
+        );
+        $form['button_save'] = array('name' => 'action', 'content' => 'Transfer', 'value' => 'save','id'=>"submit",'type' => 'submit', 'class' => 'btn btn-line-parrot');
+        return $form;
+    }
     function get_provider_search_form() {
         $form['forms'] = array("", array('id' => "account_search"));
         $form['Search'] = array(
@@ -489,7 +512,7 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
         $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
         return $form;
     }
-
+     
       function get_reseller_search_form() {
         $form['forms'] = array("", array('id' => "account_search"));
         $form['Search'] = array(
@@ -567,7 +590,7 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
     function build_account_list_for_admin() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
-             array("Account", "100", "number", "", "", ""),
+             array("Account", "110", "number", "", "", ""),
 	    array("First Name", "120", "first_name", "", "", ""),
             array("Last Name", "130", "last_name", "", "", ""),
             array("Company", "120", "company_name", "", "", ""),
@@ -609,10 +632,10 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
     function build_account_list_for_reseller() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
-            array("Account", "150", "number", "", "", ""),
-            array("First Name", "110", "first_name", "", "", ""),
-            array("Last Name", "110", "last_name", "", "", ""),
-            array("Company", "164", "company_name", "", "", ""),
+            array("Account", "155", "number", "", "", ""),
+            array("First Name", "105", "first_name", "", "", ""),
+            array("Last Name", "100", "last_name", "", "", ""),
+            array("Company", "180", "company_name", "", "", ""),
             array("Rate Group", "110", "pricelist_id", "name", "pricelists", "get_field_name"),
             array("Account Type", "117", "posttoexternal", "posttoexternal", "posttoexternal", "get_account_type"),
             array("Balance", "110", "balance", "balance", "balance", "convert_to_currency"),
@@ -681,7 +704,7 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
         $buttons_json = json_encode(array(
 	    array("Create Admin","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/admin_add/"),
 	    array("Create Subadmin","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/subadmin_add/"),
-            array("Delete", "btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/accounts/admin_selected_delete/")
+            array("DELETE", "btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/accounts/admin_selected_delete/")
             ));
         return $buttons_json;
     }
@@ -733,17 +756,17 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
 
     function build_animap_list_for_customer($accountid) {
         $grid_field_arr = json_encode(array(
-	    array("ANI Number", "250", "number", "", "", ""),
-	    array("Context", "200", "context", "", "", ""),
+	    array("Caller Id", "250", "number", "", "", ""),
+	   // array("Context", "200", "context", "", "", ""),
             array("Action", "150", "", "", "", array("DELETE" => array("url" => "accounts/customer_animap_action/delete/$accountid/", "mode" => "single")))
                 ));
         return $grid_field_arr;
     }
 
     function build_animap_list_for_user() {
-        $grid_field_arr = json_encode(array(array("ANI Number", "150", "number", "", "", ""),
-            array("Context", "150", "context", "", "", ""),
-            array("Action", "120", "", "", "", array("DELETE" => array("url" => "user/user_animap_action/delete/", "mode" => "single")))
+        $grid_field_arr = json_encode(array(array("Caller Id", "625", "number", "", "", ""),
+           // array("Context", "150", "context", "", "", ""),
+            array("Action", "625", "", "", "", array("DELETE" => array("url" => "user/user_animap_action/delete/", "mode" => "single")))
                 ));
         return $grid_field_arr;
     }
@@ -777,8 +800,8 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
     }
 	
         function build_animap_list() {
-        $grid_field_arr = json_encode(array(array("ANI", "180", "number", "", "", ""),
-            array("Context", "180", "context", "", "", ""),
+        $grid_field_arr = json_encode(array(array("Caller Id", "180", "number", "", "", ""),
+           // array("Context", "180", "context", "", "", ""),
             array("status","180","status","status","status","get_status"),                        
 	      array("Action", "130", "", "", "",
 	      array(

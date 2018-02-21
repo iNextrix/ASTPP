@@ -82,8 +82,11 @@ class Systems extends CI_Controller {
             }
         }
     }
-
-    function configuration() {
+/*
+* Purpose : Changes in setting menu
+* Verion 2.1
+*/
+   /* function configuration() {
         $data['username'] = $this->session->userdata('user_name');
         $data['page_title'] = 'Settings';
 	$data['search_flag'] = true;
@@ -92,7 +95,33 @@ class Systems extends CI_Controller {
         $data["grid_buttons"] = $this->system_form->build_grid_buttons();
         $data['form_search'] = $this->form->build_serach_form($this->system_form->get_configuration_search_form());
         $this->load->view('view_configuration_list', $data);
+    }*/
+
+    function configuration($group_title='') {
+	if($group_title==""){
+		redirect(base_url() . '/dashboard');
+	}
+        $data['username'] = $this->session->userdata('user_name');
+        $data['page_title'] = 'Settings';
+	$data['group_title']=$group_title;
+	$where=array("group_title"=>$group_title);
+	$details = $this->db_model->getSelect("*", "system", $where);
+	$data['details']=$details->result_array();
+	$add_array = $this->input->post();
+	//echo '<pre>'; print_r($add_array); exit;
+ 	if (!empty($add_array)) {
+
+		foreach($add_array as $key=>$val){
+			$update_array=array('value'=>$val);
+			$this->system_model->edit_configuration($update_array, $key);
+		}
+            	$this->session->set_flashdata('astpp_errormsg', ucfirst($group_title).' Settings updated sucessfully!');
+	    	redirect(base_url() . 'systems/configuration/'.$group_title);
+        }else{
+	 	$this->load->view('view_systemconf', $data);
+	}
     }
+/***************************************************************************************/
 
     /**
      * -------Here we write code for controller accounts functions account_list------
@@ -150,17 +179,74 @@ class Systems extends CI_Controller {
         $data['form'] = $this->form->build_form($this->system_form->get_template_form_fields(), $edit_data);
         $this->load->view('view_template_add_edit', $data);
     }
-
+/*
+* Purpose : changes reseller can edit own email template 
+* Verion 2.1
+*/
     function template_save() {
         $add_array = $this->input->post();
-
-        $data['form'] = $this->form->build_form($this->system_form->get_template_form_fields(), $add_array);
-        if ($add_array['id'] != '') {
+        
+        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+             $account_data = $this->session->userdata("accountinfo");
+	     $reseller = $account_data['id'];
+	     
+             $this->resellertemplate_save($add_array,$reseller);
+        }
+        else
+        {
+            
+            $this->admintemplate_save($add_array);
+        }
+    }
+    function resellertemplate_save($data,$resellerid)
+    {
+        
+        $where = array('name' => $data['name'],'reseller_id'=>$resellerid);
+        $count = $this->db_model->countQuery("*", "default_templates", $where);
+        $data['form'] = $this->form->build_form($this->system_form->get_template_form_fields(), $data);
+        if($count >0)
+        {
             $data['page_title'] = 'Edit Template';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
             } else {
-                $this->system_model->edit_template($add_array, $add_array['id']);
+                
+                $this->system_model->edit_resellertemplate($data, $data['id']);
+                $this->session->set_flashdata('astpp_errormsg', 'Template updated successfully!');
+                redirect(base_url() . 'systems/template/');
+                exit;
+            }
+        } else {
+//              echo "<pre>";
+//              echo $resellerid;
+//              print_r($data);exit; 
+            //$data['page_title'] = 'Template Details';
+            if ($this->form_validation->run() == FALSE) {
+                
+                $data['validation_errors'] = validation_errors();
+            } else {
+                 unset($data['form']);
+                 $data['reseller_id'] = $resellerid;
+//                  echo "<pre>";print_r($data);exit;
+                $this->system_model->add_resellertemplate($data);
+                $this->session->set_flashdata('astpp_errormsg', 'Template added successfully!');
+                redirect(base_url() . 'systems/template/');
+                exit;
+            }
+        }
+        $this->load->view('view_trunk_add_edit', $data);   
+    }
+    function admintemplate_save($data)
+    {
+        $data['form'] = $this->form->build_form($this->system_form->get_template_form_fields(), $data);
+        if ($data['id'] != '') {
+            $data['page_title'] = 'Edit Template';
+            if ($this->form_validation->run() == FALSE) {
+                $data['validation_errors'] = validation_errors();
+            } else {
+                 unset($data['form']);
+                 unset($data['page_title']);
+                $this->system_model->edit_template($data, $data['id']);
                 $this->session->set_flashdata('astpp_errormsg', 'Template updated successfully!');
                 redirect(base_url() . 'systems/template/');
                 exit;
@@ -170,14 +256,42 @@ class Systems extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
             } else {
-                $this->system_model->add_template($add_array);
+                 unset($data['form']);
+                $this->system_model->add_template($data);
                 $this->session->set_flashdata('astpp_errormsg', 'Template added successfully!');
                 redirect(base_url() . 'systems/template/');
                 exit;
             }
         }
-        $this->load->view('view_trunk_add_edit', $data);
+        $this->load->view('view_trunk_add_edit', $data);   
     }
+//     function template_save() {
+//         $add_array = $this->input->post();
+// 
+//         $data['form'] = $this->form->build_form($this->system_form->get_template_form_fields(), $add_array);
+//         if ($add_array['id'] != '') {
+//             $data['page_title'] = 'Edit Template';
+//             if ($this->form_validation->run() == FALSE) {
+//                 $data['validation_errors'] = validation_errors();
+//             } else {
+//                 $this->system_model->edit_template($add_array, $add_array['id']);
+//                 $this->session->set_flashdata('astpp_errormsg', 'Template updated successfully!');
+//                 redirect(base_url() . 'systems/template/');
+//                 exit;
+//             }
+//         } else {
+//             $data['page_title'] = 'Termination Details';
+//             if ($this->form_validation->run() == FALSE) {
+//                 $data['validation_errors'] = validation_errors();
+//             } else {
+//                 $this->system_model->add_template($add_array);
+//                 $this->session->set_flashdata('astpp_errormsg', 'Template added successfully!');
+//                 redirect(base_url() . 'systems/template/');
+//                 exit;
+//             }
+//         }
+//         $this->load->view('view_trunk_add_edit', $data);
+//     }
 
     function template_search() {
         $ajax_search = $this->input->post('ajax_search', 0);
@@ -452,7 +566,8 @@ class Systems extends CI_Controller {
 	 exec($run_backup,$output,$error);
 	 
 	  if ($do_gzip){ 
-		  $gzip="/usr/bin/gzip";
+		 // $gzip="/usr/bin/gzip";
+        $gzip =     exec("which gzip");
 		  // Compress file
 		  $run_gzip = $gzip." '$backup_file'";
  		  echo $run_gzip."<br>";
@@ -524,7 +639,8 @@ class Systems extends CI_Controller {
 		    $path=$result_array[0]['path'];
 		    if(file_exists($path)){
 			  if (substr($path,-3)=='.gz') {
-				  $GUNZIP_EXE="/usr/bin/gunzip";
+                 $GUNZIP_EXE =     exec("which gunzip");
+				  //$GUNZIP_EXE="/usr/bin/gunzip";
 				  $run_gzip = $GUNZIP_EXE." -c ".$path." | ";
 			  }
 			  $MYSQL="/usr/bin/mysql";

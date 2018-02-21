@@ -187,10 +187,10 @@ class Reports extends MX_Controller {
         if ($this->session->userdata['logintype'] == 2) {
 //             $customer_array[] = array("Date", "CallerID", "Called Number", "Account Number", "Bill Seconds", "Disposition", "Debit", "Cost", "Trunk", "Provider", "Pricelist", "Code", "Destination", "Call Type");
             
-            $customer_array[] = array("Date", "CallerID", "Called Number","Code",  "Destination", "Bill Seconds","Debit", "Cost","Disposition", "Account Number",  "Trunk", "Rate Group",  "Call Type");
+            $customer_array[] = array("Date", "CallerID", "Called Number","Code",  "Destination", "Bill Seconds","Debit", "Cost","Disposition", "Account",  "Trunk", "Rate Group",  "Call Type");
             
         } else {
-           $customer_array[] = array("Date", "CallerID", "Called Number","Code",  "Destination", "Bill Seconds","Debit", "Cost","Disposition", "Account Number",   "Rate Group",  "Call Type");
+           $customer_array[] = array("Date", "CallerID", "Called Number","Code",  "Destination", "Bill Seconds","Debit", "Cost","Disposition", "Account",   "Rate Group",  "Call Type");
         }
         if ($query->num_rows() > 0) {
 
@@ -496,13 +496,60 @@ class Reports extends MX_Controller {
         $data['username'] = $this->session->userdata('user_name');
         $data['page_title'] = 'Customer Summary Report';
         $data['search_flag'] = true;
-        $this->session->set_userdata('advance_search', 0);
+//        $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->reports_form->build_customersummary();
         $data["grid_buttons"] = $this->reports_form->build_grid_buttons_customersummary();
         $data['form_search'] = $this->form->build_serach_form($this->reports_form->get_customersummary_search_form());
         $this->load->view('view_customersummary_report', $data);
     }
     function customersummary_json() {
+        $json_data = array();      
+        $count_all = $this->reports_model->get_customersummary_report_list(false,0,0);
+        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
+        $json_data = $paging_data["json_paging"];
+        $query1 =$this->reports_model->get_customersummary_report_list(true,$paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+        $i=0;
+        if ($query1->num_rows() > 0) {
+            foreach ($query1->result_array() as $row1) {
+                $atmpt = $row1['attempts'];
+                $bill = $row1['billable'];
+                if($row1['completed']>0){
+                  $acd = round($bill/$row1['completed']);
+                }
+                else{
+                  $acd=0;
+                }
+                $mcd = $row1['mcd'];
+               // $acd = 
+                $cost = $row1['cost'];
+                $profit = $row1['cost'] - $row1['price'];
+                $cmplt = ($row1['completed'] != 0) ? $row1['completed'] : 0;
+                $asr =  ($cmplt/$atmpt)* 100;
+                $debit=$this->common_model->calculate_currency($row1['price']);
+                $cost=$this->common_model->calculate_currency($cost);
+                $profit=$this->common_model->calculate_currency($profit);
+		$billsec = $bill > 0 ? floor($bill/60).":".($bill % 60) : "00:00";
+		$maxsec = $mcd > 0 ? floor($mcd/60).":".($mcd % 60) : "00:00";
+		$avgsec = $acd > 0 ? floor($acd/60).":".($acd % 60) : "00:00";
+                $json_data['rows'][] = array('cell' => array(
+                    $this->common->build_concat_string("first_name,last_name,number", "accounts",$row1['accountid']),
+                    $this->common->get_only_numeric_val("","",$row1["pattern"]),
+                    $row1["notes"],
+                    $atmpt,
+                    $cmplt,
+                    round($asr, 2),
+		    $avgsec,
+                    $maxsec,                        
+                    $billsec,                        
+                    $debit,
+                    $cost,
+                    $profit));
+                    $i++;
+                }
+        }
+        echo json_encode($json_data);        
+    }
+  /*  function customersummary_json() {
         $json_data = array();      
         $count_all = $this->reports_model->get_customersummary_report_list(false,0,0);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
@@ -538,7 +585,8 @@ class Reports extends MX_Controller {
         }
         echo json_encode($json_data);        
     }
-      function customersummary_search() {
+      */
+    function customersummary_search() {
         $ajax_search = $this->input->post('ajax_search', 0);
         if ($this->input->post('advance_search', TRUE) == 1) {
             $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
@@ -568,24 +616,78 @@ class Reports extends MX_Controller {
         $data['form_search'] = $this->form->build_serach_form($this->reports_form->get_resellersummary_search_form());
         $this->load->view('view_resellersummary_report', $data);
       }
+      //changes astpp21...
       function resellersummary_json(){
         $json_data = array();
         $count_all=$this->reports_model->get_resellersummary_report(false,0,0);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
         $query1=$this->reports_model->get_resellersummary_report(true,$paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+        $i=0;
         if ($query1->num_rows() > 0) {
             foreach ($query1->result_array() as $row1) {
                 $atmpt = $row1['attempts'];
                 $acd = $row1['acd'];
                 $mcd = $row1['mcd'];
                 $bill = $row1['billable'];
-                $price = $row1['price'];
+                $price = $row1['debit'];
                 $cost = $row1['cost'];
-                $profit = $row1['cost'] - $row1['price'];
+                $profit = $row1['profit'];
+                $profit=$this->common_model->calculate_currency($profit);
                 $cmplt = ($row1['completed'] != 0) ? $row1['completed'] : 0;
+                $debit=$this->common_model->calculate_currency($row1["debit"]);
+                $cost=$this->common_model->calculate_currency($cost);
                 $asr =  ($cmplt/$atmpt)* 100;
-                $json_data['rows'][] = array('cell' => array(
+		$billsec = $bill > 0 ? floor($bill/60).":".($bill % 60) : "00:00";
+		$maxsec = $mcd > 0 ? floor($mcd/60).":".($mcd % 60) : "00:00";
+		$avgsec = $acd > 0 ? floor($acd/60).":".($acd % 60) : "00:00";
+                $json_data['rows'][$i] = array('cell' => array(
+                    $this->common->build_concat_string("first_name,last_name,number", "accounts",$row1['accountid']),
+                    $this->common->get_only_numeric_val("","",$row1["pattern"]),
+                    $row1["notes"],
+                    $atmpt,
+                    $cmplt,
+                    round($asr, 2),
+                    $avgsec,
+                    $maxsec,
+                    $billsec,
+                    $debit,
+                    $cost,
+                    $profit));
+                    $i++;
+                }
+        }
+        echo json_encode($json_data); 
+      }
+
+  /*    function resellersummary_json(){
+        $json_data = array();
+        $count_all=$this->reports_model->get_resellersummary_report(false,0,0);
+        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
+        $json_data = $paging_data["json_paging"];
+        $query1=$this->reports_model->get_resellersummary_report(true,$paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+        $completed_calls=0;
+        $acd_total=0;
+        $mcd_total=0;
+        $debit_total=0;
+        $i=0;
+        if ($query1->num_rows() > 0) {
+            foreach ($query1->result_array() as $row1) {
+                $atmpt = $row1['attempts'];
+                $attempted_total+=$atmpt;
+                $acd = $row1['acd'];
+                $mcd = $row1['mcd'];
+                $bill = $row1['billable'];
+                $price = $row1['debit'];
+                $cost = $row1['cost'];
+                $profit = $row1['profit'];
+                $profit=$this->common_model->calculate_currency($profit);
+                $cmplt = ($row1['completed'] != 0) ? $row1['completed'] : 0;
+                $debit=$this->common_model->calculate_currency($row1["debit"]);
+                $cost=$this->common_model->calculate_currency($cost);
+                $asr =  ($cmplt/$atmpt)* 100;
+		$min_sec = $bill > 0 ? floor($bill/60).":".($bill % 60) : "00:00";
+                $json_data['rows'][$i] = array('cell' => array(
                     $this->common->build_concat_string("first_name,last_name,number", "accounts",$row1['accountid']),
                     $this->common->get_only_numeric_val("","",$row1["pattern"]),
                     $row1["notes"],
@@ -594,14 +696,15 @@ class Reports extends MX_Controller {
                     round($asr, 2),
                     round($acd/60, 2),
                     round($mcd/60, 2),                        
-                    round($bill/60, 2),                        
-                    $this->common_model->calculate_currency($row1["price"]),
-                    $this->common_model->calculate_currency($cost),
-                    $this->common_model->calculate_currency($profit)));
+                    $min_sec,
+                    $debit,
+                    $cost,
+                    $profit));
+                    $i++;
                 }
         }
         echo json_encode($json_data); 
-      }
+      }*/
       function resellersummary_search() {
         $ajax_search = $this->input->post('ajax_search', 0);
         if ($this->input->post('advance_search', TRUE) == 1) {
@@ -654,7 +757,8 @@ class Reports extends MX_Controller {
                     round($asr, 2),
                     round($acd/60, 2),
                     round($mcd/60, 2),                        
-                    round($bill/60, 2),                        
+             //       round($bill/60, 2),                        
+		floor($bill/60).":".($bill%60),
                     $this->common_model->calculate_currency($cost),
 //                    $this->common_model->calculate_currency($profit)
                     ));
@@ -745,6 +849,7 @@ class Reports extends MX_Controller {
     }
 
     function customer_cdrreport($accountid,$entity_type) {
+    //echo 'dada'; exit;
         $json_data = array();
         $count_all = $this->reports_model->users_cdrs_list(false,$accountid,$entity_type, "", "");
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
@@ -1047,7 +1152,7 @@ class Reports extends MX_Controller {
 function customersummary_export_cdr_xls() {
         
 $query = $this->reports_model->get_customersummary_report_list(true, '', '', true);
-        $customer_array[] = array("User", "Code", "Destination","Attempted Calls",  "Completed Calls", "ASR","ACD", "MCD","Bilable", "Debit",  "Cost", "Profit");
+        $customer_array[] = array("Account", "Code", "Destination","Attempted Calls",  "Completed Calls", "ASR","ACD", "MCD","Bilable", "Debit",  "Cost", "Profit");
        
         if ($query->num_rows() > 0) {
 
@@ -1056,10 +1161,13 @@ $query = $this->reports_model->get_customersummary_report_list(true, '', '', tru
                 $acd = $row1['acd'];
                 $mcd = $row1['mcd'];
                 $bill = $row1['billable'];
+                  $billsec = $bill > 0 ? floor($bill/60).":".($bill % 60) : "00:00";
+                  $maxsec = $mcd > 0 ? floor($mcd/60).":".($mcd % 60) : "00:00";
                 $price = $row1['price'];
                 $cost = $row1['cost'];
                 $profit = $row1['cost'] - $row1['price'];
                 $cmplt = ($row1['completed'] != 0) ? $row1['completed'] : 0;
+                $avgsec = $acd > 0 ? floor($acd/60).":".($acd % 60) : "00:00";
                 $asr =  ($cmplt/$atmpt)* 100;
 
                 $customer_array[] = array(
@@ -1069,11 +1177,12 @@ $query = $this->reports_model->get_customersummary_report_list(true, '', '', tru
                     $atmpt,
                     $cmplt,
                     round($asr, 2),
-                    round($acd/60, 2),
-                    round($mcd/60, 2),                        
-                    round($bill/60, 2),                        
+                    $avgsec ,
+                     $maxsec,                  
+                     $billsec,      
+                    $this->common_model->calculate_currency($row1["price"]),                  
                     $this->common_model->calculate_currency($cost),
-                    $this->common_model->calculate_currency($row1["price"]),
+                    
                     $this->common_model->calculate_currency($profit));
                 }}
 //echo "<pre>"; print_r($customer_array); exit;
@@ -1084,7 +1193,7 @@ $query = $this->reports_model->get_customersummary_report_list(true, '', '', tru
 function resellersummary_export_cdr_xls() {
         
 $query = $this->reports_model->get_resellersummary_report(true, '', '', true);
-        $customer_array[] = array("User", "Code", "Destination","Attempted Calls",  "Completed Calls", "ASR","ACD", "MCD","Bilable", "Debit",  "Cost", "Profit");
+        $customer_array[] = array("Account", "Code", "Destination","Attempted Calls",  "Completed Calls", "ASR","ACD", "MCD","Bilable", "Price",  "Cost", "Profit");
        
         if ($query->num_rows() > 0) {
 
@@ -1093,25 +1202,38 @@ $query = $this->reports_model->get_resellersummary_report(true, '', '', true);
                 $acd = $row1['acd'];
                 $mcd = $row1['mcd'];
                 $bill = $row1['billable'];
-                $price = $row1['price'];
+                $price = $row1['debit'];
                 $cost = $row1['cost'];
-                $profit = $row1['cost'] - $row1['price'];
+                 $profit = $row1['profit'];
+                   $profit=$this->common_model->calculate_currency($profit);
                 $cmplt = ($row1['completed'] != 0) ? $row1['completed'] : 0;
+                 $debit=$this->common_model->calculate_currency($row1["debit"]);
+                $cost=$this->common_model->calculate_currency($cost);
                 $asr =  ($cmplt/$atmpt)* 100;
-
+	$billsec = $bill > 0 ? floor($bill/60).":".($bill % 60) : "00:00";
+		$maxsec = $mcd > 0 ? floor($mcd/60).":".($mcd % 60) : "00:00";
+		$avgsec = $acd > 0 ? floor($acd/60).":".($acd % 60) : "00:00";
                 $customer_array[] = array(
                     $this->common->build_concat_string("first_name,last_name,number", "accounts",$row1['accountid']),
                     $this->common->get_only_numeric_val("","",$row1["pattern"]),
                     $row1["notes"],
                     $atmpt,
                     $cmplt,
-                    round($asr, 2),
-                    round($acd/60, 2),
-                    round($mcd/60, 2),                        
-                    round($bill/60, 2),                        
-                    $this->common_model->calculate_currency($row1["price"]),
-                    $this->common_model->calculate_currency($cost),
-                    $this->common_model->calculate_currency($profit));
+                     round($asr, 2),
+                    $avgsec,
+                    $maxsec,
+                    $billsec,
+                    $debit,
+                    $cost,
+                    $profit);
+                   
+              
+               
+                
+             
+              
+             
+	
                 }}
 //echo "<pre>"; print_r($customer_array); exit;
         $this->load->helper('csv');
@@ -1154,7 +1276,6 @@ $query = $this->reports_model->get_providersummary_report_list(true, '', '', tru
         $this->load->helper('csv');
         array_to_csv($customer_array, 'Provider_Summary_' . date("Y-m-d") . '.csv');
     }
-
 
 
 

@@ -24,11 +24,36 @@ class Opensips_model extends CI_Model {
     function Opensips_model() {
         parent::__construct();
     }
+    
+    function getopensipsdevice_list($flag, $start = 0, $limit = 0) {
+        $db_config = Common_model::$global_config['system_config'];
+        $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+        $this->opensips_db = $this->load->database($opensipdsn, true);
+        $this->build_search_opensips('opensipsdevice_list_search');
+	if($this->session->userdata("logintype") == 1)
+	{
+                $accountinfo['reseller_id'] = $this->session->userdata["accountinfo"]['id'];
+		$num = $this->db_model->getSelect("number", "accounts", array("reseller_id" => $accountinfo['reseller_id']));
+	        $num_value = $num->result_array();
+		foreach($num_value as $value){
+			$value =$value;
+		$this->opensips_db->or_where(array("accountcode"=>$value['number']));
+		}
+	}
+        if ($flag) {
+            $this->opensips_db->limit($limit,$start);
+            $query = $this->opensips_db->get("subscriber");
+        } else {
+            $query = $this->opensips_db->get("subscriber");
+            $query = $query->num_rows();
+        }
+//echo $this->opensips_db->last_query(); exit;
+        return $query;
+    }
+    
 
-
-
-  function getopensipsdevice_list($flag, $start = 0, $limit = 0) {
-	
+ /* function getopensipsdevice_list($flag, $start = 0, $limit = 0) {
+	//echo 'da'; exit;
 	$where = array();
 	$accountinfo = $this->session->userdata('accountinfo');
 	$reseller_id=$accountinfo['type']== -1 ? 0 : $accountinfo['id'];
@@ -49,25 +74,33 @@ $db_config = Common_model::$global_config['system_config'];
         $this->opensips_db = $this->load->database($opensipdsn, true);
 	    $this->opensips_db->get("subscriber");
 	    $this->opensips_db->where_in('accountcode',$acc_arr);
+	   // echo $flag; exit;
 	    if($flag){
 	      $this->opensips_db->select('*');
+	      $this->opensips_db->limit($limit, $start);
 	    }
 	    else{
 	      $this->opensips_db->select('count(id) as count');
 	    }
-	    if($flag){
-	    	      $this->opensips_db->limit($limit, $start);
+/*	    if($flag){
+	    	      
 	    }
-		$result = $this->opensips_db->get("subscriber");
-	    if($result->num_rows() > 0){	
+	$result = $this->opensips_db->get("subscriber");
+	
+	    if($result->num_rows() > 0){
+	    
+	  //  echo $this->opensips_db->last_query(); exit;	
 	    if($flag){
+	      //echo "Hello";
 	      return $result;
 
 	    }else{
 	      $result=$result->result_array();
 	      return $result[0]['count'];
 	    }
+	    
 	    }
+	   
 	    else{
 	    if($flag){
 	      $query=(object)array('num_rows'=>0);
@@ -77,6 +110,7 @@ $db_config = Common_model::$global_config['system_config'];
 	    }
 	    return $query;
 	    }
+	    
 	  }else{
           if($flag){
 	      $query=(object)array('num_rows'=>0);
@@ -87,6 +121,7 @@ $db_config = Common_model::$global_config['system_config'];
  	  
 	  return $query;
         }
+       
     }else{
           
          if($result->num_rows() >0){
@@ -96,26 +131,36 @@ $db_config = Common_model::$global_config['system_config'];
 	      $acc_arr[]=$data['number'];
 	    }
 	    $this->opensips_db->where_in('accountcode',$acc_arr);
+	    
 	}
          
          if($flag){
 	  $this->opensips_db->select('*');
          }
          else{
+         
+        
+         // echo $this->opensips_db->last_query(); exit;
           $this->opensips_db->select('count(id) as count');
+          
          }
+         
          if($flag){
 	  $this->db->limit($limit, $start);
          }
 $result = $this->opensips_db->get("subscriber");
+
 //echo "<pre>"; print_r($result); exit;
                  
          if($result->num_rows() > 0){
+         
 	      if($flag){
 	        return $result;
 	      }else{
+	      
 		$result=$result->result_array();
 		return $result[0]['count'];
+		// echo 'dada'; exit;
 	      }
          }else{
 	      if($flag){
@@ -124,10 +169,13 @@ $result = $this->opensips_db->get("subscriber");
 	      else{
 		  $query=0;
 	      }
+	      
+	      $result = $this->opensips_db->get("subscriber");
+	     // $this->opensipsdb->last_query(); exit;
 	return $query;
 	}
     }
- }   
+ }   */
     
 
     function getopensipsdevice_customer_list($flag, $accountid = "", $start = "0", $limit = "0") {
@@ -167,6 +215,7 @@ $this->build_search_opensips('opensipsdevice_list_search');
     function getopensipsdispatcher_list($flag, $start = '', $limit = '') {
         $db_config = Common_model::$global_config['system_config'];
         $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+       // echo  $opensipdsn; exit;
         $this->opensips_db = $this->load->database($opensipdsn, true);
         $this->build_search_opensips('opensipsdispatcher_list_search');	      
 	  if ($flag) {
@@ -177,28 +226,54 @@ $this->build_search_opensips('opensipsdevice_list_search');
             $query = $query->num_rows();
 
         }
-//echo $this->opensips_db->last_query(); exit;
+        //echo $query; exit;
+//
         return $query;
     }
 
-    function add_opensipsdevices($data) {
+
+
+ function add_opensipsdevices($data) {
         $db_config = Common_model::$global_config['system_config'];
         $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
         $this->opensips_db = $this->load->database($opensipdsn, true);
-        $this->opensips_db = $this->load->database($opensipdsn, true);
+       // $this->opensips_db = $this->load->database($opensipdsn, true);
+     //  echo '<pre>'; print_r($opensipdsn); exit;
         unset($data["action"]);
         $this->opensips_db->insert("subscriber", $data);
+       // echo $this->opensips_db->last_query(); exit;
     }
 
-    function edit_opensipsdevices($data, $id) {
+   /* function add_opensipsdevices($data) {
+   //echo 'da'; exit;
         $db_config = Common_model::$global_config['system_config'];
         $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+       // echo '<pre>'; print_r( $opensipdsn); exit;
+       // $this->opensips_db = $this->load->database($opensipdsn, true);
         $this->opensips_db = $this->load->database($opensipdsn, true);
         unset($data["action"]);
-        $this->opensips_db->where("id", $id);
-        $this->opensips_db->update("subscriber", $data);
-    }
+      echo  $this->opensips_db->insert("subscriber", $data);
+       //echo $this->opensips_db->last_query(); exit;
+    }*/
 
+    function edit_opensipsdevices($data, $id) {
+   // echo 'da';.
+   //echo '<pre>'; print_r($data); exit;
+       unset($data["action"]);
+
+        $db_config = Common_model::$global_config['system_config'];
+        $opensipdsn = "mysql://" . $db_config['opensips_dbuser'] . ":" . $db_config['opensips_dbpass'] . "@" . $db_config['opensips_dbhost'] . "/" . $db_config['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+      //  echo '<pre>'; print_r(  $opensipdsn); exit;
+        $this->opensips_db = $this->load->database($opensipdsn, true);
+      $data['accountcode']=$data['id'];
+    
+      $data=array("username"=>$data['username'],"password"=>$data['password'],"accountcode"=>$data['accountcode'],"pricelist_id"=>$data['pricelist_id'],"domain"=>$data['domain']);
+      //  print_r( $data);exit;
+        $this->opensips_db->where("id", $id);
+      
+        $this->opensips_db->update("subscriber", $data);
+      //echo   $this->opensips_db->last_query(); exit;
+    }
 
 
 	 function delete_opensips_devices($id) {

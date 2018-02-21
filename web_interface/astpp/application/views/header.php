@@ -29,7 +29,7 @@
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/respond.src.js"></script>
     <!-- -->    
-    
+     <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/facebox.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/flexigrid.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
@@ -45,6 +45,28 @@
 -->    
     <? start_block_marker('extra_head') ?>
     <? end_block_marker() ?>	
+
+<script>
+
+function PopupCenter(url, title, w, h) {
+    // Fixes dual-screen position                         Most browsers      Firefox
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+    width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+top = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open(url, title, ' width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+    // Puts focus on the newWindow
+    if (window.focus) {
+        newWindow.focus();
+    }
+}
+</script>    
 </head>
 <body>
 <? 
@@ -121,19 +143,23 @@ else
 		      <li><a href="<?php echo base_url();?>user/user/"><i class="fa fa-home"></i> &nbsp;Dashboard</a></li>
 
 		      <li><a href="<?php echo base_url();?>user/user_edit_account/"><i class= "fa fa-user"></i> &nbsp;Profile</a></li>
-		    <? }?>
+		    <? }?><!--
 		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
 		    <li><a href="<?php echo base_url();?>systems/configuration/"><i class="fa fa-cog"></i> &nbsp;Settings</a></li>
-		      <?}?>
+		      <?}?>-->
 
 <? if($this->session->userdata('userlevel_logintype') == '1'){?>
 		    <li><a href="<?php echo base_url();?>accounts/reseller_edit_account/"><i class= "fa fa-user"></i> &nbsp;Profile</a></li>
 		      <?}?>
 		    
 		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
-		      <li style="-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;"><a href="https://groups.google.com/forum/#!forum/astpp" target="_blank"><i class= "fa fa-bug"></i> &nbsp;Report a Bug</a></li>
+		      <li style="-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;"><a href="http://bugs.astpp.org/" target="_blank"><i class= "fa fa-bug"></i> &nbsp;Report a Bug</a></li>
 		    <?}?>
-                    <li><a href="<?php echo base_url();?>logout"><i class="fa fa-power-off"></i> &nbsp;Logout</a></li>
+		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
+		      <li style="-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px; cursor:pointer">
+		      <a onclick="PopupCenter('<?=base_url()?>feedback/',resizable=1,width=580,height=660) "><i class= " fa fa-envelope-o"></i> &nbsp;FeedBack</a></li>
+		    <?}?>
+                <li><a href="<?php echo base_url();?>logout"><i class="fa fa-power-off"></i> &nbsp;Log out</a></li>
                 </ul>
                </li>
               </ul>   
@@ -141,8 +167,31 @@ else
 		</div>
         <!-- /.container -->
 	</div><!-- /.navbar-header -->
-     <div id="navbar" class="navbar navbar-white" role="navigation">     
+		<!--
+	 <div class="navbar navbar-white" style="background-color:#CC3300;min-height:30px;">     
+        	<div class="container" style="color:white;padding-left:200px;padding-top:5px;">
+            		
+			 <div style="padding-top:50px;">
+				<b>Donate to Campaigns:</b>
+				<a href="http://www.astpp.org/campaigns/ip-management" target="_blank" style="text-decoration: none;color:white;cursor:pointer;margin-left:50px;"><b><u>IP Management</u></b></a>
+				
+				<a href="http://www.astpp.org/campaigns/did-improvement" target="_blank" style="text-decoration: none;color:white;cursor:pointer;margin-left:50px;margin-right:50px;"><b><u>DID Improvement</u></b></a>
+				
+				| 
+				
+		
+			<b><a href="http://www.astpp.org/freeswitch-monitoring-addon" target="_blank" style="text-decoration: none;color:white;cursor:pointer;margin-left:50px">
+				<u>Get Freeswitch Monitoring Addon</u></a></b>
+	
+			</div>
+		</div>
+	</div>-->
+
+
+
+     <div id="navbar" class="navbar navbar-white" role="navigation" style="margin-top:5px;">     
         <div class="container">
+<div class='col-md-10' style='float:left;'>         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">                     <span class="sr-only">Toggle navigation</span>                     <span class="icon-bar"></span>                     <span class="icon-bar"></span>                     <span class="icon-bar"></span>         </button>         </div>
             <div class="navbar-collapse collapse no-padding">
                 <ul class="nav navbar-nav">
                 <? //if($this->session->userdata('userlevel_logintype') != '0'){?>
@@ -205,11 +254,11 @@ else
                   </ul>   
                 </li> 
             <? } 
-		    if($this->session->userdata('userlevel_logintype')== 0 || $this->session->userdata('userlevel_logintype')== 3){
-                 echo '<li><a style = "height: 40px;margin: 5px 0px;padding-top: 10px;" href="'.base_url().'user/user_payment/">Recharge</a>';  
-		echo '<li>&nbsp;</li>';
-            }
-            if($this->session->userdata('userlevel_logintype')== -1){
+		//    if($this->session->userdata('userlevel_logintype')== 0 || $this->session->userdata('userlevel_logintype')== 3){
+             //    echo '<li><a style = "height: 40px;margin: 5px 0px;padding-top: 10px;" href="'.base_url().'user/user_payment/">Recharge</a>';  
+	//	echo '<li>&nbsp;</li>';
+         //   }
+      if($this->session->userdata('userlevel_logintype')== -1){
 		     echo '<li><a class="btn-lightblue" style = "height: 40px;margin: 5px 0px;padding-top: 10px;" href="http://bugs.astpp.org" target = "_blank">Report A Bug</a>';  
      echo '<li>&nbsp;</li>';
      echo '<li><a class="btn-lightblue" style = "height: 40px;margin: 5px 0px;padding-top: 10px;" href="http://www.astpp.org/donate" target = "_blank">Donate Us</a>';

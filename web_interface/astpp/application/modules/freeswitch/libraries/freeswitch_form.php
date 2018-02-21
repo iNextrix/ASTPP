@@ -10,18 +10,30 @@ class Freeswitch_form {
     }
 
     function get_freeswith_form_fields($id=false) {
-	$val=$id > 0 ? 'sip_devices.username.'.$id : 'sip_devices.username';        
+	$log_type = $this->CI->session->userdata("logintype");
+	if($log_type == 0  || $log_type == 3 || $log_type == 1){
+	      $sip_pro=null;
+	}
+	else{
+	      $sip_pro=array('Sip Profile', 'sip_profile_id', 'SELECT', '', 'trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', '');
+
+	}
+  //  $val=$id > 0 ? 'sip_devices.username.'.$id : 'sip_devices.username';  
+	$val=$id > 0 ? 'sip_devices.username.'.$id : 'sip_devices.username';   
+	  $uname_user = $this->CI->common->find_uniq_rendno('10', '', '');
+        $password = $this->CI->common->generate_password();
         $form['forms'] = array(base_url() . 'freeswitch/fssipdevices_save/', array("id" => "sipdevices_form", "name" => "sipdevices_form"));
         $form['Sip Devices'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
-            array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[100]|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array('Password', 'PASSWORD', array('name' => 'fs_password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
-		 array('Sip Profile', 'sip_profile_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', ''),           
+             array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'maxlength' => '15','value'=>$uname_user,'id'=>'username', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_number  fa fa-refresh"></i>'),
+            array('Password', 'INPUT', array('name' => 'fs_password', 'size' => '20', 'maxlength' => '15','value'=>$password ,'id'=>'password','class' => "text field medium"), 'trim|required|min_length[5]|max_length[30]|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
+         //   
 		 array('Account', 'accountcode', 'SELECT', '','trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"0", "deleted" => "0")),
             array('Caller Name', 'INPUT', array('name' => 'effective_caller_id_name', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             array('Caller Number', 'INPUT', array('name' => 'effective_caller_id_number', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Select Status', '', '', '', 'set_status'),
-            //array('Sip Profile', 'sip_profile_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', ''),
+           // array('Sip Profile', 'sip_profile_id', 'SELECT', '', 'trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', ''),
+	   $sip_pro,
 //             array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "1","reseller_id" => "0")),
 //             array('Context::', 'INPUT', array('name' => 'context', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
         );
@@ -121,10 +133,10 @@ class Freeswitch_form {
             array("User Name", "170", "username", "", "", ""),
             array("Password", "175", "password", "", "", ""),
             
-            array("SIP profile", "130", "sip_profile_id", "name", "sip_profiles", "get_field_name"),
+            array("SIP profile", "140", "sip_profile_id", "name", "sip_profiles", "get_field_name"),
             array("Account", "200", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
             
-            array("Caller Name", "150", "effective_caller_id_name", "", "", ""),
+            array("Caller Name", "160", "effective_caller_id_name", "", "", ""),
             array("Caller Number", "150", "effective_caller_id_number", "", "", ""),
             
 	    array("Status", "100", "status", "status", "status", "get_status"),
@@ -163,7 +175,7 @@ class Freeswitch_form {
             array('Gateway Name', 'INPUT', array('name' => 'name', 'size' => '20', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|xss_clean', 'tOOL TIP', 'Please Enter Gateway Name'),
             array('SIP Profile', 'sip_profile_id', 'SELECT', '', '', 'tOOL TIP', '', 'id', 'name', 'sip_profiles', 'build_dropdown', '', ''),
             array('Username', 'INPUT', array('name' => 'username', 'size' => '20', 'maxlength' => '30', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter user name'),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '30', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+           array('Password', 'INPUT', array('name' => 'password', 'size' => '20', 'maxlength' => '30', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Proxy', 'INPUT', array('name' => 'proxy', 'size' => '20', 'maxlength' => '35', 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', ''),
             array('Outbound-<br/>Proxy', 'INPUT', array('name' => 'outbound-proxy', 'size' => '20', 'maxlength' => '35', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
 	    array('Register', array('name' => 'register', 'class' => 'add_settings'), 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_sip_config_option'),
@@ -199,9 +211,9 @@ class Freeswitch_form {
             array("SIP Profile", "170", "sip_profile_id", "name", "sip_profiles", "get_field_name"),
             array("Username", "195", "username", "", "", ""),
 //             array("Password", "181", "password", "", "", ""),
-            array("Proxy", "120", "proxy", "", "", ""),
-            array("Register", "155", "register", "register", "register", "convert_to_ucfirst"),
-            array("caller-id-in-form", "120", "caller-id-in-from", "", "", ""),
+            array("Proxy", "130", "proxy", "", "", ""),
+            array("Register", "160", "register", "register", "register", "convert_to_ucfirst"),
+            array("caller-id-in-form", "130", "caller-id-in-from", "", "", ""),
             array("Status", "110", "status", "status", "status", "get_status"),
             array("Action", "106", "", "", "", array("EDIT" => array("url" => "/freeswitch/fsgateway_edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "/freeswitch/fsgateway_delete/", "mode" => "single")))
@@ -267,7 +279,7 @@ class Freeswitch_form {
         $grid_field_arr = json_encode(array(
 	    array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
             array("Profile Name", "200", "name", "", "", ""),
-            array("SIP IP", "200", "sip_ip", "", "", ""),
+            array("SIP IP", "205", "sip_ip", "", "", ""),
             array("SIP Port", "200", "sip_port", "", "", ""),
            array("Status", "137", "status", "status", "status", "get_status"),
 //           array("Profile Status", "150", "status", "status", "status", "get_profile_status"),
@@ -304,10 +316,10 @@ class Freeswitch_form {
     function build_fsserver_list() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(
-            array("Host", "305", "freeswitch_host", "", "", ""),
+            array("Host", "310", "freeswitch_host", "", "", ""),
             array(" Password", "325", "freeswitch_password", "", "", ""),
             array(" Port", "320", "freeswitch_port", "", "", ""),
-            array("Status", "110", "status", "status", "status", "get_status"),
+            array("Status", "120", "status", "status", "status", "get_status"),
             array("Action", "182", "", "", "", array("EDIT" => array("url" => "/freeswitch/fsserver_edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "/freeswitch/fsserver_delete/", "mode" => "single")))
                 ));
@@ -355,10 +367,10 @@ array("Delete",  "btn btn-line-danger","fa fa-times-circle fa-lg",  "button_acti
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(
 	    array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
-            array("User Name", "200", "username", "", "", ""),
-            array("Password", "200", "password", "", "", ""),
-            array("SIP profile", "153", "sip_profile_id", "name", "sip_profiles", "get_field_name"),
-            array("Caller Name", "200", "effective_caller_id_name", "", "", ""),
+            array("User Name", "210", "username", "", "", ""),
+            array("Password", "210", "password", "", "", ""),
+            array("SIP profile", "160", "sip_profile_id", "name", "sip_profiles", "get_field_name"),
+            array("Caller Name", "205", "effective_caller_id_name", "", "", ""),
             array("Caller Number", "180", "effective_caller_id_number", "", "", ""),
             array("Status", "120", "status", "", "", ""),
             array("Action", "139", "", "", "", array("EDIT" => array("url" => "/accounts/fssipdevices_action/edit/", "mode" => "single"),
@@ -368,36 +380,51 @@ array("Delete",  "btn btn-line-danger","fa fa-times-circle fa-lg",  "button_acti
     }
 
     function fsdevice_form_fields_for_customer($accountid , $id=false) {
-	 $val = $id > 0 ? 'sip_devices.username.' . $id : 'sip_devices.username';
+    
+	// $val = $id > 0 ? 'sip_devices.username.' . $id : 'sip_devices.username';
+	$val=$id > 0 ? 'sip_devices.username.'.$id : 'sip_devices.username';   
+        $uname_user = $this->CI->common->find_uniq_rendno('10', '', '');
+        $password = $this->CI->common->generate_password();
         if ($this->CI->session->userdata("logintype") == '0'  || $this->CI->session->userdata("logintype") == '3') {
             $link = base_url() . 'freeswitch/user_fssipdevices_save/true';
             $form['forms'] = array($link, array("id" => "sipdevices_form", "name" => "sipdevices_form"));
-            $form['Freeswitch Devices'] = array(
+            $form['Sip Devices'] = array(
                 array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
                 array('', 'HIDDEN', array('name' => 'accountcode', 'value' => $accountid), '', '', '', ''),
-                array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-                array('Password', 'PASSWORD', array('name' => 'fs_password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+                   array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'maxlength' => '15','value'=>$uname_user,'id'=>'username', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_number fa fa-refresh"></i>'),
+            array('Password', 'INPUT', array('name' => 'fs_password', 'size' => '20', 'maxlength' => '25','id'=>'password1','value'=>$password, 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[50]|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
                 array('Caller Name', 'INPUT', array('name' => 'effective_caller_id_name', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
                 array('Caller Number', 'INPUT', array('name' => 'effective_caller_id_number', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-                array('Sip Profile', 'sip_profile_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', ''),
+//              array('Sip Profile', 'sip_profile_id', 'SELECT', '','trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', ''),
+             //   array('Account', 'accountcode', 'SELECT', '','trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"0", "deleted" => "0")),
+                 array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Select Status', '', '', '', 'set_status'),
 //                 array('Context::', 'INPUT', array('name' => 'context', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             );
             
         } else {
+             if($accountid){
+	            $account_Arr=null;
+	     }else{
+	            $account_Arr=array('Account', 'accountcode', 'SELECT', '','trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"0", "deleted" => "0"));
+	     }       
             if ($this->CI->session->userdata("logintype") == '1') {
+		$sip_pro =null;
                 $link = base_url() . 'freeswitch/customer_fssipdevices_save/true';
             }else{
+		$sip_pro =array('Sip Profile', 'sip_profile_id', 'SELECT', '','trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', '');
                 $link = base_url() . 'freeswitch/fssipdevices_save/true';
             }
             $form['forms'] = array($link, array("id" => "sipdevices_form", "name" => "sipdevices_form"));
             $form['Sip Devices'] = array(
                 array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
                 array('', 'HIDDEN', array('name' => 'accountcode', 'value' => $accountid), '', '', '', ''),
-                array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-                array('Password', 'PASSWORD', array('name' => 'fs_password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+                 array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'maxlength' => '15','value'=>$uname_user,'id'=>'username', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|is_unique['.$val.']|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_number fa fa-refresh"></i>'),
+             array('Password', 'INPUT', array('name' => 'fs_password', 'size' => '20', 'maxlength' => '25','id'=>'password1','value'=>$password, 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[50]|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
                 array('Caller Name', 'INPUT', array('name' => 'effective_caller_id_name', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
                 array('Caller Number', 'INPUT', array('name' => 'effective_caller_id_number', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-                array('Sip Profile', 'sip_profile_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', ''),
+		$account_Arr,
+              //  array('Sip Profile', 'sip_profile_id', 'SELECT', '','trim|dropdown|xss_clean', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'sip_profiles', 'build_dropdown', '', ''),
+                $sip_pro,
                 array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Select Status', '', '', '', 'set_status'),
 //                 array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'reseller_id', '0'),
 //                 array('Context::', 'INPUT', array('name' => 'context', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),

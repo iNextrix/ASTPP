@@ -15,8 +15,6 @@
 |
 */
 $astpp_config = parse_ini_file("/var/lib/astpp/astpp-config.conf");
-//$config['base_url'] = 'http://192.168.1.:8093/';
-
 $config['base_url'] = $astpp_config['base_url'];
 
 
@@ -381,7 +379,7 @@ $config['Termination-rates-field'] = array('code' => 'pattern',
             'strip'=>"strip",
             'prepend' => 'prepend',
         );
-$config['DID-rates-field'] = array('did' => 'number',
+$config['DID-rates-field'] = array('DID' => 'number',
 	    'account' => 'accountid',
 	    'call type'=> 'call_type',
 	    'destination'=>'extensions',

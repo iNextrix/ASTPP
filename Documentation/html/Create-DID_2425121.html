@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASTPP Documentation : Create DID</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">ASTPP Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Welcome-to-ASTPP_491525.html">Welcome to ASTPP</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Modules_1507431.html">Modules</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DIDs_2425101.html">DIDs</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            ASTPP Documentation : Create DID
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> ASTPP</span>, last modified on Jul 29, 2015
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p>You can create new DID using below page,</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/2425121/2982036.png" data-image-src="attachments/2425121/2982036.png" data-unresolved-comment-count="0" data-linked-resource-id="2982036" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="create_did.png" data-base-url="https://astppdoc.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="2425121" data-linked-resource-container-version="9"></span></p><h2 id="CreateDID-DIDsAdd/EditFielddescription"><strong>DIDs Add/Edit Field description</strong></h2></div>
+</div>
+</div>
+<div class="columnLayout two-equal" data-layout="two-equal">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h4 id="CreateDID-DIDInformation">DID Information</h4><div class="table-wrap"><table class="confluenceTable"><colgroup><col/> <col/> </colgroup><tbody><tr><td class="confluenceTd"><p align="LEFT"><strong>DID</strong></p></td><td class="confluenceTd"><p>Enter unique numeric DID number</p></td></tr><tr><td class="confluenceTd"><p align="LEFT"><strong>Country</strong></p></td><td class="confluenceTd"><p>Select country of DID</p></td></tr><tr><td class="confluenceTd"><p align="LEFT"><strong>City</strong></p></td><td class="confluenceTd"><p>DID City</p></td></tr><tr><td class="confluenceTd"><p><strong>Province/State</strong></p></td><td class="confluenceTd"><p>DID State</p></td></tr><tr><td class="confluenceTd"><p align="LEFT"><strong>Provider</strong></p></td><td class="confluenceTd"><p>Select provider to whom this DID belongs to</p></td></tr></tbody></table></div><h4 id="CreateDID-DIDSetting"><span style="color: rgb(64,64,64);">DID Setting</span></h4><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd"><strong>Call Type</strong></td><td class="confluenceTd"><p><span style="color: rgb(64,64,64);">LOCAL : Wish to route call to Local extension</span></p><p><span style="color: rgb(64,64,64);"> </span><span style="color: rgb(64,64,64);">PSTN : Wish to route call to PSTN Number</span></p><p><span style="color: rgb(64,64,64);">OTHER : If you wish to route call to custom destination</span></p></td></tr><tr><td class="confluenceTd"><strong style="text-align: left;">Destination</strong></td><td class="confluenceTd"><p><span style="color: rgb(64,64,64);">Set appropriate destination based on call Type.</span></p><p><span style="color: rgb(64,64,64);">Example : </span></p><p><span style="color: rgb(64,64,64);">LOCAL : 1001 (Local Extension number)</span></p><p><span style="color: rgb(64,64,64);">PSTN : 1800214018 (PSTN number)</span></p><p><span style="color: rgb(64,64,64);">OTHER : </span><span style="color: rgb(64,64,64);">sofia/default/1234567890@192.168.1.3 </span></p><p><span style="color: rgb(64,64,64);"> OR </span></p><p><span style="color: rgb(64,64,64);"> sofia/gateway/gwname/121423232</span></p></td></tr><tr><td class="confluenceTd"><strong>Max Channels</strong></td><td class="confluenceTd">Maximum allowed concurrent channels for DID calls. 0=Unlimited</td></tr></tbody></table></div><p><span style="color: rgb(64,64,64);"><br/></span></p></div>
+</div>
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h4 id="CreateDID-DIDBilling"><span style="color: rgb(64,64,64);">DID Billing</span></h4><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd"><strong><span style="color: rgb(35,34,34);">Account</span></strong></td><td class="confluenceTd"><span style="color: rgb(64,64,64);">Select account number you wish to assign DID</span></td></tr><tr><td class="confluenceTd"><strong><span style="color: rgb(35,34,34);">Increments</span></strong></td><td class="confluenceTd"><p><span style="color: rgb(64,64,64);">Rate of increment to calculate call cost.</span><span style="color: rgb(0,0,0);"> </span></p><p><span style="color: rgb(0,0,0);">Example : 60 to charge every minute</span></p></td></tr><tr><td class="confluenceTd"><strong><span style="color: rgb(35,34,34);">Cost</span></strong></td><td class="confluenceTd"><span style="color: rgb(64,64,64);">Cost per minute</span></td></tr><tr><td class="confluenceTd"><strong><span style="color: rgb(35,34,34);">Included Seconds</span></strong></td><td class="confluenceTd"><span style="color: rgb(64,64,64);">Define seconds will be free from the call duration for each call</span></td></tr><tr><td class="confluenceTd"><strong><span style="color: rgb(35,34,34);">Setup Fee</span></strong></td><td class="confluenceTd"><span style="color: rgb(64,64,64);">One time Setup fee</span></td></tr><tr><td class="confluenceTd"><strong><span style="color: rgb(35,34,34);">Monthly</span> <span style="color: rgb(35,34,34);">Fee</span></strong></td><td class="confluenceTd"><span style="color: rgb(64,64,64);">Monthly recurring fee</span></td></tr><tr><td class="confluenceTd"><strong><span style="color: rgb(35,34,34);">Connection Fee</span></strong></td><td class="confluenceTd">Connection fee to charge customer minimum when their call will be connected</td></tr></tbody></table></div><p><span style="color: rgb(64,64,64);"><br/></span></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p><iframe class="youtube-player" type="text/html" style="width: 640px; height: 320px"
+	src="//www.youtube.com/embed/60kP7QmH2A8?wmode=opaque" frameborder="0">
+</iframe>
+    
+</p></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/2425121/2425122.png">dids_edit.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/2425121/2982040.png">create_did.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/2425121/2982036.png">create_did.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Aug 17, 2015 10:25</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

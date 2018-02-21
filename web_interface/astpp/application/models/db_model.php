@@ -1,4 +1,4 @@
-<?
+<?php
 ###########################################################################
 # ASTPP - Open Source Voip Billing
 # Copyright (C) 2004, Aleph Communications
@@ -143,6 +143,7 @@ class Db_model extends CI_Model {
         if ($where != "") {
             $this->db->where($where);
         }
+        if($order_by)
         $this->db->order_by($order_by, $order_type);
         if ($paging_limit)
             $this->db->limit($paging_limit, $start_limit);

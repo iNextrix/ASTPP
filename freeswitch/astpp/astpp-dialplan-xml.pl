@@ -178,9 +178,9 @@ sub xml_process()
 	          account_type => $cust_type,	          
   	          destination_number => $destination_number,
 	          max_length => $maxlength,
-  		      call_type => $didinfo->{call_type},
-		      extensions => $didinfo->{extensions},
-		      gbl_xml_channels => ($gbl_xml_channels or ""),
+  		  call_type => $didinfo->{call_type},
+		  extensions => $didinfo->{extensions},
+		  gbl_xml_channels => ($gbl_xml_channels or ""),
   	          origination_dp_string => $origination_dp_string,
 	      );	      
 	} else {

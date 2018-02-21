@@ -9,13 +9,30 @@ class did_form {
         $this->CI = & get_instance();
     }
 
-    function get_dids_form_fields($id=false) {
+    function get_dids_form_fields($id=false,$parent_id='0',$account_id='0') {
+    if ($id != 0){
+
+if($parent_id > 0){
+               $account_dropdown =  array('Reseller',  array('name' => 'parent_id', 'disabled' => 'disabled','class' => 'accountid', 'id' => 'accountid'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"1", "deleted" => "0","status" => "0"));                
+            }else{
+		if($account_id > 0){
+              $account_dropdown =  array('Account ',  array('name' => 'accountid', 'disabled' => 'disabled','class' => 'accountid', 'id' => 'accountid'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"0", "deleted" => "0","status" => "0"));
+		}
+		else{
+		$account_dropdown = array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id',  'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0", "type" => "0", "deleted" => "0","status" => "0" ));
+		}
+            }
+
+        } else{
+	$account_dropdown = array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id',  'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0", "type" => "0", "deleted" => "0","status" => "0" ));
+            }
+
 	$val= $id > 0 ? 'dids.number.'.$id : 'dids.number';
         $form['forms'] = array(base_url() . '/did/did_save/', array('id' => 'did_form', 'method' => 'POST', 'name' => 'did_form'));
         $form['DID Information'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
-            array('DID', 'INPUT', array('name' => 'number', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), 'trim|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('DID', 'INPUT', array('name' => 'number', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), 'trim|required|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter account number'),
+              array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
             array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Province', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
 //            array('Provider', 'provider_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'number', 'accounts', 'build_dropdown', 'type', '3'),
@@ -23,7 +40,8 @@ array('Provider', 'provider_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter acc
         );
 
         $form['DID Billing'] = array(
-            array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0", "type" => "0", "deleted" => "0","status" => "0")),
+	   $account_dropdown,           
+           // array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0", "type" => "0", "deleted" => "0","status" => "0")),
             array('Increments', 'INPUT', array('name' => 'inc', 'size' => '20', 'maxlength' => '4', 'class' => "text field medium"), 'trim|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter Password'),
             array('Cost', 'INPUT', array('name' => 'cost', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), 'trim|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter Password'),
             array('Included Seconds', 'INPUT', array('name' => 'includedseconds', 'size' => '50', 'maxlength' => '11', 'class' => "text field medium"), 'trim|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter Password'),
@@ -90,22 +108,25 @@ array('Provider', 'provider_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter acc
         return $form;
     }
 
+
     function build_did_list_for_admin() {
        // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
-            array("DID", "120", "number", "", "", ""),
+            array("DID", "100", "number", "", "", ""),
 //             array("Account Number", "100", "accountid", "number", "accounts", "get_field_name"),
-            array("Account", "140", "accountid", "first_name,last_name,number", "accounts", "get_field_name_coma_new"),
-            array("Is purchased?", "120", "number", "number", "number", "check_did_avl"),
-            array("Call Type", "90", "call_type", "call_type", "call_type", "get_call_type"),
+            array("Account", "95", "accountid", "first_name,last_name,number", "accounts", "get_field_name_coma_new"),
+            
+            array("Call Type", "70", "call_type", "call_type", "call_type", "get_call_type"),
             array("Destination", "115", "extensions", "", "", ""),
-//             array("Country", "105", "country_id", "country", "countrycode", "get_field_name"),
-            array("Increments", "120", "inc", "", "", ""),
-            array("Cost", "100", "cost", "cost", "cost", "convert_to_currency"),
+             array("Country", "95", "country_id", "country", "countrycode", "get_field_name"),
+            array("Increments", "85", "inc", "", "", ""),
+            array("Cost", "90", "cost", "cost", "cost", "convert_to_currency"),
        //     array("Included <br>Seconds", "65", "includedseconds", "", "", ""),
-            array("Setup <br> Fee", "100", "setup", "setup", "setup", "convert_to_currency"),
-            array("Monthly<br> fee", "100", "monthlycost", "monthlycost", "monthlycost", "convert_to_currency"),
-            array("Status", "90", "status", "status", "status", "get_status"),
+            array("Setup <br>Fee", "90", "setup", "setup", "setup", "convert_to_currency"),
+            array("Monthly<br>Fee", "90", "monthlycost", "monthlycost", "monthlycost", "convert_to_currency"),
+            array("Included<br/>Seconds", "92", "includedseconds", "", "", ""),
+            array("Status", "70", "status", "status", "status", "get_status"),
+            array("Is purchased?", "135", "number", "number", "number", "check_did_avl"),
 	    array("Action", "90", "", "", "", array("EDIT" => array("url" => "did/did_edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "did/did_remove/", "mode" => "single")))
                 ));
@@ -114,17 +135,17 @@ array('Provider', 'provider_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter acc
         function build_did_list_for_reseller_login() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(
-            array("DID", "120", "number", "", "", ""),
-            array("Account", "140", "accountid", "first_name,last_name,number", "accounts", "get_field_name_coma_new"),
-            array("Is purchased?", "120", "number", "number", "number", "check_did_avl"),
-            array("Call Type", "90", "call_type", "call_type", "call_type", "get_call_type"),
+            array("DID", "130", "number", "", "", ""),
+            array("Account", "130", "accountid", "first_name,last_name,number", "accounts", "get_field_name_coma_new"),
+            array("Is purchased?", "120", "number", "number", "number", "check_did_avl_reseller"),
+            array("Call Type", "110", "call_type", "call_type", "call_type", "get_call_type"),
             array("Destination", "115", "extensions", "", "", ""),
-//             array("Country", "105", "country_id", "country", "countrycode", "get_field_name"),
+          //  array("Country", "105", "country_id", "country", "countrycode", "get_field_name"),
             array("Increments", "120", "inc", "", "", ""),
-            array("Cost", "100", "cost", "cost", "cost", "convert_to_currency"),
+            array("Cost", "120", "cost", "cost", "cost", "convert_to_currency"),
        //     array("Included <br>Seconds", "65", "includedseconds", "", "", ""),
-            array("Setup <br> Fee", "100", "setup", "setup", "setup", "convert_to_currency"),
-            array("Monthly<br> fee", "100", "monthlycost", "monthlycost", "monthlycost", "convert_to_currency"),
+            array("Setup <br> Fee", "110", "setup", "setup", "setup", "convert_to_currency"),
+            array("Monthly<br> fee", "110", "monthlycost", "monthlycost", "monthlycost", "convert_to_currency"),
             array("Status", "90", "status", "status", "status", "get_status"),
 	    array("Action", "90", "", "", "", array("EDIT" => array("url" => "did/did_reseller_edit/edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "did/did_reseller_edit/delete/", "mode" => "single")))
@@ -177,9 +198,9 @@ array('Provider', 'provider_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter acc
     function build_did_list_for_user() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(
-	    array("DID Number", "130", "number", "", "", ""),
-            array("Call Type", "100", "call_type", "call_type", "call_type", "get_call_type"),
-            array("Destination", "200", "extensions", "", "", ""),
+	    array("DID Number", "135", "number", "", "", ""),
+            array("Call Type", "105", "call_type", "call_type", "call_type", "get_call_type"),
+            array("Destination", "205", "extensions", "", "", ""),
             array("Country", "110", "country_id", "country", "countrycode", "get_field_name"),
             array("Increments", "110", "inc", "", "", ""),
             array("Cost", "100", "cost", "cost", "cost", "convert_to_currency"),

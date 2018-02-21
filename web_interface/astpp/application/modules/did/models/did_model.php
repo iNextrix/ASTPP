@@ -41,42 +41,41 @@ class DID_model extends CI_Model {
     }
 
     function edit_did($data, $id,$number) {
+   // echo '<pre>'; print_r($data); exit;
         unset($data["action"]);
         $this->db->where("number", $number);
         $this->db->where("id", $id);
        return $this->db->update("dids", $data);
+       //echo $this->db->last_query(); exit;
     }
 
     function getdid_list($flag, $start = 0, $limit = 0) {
 	    $this->db_model->build_search('did_list_search');
 	    if($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5)
 	    {
-		  if($this->session->userdata["accountinfo"]['reseller_id'] != 0)
-		  {
-		    $parent_id = $this->session->userdata["accountinfo"]['reseller_id'];
-		  }else{
-		    $parent_id = 0;
-		  }
-		  
-		  $where = array('reseller_id' => $this->session->userdata["accountinfo"]['id'],"parent_id"=>$parent_id);
-
-		  if ($flag) {
-		      $query = $this->db_model->select("*,note as number,reseller_id as accountid", "reseller_pricing", $where, "note", "desc", $limit, $start);
-		  } else {
-		      $query = $this->db_model->countQuery("*", "reseller_pricing", $where);
-		  }
-		  return $query;
+	      if($this->session->userdata["accountinfo"]['reseller_id'] != 0)
+	      {
+		$parent_id = $this->session->userdata["accountinfo"]['reseller_id'];
+	      }else{
+		$parent_id = 0;
+	      }
+	      $where = array('reseller_id' => $this->session->userdata["accountinfo"]['id'],"parent_id"=>$parent_id);
+	      if ($flag) {
+		  $query = $this->db_model->select("*,note as number,reseller_id as accountid", "reseller_pricing", $where, "note", "desc", $limit, $start);
+	      } else {
+		  $query = $this->db_model->countQuery("*", "reseller_pricing", $where);
+	      }
+	      return $query;
 	    }
 	    else
 	    {		
-		  $where = array("parent_id"=>"0");
-		  if ($flag) {
-		      $query = $this->db_model->select("*", "dids", $where, "number", "desc", $limit, $start);
-		  } else {
-		      $query = $this->db_model->countQuery("*", "dids", $where);
-		  }
-// 		    echo $this->db->last_query();
-		  return $query;
+	      if ($flag) {
+		$this->db->select('dids.id,dids.connectcost,dids.includedseconds,dids.number,dids.extensions,dids.call_type,dids.country_id,dids.inc,dids.cost,dids.setup,dids.monthlycost,dids.status,(CASE when parent_id > 0 THEN (SELECT reseller_id as accountid from reseller_pricing where dids.number=reseller_pricing.note AND reseller_pricing.parent_id=0) ELSE dids.accountid END ) as accountid');
+		$query=$this->db->get('dids');
+	      } else {
+		$query = $this->db_model->countQuery("*", "dids");
+	      }
+		return $query;
 	    }
   }
     function remove_did($id) {
@@ -223,7 +222,7 @@ function insert_reseller_pricing($accountinfo, $post) {
             'setup' => $post['setup'],
             'cost' => $post['cost'],
             'inc' => $post['inc'],
-            'extensions'=>$post['inc'],
+            'extensions'=>$post['extensions'],
             'call_type'=>$post['call_type'],
             'disconnectionfee' => $post['disconnectionfee'],
             'connectcost' => $post['connectcost'],

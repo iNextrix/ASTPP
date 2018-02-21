@@ -86,9 +86,9 @@ function add_account($accountinfo) {
 	    $this->load->model('opensips/opensips_model');
 	    $this->opensips_model->add_opensipsdevices($opensips_array);
         }
-        if ($accountinfo['type'] == '0') {
+       /* if ($accountinfo['type'] == '0') {
             $this->common->mail_to_users('email_add_user', $accountinfo);
-        }
+        }*/
         return $last_id;
     }
 
@@ -243,35 +243,71 @@ function add_account($accountinfo) {
             $currentlength=$currentlength-$count;
             return $currentlength;
     }
-
-    function get_admin_Account_list($flag, $start = 0, $limit = 0) {
-	$this->db_model->build_search('admin_list_search');
+     /** code for fund transer */ 
+    function account_process_payment($data) {
+//        print_r($data);exit;
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $account_data = $this->session->userdata("accountinfo");
-            $reseller = $account_data['id'];
-            $where = array('reseller_id' => $reseller, "deleted" => "0");
+            $accountinfo = $this->session->userdata['accountinfo'];
+            $reseller = $accountinfo["id"];
         } else {
-            $where = array("deleted" => "0", 'reseller_id' => "0");
+            $reseller = "-1";
         }
+        $data["payment_by"] = $reseller;
+        $data['accountid'] = $data['id'];
+        $data['payment_mode'] = $data['payment_type'];
+        unset($data['action']);
+        unset($data['id']);
+        unset($data['account_currency']);
+        unset($data['payment_type']);
         
-        $this->db->select('*');
-        $this->db->where($where);
+//         $this->db->insert('payments',$data);
+        if (isset($data)) {
+            $data['credit']=$data['credit'] =='' ?  0 : $data['credit'];
+            $date = gmdate('Y-m-d H:i:s');
+            
+            $balance = $this->update_balance($data['credit'], $data['accountid'],$data['payment_mode']);
+            
+         //   if($data['posttoexternal'] == 1)
+          //  {
+           //    $data['credit'] = -1 * ($data['credit']);
+           // }
+            
+            if($data['payment_mode'] == 0){
+            		$insert_arr = array("accountid" => $data['accountid'],
+				    "credit" => $data['credit'],
+				    'payment_mode'=>$data['payment_mode'],
+				    'type'=>"SYSTEM",
+				    "notes" => $data['notes'],
+				    "payment_date" => $date, 
+				    'payment_by'=>$data['payment_by'],
+				    );
+// 				    print_r($insert_arr);exit;
+			$this->db->insert("payments", $insert_arr);
+            }
+        }
+        $accountinfo['email'] = '';
+        $accountdata=$this->db->get('accounts',array('id'=>$data['accountid']));
+         if($accountdata->num_rows()>0){
+ 	  $accountdata= $accountdata->result_array();
+ 	  $accountdata=$accountdata[0];
+// 	  $this->common->mail_to_users('voip_account_refilled', $accountdata);
+ 	  return TRUE;
+         }
+    }
+
+    function get_admin_Account_list($flag, $start = 0, $limit = 0,$reseller_id=0) {
+	$this->db_model->build_search('admin_list_search');
+        $where="reseller_id =".$reseller_id." AND deleted =0 AND type in (2,4,-1)";
         if($this->session->userdata('advance_search')== 1){
 	    $search= $this->session->userdata('admin_list_search');
 	    if($search['type'] == ''){
-	      $this->db->where('type','2');
-	      $this->db->or_where('type',"4");
-	      $this->db->or_where('type',"-1");	      
 	      $this->db->where($where);
 	      $this->db_model->build_search('admin_list_search');
 	    }else{
 	      $this->db->where('type',$search['type']);
 	    }
 	}else{
-	  $this->db->where($where);	
-	  $this->db->where('type','2');
-	  $this->db->or_where('type',"4");
-          $this->db->or_where('type',"-1");	      	  
+          $this->db->where($where);
 	  $this->db_model->build_search('admin_list_search');
 	}
         if ($flag) {
@@ -279,6 +315,7 @@ function add_account($accountinfo) {
             $this->db->order_by('number','desc');
         }
         $result =$this->db->get('accounts');
+        
         if($flag){
          return $result;
         }
@@ -390,6 +427,7 @@ function add_account($accountinfo) {
         $this->db->where("type <>", "-1");        
         $data = array('deleted' => '1');
         $this->db->update("accounts", $data);
+       // echo $this->db->last_query(); exit;
         return true;
     }
 
@@ -521,48 +559,48 @@ function add_account($accountinfo) {
             return false;
     }
 
-       function account_process_payment($data) {
-//        print_r($data);exit;
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $accountinfo = $this->session->userdata['accountinfo'];
-            $reseller = $accountinfo["id"];
-        } else {
-            $reseller = "-1";
-        }
-        $data["payment_by"] = $reseller;
-        $data['accountid'] = $data['id'];
-        $data['payment_mode'] = $data['payment_type'];
-        unset($data['action']);
-        unset($data['id']);
-        unset($data['account_currency']);
-        unset($data['payment_type']);
-//         $this->db->insert('payments',$data);
-        if (isset($data)) {
-            $data['credit']=$data['credit'] =='' ?  0 : $data['credit'];
-            $date = gmdate('Y-m-d H:i:s');
-            $balance = $this->update_balance($data['credit'], $data['accountid'],$data['payment_mode']);
-            if($data['payment_mode'] == 0){
-            		$insert_arr = array("accountid" => $data['accountid'],
-				    "credit" => $data['credit'],
-				    'payment_mode'=>$data['payment_mode'],
-				    'type'=>"SYSTEM",
-				    "notes" => $data['notes'],
-				    "payment_date" => $date, 
-				    'payment_by'=>$data['payment_by'],
-				    );
-// 				    print_r($insert_arr);exit;
-		$this->db->insert("payments", $insert_arr);
-            }
-        }
-        $accountinfo['email'] = '';
-        $accountdata=$this->db->get('accounts',array('id'=>$data['accountid']));
-         if($accountdata->num_rows()>0){
- 	  $accountdata= $accountdata->result_array();
- 	  $accountdata=$accountdata[0];
-// 	  $this->common->mail_to_users('voip_account_refilled', $accountdata);
- 	  return TRUE;
-         }
-    }
+//        function account_process_payment($data) {
+// //        print_r($data);exit;
+//         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+//             $accountinfo = $this->session->userdata['accountinfo'];
+//             $reseller = $accountinfo["id"];
+//         } else {
+//             $reseller = "-1";
+//         }
+//         $data["payment_by"] = $reseller;
+//         $data['accountid'] = $data['id'];
+//         $data['payment_mode'] = $data['payment_type'];
+//         unset($data['action']);
+//         unset($data['id']);
+//         unset($data['account_currency']);
+//         unset($data['payment_type']);
+// //         $this->db->insert('payments',$data);
+//         if (isset($data)) {
+//             $data['credit']=$data['credit'] =='' ?  0 : $data['credit'];
+//             $date = gmdate('Y-m-d H:i:s');
+//             $balance = $this->update_balance($data['credit'], $data['accountid'],$data['payment_mode']);
+//             if($data['payment_mode'] == 0){
+//             		$insert_arr = array("accountid" => $data['accountid'],
+// 				    "credit" => $data['credit'],
+// 				    'payment_mode'=>$data['payment_mode'],
+// 				    'type'=>"SYSTEM",
+// 				    "notes" => $data['notes'],
+// 				    "payment_date" => $date, 
+// 				    'payment_by'=>$data['payment_by'],
+// 				    );
+// // 				    print_r($insert_arr);exit;
+// 		$this->db->insert("payments", $insert_arr);
+//             }
+//         }
+//         $accountinfo['email'] = '';
+//         $accountdata=$this->db->get('accounts',array('id'=>$data['accountid']));
+//          if($accountdata->num_rows()>0){
+//  	  $accountdata= $accountdata->result_array();
+//  	  $accountdata=$accountdata[0];
+// // 	  $this->common->mail_to_users('voip_account_refilled', $accountdata);
+//  	  return TRUE;
+//          }
+//     }
 
     function update_balance($amount, $accountid, $payment_type) {
         if ($payment_type == 0) {
@@ -586,8 +624,8 @@ function add_account($accountinfo) {
         $data = $this->db_model->getSelect("*", "dids", array("id" => $did_id));
         $data = $data->result_array();
        
-//        echo "<pre>";
-//         print_r($this->session->userdata['accountinfo']);
+      // echo "<pre>";
+        // print_r($this->session->userdata['accountinfo']); exit;
         
 	  if($this->session->userdata['userlevel_logintype'] == -1)
 		  {

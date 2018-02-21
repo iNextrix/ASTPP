@@ -31,6 +31,7 @@ class Payment extends MX_Controller {
   }
 
   function index(){
+  	//echo "asfasdfas";; exit;
       $account_data = $this->session->userdata("accountinfo");
       $data["accountid"] = $account_data["id"];
       $data["accountid"] = $account_data["id"];

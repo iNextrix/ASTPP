@@ -227,7 +227,7 @@ install_freeswitch_for_astpp () {
 	apt-get update
 
 	# Install Freeswitch pre-requisite packages using apt-get
-	apt-get install -y autoconf automake devscripts gawk g++ git-core libjpeg62-dev libncurses5-dev libtool make python-dev pkg-config libperl-dev libgdbm-dev libdb-dev gettext sudo lua5.1 apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev
+	apt-get install -y autoconf automake devscripts gawk g++ git-core libjpeg62-dev libncurses5-dev libtool make python-dev pkg-config libperl-dev libgdbm-dev libdb-dev gettext sudo lua5.1 apache2 apache2-threaded-dev php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libapache2-mod-php5 perl libapache2-mod-perl2 libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
 	
 	echo mysql-server mysql-server/root_password password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
 	echo mysql-server mysql-server/root_password_again password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
@@ -239,7 +239,7 @@ install_freeswitch_for_astpp () {
 	yum install -y git
 	
 	# Install Freeswitch pre-requisite packages using yum
-	yum  install -y autoconf automake  expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ libtool cpan @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel perl-ExtUtils-Embed 
+	yum install -y autoconf automake  expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ libtool cpan @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel perl-ExtUtils-Embed bc
 
     fi  
 
@@ -303,7 +303,7 @@ astpp_freeswitch_startup_script () {
     if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
         echo "ASTPP source doesn't exists, downloading it from git !"
 	cd /usr/src/
-        git clone https://github.com/ASTPP/ASTPP-v2.0.git
+        git clone https://github.com/ASTPP/trunk.git
     fi 
     
     if [ ${DIST} = "DEBIAN" ]; then
@@ -379,6 +379,8 @@ mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER 'astppuser'@'localhost' ID
 mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 
 mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/sql/astpp-2.0.sql
+
+mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/sql/astpp-upgrade-2.1.sql
 }
 
 
@@ -416,7 +418,7 @@ install_astpp () {
 	  sed -i "s#/var/log/httpd/astpp_access_log#/var/log/apache2/astpp_access_log#g" ${ASTPP_SOURCE_DIR}/web_interface/apache/astpp.conf
 	  sed -i "s#/var/log/httpd/astpp_error_log#/var/log/apache2/astpp_error_log#g" ${ASTPP_SOURCE_DIR}/web_interface/apache/astpp.conf
 	  touch /var/log/apache2/astpp_access_log
-	  touch /var/log/apache2/astpp_error_log
+	  touch /var/log/apache2/astpp_error_log	  
 	fi
 	# make
 	
@@ -489,6 +491,7 @@ install_astpp () {
 		fi
 		chmod -Rf 777 ${WWWDIR}/astpp
 	fi	
+	touch /var/log/astpp/astpp.log
 }
 
 
@@ -531,6 +534,9 @@ echo "# Generate Invoice
           
 # Low balance notification
 0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowBalance
+
+# Low credit notification
+0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowCredit
           
 # Update currency rate
 0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php CurrencyUpdate

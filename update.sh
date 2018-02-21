@@ -20,7 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 ############################################################################
 
-echo "************** Script to update ASTPP 2.0 *******************"
+echo "************** Script to update ASTPP Version 2.0 to 2.1 *******************"
 read -n 1 -p "Press any key to continue ..."
 
 TIME=`date +"%Y%m%d-%T"`
@@ -61,7 +61,7 @@ mv ${CGIDIR}/cgi-bin /mnt/$BACKUP_DIR/
 rm -rf /usr/src/trunk/
 
 cd /usr/src/
-git clone https://github.com/ASTPP/ASTPP-v2.0.git
+git clone https://github.com/ASTPP/trunk.git
 
 mkdir -p ${WWWDIR}/html/astpp
 mkdir -p ${ASTPPEXECDIR}
@@ -88,10 +88,19 @@ dbname=$(cat /var/lib/astpp/astpp-config.conf | grep dbname | cut -d " " -f 3)
 dbuser=$(cat /var/lib/astpp/astpp-config.conf | grep dbuser | cut -d " " -f 3)
 dbpass=$(cat /var/lib/astpp/astpp-config.conf | grep dbpass | cut -d " " -f 3)
 
-echo "database name     :: "$dbname
-echo "database user     :: "$dbuser
-echo "database password :: "$dbpass
+echo "database name     : "$dbname
+echo "database user     : "$dbuser
+echo "database password : "$dbpass
 
-mysql -u${dbuser} -p${dbpass} ${dbname} < $ASTPP_SOURCE_DIR/sql/astpp-upgrade-2.0.sql
+VERSION=$(echo "SELECT value FROM system where name='version'" | mysql $dbname -u $dbuser -p$dbpass -ss -N)
 
-echo "**************** Successfully  Updated ******************"
+echo "Current ASTPP Version : "$VERSION;
+SQLFILE=$(echo $VERSION + 0.1 | bc);
+
+echo "New Updated Version : "$SQLFILE;
+filename_sql="astpp-upgrade-"$SQLFILE".sql";
+
+echo "New SQL File Name : "$filename_sql;
+[ -f $ASTPP_SOURCE_DIR/sql/$filename_sql ] && mysql -u${dbuser} -p${dbpass} ${dbname} < $ASTPP_SOURCE_DIR/sql/$filename_sql || echo "SQL File Not found"
+
+echo "**************** Your ASTPP Version Successfully Updated ******************"

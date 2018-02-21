@@ -1,5 +1,29 @@
 <? extend('master.php') ?>
+<? startblock('extra_head') ?>
 
+<script type="text/javascript" language="javascript">
+ $(document).ready(function() {
+ $(".change_pass").click(function(){
+
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>user/user_generate_password/",
+                success: function(response) {
+                    $('#password').val(response.trim());
+                }
+            });
+        })
+        $(".change_number").click(function(){
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>user/user_generate_number/"+10,
+                success: function(response) {
+                    var data=response.replace('-',' ');
+                    $('#number').val(data.trim());
+                }
+            });
+        })
+         });
+</script>
+<? endblock() ?>
 <? startblock('page-title') ?>
 <?= $page_title ?><br/>
 <? endblock() ?>

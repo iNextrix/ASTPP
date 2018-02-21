@@ -37,23 +37,94 @@ class System_model extends CI_Model {
         }
         return $query;
     }
+/*
+* Purpose : Changes in reseller email template
+* Version : 2.1
+*/    
+    function gettemplate_list($flag="", $start, $limit="") {
 
-    function gettemplate_list($flag, $start, $limit) {
+         
+        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+//             echo $flag;exit;
+            $account_data = $this->session->userdata("accountinfo");
+            $reseller = $account_data['id'];
+            $this->db->where('reseller_id',$reseller);
+            $query = $this->db_model->select("*", "default_templates","","","","","");
 
-        $this->db_model->build_search('template_search');
-        if ($flag) {
-            $query = $this->db_model->select("*", "default_templates", "", "id", "ASC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "default_templates", "");
-        }
-        return $query;
+            if($query->num_rows() >0){
+		$result =$query->result_array();
+		$match_array =array();
+		$unmatch_array= array();
+		$i=0;
+		$str=0;
+		foreach($result as $value)
+		{
+		    $this->db->where('name',$value['name']);
+		    $this->db->where('reseller_id',0);
+		    $query = $this->db_model->select("id", "default_templates","", "id", "ASC", $limit, $start);		
+		    $innerresult =$query->result_array();
+		    foreach($innerresult as $value)
+		    {                   
+		      $str.=$value['id'].",";
+		    }		
+		}            
+		$str= rtrim($str,',');
+		
+		$where = "id NOT IN ($str)";		
+		$this->db->where('reseller_id',$reseller);
+		$this->db->or_where('reseller_id',0);
+		$this->db->where($where);
+            }
+            else
+            {
+               $this->db->where('reseller_id',0);
+            }
+              
+            if($flag) {
+
+		$query = $this->db_model->select("*", "default_templates","", "id", "ASC", $limit, $start);
+	     }else {
+
+		$query = $this->db_model->countQuery("*", "default_templates","");
+		
+	     }
+	  } 
+	  else {
+          
+            $where = array('reseller_id' => 0);
+            $this->db->where($where);
+            $this->db_model->build_search('template_search');
+		if ($flag) {
+		    $query = $this->db_model->select("*", "default_templates","", "id", "ASC", $limit, $start);
+		} else {
+		    $query = $this->db_model->countQuery("*", "default_templates","");
+		}
+	  }
+
+	  return $query;
     }
+ 
+//     function gettemplate_list($flag, $start, $limit) {
+// 
+//         $this->db_model->build_search('template_search');
+//         if ($flag) {
+//             $query = $this->db_model->select("*", "default_templates", "", "id", "ASC", $limit, $start);
+//         } else {
+//             $query = $this->db_model->countQuery("*", "default_templates", "");
+//         }
+//         return $query;
+//     }
 
-    function edit_configuration($add_array, $id) {
+/*
+* Purpose : Changes in setting menu
+* Version : 2.1
+*/
+    function edit_configuration($add_array, $name) {
         unset($add_array["action"]);
-        $this->db->where("id", $id);
+        $this->db->where("name", $name);
         $this->db->update("system", $add_array);
     }
+/*****************************************************/
 
     function edit_template($data, $id) {
         unset($data["action"]);
@@ -61,13 +132,37 @@ class System_model extends CI_Model {
         $this->db->where("id", $id);
         $this->db->update("default_templates", $data);
     }
-
+    function edit_resellertemplate($data, $id) {
+//         echo "<pre>";print_r($data);
+        $arraydata = $data;
+        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+            $account_data = $this->session->userdata("accountinfo");
+            $reseller = $account_data['id'];
+	    $array = $data; 	
+            $data = array('reseller_id' => $reseller);
+            $this->db->where("id", $id);
+        } 
+        unset($arraydata["action"]);
+        unset($arraydata["form"]);
+        unset($arraydata["page_title"]);
+        //$arraydata["modified_date"] = date("Y-m-d H:i:s");
+        
+        $this->db->update("default_templates", $arraydata);
+//         echo $this->db->last_query();exit;
+    }
     function remove_template($id) {
         $this->db->where("id", $id);
         $this->db->update("default_templates", array("status" => 2));
         return true;
     }
-
+    function add_resellertemplate($data)
+    {
+//          echo "<pre>";print_r($data);exit; 
+         unset($data["action"]);
+         unset($data['id']);
+         $this->db->insert('default_templates', $data);
+         return true;
+    }
     function getcountry_list($flag, $start = 0, $limit = 0) {
         $this->db_model->build_search('country_list_search');
         if ($flag) {

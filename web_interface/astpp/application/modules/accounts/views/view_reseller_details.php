@@ -30,6 +30,27 @@
                 $('.invoice_day').css('display','none');                
             }
         });
+        
+        
+          $(".change_pass").click(function(){
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>accounts/customer_generate_password",
+                success: function(response) {
+                    $('#password').val(response.trim());
+                }
+            });
+        })
+        $(".change_number").click(function(){
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>accounts/customer_generate_number",
+                success: function(response) {
+                    var data=response.replace('-',' ');
+                    $('#number').val(data.trim());
+                }
+            });
+        })
+        
+        
         $(".sweep_id").change();
 
 });

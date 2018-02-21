@@ -181,42 +181,17 @@ class User extends MX_Controller {
   function user_didlist() {
         $data['username'] = $this->session->userdata('user_name');
         $data['page_title'] = 'DIDs List';
-
         $this->load->module('did/did');
         $data['grid_fields'] = $this->did->did_form->build_did_list_for_user();
         $data["grid_buttons"] = array();
 	$acc_data = $this->session->userdata("accountinfo");
-	if($acc_data["reseller_id"] > 0){
-	  
-                $reseller_data =array();
-//                 $table = "reseller_pricing";
-//                 $field = "dids.id,reseller_pricing.note";
-//                 $where = 'dids.accountid = "0" AND reseller_pricing.reseller_id ='.$acc_data['reseller_id'];
-//                 $jionTable = "dids";
-//                 $jionCondition = "reseller_pricing.note = dids.number";
-//                   $drp_data = $this->db_model->getJionQuery($table, $field, $where, $jionTable, $jionCondition,'',100,0);
-                  $drp_data = $this->db->query("SELECT id, number FROM dids WHERE accountid = '0' and parent_id='".$acc_data['reseller_id']."'");
-// echo $this->db->last_query(); exit;
-                  foreach ($drp_data->result_array() as $drp_value) {
-                    $reseller_data[$drp_value["id"]] = $drp_value["number"];
-                  }
-		$data['didlist'] = form_dropdown('free_did_list',$reseller_data, '');
-	}else{
-		$id_acccount='0';
-		$result_did_final=array();
-// 		$result_did = $this->db->query("SELECT id, number FROM dids WHERE accountid = '0' and number not in(select note from reseller_pricing)");
-// 	      $result_did = $this->db->query("SELECT id, number FROM dids WHERE accountid = '0' and parent_id='".$acc_data['reseller_id']."'");
-	      $result_did = $this->db->query("SELECT id, number FROM dids WHERE accountid = '0' and parent_id=0");
-
-		$result_did=$result_did->result_array();
-		foreach($result_did  as $key => $value_did)
-		{
-		  $result_did_final[$value_did['id']]=$value_did['number'];
-		}
-		$data['didlist'] = form_dropdown_all('free_did_list', $result_did_final, '');
-	}
-	
-// 	echo $this->db->last_query();
+        $reseller_id=$acc_data['reseller_id'];
+        $drp_data = $this->db->query("SELECT id, number FROM dids WHERE accountid = '0' and parent_id='".$reseller_id."'");
+        $reseller_data=array();
+        foreach ($drp_data->result_array() as $drp_value) {
+          $reseller_data[$drp_value["id"]] = $drp_value["number"];
+        }
+	$data['didlist'] = form_dropdown_all('free_did_list',$reseller_data, '');
         $this->load->view('view_did_list', $data);
     }
 
@@ -273,7 +248,7 @@ class User extends MX_Controller {
     }
     function user_animap_list() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'ANI MAP List';
+        $data['page_title'] = 'Caller Id List';
         $this->session->set_userdata('advance_search', 0);
 
         $this->load->module('accounts/accounts');
@@ -372,6 +347,7 @@ class User extends MX_Controller {
                                 "extensions"=>$this->input->post("extension", true)
                                 );
             $this->db_model->update("dids",$update_arr, array("id" =>$this->input->post("didid", true)));
+              $this->session->set_flashdata('astpp_errormsg', 'DID Edit successfully.');
             redirect(base_url() . "user/user_didlist/");
         }
         if ($action == "delete") {
@@ -384,7 +360,8 @@ class User extends MX_Controller {
 		}
 
             $this->db_model->update("dids", array("accountid" => $accountid_did), array("id" => $did_id));
-             $this->session->set_flashdata('astpp_notification', 'DID removed successfully !');
+             //$this->session->set_flashdata('astpp_notification', 'DID removed successfully !');
+              $this->session->set_flashdata('astpp_notification', 'DID removed successfully.');
             redirect(base_url() . "user/user_didlist/");
         }
     }
@@ -407,6 +384,7 @@ class User extends MX_Controller {
     }
     function user_animap_action($action, $aniid = "") {
         $ani = $this->input->post();
+        $new_ani= $ani['ANI'];
          if ($action == "add" && $ani['ANI'] != '') {
              $this->db->where('number',$ani['ANI']);
              $this->db->select('count(id) as count');
@@ -415,20 +393,20 @@ class User extends MX_Controller {
              $count=$cnt_result[0]['count'];
              if($count == 0 && $ani['ANI'] > 0){
                 $accountinfo = $this->session->userdata("accountinfo"); 
- 		$insert_arr = array("number" => $this->input->post('number'),
+ 		$insert_arr = array("number" => $new_ani,
 				    "accountid" => $accountinfo['id'],
 				    "context" => "default");
  		$this->db->insert("ani_map", $insert_arr);
- 		$this->session->set_flashdata('astpp_errormsg', 'Add ANI Sucessfully!');
+ 		$this->session->set_flashdata('astpp_errormsg', 'Add Caller Id Sucessfully!');
  		redirect(base_url() . "user/user_animap_list/");
  	    }
  	    else{
-  		$this->session->set_flashdata('astpp_notification', ' ANI already Exists.');
+  		$this->session->set_flashdata('astpp_notification', ' Caller Id already Exists.');
  		redirect(base_url() . "user/user_animap_list/");
  	    }
        }
        if ($action == "delete") {
-          $this->session->set_flashdata('astpp_notification', 'ANI removed sucessfully!');
+          $this->session->set_flashdata('astpp_notification', 'Caller Id removed sucessfully!');
           $this->db_model->delete("ani_map", array("id" => $aniid));
           redirect(base_url() . "user/user_animap_list/");
        }
@@ -479,7 +457,7 @@ class User extends MX_Controller {
 
         $this->load->module('reports/reports');
         $data['form_search'] = $this->form->build_serach_form($this->reports->reports_form->get_user_cdr_payment_form());
-
+	//echo '<pre>'; print_r( $data); exit;
         $this->load->view('view_report_list_payment', $data);
     }
 
@@ -526,6 +504,7 @@ class User extends MX_Controller {
         $this->load->module('freeswitch/freeswitch');
         if ($action == "delete") {
             $this->freeswitch->freeswitch_model->delete_freeswith_devices($id);
+              $this->session->set_flashdata('astpp_notification', 'Sip Device Removed Sucessfully.');
             redirect(base_url() . "user/user_sipdevices/");
         }
         if ($action == "edit") {
@@ -578,8 +557,7 @@ class User extends MX_Controller {
 
             unset($action['action']);
             unset($action['advance_search']);
-//echo '<pre>'; print_r($action);
-//exit;
+
             $this->session->set_userdata('opensipsdevice_list_search', $action);
         }
         if (@$ajax_search != 1) {
@@ -770,15 +748,14 @@ function change_password()
 					$this->user_model->change_db_password($update,$id);
 					$this->session->set_flashdata('astpp_errormsg', "Password changed Sucessfully....!!!");
 					redirect(base_url() . 'user/user/changepassword/');	
-	//$this->redirect_notification("your account password updated successfully",'/user/changepassword/');	
+	
 				}
 				else
 				{
 					$this->session->set_flashdata('astpp_notification', "New Password & Conformpassword not match.");
 					redirect(base_url() . 'user/user/changepassword/');	
 	
-				//echo "<h2> password & Conform password not match</h2>";
-			       // $this->redirect_notification("your have enter wrong password ",'/user/changepassword/');			
+							
 				}
 			}
 			else
@@ -786,16 +763,7 @@ function change_password()
 				$this->session->set_flashdata('astpp_notification', "Invalid old passwword.");
 				redirect(base_url() . 'user/user/changepassword/');	
 
-				//$this->redirect_notification("your have enter wrong password ",'/user/changepassword/');			
-				//$this->session->set_flashdata('astpp_errormsg', "Invalid passwword.");
-				
-					//	$this->load->view('view_changepassword');
-
-				//echo "<h2>Password not match to database password</h2>";
- 				//$this->set_flashdata("your have enter wrong password ");
-	                //$this->session->set_flashdata('astpp_errormsg', "Invalid card number.");			
-			//redirect(base_url() . "user/user/changepassword" );		
-				//				redirect(user/changepassword);				
+						
 			
 		}
 
@@ -807,5 +775,16 @@ function change_password()
 	        $data['page_title'] = 'Change Password';
 		$this->load->view('view_changepassword',$data);
 	}
+	
+	
+	
+	 function user_generate_password(){
+        echo $this->common->generate_password();
+    }
+    function user_generate_number($digit){
+        echo $this->common->find_uniq_rendno($digit, 'number', 'accounts');
+    }
+	
+	
 }
 ?>

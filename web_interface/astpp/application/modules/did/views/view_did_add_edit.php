@@ -1,5 +1,12 @@
 
 <script type="text/javascript">
+ $(document).ready(function() {
+    
+    
+  
+    
+   $(".country_id").val(<?= $country_id?>);
+        });
     $("#submit").click(function(){
         submit_form("did_form");
     })

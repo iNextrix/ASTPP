@@ -184,9 +184,12 @@ class Form {
                         } else {
                             $form_contents.=form_dropdown($fieldvalue[1], $drp_array, $fieldvalue['value'], '');
                         }
-
-                        if(isset($fieldvalue[4]) && $fieldvalue[4] != ''){
-			  $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]);
+			if(isset($fieldvalue[4]) && $fieldvalue[4] != ''){
+                        	 if(is_array($fieldvalue[4])){
+				    $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]['rules']);
+				 }else{
+				    $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]);
+				 }   
                         }
                         $form_contents.= '<div class="col-md-12 no-padding error_div"><div class="col-md-3">&nbsp;</div>';
                         $form_contents.= '<span class="popup_error error col-md-8 no-padding" id="' . (is_array($fieldvalue[1])?$fieldvalue[1]['name']:$fieldvalue[1]) . '_error">&nbsp;</span></div>';
@@ -238,6 +241,7 @@ class Form {
                     else
                         $fieldvalue[2]['value'] = ($values) ? @$values[$fieldvalue[2]['name']] : @$fieldvalue[2]['value'];
                     $form_contents.= form_input($fieldvalue[2], 'readonly');
+                    	 $form_contents.=@$fieldvalue[6];
                     $this->CI->form_validation->set_rules($fieldvalue[2]['name'], $fieldvalue[0], $fieldvalue[3]);
                     $form_contents.= '<div class="col-md-12 no-padding error_div"><div class="col-md-3">&nbsp;</div>';
                     $form_contents.= '<span class="popup_error col-md-8 no-padding" id="' . $fieldvalue[2]['name'] . '_error">&nbsp;</span></div>';
@@ -323,7 +327,6 @@ class Form {
             $form_contents.= form_fieldset($fieldset_key);
 
             foreach ($form_fileds as $fieldkey => $fieldvalue) {
-
                 if ($i == 0) {
                     $form_contents.= '<li class="col-md-12">';
                 }

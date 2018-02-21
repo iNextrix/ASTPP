@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASTPP Documentation : Fail2ban</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">ASTPP Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Welcome-to-ASTPP_491525.html">Welcome to ASTPP</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Security_1507437.html">Security</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            ASTPP Documentation : Fail2ban
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> ASTPP</span>, last modified on Jun 30, 2015
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><span style="color: rgb(64,64,64);text-decoration: none;">Fail2Ban is an intrusion prevention system that works by scanning log files and then taking action based on the entries in those logs.</span></p><p><span style="color: rgb(64,64,64);text-decoration: none;">You can configure Fail2Ban in a way that will update iptables firewall rules, when an authentication failure threshold is reached which helps in preventing SIP brute force attacks against FS instances.</span></p><p><span style="color: rgb(64,64,64);text-decoration: none;">Fail2Ban scans your freeswitch log file and bans IP that makes too many password failures. It updates firewall rules to reject the IP address.</span></p><p><span style="color: rgb(64,64,64);text-decoration: none;">Fail2Ban is available at </span><a href="http://www.fail2ban.org/" style="text-decoration: none;" class="external-link" rel="nofollow"><span style="color: rgb(64,64,64);text-decoration: none;">fail2ban.org</span></a><span style="color: rgb(64,64,64);text-decoration: none;"> as well as more documentation.</span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Installtion :</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">For CentOS
+cd /usr/src
+service iptables stop
+wget -T 10 -t 1 http://sourceforge.net/projects/fail2ban/files/fail2ban-stable/fail2ban-0.8.4/fail2ban-0.8.4.tar.bz2
+tar -jxf fail2ban-0.8.4.tar.bz2
+cd fail2ban-0.8.4
+
+
+python setup.py install
+cp /usr/src/fail2ban-0.8.4/files/redhat-initd /etc/init.d/fail2ban
+chmod 755 /etc/init.d/fail2ban
+
+
+For Debian
+apt-get -y install fail2ban</pre>
+</div></div><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Configurations:</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">touch /etc/fail2ban/filter.d/freeswitch.conf
+cp /etc/fail2ban/filter.d/freeswitch.conf /etc/fail2ban/filter.d/freeswitch.bak
+
+
+# vim /etc/fail2ban/filter.d/freeswitch.conf
+                   
+[Definition]
+# Option: failregex
+# Notes.: regex to match the password failures messages in the logfile. The
+# host must be matched by a group named host. The tag &#39;&lt;HOST&gt;&#39; can
+# be used for standard IP/hostname matching and is only an alias for
+# (?:::f{4,6}:)?(?P&lt;host&gt;[\w\-.^_]+)
+# Values: TEXT
+#
+failregex
+ = \[WARNING\] sofia_reg.c:\d+ SIP auth challenge \(REGISTER\) on sofia 
+profile \&#39;[^&#39;]+\&#39; for \[.*\] from ip &lt;HOST&gt;
+\[WARNING\] sofia_reg.c:\d+ SIP auth failure \(INVITE\) on sofia profile \&#39;[^&#39;]+\&#39; for \[.*\] from ip &lt;HOST&gt;
+# Option: ignoreregex
+# Notes.: regex to ignore. If this regex matches, the line is ignored.
+# Values: TEXT
+#
+ignoreregex =
+
+
+# vim /etc/fail2ban/filter.d/freeswitch-dos.conf
+
+
+[Definition]
+# Option: failregex
+# Notes.: regex to match the password failures messages in the logfile. The
+# host must be matched by a group named host. The tag &#39;&lt;HOST&gt;&#39; can
+# be used for standard IP/hostname matching and is only an alias for
+# (?:::f{4,6}:)?(?P&lt;host&gt;[\w\-.^_]+)
+# Values: TEXT
+#
+failregex
+ = \[WARNING\] sofia_reg.c:\d+ SIP auth challenge \(REGISTER\) on sofia 
+profile \&#39;[^&#39;]+\&#39; for \[.*\] from ip &lt;HOST&gt;
+# Option: ignoreregex
+# Notes.: regex to ignore. If this regex matches, the line is ignored.
+# Values: TEXT
+#
+ignoreregex =
+
+
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.bak
+
+# vim /etc/fail2ban/jail.local
+
+[freeswitch]
+enabled = true
+port = 5060,5061,5080,5081
+filter = freeswitch
+logpath = /usr/local/freeswitch/log/freeswitch.log
+maxretry = 10
+bantime = 10000000
+findtime = 480
+action = iptables-allports[name=freeswitch, protocol=all]
+sendmail-whois[name=FreeSwitch, dest=, sender=fail2ban@]
+
+
+[freeswitch-dos]
+enabled = true
+port = 5060,5061,5080,5081
+filter = freeswitch-dos
+logpath = /usr/local/freeswitch/log/freeswitch.log
+action = iptables-allports[name=freeswitch-dos, protocol=all]
+maxretry = 50
+findtime = 30
+bantime = 6000
+
+
+/etc/init.d/iptables start
+
+/etc/init.d/fail2ban start
+
+chkconfig fail2ban on</pre>
+</div></div><p> </p><p> </p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Aug 17, 2015 10:25</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -351,7 +351,7 @@ class Rates extends MX_Controller {
 	  $str=rtrim($str,',');
 	  if(!$str){
 	      $str.= is_numeric($csvdata['pattern']) ? null : 'Code,';
-	      $str.= (isset($csvdata['prepend']) && !empty($csvdata['prepend'])) ? (is_numeric($csvdata['prepend']) ? null :'Prepend,') : null;
+//	      $str.= (isset($csvdata['prepend']) && !empty($csvdata['prepend'])) ? (is_numeric($csvdata['prepend']) ? null :'Prepend,') : null;
 // 	      $str.= preg_match( $alpha_numeric_regex, $csvdata['comment'] ) ? null :'Destination,';
 	      $str.= !empty($csvdata['connectcost']) && is_numeric( $csvdata['connectcost']) ? null :( empty($csvdata['connectcost']) ? null : 'Connect Cost,');
 	      $str.= !empty($csvdata['includedseconds']) && is_numeric( $csvdata['includedseconds']) ? null :( empty($csvdata['includedseconds']) ? null : 'Included Seconds,');
@@ -671,7 +671,7 @@ class Rates extends MX_Controller {
     
     function origination_batch_update(){
         $batch_update_arr = $this->input->post();
-	$batch_update_arr["cost"]["cost"] = isset($batch_update_arr["cost"]["cost"])?$this->common_model->add_calculate_currency($batch_update_arr["cost"]["cost"], '', '', true, false):"0.0000";
+	     $batch_update_arr["cost"]["cost"] = isset($batch_update_arr["cost"]["cost"])?$this->common_model->add_calculate_currency($batch_update_arr["cost"]["cost"], '', '', true, false):"0.0000";
 //        $batch_update_arr = array("inc"=> array("inc"=>"1","operator"=>"3"),"cost"=> array("cost"=>"1","operator"=>"4"));
         $result = $this->rates_model->inboundrates_rates_batch_update($batch_update_arr);
         echo json_encode(array("SUCCESS"=> "Origination rates batch updated successfully!"));
@@ -747,7 +747,7 @@ class Rates extends MX_Controller {
 
     function origination_export_cdr_xls() {
         $query = $this->rates_model->getinboundrates(true, '', '', false);
-// 	echo "<pre>";print_r($query->result());exit;
+	//echo "<pre>";print_r($query);exit;
         $inbound_array = array();
         $inbound_array[] = array("Code", "Destination","Connect Cost","Included Seconds","Per Minute Cost",  "Increment","Precedence");
         if ($query->num_rows() > 0) {

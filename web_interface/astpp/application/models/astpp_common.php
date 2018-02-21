@@ -37,17 +37,12 @@ class Astpp_common extends CI_Model {
      * @return return array of applyable chargelist.
      */
     function list_applyable_charges($accountid = '') {
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $account_data = $this->session->userdata("accountinfo");
-            $reseller = $account_data['id'];
-            $where = " AND reseller_id = $reseller";
-        } else {
-            $where = " AND reseller_id = 0";
-        }
-        if(isset($accountid) && $accountid > 0)
-	$q= " SELECT * FROM `charges` where reseller_id =0 and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid AND status <> 0)";
-        else
-        $q = "SELECT * FROM charges WHERE status < 2 AND pricelist_id = '' $where";
+        $accountinfo=$this->session->userdata('accountinfo');
+        $reseller_id=$accountinfo['type']==1 ? $accountinfo['id'] : 0;
+//         if(isset($accountid) && $accountid > 0)
+	$q= " SELECT * FROM `charges` where reseller_id =$reseller_id and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid AND status <> 0) AND pricelist_id = '0'";
+//         else
+//         $q = "SELECT * FROM charges WHERE status < 2 AND pricelist_id = '' $where";
         $item_arr = array();
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {

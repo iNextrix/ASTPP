@@ -3,6 +3,39 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript">
     $(document).ready(function() {
+    
+    
+    
+    $(".change_pass").click(function(){
+
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>accounts/customer_generate_password",
+                success: function(response) {
+                    $('#password').val(response.trim());
+                }
+            });
+        })
+         $(".change_number").click(function(){
+            
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>accounts/customer_generate_number",
+                success: function(response) {
+                    var data=response.replace('-',' ');
+                    $('#number').val(data.trim());
+                }
+            });
+        })
+        $(".digit_length").change(function(){
+            var digit=this.value;
+            $.ajax({type:'POST',
+                url: "<?= base_url()?>accounts/customer_generate_number/"+digit,
+                success: function(response) {
+                    $('#number').val(response.trim());
+                }
+            });
+        });
+    
+    
    $(".country_id").val(<?=$country_id?>);
    $(".timezone_id").val(<?=$timezone_id?>);
    $(".currency_id").val(<?=$currency_id?>);

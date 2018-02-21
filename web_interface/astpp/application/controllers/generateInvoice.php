@@ -68,14 +68,16 @@ class GenerateInvoice extends MX_Controller {
     function Generate_Monthly_invoice($account_value){
         $start_date = $this->validate_invoice_date($account_value);    
         $end_date = gmdate("Y-m-d H:i:s");
-        $this->process_invoice($start_date,$end_date,$account_value);
+        $days_between = gmdate('d');
+        if($days_between == $account_value['invoice_day']){
+	        $this->process_invoice($start_date,$end_date,$account_value);
+        }
     }
     function process_invoice($start_date,$end_date,$accountdata)
     {
         $invoice_data_count = 0;
         $sort_order = 1;
 	$invoice_data_count = $this->count_invoice_data($accountdata['id'],$start_date,$end_date);
-//echo $invoice_data_count."=================".$accountdata['id']."\n"; 
 	if($invoice_data_count > 0){
 	    $invoiceid = $this->create_invoice($accountdata['id'],$start_date,$end_date);
 	    $update_cdrs = $this->update_cdrs_data($accountdata['id'],$start_date,$end_date,$invoiceid);
@@ -94,7 +96,7 @@ class GenerateInvoice extends MX_Controller {
     
    
     function get_invoice_date($accountid){
-        $where = array("accountid"=>$accountid);
+        $where = array("accountid"=>$accountid,'type'=>"I");
         $query = $this->db_model->getSelect("invoice_date", "invoices", $where);
         if($query->num_rows >0){
             $invoiceid = $query->result();
@@ -149,16 +151,16 @@ class GenerateInvoice extends MX_Controller {
         $total=0;
 	
 	$subtotal_query = "select SUM(invoice_item.debit) as invoice_debit , SUM(invoice_item.credit) as invoice_credit from invoice_item WHERE invoice_item.invoiceid = ".$invoiceid;
+	
         $subtotal_data = $this->db->query($subtotal_query);
         $subtotal_data = $subtotal_data->result_array();
         foreach($subtotal_data as $subtotal_key =>$subtotal_value){
             //$total = ($subtotal_value['cdrs_debit']+$subtotal_value['cdrs_credit'])-($subtotal_value['cust_debit'] + $subtotal_value['cust_credit']);
 	  $total += ($subtotal_value['invoice_debit'] - $subtotal_value['invoice_credit']);
         }
-	
 	$invoice_item_total = $total; 
 	
-	$subtotal_query = "select SUM(cdrs.debit) as cdrs_debit , SUM(cdrs.cost) as cdrs_credit  from cdrs WHERE cdrs.invoiceid = ".$invoiceid;		
+	$subtotal_query = "select SUM(cdrs.debit) as cdrs_debit , SUM(cdrs.cost) as cdrs_credit  from cdrs WHERE cdrs.invoiceid = ".$invoiceid;	
         $subtotal_data = $this->db->query($subtotal_query);
         $subtotal_data = $subtotal_data->result_array();
         foreach($subtotal_data as $subtotal_key =>$subtotal_value){

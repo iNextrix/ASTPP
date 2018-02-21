@@ -15,7 +15,7 @@ class rates_form {
             array('Code', 'INPUT', array('name' => 'pattern', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|min_length[1]|numeric|max_length[25]|xss_clean', 'tOOL TIP', ''),
             array('Destination', 'INPUT', array('name' => 'comment', 'size' => '20', 'maxlength' => '80', 'class' => "text field medium"), 'tOOL TIP', ''),            
             array('Strip', 'INPUT', array('name' => 'strip', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Prepend', 'INPUT', array('name' => 'prepend', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), 'trim|numeric|xss_clean', 'tOOL TIP', ''),
+            array('Prepend', 'INPUT', array('name' => 'prepend', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
             array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
             
         
@@ -63,7 +63,7 @@ class rates_form {
 
         return $form;
     }
-
+	
     function get_termination_search_form() {
         $form['forms'] = array("", array('id' => "termination_search"));
         $form['Search'] = array(
@@ -131,13 +131,13 @@ class rates_form {
     }
     
          function build_rates_list_for_reseller() {
-        $grid_field_arr = json_encode(array(array('Code', "120", "pattern", "pattern", "", "get_only_numeric_val"),
-		    array('Destination', "230", "comment", "", "", ""),
-		    array('Connection Cost', "175", "connectcost", "connectcost", "connectcost", "convert_to_currency"),
-		    array('Included Seconds', "155", "includedseconds", "", "", ""),
-		    array('Per Minute Cost', "160", "cost", "cost", "cost", "convert_to_currency"),
-		    array('Increment', "120", "inc", "", "", ""),
-		    array('Precedence', "125", "precedence", "", "", ""),
+        $grid_field_arr = json_encode(array(array('Code', "140", "pattern", "pattern", "", "get_only_numeric_val"),
+		    array('Destination', "240", "comment", "", "", ""),
+		    array('Connection Cost', "210", "connectcost", "connectcost", "connectcost", "convert_to_currency"),
+		    array('Included Seconds', "180", "includedseconds", "", "", ""),
+		    array('Per Minute Cost', "180", "cost", "cost", "cost", "convert_to_currency"),
+		    array('Increment', "140", "inc", "", "", ""),
+		    array('Precedence', "155", "precedence", "", "", ""),
                 ));
         return $grid_field_arr;
     }
@@ -147,7 +147,7 @@ class rates_form {
         $form['forms'] = array("", array('id' => "resellerrates_list_search"));
         $form['Search My Rates'] = array(
            
-            array('Code', 'INPUT', array('name' => 'pattern[pattern]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'pattern[pattern-string]', '', '', '', 'search_string_type', ''),
+            array('Code', 'INPUT', array('name' => 'pattern[pattern]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'pattern[pattern-string]', '', '', '', 'search_int_type', ''),
 //            array('Prepend', 'INPUT', array('name' => 'prepend[prepend]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', '1', 'prepend[prepend-string]', '', '', '', 'search_string_type', ''),
          
             array('Increment', 'INPUT', array('name' => 'inc[inc]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'inc[inc-integer]', '', '', '', 'search_int_type', ''),
@@ -189,7 +189,7 @@ class rates_form {
       function get_user_rates_search_form() {
         $form['forms'] = array("", array('id' => "inbound_search"));
         $form['Search'] = array(
-            array('Code', 'INPUT', array('name' => 'pattern[pattern]', '', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'pattern[pattern-string]', '', '', '', 'search_string_type', ''),
+            array('Code', 'INPUT', array('name' => 'pattern[pattern]', '', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'pattern[pattern-string]', '', '', '', 'search_int_type', ''),
 //            array('Prepend', 'INPUT', array('name' => 'prepend[prepend]', '', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', '1', 'prepend[prepend-string]', '', '', '', 'search_string_type', ''),
               array('Destination', 'INPUT', array('name' => 'comment[comment]', '', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'comment[comment-string]', '', '', '', 'search_string_type', ''),
               array('Connect Cost', 'INPUT', array('name' => 'connectcost[connectcost]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'connectcost[connectcost-integer]', '', '', '', 'search_int_type', ''),
@@ -212,7 +212,7 @@ class rates_form {
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
             array("Code", "110", "pattern", "pattern", "", "get_only_numeric_val"),
             array("Destination", "120", "comment", "", "", ""),
-            array("Connect Cost", "90", "connectcost", "connectcost", "connectcost", "convert_to_currency"),
+            array("Connect Cost", "100", "connectcost", "connectcost", "connectcost", "convert_to_currency"),
             array("Included Seconds", "120", "includedseconds", "", "", ""),
             array("Per Minute Cost", "110", "cost", "cost", "cost", "convert_to_currency"),
             array("Increment", "84", "inc", "", "", ""),
@@ -233,9 +233,9 @@ class rates_form {
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
             array("Code", "130", "pattern", "pattern", "", "get_only_numeric_val"),
             array("Destination", "170", "comment", "", "", ""),
-            array("Connect Cost", "120", "connectcost", "connectcost", "connectcost", "convert_to_currency"),
-            array("Included Seconds", "147", "includedseconds", "", "", ""),
-            array("Per Minute Cost", "118", "cost", "cost", "cost", "convert_to_currency"),
+            array("Connect Cost", "130", "connectcost", "connectcost", "connectcost", "convert_to_currency"),
+            array("Included Seconds", "155", "includedseconds", "", "", ""),
+            array("Per Minute Cost", "120", "cost", "cost", "cost", "convert_to_currency"),
             array("Increment", "110", "inc", "", "", ""),
             array("Precedence", "92", "precedence", "", "", ""),
             array("Rate Group", "118", "pricelist_id", "name", "pricelists", "get_field_name"),
@@ -294,10 +294,10 @@ class rates_form {
 
     function build_inbound_list_for_user() {
               // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-        $grid_field_arr = json_encode(array(array("Code", "150", "pattern", "pattern", "", "get_only_numeric_val"),
-	      array("Destination", "220", "comment", "", "", ""),
-	      array("Increment", "230", "inc", "", "", ""),
-	      array("Cost per Minutes", "230", "cost", "cost", "cost", "convert_to_currency"),
+        $grid_field_arr = json_encode(array(array("Code", "155", "pattern", "pattern", "", "get_only_numeric_val"),
+	      array("Destination", "225", "comment", "", "", ""),
+	      array("Increment", "235", "inc", "", "", ""),
+	      array("Cost per Minutes", "240", "cost", "cost", "cost", "convert_to_currency"),
 	      array("Connect Charge", "200", "connectcost", "connectcost", "connectcost", "convert_to_currency"),
 	      array("Included Seconds", "200", "includedseconds", "", "", "")
 	));
@@ -306,7 +306,7 @@ class rates_form {
 
 
 function build_grid_buttons_rates() {
-        $buttons_json = json_encode(array(array("Export","btn btn-xing" ," fa fa-download fa-lg", "button_action", "/rates/resellersrates_xls", 'single')));
+        $buttons_json = json_encode(array(array("Export","btn btn-xing" ," fa fa-download fa-lg", "button_action", "/rates/resellersrates_xls/", 'single')));
         return $buttons_json;
     }
 

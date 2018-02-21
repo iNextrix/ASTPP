@@ -33,11 +33,11 @@ class invoices_form{
       $grid_field_arr  = json_encode(array(
          // array("Type","148","type","","",""),
           //array("Number","148","id","","",""),
-          array("Number","148","id","id,'',type","invoices","build_concat_string"),
-          array("Account","250","accountid","first_name,last_name,number","accounts","build_concat_string"),
-	  array("From Date","154","from_date","from_date","","get_from_date"),
-	  array("Generated Date","157","invoice_date","invoice_date","","get_invoice_date"),
-	  array("Amount","220","id","id","id","get_invoice_total"),
+          array("Number","185","id","id,'',type","invoices","build_concat_string"),
+          array("Account","285","accountid","first_name,last_name,number","accounts","build_concat_string"),
+	  array("From Date","190","from_date","from_date","","get_from_date"),
+	  array("Generated Date","175","invoice_date","invoice_date","","get_invoice_date"),
+	  array("Amount","300","id","id","id","get_invoice_total"),
           array("Action","120","","","",array(
 		     "DOWNLOAD"=>array("url"=>$url,"mode"=>"single"),
 		))
@@ -48,12 +48,12 @@ class invoices_form{
       $url=($this->CI->session->userdata('logintype')==0 )?"/user/user_invoice_download/":'/invoices/invoice_main_download/';
     // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
       $grid_field_arr  = json_encode(array(
-          array("Type","148","type","","",""),
-          array("Number","148","id","","",""),
-	  array("From Date","154","from_date","from_date","","get_from_date"),
-	  array("Generated Date","157","invoice_date","invoice_date","","get_invoice_date"),
-	  array("Amount","220","id","id","id","get_invoice_total"),
-            array("Action","120","","","",array(
+          array("Type","220","type","","",""),
+          array("Number","220","id","","",""),
+	  array("From Date","210","from_date","from_date","","get_from_date"),
+	  array("Generated Date","200","invoice_date","invoice_date","","get_invoice_date"),
+	  array("Amount","240","id","id","id","get_invoice_total"),
+            array("Action","160","","","",array(
             "DOWNLOAD"=>array("url"=>$url,"mode"=>"single"),
             ))
 			));

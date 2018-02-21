@@ -6,13 +6,18 @@ class Opensips_form{
     
     function get_opensips_form_fields($id=false) {
         $accountinfo = $this->CI->session->userdata("accountinfo");
-        $val = $id > 0 ? 'subscriber.username.' . $id : 'subscriber.username';
+     
+      $uname_user = $this->CI->common->find_uniq_rendno('10', '', '');
+        $password = $this->CI->common->generate_password();
+   $val = $id > 0 ? 'subscriber.username.' . $id : 'subscriber.username';
+           
+    // echo '<pre>'; print_r($val); exit;
             $loginid=$this->CI->session->userdata('logintype')==2 ? 0:$accountinfo['id'];
         $form['forms'] = array(base_url() . 'opensips/opensips_save/',array("id"=>"opensips_form","name"=>"opensips_form"));
         $form['Opensips Device'] = array(
             array('', 'HIDDEN', array('name'=>'id'),'', '', '', ''), 
-            array('Username', 'INPUT', array('name' => 'username','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|is_unique['.$val.']', 'tOOL TIP', ''),
-            array('password', 'PASSWORD', array('name' => 'password','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', ''),
+       array('Username', 'INPUT', array('name' => 'username', 'size' => '30', 'maxlength' => '30','value'=>$uname_user,'id'=>'username', 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_number fa fa-refresh"></i>'),
+            array('Password', 'INPUT', array('name' => 'password', 'size' => '30', 'maxlength' => '50','value'=>$password ,'id'=>'password','class' => "text field medium"), 'trim|required|min_length[5]|max_length[50]|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
              array('Account', 'accountcode', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'number', 'number', 'accounts', 'build_dropdown', 'where_arr', array("reseller_id" => $loginid,"type"=>"GLOBAL", "deleted" => "0")),
             array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr',array("reseller_id" => $loginid,'status'=>0)),
             array('Domain', 'INPUT', array('name' => 'domain','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', '')
@@ -20,6 +25,7 @@ class Opensips_form{
          );
         $form['button_save'] = array('name' => 'action', 'content' =>'Save' , 'value' => 'save', 'type' => 'button','id'=>'submit', 'class' => 'btn btn-line-parrot');
         $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'NULL\')');
+      //  echo '<pre>'; print_r($form); exit;
         return $form;
     }
     
@@ -116,14 +122,17 @@ function get_search_dispatcher_form()
     }
       function get_opensips_form_fields_for_customer($accountid , $id=false){
 	 $val = $id > 0 ? 'subscriber.username.' . $id : 'subscriber.username';
+	 $uname_user = $this->CI->common->find_uniq_rendno('10', '', '');
+            $password = $this->CI->common->generate_password();
 	 if ($this->CI->session->userdata("logintype") == '0'  || $this->CI->session->userdata("logintype") == '3') {    
          $link = base_url().'opensips/user_opensips_save/true';       
          $form['forms'] = array($link,array("id"=>"opensips_form","name"=>"opensips_form"));
          $form['Opensips Device'] = array(
             array('', 'HIDDEN', array('name'=>'id'),'', '', '', ''), 
             array('', 'HIDDEN', array('name' => 'accountcode','value'=>$this->CI->common->get_field_name('number','accounts',array('id'=>$accountid))), '', '', '', ''),
-            array('Username', 'INPUT', array('name' => 'username','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|is_unique['.$val.']', 'tOOL TIP', 'Please Enter account number'),
-            array('password', 'PASSWORD', array('name' => 'password','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', 'Please Enter account number'),
+            
+		 array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'maxlength' => '25','id'=>'username','value'=>$uname_user, 'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_number fa fa-refresh"></i>'),
+                array('Password', 'PASSWORD', array('name' => 'fs_password', 'size' => '20', 'maxlength' => '25','id'=>'password1','value'=>$password, 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[50]|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
             array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr',array("reseller_id" => $val,'status'=>0)),
             array('Domain', 'INPUT', array('name' => 'domain','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number')   
          );
@@ -134,8 +143,8 @@ function get_search_dispatcher_form()
             $form['Opensips Device'] = array(
             array('', 'HIDDEN', array('name'=>'id'),'', '', '', ''), 
             array('', 'HIDDEN', array('name' => 'accountcode','value'=>$this->CI->common->get_field_name('number','accounts',array('id'=>$accountid))), '', '', '', ''),
-            array('Username', 'INPUT', array('name' => 'username','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required|is_unique['.$val.']', 'tOOL TIP', 'Please Enter account number'),
-            array('password', 'PASSWORD', array('name' => 'password','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', 'Please Enter account number'),
+              array('Username', 'INPUT', array('name' => 'fs_username', 'size' => '20', 'maxlength' => '25','id'=>'username','value'=>$uname_user,  'class' => "text field medium"), 'trim|required|min_length[2]|max_length[25]|xss_clean', 'tOOL TIP', 'Please Enter account number','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_number fa fa-refresh"></i>'),
+                array('Password', 'INPUT', array('name' => 'fs_password', 'size' => '20', 'maxlength' => '25','value'=>$password, 'class' => "text field medium",'id'=>'password1'), 'trim|required|min_length[5]|max_length[25]|xss_clean', 'tOOL TIP', 'Please Enter Password','<i style="cursor:pointer; font-size: 17px; padding-left:10px; padding-top:6px;" title="Reset Password" class="change_pass fa fa-refresh"></i>'),
             array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'reseller_id', '0'),
             
             array('Domain', 'INPUT', array('name' => 'domain','size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number')
@@ -146,7 +155,7 @@ function get_search_dispatcher_form()
 
 
 
-        $form['button_save'] = array('name' => 'action', 'content' =>'Save' , 'value' => 'save', 'type' => 'button','id'=>'submit', 'class' => 'btn btn-line-parrot');
+        $form['button_save'] = array('name' => 'action', 'content' =>'Save' , 'value' => 'save', 'type' => 'submit','id'=>'submit', 'class' => 'btn btn-line-parrot');
         $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'NULL\')');
         return $form;
     }

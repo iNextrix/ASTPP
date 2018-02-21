@@ -58,12 +58,12 @@ class pricing_form {
     function build_pricing_list_for_admin() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
-            array("Name", "230", "name", "", "", ""),
-            array("Default Increment", "210", "inc", "", "", ""),
+            array("Name", "240", "name", "", "", ""),
+            array("Default Increment", "220", "inc", "", "", ""),
             array("Markup(%)", "260", "markup", "", "", ""),
-  	    array("Rate Count", "165", "id", "pricelist_id", "routes", "get_field_count"),
+  	    array("Rate Count", "170", "id", "pricelist_id", "routes", "get_field_count"),
             array("Status", "160", "status", "status", "status", "get_status"),
-            array("Action", "169", "", "", "", array("EDIT" => array("url" => "/pricing/price_edit/", "mode" => "popup"),
+            array("Action", "170", "", "", "", array("EDIT" => array("url" => "/pricing/price_edit/", "mode" => "popup"),
 
                     "DELETE" => array("url" => "/pricing/price_delete/", "mode" => "single")))
                 ));

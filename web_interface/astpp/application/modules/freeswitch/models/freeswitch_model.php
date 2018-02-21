@@ -46,14 +46,18 @@ class Freeswitch_model extends CI_Model {
                         , 'password' => $passowrds->password
                         );
                 }
+                 //echo '<pre>'; print_r($query); exit;
             }
         } else {
             $query = $this->db_model->countQuery("*", "sip_devices", $where);
+            
         }
+       
         return $query;
     }
 
     function add_freeswith($add_array) {
+     $account_data = $this->session->userdata("accountinfo");
 	if(isset($add_array['sip_profile_id']))
 	{
 	      $sip_profile_id=$add_array['sip_profile_id'];
@@ -65,29 +69,32 @@ class Freeswitch_model extends CI_Model {
 //         if (isset($add_array['pricelist_id']) && $add_array['pricelist_id'] == '') {
 //             $add_array['pricelist_id'] = '0';
 //         }
-        if($this->session->userdata("logintype") == 0){
+//echo '<pre>'; print_r(  $add_array); exit;
+        if($this->session->userdata("logintype") == -1){
             $account_data = $this->session->userdata("accountinfo");
             $add_array['accountid'] = $account_data["id"];
         }
+       // echo '<pre>'; print_r( $add_array['accountid']); exit;
         $parms_array = array('password' => $add_array['fs_password']);
 	$add_array['status'] = isset($add_array['status'])?$add_array['status']:"0";
 
         $parms_array_vars = array('effective_caller_id_name' => $add_array['effective_caller_id_name'],
             'effective_caller_id_number' => $add_array['effective_caller_id_number'],
             'user_context' => 'default');
-
+	$log_type = $this->session->userdata("logintype");
+	if($log_type == 0  || $log_type == 3 || $log_type == 1){
+	      $sip_profile_id=$this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
+	}
         $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],'status' => $add_array['status'],
              'dir_params' => json_encode($parms_array),
-            'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $sip_profile_id);
-
-//        print_r($new_array);
-//        exit;
-        
+            'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $sip_profile_id);        
         $this->db->insert('sip_devices', $new_array);
+  //     echo $this->db->last_query(); exit;
         return true;
     }
 
     function edit_freeswith($add_array, $id) {
+   // echo '<pre>'; print_r($add_array); exit;
         if (isset($add_array['pricelist_id']) && $add_array['pricelist_id'] == '') {
             $add_array['pricelist_id'] = '0';
         }
@@ -98,9 +105,12 @@ class Freeswitch_model extends CI_Model {
         $parms_array_vars = array('effective_caller_id_name' => $add_array['effective_caller_id_name'],
             'effective_caller_id_number' => $add_array['effective_caller_id_number']
             );
-
+	$log_type = $this->session->userdata("logintype");
+	if($log_type == 0 || $log_type == 3 || $log_type == 1){
+          $add_array['sip_profile_id'] = $this->common->get_field_name('id','sip_profiles',array('name'=>'default'));
+     	}
         //if else for that we can not assign user pricelist selecttion for user side    
-//             print_r($add_array);
+           
 // 	if (isset($add_array['pricelist_id'])){
 //         $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],
 //             'pricelist_id' => $add_array['pricelist_id'], 'dir_params' => json_encode($parms_array),
@@ -143,7 +153,7 @@ class Freeswitch_model extends CI_Model {
         return true;
     }
 
-    function fs_retrieve_sip_user($flag, $start = 0, $limit = 0) {
+     function fs_retrieve_sip_user($flag, $start = 0, $limit = 0) {
 
         $deviceinfo = array();
         $this->db_model->build_search('fssipdevices_list_search');
@@ -152,7 +162,7 @@ class Freeswitch_model extends CI_Model {
         }else{
 	    $reseller_id = 0;
         }
-        
+       // echo '<pre>'; print_r($reseller_id); exit;
         $query = array();
         if ($flag) {
 	    $where=  "accountid  IN (select id from accounts where reseller_id='$reseller_id' and id = sip_devices.accountid)";
@@ -175,7 +185,7 @@ class Freeswitch_model extends CI_Model {
 	    $where=  "accountid  IN (select id from accounts where reseller_id='$reseller_id' and id = sip_devices.accountid)";
             $query = $this->db_model->countQuery("*", 'sip_devices', $where);
 	}
-// 	echo $this->db->last_query();
+	//echo $this->db->last_query();
         return $query;
     }
 
@@ -269,6 +279,26 @@ class Freeswitch_model extends CI_Model {
         }
 	$response = str_replace("0 total.","",$response);
         return $response;
-    }
+    }/*
+    function reload_live_freeswitch_show($command,$hostid) {
+	$response='';
+	$where=array('id'=>$hostid);
+        $query = $this->db_model->getSelect("*", "freeswich_servers", $where);
+        $fs_data = $query->result_array();
+        
+        foreach ($fs_data as $fs_key => $fs_value) {
+	    $fp = $this->freeswitch_lib->event_socket_create($fs_value["freeswitch_host"], $fs_value["freeswitch_port"], $fs_value["freeswitch_password"]);
+
+	    if ($fp) {
+		$host= $fs_value["freeswitch_host"];
+		$response .= $this->freeswitch_lib->event_socket_request($fp, $command);
+		$response = str_replace("0 total.","",$response);
+		$response = $response;
+		fclose($fp);
+		//$new_arr=array('host'=>$fs_cli,'response'=>$response);
+	    }
+        }
+        return $response;
+    }*/
 
 }

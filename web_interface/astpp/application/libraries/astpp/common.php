@@ -45,7 +45,12 @@ class common {
      * @param type $label
      * @param type $field add
      */
-    function find_uniq_rendno($size = '', $field = '', $tablename = '') {
+  
+    function generate_password(){
+      $pass=substr(md5(rand(0, 1000000000)), 0, common_model::$global_config['system_config']['pinlength']);
+      return $pass;
+    }
+function find_uniq_rendno($size = '', $field = '', $tablename = '') {
 
         if ($tablename != '') {
             $accounttype_array = array();
@@ -62,7 +67,30 @@ class common {
         }
         return $uname;
     }
-        function random_string($length)
+    function find_uniq_rendno_customer($size = '', $field = '', $tablename = '') {
+        if ($tablename != '') {
+            $accounttype_array = array();
+            $uname = rand(pow(10, $size - 1), pow(10, $size) - 1);
+            $where = array($field => $uname);
+            $acc_result = $this->CI->db_model->getSelect('Count(*) as count', $tablename, $where);
+            $acc_result = $acc_result->result();
+            while ($acc_result[0]->count != 0) {
+                $uname = rand(pow(10, $size - 1), pow(10, $size) - 1);
+                $acc_result = $this->CI->db_model->getSelect('Count(*) as count', $tablename, $where);
+            }
+        } else {
+            $uname = rand(pow(10, $size - 1), pow(10, $size) - 1);
+        }
+        $start_prifix_value = common_model::$global_config['system_config']['startingdigit'];
+       if($tablename == 'accounts' && $start_prifix_value != 0){
+          $length=strlen($start_prifix_value);
+          $uname = substr($uname,$length);
+          $uname = $start_prifix_value . $uname;
+       }
+       return $uname;
+    }
+
+function random_string($length)
 {
     $chars ="1234567890";//length:36
     $final_rand='';
@@ -165,69 +193,76 @@ class common {
         }
         return rtrim($value, ',');
     }
-
     function check_did_avl($select, $table, $where)
     {
-	$number=$where;
-	$where = array("number" => $where);
-	$field_name = $this->CI->db_model->getSelect("accountid", 'dids', $where);
+        $accountinfo=$this->CI->session->userdata('accountinfo');
+        $flag_status = "";
+        $where = array("number" => $where);
+        $field_name = $this->CI->db_model->getSelect("id,accountid,parent_id", 'dids', $where);
         $field_name = $field_name->result();
-
         if (isset($field_name) && !empty($field_name)) {
-            if($field_name[0]->accountid != 0)
+            if(isset($field_name[0]) && $accountinfo['type'] != 1 )
             {
-		$flag_status="Yes(C)";
+                if($field_name[0]->accountid != 0){
+                  $flag_status="<a href='../did_list_reliase/".$field_name[0]->id."' title='Reliase' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='reliase'>Release(C)<span></a>";
+                }
+                else if($field_name[0]->parent_id != 0){
+                  $flag_status="<a href='../did_list_reliase/".$field_name[0]->id."' title='Reliase' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='reliase'>Release(R)</span></a>";
+                }else{
+                    $flag_status="<span class=' label label-sm label-inverse arrowed-in' title='Not in use'>Not in use</span>";
+                }
             }else{
-            $accountinfo=$this->CI->session->userdata('accountinfo');
-	    $reseller_id= $accountinfo['type'] != 1 ? 0 : $accountinfo['id'];
-		$where = array("note" => $number,'parent_id'=>$reseller_id);
-		$field_name_re = $this->CI->db_model->getSelect("reseller_id", 'reseller_pricing', $where);
-		$field_name_re = $field_name_re->result();
-		
-		if (isset($field_name_re) && !empty($field_name_re)) {
-		      $flag_status="Yes(R)";
-		}else{
-		  $flag_status="No";
-		}
-	    }
+                $reseller_id= $accountinfo['type'] != 1 ? 0 : $accountinfo['id'];
+                $where = array("note" => $field_name[0]->number,'parent_id'=>$reseller_id);
+                $field_name_re = $this->CI->db_model->getSelect("reseller_id", 'reseller_pricing', $where);
+                $field_name_re = $field_name_re->result();
+        
+                if (isset($field_name_re) && !empty($field_name_re)) {
+                      $flag_status="<a href='../did_list_reliase/".$field_name[0]->id."' title='Reliase' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='reliase'>Release(R)</span></a>";
+                }else{
+                  $flag_status="<span class=' label label-sm label-inverse arrowed-in' title='Not in use'>Not in use</span>";
+                }
+            }
         } else {
-            $flag_status="No";
-        }
-//         echo $flag_status;exit;
-        return $flag_status;
+            $flag_status="<span class=' label label-sm label-inverse arrowed-in' title='Not in use'>Not in use</span>";
+        } 
+        return $flag_status;           
     }
     
     function check_did_avl_reseller($select, $table, $where)
     {
-	$number=$where;
-	$where = array("number" => $where);
-	$field_name = $this->CI->db_model->getSelect("accountid,parent_id", 'dids', $where);
+        $accountinfo=$this->CI->session->userdata('accountinfo');
+        $flag_status = "";
+        $where = array("number" => $where);
+        $field_name = $this->CI->db_model->getSelect("id,accountid,parent_id,number", 'dids', $where);
         $field_name = $field_name->result();
-
         if (isset($field_name) && !empty($field_name)) {
-            if($field_name[0]->accountid != 0)
+            if(isset($field_name[0]) && $accountinfo['type'] != 1 )
             {
-		$flag_status="Yes(C)";
+                if($field_name[0]->accountid != 0){
+                  $flag_status="<a href='../did_list_reliase/".$field_name[0]->id."' title='Reliase' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='reliase'>Release(C)<span></a>";
+                }
+                else if($field_name[0]->parent_id != 0){
+                  $flag_status="<a href='../did_list_reliase/".$field_name[0]->id."' title='Reliase' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='reliase'>Release(R)</span></a>";
+                }else{
+                    $flag_status="<span class=' label label-sm label-inverse arrowed-in' title='Not in use'>Not in use</span>";
+                }
             }else{
-		if($field_name[0]->parent_id != 0){
-		$parent_id =$field_name[0]->parent_id;
-		$where = array("note" => $number,'parent_id'=>$parent_id);
-		$field_name_re = $this->CI->db_model->getSelect("reseller_id", 'reseller_pricing', $where);
-		$field_name_re = $field_name_re->result();
-		if (isset($field_name_re) && !empty($field_name_re)) {
-		      $flag_status="Yes(R)";
-		}else{
-		  $flag_status="No";
-		}
-	    }else{
-		$flag_status="No";
-	    }
-	    }
+                $reseller_id= $accountinfo['type'] != 1 ? 0 : $accountinfo['id'];
+                $where = array("note" => $field_name[0]->number,'parent_id'=>$reseller_id);
+                $field_name_re = $this->CI->db_model->getSelect("reseller_id,id", 'reseller_pricing', $where);
+                $field_name_re = $field_name_re->result();
+        
+                if (isset($field_name_re) && !empty($field_name_re)) {
+                      $flag_status="<a href='../did/did_reseller_edit/delete/".$field_name_re[0]->id."' title='Reliase' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='reliase'>Release(R)</span></a>";
+                }else{
+                  $flag_status="<span class=' label label-sm label-inverse arrowed-in' title='Not in use'>Not in use</span>";
+                }
+            }
         } else {
-            $flag_status="No";
-        }
-//         echo $flag_status;exit;
-        return $flag_status;
+            $flag_status="<span class=' label label-sm label-inverse arrowed-in' title='Not in use'>Not in use</span>";
+        } 
+        return $flag_status;           
     }
 //    get data for Comma seprated
     function get_field_name_coma($select, $table, $where) {
@@ -309,7 +344,7 @@ class common {
         return ($status == 0) ? "Inactive" : "Active";
     }
     function set_allow($status = '') {
-        $status_array = array('1' => 'Yes', '0' => 'No');
+        $status_array = array('1' => 'Enable', '0' => 'Disable');
         return $status_array;
     } 
     function get_allow($select = "", $table = "", $status) {
@@ -380,12 +415,12 @@ class common {
         return ($status == 0) ? "Active" : "Inactive";
     }
      function get_invoice_date($select='',$table='',$invoice_date){
-//       echo $date;exit;
+
       $invoice_date = date('Y-m-d', strtotime($invoice_date)); 
       return $invoice_date;  
     }
     function get_from_date($select='',$table='',$from_date){
-//       echo $date;exit;
+
       $from_date = date('Y-m-d', strtotime($from_date)); 
       return $from_date;  
     }
@@ -395,7 +430,7 @@ class common {
             return $amount;
         } else {
 	    $balance = $this->CI->common_model->add_calculate_currency(($amount), "", '', true, true);
-//             $balance = $this->CI->common_model->calculate_currency($amount* -1);
+
             return $balance;
         }
     }
@@ -459,6 +494,48 @@ class common {
         $status_array = array('SIP' => 'SIP', 'IAX2' => 'IAX2', 'Zap' => 'Zap', 'Local' => 'Local', 'OH323' => 'OH323', 'OOH323C' => 'OOH323C');
         return $status_array;
     }
+
+/*
+*
+* Purpose : Add Profit Margin report
+* Version 2.1
+*/
+    function set_notify_by($status = '') {
+        $status_array = array(''=>'Select Notify By','0' => 'CSV', '1' => 'Email');
+        return $status_array;
+    }
+
+    function convert_to_percentage($select = "", $table = "", $amount) {
+        return round($amount,2)." %";
+    }
+
+    function convert_to_minutes($select = "", $table = "", $amount) {
+        return str_replace('.',':',round($amount/60,2));
+    }
+
+    function set_filter_type_search($status = '') {
+        $status_array = array('pricelist_id' => 'Rate Group', 'accountid' => 'Customer','reseller_id' => 'Reseller');
+        return $status_array;
+    }
+    
+    //attachment download in email module...
+     function attachment_icons($select = "", $table = "", $attachement="") {
+	if($attachement!="")
+	{
+		$array=explode(",", $attachement);
+		$str='';
+	//echo '<pre>'; print_r($array); exit;	
+		foreach($array as $key =>$val){
+			$link = base_url() . "email/email_history_list_attachment/".$val;
+			$str.="<a href='".$link."' title='".$val."' class='btn btn-royelblue btn-sm'><i class='fa fa-paperclip fa-fw'></i></a>&nbsp;&nbsp;";
+		}
+		return $str;
+	}
+	else{
+		return "";
+	}
+    }
+/****************************************************************/
 
     function set_despostion($dis = '') {
         $status_array = array("" => "--Select Disposition--",
@@ -526,6 +603,15 @@ class common {
                 if (strtoupper($button_key) == "EDIT") {
                     $ret_url .= $this->build_edit_button($buttons_params, $linkid);
                 }
+/*
+*
+* Purpose : Add resend link
+* Version 2.1
+*/
+		if (strtoupper($button_key) == "RESEND") {
+                    $ret_url .= $this->build_edit_button_resend($buttons_params, $linkid);
+                }
+/****************************************/
                 if (strtoupper($button_key) == "EDIT_RESTORE") {
                     $ret_url .= $this->build_edit_button_restore($buttons_params, $linkid);
                 }
@@ -670,8 +756,21 @@ class common {
         $link = base_url() . $url . "" . $linkid;
         return '<a href="' . $link . '" class="btn btn-royelblue btn-sm"  title="Download Invoice" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp;';
     }
-
-
+/*
+* Purpose : Add following for resent icon
+* Version 2.1
+*/
+    function build_edit_button_resend($button_params, $linkid) {
+        $link = base_url() . $button_params->url . "" . $linkid;
+        if ($button_params->mode == 'popup') {
+            return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="Resend Mail"><i class="fa fa-repeat"></i></a>&nbsp;';
+        } else {
+            return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Resend Mail"><i class="fa fa-repeat"></i></a>&nbsp;';
+        }
+    }
+/*
+*----------------------------------------------------------------------------
+*/
     function get_only_numeric_val($select = "", $table = "", $string) {
         return filter_var($string, FILTER_SANITIZE_NUMBER_INT);
     }
@@ -894,6 +993,114 @@ function mail_to_users($type, $accountinfo,$attachment="",$amount="") {
       }
       return $reseller_get;
      }
+    /** Version 2.1
+     * Purpose : Set default data for new created profile
+     **/
+    function sip_profile_date(){
+    $defualt_profile_data ='{"rtp_ip":"$${local_ip_v4}","dialplan":"XML","user-agent-string":"ASTPP","debug":"0","sip-trace":"no","tls":"false","inbound-reg-force-matching-username":"true","disable-transcoding":"true","all-reg-options-ping":"false","unregister-on-options-fail":"true","log-auth-failures":"true","status":"0","inbound-bypass-media":"false","inbound-proxy-media":"false","disable-transfer":"true","enable-100rel":"false","rtp-timeout-sec":"60","dtmf-duration":"2000","manual-redirect":"false","aggressive-nat-detection":"false","enable-timer":"false","minimum-session-expires":"120","session-timeout-pt":"1800","auth-calls":"true","apply-inbound-acl":"default","inbound-codec-prefs":"PCMU,PCMA,G729","outbound-codec-prefs":"PCMU,PCMA,G729","inbound-late-negotiation":"false"}';
+    return $defualt_profile_data;
+    
+    } 
+    /*=====================================================================*/
+/*
+* Purpose : Add following for mass mail and mail history
+* Version 2.1
+*/
+  function set_search_temp($select= ''){
+        $status_array = array("0" => "--Select--",
+            "1" => "Voip account refilled",
+            "3" => "Email add user",
+            "4" => "Add sip device",
+            "8" => "Email add did",
+            "9" => "Email remove did",
+            "10" => "Email new invoice",
+            "11" => "Email low balance",
 
+        );
+        return $status_array;
+}
+    function email_status($select = "", $table = "", $status) {
+        return ($status == 0) ? "Sent" : "Not Sent";
+    }
+    function email_search_status($select= ''){
+        $status_array = array("" => "--Select--",
+            "0" => "Sent",
+            "1" => "Not Sent"
+        );
+        return $status_array;
+    }
+    /*=====================================================================*/
+
+
+/*
+* Purpose : Add following for setting page
+* Version 2.1
+*/
+    function paypal_status($status = '') {
+        $status_array = array( '0' => 'Enable','1' => 'Disable',);
+        return $status_array;
+    }
+    function paypal_mode($status = '') {
+        $status_array = array( '0' => 'Live','1' => 'Sandbox',);
+        return $status_array;
+    }
+    function paypal_fee($status = '') {
+        $status_array = array( '0' => 'Paid By Admin','1' => 'Paid By Customer',);
+        return $status_array;
+    }
+    function email(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+
+    function smtp(){
+	return $this->set_allow();
+    }
+    
+    function debug(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+    function opensips(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+    function cc_ani_auth(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+     function calling_cards_balance_announce(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+     function calling_cards_timelimit_announce(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+    function calling_cards_rate_announce(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+    function startingdigit(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+    function SMPT(){
+	$status_array = array( '1' => 'Enable','0' => 'Disable',);
+        return $status_array;
+    }
+    function country(){
+	return $this->CI->common_model->get_country_list();
+    }
+    function default_timezone(){
+	return $this->CI->db_model->build_dropdown('id,gmtzone', 'timezone');
+    }
+    function timezone(){
+	return $this->CI->db_model->build_dropdown('gmttime,gmttime', 'timezone');
+    }
+    function base_currency(){
+	return $this->CI->db_model->build_dropdown('currency,currencyname', 'currency');
+    }
+/*************************************************************************************/
 }
 

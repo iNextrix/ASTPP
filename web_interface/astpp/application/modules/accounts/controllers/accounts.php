@@ -25,14 +25,16 @@ class Accounts extends MX_Controller {
     function Accounts() {
         parent::__construct();
         $this->load->helper('template_inheritance');
-
+        
         $this->load->library('accounts_form');
         $this->load->library('astpp/form');
 
         $this->load->model('common_model');
         $this->load->library('session');
+       // echo 'saddsa1';
         $this->load->helper('form');
         $this->load->model('accounts_model');
+      //  echo 'saddsa';exit;
         $this->load->model('Astpp_common');
         $this->load->config('accounts_config');
         $this->protected_pages = array('account_list');
@@ -101,10 +103,13 @@ function reseller_export_cdr_xls() {
         $data['flag'] = 'create';
         $data['page_title'] = 'Create '.$entity_type;
 
-        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields($entity_type), '');
-	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
+
+	$data['country_id']=Common_model::$global_config['system_config']['country'];
+	//$data['currency_id']=Common_model::$global_config['system_config']['base_currency'];
 	$data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
-	$data['timezone_id']=$this->common->get_field_name('id', 'timezone', array('gmttime'=>str_replace(' ', '',Common_model::$global_config['system_config']['default_timezone'])));
+	$data['timezone_id']=Common_model::$global_config['system_config']['default_timezone'];
+
+	        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields($entity_type), '');
         if(!$data['timezone_id'])
         {
                 $data['timezone_id']=1;
@@ -121,9 +126,11 @@ function reseller_export_cdr_xls() {
         $this->load->view('view_accounts_create', $data);
     }
         function customer_bulk_creation() {
-	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
+	$data['country_id']=Common_model::$global_config['system_config']['country'];
+	//$data['currency_id']=Common_model::$global_config['system_config']['base_currency'];
+	//$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
 	$data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
-	$data['timezone_id']=$this->common->get_field_name('id', 'timezone', array('gmttime'=>str_replace(' ', '',Common_model::$global_config['system_config']['default_timezone'])));
+	$data['timezone_id']=Common_model::$global_config['system_config']['default_timezone'];
         if(!$data['timezone_id'])
         {
                 $data['timezone_id']=1;
@@ -151,7 +158,7 @@ function reseller_export_cdr_xls() {
         $currentlength=$this->accounts_model->get_max_limit($add_array);
 	if ($logintype == 1 || $logintype == 5) {
             $account_data = $this->session->userdata("accountinfo");
-            $add_array['reseller_id'] = $add_array['id'];
+            $add_array['reseller_id'] = $account_data['id'];
         } else {
             $add_array['reseller_id'] = "0";
         }
@@ -411,11 +418,19 @@ function reseller_export_cdr_xls() {
             $action = $this->input->post();
             unset($action['action']);
             unset($action['advance_search']);
+        if(isset($action['balance']['balance']) && $action['balance']['balance']!=''){
+		     $action['balance']['balance']=$this->common_model->add_calculate_currency($action['balance']['balance'], "", '', false, false);
+	    }
+	    if(isset($action['credit_limit']['credit_limit']) && $action['credit_limit']['credit_limit']!=''){
+	       	$action['credit_limit']['credit_limit']=$this->common_model->add_calculate_currency($action['credit_limit']['credit_limit'], "", '', false, false);
+	    }
             $this->session->set_userdata('customer_list_search', $action);
         }
         if (@$ajax_search != 1) {
             redirect(base_url() . 'accounts/customer_list/');
         }
+       //  echo '<pre>'; print_r($action); exit;
+         
     }
     function customer_list_clearsearchfilter() {
         $this->session->set_userdata('advance_search', 0);
@@ -462,24 +477,147 @@ function reseller_export_cdr_xls() {
                      exit;
                 }
             } else {
+            	//echo '<pre>'; print_r($post_array); exit;
                 $response = $this->accounts_model->account_process_payment($post_array);
                 if($post_array['payment_type']== 1 && $account['posttoexternal']==0){
 		    $this->load->module('invoices/invoices');
 		    $invoice_id=$this->invoices->invoices->generate_receipt($post_array['id'],$post_array['credit']);
-		    $insert_arr = array("accountid" => $post_array['accountid'],
+/*
+*
+* Purpose : Solve issue of showing number instead of id when post charge added and showing credit instead of debit
+* Version 2.1
+*
+*/
+		    $insert_arr = array("accountid" => $post_array['id'],
 				    "description" => trim($post_array['notes']),
-				    "credit" => $post_array['credit'],
+				    "debit" => $post_array['credit'],
 				    "created_date" => gmdate("Y-m-d H:i:s"), 
 				    "charge_type" => "post_charge",
 				    "invoiceid"=>$invoice_id
 				    );
 		    $this->db->insert("invoice_item", $insert_arr);
-                }
-                echo json_encode(array("SUCCESS"=> "Account refilled successfully!"));
+                }else{
+            		    $insert_arr = array("accountid" => $post_array['id'],
+				    "description" => trim($post_array['notes']),
+				    "debit" => $post_array['credit'],
+				    "created_date" => gmdate("Y-m-d H:i:s"), 
+				    "charge_type" => "post_charge",
+				    "invoiceid"=>0
+				    );
+			    $this->db->insert("invoice_item", $insert_arr);  
+		}
+	        $message = $post_array['payment_type']== 0 ? "Recharge successfully!" : "Post charge applied successfully.";
+/***********************************************************************************************/
+                echo json_encode(array("SUCCESS"=> $message));
                 exit;
             }
         }
         $this->load->view('view_accounts_process_payment', $data);
+    }
+    
+    
+    /** code for customer transfer */
+	
+	function customer_transfer() {
+	$accou_infor = $this->session->userdata('accountinfo');
+	$account = $this->accounts_model->get_account_by_number($accou_infor['id']);
+        $currency = $this->accounts_model->get_currency_by_id($account['currency_id']);
+        $data['username'] = $this->session->userdata('user_name');
+        $data['page_title'] = 'Fund Transfer';
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_transfer_fields($currency['currency'], $account['number'], $currency['currency'], $accou_infor['id']), '');
+        $this->load->view('view_user_transfer', $data);
+        
+    }
+
+/*customer transfer save*/
+	function customer_transfer_save() {
+	    $post_array = $this->input->post();
+        if(trim($post_array['fromaccountid']) != trim($post_array['toaccountid'])){
+            $account_info = $this->session->userdata('accountinfo');
+            $balance=$this->common->get_field_name('balance', 'accounts', array('id'=>$account_info['id'],'status'=>0,'type'=>0,'deleted'=>0)); ;
+            $toid=$this->common->get_field_name('id', 'accounts', array('number'=>$post_array['toaccountid'],'status'=>0,'type'=>0,'deleted'=>0));   
+             $reseller_id=$this->common->get_field_name('reseller_id', 'accounts', array('number'=>$post_array['toaccountid'],'status'=>0,'type'=>0,'deleted'=>0));   
+            $post_array['credit'] = $this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false);
+	    if ($post_array['toccountid'] == $account_info['number']){
+	     $this->session->set_flashdata('astpp_notification', 'You can not transfer fund in same account.');
+              redirect(base_url() . 'accounts/customer_transfer/'); 
+	    }
+	    if ($reseller_id != $account_info['reseller_id']){
+	     $this->session->set_flashdata('astpp_notification', 'You can only transfer fund in same level account.');
+              redirect(base_url() . 'accounts/customer_transfer/'); 
+	    }
+	    if ($post_array['toaccountid'] == ''){
+              $this->session->set_flashdata('astpp_notification', 'Please enter To account number.');
+              redirect(base_url() . 'accounts/customer_transfer/');
+            }
+            if (empty($post_array['credit'])){
+              $this->session->set_flashdata('astpp_notification', 'Please enter a amount.');
+              redirect(base_url() . 'accounts/customer_transfer/'); 
+            }
+            if ($post_array['credit'] > $balance){
+              $this->session->set_flashdata('astpp_notification', 'You have insufficient balance.');
+              redirect(base_url() . 'accounts/customer_transfer/'); 
+            }
+            if ($toid <= 0 || !isset($post_array['toaccountid'])){
+              $this->session->set_flashdata('astpp_notification', 'Please enter valid account number.');
+              redirect(base_url() . 'accounts/customer_transfer/');
+            }
+            if($post_array['credit'] < 0)
+            {
+               $this->session->set_flashdata('astpp_notification', 'Please enter amount greater then 0.');
+               redirect(base_url() . 'accounts/customer_transfer/');   
+            } 
+	$patterns = $this->db_model->getSelect("value", 'system', array('name' => 'minimum_fund_transfer'));
+        $minimum_fund = $patterns->result_array();
+	if($minimum_fund[0]['value'] >= $post_array['credit']){
+               $this->session->set_flashdata('astpp_notification', 'You need to enter minimum amount of fund transfer '.$minimum_fund[0]['value'].' .');
+                redirect(base_url() . 'accounts/customer_transfer/');   
+	} 
+	if (!isset($toid) || !isset($post_array['toaccountid'])){
+	  $this->session->set_flashdata('astpp_notification', 'Please enter valid account number!');
+	  redirect(base_url() . 'accounts/customer_transfer/');
+	}
+	if($post_array['credit'] < 0 || $post_array['credit'] > $account_info['balance'] )
+	{
+	   $this->session->set_flashdata('astpp_notification', 'Incefficent amount !');
+	   redirect(base_url() . 'accounts/customer_transfer/');	
+	}
+            $from['id']=$post_array['id'];
+            $from['account_currency']=$post_array['account_currency'];
+            $from['accountid']=$post_array['fromaccountid'];
+            if($account['posttoexternal'] ==1){
+              $from['credit']= abs($post_array['credit']);
+            }else{
+              $from['credit']= -1 * abs($post_array['credit']);
+            }
+            $from['posttoexternal']= $account['posttoexternal'];
+            $from['payment_type']='0';
+            $from['notes']=$post_array['notes'];
+            $from['action']='save';
+
+            $to['id']=$toid;
+            $to['account_currency']=$post_array['account_currency'];
+            $to['accountid']=$post_array['toaccountid'];
+            $to['credit']= $post_array['credit'];
+            $to['payment_type']='0';
+            $to['notes']=$post_array['notes'];
+            $to['action']='save';
+
+            $response = $this->accounts_model->account_process_payment($from);
+            
+            if ($response){
+              $toresponse=$this->accounts_model->account_process_payment($to);
+              $this->session->set_flashdata('astpp_errormsg', 'Transfer success!');       
+            }
+            else{
+              $this->session->set_flashdata('astpp_notification', 'Sorry We are not able to process this request.');
+            }
+
+        }else{
+            $this->session->set_flashdata('astpp_notification', 'You can not transfer fund in same account.');
+            redirect(base_url() . 'accounts/customer_transfer/');   
+        }
+	    redirect(base_url() . 'accounts/customer_transfer/');
     }
     /**
      * -------Here we write code for controller accounts functions add_callerid------
@@ -536,9 +674,10 @@ function reseller_export_cdr_xls() {
         $data['flag'] = 'create';
         $data['page_title'] = 'Create Reseller';
         $data['form'] = $this->form->build_form($this->accounts_form->get_form_reseller_fields(), '');
-	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
-	$data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
-	$data['timezone_id']=$this->common->get_field_name('id', 'timezone', array('gmttime'=>str_replace(' ', '',Common_model::$global_config['system_config']['default_timezone'])));
+	    $data['country_id']=Common_model::$global_config['system_config']['country'];
+	//$data['currency_id']=Common_model::$global_config['system_config']['base_currency'];
+	   $data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
+	   $data['timezone_id']=Common_model::$global_config['system_config']['default_timezone'];
 	if(!$data['timezone_id'])
         {
                 $data['timezone_id']=1;
@@ -758,6 +897,13 @@ function reseller_export_cdr_xls() {
 	    $this->load->view('view_accounts_create', $data);
         }
     }
+    
+     function customer_generate_password(){
+        echo $this->common->generate_password();
+    }
+    function customer_generate_number($digit){
+        echo $this->common->find_uniq_rendno($digit, 'number', 'accounts');
+    }
 
     function provider_add() {
     
@@ -882,9 +1028,10 @@ function reseller_export_cdr_xls() {
         $data['flag'] = 'create';
         $data['page_title'] = 'Create '.$entity_type;
         $data['form'] = $this->form->build_form($this->accounts_form->get_form_admin_fields($entitytype), '');
-       	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
+	$data['country_id']=Common_model::$global_config['system_config']['country'];
+	//$data['currency_id']=Common_model::$global_config['system_config']['base_currency'];
 	$data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
-	$data['timezone_id']=$this->common->get_field_name('id', 'timezone', array('gmttime'=>str_replace(' ', '',Common_model::$global_config['system_config']['default_timezone'])));
+	$data['timezone_id']=Common_model::$global_config['system_config']['default_timezone'];
         if(!$data['timezone_id'])
         {
                 $data['timezone_id']=1;
@@ -1086,43 +1233,43 @@ function reseller_export_cdr_xls() {
      * -------Here we write code for controller accounts functions account_detail------
      * Account detail info through account number with checking account no exit or not.
      */
-    function account_detail($accountid) { //build_account_info
-        $data['app_name'] = 'ASTPP - Open Source Billing Solution | Accounts | Create';
-        $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Account Details';
-        $where = array('accountid' => urldecode($accountid));
-        $account = $this->db_model->getSelect("*", "accounts", $where);
-        $data["account_data"] = $account[0];
-        $data['sweeplist'] = $this->common_model->get_sweep_list();
-        $data['currency_list'] = $this->common_model->get_currency_list();
-        $data['config'] = $this->common_model->get_system_config();
-        $data['country_list'] = $this->common_model->get_country_list();
-        $Timezone = $this->db_model->getSelect("id,gmtzone", "timezone", "");
-        $Timezone_list = array();
-        foreach ($Timezone as $timezone_value) {
-            $Timezone_list[$timezone_value->id] = $timezone_value->gmtzone;
-        }
-        $data["Timezone_list"] = $Timezone_list;
-        $pricelist = $this->db_model->getSelect("name", "pricelists", "");
-        $pricelist_list = array();
-        foreach ($pricelist as $pricelist_value) {
-            $pricelist_list[$pricelist_value->name] = $pricelist_value->name;
-        }
-
-        $data["Price_list"] = $pricelist_list;
-        $data["language_list"] = Common_model::$global_config['language_list'];
-
-        /* Charges data fetch display in drop down list */
-        $data['chargelist'] = $this->Astpp_common->list_applyable_charges();
-
-        /* Charges Grid field array declaired here */
-        $data['charges_grid_fields'] = array("0" => array("0" => "Description", "1" => "400"),
-            "1" => array("0" => "Charges", "1" => "100"),
-            "2" => array("0" => "Cycle", "1" => "100")
-        );
-
-        $this->load->view('view_accounts_details', $data);
-    }
+//     function account_detail($accountid) { //build_account_info
+//         $data['app_name'] = 'ASTPP - Open Source Billing Solution | Accounts | Create';
+//         $data['username'] = $this->session->userdata('user_name');
+//         $data['page_title'] = 'Account Details';
+//         $where = array('accountid' => urldecode($accountid));
+//         $account = $this->db_model->getSelect("*", "accounts", $where);
+//         $data["account_data"] = $account[0];
+//         $data['sweeplist'] = $this->common_model->get_sweep_list();
+//         $data['currency_list'] = $this->common_model->get_currency_list();
+//         $data['config'] = $this->common_model->get_system_config();
+//         $data['country_list'] = $this->common_model->get_country_list();
+//         $Timezone = $this->db_model->getSelect("id,gmtzone", "timezone", "");
+//         $Timezone_list = array();
+//         foreach ($Timezone as $timezone_value) {
+//             $Timezone_list[$timezone_value->id] = $timezone_value->gmtzone;
+//         }
+//         $data["Timezone_list"] = $Timezone_list;
+//         $pricelist = $this->db_model->getSelect("name", "pricelists", "");
+//         $pricelist_list = array();
+//         foreach ($pricelist as $pricelist_value) {
+//             $pricelist_list[$pricelist_value->name] = $pricelist_value->name;
+//         }
+// 
+//         $data["Price_list"] = $pricelist_list;
+//         $data["language_list"] = Common_model::$global_config['language_list'];
+// 
+//         /* Charges data fetch display in drop down list */
+//         $data['chargelist'] = $this->Astpp_common->list_applyable_charges();
+// 
+//         /* Charges Grid field array declaired here */
+//         $data['charges_grid_fields'] = array("0" => array("0" => "Description", "1" => "400"),
+//             "1" => array("0" => "Charges", "1" => "100"),
+//             "2" => array("0" => "Cycle", "1" => "100")
+//         );
+// 
+//         $this->load->view('view_accounts_details', $data);
+//     }
 
     function chargelist_json($accountid) {
         $json_data = array();
@@ -1185,11 +1332,18 @@ function reseller_export_cdr_xls() {
      */
     function admin_list_json() {
         $json_data = array();
-        $count_all = $this->accounts_model->get_admin_Account_list(false);
+        
+        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+            $account_data = $this->session->userdata("accountinfo");
+            $reseller_id=$accountdata['id'];
+        } else {
+             $reseller_id=0;
+        }
+        $count_all = $this->accounts_model->get_admin_Account_list(false,'','',$reseller_id);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
 
-        $query = $this->accounts_model->get_admin_Account_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+        $query = $this->accounts_model->get_admin_Account_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"],$reseller_id);
         $grid_fields = json_decode($this->accounts_form->build_account_list_for_admin());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
 
@@ -1308,6 +1462,12 @@ function reseller_export_cdr_xls() {
             $action = $this->input->post();
             unset($action['action']);
             unset($action['advance_search']);
+        if(isset($action['balance']['balance']) && $action['balance']['balance']!=''){
+		  $action['balance']['balance']=$this->common_model->add_calculate_currency($action['balance']['balance'], "", '', false, false);
+	    }
+	    if(isset($action['credit_limit']['credit_limit']) && $action['credit_limit']['credit_limit']!=''){
+		  $action['credit_limit']['credit_limit']=$this->common_model->add_calculate_currency($action['credit_limit']['credit_limit'], "", '', false, false);
+	    }
             $this->session->set_userdata('provider_list_search', $action);
         }
         if (@$ajax_search != 1) {
@@ -1357,6 +1517,12 @@ function reseller_export_cdr_xls() {
             $action = $this->input->post();
             unset($action['action']);
             unset($action['advance_search']);
+            if(isset($action['balance']['balance']) && $action['balance']['balance']!=''){
+		$action['balance']['balance']=$this->common_model->add_calculate_currency($action['balance']['balance'], "", '', false, false);
+	    }
+	    if(isset($action['credit_limit']['credit_limit']) && $action['credit_limit']['credit_limit']!=''){
+		$action['credit_limit']['credit_limit']=$this->common_model->add_calculate_currency($action['credit_limit']['credit_limit'], "", '', false, false);
+	    }
             $this->session->set_userdata('reseller_list_search', $action);
         }
         if (@$ajax_search != 1) {
@@ -1489,6 +1655,7 @@ function reseller_export_cdr_xls() {
     }
 
     function subadmin_delete($id) {
+   // print_r($id); exit;
         $this->accounts_model->remove_customer($id);
         $this->session->set_flashdata('astpp_notification', 'Sub admin removed successfully!');
         redirect(base_url() . 'accounts/admin_list/');
@@ -1734,8 +1901,7 @@ function reseller_export_cdr_xls() {
         if ($action == "add") {
             $charge_id = $this->input->post("applayable_charge", true);
             if ($charge_id != "") {
-                $insert_arr = array("charge_id" => $charge_id,
-                    "accountid" => $accountid, "status" => "1");
+                $insert_arr = array("charge_id" => $charge_id,"accountid" => $accountid, "status" => "1","assign_date"=>gmdate("Y-m-d H:i:s"));
                 $this->db->insert("charge_to_account", $insert_arr);
  	    	$this->session->set_flashdata('astpp_errormsg', 'Subscripton Added Sucessfully.');
                 redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#packages");
@@ -1756,8 +1922,7 @@ function reseller_export_cdr_xls() {
             $charge = $this->common_model->add_calculate_currency($charge, "", '', false, false);
             $date = date('Y-m-d H:i:s');
             $insert_arr = array("accountid" => $accountid, "description" => $this->input->post("desc", true),
-                "created_date" => $date, "debit" => $charge,
-                "charge_type" => "post_charge");
+                "created_date" => $date, "debit" => $charge,"charge_type" => "post_charge");
             $this->db->insert("invoice_item", $insert_arr);
 
             $this->accounts_model->update_balance($charge, $accountid, "debit");
@@ -1874,14 +2039,14 @@ function reseller_export_cdr_xls() {
                 $this->db->where($delete_array);
                 $this->db->delete('reseller_pricing');
             }
- 	    $this->session->set_flashdata('astpp_notification', 'Did Removed Sucessfully.');
+ 	    $this->session->set_flashdata('astpp_notification', 'Did Removed Successfully.');
             redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
         }
     }
     
     function reseller_did_action($action, $accountid, $accounttype, $did_id = "")
     {
-// 	echo $accountid;exit;
+//	
 	  if ($action == "add") {
             
 	      $did_id = $this->input->post("free_did_list", true);
@@ -1893,6 +2058,7 @@ function reseller_export_cdr_xls() {
 		  
 		  $account_arr = $account_query->result_array();
 		  $idofaccount = $accountid;
+		  //echo $idofaccount;exit;
 // 		  echo "<pre>";print_r($this->session->userdata);echo "-----------".$accountid;exit;
 // 		  if($this->session->userdata['userlevel_logintype'] == -1)
 // 		  {
@@ -1902,7 +2068,9 @@ function reseller_export_cdr_xls() {
 // 		  }
 		  $this->db_model->update("dids", array("parent_id" => $accountid), array("id" => $did_id));
 		  $accountid = $idofaccount;
+		//   echo $this->db->last_query(); exit;
 		  $this->accounts_model->add_reseller_pricing($accountid,$did_id);
+		 
 		  $this->session->set_flashdata('astpp_errormsg', 'DID added successfully.');
 		  redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
                     
@@ -1919,14 +2087,23 @@ function reseller_export_cdr_xls() {
              $pricing_res=$pricing_res->result_array();
              $did_number=$pricing_res[0]['note'];
              $accountinfo=$this->session->userdata('accountinfo');
+             	  if($this->session->userdata['userlevel_logintype'] == -1)
+		  {
+		    $parent_id=0;
+		  }else{
+		    $parent_id=$this->session->userdata['accountinfo']['id'];
+		  }
+
              $reseller_ids=$this->common->subreseller_list($accountinfo['id']);
-             $pricing_where= "parent_id IN ($reseller_ids) AND note = $did_number";
+             $pricing_where= "parent_id = $parent_id AND note = $did_number";
              $this->db->where($pricing_where);
              $this->db->delete('reseller_pricing');
+            // 
              $dids_where="parent_id IN ($reseller_ids) AND number = $did_number";
              $this->db->where($dids_where);
              $data= array('accountid'=>0,'parent_id'=>$accountinfo['id']);
              $this->db->update('dids',$data);
+           //  
 	     $this->session->set_flashdata('astpp_notification', 'DID removed successfully.');
 	    }else{
 	      $this->session->set_flashdata('astpp_notification', 'DID already removed before.');
@@ -1990,28 +2167,32 @@ function reseller_export_cdr_xls() {
             $this->db->where('number',$ani['number']);
             $this->db->select('count(id) as count');
             $cnt_result=$this->db->get('ani_map');
+           // echo $this->db->last_query(); exit;
             $cnt_result=$cnt_result->result_array();
+           // 
             $count=$cnt_result[0]['count'];
+          //  echo '<pre>'; print_r($accountid); exit;
+         
             if($count == 0 ){
 	      if ($ani['number'] != "") {
 		  $insert_arr = array("number" => $this->input->post('number'), "accountid" => $accountid,
 		      "context" => "default");
 		  $this->db->insert("ani_map", $insert_arr);
-		  $this->session->set_flashdata('astpp_errormsg', 'Add ANI Sucessfully!');
+		  $this->session->set_flashdata('astpp_errormsg', 'Add Caller Id Sucessfully!');
 		  redirect(base_url() .$url);
 		  
 	      } else {
-		  $this->session->set_flashdata('astpp_notification', 'Please Enter ANI Field.');
+		  $this->session->set_flashdata('astpp_notification', 'Please Enter Caller Id Field.');
 		  redirect(base_url() . $url);
 	      }
-	    }
+	    } 
 	    else{
- 		$this->session->set_flashdata('astpp_notification', ' ANI already Exists.');
+ 		$this->session->set_flashdata('astpp_notification', ' Caller Id already Exists.');
 		redirect(base_url() . $url);
 	    }
       }
       if ($action == "delete") {
-          $this->session->set_flashdata('astpp_notification', 'ANI removed sucessfully!');
+          $this->session->set_flashdata('astpp_notification', 'Caller Id removed sucessfully!');
           $this->db_model->delete("ani_map", array("id" => $aniid));
           redirect(base_url() .$url);
       }
@@ -2221,7 +2402,7 @@ function reseller_export_cdr_xls() {
        $url ="accounts/". $entity_type."_edit/$accountid#accounts";
         $this->load->module('freeswitch/freeswitch');
         if ($action == "delete") {
-            $this->session->set_flashdata('astpp_notification', 'Sip removed successfully!');
+            $this->session->set_flashdata('astpp_notification', 'Sip Device removed successfully!');
             $this->freeswitch->freeswitch_model->delete_freeswith_devices($id);
             redirect(base_url() . $url);
         }
@@ -2287,7 +2468,7 @@ function reseller_export_cdr_xls() {
 function customer_animap_list($id='') {
 	$data['animap_id']=$id;
 	$data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = "ANI Map List";
+        $data['page_title'] = "Caller Id List";
         $this->session->set_userdata('animap_search', 0);
         $data['grid_fields'] = $this->accounts_form->build_animap_list();
         $data["grid_buttons"] = $this->accounts_form->build_grid_buttons_destination();

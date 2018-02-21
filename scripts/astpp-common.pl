@@ -28,13 +28,15 @@ use warnings;
 # Return the details on a specified DID from the ASTPP did table.
 sub get_did() {
     my ( $did ) = @_;
+    $did= &number_translation('destination_number'=>$did,'translation'=>$gbl_config->{did_global_translation});
     return &select_query("DID","SELECT B.id,B.id,B.number as account_code,A.number as  did_number,A.connectcost,A.includedseconds,A.cost,A.inc,A.extensions,A.maxchannels,A.call_type,A.city,A.province FROM dids AS A,accounts AS B WHERE B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.number = ".$gbl_astpp_db->quote($did));    
 }
 
 # Return information on a DID is the customer belongs to a reseller.
 sub get_did_reseller() {
 
-    my (%arg) = @_;    
+    my (%arg) = @_; 
+    $arg{destination_number}= &number_translation('destination_number'=>$arg{destination_number},'translation'=>$gbl_config->{did_global_translation});   
     return &select_query("Reseller DID","SELECT A.id, A.number AS number,B.cost AS cost,B.connectcost AS connectcost,B.includedseconds AS includedseconds,B.inc AS inc,A.city AS city,A.province,A.call_type,A.extensions AS extensions,A.maxchannels AS maxchannels FROM dids AS A,reseller_pricing as B WHERE A.number = ".$gbl_astpp_db->quote($arg{destination_number}). " AND B.type = '1' AND B.reseller_id = ". $arg{carddata}->{reseller_id} . " AND B.note = ". $gbl_astpp_db->quote($arg{destination_number})."");
 }
 

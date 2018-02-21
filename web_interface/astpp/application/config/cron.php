@@ -12,7 +12,8 @@ $config['CRON_TIME_LIMIT']	= 0;								// 0 = no time limit
 $config['argv']			= array("LowBalance"=>"lowbalance/low_balance",
                                         "UpdateBalance" => "updateBalance/GetUpdateBalance",
                                         "CurrencyUpdate" => "currencyupdate/update_currency",
-                                        "GenerateInvoice" => "generateInvoice/getInvoiceData");
+                                        "GenerateInvoice" => "generateInvoice/getInvoiceData",
+					"BroadcastEmail" => "broadcastemail/broadcast_email");
 $config['CRON_BETA_MODE']	= false;							// Beta Mode (useful for blocking submissions for testing)
 
 ?>

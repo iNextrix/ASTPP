@@ -75,7 +75,7 @@ return false;
           <div class='col-md-12'><div style="width:565px;" ><label style="text-align:right;" class="col-md-6">Tax Rate: (<?= $paypal_tax;?>%):</label><input type="text" name="tax_amount" id="tax_amount" readonly value="0"  class="col-md-5 form-control"></div>
 			
 			</div>			
-          <div class='col-md-12'><div style="width:565px;" ><label style="text-align:right;" class="col-md-6">Your Amount In <?= $to_currency?>:</label><span id="amt_in_currency" class='col-md-5 no-padding' style="color:green; font-weight: bold;text-align:left;">0 <?= $from_currency?> is equels to 0 <?= $to_currency?></span></div>
+          <div class='col-md-12'><div style="width:565px;" ><label style="text-align:right;" class="col-md-6">Your Amount In <?= $to_currency?>:</label><span id="amt_in_currency" class='col-md-5 no-padding' style="color:green; font-weight: bold;text-align:left;">0 <?= $from_currency?> is equals to 0 <?= $to_currency?></span></div>
 			
 			</div>			
 

@@ -29,14 +29,22 @@ function validateForm(){
       if(document.getElementById('ANI_ID').value == "")
       {
 //           
-	  $('#ani_name').text( "Please Enter Ani Number." );
+	  $('#ani_name').text( "Please Enter Caller Id Number." );
 	  document.getElementById('ANI_ID').focus();
 	  return false;
       }
-      if(numbers == true)
+    //  if(numbers == true)
+     // {
+           
+	//  $('#ani_numeric').text( "Caller Id field must contain a numeric value." );
+	 // document.getElementById('ANI').focus();
+	  //return false;
+      //}
+      
+      if(length1 > 20)
       {
            
-	  $('#ani_numeric').text( "Ani field must contain a numeric value." );
+	  $('#ani_name').text( "Caller Id must be less then 20 characters." );
 	  document.getElementById('ANI').focus();
 	  return false;
       }
@@ -68,17 +76,17 @@ function validateForm(){
                 <div class="col-md-12" >
 
            <form method="POST" action="<?= base_url() ?>user/user_animap_action/add/" enctype="multipart/form-data" name="ani_form" id="myform1" >
-                <div style="padding-top:25px;"><label class="col-md-1" style="padding-left:70px;">ANI:</label><input class="col-md-2 form-control" name="ANI" id="ANI_ID" size="20" type="text">
+                <div style="padding-top:25px;"><label class="col-md-1 margin-l-20" >Caller Id:</label><input class="col-md-2 form-control" name="ANI" id="ANI_ID" size="20" type="text" maxlength="20">
 <!--                <label class="col-md-1" style="padding-left:45px;">Context:</label><input class="col-md-2 form-control" name="context" id="context" size="20" type="text">-->
-		    <input class="margin-l-20 btn btn-success" name="action" value="Map ANI" type="button" onclick="validateForm();"></div>
+		    <input class="margin-l-20 btn btn-success" name="action" value="Caller Id" type="button" onclick="validateForm();"></div>
             </form>  
 			
           </div>  
 <div style="padding-left:150px;">
 	
 </div> 
-	<span style="color:red;margin-left:120px;float:left;" id="ani_numeric"></span>   
-	<span style="color:red;margin-left:120px;float:left;" id="ani_name"></span> 
+	<span style="color:red;margin-left:130px;float:left;" id="ani_numeric"></span>   
+	<span style="color:red;margin-left:140px;float:left;" id="ani_name"></span> 
         
 </section>
 

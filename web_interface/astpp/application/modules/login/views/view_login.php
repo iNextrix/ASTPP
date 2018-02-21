@@ -67,7 +67,7 @@
                   
                                
                                     <div class="col-md-12 padding-t-20 padding-r-32 padding-l-32 padding-b-20">
-                                        <button type="submit" class="btn-login" >Sign in</button>                      
+                                        <button type="submit" class="btn-login" >Log in</button>                      
                                     </div>
                               <br/><br/>
                             </form>

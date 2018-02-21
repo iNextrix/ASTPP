@@ -89,10 +89,10 @@ class System_form {
 
     function build_template_list_for_admin() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-        $grid_field_arr = json_encode(array(array("Name", "300", "name", "", "", ""),
-            array("Subject", "500", "subject", "", "", ""),
+        $grid_field_arr = json_encode(array(array("Name", "425", "name", "", "", ""),
+            array("Subject", "650", "subject", "", "", ""),
 //             array("Body", "925", "template", "", "", ""),
-            array("Action", "164", "", "", "",
+            array("Action", "180", "", "", "",
                 array("EDIT" => array("url" => "/systems/template_edit/", "mode" => "single"),
             ))
                 ));
@@ -108,8 +108,8 @@ class System_form {
         
         $grid_field_arr = json_encode(array(
 	    array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "50", "", "", "", ""),
-            array("Name", "473", "country", "", "", ""),
-               array("Action", "200", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
+            array("Name", "705", "country", "", "", ""),
+               array("Action", "500", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
                     "DELETE" => array("url" => "$action_remove", "mode" => "single")
                 ))
                 ));
@@ -163,10 +163,10 @@ class System_form {
         
         $grid_field_arr = json_encode(array(
 	    array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "70", "", "", "", ""),
-            array("Name", "240", "currencyname", "", "", ""),
-	    array("Code", "212", "currency", "", "", ""),
-	    array(" Rate", "240", "currencyrate", "", "", ""),
-               array("Action", "200", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
+            array("Name", "320", "currencyname", "", "", ""),
+	    array("Code", "270", "currency", "", "", ""),
+	    array(" Rate", "330", "currencyrate", "", "", ""),
+               array("Action", "265", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
                     "DELETE" => array("url" => "$action_remove", "mode" => "single")
                 ))
                 ));
@@ -232,10 +232,10 @@ class System_form {
         $grid_field_arr = json_encode(array(
 		//array("ID", "80", "id", "", "", ""),
 	 array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "50", "", "", "", ""),
-            array("Date", "200", "date", "date", "date", "convert_GMT_to"),
-	    array("Name", "250", "backup_name", "", "", ""),
-            array("File Name", "400", "path", "", "", ""),
-            array("Action", "160", "", "", "",
+            array("Date", "260", "date", "date", "date", "convert_GMT_to"),
+	    array("Name", "280", "backup_name", "", "", ""),
+            array("File Name", "480", "path", "", "", ""),
+            array("Action", "185", "", "", "",
                 array("EDIT_RESTORE" => array("url" => "/systems/database_restore_one/", "mode" => ""),
                 "DOWNLOAD_DATABASE" => array("url" => "/systems/database_download/", "mode" => ""),
                 "Delete" => array("url" => "/systems/database_delete/", "mode" => ""),

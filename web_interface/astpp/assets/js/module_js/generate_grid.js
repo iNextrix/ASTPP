@@ -21,7 +21,12 @@ function get_alert_msg(id)
     var answer = confirm(confirm_string);
     return answer // answer is a boolean
 }
-
+function get_reliase_msg(id)
+{
+    confirm_string = 'Are you sure want to release DID?';
+    var answer = confirm(confirm_string);
+    return answer // answer is a boolean
+}
 function get_alert_msg_restore(id)
 {
     confirm_string = 'Are you sure want to restore this database?';
@@ -41,7 +46,9 @@ function clickchkbox(chkid){
     if(chk_flg == 0){
         $('.checkall').attr('checked', true);
     }
+    $("#add_patterns_btn").removeAttr('disabled');
 }
+
 function post_request_for_search(grid_id,destination,form_id){
     if(destination == ""){
         destination = build_url("_search");
@@ -285,7 +292,7 @@ function submit_form(form_id){
         url: form.attr('action'),
         data:$('#'+form_id).serialize(), 
         success: function(response) {
-//  	    alert(response); 
+ 	    //alert(response); 
             var tmp = jQuery.parseJSON(response);
             if(!tmp.SUCCESS){
                $(".error_div").css("display","block");
@@ -299,6 +306,9 @@ function submit_form(form_id){
                 $('.toast-top-right').delay(5000).fadeOut();
                 $(document).trigger('close.facebox');
                 $('.flex_grid').flexReload();
+            }
+	    if(tmp.EXPORT_LINK){
+              	location.reload(true);
             }
             return false;
         }

@@ -88,7 +88,7 @@ class Reports_form {
             array('Cost ', 'INPUT', array('name' => 'cost[cost]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'cost[cost-integer]', '', '', '', 'search_int_type', ''),
             
             array('Disposition', 'disposition', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_despostion'),
-	    array('Account', 'reseller_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'build_dropdown_deleted', 'where_arr', array("reseller_id" => "0","type"=>"1")),
+	    array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'build_dropdown_deleted', 'where_arr', array("reseller_id" => "0","type"=>"1")),
 	     array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'IF(`status`=2, concat(name,"","^"),name) as name', 'pricelists', 'build_dropdown_deleted', 'where_arr', array("reseller_id" => "0")),
             array('Call Type', 'calltype', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_calltype'),
         
@@ -134,7 +134,7 @@ class Reports_form {
     function build_report_list_for_admin() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(
-		array("Date", "100", "callstart", "callstart", "callstart", "convert_GMT_to"),
+		array("Date", "100", "callstart","callstart", "callstart", "convert_GMT_to"),
 		array("CallerID", "120", "callerid", "", "", ""),
 		array("Called Number", "115", "callednum", "", "", ""),
 		array("Code", "60", "pattern", "pattern", "", "get_only_numeric_val"),
@@ -229,30 +229,54 @@ class Reports_form {
     function build_payment_report_for_user() {
       $grid_field_arr = json_encode(array(
 	
-            array("Date", "250", "payment_date", "", "", ""),
-            array("Account", "270", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
+            array("Date", "225", "payment_date", "", "", ""),
+            array("Account", "260", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
             array("Amount", "250", "credit", "credit", "credit", "convert_to_currency"),
 //             array("Payment Type", "150", "type", "", "", ""),
-            array("Payment By", "250", "payment_by", "payment_by", "payment_by", "get_payment_by"),
-            array("Note", "270", "notes", "", "", "")
+            array("Payment By", "230", "payment_by", "payment_by", "payment_by", "get_payment_by"),
+            array("Note", "290", "notes", "", "", "")
                 ));
         return $grid_field_arr;
     }
     function get_user_cdr_payment_form() {
         
          $form['forms'] = array("", array('id' => "cdr_payment_search"));
+             $account_data = $this->CI->session->userdata("accountinfo");
+             $acc_arr= array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'build_dropdown_deleted', 'where_arr', array("reseller_id" => "0","type"=>"GLOBAL"));
+             $logintype = $this->CI->session->userdata('logintype');
+        if ($logintype == 1 || $logintype == 5) {
+            $account_data = $this->CI->session->userdata("accountinfo");
+            $loginid = $account_data['id'];
+
+        }else{
+            $loginid = "0";
+        }
+        if($logintype==0 || $logintype==3){
+	    $acc_arr=null;
+        }
+             //echo '<pre>'; print_r($account_data); exit;
+        //
+           
+          //   $accounts = array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array( 'id' => $account_data['id'],'type'=>'0'));
+          //}else{
+           //  $accounts = array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array('reseller_id' => '0','type'=>'0'));
+          //}
+      //    echo '<pre>'; print_r( $accounts); EXIT;
         $form['Search'] = array(
        array('From Date', 'INPUT', array('name' => 'payment_date[]', 'id' => 'customer_cdr_from_date', 'size' => '20',
  'class' => "text field "), '', 'tOOL TIP', '', 'payment_date[payment_date-date]'),
             array('To Date', 'INPUT', array('name' => 'payment_date[]', 'id' => 'customer_cdr_to_date', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '', 'payment_date[payment_date-date]'),
 // 	     array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'build_dropdown_deleted', 'where_arr', array("reseller_id" => "0","type"=>"0")),
- 	          
-	 //  array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"0")),
-            array('Amount ', 'INPUT', array('name' => 'credit[credit]', 'value' => '', 'size' => '20', 'class' => "text field"), '', 'Tool tips info', '1', 'credit[credit-integer]', '', '', '', 'search_int_type', ''),array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),array('', 'HIDDEN', 'advance_search', '1', '', '', ''));
+ 	     $acc_arr,
+//	    array('Account', 'accountid', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("reseller_id" => "0","type"=>"0")),
+ 
+            array('Amount ', 'INPUT', array('name' => 'credit[credit]', 'value' => '', 'size' => '20', 'class' => "text field"), '', 'Tool tips info', '1', 'credit[credit-integer]', '', '', '', 'search_int_type', ''),
+           // array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),array('', 'HIDDEN', 'advance_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),array('', 'HIDDEN', 'advance_search', '1', '', '', ''));
 
         $form['button_search'] = array('name' => 'action', 'id' => "cusotmer_cdr_payment_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
         $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
-
+//echo '<pre>'; print_r($form); exit;
         return $form;
     }
     function build_commission_report_for_admin() {
@@ -343,7 +367,7 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),array('', 'HIDDEN', 'advance
     }
     function build_resellersummary(){
         $grid_field_arr = json_encode(array(
-            array("User", "148", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
+            array("Account", "148", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
             array("Code", "120", "pattern", "pattern", "", "get_only_numeric_val"),
             array("Destination", "150", "notes", "", "", ""),
             array("Attempted Calls", "120", "attempted_calls", "", "", ""),
@@ -381,7 +405,7 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),array('', 'HIDDEN', 'advance
     }
     function build_customersummary(){
         $grid_field_arr = json_encode(array(
-            array("User", "190", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
+            array("Account", "190", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
             array("Code", "80", "pattern", "pattern", "", "get_only_numeric_val"),
             array("Destination", "110", "notes", "", "", ""),
             array("Attempted Calls", "140", "attempted_calls", "", "", ""),
@@ -390,8 +414,8 @@ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),array('', 'HIDDEN', 'advance
             array("ACD","70","acd  ",'','',''),
             array("MCD","80","mcd",'','',''),
             array("Bilable","80","billable",'','',''),
-            array("debit","85","cost",'','',''),
-            array("cost","110","price",'','',''),            
+            array("Debit","85","cost",'','',''),
+            array("Cost","110","price",'','',''),            
             array("Profit", "123", "profit", "", "", ""),
             ));
         return $grid_field_arr;

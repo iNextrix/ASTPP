@@ -42,7 +42,12 @@ class dashboard extends CI_Controller {
             $this->load->view('view_user_dashboard', $data);
         } else {
 	    $gmtoffset=$this->common->get_timezone_offset();
-            $data['date']=date('F Y', strtotime(date('Y-m-d'))+$gmtoffset);
+            $date=date("m");
+            $current_date=date("Y-m-d H:i:s");
+            $gmt_date=date("Y-m-d",strtotime($current_date)+$gmtoffset);
+            $gmt_month = date('m', strtotime($current_date)+$gmtoffset);
+            $date= $date > $gmt_month ? $current_date : $gmt_date;
+            $data['date']=date('F Y', strtotime($date));	    
             $this->load->view('view_dashboard', $data);
         }
     }
@@ -91,12 +96,29 @@ class dashboard extends CI_Controller {
 	$end=$end->modify('+1 day');
 	$daterange = new DatePeriod($begin, new DateInterval('P1D'), $end);
 	$records_date=array();
-        $result = $this->dashboard_model->get_call_statistics();
+	$accountinfo=$this->session->userdata('accountinfo');
+	$parent_id= ($accountinfo['type'] == 1) ? $accountinfo['id'] : 0;
+        $customerresult = $this->dashboard_model->get_call_statistics('cdrs',$parent_id);
+
+        $resellerresult = $this->dashboard_model->get_call_statistics('reseller_cdrs',$parent_id);
+        
         $acc_arr = array();
-	foreach ($result->result_array() as $data) {
+	foreach ($customerresult->result_array() as $data) {
 	  $acc_arr[$data['day']] = $data;
+	  $customer_arr[$data['day']]=$data;
 	}
-	if($result->num_rows()>0){
+	foreach($resellerresult->result_array() as $data){
+	  $reseller_arr[$data['day']]=$data;
+	  if(isset($acc_arr[$data['day']])){
+	    $acc_arr[$data['day']]['sum']= $data['sum']+$acc_arr[$data['day']]['sum'];
+	    $acc_arr[$data['day']]['answered']= $data['answered']+$acc_arr[$data['day']]['answered'];
+	    $acc_arr[$data['day']]['failed']= $data['failed']+$acc_arr[$data['day']]['failed'];
+	    $acc_arr[$data['day']]['profit']= $data['profit']+$acc_arr[$data['day']]['profit'];
+	  }else{
+	    $acc_arr[$data['day']]=$data;
+	  }
+	}
+	if(!empty($acc_arr)){
 	    foreach($daterange as $date){
 		$json_data['date'][]=$date->format("d");
 		$day = (int) $date->format("d");

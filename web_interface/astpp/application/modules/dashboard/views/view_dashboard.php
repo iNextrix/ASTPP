@@ -219,10 +219,16 @@
 			allowPointSelect: true,
 			cursor: 'pointer',
 			depth: 25,
-			dataLabels: {
+			/*dataLabels: {
 			    enabled: true,
 			    format: '{point.name}'
-			}
+			}*/
+			
+			//graph change 25.06
+			dataLabels: {
+			    enabled: false,
+			},
+			showInLegend: true
 			}
 		      },
 		      series: [{
@@ -265,7 +271,7 @@
                            <input type="radio" name="calls_pie_chart" checked="checked" value="minutes" class="ace"><label class="lbl">By Minutes</label>
                            &nbsp;&nbsp;
                            <input type="radio" name="calls_pie_chart" value="count" class="ace"><label class="lbl"> By Calls</label></div>
-                           <div id='call_count_data' class=' call_count_data col-md-12' style ='display:none'></div>  
+                           <div id='call_count_data' class=" call_count_data col-md-12" style ='display:none'></div>  
                            <div id='not_data' class='col-md-12 not_data' style ='display:none'></div>
                    </div>
                 </div>   

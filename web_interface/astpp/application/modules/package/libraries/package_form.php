@@ -42,10 +42,10 @@ class Package_form {
     function build_package_list_for_admin() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
-            array("Name", "300", "package_name", "", "", ""),
-            array("Rate Group", "240", "pricelist_id", "name", "pricelists", "get_field_name"),
-            array("Included Seconds", "250", "includedseconds", "", "", ""),
-            array("Status", "150", "status", "status", "status", "get_status"),
+            array("Name", "310", "package_name", "", "", ""),
+            array("Rate Group", "250", "pricelist_id", "name", "pricelists", "get_field_name"),
+            array("Included Seconds", "260", "includedseconds", "", "", ""),
+            array("Status", "160", "status", "status", "status", "get_status"),
             array("Action", "245", "", "", "", array("EDIT" => array("url" => "/package/package_edit/", "mode" => "single"),
                     "DELETE" => array("url" => "/package/package_delete/", "mode" => "single")))
                 ));
@@ -63,16 +63,16 @@ class Package_form {
 
     function build_package_counter_list_for_admin() {
      // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-        $grid_field_arr = json_encode(array(array("Package Name", "250", "package_id", "package_name", "packages", "get_field_name"),
-            array("Account", "200", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
-            array("Used Seconds", "200", "seconds", "", "", ""),
+        $grid_field_arr = json_encode(array(array("Package Name", "450", "package_id", "package_name", "packages", "get_field_name"),
+            array("Account", "400", "accountid", "first_name,last_name,number", "accounts", "build_concat_string"),
+            array("Used Seconds", "400", "seconds", "", "", ""),
                 ));
         return $grid_field_arr;
     }
     function build_pattern_list_for_customer($packageid) {
-        $grid_field_arr = json_encode(array(array("Patterns", "150", "patterns", "patterns", "", "get_only_numeric_val"),
-		array("Destination", "500", "destination", "", "", ""),
-            array("Action", "214", "", "", "", array("DELETE" => array("url" => "/package/customer_delete_package_pattern/$packageid/", "mode" => "single")))
+        $grid_field_arr = json_encode(array(array("Patterns", "420", "patterns", "patterns", "", "get_only_numeric_val"),
+		array("Destination", "570", "destination", "", "", ""),
+            array("Action", "250", "", "", "", array("DELETE" => array("url" => "/package/customer_delete_package_pattern/$packageid/", "mode" => "single")))
                 ));
         return $grid_field_arr;
     }

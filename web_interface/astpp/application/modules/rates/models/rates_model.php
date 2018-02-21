@@ -238,12 +238,12 @@ class rates_model extends CI_Model {
     }
     function termination_rates_batch_update($update_array){
         $this->db_model->build_search('terminationrates_list_search');
-        if($update_array["connectcost"]["operator"] != 1){
+        /*if($update_array["connectcost"]["operator"] != 1){
             $update_array["connectcost"]["connectcost"] = $this->common_model->add_calculate_currency($update_array["connectcost"]["connectcost"], '', '', false, false);
         }
         if($update_array["cost"]["operator"] != 1){
             $update_array["cost"]["cost"] = $this->common_model->add_calculate_currency($update_array["cost"]["cost"], '', '', false, false);
-        }
+        }*/
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $this->db->where("reseller_id",$account_data['id']);
@@ -255,9 +255,9 @@ class rates_model extends CI_Model {
     }
     function inboundrates_rates_batch_update($update_array){
         $this->db_model->build_search('inboundrates_list_search');
-        if($update_array["cost"]["operator"] != 1){
+        /*if($update_array["cost"]["operator"] != 1){
             $update_array["cost"]["cost"] = $this->common_model->add_calculate_currency($update_array["cost"]["cost"], '', '', false, false);
-        }
+        }*/
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $this->db->where("reseller_id",$account_data['id']);

@@ -40,24 +40,40 @@ class DID extends MX_Controller {
         $data['flag'] = 'create';
         $data['page_title'] = 'Add Did';
         $data['form'] = $this->form->build_form($this->did_form->get_dids_form_fields(), '');
-
+	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>Common_model::$global_config['system_config']['country']));
+         if(!$data['country_id'])
+        {
+                $data['country_id']=1;
+        }
         $this->load->view('view_did_add_edit', $data);
     }
 
     function did_edit($edit_id = '') {
+    
         $data['page_title'] = 'Edit Did';
         $where = array('id' => $edit_id);
         $account = $this->db_model->getSelect("*", "dids", $where);
         foreach ($account->result_array() as $key => $value) {
             $edit_data = $value;
         }
+         $data['country_id']=Common_model::$global_config['system_config']['country'];
+      
+         if(!$data['country_id'])
+        {
+                $data['country_id']=1;
+        }
         $edit_data['setup'] = $this->common_model->to_calculate_currency($edit_data['setup'], '', '', false, false);
 //         $edit_data['disconnectionfee'] = $this->common_model->to_calculate_currency($edit_data['disconnectionfee'], '', '', false, false);
         $edit_data['monthlycost'] = $this->common_model->to_calculate_currency($edit_data['monthlycost'], '', '', false, false);
         $edit_data['connectcost'] = $this->common_model->to_calculate_currency($edit_data['connectcost'], '', '', false, false);
         $edit_data['cost'] = $this->common_model->to_calculate_currency($edit_data['cost'], '', '', false, false);
-
-        $data['form'] = $this->form->build_form($this->did_form->get_dids_form_fields($edit_id), $edit_data);
+        $parent_id=$edit_data['parent_id'];
+	$account_id=$edit_data['accountid'];
+        if($parent_id > 0){
+        $data['form'] = $this->form->build_form($this->did_form->get_dids_form_fields($edit_id,$parent_id,$account_id), $edit_data);
+        }else{
+        $data['form'] = $this->form->build_form($this->did_form->get_dids_form_fields($edit_id,'',$account_id), $edit_data);
+        }
         $this->load->view('view_did_add_edit', $data);
     }
     function did_save() {
@@ -70,7 +86,7 @@ class DID extends MX_Controller {
                 echo $data['validation_errors'];
                 exit;
             } else {
-		$number = $add_array['number'];
+				$number = $add_array['number'];
                 unset($add_array['number']);
 
                 $add_array['setup'] = $this->common_model->add_calculate_currency($add_array['setup'], '', '', false, false);
@@ -114,6 +130,27 @@ class DID extends MX_Controller {
         $this->session->set_flashdata('astpp_notification', 'DID Removed Successfully!');
         redirect(base_url() . 'did/did_list/');
     }
+    function did_list_reliase($id) {
+        $where =array('id'=>$id);
+        $reseller_did = $this->db_model->getSelect( 'parent_id,accountid,number' ,'dids',$where);
+        $reliase_did= $reseller_did->result_array();
+        foreach($reliase_did as $key=>$value){
+        $parent_id=$value['parent_id'];
+        $account_id=$value['accountid'];
+        $number=$value['number'];
+       }
+          if($parent_id > 0){
+          $this->db->where("note", $number);
+          $this->db->delete("reseller_pricing");
+          //echo $this->last_query(); exit;
+        }
+        $where = array('id' => $id);
+        $update_array = array('parent_id' => 0, 'accountid' => 0);
+        $this->db->where($where);
+        $this->db->update('dids', $update_array);
+        $this->session->set_flashdata('astpp_errormsg', 'DID Released Successfully!');
+        redirect(base_url() . 'did/did_list/');
+    }
 
     function did_list() {
         $data['app_name'] = 'ASTPP - Open Source Billing Solution | Manage DIDs | DIDS';
@@ -135,7 +172,7 @@ class DID extends MX_Controller {
 	    $drp_list = array();
 	    $accountinfo=$this->session->userdata('accountinfo');
 	    $reseller_id=$accountinfo['type']!= 1 ? 0 : $accountinfo['reseller_id'];
-	    $where =array('parent_id'=>$reseller_id);
+	    $where =array('parent_id'=>$reseller_id,"accountid"=>"0");
 	    $reseller_did = $this->db_model->getSelect( '*' ,'dids',$where);
 
 // 	    echo $this->db->last_query();exit;
@@ -513,9 +550,8 @@ class DID extends MX_Controller {
 	  if(isset($csv_data['number']) && $csv_data['number']!= '' && $i != 0){
 	    $str=null;
 	    $csv_data['accountid']=isset($csv_data['accountid']) ? $csv_data['accountid'] :0;
-	    $csv_data['call_type']=isset($csv_data['call_type']) ? $this->common->get_custom_call_type(strtoupper($csv_data['call_type'])) :0;
+	    $csv_data['call_type']=isset($csv_data['call_type']) && (strtolower($csv_data['call_type']) == 'local' ||strtolower($csv_data['call_type'])=='pstn' || strtolower($csv_data['call_type']) =='other' )? $this->common->get_custom_call_type(strtoupper($csv_data['call_type'])) :0;
 	    $csv_data['extensions']=isset($csv_data['extensions']) ? $csv_data['extensions'] :'';
-	    $csv_data['connectcost']= isset($csv_data['connectcost']) ? $csv_data['connectcost'] :0;
 	    $csv_data['includedseconds']= isset($csv_data['includedseconds']) ? $csv_data['includedseconds'] :0;
 	    $csv_data['cost']= !empty($csv_data['cost']) && is_numeric( $csv_data['cost']) ? $csv_data['cost'] :0;
 	    $csv_data['monthlycost']= !empty($csv_data['monthlycost']) && is_numeric( $csv_data['monthlycost']) ? $csv_data['monthlycost'] :0;
@@ -548,13 +584,14 @@ class DID extends MX_Controller {
 	  }
           $i++;
         }
-//         echo "<pre>";
-//         print_R($new_final_arr);exit;
+        //echo "<pre>";
+        //print_R($invalid_array);exit;
 	 if(!empty($new_final_arr)){
  	    $result = $this->did_model->bulk_insert_dids($new_final_arr);
          }
+
         
-         unlink($full_path.$did_file_name);
+         //unlink($full_path.$did_file_name);
 	 $count=count($invalid_array);
         if($count >0){
 	    $session_id = "-1";
@@ -564,6 +601,9 @@ class DID extends MX_Controller {
             }
             $custom_array[0]['error']= "Error";
             $invalid_array =array_merge($custom_array,$invalid_array);
+//             echo "<pre>";
+//             print_r($invalid_array);
+//             exit;
             foreach($invalid_array as $err_data){
                     fputcsv($fp,$err_data);
             }
@@ -619,10 +659,10 @@ class DID extends MX_Controller {
         force_download("error_did_rates.csv", $data); 
     }
     function did_export_data_xls() {
+    
         $query = $this->did_model->getdid_list(true, '0','10000000');
         $outbound_array = array();
-        $outbound_array[] = array("Number", "Account Number",  "Calltype", "Destination","Country", "Connect cost","Included seconds","Monthly Fee","Per minute cost","Increment");
-        
+        $outbound_array[] = array("DID", "Account",  "Calltype", "Destination","Country","Increments","Cost", "Setup fee","Monthly fee","Included seconds");
         if ($query->num_rows() > 0) {
 
             foreach ($query->result_array() as $row) {
@@ -632,15 +672,14 @@ class DID extends MX_Controller {
                         $this->get_Calltype($row['call_type']),
                         $row['extensions'],
                         $this->common->get_field_name("country", "countrycode", $row['country_id']),
-                        $this->common_model->calculate_currency($row['connectcost'],'','','',false),
-                        $row['includedseconds'],
+                        $row['inc'],
+                        $row['cost'],
+                        $this->common_model->calculate_currency($row['setup'],'','','',false),
 			$this->common_model->calculate_currency($row['monthlycost'],'','','',false),
-			$row['cost'],
-                        $row['inc']
+			$row['includedseconds']
 		    );
                 }
             }
-            
         $this->load->helper('csv');
         array_to_csv($outbound_array, 'DIDs_' . date("Y-m-d") . '.csv');
     }

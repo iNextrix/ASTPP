@@ -53,9 +53,9 @@ class Charges_form {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
 	    array("Name", "205", "description", "", "", ""),
-            array("Rate Group", "195", "pricelist_id", "name", "pricelists", "get_field_name"),
-            array("Amount", "250", "charge", "charge", "charge", "convert_to_currency"),
-            array("Billing Cycle", "180", "sweep_id", "sweep", "sweeplist", "get_field_name"),
+            array("Rate Group", "230", "pricelist_id", "name", "pricelists", "get_field_name"),
+            array("Amount", "255", "charge", "charge", "charge", "convert_to_currency"),
+            array("Billing Cycle", "190", "sweep_id", "sweep", "sweeplist", "get_field_name"),
             array("Status", "220", "status", "status", "status", "get_status"),
             array("Action", "124", "", "", "", array("EDIT" => array("url" => "/charges/periodiccharges_edit/", "mode" => "popup", 'popup'),
                     "DELETE" => array("url" => "/charges/periodiccharges_delete/", "mode" => "single")))

@@ -37,13 +37,13 @@ class Taxes_form {
     function build_charge_list_for_admin() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
         $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
-            array("Name", "250", "taxes_description", "", "", ""),
-            array("Priority", "100", "taxes_priority", "", "", ""),
-            array("Amount", "250", "taxes_amount", "", "", "convert_to_currency"),
-            array("Rate(%)", "209", "taxes_rate", "", "", ""),
-            array("Status", "150", "status", "status", "status", "get_status"),
+            array("Name", "270", "taxes_description", "", "", ""),
+            array("Priority", "130", "taxes_priority", "", "", ""),
+            array("Amount", "260", "taxes_amount", "", "", "convert_to_currency"),
+            array("Rate(%)", "230", "taxes_rate", "", "", ""),
+            array("Status", "160", "status", "status", "status", "get_status"),
 
-           array("Action", "171", "", "", "", array("EDIT" => array("url" => "taxes/taxes_edit/", "mode" => "popup"),
+           array("Action", "175", "", "", "", array("EDIT" => array("url" => "taxes/taxes_edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "taxes/taxes_delete/", "mode" => "single")))
                 ));
         return $grid_field_arr;

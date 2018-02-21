@@ -12,6 +12,7 @@
 
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+	    $("#add_patterns_btn").removeAttr('disabled');
         });
         
         $("#add_patterns_btn").click(function(){
@@ -23,6 +24,7 @@
             });     
             result = result.substr(1);
             if(result){
+		$("#add_patterns_btn").attr('disabled','disabled');
                 $.ajax({
                     type: "POST",
                     cache    : false,
