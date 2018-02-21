@@ -218,16 +218,15 @@ else
                     <? foreach($menu_values as $sub_menu_key => $sub_menu_values){?>
                        
                            <?  if($sub_menu_key === 0){ ?>
-                                <? foreach($sub_menu_values as $sub_key => $sub_menu_lables){  
-                                if(common_model::$global_config['system_config']['opensips']== 0 &&  $sub_menu_lables["menu_label"] !='Opensips'){
-                                ?>
-                                
+                            <? foreach($sub_menu_values as $sub_key => $sub_menu_lables){  
+                                if(common_model::$global_config['system_config']['paypal_status']== 1 && strtolower($sub_menu_lables["menu_label"]) =='recharge'){ echo ''; ?>				
+                    		<?  } elseif(common_model::$global_config['system_config']['opensips']== 0 &&  $sub_menu_lables["menu_label"] !='Opensips'){ ?>
                                      <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?=$sub_menu_lables["menu_label"];?></a></li>
                                      <?}
                                      elseif(common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='SIP Devices'){?>
                                      <? }else{ ?>
                                      <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?=$sub_menu_lables["menu_label"];?></a></li>
-                                     <?}?>
+                             <?}?>
 				<? } ?>
                             
                             <?php }else{

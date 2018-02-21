@@ -39,7 +39,15 @@ class Opensips_model extends CI_Model {
 			$value =$value;
 		$this->opensips_db->or_where(array("accountcode"=>$value['number']));
 		}
-	}
+	}else{
+                $accountinfo['reseller_id'] = 0;
+        $num = $this->db_model->getSelect("number", "accounts", array("reseller_id" => $accountinfo['reseller_id']));
+            $num_value = $num->result_array();
+        foreach($num_value as $value){
+            $value =$value;
+        $this->opensips_db->or_where(array("accountcode"=>$value['number']));
+        }
+    }
         if ($flag) {
             $this->opensips_db->limit($limit,$start);
             $query = $this->opensips_db->get("subscriber");

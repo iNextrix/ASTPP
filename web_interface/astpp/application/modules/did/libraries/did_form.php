@@ -31,7 +31,7 @@ if($parent_id > 0){
         $form['forms'] = array(base_url() . '/did/did_save/', array('id' => 'did_form', 'method' => 'POST', 'name' => 'did_form'));
         $form['DID Information'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
-            array('DID', 'INPUT', array('name' => 'number', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), 'trim|required|is_numeric|xss_clean', 'tOOL TIP', 'Please Enter account number'),
+            array('DID', 'INPUT', array('name' => 'number', 'size' => '20', 'maxlength' => '40', 'class' => "text field medium"), 'trim|required|is_numeric|xss_clean|integer', 'tOOL TIP', 'Please Enter account number'),
               array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
             array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Province', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),

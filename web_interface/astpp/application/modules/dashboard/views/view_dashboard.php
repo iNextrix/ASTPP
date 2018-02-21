@@ -89,11 +89,13 @@
 		      categories:response_data['date']
 		  }],
 		  yAxis: [{
+		  	  allowDecimals: false,
 			  min: 0,
 			  title: {
 			      text: 'Total Calls'
 			  }
 		      }, {
+	      	  allowDecimals: false,
 			  min: 0,
 			  opposite: true, //optional, you can have it on the same side.
 			  title: {

@@ -19,6 +19,7 @@
     </div>
   </div>    
 </section>
+<section class="page-wrap">
 <div id="toast-container" class="toast-top-right col-md-6" style="display:none;" >
  <div class="toast fa-check toast-success1">
         <button class="toast-close-button">

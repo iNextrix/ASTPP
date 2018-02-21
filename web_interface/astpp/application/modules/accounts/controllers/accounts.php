@@ -155,36 +155,34 @@ function reseller_export_cdr_xls() {
         $add_array = $this->input->post();
         $logintype = $this->session->userdata('logintype');
         if (!empty($add_array) && isset($add_array)) {
-        $currentlength=$this->accounts_model->get_max_limit($add_array);
-	if ($logintype == 1 || $logintype == 5) {
-            $account_data = $this->session->userdata("accountinfo");
-            $add_array['reseller_id'] = $account_data['id'];
-        } else {
-            $add_array['reseller_id'] = "0";
-        }
-        $data['page_title'] = 'Create Bulk Customer';
-        $data['form'] = $this->form->build_form($this->accounts_form->customer_bulk_generate_form(), $add_array);
-        if ($this->form_validation->run() == FALSE) {
-            $data['validation_errors'] = validation_errors();
-            echo $data['validation_errors'];
-            exit;
-        }
-        if($add_array['account_length']<=strlen($add_array['prefix'])){
-             echo json_encode(array("account_length_error"=>"Please Enter Proper Account Length."));
-             exit;      
-        }
-         if($currentlength > 0 && $add_array['count'] > $currentlength){
-                echo json_encode(array("count_error"=>"You Can Create Maximum ".$currentlength." accounts with ".$add_array['prefix']." prefix"));
-                exit;      
-       }
-        else{
-            $this->accounts_model->bulk_insert_accounts($add_array);
-            echo json_encode(array("SUCCESS" => "Bulk customer generate successfully!"));
-            exit;
+            $currentlength=$this->accounts_model->get_max_limit($add_array);
+    	    if ($logintype == 1 || $logintype == 5) {
+                $account_data = $this->session->userdata("accountinfo");
+                $add_array['reseller_id'] = $account_data['id'];
+            } else {
+                $add_array['reseller_id'] = "0";
             }
-        } 
-    else {
-            redirect(base_url() . "accounts/customer_list/");
+            $data['page_title'] = 'Create Bulk Customer';
+            $data['form'] = $this->form->build_form($this->accounts_form->customer_bulk_generate_form(), $add_array);
+            if ($this->form_validation->run() == FALSE) {
+                $data['validation_errors'] = validation_errors();
+                echo $data['validation_errors'];
+                exit;
+            }
+            if($add_array['account_length']<=strlen($add_array['prefix'])){
+                 echo json_encode(array("account_length_error"=>"Please Enter Proper Account Length."));
+                 exit;      
+            }
+             if($currentlength > 0 && $add_array['count'] > $currentlength){
+                    echo json_encode(array("count_error"=>"You Can Create Maximum ".$currentlength." accounts with ".$add_array['prefix']." prefix"));
+                    exit;      
+           }else{
+                $this->accounts_model->bulk_insert_accounts($add_array);
+                echo json_encode(array("SUCCESS" => "Bulk customer generate successfully!"));
+                exit;
+            }
+        } else {
+            redirect(base_url()."accounts/customer_list/");
         }
     }
     function customer_invoice_option($value =false){
@@ -530,23 +528,31 @@ function reseller_export_cdr_xls() {
     }
 
 /*customer transfer save*/
-	function customer_transfer_save() {
-	    $post_array = $this->input->post();
+    function customer_transfer_save() {
+        $post_array = $this->input->post();
+    $accou_infor = $this->session->userdata('accountinfo');
+    $account = $this->accounts_model->get_account_by_number($accou_infor['id']);
+        $currency = $this->accounts_model->get_currency_by_id($account['currency_id']);
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_transfer_fields($currency['currency'], $account['number'], $currency['currency'], $accou_infor['id']), $post_array);
+        $data['page_title'] = 'Fund Transfer';
+            if ($this->form_validation->run() == FALSE) {
+                $data['validation_errors'] = validation_errors();
+            } else {
         if(trim($post_array['fromaccountid']) != trim($post_array['toaccountid'])){
             $account_info = $this->session->userdata('accountinfo');
             $balance=$this->common->get_field_name('balance', 'accounts', array('id'=>$account_info['id'],'status'=>0,'type'=>0,'deleted'=>0)); ;
             $toid=$this->common->get_field_name('id', 'accounts', array('number'=>$post_array['toaccountid'],'status'=>0,'type'=>0,'deleted'=>0));   
              $reseller_id=$this->common->get_field_name('reseller_id', 'accounts', array('number'=>$post_array['toaccountid'],'status'=>0,'type'=>0,'deleted'=>0));   
             $post_array['credit'] = $this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false);
-	    if ($post_array['toccountid'] == $account_info['number']){
-	     $this->session->set_flashdata('astpp_notification', 'You can not transfer fund in same account.');
+        if ($post_array['toccountid'] == $account_info['number']){
+         $this->session->set_flashdata('astpp_notification', 'You can not transfer fund in same account.');
               redirect(base_url() . 'accounts/customer_transfer/'); 
-	    }
-	    if ($reseller_id != $account_info['reseller_id']){
-	     $this->session->set_flashdata('astpp_notification', 'You can only transfer fund in same level account.');
+        }
+        if ($reseller_id != $account_info['reseller_id']){
+         $this->session->set_flashdata('astpp_notification', 'You can only transfer fund in same level account.');
               redirect(base_url() . 'accounts/customer_transfer/'); 
-	    }
-	    if ($post_array['toaccountid'] == ''){
+        }
+        if ($post_array['toaccountid'] == ''){
               $this->session->set_flashdata('astpp_notification', 'Please enter To account number.');
               redirect(base_url() . 'accounts/customer_transfer/');
             }
@@ -567,21 +573,21 @@ function reseller_export_cdr_xls() {
                $this->session->set_flashdata('astpp_notification', 'Please enter amount greater then 0.');
                redirect(base_url() . 'accounts/customer_transfer/');   
             } 
-	$patterns = $this->db_model->getSelect("value", 'system', array('name' => 'minimum_fund_transfer'));
+    $patterns = $this->db_model->getSelect("value", 'system', array('name' => 'minimum_fund_transfer'));
         $minimum_fund = $patterns->result_array();
-	if($minimum_fund[0]['value'] >= $post_array['credit']){
+    if($minimum_fund[0]['value'] >= $post_array['credit']){
                $this->session->set_flashdata('astpp_notification', 'You need to enter minimum amount of fund transfer '.$minimum_fund[0]['value'].' .');
                 redirect(base_url() . 'accounts/customer_transfer/');   
-	} 
-	if (!isset($toid) || !isset($post_array['toaccountid'])){
-	  $this->session->set_flashdata('astpp_notification', 'Please enter valid account number!');
-	  redirect(base_url() . 'accounts/customer_transfer/');
-	}
-	if($post_array['credit'] < 0 || $post_array['credit'] > $account_info['balance'] )
-	{
-	   $this->session->set_flashdata('astpp_notification', 'Incefficent amount !');
-	   redirect(base_url() . 'accounts/customer_transfer/');	
-	}
+    } 
+    if (!isset($toid) || !isset($post_array['toaccountid'])){
+      $this->session->set_flashdata('astpp_notification', 'Please enter valid account number!');
+      redirect(base_url() . 'accounts/customer_transfer/');
+    }
+    if($post_array['credit'] < 0 || $post_array['credit'] > $account_info['balance'] )
+    {
+       $this->session->set_flashdata('astpp_notification', 'Incefficent amount !');
+       redirect(base_url() . 'accounts/customer_transfer/');    
+    }
             $from['id']=$post_array['id'];
             $from['account_currency']=$post_array['account_currency'];
             $from['accountid']=$post_array['fromaccountid'];
@@ -617,7 +623,9 @@ function reseller_export_cdr_xls() {
             $this->session->set_flashdata('astpp_notification', 'You can not transfer fund in same account.');
             redirect(base_url() . 'accounts/customer_transfer/');   
         }
-	    redirect(base_url() . 'accounts/customer_transfer/');
+        redirect(base_url() . 'accounts/customer_transfer/');
+    }
+        $this->load->view('view_user_transfer', $data);
     }
     /**
      * -------Here we write code for controller accounts functions add_callerid------
@@ -2119,7 +2127,7 @@ function reseller_export_cdr_xls() {
             $where = array("ip" => trim($add_array['ip']), "prefix" => trim($add_array['prefix']));
             $getdata = $this->db_model->countQuery("*", "ip_map", $where);
             if ($getdata > 0) {
-                $this->session->set_flashdata('astpp_notification', 'Account already exist in system.');
+                $this->session->set_flashdata('astpp_notification', 'IP already exist in system.');
                 redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#accounts");
             }
             else{
