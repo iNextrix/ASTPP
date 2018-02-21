@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="1408"
+   name=""
+   committed-date="2006-01-02T19:25:45.000000Z"
+   url="svn://aleph.aleph-com.net/svn/astpp/tags/stable/lang/pt"
+   last-author="cvs"
+   kind="dir"
+   uuid="cb406623-eb0e-0410-a3c5-f615d30b9334"
+   repos="svn://aleph.aleph-com.net/svn/astpp"
+   revision="1959"/>
+<entry
+   committed-rev="1408"
+   name="astpp.mo"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-01-02T19:25:45.000000Z"
+   checksum="3dc07eaff7ad49e019311babdd3d7b42"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1408"
+   name="astpp.po"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-01-02T19:25:45.000000Z"
+   checksum="9d506a4f7a9bd7b3d183207732d870d7"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+</wc-entries>

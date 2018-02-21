@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="1956"
+   name=""
+   committed-date="2006-12-19T19:10:51.366686Z"
+   url="svn://aleph.aleph-com.net/svn/astpp/tags/stable/sounds"
+   last-author="dkwiebe"
+   kind="dir"
+   uuid="cb406623-eb0e-0410-a3c5-f615d30b9334"
+   repos="svn://aleph.aleph-com.net/svn/astpp"
+   revision="1959"/>
+<entry
+   committed-rev="1956"
+   name="astpp-call-completed.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="41df87310c51fe51599673ab37835614"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:36.000000Z"/>
+<entry
+   committed-rev="1956"
+   name="astpp-callingcard-menu.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="33aef59fef0858525cf381e7cddc27a2"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:36.000000Z"/>
+<entry
+   committed-rev="1232"
+   name="this-card-has-a-balance-of.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T19:11:25.000000Z"
+   checksum="826860215aecb71dcf0a5b71c354d6dc"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:36.000000Z"/>
+<entry
+   committed-rev="1273"
+   name="astpp-not-enough-money.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-25T22:43:46.000000Z"
+   checksum="50d03aa539980581dc3bfef3415ad469"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:36.000000Z"/>
+<entry
+   committed-rev="1232"
+   name="please-wait-while-i-connect.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T19:11:25.000000Z"
+   checksum="bfc5606d28c71415a210c45f2b89d1b4"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1237"
+   name="press_one_if_you_wish.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T20:35:52.000000Z"
+   checksum="ab59e8966cebc928be74555784c6a8a7"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1956"
+   name="astpp-card-is-empty.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="c506e0b128b4947c91946c8c60cdd9ac"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1232"
+   name="is-suspended.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T19:11:25.000000Z"
+   checksum="5ceea68b5f839ba0b965b1c75c876bd7"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1232"
+   name="of-local-credit.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T19:11:25.000000Z"
+   checksum="b0923d1d3827360b00a32bd6430f6b60"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1232"
+   name="of-longdistance-credit.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T19:11:25.000000Z"
+   checksum="06a9aee703cc5e12a6d965ec578a0002"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1232"
+   name="per.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T19:11:25.000000Z"
+   checksum="ab7a5a850dfbff0f4694871b35c011d7"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1232"
+   name="this-call-will-last.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T19:11:25.000000Z"
+   checksum="1a4b9be39bcc2627aefc6ddee42c8c0b"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1232"
+   name="cent.gsm"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2005-11-19T19:11:25.000000Z"
+   checksum="364c3be421c1dcfb1101bf429c135be6"
+   last-author="cvs"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+</wc-entries>

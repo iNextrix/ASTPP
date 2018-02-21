@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="1956"
+   name=""
+   committed-date="2006-12-19T19:10:51.366686Z"
+   url="svn://aleph.aleph-com.net/svn/astpp/tags/stable/3rdparty_integration/oscommerce"
+   last-author="dkwiebe"
+   kind="dir"
+   uuid="cb406623-eb0e-0410-a3c5-f615d30b9334"
+   repos="svn://aleph.aleph-com.net/svn/astpp"
+   revision="1959"/>
+<entry
+   committed-rev="1956"
+   name="INSTALL.txt"
+   text-time="2006-12-20T16:48:36.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="c9e26d3f92732c2706b32af2c352c6ad"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:36.000000Z"/>
+<entry
+   committed-rev="1956"
+   name="astpp_notify.php"
+   text-time="2006-12-20T16:48:36.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="83caed1ffb38eeeeaf7ed6aa0e4a5d4e"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:36.000000Z"/>
+</wc-entries>

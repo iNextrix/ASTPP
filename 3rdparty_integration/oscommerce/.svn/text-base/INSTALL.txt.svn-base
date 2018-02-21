@@ -1,0 +1,101 @@
+This patch is for the integration of ASTPP with OSCommerce
+
+
+1. Edit /catalog/admin/categories.php
+ a. Find this text around line 222:
+		'manufacturers_id' => tep_db_prepare_input($HTTP_POST_VARS['manufacturers_id']));
+ b. Replace it with these lines:
+		'manufacturers_id' => tep_db_prepare_input($HTTP_POST_VARS['manufacturers_id']),
+		'notify_astpp' => tep_db_prepare_input($HTTP_POST_VARS['notify_astpp']),
+		'astpp_extra' => tep_db_prepare_input($HTTP_POST_VARS['astpp_extra']));
+ c. Find this text around line 377:
+		$product_query = tep_db_query("select pd.products_name, pd.products_description, pd.products_url, p.products_id, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, date_format(p.products_date_available, '%Y-%m-%d') as products_date_available, p.products_status, p.products_tax_class_id, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+ d. Replace it with this line:
+		$product_query = tep_db_query("select pd.products_name, pd.products_description, pd.products_url, p.products_id, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, date_format(p.products_date_available, '%Y-%m-%d') as products_date_available, p.products_status, p.products_tax_class_id, p.manufacturers_id, p.notify_astpp, p.astpp_extra from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+ e. Around line 508, right after these lines:
+		<?php
+			}
+		?>
+	Place this code:
+		<!-- ASTPP NOTIFY START -->
+		<tr>
+		<td class="main"><?php echo ENTRY_NOTIFY_ASTPP; ?></td>
+		<td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' .tep_draw_checkbox_field('notify_astpp', '1', (($pInfo->notify_astpp == '1') ? true : false)); ?></td>
+		</tr>
+		<tr>
+			<td class="main" valign="top"><?php echo ENTRY_ASTPP_EXTRA; ?>&nbsp;</td>
+			<td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' .tep_draw_textarea_field('astpp_extra', 'soft', '70', '15', stripslashes($pInfo->astpp_extra)); ?></td>
+		</tr>
+		<!-- ASTPP NOTIFY STOP -->
+ f. Find this text around line 538:
+		<td class="main"><?php echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (isset($products_description[$languages[$i]['id']]) ? $products_description[$languages[$i]['id']] : tep_get_products_description($pInfo->products_id, $languages[$i]['id']))); ?></td>
+ g. Replace it with this code:
+		<td class="main"><?php echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (isset($products_description[$languages[$i]['id']]) ? stripslashes($products_description[$languages[$i]['id']]) : tep_get_products_description($pInfo->products_id, $languages[$i]['id']))); ?></td>
+ h. Find this text around line 574:
+		<td class="main"><?php echo tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('products_url[' . $languages[$i]['id'] . ']', (isset($products_url[$languages[$i]['id']]) ? $products_url[$languages[$i]['id']] : tep_get_products_url($pInfo->products_id, $languages[$i]['id']))); ?></td>
+ i. Replace it with this code:
+		<td class="main"><?php echo tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('products_url[' . $languages[$i]['id'] . ']', (isset($products_url[$languages[$i]['id']]) ? stripslashes($products_url[$languages[$i]['id']]) : tep_get_products_url($pInfo->products_id, $languages[$i]['id']))); ?></td>
+ j. Find this text around line 603:
+		$product_query = tep_db_query("select p.products_id, pd.language_id, pd.products_name, pd.products_description, pd.products_url, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.manufacturers_id  from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "'");
+ k. Replace it with this code:
+$product_query = tep_db_query("select p.products_id, pd.language_id, pd.products_name, pd.products_description, pd.products_url, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.manufacturers_id, p.notify_astpp,p.astpp_extra  from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "'");
+
+2. Edit /catalog/admin/includes/languages/english/categories.php
+	Immediately before the final:
+		?>
+	Place the following code:
+		define('ENTRY_NOTIFY_ASTPP', 'Notify ASTPP');
+
+3. Edit /catalog/admin/includes/languages/espanol/categories.php
+	Immediately before the final:
+		?>
+	Place the following code:
+		define('ENTRY_NOTIFY_ASTPP', 'Notify ASTPP');
+
+4. Edit /catalog/admin/includes/languages/german/categories.php
+	Immediately before the final:
+		?>
+	Place the following code:
+		define('ENTRY_NOTIFY_ASTPP', 'Notify ASTPP');
+
+5. Edit /catalog/admin/orders.php
+ a. Around line 43, right after:
+		$customer_notified = '0';
+	Insert these lines:
+		if($status==3) {
+			require "astpp_notify.php";
+			$SQL="select op.orders_id as invoice,op.products_price as val,op.products_quantity as products_quantity,o.customers_email_address as account,p.notify_astpp,p.astpp_extra as astpp_extra from ".TABLE_ORDERS_PRODUCTS." op,".TABLE_ORDERS." o,".TABLE_PRODUCTS." p where o.orders_id=op.orders_id and p.products_id=op.products_id and o.orders_id='".(int)$oID."'";
+			//echo("SQL: ".$SQL);
+			$astpp_notify_query = tep_db_query($SQL);
+			while($astpp_notify = tep_db_fetch_array($astpp_notify_query)) {
+				if($astpp_notify['notify_astpp']==1) {
+					$astpp['invoice']=$astpp_notify['invoice'];
+					$astpp['account']=$astpp_notify['account'];
+					$astpp['emailadd']=$astpp_notify['account'];
+					$astpp['quantity']=$astpp_notify['products_quantity'];
+					$astpp_extra=preg_split('/\n/', $astpp_notify['astpp_extra'], -1, PREG_SPLIT_NO_EMPTY);
+					foreach ($astpp_extra as $str) {
+						$xx=preg_split('/\=/', $str, 2, PREG_SPLIT_NO_EMPTY);
+						$astpp[$xx[0]]=$xx[1];
+					}
+					fsockPost(ASTPP_NOTIFY_URL,$astpp);
+					//echo "fsockpost called!<br>astpp:<pre>";
+					//print_r($astpp);
+					//echo "</pre>";
+				}
+			}
+		}
+ b. Around line 314, right after:
+		<td class="main"><b><?php echo ENTRY_NOTIFY_COMMENTS; ?></b> <?php echo tep_draw_checkbox_field('notify_comme
+nts', '', true); ?></td>
+		</tr>
+	Insert this line:
+	<td class="main" colspan=2><b><?php echo ENTRY_NOTIFY_ASTPP; ?></b> <?php echo tep_draw_checkbox_field('notify_astpp', '', true); ?></td>
+ c. Find this text around line 357:
+		} elseif (isset($HTTP_GET_VARS['status'])) {
+ d. Replace it with this code:
+		} elseif (isset($HTTP_GET_VARS['status']) && is_numeric($HTTP_GET_VARS['status']) && ($HTTP_GET_VARS['status'] > 0)) {
+		
+		
+		
+You should now have a link.  Good luck!

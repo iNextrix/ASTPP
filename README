@@ -1,0 +1,16 @@
+This is ASTPP, the Asterisk Postpaid billing and account
+management program.  The homepage for this software is
+found @ www.astpp.org.  It was started shortly after ASTCC
+was released and has been under development since.
+
+Credits:
+Mark Spencer (mark@digium.com) originally wrote ASTCC.  We
+initially reused a lot of code from that software.  ASTPP
+has been almost entirely rewritten to clean up copyright 
+issues.  The makefile is the only file which has not been
+replaced
+
+Please visit the wiki at http://www.astpp.org
+
+Darren Wiebe
+darren@aleph-com.net

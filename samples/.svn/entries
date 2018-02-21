@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="1956"
+   name=""
+   committed-date="2006-12-19T19:10:51.366686Z"
+   url="svn://aleph.aleph-com.net/svn/astpp/tags/stable/samples"
+   last-author="dkwiebe"
+   kind="dir"
+   uuid="cb406623-eb0e-0410-a3c5-f615d30b9334"
+   repos="svn://aleph.aleph-com.net/svn/astpp"
+   revision="1959"/>
+<entry
+   committed-rev="1956"
+   name="sample.reseller-config.conf"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="6f5fa9a8e8e18a1529cb33d059b4c570"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1956"
+   name="sample.astpp-enh-config.conf"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="a2fd159b3cf885abdbf9531ac53e14ee"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1956"
+   name="mysql_subroutines.conf"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="87129cfd9148a210f253f1c649ac954f"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1956"
+   name="sample.astpp-dialplan.conf"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="dddc9defae02851098b825a50530ec22"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+<entry
+   committed-rev="1956"
+   name="sample.astpp-config.conf"
+   text-time="2006-12-20T16:48:37.000000Z"
+   committed-date="2006-12-19T19:10:51.366686Z"
+   checksum="c872f9478206fb9fc4440b4f08e97c63"
+   last-author="dkwiebe"
+   kind="file"
+   prop-time="2006-12-20T16:48:37.000000Z"/>
+</wc-entries>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="1956"
+   name=""
+   committed-date="2006-12-19T19:10:51.366686Z"
+   url="svn://aleph.aleph-com.net/svn/astpp/tags/stable/3rdparty_integration"
+   last-author="dkwiebe"
+   kind="dir"
+   uuid="cb406623-eb0e-0410-a3c5-f615d30b9334"
+   repos="svn://aleph.aleph-com.net/svn/astpp"
+   revision="1959"/>
+<entry
+   name="oscommerce"
+   kind="dir"/>
+</wc-entries>
