@@ -20,8 +20,16 @@ INSERT INTO `q850code` VALUES ('UNSPECIFIED',0),('UNALLOCATED_NUMBER',1),('NO_RO
 /*!40000 ALTER TABLE `q850code` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--menu table queries
+UPDATE `menu_modules` SET `menu_label` = 'Settings' WHERE `menu_modules`.`id` = 69;
 
--- system table queries INSERT INTO system
+-- system table queries
+UPDATE `system` SET `group_title` = 'signup' WHERE `system`.`id` = 179;
+UPDATE `system` SET `display_name` = 'Timezone' WHERE `system`.`id` = 179;
+UPDATE `system` SET `group_title` = 'signup' WHERE `system`.`id` = 181;
+UPDATE `system` SET `display_name` = 'Country' WHERE `system`.`id` = 181;
+UPDATE `system` SET `display_name` = 'Rategroup' WHERE `system`.`id` = 204;
+UPDATE `system` SET `display_name` = 'Initial Balance' WHERE `system`.`id` = 207;
 VALUES(219,'realtime_billing','Realtime Billing <b>(<a href=\'http://astpp.readthedocs.io/en/v3.5/Integrations/realtime_billing.html\' target="_blank">Experimental</a>)</b>',1,'enable_disable_option','Set enable to use realtime
 billing.',NULL,0,0,'global'); 
 UPDATE `system` SET `value` ='3.6' WHERE `system`.`id` = 191;
