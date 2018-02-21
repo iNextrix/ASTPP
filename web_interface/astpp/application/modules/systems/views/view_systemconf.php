@@ -134,13 +134,13 @@ function validateform(){
         {
           if(elem[i].name!=''){
           var disp=elem[i].name+"_error";
-          if(elem[i].name=='did_global_translation'){
-          $("#"+disp).parent().css("display","none");
+          if(elem[i].name=='did_global_translation' || elem[i].name=='homer_capture_server'){
+            $("#"+disp).parent().css("display","none");
           }else if($.trim(elem[i].value)==''){
-          $("#"+disp).parent().css("display","block");
-          flag=true;
+            $("#"+disp).parent().css("display","block");
+            flag=true;
           }else{
-          $("#"+disp).parent().css("display","none");
+            $("#"+disp).parent().css("display","none");
           }
         }
         }
