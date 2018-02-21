@@ -40,6 +40,27 @@
 
 $route['default_controller'] = "login";
 $route['404_override'] = '';
+$route['getbalance/(:any)'] = "getbalance/index/$1";
+
+$route['settings/configuration'] = "systems/configuration/";
+$route['settings/configuration_json'] = "systems/configuration_json/";
+
+// $route['rategroup/rategroup_list'] = "pricing/price_list/";
+// $route['rategroup/rategroup_list_json'] = "pricing/price_list_json/";
+
+
+// $route['configuration/taxes_list'] = "taxes/taxes_list/";
+// $route['configuration/taxes_list_json'] = "taxes/taxes_list_json/";
+// $route['configuration/taxes_edit/(:any)'] = "taxes/taxes_edit/$1";
+// $route['configuration/taxes_delete/(:any)'] = "taxes/taxes_delete/$1";
+
+
+$route['logout'] = "login/logout/";
+
+
+
+
+// $route['settings/configuration/(:any)'] = "systems/configuration/$1";
 
 
 /* End of file routes.php */

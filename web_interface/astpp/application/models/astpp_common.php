@@ -1,4 +1,25 @@
 <?php
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
+
 class Astpp_common extends CI_Model {
     // ------------------------------------------------------------------------
     /**
@@ -15,7 +36,7 @@ class Astpp_common extends CI_Model {
      * @param 
      * @return return array of applyable chargelist.
      */
-    function list_applyable_charges() {
+    function list_applyable_charges($accountid = '') {
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $reseller = $account_data['id'];
@@ -23,8 +44,10 @@ class Astpp_common extends CI_Model {
         } else {
             $where = " AND reseller_id = 0";
         }
+        if(isset($accountid) && $accountid > 0)
+	$q= " SELECT * FROM `charges` where reseller_id =0 and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid AND status <> 0)";
+        else
         $q = "SELECT * FROM charges WHERE status < 2 AND pricelist_id = '' $where";
-
         $item_arr = array();
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
@@ -109,6 +132,26 @@ class Astpp_common extends CI_Model {
 
     function count_accounts($test) {
         $tmp = "SELECT COUNT(*) as val1 FROM accounts " . $test;
+        return $this->db_get_item($tmp, 'val1');
+    }
+
+    function count_rategroup($test){
+	 $tmp = "SELECT COUNT(*) as val1 FROM pricelists " . $test;
+        return $this->db_get_item($tmp, 'val1');
+    }
+
+    function count_termination($test = ''){
+	 $tmp = "SELECT COUNT(*) as val1 FROM outbound_routes " . $test;
+        return $this->db_get_item($tmp, 'val1');
+    }
+
+    function count_trunk($test = ''){
+	 $tmp = "SELECT COUNT(*) as val1 FROM trunks " . $test;
+        return $this->db_get_item($tmp, 'val1');
+    }
+
+    function count_origination($test = ''){
+	 $tmp = "SELECT COUNT(*) as val1 FROM routes " . $test;
         return $this->db_get_item($tmp, 'val1');
     }
 

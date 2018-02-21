@@ -74,6 +74,9 @@
     else if (data.div) fillFaceboxFromHref(data.div, klass)
     else if ($.isFunction(data)) data.call($)
     else $.facebox.reveal(data, klass)
+      
+
+    
   }
 
   /*
@@ -99,37 +102,47 @@
 
     loading: function() {
       init()
+      
       if ($('#facebox .loading').length == 1) return true
       showOverlay()
 
       $('#facebox .content').empty().
-        append('<div class="loading"><img src="'+$.facebox.settings.loadingImage+'"/></div>')
+        append('<div class="loading"><img src="'+$.facebox.settings.loadingImage+'" /></div>')
 
       $('#facebox').show().css({
         top:	getPageScroll()[1] + (getPageHeight() / 10),
 /*       
  * 	Change:  Add below line to set popup position with site layout.*/
-//         left:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2)
-// 	width:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2)
+         left:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2),
+ 	   //width:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2)
       })
-
       $(document).bind('keydown.facebox', function(e) {
         if (e.keyCode == 27) $.facebox.close()
         return true
       })
+      
+      
+      
       $(document).trigger('loading.facebox')
     },
 
     reveal: function(data, klass) {
-//        alert($(window).width()+'-----'+$('#facebox .popup').outerWidth());
       $(document).trigger('beforeReveal.facebox')
       if (klass) $('#facebox .content').addClass(klass)
       $('#facebox .content').empty().append(data)
       $('#facebox .popup').children().fadeIn('normal')
-/*       
- * 	Change:  Add below line to set popup position with site layout.*/
+
       
-//       $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2))
+      $('#facebox .close')
+      .click($.facebox.close)
+      .append('<img alt="close_image" src="'
+              + $.facebox.settings.closeImage
+              + '" class="close_image" title="close" style="height:15px;width:15px; margin:17px 10px 0px 0px;">')
+      
+/** 	Change:  Add below line to set popup position with site layout.*/
+        $('#facebox').css('right', $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2) - ($('#facebox .popup').outerWidth() / 12 ));
+//        $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2) - ($('#facebox .popup').outerWidth() / 6 ))
+
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
 
@@ -146,8 +159,13 @@
   $.fn.facebox = function(settings) {
     if ($(this).length == 0) return
 
+      
+     
+      
+      
     init(settings)
-
+     
+// alert("both1");
     function clickHandler() {
       $.facebox.loading(true)
 
@@ -159,6 +177,7 @@
       fillFaceboxFromHref(this.href, klass)
       return false
     }
+    
 
     return this.bind('click.facebox', clickHandler)
   }
@@ -189,12 +208,15 @@
       preload.push(new Image())
       preload.slice(-1).src = $(this).css('background-image').replace(/url\((.+)\)/, '$1')
     })
+   
+//             $('#facebox .close')
+//       .click($.facebox.close)
+//       .append('<img src="'
+//               + $.facebox.settings.closeImage
+//               + '" class="close_image" title="close">')
 
-    $('#facebox .close')
-      .click($.facebox.close)
-      .append('<img src="'
-              + $.facebox.settings.closeImage
-              + '" class="close_image" title="close">')
+    
+      
   }
 
   // getPageScroll() by quirksmode.com
@@ -320,5 +342,5 @@
     })
     hideOverlay()
   })
-
+  
 })(jQuery);

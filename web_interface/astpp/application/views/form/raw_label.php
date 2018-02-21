@@ -1,1 +1,0 @@
-<label class="control-label"><?php echo $label; ?></label>

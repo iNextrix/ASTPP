@@ -7,24 +7,20 @@
 <br/>
 <?php endblock() ?>
 <?php startblock('content')?>
- 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-  <div class="portlet-header ui-widget-header"><!--< ?php echo isset($account)?"Edit":"Create New";?> Account-->
-    <?=@$page_title?>
-    <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    
-   
-    
-   <div style="color:red;margin-left: 60px;">
-    <?php echo $validation_errors; ?> 
-    </div>
-    
-    
-    <?php echo $form;?>
-                  </div>
-<?php 
-	//echo $form;
-?>
+<div class="container">
+  <div class="row">
+    <section class="slice color-three no-margin">
+        <div class="w-section inverse no-padding">
+            <div style="color:red;margin-left: 60px;">
+                    <?php echo $validation_errors; ?> 
+            </div>
+            <?php echo $form; ?>
+        </div>      
+    </section>        
+  </div>
+</div>
+
+
 <? endblock() ?>
 <? startblock('sidebar') ?>
 <? endblock() ?>

@@ -1,4 +1,24 @@
 <?php
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
@@ -37,14 +57,16 @@ class Form {
     function check_permissions() {
         if ($this->CI->session->userdata('user_login') == TRUE) {
             $module_info = unserialize($this->CI->session->userdata("permited_modules"));
+            if($this->CI->session->userdata('userlevel_logintype')!= 0 && $this->CI->session->userdata('userlevel_logintype')!= 3){
+	    $module_info[]='dashboard';
+            }
             $url = $this->CI->uri->uri_string;
             $file_name = explode("/", $url);
-            $module = explode('_', $file_name['1']);
-
-// echo $module[0]."<pre>========";
-// print_r($module_info);
-// exit;
-
+            if(isset($file_name['1'])){
+	      $module = explode('_', $file_name['1']);
+            }else{
+              $module=$file_name;
+            }
             if (in_array($module[0], $module_info)) {
                 return true;
             } else {
@@ -62,7 +84,7 @@ class Form {
 
     function build_form($fields_array, $values) {
         $form_contents = '';
-        $form_contents.= '<div class="portlet-content">';
+        $form_contents.= '<div>';
         $form_contents.= form_open($fields_array['forms'][0], $fields_array['forms'][1]);
         unset($fields_array['forms']);
         $button_array = array();
@@ -95,16 +117,15 @@ class Form {
                 $form_contents.= '<div style="width:100%;float:left;">';
                 $form_contents.= '<div style="width:100%;float:left;">';
             }
-            $form_contents.= '<ul>';
-
+            $form_contents.= '<ul class="padding-15">';
+                $form_contents.= '<div class="col-md-12 no-padding">';
             if ($i == 1 || $i == 3) {
-                $form_contents.= form_fieldset($fieldset_key, array('style' => 'margin-left:10px;margin-top:10px;font-weight:bold;'));
+                $form_contents.= form_fieldset($fieldset_key);
             } else {
-                $form_contents.= form_fieldset($fieldset_key, array('style' => 'margin-left:10px;margin-top:10px;font-weight:bold;'));
+                $form_contents.= form_fieldset($fieldset_key);
             }
-            $form_contents.= '<div class="content-box-wrapper">';
             foreach ($form_fileds as $fieldkey => $fieldvalue) {
-                $form_contents.= '<li>';
+                $form_contents.= '<li class="col-md-12">';
                 if ($fieldvalue[1] == 'HIDDEN') {
                     if (isset($this->CI->input->post))
                         $fieldvalue[2]['value'] = (!$this->CI->input->post($fieldvalue[2]['name'])) ? @$fieldvalue[2]['value'] : $this->CI->input->post($fieldvalue[2]['name']);
@@ -113,10 +134,31 @@ class Form {
 
                     $form_contents.= form_hidden($fieldvalue[2]['name'], $fieldvalue[2]['value']);
                 }else {
+//                 			$rules_str=null;
+// 			$required=false;
+// 			if($fieldvalue[1] == 'INPUT' || $fieldvalue[1] == 'PASSWORD'){
+// 			  $rules_str= $fieldvalue[3];
+// // 			  echo $rules_str;
+// 			}
+// 			
+// 			if($fieldvalue[2] == 'SELECT' &&  is_array($fieldvalue[4]) && !empty($fieldvalue[4]) && isset($fieldvalue[4])){
+// 			  $rules_str= $fieldvalue[4];
+// 			}
+// 			if(!empty($rules_str) && strpos($rules_str,'required') !== false){
+// 			   $required=true; 
+// 			}
+// 			if($required){
+// 			    $required = "<span style='color:red ; margin-right: -5px;'>*</span>";
+// 			}
+//                     if (is_array($fieldvalue[1]) || (is_array($fieldvalue[2]) && isset($fieldvalue[2]['hidden']))) {
+//                         $form_contents.= form_label($fieldvalue[0], $fieldvalue[0], array('class' => 'col-md-3 no-padding add_settings'))." ".$required;
+//                     } else {
+//                         $form_contents.= form_label($fieldvalue[0], "", array("class" => "col-md-3 no-padding"))." ".$required;
+//                     }
                     if (is_array($fieldvalue[1]) || (is_array($fieldvalue[2]) && isset($fieldvalue[2]['hidden']))) {
-                        $form_contents.= form_label($fieldvalue[0], $fieldvalue[0], array('class' => 'formlabel add_settings'));
+                        $form_contents.= form_label($fieldvalue[0], $fieldvalue[0], array('class' => 'col-md-3 no-padding add_settings'));
                     } else {
-                        $form_contents.= form_label($fieldvalue[0], "", array("class" => "formlabel"));
+                        $form_contents.= form_label($fieldvalue[0], "", array("class" => "col-md-3 no-padding"));
                     }
                 }
                 if ($fieldvalue[2] == 'SELECT' && !isset($fieldvalue[13])) {
@@ -137,13 +179,17 @@ class Form {
                         $drp_array = call_user_func_array(array($this->CI->db_model, $fieldvalue[10]), array($str, $fieldvalue[9], $fieldvalue[11], $fieldvalue[12]));
 //                         echo $fieldvalue[1];
 
-                        if ($fieldset_key === 'System Configuration Information' || ($fieldset_key === 'Card Information' && $fieldvalue[0] == 'Rate Group') || ($fieldset_key === 'DID Billing' && $fieldvalue[0] == 'Account') || $fieldset_key === 'Freeswitch Devices' && $fieldvalue[0] == 'Rate Group') {
+                        if ($fieldset_key == 'System Configuration Information' || ($fieldset_key == 'Billing Information'  && $fieldvalue[0] == 'Force Trunk') || ($fieldset_key == 'Card Information' && $fieldvalue[0] == 'Rate Group') || ($fieldset_key == 'DID Billing' && $fieldvalue[0] == 'Account') || $fieldset_key == 'Freeswitch Devices' && $fieldvalue[0] == 'Rate Group' || ($fieldset_key== 'Origination Rate Add/Edit' && $fieldvalue[0] == 'Trunks' )||$fieldset_key== 'Billing Information' && $fieldvalue[0] == 'Rate Group'  || ($fieldset_key== 'Trunk Information' && $fieldvalue[0] == 'Fail Over Gateway') || ($fieldset_key== 'Subscription Information' && $fieldvalue[0] == 'Rate Group') || ($fieldset_key== 'Sip Devices' && $fieldvalue[0] == 'Sip Profile') || ($fieldset_key== 'Sip Devices' && $fieldvalue[0] == 'Account')) {
                             $form_contents.=form_dropdown_all($fieldvalue[1], $drp_array, $fieldvalue['value'], '');
                         } else {
                             $form_contents.=form_dropdown($fieldvalue[1], $drp_array, $fieldvalue['value'], '');
                         }
-                        $form_contents.= '<br/>';
-                        $form_contents.= '<span class="error" id="' . (is_array($fieldvalue[1])?$fieldvalue[1]['name']:$fieldvalue[1]) . '_error">&nbsp;</span>';
+
+                        if(isset($fieldvalue[4]) && $fieldvalue[4] != ''){
+			  $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]);
+                        }
+                        $form_contents.= '<div class="col-md-12 no-padding error_div"><div class="col-md-3">&nbsp;</div>';
+                        $form_contents.= '<span class="popup_error error col-md-8 no-padding" id="' . (is_array($fieldvalue[1])?$fieldvalue[1]['name']:$fieldvalue[1]) . '_error">&nbsp;</span></div>';
                     } else {
                         if (isset($this->CI->input->post)) {
                             $fieldvalue['value'] = (!$this->CI->input->post($fieldvalue[1])) ? @$fieldvalue[1] : $this->CI->input->post($fieldvalue[1]);
@@ -158,8 +204,11 @@ class Form {
                         $str = $fieldvalue[7] . "," . $fieldvalue[8];
                         $drp_array = call_user_func_array(array($this->CI->common, $fieldvalue[10]), array($fieldvalue[9]));
                         $form_contents.=form_dropdown($fieldvalue[1], $drp_array, $fieldvalue['value']);
-                        $form_contents.= '<br/>';                        
-                        $form_contents.= '<span class="error" id="' . (is_array($fieldvalue[1])?$fieldvalue[1]['name']:$fieldvalue[1]) . '_error">&nbsp;</span>';
+                        if(isset($fieldvalue[4]) && $fieldvalue[4] != ''){
+			  $this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]);
+                        }
+                        $form_contents.= '<div class="col-md-12 no-padding error_div"><div class="col-md-3">&nbsp;</div>';                        
+                        $form_contents.= '<span class="popup_error error col-md-8 no-padding" id="' . (is_array($fieldvalue[1])?$fieldvalue[1]['name']:$fieldvalue[1]) . '_error">&nbsp;</span></div>';
                     }
                 } else if (isset($fieldvalue[13]) && $fieldvalue[13] != '') {
 
@@ -177,8 +226,11 @@ class Form {
                     } else {
                         $form_contents.=form_dropdown_multiselect($fieldvalue[1] . "[]", $drp_array, $fieldvalue['value']);
                     }
-                    $form_contents.= '<br/>';
-                    $form_contents.= '<span class="error" id="' . $fieldvalue[1] . '_error">&nbsp;</span>';
+                    if(isset($fieldvalue[4]) && $fieldvalue[4] != ''){
+			$this->CI->form_validation->set_rules($fieldvalue[1], $fieldvalue[0], $fieldvalue[4]);
+                    }
+                    $form_contents.= '<div class="col-md-12 no-padding error_div"><div class="col-md-3">&nbsp;</div>';
+                    $form_contents.= '<span class="popup_error error col-md-8 no-padding" id="' . $fieldvalue[1] . '_error">&nbsp;</span></div>';
                     /* End---------------------   For multi select code */
                 } else if ($fieldvalue[1] == 'INPUT') {
                     if (isset($this->CI->input->post))
@@ -187,8 +239,8 @@ class Form {
                         $fieldvalue[2]['value'] = ($values) ? @$values[$fieldvalue[2]['name']] : @$fieldvalue[2]['value'];
                     $form_contents.= form_input($fieldvalue[2], 'readonly');
                     $this->CI->form_validation->set_rules($fieldvalue[2]['name'], $fieldvalue[0], $fieldvalue[3]);
-                    $form_contents.= '<br/>';
-                    $form_contents.= '<span class="error" id="' . $fieldvalue[2]['name'] . '_error">&nbsp;</span>';
+                    $form_contents.= '<div class="col-md-12 no-padding error_div"><div class="col-md-3">&nbsp;</div>';
+                    $form_contents.= '<span class="popup_error col-md-8 no-padding" id="' . $fieldvalue[2]['name'] . '_error">&nbsp;</span></div>';
                 } else if ($fieldvalue[1] == 'PASSWORD') {
                     if (isset($this->CI->input->post))
                         $fieldvalue[2]['value'] = (!$this->CI->input->post($fieldvalue[2]['name'])) ? @$fieldvalue[2]['value'] : $this->CI->input->post($fieldvalue[2]['name']);
@@ -197,14 +249,16 @@ class Form {
                     $form_contents.= form_password($fieldvalue[2]);
 //                    exit;
                     $this->CI->form_validation->set_rules($fieldvalue[2]['name'], $fieldvalue[0], $fieldvalue[3]);
-                    $form_contents.= '<br/>';
-                    $form_contents.= '<span class="error" id="' . $fieldvalue[2]['name'] . '_error">&nbsp;</span>';
+                    $form_contents.= '<div class="col-md-12 no-padding error_div"><div class="col-md-3">&nbsp;</div>';
+                    $form_contents.= '<span class="popup_error col-md-8 no-padding" id="' . $fieldvalue[2]['name'] . '_error">&nbsp;</span></div>';
                 } else if ($fieldvalue[2] == 'CHECKBOX') {
-                    if (isset($this->CI->input->post))
+                    if (isset($this->CI->input->post)){
                         $fieldvalue[3]['value'] = (!$this->CI->input->post($fieldvalue[1])) ? @$fieldvalue[3]['value'] : $this->CI->input->post($fieldvalue[1]);
+                    }    
                     else
-                        $fieldvalue[3]['value'] = ($values) ? @$values[$fieldvalue[1]] : @$fieldvalue[3]['value'];
-
+                    {
+                        $fieldvalue[3]['value'] = ($values) ? (isset($values[$fieldvalue[1]]) && $values[$fieldvalue[1]] ? 1: 0) : @$fieldvalue[3]['value'];
+		    }
                     if ($fieldvalue[3]['value'] == "1") {
                         $checked = true;
                     } else {
@@ -227,22 +281,19 @@ class Form {
             }
 
             $form_contents.= '</ul>';
-            $form_contents.= '<div>';
-            $form_contents.= '</div>';
             $form_contents.= '</div>';
             $form_contents.= '</div>';
             $i++;
         }
 
-        $form_contents.= '<div style="width:100%; float:left;height:40px;margin-top:20px;">';
-
-        if (isset($cancel)) {
-            $form_contents.= form_button($cancel);
-        }
+        $form_contents.= '<center><div class="col-md-12 margin-t-20 margin-b-20">';
 
         $form_contents.= form_button($save);
 
-        $form_contents.= '</div>';
+	if (isset($cancel)) {
+            $form_contents.= form_button($cancel);
+        }
+        $form_contents.= '</center></div>';
         $form_contents.= form_fieldset_close();
         $form_contents.= form_close();
         $form_contents.= '</div>';
@@ -253,7 +304,7 @@ class Form {
 
     function build_serach_form($fields_array) {
         $form_contents = '';
-        $form_contents.= '<div >';
+        $form_contents.= '<div>';
         $form_contents.= form_open($fields_array['forms'][0], $fields_array['forms'][1]);
         unset($fields_array['forms']);
         $button_array = array();
@@ -268,25 +319,25 @@ class Form {
         $i = 1;
         foreach ($fields_array as $fieldset_key => $form_fileds) {
 
-            $form_contents.= '<ul>';
-            $form_contents.= form_fieldset($fieldset_key, array('style' => 'margin-left:0px;font-weight:bold;'));
+            $form_contents.= '<ul class="padding-15">';
+            $form_contents.= form_fieldset($fieldset_key);
 
             foreach ($form_fileds as $fieldkey => $fieldvalue) {
 
                 if ($i == 0) {
-                    $form_contents.= '<li>';
+                    $form_contents.= '<li class="col-md-12">';
                 }
-                $form_contents.= '<div class="float-left" style="width:32%">';
+                $form_contents.= '<div class="col-md-4 no-padding">';
                 if ($fieldvalue[1] == 'HIDDEN') {
                     $form_contents.= form_hidden($fieldvalue[2], $fieldvalue[3]);
                 } else {
-                    $form_contents.= form_label($fieldvalue[0], "", array("class" => "search_label")) . "<br/><br/>";
+                    $form_contents.= form_label($fieldvalue[0], "", array("class" => "search_label col-md-12 no-padding"));
                 }
                 if ($fieldvalue[1] == 'INPUT') {
                     $form_contents.= form_input($fieldvalue[2]);
                 }
                 if ($fieldvalue[2] == 'SELECT' || $fieldvalue[5] == '1') {
-
+			  
                     if ($fieldvalue[7] != '' && $fieldvalue[8] != '') {
                         $str = $fieldvalue[7] . "," . $fieldvalue[8];
 
@@ -298,7 +349,7 @@ class Form {
                             $fieldvalue[1] = $fieldvalue[6];
                         }
                         $drp_array = call_user_func_array(array($this->CI->common, $fieldvalue[10]), array($fieldvalue[9]));
-                        $form_contents.=form_dropdown($fieldvalue[1], $drp_array, '');
+                        $form_contents.=form_dropdown_all_search($fieldvalue[1], $drp_array, '');
                     }
                 } else if ($fieldvalue[1] == 'PASSWORD') {
                     $form_contents.= form_password($fieldvalue[2]);
@@ -313,16 +364,13 @@ class Form {
                 $i++;
             }
         }
-
-        $form_contents.= '</ul>';
-        $form_contents.= '<div style="width:100%; float:left;height:40px;margin-top:20px;">';
-
-
+        $form_contents.= '<div class="col-md-12 margin-t-20 margin-b-20">';
         $form_contents.= form_button($cancel);
         $form_contents.= form_button($save);
+        $form_contents.= '</ul>';        
+        $form_contents.= '</div>';
         $form_contents.= form_fieldset_close();
         $form_contents.= form_close();
-        $form_contents.= '</div>';
         $form_contents.= '</div>';
 
         return $form_contents;
@@ -345,16 +393,16 @@ class Form {
         foreach ($fields_array as $fieldset_key => $form_fileds) {
 
             $form_contents.= '<ul>';
-            $form_contents.= form_fieldset($fieldset_key, array('style' => 'margin-left:0px;font-weight:bold;'));
+            $form_contents.= form_fieldset($fieldset_key, array('style' => 'margin-left:-22px;font-weight:bold;'));
             foreach ($form_fileds as $fieldkey => $fieldvalue) {
                 if ($i == 0) {
                     $form_contents.= '<li>';
                 }
-                $form_contents.= '<div class="float-left" style="width:33%">';
+                $form_contents.= '<div class="col-md-4 no-padding">';
                 if ($fieldvalue[1] == 'HIDDEN') {
                     $form_contents.= form_hidden($fieldvalue[2], $fieldvalue[3]);
                 } else {
-                    $form_contents.= form_label($fieldvalue[0], "", array("class" => "search_label")) . "<br/><br/>";
+                    $form_contents.= form_label($fieldvalue[0], "", array("class" => "search_label col-md-12 no-padding"));
                 }
                 if ($fieldvalue[2] == 'SELECT' || $fieldvalue[5] == '1') {
                     if ($fieldvalue[7] != '' && $fieldvalue[8] != '') {
@@ -388,7 +436,7 @@ class Form {
         }
 
         $form_contents.= '</ul>';
-        $form_contents.= '<div style="width:100%; float:left;height:40px;margin-top:20px;">';
+        $form_contents.= '<div class="col-md-12 margin-t-20 margin-b-20">';
 
         $form_contents.= form_button($cancel);
         $form_contents.= form_button($save);
@@ -432,9 +480,41 @@ class Form {
                         }
                     } else {
                         if ($field_arr[0] == "Action") {
+			    if(isset($field_arr[5]) && isset($field_arr[5]->EDIT) && isset($field_arr[5]->DELETE)){
+		             
+		              if($field_arr[5]->EDIT->url == 'accounts/customer_edit/' || $field_arr[5]->EDIT->url == 'accounts/provider_edit/' || $field_arr[5]->DELETE->url == 'accounts/provider_delete/' ||$field_arr[5]->DELETE->url == 'accounts/customer_delete/'){
+		               if($row['type'] == 0){
+		                $field_arr[5]->EDIT->url ='accounts/customer_edit/';
+		                $field_arr[5]->DELETE->url ='accounts/customer_delete/';
+		               }
+		               if($row['type'] == 3){
+		                $field_arr[5]->EDIT->url ='accounts/provider_edit/';
+		                $field_arr[5]->DELETE->url ='accounts/provider_delete/';
+		               }
+		              }
+		              if($field_arr[5]->EDIT->url == 'accounts/admin_edit/' || $field_arr[5]->EDIT->url == 'accounts/subadmin_edit/' || $field_arr[5]->DELETE->url == 'accounts/admin_delete/' ||$field_arr[5]->DELETE->url == 'accounts/subadmin_delete/'){
+		               if($row['type'] == 2){
+		                $field_arr[5]->EDIT->url ='accounts/admin_edit/';
+		                $field_arr[5]->DELETE->url ='accounts/admin_delete/';
+		               }
+		               if($row['type'] == 4){
+		                $field_arr[5]->EDIT->url ='accounts/subadmin_edit/';
+		                $field_arr[5]->DELETE->url ='accounts/subadmin_delete/';
+		               }
+		            }
+			   }
                             $jsn_tmp[$field_key] = $this->CI->common->get_action_buttons($field_arr[5], $row["id"]);
-                        } else {
-                            $jsn_tmp[$field_key] = '<input type="checkbox" name="chkAll" id=' . $row['id'] . ' class="chkRefNos" onclick="clickchkbox(' . $row['id'] . ')" value=' . $row['id'] . '>';
+                        }
+                        elseif($field_arr[0] == "Profile Action")
+                        {
+//                             echo 'asdvdsv';exit;
+                           if(isset($field_arr[5]) && isset($field_arr[5]->START) && isset($field_arr[5]->STOP) && isset($field_arr[5]->RELOAD) && isset($field_arr[5]->RESCAN)){
+                            }
+                           $jsn_tmp[$field_key] = $this->CI->common->get_action_buttons($field_arr[5], $row["id"]);
+                        
+                        }
+                        else {
+                            $jsn_tmp[$field_key] = '<input type="checkbox" name="chkAll" id=' . $row['id'] . ' class="ace chkRefNos" onclick="clickchkbox(' . $row['id'] . ')" value=' . $row['id'] . '><lable class="lbl"></lable>';
                         }
                     }
                 }
@@ -459,6 +539,9 @@ class Form {
                     if ($field_arr[0] == "Action") {
                         $jsn_tmp[$field_key] = $this->CI->common->get_action_buttons($field_arr[5], $row["id"]);
                     }
+		      else {
+                            $jsn_tmp[$field_key] = '<input type="checkbox" name="chkAll" id=' . $row['id'] . ' class="ace chkRefNos" onclick="clickchkbox(' . $row['id'] . ')" value=' . $row['id'] . '><lable class="lbl"></lable>';
+                        }
                 }
             }
             $json_data[] = array('cell' => $jsn_tmp);

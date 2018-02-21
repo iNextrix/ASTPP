@@ -1,4 +1,24 @@
 <?php
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 
 class Auth_model extends CI_Model {
 
@@ -11,11 +31,11 @@ class Auth_model extends CI_Model {
      * @param $username,$password.
      * @return If login user name and password is valid then return true else return false.
      */
-    function verify_login($username, $password) {
+       function verify_login($username, $password) {
         $q = "SELECT COUNT(*) as cnt FROM accounts WHERE (number = '".$this->db->escape_str($username)."'";
 	$q .= " OR email = '".$this->db->escape_str($username)."')";
         $q .= " AND password = '".$this->db->escape_str($password)."'";
-        $q .= " AND status = 1 AND type IN (1,2,3,4,5,0)";
+        $q .= " AND status = 0 AND type IN (1,2,3,4,5,0,-1) AND deleted = 0";
 
         $query = $this->db->query($q);
         //echo $this->db->last_query();

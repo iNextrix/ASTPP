@@ -1,5 +1,24 @@
 <?php
-
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 class Trunk extends CI_Controller {
 
     function Trunk() {
@@ -18,7 +37,8 @@ class Trunk extends CI_Controller {
 
     function trunk_list() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Trunk List';
+        $data['page_title'] = 'Trunks';
+        $data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->trunk_form->build_trunk_list_for_admin();
         $data["grid_buttons"] = $this->trunk_form->build_grid_buttons();
@@ -59,7 +79,7 @@ class Trunk extends CI_Controller {
         foreach ($account->result_array() as $key => $value) {
             $edit_data = $value;
         }
-        $edit_data["reseller_id"] = explode(",", $edit_data["reseller_id"]);
+        $edit_data["resellers_id"] = explode(",", $edit_data["resellers_id"]);
         $data['form'] = $this->form->build_form($this->trunk_form->get_trunk_form_fields(), $edit_data);
         $this->load->view('view_trunk_add_edit', $data);
     }
@@ -75,7 +95,7 @@ class Trunk extends CI_Controller {
                 exit;
             } else {
                 $this->trunk_model->edit_trunk($add_array, $add_array['id']);
-                echo json_encode(array("SUCCESS"=> $add_array["name"]." Trunk updated Successfully."));
+                echo json_encode(array("SUCCESS"=> $add_array["name"]." Trunk updated successfully!"));
                 exit;
             }
         } else {
@@ -86,7 +106,7 @@ class Trunk extends CI_Controller {
                 exit;
             } else {
                 $this->trunk_model->add_trunk($add_array);
-                echo json_encode(array("SUCCESS"=> $add_array["name"]." Trunk added Successfully."));
+                echo json_encode(array("SUCCESS"=> $add_array["name"]." Trunk added successfully!"));
                 exit;
             }
         }
@@ -114,7 +134,8 @@ class Trunk extends CI_Controller {
 
     function trunk_remove($id) {
         $this->trunk_model->remove_trunk($id);
-        $this->session->set_flashdata('astpp_notification', 'Trunks removed successfully!');
+	$this->db->delete("routing",array("trunk_id"=>$id));
+        $this->session->set_flashdata('astpp_notification', 'Trunk removed successfully!');
         redirect(base_url() . 'trunk/trunk_list/');
     }
 
@@ -122,6 +143,8 @@ class Trunk extends CI_Controller {
         $ids = $this->input->post("selected_ids", true);
         $where = "id IN ($ids)";
         echo $this->db_model->update("trunks", array("status" => "2"), $where);
+	$where = "trunk_id IN ($ids)";
+	$this->db->delete("routing",$where);
     }
 
 }

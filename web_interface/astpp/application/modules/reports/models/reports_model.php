@@ -1,35 +1,93 @@
 <?php
-
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 class Reports_model extends CI_Model {
 
     function Reports_model() {
         parent::__construct();
     }
 
-    function getsystem_list($flag, $start, $limit) {
+    function getcustomer_cdrs_list($flag, $start, $limit,$export =true) {
+	$start_date=date("Y-m-d")." 00:00:01";
+	$end_date=date("Y-m-d")." 23:59:59";
         $this->db_model->build_search('customer_cdr_list_search');
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $account_data = $this->session->userdata("accountinfo");
-            $where = array("reseller_id" => $account_data['id']);
-        } else {
-            $where = array("reseller_id" => "0");
+        if($this->session->userdata('advance_search') != 1){
+	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+		$account_data = $this->session->userdata("accountinfo");
+		$where = array("reseller_id" => $account_data['id'],'callstart >= '=>$start_date,'callstart <='=>$end_date,'type'=>'0');
+	    } else {
+		$where = array('reseller_id' => '0','callstart >= '=>$start_date,'callstart <='=>$end_date);
+	    }
+        }
+        else{
+	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+		$account_data = $this->session->userdata("accountinfo");
+		$where = array("reseller_id" => $account_data['id'],'type'=>'0');
+	    } else {
+		$where = array("reseller_id" => "0");
+	    }
         }
         if ($flag) {
-            $query = $this->db_model->select("*", "customer_cdrs", $where, "callstart", "DESC", $limit, $start);
+            $query = $this->db_model->select("*", "cdrs", $where, "callstart", "DESC", $limit, $start);
+//echo $this->db->last_query();
+//exit;
+            
         } else {
-            $query = $this->db_model->countQuery("*", "customer_cdrs", $where);
+            $query = $this->db_model->countQuery("*", "cdrs", $where);
         }
         return $query;
     }
+     function users_cdrs_list($flag,$accountid,$entity_type,$start,$limit) {
+        
+	$where = array('callstart >= '=>date('Y-m-d 00:00:00'),"callstart <= "=>date('Y-m-d 23:59:59') );
+	$account_type= $entity_type =='provider' ? 'provider_id' :'accountid';
+	$where[$account_type]= $accountid;
+	$table=$entity_type=='reseller'?'reseller_cdrs' : 'cdrs';
+        if ($flag) {
+            $query = $this->db_model->select("*", $table, $where, "callstart", "DESC", $limit, $start);
+        } else {
+            $query = $this->db_model->countQuery("*",$table, $where);
+        }
+        return $query;
 
+    }
     function getreseller_list($flag, $start, $limit) {
         $this->db_model->build_search('reseller_cdr_list_search');
-        $this->db_model->build_search('customer_cdr_list_search');
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $account_data = $this->session->userdata("accountinfo");
-            $where = array("reseller_id" => $account_data['id'],"accountid <>"=>$account_data['id']);
-        } else {
-            $where = array("reseller_id" => "0");
+        $start_date=gmdate("Y-m-d")." 00:00:01";
+	$end_date=gmdate("Y-m-d")." 23:59:59";
+	if($this->session->userdata('advance_search') != 1){
+	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+		$account_data = $this->session->userdata("accountinfo");
+		$where = array("reseller_id" => $account_data['id'],"accountid <>"=>$account_data['id'],'callstart >= '=>$start_date,'callstart <='=>$end_date);
+	    } else {
+		$where = array("reseller_id" => "0",'callstart >= '=>$start_date,'callstart <='=>$end_date);
+	    }
+        }
+        else{
+	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+		$account_data = $this->session->userdata("accountinfo");
+		$where = array("reseller_id" => $account_data['id'],"accountid <>"=>$account_data['id']);
+	    } else {
+		$where = array("reseller_id" => "0");
+	    }
         }
         if ($flag) {
             $query = $this->db_model->select("*", "reseller_cdrs", $where, "callstart", "DESC", $limit, $start);
@@ -38,17 +96,33 @@ class Reports_model extends CI_Model {
         }
         return $query;
     }
-
+    
     function getprovider_list($flag, $start, $limit) {
         $this->db_model->build_search('provider_cdr_list_search');
-        if ($this->session->userdata('logintype') == 3) {
-            $account_data = $this->session->userdata("accountinfo");
-            $where = array("accountid"=>$account_data['id']);
+        $start_date=date("Y-m-d")." 00:00:01";
+	$end_date=date("Y-m-d")." 23:59:59";
+	if($this->session->userdata('advance_search') != 1){
+	  if ($this->session->userdata('logintype') == 3) {
+	      $account_data = $this->session->userdata("accountinfo");
+	      $where = array("provider_id"=>$account_data['id'],'callstart >= '=>$start_date,'callstart <='=>$end_date);
+	  }
+	  else{
+	      $where = array('callstart >= '=>$start_date,'callstart <='=>$end_date);
+	  }
+        }
+        else{
+	    if ($this->session->userdata('logintype') == 3) {
+	      $account_data = $this->session->userdata("accountinfo");
+	      $where = array("provider_id"=>$account_data['id']);
+	    }
+	    else{
+	      $where=array();
+	    }
         }
         if ($flag) {
-            $query = $this->db_model->select("*", "provider_cdrs", "", "callstart", "DESC", $limit, $start);
+            $query = $this->db_model->select("*", "cdrs",$where, "callstart", "DESC", $limit, $start);
         } else {
-            $query = $this->db_model->countQuery("*", "provider_cdrs", "");
+            $query = $this->db_model->countQuery("*", "cdrs",$where);
         }
         return $query;
     }
@@ -205,8 +279,28 @@ class Reports_model extends CI_Model {
     }
 
     function getcustomercdrs($flag, $start = 0, $limit = 0, $export = true) {
+    $start_date=date("Y-m-d")." 00:00:01";
+	$end_date=date("Y-m-d")." 23:59:59";
+        if($this->session->userdata('advance_search') != 1){
+	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+		$account_data = $this->session->userdata("accountinfo");
+		$where = array("reseller_id" => $account_data['id'],'callstart >= '=>$start_date,'callstart <='=>$end_date);
+	    } else {
+		$where = array('reseller_id' => '0','callstart >= '=>$start_date,'callstart <='=>$end_date);
+	    }
+        }
+        else{
+	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+		$account_data = $this->session->userdata("accountinfo");
+		$where = array("reseller_id" => $account_data['id']);
+	    } else {
+		$where = array("reseller_id" => "0","type"=> "0");
+	    }
+        }
+        
         $this->db_model->build_search('customer_cdr_list_search');
-        $this->db->from('customer_cdrs');
+        $this->db->where($where);
+        $this->db->from('cdrs');
         $this->db->order_by("callstart desc");
         if ($flag) {
 
@@ -220,7 +314,28 @@ class Reports_model extends CI_Model {
     }
 
     function getresellercdrs($flag, $start = 0, $limit = 0, $export = true) {
-        $this->db_model->build_search('resller_cdr_list_search');
+        
+        $start_date=date("Y-m-d")." 00:00:01";
+	$end_date=date("Y-m-d")." 23:59:59";
+	$accountinfo = $this->session->userdata('accountinfo');
+        $reseller_id=$accountinfo['type']== -1 ? 0 : $accountinfo['id'];
+	if($this->session->userdata('advance_search') != 1){
+	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+		$where = array("reseller_id" => $reseller_id,"accountid <>"=>$reseller_id,'callstart >= '=>$start_date,'callstart <='=>$end_date);
+	    } else {
+		$where = array("reseller_id" => $reseller_id,'callstart >= '=>$start_date,'callstart <='=>$end_date);
+	    }
+        }
+        else{
+	    if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+
+		$where = array("reseller_id" => $reseller_id,"accountid <>"=>$reseller_id);
+	    } else {
+		$where = array("reseller_id" => $reseller_id);
+	    }
+        }
+        $this->db_model->build_search('reseller_cdr_list_search');
+        $this->db->where($where);
         $this->db->from('reseller_cdrs');
         $this->db->order_by("callstart desc");
         if ($flag) {
@@ -235,7 +350,28 @@ class Reports_model extends CI_Model {
 
     function getprovidercdrs($flag, $start = 0, $limit = 0, $export = true) {
         $this->db_model->build_search('provider_cdr_list_search');
-        $this->db->from('provider_cdrs');
+        $start_date=date("Y-m-d")." 00:00:01";
+	$end_date=date("Y-m-d")." 23:59:59";
+	if($this->session->userdata('advance_search') != 1){
+	  if ($this->session->userdata('logintype') == 3) {
+	      $account_data = $this->session->userdata("accountinfo");
+	      $where = array("accountid"=>$account_data['id'],'callstart >= '=>$start_date,'callstart <='=>$end_date,"type"=>"1");
+	  }
+	  else{
+	      $where = array('callstart >= '=>$start_date,'callstart <='=>$end_date,"type"=>"1");
+	  }
+        }
+        else{
+	    if ($this->session->userdata('logintype') == 3) {
+	      $account_data = $this->session->userdata("accountinfo");
+	      $where = array("accountid"=>$account_data['id']);
+	    }
+	    else{
+	      $where=array();
+	    }
+        }
+        $this->db->where($where);
+        $this->db->from('cdrs');
         $this->db->order_by("callstart desc");
         if ($flag) {
             if ($export)
@@ -248,17 +384,20 @@ class Reports_model extends CI_Model {
     }
 
     function getuser_cdrs_list($flag, $start, $limit, $accountid = "") {
-        if ($accountid == "") {
-            $account_data = $this->session->userdata("accountinfo");
-            $where = array("accountid" => $account_data["id"]);
-        } else {
-            $where = array("accountid" => $accountid);
+	$start_date=date("Y-m-d")." 00:00:01";
+	$end_date=date("Y-m-d")." 23:59:59";
+	$accountinfo = $this->session->userdata("accountinfo");
+        if($this->session->userdata('advance_search') != 1){
+		$where = array('accountid' =>$accountinfo['id'],'callstart >= '=>$start_date,'callstart <='=>$end_date);
         }
-        $this->db_model->build_search('customer_cdr_list_search');
+        else{
+		$where = array("accountid" =>$accountinfo['id']);
+        }
+        $this->db_model->build_search('user_cdrs_report_search');
         if ($flag) {
-            $query = $this->db_model->select("*", "customer_cdrs", $where, "callstart", "DESC", $limit, $start);
+            $query = $this->db_model->select("*", "cdrs", $where, "callstart", "DESC", $limit, $start);
         } else {
-            $query = $this->db_model->countQuery("*", "customer_cdrs", $where);
+            $query = $this->db_model->countQuery("*", "cdrs", $where);
         }
 
         return $query;
@@ -267,9 +406,10 @@ class Reports_model extends CI_Model {
     function getuser_payment_list($flag, $start, $limit) {
         $this->db_model->build_search('cdr_payment_search');
         $account_data = $this->session->userdata("accountinfo");
+        $this->db_model->build_search('customer_cdr_list_search');
         $where = array("accountid" => $account_data["id"]);
         if ($flag) {
-            $query = $this->db_model->select("*", "payments", $where, "accountid", "ASC", $limit, $start);
+            $query = $this->db_model->select("*", "payments", $where, "payment_date", "DESC", $limit, $start);
         } else {
             $query = $this->db_model->countQuery("*", "payments", $where);
         }
@@ -286,19 +426,22 @@ class Reports_model extends CI_Model {
             $where = array("payment_by"=>"-1");
         }
         if ($flag) {
-            $query = $this->db_model->select("*", "payments", $where, "accountid", "ASC", $limit, $start);
+            $query = $this->db_model->select("*", "payments", $where, "payment_date", "DESC", $limit, $start);
         } else {
             $query = $this->db_model->countQuery("*", "payments", $where);
         }
 
         return $query;
     }
-    function getcustomer_cdrs_list($flag, $start, $limit, $accountid = "") {
+    function getcdrs_list($flag, $start, $limit, $accountid = "") {
+        $start_date=date("Y-m-d")." 00:00:01";
+	$end_date=date("Y-m-d")." 23:59:59";
+	$this->db->limit(100);
         if ($accountid == "") {
             $account_data = $this->session->userdata("accountinfo");
-            $where = array("accountid" => $account_data["id"]);
+            $where = array("accountid" => $account_data["id"],'callstart >= '=>$start_date,'callstart <='=>$end_date);
         } else {
-            $where = array("accountid" => $accountid);
+            $where = array("accountid" => $accountid,'callstart >= '=>$start_date,'callstart <='=>$end_date);
         }
         $this->db_model->build_search('customer_cdr_list_search');
         if ($flag) {
@@ -306,7 +449,6 @@ class Reports_model extends CI_Model {
         } else {
             $query = $this->db_model->countQuery("*", "cdrs", $where);
         }
-
         return $query;
     }
     function getreseller_commission_list($flag, $start, $limit) {
@@ -326,6 +468,91 @@ class Reports_model extends CI_Model {
 
         return $query;
     }
-    
+
+    function get_resellersummary_report($flag,$start=0,$limit=0,$export=false){
+       
+       $this->db_model->build_search('resellersummary_reports_search');
+       // $where =$this->resellersummary_report_search();
+       if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+           $account_data = $this->session->userdata("accountinfo");
+           $where = array("reseller_id" => $account_data['id']);
+       } else {
+           $where = array('reseller_id' => '0');
+       }
+       $this->db->where($where);
+
+        if($flag){
+if(!$export){
+
+            $result=$this->db_model->select("accountid,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(debit) AS cost, SUM(reseller_cost) AS price", "reseller_cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,accountid');          
+        }
+else
+{
+	$result=$this->db_model->select("accountid,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(debit) AS cost, SUM(reseller_cost) AS price", "reseller_cdrs",'' , "callstart", "DESC",'','','pattern,accountid');  
+}
+    }    else{
+            $this->db->order_by('callstart','desc');
+	    $this->db->group_by("pattern","accountid"); 
+            $result = $this->db_model->getSelect("count(*) as total_count","reseller_cdrs",$where);
+            $result=$result->num_rows();
+        }
+        return $result;
+        
+    }
+
+    function get_providersummary_report_list($flag,$start=0,$limit=0,$export=false){
+        $this->db_model->build_search('providersummary_reports_search');
+        $this->db->where("provider_id > ","0");
+        if($flag){
+if(!$export){
+	    
+	 $result=$this->db_model->select("provider_id,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(debit) AS cost, SUM(provider_call_cost) AS price", "cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,provider_id');
+
+        }
+else
+{
+
+ $result=$this->db_model->select("provider_id,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd, SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(debit) AS cost, SUM(provider_call_cost) AS price", "cdrs",'' , "callstart", "DESC",'','','pattern,provider_id');
+
+}
+     }   else{
+	    $this->db->order_by('provider_id','desc');
+	    $this->db->group_by("pattern","provider_id"); 
+            $result = $this->db_model->getSelect("count(*) as total_count","cdrs",'');
+            $result=$result->num_rows();
+        }
+        return $result;
+    }
+
+    function get_customersummary_report_list($flag,$start=0,$limit=0,$export=false){
+       $this->db_model->build_search('customersummary_reports_search');
+       $reseller_id = $this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5 ? 	$this->session->userdata['accountinfo']['id'] :0;
+	      if($this->session->userdata('advance_search') != 1){
+        	$where = array('reseller_id' =>$reseller_id,'callstart >= '=>date('Y-m-d')." 00:00:01",'callstart <='=>date("Y-m-d")." 23:59:59");
+       }
+       else{
+	$where = array("reseller_id" =>$reseller_id);
+       }
+       $this->db->where($where); 
+       if($flag){
+		if(!$export){
+
+               $result=$this->db_model->select("accountid,uniqueid,notes,pattern, COUNT(*) AS attempts,AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(debit) AS cost,SUM(cost) AS price", "cdrs",'' , "callstart", "DESC",$limit,$start,'pattern,accountid,type');
+}
+else{
+
+  $result=$this->db_model->select("accountid,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(case when billseconds > 0 then billseconds end) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS billable,SUM(CASE WHEN disposition IN (('SUCCESS'),('NORMAL_CLEARING')) THEN 1 ELSE 0 END) as completed,SUM(debit) AS cost,SUM(cost) AS price", "cdrs",'' , "callstart", "DESC",'','','pattern,accountid,type');
+
+}
+
+       }
+       else{
+		$this->db->order_by('accountid','desc');
+		$this->db->group_by("pattern","accountid"); 
+		$result = $this->db_model->getSelect("count(*) as total_count","cdrs",'');
+		$result=$result->num_rows();
+       }
+       return $result;
+    }
 
 }

@@ -1,15 +1,31 @@
+
 <script type="text/javascript">
     $("#submit").click(function(){
         submit_form("did_form");
     })
 </script>
-
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-    <div class="portlet-header ui-widget-header">
-        <?= @$page_title ?>
-        <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div style="color:red;margin-left: 60px;">
-        <?php if (isset($validation_errors)) echo $validation_errors; ?> 
+<section class="slice gray no-margin">
+ <div class="w-section inverse no-padding">
+   <div>
+     <div>
+        <div class="col-md-12 no-padding margin-t-15 margin-b-10">
+	        <div class="col-md-10"><b><? echo $page_title; ?></b></div>
+	  </div>
+     </div>
     </div>
-    <?php echo $form; ?>
+  </div>    
+</section>
+
+<div>
+  <div>
+    <section class="slice color-three no-margin">
+	<div class="w-section inverse no-padding">
+            <div style="color:red;margin-left: 60px;">
+                <?php if (isset($validation_errors)) echo $validation_errors; ?> 
+            </div>
+            <?php echo $form; ?>
+        </div>      
+    </section>
+  </div>
 </div>
+

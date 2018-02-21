@@ -25,16 +25,17 @@ class Statistics_form{
     }
     function get_trunk_stat_search_form() {
         $form['forms'] = array(base_url().'statistics/trunkstats/', array('id' => "trunk_stat_search"));
-        $form['Search Provider Report'] = array(
-            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-            array('', 'HIDDEN', 'advance_search', '1', '', '', ''),
-            array('From Date', 'INPUT', array('name' => 'start_date', 'id' => 'provider_from_date', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '', 'start_date[start_date-date]'),
-            array('TO Date', 'INPUT', array('name' => 'end_date', 'id' => 'provider_to_date', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '', 'end_date[end_date-date]'),
-            array('Trunk Name', 'trunkid', 'SELECT', '', '', 'tOOL TIP', '', 'id', 'name', 'trunks', 'build_dropdown', 'where_arr', array("status <>"=>"2")),
+
+        $form['Search'] = array(
+           
+            array('From Date', 'INPUT', array('name' => 'start_date', 'id' => 'provider_from_date', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '', 'start_date[start_date-date]'),
+            array('To Date', 'INPUT', array('name' => 'end_date', 'id' => 'provider_to_date', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '', 'end_date[end_date-date]'),
+            array('Trunk Name', 'trunkid', 'SELECT', '', '', 'tOOL TIP', '', 'id', 'name', 'trunks', 'build_dropdown', 'where_arr', array("status <>"=>"2")), array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'advance_search', '1', '', '', '')
         );
 
-        $form['button_search'] = array('name' => 'action', 'id' => "search_providerreport", 'content' => 'Search', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear Search Filter', 'value' => 'cancel', 'type' => 'reset', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_search'] = array('name' => 'action', 'id' => "search_trunkstats", 'content' => 'Search', 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
         return $form;
     }

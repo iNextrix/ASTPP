@@ -1,5 +1,24 @@
 <?php
-
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 class rates_model extends CI_Model {
 
     function rates_model() {
@@ -12,24 +31,79 @@ class rates_model extends CI_Model {
             $query = $this->db_model->select("*", "outbound_routes", "", "id", "ASC", $limit, $start);
         } else {
             $query = $this->db_model->countQuery("*", "outbound_routes", "");
+//	echo $this->db->last_query();
+//exit;
         }
         return $query;
     }
+//hiten
+    function getoutboundrates($flag, $start = 0, $limit = 0, $export = true) {
+        $this->db_model->build_search('terminationrates_list_search');
+        $this->db->from('outbound_routes');
+        if ($flag) {
+            if ($export)
+                $this->db->limit($limit, $start);
+            $result = $this->db->get();
+        }else {
+            $result = $this->db->count_all_results();
+        }
+        return $result;
+    }
 
+    function getinboundrates($flag, $start = 0, $limit = 0, $export = true) {
+        $this->db_model->build_search('inboundrates_list_search');
+	if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+            $account_data = $this->session->userdata("accountinfo");
+            $reseller = $account_data['id'];
+            $where = array("reseller_id" => $reseller);
+        } else {
+            $where = array('reseller_id'=>'0');
+        }
+       
+	$this->db_model->build_search('inboundrates_list_search');
+        if ($flag) {
+            if ($export)
+                $this->db->limit($limit, $start);
+            $result = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
+        }else {
+            $result = $this->db_model->countQuery("*", "routes", $where);
+        }
+// 	echo "<pre>";print_r($result->result());exit;
+        return $result;
+    }
+
+    function getinbound_rates_for_user($flag, $start = 0, $limit = 0,$export = true) {
+        $this->db_model->build_search('inboundrates_list_search');
+
+        $account_data = $this->session->userdata("accountinfo");
+
+        $where = array("pricelist_id" => $account_data["pricelist_id"]);
+
+        $this->db_model->build_search('inboundrates_list_search');
+        if ($flag) {
+            if ($export)
+                $this->db->limit($limit, $start);
+            $result = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
+        }else {
+            $result = $this->db_model->countQuery("*", "routes", $where);
+        }
+        return $result;
+    }
+// ==============================================
     function getinbound_rates_list($flag, $start = 0, $limit = 0) {
         $this->db_model->build_search('inboundrates_list_search');
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
-            $reseller = $account_data['id'];
-            $where = array("reseller_id" => $reseller, "status" => "1");
+            $where = array("reseller_id" => $account_data['id']);
         } else {
-            $where = array("status" => "1",'reseller_id'=>'0');
+            $where = array('reseller_id'=>'0');
         }
         if ($flag) {
             $query = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
         } else {
             $query = $this->db_model->countQuery("*", "routes", $where);
         }
+       
         return $query;
     }
     function getunblocked_pattern_list($accountid,$flag, $start = 0, $limit = 0) {
@@ -37,19 +111,39 @@ class rates_model extends CI_Model {
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $reseller = $account_data['id'];
-            $where = array("reseller_id" => $reseller, "status" => "1");
+            $where = array("reseller_id" => $reseller, "status" => "0");
         } else {
-            $where = array("status" => "1",'reseller_id'=>'0');
+            $where = array("status" => "0",'reseller_id'=>'0');
         }
         $where1 = '(pattern NOT IN (select blocked_patterns from block_patterns where accountid = "'.$accountid.'"))';
         $this->db->where($where1);        
         if ($flag) {
             $query = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
-//            echo "<pre>"; print_r($query); exit;
+//             echo "<pre>"; print_r($query); exit;
         } else {
             $query = $this->db_model->countQuery("*", "routes", $where);
         }
-        
+        return $query;
+    }
+    function getunblocked_package_pattern($accountid,$flag, $start = 0, $limit = 0) {
+        $this->db_model->build_search('inboundrates_list_search');
+        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+            $account_data = $this->session->userdata("accountinfo");
+            $reseller = $account_data['id'];
+            $where = array("reseller_id" => $reseller, "status" => "0");
+        } else {
+            $where = array("status" => "0",'reseller_id'=>'0');
+        }
+        $where1 = '(pattern NOT IN (select DISTINCT patterns from package_patterns where package_id = "'.$accountid.'"))';
+  //          echo "<pre>"; print_r($where1); exit;
+        $this->db->where($where1);       
+	// echo "<pre>"; print_r($where1); exit;
+        if ($flag) {
+            $query = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
+//             echo "<pre>"; print_r($query); exit;
+        } else {
+            $query = $this->db_model->countQuery("*", "routes", $where);
+        }
         return $query;
     }
 
@@ -57,7 +151,7 @@ class rates_model extends CI_Model {
         $this->db_model->build_search('inboundrates_list_search');
 
         $account_data = $this->session->userdata("accountinfo");
-        $where = array("pricelist_id" => $account_data["pricelist_id"]);
+        $where = array("pricelist_id" => $account_data["pricelist_id"],"status" => '0');
 
         $this->db_model->build_search('inboundrates_list_search');
         if ($flag) {
@@ -67,6 +161,7 @@ class rates_model extends CI_Model {
         }
         return $query;
     }
+
 
     function add_outbound($add_array) {
         unset($add_array["action"]);
@@ -75,8 +170,8 @@ class rates_model extends CI_Model {
             $reseller = $account_data['id'];
             $add_array['reseller_id'] = $reseller;
         }
-        $add_array['prepend'] = $add_array['prepend'] ;
-        $add_array['pattern'] = "^" . $add_array['pattern'] . ".*";
+         $add_array['pattern'] = "^" . $add_array['pattern'] . ".*";
+        $add_array['prepend'] = $add_array['prepend'];
         $this->db->insert("outbound_routes", $add_array);
         return true;
     }
@@ -101,6 +196,7 @@ class rates_model extends CI_Model {
             $reseller = $account_data['id'];
             $add_array['reseller_id'] = $reseller;
         }
+	
         $add_array['pattern'] = "^" . $add_array['pattern'] . ".*";
         $this->db->insert("routes", $add_array);
         return true;
@@ -135,7 +231,7 @@ class rates_model extends CI_Model {
         return $affected_row;
     }
 
-    function bulk_insert_inboundrates($inserted_array) {
+    function bulk_insert_originationrates($inserted_array) {
         $this->db->insert_batch('routes', $inserted_array);
         $affected_row = $this->db->affected_rows();
         return $affected_row;
@@ -170,6 +266,18 @@ class rates_model extends CI_Model {
         $this->db_model->build_batch_update_array($update_array);
         
         return $this->db->update("routes");
+    }
+        function getreseller_rates_list($flag, $start = 0, $limit = 0,$export=false) {
+        $this->db_model->build_search('resellerrates_list_search');
+        $account_data = $this->session->userdata("accountinfo");
+        $where = array("status"=>"0","pricelist_id" => $account_data["pricelist_id"]);
+        if ($flag) {
+            $query = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
+        } else {
+            $query = $this->db_model->countQuery("*", "routes", $where);
+        }
+        return $query;
+	    
     }
     
 }

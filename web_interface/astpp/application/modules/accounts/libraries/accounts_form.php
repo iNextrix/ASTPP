@@ -25,88 +25,9 @@ class Accounts_form {
         $this->CI = & get_instance();
     }
 
-    function get_customer_form_fields() {
-
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
-        $form['forms'] = array(base_url() . '/accounts/customer_save/', array("id" => "customer_form", "name" => "customer_form"));
-        $form['Client Panel Access'] = array(
-            array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
-            array('', 'HIDDEN', array('name' => 'type', 'value' => '0'), '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', ''));
-
-        $form['Account Settings'] = array(
-            array('Account Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
-            array('Max Channels', 'INPUT', array('name' => 'maxchannels', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Number Translation', 'INPUT', array('name' => 'dialed_modify', 'size' => '20', 'maxlength' => '200', 'class' => "text field medium"), '', 'tOOL TIP', '')
-        );
-
-        $form['Customer Profile'] = array(
-            array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
-            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), '', 'tOOL TIP', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|xss_clean', 'tOOL TIP', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', ''),
-            array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '35', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '35', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Timezone', 'timezone_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
-        );
-        $form['Billing Information'] = array(
-            array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "1","reseller_id" => "0")),
-            array('Billing Schedule',array('name'=> 'sweep_id','class'=>'sweep_id'), 'SELECT', '', '', 'tOOL TIP', '', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
-            array('Billing Day',array("name"=>'invoice_day',"class"=>"invoice_day"), 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_invoice_option'),
-            array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
-            array('Credit Limit', 'INPUT', array('name' => 'credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Account Type', 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type'));
-
-        $form['Limit Credit Notification'] = array(
-            array('Limit Credit Notification', 'INPUT', array('name' => 'notify_credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Permited Notification By Email', 'notify_flag', 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_allow'),
-            array('Email Notification', 'INPUT', array('name' => 'notify_email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'xss_clean|valid_email', 'tOOL TIP', ''),
-        );        
-        
-        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button', 'onclick' => 'return redirect_page(\'/accounts/customer_list/\')');
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-
-        return $form;
-    }
-
-    function get_customer_callerid_fields() {
-        $form['forms'] = array(base_url() . '/accounts/customer_add_callerid/', array("id" => "callerid_form"));
-        $form['callerid'] = array(
-            array('', 'HIDDEN', array('name' => 'flag'), '', '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'accountid', 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array('Status', 'status', 'CHECKBOX', array('name' => 'status', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', ''),
-            array('Caller Id Name', 'INPUT', array('name' => 'callerid_name', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', ''),
-            array('Caller Id Number', 'INPUT', array('name' => 'callerid_number', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|numeric', 'tOOL TIP', '')
-        );
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        return $form;
-    }
-
-    function get_customer_payment_fields($currency, $number, $currency_id, $id) {
-        $form['forms'] = array(base_url() . '/accounts/customer_payment_save/', array('id' => 'accounts_conf_form', 'method' => 'POST', 'name' => 'accounts_conf_form'));
-        $form['Process Payment'] = array(
-            array('', 'HIDDEN', array('name' => 'id', 'value' => $id), '', '', '', ''),
-            array('', 'HIDDEN', array('name' => 'account_currency', 'value' => $currency_id), '', '', ''),
-            array('Account ', 'INPUT', array('name' => 'accountid', 'size' => '20', 'value' => $number, 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array('Payment' , 'INPUT', array('name' => 'credit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Cash', 'payment_type[]', 'RADIO', array('name' => 'payment_type[]', 'value' => '0', 'checked' => true), '', 'tOOL TIP', ''),
-            array('Cheque', 'payment_type[]', 'RADIO', array('name' => 'payment_type[]', 'value' => '1', 'checked' => false), '', 'tOOL TIP', ''),
-            array('Transfer', 'payment_type[]', 'RADIO', array('name' => 'payment_type[]', 'value' => '2', 'checked' => false), '', 'tOOL TIP', ''),
-            array('Note:', 'TEXTAREA', array('name' => 'notes', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', '')
-        );
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        return $form;
-    }
-
-    function get_form_reseller_fields($values = '') {
+       function get_customer_form_fields($entity_type=false,$id=false) {
+	$expiry_date = date('Y-m-d H:i:s', strtotime('+10 years'));
+        $readable=FALSE;
         $logintype = $this->CI->session->userdata('logintype');
         if ($logintype == 1 || $logintype == 5) {
             $account_data = $this->CI->session->userdata("accountinfo");
@@ -115,74 +36,240 @@ class Accounts_form {
         }else{
             $loginid = "0";
         }
-
+          $sip_device=null;
+          $opensips_device=null;
+         if(!$entity_type){
+             $entity_type ='customer';
+         }
+         if ($id > 0){
+	    $readable='disabled';
+            $val = 'accounts.email.' . $id;
+            
+        }else{
+            $val ='accounts.email';
+            if(common_model::$global_config['system_config']['opensips']== 1){
+	      $opensips_device =array('Create Opensips Device', 'opensips_device_flag', 'CHECKBOX', array('name' => 'opensips_device_flag', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', '');
+            }
+            else{
+	      $sip_device =array('Create SIP Device', 'sip_device_flag', 'CHECKBOX', array('name' => 'sip_device_flag', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', '');
+            }
+         }
+         $type= $entity_type == 'customer' ? 0 : 3;
         $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
-        $form['forms'] = array(base_url() . '/accounts/reseller_save/', array("id" => "reseller_form", "name" => "reseller_form"));
+        $form['forms'] = array(base_url() . 'accounts/'. $entity_type.'_save/', array("id" => "customer_form", "name" => "customer_form"));
+        $form['Client Panel Access'] = array(
+            array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
+            array('', 'HIDDEN', array('name' => 'type', 'value' => $type), '', '', ''),
+            array('Account', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), 'required|max_length[15]', 'tOOL TIP', ''),
+            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'required|min_length[5]|max_length[20]', 'tOOL TIP', ''),
+            array('Pin', 'INPUT', array('name' => 'pin', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'max_length[20]', 'tOOL TIP', ''));
+
+        $form['Account Settings'] = array(
+            array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
+            array('Max Channels', 'INPUT', array('name' => 'maxchannels', 'size' => '20', 'maxlength' => '4', 'class' => "text field medium"), 'numeric', 'tOOL TIP', ''),
+            array('Number Translation', 'INPUT', array('name' => 'dialed_modify', 'size' => '20', 'maxlength' => '200', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+             array('First Used', 'INPUT', array('name' => 'first_used', 'size' => '20', 'readonly' => true, 'maxlength' => '200', 'class' => "text field medium",'value'=>'0000-00-00 00:00:00'), '', 'tOOL TIP', ''),
+            array('Expiry Date', 'INPUT', array('name' => 'expiry', 'size' => '20', 'maxlength' => '200', 'class' => "text field medium",'value'=>$expiry_date,'id'=>'expiry'), '', 'tOOL TIP', ''),
+            array('Valid Days', 'INPUT', array('name' => 'validfordays', 'size' => '20', 'maxlength' => '7', 'class' => "text field medium"), 'trim|numeric|min_length[1]|max_length[4]|xss_clean', 'tOOL TIP', ''),  
+            $sip_device,
+            $opensips_device
+        );
+
+        $form[  ucfirst($entity_type). ' Profile'] = array(
+          //  array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
+
+            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '40', 'class' => "text field medium"), 'required|alpha_numeric', 'tOOL TIP', ''),
+            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '40', 'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', ''),
+            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '40', 'size' => '15', 'class' => 'text field medium'), 'trim|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
+            array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '80', 'class' => "text field medium"), 'required|valid_email|is_unique['.$val.']', 'tOOL TIP', ''),
+            array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'alpha'),
+            array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), 'alpha', 'tOOL TIP', ''),
+            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '12', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
+            array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('Timezone',array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', array("name"=>"timezone_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
+        );
+        $form['Billing Information'] = array(
+            array('Rate Group', 'pricelist_id', 'SELECT', '',array("name"=>"pricelist_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => $loginid)),
+            array('Billing Schedule',array('name'=> 'sweep_id','class'=>'sweep_id','id'=>'sweep_id'), 'SELECT', '', '', 'tOOL TIP', '', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
+            array('Billing Day',array("name"=>'invoice_day',"class"=>"invoice_day"), 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_invoice_option'),
+            array('Currency',array('name'=>'currency_id','class'=>'currency_id'), 'SELECT', '',array("name"=>"currency_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+            array('Account Type',array('name' => 'posttoexternal', 'disabled' => $readable,'class' => 'posttoexternal', 'id' => 'posttoexternal'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type'),
+            array('Credit Limit', 'INPUT', array('name' => 'credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'valid_decimal', 'tOOL TIP', ''),
+	      array('Tax','tax_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'taxes_description', 'taxes', 'build_dropdown', 'where_arr',array('status'=>0,"reseller_id" => $loginid), 'multi'),
+            );
+            
+
+        $form['Low Balance Alert Email'] = array(
+            array('Low Balance Alert Level', 'INPUT', array('name' => 'notify_credit_limit', 'size' => '20', 'maxlength' => '11', 'class' => "text field medium"), 'valid_decimal', 'tOOL TIP', ''),
+            array('Enable Email Alerts ?', 'notify_flag', 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_allow'),
+            array('Email Address', 'INPUT', array('name' => 'notify_email', 'size' => '50', 'maxlength' => '80', 'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
+        );        
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
+        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10',  'onclick' => 'return redirect_page(\'/accounts/customer_list/\')');
+        return $form;
+    }
+        function customer_bulk_generate_form(){
+    $logintype = $this->CI->session->userdata('logintype');
+    $sip_device=null;
+    $opensips_device=null;
+        if ($logintype == 1 || $logintype == 5) {
+            $account_data = $this->CI->session->userdata("accountinfo");
+            $loginid = $account_data['id'];
+
+        }else{
+            $loginid = "0";
+            if(common_model::$global_config['system_config']['opensips']== 1){
+	      $opensips_device =array('Create Opensips Device', 'opensips_device_flag', 'CHECKBOX', array('name' => 'opensips_device_flag', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', '');
+            }
+            else{
+	      $sip_device =array('Create SIP Device', 'sip_device_flag', 'CHECKBOX', array('name' => 'sip_device_flag', 'value' => 'on', 'checked' => false), '', 'tOOL TIP', '');
+            }
+        }
+        $form['forms'] = array(base_url().'accounts/customer_bulk_save/', array("id" => "customer_bulk_form", "name" => "customer_bulk_form"));
+        $form['General Details'] = array(
+        
+            array('Customer Count', 'INPUT', array('name' => 'count', 'size' => '20', 'maxlength' => '5', 'class' => "text field medium"), 'trim|required|min_length[1]|max_length[5]|numeric|xss_clean', 'tOOL TIP', ''), 
+            array('Start prefix', 'INPUT', array('name' => 'prefix', 'size' => '20', 'maxlength' => '3', 'class' => "text field medium"), 'trim|required|min_length[1]|numeric|max_length[3]|xss_clean', 'tOOL TIP', ''), 
+            array('Account Length', 'INPUT', array('name' => 'account_length', 'size' => '20', 'maxlength' => '2', 'class' => "text field medium"), 'trim|required|min_length[1]|max_length[2]|numeric|xss_clean', 'tOOL TIP', ''), 
+            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '40', 'size' => '15', 'class' => 'text field medium'), 'trim|required|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
+             array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('Timezone',array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', array("name"=>"timezone_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
+            array('Pin', 'pin', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_allow'),
+	    $sip_device,
+	    $opensips_device
+        );
+        $form['Profile Details'] = array(
+            array('Rate Group',array('name'=>'pricelist_id','class'=>'pricelist_id'), 'SELECT', '',"required", 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => $loginid)),
+            array('Currency',array('name'=>'currency_id','class'=>'currency_id'), 'SELECT', '',array("name"=>"currency_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+            array('Balance', 'INPUT', array('name' => 'balance', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|currency_decimal|xss_clean', 'tOOL TIP', ''),
+            array('Credit Limit', 'INPUT', array('name' => 'credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|currency_decimal|xss_clean', 'tOOL TIP', ''),
+            array('Account Type', 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type'),
+            array('Valid Days', 'INPUT', array('name' => 'validfordays', 'size' => '20', 'maxlength' => '7', 'class' => "text field medium"), 'trim|numeric|min_length[1]|max_length[4]|xss_clean', 'tOOL TIP', ''),
+            );
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'id' => 'submit', 'type' => 'button', 'class' => 'btn btn-line-parrot');
+        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'NULL\')');
+
+        return $form;
+    }
+    function get_customer_callerid_fields() {
+        $form['forms'] = array(base_url() . 'accounts/customer_add_callerid/', array("id" => "callerid_form"));
+        $form['callerid'] = array(
+            array('', 'HIDDEN', array('name' => 'flag'), '', '', '', ''),
+            array('Account Number', 'INPUT', array('name' => 'accountid', 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+            array('Status', 'status', 'CHECKBOX', array('name' => 'status'), '', 'tOOL TIP', ''),
+            array('Caller Id Name', 'INPUT', array('name' => 'callerid_name', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', ''),
+            array('Caller Id Number', 'INPUT', array('name' => 'callerid_number', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), 'trim|numeric', 'tOOL TIP', '')
+        );
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save',"id"=>"submit", 'type' => 'button', 'class' => 'btn btn-line-parrot');
+        return $form;
+    }
+
+        function get_customer_payment_fields($currency, $number, $currency_id, $id) {
+        $form['forms'] = array(base_url() . '/accounts/customer_payment_save/', array('id' => 'accounts_conf_form', 'method' => 'POST', 'name' => 'accounts_conf_form'));
+        $form['Process Payment'] = array(
+            array('', 'HIDDEN', array('name' => 'id', 'value' => $id), '', '', '', ''),
+            array('', 'HIDDEN', array('name' => 'account_currency', 'value' => $currency_id), '', '', ''),
+            array('Account ', 'INPUT', array('name' => 'accountid', 'size' => '20', 'value' => $number, 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+            array('Payment' , 'INPUT', array('name' => 'credit', 'size' => '20', 'maxlength' => '8', 'class' => "text field medium"), 'trim|required', 'tOOL TIP', ''),
+	    array('Type', 'payment_type', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_payment_type'),
+            array('Note:', 'TEXTAREA', array('name' => 'notes', 'size' => '20', 'class' => "text field medium"), '', 'tOOL TIP', '')
+        );
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save','id'=>"submit",'type' => 'button', 'class' => 'btn btn-line-parrot');
+        return $form;
+    }
+
+    function get_form_reseller_fields($id=false) {
+        $readable=false;
+        $logintype = $this->CI->session->userdata('logintype');
+        if ($logintype == 1 || $logintype == 5) {
+            $account_data = $this->CI->session->userdata("accountinfo");
+            $loginid = $account_data['id'];
+
+        }else{
+            $loginid = "0";
+        }
+         if ($id > 0){
+            $val = 'accounts.email.' . $id;
+            $readable='disabled';
+        } else
+            $val ='accounts.email';
+        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
+        $form['forms'] = array(base_url() . 'accounts/reseller_save/', array("id" => "reseller_form", "name" => "reseller_form"));
         $form['Client Panel Access'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '1'), '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+            array('Account', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '20', 'class' => "text field medium"), 'required|max_length[15]', 'tOOL TIP', 'Please Enter account number'),
             array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'));
 
         $form['Billing Information'] = array(
-            array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "1","reseller_id" => "0")),
+            array('Rate Group', 'pricelist_id', 'SELECT', '',array("name"=>"pricelist_id",'rules'=>'required'), 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => "0")),
             array('Billing Schedule',array('name'=> 'sweep_id','class'=>'sweep_id'), 'SELECT', '', '', 'tOOL TIP', '', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
             array('Billing Day',array("name"=>'invoice_day',"class"=>"invoice_day"), 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_invoice_option'),
-             array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
-            array('Credit Limit', 'INPUT', array('name' => 'credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Commission Rate in (%)', 'INPUT', array('name' => 'commission_rate', 'size' => '20', 'maxlength' => '5', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Account Type', 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type'));
+             array('Currency',array('name'=>'currency_id','class'=>'currency_id'), 'SELECT', '',array("name"=>"currency_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+            
+            array('Commission Rate in (%)', 'INPUT', array('name' => 'commission_rate', 'size' => '20', 'maxlength' => '11', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Account Type',array('name' => 'posttoexternal', 'disabled' => $readable,'class' => 'posttoexternal', 'id' => 'posttoexternal'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type'),
+	    array('Credit Limit', 'INPUT', array('name' => 'credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+	    array('Tax','tax_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'taxes_description', 'taxes', 'build_dropdown', 'where_arr',array('status'=>0,'reseller_id'=>$loginid), 'multi'),
+	  );
 
         $form['Reseller Profile'] = array(
-            array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
-            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '50', 'class' => 'text field medium'), '', 'tOOL TIP', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '50', 'maxlength' => '25', 'class' => "text field medium"), 'trim|required|max_length[20]|xss_clean', 'tOOL TIP', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+         //   array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
+           
+            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '50', 'maxlength' => '40', 'class' => "text field medium"), 'trim|required|max_length[20]|alpha_numeric|xss_clean', 'tOOL TIP', ''),
+            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '40', 'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', ''),
+	    array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '40', 'size' => '50', 'class' => 'text field medium'), 'trim|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
             array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', ''),
+            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email|is_unique['.$val.']', 'tOOL TIP', ''),
             array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Timezone', 'timezone_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
+            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
+             array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('Timezone',array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', array("name"=>"timezone_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
             array('Account Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
         );
-        $form['Limit Credit Notification'] = array(
-            array('Limit Credit Notification', 'INPUT', array('name' => 'notify_credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Permited Notification By Email', 'notify_flag', 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_allow'),
-            array('Email Notification', 'INPUT', array('name' => 'notify_email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
+        $form['Low Balance Alert Email'] = array(
+            array('Low Balance Alert Level', 'INPUT', array('name' => 'notify_credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Enable Email Alerts ?', 'notify_flag', 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_allow'),
+            array('Email Address', 'INPUT', array('name' => 'notify_email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
         );        
         
-        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button', 'onclick' => 'return redirect_page(\'/accounts/resellers_list/\')');
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'/accounts/reseller_list/\')');
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
 
         return $form;
     }
 
     function get_form_provider_fields($values = '') {
         $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
-        $form['forms'] = array(base_url() . '/accounts/provider_save/', array("id" => "provider_form", "name" => "provider_form"));
+        $form['forms'] = array(base_url() . 'accounts/provider_save/', array("id" => "provider_form", "name" => "provider_form"));
         $form['Client Panel Access'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '3'), '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+            array('Account', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'));
 
         $form['Account & Billing Information'] = array(
             array('Account Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
             array('Billing Schedule',array('name'=> 'sweep_id','class'=>'sweep_id'), 'SELECT', '', '', 'tOOL TIP', '', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
             array('Billing Day',array("name"=>'invoice_day',"class"=>"invoice_day"), 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_invoice_option'),
-            array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+            array('Currency',array('name'=>'currency_id','class'=>'currency_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+            array('Tax','tax_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'taxes_description', 'taxes', 'build_dropdown',  'where_arr',array('status'=>0), 'multi'),
         );
 
         $form['Provider Profile'] = array(
-            array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
-            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '50', 'class' => 'text field medium'), '', 'tOOL TIP', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '25', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|xss_clean', 'tOOL TIP', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+          //  array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
+            
+            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '25', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|alpha_numeric|xss_clean', 'tOOL TIP', ''),
+            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', ''),
+	    array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '50', 'class' => 'text field medium'), 'trim|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
             array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', ''),
@@ -190,51 +277,56 @@ class Accounts_form {
             array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', ''),
             array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Timezone', 'timezone_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
+            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', ''),
+             array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '',array("name"=>"country_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('Timezone',array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', array("name"=>"timezone_id","rules"=>"required"), 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
         );
 
-        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button', 'onclick' => 'return redirect_page(\'/accounts/provider_list/\')');
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'/accounts/customer_list/\')');
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
 
 
         return $form;
     }
 
-    function get_user_form_fields() {
-
+    function get_user_form_fields($id=false) {
+	 if ($id > 0)
+            $val = 'accounts.email.' . $id;
+        else
+            $val ='accounts.email';
         $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
-        $form['forms'] = array(base_url() . '/user/user_edit_account/', array("id" => "user_form", "name" => "user_form"));
+        $form['forms'] = array(base_url() . 'user/user_edit_account/', array("id" => "user_form", "name" => "user_form"));
 
         $form['User Profile'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '0'), '', '', ''),
             array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
-            array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
-            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), '', 'tOOL TIP', ''),
+            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required
+            |min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+            array('Pin', 'INPUT', array('name' => 'pin', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'max_length[20]', 'tOOL TIP', ''),
+         //   array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
+            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), 'trim|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
             array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', 'Please Enter Password'),
             array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', 'Please Enter Password'),
+            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email|is_unique['.$val.']', 'tOOL TIP', 'Please Enter Password'),
             array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Timezone', 'timezone_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
+            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+            array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('Timezone',array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
         );
-        $form['Limit Credit Notification'] = array(
-            array('Limit Credit Notification', 'INPUT', array('name' => 'notify_credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Permited Notification By Email', 'notify_flag', 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_allow'),
-            array('Email Notification', 'INPUT', array('name' => 'notify_email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
+        $form['Low Balance Alert Email'] = array(
+            array('Low Balance Alert Level', 'INPUT', array('name' => 'notify_credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Enable Email Alerts ?', 'notify_flag', 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_allow'),
+            array('Email Address', 'INPUT', array('name' => 'notify_email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
         );        
         
-        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button', 'onclick' => 'return redirect_page(\'/user/user/\')');
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'/user/user/\')');
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
 
         return $form;
     }
@@ -242,17 +334,17 @@ class Accounts_form {
     function get_reseller_own_form_fields() {
 
         $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
-        $form['forms'] = array(base_url() . '/accounts/reseller_edit_account/', array("id" => "user_form", "name" => "user_form"));
+        $form['forms'] = array(base_url() . 'accounts/reseller_edit_account/', array("id" => "user_form", "name" => "user_form"));
 
         $form['Reseller Profile'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '0'), '', '', ''),
             array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
-            array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
-            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), '', 'tOOL TIP', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+        //    array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
+            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), 'trim|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
+            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|alpha_numeric|xss_clean', 'tOOL TIP', 'Please Enter account number'),
+            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', 'Please Enter Password'),
             array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', 'Please Enter Password'),
@@ -260,257 +352,232 @@ class Accounts_form {
             array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Timezone', 'timezone_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
+            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+            array('Country',array('name'=>'country_id','class'=>'country_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('Timezone', array('name'=>'timezone_id','class'=>'timezone_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
         );
-        $form['Limit Credit Notification'] = array(
-            array('Limit Credit Notification', 'INPUT', array('name' => 'notify_credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
-            array('Permited Notification By Email', 'notify_flag', 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_allow'),
-            array('Email Notification', 'INPUT', array('name' => 'notify_email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
+        $form['Low Balance Alert Email'] = array(
+            array('Low Balance Alert Level', 'INPUT', array('name' => 'notify_credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', ''),
+            array('Enable Email Alerts ?', 'notify_flag', 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_allow'),
+            array('Email Address', 'INPUT', array('name' => 'notify_email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
         );        
         
-        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button', 'onclick' => 'return redirect_page(\'/dashboard/\')');
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'/dashboard/\')');
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
 
         return $form;
     }
 
     
-    function get_form_admin_fields($values = '') {
+    function get_form_admin_fields($entity_type = '') {
         $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
-        $form['forms'] = array(base_url() . '/accounts/admin_save/', array("id" => "admin_form", "name" => "admin_form"));
+        $type= $entity_type == 'admin' ? 2 : 4;
+        $form['forms'] = array(base_url() . 'accounts/'.$entity_type.'_save/', array("id" => "admin_form", "name" => "admin_form"));
         $form['Client Panel Access'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
-            array('', 'HIDDEN', array('name' => 'type', 'value' => '2'), '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'));
-        $form['Admin Profile'] = array(
-            array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
-            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), '', 'tOOL TIP', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '50', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', 'Please Enter Password'),
-            array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Timezone', 'timezone_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
+            array('', 'HIDDEN', array('name' => 'type', 'value' => $type), '', '', ''),
+            array('Account', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+            );
+        $form[$entity_type.' Profile'] = array(
+          //  array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
+            
+            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '40', 'class' => "text field medium"), 'trim|required|max_length[20]|alpha_numeric|xss_clean', 'tOOL TIP', 'Please Enter account number'),
+            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '40', 'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+	    array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '40', 'size' => '15', 'class' => 'text field medium'), 'trim|xss_clean', 'tOOL TIP', ''),
+            array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '80', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', 'Please Enter Password'),
+            array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '12', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+            array('Country', array('name'=>'country_id','class'=>'country_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('Timezone',array('name'=> 'timezone_id','class'=>'timezone_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
             array('Account Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
-             array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+             array('Currency',array('name'=>'currency_id','class'=>'currency_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+//             array('Tax','tax_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'taxes_description', 'taxes', 'build_dropdown', 'where_arr',array('status'=>0), 'multi'),
         );
 
-        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button', 'onclick' => 'return redirect_page(\'/accounts/admin_list/\')');
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'/accounts/admin_list/\')');
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
 
         return $form;
     }
 
     function get_form_subadmin_fields($values = '') {
         $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
-        $form['forms'] = array(base_url() . '/accounts/subadmin_save/', array("id" => "subadmin_form", "name" => "subadmin_form"));
+        $form['forms'] = array(base_url() . 'accounts/subadmin_save/', array("id" => "subadmin_form", "name" => "subadmin_form"));
         $form['Client Panel Access'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('', 'HIDDEN', array('name' => 'type', 'value' => '4'), '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
+            array('Account', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
             array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'));
         $form['Subadmin Profile'] = array(
-            array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
-            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), '', 'tOOL TIP', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '25', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', 'Please Enter Password'),
-            array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+          //  array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
+            
+            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '25', 'maxlength' => '40', 'class' => "text field medium"), 'trim|required|max_length[20]|alpha_numeric|xss_clean', 'tOOL TIP', 'Please Enter account number'),
+            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '40', 'class' => "text field medium"), 'trim|alpha_dash|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+	    array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '40', 'size' => '15', 'class' => 'text field medium'), 'trim|alpha_numeric_space|xss_clean', 'tOOL TIP', ''),
+            array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '80', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', 'Please Enter Password'),
+            array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '80', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
+            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
             array('Province/State', 'INPUT', array('name' => 'province', 'size' => '15', 'maxlength' => '35', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '35', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Timezone', 'timezone_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
+            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '12', 'class' => "text field medium"), 'trim|xss_clean', 'tOOL TIP', 'Please Enter Password'),
+            array('Country', array('name'=>'country_id','class'=>'country_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+            array('Timezone',array('name'=> 'timezone_id','class'=>'timezone_id'), 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', ''),
             array('Account Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
-         array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+            array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+            array('Tax','tax_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'taxes_description', 'taxes', 'build_dropdown','where_arr',array('status'=>0), 'multi'),
         );
 
-        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button', 'onclick' => 'return redirect_page(\'/accounts/subadmin_list/\')');
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'btn btn-line-sky margin-x-10', 'onclick' => 'return redirect_page(\'/accounts/admin_list/\')');
+        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'btn btn-line-parrot');
 
         return $form;
     }
 
-    function get_form_callshop_fields($values = '') {
-        $uname = $this->CI->common->find_uniq_rendno($this->CI->config->item('size_number'), 'number', 'accounts');
-        $form['forms'] = array(base_url() . '/accounts/callshop_save/', array("id" => "callshop_form", "name" => "callshop_form"));
-        $form['Client Panel Access'] = array(
-            array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
-            array('', 'HIDDEN', array('name' => 'type', 'value' => '5'), '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number', 'value' => $uname, 'size' => '20', 'readonly' => true, 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-            array('Password', 'PASSWORD', array('name' => 'password', 'size' => '20', 'maxlength' => '20', 'class' => "text field medium"), 'trim|required|min_length[5]|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter Password'));
-        $form['Acconunt & Billing Information'] = array(
-            array('Account Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
-            array('Billing Schedule',array('name'=> 'sweep_id','class'=>'sweep_id'), 'SELECT', '', '', 'tOOL TIP', '', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
-            array('Billing Day',array("name"=>'invoice_day',"class"=>"invoice_day"), 'SELECT', '', '', 'tOOL TIP', '', '', '', '', 'set_invoice_option'),
-            array('Credit Limit', 'INPUT', array('name' => 'credit_limit', 'size' => '20', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter account number'),
-             array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
-        );
-        $form['Call shop Profile'] = array(
-            array('Language', 'language_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'languagename', 'language', 'build_dropdown', '', ''),
-            array('Company', 'INPUT', array('name' => 'company_name', 'maxlength' => '150', 'size' => '15', 'class' => 'text field medium'), '', 'tOOL TIP', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name', 'id' => 'first_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), 'trim|required|max_length[20]|xss_clean', 'tOOL TIP', 'Please Enter account number'),
-            array('Last Name', 'INPUT', array('name' => 'last_name', 'size' => '15', 'maxlength' => '50', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Telephone 1', 'INPUT', array('name' => 'telephone_1', 'id' => 'telephone_1', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Telephone 2', 'INPUT', array('name' => 'telephone_2', 'id' => 'telephone_2', 'size' => '15', 'maxlength' => '20', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Email', 'INPUT', array('name' => 'email', 'size' => '50', 'maxlength' => '100', 'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', 'Please Enter Password'),
-            array('Address 1', 'INPUT', array('name' => 'address_1', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Address 2', 'INPUT', array('name' => 'address_2', 'size' => '15', 'maxlength' => '100', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('City', 'INPUT', array('name' => 'city', 'size' => '20', 'maxlength' => '25', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Province/State', 'INPUT', array('name' => 'province', 'size' => '25', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Zip/Postal Code', 'INPUT', array('name' => 'postal_code', 'size' => '15', 'maxlength' => '15', 'class' => "text field medium"), '', 'tOOL TIP', 'Please Enter Password'),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Timezone', 'timezone_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'gmtzone', 'timezone', 'build_dropdown', '', '')
-        );
-
-        $form['button_cancel'] = array('name' => 'action', 'content' => 'Cancel', 'value' => 'cancel', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button', 'onclick' => 'return redirect_page(\'/accounts/callshop_list/\')');
-        $form['button_save'] = array('name' => 'action', 'content' => 'Save', 'value' => 'save', 'type' => 'submit', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-
-        return $form;
-    }
-
+    
     function get_search_customer_form() {
         $form['forms'] = array("", array('id' => "account_search"));
-        $form['Search Account'] = array(
-            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-            array('', 'HIDDEN', 'advance_search', '1', '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'maxlength' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
-            array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "1","reseller_id" => "0")),
-            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'maxlength' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'maxlength' => '25', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
-            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'maxlength' => '100', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
-            array('Balance', 'INPUT', array('name' => 'balance[balance]', 'value' => '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'Tool tips info', '1', 'balance[balance-integer]', '', '', '', 'search_int_type', ''),
-            array('Credit Limit', 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'maxlength' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
-            array('Billing Cycle', 'sweep_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+        $form['Search'] = array(
+            
+            array('Account', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
+            
+            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
+            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
+	
+            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
+            array('Entity Type', 'type', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_entity_type_customer'),
+		array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => "0")),
+		array('Account Type', 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type_search'),
+
+            array('Balance', 'INPUT', array('name' => 'balance[balance]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'balance[balance-integer]', '', '', '', 'search_int_type', ''),
+            array('Credit Limit', 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
+	array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
+          //  array('Billing Cycle', 'sweep_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
+          //  array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+        //    array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'advance_search', '1', '', '', '')
         );
 
-        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear Search Filter', 'value' => 'cancel', 'type' => 'reset', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
         return $form;
     }
 
     function get_provider_search_form() {
         $form['forms'] = array("", array('id' => "account_search"));
-        $form['Search Account'] = array(
-            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-            array('', 'HIDDEN', 'advance_search', '1', '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'maxlength' => '25', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'maxlength' => '25', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
-            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'maxlength' => '100', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
+        $form['Search'] = array(
+            
+            array('Account Number', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
+            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
+            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
+            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
             array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
             array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'advance_search', '1', '', '', '')
         );
-        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear Search Filter', 'value' => 'cancel', 'type' => 'reset', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
         return $form;
     }
 
-    function get_reseller_search_form() {
+      function get_reseller_search_form() {
         $form['forms'] = array("", array('id' => "account_search"));
-        $form['Search Account'] = array(
-            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-            array('', 'HIDDEN', 'advance_search', '1', '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
-            array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "1","reseller_id" => "0")),
-            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
-            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'maxlength' => '100', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-           array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+        $form['Search'] = array(
+           
+            array('Account', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
+            
+            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
+            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
+            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
+	array('Rate Group', 'pricelist_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'name', 'pricelists', 'build_dropdown', 'where_arr', array("status" => "0","reseller_id" => "0")),
+	array('Account Type', 'posttoexternal', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_account_type_search'),
+
+            array('Balance', 'INPUT', array('name' => 'balance[balance]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'balance[balance-integer]', '', '', '', 'search_int_type', ''),
+            array('Credit Limit', 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
+	array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
+          //  array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
+          // array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'advance_search', '1', '', '', '')
         );
 
-        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear Search Filter', 'value' => 'cancel', 'type' => 'reset', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
         return $form;
     }
 
-    function get_admin_search_form() {
+   function get_admin_search_form() {
         $form['forms'] = array("", array('id' => "account_search"));
-        $form['Search Account'] = array(
-            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-            array('', 'HIDDEN', 'advance_search', '1', '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field"), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'maxlength' => '25', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
-            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'maxlength' => '100', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+        $form['Search'] = array(
+            
+            array('Account', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'class' => "text field"), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
+            
+            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
+            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
+            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
+		array('Entity Type', 'type', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_entity_type_admin'),
+            array('Email', 'INPUT', array('name' => 'email[email]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'email[email-string]', '', '', '', 'search_string_type', ''),
+	 array('Phone', 'INPUT', array('name' => 'telephone_1[telephone_1]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'telephone_1[telephone_1-integer]', '', '', '', 'search_int_type', ''),
+	
+	    array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_search_status'),
+	   
+          //  array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'advance_search', '1', '', '', '')
         );
 
-        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear Search Filter', 'value' => 'cancel', 'type' => 'reset', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
         return $form;
     }
-
     function get_subadmin_search_form() {
         $form['forms'] = array("", array('id' => "account_search"));
-        $form['Search Account'] = array(
-            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-            array('', 'HIDDEN', 'advance_search', '1', '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'maxlength' => '25', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'maxlength' => '25', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
-            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'maxlength' => '100', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
+        $form['Search'] = array(
+           
+            array('Account Number', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
+            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
+            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
+            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
             array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
              array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
+ array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
+            array('', 'HIDDEN', 'advance_search', '1', '', '', '')
         );
 
-        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear Search Filter', 'value' => 'cancel', 'type' => 'reset', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
+        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'btn btn-line-parrot pull-right');
+        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear', 'value' => 'cancel', 'type' => 'reset', 'class' => 'btn btn-line-sky pull-right margin-x-10');
 
         return $form;
     }
 
-    function get_callshop_search_form() {
-        $form['forms'] = array("", array('id' => "account_search"));
-        $form['Search Account'] = array(
-            array('', 'HIDDEN', 'ajax_search', '1', '', '', ''),
-            array('', 'HIDDEN', 'advance_search', '1', '', '', ''),
-            array('Account Number', 'INPUT', array('name' => 'number[number]', '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'tOOL TIP', '1', 'number[number-string]', '', '', '', 'search_string_type', ''),
-            array('First Name', 'INPUT', array('name' => 'first_name[first_name]', '', 'id' => 'first_name', 'size' => '15', 'maxlength' => '25', 'class' => "text field "), '', 'tOOL TIP', '1', 'first_name[first_name-string]', '', '', '', 'search_string_type', ''),
-            array('Last Name', 'INPUT', array('name' => 'last_name[last_name]', 'value' => '', 'size' => '20', 'maxlength' => '25', 'class' => "text field "), '', 'Tool tips info', '1', 'last_name[last_name-string]', '', '', '', 'search_string_type', ''),
-            array('Credit Limit', 'INPUT', array('name' => 'credit_limit[credit_limit]', 'value' => '', 'size' => '20', 'maxlength' => '15', 'class' => "text field "), '', 'Tool tips info', '1', 'credit_limit[credit_limit-integer]', '', '', '', 'search_int_type', ''),
-            array('Company', 'INPUT', array('name' => 'company_name[company_name]', 'value' => '', 'size' => '20', 'maxlength' => '100', 'class' => "text field "), '', 'Tool tips info', '1', 'company_name[company_name-string]', '', '', '', 'search_string_type', ''),
-            array('Billing Cycle', 'sweep_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'sweep', 'sweeplist', 'build_dropdown', '', ''),
-            array('Country', 'country_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'country', 'countrycode', 'build_dropdown', '', ''),
-            array('Currency', 'currency_id', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', 'id', 'currencyname,currency', 'currency', 'build_concat_dropdown', '', array()),
-        );
 
-        $form['button_search'] = array('name' => 'action', 'id' => "account_search_btn", 'content' => 'Search', 'value' => 'save', 'type' => 'button', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-        $form['button_reset'] = array('name' => 'action', 'id' => "id_reset", 'content' => 'Clear Search Filter', 'value' => 'cancel', 'type' => 'reset', 'class' => 'ui-state-default float-right ui-corner-all ui-button');
-
-        return $form;
-    }
 
     function build_account_list_for_admin() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='checkall'/>", "30", "", "", "", ""),
-            array("Account Number", "220", "number", "", "", ""),
-            array("First Name", "210", "first_name", "", "", ""),
-            array("Last Name", "210", "last_name", "", "", ""),
-            array("Company", "200", "company_name", "", "", ""),
-            array("Account Status", "195", "status", "status", "status", "get_status"),
-            array("Action", "90", "", "", "", array(
-                    "VIEW" => array("url" => "accounts/admin_edit//", "mode" => "single"),
-                    "TAXES" => array("url" => "accounts/customer_account_taxes/edit/", "mode" => "single"),
+        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
+             array("Account", "100", "number", "", "", ""),
+	    array("First Name", "120", "first_name", "", "", ""),
+            array("Last Name", "130", "last_name", "", "", ""),
+            array("Company", "120", "company_name", "", "", ""),
+            array("Entity Type", "100", "type", "type", "type", "get_entity_type"),
+            array("Email", "210", "email", "", "", ""),
+            array("Phone", "150", "telephone_1", "", "", ""),
+            array("Country", "110", "country_id", "country", "countrycode", "get_field_name"),
+            array("Status", "70", "status", "status", "status", "get_status"),
+            array("Action", "100", "", "", "", array(
+                    "EDIT" => array("url" => "accounts/admin_edit/", "mode" => "single"),
                     "DELETE" => array("url" => "accounts/admin_delete/", "mode" => "single")
             ))
                 ));
@@ -519,42 +586,43 @@ class Accounts_form {
 
     function build_account_list_for_customer() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='checkall'/>", "30", "", "", "", ""),
-            array("Account Number", "100", "number", "", "", ""),
-            array("Rate Group", "100", "pricelist_id", "name", "pricelists", "get_field_name"),
-            array("First Name", "130", "first_name", "", "", ""),
-            array("Last Name", "130", "last_name", "", "", ""),
-            array("Company", "197", "company_name", "", "", ""),
-            array("Balance", "70", "balance", "balance", "balance", "get_account_balance"),
-            array("Credit Limit", "70", "credit_limit", "credit_limit", "credit_limit", "convert_to_currency"),
-            array("Cycle", "75", "sweep_id", "sweep", "sweeplist", "get_field_name"),
-            array("Account Status", "80", "status", "status", "status", "get_status"),
-            array("Action", "120", "", "", "", array("PAYMENT" => array("url" => "accounts/customer_payment_process_add/", "mode" => "single"),
-                    "VIEW" => array("url" => "accounts/customer_edit/", "mode" => "single"),
-                    "TAXES" => array("url" => "accounts/customer_account_taxes/edit/", "mode" => "popup"),
-                    "CALLERID" => array("url" => "accounts/customer_add_callerid/", "mode" => "popup"),
-                    "DELETE" => array("url" => "accounts/customer_delete/", "mode" => "single")
-            ))
+        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
+             array("Account", "100", "number", "", "", ""),
+            array("First Name", "110", "first_name", "", "", ""),
+            array("Last Name", "100", "last_name", "", "", ""),
+            array("Company", "101", "company_name", "", "", ""),
+            array("Entity Type", "110", "type", "type", "type", "get_entity_type"),
+	    array("Rate Group", "104", "pricelist_id", "name", "pricelists", "get_field_name"),
+	    array("Account Type", "137", "posttoexternal", "posttoexternal", "posttoexternal", "get_account_type"),
+            array("Balance", "110", "balance", "balance", "balance", "convert_to_currency"),
+            array("Credit Limit", "110", "credit_limit", "credit_limit", "credit_limit", "convert_to_currency"),
+            //array("Cycle", "75", "sweep_id", "sweep", "sweeplist", "get_field_name"),
+            array("Status", "80", "status", "status", "status", "get_status"),
+            array("Action", "157", "", "", "", array("PAYMENT" => array("url" => "accounts/customer_payment_process_add/", "mode" => "single"),
+		    "CALLERID" => array("url" => "accounts/customer_add_callerid/", "mode" => "popup"),
+		    "EDIT" => array("url" => "accounts/customer_edit/", "mode" => "single"),
+                   // "ANIMAP" => array("url" => "accounts/customer_animap_list/", "mode" => "popup"),
+                    "DELETE" => array("url" => "accounts/customer_delete/", "mode" => "single")))
                 ));
         return $grid_field_arr;
     }
-
     function build_account_list_for_reseller() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='checkall'/>", "30", "", "", "", ""),
-            array("Account Number", "110", "number", "", "", ""),
-            array("Rate Group", "100", "pricelist_id", "name", "pricelists", "get_field_name"),
-            array("First Name", "130", "first_name", "", "", ""),
-            array("Last Name", "130", "last_name", "", "", ""),
-            array("Company", "180", "company_name", "", "", ""),
-            array("Balance", "70", "balance", "balance", "balance", "get_account_balance"),
-            array("Credit Limit", "70", "credit_limit", "credit_limit", "credit_limit", "convert_to_currency"),
-            array("Cycle", "82", "sweep_id", "sweep", "sweeplist", "get_field_name"),
-            array("Account Status", "80", "status", "status", "status", "get_status"),
-            array("Action", "120", "", "", "", array("PAYMENT" => array("url" => "accounts/customer_payment_process_add/", "mode" => "single"),
-                    "VIEW" => array("url" => "accounts/reseller_edit/", "mode" => "single"),
-                    "TAXES" => array("url" => "accounts/customer_account_taxes/edit/", "mode" => "popup"),
-//                     "CALLERID" => array("url" => "accounts/customer_add_callerid/", "mode" => "single", 'popup'),
+        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
+            array("Account", "150", "number", "", "", ""),
+            array("First Name", "110", "first_name", "", "", ""),
+            array("Last Name", "110", "last_name", "", "", ""),
+            array("Company", "164", "company_name", "", "", ""),
+            array("Rate Group", "110", "pricelist_id", "name", "pricelists", "get_field_name"),
+            array("Account Type", "117", "posttoexternal", "posttoexternal", "posttoexternal", "get_account_type"),
+            array("Balance", "110", "balance", "balance", "balance", "convert_to_currency"),
+            array("Credit Limit", "110", "credit_limit", "credit_limit", "credit_limit", "convert_to_currency"),
+           // array("Cycle", "82", "sweep_id", "sweep", "sweeplist", "get_field_name"),
+            array("Status", "90", "status", "status", "status", "get_status"),
+            array("Action", "139", "", "", "", array("PAYMENT" => array("url" => "accounts/customer_payment_process_add/", "mode" => "single"),
+            "CALLERID" => array("url" => "accounts/customer_add_callerid/", "mode" => 'popup'),
+                    "EDIT" => array("url" => "accounts/reseller_edit/", "mode" => "single"),
+//                    "TAXES" => array("url" => "accounts/customer_account_taxes/edit/", "mode" => "popup"),
                     "DELETE" => array("url" => "accounts/reseller_delete/", "mode" => "single")
             ))
                 ));
@@ -563,125 +631,118 @@ class Accounts_form {
 
     function build_account_list_for_provider() {
         // array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
-        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='checkall'/>", "30", "", "", "", ""),
-            array("Account Number", "225", "number", "", "", ""),
+        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
+            array("Account Number", "245", "number", "", "", ""),
             array("First Name", "200", "first_name", "", "", ""),
-            array("Last Name", "210", "last_name", "", "", ""),
-            array("Company", "200", "company_name", "", "", ""),
-            array("Account Status", "200", "status", "status", "status", "get_status"),
-            array("Action", "90", "", "", "", array(
-                    "VIEW" => array("url" => "accounts/provider_edit//", "mode" => "single"),
-                    "TAXES" => array("url" => "accounts/customer_account_taxes/edit/", "mode" => "popup"),
+            array("Last Name", "200", "last_name", "", "", ""),
+            array("Company", "220", "company_name", "", "", ""),
+            array("Account Status", "210", "status", "status", "status", "get_status"),
+            array("Action", "140", "", "", "", array(
+                    "VIEW" => array("url" => "accounts/provider_edit/", "mode" => "single"),
                     "DELETE" => array("url" => "accounts/provider_delete/", "mode" => "single")
             ))
                 ));
         return $grid_field_arr;
     }
 
-    function build_account_list_for_callshop() {
-        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='checkall'/>", "30", "", "", "", ""),
-            array("Account Number", "135", "number", "", "", ""),
-            array("First Name", "133", "first_name", "", "", ""),
-            array("Last Name", "135", "last_name", "", "", ""),
-            array("Company", "185", "company_name", "", "", ""),
-            array("Credit Limit", "135", "credit_limit", "", "", ""),
-            array("Cycle", "145", "sweep_id", "sweep", "sweeplist", "get_field_name"),
-            array("Account Status", "140", "status", "status", "status", "get_status"),
-            array("Action", "90", "", "", "", array(
-                    "VIEW" => array("url" => "accounts/callshop_edit//", "mode" => "single"),
-                    "TAXES" => array("url" => "accounts/customer_account_taxes/edit/", "mode" => "popup"),
-                    "DELETE" => array("url" => "accounts/callshop_delete/", "mode" => "single")
-            ))
-                ));
-        return $grid_field_arr;
-    }
+
 
     function build_account_list_for_subadmin() {
-        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='checkall'/>", "30", "", "", "", ""),
-            array("Account Number", "225", "number", "", "", ""),
-            array("First Name", "200", "first_name", "", "", ""),
-            array("Last Name", "210", "last_name", "", "", ""),
-            array("Company", "200", "company_name", "", "", ""),
+        $grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", ""),
+            array("Account Number", "245", "number", "", "", ""),
+            array("First Name", "190", "first_name", "", "", ""),
+            array("Last Name", "190", "last_name", "", "", ""),
+            array("Company", "215", "company_name", "", "", ""),
             array("Account Status", "200", "status", "status", "status", "get_status"),
-            array("Action", "90", "", "", "", array(
-                    "VIEW" => array("url" => "accounts/subadmin_edit//", "mode" => "single"),
-                    "TAXES" => array("url" => "accounts/customer_account_taxes/edit/", "mode" => "popup"),
+            array("Action", "190", "", "", "", array(
+                    "VIEW" => array("url" => "accounts/subadmin_edit/", "mode" => "single"),
                     "DELETE" => array("url" => "accounts/subadmin_delete/", "mode" => "single")
             ))
                 ));
         return $grid_field_arr;
     }
-
     function build_grid_buttons_customer() {
-        $buttons_json = json_encode(array(array("Create Account", "add", "button_action", "/accounts/customer_add/"),
-            array("Delete", "delete", "button_action", "/accounts/customer_selected_delete/"),
-            array("Refresh", "reload", "button_action", "/accounts/customer_list_clearsearchfilter/")));
+        $logintype=$this->CI->session->userdata('userlevel_logintype');
+        $provider=null;
+        if($logintype !=1)
+	  $provider = array("Create Provider","btn btn-line-blue btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/provider_add/");
+        $buttons_json = json_encode(array(
+	    array("Create Customer","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/customer_add/"),
+            array("Mass Create","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/customer_bulk_creation/","popup"),
+	    $provider,
+	     array("Export","btn btn-xing" ," fa fa-download fa-lg", "button_action", "/accounts/customer_export_cdr_xls", 'single'),
+            array("Delete","btn btn-line-danger","fa fa-times-circle fa-lg","button_action", "/accounts/customer_selected_delete/")
+           ));
         return $buttons_json;
     }
 
+
     function build_grid_buttons_admin() {
-        $buttons_json = json_encode(array(array("Create Account", "add", "button_action", "/accounts/admin_add/"),
-            array("Delete", "delete", "button_action", "/accounts/admin_selected_delete/"),
-            array("Refresh", "reload", "/accounts/clearsearchfilter/")));
+        $buttons_json = json_encode(array(
+	    array("Create Admin","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/admin_add/"),
+	    array("Create Subadmin","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/subadmin_add/"),
+            array("Delete", "btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/accounts/admin_selected_delete/")
+            ));
         return $buttons_json;
     }
 
     function build_grid_buttons_subadmin() {
-        $buttons_json = json_encode(array(array("Create Account", "add", "button_action", "/accounts/subadmin_add/"),
-            array("Delete", "delete", "button_action", "/accounts/subadmin_selected_delete/"),
-            array("Refresh", "reload", "/accounts/clearsearchfilter/")));
+        $buttons_json = json_encode(array(
+	    array("Create","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/subadmin_add/"),
+            array("Delete","btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/accounts/subadmin_selected_delete/")
+           ));
         return $buttons_json;
     }
 
     function build_grid_buttons_provider() {
-        $buttons_json = json_encode(array(array("Create Account", "add", "button_action", "/accounts/provider_add/"),
-            array("Delete", "delete", "button_action", "/accounts/provider_selected_delete/"),
-            array("Refresh", "reload", "/accounts/clearsearchfilter/")));
+        $buttons_json = json_encode(array(
+	    array("Create","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/provider_add/"),
+            array("Delete","btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/accounts/provider_selected_delete/")
+           ));
         return $buttons_json;
     }
 
     function build_grid_buttons_reseller() {
-        $buttons_json = json_encode(array(array("Create Account", "add", "button_action", "/accounts/reseller_add/"),
-            array("Delete", "delete", "button_action", "/accounts/reseller_selected_delete/"),
-            array("Refresh", "reload", "/accounts/clearsearchfilter/")));
+        $buttons_json = json_encode(array(
+	    array("Create","btn btn-line-warning btn","fa fa-plus-circle fa-lg", "button_action", "/accounts/reseller_add/"),
+	    array("Export","btn btn-xing" ," fa fa-download fa-lg", "button_action", "/accounts/reseller_export_cdr_xls", 'single'),
+            array("Delete","btn btn-line-danger","fa fa-times-circle fa-lg", "button_action", "/accounts/reseller_selected_delete/")
+           ));
         return $buttons_json;
     }
 
-    function build_grid_buttons_callshop() {
-        $buttons_json = json_encode(array(array("Create Account", "add", "button_action", "/accounts/callshop_add/"),
-            array("Delete", "delete", "button_action", "/accounts/callshop_selected_delete/"),
-            array("Refresh", "reload", "/accounts/clearsearchfilter/")));
-        return $buttons_json;
-    }
+    
 
     function build_ip_list_for_customer($accountid,$accountype) {
 	if($accountype == "customer"){
-	  $grid_field_arr = json_encode(array(array("Name", "140", "name", "", "", ""),
-	      array("IP Address", "180", "ip", "", "", ""),
-	      array("Prefix", "120", "prefix", "", "", ""),
-	      array("Rate Group", "100", "pricelist_id", "name", "pricelists", "get_field_name"),
-  	      array("Action", "40", "", "", "", array("DELETE" => array("url" => "accounts/customer_ipmap_action/delete/$accountid/$accountype/", "mode" => "single")))
+	  $grid_field_arr = json_encode(array(array("Name", "240", "name", "", "", ""),
+	      array("IP Address", "280", "ip", "", "", ""),
+	      array("Prefix", "220", "prefix", "", "", ""),
+// 	      array("Rate Group", "100", "pricelist_id", "name", "pricelists", "get_field_name"),
+  	      array("Action", "150", "", "", "", array("DELETE" => array("url" => "accounts/customer_ipmap_action/delete/$accountid/$accountype/", "mode" => "single")))
 		  ));
 	}else{
-	  $grid_field_arr = json_encode(array(array("Name", "140", "name", "", "", ""),
-	      array("IP Address", "180", "ip", "", "", ""),
-	      array("Prefix", "120", "prefix", "", "", ""),
-	      array("Action", "40", "", "", "", array("DELETE" => array("url" => "accounts/customer_ipmap_action/delete/$accountid/$accountype/", "mode" => "single")))
+	  $grid_field_arr = json_encode(array(array("Name", "240", "name", "", "", ""),
+	      array("IP Address", "280", "ip", "", "", ""),
+	      array("Prefix", "220", "prefix", "", "", ""),
+	      array("Action", "150", "", "", "", array("DELETE" => array("url" => "accounts/customer_ipmap_action/delete/$accountid/$accountype/", "mode" => "single")))
 		  ));
 	}
         return $grid_field_arr;
     }
 
     function build_animap_list_for_customer($accountid) {
-        $grid_field_arr = json_encode(array(array("ANI Number", "150", "number", "", "", ""),
-            array("Action", "120", "", "", "", array("DELETE" => array("url" => "accounts/customer_animap_action/delete/$accountid/", "mode" => "single")))
+        $grid_field_arr = json_encode(array(
+	    array("ANI Number", "250", "number", "", "", ""),
+	    array("Context", "200", "context", "", "", ""),
+            array("Action", "150", "", "", "", array("DELETE" => array("url" => "accounts/customer_animap_action/delete/$accountid/", "mode" => "single")))
                 ));
         return $grid_field_arr;
     }
 
     function build_animap_list_for_user() {
-        $grid_field_arr = json_encode(array(array("IPAddress", "150", "number", "", "", ""),
-            array("ipcontext", "150", "context", "", "", ""),
+        $grid_field_arr = json_encode(array(array("ANI Number", "150", "number", "", "", ""),
+            array("Context", "150", "context", "", "", ""),
             array("Action", "120", "", "", "", array("DELETE" => array("url" => "user/user_animap_action/delete/", "mode" => "single")))
                 ));
         return $grid_field_arr;
@@ -703,15 +764,36 @@ class Accounts_form {
     }
     function build_ipmap_for_user(){
         
-            $grid_field_arr = json_encode(array(array("Name", "230", "name", "", "", ""),
-                array("Address", "260", "ip", "", "", ""),
-                array("Prefix", "218", "prefix", "", "", ""),
-                array("Rate Group", "210", "pricelist_id", "name", "pricelists", "get_field_name"),
-                array("ip context", "220", "context", "", "", ""),
-                array("Action", "30", "", "", "", array("DELETE" => array("url" => "user/user_ipmap_action/delete/", "mode" => "single")))
+            $grid_field_arr = json_encode(array(
+		array("Name","374", "name", "", "", ""),
+                array("Address","360", "ip", "", "", ""),
+                array("Prefix","360", "prefix", "", "", ""),
+//                 array("Rate Group", "210", "pricelist_id", "name", "pricelists", "get_field_name"),
+//                 array("ip context", "220", "context", "", "", ""),
+                array("Action", "100", "", "", "", array("DELETE" => array("url" => "user/user_ipmap_action/delete/", "mode" => "single")))
                     ));
             return $grid_field_arr;
         
+    }
+	
+        function build_animap_list() {
+        $grid_field_arr = json_encode(array(array("ANI", "180", "number", "", "", ""),
+            array("Context", "180", "context", "", "", ""),
+            array("status","180","status","status","status","get_status"),                        
+	      array("Action", "130", "", "", "",
+	      array(
+	        "EDIT_ANIMAP" => array("url" => "accounts/callingcards_animap_list_edit/", "mode" => "single"),
+                "DELETE_ANIMAP" => array("url" => "accounts/callingcards_animap_list_remove/", "mode" => "single")
+                )
+                )
+                ));
+        return $grid_field_arr;
+    }
+        function build_grid_buttons_destination()
+    {
+            $buttons_json = json_encode(array(
+            ));
+        return $buttons_json;
     }
 
 }

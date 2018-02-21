@@ -516,7 +516,7 @@ class CI_Form_validation {
 
 		// If the field is blank, but NOT required, no further tests are necessary
 		$callback = FALSE;
-		if ( ! in_array('required', $rules) AND is_null($postdata))
+		if ( (! in_array('required', $rules) AND ! in_array('dropdown', $rules)) AND is_null($postdata))
 		{
 			// Before we bail out, does the rule contain a callback?
 			if (preg_match("/(callback_\w+(\[.*?\])?)/", implode(' ', $rules), $match))
@@ -529,17 +529,16 @@ class CI_Form_validation {
 				return;
 			}
 		}
-
 		// --------------------------------------------------------------------
 
 		// Isset Test. Typically this rule will only apply to checkboxes.
 		if (is_null($postdata) AND $callback == FALSE)
 		{
-			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
+			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules) OR in_array('dropdown', $rules))
 			{
 				// Set the message type
-				$type = (in_array('required', $rules)) ? 'required' : 'isset';
-
+                            
+				$type = (in_array('required', $rules)) ? 'required' : ((in_array('dropdown',$rules)) ? 'dropdown':'isset' );
 				if ( ! isset($this->_error_messages[$type]))
 				{
 					if (FALSE === ($line = $this->CI->lang->line($type)))
@@ -551,7 +550,6 @@ class CI_Form_validation {
 				{
 					$line = $this->_error_messages[$type];
 				}
-
 				// Build the error message
 				$message = sprintf($line, $this->_translate_fieldname($row['label']));
 
@@ -647,6 +645,14 @@ class CI_Form_validation {
 					// Users can use any native PHP function call that has one param.
 					if (function_exists($rule))
 					{
+					  $str=null;
+					  if(is_array($postdata)){
+					    foreach($postdata as $key=>$value){
+					      $str.=$value.",";
+					    }
+					    $str=rtrim($str,',');
+					    $postdata=$str;  
+					  }
 						$result = $rule($postdata);
 
 						if ($_in_array == TRUE)
@@ -981,11 +987,23 @@ class CI_Form_validation {
 	 */
 	public function is_unique($str, $field)
 	{
-		list($table, $field)=explode('.', $field);
-		$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
-		
-		return $query->num_rows() === 0;
-    }
+                $id='';
+		$data =explode('.', $field);
+                $table=$data[0];
+                $field=$data[1];
+                if(isset($data[2]))
+                $id=$data[2];
+                $where=array($field => $str);
+                if($id != ''){
+                 $where['id !=']=$id;
+                }
+                if($table == 'accounts'){
+		  $where['deleted']=0;
+                }
+//                print_r($where);exit;
+                $query = $this->CI->db->limit(1)->get_where($table,$where );
+		return $query->num_rows() > 0 ? FALSE : TRUE;
+         }
 
 	// --------------------------------------------------------------------
 
@@ -1404,6 +1422,33 @@ class CI_Form_validation {
 	{
 		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
+	         public function destination($str)
+        {
+                return ( ! preg_match("/^([-a-z0-9_-])+$/i", $str)) ? FALSE : TRUE;
+        }
+        public function alpha_dot($str)
+	{
+		return ( ! preg_match("/^([.a-z0-9])+$/i", $str)) ? FALSE : TRUE;
+	}
+	public function numeric_dot($str)
+	{
+		    return ( ! preg_match("/^([.a-z0-9])+$/i", $str)) ? FALSE : TRUE;
+	}
+	public function valid_decimal($str){
+            return (bool) preg_match('#^\d+(?:\.\d{1,5})?$#', $str);
+        }
+        public function alpha_numeric_space($str)
+	{
+		return ( ! preg_match("/^[A-Za-z0-9\s]+$/", $str)) ? FALSE : TRUE;
+	}
+        public function alpha_space($str){
+		return ( ! preg_match("/^[A-Za-z\s]+$/", $str)) ? FALSE : TRUE;
+//                return ( ! preg_match("/^([-a-z0-9_-\s])+$/i", $str)) ? FALSE : TRUE;
+	}
+        public function currency_decimal($str){
+            return (bool) preg_match('#^\d{0,5}+(?:\.\d{1,5})?$#', $str);
+//            test(num)
+        }
 
 }
 // END Form Validation Class

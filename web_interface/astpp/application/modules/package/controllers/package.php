@@ -1,5 +1,24 @@
 <?php
-
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 class Package extends MX_Controller {
 
     function Package() {
@@ -29,9 +48,9 @@ class Package extends MX_Controller {
         $data['page_title'] = 'Packages';
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
-            $where = array('id' => $edit_id, "reseller_id" => $account_data['id'], "status" => "1");
+            $where = array('id' => $edit_id, "reseller_id" => $account_data['id'], "status" => "0");
         } else {
-            $where = array('id' => $edit_id, "status" => "1");
+            $where = array('id' => $edit_id);
         }
         $account = $this->db_model->getSelect("*", " packages", $where);
         if ($account->num_rows > 0) {
@@ -66,7 +85,7 @@ class Package extends MX_Controller {
                 $this->load->view('view_packages_edit', $data);        
             } else {
                 $this->package_model->edit_package($add_array, $add_array['id']);
-                $this->session->set_flashdata('astpp_notification', 'Packages Updated successfully!');
+                $this->session->set_flashdata('astpp_errormsg', 'Package updated successfully!');
 
                 redirect(base_url() . 'package/package_list/');
                 exit;
@@ -77,8 +96,9 @@ class Package extends MX_Controller {
                 $data['validation_errors'] = validation_errors();
                 $this->load->view('view_package_add', $data);
             } else {
+
                 $this->package_model->add_package($add_array);
-                $this->session->set_flashdata('astpp_notification', 'Packages added successfully!');
+                $this->session->set_flashdata('astpp_errormsg', 'Package added successfully!');
                 redirect(base_url() . 'package/package_list/');
                 exit;
             }
@@ -102,7 +122,7 @@ class Package extends MX_Controller {
 
     function package_delete($id) {
         $this->package_model->remove_package($id);
-        $this->session->set_flashdata('astpp_notification', 'package Removed Completed!');
+        $this->session->set_flashdata('astpp_notification', 'Package removed successfully!');
         redirect(base_url() . 'package/package_list/');
     }
 
@@ -113,7 +133,8 @@ class Package extends MX_Controller {
 
     function package_list() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Package List';
+        $data['page_title'] = 'Packages';
+$data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->package_form->build_package_list_for_admin();
         $data["grid_buttons"] = $this->package_form->build_grid_buttons();
@@ -138,29 +159,7 @@ class Package extends MX_Controller {
         echo json_encode($json_data);
     }
 
-    function customer_charge_list($accountid, $accounttype) {
-        $json_data = array();
-
-        $select = "charge_to_account.id,charges.description,charges.charge,charges.sweep_id";
-        $table = "charges";
-        $jionTable = array('charge_to_account', 'accounts');
-        $jionCondition = array('charges.id = charge_to_account.charge_id', 'accounts.id = charge_to_account.accountid');
-        $type = array('left', 'inner');
-        $where = array('accounts.id' => $accountid);
-        $order_type = 'charges.id';
-        $order_by = "ASC";
-
-        $count_all = $this->db_model->getCountWithJion($table, $select, $where, $jionTable, $jionCondition, $type);
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
-        $json_data = $paging_data["json_paging"];
-
-        $account_charge_list = $this->db_model->getAllJionQuery($table, $select, $where, $jionTable, $jionCondition, $type, $paging_data["paging"]["page_no"], $paging_data["paging"]["start"], $order_by, $order_type, "");
-        $grid_fields = json_decode($this->package_form->build_charges_list_for_customer($accountid, $accounttype));
-        $json_data['rows'] = $this->form->build_grid($account_charge_list, $grid_fields);
-
-        echo json_encode($json_data);
-    }
-
+   
     function package_delete_multiple() {
         $ids = $this->input->post("selected_ids", true);
         $where = "id IN ($ids)";
@@ -170,8 +169,9 @@ class Package extends MX_Controller {
 
     function package_counter() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Package Usage Report';
+        $data['page_title'] = 'Usage Report';
         $data['grid_fields'] = $this->package_form->build_package_counter_list_for_admin();
+	$data["grid_buttons"] = $this->package_form->build_package_counter_report();
         $this->load->view('view_package_counter_report', $data);
     }
 
@@ -207,7 +207,7 @@ class Package extends MX_Controller {
     }
     function customer_add_patterns($packageid) {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Unblocked Prefixes List';
+        $data['page_title'] = 'Unblocked Prefixes';
         $this->session->set_userdata('advance_search', 0);
         $this->load->module('rates/rates');
         $data['patters_grid_fields'] = $this->rates->rates_form->build_outbound_list_for_customer();
@@ -217,11 +217,11 @@ class Package extends MX_Controller {
     function customer_add_patterns_json($accountid) {
         $this->load->module('rates/rates');
         $json_data = array();
-        $count_all = $this->rates_model->getunblocked_pattern_list($accountid,false);
+        $count_all = $this->rates_model->getunblocked_package_pattern($accountid,false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
 
-        $query = $this->rates->rates_model->getunblocked_pattern_list($accountid,true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+        $query = $this->rates->rates_model->getunblocked_package_pattern($accountid,true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->rates->rates_form->build_outbound_list_for_customer());
         $json_data['rows'] = $this->rates->form->build_grid($query, $grid_fields);
 
@@ -236,6 +236,9 @@ class Package extends MX_Controller {
         $this->db_model->delete("package_patterns", array("id" => $patternid));
         redirect(base_url() . "package/package_edit/$packageid#package_patterns");
     }    
+
+
+
 }
 
 ?>

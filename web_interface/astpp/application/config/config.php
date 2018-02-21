@@ -15,6 +15,8 @@
 |
 */
 $astpp_config = parse_ini_file("/var/lib/astpp/astpp-config.conf");
+//$config['base_url'] = 'http://192.168.1.:8093/';
+
 $config['base_url'] = $astpp_config['base_url'];
 
 
@@ -270,7 +272,7 @@ $config['sess_time_to_update']	= 300;
 | 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
 |
 */
-$config['cookie_prefix']	= "";
+$config['cookie_prefix']	= "ITPLATP";
 $config['cookie_domain']	= "";
 $config['cookie_path']		= "/";
 $config['cookie_secure']	= FALSE;
@@ -361,7 +363,48 @@ $config['rewrite_short_tags'] = TRUE;
 |
 */
 $config['proxy_ips'] = '';
-
+$config['Origination-rates-field'] = array('code' => 'pattern',
+            'destination' => 'comment',
+            'connect cost' => 'connectcost',
+            'included seconds' => 'includedseconds',
+            'per minute cost' => 'cost',
+            'increment' => 'inc',
+            'precedence' => 'precedence',
+        );
+$config['Termination-rates-field'] = array('code' => 'pattern',
+            'destination' => 'comment',
+            'connect cost' => 'connectcost',
+            'included seconds' => 'includedseconds',
+            'per minute cost' => 'cost',
+            'increment' => 'inc',
+            'precedence' => 'precedence',
+            'strip'=>"strip",
+            'prepend' => 'prepend',
+        );
+$config['DID-rates-field'] = array('did' => 'number',
+	    'account' => 'accountid',
+	    'call type'=> 'call_type',
+	    'destination'=>'extensions',
+	    'country'=>'country_id',
+	    'increments' => 'inc',
+	    'cost' => 'cost',
+            'setup fee' => 'setup',
+	    'monthly fee' => 'monthlycost',
+            'included seconds' => 'includedseconds',
+//             'province' => 'province'
+        );
+$config['rates-file-path'] = ASSETSDIR."Rates_File/uploaded_files/";
+$config['db_upload-file-path'] = "/tmp/";
+$config['Origin-rates-field'] = array('code' => 'pattern',
+            'prepend' => 'prepend',
+            'destination' => 'comment',
+            'connect cost' => 'connectcost',
+            'included seconds' => 'includedseconds',
+            'per minute cost' => 'cost',
+            'increment' => 'inc',
+            'precedence' => 'precedence',
+            'strip'=>"strip",
+        );
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

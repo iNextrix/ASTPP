@@ -1,15 +1,16 @@
 #facebox {
   position: absolute;
-/*   position:relative; */
   top: 0;
-  left:40px;
   z-index: 99999;
-  text-align: left;
-  margin:0px auto;
+  text-align: left;  
+  width: 60%;
+  height: 100%;  
 }
+
 
 #facebox .popup{
   position:relative;
+  width:100%;
   border:3px solid rgba(0,0,0,0);
   -webkit-border-radius:5px;
   -moz-border-radius:5px;
@@ -17,21 +18,18 @@
   -webkit-box-shadow:0 0 18px rgba(0,0,0,0.4);
   -moz-box-shadow:0 0 18px rgba(0,0,0,0.4);
   box-shadow:0 0 18px rgba(0,0,0,0.4);
-  margin:0px 100px 0px 100px;
-/*   left:-450px; */
-    
+
 }
 
 #facebox .content {
-  display:block;
-  position:relative;
-/*   width: 370px; */
-  margin:0 auto;
+  display:table;
+  width:100%;  
   padding: 10px;
   background: #fff;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
   border-radius:4px;
+
 }
 
 #facebox .content > p:first-child{
@@ -46,7 +44,7 @@
   top:5px;
   right:5px;
   padding:2px;
-  background:#fff;
+/*  background:#fff;*/
 }
 #facebox .close img{
   opacity:0.3;

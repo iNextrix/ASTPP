@@ -50,12 +50,23 @@ input.text, input.file, textarea.textarea, select.select {
 	margin:0;
 	padding:4px;
         line-height:10px;
+	height:19px;
+	
+	
 }
 input.text, textarea.textarea{
 	border-top:1px solid #7c7c7c;
 	border-left:1px solid #c3c3c3;
 	border-right:1px solid #c3c3c3;
 	border-bottom:1px solid #ddd;
+	
+	
+	background-color: #fff;
+  background-image: none;
+  border: 1px solid #C3C4CE;
+  border-radius: 4px;
+  
+    
 }
 
 input.checkbox, input.radio{
@@ -87,11 +98,47 @@ input.small, select.small{
 	width:25%;
 }
 
-input.medium, select.medium{
-	width:50%;
+input.medium{
+	width:48%;
 	margin-left:10px;
+	
+	  border: 1px solid #C3C4CE;
+	  height: 20px;
+}
+/*
+ * ITPL
+ for dropdown changes
+ */
+select.medium{
+/*   width:50%; */
+/*   margin-left:10px; */
+  
+  width: 50%;
+  height: 30px;
+  margin-left:10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #C3C4CE;
+  border-radius: 4px;
 }
 
+select.medium_search{
+/*   width:50%; */
+/*   margin-left:10px; */
+  
+  width: 50%;
+  height: 30px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #C3C4CE;
+  border-radius: 4px;
+}
 input.large, select.large, textarea.textarea {
 	width:70%;
 }
@@ -242,8 +289,13 @@ form .gray {
 	opacity:0.7;
 }
 select.multiselectable{
-	width:52.5%;
+	width:50%;
 	margin-left:10px;
+	height: auto;
+	background-color: #fff;
+  background-image: none;
+  border: 1px solid #C3C4CE;
+  border-radius: 4px;
 }
 .desc
 {

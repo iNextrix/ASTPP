@@ -174,6 +174,7 @@ if ( ! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
+        	$data["class"] = "col-md-5 form-control";
 		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
@@ -327,9 +328,17 @@ if ( ! function_exists('form_dropdown'))
 		if ($extra != '') $extra = ' '.$extra;
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
                 if(is_array($name)){
-                    $form = '<select name="'.$name['name'].'"'." class='select field medium $name[class]'>\n";
+                     $str=null;
+                     foreach($name as $key=>$value){
+                      if($key !='class' && $key!='disabled')
+                      $str.=$key."='$value' ";
+                     }
+                     if(isset($name['disabled']) && $name['disabled']== 'disabled'){
+                      $str.='disabled = "disabled"';
+                     }
+                    $form = '<select '.$str." class='col-md-5 form-control $name[class]'>\n";
                 }else{
-                    $form = '<select name="'.$name.'"' .$multiple." class='select field medium'>\n";
+                    $form = '<select name="'.$name.'"' .$multiple." class='col-md-5 form-control'>\n";
                 }
 //                if($extra != '' ){
 //                    $form .= '<option value=""></option>';
@@ -389,14 +398,78 @@ if ( ! function_exists('form_dropdown_all'))
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
                 
 		if(is_array($name) && !isset($name["id"])){
-                    $form = '<select name="'.$name['name'].'"'." class='select field medium $name[class]'>\n";
+                    $form = '<select name="'.$name['name'].'"'." class='col-md-5 form-control $name[class]'>\n";
                 }else if(is_array($name) && isset($name["id"])){
-                    $form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='select field medium'>\n";
+                    $form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='col-md-5 form-control'>\n";
                 }else{
-                    $form = '<select name="'.$name.'"' .$multiple." class='select field medium'>\n";
+                    $form = '<select name="'.$name.'"' .$multiple." class='col-md-5 form-control'>\n";
                 }   
 
 		$form .= '<option value=""> --Select-- </option>';
+		foreach ($options as $key => $val)
+		{
+			$key = (string) $key;
+
+			if (is_array($val) && ! empty($val))
+			{
+				$form .= '<optgroup label="'.$key.'">'."\n";
+
+				foreach ($val as $optgroup_key => $optgroup_val)
+				{
+					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
+
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string) $optgroup_val."</option>\n";
+				}
+
+				$form .= '</optgroup>'."\n";
+			}
+			else
+			{
+				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
+
+				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+			}
+		}
+
+		$form .= '</select>';
+
+		return $form;
+	}
+}
+
+
+if ( ! function_exists('form_dropdown_all_search'))
+{
+	function form_dropdown_all_search($name = '', $options = array(), $selected = array(), $extra = '')
+	{
+		if ( ! is_array($selected))
+		{
+			$selected = array($selected);
+		}
+
+		// If no selected state was submitted we will attempt to set it automatically
+		if (count($selected) === 0)
+		{
+			// If the form name appears in the $_POST array we have a winner!
+			if (isset($_POST[$name]))
+			{
+				$selected = array($_POST[$name]);
+			}
+		}
+
+		if ($extra != '') $extra = ' '.$extra;
+
+		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+                
+		if(is_array($name) && !isset($name["id"])){
+                    $form = '<select name="'.$name['name'].'"'." class='col-md-5 form-control $name[class]' style='margin-left:5px;'>\n";
+                }else if(is_array($name) && isset($name["id"])){
+                    $form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='col-md-5 form-control' style='margin-left:5px;'>\n";
+                }else{
+                    $form = '<select name="'.$name.'"' .$multiple." class='col-md-5 form-control' style='margin-left:5px;'>\n";
+                }   
+
+		//$form .= '<option value=""> --Select-- </option>';
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;
@@ -452,7 +525,7 @@ if ( ! function_exists('form_dropdown_multiselect'))
 		if ($extra != '') $extra = ' '.$extra;
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
-		$form = '<select name="'.$name.'"'." multiple='multiple' class='select field multiselectable'>\n";
+		$form = '<select name="'.$name.'"'." multiple='multiple' class='select field multiselectable col-md-5 form-control'>\n";
                 
 		foreach ($options as $key => $val)
 		{

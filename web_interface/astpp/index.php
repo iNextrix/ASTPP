@@ -1,5 +1,5 @@
 <?php
-
+//echo "<pre>"; print_r($_SERVER);
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -18,6 +18,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
+        ini_set("date.timezone", "UTC");
 	define('ENVIRONMENT', 'production');
 /*
  *---------------------------------------------------------------
@@ -57,7 +58,17 @@ if (defined('ENVIRONMENT'))
  *
  */
 	$system_path = 'system';
-
+/*
+ *---------------------------------------------------------------
+ * ASSETS FOLDER NAME
+ *---------------------------------------------------------------
+ *
+ * This variable must contain the name of your "assets" folder.
+ * Include the path if the folder is not in the same  directory
+ * as this file.
+ *
+ */
+       $assets_path='assets';
 /*
  *---------------------------------------------------------------
  * APPLICATION FOLDER NAME
@@ -174,8 +185,10 @@ if (defined('ENVIRONMENT'))
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
-
-
+	
+	//Name of the "assets folder'
+	define('ASSETSDIR',realpath($assets_path).'/');
+	
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{

@@ -38,7 +38,7 @@
             procmsg:"Processing, please wait ...",
             query:"",
             qtype:"",
-            nomsg:"No items",
+            nomsg:"No Records",
             minColToggle:1,
             showToggleBtn:true,
             hideOnSubmit:true,
@@ -775,21 +775,20 @@ if(r.buttons){
             if (k.btn_url != null)  w.btn_url = k.btn_url;
             w.className="fbutton";
             
-            w.innerHTML="<div><span>"+k.name+"</span></div>";
+            w.innerHTML="<div><span><i></i>"+k.name+"</span></div>";
             if(k.bclass){
-                a("span",w).addClass(k.bclass).css({
-                    paddingLeft:20
-                })
-                }
-                w.onpress=k.onpress;
+                a("i",w).addClass(k.iclass)
+                a("span",w).addClass(k.bclass)
+            }
+            w.onpress=k.onpress;
             w.name=k.name;
             if(k.onpress){
                 a(w).click(function(){
                     
-this.onpress({
-name:this.name,
-btn_url:this.btn_url
-},x.gDiv)
+                this.onpress({
+                       name:this.name,
+                       btn_url:this.btn_url
+                },x.gDiv)
 //                    this.onpress(this.name,x.gDiv)
                     })
                 }
@@ -806,7 +805,7 @@ btn_url:this.btn_url
         }
     }
     a(x.tDiv).append(C);
-a(x.tDiv).append("<div style='clear:both'></div>");
+a(x.tDiv).append("<span id='error_msg' class='error_msg'></span><div style='clear:both'></div>");
 a(x.gDiv).prepend(x.tDiv)
 }
 x.hDiv.className="hDiv";
@@ -1014,7 +1013,7 @@ if(r.striped){
     x.pDiv.className="pDiv";
     x.pDiv.innerHTML='<div class="pDiv2"></div>';
     a(x.bDiv).after(x.pDiv);
-    a("div",x.pDiv).html(' <div class="pGroup"> <div class="pFirst pButton"><span></span></div><div class="pPrev pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pcontrol">Page <input type="text" size="4" value="1" /> of <span> 1 </span></span></div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pNext pButton"><span></span></div><div class="pLast pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pReload pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pPageStat"></span></div>');
+    a("div",x.pDiv).html(' <div class="pGroup"><div class="pGroup"> <div class="pReload pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pFirst pButton"><span></span></div><div class="pPrev pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pcontrol">Page <input type="text" readonly size="4" value="1" /> of <span> 1 </span></span></div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pNext pButton"><span></span></div><div class="pLast pButton"><span></span></div> </div>');
     a(".pReload",x.pDiv).click(function(){
         x.populate()
         });
@@ -1052,7 +1051,8 @@ if(a.browser.msie&&a.browser.version<7){
             }
             d+="<option value='"+r.rpOptions[B]+"' "+u+" >"+r.rpOptions[B]+"&nbsp;&nbsp;</option>"
         }
-        a(".pDiv2",x.pDiv).prepend("<div class='pGroup'><select name='rp'>"+d+"</select></div> <div class='btnseparator'></div>");
+        a(".pDiv2",x.pDiv).append("<div class='pGroup'><select name='rp' class ='form-control'>"+d+"</select></div> <div class='btnseparator'></div>");
+a(".pDiv2",x.pDiv).append("<div class='btnseparator'></div><div class='pGroup'><span class='pPageStat'></span></div>");        
     a("select",x.pDiv).change(function(){
         if(r.onRpChange){
             r.onRpChange(+this.value)

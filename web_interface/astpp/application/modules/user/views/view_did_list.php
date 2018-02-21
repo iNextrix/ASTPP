@@ -12,35 +12,35 @@
 <?= $page_title ?><br/>
 <? endblock() ?>
 
-<? startblock('content') ?>        
+<? startblock('content') ?>   
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" >
-    <div class="content-box-wrapper"> 
-        <form method="post" action="<?= base_url() ?>user/user_dids_action/add/" enctype="multipart/form-data">
-            <div class="sub-form">
-                <div style="width:20%;">
-                    <label class="desc">Available DIDs</label>
-                    <? echo $didlist; ?>
-                </div>
-                <div>
-                    <div style="margin-top:1px;"><input class="ui-state-default ui-corner-all ui-button" name="action" value="Purchase DID" type="submit"></div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    		<div class="container">
+        		<div class="row">
+                		<div class="col-md-12 color-three padding-t-10" style="padding-top:15px;"> <br/>
+                			<form method="post" action="<?= base_url() ?>user/user_dids_action/add/" enctype="multipart/form-data">
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">DIDs List
-        <span id="error_msg" class=" success"></span>
-        <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">         
-        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-            <table id="did_grid" align="left" style="display:none;"></table>
-        </form>
-    </div>
-</div>  
+    						<label class="col-md-2">Available DIDs : </label>
+                    				<div style="width:500px;">
+			      				<? echo $didlist; ?>
+						</div>        
 
+                    				<input class="margin-l-20 btn btn-success" name="action" value="Purchase DID" type="submit">
+	        	
+                			</form>
+            			</div>
+ 				<div class="col-md-12 color-three padding-b-20">
+                            		<table id="did_grid" align="left" style="display:none;"></table>
+        
+      				</div>  
+            		</div>
+        	</div>
+    	</div>
+</section>
+
+                       
+                
 <? endblock() ?>	
 
 <? end_extend() ?>  

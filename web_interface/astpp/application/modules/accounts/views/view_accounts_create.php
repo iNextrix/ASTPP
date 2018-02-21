@@ -3,9 +3,13 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript">
     $(document).ready(function() {
-//         $(".invoice_day").hide();
-//         $('label[for="Billing Day"]').hide()
-        $(".sweep_id").change(function(e){
+   $(".country_id").val(<?=$country_id?>);
+   $(".timezone_id").val(<?=$timezone_id?>);
+   $(".currency_id").val(<?=$currency_id?>);
+   <?php if($entity_name != 'admin' && $entity_name !='subadmin'){ ?>
+   document.getElementsByName("sweep_id")[0].selectedIndex = <?=1?>;
+
+	 $(".sweep_id").change(function(e){
             if(this.value != 0){
                 $.ajax({
                     type:'POST',
@@ -18,11 +22,14 @@
                     }
                 });
             }else{
-//                 $('label[for="Billing Day"]').hide()
-//                 $('.invoice_day').css('display','none');                
+                $('label[for="Billing Day"]').hide()
+                $('.invoice_day').css('display','none');                
             }
-        })
-    })
+        });
+        $(".sweep_id").change();
+        <?php } ?> 
+        });
+       
 </script>
 <?php endblock() ?>
 <?php startblock('page-title') ?>
@@ -30,22 +37,31 @@
 <br/>
 <?php endblock() ?>
 <?php startblock('content') ?>
+<div class="container">
+        <div class="row">
+		<section class="slice color-three">
+			<div class="w-section inverse no-padding">
+				     <?php echo $form; ?>
+				     <?php
+					if(isset($validation_errors) && $validation_errors != ''){ ?>
+					    <script>
+						var ERR_STR = '<?php echo $validation_errors; ?>';
+						print_error(ERR_STR);
+					    </script>
+				     <? } ?>
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-    <div class="portlet-header ui-widget-header"><!--< ?php echo isset($account)?"Edit":"Create New";?> Account-->
-        <?= @$page_title ?>
-        <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div style="color:red;margin-left: 60px;">
-        <?php
-        $data_errrors = json_decode($validation_errors);
-        foreach ($data_errrors as $key => $value) {
-            echo $value . "<br/>";
-        }
-        ?> 
-    </div>
-<?php echo $form; ?>
+<!--                                <?php
+                                $data_errrors = json_decode($validation_errors);
+                                foreach ($data_errrors as $key => $value) {
+                                    echo $value . "<br/>";
+                                }
+                                ?> 
+                          </div>
+                        <?php echo $form; ?> -->
+                          </div>  
+	        </section>
+	</div>
 </div>
-
 <? endblock() ?>
 <? startblock('sidebar') ?>
 <? endblock() ?>

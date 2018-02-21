@@ -1,89 +1,13 @@
 ASTPP - Open source VoIP billing
 
-ASTPP is a mature Scalable/Clustering Open Source VoIP billing solution for Freeswitch. It supports pre-paid and post-paid billing with call rating, credit control and call reporting. It also provides many other features such as calling cards, least cost routing (LCR), did management, reseller management etc.
+ASTPP is an Open Source VoIP billing solution for Freeswitch. It supports pre-paid and post-paid billing with call rating, credit control and call reporting. It also provides many other features such as calling cards, least cost routing (LCR), did management, reseller management etc.
 
-Features : 
-
-Accounts management
-
-    Admin :    
-        - Can manage entire system
-        - Able to manage multiple admins and subadmins
-    
-    Reseller :
-        - Multi-layer reseller support (Unlimited)
-        - Own customer management
-        - Rates management
-        - Invoice management
-        - Reports 
-        - Reseller portal
-        
-    Customer : 
-        - Postpaid/prepaid customers
-        - IP based authentications
-        - SIP Device management
-        - Access of their own invoices
-        - My Rates 
-        - Reports
-        - Customer portal
-        
-    Provider/Vendor : 
-        - Can manage their own termination rates 
-        - Reports
-        - Provider/Vendor portal
-
-Accounting 
-    -Subscription management
-    - Generate Invoices on numerous different cycles
-    - Apply charges to the customers’ accounts on a per account or per rate group basis. This can be done in the same cycles as the invoices are generated at.
-    - Create multiple Taxes/VAT based on country policies.
-    - Multiple currency support 
-
-Least Cost & Failover Routing
-    - Provides redundancy based on cost
-    - Powerful regex based LCR engine
-    - Limit the number of simultaneous calls per trunk
-    - Multiple trunks per provider
-    - Configurable package management to allow free calling to specific prefixes
-
-Credit Control
-    - Allows you to control the length of your users calls
-    - Keep prepaid users from spending more than they have purchased
-    
-DID Management
-    - Add/import number of DID numbers
-    - Allow routing to local extension / PSTN numbers and Other custom dialstrings
-    - Setup and Monthly fees configuration
-    - DID purchase and release feature
-    
-Calling Card Management
-    - Generate cards in bulk and enable as you go along
-    - Support for connection & disconnection fees
-    - Support a charge after X number of hours of usage
-    - Support a charge after X number of days after first usage and repeats every X days.
-    - Support expiration of cards X days after first usag
-    - Bill in customizable increments
-    - Customer portal allows calling card users to view their cards status.
-    - ANI Mapping
-    - Calling card cdr report
-    
-Reports 
-    - Call detail reports
-    - Summary reports
-    - Trunk stats
-    - Live call report
-    - Payment report
-    - Package usage report
-
-Other features 
-    - Email template management
-    - Multiple timezone support
-
-
-Please visit the ASTPP website @  http://www.astppbilling.org.
+Please visit our website http://www.astppbilling.org for more information.
 
 ASTPP Support :
 Please email us at sales@inextrix.com for support.
 
 ASTPP Forum : 
 https://groups.google.com/forum/#!forum/astpp
+
+

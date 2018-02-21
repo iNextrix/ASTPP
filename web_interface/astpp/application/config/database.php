@@ -48,7 +48,7 @@ $astpp_config = parse_ini_file("/var/lib/astpp/astpp-config.conf");
 
 $active_group = 'default';
 $active_record = TRUE;
-
+$astpp_config['astpp_dbengine'] = "MySql";
 $db['default']['hostname'] = $astpp_config['dbhost'];
 $db['default']['username'] = $astpp_config['dbuser'];
 $db['default']['password'] = $astpp_config['dbpass'];
@@ -56,7 +56,7 @@ $db['default']['database'] = $astpp_config['dbname'];
 $db['default']['dbdriver'] = strtolower($astpp_config['astpp_dbengine']);
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;
-$db['default']['db_debug'] = $astpp_config['debug'];
+$db['default']['db_debug'] = "1";
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'utf8';

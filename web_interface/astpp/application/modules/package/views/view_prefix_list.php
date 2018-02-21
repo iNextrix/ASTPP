@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.7.1.js"></script>
+
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
@@ -47,17 +47,34 @@
         
     });
 </script>
-<div style="">
+
+<section class="slice gray no-margin">
+
+   <div>
+     <div>
+        <div class="col-md-12 no-padding margin-t-15 margin-b-10">
+	        <div class="col-md-10"><b><? echo "Rates List"; ?></b></div>
+	  </div>
+
+</div>
+    </div>
+
+</section><br/>
+
+<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="padding-top: 35px;">  
+ <!--   <div class="portlet-header ui-widget-header">Rates List<span class="ui-icon ui-icon-circle-arrow-s"></span></div> -->
+    <div class="portlet-content">
+    
+<div style="width:690px;">
     <form action="" id="addlist_form" name="addlist_form" method="POST" enctype="multipart/form-data" style="display:block">
-        <input type="hidden" id="add_patterns" name="add_patterns" readonly />
-        <input type="button" id="add_patterns_btn"  class="ui-state-default float-right ui-corner-all ui-button" name="add_patterns_btn" value="Add To List">
+        <input type="hidden" id="add_patterns" name="add_patterns" readonly /><br/>
+        <input type="button" id="add_patterns_btn"  class="btn btn-line-warning btn fa fa-plus-circle fa-lg" name="add_patterns_btn" value="Add To List">
     </form>
 </div>
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="padding-top: 35px;">  
-    <div class="portlet-header ui-widget-header">Rates List<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">
         <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">        
             <table id="prefixes_grid" style="display:none;"></table>
         </form>
     </div>
 </div>
+
+

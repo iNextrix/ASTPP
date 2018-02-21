@@ -1,5 +1,24 @@
 <?php
-
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 class DID_model extends CI_Model {
 
     function DID_model() {
@@ -8,82 +27,58 @@ class DID_model extends CI_Model {
 
     function add_did($add_array) {
         unset($add_array["action"]);
+ 	$add_array['assign_date']=gmdate('Y-m-d H:i:s');
         $this->db->insert("dids", $add_array);
 
-        $outbound_insert = $this->array_outboundroutes($add_array, '0');
-        $this->load->module('rates/rates');
-        $this->rates->rates_model->add_inbound($outbound_insert);
+
         return true;
     }
 
-    function array_outboundroutes($add_array, $multi = '') {
-        $flag = 0;
-        $query = $this->db_model->getSelect("*", "system", array('name' => 'default_brand'));
-        if ($query->num_rows > 0) {
-            $result = $query->result_array();
-            $query_pricelist = $this->db_model->getSelect("*", "pricelists", array('name' => $result[0]['value']));
-            if ($query_pricelist->num_rows > 0) {
-                $result_pricelist = $query_pricelist->result_array();
-                $pricelist_id = $result_pricelist[0]['id'];
-                $flag = 1;
-            } else {
-                $pricelist_id = $this->insert_pricelist();
-                $flag = 1;
-            }
-        } else {
-            $pricelist_id = $this->insert_pricelist();
-            $flag = 1;
-        }
-        if ($multi == '0') {
-            $add_array['number'] = filter_var($add_array['number'], FILTER_SANITIZE_NUMBER_INT);
-            $origination_rate_array = array('pattern' => $add_array['number'],
-                'comment' => "DID:" . $this->common->get_field_name('country', 'countrycode', $add_array['country_id']) . "," . $add_array['city'] . "," . $add_array['province']
-                , 'pricelist_id' => $pricelist_id,
-                'inc' => $add_array['inc'],
-                'includedseconds' => $add_array['includedseconds'],
-                'cost' => $add_array['cost'],
-                'connectcost' => $add_array['connectcost'],
-                'action' => ''
-            );
-        }
-        if ($multi == '1') {
-            $origination_rate_array = array('pattern' => "^" . $add_array['number'] . ".*",
-                'comment' => "DID:" . $add_array['country'] . "," . $add_array['city'] . "," . $add_array['province']
-                , 'pricelist_id' => $pricelist_id, 'inc' => $add_array['inc'],
-                'includedseconds' => $add_array['includedseconds'],
-                'cost' => $add_array['cost'],
-                'connectcost' => $add_array['connectcost'],
-            );
-        }
-        return $origination_rate_array;
-    }
 
     function insert_pricelist() {
         $insert_array = array('name' => 'default', 'markup' => '', 'inc' => '');
         return $this->db->insert_id();
     }
 
-    function edit_did($data, $id) {
+    function edit_did($data, $id,$number) {
         unset($data["action"]);
+        $this->db->where("number", $number);
         $this->db->where("id", $id);
-        $this->db->update("dids", $data);
+       return $this->db->update("dids", $data);
     }
 
     function getdid_list($flag, $start = 0, $limit = 0) {
-        $this->db_model->build_search('did_list_search');
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $where = array("accountid" => "0", "status" => "1");
-        } else {
-            $where = array("status" => "1");
-        }
-        if ($flag) {
-            $query = $this->db_model->select("*", "dids", $where, "id", "ASC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "dids", $where);
-        }
-        return $query;
-    }
+	    $this->db_model->build_search('did_list_search');
+	    if($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5)
+	    {
+		  if($this->session->userdata["accountinfo"]['reseller_id'] != 0)
+		  {
+		    $parent_id = $this->session->userdata["accountinfo"]['reseller_id'];
+		  }else{
+		    $parent_id = 0;
+		  }
+		  
+		  $where = array('reseller_id' => $this->session->userdata["accountinfo"]['id'],"parent_id"=>$parent_id);
 
+		  if ($flag) {
+		      $query = $this->db_model->select("*,note as number,reseller_id as accountid", "reseller_pricing", $where, "note", "desc", $limit, $start);
+		  } else {
+		      $query = $this->db_model->countQuery("*", "reseller_pricing", $where);
+		  }
+		  return $query;
+	    }
+	    else
+	    {		
+		  $where = array("parent_id"=>"0");
+		  if ($flag) {
+		      $query = $this->db_model->select("*", "dids", $where, "number", "desc", $limit, $start);
+		  } else {
+		      $query = $this->db_model->countQuery("*", "dids", $where);
+		  }
+// 		    echo $this->db->last_query();
+		  return $query;
+	    }
+  }
     function remove_did($id) {
         $this->db->where("id", $id);
         $this->db->delete("dids");
@@ -107,21 +102,21 @@ class DID_model extends CI_Model {
     }
 
     function get_account($accountdata) {
-        $q = "SELECT * FROM accounts WHERE number = '" . $this->db->escape_str($accountdata) . "' AND status = 1";
+        $q = "SELECT * FROM accounts WHERE number = '" . $this->db->escape_str($accountdata) . "' AND status = 0";
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
             $row = $query->row_array();
             return $row;
         }
 
-        $q = "SELECT * FROM accounts WHERE cc = '" . $this->db->escape_str($accountdata) . "' AND status = 1";
+        $q = "SELECT * FROM accounts WHERE cc = '" . $this->db->escape_str($accountdata) . "' AND status = 0";
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
             $row = $query->row_array();
             return $row;
         }
 
-        $q = "SELECT * FROM accounts WHERE accountid = '" . $this->db->escape_str($accountdata) . "' AND status = 1";
+        $q = "SELECT * FROM accounts WHERE accountid = '" . $this->db->escape_str($accountdata) . "' AND status = 0";
         $query = $this->db->query($q);
         if ($query->num_rows() > 0) {
             $row = $query->row_array();
@@ -171,33 +166,46 @@ class DID_model extends CI_Model {
 
     function get_did_by_number($number) {
         $this->db->where("id", $number);
+        $this->db->or_where("number", $number);
         $query = $this->db->get("dids");
-
+// 	echo $this->db->last_query();exit;
         if ($query->num_rows() > 0)
             return $query->row_array();
         else
             return false;
     }
+    
+//   function edit_reseller_pricing($post)
+//   {
+//     
+//   }
 
-    function edit_did_reseller($post) {
+   function edit_did_reseller($did_id,$post) {
         $accountinfo = $this->session->userdata('accountinfo');
 
-        $this->delete_pricing_reseller($accountinfo['id'], $post['number']);
-        $this->insert_reseller_pricing($accountinfo['id'], $post);
-        $this->update_dids_reseller($post);
-
-
-        $query_pricelist = $this->db_model->getSelect("*", "pricelists", array('name' => $accountinfo['number']));
-        print_r($query_pricelist);
-        if ($query_pricelist->num_rows > 0) {
-            $result_pricelist = $query_pricelist->result_array();
-            $pricelist_id = $result_pricelist[0]['id'];
+        $where_array=array('reseller_id' => $accountinfo['id'], 'note' => $post['number'], 'type' => '1');
+	$this->db->where($where_array);
+	$flag='0';
+        $query = $this->db->get('reseller_pricing');
+//         echo $query->num_rows();
+//         exit;
+        if($query->num_rows() > 0){
+// 	  $this->delete_pricing_reseller($accountinfo['id'], $post['number']);
+	  $flag='1';
         }
+        
+        $this->insert_reseller_pricing($accountinfo, $post);
+//         $this->update_dids_reseller($post);
 
+// 	$query_pricelist = $this->db_model->getSelect("*", "pricelists", array('name' => $accountinfo['number']));
+//         if ($query_pricelist->num_rows > 0) {
+//             $result_pricelist = $query_pricelist->result_array();
+//             $pricelist_id = $result_pricelist[0]['id'];
+//         }
 
-        $this->delete_routes($accountinfo['number'], $post['number'], $pricelist_id);
-        $this->insert_routes($post, $pricelist_id);
-        return true;
+// 	$this->delete_routes($accountinfo['number'], $post['number'], $pricelist_id);
+//         $this->insert_routes($post, $pricelist_id,$accountinfo['id']);
+        return $flag;
     }
 
     function delete_pricing_reseller($username, $number) {
@@ -207,18 +215,21 @@ class DID_model extends CI_Model {
         return true;
     }
 
-    function insert_reseller_pricing($id, $post) {
-
-        $insert_array = array('reseller_id' => $id, 'type' => '1', 'note' => $post['number'],
+function insert_reseller_pricing($accountinfo, $post) {
+        $insert_array = array('reseller_id' => $accountinfo['id'], 'type' => '1', 'note' => $post['number'],
+            'parent_id'=>$accountinfo['reseller_id'],
             'monthlycost' => $post['monthlycost'],
             'prorate' => $post['prorate'],
             'setup' => $post['setup'],
             'cost' => $post['cost'],
             'inc' => $post['inc'],
+            'extensions'=>$post['inc'],
+            'call_type'=>$post['call_type'],
             'disconnectionfee' => $post['disconnectionfee'],
             'connectcost' => $post['connectcost'],
-            'includedseconds' => $post['included'],
-            'status' => '1');
+            'includedseconds' => $post['includedseconds'],
+            'status' => '0',
+	    'assign_date'=>gmdate('Y-m-d H:i:s'));
 
         $this->db->insert('reseller_pricing', $insert_array);
         return true;
@@ -246,18 +257,40 @@ class DID_model extends CI_Model {
         return true;
     }
 
-    function remove_did_pricing($array_did, $reseller_id) {
-        $where = array('note' => $array_did['number'], 'type' => '1', 'reseller_id' => $reseller_id);
+   function remove_did_pricing($array_did, $reseller_id) {
+        $reseller_ids=$this->common->subreseller_list($reseller_id);
+        $where="note = ".$array_did['number']." AND reseller_id IN ($reseller_ids) OR  note= ".$array_did['number']." AND parent_id IN ($reseller_ids)";
         $this->db->where($where);
         $this->db->delete('reseller_pricing');
-
-        $query_pricelist = $this->db_model->getSelect("*", "pricelists", array('name' => $this->session->userdata['accountinfo']['number']));
-        if ($query_pricelist->num_rows > 0) {
-            $result_pricelist = $query_pricelist->result_array();
-            $pricelist_id = $result_pricelist[0]['id'];
-        }
-        $this->delete_routes('', $array_did['number'], $pricelist_id);
+        $accountinfo=$this->session->userdata('accountinfo');
+        $reseller_id =$accountinfo['type'] != 1 ? 0 : $accountinfo['reseller_id'];
+	$update_array = array('accountid'=>"0",'parent_id'=>$reseller_id);
+        $where_dids = array("number" => $array_did['number']);
+        $where_dids='number = '.$array_did['number']." AND parent_id IN ($reseller_ids)";
+        $this->db->where($where_dids);
+        $this->db->update('dids', $update_array);
         return true;
     }
+    function add_invoice_data($accountid,$charge_type,$description,$credit)
+    {
+	$insert_array = array('accountid' => $accountid, 
+			      'charge_type' => $charge_type, 
+			      'description' => $description,
+			      'credit' => $credit,
+			      'charge_id' => '0',
+			      'package_id' => '0'
+			    );
+
+        $this->db->insert('invoice_item', $insert_array);
+        return true;
+    }
+    function check_unique_did($number)
+    {
+
+      $where=array('number'=>$number);
+      $query = $this->db_model->countQuery("*", "dids", $where);
+      return $query;
+    }
+   
 
 }

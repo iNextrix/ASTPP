@@ -8,7 +8,7 @@
 
 {
 
-font-family: Arial, Helvetica, sans-serif;
+font-family: Open sans,sans-serif;
 
 font-size: 11px;
 
@@ -89,9 +89,7 @@ margin: 2px;
 {
 
 float: left; 
-
 padding-right: 40px;
-
 }
 
 
@@ -99,9 +97,7 @@ padding-right: 40px;
 .flexigrid div.bDiv table
 
 {
-
 margin-bottom: 10px;
-
 }
 
 
@@ -361,16 +357,13 @@ background: url(../images/flexigrid/ddn.png) no-repeat center;
 
 {
 
-background: #fafafa url(../images/flexigrid/bg.gif) repeat-x top;
-
-position: relative;			
-
-/* border: 1px solid #ccc; */
-
-border-bottom: 0px;
-
-overflow: hidden;
-
+/* background: #fafafa url(../images/flexigrid/bg.gif) repeat-x top;
+border: 1px solid #ccc; */
+  position: relative;			
+  border-bottom: 0px;
+  overflow: hidden;
+  margin :15px 0px 15px 0px;
+  
 }
 
 
@@ -445,9 +438,9 @@ float: left;
 
 height: 22px;
 
-border-left: 1px solid #ccc;
+/*border-left: 1px solid #ccc;
 
-border-right: 1px solid #fff;
+border-right: 1px solid #fff;*/
 
 margin: 1px;
 
@@ -456,21 +449,15 @@ margin: 1px;
 
 
 .flexigrid div.fbutton
-
 {
-
-float: left;
-
-display: block;
-
-cursor: pointer;
-
-padding: 1px;
-
+  float: left;
+  display: block;
+  cursor: pointer;
+  padding: 2px 5px 0px 0px;
 }
 
 
-
+/*
 .flexigrid div.fbutton div
 
 {
@@ -494,10 +481,10 @@ display: block;
 padding: 3px;
 
 }
+*/
 
 
-
-.flexigrid div.fbutton:hover, .flexigrid div.fbutton.fbOver
+/*.flexigrid div.fbutton:hover, .flexigrid div.fbutton.fbOver
 
 {
 
@@ -526,7 +513,7 @@ border-bottom: 1px solid #eee;
 }		
 
 
-
+*/
 
 
 /* end toolbar*/
@@ -537,8 +524,8 @@ border-bottom: 1px solid #eee;
 
 {
 
-background: #fafafa url(../images/flexigrid/fhbg.gif) repeat-x bottom;
-
+/*background: #fafafa url(../images/flexigrid/fhbg.gif) repeat-x bottom;
+*/
 position: relative;
 
 border: 1px solid #ccc;
@@ -781,7 +768,7 @@ border-left: 1px solid #fff;
 
 overflow: hidden;
 
-vertical-align: top !important;
+/*vertical-align: top !important;*/
 
 
 }
@@ -792,7 +779,7 @@ vertical-align: top !important;
 
 {
 
-padding: 6px;
+padding: 8px;
 
 border-left: 0px solid #fff;
 
@@ -803,6 +790,7 @@ border-left: 0px solid #fff;
 .flexigrid div.hDiv th div {
 
 font-weight:bold;
+font-size:11px;;
 
 }
 
@@ -871,9 +859,9 @@ border-bottom: 0px solid #ccc;
 
 {
 
-border-bottom: 1px solid orange;
+/*border-bottom: 1px solid orange;
 
-padding-bottom: 4px;
+padding-bottom: 4px;*/
 
 }
 
@@ -951,7 +939,7 @@ background: url(../images/flexigrid/up.png) no-repeat center top;
 
 border-bottom: 1px solid #fff;
 
-vertical-align: top;
+/*vertical-align: top;*/
 
 white-space: nowrap;
 border-bottom: 1px solid #CCCCCC;
@@ -1025,7 +1013,7 @@ margin-bottom: -24px;
 
 border-top: 0px solid #fff;
 
-padding-bottom: 4px;
+/* padding-bottom: 4px; */
 
 
 }
@@ -1063,15 +1051,21 @@ padding-bottom: 4px;
 
 	{
 
-	background: #f7f7f7;
+	background: #fff;
 
 	border-bottom: 1px solid #f7f7f7;
 	border-bottom: 1px solid #CCCCCC;
 
 	}
-
+.flexigrid tr:last-child td
+{
+        border-bottom: 0px solid #fff;
+}
 	
-
+.flexigrid tr th 
+{
+        border-bottom: 2px solid #ddd;
+}
 .flexigrid tr.erow td.sorted
 
 	{
@@ -1102,11 +1096,11 @@ padding-bottom: 4px;
 
 {
 
-background: #d9ebf5;
+background: #FFFEED;
 
 border-left: 1px solid #eef8ff;
 
-border-bottom: 1px solid #eef8ff;
+/*border-bottom: 1px solid #eef8ff;*/
 
 }
 
@@ -1126,7 +1120,7 @@ border-bottom: 1px solid #eef8ff;
 
 {
 
-background: #d5effc url(../images/flexigrid/hl.png) repeat-x top;
+background: #FFFEED;
 
 border-right: 1px solid #d2e3ec;
 
@@ -1189,7 +1183,6 @@ border-right-color: #f3f3f3;
 {
 
 border-right-color: #f7f7f7;
-
 border-left-color: #f7f7f7;
 
 }
@@ -1238,7 +1231,9 @@ border-right-color: #d9ebf5;
 
 {
 
-background: url(../images/flexigrid/wbg.gif) repeat-x 0 -1px;
+/*background: url(../images/flexigrid/wbg.gif) repeat-x 0 -1px;*/
+background-color:#F9F9F9;
+padding:5px 0px;
 
 border: 1px solid #ccc;
 
@@ -1255,17 +1250,9 @@ position: relative;
 
 
 .flexigrid div.pDiv div.pDiv2
-
 {
-
-margin: 3px;
-
-margin-left: -2px;
-
-float: left;
-
-width: 1024px;
-
+width: 100%;
+color:rgba(48, 47, 47, 1);
 }	
 
 
@@ -1273,13 +1260,9 @@ width: 1024px;
 div.pGroup
 
 {
-
 float: left;
-
 background: none;
-
-height: 24px;
-
+height: 40px;
 margin: 0px 5px;
 
 }
@@ -1289,15 +1272,12 @@ margin: 0px 5px;
 .flexigrid div.pDiv .pPageStat, .flexigrid div.pDiv .pcontrol
 
 {
-
+text-transform: none;
 position: relative;
-
-
-
-top: 5px;
-
+top: 9px;
 overflow: visible;
-
+color:rgba(48, 47, 47, 1);;
+font-size:13px;
 }
 
 
@@ -1305,33 +1285,35 @@ overflow: visible;
 .flexigrid div.pDiv input
 
 {
-
 vertical-align: text-top;
-
+text-align:center;
+color:#2A6496;
 position: relative;
-
 top: -5px;
-
+background-color:#eaeff2;
+border : 1px solid #B4C6D4;
+width:auto;
+height:29px;
 }
 
-
+.flexigrid div.pDiv select
+{
+        margin-top:5px;
+        height:28px;
+        padding:0px;
+}
 
 .flexigrid div.pDiv  div.pButton
 
 {
 
 float: left;
-
-width: 22px;
-
-height: 22px;
-
+width: 29px;
+height: 29px;
 border: 0px;
-
 cursor: pointer;
-
 overflow: hidden;
-
+margin-top:5px;
 }
 
 
@@ -1340,12 +1322,8 @@ overflow: hidden;
 
 {
 
-width: 20px;
-
-height: 20px;
-
-border: 1px solid #ccc;
-
+width: 29px;
+height: 29px;
 cursor: pointer;
 
 }
@@ -1356,12 +1334,9 @@ cursor: pointer;
 
 {
 
-width: 20px;
-
-height: 20px;
-
+width: 29px;
+height: 29px;
 display: block;
-
 float: left;
 
 }		
@@ -1369,17 +1344,11 @@ float: left;
 
 
 .flexigrid div.pDiv  div.pButton:hover span, .flexigrid div.pDiv  div.pButton.pBtnOver span
-
 {
-
-width: 19px;
-
-height: 19px;
-
-border-top: 1px solid #fff;
-
-border-left: 1px solid #fff;
-
+width: 29px;
+height: 29px;
+/*border-top: 1px solid #fff;
+border-left: 1px solid #fff;*/
 }		
 
 
@@ -1387,51 +1356,54 @@ border-left: 1px solid #fff;
 
 
 .flexigrid .pSearch
-
 {
 
 background: url(../images/flexigrid/magnifier.png) no-repeat center;
 
 }
 
-
-
 .flexigrid .pFirst
-
 {
-
-background: url(../images/flexigrid/first.gif) no-repeat center;
-
+margin-right:6px;
+background: url(../images/flexigrid/first.png) no-repeat center;
 }
-
-
+.flexigrid .pFirst:hover
+{
+margin-right:6px;
+background: url(../images/flexigrid/first_hover.png) no-repeat center;
+transition:all 0.35s ease 0s;
+}
 
 .flexigrid .pPrev
-
 {
-
-background: url(../images/flexigrid/prev.gif) no-repeat center;
-
+background: url(../images/flexigrid/prev.png) no-repeat center;
 }
-
-
+.flexigrid .pPrev:hover
+{
+background: url(../images/flexigrid/prev_hover.png) no-repeat center;
+transition:all 0.35s ease 0s;
+}
 
 .flexigrid .pNext
-
 {
-
-background: url(../images/flexigrid/next.gif) no-repeat center;
-
+margin-right:6px;
+background: url(../images/flexigrid/next.png) no-repeat center;
+}
+.flexigrid .pNext:hover
+{
+margin-right:6px;
+background: url(../images/flexigrid/next_hover.png) no-repeat center;
+transition:all 0.35s ease 0s;
 }
 
-
-
 .flexigrid .pLast
-
 {
-
-background: url(../images/flexigrid/last.gif) no-repeat center;
-
+background: url(../images/flexigrid/last.png) no-repeat center;
+}
+.flexigrid .pLast:hover
+{
+background: url(../images/flexigrid/last_hover.png) no-repeat center;
+transition:all 0.35s ease 0s;
 }
 
 
@@ -1470,7 +1442,7 @@ overflow: hidden;
 
 
 
-.flexigrid div.fbutton .add {
+/*.flexigrid div.fbutton .add {
 
 	background: url(../images/flexigrid/add.png) no-repeat left 50%;
 
@@ -1504,3 +1476,4 @@ overflow: hidden;
 	background: url(../images/flexigrid/load.png) no-repeat left 50%;
 
 }			
+*/

@@ -1,1 +1,0 @@
-<button type="submit" class="btn btn-primary" id="submit"><?php echo $button_text; ?></button>

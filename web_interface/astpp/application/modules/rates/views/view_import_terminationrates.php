@@ -1,96 +1,117 @@
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.7.1.js"></script>
-<script>
-    $(document).ready(function() {
-        $("#import_termination1").click(function(){
-            var dataString = $("#termination_rates").serialize();
-            $.ajax({
-                url: "<?= base_url(); ?>/rates/terminationrates_rates_import/",
-                type: "POST",
-                data: dataString,
-                async: true,
-                enctype: 'multipart/form-data',
-                success: function(data){ 
-                    if(data)
-                    {
-                        alert(data);
-                        return false;
-                    } else{
-        		  
-                    }
-                },
-                cache: false
-            });
-              
-            
-        });        
-        $("#ok").click(function(){
-            window.location='/rates/terminationrates_list/';
-        });
-        
-        
-    });
-</script>
+<? extend('master.php') ?>
+<? startblock('extra_head') ?>
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" >                        
-    <div class="portlet-header ui-widget-header">LCR Import Termination Rates<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">	
-        <!--            -->
-        <form method="post" action="/rates/terminationrates_rates_import/" name="termination_rates" id="termination_rates" target="submitter" enctype="multipart/form-data">
-            <div class="column" style="padding: 5px 7px 0px 0px;width: 100%;">
-                <div class="content-box content-box-header ui-corner-all float-left full">
-                    <div class="portlet-header ui-widget-header">Instructions:<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-                    <div class="portlet-content">
-                        <div class="sub-form">
-                            <span style="font-size:12px; line-height: 20px; font-family: arial;">
-                                <p align="justify"><b>File must be in the following format:</b><br />
-                                    Code,Prepend,Destination,Connect Cost,Included Seconds,Per Minute Cost,Increment,Precedence.<br/>
-                                </p>
-                            </span>
-                        </div>                            
-                    </div>
-                </div>
-            </div>
+<? endblock() ?>
 
+<? startblock('page-title') ?>
+    <?= $page_title ?><br/>
+<? endblock() ?>
 
-        <div class="two-column" style="float:left;width: 100%;">
-            <div class="column" style="padding: 5px 7px 0px 0px;width: 57%;">
-                <div class="content-box content-box-header ui-corner-all float-left full">
-                    <div class="portlet-header ui-widget-header">Import Termination Rates:<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-                    <div class="portlet-content">
-                        <div class="sub-form">
-                            <label style="width:10%;">Trunk list:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
-                            <? $data['didlist'] = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "", ""), '');
-                            echo $data['didlist']; ?>
-                            <br/><br/>
-                            <input type="hidden" name="mode" value="Import Outbound Routes"  />
+<? startblock('content') ?>        
+   <?php if(!isset($csv_tmp_data)){ ?>
+   
+<section class="slice color-three padding-t-20">
+	<div class="w-section inverse no-padding">
+	    <div class="container">
+	    <form method="post" action="<?= base_url()?>rates/terminationrates_preview_file/" enctype="multipart/form-data" id="termination_rates">
+	       <div class="row">
+               <div class="col-md-12">
+            	<div class="w-box">
+            	 <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
+                    <? if(isset($error) && !empty($error)) {
+                        echo $error;
+                    }?>
+                 </span>
+                   <h3 class="padding-t-10 padding-l-16">File must be in the following format(.csv):</h3>
+                   <p>Code,Destination,Connect Cost,Included Seconds,Per Minute Cost,Increment,Precedence,Strip,Prepend.</p>
+                 </div>
+                
+               </div>
+               <div class="col-md-12  no-padding">
+               	  <div class="col-md-6">
+                     <div class="w-box">
+                       <h3 class="padding-t-10 padding-l-16 padding-b-10">Import Termination Rates:</h3>
+                           <div class="col-md-12 no-padding">
+                               <label class="col-md-3">Trunk List:</label>
+                               <div class="col-md-8">
+                               <? $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "where_arr",array("status " => "0")), '');
+                            echo $trunklist; ?></div>
+                           </div>
+                           <div class="col-md-12 no-padding">
+                            <input type="hidden" name="mode" value="import_terminationrates" />
                             <input type="hidden" name="logintype" value="<?= $this->session->userdata('logintype') ?>" />
                             <input type="hidden" name="username" value="<?= $this->session->userdata('username') ?>" />
-                            <div><label style="width:10%;">Select the file:</label>
-                                <input class="text field large" name="rateimport" id="rateimport" size="15" type="file"/>
-                            </div>
-                        </div>                            
-                    </div>
-                </div>
-            </div>
-            <div class="column column-right" style="padding: 5px 7px 0px 0px;width: 37%;">
-                <div class="content-box content-box-header ui-corner-all float-left full" style="height:125px;">
-                    <div class="portlet-header ui-widget-header">Download Sample File:<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-                    <div class="portlet-content">
-                        <div class="sub-form">
-                            For Download Sample File: <br/><a href="<?= base_url();?>rates/customer_rates_download_sample_file/terminationrates_sample"><u>Click Here.</u></a>            
-                        </div>                            
-                    </div>
-                </div>
+                            
+                            <label class="col-md-3">Select the file:</label>
+                            <div class="col-md-5"><span class="no-padding form-control"  style="overflow-x:hidden;width:260px;">
+					<input class="text field large" type="file" name="terminationimport"  size="15" id="terminationimport" style="height:33px;"/>
+			    </div>
+                           </div>
+                           
+                           
+                           <label class="col-md-3">Check Header:</label>
+                                                       <div class="col-md-1"><input type='checkbox' name='check_header'/></div>
+                           </div>
+                     </div>
+                   <div class="col-md-6">
+                     <div class="w-box padding-b-10">
+                       <div class="col-md-12 padding-t-20">
+                               <label class="col-md-4" style="font-size:14px;text-transform:none !important;">Download sample file:</label>
+                               <div><a href="<?= base_url(); ?>rates/customer_rates_download_sample_file/terminationrates_sample" class="btn btn-success">Click Here</a></div>
+                           </div>
+                   </div>                    
+                   </div>
+               </div>
+               <div class="col-md-12 padding-b-10">
+                   <div class="pull-right">
+		<input class="btn btn-line-parrot" id="import_terminationrate" type="submit" name="action" value="Import" />
+                        <a href="<?= base_url().'rates/terminationrates_list/'?>" ><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Cancel"/></a>
+
+                   </div>
+               </div>
+            </form>
             </div>
         </div>
-        <div class="column" style="padding: 5px 7px 0px 0px">
-            <div class="portlet-content">
-                <iframe name="submitter" id="submitter" frameborder="0" src="" width="100%" style="background-color:transparent; float:left; display:block;height:135px;">
-                </iframe>
-                <input class="ui-state-default float-right ui-corner-all ui-button" id="ok" type="button" name="action" value="Cancel" />    
-                <input type="submit" id="import_termination" class="ui-state-default float-right ui-corner-all ui-button" name="action" value="Import..." />
-            </div>
-        </div>
-        </form>        
     </div>
-</div>
+</section>
+
+<?}?>    
+        
+<?php
+    if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
+        
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+        	<div class="row">
+                <div class="col-md-12">  
+            <form id="import_form" name="import_form" action="<?=base_url()?>rates/terminationrates_rates_import/<?= $trunkid?>/<?=$check_header?>/" method="POST">
+            <table width="100%" border="1"  class="details_table">
+                <?  $cnt =0;
+                    foreach($csv_tmp_data as $csv_key => $csv_value){
+                        if($csv_key <  15){
+                            echo "<tr>";
+                            foreach($csv_value as $field_name => $field_val){
+                                if($csv_key == 0){
+                                    echo "<th>".ucfirst($field_name)."</th>";
+                                }else{
+                                    echo "<td class='portlet-content'>".$field_val."</td>";   
+                                }
+                            }
+                            echo "</tr>";
+                        }
+                    }
+                    
+                    echo "<tr><td colspan='".$cnt."'>
+                        <a href='".base_url()."rates/terminationrates_list/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
+                        <input type='submit' class='btn btn-line-parrot pull-right'' id='Process' value='Process'/></td></tr>";
+        ?> </table></form>  
+     </div>  
+            </div>
+        </div>
+    </div>
+</section>
+   
+    <?} ?>
+<? endblock() ?>	
+<? end_extend() ?>  

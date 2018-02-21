@@ -1,5 +1,24 @@
 <?php
-
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 class Statistics extends CI_Controller {
 
     function Statistics() {
@@ -18,7 +37,7 @@ class Statistics extends CI_Controller {
 
     function listerrors() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Error List';
+        $data['page_title'] = 'Errors';
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->statistics_form->build_error_list_for_admin();
         $data["grid_buttons"] = $this->statistics_form->build_grid_buttons();
@@ -42,10 +61,12 @@ class Statistics extends CI_Controller {
         echo json_encode($json_data);
     }
 
-    function trunkstats() {
+  function trunkstats() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'TrunkStats List';
-        $this->session->set_userdata('advance_search', 0);
+        $data['page_title'] = 'TrunkStats';
+	$data['search_flag'] = true;
+	//$data['form_search']=$this->form->build_serach_form($this->freeswitch_form->get_freeswith_search_form());
+        $this->session->set_userdata('trunk_stat_search', 0);
 	  $data['form_search'] = $this->form->build_serach_form($this->statistics_form->get_trunk_stat_search_form());
         if(isset($_POST) && !empty($_POST)){
             $search_data = $_POST;
@@ -60,38 +81,30 @@ class Statistics extends CI_Controller {
      * Listing of trunks stat data through php function json_encode
      */
     function trunkstats_json() {
-        $where =  "";
+        $where =  " where provider_id > 0 AND ";
         if(isset($this->session->userdata["trunk_stats_search"]) && !empty($this->session->userdata["trunk_stats_search"])){
-            $where = " where ";
-            $where_len = strlen($where);
             $search_data = $this->session->userdata("trunk_stats_search");
-          
             if (!empty($search_data['start_date'])) {
-                $where .="callstart >= '".$search_data['start_date']."' ";
+                $where .="callstart >= '".$search_data['start_date']."' AND ";
             }
             if (!empty($search_data['end_date'])) {
-                if(strlen($where) > $where_len)
-                    $where .=" AND ";
-                $where .=" callstart <= '".$search_data['end_date']."' ";
+                $where .=" callstart <= '".$search_data['end_date']."' AND ";
             }
-            if (!empty($search_data['trunkid'])) {
-                if(strlen($where) > $where_len)
-                    $where .=" AND ";
-                $where .=" trunk_id = '".$search_data['trunkid']."' ";
+            if ($search_data['trunkid'] > 0) {
+                $where .=" trunk_id = '".$search_data['trunkid']."' AND ";
             }
         }
-        $this->db_model->build_search('trunk_stats_search');
+$where=rtrim($where," AND ");
+
         $json_data = array();
-        $sql1 = "SELECT count(*) as total_count FROM provider_cdrs $where GROUP BY trunk_id";	
+        $sql1 = "SELECT count(*) as total_count FROM cdrs $where GROUP BY trunk_id";	
         $query1 = $this->db->query($sql1);        
         $count_all = $query1->num_rows();
-        
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
-        $this->db_model->build_search('provider_summary_search');
         $sql1 = "SELECT trunk_id,uniqueid,notes,pattern, COUNT(*) AS attempts, AVG(billseconds) AS acd,"
                 . " MAX(billseconds) AS mcd, SUM(billseconds) AS billable, "
-                . " SUM(debit) AS cost, SUM(cost) AS price FROM provider_cdrs $where 
+                . " SUM(debit) AS cost, SUM(cost) AS price FROM cdrs $where 
                       GROUP BY trunk_id  limit ".$paging_data["paging"]["start"].",". $paging_data["paging"]["page_no"];
         $query1 = $this->db->query($sql1);        
         
@@ -127,7 +140,26 @@ class Statistics extends CI_Controller {
 
         echo json_encode($json_data);        
     }
+    function trunkstats_search() {
+        $ajax_search = $this->input->post('ajax_search', 0);
+        if ($this->input->post('advance_search', TRUE) == 1) {
+            $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
+            $action = $this->input->post();
+            unset($action['action']);
+            unset($action['advance_search']);
 
+            $this->session->set_userdata('trunk_stat_search', $action);
+        }
+        if (@$ajax_search != 1) {
+            redirect(base_url() . 'statistics/trunkstats/');
+        }
+    }
+    function trunkstats_clear_search_sum_Report() {
+
+        $this->session->set_userdata('advance_search', 0);
+        $this->session->set_userdata('trunk_stat_search', "");
+
+    }
 }
 
 ?>

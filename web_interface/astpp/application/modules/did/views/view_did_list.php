@@ -1,4 +1,4 @@
-<? extend('master.php') ?>
+ <? extend('master.php') ?>
 <? startblock('extra_head') ?>
 
 
@@ -25,32 +25,64 @@
 <?= $page_title ?><br/>
 <? endblock() ?>
 
-<? startblock('content') ?>        
+<? startblock('content') ?>      
+<? 
+if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+?>
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+        	<div class="row">
+                <div class="col-md-12">      
+                <form method="post" action="<?= base_url() ?>did/did_reseller_purchase/" enctype="multipart/form-data">
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" >
-    <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span>
-        <span id="active_search"  style="margin-left:10px; text-align: center;background-color: none;color:#1c8400;"></span>
-        <span class="ui-icon ui-icon-circle-arrow-s"></span>
-    </div>
+    <label class="col-md-2">Available DIDs : </label>
+                    <div style="width:500px;">
+			      <? echo $didlist; ?>
+			</div>        
 
-    <div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-        <?php echo $form_search; ?>
-    </div>
-
-</div>
-
-
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">DIDs List
-        <span id="error_msg" class=" success"></span>
-        <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">         
-        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-            <table id="did_grid" align="left" style="display:none;"></table>
+                    <input class="padding-l-20 btn btn-success" name="action" value="Purchase DID" type="submit">
+	        </div>
+                </div>
+                </form>
+            </div>
         </form>
+      </div>  
+            </div>
+        </div>
     </div>
-</div>  
+</section>
+<?}?>
+<section class="slice color-three">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+   	    <div class="row">
+            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
+                    	<?php echo $form_search; ?>
+    	        </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+        	<div class="row">
+                <div class="col-md-12">      
+                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                            <table id="did_grid" align="left" style="display:none;"></table>
+                        </form>
+                </div>  
+            </div>
+        </div><br/>
+    </div><!--<div class="pull-right padding-r-20">
+     <a class="btn-tw btn" href="/rates/terminationrates_export_cdr_xls/"><i class="fa fa-file-excel-o fa-lg"></i>Export CSV</a>
+</div><br/><br/> -->
+</section>
+
+
 
 <? endblock() ?>	
 
-<? end_extend() ?>  
+<? end_extend() ?>

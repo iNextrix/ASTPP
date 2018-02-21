@@ -1,43 +1,77 @@
 #!/usr/bin/perl
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
 #
-# ASTPP - Open Source VoIP Billing
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
 #
-# Copyright (C) 2004/2013 www.astpp.org
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
 #
-# ASTPP Team <info@astpp.org>
-#
-# This program is Free Software and is distributed under the
-# Terms of the GNU General Public License version 2.
-############################################################
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 
 sub xml_process()
 {
-    my ($params,$ASTPP, $config) = @_;
     my ($user_count,$void_xml,$xml);
     
-    $xml = header( -type => 'text/plain' );
-    $user_count = 0;
-    if ($params->{'user'}) {
-       $xml = $ASTPP->fs_directory_xml_header( xml => $xml );
-       ($xml,$user_count) = $ASTPP->fs_directory_xml(
-           xml    => $xml,
-           ip     => $params->{'ip'},
-           user   => $params->{'user'},
-           domain => $params->{'domain'},
-	   debug  => $config->{debug}
-       );
-       $xml = $ASTPP->fs_directory_xml_footer( xml => $xml );
+     if ($params->{'user'}) {
+                  
+       	my ($tmp,$sql,@results);
+	    $tmp = "SELECT username,dir_params,dir_vars,number as accountcode,accountid FROM sip_devices,accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND username=" . $gbl_astpp_db->quote($params->{'user'});
+	    &logger($tmp);	    	    
+	    $sql = $gbl_astpp_db->prepare($tmp);
+	    $sql->execute;
+	    while (my $record = $sql->fetchrow_hashref) {
+		    push @results, $record;
+	    }
+	    my $rows = $sql->rows;
+	    $sql->finish;
+	    
+        $xml = &fs_xml_header(type=>"Directory",xml=>$xml);
+	    $xml .= "<domain name=\"" . $params->{domain} . "\">\n";
+	    
+	    if ($rows > 0) {	    	
+	        foreach my $record (@results) {
+
+		        $xml .= "<user id=\"" . $record->{username} . "\">\n";
+    		        $xml .= "<params>\n";
+	    	        my %params =  %{ decode_json($record->{'dir_params'}) };
+	    	        while (my ($key, $value) = each %params) {	     
+	    	            $xml .="<param name=\"".$key."\" value=\"".$params{$key}."\"/>\n";
+        	        }		
+	        	        $xml .= "<param name=\"allow-empty-password\" value=\"false\"/>\n";
+	        	        $xml .= "<param name=\"domain_name\" value=\"" .$params->{domain} . "\"/>\n";
+	        	        $xml .= "<param name=\"dial-string\" value=\"{sip_invite_domain=\${domain_name},presence_id=\${dialed_user}\@\${domain_name}}\${sofia_contact(*/\${dialed_user}\@\${domain_name})}\"/>\n";
+	    	        $xml .= "</params>\n";
+	    	        $xml .= "<variables>\n";
+	    	        my %vars =  %{ decode_json($record->{'dir_vars'}) };
+	    	        while (my ($key, $value) = each %vars) {	     
+	    	            $xml .="<variable name=\"".$key."\" value=\"".$vars{$key}."\"/>\n";
+	    	        }
+	    	            $xml .= "<variable name=\"accountcode\" value=\"" . $record->{accountcode} . "\"/>\n";
+	    	            $xml .= "<variable name=\"account_id\" value=\"" . $record->{accountid} . "\"/>\n";
+	    	        $xml .= "</variables>\n";
+    	        $xml .= "</user>\n";
+	        }
+        }
+        $xml .= "</domain>\n";      
+        $xml = &fs_xml_footer(xml=>$xml);
     }
-        
-    if ($user_count > 0) {    	
-	$ASTPP->debug(debug =>$xml);
-    	print $xml;
-	exit(0);
-    } else {
-	$void_xml = &void_xml();    	
-	$ASTPP->debug(debug =>$void_xml);
-	print $void_xml;
-	exit(0);
+    else {
+	    $xml = &void_xml();    	
     }
+    &logger($xml);
+    print $xml;
+    exit(0);
 }
 1;

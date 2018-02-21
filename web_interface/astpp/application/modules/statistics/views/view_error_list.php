@@ -14,7 +14,7 @@
     <?= $page_title ?><br/>
 <? endblock() ?>
 
-<? startblock('content') ?>        
+<? startblock('content') ?>       
 
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="searchbar">
     <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>

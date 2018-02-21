@@ -1,4 +1,24 @@
 <?php
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 
 class Accounts extends MX_Controller {
 
@@ -20,17 +40,149 @@ class Accounts extends MX_Controller {
             redirect(base_url() . '/login/login');
     }
 
-    function customer_add($type = "") {
+function customer_export_cdr_xls() {
+        $query = $this->accounts_model->get_customer_Account_list(true, '', '', true);
+        $customer_array[] = array("Account", "First Name", "Last Name","Company",  "Entity Type", "Rate Group ","Account type",  "Balance", "Credit Limit","Creation", "First Used" ,"Expiry" , "Status");
+        if ($query->num_rows() > 0) {
+
+            foreach ($query->result_array() as $row) {
+                        $customer_array[] = array(
+			$row['number'],
+			$row['first_name'],
+			$row['last_name'],
+			$row['company_name'],
+			$this->common->get_entity_type('','',$row['type']),
+			$this->common->get_field_name('name','pricelists',$row['pricelist_id']),
+			$this->common->get_account_type('','',$row['posttoexternal']),
+			$this->common_model->calculate_currency($row['balance']),
+                        $this->common_model->calculate_currency($row['credit_limit']),
+			$row['creation'],
+			$row['first_used'],
+			$row['expiry'],
+			$this->common->get_status('','',$row['status']),			
+                    );
+                
+            }
+        }
+//echo "<pre>"; print_r($customer_array); exit;
+        $this->load->helper('csv');
+        array_to_csv($customer_array, 'Customer_' . date("Y-m-d") . '.csv');
+    }
+
+function reseller_export_cdr_xls() {
+        $query = $this->accounts_model->get_reseller_Account_list(true, '', '', true);
+        $customer_array[] = array("Account", "First Name", "Last Name","Company","Rate Group ","Account type",  "Balance", "Credit Limit", "Status");
+        if ($query->num_rows() > 0) {
+
+            foreach ($query->result_array() as $row) {
+                        $customer_array[] = array(
+			$row['number'],
+			$row['first_name'],
+			$row['last_name'],
+			$row['company_name'],
+			//$this->common->get_entity_type('','',$row['type']),
+			$this->common->get_field_name('name','pricelists',$row['pricelist_id']),
+			$this->common->get_account_type('','',$row['posttoexternal']),
+			$this->common_model->calculate_currency($row['balance']),
+                        $this->common_model->calculate_currency($row['credit_limit']),
+			$this->common->get_status('','',$row['status']),			
+                    );
+                
+            }
+        }
+        $this->load->helper('csv');
+        array_to_csv($customer_array, 'Reseller_' . date("Y-m-d") . '.csv');
+    }
+
+
+    function customer_add($type = 0) {
+	$entity_type =strtolower($this->common->get_entity_type('','',$type));
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Create Customer Account';
-        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields(), '');
-        
+        $data['page_title'] = 'Create '.$entity_type;
+
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields($entity_type), '');
+	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
+	$data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
+	$data['timezone_id']=$this->common->get_field_name('id', 'timezone', array('gmttime'=>str_replace(' ', '',Common_model::$global_config['system_config']['default_timezone'])));
+        if(!$data['timezone_id'])
+        {
+                $data['timezone_id']=1;
+        }
+        if( !$data['currency_id'] )
+        {
+                $data['currency_id']=1;
+        }
+        if(!$data['country_id'])
+        {
+                $data['country_id']=1;
+        }
+        $data['entity_name']=$entity_type;
         $this->load->view('view_accounts_create', $data);
     }
-    function customer_invoice_option(){
+        function customer_bulk_creation() {
+	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
+	$data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
+	$data['timezone_id']=$this->common->get_field_name('id', 'timezone', array('gmttime'=>str_replace(' ', '',Common_model::$global_config['system_config']['default_timezone'])));
+        if(!$data['timezone_id'])
+        {
+                $data['timezone_id']=1;
+        }
+        if( !$data['currency_id'] )
+        {
+                $data['currency_id']=1;
+        }
+        if(!$data['country_id'])
+        {
+                $data['country_id']=1;
+        }
+            $data['page_title'] = 'Create Bulk Customer';
+            $data['username'] = $this->session->userdata('user_name');
+            $data['page_title'] = 'Mass Customer';
+            $data['form'] = $this->form->build_form($this->accounts_form->customer_bulk_generate_form(), '');
+            $this->load->view('view_bulk_account_creation', $data);
+    }
+
+      function customer_bulk_save() {
+        $error_flag=false;
+        $add_array = $this->input->post();
+        $logintype = $this->session->userdata('logintype');
+        if (!empty($add_array) && isset($add_array)) {
+        $currentlength=$this->accounts_model->get_max_limit($add_array);
+	if ($logintype == 1 || $logintype == 5) {
+            $account_data = $this->session->userdata("accountinfo");
+            $add_array['reseller_id'] = $add_array['id'];
+        } else {
+            $add_array['reseller_id'] = "0";
+        }
+        $data['page_title'] = 'Create Bulk Customer';
+        $data['form'] = $this->form->build_form($this->accounts_form->customer_bulk_generate_form(), $add_array);
+        if ($this->form_validation->run() == FALSE) {
+            $data['validation_errors'] = validation_errors();
+            echo $data['validation_errors'];
+            exit;
+        }
+        if($add_array['account_length']<=strlen($add_array['prefix'])){
+             echo json_encode(array("account_length_error"=>"Please Enter Proper Account Length."));
+             exit;      
+        }
+         if($currentlength > 0 && $add_array['count'] > $currentlength){
+                echo json_encode(array("count_error"=>"You Can Create Maximum ".$currentlength." accounts with ".$add_array['prefix']." prefix"));
+                exit;      
+       }
+        else{
+            $this->accounts_model->bulk_insert_accounts($add_array);
+            echo json_encode(array("SUCCESS" => "Bulk customer generate successfully!"));
+            exit;
+            }
+        } 
+    else {
+            redirect(base_url() . "accounts/customer_list/");
+        }
+    }
+    function customer_invoice_option($value =false){
         $sweepid = $this->input->post("sweepid",true);
-        $invoice_dropdown = $this->common->set_invoice_option($sweepid,"","");
+        $invoice_dropdown = $this->common->set_invoice_option($sweepid,"","",$value);
         echo $invoice_dropdown;
     }
     function validate_customer_data($data){
@@ -43,31 +195,33 @@ class Accounts extends MX_Controller {
 	if($email_flag == 0){
 	    return "1";
 	}else{
-            return "Duplicate Email Address Found Email must be unique.";
+            return "Duplicate Email Address Found Email Must Be Unique.";
         }
         return "0";
     }
     function customer_edit($edit_id = '') {
-        $data['page_title'] = 'Edit Customer Account';
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $reseller = $account_data['id'];
         } else {
             $reseller = "0";
         }
+        
 
         $where = array('id' => $edit_id, "reseller_id" => $reseller);
         $account = $this->db_model->getSelect("*", "accounts", $where);
 
         if ($account->num_rows > 0) {
-            $data["account_data"] = $account->result_array();
-
-            $data["ipmap_grid_field"] = json_decode($this->accounts_form->build_ip_list_for_customer($edit_id, "customer"));
+	    $account_data =$account->result_array();
+	    $entity_type =strtolower($this->common->get_entity_type('','',$account_data[0]['type']));
+	    $data['invoice_date']=$account_data[0]['invoice_day'];
+            $data["account_data"] = $account_data;
+            $data["ipmap_grid_field"] = json_decode($this->accounts_form->build_ip_list_for_customer($edit_id,$entity_type));
             $data["animap_grid_field"] = json_decode($this->accounts_form->build_animap_list_for_customer($edit_id));
-            $data['chargelist'] = form_dropdown('applayable_charge', $this->Astpp_common->list_applyable_charges(), '');
+            $data['chargelist'] = form_dropdown('applayable_charge', $this->Astpp_common->list_applyable_charges($edit_id), '');
 
-            $this->load->module('package/package');
-            $data['charges_grid_field'] = $this->package->package_form->build_charges_list_for_customer($edit_id, "customer");
+            $this->load->module('charges/charges');
+            $data['charges_grid_field'] = $this->charges->charges_form->build_charges_list_for_customer($edit_id,$entity_type);
 
             $this->load->module('rates/rates');
             $data['pattern_grid_fields'] = $this->rates->rates_form->build_pattern_list_for_customer($edit_id);
@@ -81,15 +235,31 @@ class Accounts extends MX_Controller {
             $data["opensips_grid_buttons"] = $this->opensips->opensips_form->opensips_customer_build_grid_buttons($edit_id);
             $data['opensips_grid_field'] = $this->opensips->opensips_form->opensips_customer_build_opensips_list($edit_id);
 
-            $data['ip_pricelist'] = form_dropdown('ip_pricelist', $this->db_model->build_dropdown("id,name", "pricelists", "reseller_id", "0"), '');
+            $data['ip_pricelist'] = form_dropdown('pricelist_id', $this->db_model->build_dropdown("id,name", "pricelists", "where_arr",array("reseller_id"=>"0","status"=>'1')), '');
 
             $this->load->module('did/did');
-            $data['did_grid_fields'] = $this->did->did_form->build_did_list_for_customer($edit_id, "customer");
-            if ($this->session->userdata('logintype') == 1) {
-                $data['didlist'] = form_dropdown('free_did_list', $this->db_model->build_dropdown("id,note", "reseller_pricing", "where_arr", array("reseller_id" => $this->session->userdata('logintype'))), '');
+            $data['did_grid_fields'] = $this->did->did_form->build_did_list_for_customer($edit_id,$entity_type);
+          
+	    $result_did_final=array();
+	    $reseller_data =array();
+	    
+	    if ($this->session->userdata('logintype') == 1) {
+                $acc_data = $this->session->userdata("accountinfo");
+                
+                  $result_did = $this->db->query("SELECT id, number FROM dids WHERE accountid = '0' and parent_id='".$acc_data['id']."'");
+                  foreach ($result_did->result_array() as $drp_value) {
+                    $result_did_final[$drp_value["id"]] = $drp_value["number"];
+                  }
             } else {
-                $data['didlist'] = form_dropdown('free_did_list', $this->db_model->build_dropdown("id,number", "dids", "accountid", "0"), '');
+		
+		$result_did = $this->db->query("SELECT id, number FROM dids WHERE accountid = '0' and parent_id='0'");
+
+		foreach($result_did->result_array()  as $key => $value_did)
+		{
+		  $result_did_final[$value_did['id']]=$value_did['number'];
+		}
             }
+            $data['didlist'] = form_dropdown_all('free_did_list', $result_did_final, '');
             $this->load->module('invoices/invoices');
             $data['invoice_grid_fields'] = $this->invoices->invoices_form->build_invoices_list_for_admin();
 
@@ -99,41 +269,69 @@ class Accounts extends MX_Controller {
             foreach ($account->result_array() as $key => $value) {
                 $edit_data = $value;
             }
-            $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields(), $edit_data);
+            //Purpose : Get assigned taxes value for customer
+            $taxes_data  = $this->db_model->getSelect("group_concat(taxes_id) as taxes_id","taxes_to_accounts", array("accountid" => $edit_id));
+            if(isset($taxes_data) && $taxes_data->num_rows() > 0)
+            {
+		 $taxes_data=$taxes_data->result_array();
+		 $edit_data["tax_id"] =  explode(",",$taxes_data[0]['taxes_id']);
+            }
+            //Completed
+            $entity_name = strtolower($this->common-> get_entity_type('','',$edit_data['type']));
+            
+            $data['page_title'] = 'Edit '.ucfirst($entity_name);
+            $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields($entity_name,$edit_id), $edit_data);
+            $data['entity_name']=$entity_name;
+            
+            
+            
             $this->load->view('view_customer_details', $data);
         } else {
             redirect(base_url() . 'accounts/customer_list/');
         }
     }
 
-    function customer_save() {
+    function customer_save($add_array =false) {
         $add_array = $this->input->post();
-
-        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields(), $add_array);
+        $entity_name = strtolower($this->common-> get_entity_type('','',$add_array['type']));
+//         echo $entity_name;exit;
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_form_fields($entity_name,$add_array['id']), $add_array);
         if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Account Details';
+	    $data['page_title'] = 'Edit '.$this->common-> get_entity_type('','',$add_array['type']);
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
             } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
+                 //Purpose : Get assigned taxes value for customer
+		  
+		  $query = $this->accounts_model->remove_all_account_tax($add_array['id']);
+		  if(isset($add_array['tax_id']))
+		  {
+		      foreach($add_array['tax_id'] as $key=>$val)
+		      {
+			    $data1 = array(
+				'accountid' => $add_array['id'],
+				'taxes_id' => $val,
+			    );
+			    $this->accounts_model->add_account_tax($data1);
+		      }
+		      unset($add_array['tax_id']);
+		  }
+		  //Completed
+		  unset($add_array['posttoexternal']);
 		  $this->accounts_model->edit_account($add_array, $add_array['id']);
-		  $this->session->set_flashdata('astpp_notification', 'Account Edit Completed!');
+		  $this->session->set_flashdata('astpp_errormsg', ucfirst($entity_name).' updated successfully!');
 		  redirect(base_url() . 'accounts/customer_list/');
 		  exit;
-                } else {
-                    $data['validation_errors'] = $check_authentication;
-                }
             }
             $data["account_data"]["0"] = $add_array;
 	    $edit_id = $add_array["id"];
             $data["ipmap_grid_field"] = json_decode($this->accounts_form->build_ip_list_for_customer($edit_id, "customer"));
             $data["animap_grid_field"] = json_decode($this->accounts_form->build_animap_list_for_customer($edit_id));
-            $data['chargelist'] = form_dropdown('applayable_charge', $this->Astpp_common->list_applyable_charges(), '');
+            $data['chargelist'] = form_dropdown('applayable_charge', $this->Astpp_common->list_applyable_charges($edit_id), '');
 
-            $this->load->module('package/package');
-            $data['charges_grid_field'] = $this->package->package_form->build_charges_list_for_customer($edit_id, "customer");
+            $this->load->module('charges/charges');
+            $data['charges_grid_field'] = $this->charges->charges_form->build_charges_list_for_customer($edit_id, "customer");
 
             $this->load->module('rates/rates');
             $data['pattern_grid_fields'] = $this->rates->rates_form->build_pattern_list_for_customer($edit_id);
@@ -152,7 +350,20 @@ class Accounts extends MX_Controller {
             $this->load->module('did/did');
             $data['did_grid_fields'] = $this->did->did_form->build_did_list_for_customer($edit_id, "customer");
             if ($this->session->userdata('logintype') == 1) {
-                $data['didlist'] = form_dropdown('free_did_list', $this->db_model->build_dropdown("id,note", "reseller_pricing", "where_arr", array("reseller_id" => $this->session->userdata('logintype'))), '');
+                $acc_data = $this->session->userdata("accountinfo");
+                $reseller_data =array();
+                $table = "reseller_pricing";
+                $field = "dids.id,reseller_pricing.note";
+                $where = 'dids.accountid = "0" AND reseller_pricing.reseller_id ='.$acc_data['id'];
+                $jionTable = "dids";
+                $jionCondition = "reseller_pricing.note = dids.number";
+                  $drp_data = $this->db_model->getJionQuery($table, $field, $where, $jionTable, $jionCondition,'',100,0);
+// echo $this->db->last_query(); exit;
+                  foreach ($drp_data->result_array() as $drp_value) {
+                    $reseller_data[$drp_value["id"]] = $drp_value["note"];
+                  }
+//                   echo "<pre>";print_r($reseller_data);exit;
+                  $data['didlist'] = form_dropdown('free_did_list',$reseller_data, '');
             } else {
                 $data['didlist'] = form_dropdown('free_did_list', $this->db_model->build_dropdown("id,number", "dids", "accountid", "0"), '');
             }
@@ -161,22 +372,32 @@ class Accounts extends MX_Controller {
 
             $this->load->module('reports/reports');
             $data['cdrs_grid_fields'] = $this->reports->reports_form->build_report_list_for_user();
+            $data['entity_name']=$entity_name;
             $this->load->view('view_customer_details', $data);
         } else {
-            $data['page_title'] = 'Create Account Details';
+            $data['page_title'] = 'Create '.$entity_name;
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
             } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $this->accounts_model->add_account($add_array);
-		  $this->session->set_userdata('astpp_notification', 'Account Setup Completed!');
+		  $last_id=$this->accounts_model->add_account($add_array);
+		  
+		  if(isset($add_array['tax_id']))
+		  {
+		      foreach($add_array['tax_id'] as $key=>$val)
+		      {
+			    $data1 = array(
+				'accountid' => $last_id,
+				'taxes_id' => $val,
+			    );
+			    $this->accounts_model->add_account_tax($data1);    
+		      }
+		      unset($add_array['tax_id']);
+		  }
+		  
+		  $this->session->set_flashdata('astpp_errormsg', ucfirst($entity_name).' added successfully!');
 		  redirect(base_url() . 'accounts/customer_list/');
 		  exit;
-                } else {
-                    $data['validation_errors'] = $check_authentication;
-                }
             }
 	    $this->load->view('view_accounts_create', $data);
         }
@@ -196,12 +417,70 @@ class Accounts extends MX_Controller {
             redirect(base_url() . 'accounts/customer_list/');
         }
     }
-
     function customer_list_clearsearchfilter() {
         $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
+        $this->session->set_userdata('customer_list_search', "");
+    }
+    function customer_payment_process_add($id = '') {
+        $account = $this->accounts_model->get_account_by_number($id);
+        $currency = $this->accounts_model->get_currency_by_id($account['currency_id']);
+        $data['username'] = $this->session->userdata('user_name');
+        $data['page_title'] = 'Process Payment';
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_payment_fields($currency['currency'], $account['number'], $currency['currency'], $id), '');
+        $this->load->view('view_accounts_process_payment', $data);
     }
 
+        function customer_payment_save($id = '') {
+	$post_array = $this->input->post();
+	$data['username'] = $this->session->userdata('user_name');
+        $data['page_title'] = 'Process Payment';
+        $account = $this->accounts_model->get_account_by_number($post_array['id']);
+        $currency = $this->accounts_model->get_currency_by_id($account['currency_id']);
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_payment_fields($currency['currency'], $account['number'], $currency['currency'], $id), '');
+	if ($this->form_validation->run() == FALSE) {
+		    $data['validation_errors'] = validation_errors();
+		    echo $data['validation_errors'];
+		    exit;
+	} else {
+            $post_array['credit'] = $this->common_model->add_calculate_currency($post_array['credit'], "", '', false, false);
+            $logintype = $this->session->userdata('logintype');
+            $username = $this->session->userdata('username');
+	    $login_user_data = $this->session->userdata("accountinfo");
+            $accountinfo = $this->accounts_model->get_account_by_number($post_array['id']);
+            if ($logintype == 1 || $logintype == 5) {
+                if ($accountinfo['reseller_id'] == $login_user_data["id"]) {
+                     $response = $this->accounts_model->account_process_payment($post_array);
+                     if($post_array['payment_type']== 1 && $account['posttoexternal']==0){
+                      $this->load->module('invoices/invoices');
+		      $this->invoices->invoices->generate_receipt($post_array['id'],$post_array['credit']);
+                     }
+                     echo json_encode(array("SUCCESS"=> "Account refilled successfully!"));
+		     exit;
+		  }
+		 else{
+		     echo json_encode(array("SUCCESS"=> "You are not allowed to add amount to this account."));
+                     exit;
+                }
+            } else {
+                $response = $this->accounts_model->account_process_payment($post_array);
+                if($post_array['payment_type']== 1 && $account['posttoexternal']==0){
+		    $this->load->module('invoices/invoices');
+		    $invoice_id=$this->invoices->invoices->generate_receipt($post_array['id'],$post_array['credit']);
+		    $insert_arr = array("accountid" => $post_array['accountid'],
+				    "description" => trim($post_array['notes']),
+				    "credit" => $post_array['credit'],
+				    "created_date" => gmdate("Y-m-d H:i:s"), 
+				    "charge_type" => "post_charge",
+				    "invoiceid"=>$invoice_id
+				    );
+		    $this->db->insert("invoice_item", $insert_arr);
+                }
+                echo json_encode(array("SUCCESS"=> "Account refilled successfully!"));
+                exit;
+            }
+        }
+        $this->load->view('view_accounts_process_payment', $data);
+    }
     /**
      * -------Here we write code for controller accounts functions add_callerid------
      * Add caller ids against account no
@@ -224,28 +503,26 @@ class Accounts extends MX_Controller {
             $data['accountid'] = $id;
             $data['callerid_name'] = '';
             $data['callerid_number'] = '';
-            $data['status'] = '';
+            $data['status'] = '0';
             $data['flag'] = '0';
         }
         $data['accountid'] = $account_num['number'];
         $data['form'] = $this->form->build_form($this->accounts_form->get_customer_callerid_fields(), $data);
-        if (($this->input->post())) {
+        $post_array = $this->input->post();
+        
+        if (!empty($post_array)) {
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
-
-                $data['accountid'] = $this->input->post('accountid');
-                $data['form'] = $this->form->build_form($this->accounts_form->get_customer_callerid_fields(), $data);
+                echo $data['validation_errors'];
+                exit;
             } else {
-                $post_array = $this->input->post();
                 if ($post_array['flag'] == '1') {
-                    $this->accounts_model->edit_callerid($this->input->post());
-                    $this->session->set_flashdata('astpp_notification', 'Account CallerID Updated Successfully!');
-                    redirect(base_url() . 'accounts/customer_list/');
-                    exit;
+                    $this->accounts_model->edit_callerid($post_array);
+                     echo json_encode(array("SUCCESS"=> "Account callerID updated successfully!"));
+                      exit;
                 } else {
-                    $this->accounts_model->add_callerid($this->input->post());
-                    $this->session->set_flashdata('astpp_notification', 'Account CallerID Added Successfully!');
-                    redirect(base_url() . 'accounts/customer_list/');
+                    $this->accounts_model->add_callerid($post_array);
+                    echo json_encode(array("SUCCESS"=> "Account callerID added successfully!"));
                     exit;
                 }
             }
@@ -257,29 +534,130 @@ class Accounts extends MX_Controller {
     function reseller_add($type = "") {
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Create Reseller Account';
+        $data['page_title'] = 'Create Reseller';
         $data['form'] = $this->form->build_form($this->accounts_form->get_form_reseller_fields(), '');
+	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
+	$data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
+	$data['timezone_id']=$this->common->get_field_name('id', 'timezone', array('gmttime'=>str_replace(' ', '',Common_model::$global_config['system_config']['default_timezone'])));
+	if(!$data['timezone_id'])
+        {
+                $data['timezone_id']=1;
+        }
+        if( !$data['currency_id'] )
+        {
+                $data['currency_id']=1;
+        }
+        if(!$data['country_id'])
+        {
+                $data['country_id']=1;
+        }
+
         $this->load->view('view_accounts_create', $data);
     }
 
     function reseller_edit($edit_id = '') {
-        $data['page_title'] = 'Edit Reseller Details';
+        $data['page_title'] = 'Edit Reseller';
         $where = array('id' => $edit_id);
         $account = $this->db_model->getSelect("*", "accounts", $where);
-
+         
         $data["account_data"] = $account->result_array();
-        $data['chargelist'] = form_dropdown('applayable_charge', $this->Astpp_common->list_applyable_charges(), '');
-
-        $this->load->module('package/package');
-        $data['charges_grid_field'] = $this->package->package_form->build_charges_list_for_customer($edit_id, "reseller");
+        $data['chargelist'] = form_dropdown('applayable_charge', $this->Astpp_common->list_applyable_charges($edit_id), '');
+        $data['invoice_date']=$data['account_data'][0]['invoice_day'];
+        $this->load->module('charges/charges');
+        $data['charges_grid_field'] = $this->charges->charges_form->build_charges_list_for_customer($edit_id, "reseller");
 
         $data["sipiax_grid_field"] = json_decode($this->accounts_form->build_sipiax_list_for_customer());
 
         $this->load->module('did/did');
-        $data['did_grid_fields'] = $this->did->did_form->build_did_list_for_customer($edit_id, "reseller");
-        $data['didlist'] = form_dropdown('free_did_list', $this->db_model->build_dropdown("id,number", "dids", "accountid", "0"), '');
+        $data['did_grid_fields'] = $this->did->did_form->build_did_list_for_reseller($edit_id, "reseller");
+//         $data['didlist'] = form_dropdown('free_did_list', $this->db_model->build_dropdown("id,number", "dids", "accountid", "0"), '');
+
+	/****************************FOR DID list dropdown**************/
+        $acc_data = $this->session->userdata("accountinfo");
+//  	$dids = $this->db_model->getSelect("id,number", "dids",array('accountid'=>0));
+//  	$dids_array=$dids->result_array();
+//  	$reseller_did = $this->db_model->getSelect("note", "reseller_pricing",array("reseller_id"=>1));
+//  	$reseller_did_value = $reseller_did->result_array();
+//  	
+ 	$resellerdids=array();
+ 	$reseller_did=array();
+ 	$drp_list=array();
+//  	foreach($reseller_did_value  as $reseller_did_value_for)
+//  	{
+// 	  $resellerdids[]=$reseller_did_value_for['note'];
+//  	}
+//  	foreach($dids_array  as $key => $did_value)
+//  	{
+// 	    if(in_array($did_value['number'],$resellerdids))
+//  	    {
+// 	      unset($dids_array[$key]);
+//  	    }
+//  	}
+ 	if($this->session->userdata['userlevel_logintype'] == '-1')
+ 	{
+// 	    $reseller_did = $this->db_model->getSelect("group_concat(concat('''',note,'''')) as note", "reseller_pricing",'');
+// //  	echo "<pre>";print_r($reseller_did->result_array());
+// 	      $reseller_did = $reseller_did->result_array();
+// 	      if($reseller_did['0']['note'] != '' ){
+// // 		$where_str = "number NOT IN (".$reseller_did['0']['note'].")";
+// 		$where_str = "number NOT IN (SELECT note FROM (`reseller_pricing`))";
+// 		$this->db->where($where_str);
+// 	      }
+ 	
+	    $where = array('dids.accountid'=>'0','dids.parent_id'=>'0');
+// 	    $jionCondition = 'dids.number != reseller_pricing.note';
+	    $reseller_did = $this->db_model->getSelect( '*' ,'dids',$where);
+// 	   $reseller_did=$this->db_model->getJionQuery("dids",'dids.*',$where , "reseller_pricing", $jionCondition, 'INNER','500', '0',"reseller_pricing.id", "ASC",  '','');
+	    $dids_array = $reseller_did->result_array();
+	    foreach ($dids_array as $drp_value) {
+	      $drp_list[$drp_value['id']] = $drp_value['number'];
+	    }
+ 	}else{
+	  
+// 	  $where = array('reseller_pricing.reseller_id' => $acc_data['id'],'dids.accountid'=>'0');
+// 	  $jionCondition = 'dids.number = reseller_pricing.note';
+	  //	    $reseller_did = $this->db_model->getSelect("group_concat(concat('''',note,'''')) as note", "reseller_pricing",array("reseller_id <> " =>$this->session->userdata['accountinfo']['id']));
+	 
+// 	 $did_count=$this->db->query("select count(reseller_pricing.note) as count,note from reseller_pricing group by note");
+// 	 echo "<pre>";
+	 
+// 	 $didcount_ar=$did_count->result_array();
+	 
+// 	 print_r($did_count->result_array());
+// 	 $select="reseller_pricing.setup,reseller_pricing.cost,reseller_pricing.connectcost,dids.inc,reseller_pricing.includedseconds,reseller_pricing.monthlycost,dids.number,dids.id,dids.accountid,dids.extensions,dids.status,dids.provider_id,dids.allocation_bill_status,reseller_pricing.disconnectionfee,dids.dial_as,dids.call_type,dids.country_id";
+// 	  $reseller_did=$this->db_model->getJionQuery("dids", $select,$where , "reseller_pricing", $jionCondition, 'inner','500', '0',"reseller_pricing.id", "ASC",  '','');
+
+// 	  echo $this->db->last_query();
+// 	$dids_array = $reseller_did->result_array();  
+// 	print_r($dids_array);
+// 	exit;
+// 	  foreach ($dids_array as $drp_value) {
+// 	      foreach ($didcount_ar as $ddicount_value) {
+// 		  if($ddicount_value['count'] == 1)
+// 		  {
+// 			$drp_list1[] = $ddicount_value['note'];
+// 		  }
+// 		}
+// 	    }
+// 	    print_r($drp_list1);
+	    
+	    $where = array('dids.accountid'=>'0','dids.parent_id'=>$acc_data['id']);
+	    $reseller_did = $this->db_model->getSelect( '*' ,'dids',$where);
+	    $dids_array = $reseller_did->result_array();
+	    foreach ($dids_array as $drp_value) {
+	      
+		  $drp_list[$drp_value['id']] = $drp_value['number'];
+	      
+	    }
+	}
 
 
+
+ 	
+//         echo "<pre>";print_r($drp_list);
+        $data['didlist'] = form_dropdown_all('free_did_list', $drp_list, '');
+        /****************************FOR DID list dropdown**************/
+        
         $this->load->module('invoices/invoices');
         $data['invoice_grid_fields'] = $this->invoices->invoices_form->build_invoices_list_for_admin();
 
@@ -289,36 +667,51 @@ class Accounts extends MX_Controller {
         foreach ($account->result_array() as $key => $value) {
             $edit_data = $value;
         }
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_reseller_fields(), $edit_data);
+	$taxes_data  = $this->db_model->getSelect("group_concat(taxes_id) as taxes_id","taxes_to_accounts", array("accountid" => $edit_id));
+            if(isset($taxes_data) && $taxes_data->num_rows() > 0)
+            {
+		 $taxes_data=$taxes_data->result_array();
+		 $edit_data["tax_id"] =  explode(",",$taxes_data[0]['taxes_id']);
+            }
+         
+        $data['form'] = $this->form->build_form($this->accounts_form->get_form_reseller_fields($edit_id), $edit_data);
         $this->load->view('view_reseller_details', $data);
     }
 
     function reseller_save() {
         $add_array = $this->input->post();
-
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_reseller_fields(), $add_array);
+        $data['form'] = $this->form->build_form($this->accounts_form->get_form_reseller_fields($add_array['id']), $add_array);
         if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Reseller Details';
+            $data['page_title'] = 'Edit Reseller';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
             } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
+		  $query = $this->accounts_model->remove_all_account_tax($add_array['id']);
+		  if(isset($add_array['tax_id']))
+		  {
+		      foreach($add_array['tax_id'] as $key=>$val)
+		      {
+			    $data1 = array(
+				'accountid' => $add_array['id'],
+				'taxes_id' => $val,
+			    );
+			    $this->accounts_model->add_account_tax($data1);
+		      }
+		      unset($add_array['tax_id']);
+		  }
 		  $this->accounts_model->edit_account($add_array, $add_array['id']);
-		  $this->session->set_flashdata('astpp_notification', 'Account Edit Completed!');
+		  $this->session->set_flashdata('astpp_errormsg', 'Reseller updated successfully!');
+		  
 		  redirect(base_url().'accounts/reseller_list/');
 		  exit;
-                }else {
-                    $data['validation_errors'] = $check_authentication;
-                }
             }
 	    $data["account_data"]["0"] = $add_array;
 	    $edit_id = $add_array["id"];
-	    $data['chargelist'] = form_dropdown('applayable_charge', $this->Astpp_common->list_applyable_charges(), '');
+	    $data['chargelist'] = form_dropdown('applayable_charge', $this->Astpp_common->list_applyable_charges($edit_id), '');
 
-	    $this->load->module('package/package');
-	    $data['charges_grid_field'] = $this->package->package_form->build_charges_list_for_customer($edit_id, "reseller");
+	    $this->load->module('charges/charges');
+	    $data['charges_grid_field'] = $this->charges->charges_form->build_charges_list_for_customer($edit_id, "reseller");
 
 	    $data["sipiax_grid_field"] = json_decode($this->accounts_form->build_sipiax_list_for_customer());
 
@@ -335,290 +728,358 @@ class Accounts extends MX_Controller {
 
             $this->load->view('view_reseller_details', $data);
         } else {
-            $data['page_title'] = 'Create Reseller Account';
+        
+            $data['page_title'] = 'Create Reseller';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
-            } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
+            } else {          
 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $add_array['account_by_reseller'] = 'reseller account';
-		  $this->accounts_model->add_account($add_array);
-		  $this->session->set_flashdata('astpp_notification', 'Account Setup Completed!');
+/*		  $add_array['account_by_reseller'] = 'reseller account';
+		  $this->accounts_model->add_account($add_array);*/
+		  $last_id=$this->accounts_model->add_account($add_array);
+		  
+		  if(isset($add_array['tax_id']))
+		  {
+		      foreach($add_array['tax_id'] as $key=>$val)
+		      {
+			    $data1 = array(
+				'accountid' => $last_id,
+				'taxes_id' => $val,
+			    );
+			    $this->accounts_model->add_account_tax($data1);    
+		      }
+		      unset($add_array['tax_id']);
+		  }
+
+		  $this->session->set_flashdata('astpp_errormsg', 'Reseller added successfully!');
 		  redirect(base_url() . 'accounts/reseller_list/');
 		  exit;
-                }else {
-                    $data['validation_errors'] = json_encode(array("0"=>$check_authentication));
-                }
             }
 	    $this->load->view('view_accounts_create', $data);
         }
     }
 
-    function provider_add($type = "") {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['flag'] = 'create';
-        $data['page_title'] = 'Create Provider Account';
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_provider_fields(), '');
-
-        $this->load->view('view_accounts_create', $data);
+    function provider_add() {
+    
+           $this->customer_add(3);
+//         $data['username'] = $this->session->userdata('user_name');
+//         $data['flag'] = 'create';
+//         $data['page_title'] = 'Create Provider';
+//         $data['form'] = $this->form->build_form($this->accounts_form->get_form_provider_fields(), '');// 
+//         $this->load->view('view_accounts_create', $data);
     }
 
     function provider_edit($edit_id = '') {
-        $data['page_title'] = 'Edit Provider Details';
-        $where = array('id' => $edit_id);
-        $account = $this->db_model->getSelect("*", "accounts", $where);
-        $data['account_data'] = $account->result_array();
-
-        $data["ipmap_grid_field"] = $this->accounts_form->build_ip_list_for_customer($edit_id, "provider");
-
-        $this->load->module('invoices/invoices');
-        $data['invoice_grid_fields'] = $this->invoices->invoices_form->build_invoices_list_for_admin();
-
-        $this->load->module('reports/reports');
-        $data['cdrs_grid_fields'] = $this->reports->reports_form->build_report_list_for_user();
-
-        foreach ($account->result_array() as $key => $value) {
-            $edit_data = $value;
-        }
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_provider_fields(), $edit_data);
-        $this->load->view('view_provider_details', $data);
+    
+        $this->customer_edit($edit_id);
+//         $data['page_title'] = 'Edit Provider';
+//         $where = array('id' => $edit_id);
+//         $account = $this->db_model->getSelect("*", "accounts", $where);
+//         $data['account_data'] = $account->result_array();
+// 
+//         $data["ipmap_grid_field"] = $this->accounts_form->build_ip_list_for_customer($edit_id, "provider");
+// 
+//         $this->load->module('invoices/invoices');
+//         $data['invoice_grid_fields'] = $this->invoices->invoices_form->build_invoices_list_for_admin();
+// 
+//         $this->load->module('reports/reports');
+//         $data['cdrs_grid_fields'] = $this->reports->reports_form->build_report_list_for_user();
+// 
+//         foreach ($account->result_array() as $key => $value) {
+//             $edit_data = $value;
+//         }
+//         $taxes_data  = $this->db_model->getSelect("group_concat(taxes_id) as taxes_id","taxes_to_accounts", array("accountid" => $edit_id));
+//         if(isset($taxes_data) && $taxes_data->num_rows() > 0)
+//             {
+// 		 $taxes_data=$taxes_data->result_array();
+// 		 $edit_data["tax_id"] =  explode(",",$taxes_data[0]['taxes_id']);
+//             }  
+//         $data['form'] = $this->form->build_form($this->accounts_form->get_form_provider_fields(), $edit_data);
+//         $this->load->view('view_provider_details', $data);
     }
 
     function provider_save() {
-        $add_array = $this->input->post();
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_provider_fields(), $add_array);
-        if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Provider Details';
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-            } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
-		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $this->accounts_model->edit_account($add_array, $add_array['id']);
-		  $this->session->set_flashdata('astpp_notification', 'Account Edit Completed!');
-		  redirect(base_url() . 'accounts/provider_list/');
-		  exit;
-                }else {
-                    $data['validation_errors'] = $check_authentication;
-                }
-            }
-	    $data['account_data']["0"] = $add_array;
-	    $edit_id = $add_array["id"];
-	    $data["ipmap_grid_field"] = $this->accounts_form->build_ip_list_for_customer($edit_id, "provider");
-
-	    $this->load->module('invoices/invoices');
-	    $data['invoice_grid_fields'] = $this->invoices->invoices_form->build_invoices_list_for_admin();
-
-	    $this->load->module('reports/reports');
-	    $data['cdrs_grid_fields'] = $this->reports->reports_form->build_report_list_for_user();
-
-            $this->load->view('view_provider_details', $data);
-        } else {
-            $data['page_title'] = 'Create Provider Account';
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-            } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
-		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $this->accounts_model->add_account($add_array);
-		  $this->session->set_flashdata('astpp_notification', 'Account Setup Completed!');
-		  redirect(base_url() . 'accounts/provider_list/');
-		  exit;
-                }else {
-		    $data['validation_errors'] = json_encode(array("0"=>$check_authentication));
+         $add_array = $this->input->post();
+	 $this->customer_save($add_array);
+//         $data['form'] = $this->form->build_form($this->accounts_form->get_form_provider_fields(), $add_array);
+//         if ($add_array['id'] != '') {
+//             $data['page_title'] = 'Edit Provider';
+//             if ($this->form_validation->run() == FALSE) {
+//                 $data['validation_errors'] = validation_errors();
+//             } else {
+//                 $check_authentication = $this->validate_customer_data($add_array);
+//                 if ($check_authentication == 1) {                
+// 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
+// 		  $query = $this->accounts_model->remove_all_account_tax($add_array['id']);
+// 		  if(isset($add_array['tax_id']))
+// 		  {
+// 		      foreach($add_array['tax_id'] as $key=>$val)
+// 		      {
+// 			    $data1 = array(
+// 				'accountid' => $add_array['id'],
+// 				'taxes_id' => $val,
+// 			    );
+// 			    $this->accounts_model->add_account_tax($data1);
+// 		      }
+// 		      unset($add_array['tax_id']);
+// 		  }
+// 		  $this->accounts_model->edit_account($add_array, $add_array['id']);
+// 		  $this->session->set_flashdata('astpp_notification', 'Account Edit Completed!');
+// 		  redirect(base_url() . 'accounts/customer_list/');
+// 		  exit;
+//                 }else {
 //                     $data['validation_errors'] = $check_authentication;
-                }
-            }
-	    $this->load->view('view_accounts_create', $data);
-        }
+//                 }
+//             }
+// 	    $data['account_data']["0"] = $add_array;
+// 	    $edit_id = $add_array["id"];
+// 	    $data["ipmap_grid_field"] = $this->accounts_form->build_ip_list_for_customer($edit_id, "provider");
+// 
+// 	    $this->load->module('invoices/invoices');
+// 	    $data['invoice_grid_fields'] = $this->invoices->invoices_form->build_invoices_list_for_admin();
+// 
+// 	    $this->load->module('reports/reports');
+// 	    $data['cdrs_grid_fields'] = $this->reports->reports_form->build_report_list_for_user();
+// 
+//             $this->load->view('view_provider_details', $data);
+//         } else {
+//             $data['page_title'] = 'Create Provider';
+//             if ($this->form_validation->run() == FALSE) {
+//                 $data['validation_errors'] = validation_errors();
+//             } else {
+//                 $check_authentication = $this->validate_customer_data($add_array);
+//                 if ($check_authentication == 1) {                
+// 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
+// 		  $last_id=$this->accounts_model->add_account($add_array);
+//                   if(isset($add_array['tax_id']))
+// 		  {
+// 		      foreach($add_array['tax_id'] as $key=>$val)
+// 		      {
+// 			    $data1 = array(
+// 				'accountid' => $last_id,
+// 				'taxes_id' => $val,
+// 			    );
+// 			    $this->accounts_model->add_account_tax($data1);    
+// 		      }
+// 		      
+// 		  }
+// 		  $this->session->set_flashdata('astpp_notification', 'Account Setup Completed!');
+// 		  redirect(base_url() . 'accounts/customer_list/');
+// 		  exit;
+//                 }else {
+// 		    $data['validation_errors'] = json_encode(array("0"=>$check_authentication));
+// //                     $data['validation_errors'] = $check_authentication;
+//                 }
+//             }
+// 	    $this->load->view('view_accounts_create', $data);
+//         }
     }
 
-    function admin_add($type = "") {
+       function admin_add($type = 2) {
+	$entity_type =strtolower($this->common->get_entity_type('','',$type));
+	$entitytype = str_replace(' ', '', $entity_type);
         $data['username'] = $this->session->userdata('user_name');
         $data['flag'] = 'create';
-        $data['page_title'] = 'Create Admin Account';
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_admin_fields(), '');
-
+        $data['page_title'] = 'Create '.$entity_type;
+        $data['form'] = $this->form->build_form($this->accounts_form->get_form_admin_fields($entitytype), '');
+       	$data['country_id']=$this->common->get_field_name('id', 'countrycode', array('country'=>ucfirst(Common_model::$global_config['system_config']['country'])));
+	$data['currency_id']=$this->common->get_field_name('id', 'currency', array('currency'=>Common_model::$global_config['system_config']['base_currency']));
+	$data['timezone_id']=$this->common->get_field_name('id', 'timezone', array('gmttime'=>str_replace(' ', '',Common_model::$global_config['system_config']['default_timezone'])));
+        if(!$data['timezone_id'])
+        {
+                $data['timezone_id']=1;
+        }
+        if( !$data['currency_id'] )
+        {
+                $data['currency_id']=1;
+        }
+        if(!$data['country_id'])
+        {
+                $data['country_id']=1;
+        }
+        $data['entity_name']=$entity_type;
         $this->load->view('view_accounts_create', $data);
     }
 
-    function admin_edit($edit_id = '') {
-        $data['page_title'] = 'Edit Admin Details';
+ function admin_edit($edit_id = '') {
+        $accountinfo=$this->session->userdata('accountinfo');
         $where = array('id' => $edit_id);
         $account = $this->db_model->getSelect("*", "accounts", $where);
         foreach ($account->result_array() as $key => $value) {
             $edit_data = $value;
         }
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_admin_fields(), $edit_data);
+        $taxes_data  = $this->db_model->getSelect("group_concat(taxes_id) as taxes_id","taxes_to_accounts", array("accountid" => $edit_id));
+        if(isset($taxes_data) && $taxes_data->num_rows() > 0)
+        {
+		 $taxes_data=$taxes_data->result_array();
+		 $edit_data["tax_id"] =  explode(",",$taxes_data[0]['taxes_id']);
+        }
+        $type=$accountinfo['type']== -1 ? 2 : $accountinfo['type'];
+        $entity_type =strtolower($this->common->get_entity_type('','',$type));
+	$entitytype = str_replace(' ', '', $entity_type);
+        $data['form'] = $this->form->build_form($this->accounts_form->get_form_admin_fields($entitytype,$edit_id), $edit_data);
+        $data['page_title'] = 'Edit '.$entity_type;
         $this->load->view('view_admin_details', $data);
     }
 
-    function admin_save() {
+     function admin_save($add_array=false) {
         $add_array = $this->input->post();
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_admin_fields(), $add_array);
+        $accountinfo=$this->session->userdata('accountinfo');
+        $type=$accountinfo['type']== -1 ? 2 : $add_array['type'];
+        $entity_type =strtolower($this->common->get_entity_type('','',$type));
+	$entitytype = str_replace(' ', '', $entity_type);
+        $data['username'] = $this->session->userdata('user_name');
+        $data['flag'] = 'create';
+        $data['page_title'] = 'Create '.$entity_type;
+        $data['form'] = $this->form->build_form($this->accounts_form->get_form_admin_fields($entitytype,$add_array['id']), $add_array);
         if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Admin Details';
+            $data['page_title'] = 'Edit '.$entity_type;
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
-            } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
+            } else {             
 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
+		  $query = $this->accounts_model->remove_all_account_tax($add_array['id']);
+		  if(isset($add_array['tax_id']))
+		  {
+		      foreach($add_array['tax_id'] as $key=>$val)
+		      {
+			    $data1 = array(
+				'accountid' => $add_array['id'],
+				'taxes_id' => $val,
+			    );
+			    $this->accounts_model->add_account_tax($data1);
+		      }
+		      unset($add_array['tax_id']);
+		  }
 		  $this->accounts_model->edit_account($add_array, $add_array['id']);
-		  $this->session->set_flashdata('astpp_notification', 'Account Edit Completed!');
+		  $accountinfo=$this->session->userdata('accountinfo');
+		  if($add_array['id']==$accountinfo['id'] ){
+		    $result=$this->db->get_where('accounts',array('id'=>$add_array['id']));
+		    $result=$result->result_array();
+		   $this->session->set_userdata('accountinfo',$result[0]);
+		  }
+		  $this->session->set_flashdata('astpp_errormsg',ucfirst($entity_type). ' updated successfully!');
 
 		  redirect(base_url() . 'accounts/admin_list/');
 		  exit;
-                }else {
-		    $data['validation_errors'] = json_encode(array("0"=>$check_authentication));
-//                     $data['validation_errors'] = $check_authentication;
-                }
             }
-            $this->load->view('view_accounts_details', $data);
+            $this->load->view('view_admin_details', $data);
         } else {
-            $data['page_title'] = 'Create Admin Account';
+            $data['page_title'] = 'Create '.$entity_type;
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
             } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
+                $last_id=$this->accounts_model->add_account($add_array);
+                if(isset($add_array['tax_id']))
+		  {
+		      foreach($add_array['tax_id'] as $key=>$val)
+		      {
+			    $data1 = array(
+				'accountid' => $last_id,
+				'taxes_id' => $val,
+			    );
+			    $this->accounts_model->add_account_tax($data1);    
+		      }
+		      unset($add_array['tax_id']);
+		  }
 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $this->accounts_model->add_account($add_array);
-		  $this->session->set_flashdata('astpp_notification', 'Account Setup Completed!');
+		  
+		  $this->session->set_flashdata('astpp_errormsg', ucfirst($entity_type).' added successfully!');
 		  redirect(base_url() . 'accounts/admin_list/');
 		  exit;
-                }else {
-		    $data['validation_errors'] = json_encode(array("0"=>$check_authentication));
-//                     $data['validation_errors'] = $check_authentication;
-                }
             }$this->load->view('view_accounts_create', $data);
         }
     }
 
     function subadmin_add($type = "") {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['flag'] = 'create';
-        $data['page_title'] = 'Create Subadmin Account';
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_subadmin_fields(), '');
-
-        $this->load->view('view_accounts_create', $data);
+        $this->admin_add(4);
     }
 
     function subadmin_edit($edit_id = '') {
-        $data['page_title'] = 'Edit Subadmin Details';
-        $where = array('id' => $edit_id);
-        $account = $this->db_model->getSelect("*", "accounts", $where);
-        foreach ($account->result_array() as $key => $value) {
-            $edit_data = $value;
-        }
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_subadmin_fields(), $edit_data);
-        $this->load->view('view_subadmin_details', $data);
+         $this->admin_edit($edit_id);
+//         $data['page_title'] = 'Edit Subadmin';
+//         $where = array('id' => $edit_id);
+//         $account = $this->db_model->getSelect("*", "accounts", $where);
+//         foreach ($account->result_array() as $key => $value) {
+//             $edit_data = $value;
+//         }
+//         $taxes_data  = $this->db_model->getSelect("group_concat(taxes_id) as taxes_id","taxes_to_accounts", array("accountid" => $edit_id));
+//         if(isset($taxes_data) && $taxes_data->num_rows() > 0)
+//         {
+// 		 $taxes_data=$taxes_data->result_array();
+// 		 $edit_data["tax_id"] =  explode(",",$taxes_data[0]['taxes_id']);
+//         }
+//         $data['form'] = $this->form->build_form($this->accounts_form->get_form_subadmin_fields(), $edit_data);
+//         $this->load->view('view_subadmin_details', $data);
     }
 
     function subadmin_save() {
-        $add_array = $this->input->post();
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_subadmin_fields(), $add_array);
-        if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Subadmin Details';
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-            } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
-		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $this->accounts_model->edit_account($add_array, $add_array['id']);
-		  $this->session->set_flashdata('astpp_notification', 'Account Edit Completed!');
-		  redirect(base_url() . 'accounts/subadmin_list/');
-		  exit;
-                }else {
-                    $data['validation_errors'] = $check_authentication;
-                }
-            }
-            $this->load->view('view_subadmin_details', $data);
-        } else {
-            $data['page_title'] = 'Create Subadmin Account';
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-            } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
-		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $this->accounts_model->add_account($add_array);
-		  $this->session->set_flashdata('astpp_notification', 'Account Setup Completed!');
-		  redirect(base_url() . 'accounts/subadmin_list/');
-		  exit;
-                }else {
-		    $data['validation_errors'] = json_encode(array("0"=>$check_authentication));
+	    $add_array = $this->input->post();
+	    $this->admin_save($add_array);
+//         $add_array = $this->input->post();
+//         $data['form'] = $this->form->build_form($this->accounts_form->get_form_subadmin_fields(), $add_array);
+//         if ($add_array['id'] != '') {
+//             $data['page_title'] = 'Edit Subadmin';
+//             if ($this->form_validation->run() == FALSE) {
+//                 $data['validation_errors'] = validation_errors();
+//             } else {
+//                 $check_authentication = $this->validate_customer_data($add_array);
+//                 if ($check_authentication == 1) {                
+// 		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
+// 		  $query = $this->accounts_model->remove_all_account_tax($add_array['id']);
+// 		  if(isset($add_array['tax_id']))
+// 		  {
+// 		      foreach($add_array['tax_id'] as $key=>$val)
+// 		      {
+// 			    $data1 = array(
+// 				'accountid' => $add_array['id'],
+// 				'taxes_id' => $val,
+// 			    );
+// 			    $this->accounts_model->add_account_tax($data1);
+// 		      }
+// 		      unset($add_array['tax_id']);
+// 		  }
+// 		  $this->accounts_model->edit_account($add_array, $add_array['id']);
+// 		  $this->session->set_flashdata('astpp_errormsg', 'Account Edit Completed!');
+// 		  redirect(base_url() . 'accounts/admin_list/');
+// 		  exit;
+//                 }else {
 //                     $data['validation_errors'] = $check_authentication;
-                }
-            }
-	    $this->load->view('view_accounts_create', $data);
-        }
-    }
-
-    function callshop_add($type = "") {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['flag'] = 'create';
-        $data['page_title'] = 'Create Callshop Account';
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_callshop_fields(), '');
-
-        $this->load->view('view_callshop_details', $data);
-    }
-
-    function callshop_edit($edit_id = '') {
-        $data['page_title'] = 'Edit Callshop Details';
-        $where = array('id' => $edit_id);
-        $account = $this->db_model->getSelect("*", "accounts", $where);
-        foreach ($account->result_array() as $key => $value) {
-            $edit_data = $value;
-        }
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_callshop_fields(), $edit_data);
-        $this->load->view('view_callshop_details', $data);
-    }
-
-    function callshop_save() {
-
-        $add_array = $this->input->post();
-
-        $data['form'] = $this->form->build_form($this->accounts_form->get_form_callshop_fields(), $add_array);
-        if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Callshop Details';
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-            } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
-		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $this->accounts_model->edit_account($add_array, $add_array['id']);
-		  $this->session->set_flashdata('astpp_notification', 'Account Edit Completed!');
-		  redirect(base_url() . 'accounts/callshop_list/');
-		  exit;
-                }else {
-                    $data['validation_errors'] = $check_authentication;
-                }
-            }
-            $this->load->view('view_accounts_details', $data);
-        } else {
-            $data['page_title'] = 'Create Callshop Account';
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-            } else {
-                $check_authentication = $this->validate_customer_data($add_array);
-                if ($check_authentication == 1) {                
-		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		  $this->accounts_model->add_account($add_array);
-		  $this->session->set_flashdata('astpp_notification', 'Account Setup Completed!');
-		  redirect(base_url() . 'accounts/callshop_list/');
-		  exit;
-                }else {
-                    $data['validation_errors'] = $check_authentication;
-                }
-            }
-	    $this->load->view('view_callshop_details', $data);
-        }
+//                 }
+//             }
+//             $this->load->view('view_subadmin_details', $data);
+//         } else {
+//             $data['page_title'] = 'Create Subadmin';
+//             if ($this->form_validation->run() == FALSE) {
+//                 $data['validation_errors'] = validation_errors();
+//             } else {
+//                 $check_authentication = $this->validate_customer_data($add_array);
+//                 if ($check_authentication == 1) {                
+// //		  $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
+//                     $last_id=$this->accounts_model->add_account($add_array);
+// 		  if(isset($add_array['tax_id']))
+// 		  {
+// 		      foreach($add_array['tax_id'] as $key=>$val)
+// 		      {
+// 			    $data1 = array(
+// 				'accountid' => $last_id,
+// 				'taxes_id' => $val,
+// 			    );
+// 			    $this->accounts_model->add_account_tax($data1);    
+// 		      }
+// 		      unset($add_array['tax_id']);
+// 		  }
+// 		  
+// 		  $this->session->set_flashdata('astpp_errormsg', 'Account Setup Completed!');
+// 		  redirect(base_url() . 'accounts/admin_list/');
+// 		  exit;
+//                 }else {
+// 		    $data['validation_errors'] = json_encode(array("0"=>$check_authentication));
+// //                     $data['validation_errors'] = $check_authentication;
+//                 }
+//             }
+// 	    $this->load->view('view_accounts_create', $data);
+//         }
     }
 
     /**
@@ -707,7 +1168,8 @@ class Accounts extends MX_Controller {
     function admin_list() {
 
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Admin List';
+        $data['page_title'] = 'Admins';
+	$data['search_flag'] = true;
         $data['cur_menu_no'] = 1;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->accounts_form->build_account_list_for_admin();
@@ -736,7 +1198,8 @@ class Accounts extends MX_Controller {
 
     function subadmin_list() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Sub-Admin List';
+        $data['page_title'] = 'Sub-Admins';
+        $data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->accounts_form->build_account_list_for_subadmin();
         $data["grid_buttons"] = $this->accounts_form->build_grid_buttons_subadmin();
@@ -771,18 +1234,19 @@ class Accounts extends MX_Controller {
             $this->session->set_userdata('subadmin_list_search', $action);
         }
         if (@$ajax_search != 1) {
-            redirect(base_url() . 'accounts/subadmin_list/');
+            redirect(base_url() . 'accounts/admin_list/');
         }
     }
 
     function subadmin_list_clearsearchfilter() {
         $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
+        $this->session->set_userdata('subadmin_list_search', "");
     }
 
     function customer_list() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Customer List';
+        $data['page_title'] = 'Customers';
+	$data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->accounts_form->build_account_list_for_customer();
         $data["grid_buttons"] = $this->accounts_form->build_grid_buttons_customer();
@@ -798,19 +1262,19 @@ class Accounts extends MX_Controller {
     function customer_list_json() {
         $json_data = array();
         $count_all = $this->accounts_model->get_customer_Account_list(false);
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
+        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'],$_GET['page']);
         $json_data = $paging_data["json_paging"];
 
         $query = $this->accounts_model->get_customer_Account_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->accounts_form->build_account_list_for_customer());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
-
         echo json_encode($json_data);
     }
 
     function provider_list() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Provider List';
+        $data['page_title'] = 'Providers';
+	$data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->accounts_form->build_account_list_for_provider();
         $data["grid_buttons"] = $this->accounts_form->build_grid_buttons_provider();
@@ -847,19 +1311,20 @@ class Accounts extends MX_Controller {
             $this->session->set_userdata('provider_list_search', $action);
         }
         if (@$ajax_search != 1) {
-            redirect(base_url() . 'accounts/provider_list/');
+            redirect(base_url() . 'accounts/customer_list/');
         }
     }
 
     function provider_list_clearsearchfilter() {
         $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
+        $this->session->set_userdata('provider_list_search', "");
 //        redirect(base_url() . 'accounts/customer_account_list/');
     }
 
     function reseller_list() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Reseller List';
+        $data['page_title'] = 'Resellers';
+	$data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->accounts_form->build_account_list_for_reseller();
         $data["grid_buttons"] = $this->accounts_form->build_grid_buttons_reseller();
@@ -901,7 +1366,7 @@ class Accounts extends MX_Controller {
 
     function admin_list_clearsearchfilter() {
         $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
+        $this->session->set_userdata('admin_list_search', "");
     }
 
     function admin_list_search() {
@@ -920,12 +1385,13 @@ class Accounts extends MX_Controller {
 
     function reseller_list_clearsearchfilter() {
         $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
+        $this->session->set_userdata('reseller_list_search', "");
     }
 
     function callshop_list() {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Call Shop List';
+        $data['page_title'] = 'Call Shops';
+	$data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->accounts_form->build_account_list_for_callshop();
         $data["grid_buttons"] = $this->accounts_form->build_grid_buttons_callshop();
@@ -962,42 +1428,75 @@ class Accounts extends MX_Controller {
 
     function callshop_list_clearsearchfilter() {
         $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
+        $this->session->set_userdata('callshop_list_search', "");
     }
 
     function customer_delete($id) {
         $this->accounts_model->remove_customer($id);
-        $this->session->set_flashdata('astpp_notification', 'Account Removed Completed!');
+        $this->free_customer_did($id);
+        $this->free_ani_map($id);
+        $this->session->set_flashdata('astpp_notification', 'Customer removed successfully!');
         redirect(base_url() . 'accounts/customer_list/');
     }
 
     function reseller_delete($id) {
-        $this->accounts_model->remove_customer($id);
-        $this->session->set_flashdata('astpp_notification', 'Account Removed Completed!');
+        $reseller_ids=$this->common->subreseller_list($id);
+        $where= "reseller_id IN ($reseller_ids) OR id = $id";
+        $data=array('deleted'=>1);
+        $this->db->where($where);
+        $this->db->update('accounts',$data);
+        $this->free_reseller_did($reseller_ids);
+        $this->session->set_flashdata('astpp_notification', 'Reseller removed successfully!');
         redirect(base_url() . 'accounts/reseller_list/');
     }
-
+    
+    function free_customer_did($accountid)
+    {
+	  $this->db->where(array("accountid"=>$accountid));
+	  $this->db->update("dids",array('accountid' => "0"));
+	  return true;
+    }
+    function free_ani_map($accountid){
+	  $this->db->where(array("accountid"=>$accountid));
+	  $this->db->delete('ani_map');
+	  return true;
+    }
+    function free_reseller_did($ids)
+    {
+     $accountinfo=$this->session->userdata('accountinfo');
+     $reseller_id= $accountinfo['type'] != 1 ? 0 : $accountinfo['id'];
+     $data=array('parent_id'=>$reseller_id,'accountid'=>0);
+     $where="parent_id IN ($ids)";
+     $this->db->where($where);
+     $this->db->update('dids',$data);
+     $where = "reseller_id IN ($ids)";
+     $this->db->where($where);
+     $this->db->delete('reseller_pricing');
+     return true;
+    }
+    
     function provider_delete($id) {
         $this->accounts_model->remove_customer($id);
-        $this->session->set_flashdata('astpp_notification', 'Account Removed Completed!');
-        redirect(base_url() . 'accounts/provider_list/');
+        
+        $this->session->set_flashdata('astpp_notification', 'Provider removed successfully!');
+        redirect(base_url() . 'accounts/customer_list/');
     }
 
     function admin_delete($id) {
         $this->accounts_model->remove_customer($id);
-        $this->session->set_flashdata('astpp_notification', 'Account Removed Completed!');
+        $this->session->set_flashdata('astpp_notification', 'Admin removed successfully!');
         redirect(base_url() . 'accounts/admin_list/');
     }
 
     function subadmin_delete($id) {
         $this->accounts_model->remove_customer($id);
-        $this->session->set_flashdata('astpp_notification', 'Account Removed Completed!');
-        redirect(base_url() . 'accounts/subadmin_list/');
+        $this->session->set_flashdata('astpp_notification', 'Sub admin removed successfully!');
+        redirect(base_url() . 'accounts/admin_list/');
     }
 
     function callshop_delete($id) {
         $this->accounts_model->remove_customer($id);
-        $this->session->set_flashdata('astpp_notification', 'Account Removed Completed!');
+        $this->session->set_flashdata('astpp_notification', 'Callshop removed successfully!');
         redirect(base_url() . 'accounts/callshop_list/');
     }
 
@@ -1145,6 +1644,8 @@ class Accounts extends MX_Controller {
     }
 
     function customer_details_json($module, $accountid) {
+        $entity_type =$this->common->get_field_name('type','accounts',array('id'=>$accountid));
+	$entity_type =strtolower($this->common->get_entity_type('','',$entity_type));
         if ($module == "pattern") {
             $this->load->module('rates/rates');
             $this->rates->customer_block_pattern_list($accountid);
@@ -1155,19 +1656,19 @@ class Accounts extends MX_Controller {
         }
         if ($module == "did") {
             $this->load->module('did/did');
-            $this->did->customer_did($accountid, "customer");
+            $this->did->customer_did($accountid,$entity_type);
         }
         if ($module == "invoices") {
             $this->load->module('invoices/invoices');
             $this->invoices->customer_invoices($accountid);
         }
-        if ($module == "package") {
-            $this->load->module('package/package');
-            $this->package->customer_charge_list($accountid, "customer");
+        if ($module == "charges") {
+            $this->load->module('charges/charges');
+            $this->charges->customer_charge_list($accountid, $entity_type);
         }
         if ($module == "reports") {
             $this->load->module('reports/reports');
-            $this->reports->customer_cdrreport($accountid);
+            $this->reports->customer_cdrreport($accountid,$entity_type);
         }
         if ($module == "opensips") {
             $this->load->module('opensips/opensips');
@@ -1177,7 +1678,7 @@ class Accounts extends MX_Controller {
 
     function customer_add_blockpatterns($accountid) {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Unblocked Prefixes List';
+        $data['page_title'] = 'Unblocked Prefixes';
         $this->session->set_userdata('advance_search', 0);
         $this->load->module('rates/rates');
         $data['patters_grid_fields'] = $this->rates->rates_form->build_outbound_list_for_customer();
@@ -1186,7 +1687,7 @@ class Accounts extends MX_Controller {
     }
 
     function customer_add_blockpatterns_json($accountid) {
-        $this->load->module('rates/rates');
+	$this->load->module('rates/rates');
         $json_data = array();
         $count_all = $this->rates_model->getunblocked_pattern_list($accountid,false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
@@ -1197,21 +1698,22 @@ class Accounts extends MX_Controller {
         $json_data['rows'] = $this->rates->form->build_grid($query, $grid_fields);
 
         echo json_encode($json_data);
+        
     }
 
     function reseller_details_json($module, $accountid) {
 
         if ($module == "did") {
             $this->load->module('did/did');
-            $this->did->customer_did($accountid, "reseller");
+            $this->did->reseller_did($accountid, "reseller");
         }
         if ($module == "invoices") {
             $this->load->module('invoices/invoices');
             $this->invoices->customer_invoices($accountid);
         }
-        if ($module == "package") {
-            $this->load->module('package/package');
-            $this->package->customer_charge_list($accountid, "reseller");
+        if ($module == "charges") {
+            $this->load->module('charges/charges');
+            $this->charges->customer_charge_list($accountid, "reseller");
         }
     }
 
@@ -1235,6 +1737,7 @@ class Accounts extends MX_Controller {
                 $insert_arr = array("charge_id" => $charge_id,
                     "accountid" => $accountid, "status" => "1");
                 $this->db->insert("charge_to_account", $insert_arr);
+ 	    	$this->session->set_flashdata('astpp_errormsg', 'Subscripton Added Sucessfully.');
                 redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#packages");
             } else {
                 redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#packages");
@@ -1242,6 +1745,7 @@ class Accounts extends MX_Controller {
         }
         if ($action == "delete") {
             $this->db_model->delete("charge_to_account", array("id" => $chargeid));
+ 	    $this->session->set_flashdata('astpp_notification', 'Subscription Removed Sucessfully.');
             redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#packages");
         }
     }
@@ -1262,50 +1766,193 @@ class Accounts extends MX_Controller {
             redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#packages");
         }
     }
-
-    function customer_dids_action($action, $accountid, $accounttype, $did_id = "") {
+   function customer_dids_action($action, $accountid, $accounttype, $did_id = "") {
+   
+	
         if ($action == "add") {
             $did_id = $this->input->post("free_did_list", true);
+//             echo    $did_id."-".$accountid."-".$this->session->userdata('logintype');
+            
             if ($did_id != "") {
+            
+            
                 $did_query = $this->db_model->getSelect("*", "dids", array("id" => $did_id));
-                $did_arr = $did_query->result_array();
-
-                $account_query = $this->db_model->getSelect("*", "accounts", array("id" => $accountid));
-                $account_arr = $account_query->result_array();
+//		 for getting reseller setup price if reseller customer purchase
+		$did_arr = $did_query->result_array();
+		
+		
+                $reseller_pricing_query = $this->db_model->getSelect("setup", "reseller_pricing", array("note" => $did_arr[0]['number']));
+		
+		$account_query = $this->db_model->getSelect("*", "accounts", array("id" => $accountid));
+		$account_arr = $account_query->result_array();
+                
                 $available_bal = $this->db_model->get_available_bal($account_arr[0]);
-                if ($available_bal >= $did_arr[0]["setup"]) {
-                    if ($did_arr[0]["allocation_bill_status"] == 1) {
-                        $available_bal = $this->db_model->update_balance($did_arr[0]["setup"], $accountid, "debit");
-                    }
-                    $this->db_model->update("dids", array("accountid" => $accountid), array("id" => $did_id));
-                    redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
-                } else {
-                    $this->session->set_flashdata('astpp_notification', 'Insuffiecient fund to purchase this did');
-                    redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+                
+		$uri=$this->uri->uri_string;$type_url=explode("/",$uri);
+		
+		if($reseller_pricing_query->num_rows() > 0)
+                 {
+		    $reseller_pricing_query= $reseller_pricing_query->result_array();
+		    $setup_charge = $reseller_pricing_query[0]['setup'];
+                 }else{
+		    $setup_charge = $did_arr[0]["setup"];
+                 }
+		if($this->session->userdata('logintype') != -1) 
+		{
+		      if ($available_bal >= $setup_charge)
+		      {
+			$available_bal = $this->db_model->update_balance($setup_charge, $accountid, "debit");
+			$this->load->module('did/did');
+			
+			$this->did->did_model->add_invoice_data($accountid,"did_charge",'DID Purchase',$setup_charge);
+			
+			$this->db_model->update("dids", array("accountid" => $accountid), array("id" => $did_id));
+			
+			if($this->session->userdata('logintype') == '1' && @$type_url[4] == 'reseller')
+			{
+			    $this->accounts_model->add_reseller_pricing($accountid,$did_id);
+			    if($this->session->userdata('logintype') == '1' && @$type_url[4] == 'reseller')
+				redirect(base_url() . "did/did_list/"  );
+			    else  
+				redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+			}
+			else{
+	         	    $this->session->set_flashdata('astpp_errormsg', 'Did added successfully.');
+			    redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+			}
+		    }
+		    else 
+		    {
+			$this->session->set_flashdata('astpp_notification', 'Insuffiecient fund to purchase this DID');
+
+			    
+			    if($accounttype == 'customer' || $this->session->userdata('logintype') == 2){
+				redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+			    }else{
+				redirect(base_url() . "did/did_list/"  );
+			    }
+		    }
                 }
-            } else {
-                redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+                else
+                {
+		      $this->db_model->update("dids", array("accountid" => $accountid), array("id" => $did_id));
+		      if($this->session->userdata('logintype') == '1' && @$type_url[4] == 'reseller')
+		      {
+			  $this->accounts_model->add_reseller_pricing($accountid,$did_id);
+			  if($this->session->userdata('logintype') == '1' && @$type_url[4] == 'reseller')
+			      redirect(base_url() . "did/did_list/"  );
+			  else  
+			      redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+		      }
+		      else{
+			  redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+		      }
+                }
+                
+            }
+            else 
+            {
+                if($this->session->userdata('logintype') == '1')
+                        redirect(base_url() . "did/did_list/"  );
+                else
+ 	    	  //$this->session->set_flashdata('astpp_errormsg', 'Please Purchase Atleast One Did.');
+		  redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
             }
         }
         if ($action == "delete") {
-            $this->db_model->update("dids", array("accountid" => "0"), array("id" => $did_id));
+            $reseller_session_id=$this->session->userdata['accountinfo']['id'];
+            if($this->session->userdata('logintype') == '1')
+                $this->db_model->update("dids", array("accountid" => "0"), array("id" => $did_id));
+            else
+                $this->db_model->update("dids", array("accountid" => "0"), array("id" => $did_id));
+            if($accounttype == 'reseller'){
+                $did_query = $this->db_model->getSelect("*", "dids", array("id" => $did_id));
+                $did_arr = $did_query->result_array();
+                
+                $delete_array=array('reseller_id'=>$accountid,'note'=>$did_arr[0]['number']);
+                
+                $this->db->where($delete_array);
+                $this->db->delete('reseller_pricing');
+            }
+ 	    $this->session->set_flashdata('astpp_notification', 'Did Removed Sucessfully.');
             redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
         }
     }
-
+    
+    function reseller_did_action($action, $accountid, $accounttype, $did_id = "")
+    {
+// 	echo $accountid;exit;
+	  if ($action == "add") {
+            
+	      $did_id = $this->input->post("free_did_list", true);
+	      if ($did_id != "") {
+// 		  $did_query = $this->db_model->getSelect("*", "dids", array("id" => $did_id));
+// 		  $did_arr = $did_query->result_array();
+		  
+		  $account_query = $this->db_model->getSelect("*", "accounts", array("id" => $accountid));
+		  
+		  $account_arr = $account_query->result_array();
+		  $idofaccount = $accountid;
+// 		  echo "<pre>";print_r($this->session->userdata);echo "-----------".$accountid;exit;
+// 		  if($this->session->userdata['userlevel_logintype'] == -1)
+// 		  {
+// 		    $accountid=0;
+// 		  }else{
+// 		    $accountid = $idofaccount;
+// 		  }
+		  $this->db_model->update("dids", array("parent_id" => $accountid), array("id" => $did_id));
+		  $accountid = $idofaccount;
+		  $this->accounts_model->add_reseller_pricing($accountid,$did_id);
+		  $this->session->set_flashdata('astpp_errormsg', 'DID added successfully.');
+		  redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+                    
+	    }
+	    else{
+		redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+	    }
+        }
+        if ($action == "delete") {
+             $this->db->where('id',$did_id);
+             $this->db->select('note');
+             $pricing_res=$this->db->get('reseller_pricing');
+             if($pricing_res->num_rows() > 0){
+             $pricing_res=$pricing_res->result_array();
+             $did_number=$pricing_res[0]['note'];
+             $accountinfo=$this->session->userdata('accountinfo');
+             $reseller_ids=$this->common->subreseller_list($accountinfo['id']);
+             $pricing_where= "parent_id IN ($reseller_ids) AND note = $did_number";
+             $this->db->where($pricing_where);
+             $this->db->delete('reseller_pricing');
+             $dids_where="parent_id IN ($reseller_ids) AND number = $did_number";
+             $this->db->where($dids_where);
+             $data= array('accountid'=>0,'parent_id'=>$accountinfo['id']);
+             $this->db->update('dids',$data);
+	     $this->session->set_flashdata('astpp_notification', 'DID removed successfully.');
+	    }else{
+	      $this->session->set_flashdata('astpp_notification', 'DID already removed before.');
+	    }
+            redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#did");
+        }
+    }
     function customer_ipmap_action($action, $accountid, $accounttype, $ipmapid = "") {
+	$add_array=$this->input->post();
+	
         if ($action == "add") {
-            $ip = $this->input->post("ip", true);
-            if ($ip != "") {
+            if ($add_array['ip'] != "") {
+            $where = array("ip" => trim($add_array['ip']), "prefix" => trim($add_array['prefix']));
+            $getdata = $this->db_model->countQuery("*", "ip_map", $where);
+            if ($getdata > 0) {
+                $this->session->set_flashdata('astpp_notification', 'Account already exist in system.');
+                redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#accounts");
+            }
+            else{
                 if ($accounttype == "provider") {
-                    $insert_arr = array("name" => $this->input->post("name", true), "ip" => $ip, "accountid" => $accountid,
-                        "context" => "default", "pricelist_id" => "0");
-                } else {
-                    $insert_arr = array("name" => $this->input->post("name", true), "ip" => $ip, "accountid" => $accountid,
-                        "prefix" => $this->input->post("prefix", true), "context" => "default",
-                        "pricelist_id" => $this->input->post("ip_pricelist", true));
+			$add_array['pricelist_id']=0;
                 }
-                $ip_flag = $this->db->insert("ip_map", $insert_arr);
+                unset($add_array['action']);
+                $add_array['context']='default';
+		$add_array['accountid']=$accountid;
+                $ip_flag = $this->db->insert("ip_map", $add_array);
                 if ($ip_flag) {
                     $this->load->library('freeswitch_lib');
                     $this->load->module('freeswitch/freeswitch');
@@ -1313,10 +1960,13 @@ class Accounts extends MX_Controller {
                     $response = $this->freeswitch_model->reload_freeswitch($command);
                     $this->session->set_userdata('astpp_notification',$response);
                 }
+ 	    	$this->session->set_flashdata('astpp_errormsg', 'IP added sucessfully.');
                 redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#accounts");
+            }
             } else {
                 redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#accounts");
             }
+            
         }
         if ($action == "delete") {
             $ip_flag = $this->db_model->delete("ip_map", array("id" => $ipmapid));
@@ -1326,38 +1976,109 @@ class Accounts extends MX_Controller {
                 $command = "api reloadacl";
                 $this->freeswitch_model->reload_freeswitch($command);
             }
+ 	    	$this->session->set_flashdata('astpp_notification', 'IP removed sucessfully.');
             redirect(base_url() . "accounts/" . $accounttype . "_edit/$accountid#accounts");
         }
     }
 
     function customer_animap_action($action, $accountid, $aniid = "") {
+       $entity_type =$this->common->get_field_name('type','accounts',array('id'=>$accountid));
+       $entity_type =strtolower($this->common->get_entity_type('','',$entity_type));
+       $url ="accounts/". $entity_type."_edit/$accountid#accounts";
         if ($action == "add") {
-            $ani = $this->input->post("ANI", true);
-            if ($ani != "") {
-                $insert_arr = array("number" => $this->input->post("ANI", true), "accountid" => $accountid,
-                     "context" => "default");
-                $this->db->insert("ani_map", $insert_arr);
-                redirect(base_url() . "accounts/customer_edit/$accountid#accounts");
-            } else {
-                redirect(base_url() . "accounts/customer_edit/$accountid#accounts");
-            }
-        }
-        if ($action == "delete") {
-            $this->db_model->delete("ani_map", array("id" => $aniid));
-            redirect(base_url() . "accounts/customer_edit/$accountid#accounts");
-        }
+            $ani = $this->input->post();
+            $this->db->where('number',$ani['number']);
+            $this->db->select('count(id) as count');
+            $cnt_result=$this->db->get('ani_map');
+            $cnt_result=$cnt_result->result_array();
+            $count=$cnt_result[0]['count'];
+            if($count == 0 ){
+	      if ($ani['number'] != "") {
+		  $insert_arr = array("number" => $this->input->post('number'), "accountid" => $accountid,
+		      "context" => "default");
+		  $this->db->insert("ani_map", $insert_arr);
+		  $this->session->set_flashdata('astpp_errormsg', 'Add ANI Sucessfully!');
+		  redirect(base_url() .$url);
+		  
+	      } else {
+		  $this->session->set_flashdata('astpp_notification', 'Please Enter ANI Field.');
+		  redirect(base_url() . $url);
+	      }
+	    }
+	    else{
+ 		$this->session->set_flashdata('astpp_notification', ' ANI already Exists.');
+		redirect(base_url() . $url);
+	    }
+      }
+      if ($action == "delete") {
+          $this->session->set_flashdata('astpp_notification', 'ANI removed sucessfully!');
+          $this->db_model->delete("ani_map", array("id" => $aniid));
+          redirect(base_url() .$url);
+      }
     }
-
     function customer_delete_block_pattern($accountid, $patternid) {
+    $entity_type =$this->common->get_field_name('type','accounts',array('id'=>$accountid));
+       $entity_type =strtolower($this->common->get_entity_type('','',$entity_type));
+       $url ="accounts/". $entity_type."_edit/$accountid#block_prefixes";
+	$this->session->set_flashdata('astpp_notification', 'Block Prefix Removed Sucessfully!');
         $this->db_model->delete("block_patterns", array("id" => $patternid));
-        redirect(base_url() . "accounts/customer_edit/$accountid#block_prefixes");
+        redirect(base_url() . $url);
     }
-
-    function callshop_selected_delete() {
-        echo $this->delete_multiple();
+    function customer_selected_delete() {
+	$ids = $this->input->post("selected_ids", true);
+        $this->reseller_customer_multidelete($ids);
+        $this->free_customer_multiple_dids($ids);
+        $this->free_multiple_ani($ids);
+        echo TRUE;
     }
-
+    
+    function free_customer_multiple_dids($ids){
+	$where = "accountid IN ($ids)";
+	$this->db->where($where);
+	$this->db->update("dids",array('accountid' => "0"));
+    }
+    
+    function free_multiple_ani($ids){
+	$where = "accountid IN ($ids)";
+	$this->db->where($where);
+	$this->db->delete('ani_map');
+    }
+    
+    function reseller_customer_multidelete($ids){
+        $where = "id IN ($ids) OR reseller_id IN($ids)";
+        $data=array('deleted'=>1);
+        $this->db->where($where);
+        $this->db->update("accounts",$data);
+    }
+    
     function reseller_selected_delete() {
+        $ids = $this->input->post("selected_ids", true);
+        $id_arr=explode(',',$ids);
+        $reseller_ids=null;
+        foreach($id_arr as $data){
+         $reseller_ids.=$this->common->subreseller_list($data);
+         $reseller_ids.=',';
+        }
+        $reseller_ids=rtrim($reseller_ids,',');
+        $this->reseller_customer_multidelete($reseller_ids);
+        $this->free_reseller_multiple_dids($reseller_ids);
+        echo TRUE;
+    }
+    
+    function free_reseller_multiple_dids($ids){
+
+     $accountinfo=$this->session->userdata('accountinfo');
+     $reseller_id= $accountinfo['type'] != 1 ? 0 : $accountinfo['id'];
+     $data=array('parent_id'=>$reseller_id,'accountid'=>0);
+     $where="parent_id IN ($ids)";
+     $this->db->where($where);
+     $this->db->update('dids',$data);
+     $where = "reseller_id IN ($ids)";
+     $this->db->where($where);
+     $this->db->delete('reseller_pricing');
+     return true;
+    }
+    function callshop_selected_delete() {
         echo $this->delete_multiple();
     }
 
@@ -1372,18 +2093,14 @@ class Accounts extends MX_Controller {
     function admin_selected_delete() {
         echo $this->delete_multiple();
     }
-
-    function customer_selected_delete() {
-        echo $this->delete_multiple();
-    }
-
     function delete_multiple() {
         $ids = $this->input->post("selected_ids", true);
         $where = "id IN ($ids)";
+        $data=array('deleted'=>1);
         $this->db->where($where);
-        echo $this->db->delete("accounts");
+        $this->db->update("accounts",$data);
+        echo TRUE;
     }
-
     function user_animap_json($accountid) {
         $json_data = array();
         $where = array("accountid" => $accountid);
@@ -1400,7 +2117,7 @@ class Accounts extends MX_Controller {
 
     function customer_account_taxes($action = false, $id = false) {
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Account Tax List';
+        $data['page_title'] = 'Account Taxes';
 
         if ($action == false)
             $action = "list";
@@ -1423,7 +2140,7 @@ class Accounts extends MX_Controller {
                         $this->accounts_model->add_account_tax($data);
                     }
                 }
-                $this->session->set_flashdata('astpp_notification', 'Account Tax added successfully!');
+                $this->session->set_flashdata('astpp_errormsg', 'Account tax added successfully!');
                 redirect(base_url() . 'accounts/customer_list/');
             }
             $data['id'] = array();
@@ -1460,14 +2177,14 @@ class Accounts extends MX_Controller {
                 } else {
                     $link = base_url() . '/accounts/reseller_list/';
                 }
-                $this->session->set_flashdata('astpp_notification', 'Account Tax added successfully!');
+                $this->session->set_flashdata('astpp_errormsg', 'Account tax added successfully!');
                 redirect($link);
             }
             $data['taxesList'] = $this->common_model->get_list_taxes();
             $this->load->view('view_accounting_taxes_add', $data);
         } elseif ($action == 'delete') {
             $this->accounting_model->remove_account_tax($id);
-            $this->session->set_flashdata('astpp_notification', 'Account Tax removed successfully!');
+            $this->session->set_flashdata('astpp_notification', 'Account tax removed successfully!');
             redirect(base_url() . 'accounting/account_taxes/');
         }
     }
@@ -1498,80 +2215,38 @@ class Accounts extends MX_Controller {
             }
         }
     }
-
-    function customer_payment_process_add($id = '') {
-        $account = $this->accounts_model->get_account_by_number($id);
-        $currency = $this->accounts_model->get_currency_by_id($account['currency_id']);
-        $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Process Payment';
-        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_payment_fields($currency['currency'], $account['number'], $currency['currency'], $id), '');
-        $this->load->view('view_accounts_process_payment', $data);
-    }
-
-    function customer_payment_save($id = '') {
-        if ($this->input->post()) {
-            $post_array = $this->input->post();
-            $post_array['credit'] = $this->common_model->add_calculate_currency($post_array['credit'], "", '', false, false);
-            $logintype = $this->session->userdata('logintype');
-            $username = $this->session->userdata('username');
-	    $login_user_data = $this->session->userdata("accountinfo");
-            $accountinfo = $this->accounts_model->get_account_by_number($post_array['id']);
-
-            if ($accountinfo['type'] == '0') {
-                $link = base_url() . '/accounts/customer_list/';
-            } else {
-                $link = base_url() . '/accounts/reseller_list/';
-            }
-
-            if ($logintype == 1 || $logintype == 5) {
-                if ($accountinfo['reseller_id'] == $login_user_data["id"]) {
-                    $response = $this->accounts_model->account_process_payment($post_array);
-                    $this->common_model->status_message($response);
-                    $this->session->set_flashdata('astpp_notification', "Account refilled successfully....");
-                    redirect(base_url() . '/accounts/reseller_list/');
-                    exit;
-                } else {
-                    $this->session->set_flashdata('astpp_errormsg', "You are not allowed to add amount to this account.");
-                    redirect($link);
-                    exit;
-                }
-            } else {
-                $response = $this->accounts_model->account_process_payment($post_array);
-                $this->session->set_flashdata('astpp_notification', "Account refilled successfully....");
-                redirect($link);
-                exit;
-            }
-        }
-        $account = $this->accounts_model->get_account_by_number($post_array['id']);
-        $currency = $this->accounts_model->get_currency_by_id($account['currency_id']);
-        $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Process Payment';
-        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_payment_fields($currency['currency'], $account['number'], $currency['currency'], $id), '');
-        $this->load->view('view_accounts_process_payment', $data);
-    }
-
     function customer_fssipdevices_action($action, $id, $accountid) {
+       $entity_type =$this->common->get_field_name('type','accounts',array('id'=>$accountid));
+       $entity_type =strtolower($this->common->get_entity_type('','',$entity_type));
+       $url ="accounts/". $entity_type."_edit/$accountid#accounts";
         $this->load->module('freeswitch/freeswitch');
         if ($action == "delete") {
+            $this->session->set_flashdata('astpp_notification', 'Sip removed successfully!');
             $this->freeswitch->freeswitch_model->delete_freeswith_devices($id);
-            redirect(base_url() . "accounts/customer_edit/$accountid#accounts");
+            redirect(base_url() . $url);
         }
         if ($action == "edit") {
+	    $this->session->set_flashdata('astpp_errormsg', 'Sip updated successfully!');	    
             $this->freeswitch->customer_fssipdevices_edit($id, $accountid);
         }
     }
 
-    function customer_opensips_action($action, $id, $accountid) {
+    function customer_opensips_action($action,$accountid,$id) {
+      $entity_type =$this->common->get_field_name('type','accounts',array('id'=>$accountid));
+       $entity_type =strtolower($this->common->get_entity_type('','',$entity_type));
+       $url ="accounts/". $entity_type."_edit/$accountid#accounts";
         $this->load->module('opensips/opensips');
         if ($action == "delete") {
-            $this->opensips->opensips_model->remove_opensips($accountid);
-            redirect(base_url() . "accounts/customer_edit/$id#accounts");
+            $this->opensips->opensips_model->remove_opensips($id);
+            $this->session->set_flashdata('astpp_notification', 'Opensips removed successfully!');
+            redirect(base_url() . $url);
         }
         if ($action == "edit") {
-	    
-            $this->opensips->customer_opensips_edit($id, $accountid);
+            $this->opensips->customer_opensips_edit($accountid,$id);
+	    $this->session->set_flashdata('astpp_errormsg', 'Opensips updated successfully!');
         }
     }
+
 
     function reseller_edit_account() {
         $account_data = $this->session->userdata("accountinfo");
@@ -1579,18 +2254,24 @@ class Accounts extends MX_Controller {
         $add_array = $this->input->post();
         $data['form'] = $this->form->build_form($this->accounts_form->get_reseller_own_form_fields(), $add_array);
         if ($add_array['id'] != '') {
-            $data['page_title'] = 'Edit Reseller Details';
+            $data['page_title'] = 'Edit Reseller';
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
             } else {
                 $this->accounts_model->edit_account($add_array, $add_array['id']);
-                $this->session->set_flashdata('astpp_notification', 'Account Edit Completed!');
+		$accountinfo=$this->session->userdata('accountinfo');
+		if($add_array['id']==$accountinfo['id'] ){
+		  $result=$this->db->get_where('accounts',array('id'=>$add_array['id']));
+		  $result=$result->result_array();
+		  $this->session->set_userdata('accountinfo',$result[0]);
+		}
+                $this->session->set_flashdata('astpp_errormsg', 'Reseller updated successfully!');
                 redirect(base_url() . '/dashboard/');
             }
             $this->load->view('view_reseller_edit_details_own', $data);
         } else {
 
-            $data['page_title'] = 'Edit Reseller Details';
+            $data['page_title'] = 'Edit Reseller';
             $where = array('id' => $account_data["id"]);
             $account = $this->db_model->getSelect("*", "accounts", $where);
             $data["account_data"] = $account->result_array();
@@ -1603,6 +2284,86 @@ class Accounts extends MX_Controller {
         }
     }
 
+function customer_animap_list($id='') {
+	$data['animap_id']=$id;
+	$data['username'] = $this->session->userdata('user_name');
+        $data['page_title'] = "ANI Map List";
+        $this->session->set_userdata('animap_search', 0);
+        $data['grid_fields'] = $this->accounts_form->build_animap_list();
+        $data["grid_buttons"] = $this->accounts_form->build_grid_buttons_destination();
+        $this->load->view('view_ani_map',$data);
+    }
+    function customer_animap_list_json($id=''){
+	$json_data = array();
+        $count_all = $this->accounts_model->get_animap(false,'','',$id);
+        $data['callingcard_id'] = $id;
+        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);        
+        $json_data = $paging_data["json_paging"];
+        $query = $this->accounts_model->get_animap(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"],$id);
+        $grid_fields = json_decode($this->accounts_form->build_animap_list());
+        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
+        echo json_encode($json_data);
+        exit;
+    }
+
+    function customer_animap_list_action($id=''){ 
+
+	  $add_array=$this->input->post();
+
+          $add_array['id']=trim($add_array['id']);
+          $add_array['number']=trim($add_array['number']);
+          if(isset($add_array['id']) && $add_array['id'] != ''){
+              $add_array['id']=trim($add_array['id']);
+              $id=$add_array['id'];
+          }
+          $where=array("number"=>$add_array['number']);
+          $pro =$this->accounts_model->animap_authentication($where,$id);
+          if($pro > 0){
+		echo "2";
+		exit;
+            }
+          if(isset($add_array['number'])&& !empty($add_array['number'])){
+	        if(isset($add_array['id']) && $add_array['id'] != ''){
+                unset($add_array['animap_id']);
+		    	$response = $this->accounts_model->edit_animap($add_array,$add_array['id']);
+			echo "1";
+			exit;
+                }else{
+		    $add_array['context']="default";
+		    unset($add_array['animap_id']);
+			$add_array['accountid']=$id;
+                        $response = $this->accounts_model->add_animap($add_array);
+                        echo "0";
+                        exit;
+                    }
+             }
+            else{
+                echo "3";
+                exit;
+            }
+    }
+    function customer_animap_list_remove($id){
+             $this->accounts_model->remove_ani_map($id);
+	     echo "1";
+	     exit;
+    }
+    function customer_animap_list_edit($id){
+    $where = array('id' => $id);
+        $account = $this->db_model->getSelect("*", "ani_map", $where);
+        foreach ($account->result_array() as $key => $value) {
+            $edit_data = $value;
+        }
+        $value_edit='';
+        foreach($edit_data as $key => $value){
+            $value_edit.=$value.",";
+        }
+        echo rtrim($value_edit,',');
+        exit;
+    }
+
+   function provider_edit_account(){
+      $this->customer_edit_account();
+   }
 }
 
 ?>

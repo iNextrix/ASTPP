@@ -1025,7 +1025,8 @@ function Output($name='', $dest='')
 		case 'D':
 			// Download file
 			$this->_checkoutput();
-			header('Content-Type: application/x-download');
+			header('Content-Type: application/pdf');
+// 			header('Content-Type: application/x-download');
 			header('Content-Disposition: attachment; filename="'.$name.'"');
 			header('Cache-Control: private, max-age=0, must-revalidate');
 			header('Pragma: public');

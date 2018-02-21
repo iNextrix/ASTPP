@@ -1,5 +1,24 @@
 <?php
-
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 class Freeswitch_model extends CI_Model {
 
     function Freeswitch_model() {
@@ -19,13 +38,13 @@ class Freeswitch_model extends CI_Model {
                 foreach ($add_array as $key => $value) {
                     $vars = json_decode($value['dir_vars']);
                     $passowrds = json_decode($value['dir_params']);
-                    $query[] = array('id' => $value['id'], 'username' => $value['username'], 'accountid' => $value['accountid'],
-                        'pricelist_id' => $value['pricelist_id'],
+                    $query[] = array('id' => $value['id'], 'username' => $value['username'], 'accountid' => $value['accountid'],'status' => $value['status'],
+//                         'pricelist_id' => $value['pricelist_id'],
                         'sip_profile_id' => $value['sip_profile_id']
                         , 'effective_caller_id_name' => $vars->effective_caller_id_name,
                         'effective_caller_id_number' => $vars->effective_caller_id_number
-                        , 'password' => $passowrds->password,
-                        'context' => $vars->user_context);
+                        , 'password' => $passowrds->password
+                        );
                 }
             }
         } else {
@@ -35,23 +54,31 @@ class Freeswitch_model extends CI_Model {
     }
 
     function add_freeswith($add_array) {
-        if (isset($add_array['pricelist_id']) && $add_array['pricelist_id'] == '') {
-            $add_array['pricelist_id'] = '0';
-        }
+	if(isset($add_array['sip_profile_id']))
+	{
+	      $sip_profile_id=$add_array['sip_profile_id'];
+	}
+	else
+	{
+	      $sip_profile_id='';
+	}
+//         if (isset($add_array['pricelist_id']) && $add_array['pricelist_id'] == '') {
+//             $add_array['pricelist_id'] = '0';
+//         }
         if($this->session->userdata("logintype") == 0){
             $account_data = $this->session->userdata("accountinfo");
-            $add_array['pricelist_id'] = $account_data["pricelist_id"];
             $add_array['accountid'] = $account_data["id"];
         }
         $parms_array = array('password' => $add_array['fs_password']);
+	$add_array['status'] = isset($add_array['status'])?$add_array['status']:"0";
 
         $parms_array_vars = array('effective_caller_id_name' => $add_array['effective_caller_id_name'],
             'effective_caller_id_number' => $add_array['effective_caller_id_number'],
-            'user_context' => $add_array['context']);
+            'user_context' => 'default');
 
-        $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],
-            'pricelist_id' => $add_array['pricelist_id'], 'dir_params' => json_encode($parms_array),
-            'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $add_array['sip_profile_id']);
+        $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],'status' => $add_array['status'],
+             'dir_params' => json_encode($parms_array),
+            'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $sip_profile_id);
 
 //        print_r($new_array);
 //        exit;
@@ -69,20 +96,21 @@ class Freeswitch_model extends CI_Model {
         );
 
         $parms_array_vars = array('effective_caller_id_name' => $add_array['effective_caller_id_name'],
-            'effective_caller_id_number' => $add_array['effective_caller_id_number'],
-            'user_context' => $add_array['context']);
+            'effective_caller_id_number' => $add_array['effective_caller_id_number']
+            );
 
         //if else for that we can not assign user pricelist selecttion for user side    
 //             print_r($add_array);
-	if (isset($add_array['pricelist_id'])){
-        $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],
-            'pricelist_id' => $add_array['pricelist_id'], 'dir_params' => json_encode($parms_array),
-            'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $add_array['sip_profile_id']);
-	}else{
-	    $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],
+// 	if (isset($add_array['pricelist_id'])){
+//         $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],
+//             'pricelist_id' => $add_array['pricelist_id'], 'dir_params' => json_encode($parms_array),
+//             'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $add_array['sip_profile_id']);
+// 	}else{
+	    $add_array['status'] = isset($add_array['status'])?$add_array['status']:"0";
+	    $new_array = array('username' => $add_array['fs_username'], 'accountid' => $add_array['accountcode'],'status' => $add_array['status'],
              'dir_params' => json_encode($parms_array),
             'dir_vars' => json_encode($parms_array_vars), 'sip_profile_id' => $add_array['sip_profile_id']);
-	}
+// 	}
 
         $this->db->where('id', $id);
         $this->db->update('sip_devices', $new_array);
@@ -99,12 +127,12 @@ class Freeswitch_model extends CI_Model {
             $passowrds = json_decode($value['dir_params']);
             $query = array('id' => $value['id'], 'fs_username' => $value['username']
                 , 'accountcode' => $value['accountid'],
+                'status' => $value['status'],
                 'sip_profile_id' => $value['sip_profile_id'],
-                'pricelist_id' => $value['pricelist_id']
-                , 'effective_caller_id_name' => $vars->effective_caller_id_name,
+                 'effective_caller_id_name' => $vars->effective_caller_id_name,
                 'effective_caller_id_number' => $vars->effective_caller_id_number
-                , 'fs_password' => $passowrds->password,
-                'context' => $vars->user_context);
+                , 'fs_password' => $passowrds->password
+                );
         }
         return $query;
     }
@@ -119,30 +147,40 @@ class Freeswitch_model extends CI_Model {
 
         $deviceinfo = array();
         $this->db_model->build_search('fssipdevices_list_search');
+         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+            $reseller_id = $this->session->userdata["accountinfo"]['id'];
+        }else{
+	    $reseller_id = 0;
+        }
+        
         $query = array();
         if ($flag) {
-            $deviceinfo = $this->db_model->select("*", "sip_devices", '', "id", "ASC", $limit, $start);
+	    $where=  "accountid  IN (select id from accounts where reseller_id='$reseller_id' and id = sip_devices.accountid)";
+            $deviceinfo = $this->db_model->select("*", "sip_devices", $where, "id", "ASC", $limit, $start);
             if ($deviceinfo->num_rows > 0) {
                 $add_array = $deviceinfo->result_array();
                 foreach ($add_array as $key => $value) {
                     $vars = json_decode($value['dir_vars']);
                     $passowrds = json_decode($value['dir_params']);
-                    $query[] = array('id' => $value['id'], 'username' => $value['username'], 'accountid' => $value['accountid'],
-                        'pricelist_id' => $value['pricelist_id'],
+                    $query[] = array('id' => $value['id'], 'username' => $value['username'], 'accountid' => $value['accountid'],'status' => $value['status'],
                         'sip_profile_id' => $value['sip_profile_id']
                         , 'effective_caller_id_name' => $vars->effective_caller_id_name,
                         'effective_caller_id_number' => $vars->effective_caller_id_number
-                        , 'password' => $passowrds->password,
-                        'context' => $vars->user_context);
+                        , 'password' => $passowrds->password
+//                         'context' => $vars->user_context
+                        );
                 }
             }
         } else {
-            $query = $this->db_model->countQuery("*", "sip_devices", '');
-        }
+	    $where=  "accountid  IN (select id from accounts where reseller_id='$reseller_id' and id = sip_devices.accountid)";
+            $query = $this->db_model->countQuery("*", 'sip_devices', $where);
+	}
+// 	echo $this->db->last_query();
         return $query;
     }
 
     function get_gateway_list($flag, $start = 0, $limit = 0) {
+	$this->db_model->build_search('fsgateway_list_search'); 
         if ($flag) {
             $query = $this->db_model->select("*", "gateways", "", "id", "desc", $limit, $start);
         } else {
@@ -152,6 +190,7 @@ class Freeswitch_model extends CI_Model {
     }
 
     function get_sipprofile_list($flag, $start = 0, $limit = 0) {
+        $this->db_model->build_search('fssipprofile_list_search'); 
         if ($flag) {
             $query = $this->db_model->select("*", "sip_profiles", "", "id", "desc", $limit, $start);
         } else {

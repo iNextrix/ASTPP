@@ -1,53 +1,252 @@
-<? extend('master.php') ?>	
-<? startblock('page-title') ?>       
-<? endblock() ?>    
-<? startblock('content') ?>  
-<div class="inner-page-title">			
-    <h2>Account Details</h2>
-</div>
+<? extend('master.php') ?>
+<? startblock('page-title') ?>
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-    <div class="portlet-content">
-        <div class="hastable">
-<!--<a href="<?//=base_url()?>user/user_payment/">payment</a>-->            
-            <table class="details_table">  
-                <tr>
-                    <th>Account Number</th><td><?= $account['number'] ?></td>
-                    <th>Balance</th><td><?= ($account['balance']); ?></td>
-                    <th>Account Type</th><td><?= ucfirst(Common_model::$global_config['userlevel'][$account['type']]); ?></td>
-                    <th>Name</th><td><?= $account['first_name'] . " " . $account['last_name'] ?></td>
-                </tr>
-                <tr>
-                    <th>Company</th><td><?= $account['company_name'] ?></td>
-                    <th>Address</th><td><?= $account['address_1'] ?></td>
-                    <th>City</th><td><?= $account['city'] ?></td>
-                    <th>Email</th><td><?= $account['email'] ?></td>
-                </tr>
-                <tr>
-                    <th>Province/State</th><td><?= $account['province'] ?></td>
-                    <th>Zip/Postal Code</th><td><?= $account['postal_code'] ?></td>
-                    <th>Country</th><td><?= $account['country_id'] ?> </td>
-                    <th>Billing Schedule</th><td><?= ucfirst(Common_model::$global_config['sweeplist'][$account['sweep_id']]); ?></td>
-                </tr>
-                <tr>
-                    <th>Credit Limit in</th><td><?= $account['credit_limit'] ?></td>
-                    <th>Timezone</th><td><?= $account['timezone_id'] ?></td>      
-                    <th>Max Channels</th><td><?= $account['maxchannels'] ?></td>
-                    <th>Telephone</th><td><?= $account['telephone_1'] ?></td>
-                </tr>
-            </table>
+<?= $page_title ?>
+
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/highcharts.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/exporting.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/highcharts-3d.js"></script>
+<style>
+.second{
+ color: black;
+ opacity:0.4;
+ border: 0px;
+ width: 100%; 
+ padding:100px 0px 100px 0px;
+ margin:5px;  
+ display:relative;
+ text-align:center;
+ font-size:250%;
+/* -ms-transform: rotate(100deg); 
+    -webkit-transform: rotate(100deg);
+    transform: rotate(320deg);*/
+}
+</style>
+<script type="text/javascript">
+ function get_payment_data(){
+            $.ajax({
+            type:'POST',
+//     		dataType: 'JSON',
+		url: "<?php echo base_url();?>"+'dashboard/user_recent_payments/',
+		cache    : false,
+		async    : false,
+                success: function(response_data) {
+                     var custom_data=JSON.parse(response_data);
+                      if(custom_data !=''){
+                      $("div.recharge_not_data").hide();
+		      $("div.recharge_data").show();
+                          var str = "<table class='table table-bordered flexigrid'>";  
+                          var arrayLength = custom_data.length;
+                          for (var i = 0; i < arrayLength; i++) {
+				  str=str+"<tr>";
+ 				  if(i==0){
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].payment_date+"</th>";
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].credit+"</th>";
+ 				  }else{
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].payment_date+"</td>";
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].credit+"</td>";
+ 				  }
+ 				  str=str+"</tr>";
+			  }   
+                          str+="</table>";
+                                document.getElementById("recharge_data").innerHTML = str;  
+                        }
+                        if(custom_data ==''){
+                             $("div.recharge_data").hide();		    
+		    $("div.recharge_not_data").addClass("second");
+		    $("div.recharge_not_data").show();
+		    $('div.recharge_not_data').text('No Records Found');
+                        }
+                    
+                }
+            });
+      };
+     function get_invoices_data(){
+            $.ajax({
+            type:'POST',
+//     		dataType: 'JSON',
+		url: "<?php echo base_url();?>"+'user/user_invoices_data/',
+		cache    : false,
+		async    : false,
+                success: function(response_data) {
+                     var custom_data=JSON.parse(response_data);
+                      if(custom_data !=''){
+                      $("div.invoices_not_data").hide();
+		      $("div.invoices_data").show();
+                          var str = "<table class='table table-bordered flexigrid'>";  
+                          var arrayLength = custom_data.length;
+                          for (var i = 0; i < arrayLength; i++) {
+				  str=str+"<tr>";
+ 				  if(i==0){
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].type+"</th>";   				  
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].id+"</th>";  
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].from_date+"</th>";  
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].invoice_date+"</th>";  
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].amount+"</th>";  
+ 				  }else{
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].type+"</td>";   				  
+				    str=str+"<td style='text-align:center;'>"+custom_data[i].id+"</td>";  
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].from_date+"</td>";  
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].invoice_date+"</td>";   				  
+				    str=str+"<td style='text-align:center;'>"+custom_data[i].amount+"</td>";
+ 				  }
+ 				  str=str+"</tr>";
+			  }   
+                          str+="</table>";
+                                document.getElementById("invoices_data").innerHTML = str;  
+                        }
+                        if(custom_data ==''){
+                             $("div.invoices_data").hide();		    
+		    $("div.invoices_not_data").addClass("second");
+		    $("div.invoices_not_data").show();
+		    $('div.invoices_not_data').text('No Records Found');
+                        }
+                    
+                }
+            });
+      };
+function get_package_data(){
+            $.ajax({
+            type:'POST',
+//     		dataType: 'JSON',
+		url: "<?php echo base_url();?>"+'user/user_package_data/',
+		cache    : false,
+		async    : false,
+                success: function(response_data) {
+                  
+                     var custom_data=JSON.parse(response_data);
+                     var str="";
+                      if(custom_data !=''){
+                      $("div.package_not_data").hide();
+		      $("div.package_data").show();
+                      str=str+"<table class='table table-bordered flexigrid'>";
+                          var arrayLength = custom_data.length;
+                          for (var i = 0; i < arrayLength; i++) {
+                         
+				  str=str+"<tr>";
+ 				  if(i==0){
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].package_name+"</th>";
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].includedseconds+"</th>";
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].status+"</th>";
+//  				    str=str+"<th style='text-align:center;'>"+custom_data[i].credit+"</th>";
+ 				  }else{
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].package_name+"</td>";
+				    str=str+"<td style='text-align:center;'>"+custom_data[i].includedseconds+"</td>";
+//  				    str=str+"<td style='text-align:center;'>"+custom_data[i].credit+"</td>";
+                                   str=str+"<td style='text-align:center;'>"+custom_data[i].status+"</td>";
+ 				  }
+ 				  str=str+"</tr>";
+			  }   
+                          str+="</table>";
+                                document.getElementById("package_data").innerHTML = str;  
+                        }
+                        if(custom_data ==''){
+                        $("div.package_data").hide();		    
+			$("div.package_not_data").addClass("second");
+			$("div.package_not_data").show();
+			$('div.package_not_data').text('No Records Found');
+                        }
+                    
+                }
+            });
+      };
+ function get_subscription_data(){
+            $.ajax({
+            type:'POST',
+//     		dataType: 'JSON',
+		url: "<?php echo base_url();?>"+'user/user_subscription_data/',
+		cache    : false,
+		async    : false,
+                success: function(response_data) {
+                  
+                     var custom_data=JSON.parse(response_data);
+                     var str="";
+                      if(custom_data !=''){
+                      $("div.not_data").hide();
+		      $("div.subscription_data").show();
+                      str=str+"<table class='table table-bordered flexigrid'>";
+                          var arrayLength = custom_data.length;
+                          for (var i = 0; i < arrayLength; i++) {
+                         
+				  str=str+"<tr>";
+ 				  if(i==0){
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].charge_id+"</th>";
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].assign_date+"</th>";
+//  				    str=str+"<th style='text-align:center;'>"+custom_data[i].credit+"</th>";
+ 				  }else{
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].charge_id+"</td>";
+				    str=str+"<td style='text-align:center;'>"+custom_data[i].assign_date+"</td>";
+//  				    str=str+"<td style='text-align:center;'>"+custom_data[i].credit+"</td>";
+ 				  }
+ 				  str=str+"</tr>";
+			  }   
+                          str+="</table>";
+                                document.getElementById("subscription_data").innerHTML = str;  
+                        }
+                        if(custom_data ==''){
+                        $("div.subscription_data").hide();		    
+			$("div.subscription_not_data").addClass("second");
+			$("div.subscription_not_data").show();
+			$('div.subscription_not_data').text('No Records Found');
+                        }
+                    
+                }
+            });
+      };
+      $(document).ready(function() {
+      
+          get_subscription_data();
+          get_package_data();
+	  get_payment_data();
+	  get_invoices_data();
+	  });
+    </script> 
+<? endblock() ?>
+<? startblock('content') ?>
+
+<section class="slice">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+   	    <div class="row">
+   	    	  <div class="col-md-12 no-padding">
+		    <div class="col-md-6  padding-trb-l">
+			<div class="col-md-12 color-three w-box">
+			    <h4 class="col-md-5 no-padding" style="color:#3989c0;">Invoice Information</h4>
+			    <div id='invoices_data' class='col-md-12 invoices_data' style ='display:none'></div>
+			    <div id='invoices_not_data' class='col-md-12 invoices_not_data' style ='display:none'></div>
+			</div>
+		    </div>   
+		    <div class="col-md-6  padding-trb-l">
+			<div class="col-md-12 color-three w-box">
+			   <h4 class="col-md-5 no-padding" style="color:#3989c0;">Recharge Information</h4>
+			   <div id='recharge_data' class='col-md-12 recharge_data' style ='display:none'></div>
+			   <div id='recharge_not_data' class='col-md-12 recharge_not_data' style ='display:none'></div>
+			</div>
+		    </div>
+	        </div>
+   	        <div class="col-md-12 no-padding">
+                <!---GRAPH--->
+                <div class="col-md-6  padding-trb-l">
+                <div class="col-md-12 color-three w-box">
+                <h4 class="col-md-5 no-padding" style="color:#3989c0;">Subscription Information</h4>
+	          <div id='subscription_data' class='col-md-12 subscription_data' style ='display:none'></div>
+	          <div id='subscription_not_data' class='col-md-12 subscription_not_data' style ='display:none'></div>
+	        </div>
+	        </div>
+                <div class="col-md-6  padding-trb-l">
+                <div class="col-md-12 color-three w-box">
+                <h4 class="col-md-5 no-padding" style="color:#3989c0;">Package Information</h4>
+	          <div id='package_data' class='col-md-12 package_data' style ='display:none'></div>
+	          <div id='package_not_data' class='col-md-12 package_not_data' style ='display:none'></div>
+	        </div>
+	        </div>
+	       </div> 
+
+            </div>
         </div>
-        <div class="clear"></div>
-        <a href="<?= base_url() ?>user/user_payment/"> 
-            <input class="ui-state-default float-right ui-corner-all ui-button" type="submit" name="payment" value="Recharge Account" />
-        </a>   
-        <a href="<?= base_url() ?>user/user_edit_account/">
-            <input class="ui-state-default float-right ui-corner-all ui-button" rel="facebox"  type="submit" name="action" value="Edit Account" />
-        </a>
-        <div class="clear"></div>
     </div>
-</div>    
-<div class="clear"></div>				
+</section>
+
 <? endblock() ?>
 <? startblock('sidebar') ?>
 <? endblock() ?>

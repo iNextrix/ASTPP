@@ -1,6 +1,7 @@
 <?php
 
 $lang['required']			= "The %s field is required.";
+$lang['dropdown']			= "Please select %s.";
 $lang['isset']				= "The %s field must have a value.";
 $lang['valid_email']		= "The %s field must contain a valid email address.";
 $lang['valid_emails']		= "The %s field must contain all valid email addresses.";
@@ -23,6 +24,12 @@ $lang['is_natural_no_zero']	= "The %s field must contain a number greater than z
 $lang['decimal']			= "The %s field must contain a decimal number.";
 $lang['less_than']			= "The %s field must contain a number less than %s.";
 $lang['greater_than']		= "The %s field must contain a number greater than %s.";
+$lang['alpha_dot']= "The %s field may only contain alpha-numeric characters,dashes and dots.";
+$lang['numeric_dot']= "The %s field may only contain numeric and dots.";
+$lang['valid_decimal']= "The %s field may only contain numeric and decimal.";
+$lang['alpha_numeric_space']= "The %s field may only contain only characters,numbers and space.";
+$lang['alpha_space']= "The %s field may only contain only characters and space.";
+$lang['currency_decimal']='The %s Field may contain only numeric and decimals EX(99999.99999)';
 
 
 /* End of file form_validation_lang.php */

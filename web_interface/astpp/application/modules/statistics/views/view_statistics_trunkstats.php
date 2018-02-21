@@ -12,20 +12,18 @@ $("#trunk_stats_report").flexigrid({
     method: 'GET',
     dataType: 'json',
 	colModel : [
-		{display: 'Trunk Name', name: 'Number', width:170,  sortable: false, align: 'center'},
+		{display: 'Trunk Name', name: 'Number', width:224,  sortable: false, align: 'center'},
 // 		{display: 'Code', name: 'code',width:110, sortable: false, align: 'center'},	
 // 		{display: 'Destination', name: 'province',width:170, sortable: false, align: 'center'},
-		{display: 'Attempted Calls', name: 'province',width:120, sortable: false, align: 'center'},
-		{display: 'Completed Calls', name: 'CompletedCalls',width:100, sortable: false, align: 'center'},			
-		{display: '<acronym title="Answer Seizure Rate.">ASR</acronym>', name: 'province',width:80, sortable: false, align: 'center'},		
-		{display: '<acronym title="Average Call Duration">ACD</acronym>',width:80, name: 'city',  sortable: false, align: 'center'},     		
-		{display: '<acronym title="Maximum Call Duration">MCD</acronym>',width:85, name: 'city',  sortable: false, align: 'center'},
+		{display: 'Attempted Calls', name: 'province',width:210, sortable: false, align: 'center'},
+		{display: 'Completed Calls', name: 'CompletedCalls',width:240, sortable: false, align: 'center'},			
+		{display: '<acronym title="Answer Seizure Rate.">ASR</acronym>', name: 'province',width:200, sortable: false, align: 'center'},		
+		{display: '<acronym title="Average Call Duration">ACD</acronym>',width:200, name: 'city',  sortable: false, align: 'center'},     		
+		{display: '<acronym title="Maximum Call Duration">MCD</acronym>',width:200, name: 'city',  sortable: false, align: 'center'},
 //		{display: 'Billable', width:100,name: 'status',  sortable: false, align: 'center'},
 //		{display: 'Cost', width:100,name: 'province',  sortable: false, align: 'center'},
 	],
-	buttons : [
-		{name: 'Remove Search Filter', bclass: 'reload', onpress : clear_filter},
-	],
+
 	nowrap: false,
 	showToggleBtn: false,
 	sortname: "Provider",
@@ -40,34 +38,44 @@ $("#trunk_stats_report").flexigrid({
 	width: "auto",	
 	pagetext: 'Page',
 	outof: 'of',
-	nomsg: 'No items',
+	nomsg: 'No Records',
 	procmsg: 'Processing, please wait ...',
-	pagestat: 'Displaying {from} to {to} of {total} items',
+	pagestat: 'Displaying {from} to {to} of {total} Records',
 	onSuccess: function(data){
 	},
-	onError: function(){
+/*	onError: function(){
 	  alert("Request failed");
-      }
+      }*/
 });
 $("#id_reset").click(function(){
 	$("#start_date").val('');
 	$("#end_date").val('');
 });
-
+/*
 $("#id_reset").click(function(){
-    window.location = "<?=base_url()?>statistics/trunkstats_clear_search_sum_Report";
-});
+    window.location = "<?=base_url()?>statistics/trunkstats/";
+});*/
 	
     $("#show_search").click(function(){
-        $("#search_bar").toggle();
+   //     $("#search_bar").toggle();
+	//$("#search_bar").slideToggle("slow");
+
     });
+        
+
+	$('.checkall').click(function () {
+            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+        });
+        $("#search_trunkstats").click(function(){
+            post_request_for_search("trunk_stats_report","","trunk_stat_search");
+	    $("#search_bar").toggle();
+        });        
+        $("#id_reset").click(function(){ 
+            clear_search_request("trunk_stats_report","");
+        });
 
 });
 
-function clear_filter()
-{
-	window.location = "<?=base_url()?>statistics/trunkstats_clear_search_sum_Report";
-}
 
 function reload_button()
 {
@@ -88,22 +96,33 @@ function reload_button()
 <? endblock() ?>
     
 <? startblock('content') ?>  
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header"><span id="show_search" style="cursor:pointer">Search</span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content" id="search_bar">
-        <?=$form_search;?>
-    </div>
-</div>        
+       
 
-
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">Trunk stats Report<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">         
-        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-            <table id="trunk_stats_report" align="left" style="display:none;"></table>
-        </form>
+<section class="slice color-three">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+   	    <div class="row">
+            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
+                    	<?php echo $form_search; ?>
+    	        </div>
+            </div>
+        </div>
     </div>
-</div>  
+</section>
+
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+        	<div class="row">
+                <div class="col-md-12">      
+                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                            <table id="trunk_stats_report" align="left" style="display:none;"></table>
+                        </form>
+                </div>  
+            </div>
+        </div>
+    </div>
+</section>
 <? endblock() ?>	
 <? startblock('sidebar') ?>
     <ul id="navigation">

@@ -4,17 +4,26 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("charges_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("invoices_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
-/*        $("#account_search").click(function(){
-            post_request_for_search("flex1","","search_form1");
+        $("#invoice_search_btn").click(function(){
+            
+            post_request_for_search("invoices_grid","","invoice_search");
         });        
         $("#id_reset").click(function(){
-            clear_search_request("flex1","");
-        });*/
+            clear_search_request("invoices_grid","");
+        });
         
+    });
+</script>
+<script>
+       $(document).ready(function() {
+       
+   jQuery("#invoice_date").datetimepicker({format:'Y-m-d'});		
+   jQuery("#date").datetimepicker({format:'Y-m-d'});
+//         		customer_cdr_from_date
     });
 </script>
 
@@ -27,24 +36,32 @@
 <? endblock() ?>
 
 <? startblock('content') ?>        
-
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="searchbar">
-    <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-      <div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-	<?php echo $form_search;?>
+<section class="slice color-three">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+   	    <div class="row">
+            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
+                    	<?php echo $form_search; ?>
+    	        </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">Invoices List<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">         
-        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-            <table id="charges_grid" align="left" style="display:none;"></table>
-        </form>
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+        	<div class="row">
+                <div class="col-md-12">      
+                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                            <table id="invoices_grid" align="left" style="display:none;"></table>
+                        </form>
+                </div>  
+            </div>
+        </div>
     </div>
-</div>  
-  
+</section>
+
 <? endblock() ?>	
 
 <? end_extend() ?>  

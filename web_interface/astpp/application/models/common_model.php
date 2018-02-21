@@ -1,4 +1,24 @@
 <?php
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 
 class Common_model extends CI_Model {
 
@@ -16,10 +36,12 @@ class Common_model extends CI_Model {
         $this->get_currencylist();
         $this->get_language_list();
         $this->get_country_list();
-        $this->get_user_levels_list();
-        $this->get_sweep_list();
+        $this->get_admin_info();
+//        $this->get_user_levels_list();
+//        $this->get_sweep_list();
 //            $this->CI = & get_instance();
         $this->load->library('astpp/common');
+        $this->db->query('SET time_zone = "+00:00"');
     }
 
     function get_language_list() {
@@ -32,56 +54,6 @@ class Common_model extends CI_Model {
         self::$global_config['language_list'] = $language_list;
         return $language_list;
     }
-
-    function get_user_levels_list() {
-        $this->db->where_not_in('userlevelid', array('-1'));
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $this->db->where_in('userlevelid', array('0', '1', '5'));
-            $query = $this->db->get("userlevels");
-        } else {
-            $query = $this->db->get("userlevels");
-        }
-        $userlevel_list = array();
-        $result = $query->result_array();
-        foreach ($result as $row) {
-            $userlevel_list[$row['userlevelid']] = $row['userlevelname'];
-        }
-        self::$global_config['userlevel'] = $userlevel_list;
-        return $userlevel_list;
-    }
-
-    function get_currency_list() {
-        $query = $this->db->get("currency");
-        $sweep_list = array();
-        $result = $query->result_array();
-        foreach ($result as $row) {
-            $sweep_list[$row['Currency']] = $row['CurrencyName'];
-        }
-        return $sweep_list;
-    }
-
-    function get_sweep_list() {
-        $query = $this->db->get("sweeplist");
-        $sweep_list = array();
-        $result = $query->result_array();
-        foreach ($result as $row) {
-            $sweep_list[$row['id']] = $row['sweep'];
-        }
-        self::$global_config['sweeplist'] = $sweep_list;
-        return $sweep_list;
-    }
-
-    function get_country_list() {
-        $query = $this->db->get("countrycode");
-        $result = $query->result_array();
-        $country_list = array();
-        foreach ($result as $row) {
-            $country_list[$row['id']] = $row['country'];
-        }
-        self::$global_config['country_list'] = $country_list;
-        return $country_list;
-    }
-
     function get_system_config() {
         $query = $this->db->get("system");
         $config = array();
@@ -92,494 +64,19 @@ class Common_model extends CI_Model {
         self::$global_config['system_config'] = $config;
         return $config;
     }
-
-    function list_providers() {
-        $this->db->where('type', '3');
-        $this->db->where("status", "1");
-        $query = $this->db->get("accounts");
-
-        $providers = array();
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                $providers[] = $row['number'];
-            }
+    function get_country_list() {
+        $query = $this->db->get("countrycode");
+        $result = $query->result_array();
+        $country_list = array();
+        foreach ($result as $row) {
+            $country_list[$row['id']] = $row['country'];
         }
-
-        return $providers;
+        self::$global_config['country_list'] = $country_list;
+        return $country_list;
     }
-
-    function list_providers_select($default) {
-        $ret_html = '';
-        $providers = $this->list_providers();
-        foreach ($providers as $elem) {
-            $ret_html .= '<option value="' . $elem . '"';
-            if ($elem == $default)
-                $ret_html .= 'selected="selected"';
-            $ret_html .= ">$elem</option>";
-        }
-        return $ret_html;
-    }
-
-    function list_sellers() {
-        $this->db->where('type', '1');
-        $this->db->where("status", "1");
-        if ($this->session->userdata('logintype') == 1)
-            $this->db->where("reseller", $this->session->userdata('username'));
-        $query = $this->db->get("accounts");
-
-        $sellers = array();
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                $sellers[] = $row['number'];
-            }
-        }
-
-        return $sellers;
-    }
-
-    function list_resellers() {
-        $this->db->where("status", "1");
-        if ($this->session->userdata('logintype') == 1)
-            $this->db->where("name", $this->session->userdata('username'));
-        $query = $this->db->get("resellers");
-
-        $sellers = array();
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                $sellers[] = $row['name'];
-            }
-        }
-
-        return $sellers;
-    }
-
-    function list_resellers_select($default) {
-        $ret_html = '';
-        $sellers = $this->list_resellers();
-        foreach ($sellers as $elem) {
-            $ret_html .= '<option value="' . $elem . '"';
-            if ($elem == $default)
-                $ret_html .= 'selected="selected"';
-            $ret_html .= ">$elem</option>";
-        }
-        return $ret_html;
-    }
-
-    function list_sellers_select($default) {
-        $ret_html = '';
-        $sellers = $this->list_sellers();
-        foreach ($sellers as $elem) {
-            $ret_html .= '<option value="' . $elem . '"';
-            if ($elem == $default)
-                $ret_html .= 'selected="selected"';
-            $ret_html .= ">$elem</option>";
-        }
-        return $ret_html;
-    }
-
-    function list_accounts() {
-        $this->db->where("status", "1");
-        $query = $this->db->get("accounts");
-
-        $accounts = array();
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                $accounts[] = $row['number'];
-            }
-        }
-
-        return $accounts;
-    }
-
-    function list_accounts_select($default) {
-        $ret_html = '';
-        $accounts = $this->list_accounts();
-        foreach ($accounts as $elem) {
-            $ret_html .= '<option value="' . $elem . '"';
-            if ($elem == $default)
-                $ret_html .= 'selected="selected"';
-            $ret_html .= ">$elem</option>";
-        }
-        return $ret_html;
-    }
-
-    function list_trunks() {
-
-        if ($this->session->userdata('logintype') == 3)
-            $this->db->where("provider", $this->session->userdata('username'));
-
-        $this->db->where("status", "1");
-        $query = $this->db->get("trunks");
-
-        $trunks = array();
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                $trunks[] = $row['name'];
-            }
-        }
-
-        return $trunks;
-    }
-
-    function list_trunks_select($default) {
-        $ret_html = '';
-        $trunks = $this->list_trunks();
-        $ret_html .= "<option value=''>--Select Trunk--</option>";
-        foreach ($trunks as $elem) {
-            $ret_html .= '<option value="' . $elem . '"';
-            if ($elem == $default)
-                $ret_html .= 'selected="selected"';
-            $ret_html .= ">$elem</option>";
-        }
-        return $ret_html;
-    }
-
-    function list_cc_brands() {
-        $item_arr = array();
-        $q = "SELECT name FROM callingcardbrands WHERE status < 2 AND (reseller_id IS NULL OR reseller = '')";
-        $query = $this->db->query($q);
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                $item_arr[] = $row['name'];
-            }
-        }
-        return $item_arr;
-    }
-
-    function list_cc_brands_reseller($reseller) {
-        $item_arr = array();
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $q = "SELECT id FROM callingcardbrands WHERE status < 2 AND reseller_id='" . $this->db->escape_str($reseller) . "'";
-            $query = $this->db->query($q);
-            if ($query->num_rows() > 0) {
-                foreach ($query->result_array() as $row) {
-                    $item_arr[] = $row['id'];
-                }
-            }
-        } else {
-            //$item_arr[] = $data['username'] = $this->session->userdata('username'); 
-            $item_arr[] = $this->session->userdata('username');
-        }
-
-        return $item_arr;
-    }
-
-    function list_cc_brands_select($reseller, $default) {
-        $ret_html = '';
-
-        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-            $providers = $this->list_cc_brands_reseller($this->session->userdata('username'));
-        } else {
-            $providers = $this->list_cc_brands();
-        }
-
-        /* 	if($reseller == '')
-          $providers = $this->list_cc_brands();
-          else
-          $providers = $this->list_cc_brands_reseller($reseller); */
-
-        foreach ($providers as $elem) {
-            $ret_html .= '<option value="' . $elem . '"';
-            if ($elem == $default)
-                $ret_html .= 'selected="selected"';
-            $ret_html .= ">$elem</option>";
-        }
-
-        return $ret_html;
-    }
-
-    function third_party_db_connect($localhost, $username, $password, $database) {
-        $config['hostname'] = "" . $localhost . "";
-        $config['username'] = "" . $username . "";
-        $config['password'] = "" . $password . "";
-        $config['database'] = "" . $database . "";
-        $config['dbdriver'] = "mysql";
-        $config['dbprefix'] = "";
-        $config['pconnect'] = FALSE;
-        $config['db_debug'] = TRUE;
-        $config['cache_on'] = FALSE;
-        $config['cachedir'] = "";
-        $config['char_set'] = "utf8";
-        $config['dbcollat'] = "utf8_general_ci";
-        $config['swap_pre'] = '';
-        $config['autoinit'] = TRUE;
-        $config['stricton'] = FALSE;
-
-        //$dsn = "mysql://$username:$password@$localhost/$database?db_debug=1";		
-        return $this->load->database($config);
-    }
-
-    function list_sip_account_rt($accountinfo_number) {
-        //$config = $this->get_system_config();
-
-        $this->rt_db = $this->third_party_db_connect(self::$global_config['system_config']['rt_host'], self::$global_config['system_config']['rt_user'], self::$global_config['system_config']['rt_pass'], self::$global_config['system_config']['rt_db']);
-
-        $accountcode = array($accountinfo_number);
-        $this->rt_db->where_in('accountcode', $accountcode);
-        $this->rt_db->from(self::$global_config['system_config']['rt_sip_table']);
-        $query = $this->rt_db->get();
-        //echo $this->rt_db->last_query();
-        $devicelist = array();
-        if ($sip_names->num_rows() > 0) {
-            foreach ($sip_names->result_array() as $row) {
-                array_push($devicelist, $row['name']);
-            }
-        }
-
-        return $devicelist;
-    }
-
-    function get_sip_account_rt($name) {
-
-        //$config = $this->get_system_config();
-
-        $this->rt_db = $this->third_party_db_connect(self::$global_config['system_config']['rt_host'], self::$global_config['system_config']['rt_user'], self::$global_config['system_config']['rt_pass'], self::$global_config['system_config']['rt_db']);
-
-        $this->rt_db->where('name', $name);
-        $this->rt_db->limit(1);
-        $this->rt_db->from(self::$global_config['system_config']['rt_sip_table']);
-        $query = $this->rt_db->get();
-        $record = array();
-        if ($query->num_rows() > 0) {
-            $record = $query->row_array();
-        }
-        return $record;
-    }
-
-    function list_iax_account_rt($accountinfo_number) {
-        //$config = $this->get_system_config();
-
-        $this->rt_db = $this->third_party_db_connect(self::$global_config['system_config']['rt_host'], self::$global_config['system_config']['rt_user'], self::$global_config['system_config']['rt_pass'], self::$global_config['system_config']['rt_db']);
-
-        $accountcode = array($accountinfo_number);
-        $this->rt_db->where_in('accountcode', $accountcode);
-        $this->rt_db->from(self::$global_config['system_config']['rt_iax_table']);
-        $query = $this->rt_db->get();
-        $devicelist = array();
-        if ($iax_names->num_rows() > 0) {
-            foreach ($iax_names->result_array() as $row) {
-                array_push($devicelist, $row['name']);
-            }
-        }
-        return $devicelist;
-    }
-
-    function get_iax_account_rt($name) {
-        //$config = $this->get_system_config();
-
-        $this->rt_db = $this->third_party_db_connect(self::$global_config['system_config']['rt_host'], self::$global_config['system_config']['rt_user'], self::$global_config['system_config']['rt_pass'], self::$global_config['system_config']['rt_db']);
-
-        $this->rt_db->where('name', $name);
-        $this->rt_db->limit(1);
-        $this->rt_db->from(self::$global_config['system_config']['rt_iax_table']);
-        $query = $this->rt_db->get();
-        $record = array();
-        if ($query->num_rows() > 0) {
-            $record = $query->row_array();
-        }
-        return $record;
-    }
-
-    function fs_list_sip_usernames($accountcode) {
-        $domain = 0;
-
-        if ($accountcode) {
-            $tmp = "SELECT directory.id AS id, directory.username AS username, directory.domain AS domain FROM "
-                    . "directory,directory_vars WHERE directory.id = directory_vars.directory_id "
-                    . "AND directory_vars.var_name = 'accountcode' "
-                    . "AND directory_vars.var_value IN ('" . $accountcode . "')";
-        } else {
-            $tmp = "SELECT id,username,domain FROM directory ";
-            if ($this->session->userdata('logintype') == 1) {
-                $tmp .= " WHERE username = '" . $this->session->userdata('username') . "'";
-                if ($domain) {
-                    $tmp .= " AND domain IN( '" . $domain . "','$${local_ip_v4}')";
-                }
-            }
-        }
-
-        $this->db_fs = Common_model::$global_config['fs_db'];
-        $query1 = $this->db_fs->query($tmp);
-        //echo $this->db_fs->last_query();
-        $devicelist = array();
-        if ($query1->num_rows() > 0) {
-            foreach ($query1->result_array() as $row) {
-                //array_push($devicelist, $row['username']);					
-                array_push($devicelist, $row);
-            }
-        }
-        return $devicelist;
-    }
-
-    function list_sip_account_freepbx($accountinfo_number) {
-        //$config = $this->get_system_config();
-
-        $this->freepbx_db = $this->third_party_db_connect(self::$global_config['system_config']['freepbx_host'], self::$global_config['system_config']['freepbx_user'], self::$global_config['system_config']['freepbx_pass'], self::$global_config['system_config']['freepbx_db']);
-
-        $this->freepbx_db->where('keyword', 'accountcode');
-        $accountcode = array($accountinfo_number);
-        $this->freepbx_db->where_in('value', $accountcode);
-        $this->freepbx_db->from(self::$global_config['system_config']['freepbx_table']);
-        $query = $this->freepbx_db->get();
-        $devicelist = array();
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                array_push($devicelist, $row['id']);
-            }
-        }
-        return $devicelist;
-    }
-
-    function list_iax_account_freepbx($accountinfo_number) {
-        //$config = $this->get_system_config();
-
-        $this->freepbx_db = $this->third_party_db_connect(self::$global_config['system_config']['freepbx_host'], self::$global_config['system_config']['freepbx_user'], self::$global_config['system_config']['freepbx_pass'], self::$global_config['system_config']['freepbx_db']);
-
-        $this->freepbx_db->where('keyword', 'accountcode');
-        $accountcode = array($accountinfo_number);
-        $this->freepbx_db->where_in('value', $accountcode);
-        $this->freepbx_db->from(self::$global_config['system_config']['freepbx_iax_table']);
-        $query = $this->freepbx_db->get();
-        $devicelist = array();
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                array_push($devicelist, $row['id']);
-            }
-        }
-        return $devicelist;
-    }
-
-    function get_sip_account_freepbx($name) {
-        $deviceinfo = array();
-        //$config = $this->get_system_config();	
-
-        $this->freepbx_db = $this->third_party_db_connect(self::$global_config['system_config']['freepbx_host'], self::$global_config['system_config']['freepbx_user'], self::$global_config['system_config']['freepbx_pass'], self::$global_config['system_config']['freepbx_db']);
-
-        $tmp = "SELECT value FROM " . self::$global_config['system_config']['freepbx_table'] . " WHERE id = '" . $name . "' AND keyword = 'context' LIMIT 1";
-        $query = $this->freepbx_db->query($tmp);
-        if ($query->num_rows() > 0) {
-            $row = $query->row_array();
-            $deviceinfo['context'] = $row;
-        }
-
-        $tmp = "SELECT value FROM " . self::$global_config['system_config']['freepbx_table'] . " WHERE id = '" . $name . "' AND keyword = 'secret' LIMIT 1";
-        $query = $this->freepbx_db->query($tmp);
-        if ($query->num_rows() > 0) {
-            $row = $query->row_array();
-            $deviceinfo['secret'] = $row;
-        }
-        $tmp = "SELECT value FROM " . self::$global_config['system_config']['freepbx_table'] . " WHERE id = '" . $name . "' AND keyword = 'type' LIMIT 1";
-        $query = $this->freepbx_db->query($tmp);
-        if ($query->num_rows() > 0) {
-            $row = $query->row_array();
-            $deviceinfo['type'] = $row;
-        }
-
-        $tmp = "SELECT value FROM " . self::$global_config['system_config']['freepbx_table'] . " WHERE id = '" . $name . "' AND keyword = 'username' LIMIT 1";
-        $query = $this->freepbx_db->query($tmp);
-        if ($query->num_rows() > 0) {
-            $row = $query->row_array();
-            $deviceinfo['username'] = $row;
-        }
-
-        return $deviceinfo;
-    }
-
-    function get_iax_account_freepbx($name) {
-        $deviceinfo = array();
-        //$config = $this->get_system_config();	
-
-        $this->freepbx_db = $this->third_party_db_connect(self::$global_config['system_config']['freepbx_host'], self::$global_config['system_config']['freepbx_user'], self::$global_config['system_config']['freepbx_pass'], self::$global_config['system_config']['freepbx_db']);
-
-        $tmp = "SELECT value FROM " . self::$global_config['system_config']['freepbx_iax_table'] . " WHERE id = '" . $name . "' AND keyword = 'context' LIMIT 1";
-        $query = $this->freepbx_db->query($tmp);
-        if ($query->num_rows() > 0) {
-            $row = $query->row_array();
-            $deviceinfo['context'] = $row;
-        }
-
-        $tmp = "SELECT value FROM " . self::$global_config['system_config']['freepbx_iax_table'] . " WHERE id = '" . $name . "' AND keyword = 'secret' LIMIT 1";
-        $query = $this->freepbx_db->query($tmp);
-        if ($query->num_rows() > 0) {
-            $row = $query->row_array();
-            $deviceinfo['secret'] = $row;
-        }
-
-        $tmp = "SELECT value FROM " . self::$global_config['system_config']['freepbx_iax_table'] . " WHERE id = '" . $name . "' AND keyword = 'type' LIMIT 1";
-        $query = $this->freepbx_db->query($tmp);
-        if ($query->num_rows() > 0) {
-            $row = $query->row_array();
-            $deviceinfo['type'] = $row;
-        }
-
-        $tmp = "SELECT value FROM " . self::$global_config['system_config']['freepbx_iax_table'] . " WHERE id = '" . $name . "' AND keyword = 'username' LIMIT 1";
-        $query = $this->freepbx_db->query($tmp);
-        if ($query->num_rows() > 0) {
-            $row = $query->row_array();
-            $deviceinfo['username'] = $row;
-        }
-
-        return $deviceinfo;
-    }
-
-    function count_unrated_cdrs_account($account, $cc) {
-        //$config = $this->get_system_config();
-
-        $this->db_fscdr = self::$global_config['fscdr_db'];
-
-        $this->db_fscdr->where_in('cost', array('none', 'error'));
-        $this->db_fscdr->where_in('accountcode', array($account, $cc));
-        $this->db_fscdr->from(Common_model::$global_config['system_config']['freeswitch_cdr_table']);
-        $count = $this->db_fscdr->count_all_results();
-        return $count;
-    }
-
-    function getVoipInfo_sip_login($cc) {
-        //$config = $this->get_system_config();
-        $record = array();
-        if (self::$global_config['system_config']['users_dids_rt'] == 1) {
-
-            $this->rt_db = $this->third_party_db_connect(self::$global_config['system_config']['rt_host'], self::$global_config['system_config']['rt_user'], self::$global_config['system_config']['rt_pass'], self::$global_config['system_config']['rt_db']);
-
-            $this->rt_db->where('accountcode', $cc);
-            $this->rt_db->limit(1);
-            $this->rt_db->select('name,secret');
-            $this->rt_db->from(self::$global_config['system_config']['rt_sip_table']);
-            $query = $this->rt_db->get();
-
-            $sip_login = array();
-            if ($query->num_rows() > 0) {
-                $sip_login = $query->row_array();
-            }
-            $record = $sip_login;
-        }
-        return $record;
-    }
-
-    function getVoipInfo_iax_login($cc) {
-        //$config = $this->get_system_config();
-        $record = array();
-        if (self::$global_config['system_config']['users_dids_rt'] == 1) {
-
-            $this->rt_db = $this->third_party_db_connect(self::$global_config['system_config']['rt_host'], self::$global_config['system_config']['rt_user'], self::$global_config['system_config']['rt_pass'], self::$global_config['system_config']['rt_db']);
-
-            $this->rt_db->where('accountcode', $cc);
-            $this->rt_db->limit(1);
-            $this->rt_db->select('name,secret');
-            $this->rt_db->from(self::$global_config['system_config']['rt_iax_table']);
-            $query = $this->rt_db->get();
-            $iax2_login = array();
-            if ($query->num_rows() > 0) {
-                $iax2_login = $query->row_array();
-            }
-
-            $record = $iax2_login;
-        }
-        return $record;
-    }
-
-    //Return list of currency with rate
-    function get_currencylist() {
+    
+        //Return list of currency with rate
+ function get_currencylist() {
         $query = $this->db->get("currency");
         $currencylist = array();
         $result = $query->result_array();
@@ -589,18 +86,87 @@ class Common_model extends CI_Model {
         self::$global_config['currency_list'] = $currencylist;
         return $currencylist;
     }
+    
+    function get_admin_info(){
+         $result=$this->db->get_where('accounts',array('type'=>'-1'));
+         $result=$result->result_array();
+         self::$global_config['admin_info'] = $result[0];
+         return $result[0];
+    }
+    
+     /**============ From below code developed for ASTPP version 2.0 ======================================**/
+     function generate_receipt($accountid,$amount){
+        $invoice_data = array("accountid"=>$accountid,"invoice_date"=>gmdate("Y-m-d H:i:s"),
+                            "from_date"=>gmdate("Y-m-d H:i:s"),"to_date"=>gmdate("Y-m-d H:i:s"),"type"=>'R');
+        $this->db->insert("invoices",$invoice_data);
+        $invoiceid = $this->db->insert_id();    
+        $sort_order = 0;
+        $sort_order = $this->insert_invoice_total_data($invoiceid,$amount,$sort_order);
+        $sort_order = $this->apply_invoice_taxes($invoiceid,$accountid,$sort_order);
+        $invoice_total = $this->set_invoice_total($invoiceid,$sort_order);   
+        return  $invoiceid;     
+    }
+    function insert_invoice_total_data($invoiceid,$sub_total,$sort_order){
+        $invoice_total_arr = array("invoiceid"=>$invoiceid,"sort_order"=>$sort_order,
+            "value"=>$sub_total, "title"=>"Sub Total","text"=>"Sub Total","class"=>"1");
+        $this->db->insert("invoices_total",$invoice_total_arr);
+        return $sort_order++;
+    }
+    
+    function apply_invoice_taxes($invoiceid,$accountid,$sort_order){
+        $tax_priority="";
+        $where = array("accountid"=>$accountid);
+        $accounttax_query = $this->db_model->getSelectWithOrder("*", "taxes_to_accounts", $where,"ASC","taxes_priority");
+        if($accounttax_query->num_rows > 0){
+            $accounttax_query = $accounttax_query->result_array();
+            foreach($accounttax_query as $tax_key => $tax_value){ 
+            $taxes_info=$this->db->get_where('taxes',array('id'=>$tax_value['taxes_id']));
+            if($taxes_info->num_rows() > 0 ){
+                    $tax_value=$taxes_info->result_array();
+                    $tax_value=$tax_value['0'];
+                 if($tax_value["taxes_priority"] == ""){
+                     $tax_priority = $tax_value["taxes_priority"];
+                 }else if($tax_value["taxes_priority"] > $tax_priority){
+                     $query = $this->db_model->getSelect("SUM(value) as total", "invoices_total", array("invoiceid"=> $invoiceid));
+                     $query =  $query->result_array();
+                     $sub_total = $query["0"]["total"];
+                 }
+                $tax_total = (($sub_total * ( $tax_value['taxes_rate'] / 100 )) + $tax_value['taxes_amount'] );
+                $tax_array = array("invoiceid"=>$invoiceid,"title"=>"TAX","text"=>$tax_value['taxes_description'],
+                    "value"=>$tax_total,"class"=>"2","sort_order"=>$sort_order);
+                $this->db->insert("invoices_total",$tax_array);
+                $sort_order++;
+            }
+            }
+        }
+        return $sort_order;
+    }
+    function set_invoice_total($invoiceid,$sort_order){
+        $query = $this->db_model->getSelect("SUM(value) as total", "invoices_total", array("invoiceid"=> $invoiceid));
+        $query =  $query->result_array();
+        $sub_total = $query["0"]["total"];
+        
+        $invoice_total_arr = array("invoiceid"=>$invoiceid,"sort_order"=>$sort_order,
+            "value"=>$sub_total,"title"=>"Total","text"=>"Total","class"=>"9");
+        $this->db->insert("invoices_total",$invoice_total_arr);
+        return true;
+    }
 
     function calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
         $from_currency = ($from_currency == '') ? self::$global_config['system_config']['base_currency'] : $from_currency;
+        
         if ($to_currency == '') {
-            if ($this->session->userdata['userlevel_logintype'] == -1 && $to_currency == '') {
+/*            if ($this->session->userdata['userlevel_logintype'] == -1 && $to_currency == '') {
                 $to_currency = self::$global_config['system_config']['base_currency'];
-            } else {
+            } else {*/
                 $to_currency1 = $this->session->userdata['accountinfo']['currency_id'];
                 $to_currency = $this->common->get_field_name('currency', 'currency', $to_currency1);
-            }
+//            }
         }
-        $cal_amount = ($amount * self::$global_config['currency_list'][$to_currency]) / self::$global_config['currency_list'][$from_currency];
+//echo $to_currency; exit;        
+        $from_cur_rate = (self::$global_config['currency_list'][$from_currency] > 0)?self::$global_config['currency_list'][$from_currency]:1;
+        $to_cur_rate = (self::$global_config['currency_list'][$to_currency])?self::$global_config['currency_list'][$to_currency]:1;
+        $cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
         if ($format_currency)
             $cal_amount = $this->format_currency($cal_amount);
         if ($append_currency)
@@ -610,15 +176,19 @@ class Common_model extends CI_Model {
 
     function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
         if ($from_currency == '') {
-            if ($this->session->userdata['userlevel_logintype'] == -1 && $from_currency == '') {
+/*            if ($this->session->userdata['userlevel_logintype'] == -1 && $from_currency == '') {
                 $from_currency = self::$global_config['system_config']['base_currency'];
-            } else {
+            } else {*/
                 $from_currency1 = $this->session->userdata['accountinfo']['currency_id'];
                 $from_currency = $this->common->get_field_name('currency', 'currency', $from_currency1);
-            }
+//            }
         }
         $to_currency = ($to_currency == '') ? self::$global_config['system_config']['base_currency'] : $to_currency;
-        $cal_amount = ($amount * self::$global_config['currency_list'][$to_currency]) / self::$global_config['currency_list'][$from_currency];
+        if(self::$global_config['currency_list'][$from_currency] > 0){
+	  $cal_amount = ($amount * self::$global_config['currency_list'][$to_currency]) / self::$global_config['currency_list'][$from_currency];
+	}else{
+	  $cal_amount=$amount;
+	}
         if ($format_currency)
             $cal_amount = $this->format_currency($cal_amount);
         if ($append_currency)
@@ -628,15 +198,19 @@ class Common_model extends CI_Model {
 
     function to_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
         if ($to_currency == '') {
-            if ($this->session->userdata['userlevel_logintype'] == -1 && $to_currency == '') {
+/*            if ($this->session->userdata['userlevel_logintype'] == -1 && $to_currency == '') {
                 $to_currency = self::$global_config['system_config']['base_currency'];
-            } else {
+            } else {*/
                 $to_currency1 = $this->session->userdata['accountinfo']['currency_id'];
                 $to_currency = $this->common->get_field_name('currency', 'currency', $to_currency1);
-            }
+//            }
         }
         $from_currency = ($from_currency == '') ? self::$global_config['system_config']['base_currency'] : $from_currency;
-        $cal_amount = ($amount * self::$global_config['currency_list'][$to_currency]) / self::$global_config['currency_list'][$from_currency];
+
+        $from_cur_rate = (self::$global_config['currency_list'][$from_currency] > 0)?self::$global_config['currency_list'][$from_currency]:1;
+        $to_cur_rate = (self::$global_config['currency_list'][$to_currency])?self::$global_config['currency_list'][$to_currency]:1;
+        
+        $cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
         if ($format_currency)
             $cal_amount = $this->format_currency($cal_amount);
         if ($append_currency)
@@ -742,15 +316,6 @@ class Common_model extends CI_Model {
         }
     }
 
-    function status_message($response_tmp) {
-        $response = json_decode($response_tmp);
-        if ($response->status == 0) {
-            $this->session->set_userdata('astpp_notification', $response->message);
-        } else {
-            $this->session->set_userdata('astpp_errormsg', $response->message);
-        }
-    }
-
     function get_params($table_name, $select, $where) {
         if (is_array($select)) {
             
@@ -767,4 +332,5 @@ class Common_model extends CI_Model {
         return $query;
     }
 
+    
 }

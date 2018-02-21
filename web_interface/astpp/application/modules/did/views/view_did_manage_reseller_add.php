@@ -1,6 +1,11 @@
 <script type="text/javascript" src="/js/validate.js"></script>
 
 <script type="text/javascript">
+    $("#submit").click(function(){
+	submit_form("frm_manage_did");
+    })
+</script>
+<script type="text/javascript">
 
     $(document).ready(function() {
 
@@ -18,118 +23,111 @@
     });
 
 </script>
-<? extend('master.php') ?>
-<?php error_reporting(E_ERROR); ?>
-<? startblock('extra_head') ?>
-<script type="text/javascript">
-
-</script>
-<?php endblock() ?>
-<?php startblock('page-title') ?>
-<?= $page_title ?>
-<br/>
-<?php endblock() ?>
-<?php startblock('content') ?>
 
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
+<section class="slice gray no-margin">
+ <div class="w-section inverse no-padding">
+   <div>
+     <div>
+        <div class="col-md-12 no-padding margin-t-15 margin-b-10">
+	        <div class="col-md-10"><b><? echo $page_title; ?></b></div>
+	  </div>
+     </div>
+    </div>
+  </div>    
+</section>
 
-    <div class="portlet-header ui-widget-header"><?= isset($did) ? "Edit" : "Add New" ?> DID<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
 
-    <div class="portlet-content">
+<div>
+  <div>
+    <section class="slice color-three no-margin">
+        <div class="w-section inverse no-padding">
+          
+   
 
         <form action="<?= base_url() ?><?= isset($did) ? "did/did_reseller_edit/edit" : "did/did_reseller_edit/add" ?>" id="frm_manage_did" method="POST" enctype="multipart/form-data">
 
-            <ul style="width:50%;">        
-                <li class="input_marg">
-                    <label class="desc">Number :</label>
-                    <?php if (isset($did)) { ?>
-                        <label class="value_bold"><?= @$did ?></label>
-                        <input type="hidden" name="number" value="<?= @$did ?>" />
-                    <?php } ?>
+            <ul class="padding-15">        
+                <li class="col-md-8">
+                    <label class="col-md-3 no-padding">DID :</label>
+                        <input type="text" class="col-md-5 form-control" readonly name="note" value="<?= @$did ?>" />
+                    
                 </li>      
-                <li class="input_marg">
-                    <label class="desc">Country :</label>
-                    <label class="value_bold"><?= @$didinfo['country'] ?></label>
-                    <input type="hidden" name="country" value="<?= @$didinfo['country'] ?>" />
+               <!-- <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Country :</label>
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$reseller_didinfo['country'] ?>" />
                 </li>        
 
-                 <li class="input_marg">
-                    <label class="desc">Province :</label>     
-                    <label class="value_bold"><?= @$didinfo['province'] ?></label>
-                    <input type="hidden" name="province" value="<?= @$didinfo['province'] ?>" />
+                 <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Province :</label>     
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$reseller_didinfo['province'] ?>" />
                 </li>
 
-                <li class="input_marg">
-                    <label class="desc">City :</label>
-                    <label class="value_bold"><?= @$didinfo['city'] ?></label>        
-                    <input type="hidden" name="city" value="<?= @$didinfo['city'] ?>" />
-                </li>       	
-                 <li class="input_marg">
-                    <label class="desc">Provider :</label>
-                    <label class="value_bold"><?= @$didinfo['provider'] ?></label>
-                    <input type="hidden" name="Provider" value="<?= @$didinfo['provider_id'] ?>" />
-                    <input type="hidden" name="did_id" value="<?= @$didinfo['id'] ?>" />
-                </li>
+                <li class="col-md-8">
+                    <label class="col-md-3 no-padding">City :</label>
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$reseller_didinfo['city'] ?>" />
+                </li>  -->     	
+                 <!--<li class="col-md-8">
+                    <label class="col-md-3 no-padding">Provider :</label>
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$reseller_didinfo['provider_id'] ?>" />
+                </li>-->
 
-                <li class="input_marg">
-                    <label class="desc">Account :</label>        
-                    <label class="value_bold"><?
-                    if ($didinfo['accountid'] == '0') {
-                        echo "";
-                    }
-                    ?></label>        
-                </li>        
-                 <li class="input_marg">
-                    <label class="desc">Dialstring :</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['extensions'] ?></label>
-                    <input type="text" class="text field" name="extension"  size="20"  value="<?= @$reseller_didinfo['extensions'] ?>" />
+              <!--  <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Account :</label>        
+                    <label class="col-md-5 form-control">
+                    if (//$reseller_didinfo['accountid'] == '0') {
+                        //echo "";
+                    //}
+                   </label>        
+                </li> -->       
+                <?//echo "<pre>";print_r($reseller_didinfo);echo "</pre>";?>
+	      <li class="col-md-8">
+                <label class="col-md-3 no-padding">Call Type</label>
+		  <select name="call_type" class="col-md-5 form-control">
+		    <option value="0" <?if($reseller_didinfo['call_type'] == 0){ echo 'selected="selected"'; }?>>PSTN</option>
+		    <option value="1" <?if($reseller_didinfo['call_type'] == 1){ echo 'selected="selected"';}?>>Local</option>
+		    <option value="2" <?if($reseller_didinfo['call_type'] == 2){ echo 'selected="selected"'; }?>>Other</option>
+		    </select>
+		  </li>
+                 <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Destinations :</label>
+                    <input type="text" class="col-md-5 form-control" name="extensions" value="<?= @$reseller_didinfo['extensions'] ?>" />
                 </li>
-                 <li class="input_marg">
-                    <label class="desc">Setup Fee :</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['setup'] ?></label>
-                    <input type="text" class="text field" name="setup"  size="20"   value="<?= @$reseller_didinfo['setup'] ?>"/>
+                 <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Setup Fee :</label>
+                    <input type="text" class="col-md-5 form-control" name="setup" value="<?= @$reseller_didinfo['setup'] ?>" />
                 </li>
-                <li class="input_marg">
-                    <label class="desc">Disconnection Fee:</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['disconnectionfee'] ?></label>
-                    <input type="text" class="text field" name="disconnectionfee"  size="20"  value="<?= @$reseller_didinfo['disconnectionfee'] ?>" />
-                </li>     
-                 <li class="input_marg">
-                    <label class="desc">Monthly :</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['monthlycost'] ?></label>
-                    <input type="text" class="text field" name="monthlycost"  size="20"  value="<?= @$reseller_didinfo['monthlycost'] ?>" />
+  <!--                <li class="col-md-12">
+		      <label class="col-md-3 no-padding">Disconnection Fee:</label>
+		      <label class="value_bold">&nbsp;<?= @$reseller_didinfo['disconnectionfee'] ?></label>
+		      <input type="text" class="text field" name="disconnectionfee"  size="20"  value="<?= @$reseller_didinfo['disconnectionfee'] ?>" />
+		  </li>   -->  
+                 <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Monthly Fee :</label>
+                    <input type="text" class="col-md-5 form-control" name="monthlycost" value="<?= @$reseller_didinfo['monthlycost'] ?>" />
                 </li>        
-                 <li class="input_marg">
-                    <label class="desc">Connect :</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['connectcost'] ?></label>
-                    <input type="text" class="text field" name="connectcost"  size="20"  value="<?= @$reseller_didinfo['connectcost'] ?>"/>
+                 <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Connection Fee :</label>
+                    <input type="text" class="col-md-5 form-control" name="connectcost" value="<?= @$reseller_didinfo['connectcost'] ?>"/>
                 </li>        
-                 <li class="input_marg">
-                    <label class="desc">Included :</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['includedseconds'] ?></label>
-                    <input type="text" class="text field" name="included"  size="20"  value="<?= @$reseller_didinfo['includedseconds'] ?>"/>
+                 <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Included Seconds :</label>
+                    <input type="text" class="col-md-5 form-control" name="includedseconds" value="<?= @$reseller_didinfo['includedseconds'] ?>"/>
                 </li>        
-                 <li class="input_marg">
-                    <label class="desc">Cost :</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['cost'] ?></label>
-                    <input type="text" class="text field" name="cost"  size="20"  value="<?= @$reseller_didinfo['cost'] ?>"/>
+                 <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Cost :</label>
+                    <input type="text" class="col-md-5 form-control" name="cost" value="<?= @$reseller_didinfo['cost'] ?>"/>
                 </li>        
-                 <li class="input_marg">
-                    <label class="desc">Increments :</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['inc'] ?></label>
-                    <input type="text" class="text field" name="inc"  size="20"  value="<?= @$reseller_didinfo['inc'] ?>"/>
+                 <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Increments :</label>
+                    <input type="text" class="col-md-5 form-control" name="inc" value="<?= @$reseller_didinfo['inc'] ?>"/>
                 </li>                
 
 
-                 <li class="input_marg">
-                    <label class="desc">Prorate :</label>
-                    <label class="value_bold">&nbsp;<?php if (@$didinfo['prorate'] == 1) {
-                        echo "YES";
-                    } else {
-                        echo "NO";
-                    } ?></label>
-                    <select name="prorate" class="select field small" >
+               <!--  <li class="col-md-8">
+                    <label class="col-md-3 no-padding">Prorate :</label>
+                    
+                    <select name="prorate" class="col-md-5 form-control" style="width:170px;" >
                         <option value="1" <?php if (@$reseller_didinfo['prorate'] == "1") {
                         echo "selected='selected'";
                     } ?> >YES</option>
@@ -137,22 +135,24 @@
                         echo "selected='selected'";
                     } ?> >NO</option>
                     </select>
-                </li>
+                </li>-->
 
-                 <li class="input_marg">
-                    <label class="desc">Dial As :</label>
-                    <label class="value_bold">&nbsp;<?= @$didinfo['dial_as'] ?></label>
-                    <input type="text" class="text field" name="dial_as"   value="<?= @$did['reseller_didinfo'] ?>"/>
-                </li>                        
+                 <!--<li class="col-md-8">
+                    <label class="col-md-3 no-padding">Dial As :</label>
+                    <input type="text" class="col-md-5 form-control" name="number" value="<?= @$did['reseller_didinfo'] ?>"/>
+                </li> -->                       
             </ul>        
-
-            <div style="width:100%;float:left;height:50px;margin-top:20px;">
-                <input type="submit" class="ui-state-default float-right ui-corner-all ui-button" name="action" value="<?= isset($did) ? "Save..." : "Insert..."; ?>" /> 
-            </div>
+<center>
+           <div style="width:100%;float:left;height:50px;margin-top:20px;">
+	 <input type="button" class="btn btn-line-parrot" id='submit' style="margin-left:5px;" name="action" value="<?= isset($did) ? "Save" : "Insert"; ?>" /> 
+            <input type="button" onclick="location.href = '<?= base_url() ?>did/did_list/';" class="btn btn-line-sky margin-x-10" name="action" value="Cancel" /> 
+               
+            </div></center>
         </form>
-    </div>
-</div>
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+       </div>      
+    </section>        
+<!--  </div>
+</div>-->
+
+
+

@@ -16,9 +16,21 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
-        $("#customer_cdr_from_date").datetimepicker({ dateFormat: 'yy-mm-dd' });		
-        $("#customer_cdr_to_date").datetimepicker({ dateFormat: 'yy-mm-dd' });			
+       $(document).ready(function() {
+        var currentdate = new Date(); 
+        var datetime = currentdate.getFullYear() + "-"
+            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
+                + currentdate.getDate() + " 00:00:01";
+            
+        var datetime1 = currentdate.getFullYear() + "-"
+           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
+            + currentdate.getDate() + " 23:59:59"
+
+        $("#customer_cdr_from_date").val(datetime);		
+        $("#customer_cdr_to_date").val(datetime1);
+
+        jQuery("#customer_cdr_from_date").datetimepicker({format:'Y-m-d H:i:s'});		
+        jQuery("#customer_cdr_to_date").datetimepicker({format:'Y-m-d H:i:s'});
     });
 </script>
 <? endblock() ?>
@@ -29,26 +41,35 @@
 
 <? startblock('content') ?>        
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="searchbar">
-    <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-        <?php echo $form_search; ?>
+<section class="slice color-three">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+   	    <div class="row">
+            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
+                    	<?php echo $form_search; ?>
+    	        </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+        	<div class="row">
+                <div class="col-md-12">      
+                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                            <table id="cdr_provider_grid" align="left" style="display:none;"></table>
+                        </form>
+                </div>  
+            </div>
+        </div>
+    </div><!--<br/>
+<div class="pull-right padding-r-20">
+      <a class="btn-tw btn" href="/reports/providerReport_export_cdr_xls"><i class="fa fa-file-excel-o fa-lg"></i>Export CSV</a>
+      <a class="btn-xing btn" href="/reports/providerReport_export_cdr_pdf"><i class="fa fa-file-pdf-o fa-lg"></i>Export PDF</a>
+</div><br/><br/> -->
+</section>
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">Provider Call Detail Report<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">         
-        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-            <table id="cdr_provider_grid" align="left" style="display:none;"></table>
-        </form>
-    </div>
-</div>  
-
-<div style="float:right;"><strong>
-        <a href="/reports/providerReport_export_cdr_xls">Export XLS <img src="/assets/images/file_tree/xls.png" alt='XLS'/></a> |
-        <a href="/reports/providerReport_export_cdr_pdf">Export PDF <img src="/assets/images/file_tree/pdf.png" alt='PDF'/></a></strong></div>
-<br/><br/>
 <? endblock() ?>	
 <? end_extend() ?>  

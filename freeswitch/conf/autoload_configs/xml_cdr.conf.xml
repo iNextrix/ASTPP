@@ -26,7 +26,7 @@
     <param name="prefix-a-leg" value="true"/>
 
     <!-- encode the post data may be 'true' for url encoding, 'false' for no encoding or 'base64' for base64 encoding -->
-    <param name="encode" value="true"/>
+    <param name="encode" value="textxml"/>
 
     <!-- optional: set to true to disable Expect: 100-continue lighttpd requires this setting --> 
     <!--<param name="disable-100-continue" value="true"/>--> 

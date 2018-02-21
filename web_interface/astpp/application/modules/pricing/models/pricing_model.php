@@ -1,5 +1,24 @@
 <?php
-
+###########################################################################
+# ASTPP - Open Source Voip Billing
+# Copyright (C) 2004, Aleph Communications
+#
+# Contributor(s)
+# "iNextrix Technologies Pvt. Ltd - <astpp@inextrix.com>"
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details..
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+############################################################################
 class pricing_model extends CI_Model {
 
     function pricing_model() {
@@ -11,7 +30,8 @@ class pricing_model extends CI_Model {
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $account_data = $this->session->userdata("accountinfo");
             $reseller = $account_data['id'];
-            $where = array("reseller_id" => $reseller, "status <>" => "2");
+           //$where = array("reseller_id" => $reseller, "status" => "0");
+	$where = array("reseller_id" => $reseller, "status != " => "2");
         } else {
             $where = array("reseller_id" => "0", "status != " => "2");
         }
@@ -32,7 +52,8 @@ class pricing_model extends CI_Model {
             $add_array["reseller_id"] = "0";
         }
         $this->db->insert("pricelists", $add_array);
-        return true;
+        
+        return $this->db->insert_id();
     }
 
     function edit_price($data, $id) {

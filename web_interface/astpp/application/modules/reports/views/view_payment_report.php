@@ -19,8 +19,8 @@
 </script>
 <script>
     $(document).ready(function() {
-        $("#customer_cdr_from_date").datetimepicker({ dateFormat: 'yy-mm-dd' });		
-        $("#customer_cdr_to_date").datetimepicker({ dateFormat: 'yy-mm-dd' });			
+        $("#customer_cdr_from_date").datetimepicker();
+        $("#customer_cdr_to_date").datetimepicker();
     });
 </script>
 <? endblock() ?>
@@ -31,23 +31,30 @@
 
 <? startblock('content') ?>        
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="searchbar">
-    <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-        <?php echo $form_search; ?>
+<section class="slice color-three">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+   	    <div class="row">
+            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
+                    	<?php echo $form_search; ?>
+    	        </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">User Payment List<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">         
-        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-            <table id="payment_report_grid" align="left" style="display:none;"></table>
-        </form>
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+        	<div class="row">
+                <div class="col-md-12">      
+                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                            <table id="payment_report_grid" align="left" style="display:none;"></table>
+                        </form>
+                </div>  
+            </div>
+        </div>
     </div>
-</div>  
-
-<br/><br/>
+</section>
 <? endblock() ?>	
 <? end_extend() ?>  

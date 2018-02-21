@@ -1,91 +1,288 @@
-<? extend('master.php') ?>	
-<? startblock('page-title') ?>       
-<? endblock() ?>    
-<? startblock('content') ?>  
-<div class="inner-page-title">			
-    <h2>Dashboard</h2>
-</div>
+<? extend('master.php') ?>
+<? startblock('page-title') ?>
 
-<div class="clear"></div>
-<? if ($this->session->userdata['logintype'] == '1' || $this->session->userdata['logintype'] == '2') { ?>                
-    <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-        <div class="portlet-header ui-widget-header">System Overview<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-        <div class="portlet-content">
-            <div class="hastabledasb">
-                <table class="default" width='60%'>
-                    <tr class="rowone"  style="background:#4476AF;" >
+<?= $page_title ?>
 
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/admins-icon.png" width="24" height="24" /><div class="summary_title">Admins</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/resellers-icon.png" width="24" height="24" /><div class="summary_title">Resellers</div></td>
-                        <td ><img src="<?= base_url() ?>assets/images/dashboardicons/customers-icon.png" width="24" height="24" /><div class="summary_title">Customers</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/call shops-icon.png" width="24" height="24" /><div class="summary_title">Call Shops</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/providers-icon.png" width="24" height="24" /><div class="summary_title">Providers</div></td>
-                    </tr>
-                    <tr class="rowone">
-                        <td><?= @$admin_count ?></td>
-                        <td><?= @$reseller_count ?></td>
-                        <td><?= @$customer_count ?></td>
-                        <td><?= @$callshop_count ?></td>
-                        <td><?= @$vendor_count ?></td>
-                    </tr>
-                    <tr class="rowone" style="background:#4476AF;">
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/funds receivable-icon.png" width="24" height="24" /><div class="summary_title">Funds Receivable</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/funds payable-icon.png" width="24" height="24" /><div class="summary_title">Funds Payable</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/Phone-icon.png" width="24" height="24" /><div class="summary_title">DID Numbers</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/uptime.png" width="24" height="24" /><div class="summary_title">system Uptime</div></td>
-			<td>&nbsp;</td>
-                    </tr>
-                    <tr class="rowone">
-                        <td><?= @$total_owing ?></td>
-                        <td><?= @$total_due ?></td>
-                        <td align=center><?= @$dids ?></td>
-                        <td align=center><? system("uptime | \
-                        sed s/^.*up// | \
-                        awk -F, '{ if ( $3 ~ /user/ ) { print $1 $2 } else { print $1 }}' | \
-                        sed -e 's/:/\ hours\ /' -e 's/ min//' -e 's/$/\ minutes/' | \
-                        sed 's/^ *//'"); ?></td>
-                        <td align=center><a href="#mode=List%20Errors">&nbsp;</a></td>
-                    </tr>
-                    <tr class="rowone" style="background:#4476AF;">
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/calling cards in use-icon.png" width="24" height="24" /><div class="summary_title">Calling Cards in use</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/calling cards in use-icon.png" width="24" height="24" /><div class="summary_title">Total Active Cards</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/unused card balance-icon.png" width="24" height="24" /><div class="summary_title">Unused Card Balance</div></td>
-                        <td><img src="<?= base_url() ?>assets/images/dashboardicons/used card balance-icon.png" width="24" height="24" /><div class="summary_title">Used Card Balance</div></td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr class="rowone">
-                        <td align=center><?= (@$calling_cards_in_use == "")?"0":@$calling_cards_in_use; ?></td>
-                        <td align=center><?= @$calling_cards_active ?></td>
-                        <td align=center><?= @$calling_cards_unused ?></td>
-                        <td align=center><?= @$calling_cards_used ?></td>
-                        <td>&nbsp;</td>
-                    </tr>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/highcharts.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/exporting.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/highcharts-3d.js"></script>
+<style>
+.second{
+ color: black;
+ opacity:0.4;
+ border: 0px;
+ width: 100%; 
+ padding:100px 0px 100px 0px;
+ margin:5px;  
+ display:relative;
+ text-align:center;
+ font-size:250%;
+ /* -ms-transform: rotate(100deg); 
+    -webkit-transform: rotate(100deg);
+    transform: rotate(320deg);*/
+}
+</style>
+<script type="text/javascript">
+	
+   function get_recharge_info(){
+            $.ajax({
+            type:'POST',
+//     		dataType: 'JSON',
+		url: "<?php echo base_url();?>"+'dashboard/customerReport_recent_payments/',
+		cache    : false,
+		async    : false,
+                success: function(response_data) {
+                     var custom_data=JSON.parse(response_data);
+                      if(custom_data !=''){
+                      $("div.recharge_not_data").hide();
+		      $("div.recharge_data").show();
+                          var str = "<table class='table table-bordered flexigrid'>";  
+                          var arrayLength = custom_data.length;
+                          for (var i = 0; i < arrayLength; i++) {
+				  str=str+"<tr>";
+ 				  if(i==0){
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].payment_date+"</th>";   				  
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].accountid+"</th>";  
+ 				    str=str+"<th style='text-align:center;'>"+custom_data[i].credit+"</th>";  
+ 				  }else{
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].payment_date+"</td>";   				  
+				    str=str+"<td style='text-align:center;'>"+custom_data[i].accountid+"</td>";  
+ 				    str=str+"<td style='text-align:center;'>"+custom_data[i].credit+"</td>";  
+ 				  }
+ 				  str=str+"</tr>";
+			  }   
+                          str+="</table>";
+                                document.getElementById("recharge_data").innerHTML = str;  
+                        }
+                        if(custom_data ==''){
+                             $("div.recharge_data").hide();		    
+		    $("div.recharge_not_data").addClass("second");
+		    $("div.recharge_not_data").show();
+		    $('div.recharge_not_data').text('No Records Found');
+                        }
+                    
+                }
+            });
+      };
+       function build_recharge_graph(){ 
+// 	var d = new Date();
+// 	var n = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+// 	    
+// 	var month = n[d.getMonth()];
+// 	  var year=d.getFullYear();
+            $.ajax({
+                type:'POST',
+                url: "<?php echo base_url();?>dashboard/customerReport_call_statistics_with_profit/",
+                dataType: 'JSON',
+                cache    : false,
+                async    : false,   
+                success: function(response_data) {
+//alert(response_data);
+                $('#call_graph_data').highcharts({
+		  chart: {
+		      zoomType: 'xy'
+		  },
+		  title: {
+		      text: 'ABC'
+		  },
+		  xAxis: [{
+		      categories:response_data['date']
+		  }],
+		  yAxis: [{
+			  min: 0,
+			  title: {
+			      text: 'Total Calls'
+			  }
+		      }, {
+			  min: 0,
+			  opposite: true, //optional, you can have it on the same side.
+			  title: {
+			      text: 'Call Ratio with Profit'
+			  }
+		      }],
+		  tooltip: {
+				  backgroundColor: '#FEFEC5',
+				  borderColor: 'black',
+				  borderRadius: 10,
+				  borderWidth: 2,
+				  formatter: function() {
+				      return this.series.name+': <b>'+this.y+'</b>';
+				  }
+		  },
+		  legend: {
+// 		  		      title: {
+// 			text: "<p>"+month+","+year+"</p>",
+// 			style: {
+// 			  fontStyle: 'vedana',
+// 			  color:'brown',
+// 			}
+// 		      },
 
-                </table>
+		      layout: 'horizontal',
+		      align: 'center',
+		      x: 0,
+		      verticalAlign: 'top',
+		      y: 0,
+		      backgroundColor: '#EFEFEF'
+		  },
+		  series: [
+		      {
+		      name: 'Total Calls',
+		      type: 'column',
+		      color:'#C0C0C0  ',
+		      data: response_data['total']
+		      
+		  },
+		      {
+		      name: 'Answered Calls',
+		      type: 'spline',
+		      color:'blue',
+		      yAxis:1,
+		      data: response_data['answered'],
+		      marker: {
+			  enabled: true
+		      },
+		      dashStyle: 'shortdot'
+		  },
+		  {
+		      name: 'Failed Calls',
+		      type: 'spline',
+		      color:'red',
+		      yAxis:1,
+		      data: response_data['failed'],
+		      marker: {
+			  enabled: true
+		      },
+		      dashStyle: 'shortdot'
+		  },
+		  {
+		      name: 'Profit',
+		      type: 'spline',
+		      yAxis:1,
+		      color:'green',
+		      data: response_data['profit'],
+		      marker: {
+			  enabled: true
+		      },
+		      dashStyle: 'shortdot'
+		  }   
+		  ]
+        });
+              }
+                });
+            }
+     function build_call_graph(url){ 
+            $.ajax({
+                type:'POST',
+                url: "<?php echo base_url();?>dashboard/customerReport_maximum_call"+url+"/",
+                dataType: 'JSON',
+                cache    : false,
+                async    : false,   
+                success: function(response_data) {
+		  if(response_data == ''){
+		    $("div.call_count_data").hide();		    
+		    $("div.not_data").addClass("second");
+		    $("div.not_data").show();
+		    $('div.not_data').text('No Records Found');
+		  }
+		  else{
+		  $("div.not_data").hide();
+		  $("div.call_count_data").show();
+		    $('#call_count_data').highcharts({
+		      chart: {
+			type: 'pie',
+			options3d: {
+			    enabled: true,
+			    alpha: 45,
+			    beta: 0,
+			    depth: 25,
+			    viewDistance: 25
+			}
+		      },
+		      title: {
+			text: ""
+		      },
+		      tooltip: {
+			backgroundColor: '#FEFEC5',
+			borderColor: 'black',
+			borderRadius: 10,
+			borderWidth: 2,
+			formatter: function() {
+			    return this.point.name+': <b>'+this.y+'</b>';
+			}
+		      },
+		      subtitle: {
+			text: ''
+		      },
+		      plotOptions: {
+			pie: {
+			allowPointSelect: true,
+			cursor: 'pointer',
+			depth: 25,
+			dataLabels: {
+			    enabled: true,
+			    format: '{point.name}'
+			}
+			}
+		      },
+		      series: [{
+			name: '',
+			data: response_data
+		      }]
+		  });
+		      }
+		      }
+                });
+            }
+      $(document).ready(function() {
+	  get_recharge_info();
+	  build_recharge_graph();
+	  build_call_graph('minutes');
+	  $('input[name=calls_pie_chart]').change(function(){
+	  radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
+	      build_call_graph(radiobuttonvalue);  
+	  });
+      });
+    </script> 
+<? endblock() ?>
+<? startblock('content') ?>
+
+<section class="slice">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+   	    <div class="row">
+   	        <div class="col-md-12 no-padding">
+                <!---GRAPH--->
+                <div class="col-md-12 no-padding w-box"><h4 class="col-md-3" style="text-align:right;color:#3989c0;float:right;"><?=$date;?></h4><br/><br/>
+	          <div id='call_graph_data' class='call_graph_data'></div>
+	        </div>	        
+   	    
+                <div class="col-md-6 padding-tbl-r">
+                  <!--Call Graph-->
+                  <div class="col-md-12 color-three w-box">
+                          <h4 class="col-md-3 no-padding" style="color:#3989c0;">Top 10 Accounts</h4>
+                         <div class="w-box col-md-6 padding-t-10 padding-b-10 pull-right"> 
+                           <input type="radio" name="calls_pie_chart" checked="checked" value="minutes" class="ace"><label class="lbl">By Minutes</label>
+                           &nbsp;&nbsp;
+                           <input type="radio" name="calls_pie_chart" value="count" class="ace"><label class="lbl"> By Calls</label></div>
+                           <div id='call_count_data' class=' call_count_data col-md-12' style ='display:none'></div>  
+                           <div id='not_data' class='col-md-12 not_data' style ='display:none'></div>
+                   </div>
+                </div>   
+               
+	      <div class="col-md-6  padding-trb-l">
+                <div class="col-md-12 color-three w-box">
+                <h4 class="col-md-5 no-padding" style="color:#3989c0;">Recharge Information</h4>
+	          <div id='recharge_data' class='col-md-12 recharge_data' style ='display:none'></div>
+	          <div id='recharge_not_data' class='col-md-12 recharge_not_data' style ='display:none'></div>
+	        </div>
+	        </div>
+	        </div>
             </div>
         </div>
     </div>
-    <br/>
-<?
-}
-if ($this->session->userdata['logintype'] == 3) {
-    ?>		  
-    <span style="font-size:17px;font-weight:bold;color:black;">Upcoming Features : <br/><br/></span>
+</section>
 
-    <ul >
-        <li style="line-height:30px;">1. Detailed Call Report with Graph</li>
-        <li style="line-height:30px;">2. Rate Batch update</li>
-        <li style="line-height:30px;">3. Quick Search</li>
-        <li style="line-height:30px;">4. My Account Modification</li>
-        <li style="line-height:30px;">5. Change Password</li>
-        <li style="line-height:30px;">6. Support & Ticket Module</li>
-        <li style="line-height:30px;">7. View Dashboard</li>
-    </ul><br/><br/>
-    <?
-}
-?>
-
-<div class="clear"></div>				
 <? endblock() ?>
 <? startblock('sidebar') ?>
 <? endblock() ?>

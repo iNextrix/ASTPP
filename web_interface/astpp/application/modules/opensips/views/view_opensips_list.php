@@ -1,14 +1,16 @@
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
 
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
+<!--<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>-->
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
         build_grid("opensipsdevice_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         
         $("#opensipsdevice_search_btn").click(function(){
-            post_request_for_search("opensipsdevice_grid","","device_search");
+//alert('fdgdfgdf');
+           post_request_for_search("opensipsdevice_grid","","opensips_list_search");
+//alert('fdgfd');
         });        
         $("#id_reset").click(function(){
             clear_search_request("opensipsdevice_grid","");
@@ -25,25 +27,31 @@
 
 <? startblock('content') ?>        
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="searchbar">
-    <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span>
-        <span id="active_search"  style="margin-left:10px; text-align: center;background-color: none;color:#1c8400;"></span>
-        <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-        <?php echo $form_search ?>
+<section class="slice color-three">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+   	    <div class="row">
+            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
+                    	<?php echo $form_search; ?>
+    	        </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">Opensips Devices
-        <span id="error_msg" class=" success"></span>
-        <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div class="portlet-content">         
-        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-            <table id="opensipsdevice_grid" align="left" style="display:none;"></table>
-        </form>
+<section class="slice color-three padding-b-20">
+	<div class="w-section inverse no-padding">
+    	<div class="container">
+        	<div class="row">
+                <div class="col-md-12">      
+                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                            <table id="opensipsdevice_grid" align="left" style="display:none;"></table>
+                        </form>
+                </div>  
+            </div>
+        </div><br/>
     </div>
-</div>  
+</section>
 
 <? endblock() ?>	
 <? end_extend() ?>  

@@ -7,21 +7,25 @@
 <br/>
 <?php endblock() ?>
 <?php startblock('content') ?>
-
-<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-    <div class="portlet-header ui-widget-header"><!--< ?php echo isset($account)?"Edit":"Create New";?> Account-->
-        <?= @$page_title ?>
-        <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
-    <div style="color:red;margin-left: 60px;">
-        <?php
-        $data_errrors = json_decode($validation_errors);
-        foreach ($data_errrors as $key => $value) {
-            echo $value . "<br/>";
-        }
-        ?> 
-    </div>
-    <?php echo $form; ?>
+<div class="container">
+  <div class="row">
+    <section class="slice color-three no-margin">
+        <div class="w-section inverse no-padding">
+            <?php echo $form; ?>
+             <?php
+                if(isset($validation_errors) && $validation_errors != ''){ ?>
+                    <script>
+                        var ERR_STR = '<?php echo $validation_errors; ?>';
+                        print_error(ERR_STR);
+                    </script>
+             <? } ?>
+        </div>      
+    </section>        
+  </div>
 </div>
+
+
+
 <? endblock() ?>
 <? startblock('sidebar') ?>
 <? endblock() ?>
