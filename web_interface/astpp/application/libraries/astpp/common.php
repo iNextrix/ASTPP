@@ -776,12 +776,13 @@ function random_string($length)
     }
 
 function mail_to_users($type, $accountinfo,$attachment="",$amount="") {
-        //$settings_reply_email = 'astpp@astpp.com';
+        
+	$settings_reply_email = 'astpp@astpp.com';
 	
-	$where = array('name' =>'company_email');
+	/*$where = array('name' =>'company_email');
         $query = $this->CI->db_model->getSelect("*", "system", $where);
         $query = $query->result();
-	$settings_reply_email = $query[0]->value;
+	$settings_reply_email = $query[0]->value;*/
 
 	$where = array('name' =>'company_name');
         $query = $this->CI->db_model->getSelect("*", "system", $where);

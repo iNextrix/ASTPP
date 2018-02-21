@@ -55,8 +55,11 @@ if ( $params->{cdr} or $params->{POSTDATA}) { # PROCESS CDRs.
 
       my $cdr = ($params->{cdr})?$params->{cdr}:$params->{POSTDATA};
       
+      print "Start : " .&now()."\n";
       # read XML file
       $data = $xml->XMLin($cdr);
+
+      print "End : " .&now()."\n\n";
                   
       if ($data->{variables}->{effective_destination_number} && $data->{variables}->{call_processed} eq "internal")
       {      

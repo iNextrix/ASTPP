@@ -194,8 +194,6 @@ sub max_length() {
 		if ($gbl_config->{call_max_length} && ($maxlength > $gbl_config->{call_max_length} / 1000)){
 	        $maxlength = $gbl_config->{call_max_length} / 1000 / 60;
 			&logger("LIMITING CALL TO CONFIG MAX LENGTH : ".$maxlength);
-		}else{
-			$maxlength = $maxlength / 60;
 		}
 	}
 	else {			    

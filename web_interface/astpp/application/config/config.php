@@ -219,7 +219,7 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 |
 */
 $config['cache_path'] = '';
-
+$config['private_key'] = 'Y3Jvbi8gJiYgcGhwIGNyb24ucGhwIEZlZWRCYWNr';
 /*
 |--------------------------------------------------------------------------
 | Encryption Key

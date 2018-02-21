@@ -2124,6 +2124,13 @@ function reseller_export_cdr_xls() {
 	
         if ($action == "add") {
             if ($add_array['ip'] != "") {
+                $ip = $add_array['ip'];
+                if (strpos($ip,'/') !== false) {
+                   $add_array['ip']=$add_array['ip'];
+                }
+                else{
+                   $add_array['ip']=$add_array['ip'].'/32';
+                }
             $where = array("ip" => trim($add_array['ip']), "prefix" => trim($add_array['prefix']));
             $getdata = $this->db_model->countQuery("*", "ip_map", $where);
             if ($getdata > 0) {

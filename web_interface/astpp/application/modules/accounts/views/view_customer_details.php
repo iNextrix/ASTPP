@@ -28,7 +28,14 @@
 
 	 build_grid("animap_list","<?php echo base_url(); ?>accounts/customer_animap_json/<?= $account_data[0]['id']; ?>", <? echo json_encode($animap_grid_field) ?>,"");
         $.validator.addMethod('IP4Checker', function(value) {
-            var pattern = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/;
+            //var pattern = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/;
+            var n = value.indexOf("/");
+            if(n > 0){
+              var pattern = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/[0-9]{1,3}$/;
+            }
+            else{
+              var pattern = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/;
+            }            
             return pattern.test(value);
         }, 'Invalid IP address');
 

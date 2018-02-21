@@ -19,7 +19,7 @@
  *
  */
         ini_set("date.timezone", "UTC");
-	define('ENVIRONMENT', 'production');
+	define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

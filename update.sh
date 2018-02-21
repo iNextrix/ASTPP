@@ -20,12 +20,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 ############################################################################
 
-echo "************** Script to update ASTPP Version 2.0 to 2.1 *******************"
+echo "************** Script to update ASTPP Version *******************"
 read -n 1 -p "Press any key to continue ..."
 
 TIME=`date +"%Y%m%d-%T"`
 BACKUP_DIR="astpp_$TIME"
-ASTPP_SOURCE_DIR=/usr/src/trunk
+#ASTPP_SOURCE_DIR=/usr/src/trunk
+ASTPP_SOURCE_DIR="/usr/src/latest"
 ASTPPEXECDIR=/usr/local/astpp
 CGIDIR=/var/www
 WWWDIR=/var/www
@@ -58,10 +59,12 @@ mv ${CGIDIR}/cgi-bin /mnt/$BACKUP_DIR/
 ###### Remove an old source and download new one from git #####
 ###############################################################
 
+rm -rf /usr/src/latest/
 rm -rf /usr/src/trunk/
-
 cd /usr/src/
-git clone https://github.com/ASTPP/trunk.git
+#git clone https://github.com/ASTPP/trunk.git
+wget http://www.astppbilling.org/download/latest.tar.gz
+tar -xzvf latest.tar.gz
 
 mkdir -p ${WWWDIR}/html/astpp
 mkdir -p ${ASTPPEXECDIR}

@@ -160,13 +160,13 @@ class CI_URI {
 		// Filter out control characters
 		$str = remove_invisible_characters($str, FALSE);
 //================ITPL=======================
-  $pos = strpos($str, "_json");
+  /*$pos = strpos($str, "_json");
  if($pos > 0 && !isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
        $this->uri_string = str_replace('_json', '', trim($str, '/'));
  }else{
-		// If the URI contains only a slash we'll kill it
+*/		// If the URI contains only a slash we'll kill it
 		$this->uri_string = ($str == '/') ? '' : $str;
-}
+//}
 /*===============================*/	
         }
 

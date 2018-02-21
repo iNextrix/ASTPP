@@ -49,35 +49,33 @@ class UpdateBalance extends MX_Controller {
              $account_data = $this->get_table_data("*", "charge_to_account",array("charge_id"=>$charge_val["id"]));
  	     if($account_data){
 	       foreach($account_data as $account_key => $account_value){
-                  $user_account = $this->account_arr[$account_value['accountid']];
-                  if($user_account["posttoexternal"] == 0){
-                        $billing_cycle = "2";
-                  }else{
-                        $billing_cycle = $charge_val["sweep_id"];
-         	  }                  
+              $user_account = $this->account_arr[$account_value['accountid']];
+/*              if($user_account["posttoexternal"] == 0){
+                    $billing_cycle = "2";
+              }else{
+*/                    $billing_cycle = $charge_val["sweep_id"];
+//         	    }                  
                   $charge_upto = ($account_value["charge_upto"] != "0000-00-00 00:00:00" && $account_value["charge_upto"] != "")?$account_value["charge_upto"]:$account_value["assign_date"];
                   if($charge_upto != "0000-00-00 00:00:00" && $charge_upto != "" && strtotime($charge_upto) < strtotime($currentdate) && $user_account["id"] > 0){
-  	 	     $charges_amt = $this->calculate_charges($charge_val["charge"],$charge_upto,$currentdate,$billing_cycle,$charge_val["pro_rate"]); 
-//echo "<pre>dddddddd"; print_r($charges_amt); exit; 
-		     if($charges_amt){
-                        $fromdate = gmdate("Y-m-d",strtotime($charge_upto));
-                        $todate = gmdate("Y-m-d",strtotime($charges_amt["upto_date"]));
+    	 	     $charges_amt = $this->calculate_charges($charge_val["charge"],$charge_upto,$currentdate,$billing_cycle,$charge_val["pro_rate"]); 
+  		     if($charges_amt){
+                          $fromdate = gmdate("Y-m-d",strtotime($charge_upto));
+                          $todate = gmdate("Y-m-d",strtotime($charges_amt["upto_date"]));
 
-		        if($user_account["posttoexternal"] == 0){
-                            $invoiceid = $this->common_model->generate_receipt($user_account["id"],$charges_amt["charges"]);
-				            $this->db->set('balance', 'balance-'.$charges_amt["charges"], FALSE);
-				            $this->db->where('id', $user_account["id"]);
-		          		 	$this->db->update("accounts"); 
-		          }                        
-                        $invoice_item_arr = array("accountid"=>$user_account["id"],
-                                                  "description"=>$charge_val['description']."-".$fromdate." to ".$todate,
-                                                  "charge_id"=>$charge_val['id'],"debit"=>$charges_amt["charges"],"invoiceid"=>$invoiceid,
-                                                  "created_date"=>$currentdate,"charge_type"=>"periodic_charge");
+  		        if($user_account["posttoexternal"] == 0){
+                              $invoiceid = $this->common_model->generate_receipt($user_account["id"],$charges_amt["charges"]);
+  				            $this->db->set('balance', 'balance-'.$charges_amt["charges"], FALSE);
+  				            $this->db->where('id', $user_account["id"]);
+  		          		 	$this->db->update("accounts"); 
+  		          }                        
+                $invoice_item_arr = array("accountid"=>$user_account["id"],
+                                          "description"=>$charge_val['description']."-".$fromdate." to ".$todate,
+                                          "charge_id"=>$charge_val['id'],"debit"=>$charges_amt["charges"],"invoiceid"=>$invoiceid,
+                                          "created_date"=>$currentdate,"charge_type"=>"periodic_charge");
 
-                        $this->manage_invoice($invoice_item_arr);
-		        
-                        $this->db->update("charge_to_account",array("charge_upto"=>$charges_amt["upto_date"]), array("charge_id"=>$charge_val["id"],"accountid"=>$user_account["id"]));		     		        
-		     }
+                $this->manage_invoice($invoice_item_arr);
+                $this->db->update("charge_to_account",array("charge_upto"=>$charges_amt["upto_date"]), array("charge_id"=>$charge_val["id"],"accountid"=>$user_account["id"]));		     		        
+  		     }
 		  }
                }
              }         
@@ -86,7 +84,7 @@ class UpdateBalance extends MX_Controller {
     }
     
     function process_DID_charges(){
-       $dids_data = $this->get_table_data("*", "dids",array("status"=> "0"));
+       $dids_data = $this->get_table_data("*", "dids",array("status"=> "0","accountid >"=>"0"));
        if($dids_data){
          foreach($dids_data as $did_value){
             if($did_value['parent_id'] > 0){
@@ -119,14 +117,13 @@ class UpdateBalance extends MX_Controller {
            $billing_cycle = "2";
         }else{
            $billing_cycle = $user_account["sweep_id"];
- 	}         
+ 	      }         
         $charge_upto = ($did_data["charge_upto"] != "0000-00-00 00:00:00" && $did_data["charge_upto"] != "")?$did_data["charge_upto"]:$did_data["assign_date"];
 	  if($charge_upto != "0000-00-00 00:00:00" && $charge_upto != "" && strtotime($charge_upto) < strtotime($currentdate) && $user_account["id"] > 0){
 	    $charges_amt = $this->calculate_charges($did_data["monthlycost"],$charge_upto,$currentdate,"2");
             if($charges_amt){
                 $fromdate = gmdate("Y-m-d",strtotime($charge_upto));
                 $todate = gmdate("Y-m-d",strtotime($charges_amt["upto_date"]));
-
 	        if($user_account["posttoexternal"] == 0){
                     $invoiceid = $this->common_model->generate_receipt($user_account["id"],$charges_amt["charges"]);
                     $this->db->set('balance', 'balance-'.$charges_amt["charges"], FALSE);
@@ -196,27 +193,32 @@ class UpdateBalance extends MX_Controller {
     
     function calculate_charges($charge,$upto_date,$currentdate,$bill_cycle,$pro_rate="1"){
         $billing_cycle = ($bill_cycle == "0")?"1 day":"1 month";
-	$upto_time=strtotime($upto_date);
-	$daylen = 60*60*24;
+	      $upto_time=strtotime($upto_date);
+	      $daylen = 60*60*24;
 
-	$days_diff = floor((strtotime($currentdate)-strtotime($upto_date))/$daylen);
-
-	if($bill_cycle == "0" || $pro_rate == "1"){
-            $pre_post_charge = ($charge*$days_diff);
-	}else{
-  	    $num_of_prev_day = cal_days_in_month(CAL_GREGORIAN, date('m',$upto_time), date('Y',$upto_time));
-       	    $pre_post_charge = (($charge*$days_diff)/$num_of_prev_day);
-	}
-	$total_charge =  ($charge + $pre_post_charge);
+       	$days_diff = floor((strtotime($currentdate)-strtotime($upto_date))/$daylen);
+      	if($bill_cycle == "0" || $pro_rate == "1"){
+          $num_of_prev_day = cal_days_in_month(CAL_GREGORIAN, date('m',$upto_time), date('Y',$upto_time));
+          if($bill_cycle > 0){                    
+            $temp_charge = $charge/$num_of_prev_day;
+            $pre_post_charge = ($temp_charge*$days_diff);  
+          }else{
+            $pre_post_charge = "0.00";
+          }
+      	}else{
+          $num_of_prev_day = cal_days_in_month(CAL_GREGORIAN, date('m',$upto_time), date('Y',$upto_time));
+          $pre_post_charge = (($charge*$days_diff)/$num_of_prev_day);
+      	}
+      	$total_charge =  ($charge + $pre_post_charge);
 	
         $cycle = strtotime("+".$billing_cycle);	
-	$updated_date = gmdate('Y-m-d H:i:s',$cycle);
-	if($total_charge > 0){
-	$charge_arr = array("upto_date"=>$updated_date,"charges"=>$total_charge);
-	  return $charge_arr;
-	}else{
-	    return false;
-	}
-    }    
+      	$updated_date = gmdate('Y-m-d H:i:s',$cycle);
+       if($total_charge > 0){
+      	  $charge_arr = array("upto_date"=>$updated_date,"charges"=>$total_charge);
+    	    return $charge_arr;
+    	 }else{
+    	     return false;
+    	 }
+  }    
 }
 ?> 

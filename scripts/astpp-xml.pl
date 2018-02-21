@@ -176,22 +176,33 @@ sub fs_dialplan_xml_bridge() {
 	$xml .= "<action application=\"set\" data=\"effective_destination_number=$params->{'Caller-Destination-Number'}\"/>\n";	
     $xml .= "<action application=\"set\" data=\"termination_rates=".$arg{termination_dp_string}."\"/>\n";
     
+#	if($arg{termination_rate}->{maxchannels} > 0)
+#	{
+#	   $xml .= "<action application=\"limit\" data=\"db ".$arg{termination_rate}->{path}." gw_".$arg{termination_rate}->{path}." ".$arg{termination_rate}->{maxchannels}."\"/>\n";
+#	}
+
+
+$xml .= ($arg{termination_rate}->{codec} ne '') ? "<action application=\"set\" data=\"absolute_codec_string=".$arg{termination_rate}->{codec}."\"/>\n" : '';
 	if($arg{termination_rate}->{maxchannels} > 0)
+        {
+                $xml .= "<action application=\"limit_execute\" data=\"db ".$arg{termination_rate}->{path}." gw_".$arg{termination_rate}->{path}." ".$arg{termination_rate}->{maxchannels}." bridge sofia/gateway/" . $arg{termination_rate}->{path} . "/" . $arg{destination_number}."\"/>\n";
+       }else{
+                $xml .= "<action application=\"bridge\" data=\"";
+                $xml .= "sofia/gateway/" . $arg{termination_rate}->{path} . "/" . $arg{destination_number};
+                $xml .= "\"/>\n";
+        }
+
+	if (defined($arg{termination_rate}->{path1}) && $arg{termination_rate}->{path1} ne $arg{termination_rate}->{path})
 	{
-	   $xml .= "<action application=\"limit\" data=\"db ".$arg{termination_rate}->{path}." gw_".$arg{termination_rate}->{path}." ".$arg{termination_rate}->{maxchannels}."\"/>\n";
-	}
-	
-	$xml .= ($arg{termination_rate}->{codec} ne '') ? "<action application=\"set\" data=\"absolute_codec_string=".$arg{termination_rate}->{codec}."\"/>\n" : '';	
-				
-	$xml .= "<action application=\"bridge\" data=\"";	
-	$xml .= "sofia/gateway/" . $arg{termination_rate}->{path} . "/" . $arg{destination_number};
-	$xml .= "\"/>\n";
-	
+	    	$xml .= "<action application=\"bridge\" data=\"";	
+	    	$xml .= "sofia/gateway/" . $arg{termination_rate}->{path1} . "/" . $arg{destination_number};
+	    	$xml .= "\"/>\n";
+	}	
 	if (defined($arg{termination_rate}->{path2}) && $arg{termination_rate}->{path2} ne $arg{termination_rate}->{path})
 	{
-    	$xml .= "<action application=\"bridge\" data=\"";	
-    	$xml .= "sofia/gateway/" . $arg{termination_rate}->{path2} . "/" . $arg{destination_number};
-    	$xml .= "\"/>\n";
+	    	$xml .= "<action application=\"bridge\" data=\"";	
+	    	$xml .= "sofia/gateway/" . $arg{termination_rate}->{path2} . "/" . $arg{destination_number};
+	    	$xml .= "\"/>\n";
 	}
 	
 	return ($xml);	
@@ -239,7 +250,11 @@ sub set_max_channels()
     my (%arg) = @_;  
     if($arg{maxchannels} > 0)
     {
-        $gbl_xml_channels .= "<action application=\"limit\" data=\"db ".$arg{name}." db_".$arg{name}." ".$arg{maxchannels}."\"/>\n";
+	my $dstr = $arg{maxchannels};
+	if($arg{interval} > 0){
+		$dstr = $arg{maxchannels}."/".$arg{interval};
+	}
+        $gbl_xml_channels .= "<action application=\"limit\" data=\"db ".$arg{name}." db_".$arg{name}." ".$dstr."\"/>\n";
     }
 }
 

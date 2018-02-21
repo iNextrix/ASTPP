@@ -86,6 +86,8 @@
                         <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
                             <table id="outbound_rates_grid" align="left" style="display:none;"></table>
                         </form>
+                        <div class="margin-t-10"></div>
+                        <a href="http://www.ipcomms.net/astppsignup" target="_blank" class="col-xs-offset-3"><img src="http://www.ipcomms.net/images/freedidbutton2.jpg"></a>
                 </div>  
             </div>
         </div>

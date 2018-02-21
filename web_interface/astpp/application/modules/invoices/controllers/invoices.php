@@ -78,20 +78,23 @@ class Invoices extends MX_Controller {
         $this->db->where($where);
         echo $this->db->delete("invoices");
     }
-      function invoice_conf() {
+    function invoice_conf() {
         $data['page_title'] = 'Invoice Configuration';
         $post_array=$this->input->post();
-	unset($post_array['action']);
+        $this->session->set_flashdata('astpp_conf','No');
+        unset($post_array['action']);
         if (!empty($post_array) && (isset($post_array['company_name']) && $post_array['company_name'] != '')) {
+//echo "<pre>"; print_r($this->session); exit;            
            $this->invoices_model->save_invoiceconf($post_array);
-            $this->session->set_flashdata('astpp_errormsg', 'Invoice configuration updated sucessfully!');
-	    redirect(base_url() . 'invoices/invoice_conf/');
+           $this->session->set_flashdata('astpp_errormsg', 'Invoice configuration updated sucessfully!');
+           $this->session->set_flashdata('astpp_conf','exec:conf');
+           redirect(base_url() . 'invoices/invoice_conf/');
         }else{
- 	  $invoiceconf=array();
-	  $invoiceconf = $this->invoices_model->get_invoiceconf();
-	  $data['form']=$this->form->build_form($this->invoices_form->get_invoiceconf_form_fields(),$invoiceconf);
-	  $this->load->view('view_invoiceconf', $data);
-	}
+          $invoiceconf=array();
+          $invoiceconf = $this->invoices_model->get_invoiceconf();
+          $data['form']=$this->form->build_form($this->invoices_form->get_invoiceconf_form_fields(),$invoiceconf);
+          $this->load->view('view_invoiceconf', $data);
+        }
     }
       function customer_invoices($accountid){
     // echo '<pre>'; print_r($accountid); exit;

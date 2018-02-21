@@ -38,8 +38,8 @@ class Rates extends MX_Controller {
     function terminationrates_list() {
         $data['username'] = $this->session->userdata('user_name');
         $data['page_title'] = 'Termination Rates';
-	$data['search_flag'] = true;
-	$data['batch_update_flag'] = true;
+	    $data['search_flag'] = true;
+	    $data['batch_update_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->rates_form->build_terminationrates_for_admin();
         $data["grid_buttons"] = $this->rates_form->build_grid_buttons();
@@ -623,13 +623,27 @@ class Rates extends MX_Controller {
 
     function user_inboundrates_list_json() {
         $json_data = array();
+        $account_data = $this->session->userdata("accountinfo");
+        $markup = $this->common->get_field_name('markup', 'pricelists', array('id'=>$account_data["pricelist_id"]));
+        $markup = ($markup > 0)?$markup:1;
+
         $count_all = $this->rates_model->getinbound_rates_list_for_user(false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
 
         $query = $this->rates_model->getinbound_rates_list_for_user(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->rates_form->build_inbound_list_for_user());
-        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
+        foreach ($query->result_array() as $key => $value) {
+            $json_data['rows'][] = array('cell' => array(
+                    $this->common->get_only_numeric_val("","",$value["pattern"]),
+                    $value['comment'],
+                    $value['inc'],
+                    $this->common_model->calculate_currency(($value['cost'] + ($value['cost']*$markup)/100),'','','',true),
+                    $this->common_model->calculate_currency($value['connectcost'],'','','',true),
+                    $value['includedseconds']                    
+            ));
+        }
+//        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
         echo json_encode($json_data);
     }
 
@@ -877,12 +891,26 @@ class Rates extends MX_Controller {
     }
     function resellersrates_list_json() {
         $json_data = array();
+        $account_data = $this->session->userdata("accountinfo");
+        $markup = $this->common->get_field_name('markup', 'pricelists', array('id'=>$account_data["pricelist_id"]));
+        $markup = ($markup > 0)?$markup:1;
         $count_all = $this->rates_model->getreseller_rates_list(false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
         $query = $this->rates_model->getreseller_rates_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->rates_form->build_rates_list_for_reseller());
-        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
+        foreach ($query->result_array() as $key => $value) {
+            $json_data['rows'][] = array('cell' => array(
+                    $this->common->get_only_numeric_val("","",$value["pattern"]),
+                    $value['comment'],
+                    $this->common_model->calculate_currency($value['connectcost'],'','','',true),
+                    $value['includedseconds'],
+                    $this->common_model->calculate_currency(($value['cost'] + ($value['cost']*$markup)/100),'','','',true),
+                    $value['inc'],
+                    $value['precedence'],
+            ));
+        }
+//        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
         echo json_encode($json_data);
     }
     function resellersrates_list_search() {
