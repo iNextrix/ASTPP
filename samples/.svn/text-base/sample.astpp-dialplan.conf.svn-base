@@ -3,24 +3,42 @@ static=yes
 writeprotect=no
 autofallthrough=yes
 clearglobalvars=no
-[globals]
 
+[globals]
 
 [from-internal]
 include => astpp-outgoing
 
-[astpp-ani-map-callingcards]
-; Assigns accountcodes based on a callerid received.  This is good for
-; calling cards.
-exten => _.X,1,GotoIf($["${CARDNUMBER}" != ""]?4)
-exten => _.X,2,AGI(astpp-ani-map.agi,${CALLERIDNUM},ANI)
-exten => _.X,3,Set(CARDNUMBER=${ACCOUNT})
-exten => _.X,4,Goto(astpp-callingcards,1,60)
+[astpp-ip-prefix-mapping]
+exten => _X.,1,AGI(astpp-ip-map.agi,${SIPCHANINFO(recvip)},${EXTEN})
+exten => _X.,n,GotoIf($["${CALLSTATUS}" = "0"]?60)
+exten => _X.,n,Set(CDR(accountcode)=${ACCOUNT})
+exten => _X.,n,Goto(${DEST_CONTEXT},${EXTENSION},1)
 
-; Sample calling card configuration
+[astpp-ani-mapping]
+exten => _X.,1,AGI(astpp-ani-map.agi,${CALLERID(number)},"ANI","ACCOUNT")
+exten => _X.,n,Set(CDR(accountcode)=${ACCOUNT})
+exten => _X.,n,SetAccount(${ACCOUNT})
+
+[astpp-cc-mapping]
+exten => _X.,1,AGI(astpp-ani-map.agi,${EXTEN:0:10},"CC","ACCOUNT")
+exten => _X.,n,Set(CDR(accountcode)=${ACCOUNT})
+exten => _X.,n,Goto(astpp-outgoing,${EXTEN:10},1)
+
+[astpp-prefix-mapping]
+exten => _X.,1,AGI(astpp-ani-map.agi,${EXTEN},"PREFIX","ACCOUNT")
+exten => _X.,n,Set(CDR(accountcode)=${ANI_ACCOUNT})
+exten => _X.,n,Goto(${DEST_CONTEXT},${EXTEN:10},1)
+
+[astpp-ani-map-callingcards]
+exten => _.X,1,GotoIf($["${CARDNUMBER}" != ""]?4)
+exten => _.X,n,AGI(astpp-ani-map.agi,${CALLERID(number)},"ANI","ACCOUNT")
+exten => _.X,n,Set(CARDNUMBER=${ANI_ACCOUNT})
+exten => _.X,n,Goto(astpp-callingcards,1,60)
+
 [astpp-callingcards]
 exten => s,1,Answer
-exten => s,2,Background(welcome); Welcome to Company X Calling Cards
+exten => s,2,Background(astpp-menu); Welcome to Company X Calling Cards
 ;						 Press 1 to enter our calling card system.
 ;						 Press 2 to register your callerid number to your card.
 ;						 Press 3 to request a callback.
@@ -28,160 +46,90 @@ exten => s,2,Background(welcome); Welcome to Company X Calling Cards
 ;
 exten => s,3,Wait(5)
 exten => s,4,Goto(s,2)
-exten => 1,1,AGI(astpp-ani-map.agi,${CALLERIDNUM},"ANI")
-exten => 1,2,Set(CARDNUMBER=${ACCOUNT})
-exten => 1,3,GotoIf($["${ACCOUNT}"]?60)
-exten => 1,4,Goto(astpp-callingcards,s,60)
-exten => 1,5,DeadAGI(astpp-callingcards.agi,${CARDNUMBER},${PIN},${DESTINATION},${CONNECTSURCHARGE},${PERMINUTESURCHARGE})
-;exten => 1,5,DeadAGI(astpp-callingcards.agi)
-exten => 1,6,GotoIf($["${NEWCALL}" = "1"]?60)
-exten => 1,7,GotoIf($["${BALANCE}" = "1"]?70)
-exten => 1,8,Hangup
-exten => 1,60,DeadAGI(astpp-callingcards.agi,${CARDNUMBER},${PIN})
-exten => 1,61,Goto(s,5)
-exten => 1,70,DeadAGI(astpp-callingcards.agi,${CARDNUMBER},${PIN},BALANCE)
-exten => 1,71,Goto(s,5)
 
-exten => 2,1,Background() ;		Registering your card will remove any existing registrations 
-;						this callerid number has. 			
-exten => 2,2,DeadAGI(astpp-callback.agi,${CALLERIDNUM},REGISTER,${CARDNUMBER},${PIN})
-exten => 2,3,Goto(s,1)
+exten => 1,1,AGI(astpp-ani-map.agi,${CALLERID(number)},"ANI","ACCOUNT")
+exten => 1,n,Set(CARDNUMBER=${ANI_ACCOUNT})
+exten => 1,n,GotoIf($["${ACCOUNT}"]?:60)
+exten => 1,n,DeadAGI(astpp-callingcards.agi,${CARDNUMBER},${PIN},${DESTINATION},${CONNECTSURCHARGE},${PERMINUTESURCHARGE},${BRAND})
+exten => 1,n,GotoIf($["${NEWCALL}" = "1"]?4)
 
-exten => 3,1,DeadAGI(astpp-callback.agi,${CALLERIDNUM},,${CARDNUMBER},${PIN})
-exten => 3,2,Hangup
+exten => 2,1,AGI(astpp-ani-map.agi,${CALLERID(number)},"ANI")
+exten => 2,n,Set(CARDNUMBER=${ACCOUNT})
+exten => 2,n,GotoIf($["${ACCOUNT}"]?:60)
+exten => 2,n,Playback(sipa2z/register_remove)
+exten => 2,n,DeadAGI(astpp-callback.agi,${CALLERID(number)},REGISTER,${ACCOUNT},${PIN})
+exten => 2,n,Goto(s,2)
+
+exten => 3,1,DeadAGI(astpp-callback.agi,${CALLERID(number)},,${CARDNUMBER},${PIN})
+exten => 3,n,Hangup
 
 exten => 4,1,DeadAGI(astpp-refill.agi)
-exten => 4,2,Goto(s,1)
+exten => 4,n,Goto(s,2)
 
 [astpp-callingcards-callback]
 exten => s,1,Answer
-exten => s,2,DeadAGI(astpp-manager-variables.agi,${ACTIONID})
-exten => s,3,Goto(astpp-callingcards,1,5)
+exten => s,n,DeadAGI(astpp-manager-variables.agi,${ACTIONID})
+exten => s,n,Goto(astpp-callingcards,1,5)
 
 [astpp-cc-map-regular]
-; Assigns accountcodes based on a 10 digit number prepended to the number the 
-; user wished to dial.  This is good for allowing users to send calls without
-; registering an ip address.  They can just prepend their 10 digit number.  
-; The 10 digit number to pass is the CC number tagged to each account which is
-; created.  You can set your sip and iax configuration files to have this context 
-; as the default one.  Your users then do not have to register to this sytem, they
-; can just prepend their 10 digit code.
-;
-exten => _.X,1,AGI(astpp-ani-map.agi,${EXTEN:0:10},"CC")
-exten => _.X,2,Set(ACCOUNTCODE=${ACCOUNT})
-exten => _.X,2,Goto(astpp-outgoing,${EXTEN:10},1)
+exten => _.X,1,AGI(astpp-ani-map.agi,${EXTEN:0:10},"CC","ACCOUNT")
+exten => _.X,n,Set(ACCOUNTCODE=${ACCOUNT})
+exten => _.X,n,Goto(astpp-outgoing,${EXTEN:10},1)
+
+[macro-lcrdial]
+exten => s,1,Set(GROUP(${TRUNK${ARG1}}-OUTBOUND)=OUTBOUND)
+exten => s,n,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK${ARG1}}-OUTBOUND)}" > "${TRUNK${ARG1}}"]?10)
+exten => s,n,Dial(${LCRSTRING${ARG1}}||${TIMELIMIT}${OPTIONS})
+exten => s,n,Set(DIALTRUNK=$[${DIALTRUNK} + 1])	; Increment
+exten => s,10,NoOp(Oops... trunk ${TRUNK{$ARG1}} full)
 
 [astpp-outgoing]
-; This is the standard way to send outgoing calls using least cost routing
-; as well as credit control.  If you set the devices context to be 
-; "astpp-outgoing" it will impose a credit limit on the call.
-;
-; Call script with the card-number as first arg and the number
-; to dial as the second arg.  astpp-authorize will return a line containing info
-; that will cut the call off before it goes over the users credit limit.  The
-; user can get over credit limit if they have multiple calls going at once.
-; Presently the only way to stop that is to limit them to one call which is not
-; a nice solution.
-;
-exten => _X.,1,Set(GROUP()=${ACCOUNTCODE})
-exten => _X.,2,AGI(astpp-authorize.agi,${ACCOUNTCODE},${EXTEN})
-exten => _X.,3,GotoIf($["${CALLSTATUS}" = "0"]?60)  ; Checks if account has sufficient funds
-exten => _X.,4,GotoIf($["${CALLSTATUS}" = "1"]?70)  ; Checks if the phone number exists
-exten => _X.,5,GotoIf($["${CALLSTATUS}" = "2"]?80)  ; Check if account exists
-exten => _X.,6,GotoIf($["${MAXCHANNELS}" = "0"]?8) ; Verify number of outgoing channels
-                                                                            ; assigned to account.
-exten => _X.,7,GotoIf($["${GROUP_COUNT()}" > "${MAXCHANNELS}"]?90) ; Verify number of outgoing channels
-                                                                            ; assigned to account.
-exten => _X.,8,Set(GROUP(${TRUNK1}-OUTBOUND)=OUTBOUND)
-exten => _X.,9,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK1}-OUTBOUND)}" > "${TRUNK1_MAXCHANNELS}"]?10)
-exten => _X.,10,Dial(${LCRSTRING1}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,111,Busy
-exten => _X.,11,Set(GROUP(${TRUNK2}-OUTBOUND)=OUTBOUND)
-exten => _X.,12,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK2}-OUTBOUND)}" > "${TRUNK2_MAXCHANNELS}"]?13)
-exten => _X.,13,Dial(${LCRSTRING2}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,114,Busy
-exten => _X.,14,Set(GROUP(${TRUNK2}-OUTBOUND)=OUTBOUND)
-exten => _X.,15,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK3}-OUTBOUND)}" > "${TRUNK3_MAXCHANNELS}"]?16)
-exten => _X.,16,Dial(${LCRSTRING3}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,117,Busy
-exten => _X.,17,Set(GROUP(${TRUNK4}-OUTBOUND)=OUTBOUND)
-exten => _X.,18,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK4}-OUTBOUND)}" > "${TRUNK4_MAXCHANNELS}"]?19)
-exten => _X.,19,Dial(${LCRSTRING4}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,120,Busy
-exten => _X.,20,Set(GROUP(${TRUNK5}-OUTBOUND)=OUTBOUND)
-exten => _X.,21,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK5})-OUTBOUND}" > "${TRUNK5_MAXCHANNELS}"]?22)
-exten => _X.,22,Dial(${LCRSTRING5}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,123,Busy
-exten => _X.,23,Goto(100)
-exten => _X.,60,Congestion ; '0' Tells them they do not have enough money
-exten => _X.,61,Hangup
-exten => _X.,70,Congestion '1' Bad Phone Number
-exten => _X.,71,Hangup
-exten => _X.,80,Congestion
-exten => _X.,81,Hangup
-exten => _X.,90,Congestion    ; Their outgoing channel limit is full already
-exten => _X.,91,Hangup
-exten => _X.,100,Congestion    ; No Route Available
-exten => _X.,101,Hangup
-; This lines are optional and would forward users to a help desk if the call did not go through.
-;exten => _XXXXXXXXXX,60,Dial(SIP/HELPDESK) ; '0' Tells them they do not have enough money
-;exten => _XXXXXXXXXX,61,Hangup
-;exten => _XXXXXXXXXX,70,Dial(SIP/HELPDESK) ; '1' Bad Phone Number
-;exten => _XXXXXXXXXX,71,Hangup
-;exten => _XXXXXXXXXX,80,Dial(SIP/HELPDESK)
-;exten => _XXXXXXXXXX,81,Hangup
+exten => _X.,1,Set(GROUP()=${ACCOUNTCODE},DIALTRUNK=1)
+exten => _X.,n,AGI(astpp-authorize.agi,${ACCOUNTCODE},${EXTEN})
+exten => _X.,n,GotoIf($["${CALLSTATUS}" = "0"]?60)  	; Checks if account has sufficient funds
+exten => _X.,n,GotoIf($["${CALLSTATUS}" = "1"]?70)  	; Checks if the phone number exists
+exten => _X.,n,GotoIf($["${CALLSTATUS}" = "2"]?80)  	; Check if account exists
+exten => _X.,n,GotoIf($["${GROUP_COUNT()}" > "${MAXCHANNELS}"]?90) 	; Verify number of outgoing channels of account
+exten => _X.,n,GotoIf($["${LCRTRUNKS}" < "${DIALTRUNK}"]?100)		; Out of trunks
+exten => _X.,n,Macro(lcrdial,${DIALTRUNK})		; Dial the trunk
+exten => _X.,n,Goto(7)
+include => astpp-errors
 
+[astpp-errors]
+exten => _X.,60,Playback(astpp-error-60|noanswer)	; play account has insufficient balance
+exten => _X.,70,Playback(astpp-error-70|noanswer)	; play bad phone number
+exten => _X.,80,Playback(astpp-error-80|noanswer)	; play account doesn't exist
+exten => _X.,90,Playback(astpp-error-90|noanswer)	; play account max calls exist
+exten => _X.,100,Playback(astpp-error-100|noanswer)	; play unable to connect call 
 
 [astpp-lcr]
-; Number to dial derived from command-line.  Call script with the number
-; to dial as the argument. 
 exten => _X.,1,AGI(astpp-lcr.agi,${EXTEN})
-exten => _X.,2,Set(GROUP(${TRUNK1}-OUTBOUND)=OUTBOUND)
-exten => _X.,3,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK1}-OUTBOUND)}" > "${TRUNK1_MAXCHANNELS}"]?5)
-exten => _X.,4,Dial(${LCRSTRING1}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,105,Busy
-exten => _X.,5,Set(GROUP(${TRUNK2}-OUTBOUND)=OUTBOUND)
-exten => _X.,6,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK2}-OUTBOUND)}" > "${TRUNK2_MAXCHANNELS}"]?8)
-exten => _X.,7,Dial(${LCRSTRING2}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,108,Busy
-exten => _X.,8,Set(GROUP(${TRUNK2}-OUTBOUND)=OUTBOUND)
-exten => _X.,9,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK3}-OUTBOUND)}" > "${TRUNK3_MAXCHANNELS}"]?11)
-exten => _X.,10,Dial(${LCRSTRING3}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,111,Busy
-exten => _X.,11,Set(GROUP(${TRUNK4}-OUTBOUND)=OUTBOUND)
-exten => _X.,12,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK4}-OUTBOUND)}" > "${TRUNK4_MAXCHANNELS}"]?14)
-exten => _X.,13,Dial(${LCRSTRING4}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,114,Busy
-exten => _X.,14,Set(GROUP(${TRUNK5}-OUTBOUND)=OUTBOUND)
-exten => _X.,15,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK5})-OUTBOUND}" > "${TRUNK5_MAXCHANNELS}"]?17)
-exten => _X.,16,Dial(${LCRSTRING5}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,117,Busy
-exten => _X.,17,Congestion
-
+exten => _X.,n,Macro(lcrdial,1)
+exten => _X.,n,Macro(lcrdial,2)
+exten => _X.,n,Macro(lcrdial,3)
+exten => _X.,n,Macro(lcrdial,4)
+exten => _X.,n,Macro(lcrdial,5)
+exten => _X.,n,Goto(100)
+include => astpp-errors
 
 [astpp-incoming]
-;
-; Card-number and number to dial derived from command-line.
-; Call script with the dialed number as the only arguement.  Astpp-did-map will
-; return a line containing info that will cut the call off before it goes over 
-; the users credit limit.  The user can get over credit limit if they have 
-; multiple calls going at once.  Presently the only way to stop that is to limit
-; them to one call which is not a nice solution.
-;
-;
 exten => _X.,1,AGI(astpp-did-map.agi,${EXTEN})
-exten => _X.,2,Set(GROUP()=${ACCOUNT})
-exten => _X.,3,GotoIf($["${CALLSTATUS}" = "0"]?60)  ; Checks if account has sufficient funds
-exten => _X.,4,GotoIf($["${CALLSTATUS}" = "1"]?70)  ; Checks if the phone number exists
-exten => _X.,5,GotoIf($["${CALLSTATUS}" = "2"]?80)  ; Check if account exists
-exten => _X.,6,GotoIf($["${GROUP_COUNT()}" > "${MAXCHANNELS}"]?90) ; Verify number of outgoing channels
-                                                                              ; assigned to account.
-exten => _X.,7,SetAccount(${ACCOUNT})
-exten => _X.,8,Dial(${DIALSTRING}/${EXTEN}||${TIMELIMIT}|${OPTIONS})
-exten => _X.,9,Hangup
-exten => _X.,60,Congestion ; '0' Tells them they do not have enough money
-exten => _X.,61,Hangup
-exten => _X.,70,Congestion '1' Bad Phone Number
-exten => _X.,71,Hangup
-exten => _X.,80,Congestion
-exten => _X.,81,Hangup
+exten => _X.,2,Set(GROUP(account)=${ACCOUNT},GROUP(did)=${EXTEN})
+exten => _X.,3,Set(TRUNKTYPE=${TRUNKTYPE},HAHA=${FORKDST})
+exten => _X.,4,GotoIf($["${CALLSTATUS}" = "0"]?60)  ; Checks if account has sufficient funds
+exten => _X.,5,GotoIf($["${CALLSTATUS}" = "1"]?70)  ; Checks if the phone number exists
+exten => _X.,6,GotoIf($["${CALLSTATUS}" = "2"]?80)  ; Check if account exists
+exten => _X.,7,GotoIf($["${GROUP_COUNT(account)}" > "${MAXCHANNELS}"]?90) 
+exten => _X.,8,GotoIf($["${GROUP_COUNT(did)}" > "${DID_MAXCHANNELS}"]?90)
+exten => _X.,9,SetAccount(${ACCOUNT}) 			; this might be superflous
+exten => _X.,10,Set(CDR(accountcode)=${ACCOUNT})
+exten => _X.,11,Set(CDR(userfield)=ASTPP-DID)
+exten => _X.,12,GotoIf($["${GOTO}" = "1"]?30)  ; If this was done using the local channel or a direct number...
+exten => _X.,13,Dial(${DIALSTRING}/${DID_DIAL_AS}||${TIMELIMIT}|${OPTIONS})
+exten => _X.,14,Hangup
+exten => _X.,30,ForkCDR()
+exten => _X.,31,Set(CDR(uniqueid)=${CDR(uniqueid)}a)
+exten => _X.,n,Set(CDR(userfield)=FORKED)
+exten => _X.,n,Goto(${GOTO_CONTEXT},${GOTO_EXTENSION},${GOTO_PRIORITY})
+exten => _X.,n,Goto(100)
+include => astpp-errors

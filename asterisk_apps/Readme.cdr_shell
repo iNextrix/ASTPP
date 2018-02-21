@@ -1,0 +1,36 @@
+1. If you are using Asterisk version 1.2.x then goto step 2, else open cdr_shell.c and comment out the line no. 35 as follows,
+
+change this,
+#define ASTERISK_12 1
+to this,
+//#define ASTERISK_12 1
+
+2. Copy 'cdr_shell.c' file to 'cdr' folder in asterisk source tree. For example, if Asterisk sources are in '/usr/src/asterisk', then 
+
+cp cdr_shell.c /usr/src/asterisk/cdr/
+
+3. If using Asterisk version 1.4.x then skip this step, edit /usr/src/asterisk/cdr/Makefile and add 'cdr_shell.so' to MODS variable, 
+as follows,
+
+before change,
+MODS=cdr_csv.so cdr_manager.so cdr_custom.so
+
+after change,
+MODS=cdr_csv.so cdr_manager.so cdr_custom.so cdr_shell.so
+
+4. If you are using asterisk version 1.4.x then,
+
+cd /usr/src/asterisk/
+make
+make install
+
+5. On successful 'make install', append following lines to '/etc/asterisk/cdr.conf', change <path-to-some-shell-script> to actual script pathname,
+
+[cdr_shell]
+path=<path-to-some-shell-script>
+
+6. Restart asterisk server.
+
+You can add up to 10 path veraibles, each script represented by 'path' variable will be executed immediately after every call completed
+on asterisk box. Make sure each script has execute permission for Asterisk process owner.
+

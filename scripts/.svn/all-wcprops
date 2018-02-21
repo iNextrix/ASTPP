@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svnroot/astpp/!svn/ver/2331/trunk/scripts
+END
+astpp-device-monitor.pl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/astpp/!svn/ver/2234/trunk/scripts/astpp-device-monitor.pl
+END
+astpp-low-balance.pl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/astpp/!svn/ver/2221/trunk/scripts/astpp-low-balance.pl
+END
+astpp-update-balance.pl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/astpp/!svn/ver/2221/trunk/scripts/astpp-update-balance.pl
+END
+astpp-callingcards-daily.pl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/astpp/!svn/ver/2221/trunk/scripts/astpp-callingcards-daily.pl
+END
+astpp-generate-invoices.pl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/astpp/!svn/ver/2254/trunk/scripts/astpp-generate-invoices.pl
+END
+astpp-common.pl
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/astpp/!svn/ver/2331/trunk/scripts/astpp-common.pl
+END
+astpp-email-incoming.pl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/astpp/!svn/ver/2221/trunk/scripts/astpp-email-incoming.pl
+END
+astpp-rate-engine.pl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/astpp/!svn/ver/2330/trunk/scripts/astpp-rate-engine.pl
+END

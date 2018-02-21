@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/astpp/!svn/ver/2338/trunk/modules/ASTPP
+END
+MANIFEST
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/astpp/!svn/ver/2114/trunk/modules/ASTPP/MANIFEST
+END
+pm_to_blib
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/astpp/!svn/ver/2114/trunk/modules/ASTPP/pm_to_blib
+END
+Makefile.PL
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/astpp/!svn/ver/2117/trunk/modules/ASTPP/Makefile.PL
+END
+Changes
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/astpp/!svn/ver/2114/trunk/modules/ASTPP/Changes
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/astpp/!svn/ver/2114/trunk/modules/ASTPP/README
+END

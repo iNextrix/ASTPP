@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/jingle_profiles
+END
+server.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/jingle_profiles/server.xml
+END
+client.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/jingle_profiles/client.xml
+END

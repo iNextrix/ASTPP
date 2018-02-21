@@ -1,32 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?>
-<wc-entries
-   xmlns="svn:">
-<entry
-   committed-rev="1956"
-   name=""
-   committed-date="2006-12-19T19:10:51.366686Z"
-   url="svn://aleph.aleph-com.net/svn/astpp/tags/stable/3rdparty_integration/oscommerce"
-   last-author="dkwiebe"
-   kind="dir"
-   uuid="cb406623-eb0e-0410-a3c5-f615d30b9334"
-   repos="svn://aleph.aleph-com.net/svn/astpp"
-   revision="1959"/>
-<entry
-   committed-rev="1956"
-   name="INSTALL.txt"
-   text-time="2006-12-20T16:48:36.000000Z"
-   committed-date="2006-12-19T19:10:51.366686Z"
-   checksum="c9e26d3f92732c2706b32af2c352c6ad"
-   last-author="dkwiebe"
-   kind="file"
-   prop-time="2006-12-20T16:48:36.000000Z"/>
-<entry
-   committed-rev="1956"
-   name="astpp_notify.php"
-   text-time="2006-12-20T16:48:36.000000Z"
-   committed-date="2006-12-19T19:10:51.366686Z"
-   checksum="83caed1ffb38eeeeaf7ed6aa0e4a5d4e"
-   last-author="dkwiebe"
-   kind="file"
-   prop-time="2006-12-20T16:48:36.000000Z"/>
-</wc-entries>
+10
+
+dir
+2338
+https://astpp.svn.sourceforge.net/svnroot/astpp/trunk/3rdparty_integration/oscommerce
+https://astpp.svn.sourceforge.net/svnroot/astpp
+
+
+
+2006-06-14T22:44:16.987527Z
+1857
+dkwiebe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cb406623-eb0e-0410-a3c5-f615d30b9334
+
+INSTALL.txt
+file
+
+
+
+
+2011-09-02T19:15:45.000000Z
+c9e26d3f92732c2706b32af2c352c6ad
+2006-06-14T22:44:16.987527Z
+1857
+dkwiebe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7640
+
+astpp_notify.php
+file
+
+
+
+
+2011-09-02T19:15:45.000000Z
+83caed1ffb38eeeeaf7ed6aa0e4a5d4e
+2006-06-14T22:44:16.987527Z
+1857
+dkwiebe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1377
+

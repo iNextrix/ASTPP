@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/astpp/!svn/ver/2219/trunk/contrib/auto_dialer
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/astpp/!svn/ver/2219/trunk/contrib/auto_dialer/LICENSE
+END
+aleph-autocall.pl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/astpp/!svn/ver/2214/trunk/contrib/auto_dialer/aleph-autocall.pl
+END
+aac.conf
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/astpp/!svn/ver/2213/trunk/contrib/auto_dialer/aac.conf
+END
+aleph-aac.sql
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/astpp/!svn/ver/2203/trunk/contrib/auto_dialer/aleph-aac.sql
+END
+aleph-aac.agi
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/astpp/!svn/ver/2203/trunk/contrib/auto_dialer/aleph-aac.agi
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/astpp/!svn/ver/2203/trunk/contrib/auto_dialer/Makefile
+END

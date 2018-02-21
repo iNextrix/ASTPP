@@ -7,7 +7,7 @@ includedseconds INTEGER NOT NULL,
 cost INTEGER NOT NULL, 
 pricelist CHAR(80), 
 inc INTEGER, 
-reseller CHAR(50) NOT NULL default '',
+reseller CHAR(50) default NULL,
 status INTEGER NOT NULL DEFAULT 1);
 
 CREATE TABLE pricelists (name CHAR(40) PRIMARY KEY, 

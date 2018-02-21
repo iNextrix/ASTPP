@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/dialplan/extensions
+END
+00_pizza_demo.xml
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/dialplan/extensions/00_pizza_demo.xml
+END
+99999_enum.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/dialplan/extensions/99999_enum.xml
+END

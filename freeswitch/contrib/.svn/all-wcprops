@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/astpp/!svn/ver/2324/trunk/freeswitch/contrib
+END
+mysql-4.0.sql
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/astpp/!svn/ver/2314/trunk/freeswitch/contrib/mysql-4.0.sql
+END
+mysql-5.0.sql
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/astpp/!svn/ver/2314/trunk/freeswitch/contrib/mysql-5.0.sql
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/astpp/!svn/ver/2314/trunk/freeswitch/contrib/README
+END

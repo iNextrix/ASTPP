@@ -4,13 +4,9 @@ dbhost = 127.0.0.1
 dbpass = password
 dbname = astpp
 
-; Asterisk(tm) CDR Database Connection Information
-cdr_dbuser = root
-cdr_dbhost = 127.0.0.1
-cdr_dbpass = password
-cdr_dbname = asteriskcdrdb
+# Database type:  ASTPP was designed for a MySQL database initially.  Valid options are:
+# MySQL. Pgsql is coming but is not ready yet.
+astpp_dbengine = MySQL
 
-; Asterisk(tm) Manager Connection Information
-astman_user = admin
-astman_host = 127.0.0.1
-astman_secret = amp111
+# Do we want the startup of ASTPP debugged?
+debug = 1

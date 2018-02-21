@@ -1,7 +1,3 @@
-# ASTPP - Open Source Voip Billing OSCommerce Integration
-#
-# Copyright (C) 2006, Aleph Communications
-
 <?
  function fsockPost($url,$data) { 
 	//Parse url 

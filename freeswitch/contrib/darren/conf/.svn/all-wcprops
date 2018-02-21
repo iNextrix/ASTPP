@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/astpp/!svn/ver/2324/trunk/freeswitch/contrib/darren/conf
+END
+freeswitch.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/freeswitch.xml
+END
+extensions.conf
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/extensions.conf
+END
+voicemail.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/voicemail.tpl
+END
+tetris.ttml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/tetris.ttml
+END
+mime.types
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/mime.types
+END
+vars.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/vars.xml
+END
+web-vm.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/web-vm.tpl
+END
+fur_elise.ttml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/fur_elise.ttml
+END
+notify-voicemail.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/notify-voicemail.tpl
+END

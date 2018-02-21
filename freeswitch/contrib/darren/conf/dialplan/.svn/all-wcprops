@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/astpp/!svn/ver/2324/trunk/freeswitch/contrib/darren/conf/dialplan
+END
+default.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/astpp/!svn/ver/2324/trunk/freeswitch/contrib/darren/conf/dialplan/default.xml
+END
+features.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/dialplan/features.xml
+END
+public.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/astpp/!svn/ver/2224/trunk/freeswitch/contrib/darren/conf/dialplan/public.xml
+END

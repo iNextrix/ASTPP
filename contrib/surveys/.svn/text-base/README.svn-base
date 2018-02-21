@@ -1,0 +1,34 @@
+This is the DNW Consulting Survey Application.
+
+It is designed for usage in a variety of settings as follows:
+
+1.  Have your customers call in and complete the survey
+
+2.  Using our auto call out software, you can perform completely automated surveys.  PLEASE
+use this functionality in a legal & ethical manner!
+
+Notes:
+
+Database Layout:
+TABLE surveys (id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+inuse INTEGER NOT NULL DEFAULT 0, #Not used for anything currently
+starting VARCHAR(60),				#Sound to play upon enterin survey
+leaving VARCHAR(60),				#Sound to play upon successful completion of the survey.
+error_leaving VARCHAR(60),			#Sound to play when leaving the survey due to an error
+total_questions INTEGER NOT NULL DEFAULT 1); #Total number of questions in this survey.
+
+TABLE responses (id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+survey_id INTEGER NOT NULL,			#This field should contain the number from the "id" field of the survey.
+question INTEGER NOT NULL,			#What number is this response answering?
+date CHAR(40) NOT NULL DEFAULT '',  #Time stamp
+answer INTEGER NOT NULL);			#The answer the user gave.
+
+CREATE TABLE questions(id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+survey_id INTEGER NOT NULL, 		#What survey does this question belong to?
+question_number INTEGER NOT NULL,	#What number question is this in X survey?
+min_valid INTEGER NOT NULL,			#Minimum valid answer
+max_valid INTEGER NOT NULL,			#Maximum valid answer
+sound_file VARCHAR(60));			#Sound file to play asking for response.
+ 
+ 
+survey.sql contains the data to create the db in mysql.  
