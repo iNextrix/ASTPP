@@ -1,0 +1,1837 @@
+/*
+ * astppBilling - The Enterprise Open Source Billing System
+ * Copyright (C) 2003-2011 Enterprise astppBilling Software Ltd. 
+ *
+ * This file is part of astppbilling.
+ *
+ * astppbilling is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * astppbilling is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with astppbilling.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+body {
+	color:#383838;
+	margin:0;
+	font:12px Arial, Helvetica, sans-serif;
+	min-width:998px;
+	background:#fff url(/images/astppbilling/body_bg.png) repeat-x;
+}
+/*
+form, fieldset {
+	margin:0;
+	padding:0;
+	border-style:none;
+}
+*/
+input.error, select.error, textarea.error  {
+    color: red;
+}
+img {
+	border:none;
+}
+a {
+	color:#2375a3;
+	text-decoration:none;
+    cursor: pointer;
+}
+a:focus {
+	outline:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+table {
+	margin:0;
+	padding:0;
+	border-collapse:collapse;
+}
+h1, h2, h3 {
+    margin: 0;
+    padding: 0;
+}
+h1.capitalize, h2.capitalize, h3.capitalize {
+    text-transform: capitalize;
+}
+hr {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 20px auto;
+    width: 90%;
+    clear: both;
+    border: none;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #fafafa;
+    font-size: 1px;
+    line-height: 0;
+    overflow: visible;
+}
+.code {
+    padding: 7px;
+    margin: 10px auto 30px;
+    border: 1px solid #bbb;
+    background: #f5f5f5;
+    font-family: courier, monospace;
+}
+.stacktrace {
+    overflow: auto;
+    height: 300px;
+}
+.center {text-align: center;}
+.left {text-align: left;}
+.right {text-align: right;}
+#header {
+	height:123px;
+	position:relative;
+}
+#header h1 {
+	margin:0;
+	width:107px;
+	height:60px;
+	text-indent:-9999px;
+	overflow:hidden;
+	background:url(/images/astppbilling/logo.gif) no-repeat;
+	position:absolute;
+	top:6px;
+	left:0;
+}
+#header h1 a {
+	display:block;
+	height:100%;
+}
+#header .search {
+	position:absolute;
+	top:24px;
+	right:0;
+	width:190px;
+}
+#header .search .btn {
+	float:right;
+	margin-top:1px;
+}
+#header .search .input-bg {
+	width:160px;
+	height:24px;
+	float:left;
+	padding:1px;
+	overflow:hidden;
+	background:url(/images/astppbilling/bg-input.gif) no-repeat;
+}
+#header .search .input-bg a {
+	width:20px;
+	height:24px;
+	text-indent:-9999px;
+	overflow:hidden;
+	float:right;
+}
+#header .search .input-bg input {
+	width:124px;
+	height:15px;
+	padding:5px 0 3px 5px;
+	float:left;
+	background:none;
+	border:none;
+	color:#696969;
+}
+#header .search .popup {
+	width:162px;
+	position:absolute;
+	top:30px;
+	left:0;
+	z-index:100;
+	display:none;
+	background:url(/images/astppbilling/bg-popup-top.gif) no-repeat;
+	padding-top:2px;
+}
+#header .search .active .popup {display:block;}
+#header .search .popup .top-bg {
+	background:url(/images/astppbilling/bg-popup-btm.gif) no-repeat 0 100%;
+	padding-bottom:2px;
+}
+#header .search .popup .btm-bg {
+	overflow:hidden;
+	background:url(/images/astppbilling/bg-popup.gif) repeat-y;
+	height:1%;
+	padding:0 5px;
+}
+#header .search .popup .input-row {
+	overflow:hidden;
+	height:1%;
+	padding:7px 4px;
+	margin-top:-1px;
+	border-top:1px solid #ececec;
+}
+#header .search .popup .input-row input,
+#header .search .popup .input-row .radioArea,
+#header .search .popup .input-row .radioAreaChecked {
+	margin:0 5px 0 0 !important;
+}
+#header .search .popup .input-row label {
+	float:left;
+	line-height:15px;
+	color:#696969;
+}
+#header .search .popup .input-row label:hover ,
+#header .search .popup .input-row label.hover {
+	color:#0e61b1;
+}
+#header .search .popup .input-row input {
+	width:15px;
+	height:15px;
+	margin:0 8px 0 0;
+	float:left;
+}
+#header .top-nav {
+	margin:0;
+	padding:0;
+	list-style:none;
+	text-align:center;
+	position:absolute;
+	top:28px;
+	right:269px;
+}
+#header .top-nav li {
+	display:inline-block;
+	background:url(/images/astppbilling/separator02.gif) no-repeat 0 50%;
+	padding:0 7px 0 10px;
+	font-size:14px;
+	font-weight:bold;
+}
+#header .top-nav li:first-child {background:none;}
+#header .top-nav li img {
+	margin-right:4px;
+	float:left;
+}
+#header .top-nav li a {
+	color:#40454d;
+	font-size:12px;
+	font-weight:normal;
+}
+/* navigationjj */
+#navigationjj {
+	position:absolute;
+	top:124px;
+	left:0;
+	width:100%;
+	float:left;
+}
+#navigationjj ul {
+	margin:0;
+	padding:0;
+	padding-left:30px;
+	list-style:none;
+	text-align:left;
+	padding-top: 4px;
+}
+#navigationjj ul li {
+	padding:0 5px;
+	display:inline-block;
+	padding-left: 10px;
+}
+#navigationjj ul li:first-child {background:none;}
+#navigationjj ul li a {
+	color:#fff;
+	font-size:12px;
+	font-weight:bold;
+	float:left;
+	line-height:20px;
+	position:relative;
+	text-decoration: none;
+	display:block;
+	padding: 0 10px;
+}
+#navigationjj ul li a span {
+	display:block;
+	padding:0 11px 2px 11px;
+}
+#navigationjj ul li a em {
+	position:absolute;
+	top:19px;
+	left:50%;
+	margin-left:-6px;
+	width:13px;
+	height:6px;
+	text-indent:-9999px;
+	overflow:hidden;
+}
+#navigationjj ul li.active a ,
+#navigationjj ul li a:hover {
+	/*background:url(/images/astppbilling/bg-nav-la.gif) no-repeat;*/
+	color:#BCCC33;
+	text-decoration:none;
+	display:block;
+	padding: 0 10px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	behavior: url(border-radius.htc);
+	background-color:#FFF;
+}
+#navigationjjj ul li.active a span ,
+#navigationjjj ul li a:hover span {
+	background:url(/images/astppbilling/bg-nav-r.gif) no-repeat 100% 0;
+}
+#navigationjjj ul li.active a em ,
+#navigationjjj ul li a:hover em {
+	background:url(/images/astppbilling/bg-nav-arrow.gif) no-repeat;
+}
+
+
+/* navigationjj */
+#navigationj {
+	position:absolute;
+	top:78px;
+	left:0;
+	width:100%;
+	padding-top:10px;
+}
+#navigationj ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+	text-align:left;
+}
+#navigationj ul li {
+	padding:0 5px;
+	display:inline-block;
+	background:url(/images/astppbilling/separator01.gif) no-repeat 0 50%;
+}
+#navigationj ul li:first-child {background:none;}
+#navigationj ul li a {
+	color:#fff;
+	font-size:14px;
+	font-weight:bold;
+	float:left;
+	line-height:20px;
+	position:relative;
+}
+#navigationj ul li a span {
+	display:block;
+	padding:0 11px 2px 11px;
+}
+#navigationj ul li a em {
+	position:absolute;
+	top:19px;
+	left:50%;
+	margin-left:-6px;
+	width:13px;
+	height:6px;
+	text-indent:-9999px;
+	overflow:hidden;
+}
+#navigationj ul li.active a ,
+#navigationj ul li a:hover {
+	background:url(/images/astppbilling/bg-nav-l.gif) no-repeat;
+	color:#0f4071;
+	text-decoration:none;
+}
+#navigationj ul li.active a span ,
+#navigationj ul li a:hover span {
+	background:url(/images/astppbilling/bg-nav-r.gif) no-repeat 100% 0;
+}
+#navigationj ul li.active a em ,
+#navigationj ul li a:hover em {
+	background:url(/images/astppbilling/bg-nav-arrow.gif) no-repeat;
+}
+#spinner {
+    float:right;
+    height:32px;
+    width:32px;
+    padding-top:1px;
+    padding-right:3px;
+}
+#main {
+	overflow:hidden;
+	height:1%;
+	padding:9px 0 54px;
+}
+.breadcrumbs {
+	background:#fff;
+	margin-bottom:10px;
+	height:1%;
+	border:1px solid #a4c0db;
+}
+.breadcrumbs ul {
+    height:34px;
+	margin:0;
+	padding:0;
+	list-style:none;
+	overflow:hidden;
+}
+.breadcrumbs ul li {
+	float:left;
+	padding:0 16px;
+	margin-left:-7px;
+	background:url(/images/astppbilling/arrow01.gif) no-repeat 0 50%;
+	line-height:34px;
+	font-size:13px;
+	font-weight:bold;
+	color:#0e61b1;
+}
+.breadcrumbs ul li a {
+	color:#40454d;
+}
+.breadcrumbs ul li a:hover {
+	color:#0e61b1;
+}
+.breadcrumbs ul li.shortcut {
+	width:135px;
+	text-align:center;
+	color:#fff;
+	position:relative;
+	font-weight:bold;
+	float:left;
+}
+.shortcut2 {
+	width:9px; position: relative;
+    height:9px;
+    text-indent:-9999px;
+    overflow:hidden;
+    background:url(/images/astppbilling/icon03.gif) no-repeat;
+    float:right;
+    margin:10px 0 0 0;
+    padding:0;
+}
+.heading {
+	background:url(/images/astppbilling/bg-heading.gif) repeat-x;
+	border:1px solid #1b437d;
+	padding:0 9px 0 10px;
+	height:30px;
+}
+.heading.active {
+	position:relative;
+}
+#left-column .heading {margin-bottom:10px;}
+.heading strong {
+	line-height:30px;
+	display:block;
+	color:#fff;
+	font-size:14px;
+}
+.heading strong em {
+	font-weight:normal;
+}
+.heading strong span {
+	font-style:italic;
+}
+.heading .arrow {
+	display:block;
+	width:100%;
+	background:url(/images/astppbilling/arrow02.gif) no-repeat 100% 14px;
+}
+.heading .arrow:hover {text-decoration:none;}
+.heading.active .drop {display:block;}
+.dropdown.active .drop {display:block;}
+.drop {
+	position:absolute;
+	top:31px;
+	left:-1px;
+	width:148px;
+	background:#fff;
+	z-index:100;
+	display:none;
+	border:1px solid #bfbfbf;
+}
+.drop ul {
+	margin:0;
+	padding:0 4px;
+	list-style:none;
+	overflow:hidden;
+}
+.drop ul li {
+	border-top:1px solid #ececec;
+	margin-top:-1px;
+	line-height:27px;
+	padding:0 6px;
+}
+.drop ul li a {color:#696969;}
+.drop ul li a:hover {color:#0e61b1; text-decoration:none;}
+/* login */
+#login {
+	padding: 20px;
+	margin: 50px auto;
+	width: 500px;
+}
+#login .form-columns {
+    width: auto;
+}
+/* left-column */
+#left-column {
+	width:150px;
+	float:left;
+}
+* html #left-column {margin-right:-3px;}
+.accordion {
+	margin:-10px 0 0;
+	padding:0;
+	list-style:none;
+	border:solid #bbb;
+	border-width:0 1px;
+}
+.accordion li {
+	vertical-align:top;
+	height:1%;
+	overflow:hidden;
+	border-bottom:1px solid #bbb;
+	background:url(/images/astppbilling/bg-accordion.gif) repeat-x;
+}
+.accordion li.other {
+	background:url(/images/astppbilling/bg-accordion02.gif) repeat-x;
+}
+.accordion li span.title {
+	float:left;
+	line-height:30px;
+    padding: 0 0 0 7px;
+	color:#383838;
+}
+.accordion li span.active {
+    font-weight: bold;
+}
+.accordion li.open a {
+	background:url(/images/astppbilling/icon02.gif) no-repeat 6px 11px;
+}
+.accordion li a.delete {
+	width:9px;
+	height:9px;
+	text-indent:-9999px;
+	overflow:hidden;
+	background:url(/images/astppbilling/icon03.gif) no-repeat;
+	float:right;
+	margin:11px 8px 0 0;
+	padding:0;
+}
+.accordion li .slide {
+	overflow:hidden;
+	width:144px;
+	clear:both;
+	background:#fff;
+	padding:7px 4px 0 0;
+}
+.accordion li .slide .input-row {
+	overflow:hidden;
+	height:1%;
+	padding-bottom:7px;
+}
+.holder .input-bg ,
+.accordion li .slide .input-row .input-bg {
+	width:90px;
+	height:24px;
+	overflow:hidden;
+	float:right;
+	padding:1px;
+	background:url(/images/astppbilling/bg-input02.gif) no-repeat;
+}
+.holder .input-bg input ,
+.accordion li .slide .input-bg input {
+	width:65px;
+	height:16px;
+	float:left;
+	border:none;
+	background:none;
+	padding:5px 0 3px 5px;
+	color:#383838;
+}
+.holder .input-bg input.error ,
+.accordion li .slide .input-bg input.error {
+    color:red;
+}
+.accordion li .slide .input-bg input.select {color:#696969;}
+.accordion li .slide label {
+	float:right;
+	line-height:26px;
+	width:50px;
+}
+.accordion li .slide label.lb {
+	width:auto;
+	line-height:20px;
+}
+.accordion li .slide .input-row .select-bg {
+	width:88px;
+	height:16px;
+    float: right;
+    border: none;
+    background: none;
+    padding: 3px 0 3px 5px;
+}
+.accordion li .slide .checkbox-row label {
+    float: none;
+    padding-left: 3px;
+}
+.holder .input-bg a ,
+.accordion li .slide .input-bg a {
+	float:right;
+	width:15px;
+	height:16px;
+	text-indent:-9999px;
+	overflow:hidden;
+	padding:0;
+	background:url(/images/astppbilling/icon04.gif) no-repeat;
+	margin:4px 3px 0 0;
+}
+.date img {
+    float: right;
+    position: relative;
+    top: -16px;
+}
+.btn-hold {
+	background:#f6f6f6;
+	border:1px solid #bbb;
+	border-top:none;
+	overflow:hidden;
+	padding:10px 6px;
+	height:1%;
+	margin-bottom:10px;
+}
+.btn-hold .submit {
+	margin-bottom:10px;
+}
+.submit2 ,
+.submit {
+	width:135px;
+	line-height:22px;
+	text-align:center;
+	color:#fff;
+	position:relative;
+	font-weight:bold;
+	float:left;
+	background:url(/images/astppbilling/bg-btn01.png) no-repeat;
+    cursor: pointer;
+}
+.submit2:hover ,
+.submit:hover {text-decoration:none;}
+.submit2 span ,
+.submit span {
+	padding-left:14px;
+	overflow:hidden;
+}
+.submit2 span {padding:0 0 0 12px;}
+.submit.apply span {background:url(/images/astppbilling/icon05.gif) no-repeat 0 50%;}
+.submit.add span {background:url(/images/astppbilling/icon06.gif) no-repeat 0 50%;}
+.submit2.save span {background:url(/images/astppbilling/icon07.gif) no-repeat 0 50%;}
+.submit.save span {background:url(/images/astppbilling/icon07.gif) no-repeat 0 50%;}
+.submit.cancel span {background:url(/images/astppbilling/icon36.gif) no-repeat 0 50%;}
+.submit2.load span {background:url(/images/astppbilling/icon08.gif) no-repeat 0 50%;}
+.submit.order span {background:url(/images/astppbilling/icon22.gif) no-repeat 0 50%;}
+.submit.email span {background:url(/images/astppbilling/icon30.gif) no-repeat 0 50%;}
+.submit.payment span {background:url(/images/astppbilling/icon23.gif) no-repeat 0 50%;}
+.submit.delete span {background:url(/images/astppbilling/icon24.gif) no-repeat 0 50%;}
+.submit.find span {background:url(/images/astppbilling/icon29.gif) no-repeat 0 50%;}
+.submit.edit span {background:url(/images/astppbilling/icon29.gif) no-repeat 0 50%;}
+.submit.show span {background:url(/images/astppbilling/icon30.gif) no-repeat 0 50%;}
+.submit.okay span {background:url(/images/astppbilling/icon22.gif) no-repeat 0 50%;}
+.submit.show2 span {background:url(/images/astppbilling/icon31.gif) no-repeat 0 50%;}
+.submit.ok span {background:url(/images/astppbilling/icon33.gif) no-repeat 0 50%;}
+.submit2 {
+	background:url(/images/astppbilling/bg-btn02.png) no-repeat;
+	width:62px;
+}
+.submit2.save {
+	margin-right:11px;
+}
+.menu-items {
+	margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-items .list {
+    border-width: 1px 1px 0;
+}
+.list {
+	margin:-10px 0 0;
+	padding:0;
+	list-style:none;
+	border:solid #bbb;
+	border-width:0 1px;
+}
+.list li {
+	padding:0 4px;
+	background:#e1e1e1 url(/images/astppbilling/bg-list.gif) repeat-x;
+	line-height:25px;
+	vertical-align:top;
+	height:1%;
+	border-bottom:1px solid #bbb;
+}
+.list li.active {
+    background-color: #fff;
+    background-image: none;
+    font-weight: bold;
+}
+.list li a {
+	display:block;
+	color:#383838;
+}
+.list li a:hover {
+	color:#0e61b1;
+}
+.list li img {
+	float:left;
+	margin:7px 5px 0 0;
+}
+/* msg-box */
+.msg-box {
+	margin:0 0 10px 10px;
+	overflow:hidden;
+	height:1%;
+	padding:4px 9px;
+}
+.msg-box.wide {
+    margin: 0 0 10px 0;
+}
+.msg-box.successfully {
+	background:#eaf9c5;
+	border:1px solid #b7cf7b;
+}
+.msg-box.info {
+    background:#ffffff;
+    border:1px solid #b7cf7b;
+}
+.msg-box.warn {
+    background:#ffffff;
+    border:1px solid #e9a66b;
+}
+.msg-box.error {
+	background:#f8dec7;
+	border:1px solid #e9a66b;
+}
+.msg-box img {
+	float:left;
+	margin:0 10px 0 0;
+}
+.msg-box p {
+	color:#40454d;
+    margin: 3px 0 0 50px;
+}
+.msg-box strong {
+	color:#40454d;
+	font-size:14px;
+}
+.msg-box ul {
+    list-style-position: inside;
+    margin-left: 13px;
+}
+#viewport {
+    overflow: hidden; width: 200%;
+}
+#viewport .panel {
+    width: 25%
+}
+.columns-holder {
+	overflow:hidden;
+	height:1%;
+}
+.columns-holder .column {
+	width:50%;
+	float:left;
+    position: relative;
+}
+* html .columns-holder .column {margin:0 -1px;}
+* +html .columns-holder .column {margin:0 -1px;}
+.columns-holder .column .column-hold {
+	padding-left:10px;
+}
+.column .box {
+	background:#fff;
+	border:solid #bbb;
+	border-width:0 1px;
+	overflow:hidden;
+	padding: 11px 9px 18px 9px;
+	height:1%;
+	position:relative;
+}
+.column .box.no-heading {
+    border-top: 1px solid #bbb;
+    padding: 11px 9px 10px;
+}
+.column .box.no-buttons {
+    border-bottom: 1px solid #bbb;
+}
+.column .box .edit {
+	width:25px;
+	height:20px;
+	text-indent:-9999px;
+	overflow:hidden;
+	background:url(/images/astppbilling/icon21.gif) no-repeat;
+	display:none;
+	top:16px;
+	right:14px;
+	position:absolute;
+}
+.column .heading .edit {
+    width:25px;
+	height:20px;
+    background:url(/images/astppbilling/icon21.gif) no-repeat;
+    overflow:hidden;
+    display:block;
+    float:left;
+    margin:3px 7px 0 0;
+}
+.column .box.edit.hover ,
+.column .box.edit:hover {
+	background:#eef7ff;
+}
+.column .box.hover a.edit,
+.column .box:hover a.edit{
+	display:block;
+}
+.column .box strong {
+	font-size:14px;
+	line-height:20px;
+	font-weight:normal;
+}
+.column .box p {
+	margin:0;
+	line-height:16px;
+}
+.column .box p.description {
+    font-size: 14px;
+    padding: 18px 0;
+}
+.column .box dl {
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	line-height:22px;
+}
+.column .box dt {
+	float:left;
+	width:86px;
+}
+.column .box .other2 {
+	border-bottom:1px solid #bbb;
+	padding-bottom:9px;
+	margin-bottom:10px;
+}
+.column .box .other dt {
+	width:108px;
+}
+.column .box .other dt.long {
+    width: 150px;
+}
+.column .box dd {
+	margin:0;
+	font-weight:bold;
+}
+.column .box dd a {
+	color:#383838;
+}
+.pager-box {
+    overflow:hidden;
+    height:1%;
+    padding: 10px;
+    background:#f6f6f6;
+    border-right: 1px solid #bbb;
+    border-left: 1px solid #bbb;
+    text-align:center;
+}
+.pager-box span {
+    display: inline-block;
+    margin: 0 6px;
+}
+.pager-box a {
+    float:none;
+    margin: 0 6px;
+}
+.pager-box a.prevLink {
+
+}
+.pager-box a.nextLink {
+
+}
+.pager-box .row {
+    clear: both;
+}
+.pager-box .results {
+    float:left;
+    text-align: left;
+}
+.pager-box .download {
+    float:right;
+    text-align: right;
+}
+.btn-box {
+	overflow:hidden;
+	padding:6px;
+	background:#f6f6f6;
+	border:1px solid #bbb;
+	text-align:center;
+}
+.btn-box a {
+	float:none;
+	display:inline-block;
+	margin:0 4px;
+}
+.btn-box .row {
+    height: 22px;
+    padding-bottom: 3px;
+}
+.btn-row {
+    margin: 6px;
+    padding-top: 6px;
+    text-align:center;
+}
+.btn-row a {
+    float:none;
+    display:inline-block;
+    margin:0 4px;
+}
+.table-heading strong {
+	float:right;
+	font-size:12px;
+	width:48px;
+	overflow:hidden;
+}
+.column .heading .name {
+	float:left;
+	width:auto;
+}
+.column .heading .user {
+	width:60px;
+}
+.column .heading .parent {
+	width:60px;
+	padding-right:10px;
+	white-space:nowrap;
+}
+/* list tables */
+.table-box {
+    margin: 0 auto;
+	border:solid #bbb;
+	border-width:0 1px;
+}
+.table-box.tab-table {
+    border-width: 1px;
+    padding: 0;
+    margin-top: 15px;
+}
+.table-box table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+}
+.table-box thead tr {
+    background:url(/images/astppbilling/bg-heading.gif) repeat-x;
+    border:1px solid #1b437d;
+    width: 100%;
+    height: 30px;
+    text-align: right;
+}
+.table-box thead th {
+    color: #fff;
+    text-align: left;
+    padding: 4px 4px;
+}
+.table-box thead th a {
+    color: #fff;
+}
+
+td.large, th.large { width: 300px; }
+td.medium2, th.medium2 { width: 150px; }
+td.medium, th.medium { width: 120px; }
+td.small2, th.small2 { width: 100px; }
+td.small, th.small { width: 80px; }
+td.tiny3, th.tiny3 { width: 70px; }
+td.tiny2, th.tiny2 { width: 60px; }
+td.tiny, th.tiny { width: 50px; }
+
+.table-box tbody tr {
+	display: table-row;
+    vertical-align: middle;
+    background: #bbb url(/images/astppbilling/bg-gradient.gif) repeat-x;
+}
+.table-box tbody tr.active {
+    background: #bbb url(/images/astppbilling/bg-gradient2.gif) repeat-x;
+}
+
+.table-box tbody tr.isReview {
+    font-style: italic;
+    text-shadow: 1px 1px 4px #383838;
+}
+
+.table-box tbody tr em {
+	display:block;
+}
+.table-box tbody tr strong {
+	font-size:14px;
+	font-weight:normal;
+}
+.table-box tbody tr.active strong {
+	font-weight:bold;
+}
+.table-box tbody td {
+    height: 50px;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 4px;
+}
+.table-box td a {
+	color:#383838;
+}
+.table-box td a.cell {
+    display:block;
+    overflow:hidden;
+	height:33px;
+	padding-top:15px;
+}
+.table-box td a.cell.double {
+    height:40px;
+    padding-top:8px;
+}
+.table-box td a:hover {text-decoration:none;}
+.table-box .block img {
+	margin-top:9px;
+}
+.holder {
+	background:#fff;
+	padding:0 10px;
+	border:1px solid #a4c0db;
+	margin-bottom:10px;
+	overflow:hidden;
+	height:1%;
+}
+.holder .form-box {
+	float:left;
+	width:345px;
+	padding:11px 0;
+	margin-right:20px;
+	border-right:1px solid #a4c0db;
+}
+.holder .form-box label {
+	width:88px;
+	float:left;
+	line-height:26px;
+}
+.holder .form-box .input-bg {
+	float:left;
+	margin-right:10px;
+}
+.holder .submit {
+	margin:13px 10px 0 0;
+}
+.holder .form-box .submit {margin:1px 0 0;}
+/* table-area */
+.table-area {
+	border-bottom:1px solid #bbb;
+	margin:0 0 -1px 1px;
+}
+.table-area table {
+	width:100%;
+}
+.table-area thead td {
+	color:#fff;
+	font-weight:bold;
+	height:40px;
+	text-align:center;
+	padding:0;
+	border:solid #1b437d;
+	border-width:1px 0 0;
+	background:url(/images/astppbilling/bg-heading02.gif) repeat-x;
+}
+* html .table-area thead td {height:41px;}
+* +html .table-area thead td {height:41px;}
+.table-area thead td.first {border-left:1px solid #1b437d;}
+.table-area thead td.last {border-right:1px solid #1b437d;}
+.table-area thead td.col04 {
+	text-align:right;
+}
+.table-area tbody td {
+	padding:5px 0;
+	border-right:1px solid #bbb;
+	text-align:center;
+}
+.table-area tbody td em {
+	display:block;
+	text-align:left;
+	padding-left:8px;
+	line-height:18px;
+}
+.table-area tbody td.col01 {
+	border:none;
+}
+.table-area tbody td.col02 {
+	border-left:1px solid #bbb;
+}
+.table-area tbody td.col03 {
+	text-align:left;
+	padding-left:20px;
+	width:37%;
+}
+.table-area tbody td.col01 em {
+	text-align:right;
+	font-style:normal;
+}
+.table-area tbody .bg td {
+	height:25px;
+	background:#d7d9dd;
+	font-weight:bold;
+	text-align:right;
+}
+.table-area tbody .bg td strong {
+	text-align:center;
+	display:block;
+}
+.table-info {
+	overflow:hidden;
+	height:1%;
+	background:#fff;
+	padding:0 10px;
+	border:solid #bbb;
+	border-width:1px 1px 0 1px;
+	margin-left:1px;
+}
+.table-info em {
+	float:left;
+	font-size:16px;
+	margin-right:27px;
+	line-height:49px;
+}
+/* lightbox */
+.lightbox {
+	width:379px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin:-71px 0 0 -188px;
+}
+.lightbox .bg-lightbox {
+	width:375px;
+	height:137px;
+	background:url(/images/astppbilling/bg-lightbox.png) no-repeat;
+	padding:0 2px 5px 2px;
+	overflow:hidden;
+}
+.lightbox .title {
+	display:block;
+	line-height:32px;
+	color:#fff;
+	text-align:center;
+	font-size:16px;
+}
+.lightbox .text {
+	padding:0 15px;
+	border-bottom:1px solid #bbb;
+	margin-bottom:6px;
+}
+.lightbox .text td {
+	padding:0;
+	width:41px;
+	height:70px;
+}
+.lightbox .text td.col2 {
+	width:303px;
+}
+.btn-hold2 {
+	text-align:center;
+}
+.btn-hold2 .submit {
+	float:none;
+	margin:0 4px;
+	display:inline-block;
+}
+/* cloud */
+ul.cloud  {
+    list-style: none;
+    list-style-position: inside;
+}
+ul.cloud li {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background-color: #3a3a3a;
+    color: #eee;
+    float: left;
+    font-weight: bold;
+    margin: 3px;
+    padding: 5px;
+    text-align: center;
+    list-style: none;
+}
+ul.cloud li a {
+    color: #eee;
+}
+/* order review */
+#review-box hr {
+    margin: 15px auto;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+#review-box .form-columns {
+    width: auto;
+}
+#review-box .form-columns hr {
+    margin: 8px auto;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #fafafa;
+}
+#review-box .header {
+    width: 90%;
+    margin: 0 auto 13px;
+}
+#review-box .header h2 { font-size: 16px; }
+#review-box .header h3 { font-size: 12px; }
+#review-box .header h2 span, #review-box .header h3 span {
+    font-weight: normal;
+    font-style: italic;
+    padding: 0 7px;
+}
+#review-box .box-text {
+    background-color: #fdfdfd;
+    border: 1px solid #eee;
+    font-size: 14px;
+    height: auto;
+    margin: 30px auto 5px;
+}
+#review-box .msg-box {
+    margin: 0 0 10px;
+}
+#review-box .msg-box ul {
+    list-style-position: outside;
+    margin-left: 0;
+}
+ul#review-lines {
+    width: 85%;
+    margin: 0 auto;
+    padding: 5px;
+	list-style: none;
+}
+#review-lines li {
+	list-style: none;
+	vertical-align:top;
+}
+#review-lines li.line {
+    border: 1px solid #fff;
+}
+#review-lines li.editor {
+    margin-bottom: 7px;
+    display: none;
+}
+#review-lines li.open {
+    display: block;
+}
+#review-lines li.active, #review-lines li.line:hover {
+    background: #d0e7fc url(/images/astppbilling/bg-gradient2.gif) right -1px repeat-x;
+    border: 1px dashed #c1c1c1;
+    cursor: pointer;
+}
+#review-lines li.active span {
+    font-weight: normal;
+    font-style: italic;
+    color: #5a5a5a;
+}
+#review-lines li.bundled {
+    list-style: disc inside none;
+    margin-left: 15px;
+    font-weight: normal;
+}
+#review-lines li.bundled-price {
+    margin-left: 35px;
+}
+#review-lines li.bundled-price .dataTable {
+    margin: 3px 0 15px;
+}
+#review-lines li span {
+    line-height: 25px;
+    font-size: 14px;
+    font-weight: bold;
+}
+#review-lines li .row span {
+    font-size: 12px;
+    font-weight: normal;
+}
+#review-lines li .row a span {
+    font-weight: bold;
+}
+#review-lines span.description {
+    padding-left: 3px;
+    display: block;
+    float: left;
+    width: 250px;
+}
+#review-lines span.qty-price, #review-lines span.strategy {
+    display: block;
+    width: 120px;
+    float: right;
+}
+#review-lines span.sub-total, #review-lines span.rate {
+    display: block;
+    width: 100px;
+    float: right;
+    text-align: right;
+}
+#review-lines span.included-qty {
+    display: block;
+    width: 250px;
+    float: right;
+    text-align: right;
+}
+.total {
+    margin: 0 auto;
+    width: 85%;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+}
+.editor .box {
+    padding: 0 0 18px;
+}
+#review-lines a span {
+    font-size: 12px;
+}
+#details-box .form-columns {
+    width: auto;
+}
+.textarea-box {
+    margin: 0 auto;
+}
+.ui-tabs-panel {
+    font-size: 12px;
+}
+/* form-columns */
+.form-hold {
+	border:solid #bbb;
+	border-width:0 1px 1px;
+	background:#fff;
+}
+.form-columns {
+	overflow:hidden;
+	color:#383838;
+	width:1000px;
+	margin:0 auto;
+	padding:14px 0 0;
+}
+.form-columns.single {
+    width: auto;
+}
+.form-columns a img {
+    position: relative;
+    top: 4px;
+    left: 4px;
+    margin-right: 4px;
+}
+.form-columns .column {
+	float:left;
+	width:385px;
+	padding:0 0 0 30px;
+}
+.form-columns .column.single {
+    width: 89%;
+    margin: 0 30px;
+    padding: 0;
+}
+.form-columns .one_column {
+    width:385px;
+    padding:0 0 0 0px;
+    padding-right: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.form-columns .row {
+	overflow:hidden;
+	padding:6px 0 0;
+}
+.form-columns span {
+	font-weight:bold;
+	line-height:24px;
+}
+.form-columns label,
+.form-columns p {
+	margin:0 10px 0 0;
+	font-size:12px;
+
+}
+.form-columns label {
+    float:left;
+    text-align:right;
+    width:150px;
+    line-height:24px;
+}
+.form-columns p.description {
+    float: none;
+    width: auto;
+    margin-left: 170px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    text-align: left;
+}
+.form-columns a.field {
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+.form-columns ul {
+    margin: 4px 0 0 0;
+}
+.form-columns li {
+    list-style: inside;
+}
+.form-columns label.lb {
+	width:auto;
+	line-height:24px;
+}
+.form-columns input.cb {
+	float:left;
+	width:15px;
+	height:24px;
+	padding:0;
+	margin:0 5px 0 0;
+}
+.form-columns label em {
+    color: #aaa;
+    font-size: 7pt;
+    font-style: italic;
+}
+.form-columns .inp-bg {
+	float:left;
+	width:212px;
+	height:16px;
+    margin-right: 3px;
+	padding:4px 5px;
+	overflow:hidden;
+	outline:none;
+	background:url(/images/astppbilling/bg-input03.gif) no-repeat;
+}
+.form-columns .inp-bg input.field:focus,
+.form-columns textarea:focus,
+.form-columns textarea {
+	outline:none;
+}
+.form-columns textarea {
+	width:492px;
+	height:130px;
+    display: block;
+	overflow:auto;
+	margin:0 auto;
+	border:1px solid #bbb;
+	background:#f5f5f5;
+}
+.form-columns .inp-bg input.field {
+	float:left;
+	width:212px;
+	height:16px;
+	padding:0;
+	margin:0;
+	color:#383838;
+	outline:none;
+	font:bold 12px/16px Arial, Helvetica, sans-serif;
+	background:none;
+	border:none;
+}
+.form-columns .inp2 {
+	padding:4px 5px;
+	width:22px;
+	margin-right:6px;
+	background:url(/images/astppbilling/bg-input04.gif) no-repeat;
+}
+.form-columns .inp2 input.field {
+	width:22px;
+}
+.form-columns .inp3 {
+	width:64px;
+	padding:4px 3px;
+	background:url(/images/astppbilling/bg-input05.gif) no-repeat;
+}
+.form-columns .inp3 input.field {
+	width:64px;
+}
+.form-columns .inp4 {
+	width:72px;
+	padding:4px 5px;
+	background:url(/images/astppbilling/bg-input06.gif) no-repeat;
+}
+.form-columns .inp4 input.field {
+    margin: 3px;
+	width:72px;
+}
+.form-columns .select2 select {
+    margin: 3px;
+    width:22px;
+}
+.form-columns .select3 select {
+    margin: 3px;
+    width:64px;
+}
+.form-columns .select4 {
+    margin-right: 7px;
+    width: 72px;
+    float: left;
+}
+.form-columns .select4 select {
+    margin: 3px;
+    width: 72px;
+}
+.form-columns .select5 {
+    margin-right: 7px;
+    width: 110px;
+    float: left;
+}
+.form-columns .select5 select {
+    margin: 3px;
+    width: 110px;
+}
+.form-columns select {
+	float:left;
+	width:220px;
+	padding:0;
+	margin:3px 0 0;
+	color:#383838;
+	font:bold 12px/16px Arial, Helvetica, sans-serif;
+}
+
+#filter-save-dialog {
+    color: #383838;
+    font-family: "Arial", "Helvetica", sans-serif;
+    font-size: 12px;
+}
+#filter-save-dialog .submit {
+    color:#fff;
+}
+#filter-save-dialog .form-columns label {
+    width: 90px;
+}
+.box-cards {
+	margin:10px 20px 0;
+	border:1px solid #bbb;
+}
+.box-cards .box-cards {
+    width: 80%;
+    margin: 10px auto;
+}
+.box-cards-title {
+	height:30px;
+	background:url(/images/astppbilling/bg-gradient3.gif) repeat-x;
+}
+.box-cards-title span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #383838;
+    line-height: 30px;
+	padding-right:35px;
+    padding-left: 7px;
+}
+
+.box-cards-title a.btn-open {
+	display:block;
+	width:100%;
+	color:#383838;
+	font-size:14px;
+	line-height:30px;
+	font-weight:bold;
+}
+.box-cards-title a.btn-open span {
+	padding-left:32px;
+	display:block;
+	cursor:pointer;
+	background:url(/images/astppbilling/bullet.gif) no-repeat 8px 50%;
+}
+.box-cards-title a.btn-open:hover {
+	text-decoration:none;
+}
+.box-cards-open a.btn-open span {
+	background:url(/images/astppbilling/bullet2.gif) no-repeat 8px 50%;
+}
+.box-cards .box-card-hold {
+	padding:0 0 25px;
+	border-top:1px solid #bbb;
+}
+.box-cards .content {
+    overflow: hidden;
+    padding: 14px 0 0;
+    width: auto;
+}
+.box-cards .content p {
+    padding: 0 9px;
+}
+.box-cards .form-columns label {
+	width:165px;
+}
+.form-columns label.rb {
+	width:auto;
+	margin-right:20px;
+}
+.form-columns label.lb {
+	width:auto;
+}
+.form-columns input.rb {
+	float:left;
+	width:15px;
+	height:16px;
+	padding:0;
+	margin:5px 5px 0 0;
+}
+.box-cards .sel {
+	float:left;
+	margin-right:6px;
+}
+.box-cards select.select-date {
+	float:left;
+	width:58px;
+	margin-right:6px;
+}
+.box-cards .form-columns .column {
+	width:444px;
+	padding-left: 10px;
+}
+
+div.box-text {
+    width:492px;
+    height:130px;
+	margin: 30px auto 10px;
+	border:1px solid #bbb;
+	background:#f5f5f5;
+}
+.box-text textarea {
+    width:475px;
+    height:115px;
+    padding: 7px;
+    background:#f5f5f5;
+    border: none;
+}
+.box-text label {
+    position: absolute;
+    margin-top: -20px;
+}
+.box-text ul {
+	margin:0;
+	width:440px;
+	padding:0 0 10px 18px;
+	list-style:none;
+}
+.box-text ul li {
+	padding:14px 0 0;
+}
+.box-text ul p {
+	margin:0;
+	color:#383838;
+}
+.box-text ul p em {
+	color:#696969;
+}
+.buttons {
+	border-top:1px solid #bbb;
+	padding:6px 0;
+	overflow:hidden;
+	background:#f6f6f6;
+}
+.buttons ul {
+	float:left;
+	position:relative;
+	left:50%;
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.buttons ul li {
+	float:left;
+	position:relative;
+	left:-50%;
+	padding:0 5px;
+}
+/* form css */
+.outtaHere {
+	position:absolute;
+	left:-3000px;
+}
+/*Radio buttons*/
+.radioArea, .radioAreaChecked {
+	float:left;
+	width:14px !important;
+	height:14px;
+	margin:5px 5px 0 0;
+	padding:0;
+	background: url(/images/astppbilling/radio.gif) no-repeat;
+	overflow: hidden;
+}
+.radioAreaChecked {background-position: 0 -14px;}
+/*Checkboxes*/
+.checkboxArea, .checkboxAreaChecked {
+	float:left;
+	margin:1px 5px 0 0;
+	width:14px !important;
+	height:14px;
+	overflow: hidden;
+	background: url(/images/astppbilling/checkbox.gif) no-repeat;
+}
+.checkboxAreaChecked {background-position: 0 -14px;}
+
+/* Selects */
+.selectArea {
+	position: relative;
+	height: 24px;
+	float:left;
+	color:#383838;
+	font-weight:bold;
+	font-size:12px;
+	line-height:24px;
+}
+.selectArea .left {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width:6px;
+	height:100%;
+	background: url(/images/astppbilling/select-left.gif) no-repeat;
+	display: block;
+}
+.selectArea a.selectButton {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width:100%;
+	height:100%;
+	background: url(/images/astppbilling/select-button.gif) no-repeat 100% 0;
+}
+.selectArea .center{
+	height: 24px;
+	float:none;
+	line-height:24px;
+	display:block;
+	padding:0 21px 0 6px;
+	background:#f00 url(/images/astppbilling/select-center.gif) repeat-x;
+}
+.selectArea .center img {
+	float:left;
+}
+/*Selects drop-down*/
+.optionsDivInvisible,
+.optionsDivVisible {
+	position: absolute;
+	background-color: #fff;
+	border: 1px solid #bbb;
+	display: block;
+	z-index: 30;
+	color:#383838;
+	font-weight:bold;
+	font-size:12px;
+	line-height:24px;
+}
+.drop-dif {
+	background:#fff;
+}
+.optionsDivInvisible {display: none;}
+.optionsDivVisible ul {
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	list-style: none;
+	overflow:hidden;
+}
+.optionsDivVisible ul li {
+	margin:-1px 4px 0;
+	border-top:1px solid #bbb;
+}
+.optionsDivVisible a {
+	color:#383838;
+	overflow:hidden;
+	text-decoration: none;
+	display: block;
+	height:1%;
+	padding:2px 4px;
+}
+.optionsDivVisible a img {
+	border:none;
+	float:left;
+}
+.optionsDivVisible a:hover {
+	color:#0e61b1;
+}
+
+/* Data in the right section */
+.dataTable {
+    margin: 6px 0 10px;
+    padding:0;
+    overflow:hidden;
+    line-height:22px;
+}
+
+.dataTable td {
+    vertical-align: top;
+}
+.dataTable td.value {
+    margin: 0;
+	font-weight: bold;
+	padding: 0 10px;
+}
+.dataTable tr.price {
+    background-color: #eaeaea;
+}
+.dataTable tr.price td {
+    width: 25%;
+}
+.dataTable tr.attribute {
+    background-color: #fafafa;
+}
+.dataTable tr.attribute td {
+    width: 25%;
+}
+.dataTable tr hr {
+    margin: 25px auto;
+}
+.box-card-hold .dataTable {
+    margin: 15px auto 10px;
+    width: 80%;
+}
+.dataTable a img {
+    position: relative;
+    top: 4px;
+    left: 4px;
+    margin-right: 4px;
+}
+/* an inner table */
+.innerTable {
+	margin: 10px auto 0 auto;
+	width: 80%;
+    border: 1px solid #BBB;
+}
+.innerHeader {
+    height: 30px;
+    background: url(/images/astppbilling/bg-gradient3.gif) repeat-x;
+    font-size: 14px;
+    font-weight: bold;
+	color: #383838;
+	line-height: 30px;
+}
+.innerHeader th.left {
+    text-align: left;
+}
+.innerContent {
+    text-align:center;
+	padding:3px 0px 10px;
+}
+
+table.blacklist {
+}
+table.blacklist thead tr {
+    height: 30px;
+    background: url(/images/astppbilling/bg-gradient3.gif) repeat-x;
+    font-size: 14px;
+    font-weight: bold;
+	color: #383838;
+	line-height: 30px;
+}
+table.blacklist tbody td {
+    text-align:center;
+	padding:3px 0px 10px;
+    height: 30px;
+    vertical-align: middle;
+}
+table.blacklist tr.even {
+    background-color: #fff;
+}
+table.blacklist tr.odd {
+    background-color: #eee;
+}
+.blacklist td a.cell {
+    display:block;
+    overflow:hidden;
+	height:15px;
+	padding-top:5px;
+}

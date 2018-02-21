@@ -3,7 +3,7 @@
 #
 # Copyright (C) 2004, Aleph Communications
 #
-# Darren Wiebe <darren@aleph-com.net>
+# ASTPP Team (info@astpp.org)
 #
 # This program is Free Software and is distributed under the
 # terms of the GNU General Public License version 2.
@@ -20,7 +20,7 @@ use Locale::Language;
 use Locale::gettext_pp qw(:locale_h);
 use lib './lib', '../lib';
 use warnings;
-use strict;
+#use strict;
 require "/usr/local/astpp/astpp-common.pl";
 $ENV{'LANGUAGE'} = "en";    # de, es, br - whatever
 print STDERR "Interface language is set to: $ENV{'LANGUAGE'}\n";
@@ -34,7 +34,7 @@ my @output = ("STDERR");
 sub initialize() {
     $config     = &load_config();
     $astpp_db   = &connect_db( $config, @output );
-$config     = &load_config_db($astpp_db,$config);
+    $config     = &load_config_db($astpp_db,$config);
 }
 
 ###########################################
@@ -48,15 +48,15 @@ foreach my $param ( param() ) {
 &initialize();
 
 @cardlist = &list_accounts($astpp_db);
-
+$params->{minbalance} = 1;
 foreach my $card (@cardlist) {
     my $cardinfo = &get_account( $astpp_db,  $card );
-    my $balance  = &accountbalance( $astpp_db, $card );
-    $balance = $balance / 10000;
-    if ( ($balance * -1) <= $params->{minbalance} && $cardinfo->{posttoexternal} == 0 )
+    my $balance  = &accountbalance( $astpp_db, $card );       
+    $balance = $balance / 1;
+    if ( ($balance * -1) <= $params->{minbalance} && $cardinfo->{posttoexternal} == 0 )    
     {
         print "\n Card Number: $card Balance: $balance\n";
-        &email_low_balance( $config, $cardinfo->{email},
+	&email_low_balance( $config, $cardinfo->{email},
             $balance );
     }
 }

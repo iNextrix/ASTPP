@@ -1,0 +1,774 @@
+#!/usr/bin/perl
+#
+# ASTPP - Open Source Voip Billing
+#
+# Copyright (C) 2004, Aleph Communications
+#
+# ASTPP Team <info@astpp.org>
+#
+# This program is Free Software and is distributed under the
+# terms of the GNU General Public License version 2.
+#
+# Sample Configuration
+# [astpp-callingcards]
+# exten => s,1,Answer
+# exten => s,n,DeadAGI(astpp-callingcards.agi)
+# exten => s,n,GotoIf($["${NEWCALL}" = "1"]?60)
+# exten => s,n,GotoIf($["${BALANCE}" = "1"]?70)
+# exten => s,n,Hangup
+# exten => s,60,DeadAGI(astpp-callingcards.agi,${CARDNUMBER})
+# exten => s,n,Hangup
+# exten => s,70,DeadAGI(astpp-callingcards.agi,${CARDNUMBER},BALANCE)
+#
+#############################################################################
+use DBI;
+use Asterisk::AGI;
+use POSIX qw(ceil floor);
+use POSIX qw(strftime);
+use Time::HiRes qw( gettimeofday tv_interval );
+use ASTPP;
+#use strict;
+
+use vars qw(@output $verbosity $AGI $config $astpp_db $cdr_db
+  $ASTPP %stats %input $cc $pricelistinfo $brandinfo $sound @resellerlist $brand);
+$stats{start_time} = [gettimeofday];
+$cc        = 0;
+$verbosity = 1;
+require "/usr/local/astpp/astpp-common.pl";
+
+$AGI = new Asterisk::AGI;
+$AGI->set_variable( 'ASTPP', '1' );
+$ASTPP = ASTPP->new;
+$ASTPP->set_verbosity($verbosity); #Tell ASTPP debugging how verbose we want to be.
+#$ASTPP->set_asterisk_agi($AGI);
+
+sub initialize() {
+	$SIG{HUP}   = 'ignore_hup';  # We ignore the HUP command that Asterisk sends on a call hangup.
+	$config     = &load_config(); # Load /var/lib/astpp/astpp-config.conf
+	$astpp_db = &connect_db( $config, @output );
+	$ASTPP->set_astpp_db($astpp_db);
+        $config     = &load_config_db($astpp_db,$config);
+	$brand = $AGI->get_variable("BRAND");
+	if ($brand && $brand ne "") {
+		my $brandinfo = &get_cc_brand($astpp_db, $brand);
+		if ($brandinfo->{reseller}) {
+        		$config     = &load_config_db_reseller($astpp_db,$config,$brandinfo->{reseller});
+		}
+        	$config     = &load_config_db_brand($astpp_db,$config,$brand);
+	}
+	$cdr_db = &cdr_connect_db( $config, @output );
+	$ASTPP->set_cdr_db($cdr_db);
+	$sound = &define_sounds($astpp_db);
+}
+
+=over 4
+
+=item bgplay([$filename1, $filename2, ..., $filenameN], $timeout, $maxdigit)
+
+Executes Asterisk Command "Background filename1&filename2...filenameN" And
+Asterisk AGI Command "Get Data filename timeout, maxdigit".
+
+This command instructs Asterisk to play the given list of sound files and wait for user input in form of DTMF,
+upto 'maxdigit' (optional) till timeout (optional) happens. Files extension must not be used in the filename 
+because Asterisk will find the most appropriate file type.
+
+Example: bgplay(["demo-echotest", "echo-test"], 10, 4);
+Plays files "demo-echotest" and "echo-test" and waits for 10 seconds for user to enter 4 dight DTMF.
+
+Returns: -1 on error or hangup,
+0 if timeout for user input happens,
+or user input upto maxdigit value (default 1)
+
+=cut
+
+sub bgplay(\@;$$)
+{
+	my $files	= shift;
+	my $timeout = shift||1;
+	my $maxdigit= shift||1;
+	
+	my $x = shift(@{$files});
+	foreach (@{$files}) {
+		$x .= '&' . $_;
+	}
+
+	my $res = $AGI->exec("Background $x");
+
+	if($res > 0) {
+		$res -= 48;
+	}
+
+	if($maxdigit > 1) {
+		$res .= $AGI->get_data("silence/1", ($timeout * 1000), ($maxdigit - 1));
+	}
+	
+	return $res;
+}
+
+sub ignore_hup {
+	$ASTPP->debug( debug => "HUP received",
+			verbosity => $verbosity);
+}
+
+sub set_in_use() {  # Set the "inuse" flag on the calling cards.  This prevents multiple people from
+# using the same card.
+	my ( $cardinfo, $status ) = @_;
+	my $sql;
+	$sql =
+	    "UPDATE callingcards SET inuse = "
+	  . $astpp_db->quote($status)
+	  . " WHERE cardnumber = "
+	  . $astpp_db->quote( $cardinfo->{cardnumber} );
+	$astpp_db->do($sql);
+}
+
+sub check_card() {  # Check a few things before saying the card is ok.
+	my ($cardinfo) = @_;
+	my $now = $astpp_db->selectall_arrayref("SELECT NOW() + 0")->[0][0];
+	$ASTPP->debug( debug => "Present Time: $now",
+			verbosity => $verbosity );
+	$ASTPP->debug( debug => "Expiration Date: $cardinfo->{expiry}",
+			verbosity => $verbosity );
+	$ASTPP->debug( debug => "Valid for Days: $cardinfo->{validfordays}", 
+			verbosity => $verbosity );
+	$ASTPP->debug( debug => "First Use: $cardinfo->{firstused}",
+			verbosity => $verbosity );
+	if ( $cardinfo->{inuse} != 0 ) {  # If the card is in use then say so and leave.
+		$AGI->stream_file($sound->{card_inuse});
+		$AGI->stream_file($sound->{goodbye});
+		&leave($cardinfo);
+	}
+	&set_in_use( $cardinfo, 1 ); # Now the card is in use and nobody else can use it.
+	if ( $cardinfo->{firstused} eq "00000000000000" || $cardinfo->{firstused} eq "0000-00-00 00:00:00" ) {  	# If "firstused" has not been set, we will set it now.
+															# At the same time we will update the "maint_day" field.
+		my $sql =
+		  "UPDATE callingcards SET firstused = NOW() WHERE cardnumber = "
+		  . $astpp_db->quote( $cardinfo->{cardnumber} );
+		$ASTPP->debug( debug => $sql,
+				verbosity => $verbosity );
+		$astpp_db->do($sql);
+		$sql =
+		    "UPDATE callingcards SET maint_day = DATE_ADD(NOW(), INTERVAL "
+		  . "$cardinfo->{maint_fee_days} day) WHERE cardnumber = "
+		  . $astpp_db->quote( $cardinfo->{cardnumber} );
+		$ASTPP->debug( debug => $sql,
+				verbosity => $verbosity );
+		if ( $cardinfo->{maint_fee_days} > 0 ) {
+			$astpp_db->do($sql);
+		}
+#		$cardinfo = &get_callingcard( $astpp_db, $cardinfo->{cardnumber} );
+		if ( $cardinfo->{validfordays} > 0 ) { #Check if the card is set to expire and deal with that as appropriate.
+			my $sql =
+"UPDATE callingcards SET expiry = DATE_ADD(NOW(), INTERVAL "
+			  . " $cardinfo->{validfordays} day) WHERE cardnumber = "
+			  . $astpp_db->quote( $cardinfo->{cardnumber} );
+			$ASTPP->debug( debug => $sql, 
+					verbosity => $verbosity );
+			$astpp_db->do($sql);
+			$cardinfo = &get_callingcard( $astpp_db, $cardinfo->{cardnumber}, $config );
+		}
+	}
+	elsif ( $cardinfo->{validfordays} > 0 ) {
+		my $now = $astpp_db->selectall_arrayref("SELECT NOW() + 0")->[0][0];
+		$cardinfo->{expiry} = $astpp_db->selectall_arrayref("SELECT DATE_FORMAT('$cardinfo->{expiry}' , '\%Y\%m\%d\%H\%i\%s')")->[0][0];
+		if ( $now >= $cardinfo->{expiry} ) {
+			my $sql =
+			  "UPDATE callingcards SET status = 2 WHERE cardnumber = "
+			  . $astpp_db->quote( $cardinfo->{cardnumber} );
+			$ASTPP->debug( debug => $sql, 
+					verbosity => $verbosity );
+			$astpp_db->do($sql);
+			$sql =
+			  "DELETE FROM ani_map WHERE account = "
+			  . $astpp_db->quote( $cardinfo->{cardnumber} );
+			$ASTPP->debug( debug => $sql, 
+					verbosity => $verbosity );
+			$astpp_db->do($sql);
+			$AGI->stream_file($sound->{card_has_expired});
+			$AGI->stream_file($sound->{goodbye});
+			&leave($cardinfo);
+		}
+	}
+	$ASTPP->debug( debug => "Present Time: $now",
+			verbosity => $verbosity );
+	$ASTPP->debug( debug => "Expiration Date: $cardinfo->{expiry}",
+			verbosity => $verbosity );
+	$ASTPP->debug( debug => "Valid for Days: $cardinfo->{validfordays}",
+			verbosity => $verbosity );
+	$ASTPP->debug( debug => "First Use: $cardinfo->{firstused}",          
+			verbosity => $verbosity );
+}
+
+sub tell_cost() { #Say how much the call will cost.
+	my ( $numberinfo, $pricelistinfo, $cardinfo ) = @_;
+	if ( $pricelistinfo->{markup} ne "" && $pricelistinfo->{markup} != 0 ) {
+		$ASTPP->debug( debug => "Adding Markup of $pricelistinfo->{markup}", 
+				verbosity => $verbosity);
+		$numberinfo->{connectcost} =
+		  $numberinfo->{connectcost} *
+		  ( ( $pricelistinfo->{markup} / 10000 ) + 1 );
+		$numberinfo->{cost} =
+		  $numberinfo->{cost} * ( ( $pricelistinfo->{markup} / 10000 ) + 1 );
+	}
+	if ($config->{calling_cards_rate_announce} == 1) {
+	if ( $numberinfo->{cost} > 0 ) {
+		$AGI->stream_file($sound->{call_will_cost});
+#		$AGI->say_number(ceil($numberinfo->{cost} / 100));
+#		$AGI->stream_file($sound->{currency});
+		my @call_cost = split(/\./, ($numberinfo->{cost} / 100));
+		$AGI->say_number(@call_cost[0]);
+		if (@call_cost[1]) {
+			$AGI->stream_file($sound->{point});
+			$AGI->say_number(@call_cost[1]);
+			$AGI->stream_file($sound->{sub_currency});
+		}
+		$AGI->stream_file($sound->{per});
+		$AGI->stream_file($sound->{minute});
+	}
+	if ( $numberinfo->{connectcost} > 0 ) {
+		$AGI->stream_file($sound->{a_connect_charge});
+		$AGI->say_number(ceil($numberinfo->{connectcost} / 100));
+		$AGI->stream_file($sound->{sub_currency});
+		$AGI->stream_file($sound->{will_apply});
+	}
+	}
+}
+
+sub timelimit() { #Calculate and say the time limit.
+	my ( $numberinfo, $pricelistinfo, $cardinfo, $phoneno ) = @_;
+	my ( $connectfee, $cost, $timelimit, $available, $maxtime, $balance );
+#	if ( $numberinfo->{connectfee} > 0 ) {
+#		$connectfee = $numberinfo->{connectfee} / 100;
+#	}
+#	if ( $numberinfo->{cost} > 0 ) {
+#		$cost = $numberinfo->{cost} / 100;
+#	}
+	# Timelimit is in seconds
+	if ($cc == 0) {
+#	$available =
+#	  ( ( $cardinfo->{value} - $cardinfo->{used} ) / 100 ) - $numberinfo->{connectfee};
+	$available =
+	  ( $cardinfo->{value} - $cardinfo->{used} ) - $numberinfo->{connectfee};
+	$ASTPP->debug( debug => "FUNDS AVAILABLE: $available",
+			verbosity => $verbosity);
+	} elsif ( $cc == 1 ) {
+		$balance = &accountbalance( $astpp_db, $cardinfo->{number} );
+		$balance = ($balance * -1) + ( $cardinfo->{credit_limit});
+		$available = ($balance - $numberinfo->{connectfee}) / 100;
+	}
+	if ( $available > 0 && $numberinfo->{cost} > 0 ) {
+		$timelimit = ( ( $available / $numberinfo->{cost} ) * 60 );
+	}
+	elsif ( $available >= 0 && $numberinfo->{cost} <= 0 ) {
+		$timelimit = $config->{callingcards_max_length};
+	}
+	if ( $timelimit > $config->{callingcards_max_length} ) {
+		$timelimit = $config->{callingcards_max_length};
+	}
+	$ASTPP->debug( debug => "TIMELIMIT: $timelimit",
+			verbosity => $verbosity);
+	if ($brandinfo->{reseller} ne "") {
+		ASTPP->debug( debug => "THIS BRAND BELONGS TO $brandinfo->{reseller}!",
+				verbosity => $verbosity);
+		my $carddata = &get_account( $astpp_db, $brandinfo->{reseller} );
+#		($callstatus, $maxlength) = &max_length($astpp_db, $config, $carddata, $phoneno);
+#		my $routeinfo = &get_route( $astpp_db, $config, $phoneno, $carddata->{pricelist},$carddata );
+		my $minimumcharge = $numberinfo->{cost};
+		my $belongs_to_reseller = 1;
+		while ( $belongs_to_reseller == 1 ) {
+			$ASTPP->debug( debug => "FINDING LIMIT FOR: $carddata->{reseller}",
+					verbosity => $verbosity);
+			push @resellerlist, $carddata->{number};
+			$ASTPP->debug( debug => "PUSHING $carddata->{number} ONTO THE LIST OF RESELLERS",
+					verbosity => $verbosity);
+			my ($resellercallstatus, $resellermaxlength) = &max_length($astpp_db, $config, $carddata, $phoneno);
+			my $routeinfo = &get_route( $astpp_db, $config, $phoneno, $carddata->{pricelist}, $carddata, "CC" );
+			if ($resellercallstatus != 1) {
+				$carddata->{reseller} = "";
+				$timelimit = 0;
+			} elsif ($resellermaxlength < $timelimit / 60) {
+				$timelimit = $resellermaxlength * 60;
+			}
+			if ($resellermaxlength < 1 || $routeinfo->{cost} > $minimumcharge ) {
+				$carddata->{reseller} = "";
+				$timelimit = 0;
+			}
+			$ASTPP->debug( debug => "RESELLER Max Length: $resellermaxlength",
+					verbosity => $verbosity);
+			$ASTPP->debug( debug => "RESELLER Call Status: $resellercallstatus",
+					verbosity => $verbosity);
+			if ($carddata->{reseller} && $carddata->{reseller} ne "") {
+			$carddata = &get_account( $astpp_db, $carddata->{reseller} );
+			} else {
+				$belongs_to_reseller = 0;
+			}
+		}
+	} else {
+		$ASTPP->debug( debug => "THIS BRAND DOES NOT BELONG TO A RESELLER!",
+				verbosity => $verbosity);
+	}
+	$ASTPP->debug( debug =>"TIMELIMIT: $timelimit", verbosity => $verbosity);
+	my $minutes = $timelimit / 60;
+	$ASTPP->debug( debug => "MINUTES: $minutes", verbosity => $verbosity);
+	if ($minutes > 0 && $config->{calling_cards_timelimit_announce} == 1) {
+		my $minutes = $timelimit / 60;
+		$minutes = sprintf( "%.0f", $minutes );
+		$AGI->stream_file($sound->{call_will_last});
+		if ( $minutes == 1 ) {
+			$AGI->say_number($minutes);
+			$AGI->stream_file($sound->{minute});
+		}
+		elsif ( $minutes > 1 ) {
+			$AGI->say_number($minutes);
+			$AGI->stream_file($sound->{minutes});
+		}
+	}
+	elsif ($minutes < 1) {
+		$AGI->stream_file($sound->{not_enough_credit});
+		$AGI->stream_file($sound->{goodbye});
+		&leave($cardinfo);
+	}
+	$maxtime   = $timelimit * 1000;
+
+
+	$timelimit = "\|30\|HL($maxtime:60000:30000)\|Hgj";
+	$ASTPP->debug( debug => "Available: $available",
+			verbosity => $verbosity );
+	$ASTPP->debug( debug => "Balance: $balance", verbosity => $verbosity );
+	$ASTPP->debug( debug => "Max Time: $maxtime", verbosity => $verbosity );
+	return $timelimit;
+}
+
+sub say_balance() { #Calculate and say the card balance.
+	my ($cardinfo) = @_;
+	my ( $connectfee, $cost, $included, $sub_balance, $balance, $main_balance );
+	if ($cc == 0 ) {
+	$balance = $cardinfo->{value} - $cardinfo->{used};
+	} elsif ($cc ==1) {
+	$balance = &accountbalance( $astpp_db, $cardinfo->{number} );
+	$balance = ($balance * -1) + ( $cardinfo->{credit_limit} );
+	}
+	if ( $balance > 0 ) {
+		$balance      = $balance / 10000;
+		$balance      = sprintf( "%.2f", $balance );
+		$sub_balance  = substr( $balance, -2, 2 );
+		$main_balance  = substr( $balance, 0, -2 );
+		my $interrupt = &bgplay([$sound->{card_has_balance_of}], 0, 1);
+#		my $interrupt = $AGI->get_data($sound->{card_has_balance_of},0,1);
+		if (!$interrupt || $interrupt eq "" || $interrupt == 0) {
+			if ( $main_balance == 1 ) {
+				$AGI->say_number($main_balance);
+				$AGI->stream_file($sound->{main_currency});
+			}
+			elsif ( $main_balance > 1 ) {
+				$AGI->say_number($main_balance);
+				$AGI->stream_file($sound->{main_currency_plural});
+			}
+			if ( $sub_balance == 1 ) {
+				$AGI->say_number($sub_balance);
+				$AGI->stream_file($sound->{sub_currency});
+			}
+			elsif ( $sub_balance > 1 ) {
+				$AGI->say_number($sub_balance);
+				$AGI->stream_file($sound->{sub_currency_plural});
+			}
+		}
+	}
+	else {
+		$AGI->stream_file($sound->{card_is_empty});
+		$AGI->stream_file($sound->{goodbye});
+		&leave($cardinfo);
+	}
+	return $balance;
+}
+
+sub update_balance() {  #Update the available credit on the calling card. 
+	my ( $cardinfo, $charge ) = @_;
+	my $sql =
+	    "UPDATE callingcards SET used = "
+	  . $astpp_db->quote( ($charge) + $cardinfo->{used} )
+	  . " WHERE cardnumber = "
+	  . $astpp_db->quote( $cardinfo->{cardnumber} );
+	$astpp_db->do($sql);
+}
+
+sub write_asterisk_cdr() {  #Write the cdr record to the asterisk cdr db.  This is done so we get a record of the call the callingcard user placed.
+		# This is especially important for resellers and calling cards.
+	my (
+		$reseller,  $clid,   $destination, $status,
+		$callstart, $answeredtime, $dstchannel, $lastapp, $dialedtime, $uniqueid, $asterisk_time, $cdr_db
+	  )
+	  = @_;
+	my ($sql);
+	if (!$status) {$status = gettext("N/A"); }
+	$sql = "INSERT INTO cdr (calldate,dst,clid,dstchannel,lastapp,duration,billsec,disposition,accountcode,uniqueid) VALUES("
+	. $astpp_db->quote($asterisk_time) . ", "
+	. $astpp_db->quote($destination) . ", "
+	. $astpp_db->quote($clid) . ", "
+	. $astpp_db->quote($dstchannel) . ", "
+	. $astpp_db->quote($lastapp) . ", "
+	. $astpp_db->quote($dialedtime) . ", "
+	. $astpp_db->quote($answeredtime) . ", "
+	. $astpp_db->quote($status) . ", "
+	. $astpp_db->quote( $reseller ) . ", "
+	. $astpp_db->quote( $uniqueid ) . ")";
+	$cdr_db->do($sql);
+	$AGI->set_variable( "\"ANSWEREDTIME\"", "0" );
+	$AGI->set_variable( "\"DIALEDTIME\"", "0" );
+	$AGI->set_variable( "\"DIALSTATUS\"", "NO ANSWER" );
+}
+
+
+sub write_cdr() { # Write the callingcardcdr record if this is a calling card.
+	my (
+		$cardinfo,  $clid,   $destination, $status,
+		$callstart, $charge, $answeredtime
+	  )
+	  = @_;
+	my ($sql);
+	if (!$status) {$status = gettext("N/A"); }
+	$sql =
+"INSERT INTO callingcardcdrs (cardnumber,clid,destination,disposition,callstart,seconds,"
+	  . "debit) VALUES ("
+	  . $astpp_db->quote( $cardinfo->{cardnumber} ) . ", "
+	  . $astpp_db->quote($clid) . ", "
+	  . $astpp_db->quote($destination) . ", "
+	  . $astpp_db->quote($status) . ", "
+	  . $astpp_db->quote($callstart) . ", "
+	  . $astpp_db->quote($answeredtime) . ", "
+	  . $astpp_db->quote($charge) . ")";
+	$astpp_db->do($sql);
+	$ASTPP->debug( debug => "$sql", verbosity => $verbosity );
+	$ASTPP->debug( debug => "Resetting CDR Variables", verbosity => $verbosity );
+	$AGI->set_variable( "\"ANSWEREDTIME\"", "0" );
+	$AGI->set_variable( "\"DIALEDTIME\"", "0" );
+	$AGI->set_variable( "\"DIALSTATUS\"", "NO ANSWER" );
+}
+
+sub dialout() { # Rig up the LCR stuff and do the outbound dialing.
+				# If a call does not go through we give the user the option	
+				# of trying again.
+	my ( $destination, $timelimit, $numberinfo, $pricelistinfo, $cardinfo, $brandinfo  ) =
+	  @_;
+	my ( $status, $count, $increment );
+	$ASTPP->debug( debug => "Looking for outbound Route", verbosity => $verbosity );
+	my @outboundroutes = &get_outbound_routes( $astpp_db, $destination,$cardinfo,$numberinfo, @resellerlist );
+	$count = @outboundroutes;
+	if ( $count == 0 ) {
+		$ASTPP->debug(debug => "NO OUTBOUND ROUTES FOUND!", verbosity => $verbosity );
+		my $order = $AGI->get_data( $sound->{noanswer}, $config->{calling_cards_general_input_timeout}, 1 );
+		if ( $order != 1 ) {
+			&write_cdr( $cardinfo, "", $destination, gettext("NO Route Found"), "", 0, 0 );
+			&leave($cardinfo);
+		}
+	}
+	$count = 0;
+	foreach my $route (@outboundroutes) {
+		my $trunk      = &get_dial_string( $astpp_db, $route, $destination );
+		my $dialstring = $trunk . $timelimit;
+		my $callstart  = localtime();
+		my ($accountcode);
+		$callstart   = &prettytimestamp if $cc == 1;
+		$AGI->set_variable( "\"LCRSTRING$count\"",
+			"\"$config->{callingcardowner}\"" );
+			$AGI->exec( 'Set', "TRUNK_NAME$count=$route->{trunk}" );
+		if ($brandinfo->{reseller} ne "" ) {
+			$AGI->exec( 'Set', "accountcode=$brandinfo->{reseller}" );
+			$accountcode = $brandinfo->{reseller};
+
+		} else {
+			$AGI->exec( 'Set', "accountcode=$config->{callingcardowner}" );
+			$accountcode = $config->{callingcardowner};
+		}
+		my $res = $AGI->exec("DIAL $dialstring");
+		my $status = $AGI->get_variable("DIALSTATUS");
+		my $answeredtime = $AGI->get_variable("ANSWEREDTIME");
+		$stats{answered_time} = $AGI->get_variable("ANSWEREDTIME");
+		my $dialedtime = $AGI->get_variable("DIALEDTIME");
+		my $uniqueid = $AGI->get_variable("UNIQUEID");
+		$stats{uniqueid} = $AGI->get_variable("UNIQUEID");
+		my $clid = $AGI->get_variable("CALLERID(all)");
+		my $asterisk_time = &prettytimestamp;
+		$ASTPP->debug( debug => "CALL STATUS $status", verbosity => 1);
+		$ASTPP->debug( debug => "ANSWERED TIME $answeredtime", verbosity => $verbosity);
+		$ASTPP->debug( debug => "Account CC?: $cc", verbosity => $verbosity);
+
+		if ( ( $status != ~/CHANUNAVAIL/ ) && ( $status != ~/CONGESTION/ ) ) {
+			if ( $status =~ /BUSY/ ) {
+				$ASTPP->debug( debug => "CALL BUSY", verbosity => $verbosity );
+				my $order = $AGI->get_data( $sound->{busy}, $config->{calling_cards_general_input_timeout},1 );
+				if ( $order != 1 ) {
+					&write_cdr( $cardinfo, $clid, $destination, $status,
+						$callstart, 0, 0, $uniqueid )
+					  if $cc == 0;
+					&write_account_cdr( $astpp_db, $cardinfo->{number}, 0,
+						$destination, $callstart, 0, $uniqueid, $clid )
+					  if $cc == 1;
+					&write_asterisk_cdr( $accountcode,  $clid,   $destination, $status,
+					$callstart, $answeredtime, $trunk, "CallingCards", $dialedtime, $uniqueid . "a", $asterisk_time, $cdr_db);
+					&leave($cardinfo);
+				 } else {
+                                        push @outboundroutes, $route;
+				}
+			}
+			elsif ( $status =~ /NOANSWER/ ) {
+				$ASTPP->debug(debug=> "NO ANSWER", verbosity => $verbosity );
+				my $order = $AGI->get_data( $sound->{noanswer}, $config->{calling_cards_general_input_timeout},1 );
+				if ( $order != 1 ) {
+					&write_cdr( $cardinfo, $clid, $destination, $status,
+						$callstart, 0, 0, $uniqueid )
+					  if $cc == 0;
+					&write_account_cdr( $astpp_db, $cardinfo->{number}, 0,
+						$destination, $callstart, 0, $uniqueid, $clid )
+					  if $cc == 1;
+					&write_asterisk_cdr( $accountcode, $clid,   $destination, $status,
+					$callstart, $answeredtime, $trunk, "CallingCards", $dialedtime, $uniqueid . "a", $asterisk_time, $cdr_db);
+					&leave($cardinfo);
+				 } else {
+                                        push @outboundroutes, $route;
+				}
+			}
+			elsif ( $status =~ /ANSWER/ || $answeredtime > 0) {
+				$ASTPP->debug( debug => "CALL ANSWERED", verbosity => $verbosity );
+				my $increment;
+			if ( $numberinfo->{inc} > 0 ) {
+			     $increment = $numberinfo->{inc};
+			}
+			else {
+			     $increment = $pricelistinfo->{inc};
+			}
+			$ASTPP->debug( debug => "$numberinfo->{connectcost}, $numberinfo->{cost}, $answeredtime, $increment, $numberinfo->{includedseconds}",
+				verbosity => $verbosity);
+			my $charge = &calc_call_cost(
+			          $numberinfo->{connectcost}, $numberinfo->{cost},
+			          $answeredtime,     $increment,
+			          $numberinfo->{includedseconds}
+			);
+			$ASTPP->debug( debug => "Cost $charge ", verbosity => $verbosity );
+			if ($cardinfo->{minute_fee_pennies} > 0) {
+				$charge = (($cardinfo->{minute_fee_pennies} * 100) + $charge) if $cardinfo->{timeused} + $answeredtime => $cardinfo->{minute_fee_minutes}; 
+			}
+			if ($cardinfo->{min_length_pennies} > 0 && ($cardinfo->{min_length_minutes}*60) > $answeredtime) {
+				$charge = (($cardinfo->{min_length_pennies} * 100) + $charge); 
+			}
+				if ( $cc == 0 ) {
+					&write_cdr(
+						$cardinfo,  $clid,      $destination, $status,
+						$callstart, $charge, $answeredtime, $uniqueid
+					);
+					&write_asterisk_cdr( $accountcode, $clid,   $destination, "ANSWERED",
+					$callstart, $answeredtime, $trunk, "CallingCards", $dialedtime, $uniqueid . "a", $asterisk_time, $cdr_db);
+					&update_balance( $cardinfo, $charge );
+					$astpp_db->do("UPDATE callingcards SET timeused = "
+						. $astpp_db->quote($cardinfo->{timeused} + $answeredtime)
+						. " WHERE cardnumber = "
+						. $astpp_db->quote($cardinfo->{cardnumber}));
+				}
+				elsif ( $cc == 1 ) {
+					my $status =
+					  &write_account_cdr( $astpp_db, $cardinfo->{number},
+						$charge, $destination, $callstart, $answeredtime, $uniqueid, $clid );
+					&write_asterisk_cdr( $accountcode,  $clid,   $destination, $status,
+					$callstart, $answeredtime, $trunk, "CallingCards", $dialedtime, $uniqueid . "a", $asterisk_time, $cdr_db);
+					$ASTPP->debug( debug => $status, verbosity => $verbosity );
+				}
+				$AGI->stream_file($sound->{call_completed});
+				&leave($cardinfo);
+			}
+			elsif ( $status =~ /CANCEL/ ) {
+				$ASTPP->debug( debug => "CALL CANCELLED", verbosity => $verbosity );
+				$AGI->stream_file($sound->{cancelled}) if $config->{calling_cards_cancelled_prompt} == 1;
+				&write_cdr( $cardinfo, $clid, $destination, $status, $callstart, 0,
+					0, $uniqueid )
+				  if $cc == 0;
+				&write_account_cdr( $astpp_db, $cardinfo->{number}, 0,
+					$destination, $callstart, 0, $uniqueid, $clid )
+				  if $cc == 1;
+				&write_asterisk_cdr( $accountcode, $clid,   $destination, $status,
+					$callstart, $answeredtime, $trunk, "CallingCards", $dialedtime, $uniqueid . "a", $asterisk_time, $cdr_db);
+				&leave($cardinfo);
+			}
+			else {
+				$ASTPP->debug( debug => "ERROR - ERROR - ERROR", verbosity => $verbosity );
+				my $order = $AGI->get_data( $sound->{noanswer}, $config->{calling_cards_general_input_timeout},1 );
+				if ( $order != 1 ) {
+					&write_cdr( $cardinfo, $clid, $destination, $status,
+						$callstart, 0, 0, $uniqueid )
+					  if $cc == 0;
+					&write_account_cdr( $astpp_db, $cardinfo->{number}, 0,
+						$destination, $callstart, 0, $uniqueid, $clid )
+					  if $cc == 1;
+					&write_asterisk_cdr( $accountcode,  $clid,   $destination, $status,
+					$callstart, $answeredtime, $trunk, "CallingCards", $dialedtime, $uniqueid . "a", $asterisk_time, $cdr_db);
+					&leave($cardinfo);
+				}
+			}
+		}
+	}
+}
+
+sub leave() {  # Prepare everything and then leave the calling card app.
+	my ($cardinfo) = @_;
+	my ($whatnow);
+	my $retries = 0;
+	&set_in_use( $cardinfo, 0 ) if $cc == 0;
+	while ($retries < 3) {
+		$whatnow = $AGI->get_data( $sound->{astpp_callingcard_menu}, $config->{calling_cards_general_input_timeout}, 1);
+		$ASTPP->debug( debug => "WHAT NEXT = $whatnow ", verbosity => $verbosity );
+		if ($cc == 1) {
+			$AGI->set_variable( "\"CARDNUMBER\"", "\"$cardinfo->{number}\"" );
+		} else {
+			$AGI->set_variable( "\"CARDNUMBER\"", "\"$cardinfo->{cardnumber}\"" );
+		}
+		$AGI->set_variable( "\"PIN\"", "\"$cardinfo->{pin}\"" );
+		if ( $whatnow == 1 ) {
+			$AGI->set_variable( "\"NEWCALL\"", "\"1\"" );
+			$AGI->set_variable( "\"DESTINATION\"", "\"$stats{destination}\"" );
+			&exit_program();
+		}
+		elsif ( $whatnow == 2 ) {
+			$AGI->set_variable( "\"NEWCALL\"", "\"1\"" );
+			$AGI->set_variable( "\"DESTINATION\"", "\"\"" );
+			&exit_program();
+		}
+		elsif ( $whatnow == 3 ) {
+			$AGI->stream_file($sound->{goodbye});
+			$AGI->hangup;
+		} else {
+			$retries++;
+		}
+	}
+	if ($retries == 3) {
+		$AGI->stream_file($sound->{goodbye});
+		$AGI->hangup;
+	}
+
+}
+
+sub exit_program() {
+	$stats{total_time} = tv_interval ($stats{start_time});
+	$astpp_db->do("INSERT INTO callingcard_stats(uniqueid,total_time,billable_time) VALUES ("
+		. $astpp_db->quote($stats{uniqueid}) . ","
+		. $astpp_db->quote($stats{total_time}) . ","
+		. $astpp_db->quote($stats{answered_time}) . ")");
+	$stats{total_time} = tv_interval ($stats{start_time});
+	exit(0);
+}
+################# Program Starts Here #################################
+my ( $cardnum, $pin, $destination, $connectsurcharge, $perminsurcharge, $brand ) =
+  @ARGV;
+%input = $AGI->ReadParse();
+my ( $retries, $cardinfo, $numberinfo, $pricelistinfo, @outboundroutes,
+	$callstart );
+$AGI->answer();
+&initialize;
+#sleep 1;    #Pause for 1 seconds to allow everything to get hooked up.
+my $null = $AGI->get_data( "silence/1", 1000 );
+if ($config->{debug} == 1) {
+foreach my $key (keys %input) {
+         $ASTPP->debug( debug => "Key: $key Value: " . %input->{$key}, verbosity => $verbosity);
+    }
+}
+
+if ($cardnum && $cardnum ne "") { 
+	$ASTPP->debug( debug => "We recieved a cardnumber from the dialplan",verbosity => $verbosity);
+	$cardinfo = &get_callingcard( $astpp_db, $cardnum, $config );
+	if ( !$cardinfo ) {
+		$cardinfo = &get_account_cc( $astpp_db, $cardnum );
+		$cc = 1 if $cardinfo;
+	}
+} else { #We won't play the welcome file when we already have card numbers.
+	&bgplay([$config->{calling_cards_welcome_file}],0,0);
+}
+# If $cc == 1 means that we are using an ASTPP account instead of an actual
+# calling card.
+if ( $cardinfo->{status} != 1  || !$cardinfo->{status}) {
+	$retries = 0;
+	while ( $cardinfo->{status} != 1 && $retries < $config->{card_retries} ) {
+		$cardnum = $AGI->get_data( $sound->{cardnumber}, $config->{calling_cards_number_input_timeout}, $config->{cardlength} );
+		$cardinfo = &get_callingcard( $astpp_db, $cardnum, $config );
+		if ( !$cardinfo ) {
+			$cardinfo = &get_account_cc( $astpp_db, $cardnum );
+			$cc = 1 if $cardinfo;
+		}
+		$ASTPP->debug(debug => "CARD BRAND: $cardinfo->{brand} SPECIFIED BRAND: $brand", verbosity => $verbosity);
+		if ($brand && $brand ne "") {
+			$cardinfo = "" if $cardinfo->{brand} ne $brand;
+		}
+		$ASTPP->debug( debug => "ASTPP Number: $cardnum ", verbosity => $verbosity );
+		$ASTPP->debug( debug => "ASTPP Number Status: $cardinfo->{status}", verbosity => $verbosity );
+		if ( $cardinfo->{status} != 1 ) {
+			$AGI->stream_file($sound->{cardnumber_incorrect});
+		}
+		$retries++;
+	}
+	if ( $cardinfo->{status} != 1 ) {
+		$AGI->stream_file($sound->{goodbye});
+		exit(0);
+	}
+}
+my $null = $AGI->get_data( "silence/1", 1000 );
+if ( $pin != $cardinfo->{pin} ) {
+	$retries = 0;
+	while ( $cardinfo->{pin} != $pin && $retries < $config->{pin_retries} ) {
+		$pin = $AGI->get_data( $sound->{pin}, $config->{calling_cards_pin_input_timeout}, $config->{pinlength} );
+		if ( $cardinfo->{pin} != $pin ) {
+			$AGI->stream_file($sound->{pin_incorrect});
+		}
+		$retries++;
+	}
+	if ( $pin != $cardinfo->{pin} ) {
+
+		#		$AGI->stream_file($sound->{pin_incorrect});
+		$AGI->stream_file($sound->{goodbye});
+		exit(0);
+	}
+}
+my $null = $AGI->get_data( "silence/1", 1000 );
+&check_card($cardinfo) if $cc == 0;
+my $balance = &say_balance($cardinfo);
+
+# Getting this far means we have a valid card and pin.
+$brandinfo = &get_cc_brand( $astpp_db, $cardinfo->{brand} ) if $cc == 0;
+if ($brandinfo->{reseller}) {
+	$config     = &load_config_db_reseller($astpp_db,$config,$brandinfo->{reseller});
+}
+$config     = &load_config_db_brand($astpp_db,$config,$cardinfo->{brand});
+$pricelistinfo = &get_pricelist( $astpp_db, $brandinfo->{pricelist} )
+  if $cc == 0;
+$pricelistinfo = &get_pricelist( $astpp_db, $cardinfo->{pricelist} )
+  if $cc == 1;
+if ($destination && $destination ne "" ) {
+	$numberinfo =
+	  &get_route( $astpp_db, $config, $destination, $brandinfo->{pricelist}, $cardinfo )
+	  if $cc == 0;
+	$numberinfo =
+	  &get_route( $astpp_db, $config, $destination, $cardinfo->{pricelist}, $cardinfo )
+	  if $cc == 1;
+}
+$retries = 0;
+while ( !$numberinfo->{pattern} && $retries < $config->{number_retries} ) {
+	$destination = $AGI->get_data( $sound->{destination}, $config->{calling_cards_dial_input_timeout} );
+	$numberinfo =
+	  &get_route( $astpp_db, $config, $destination, $brandinfo->{pricelist}, $cardinfo );
+	if ( !$numberinfo->{pattern} ) {
+		$AGI->stream_file($sound->{destination_incorrect});
+	} else {
+		$numberinfo->{cost} = $numberinfo->{cost} + $perminsurcharge if $perminsurcharge ne "";
+		$numberinfo->{connectcost} = $numberinfo->{connectcost} + $connectsurcharge if $connectsurcharge ne "";
+	}
+	$retries++;
+}
+if ( !$numberinfo->{pattern} ) {
+	$AGI->stream_file($sound->{destination_incorrect});
+	$AGI->stream_file($sound->{goodbye});
+	$AGI->hangup();
+	&leave($cardinfo);
+}
+
+#  Congratulations, we now have a working card,pin, and phone number.
+$stats{destination} = $destination;
+#&tell_cost( $numberinfo, $pricelistinfo, $cardinfo  );
+my $timelimit = &timelimit( $numberinfo, $pricelistinfo, $cardinfo, $destination );
+$AGI->stream_file($sound->{please_wait_will_connect})  if $config->{calling_cards_connection_prompt} == 1;
+&dialout( $destination, $timelimit, $numberinfo, $pricelistinfo, $cardinfo, $brandinfo  );

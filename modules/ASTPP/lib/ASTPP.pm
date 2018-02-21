@@ -2,7 +2,7 @@ package ASTPP;
 
 require 5.004;
 use strict;
-use warnings;
+# use warnings;
 use DBI;
 use Data::Paginate;
 use Locale::gettext_pp qw(:locale_h);
@@ -69,7 +69,7 @@ sub new
 		_verbosity_level        => $arg{verbosity_level}                || 1,
 		_asterisk_agi           => $_[3],
 		_cdr_db                 => $_[4],
-		_verbosity_item_level   => $arg{verbosity_item_level}           || 1,
+		_verbosity_item_level   => $arg{verbosity_item_level}           || 0,
 		_script                 => $arg{script}         || "astpp-admin.cgi",
 		_config                 => $_[7],
 	}, $class;
@@ -252,22 +252,25 @@ $ipdata = $ASTPP->ip_address_authenticate(
 sub ip_address_authenticate
 {
 	my ($self, %arg) = @_;
-	my ($sql,$tmp,@results);
+	my ($sql,$tmp,$record);
 	$arg{ip_address} = $arg{ip} if $arg{ip};  #Freeswitch passes the ip in a different format.
 	$tmp = "SELECT * FROM ip_map WHERE ip = " . $self->{_astpp_db}->quote($arg{ip_address})
 		. " AND prefix IN (NULL,'') OR ip = " . $self->{_astpp_db}->quote($arg{ip_address});
 	$tmp .= " AND " . $self->{_astpp_db}->quote($arg{destination}) . " RLIKE prefix" if $arg{destination};
 	$tmp .= " ORDER BY LENGTH(prefix) DESC LIMIT 1";
-	print STDERR $tmp . "\n";
+	print STDERR $tmp . "\n" if $arg{debug} == 1;
 	$sql = $self->{_astpp_db}->prepare($tmp);
 	$sql->execute;
-	while (my $record = $sql->fetchrow_hashref) {
-		print STDERR $record->{ip};
-		push @results, $record;
-	}
-	my $rows = $sql->rows;
+	$record = $sql->fetchrow_hashref;
 	$sql->finish;
-	return ($rows,@results);
+	return $record;
+# 	while (my $record = $sql->fetchrow_hashref) {
+# 		print STDERR $record->{ip};
+# 		push @results, $record;
+# 	}
+# 	my $rows = $sql->rows;
+# 	$sql->finish;
+# 	return ($rows,@results);
 }
 
 =item $ASTPP->fs_dialplan_xml_header()
@@ -291,15 +294,18 @@ sub fs_dialplan_xml_header
 	$arg{xml} .= "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
 	$arg{xml} .= "<document type=\"freeswitch/xml\">\n";
 	$arg{xml} .= "<section name=\"dialplan\" description=\"ASTPP Dynamic Routing\">\n";
-	if ($arg{DID} > 0) {
-		$arg{xml} .= "<context name=\"public\">\n";
-	} elsif ($arg{IP} ne "" || $arg{ip} > 0) {
-		$arg{xml} .= "<context name=\"public\">\n";
-	} else {
-		$arg{xml} .= "<context name=\"default\">\n";
-	};
+# 	if ($arg{DID} > 0) {
+# 		$arg{xml} .= "<context name=\"public\">\n";
+# 	} elsif ($arg{IP} ne "" || $arg{ip} > 0) {
+# 		$arg{xml} .= "<context name=\"public\">\n";
+# 	} else {
+# 		$arg{xml} .= "<context name=\"default\">\n";
+# 	};
+	$arg{xml} .= "<context name=\"".$arg{context}."\">\n";
 	$arg{xml} .= "<extension name=\"" . $arg{destination_number} . "\">\n";
 	$arg{xml} .= "<condition field=\"destination_number\" expression=\"" . $arg{destination_number} . "\">\n";
+	$arg{xml} .= "<action application=\"set\" data=\"effective_destination_number=" . $arg{destination_number} . "\"/>\n";	
+	
 	return $arg{xml};
 }
 
@@ -351,6 +357,7 @@ sub fs_dialplan_xml_did() {
 	$arg{xml} .= "<action application=\"set\" data=\"accountcode=" . $arg{accountcode} . "\"/>\n";
 		$xml .= "<action application=\"set\" data=\"" . $variable . "\"/>\n";
 	}
+	$xml .= "<action application=\"set\" data=\"calltype=DID\"/>\n";
 	if ($diddata->{extensions} =~ m/^("|)(L|l)ocal.*/m) {
 		my ($junk,$ext,$context) = split /,(?!(?:[^",]|[^"],[^"])+")/, $diddata->{extensions};
 		#jump to local dialplan
@@ -369,17 +376,19 @@ sub fs_dialplan_xml_did() {
 }
 
 sub fs_dialplan_xml_bridge_start() {
-#	my $dialstring = "<action application=\"set\" data=\"outbound_route=" . $arg{route_id} . "\"/>\n";
-#	$dialstring .= "<action application=\"set\" data=\"provider=" . $trunkdata->{provider} . "\"/>\n";
-#	$dialstring .= "<action application=\"set\" data=\"trunk=" . $trunkdata->{name} . "\"/>\n";
+	my ($self, %arg) = @_;
 	my $dialstring .= "<action application=\"set\" data=\"hangup_after_bridge=true\"/>\n";
-	$dialstring .= "<action application=\"bridge\" data=\"{ignore_early_media=true}";
+#	$dialstring .= "<action application=\"set\" data=\"ignore_early_media=true\" />\n";
+	$dialstring .= "<action application=\"set\" data=\"continue_on_fail=true\"/>\n";
+
+	$dialstring .= "<action application=\"export\" data=\"origination_caller_id_name=".$arg{origination_caller_id_name}."\"/>\n" if($arg{origination_caller_id_name});
+	$dialstring .= "<action application=\"export\" data=\"origination_caller_id_number=".$arg{origination_caller_id_number}."\"/>\n" if($arg{origination_caller_id_number});
 	return $dialstring;
 }
 
 sub fs_dialplan_xml_bridge_end() {
-	my $dialstring = "\"/>\n";
-	return $dialstring;
+# 	my $dialstring = "\"/>\n";
+	return my $dialstring;
 }
 
 =item $ASTPP->fs_dialplan_xml_bridge()
@@ -388,14 +397,60 @@ Return the bridge command along with details.  This is only called if a call is 
 
 Example:
 $xml .= $ASTPP->fs_dialplan_xml_bridge(
-	destination_number      => $destination,
-	trunk_name              => $route->{trunk},
-	route_prepend           => $route->{prepend}
-)
+      destination_number => $params->{'Caller-Destination-Number'},
+      route_prepend      => $route->{prepend},
+      trunk_name         => $route->{trunk},
+      route_id	   	 => $route->{id},
+      count		 => $count,
+      provider 	   	 => $route->{provider}	
+);
 
 =cut
 
 sub fs_dialplan_xml_bridge() {
+	my ($self, %arg) = @_;
+	my ( $sql, $trunkdata, $dialstring,$data );
+	$sql = $self->{_astpp_db}->prepare( "SELECT * FROM trunks WHERE name = ". $self->{_astpp_db}->quote( $arg{trunk_name} ) );
+	$sql->execute;
+	$trunkdata = $sql->fetchrow_hashref;
+	$arg{route_prepend} = "" if !$arg{route_prepend};
+	$sql->finish;
+	if ($trunkdata->{dialed_modify} && $trunkdata->{dialed_modify} ne "") {
+		my @regexs = split(m/","/m, $trunkdata->{dialed_modify});
+		foreach my $regex (@regexs) {
+			$regex =~ s/"//g;                               #Strip off quotation marks
+			my ($grab,$replace) = split(m!/!i, $regex);  # This will split the variable into a "grab" and "replace" as needed
+			print STDERR "Grab: $grab\n";
+			print STDERR "Replacement: $replace\n";
+			print STDERR "Phone Before: $arg{destination_number}\n";
+			$arg{destination_number} =~ s/$grab/$replace/is;
+			print STDERR "Phone After: $arg{destination_number}\n";
+		}
+	}
+	
+	$dialstring .= "<action application=\"set\" data=\"calltype=STANDARD\"/>\n";
+	$dialstring .= "<action application=\"set\" data=\"outbound_route=" . $arg{route_id} . "\"/>\n";
+	$dialstring .= "<action application=\"set\" data=\"trunk=" . $trunkdata->{name} . "\"/>\n";
+	$dialstring .= "<action application=\"set\" data=\"provider=" . $trunkdata->{provider} . "\"/>\n";	
+	$dialstring .= "<action application=\"bridge\" data=\"";
+	if ( $trunkdata->{tech} eq "Zap" ) {
+		$dialstring .= "openzap/" . $trunkdata->{path} . "/1/" . $arg{route_prepend} . $arg{destination_number}; 
+		return ($dialstring);
+	}
+	elsif ( $trunkdata->{tech} eq "SIP" ) {
+	  $dialstring .= "sofia/gateway/" . $trunkdata->{path} . "/" . $arg{route_prepend} . $arg{destination_number};
+	$dialstring .= "\"/>\n";  
+	return ($dialstring);
+    }
+    else {
+# 	print STDERR "CANNOT ROUTE THIS CALL!!!!!\n";
+	return "";      
+    }
+}
+
+
+
+sub fs_dialplan_xml_bridge_cc() {
 	my ($self, %arg) = @_;
 	my ( $sql, $trunkdata, $dialstring,$data );
 	$sql = $self->{_astpp_db}->prepare( "SELECT * FROM trunks WHERE name = "
@@ -416,21 +471,23 @@ sub fs_dialplan_xml_bridge() {
 			print STDERR "Phone After: $arg{destination_number}\n";
 		}
 	}
-	if ($arg{count} > 0) {
-		$dialstring = "|";
-	} else {
-	}
+# 	if ($arg{count} > 0) {
+# 		$dialstring = "|";
+# 	} else {
+# 	}
 	if ( $trunkdata->{tech} eq "Zap" ) {
 		$dialstring .= "openzap/" . $trunkdata->{path} . "/1/" . $arg{route_prepend} . $arg{destination_number}; 
+		print STDERR $dialstring."\n";
 		return ($dialstring);
 	}
-    elsif ( $trunkdata->{tech} eq "SIP" ) {
-	$dialstring .= "sofia/gateway/" . $trunkdata->{path} . "/" . $arg{route_prepend} . $arg{destination_number};
-	return ($dialstring);
-    }
-    else {
-	print STDERR "CANNOT ROUTE THIS CALL!!!!!\n";
-	return "";      
+	elsif ( $trunkdata->{tech} eq "SIP" ) {
+	      $dialstring .= "sofia/gateway/" . $trunkdata->{path} . "/" . $arg{route_prepend} . $arg{destination_number};
+	      print STDERR $dialstring."\n";
+	      return ($dialstring);
+	}
+	else {
+	  print STDERR "CANNOT ROUTE THIS CALL!!!!!\n";
+	  return "";      
     }
 }
 
@@ -734,11 +791,11 @@ sub fs_list_sip_usernames
 #                       } 
 		}
 	}
-	print STDERR $tmp;
+# 	print STDERR $tmp."\n";
 	$sql = $self->{_freeswitch_db}->prepare($tmp);
 	$sql->execute;
 	while (my $record = $sql->fetchrow_hashref) {
-		print STDERR $record->{username};
+# 		print STDERR $record->{username};
 		push @results, $record;
 	}
 	my $rows = $sql->rows;
@@ -790,7 +847,7 @@ sub fs_directory_xml
 	my $user_count = 0;
 	$arg{xml} .= "<domain name=\"" . $arg{domain} . "\">";
 	my ($count,@sip_users) = &fs_list_sip_usernames($self,%arg);
-	print STDERR "COUNT: $count\n";
+	print STDERR "COUNT: $count\n"  if $arg{debug} == 1;
 	if ($count > 0) {
 	foreach my $record (@sip_users) {
 		$user_count++;
@@ -814,13 +871,12 @@ sub fs_directory_xml
 	}
 	my @ip_users;
 	($count,@ip_users) = &ip_address_authenticate($self,%arg);
-	print STDERR "COUNT: $count\n";
+	print STDERR "COUNT: $count\n"  if $arg{debug} == 1;
 	if ($count > 0) {
 	foreach my $record (@ip_users) {
 # This is only temporary and should be removed
 #
-$record->{id} = 0;
-#
+		$record->{id} = 0;
 		$arg{xml} .= "<user id=\"" . $record->{account} . $record->{ip} . "\" ip=\"" . $record->{ip} . "\">\n";
 		$arg{xml} .= "<params>\n";
 		my @params = &fs_list_sip_params($self,$record->{id});
@@ -840,7 +896,7 @@ $record->{id} = 0;
 	}
 	}	
 	$arg{xml} .= "</domain>\n";
-	print STDERR "TOTAL USERS: $user_count \n";
+	print STDERR "TOTAL USERS: $user_count \n"  if $arg{debug} == 1;
 	return ($arg{xml},$user_count);
 }
 
@@ -861,11 +917,11 @@ sub debug #Prints debugging if appropriate
 {
 	my ($self, %arg) = @_;
 	$self->{_verbosity_item_level} = $arg{verbosity} if $arg{verbosity};
-	print STDERR $arg{debug} . "\n" if $arg{debug} && $self->{_verbosity_item_level} <= $self->{_verbosity_level};
-	$self->{_asterisk_agi}->verbose($arg{debug} . "\n" , $self->{_verbosity_level}) if $arg{debug} && $self->{_asterisk_agi} && $self->{_verbosity_item_level} <= $self->{_verbosity_level};
+	print STDERR $arg{debug} . "\n" if $arg{debug} && $self->{_verbosity_item_level} >= $self->{_verbosity_level};
+# 	$self->{_asterisk_agi}->verbose($arg{debug} . "\n" , $self->{_verbosity_level}) if $arg{debug} && $self->{_asterisk_agi} && $self->{_verbosity_item_level} <= $self->{_verbosity_level};
 	$self->{_astpp_db}->do("INSERT INTO activity_logs (message,user) VALUES (" 
 		. $self->{_astpp_db}->quote($arg{debug}) . "," 
-		. $self->{_astpp_db}->quote($arg{user}) . ")") if $arg{debug} && $self->{_astpp_db} && $self->{_verbosity_item_level} <= $self->{_verbosity_level};
+		. $self->{_astpp_db}->quote($arg{user}) . ")") if $arg{debug} && $self->{_astpp_db} && $self->{_verbosity_item_level} >= $self->{_verbosity_level};
 	return 0;
 }
 
@@ -1100,12 +1156,12 @@ sub invoice_cdrs_subtotal_internal
 	if ( !$credit )         { $credit         = 0; }
 	if ( !$debit )          { $debit          = 0; }
 	$total = ( $debit - $credit );
-	return ($total/10000);
+	return ($total/1);
 
 #       $tmp = "INSERT into invoices_total (invoiceid,title,text,value,class,sort_order) VALUES("
 #               . $self->{_astpp_db}->quote($arg{invoiceid})
 #               . ",'Subtotal','',"
-#               . $self->{_astpp_db}->quote($total/10000)
+#               . $self->{_astpp_db}->quote($total/1)
 #               . ",1,"
 #               . $self->{_astpp_db}->quote($arg{sort_order})
 #               . ")";
@@ -1209,7 +1265,7 @@ sub invoice_taxes_internal
 		$sql->execute;
 
 		$arg{sort_order}++;
-	$sql->finish;
+		$sql->finish;
 	}
 	return $arg{sort_order};
 }
@@ -1238,7 +1294,7 @@ sub account_cdr_post
 		. $self->{_astpp_db}->quote($arg{pattern}) . ")";
 
     if ( $self->{_astpp_db}->do($tmp) ) {
-	return (1, "POSTED CDR: $arg{account} in the amount of: " . $arg{amount} / 10000 . "\n");
+	return (1, "POSTED CDR: $arg{account} in the amount of: " . $arg{amount} / 1 . "\n");
     }
     else {
 	return (2, $tmp . " FAILED! \n");
@@ -1407,17 +1463,17 @@ sub max_length() {
 	}
 	print STDERR "Found pattern: $numdata->{pattern}\n";
 	$credit = &accountbalance($self, account => $arg{account} ); # Find the available credit to the customer.
-	print STDERR "Account Balance: " . $credit * 10000;
-	$credit_limit = $arg{account_credit_limit} * 10000;
+	print STDERR "Account Balance: " . $credit * 1;
+	$credit_limit = $arg{account_credit_limit} * 1;
 	print STDERR "Credit Limit: $credit_limit";
 	$credit = ($credit * -1) + ($credit_limit);         # Add on the accounts credit limit.
 	#$credit = $credit / $arg{maxchannels} if $arg{maxchannels} > 0;
 	print STDERR "Credit: $credit \n";
 	if ($branddata->{markup} > 0) {
 		$numdata->{connectcost} =
-		$numdata->{connectcost} * ( ( $branddata->{markup} / 10000 ) + 1 );
+		$numdata->{connectcost} * ( ( $branddata->{markup} / 1 ) + 1 );
 		$numdata->{cost} =
-		$numdata->{cost} * ( ( $branddata->{markup} / 10000 ) + 1 );
+		$numdata->{cost} * ( ( $branddata->{markup} / 1 ) + 1 );
 	}
 	if ( $numdata->{connectcost} > $credit ) {   # If our connection fee is higher than the available money we can't connect.
 		return (0,0);
@@ -1596,6 +1652,32 @@ sub search_for_route(){
     return $record;
 };
 
+
+
+
+sub fs_dialplan_xml_header_shout
+{
+	my ($self, %arg) = @_;
+	$arg{xml} .= "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
+	$arg{xml} .= "<document type=\"freeswitch/xml\">\n";
+	$arg{xml} .= "<section name=\"dialplan\" description=\"ASTPP Dynamic Routing Shout\">\n";	
+	$arg{xml} .= "<context name=\"default\">\n";	
+	$arg{xml} .= "<extension name=\"shout\">\n";
+	$arg{xml} .= "<condition field=\"destination_number\" expression=\"" . $arg{destination_number} . "\">\n";
+	return $arg{xml};
+}
+
+sub fs_dialplan_xml_footer_shout() {
+	my ($self, %arg) = @_;
+	$arg{xml} .= "</condition>\n";
+	$arg{xml} .= "</extension>\n";
+	$arg{xml} .= "</context>\n";
+	$arg{xml} .= "</section>\n";
+	$arg{xml} .= "</document>\n";
+	return $arg{xml};
+}
+
+
 1;
 
 __END__
@@ -1606,7 +1688,7 @@ For more information visit our website at (www.astpp.org)
 
 =head1 AUTHOR
 
-Darren Wiebe, E<lt>darren@aleph-com.netE<gt>
+ASTPP Info, E<lt>info@astpp.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

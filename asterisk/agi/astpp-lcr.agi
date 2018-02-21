@@ -1,0 +1,84 @@
+#!/usr/bin/perl
+#
+# ASTPP - Open Source Voip Billing
+#
+# Copyright (C) 2004, Aleph Communications
+#
+# ASTPP Team <info@astpp.org>
+#
+# This program is Free Software and is distributed under the
+# terms of the GNU General Public License version 2.
+#
+# Usage-example:
+#
+# ;
+# ; Number to dial derived from command-line.  Call script with the number
+# ; to dial as the argument.  astpp-authorize will return a line containing info
+# ; that will cut the call off before it goes over the users credit limit.  The
+# ; user can get over credit limit if they have multiple calls going at once.
+# ; Presently the only way to stop that is to limit them to one call which is not
+# ; a nice solution.
+# ;
+# ;
+# [astpp-lcr]
+#
+#exten => _1XXXXXXXXXX,1,AGI(astpp-lcr.agi,${EXTEN})
+#exten => _1XXXXXXXXXX,2,Set(GROUP(${TRUNK1}-OUTBOUND)=OUTBOUND)
+#exten => _1XXXXXXXXXX,3,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK1}-OUTBOUND)}" > "${TRUNK1_MAXCHANNELS}"]?5)
+#exten => _1XXXXXXXXXX,4,Dial(${LCRSTRING1}||${TIMELIMIT}|${OPTIONS})
+#exten => _1XXXXXXXXXX,105,Busy
+#exten => _1XXXXXXXXXX,5,Set(GROUP(${TRUNK2}-OUTBOUND)=OUTBOUND)
+#exten => _1XXXXXXXXXX,6,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK2}-OUTBOUND)}" > "${TRUNK2_MAXCHANNELS}"]?8)
+#exten => _1XXXXXXXXXX,7,Dial(${LCRSTRING2}||${TIMELIMIT}|${OPTIONS})
+#exten => _1XXXXXXXXXX,108,Busy
+#exten => _1XXXXXXXXXX,8,Set(GROUP(${TRUNK2}-OUTBOUND)=OUTBOUND)
+#exten => _1XXXXXXXXXX,9,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK3}-OUTBOUND)}" > "${TRUNK3_MAXCHANNELS}"]?11)
+#exten => _1XXXXXXXXXX,10,Dial(${LCRSTRING3}||${TIMELIMIT}|${OPTIONS}) 
+#exten => _1XXXXXXXXXX,111,Busy
+#exten => _1XXXXXXXXXX,11,Set(GROUP(${TRUNK4}-OUTBOUND)=OUTBOUND)
+#exten => _1XXXXXXXXXX,12,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK4}-OUTBOUND)}" > "${TRUNK4_MAXCHANNELS}"]?14)
+#exten => _1XXXXXXXXXX,13,Dial(${LCRSTRING4}||${TIMELIMIT}|${OPTIONS})
+#exten => _1XXXXXXXXXX,114,Busy
+#exten => _1XXXXXXXXXX,14,Set(GROUP(${TRUNK5}-OUTBOUND)=OUTBOUND) 
+#exten => _1XXXXXXXXXX,15,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK5})-OUTBOUND}" > "${TRUNK5_MAXCHANNELS}"]?17)
+#exten => _1XXXXXXXXXX,16,Dial(${LCRSTRING5}||${TIMELIMIT}|${OPTIONS})
+#exten => _1XXXXXXXXXX,117,Busy
+#exten => _1XXXXXXXXXX,17,Congestion
+
+#
+#
+use DBI;
+use Asterisk::AGI;
+use strict;
+require "/usr/local/astpp/astpp-common.pl";
+use vars qw($vars $verbose $astpp_db $AGI $config @output $phone);
+$verbose = 2;
+@output  = ("STDERR");
+$AGI     = new Asterisk::AGI;
+my ($phone) = @ARGV;
+$AGI->verbose( "Phone Number: $phone", $verbose );
+$config     = &load_config();
+$astpp_db   = &connect_db( $config, @output );
+$config     = &load_config_db($astpp_db,$config);
+
+$AGI->verbose( "Looking for outbound Route\n",         $verbose );
+my @outboundroutes = &get_outbound_routes( $astpp_db, $phone );
+foreach my $route (@outboundroutes) {
+	$AGI->verbose( "Cost: $route->{cost}\n",       $verbose );
+	$AGI->verbose( "Pattern: $route->{pattern}\n", $verbose );
+	$AGI->verbose( "Route ID: $route->{id}\n", $verbose );
+}
+my $count = 1;
+foreach my $route (@outboundroutes) {
+           my $trunkdata = &get_trunk($astpp_db, $route->{trunk},"","");
+           $AGI->verbose( "Trying Route\n", $verbose );
+           my $dialstring = &get_dial_string( $astpp_db, $route, $phone );
+           $AGI->set_variable( "\"LCRSTRING$count\"", "\"$dialstring\"" );
+           $AGI->exec( 'Set', "LCRSTRING$count=$dialstring" );
+           $AGI->set_variable( "\"TRUNK$count\"", "\"$route->{trunk}\"" );
+           $AGI->exec( 'Set', "TRUNK$count=$route->{trunk}" );
+           $AGI->set_variable( "\"TRUNK" . $count . "_MAXCHANNELS\"", "\"$trunkdata->{maxchannels}\"" );
+           $AGI->exec( 'Set', "TRUNK" . $count . "_MAXCHANNELS=$trunkdata->{maxchannels}" );
+	   $count++;
+}
+exit(0);

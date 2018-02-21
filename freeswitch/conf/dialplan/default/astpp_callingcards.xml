@@ -1,0 +1,9 @@
+<include>
+  <extension name="astpp_callingcards">
+    <condition field="destination_number" expression="^8008018888$">
+      <action application="answer"/>
+      <action application="eval" data="Here we go!"/>
+      <action application="perl" data="astpp-callingcards.pl" />
+    </condition>
+  </extension>
+</include>

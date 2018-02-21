@@ -1,0 +1,218 @@
+1. Setup EPEL Yum Repositories with newer packages and install Git:
+    rpm -Uvh http://dl.fedoraproject.org/pub/epel/5/`uname -m`/epel-release-5-4.noarch.rpm
+
+2. Install YUM packages
+    yum install git
+
+3. Install Freeswitch : 
+      
+    * Install Freeswitch pre-requisite packages using YUM
+    
+      yum clean all
+      
+      yum install autoconf automake  expat-devel gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel libzrtpcpp-devel alsa-lib-devel libogg-devel libvorbis-devel perl perl-libs gdbm-devel libdb-devel uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel libtermcap libtermcap-devel ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++
+    
+    * Download latest freeswitch version 
+      cd /usr/local/src       
+      git clone git://git.freeswitch.org/freeswitch.git
+      cd freeswitch
+      ./bootstrap.sh
+      
+    * Edit modules.conf
+      Enable mod_xml_curl, mod_xml_cdr, mod_perl (If you want to use calling card features)
+    
+    * Compile the Source
+      ./configure
+      make
+    
+    * Install Freeswitch with sound files
+	make all install cd-sounds-install cd-moh-install
+	
+    * Create symbolic links for Freeswitch executables
+	ln -s /usr/local/freeswitch/bin/freeswitch /usr/local/bin/freeswitch
+	ln -s /usr/local/freeswitch/bin/fs_cli /usr/local/bin/fs_cli
+	
+    * Configure Freeswitch Startup Script
+	cp <ASTPP SOURCE DIR>/freeswitch/init/freeswitch.init to /etc/init.d/freeswitch
+	
+	chmod 755 /etc/init.d/freeswitch
+	chkconfig --add freeswitch
+	chkconfig --level 345 freeswitch on
+         
+4. ASTPP Install :
+
+    1. Download ASTPP 
+	cd /usr/src/
+	git clone https://github.com/ASTPP/ASTPP.git
+    
+    2. * Install ASTPP pre-requisite packages using YUM
+	      
+	yum install bzip2 cpio curl curl-devel fileutils gettext-devel libtool make nmap openssl openssl-devel libxml2 libxml2-devel php php-devel php-common php-cli php-gd php-pear php-mysql php-pdo php-pecl-json mysql mysql-server mysql-devel
+    
+    3. Goto ASTPP Folder & Run Make Command
+	1. cd ASTPP
+	2. make (Here you will get the instructions)
+	  Note : To install ASTPP with Freeswitch below command needs to be run. (Steps will be improved later)
+	    
+	    Please use 'make install_perl' to install perl packages (It will prompt you many times. So, please be here with installation process)
+	    Please use 'make install_freeswitch_conf' if you are using Freeswitch
+	    Please use 'make install_asterisk_conf' if you are using Asterisk (Not Stable)
+	    Please use 'make install_astpp' to install web interface & configuration file.	        
+	    
+    4. Start Services
+      1. Apache (/etc/init.d/httpd start)
+      2. Mysql (/etc/init.d/mysqld start)
+      3. Freeswitch (/etc/init.d/freeswitch start) 	    
+      
+    5. Setup MySQL For ASTPP
+	* Set Root Password 
+	  mysqladmin -u root password '<SET YOUR PASSWORD>'
+	
+	* Create astpp, fs(Freeswitch Database) and fscdr(Freeswitch CDR DB) databases
+	
+	* Create new mysql for above databases
+	  GRANT ALL PRIVILEGES ON astpp.* TO astppuser@localhost IDENTIFIED BY '<SET YOUR PASSWORD>';
+	  GRANT ALL PRIVILEGES ON fs.* TO astppuser@localhost IDENTIFIED BY '<SET YOUR PASSWORD>';
+	  GRANT ALL PRIVILEGES ON fscdr.* TO astppuser@localhost IDENTIFIED BY '<SET YOUR PASSWORD>';
+	  flush privileges;
+	 
+	Note : If already have Freeswitch & Freeswitch CDR database installated with any other application and you want to use that databases then no need to install that databases from ASTPP. Just install ASTPP database and then configure your freeswitch cdr & freeswitch databases from System -> Configuration page later on once GUI starts working ;)
+	  
+    7. Install ASTPP Database
+	cd <ASTPP SOURCE DIR>/sql
+	./install.sh 
+	  Enter appropriate values in prompt
+	  
+    8. Setup database credential in /var/lib/astpp/astpp-config.conf    
+	Note : Default we are running astpp on 8081 port.
+    
+    You are done with GUI installation. Enjoy :)
+    
+    Visit the astpp admin page in your web browser. It can be found here: http://server_ip:8081/ Please change the ip address depending upon your box. 
+    The default password is " Passw0rd! ". you do not need to enter username.    
+    Note : In case of any issue please refer apache error log.    
+      
+    7. ASTPP Freeswitch Configuration    
+    
+	cd <ASTPP SOURCE DIR>/freeswitch/conf
+	  
+	cp autoload_configs/xml_curl.conf.xml /usr/local/freeswitch/conf/autoload_configs/
+	  Note : Edit xml_curl.conf.xml file and change localhost to your ip or domain name.
+	
+	cp autoload_configs/xml_cdr.conf.xml /usr/local/freeswitch/conf/autoload_configs/
+	  Note : Edit xml_cdr.conf.xml file and change localhost to your ip or domain name.
+	  
+	cp autoload_configs/cdr_csv.conf.xml /usr/local/freeswitch/conf/autoload_configs/  
+	  
+	cp dialplan/default/astpp_callingcards.xml /usr/local/freeswitch/conf/dialplan/default/
+	  Note : Edit astpp_callingcards.xml file to change acccess number for calling card.  
+	  
+	Enable mod_xml_curl, mod_xml_cdr, mod_cdr_csv, mod_perl in /usr/local/freeswitch/conf/autoload_configs/modules.conf.xml file.	
+	
+	Once above setting are done, restart freeswitch and check if above modules are loaded or not. If not then please load it manually.
+	
+    8. Setup Cron 
+      
+	  Add these lines to cron:
+	  
+# Run @ Hourly 
+# Update calling cards and expire them and mark them as being empty.
+@hourly /usr/local/astpp/astpp-update-balance.pl
+
+# Run @ Daily
+# Check which dids have been assigned but have not been billed yet.
+# Update account balance if any chage is any periodic charge applied 
+@daily /usr/local/astpp/astpp-update-balance.pl sweep=0
+
+# Run @ Weekly
+# Update account balance if any chage is any periodic charge applied 
+0 0 * * 0 /usr/local/astpp/astpp-update-balance.pl sweep=1
+
+# Run @ Monthly
+# Process for DID Montly billing
+# Update account balance if any chage is any periodic charge applied 
+0 0 1 * * /usr/local/astpp/astpp-update-balance.pl sweep=2	  
+
+# Run @ quarterly	  
+# Update account balance if any chage is any periodic charge applied 
+0 0 1 1,4,7,10 * /usr/local/astpp/astpp-update-balance.pl sweep=3
+
+# Run @ semi-quarterly
+# Update account balance if any chage is any periodic charge applied 
+0 0 * 1,7 * /usr/local/astpp/astpp-update-balance.pl sweep=4
+
+# Run @ annually
+# Update account balance if any chage is any periodic charge applied 
+0 0 * 1 * /usr/local/astpp/astpp-update-balance.pl sweep=5
+
+# Run @ Daily
+# Generate Invoice Daily 
+@daily /usr/local/astpp/astpp-generate-invoices.pl sweep=0
+
+# Run @ Weekly
+# Generate Invoice Weekly
+0 0 * * 0 /usr/local/astpp/astpp-generate-invoices.pl sweep=1
+
+# Run @ Monthly
+# Generate Invoice Monthly
+0 0 1 * * /usr/local/astpp/astpp-generate-invoices.pl sweep=2
+
+# Run @ quarterly
+# Generate Invoice quarterly
+0 0 1 1,4,7,10 * /usr/local/astpp/astpp-generate-invoices.pl sweep=3
+
+# Run @ semi-quarterly
+# Generate Invoice semi-quarterly
+0 0 * 1,7 * /usr/local/astpp/astpp-generate-invoices.pl sweep=4
+
+# Run @ annually
+# Generate Invoice annually
+0 0 * 1 * /usr/local/astpp/astpp-generate-invoices.pl sweep=5
+
+# Run @ Hourly
+# Update currency rate
+@hourly /usr/local/astpp/astpp-currency-update.pl
+
+# Run @ Daily
+# Low balance notification
+@daily /usr/local/astpp/astpp-low-balance.pl minbalance=5
+
+# Run @ Daily
+# Update calling card charges & status
+@daily /usr/local/astpp/astpp-callingcards-daily.pl
+
+# Run @ Daily
+# (Optional) To do bulk rating of calls
+@daily /usr/local/astpp/astpp-rate-engine.pl runtype=sweep
+
+Manually install the script to rotate the cdrs. 
+cp <ASTPP SOURCE DIR>/freeswitch/contrib/wasim/cdrload.pl /usr/local/astpp 
+Then add the following line to crontab,
+* * * * * /usr/local/astpp/cdrload.pl
+
+
+=========== Additional Configuration ============
+Opensips configuration :
+We have addup opensip version 1.7.1's opensips.cfg file.
+
+1. Modify subscriber table of opensips
+    ALTER TABLE `subscriber` ADD `accountcode` VARCHAR( 20 ) NOT NULL
+
+2. Enable opensips support in ASTPP
+    1. Goto System -> Configuration
+    2. Chagne opensips variable to 1 (1 to enable opensips support and 0 to disable. Default 0)
+    3. Configure opensips database and domain variables from same page (Variables : opensips_dbname, opensips_dbuser, opensips_dbhost, opensips_dbpass, opensips_domain)
+	Note : If you are running opensips on seperate server then please make sure ASTPP server should have grant to access opensips database.
+	
+3. Copy opensip.cfg file to appropriate opensips folder.
+    cp <ASTPP SOURCE DIR>/opensips/opensips.cfg /usr/local/etc/opensips/opensips.cfg
+===================================================
+
+
+ASTPP Support :
+Please email us at info@astpp.org for support.
+
+ASTPP Forums : 
+http://astpp.org/index.php/forum/index
+
+Refer astpp.org for more information. 

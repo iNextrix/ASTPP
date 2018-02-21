@@ -1,0 +1,167 @@
+#!/usr/bin/perl
+#
+# Survey Script
+#
+# Copyright (C) 2006, DNW Consulting
+#
+# ASTPP Team <info@astpp.org>
+#
+# This program is Free Software and is distributed under the
+# terms of the GNU General Public License version 2.
+#
+# Sample Configuration
+# [survey]
+# exten => s,1,DeadAGI(survey.agi,${LANGUAGE})
+
+use DBI;
+use Asterisk::AGI;
+use POSIX qw(ceil floor);
+use POSIX qw(strftime);
+use strict;
+use vars qw($verbosity $AGI $dbh %input );
+$verbosity = 2;
+$AGI = new Asterisk::AGI;
+
+my ( $sound,$retries, $surveyinfo, $answer, $leave_voicemail);
+my $dbname = "survey";
+my $dbhost = "127.0.0.1";
+my $dbuser = "root";
+my $dbpass = "";
+my $debug = 1;	
+my $input_timeout = 15000;       #Specified in milliseconds.
+
+sub initialize() {
+	$SIG{HUP}   = 'ignore_hup';
+	$dbh = &connect_db();
+}
+
+sub ignore_hup {
+	print STDERR "HUP received\n";
+}
+
+sub connect_db() {
+    my ( $dsn, $dbh );
+    $dsn =
+"DBI:mysql:database=$dbname;host=$dbhost";
+    $dbh =
+      DBI->connect( $dsn, $dbuser,
+        $dbpass );
+    if ( !$dbh ) {
+        print STDERR "SURVEY DATABASE IS DOWN\n";
+        exit(0);
+    }
+    else {
+        $dbh->{mysql_auto_reconnect} = 1;
+        print STDERR "Connected to Survey Database!" . "\n";
+        return $dbh;
+    }
+}
+
+sub get_survey() {
+	my ($dbh,$surveynum) = @_;
+	my ($tmp, $row);
+	$tmp = "SELECT * FROM surveys WHERE id = "
+		. $dbh->quote($surveynum)
+		. " LIMIT 1";
+	my $sql = $dbh->prepare($tmp);
+	print STDERR $tmp;
+	$sql->execute;
+	$row = $sql->fetchrow_hashref;
+	$sql->finish;
+	return $row;
+}	
+
+sub get_question() {
+	my ($dbh,$surveynum,$questioncount) = @_;
+	my ($tmp, $row);
+	$tmp = "SELECT * FROM questions WHERE survey_id = "
+		. $dbh->quote($surveynum)
+		. " AND question_number = "
+		. $dbh->quote($questioncount)
+		. " LIMIT 1";
+	my $sql = $dbh->prepare($tmp);
+	print STDERR $tmp;
+	$sql->execute;
+	$row = $sql->fetchrow_hashref;
+	$sql->finish;
+	return $row;
+}
+
+sub write_survey() {
+	my (
+		$dbh,$id,$question,$answer
+	  )
+	  = @_;
+    #my $now = strftime "%Y%m%d%H%M%S", gmtime;
+    my $now = strftime "%Y-%m-%d %H:%M:%S", gmtime;	  
+    #debug
+	print STDERR "NOW $now";
+	print STDERR "QUESTION $question";
+	print STDERR "ANSWER $answer";
+	print STDERR "ID $id";
+	my $sql =
+"INSERT INTO responses (survey_id,question,answer,callerid,date) VALUES ("
+	  . $dbh->quote($id ) . ", "
+	  . $dbh->quote($question) . ", "
+	  . $dbh->quote($answer) . ", "
+	  . $dbh->quote(%input->{callerid}) . ", "
+	  . $dbh->quote($now) . ")";
+	if ($dbh->do($sql)) {
+		return ("Survey Correctly Written to Database!");
+	} else {
+		return ("Problem Writing Survey to Database!");
+	}		
+}
+
+
+sub leave() {
+	my ($status) = @_;
+	if ($status == 1) {
+		$AGI->verbose("SURVEY ERROR - EXITING", $verbosity);
+		exit(0);
+	} elsif ($status == 0) {
+		$AGI->verbose("SURVEY SUCCESSFUL - EXITING", $verbosity);
+		exit(0);
+	} else {
+		$AGI->verbose("SURVEY ERROR - EXITING", $verbosity);
+		exit(0);
+	}	
+}
+################# Program Starts Here #################################
+my ( $extension,$survey ) = @ARGV;
+%input = $AGI->ReadParse();
+$AGI->answer();
+&initialize;
+sleep 1;    #Pause for 1 seconds to allow everything to get hooked up.
+print STDERR "DEBUG MODE: $debug\n";
+print STDERR "CALLERID $input{callerid}";
+my $survey = &get_survey($dbh,$survey);
+$AGI->stream_file($survey->{starting});
+my $questioncount = 1;
+$retries = 0;
+# DEBUG
+print STDERR "QUESTIONS: $survey->{total_questions} \n";
+my $answer;
+my $question = &get_question($dbh,$survey->{id},$questioncount);
+while ( $answer < $question->{min_valid} || $answer > $question->{maxvalid} ) {
+	$answer = $AGI->get_data( $question->{sound_file}, $input_timeout );
+	$AGI->verbose("\n ANSWER $answer",1);
+	if ($retries == 3) {
+		$AGI->stream_file($survey->{error_leaving});
+		&leave(1);
+	} elsif ($answer >= $question->{min_valid} && $answer <= $question->{max_valid}) {
+		$retries = 0;
+		&write_survey($dbh,$survey->{id},$question->{question_number},$answer);
+		$questioncount++;
+		if ($questioncount > $survey->{total_questions}) {
+			$AGI->stream_file($survey->{leaving});
+			&leave(0);
+		} else {
+			$question = &get_question($dbh,$survey->{id},$questioncount);
+		}
+	} else {	
+		$retries++;
+	}
+}
+$AGI->stream_file($survey->{error_leaving});
+&leave(1);

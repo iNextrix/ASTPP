@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2004, Aleph Communications
 #
-# Darren Wiebe (darren@aleph-com.net)
+# ASTPP Team (info@astpp.org)
 #
 # This program is Free Software and is distributed under the
 # terms of the GNU General Public License version 2.
@@ -188,7 +188,7 @@ if ( $params->{sweep} ) {
                         $chargeinfo->{charge},
                         $now,
                         $accountinfo->{posttoexternal},
-                        ''
+                        '','','',''
                     );
                 }
             }
@@ -208,7 +208,7 @@ if ( $params->{sweep} ) {
                         $chargeinfo->{charge},
                         $now,
                         $accountinfo->{posttoexternal},
-                        ''
+                        '','','',''
                     );
                 }
             }

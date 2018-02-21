@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2004, Aleph Communications
 #
-# Darren Wiebe (darren@aleph-com.net)
+# ASTPP Team (info@astpp.org)
 #
 # This program is Free Software and is distributed under the
 # terms of the GNU General Public License version 2.
@@ -72,12 +72,16 @@ foreach my $param ( param() ) {
 }
 &initialize();
 
+
+# print $config->{externalbill};exit;
+
 ### Deal with external billing.  This will create the appropriate invoices in the external apps.
 if ( $config->{externalbill} eq "oscommerce" ) {
     my @cardlist;
     if ( $params->{sweep} ) {
         @cardlist = &update_list_cards($astpp_db, $config, $params->{sweep} );
     }
+    
     foreach (@cardlist) {
         my $cardno = $_;
         my $carddata = &get_account( $astpp_db, $cardno );
@@ -90,10 +94,10 @@ if ( $config->{externalbill} eq "oscommerce" ) {
     }
 }
 elsif ( $config->{externalbill} eq "internal" ) {
-    my @cardlist;
-    if ( $params->{sweep} ) {
-        @cardlist = &update_list_cards($astpp_db, $config, $params->{sweep} );
-    }
+    my @cardlist;    
+    if ( $params->{sweep} || $params->{sweep}=='0') {      
+        @cardlist = &update_list_cards($astpp_db, $config, $params->{sweep} );	
+    }    
     foreach (@cardlist) {
         my $cardno = $_;
         my $carddata = &get_account( $astpp_db, $cardno );

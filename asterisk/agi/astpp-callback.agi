@@ -1,0 +1,266 @@
+#!/usr/bin/perl
+#
+# ASTPP - Open Source Voip Billing
+#
+# Copyright (C) 2004, Aleph Communications
+#
+# ASTPP Team <info@astpp.org>
+#
+# This program is Free Software and is distributed under the
+# terms of the GNU General Public License version 2.
+#
+# ANI Map Info
+#  Status 0 is for regular ASTPP accounts and status 1 is for calling cards
+#  that are ok.  Status 2 is a blocked number.
+# This program is used to request callbacks from ASTPP for calling cards.  It's
+# also used to register telephone numbers in the "ani_map" table.  You can set it
+# to register only by passing along "REGISTER" in the ${DESTINATION} field.  Here's an
+# example on how to call it.
+#
+# ${CARDNUMBER} = The calling card number we wish to register to.
+# ${PIN} = The pin for ${CARDNUMBER} if appropriate.
+# ${CALLERIDNUM} = Is the number we are calling from and will use for ANI authentication.
+#					This is also the number we will be called back at.
+# ${DESTINATION} = The number we wish the system to call once we are authenticated.
+#
+#
+# exten => 2,2,DeadAGI(astpp-register-card.agi,${CALLERIDNUM},${DESTINATION},${CARDNUMBER},${PIN})
+#
+#
+###########################################################################`
+
+use POSIX qw(ceil floor);
+use POSIX qw(strftime);
+use DBI;
+use Asterisk::AGI;
+use strict;
+require "/usr/local/astpp/astpp-common.pl";
+use vars qw($vars $verbose $brandinfo $astpp_db $AGI $config @output $sound);
+$verbose    = 2;
+@output     = ("STDERR");
+$AGI        = new Asterisk::AGI;
+
+sub initialize() {
+$config     = &load_config();
+$astpp_db   = &connect_db( $config, @output );
+$config     = &load_config_db( $astpp_db, $config );
+my $brand = $AGI->get_variable("BRAND");
+if ($brand) {
+      $brandinfo = &get_cc_brand($astpp_db, $brand);
+      if ($brandinfo->{reseller}) {
+           $config     = &load_config_db_reseller($astpp_db,$config,$brandinfo->{reseller});
+      }
+        $config     = &load_config_db_brand($astpp_db,$config,$brand);
+}
+}
+$sound = &define_sounds($astpp_db);
+$SIG{HUP}   = 'ignore_hup';
+my $verbosity     = 2;
+my $input_timeout = 15000;    #How long do we wait for input? Specified in MS
+
+sub ignore_hup {
+	foreach my $handle (@output) {
+		print $handle "HUP received\n";
+	}
+}
+
+sub get_ani() {
+	my ($number) = @_;
+	my ($sql);
+	my $tmp =  "SELECT * FROM ani_map WHERE number = " . $astpp_db->quote($number);
+	$sql =
+	  $astpp_db->prepare($tmp);
+	$sql->execute;
+	$AGI->verbose( "$tmp\n", $verbose );
+	my $anidata = $sql->fetchrow_hashref;
+	$sql->finish;
+	return $anidata;
+}
+
+######################################################################
+# Beginning of Program
+######################################################################
+my ( $callerid, $destination, $cardnumber, $pin ) = @ARGV;
+$AGI->answer();
+my ( $clidnumber, $retries );
+&initialize();
+$retries = 0;
+$clidnumber = $callerid if $destination ne "REGISTER";
+while ( !$clidnumber && $retries < $config->{card_retries} ) {
+	my $answer = $AGI->get_data( $sound->{number_to_register}, $input_timeout );
+	if ( $answer == 1 ) {
+		$clidnumber = $callerid;
+	} elsif ( $answer > 1 ) {
+		$clidnumber = $answer;
+	} else {
+		$retries++;
+	}
+}
+if ( $retries > $config->{card_retries} ) {
+	$AGI->stream_file($sound->{goodbye});
+	exit(0);
+}
+
+my $numberdata = &get_ani($clidnumber);
+
+if ( $numberdata->{status} == 2 ) {    #This number is in our "blocked" list.
+	$AGI->stream_file($sound->{badnumber});
+	$AGI->stream_file($sound->{goodbye});
+	exit(0);
+} elsif ( !$numberdata->{number} ) {
+	my $cardinfo;
+	$cardinfo = &get_callingcard( $astpp_db, $cardnumber, $config ) if $cardnumber;
+	my $retries = 0;
+	while ( $cardinfo->{status} != 1 && $retries < $config->{card_retries} ) {
+		my $cardnum = $AGI->get_data( $sound->{cardnumber}, $input_timeout );
+		$cardinfo = &get_callingcard( $astpp_db, $cardnum, $config );
+		$AGI->verbose( "ASTPP Number: $cardnum ", $verbosity )
+		  if $config->{debug} == 1;
+		$AGI->verbose( "ASTPP Number Status: $cardinfo->{status}", $verbosity )
+		  if $config->{debug} == 1;
+		if ( $cardinfo->{status} != 1 ) {
+			$AGI->stream_file($sound->{cardnumber_incorrect});
+		}
+		$retries++;
+	}
+	if ( !$cardinfo->{status} ) {
+		my $sql =
+		  "INSERT INTO ani_map (number,status) VALUES ("
+		  . $astpp_db->quote($clidnumber) . ", 2)";
+		$AGI->verbose( "SQL $sql", $verbosity )
+		  if $config->{debug} == 1;
+		$astpp_db->do($sql);
+		$AGI->stream_file($sound->{goodbye});
+		$AGI->hangup();
+		exit(0);
+	} elsif ( $cardinfo->{status} != 1 ) {
+		$AGI->stream_file($sound->{goodbye});
+		$AGI->hangup();
+		exit(0);
+	}
+	if ( $pin != $cardinfo->{pin} ) {
+		$retries = 0;
+		while ( $cardinfo->{pin} != $pin && $retries < $config->{pin_retries} ) {
+			$pin = $AGI->get_data( $sound->{pin}, $input_timeout );
+			if ( $cardinfo->{pin} != $pin ) {
+				$AGI->stream_file($sound->{pin_incorrect});
+			}
+			$retries++;
+		}
+	}
+	if ( $pin != $cardinfo->{pin} ) {
+		my $sql =
+		  "INSERT INTO ani_map (number,status) VALUES ("
+		  . $astpp_db->quote($clidnumber) . ", 2)";
+		$AGI->verbose( "SQL $sql", $verbosity )
+		  if $config->{debug} == 1;
+		$astpp_db->do($sql);
+		$AGI->stream_file($sound->{goodbye});
+		$AGI->hangup();
+		exit(0);
+	}
+	my $cardstatus = &check_card_status( $astpp_db, $cardinfo );
+	# This subroutine returns the status of the card:
+	if ( $cardstatus == 1 ) {
+		$AGI->stream_file($sound->{card_inuse});
+		$AGI->stream_file($sound->{goodbye});
+	} elsif ( $cardstatus == 2 ) {
+		$AGI->stream_file($sound->{card_has_expired});
+		$AGI->stream_file($sound->{goodbye});
+		$AGI->hangup();
+	} elsif ( $cardstatus == 3 ) {
+		$AGI->stream_file($sound->{card_is_empty});
+		$AGI->hangup();
+	}
+	my $register = $AGI->get_data( $sound->{register_ani}, $input_timeout );
+	if ( $register == 1 ) {
+		my $sql =
+		    "INSERT INTO ani_map (number,account,status) VALUES ("
+		  . $astpp_db->quote($clidnumber) . ", "
+		  . $astpp_db->quote( $cardinfo->{cardnumber} ) . ", 1)";
+		$AGI->verbose( "SQL $sql", $verbosity )
+		  if $config->{debug} == 1;
+		$astpp_db->do($sql);
+	}
+} else {
+	if ($destination eq "REGISTER") {
+	$AGI->stream_file($sound->{goodbye});
+	$AGI->hangup();
+	exit(0);
+	}
+}
+
+$numberdata = &get_ani($clidnumber);
+if ( $numberdata->{status} == 1 && $destination ne "REGISTER" )
+{    #This number is registered to a calling card.
+	my $cardinfo = &get_callingcard( $astpp_db, $numberdata->{account}, $config );
+	my $cardstatus = &check_card_status( $astpp_db, $cardinfo );
+	# This subroutine returns the status of the card:
+	if ( $cardstatus == 1 ) {
+		$AGI->stream_file($sound->{card_inuse});
+		$AGI->stream_file($sound->{goodbye});
+	} elsif ( $cardstatus == 2 ) {
+		$AGI->stream_file($sound->{card_has_expired});
+		$AGI->stream_file($sound->{goodbye});
+		$AGI->hangup();
+	} elsif ( $cardstatus == 3 ) {
+		$AGI->stream_file($sound->{card_is_empty});
+		$AGI->hangup();
+	} elsif ( $cardstatus == 0 ) {
+		my $retries = 0;
+		my $destination;
+		while ( !$destination && $retries < $config->{number_retries} ) {
+			my $answer = $AGI->get_data( $sound->{where_to_call}, $input_timeout );
+			if ( $answer == 1 ) {
+				$destination = $clidnumber;
+			} elsif ( $answer > 1 ) {
+				$destination = $answer;
+			} else {
+				$retries++;
+			}
+		}
+		if ( $retries > $config->{number_retries} ) {
+			$AGI->stream_file($sound->{goodbye});
+			exit(0);
+		}
+
+		# If we get this far then it means that the account is good to go.
+		my @variables;
+		my $brandinfo = &get_cc_brand( $astpp_db, $cardinfo->{brand} );
+      if ($brandinfo->{reseller}) {
+           $config     = &load_config_db_reseller($astpp_db,$config,$brandinfo->{reseller});
+      }
+        $config     = &load_config_db_brand($astpp_db,$config,$cardinfo->{brand});
+		if ($destination =~ m/\d\d\d\d\d\d\d\d\d\d/) {
+			$destination = "1" . $destination;
+		}
+		my $rateinfo =
+		  &get_route( $astpp_db, $config, $destination, $brandinfo->{pricelist},
+					  $cardinfo );
+		$AGI->stream_file($sound->{callback_performed});
+		$AGI->stream_file($sound->{goodbye});
+		$AGI->hangup();
+		sleep 15; # This is to give the customer time to hang their phone up.
+	        my %variables = ( CONNECTSURCHARGE => $rateinfo->{connectcost},
+	                PERMINUTESURCHARGE => $rateinfo->{cost},
+	                CARDNUMBER         => $cardinfo->{cardnumber},
+	       	        PIN                => $cardinfo->{pin});
+	        my $ActionID = &perform_callout(
+                                          $astpp_db, $config,
+                                          $destination,
+                                          $config->{lcrcontext},
+                                          $config->{callout_accountcode},
+                                          $config->{maxretries},
+                                          $config->{waittime},
+                                          $config->{retrytime},
+                                          $config->{clidname},
+                                          $config->{clidnumber},
+                                          $config->{callingcards_callback_context},
+                                          $config->{callingcards_callback_extension},
+                                          %variables
+	        );
+		exit(0);
+	}
+}
+
+exit(0);

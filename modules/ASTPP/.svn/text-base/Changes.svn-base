@@ -1,6 +1,0 @@
-Revision history for Perl extension ASTPP.
-
-0.01  Fri Jul 20 02:59:14 2007
-	- original version; created by h2xs 1.23 with options
-		-AXc -n ASTPP
-

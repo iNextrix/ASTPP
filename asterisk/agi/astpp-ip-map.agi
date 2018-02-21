@@ -1,0 +1,78 @@
+#!/usr/bin/perl
+#
+# ASTPP - Open Source Voip Billing
+#
+# Copyright (C) 2004, Aleph Communications
+#
+# ASTPP Team <info@astpp.org>
+#
+# This program is Free Software and is distributed under the
+# terms of the GNU General Public License version 2.
+#
+# This script is used to authenticate calls to ASTPP accounts based on pin codes in the Dialplan.
+# It can be used to do wholesale SIP termination which is authenticated by a pin code that is dialed
+# in front of the number to be called.
+#
+# [astpp]
+#
+#exten => _X.,1,AGI(astpp-ip-map.agi,${SIPCHANINFO(recvip)})
+#exten => _X.,n,GotoIf($["${CALLSTATUS}" = "0"]?60)
+#exten => _X.,n,Set(CDR(accountcode)=${ACCOUNTCODE})
+#exten => _X.,n,Goto(astpp-outgoing,${EXTEN},1)
+
+use DBI;
+use ASTPP;
+use Asterisk::AGI;
+use POSIX qw(ceil floor);
+use POSIX qw(strftime);
+use strict;
+use vars qw($ASTPP @output $verbose $AGI $config $SIG $astpp_db);
+@output = ( "STDERR", "LOGFILE" );
+$verbose = 2;
+$ASTPP = ASTPP->new;
+$ASTPP->set_verbosity(4); #Tell ASTPP debugging how verbose we want to be.
+$ASTPP->set_asterisk_agi($AGI);
+require "/usr/local/astpp/astpp-common.pl";
+$AGI = new Asterisk::AGI;
+
+sub initialize() {
+	$SIG{HUP}   = 'ignore_hup';
+	$config     = &load_config();
+	$astpp_db = &connect_db( $config, @output );
+	$config     = &load_config_db($astpp_db,$config);
+	$ASTPP->set_astpp_db($astpp_db);
+}
+
+sub ignore_hup {
+	foreach my $handle (@output) {
+		print $handle "HUP received\n";
+		$AGI->verbose( "HUP received!\n", $verbose );
+	}
+}
+
+################# Program Starts Here #################################
+my ($ip, $extension) = @ARGV;
+my ($sql);
+&initialize;
+my $anidata = $ASTPP->ip_address_authenticate( ip_address => $ip, destination => $extension);
+
+if ($anidata) {
+	my $carddata=&get_account($astpp_db, $anidata->{account});
+	$AGI->set_variable( 'ACCOUNTCODE', "\"$carddata->{cc}\"" );
+	$AGI->exec( 'Set',        "ACCOUNT=$carddata->{cc}" );
+	$AGI->exec( 'SetAccount', "$carddata->{cc}" );
+	$extension =~ s/$anidata->{prefix}//g;
+	if ($anidata->{context} ne "") {
+		$AGI->set_variable( 'DEST_CONTEXT', "\"$anidata->{context}\"" );
+	        $AGI->exec( 'Set',        "DEST_CONTEXT=$anidata->{context}" );
+        } else {
+	        $AGI->set_variable( 'DEST_CONTEXT', "\"$config->{lcrcontext}\"" );
+	        $AGI->exec( 'Set',        "DEST_CONTEXT=$config->{lcrcontext}" );
+        }
+	$AGI->set_variable( 'EXTENSION', "\"$extension\"" );
+	$AGI->exec( 'Set',        "EXTENSION=$extension" );
+}
+else {
+	$AGI->set_variable( 'CALLSTATUS', "\"0\"" );
+	$AGI->exec( 'Set', "CALLSTATUS=0" );
+}

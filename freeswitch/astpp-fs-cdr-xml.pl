@@ -130,9 +130,17 @@ foreach my $var ($cdr->findnodes('/cdr/variables/progress_mediamsec')) {
 foreach my $var ($cdr->findnodes('/cdr/callflow/caller_profile/username')) {
     $cdrinfo->{username} = $var->to_literal;
 }
-foreach my $var ($cdr->findnodes('/cdr/callflow/caller_profile/destination_number')) {
+foreach my $var ($cdr->findnodes('/cdr/variables/effective_destination_number')) {
     $cdrinfo->{destination_number} = $var->to_literal;
 }
+
+if($cdrinfo->{destination_number} eq "")
+{
+    foreach my $var ($cdr->findnodes('/cdr/callflow/caller_profile/destination_number')) {
+      $cdrinfo->{destination_number} = $var->to_literal;
+    }
+}
+
 foreach my $var ($cdr->findnodes('/cdr/callflow/caller_profile/context')) {
     $cdrinfo->{context} = $var->to_literal;
 }

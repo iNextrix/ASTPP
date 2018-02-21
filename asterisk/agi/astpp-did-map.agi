@@ -1,0 +1,179 @@
+#!/usr/bin/perl
+#
+# ASTPP - Open Source Voip Billing
+#
+# Copyright (C) 2004, Aleph Communications
+#
+# ASTPP Team <info@astpp.org>
+#
+# This program is Free Software and is distributed under the
+# terms of the GNU General Public License version 2.
+#
+# Usage-example:
+#
+# ;
+# ; Card-number and number to dial derived from command-line.
+# ; Call script with the card-number as first arg and the number
+# ; to dial as the second arg.  astpp-authorize will return a line containing info
+# ; that will cut the call off before it goes over the users credit limit.  The
+# ; user can get over credit limit if they have multiple calls going at once.
+# ; Presently the only way to stop that is to limit them to one call which is not
+# ; a nice solution.
+# ;
+# ; The following variables must be set:
+# ;  USER1 = Username at IAX2 Provider #1
+# ;  PASS1 = Password for User1
+# ;  PROVIDER1 = IP address of IAX2 Provider #1 or else associate name from
+# ;     iax.conf
+# ;
+# [astpp]
+#
+# exten => _XXXXXXXXXX,1,AGI(astpp-did-map.agi,${EXTEN})
+# exten => _XXXXXXXXXX,2,Set(GROUP()=${ACCOUNT})
+# exten => _XXXXXXXXXX,3,GotoIf($["${CALLSTATUS}" = "0"]?60)  ; Checks if account has sufficient funds
+# exten => _XXXXXXXXXX,4,GotoIf($["${CALLSTATUS}" = "1"]?70)  ; Checks if the phone number exists
+# exten => _XXXXXXXXXX,5,GotoIf($["${CALLSTATUS}" = "2"]?80)  ; Check if account exists
+# exten => _XXXXXXXXXX,6,GotoIf($["${GROUP_COUNT()}" > "${MAXCHANNELS}"]?90) ; Verify number of outgoing channels
+#                                                                              ; assigned to account.
+# exten => _XXXXXXXXXX,7,SetAccount(${ACCOUNT})
+# exten => _XXXXXXXXXX,8,Dial(${DIALSTRING}/${EXTEN}}||${TIMELIMIT}|${OPTIONS})
+# exten => _XXXXXXXXXX,9,Hangup
+# exten => _XXXXXXXXXX,60,Congestion ; '0' Tells them they do not have enough money
+# exten => _XXXXXXXXXX,61,Hangup
+# exten => _XXXXXXXXXX,70,Congestion '1' Bad Phone Number
+# exten => _XXXXXXXXXX,71,Hangup
+# exten => _XXXXXXXXXX,80,Congestion
+# exten => _XXXXXXXXXX,81,Hangup
+#
+
+use DBI;
+use Asterisk::AGI;
+use strict;
+use vars qw($verbose @output $AGI $config $astpp_db $maxlength);
+
+$verbose = 2;
+@output = ("STDERR");
+$AGI = new Asterisk::AGI;
+require "/usr/local/astpp/astpp-common.pl";
+
+################# Programs start here #######################################
+my ($extension) = @ARGV;
+my ($timelimit);
+$AGI->verbose( "$extension DID MAPPING", $verbose );
+$config     = &load_config();
+$astpp_db   = &connect_db( $config, @output );
+$config     = &load_config_db($astpp_db,$config);
+
+if ( $extension < 0 ) {  # Did we get a DID to map?  If not then exit.
+    $AGI->verbose( "CALLSTATUS 1\n", $verbose );
+    $AGI->verbose( "NO EXTENSION\n", $verbose );
+    $AGI->set_variable( 'CALLSTATUS', "\"1\"" );
+    $AGI->exec( 'Set', "CALLSTATUS=1" );
+    exit(0);
+}
+
+my $extension_info = &get_did($astpp_db,$extension);
+if ( !$extension_info->{account} ) {  # Is this DID mapped to someone?  If not, then exit.
+    $AGI->verbose( "CALLSTATUS 1\n", $verbose );
+    $AGI->verbose( "NO ACCOUNT MAPPED\n", $verbose );
+    $AGI->set_variable( 'CALLSTATUS', "\"1\"" );
+    $AGI->exec( 'Set', "CALLSTATUS=2" );
+    exit(0);
+}
+my $carddata = &get_account($astpp_db, $extension_info->{account});  # Get the account details.
+my $branddata = &get_pricelist( $astpp_db, $carddata->{pricelist} ); # Get the appropriate brand details.
+
+if ( !$carddata->{number} ) { # If we can't find the account in ASTPP then exit.
+        $AGI->verbose( "CALLSTATUS 2\n",         $verbose );
+        $AGI->verbose( "CANNOT RETRIEVE CARD\n", $verbose );
+        $AGI->set_variable( 'CALLSTATUS', "\"2\"" );
+        $AGI->exec( 'Set', "CALLSTATUS=2" );
+        exit(0);
+}
+my $numdata = &get_route( $astpp_db, $config, $extension, $carddata->{pricelist}, $carddata, "ASTPP-DID" );  # Find out how much this call will cost
+if ( !$numdata->{pattern} ) { # If we don't have a matching pattern for this DID then exit.
+        $AGI->verbose( "CALLSTATUS 1\n",         $verbose );
+        $AGI->verbose( "INVALID PHONE NUMBER\n", $verbose );
+        $AGI->set_variable( 'CALLSTATUS', "\"1\"" );
+        $AGI->exec( 'Set', "CALLSTATUS=1" );
+        exit(0);
+}
+$AGI->verbose( "Found pattern: $numdata->{pattern}\n", $verbose );
+my $credit = &accountbalance( $astpp_db, $carddata->{number} );  # Find the credit available to this account.
+$credit = ($credit * -1) + ($carddata->{credit_limit} * 10000);
+if ($branddata->{markup} > 0) {
+        $numdata->{connectcost} =
+          $numdata->{connectcost} * ( ( $branddata->{markup} / 100 ) + 1 );
+        $numdata->{cost} =
+          $numdata->{cost} * ( ( $branddata->{markup} / 100 ) + 1 );
+}
+
+$AGI->verbose(
+" Credit: $credit  ConnectFee: $numdata->{connectcost}  PerMinute: $numdata->{cost} \n",
+        $verbose
+);
+if ( $numdata->{connectcost} > $credit ) {
+        $AGI->set_variable( 'CALLSTATUS', "\"0\"" );
+        $AGI->exec( 'Set', "CALLSTATUS=0" );
+        exit(0);
+}
+if ( $numdata->{cost} > 0 ) {
+        $maxlength = ( ( $credit - $numdata->{connectcost} ) / $numdata->{cost} );  # Set the maximum length of this call.
+}
+else {
+        $maxlength = $config->{max_free_length};
+}
+$AGI->verbose( "Max Call Length: $maxlength minutes\n", $verbose );
+if ( $maxlength <= 1 || $credit < 0 ) {
+        $AGI->verbose( "NOT ENOUGH CREDIT\n", $verbose );
+        $AGI->exec( 'Set', "CALLSTATUS=0" );
+        $AGI->set_variable( 'CALLSTATUS', "\"0\"" );
+        exit(0);
+}
+
+# Set all the required variables for the dialplan.
+if ($extension_info->{variables}) {
+        my @variables = split(m/,/m, $extension_info->{variables});
+	foreach my $variable (@variables) {
+		$variable =~ s/"//g;                               #Strip off quotation marks
+		my ($name,$value) = split(m/=/m, $variable);  # This will split the variable into a "name" and "value" as needed
+        	$AGI->exec( 'Set', "$name=$value" );
+       		$AGI->set_variable( "$name", "\"$value\"" );
+	}
+}
+if ($extension_info->{limittime} == 1) {
+	$timelimit = "L(" . sprintf( "%.0f", $maxlength * 60 * 1000 ) . ":60000:30000)";
+	$AGI->set_variable( "\"TIMELIMIT\"", "\"$timelimit\"" );
+}
+if ($extension_info->{extensions} =~ m/^\d*$/) {
+	$AGI->exec('Set',"GOTO=1");
+	$AGI->exec('SET',"GOTO_EXTENSION=$extension_info->{extensions}");
+	$AGI->exec('SET',"GOTO_CONTEXT=$config->{lcrcontext}");
+	$AGI->exec('SET',"GOTO_PRIORITY=1");
+} elsif ($extension_info->{extensions} =~ m/^local/i) {  # If the dialstring is configured to use the local channel...
+	$extension_info->{extensions} =~ s!^Local/!!ig;  #String off the local channel designator
+	my ($extension,$context) = split(m/@/i, $extension_info->{extensions});
+	$AGI->exec('Set',"GOTO=1");
+	$AGI->exec('SET',"GOTO_EXTENSION=$extension");
+	$AGI->exec('SET',"GOTO_CONTEXT=$context");
+	$AGI->exec('SET',"GOTO_PRIORITY=1");
+}
+
+
+$AGI->exec( 'Set', "TIMELIMIT=$timelimit" );
+$AGI->set_variable( "\"OPTIONS\"", "\"Hj\"" );
+$AGI->exec( 'Set', "OPTIONS=Hj" );
+$AGI->set_variable( 'ACCOUNT', "\"$carddata->{cc}\"" );
+$AGI->exec( 'Set', "ACCOUNT=$carddata->{cc}" );
+$AGI->set_variable( 'CALLSTATUS',  "\"3\"" );
+$AGI->exec( 'Set', "CALLSTATUS=3" );
+$AGI->set_variable( 'DIALSTRING',        "\"$extension_info->{extensions}\"" );
+$AGI->exec( 'Set', "DIALSTRING=$extension_info->{extensions}" );
+$AGI->set_variable( 'MAXCHANNELS', "\"$carddata->{maxchannels}\"" );
+$AGI->exec( 'Set', "MAXCHANNELS=$carddata->{maxchannels}" );
+$AGI->set_variable( 'DID_MAXCHANNELS', "\"$extension_info->{maxchannels}\"" );
+$AGI->exec( 'Set', "DID_MAXCHANNELS=$extension_info->{maxchannels}" );
+$AGI->set_variable( 'DID_DIAL_AS', "\"$extension_info->{dial_as}\"" );
+$AGI->exec( 'Set', "DID_DIAL_AS=$extension_info->{dial_as}" );
+
+exit(0);

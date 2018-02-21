@@ -1,0 +1,196 @@
+#!/usr/bin/perl
+#
+# ASTPP - Open Source Voip Billing
+#
+# Copyright (C) 2004, Aleph Communications
+#
+# ASTPP Team <info@astpp.org>
+#
+# This program is Free Software and is distributed under the
+# terms of the GNU General Public License version 2.
+#
+# Usage-example:
+#
+# ;
+# ; Card-number and number to dial derived from command-line.
+# ; Call script with the card-number as first arg and the number
+# ; to dial as the second arg.  astpp-authorize will return a line containing info
+# ; that will cut the call off before it goes over the users credit limit.  The
+# ; user can get over credit limit if they have multiple calls going at once.
+# ; Presently the only way to stop that is to limit them to one call which is not
+# ; a nice solution.
+# ;
+# ; The following variables must be set:
+# ;  USER1 = Username at IAX2 Provider #1
+# ;  PASS1 = Password for User1
+# ;  PROVIDER1 = IP address of IAX2 Provider #1 or else associate name from
+# ;     iax.conf
+# ;
+# With LCR
+# [astpp]
+#
+# exten => _1XXXXXXXXXX,1,Set(GROUP()=${ACCOUNTCODE})
+# exten => _1XXXXXXXXXX,2,AGI(astpp-authorize.agi,${ACCOUNTCODE},${EXTEN})
+# exten => _1XXXXXXXXXX,3,GotoIf($["${CALLSTATUS}" = "0"]?60)  ; Checks if account has sufficient funds
+# exten => _1XXXXXXXXXX,4,GotoIf($["${CALLSTATUS}" = "1"]?70)  ; Checks if the phone number exists
+# exten => _1XXXXXXXXXX,5,GotoIf($["${CALLSTATUS}" = "2"]?80)  ; Check if account exists
+# exten => _1XXXXXXXXXX,6,GotoIf($["${GROUP_COUNT()}" > "${MAXCHANNELS}"]?90) ; Verify number of outgoing channels
+#									      ; assigned to account.
+# exten => _1XXXXXXXXXX,7,Set(GROUP(${TRUNK1}-OUTBOUND)=OUTBOUND)
+# exten => _1XXXXXXXXXX,8,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK1}-OUTBOUND)}" > "${TRUNK1_MAXCHANNELS}"]?10)
+# exten => _1XXXXXXXXXX,9,Dial(${LCRSTRING1}||${TIMELIMIT}|${OPTIONS})
+# exten => _1XXXXXXXXXX,110,Busy
+# exten => _1XXXXXXXXXX,10,Set(GROUP(${TRUNK2}-OUTBOUND)=OUTBOUND)
+# exten => _1XXXXXXXXXX,11,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK2}-OUTBOUND)}" > "${TRUNK2_MAXCHANNELS}"]?13)
+# exten => _1XXXXXXXXXX,12,Dial(${LCRSTRING2}||${TIMELIMIT}|${OPTIONS})
+# exten => _1XXXXXXXXXX,113,Busy
+# exten => _1XXXXXXXXXX,13,Set(GROUP(${TRUNK2}-OUTBOUND)=OUTBOUND)
+# exten => _1XXXXXXXXXX,14,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK3}-OUTBOUND)}" > "${TRUNK3_MAXCHANNELS}"]?16)
+# exten => _1XXXXXXXXXX,15,Dial(${LCRSTRING3}||${TIMELIMIT}|${OPTIONS})
+# exten => _1XXXXXXXXXX,116,Busy
+# exten => _1XXXXXXXXXX,16,Set(GROUP(${TRUNK4}-OUTBOUND)=OUTBOUND)
+# exten => _1XXXXXXXXXX,17,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK4}-OUTBOUND)}" > "${TRUNK4_MAXCHANNELS}"]?19)
+# exten => _1XXXXXXXXXX,18,Dial(${LCRSTRING4}||${TIMELIMIT}|${OPTIONS})
+# exten => _1XXXXXXXXXX,119,Busy
+# exten => _1XXXXXXXXXX,19,Set(GROUP(${TRUNK5}-OUTBOUND)=OUTBOUND)
+# exten => _1XXXXXXXXXX,20,GotoIf($["${GROUP_COUNT(OUTBOUND@${TRUNK5})-OUTBOUND}" > "${TRUNK5_MAXCHANNELS}"]?22)
+# exten => _1XXXXXXXXXX,21,Dial(${LCRSTRING5}||${TIMELIMIT}|${OPTIONS})
+# exten => _1XXXXXXXXXX,122,Busy
+# exten => _1XXXXXXXXXX,22,Goto(100)
+# exten => _1XXXXXXXXXX,60,Congestion ; '0' Tells them they do not have enough money
+# exten => _1XXXXXXXXXX,61,Hangup
+# exten => _1XXXXXXXXXX,70,Congestion '1' Bad Phone Number
+# exten => _1XXXXXXXXXX,71,Hangup
+# exten => _1XXXXXXXXXX,80,Congestion
+# exten => _1XXXXXXXXXX,81,Hangup
+# exten => _1XXXXXXXXXX,90,Congestion    ; Their outgoing channel limit is full already
+# exten => _1XXXXXXXXXX,91,Hangup
+# exten => _1XXXXXXXXXX,100,Congestion    ; No Route Available
+# exten => _1XXXXXXXXXX,101,Hangup
+# ; This lines are optional and would forward users to a help desk if the call did not go through.
+# exten => _1XXXXXXXXXX,60,Dial(SIP/HELPDESK) ; '0' Tells them they do not have enough money
+# exten => _1XXXXXXXXXX,61,Hangup
+# exten => _1XXXXXXXXXX,70,Dial(SIP/HELPDESK) ; '1' Bad Phone Number
+# exten => _1XXXXXXXXXX,71,Hangup
+# exten => _1XXXXXXXXXX,80,Dial(SIP/HELPDESK)
+# exten => _1XXXXXXXXXX,81,Hangup
+
+use DBI;
+use Asterisk::AGI;
+use strict;
+use vars qw(@output $config $astpp_db $verbosity $AGI);
+use Locale::gettext_pp qw(:locale_h);
+require "/usr/local/astpp/astpp-common.pl";
+$ENV{LANGUAGE} = "en";    # de, es, br - whatever
+print STDERR "Interface language is set to: " . $ENV{LANGUAGE} . "\n";
+bindtextdomain( "astpp", "/usr/local/share/locale" );
+textdomain("astpp");
+$verbosity = 2;
+@output  = ("STDERR");
+$AGI     = new Asterisk::AGI;
+
+################# Programs start here #######################################
+my ( $accountcode, $phoneno ) = @ARGV;
+my ( $maxlength, $maxmins,$callstatus );
+$AGI->set_variable( 'ASTPP', '1' );
+$AGI->verbose( "$accountcode, $phoneno", $verbosity );
+$config     = &load_config();
+$astpp_db   = &connect_db( $config, @output );
+$config     = &load_config_db($astpp_db,$config);
+my $carddata  = &get_account( $astpp_db,  $accountcode );		# Fetch all the account info from the db.
+
+if ( !$carddata->{number} ) {	# Check to see if the account exists.  If not then exit.
+	$AGI->verbose( "CALLSTATUS 2\n",         $verbosity );
+	$AGI->verbose( "CANNOT RETRIEVE CARD\n", $verbosity );
+	$AGI->set_variable( 'CALLSTATUS', "\"2\"" );
+	$AGI->exec( 'Set', "CALLSTATUS=2" );
+	exit(0);
+}
+
+if ($carddata->{dialed_modify}) {
+        my @regexs = split(m/,/m, $carddata->{dialed_modify});
+        foreach my $regex (@regexs) {
+                $regex =~ s/"//g;				#Strip off quotation marks
+		my ($grab,$replace) = split(m!/!i, $regex);  # This will split the variable into a "grab" and "replace" as needed
+                $AGI->verbose( "Grab: $grab\n",         $verbosity ) if $config->{debug} == 1;
+                $AGI->verbose( "Replacement: $replace\n",         $verbosity ) if $config->{debug} == 1;
+                $AGI->verbose( "Phone Before: $phoneno\n",         $verbosity ) if $config->{debug} == 1;
+                $phoneno =~ s/$grab/$replace/is;
+		$AGI->verbose( "Phone After: $phoneno\n",         $verbosity ) if $config->{debug} == 1
+        }
+    }
+
+print STDERR "\nFINDING LIMIT FOR: $carddata->{number}\n" if $config->{debug} == 1;
+($callstatus, $maxlength) = &max_length($astpp_db, $config, $carddata, $phoneno);
+my $routeinfo = &get_route( $astpp_db, $config, $phoneno, $carddata->{pricelist},$carddata );
+print STDERR "Minimum Charge on call = $routeinfo->{cost}" if $config->{debug} == 1;
+my $minimumcharge = $routeinfo->{cost};
+my @reseller_list;
+print STDERR "\nCALLSTATUS: $callstatus MAX_LENGTH: $maxlength\n" if $config->{debug} == 1;
+while ( $carddata->{reseller} && $maxlength > 1 && $callstatus == 1) {
+	print STDERR "\nFINDING LIMIT FOR: $carddata->{reseller}\n" if $config->{debug} == 1;
+	$carddata = &get_account( $astpp_db, $carddata->{reseller} );
+	push @reseller_list, $carddata->{number};
+	print STDERR "ADDING $carddata->{number} to the list of resellers for this account\n" if $config->{debug} == 1;
+	my ($resellercallstatus, $resellermaxlength) = &max_length($astpp_db, $config, $carddata, $phoneno);
+	my $routeinfo = &get_route( $astpp_db, $config, $phoneno, $carddata->{pricelist},$carddata );
+	if ($resellercallstatus != 1) {
+		$carddata->{reseller} = "";
+		$callstatus = $resellercallstatus;
+	} elsif ($resellermaxlength < $maxlength) {
+		$maxlength = $resellermaxlength;
+	}
+	print STDERR "Reseller cost = $routeinfo->{cost} and minimum charge is $minimumcharge\n" if $config->{debug} == 1;
+	if ($resellermaxlength < 1 || $routeinfo->{cost} > $minimumcharge ) {
+		$AGI->verbose("Reseller call is priced too cheap!  Call being barred!",         $verbosity ) if $config->{debug} == 1;
+		$callstatus = 0;
+		$maxlength = 0;
+	}
+	print STDERR "\nRESELLER Max Length: $resellermaxlength\n" if $config->{debug} == 1;
+	print STDERR "RESELLER Call Status: $resellercallstatus\n" if $config->{debug} == 1;
+}
+
+if ($config->{debug} == 1) {
+	$AGI->verbose( "PRINTING LIST OF RESELLERS FOR THIS ACCOUNT\n", $verbosity );
+	foreach my $reseller (@reseller_list) {
+		$AGI->verbose( "RESELLER: $reseller", $verbosity );
+	}
+}
+
+$AGI->verbose( "Max Call Length: $maxlength minutes\n", $verbosity );
+$AGI->verbose( "Call Status: $callstatus\n", $verbosity );
+
+if ( $maxlength <= 1 ) {
+	$AGI->verbose( "NOT ENOUGH CREDIT\n", $verbosity );
+	$AGI->set_variable( 'CALLSTATUS', "\"0\"" );
+	exit(0);
+}
+
+# Set the timelimit as well as other variables which are needed in the dialplan.
+my $timelimit = "L(" . sprintf( "%.0f", $maxlength * 60 * 1000 ) . ":60000:30000)";
+$AGI->set_variable( "\"TIMELIMIT\"", "\"$timelimit\"" );
+$AGI->set_variable( "\"OPTIONS\"", "\"Hj\"" );
+$AGI->set_variable( 'CALLSTATUS', "\"3\"" );
+$AGI->set_variable( 'MAXCHANNELS', "\"$carddata->{maxchannels}\"" );
+if ( $config->{enablelcr} == 1 ) {  # Do we do LCR on our outgoing calls?  If so then carry on.
+	$AGI->verbose( "Looking for outbound Route\n", $verbosity );
+	my $routeinfo = &get_route($astpp_db,$config,$phoneno,$carddata->{pricelist},$carddata);
+	# Get the list of routes for the phone number.
+	my @outboundroutes = &get_outbound_routes( $astpp_db, $phoneno,$carddata,$routeinfo, @reseller_list );
+	my $count = 1;
+	foreach my $route (@outboundroutes) {
+		$AGI->verbose( "$route->{trunk}: cost $route->{cost}\t $route->{pattern}",       $verbosity );
+		if ($route->{cost} > $routeinfo->{cost}) {
+			$AGI->verbose( "$route->{trunk}: $route->{cost} > $routeinfo->{cost}, skipping\n", $verbosity );
+		} else {
+			my $trunkdata = &get_trunk($astpp_db, $route->{trunk}); 
+			my $dialstring = &get_dial_string( $astpp_db, $route, $phoneno );
+			$AGI->set_variable( "\"LCRTRUNKS\"", "\"$count\"" );
+			$AGI->set_variable( "\"LCRSTRING$count\"", "\"$dialstring\"" );
+			$AGI->set_variable( "\"TRUNK$count\"", "\"$route->{trunk}\"" );
+			$AGI->set_variable( "\"TRUNK" . $count . "_MAXCHANNELS\"", "\"$trunkdata->{maxchannels}\"" );
+			$count++;
+		}
+	}
+}
+exit(0);

@@ -1,0 +1,163 @@
+#!/usr/bin/perl
+# Auto Callout
+#
+# Copyright (C) 2006, Aleph Communications
+#
+# ASTPP Team <info@astpp.org>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License version 2 as
+#    published by the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+#
+###########################################################################`
+
+use DBI;
+use Asterisk::AGI;
+use POSIX qw(ceil floor);
+use POSIX qw(strftime);
+$AGI = new Asterisk::AGI;
+
+sub load_config {
+    my $config;
+    open( CONFIG, "</var/lib/aac/aac.conf" );
+    while (<CONFIG>) {
+        chomp;       # no newline
+        s/#.*//;     # no comments
+        s/^\s+//;    # no leading white
+        s/\s+$//;    # no trailing white
+        next unless length;    # anything left?
+        my ( $var, $value ) = split( /\s*=\s*/, $_, 2 );
+        $config->{$var} = $value;
+    }
+    close(CONFIG);
+    return $config;
+}
+
+sub timestamp() {
+    my $now = strftime "%Y%m%d%H%M%S", gmtime;
+    return $now;
+}
+
+sub prettytimestamp() {
+    my $now = strftime "%Y-%m-%d %H:%M:%S", gmtime;
+    return $now;
+}
+
+sub connect_db() {
+    my ( $dbh, $handle, $dsn );
+    $dsn = "DBI:mysql:database=$config->{dbname};host=$config->{dbhost}";
+    $dbh = DBI->connect( $dsn, $config->{dbuser}, $config->{dbpass} );
+    if ( !$dbh ) {
+            print STDERR "AAC DATABASE IS DOWN\n";
+            $AGI->verbose( "AAC DATABASE IS DOWN\n" , $verbose);
+        exit(0);
+    }
+    else {
+        print STDERR "Connected to AAC Database!" . "\n";
+        $AGI->verbose( "Connected to AAC Database!" , $verbose );
+        return $dbh;
+    }
+}
+
+sub set_in_use() {
+    my ( $id, $status ) = @_;
+    my $tmp;
+    $tmp =
+        "UPDATE callouts SET inuse = "
+      . $aac_db->quote($status)
+      . " WHERE id = "
+      . $aac_db->quote( $id );
+    $aac_db->do($tmp);
+}
+
+sub set_timestamp() {
+    my ( $id, $timestamp ) = @_;
+    my $tmp;
+    $tmp =
+        "UPDATE callouts SET lasttry = "
+      . $aac_db->quote($timestamp)
+      . " WHERE id = "
+      . $aac_db->quote( $id );
+    $aac_db->do($tmp);
+}
+
+sub mark_answered() {
+    my ( $id ) = @_;
+    my $tmp;
+    $tmp =
+        "UPDATE callouts SET answered = 1 WHERE id = "
+       . $aac_db->quote( $id );
+    $aac_db->do($tmp);
+}
+
+sub get_data() {
+	my ($id) = @_;
+	my ($tmp,$row);
+        $tmp = "SELECT series.external_extension AS external_extension, "
+                . "series.external_context AS external_context, "
+                . "series.sound_file AS sound_file "
+                . "FROM callouts,series "
+                . "WHERE callouts.id = " . $id . " AND "
+                . "series.id = callouts.series";
+	$AGI->verbose("$tmp",1);
+	$sql = $aac_db->prepare($tmp);
+	$sql->execute;
+	$row = $sql->fetchrow_hashref;
+	$sql->finish;
+	$AGI->verbose("Sound File: $row->{sound_file}", 1);
+	return ($row->{sound_file},$row->{external_extension},$row->{external_context});
+}
+
+
+sub ignore_hup {
+    foreach $handle (@output) {
+        print $handle "HUP received\n";
+    }
+}
+
+
+######################################################################
+# Beginning of Program
+######################################################################
+my ( $id ) = @ARGV;
+
+$verbosity = 2;
+
+%input = $AGI->ReadParse();
+$config = &load_config();
+$aac_db = &connect_db();
+$SIG{HUP} = 'ignore_hup';
+
+$AGI->answer();
+
+&set_in_use($id,1);
+
+$AGI->verbose("GOT THIS FAR 1",1);
+my ($sound_file,$external_extension,$external_context) = &get_data($id);
+$AGI->verbose("GOT THIS FAR 2",1);
+
+$AGI->stream_file($sound_file);
+
+if ($external_context && $external_extension) {
+	$AGI->exec("DIAL Local/"
+          . $external_extension . "\@"
+          . $external_context . "/n");
+}          
+
+&set_in_use($id,0);
+my $timestamp = &timestamp;
+&set_timestamp($id,$timestamp);
+
+&mark_answered($id);
+
+exit(0);

@@ -1,4 +1,15 @@
 <?
+#
+# ASTPP - Open Source Voip Billing
+#
+# Copyright (C) 2004, Aleph Communications
+#
+# ASTPP Team <info@astpp.org>
+#
+# This program is Free Software and is distributed under the
+# terms of the GNU General Public License version 2.
+######################################################################################################
+
  function fsockPost($url,$data) { 
 	//Parse url 
 	$web=parse_url($url); 

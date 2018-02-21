@@ -8,5 +8,5 @@ WriteMakefile(
     PREREQ_PM         => {}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/ASTPP.pm', # retrieve abstract from module
-       AUTHOR         => 'Darren Wiebe <darren@aleph-com.net>') : ()),
+       AUTHOR         => 'ASTPP Team <info@astpp.org>') : ()),
 );

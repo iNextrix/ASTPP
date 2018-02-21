@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2004, Aleph Communications
 #
-# Darren Wiebe (darren@aleph-com.net)
+# ASTPP Team <info@astpp.org>
 #
 # This program is Free Software and is distributed under the
 # terms of the GNU General Public License version 2.
@@ -14,16 +14,17 @@ use POSIX;
 use POSIX qw(strftime);
 use DBI;
 use strict;
-use warnings;
+# use warnings;
 use Locale::gettext_pp qw(:locale_h);
 use Mail::Sendmail;
 
 $ENV{LANGUAGE} = "en";    # de, es, br - whatever
-print STDERR "Interface language is set to: " . $ENV{LANGUAGE} . "\n";
+# print STDERR "Interface language is set to: " . $ENV{LANGUAGE} . "\n" if $config->{debug} == 1;
 bindtextdomain( "astpp", "/usr/local/share/locale" );
 textdomain("astpp");
 
 # Load Basic Configuration File
+no warnings 'redefine';
 sub load_config {
     my $config;
     open( CONFIG, "</var/lib/astpp/astpp-config.conf" );
@@ -71,9 +72,9 @@ sub load_config_reseller_db() { #First load reseller config from the reseller co
 sub save_config() {
     my (%config) = @_;
     open( CONFIG, ">/var/lib/astpp/astpp-config.conf" );
-    print CONFIG ";\n; Automatically created by astpp-config.cgi.\n;\n";
+    print CONFIG ";\n; Automatically created by astpp-config.cgi.\n" if $config->{debug} == 1;
     foreach my $tmp ( keys %config ) {
-        print CONFIG "$tmp = " . $config{$tmp} . "\n";
+        print CONFIG "$tmp = " . $config{$tmp} . "\n" if $config->{debug} == 1;
     }
     close(CONFIG);
 }
@@ -98,7 +99,7 @@ sub callingcard_set_in_use() {  # Set the "inuse" flag on the calling cards.  Th
           . $astpp_db->quote($status)
           . " WHERE cardnumber = "
           . $astpp_db->quote( $cardinfo->{cardnumber} );
-	print STDERR $sql ."\n";
+	print STDERR $sql ."\n" if $config->{debug} == 1;
         $astpp_db->do($sql);
 }
 
@@ -226,15 +227,15 @@ sub addaccount() {
     my $cc = &finduniquecc( $astpp_db, $config );
     my $pin = &finduniquepin( $astpp_db, $config );
     my $tmp =
-"INSERT INTO accounts (cc,pin,number,pricelist,status,sweep,credit_limit,posttoexternal,password,"
+"INSERT INTO accounts (cc,pin,number,pricelist,sweep,credit_limit,posttoexternal,password,"
       . "first_name, middle_name, last_name, company_name, address_1, address_2,"
       . "postal_code, province, city, country, telephone_1, telephone_2, fascimile,"
-      . "email, language, currency, reseller, tz, maxchannels, type"
+      . "email, language, currency, reseller, tz, maxchannels, status, type"
       . ") VALUES ("
       . $astpp_db->quote($cc) . ","
       . $astpp_db->quote($pin) . ","
       . $astpp_db->quote( $accountinfo->{number} ) . ","
-      . $astpp_db->quote( $accountinfo->{pricelist} ) . ", 1,"
+      . $astpp_db->quote( $accountinfo->{pricelist} ) . ","
       . $astpp_db->quote( $accountinfo->{sweep} ) . ","
       . $astpp_db->quote( $accountinfo->{credit_limit} ) . ","
       . $astpp_db->quote( $accountinfo->{posttoexternal} ) . ","
@@ -258,6 +259,7 @@ sub addaccount() {
       . $astpp_db->quote( $accountinfo->{reseller} ) . ","
       . $astpp_db->quote( $accountinfo->{timezone} ) . ","
       . $astpp_db->quote( $accountinfo->{maxchannels} ) . ","
+      . $astpp_db->quote( $accountinfo->{status} ) . ","
       . $astpp_db->quote( $accountinfo->{accounttype} ) . ")";
     print STDERR "$tmp\n" if $config->{debug} == 1;
     if ( $astpp_db->do($tmp) ) {
@@ -356,11 +358,11 @@ sub get_dial_string() {
 	foreach my $regex (@regexs) {
                 $regex =~ s/"//g;				#Strip off quotation marks
 		my ($grab,$replace) = split(m!/!i, $regex);  # This will split the variable into a "grab" and "replace" as needed
-                print STDERR "Grab: $grab\n";
-                print STDERR "Replacement: $replace\n";
-                print STDERR "Phone Before: $phone\n";
+                print STDERR "Grab: $grab\n" if $config->{debug} == 1;
+                print STDERR "Replacement: $replace\n" if $config->{debug} == 1;
+                print STDERR "Phone Before: $phone\n" if $config->{debug} == 1;
                 $phone =~ s/$grab/$replace/is;
-		print STDERR "Phone After: $phone\n";
+		print STDERR "Phone After: $phone\n" if $config->{debug} == 1;
 	}
     }
     if ( $trunkdata->{tech} eq "Local" ) {
@@ -412,9 +414,9 @@ sub get_outbound_routes() {
 			. $astpp_db->quote($number)
 			. " RLIKE pattern AND status = 1 AND precedence <= "
 			. $astpp_db->quote($accountinfo->{routing_technique}) 
-			. "GROUP BY trunk ORDER BY cost"
+			. " ORDER BY cost,precedence"
 			# . "ORDER by LENGTH(pattern) DESC, precedence, cost"
-		);
+		);	
 		$sql->execute;
 		while ( $record = $sql->fetchrow_hashref ) {
 			push @routelist, $record;
@@ -426,7 +428,7 @@ sub get_outbound_routes() {
 			. $astpp_db->quote($number)
 			. " RLIKE pattern AND status = 1 AND precedence <= " 
 			. $astpp_db->quote($routeinfo->{precedence}) 
-			. "GROUP BY trunk ORDER BY cost"
+			. " ORDER BY cost,precedence"
 			# . "ORDER by LENGTH(pattern) DESC, precedence, cost"
 		);
 		$sql->execute;
@@ -439,9 +441,9 @@ sub get_outbound_routes() {
 			$astpp_db->prepare( "SELECT * FROM outbound_routes WHERE "
 			. $astpp_db->quote($number)
 			. " RLIKE pattern AND status = 1 "
-			. "GROUP BY trunk ORDER BY cost"
+			. " ORDER BY cost,precedence"
 			#."ORDER by LENGTH(pattern) DESC, cost"
-		);
+		);	
 		$sql->execute;
 		while ( $record = $sql->fetchrow_hashref ) {
 			push @routelist, $record;
@@ -449,25 +451,25 @@ sub get_outbound_routes() {
 		$sql->finish;
 	}
 	if (@reseller_list) {
-		print STDERR "CHECKING LIST OF RESELLERS AGAINST TRUNKS\n";
+		print STDERR "CHECKING LIST OF RESELLERS AGAINST TRUNKS\n"  if $config->{debug} == 1;
 		foreach my $route (@routelist) {
-			print STDERR "CHECKING ROUTE: $route->{name}\t";
+			print STDERR "CHECKING ROUTE: $route->{name}\n"  if $config->{debug} == 1;
 			my $trunkdata = &get_trunk($astpp_db, $route->{trunk});
-			if ($trunkdata->{resellers} ne "") {
-				print STDERR "ROUTE RESELLER DATA = $trunkdata->{resellers}\t";
+			if (defined $trunkdata->{resellers} && $trunkdata->{resellers} ne "") {
+				print STDERR "ROUTE RESELLER DATA = $trunkdata->{resellers}\n"  if $config->{debug} == 1;
 				foreach my $reseller (@reseller_list) {
-					print STDERR "Checking Reseller: $reseller against trunk: $route->{name}\t";
+					print STDERR "Checking Reseller: $reseller against trunk: $route->{name}\n"  if $config->{debug} == 1;
 					if ($trunkdata->{resellers} =~ m/'$reseller'/) {
 						push @outbound_route_list, $route;
 					}
 				}
 			} else {
-				print STDERR "ROUTE RESELLER DATA = $trunkdata->{resellers}\n";
+				print STDERR "ROUTE RESELLER DATA = $trunkdata->{resellers}\n"   if $config->{debug} == 1;
 				push @outbound_route_list, $route;
 			}
 		}
 	} else {
-		print STDERR "WE DID NOT RECEIVE A LIST OF RESELLERS TO CHECK AGAINST.\n";
+		print STDERR "WE DID NOT RECEIVE A LIST OF RESELLERS TO CHECK AGAINST.\n"   if $config->{debug} == 1;
 		@outbound_route_list = @routelist;
 	}
 	return @outbound_route_list;
@@ -477,21 +479,24 @@ sub get_outbound_routes() {
 # configured per reseller.
 sub email_refill_account() {
     my ( $astpp_db,$reseller,$config, $vars ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record );
     $vars->{email} = $config->{company_email} if $config->{user_email} == 0;
+    
+    $accountdata = &get_account($astpp_db,$vars->{username});
+      
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'voip_account_refilled' AND accountid='".$accountdata->{accountid}."'");    
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+            
     my %mail = (
         To         => $vars->{email},
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => 'VOIP Account Refilled',
+        Subject    => $record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-        "Attention: $vars->{title} $vars->{first} $vars->{last}\n"
-      . "Your VOIP account with $config->{company_name} has been refilled.\n"
-      . "For information please visit $config->{company_website} or \n"
-      . "contact our support department at $config->{company_email}\n"
-      . "Thanks,\n"
-      . "The $config->{company_name} support team\n\n";
+    $mail{'Message : '} = $record->{'template'};        
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -501,21 +506,24 @@ sub email_refill_account() {
 # configured per reseller.
 sub email_reactivate_account() {
     my ( $astpp_db,$reseller,$config, $vars ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record );
     $vars->{email} = $config->{company_email} if $config->{user_email} == 0;
+    
+    $accountdata = &get_account($astpp_db,$vars->{username});
+      
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'voip_reactivate_account' AND accountid='".$accountdata->{accountid}."'");    
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+    
     my %mail = (
         To         => $vars->{email},
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => 'VOIP Account Reactivated',
+        Subject    => $record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-        "Attention: $vars->{title} $vars->{first} $vars->{last}\n"
-      . "Your VOIP account with $config->{company_name} has been reactivated.\n"
-      . "For information please visit $config->{company_website} or \n"
-      . "contact our support department at $config->{company_email}\n"
-      . "Thanks,\n"
-      . "The $config->{company_name} support team\n\n";
+    $mail{'Message : '} = $record->{'template'};        
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -525,23 +533,24 @@ sub email_reactivate_account() {
 # configured per reseller.
 sub email_add_user() {
     my ( $astpp_db,$reseller,$config, $vars ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record );
     $vars->{email} = $config->{company_email} if $config->{user_email} == 0;
+    
+    $accountdata = &get_account($astpp_db,$vars->{username});
+      
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'email_add_user' AND accountid='".$accountdata->{accountid}."'");    
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+    
     my %mail = (
         To         => $vars->{email},
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => 'VOIP Account Created',
+        Subject    => $record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-        "Attention: $vars->{title} $vars->{first} $vars->{last}\n"
-      . "Your VOIP account with $config->{company_name} has been added.\n"
-      . "Your Username is -- $vars->{extension} --.\n"
-      . "Your Password is -- $vars->{secret} --.\n"
-      . "For information please visit $config->{company_website} or \n"
-      . "contact our support department at $config->{company_email}\n"
-      . "Thanks,\n"
-      . "The $config->{company_name} support team\n\n";
+    $mail{'Message : '} = $record->{'template'};        
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -551,73 +560,45 @@ sub email_add_user() {
 # configured per reseller.
 sub email_add_device() {
     my ( $astpp_db,$reseller, $config, $vars ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record,%mail );
+    
     $vars->{email} = $config->{company_email} if $config->{user_email} == 0;
-    my %mail = (
-        To         => $vars->{email},
-        From       => $config->{company_email},
-        Bcc        => $config->{company_email},
-        Subject    => 'VOIP Device Account Created',
-        'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
-    );
-    $mail{'Message : '} =
-        "Attention: $vars->{title} $vars->{first} $vars->{last}\n"
-      . "A new device has been enabled on your account. Here\n"
-      . "is the necessary configuration information.\n\n"
-      . "Username: $vars->{extension}\n"
-      . "Password: $vars->{secret}\n\n"
-      . "-------  $config->{company_name} Configuration Info --------\n";
-
+           
+    $accountdata = &get_account($astpp_db,$vars->{username});
+    
     if ( $vars->{type} eq "SIP" ) {
-        $mail{'Message : '} .=
-            "In sip.conf:\n"
-          . "[$config->{company_name}-in]\n"
-          . "type=user\n"
-          . "username=$config->{company_name}-in\n"
-          . "auth=rsa\n"
-          . "inkeys=$config->{key} ;This key may be downloaded from $config->{key_home}\n"
-          . "host=$config->{asterisk_server}\n"
-          . "context=from-pstn\n"
-          . "accountcode=$config->{company_name}  	;for call tracking in the cdr\n\n"
-          . "\[$config->{company_name}\]\n"
-          . ";to simplify and config outgoing calls\n"
-          . "type=peer\n"
-          . "username=$vars->{extension}\n"
-          . "secret=$vars->{secret}\n"
-          . "host=$config->{asterisk_server}\n"
-          . "callerid=\"Some name\" \<555-555-5555\>   ;only the number will really be used\n"
-          . "qualify=yes\n"
-          . "accountcode=$config->{company_name}   ; for call tracking in the cdr\n\n\n"
-          . "In the [globals] section add:\n"
-          . "register \=\> $vars->{user}:password\@$config->{asterisk_server}\n";
+	
+	$sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'add_sip_device' AND accountid='".$accountdata->{accountid}."'");    
+    	$sql -> execute;
+    	$record = $sql->fetchrow_hashref;
+     	$sql->finish;
+	
+	%mail = (
+	    To         => $vars->{email},
+	    From       => $config->{company_email},
+	    Bcc        => $config->{company_email},
+	    Subject    => $record->{'subject'},
+	    'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
+	);
+      
+        $mail{'Message : '} = $record->{'template'};         
     }
     if ( $vars->{type} eq "IAX" ) {
-        $mail{'Message : '} .=
-            "In iax.conf:\n"
-          . "At the bottom of the file add:\n"
-          . "[$config->{company_name}-in]\n"
-          . "; to allow incoming iax2 calls\n"
-          . ";trunk=yes   ;optional .. only works if you have a zaptel or ztdummy driver running\n"
-
-          . "type=user\n"
-          . "username=$config->{company_name}-in\n"
-          . "auth=rsa\n"
-          . "inkeys=$config->{key}  ;This key may be downloaded from $config->{key_home}\n"
-          . "host=$config->{asterisk_server}\n"
-          . "context=incoming\n"
-          . "accountcode=$config->{company_name}  	;for call tracking in the cdr\n\n"
-          . "\[$config->{company_name}\]\n"
-          . ";to simplify and config outgoing calls\n"
-          . ";trunk=yes   ;optional .. only works if you have a zaptel driver running\n"
-          . "type=peer\n"
-          . "username=$vars->{extension}\n"
-          . "secret=$vars->{secret}\n"
-          . "host=$config->{asterisk_server}\n"
-          . "callerid=\"Some name\" \<555-555-5555\>   ;only the number will really be used\n"
-          . "qualify=yes\n"
-          . "accountcode=$config->{company_name}   ; for call tracking in the cdr\n\n\n";
-    }
-    $mail{'Message : '} .=
-      "Thanks,\n" . "The $config->{company_name} support team\n\n";
+        $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'add_iax_device' AND accountid='".$accountdata->{accountid}."'");    
+    	$sql -> execute;
+    	$record = $sql->fetchrow_hashref;
+     	$sql->finish;
+	
+	%mail = (
+	    To         => $vars->{email},
+	    From       => $config->{company_email},
+	    Bcc        => $config->{company_email},
+	    Subject    => $record->{'subject'},
+	    'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
+	);
+      
+        $mail{'Message : '} = $record->{'template'};         
+    }    
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -627,21 +608,23 @@ sub email_add_device() {
 # configured per reseller.
 sub email_del_user() {
     my ( $astpp_db,$reseller,$config, $vars) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record );
     $vars->{email} = $config->{company_email} if $config->{user_email} == 0;
+    
+    $accountdata = &get_account($astpp_db,$vars->{username});
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'email_remove_user' AND accountid='".$accountdata->{accountid}."'");    
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+    
     my %mail = (
         To         => $vars->{email},
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => 'VOIP Account Removed',
+        Subject    => $record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-        "Attention: $vars->{title} $vars->{first} $vars->{last}\n"
-      . "Your VOIP Termination with $config->{company_name} has been removed\n"
-      . "For information please visit $config->{company_website} or \n"
-      . "contact our support department at $config->{company_email}\n"
-      . "Thanks,\n"
-      . "The $config->{company_name} support team\n\n";
+    $mail{'Message : '} = $record->{'template'};      
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -652,20 +635,23 @@ sub email_del_user() {
 # configured per reseller.
 sub email_add_callingcard() {
     my ( $astpp_db,$reseller,$config, $vars, $cc, $pin ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record );    
     $vars->{email} = $config->{company_email} if $config->{user_email} == 0;
+    
+    $accountdata = &get_account($astpp_db,$vars->{username});
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'email_calling_card' AND accountid='".$accountdata->{accountid}."'");    
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+    
     my %mail = (
         To         => $vars->{email},
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => 'New Calling Card',
+        Subject    => $record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-"You have added a $vars->{pricelist} callingcard in the amount of $vars->{pennies} cents. \n\n"
-      . "Card Number $cc Pin: $pin "
-      . "Thanks for your patronage."
-      . "Thanks,\n"
-      . "The $config->{company_name} sales team\n\n";
+    $mail{'Message : '} = $record->{'template'};
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -676,28 +662,23 @@ sub email_add_callingcard() {
 # configured per reseller.
 sub email_add_did() {
     my ( $astpp_db, $reseller,$vars, $did, $config, $email ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record );
+     
     $email = $config->{company_email} if $config->{user_email} == 0;
+    $accountdata = &get_account($astpp_db,$vars->{username});
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'email_add_did' AND accountid='".$accountdata->{accountid}."'");    
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+	
     my %mail = (
         To         => $email,
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => "DID: $did added to your account",
+        Subject    => "DID: $did ".$record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-        "Attention: $vars->{title} $vars->{first} $vars->{last}\n"
-      . "Your DID with $config->{company_name} has been added\n"
-      . "The number is: $did\n"
-      . "For information please visit $config->{company_website} or \n"
-      . "contact our support department at $config->{company_email}\n"
-      . "Thanks,\n"
-      . "The $config->{company_name} support team\n\n"
-      . "Here is a sample setup which would call a few sip phones with incoming calls:\n\n"
-      . "[incoming]\n"
-      . "exten => _1$did,1,Wait(2)\n"
-      . "exten => _1$did,2,Dial(SIP/2201&SIP/2202,15,Ttm)  ; dial a couple of phones for 15 secs\n"
-      . "exten => _1$did,3,Voicemail(u1000)   ; go to unavailable voicemail (vm box 1000)\n"
-      . "exten => _1$did,103,Voicemail(b1000) ; go to busy voicemail (vm box 1000)";
+    $mail{'Message : '} = $record->{'template'};        
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -707,22 +688,24 @@ sub email_add_did() {
 # configured per reseller.
 sub email_del_did() {
     my ( $astpp_db, $reseller,$vars, $did, $config, $email ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record );
+    
     $email = $config->{company_email} if $config->{user_email} == 0;
+    $accountdata = &get_account($astpp_db,$vars->{username});
+    
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'email_remove_did' AND accountid='".$accountdata->{accountid}."'");    
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+    
     my %mail = (
         To         => $email,
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => "DID: $did removed from your account",
+        Subject    => "DID: $did ".$record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-        "Attention: $vars->{title} $vars->{first} $vars->{last}\n"
-      . "Your DID with $config->{company_name} has been removed\n"
-      . "The number was: $did\n"
-      . "For information please visit $config->{company_website} or \n"
-      . "contact our support department at $config->{company_email}\n"
-      . "Thanks,\n"
-      . "The $config->{company_name} support team\n\n";
+    $mail{'Message : '} = $record->{'template'};      
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -733,20 +716,25 @@ sub email_del_did() {
 # configured per reseller.
 sub email_new_invoice() {
     my ( $astpp_db,$reseller,$config, $email, $invoice, $total ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record,$vars );
+    
     $email = $config->{company_email} if $config->{user_email} == 0;
+    $accountdata = &get_account($astpp_db,$vars->{username});
+    
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'email_new_invoice' AND accountid='".$accountdata->{accountid}."'");    
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+	
+    
     my %mail = (
         To         => $email,
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => "Subject: Invoice $invoice Added",
+        Subject    => $record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-"Invoice # $invoice in the amount of \$$total has been added to your account.\n"
-      . "For information please visit $config->{company_website} or \n"
-      . "contact our support department at $config->{company_email}\n"
-      . "Thanks,\n"
-      . "The $config->{company_name} support team\n\n";
+    $mail{'Message : '} = $record->{'template'};
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -756,22 +744,25 @@ sub email_new_invoice() {
 # This needs to be updated and moved to templates which reside in the database and can be
 # configured per reseller.
 sub email_low_balance() {
-    my ( $astpp_db, $reseller,$config, $email, $balance ) = @_;
-    $email = $config->{company_email} if $config->{user_email} == 0;
+#     my ( $astpp_db, $reseller,$config, $email, $balance ) = @_;
+    my ( $config, $email, $balance ) = @_;
+    my ( $sql,$subject,$mail,$accountdata,$record,$vars );
+    $email = $config->{company_email} if $config->{user_email} == 0;    
+    $accountdata = &get_account($astpp_db,$vars->{username});
+    
+    $sql = $astpp_db->prepare("SELECT * FROM templates WHERE name = 'email_low_balance' AND accountid='".$accountdata->{accountid}."'");       
+    $sql -> execute;
+    $record = $sql->fetchrow_hashref;
+    $sql->finish;
+    
     my %mail = (
         To         => $email,
         From       => $config->{company_email},
         Bcc        => $config->{company_email},
-        Subject    => "$config->{company_name} Low Balance Alert",
+        Subject    => $record->{'subject'},
         'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
     );
-    $mail{'Message : '} =
-"Your VOIP account with $config->{company_name} has a balance of \$$balance .\n"
-      . "Please visit our website to refill your account to ensure uninterrupted service.\n"
-      . "For information please visit $config->{company_website} or \n"
-      . "contact our support department at $config->{company_email}\n"
-      . "Thanks,\n"
-      . "The $config->{company_name} support team\n\n";
+    $mail{'Message : '} = $record->{'template'};	
     if ( sendmail %mail ) { print STDERR "Mail sent OK.\n" }
     else { print STDERR "Error sending mail: $Mail::Sendmail::error \n" }
     print STDERR "\n\$Mail::Sendmail::log says:\n", $Mail::Sendmail::log;
@@ -779,13 +770,13 @@ sub email_low_balance() {
 
 # Returns a timestamp which is in a format easy to work with.
 sub timestamp() {
-    my $now = strftime "%Y%m%d%H%M%S", gmtime;
+    my $now = strftime "%Y%m%d%H%M%S", localtime;
     return $now;
 }
 
 # Returns a timestamp in a human friendly format.
 sub prettytimestamp() {
-    my $now = strftime "%Y-%m-%d %H:%M:%S", gmtime;
+    my $now = strftime "%Y-%m-%d %H:%M:%S", localtime;
     return $now;
 }
 
@@ -812,7 +803,7 @@ sub agile_connect_db() {
       DBI->connect( $dsn, $config->{agile_user},
         $config->{agile_pass} );
     if ( !$dbh ) {
-        print STDERR "AGILE DATABASE IS DOWN\n";
+        print STDERR "AGILE DATABASE IS DOWN\n" if $config->{debug} == 1;
 	return 0;
     }
     else {
@@ -830,8 +821,8 @@ sub create_db() {
     if ( $config->{astpp_dbengine} eq "MySQL" ) {
         $drh = DBI->install_driver("mysql");
         if ( !$drh ) {
-            print STDERR "ASTPP DEBUG\n";
-            print STDERR "COULD NOT INSTALL DATABASE DRIVER!\n";
+            print STDERR "ASTPP DEBUG\n" if $config->{debug} == 1;
+            print STDERR "COULD NOT INSTALL DATABASE DRIVER!\n" if $config->{debug} == 1;
             return 1;
         }
         if (
@@ -842,12 +833,12 @@ sub create_db() {
             )
           )
         {
-            print STDERR "ASTPP DEBUG\n";
-            print STDERR "COULD NOT CREATE DATABASE!\n";
-            print STDERR "DATABASE: $config->{dbname}\n";
-            print STDERR "HOST:     $config->{dbhost}\n";
-            print STDERR "USERNAME: $config->{dbuser}\n";
-            print STDERR "PASSWORD: $config->{dbpass}\n";
+            print STDERR "ASTPP DEBUG\n" if $config->{debug} == 1;
+            print STDERR "COULD NOT CREATE DATABASE!\n" if $config->{debug} == 1;
+            print STDERR "DATABASE: $config->{dbname}\n" if $config->{debug} == 1;
+            print STDERR "HOST:     $config->{dbhost}\n" if $config->{debug} == 1;
+            print STDERR "USERNAME: $config->{dbuser}\n" if $config->{debug} == 1;
+            print STDERR "PASSWORD: $config->{dbpass}\n" if $config->{debug} == 1;
         }
         else {
             return 0;
@@ -856,8 +847,8 @@ sub create_db() {
     elsif ( $config->{astpp_dbengine} eq "Pgsql" ) {
         $drh = DBI->install_driver("Pg");
         if ( !$drh ) {
-            print STDERR "ASTPP DEBUG\n";
-            print STDERR "COULD NOT INSTALL DATABASE DRIVER!\n";
+            print STDERR "ASTPP DEBUG\n" if $config->{debug} == 1;
+            print STDERR "COULD NOT INSTALL DATABASE DRIVER!\n" if $config->{debug} == 1;
             return 1;
         }
         if (
@@ -867,12 +858,12 @@ sub create_db() {
             )
           )
         {
-            print STDERR "ASTPP DEBUG\n";
-            print STDERR "COULD NOT CREATE DATABASE!\n";
-            print STDERR "DATABASE: $config->{dbname}\n";
-            print STDERR "HOST:     $config->{dbhost}\n";
-            print STDERR "USERNAME: $config->{dbuser}\n";
-            print STDERR "PASSWORD: $config->{dbpass}\n";
+            print STDERR "ASTPP DEBUG\n" if $config->{debug} == 1;
+            print STDERR "COULD NOT CREATE DATABASE!\n" if $config->{debug} == 1;
+            print STDERR "DATABASE: $config->{dbname}\n" if $config->{debug} == 1;
+            print STDERR "HOST:     $config->{dbhost}\n" if $config->{debug} == 1;
+            print STDERR "USERNAME: $config->{dbuser}\n" if $config->{debug} == 1;
+            print STDERR "PASSWORD: $config->{dbpass}\n" if $config->{debug} == 1;
         }
         else {
             return 0;
@@ -928,23 +919,23 @@ sub load_config_db_brand() {
     return $config;
 }
 
-# Connect to openser database.
-sub connect_openserdb() {
+# Connect to opensips database.
+sub connect_opensipsdb() {
     my ( $config, @output ) = @_;
     my ( $dbh, $dsn );
-    if ( $config->{openser_dbengine} eq "MySQL" ) {
-        $dsn = "DBI:mysql:database=$config->{openser_dbname};host=$config->{openser_dbhost}";
+    if ( $config->{opensips_dbengine} eq "MySQL" ) {
+        $dsn = "DBI:mysql:database=$config->{opensips_dbname};host=$config->{opensips_dbhost}";
     }
-    elsif ( $config->{openser_dbengine} eq "Pgsql" ) {
-        $dsn = "DBI:Pg:database=$config->{openser_dbname};host=$config->{openser_dbhost}";
+    elsif ( $config->{opensips_dbengine} eq "Pgsql" ) {
+        $dsn = "DBI:Pg:database=$config->{opensips_dbname};host=$config->{opensips_dbhost}";
     }
-    $dbh = DBI->connect( $dsn, $config->{openser_dbuser}, $config->{openser_dbpass} );
+    $dbh = DBI->connect( $dsn, $config->{opensips_dbuser}, $config->{opensips_dbpass} );
     if ( !$dbh ) {
-        print STDERR "OPENSER DATABASE IS DOWN\n";
+        print STDERR "opensips DATABASE IS DOWN\n" if $config->{debug} == 1;
     }
     else {
         $dbh->{mysql_auto_reconnect} = 1;
-        print STDERR gettext("Connected to OPENSER Database!") . "\n"
+        print STDERR gettext("Connected to opensips Database!") . "\n"
           if ( $config->{debug} == 1 );
         return $dbh;
     }
@@ -962,7 +953,7 @@ sub connect_db() {
     }
     $dbh = DBI->connect( $dsn, $config->{dbuser}, $config->{dbpass} );
     if ( !$dbh ) {
-        print STDERR "ASTPP DATABASE IS DOWN\n";
+        print STDERR "ASTPP DATABASE IS DOWN\n" if $config->{debug} == 1;
 	return 0;
     }
     else {
@@ -991,7 +982,7 @@ sub freepbx_connect_db() {
         $config->{freepbx_pass}
     );
     if ( !$dbh ) {
-        print STDERR "FREEPBX DATABASE IS DOWN\n";
+        print STDERR "FREEPBX DATABASE IS DOWN\n" if $config->{debug} == 1;
 	return 0;
     }
     else {
@@ -1017,7 +1008,7 @@ sub cdr_connect_db() {
     print STDERR $dsn . "\n" if $config->{debug} == 1;
     $dbh = DBI->connect( $dsn, $config->{cdr_dbuser}, $config->{cdr_dbpass} );
     if ( !$dbh ) {
-        print STDERR "CDR DATABASE IS DOWN\n";
+        print STDERR "CDR DATABASE IS DOWN\n" if $config->{debug} == 1;
 	return 0;
     }
     else {
@@ -1044,7 +1035,7 @@ sub rt_connect_db() {
     $dbh->disconnect if $dbh;
     $dbh = DBI->connect( $dsn, $config->{rt_user}, $config->{rt_pass} );
     if ( !$dbh ) {
-        print STDERR gettext("Asterisk Realtime DATABASE IS DOWN!") . "\n";
+        print STDERR gettext("Asterisk Realtime DATABASE IS DOWN!") . "\n" if $config->{debug} == 1;
 	return 0;
     }
     else {
@@ -1072,12 +1063,12 @@ sub osc_connect_db() {
     $dbh =
       DBI->connect( $dsn, $config->{osc_user}, $config->{osc_pass} );
     if ( !$dbh ) {
-        print STDERR gettext("OSCOMMERCE DATABASE IS DOWN") . "\n";
+        print STDERR gettext("OSCOMMERCE DATABASE IS DOWN") . "\n" if $config->{debug} == 1;
 	return 0;
     }
     else {
         $dbh->{mysql_auto_reconnect} = 1;
-        print STDERR gettext("Connected to OSCommerce Database!") . "\n";
+        print STDERR gettext("Connected to OSCommerce Database!") . "\n" if $config->{debug} == 1;
         return $dbh;
     }
 }
@@ -1093,8 +1084,8 @@ sub connect_freeswitch_db() {
 #        $dsn = "DBI:Pg:database=$config->{dbname};host=$config->{dbhost}";
 #    }
     $dbh = DBI->connect( $dsn, $config->{freeswitch_dbuser}, $config->{freeswitch_dbpass} );
-    if ( !$dbh ) {
-        print STDERR "FREESWITCH(TM) DATABASE IS DOWN\n";
+    if ( !$dbh ) {	
+        print STDERR "FREESWITCH(TM) DATABASE IS DOWN\n" if $config->{debug} == 1;
 	return 0;
     }
     else {
@@ -1108,8 +1099,8 @@ sub connect_freeswitch_db() {
 # Calculate the cost of a call based on the data received.
 sub calc_call_cost() {
     my ( $connect, $cost, $answeredtime, $increment, $inc_seconds ) = @_;
-    print STDERR "Connect: $connect Cost: $cost Answered: $answeredtime \n";
-    print STDERR " Inc: $increment included: $inc_seconds \n";
+    print STDERR "Connect: $connect Cost: $cost Answered: $answeredtime \n" if $config->{debug} == 1;
+    print STDERR " Inc: $increment included: $inc_seconds \n" if $config->{debug} == 1;
     if (!$increment || $increment == 0) {
 	$increment = 1;
     }
@@ -1123,12 +1114,12 @@ sub calc_call_cost() {
     my $bill_increments = ceil($total_seconds);
     my $billseconds     = $bill_increments * $increment;
     $cost = ( $billseconds / 60 ) * $cost + $connect;
-    print STDERR "AnsweredTime: $answeredtime Included Sec: $inc_seconds\n";
-    print STDERR "Increment: $increment Total Increments: $total_seconds\n";
-    print STDERR "Bill Seconds: $billseconds  Total cost is $cost\n";
+    print STDERR "AnsweredTime: $answeredtime Included Sec: $inc_seconds\n" if $config->{debug} == 1;
+    print STDERR "Increment: $increment Total Increments: $total_seconds\n" if $config->{debug} == 1;
+    print STDERR "Bill Seconds: $billseconds  Total cost is $cost\n" if $config->{debug} == 1;
     return $cost;
     } else {
-	print STDERR "NO CHARGE - ANSWEREDTIME = 0\n";
+	print STDERR "NO CHARGE - ANSWEREDTIME = 0\n" if $config->{debug} == 1;
 	return 0;
    }
 }
@@ -1159,21 +1150,21 @@ sub remove_did() {
 			$didinfo = &get_did_reseller($astpp_db,$did,$accountdata->{reseller});
         		if ($didinfo->{disconnectionfee} != 0) {
 				$dest = gettext("DID:") . $did . gettext(" disconnection fee");
-				&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{disconnectionfee},$callstart,$accountdata->{postexternal},'',$notes);
+				&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{disconnectionfee},$callstart,$accountdata->{postexternal},'',$notes,'','','');
 			}
 			$accountdata = &get_account($astpp_db, $accountdata->{reseller});
 		}
 		$didinfo = &get_did($astpp_db,$did,$account);
         	if ($didinfo->{disconnectionfee} != 0) {
 			$dest = gettext("DID:") . $did . gettext(" disconnection fee");
-			&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{disconnectionfee},$callstart,$accountdata->{postexternal},'',$notes);
+			&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{disconnectionfee},$callstart,$accountdata->{postexternal},'',$notes,'','','');
 		}
 		$accountdata = &get_account($astpp_db,$account);
 	} else {
 		$didinfo = &get_did($astpp_db,$did,$account);
         	if ($didinfo->{disconnectionfee} != 0) {
 			$dest = gettext("DID:") . $did . gettext(" disconnection fee");
-			&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{disconnectionfee},$callstart,$accountdata->{postexternal},'',$notes);
+			&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{disconnectionfee},$callstart,$accountdata->{postexternal},'',$notes,'','','');
 		}
 	}
 	# If we got this far the cdrs have been posted and we're ready to cancel the DID. 
@@ -1214,7 +1205,7 @@ sub apply_did_activated_charges() {
 			if ($didinfo->{chargeonallocation} == 0) {
 			my $dest = gettext("DID:") . $did . gettext(" from ")
 				. $start_date . gettext(" to ") . $end_date;
-        		&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$cost,$callstart,$accountinfo->{postexternal},'',$notes);
+        		&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$cost,$callstart,$accountinfo->{postexternal},'',$notes,'','','');
 			}
 			$accountdata = &get_account($astpp_db,$accountdata->{reseller});
 		}
@@ -1228,7 +1219,7 @@ sub apply_did_activated_charges() {
 		my $notes = '';
 		if ($didinfo->{chargeonallocation} == 0) {
 			my $dest = gettext("DID:") . $did . gettext(" from ") . $start_date . gettext(" to ") . $end_date;
-        		&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$cost,$callstart,$accountdata->{postexternal},'',$notes);
+        		&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$cost,$callstart,$accountdata->{postexternal},'',$notes,'','','');
 		}
 	} else {
 		my ($cost,$start_date,$end_date) = &prorate($didinfo->{monthlycost});
@@ -1236,7 +1227,7 @@ sub apply_did_activated_charges() {
 		my $notes = '';
 		if ($didinfo->{chargeonallocation} == 0) {
 			my $dest = gettext("DID:") . $did . gettext(" from ") . $start_date . gettext(" to ") . $end_date;
-        		&post_cdr($astpp_db,$config,'',$accountinfo->{number},'',$dest,'','',$cost,$callstart,$accountinfo->{postexternal},'',$notes);
+        		&post_cdr($astpp_db,$config,'',$accountinfo->{number},'',$dest,'','',$cost,$callstart,$accountinfo->{postexternal},'',$notes,'','','');
 		}
 	}
 	$astpp_db->do("UPDATE dids SET allocation_bill_status = 1 WHERE number = " . $astpp_db->quote($did));
@@ -1278,11 +1269,11 @@ sub purchase_did() {
 			if ($didinfo->{chargeonallocation} == 1) {
 			my $dest = gettext("DID:") . $did . gettext(" from ")
 				. $start_date . gettext(" to ") . $end_date;
-        		&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$cost,$callstart,$accountinfo->{postexternal},'',$notes);
+        		&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$cost,$callstart,$accountinfo->{postexternal},'',$notes,'','','');
 			}
         		if ($didinfo->{setup} != 0) {
 				my $dest = gettext("DID:") . $did . gettext(" setup fee");
-				&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{setup},$callstart,$accountinfo->{postexternal},'',$notes);
+				&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{setup},$callstart,$accountinfo->{postexternal},'',$notes,'','','');
 			}
 			$accountdata = &get_account($astpp_db,$accountdata->{reseller});
 		}
@@ -1297,11 +1288,11 @@ sub purchase_did() {
 		if ($didinfo->{chargeonallocation} == 1) {
 		my $dest = gettext("DID:") . $did . gettext(" from ")
 			. $start_date . gettext(" to ") . $end_date;
-        	&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$cost,$callstart,$accountdata->{postexternal},'',$notes);
+        	&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$cost,$callstart,$accountdata->{postexternal},'',$notes,'','','');
 		}
         	if ($didinfo->{setup} != 0) {
 			$dest = gettext("DID:") . $did . gettext(" setup fee");
-			&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{setup},$callstart,$accountdata->{postexternal},'',$notes);
+			&post_cdr($astpp_db,$config,'',$accountdata->{number},'',$dest,'','',$didinfo->{setup},$callstart,$accountdata->{postexternal},'',$notes,'','','');
 		}
 	} else {
 		my $did_min_available = $didinfo->{monthlycost} + $didinfo->{setup} + $didinfo->{disconnectionfee};
@@ -1317,11 +1308,11 @@ sub purchase_did() {
 			if ($didinfo->{chargeonallocation} == 1) {
 			my $dest = gettext("DID:") . $did . gettext(" from ")
 				. $start_date . gettext(" to ") . $end_date;
-        		&post_cdr($astpp_db,$config,'',$accountinfo->{number},'',$dest,'','',$cost,$callstart,$accountinfo->{postexternal},'',$notes);
+        		&post_cdr($astpp_db,$config,'',$accountinfo->{number},'',$dest,'','',$cost,$callstart,$accountinfo->{postexternal},'',$notes,'','','');
 			}
         		if ($didinfo->{setup} != 0) {
 				$dest = gettext("DID:") . $did . gettext(" setup fee");
-				&post_cdr($astpp_db,$config,'',$accountinfo->{number},'',$dest,'','',$didinfo->{setup},$callstart,$accountinfo->{postexternal},'',$notes);
+				&post_cdr($astpp_db,$config,'',$accountinfo->{number},'',$dest,'','',$didinfo->{setup},$callstart,$accountinfo->{postexternal},'',$notes,'','','');
 			}
 		}
 	}
@@ -1357,8 +1348,8 @@ sub prorate() {
 	my $current_day = strftime "%d", gmtime;
 	use Time::DaysInMonth;
 	my $days = days_in($current_year, $current_month);
-	print STDERR "DAYS IN MONTH: $days \n";
-	print STDERR "TODAY: $current_day \n";
+	print STDERR "DAYS IN MONTH: $days \n" if $config->{debug} == 1;
+	print STDERR "TODAY: $current_day \n" if $config->{debug} == 1;
 	my $start_date = $current_year . "-" . $current_month . "-" . $current_day;
 	my $end_date = $current_year . "-" . $current_month . "-" . $days;
 	my $daily_charge = ($amount / $days);
@@ -1391,21 +1382,21 @@ sub list_accounts_selective() {
             "SELECT number FROM accounts WHERE status < 2 AND reseller = "
           . $astpp_db->quote($reseller)
           . " ORDER BY number";
-        print STDERR "$tmp\n";
+        print STDERR "$tmp\n" if $config->{debug} == 1;
     }
     elsif ( $type == 0 || !$type ) {
         $tmp =
 "SELECT number FROM accounts WHERE status < 2 AND type = 0 AND reseller = "
           . $astpp_db->quote($reseller)
           . " ORDER BY number";
-        print STDERR "$tmp\n";
+        print STDERR "$tmp\n" if $config->{debug} == 1;
     }
     elsif ( $type > 0 ) {
         $tmp =
 "SELECT number FROM accounts WHERE status < 2 AND type = '$type' AND reseller = "
           . $astpp_db->quote($reseller)
           . " ORDER BY number";
-        print STDERR "$tmp\n";
+        print STDERR "$tmp\n" if $config->{debug} == 1;
     }
     $sql = $astpp_db->prepare($tmp);
     $sql->execute;
@@ -1428,7 +1419,7 @@ sub list_accounts() {
         "SELECT number FROM accounts WHERE status < 2 AND reseller = "
       . $astpp_db->quote($reseller)
       . " ORDER BY number";
-    print STDERR "$tmp\n";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
     $sql = $astpp_db->prepare($tmp);
     $sql->execute;
     while ( $row = $sql->fetchrow_hashref ) {
@@ -1444,7 +1435,7 @@ sub list_all_accounts() {
     $tmp =
         "SELECT number FROM accounts WHERE status < 2"
       . " ORDER BY number";
-    print STDERR "$tmp\n";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
     $sql = $astpp_db->prepare($tmp);
     $sql->execute;
     while ( $row = $sql->fetchrow_hashref ) {
@@ -1470,7 +1461,7 @@ sub list_pricelists() {
           . " ORDER BY name";
     }
 ############DEBUG
-    print STDERR "$tmp\n";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
     $sql = $astpp_db->prepare($tmp);
     $sql->execute;
     while ( $row = $sql->fetchrow_hashref ) {
@@ -1636,7 +1627,7 @@ sub get_did_reseller() {
 	. " AND reseller_pricing.type = '1' AND reseller_pricing.reseller = "
 	. $astpp_db->quote($reseller) . " AND reseller_pricing.note = "
 	. $astpp_db->quote($did);
-    print STDERR "$tmp\n";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
     $sql =
       $astpp_db->prepare($tmp);
     $sql->execute;
@@ -1748,7 +1739,7 @@ sub get_pricelist() {
     $tmp =
       "SELECT * FROM pricelists WHERE name = " . $astpp_db->quote($pricelist);
     $sql = $astpp_db->prepare($tmp);
-    print STDERR "$tmp\n" . "\n";
+    print STDERR "$tmp\n"  if $config->{debug} == 1;
     $sql->execute;
     $pricelistdata = $sql->fetchrow_hashref;
     $sql->finish;
@@ -1763,7 +1754,7 @@ sub get_cc_brand() {
         "SELECT * FROM callingcardbrands WHERE name = "
       . $astpp_db->quote($brand)
       . " AND status = 1";
-    print STDERR "$tmp\n" . "\n";
+    print STDERR "$tmp\n"  if $config->{debug} == 1;
     $sql = $astpp_db->prepare($tmp);
     $sql->execute;
     $branddata = $sql->fetchrow_hashref;
@@ -1792,41 +1783,41 @@ sub search_for_route(){
 sub get_route() {
     my ( $astpp_db, $config, $destination, $pricelist, $carddata, $type ) = @_;
     my ( $record,   $sql,    $tmp );
-    if ($type =~ /ASTPP-DID/) {
-    	print STDERR "Call belongs to a DID.\n";
+    if (defined $type && $type =~ /ASTPP-DID/) {
+    	print STDERR "Call belongs to a DID.\n" if $config->{debug} == 1;
 	$record = &get_did_reseller($astpp_db,$destination,$carddata->{reseller}) if $carddata->{reseller} ne "";
 	$record = &get_did($astpp_db,$destination) if $carddata->{reseller} eq "";
 	$record->{comment} = $record->{city} . "," . $record->{province} . "," . $record->{country};
 	$record->{pattern} = "DID:" . $destination;
 	$record->{pricelist} = $pricelist;
         my $branddata = &get_pricelist( $astpp_db, $pricelist);
-	print STDERR "pattern: $record->{pattern}\n" if $record->{pattern};
+	print STDERR "pattern: $record->{pattern}\n" if $record->{pattern} && $config->{debug}==1;
     }
     elsif ($config->{thirdlane_mods} == 1 && $type =~ m/.\d\d\d-IN/) {
-    	print STDERR "Call belongs to a Thirdlane(tm) DID.\n";
+    	print STDERR "Call belongs to a Thirdlane(tm) DID.\n" if $config->{debug} == 1;
 	($destination = $type) =~ s/-IN//g;
-	print STDERR "Destination: $destination \n";
+	print STDERR "Destination: $destination \n" if $config->{debug} == 1;
 	$record = &get_did_reseller($astpp_db,$destination,$carddata->{reseller}) if $carddata->{reseller} ne "";
 	$record = &get_did($astpp_db,$destination) if $carddata->{reseller} eq "";
 	$record->{comment} = $record->{city} . "," . $record->{province} . "," . $record->{country};
 	$record->{pattern} = "DID:" . $destination;
         my $branddata = &get_pricelist( $astpp_db, $pricelist);
-	print STDERR "pattern: $record->{pattern}\n" if $record->{pattern};
+	print STDERR "pattern: $record->{pattern}\n" if $record->{pattern} && $config->{debug}==1;
     }
     else {
     	my @pricelists = split ( m/,/m, $pricelist );
     	foreach my $pricelistname (@pricelists) {
                 $pricelistname =~ s/"//g;				#Strip off quotation marks
-		print STDERR "Pricelist: $pricelistname \n";
+		print STDERR "Pricelist: $pricelistname \n"  if $config->{debug}==1;
     		$record = &search_for_route($astpp_db,$config,$destination,$pricelist);
-    		print STDERR "pattern: $record->{pattern}\n" if $record->{pattern};
+    		print STDERR "pattern: $record->{pattern}\n" if $record->{pattern} && $config->{debug}==1;
 		last if $record->{pattern}; #Returnes if we've found a match.
     	}
 
 	while ( !$record->{pattern} && $carddata->{reseller} ) {
 		$carddata = &get_account($astpp_db, $carddata->{reseller});	
 	        $record = &search_for_route($astpp_db,$config,$destination,$pricelist);
-		print STDERR "pattern: $record->{pattern}\n" if $record->{pattern};
+		print STDERR "pattern: $record->{pattern}\n" if $record->{pattern} && $config->{debug}==1;
 	}
 	if (!$record->{pattern}) { #If we still haven't found a match then we modify the dialed number as per the regular expressions set
     				# in the account.
@@ -1841,13 +1832,13 @@ sub get_route() {
 			print STDERR "Phone After: $destination\n" if $config->{debug} == 1;
 		}
 	        $record = &search_for_route($astpp_db,$config,$destination,$config->{default_brand});
-	        print STDERR "pattern: $record->{pattern}\n" if $record->{pattern};
+	        print STDERR "pattern: $record->{pattern}\n" if $record->{pattern} && $config->{debug}==1;
 	}
 	if ( !$record->{pattern} ) { #If we have not found a route yet then we look in the "Default" pricelist.
 	        $record = &search_for_route($astpp_db,$config,$destination,$config->{default_brand});
-	        print STDERR "pattern: $record->{pattern}\n" if $record->{pattern};
+	        print STDERR "pattern: $record->{pattern}\n" if $record->{pattern} && $config->{debug}==1;
 	}
-	print STDERR "Route: $record->{comment} Cost: $record->{cost} Pricelist: $record->{pricelist} Pattern: $record->{pattern}\n" if $record->{pattern};
+	print STDERR "Route: $record->{comment} Cost: $record->{cost} Pricelist: $record->{pricelist} Pattern: $record->{pattern}\n" if $record->{pattern} && $config->{debug}==1;
     } 
     if ($record->{inc} &&( $record->{inc} eq "" || $record->{inc} == 0 )) {
         my $branddata = &get_pricelist( $astpp_db, $pricelist);
@@ -1865,7 +1856,7 @@ sub get_charge() {
         "SELECT * FROM charges WHERE id = "
       . $astpp_db->quote($chargeid)
       . " AND status < 2 LIMIT 1";
-    print STDERR "$tmp\n" . "\n";
+    print STDERR "$tmp\n" . "\n" if $config->{debug} == 1;
     $sql = $astpp_db->prepare($tmp);
     $sql->execute;
     $chargedata = $sql->fetchrow_hashref;
@@ -1898,14 +1889,14 @@ sub list_applyable_charges() {
     $sql->execute;
     while ( $row = $sql->fetchrow_hashref ) {
         if ( $row->{charge} > 0 ) {
-            $row->{charge} = $row->{charge} / 10000;
+            $row->{charge} = $row->{charge} / 1;
             $row->{charge} = sprintf( "%.4f", $row->{charge} );
         }
         $chargelist{ $row->{id} } =
           $row->{description} . " - \$" . $row->{charge};
-        print STDERR "CHARGEID: $row->{id}\n";
-        print STDERR "CHARGE: %chargelist->{$row->{id}}\n";
-        print STDERR "CHARGE: $row->{description} - $row->{charge}\n";
+        print STDERR "CHARGEID: $row->{id}\n" if $config->{debug} == 1;
+        print STDERR "CHARGE: %chargelist->{$row->{id}}\n" if $config->{debug} == 1;
+        print STDERR "CHARGE: $row->{description} - $row->{charge}\n" if $config->{debug} == 1;
     }
     return %chargelist;
 }
@@ -2085,15 +2076,14 @@ sub refill_account() {
       . $astpp_db->quote($uniqueid) . ", "
       . $astpp_db->quote($account) . ","
       . $astpp_db->quote($description) . ", "
-      . $astpp_db->quote($amount) . ", "
-      . $astpp_db->quote($timestamp) . ")";
-    print STDERR "$tmp\n";
+      . $astpp_db->quote($amount) . ", NOW())";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
     if ( $astpp_db->do($tmp) ) {
         $status =
             gettext("Refilled account:")
           . " $account "
           . gettext("in the amount of:")
-          . $amount / 10000 . "\n";
+          . $amount / 1 . "\n" if $config->{debug} == 1;
         return $status;
     }
     else {
@@ -2103,21 +2093,25 @@ sub refill_account() {
 }
 
 sub write_callingcard_cdr() { # Write the callingcardcdr record if this is a calling card.
-        my ($astpp_db, $config, $cardinfo,  $clid,   $destination, $status, $callstart, $charge, $answeredtime ) = @_;
+        my ($astpp_db, $config, $cardinfo,  $clid,   $destination, $status, $callstart, $charge, $answeredtime,$uid,$pricelist,$note,$pattern ) = @_;
         my ($sql);
         if (!$status) {$status = gettext("N/A"); }
         $sql =
 "INSERT INTO callingcardcdrs (cardnumber,clid,destination,disposition,callstart,seconds,"
-          . "debit) VALUES ("
+          . "debit,uniqueid,pricelist,notes,pattern) VALUES ("
 	  . $astpp_db->quote( $cardinfo->{cardnumber} ) . ", "
           . $astpp_db->quote($clid) . ", "
           . $astpp_db->quote($destination) . ", "
           . $astpp_db->quote($status) . ", "
           . $astpp_db->quote($callstart) . ", "
           . $astpp_db->quote($answeredtime) . ", "
-          . $astpp_db->quote($charge) . ")";
+          . $astpp_db->quote($charge) . ","
+	  . $astpp_db->quote($uid).","
+	  . $astpp_db->quote($pricelist).","
+	  . $astpp_db->quote($note).","
+	  . $astpp_db->quote($pattern).")";
         $astpp_db->do($sql);
-        print STDERR $sql . "\n";
+        print STDERR $sql . "\n" if $config->{debug} == 1;
 }
 
 # Write cdr to the ASTPP cdr database.  This is also used to apply charges and credits to an account.
@@ -2145,7 +2139,7 @@ sub write_account_cdr() {
       . $astpp_db->quote($pattern) . ")";
     if ( $astpp_db->do($tmp) ) {
         $status =
-          "POSTED CDR: $account in the amount of: " . $amount / 10000 . "\n";
+          "POSTED CDR: $account in the amount of: " . $amount / 1 . "\n" if $config->{debug} == 1;
         return $status;
     }
     else {
@@ -2159,17 +2153,17 @@ sub accounts_total_balance() {
     my ($astpp_db,$reseller) = @_;
     my ( $tmp, $sql, $row, $debit, $credit, $balance, $posted_balance );
     if (!$reseller || $reseller eq "") {
-    $tmp = "SELECT SUM(debit) FROM cdrs WHERE status NOT IN (1, 2)";
-    $sql = $astpp_db->prepare($tmp);
-    $sql->execute;
-    $row   = $sql->fetchrow_hashref;
-    $debit = $row->{"SUM(debit)"};
-    $tmp   = "SELECT SUM(credit) FROM cdrs WHERE status NOT IN (1, 2)";
-    $sql   = $astpp_db->prepare($tmp);
-    $sql->execute;
-    $row   = $sql->fetchrow_hashref;
-    $debit = $row->{"SUM(credit)"};
-    $tmp   = "SELECT SUM(balance) FROM accounts WHERE reseller = ''";
+      $tmp = "SELECT SUM(debit) FROM cdrs WHERE status NOT IN (1, 2)";
+      $sql = $astpp_db->prepare($tmp);
+      $sql->execute;
+      $row   = $sql->fetchrow_hashref;
+      $debit = $row->{"SUM(debit)"};
+      $tmp   = "SELECT SUM(credit) FROM cdrs WHERE status NOT IN (1, 2)";
+      $sql   = $astpp_db->prepare($tmp);
+      $sql->execute;
+      $row   = $sql->fetchrow_hashref;
+      $credit = $row->{"SUM(credit)"};
+      $tmp   = "SELECT SUM(balance) FROM accounts WHERE reseller = ''";
     } else {
     	$tmp   = "SELECT SUM(balance) FROM accounts WHERE reseller = " . $astpp_db->quote($reseller);
     }
@@ -2216,7 +2210,7 @@ sub accountbalance() {
     $sql->finish;
     if ( !$credit )         { $credit         = 0; }
     if ( !$debit )          { $debit          = 0; }
-    if ( !$posted_balance ) { $posted_balance = 0; }
+    if ( !$posted_balance ) { $posted_balance = 0; }    
     $balance = ( $debit - $credit + $posted_balance );
     return $balance;
 }
@@ -2260,7 +2254,7 @@ sub list_dids_number_account() {
     $tmp =
       "SELECT number FROM dids WHERE status = 1 AND account = "
       . $astpp_db->quote($account);
-    print STDERR "$tmp\n";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
     $sql = $astpp_db->prepare($tmp);
     $sql->execute;
     while ( $row = $sql->fetchrow_hashref ) {
@@ -2293,7 +2287,7 @@ sub list_available_dids() {
         . " AND reseller_pricing.type = '1' AND reseller_pricing.reseller = "
         . $astpp_db->quote($accountinfo->{reseller}) . " AND reseller_pricing.note = "
         . $astpp_db->quote($did);	
-	print STDERR "$tmp\n";
+	print STDERR "$tmp\n" if $config->{debug} == 1;
 	$sql = $astpp_db->prepare($tmp);
     $sql->execute;
     while ( my $row = $sql->fetchrow_hashref ) {
@@ -2312,7 +2306,7 @@ sub post_cdr() {
 	my (
 			$astpp_db,     $config, $uniqueid, $account, $clid,
 			$dest,         $disp,       $seconds,  $cost,    $callstart,
-			$postexternal, $trunk,      $notes,$pricelist,$pattern
+			$postexternal, $trunk,      $notes,$pricelist,$pattern,$calltype,$provider
 	   ) = @_;
 
 # The cost is passed in 100ths of a penny.
@@ -2321,10 +2315,11 @@ sub post_cdr() {
 	$uniqueid = gettext("N/A") if ( !$uniqueid );
 	$pricelist = gettext("N/A") if ( !$pricelist );
 	$pattern = gettext("N/A") if ( !$pattern );
+	$provider = gettext("N/A") if ( !$provider );
 	$status   = 0;
 	$tmp      =
 		"INSERT INTO cdrs(uniqueid,cardnum,callerid,callednum,trunk,disposition,billseconds,"
-		. "debit,callstart,status,notes,pricelist,pattern) VALUES ("
+		. "debit,callstart,status,notes,pricelist,pattern,calltype,provider) VALUES ("
 		. $astpp_db->quote($uniqueid) . ", "
 		. $astpp_db->quote($account) . ", "
 		. $astpp_db->quote($clid) . ", "
@@ -2337,8 +2332,10 @@ sub post_cdr() {
 		. $astpp_db->quote($status) . ", "
 		. $astpp_db->quote($notes) . ","
 		. $astpp_db->quote($pricelist) . ","
-		. $astpp_db->quote($pattern) . ")";
-	print STDERR "$tmp\n";
+		. $astpp_db->quote($pattern) . ","
+		. $astpp_db->quote($calltype) . ","
+		. $astpp_db->quote($provider) . ")";
+	print STDERR "$tmp\n" if $config->{debug} == 1;
 	$astpp_db->do($tmp);
 }
 
@@ -2389,7 +2386,7 @@ sub agile_unbill() {
     my ( $agile_db, $astpp_db, $config, $uniqueid,
         $agile_uniqueid, @output )
       = @_;
-    print STDERR "Due to an AgileBill error, I'm removing and unbilling this uniqeid $uniqueid\n";
+    print STDERR "Due to an AgileBill error, I'm removing and unbilling this uniqeid $uniqueid\n" if $config->{debug} == 1;
     &saveastcdr( $uniqueid, "error" ) if $config->{astcdr} == 1;
     $astpp_db->do(
         "DELETE FROM cdrs WHERE uniqueid = " . $astpp_db->quote($uniqueid) );
@@ -2530,21 +2527,21 @@ sub add_sip_user_rt() {
 		$config->{sip_port} = 5060;
 	}
     if ( $config->{debug} == 1 ) {
-        print STDERR "CLID: $clid \n";
-        print STDERR "NAME: $name\n";
-        print STDERR "USERNAME: $username\n";
-        print STDERR "CANREINVITE: $config->{rt_sip_canreinvite} \n";
-        print STDERR "CONTEXT: $context\n";
-        print STDERR "INSECURE:  $config->{rt_sip_insecure} \n";
-        print STDERR "MAILBOX: $mailbox \n";
-        print STDERR "NAT:  $config->{rt_sip_nat}\n";
-        print STDERR "SIP PORT: $config->{sip_port}\n";
-        print STDERR "SIP QUALIFY: $config->{rt_sip_qualify} \n";
-        print STDERR "SECRET: $secret\n";
-        print STDERR "SIP TYPE: $config->{rt_sip_type}\n";
-        print STDERR "CODEC DISALLOW: $config->{rt_codec_disallow}\n";
-        print STDERR "CODEC ALLOW: $config->{rt_codec_allow}\n";
-        print STDERR "CANCALLFORWARD: $config->{rt_sip_cancallforward}\n";
+        print STDERR "CLID: $clid \n" if $config->{debug} == 1;
+        print STDERR "NAME: $name\n" if $config->{debug} == 1;
+        print STDERR "USERNAME: $username\n" if $config->{debug} == 1;
+        print STDERR "CANREINVITE: $config->{rt_sip_canreinvite} \n" if $config->{debug} == 1;
+        print STDERR "CONTEXT: $context\n" if $config->{debug} == 1;
+        print STDERR "INSECURE:  $config->{rt_sip_insecure} \n" if $config->{debug} == 1;
+        print STDERR "MAILBOX: $mailbox \n" if $config->{debug} == 1;
+        print STDERR "NAT:  $config->{rt_sip_nat}\n" if $config->{debug} == 1;
+        print STDERR "SIP PORT: $config->{sip_port}\n" if $config->{debug} == 1;
+        print STDERR "SIP QUALIFY: $config->{rt_sip_qualify} \n" if $config->{debug} == 1;
+        print STDERR "SECRET: $secret\n" if $config->{debug} == 1;
+        print STDERR "SIP TYPE: $config->{rt_sip_type}\n" if $config->{debug} == 1;
+        print STDERR "CODEC DISALLOW: $config->{rt_codec_disallow}\n" if $config->{debug} == 1;
+        print STDERR "CODEC ALLOW: $config->{rt_codec_allow}\n" if $config->{debug} == 1;
+        print STDERR "CANCALLFORWARD: $config->{rt_sip_cancallforward}\n" if $config->{debug} == 1;
     }
     $tmp =
         "INSERT INTO $config->{rt_sip_table} (callerid,name,accountcode,"
@@ -2569,7 +2566,7 @@ sub add_sip_user_rt() {
       . $rt_dbh->quote( $config->{rt_codec_allow} ) . ", "
       . $rt_dbh->quote( $config->{rt_sip_cancallforward} ) . ")";
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
     if ( !$rt_dbh->do($tmp) ) {
         print "$tmp failed";
@@ -2615,20 +2612,20 @@ sub add_iax_user_rt() {
 
     #    my $clid = "<$name>";
     if ( $config->{debug} == 1 ) {
-        print STDERR "CLID: $clid \n";
-        print STDERR "NAME: $name\n";
-        print STDERR "USERNAME: $username\n";
-        print STDERR "CANREINVITE: $config->{rt_sip_canreinvite} \n";
-        print STDERR "CONTEXT: $context\n";
-        print STDERR "INSECURE:  $config->{rt_sip_insecure} \n";
-        print STDERR "MAILBOX: $mailbox \n";
-        print STDERR "NAT:  $config->{rt_sip_nat}\n";
-        print STDERR "SIP PORT: $config->{sip_port}\n";
-        print STDERR "SIP QUALIFY: $config->{rt_sip_qualify} \n";
-        print STDERR "SECRET: $secret\n";
-        print STDERR "IAX TYPE: $config->{rt_iax_type}\n";
-        print STDERR "CODEC DISALLOW: $config->{rt_codec_disallow}\n";
-        print STDERR "CODEC ALLOW: $config->{rt_codec_allow}\n";
+        print STDERR "CLID: $clid \n" if $config->{debug} == 1;
+        print STDERR "NAME: $name\n" if $config->{debug} == 1;
+        print STDERR "USERNAME: $username\n" if $config->{debug} == 1;
+        print STDERR "CANREINVITE: $config->{rt_sip_canreinvite} \n" if $config->{debug} == 1;
+        print STDERR "CONTEXT: $context\n" if $config->{debug} == 1;
+        print STDERR "INSECURE:  $config->{rt_sip_insecure} \n" if $config->{debug} == 1;
+        print STDERR "MAILBOX: $mailbox \n" if $config->{debug} == 1;
+        print STDERR "NAT:  $config->{rt_sip_nat}\n" if $config->{debug} == 1;
+        print STDERR "SIP PORT: $config->{sip_port}\n" if $config->{debug} == 1;
+        print STDERR "SIP QUALIFY: $config->{rt_sip_qualify} \n" if $config->{debug} == 1;
+        print STDERR "SECRET: $secret\n" if $config->{debug} == 1;
+        print STDERR "IAX TYPE: $config->{rt_iax_type}\n" if $config->{debug} == 1;
+        print STDERR "CODEC DISALLOW: $config->{rt_codec_disallow}\n" if $config->{debug} == 1;
+        print STDERR "CODEC ALLOW: $config->{rt_codec_allow}\n" if $config->{debug} == 1;
     }
     $tmp =
         "INSERT INTO $config->{rt_iax_table} (callerid,name,accountcode,"
@@ -2649,7 +2646,7 @@ sub add_iax_user_rt() {
       . $rt_dbh->quote( $config->{rt_codec_disallow} ) . ", "
       . $rt_dbh->quote( $config->{rt_codec_allow} ) . ")";
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
     if ( !$rt_dbh->do($tmp) ) {
         print "$tmp failed";
@@ -2682,12 +2679,12 @@ sub update_context_iax_user_rt {
 sub del_sip_user_rt() {
     my ( $rt_db, $config, $name ) = @_;
     my $tmp;
-    print STDERR "Deleting $name\n";
+    print STDERR "Deleting $name\n" if $config->{debug} == 1;
     $tmp =
       "DELETE FROM $config->{rt_sip_table} WHERE name = "
       . $rt_db->quote($name);
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
     $rt_db->do($tmp) || print "$tmp failed";
 }
@@ -2696,41 +2693,37 @@ sub del_sip_user_rt() {
 sub del_iax_user_rt() {
     my ( $rt_db, $config, $name ) = @_;
     my $tmp;
-    print STDERR "Deleting $name\n";
+    print STDERR "Deleting $name\n" if $config->{debug} == 1;
     $tmp =
       "DELETE FROM $config->{rt_iax_table} WHERE name = "
       . $rt_db->quote($name);
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
     $rt_db->do($tmp) || print "$tmp failed";
 }
 
 #######  Realtime Integration Ends ################
-#######  OpenSER Integration Starts ###############
-# Add SIP device to Openser database.
-sub add_sip_user_openser() {
-    my ( $openser_dbh, $config, $name, $secret, $context, $username,
-        $params,$cc )
-      = @_;
+#######  opensips Integration Starts ###############
+# Add SIP device to opensips database.
+sub add_sip_user_opensips() {
+    my ( $opensips_dbh, $config, $name, $secret, $accountcode,$params)= @_;
     my ( $md5secret, $tmp, $id, $appdata );
-    my $datetime = &prettytimestamp();
-	$name =~ s/\W//mg;
-	$username =~ s/\W//mg;
+#     my $datetime = &prettytimestamp();
+# 	$name =~ s/\W//mg;
+# 	$username =~ s/\W//mg;
     $tmp =
-        "INSERT INTO subscribers (username,domain,password,firstname,lastname,emailaddress,datetime_created"
+        "INSERT INTO subscriber (username,domain,password,accountcode"
       . ") VALUES ("
-      . $openser_dbh->quote($name) . ", "
-      . $openser_dbh->quote($config->{openser_domain}) . ", "
-      . $openser_dbh->quote($secret) . ", "
-      . $openser_dbh->quote($params->{first}) . ", "
-      . $openser_dbh->quote($params->{last}) . ", "
-      . $openser_dbh->quote($params->{email}) . ", "
-      . $openser_dbh->quote($datetime) . ")";
+      . $opensips_dbh->quote($name) . ", "
+      . $opensips_dbh->quote($config->{opensips_domain}) . ", "
+      . $opensips_dbh->quote($secret) . ", "      
+      . $opensips_dbh->quote($accountcode) . ")";
+      print STDERR " $tmp \n" if $config->{debug} == 1;
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
-    if ( !$openser_dbh->do($tmp) ) {
+    if ( !$opensips_dbh->do($tmp) ) {
         print "$tmp failed";
         return gettext("SIP Device Creation Failed!");
     }
@@ -2739,21 +2732,21 @@ sub add_sip_user_openser() {
     }
 }
 
-# Remove SIP user from openser.
-sub del_sip_user_openser() {
-    my ( $openser_db, $config, $name ) = @_;
+# Remove SIP user from opensips.
+sub del_sip_user_opensips() {
+    my ( $opensips_db, $config, $name ) = @_;
     my $tmp;
-    print STDERR "Deleting $name\n";
+    print STDERR "Deleting $name\n" if $config->{debug} == 1;
     $tmp =
-      "DELETE FROM subscribers WHERE username = "
-      . $openser_db->quote($name);
+      "DELETE FROM subscriber WHERE username = "
+      . $opensips_db->quote($name);
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
-    $openser_db->do($tmp) || print "$tmp failed";
+    $opensips_db->do($tmp) || print "$tmp failed";
 }
 
-#######  OpenSER Integration Ends ###############
+#######  opensips Integration Ends ###############
 #######  Freeswitch Integration Starts ###############
 
 sub get_sip_account_freeswitch(){
@@ -2867,16 +2860,16 @@ sub add_sip_user_freeswitch() {
 	$name =~ s/\W//mg;
 	$username =~ s/\W//mg;
     if ( $config->{debug} == 1 ) {
-        print STDERR "NAME: $name\n";
-        print STDERR "USERNAME: $username\n";
-        print STDERR "SECRET: $secret\n";
+        print STDERR "NAME: $name\n" if $config->{debug} == 1;
+        print STDERR "USERNAME: $username\n" if $config->{debug} == 1;
+        print STDERR "SECRET: $secret\n" if $config->{debug} == 1;
     }
     $tmp =
         "INSERT INTO directory (username,domain) VALUES ("
       . $fs_db->quote($name) . ", "
       . $fs_db->quote($config->{freeswitch_domain}). ")";
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
     my $sql = $fs_db->prepare($tmp);
     if ( !$sql->execute ) {
@@ -3075,6 +3068,38 @@ sub finduniqueiax_freepbx() {
 }
 
 
+# Check to see if a SIP account already exists in ATSPP.  The first 5 digits of the device ID are random followed by a dash
+# and then the accountcode.
+sub finduniquesip_opensips() {
+    my ($opensips_db, $config, $name) = @_;
+    my ( $cc, $sql, $count, $sipid, $record );
+    for ( ; ; ) {
+        $count = 1;
+        $sipid =
+            int( rand() * 9000 + 1000 )
+          . int( rand() * 9000 + 1000 )
+          . int( rand() * 9000 + 1000 )
+          . int( rand() * 9000 + 1000 )
+          . int( rand() * 9000 + 1000 )
+          . int( rand() * 9000 + 1000 )
+          . int( rand() * 9000 + 1000 )
+          . int( rand() * 9000 + 1000 );
+	$sipid = $config->{sip_ext_prepend} . $sipid;
+        $sipid = substr( $sipid, 0, 5 );
+        $sipid = $name . $sipid;
+        print STDERR "SIPID: $sipid\n" if $config->{debug} == 1;
+        $sql =
+          $opensips_db->prepare(
+            "SELECT COUNT(*) FROM subscriber WHERE username = "
+              . $opensips_db->quote($sipid) );
+        $sql->execute;
+        $record = $sql->fetchrow_hashref;
+        $count  = $record->{"COUNT(*)"};
+        $sql->finish;
+        return $sipid if ( $count == 0 );
+    }
+}
+
 # Add a SIP user to FreePBX.
 sub add_sip_user_freepbx() {
     my (
@@ -3088,21 +3113,21 @@ sub add_sip_user_freepbx() {
     my $mailbox = $name . "\@" . $config->{freepbx_mailbox_group};
     my $clid    = "$params->{first} $params->{last} <$name> ";
     if ( $config->{debug} == 1 ) {
-        print STDERR "CLID: $clid \n";
-        print STDERR "NAME: $name\n";
-        print STDERR "USERNAME: $username\n";
-        print STDERR "CANREINVITE: $config->{rt_sip_canreinvite} \n";
-        print STDERR "CONTEXT: $context\n";
-        print STDERR "INSECURE:  $config->{rt_sip_insecure} \n";
-        print STDERR "MAILBOX: $mailbox \n";
-        print STDERR "NAT:  $config->{rt_sip_nat}\n";
-        print STDERR "SIP PORT: $config->{sip_port}\n";
-        print STDERR "SIP QUALIFY: $config->{rt_sip_qualify} \n";
-        print STDERR "SECRET: $secret\n";
-        print STDERR "SIP TYPE: $config->{rt_sip_type}\n";
-        print STDERR "CODEC DISALLOW: $config->{rt_codec_disallow}\n";
-        print STDERR "CODEC ALLOW: $config->{rt_codec_allow}\n";
-        print STDERR "CANCALLFORWARD: $config->{rt_sip_cancallforward}\n";
+        print STDERR "CLID: $clid \n" if $config->{debug} == 1;
+        print STDERR "NAME: $name\n" if $config->{debug} == 1;
+        print STDERR "USERNAME: $username\n" if $config->{debug} == 1;
+        print STDERR "CANREINVITE: $config->{rt_sip_canreinvite} \n" if $config->{debug} == 1;
+        print STDERR "CONTEXT: $context\n" if $config->{debug} == 1;
+        print STDERR "INSECURE:  $config->{rt_sip_insecure} \n" if $config->{debug} == 1;
+        print STDERR "MAILBOX: $mailbox \n" if $config->{debug} == 1;
+        print STDERR "NAT:  $config->{rt_sip_nat}\n" if $config->{debug} == 1;
+        print STDERR "SIP PORT: $config->{sip_port}\n" if $config->{debug} == 1;
+        print STDERR "SIP QUALIFY: $config->{rt_sip_qualify} \n" if $config->{debug} == 1;
+        print STDERR "SECRET: $secret\n" if $config->{debug} == 1;
+        print STDERR "SIP TYPE: $config->{rt_sip_type}\n" if $config->{debug} == 1;
+        print STDERR "CODEC DISALLOW: $config->{rt_codec_disallow}\n" if $config->{debug} == 1;
+        print STDERR "CODEC ALLOW: $config->{rt_codec_allow}\n" if $config->{debug} == 1;
+        print STDERR "CANCALLFORWARD: $config->{rt_sip_cancallforward}\n" if $config->{debug} == 1;
     }
     $tmp =
       "INSERT INTO $config->{freepbx_sip_table} (id,keyword,data) VALUES ("
@@ -3272,20 +3297,20 @@ sub add_iax_user_freepbx() {
 
     #    my $clid = "<$name>";
     if ( $config->{debug} == 1 ) {
-        print STDERR "CLID: $clid \n";
-        print STDERR "NAME: $name\n";
-        print STDERR "USERNAME: $username\n";
-        print STDERR "CANREINVITE: $config->{rt_sip_canreinvite} \n";
-        print STDERR "CONTEXT: $context\n";
-        print STDERR "INSECURE:  $config->{rt_sip_insecure} \n";
-        print STDERR "MAILBOX: $mailbox \n";
-        print STDERR "NAT:  $config->{rt_sip_nat}\n";
-        print STDERR "SIP PORT: $config->{sip_port}\n";
-        print STDERR "SIP QUALIFY: $config->{rt_sip_qualify} \n";
-        print STDERR "SECRET: $secret\n";
-        print STDERR "SIP TYPE: $config->{rt_sip_type}\n";
-        print STDERR "CODEC DISALLOW: $config->{rt_codec_disallow}\n";
-        print STDERR "CODEC ALLOW: $config->{rt_codec_allow}\n";
+        print STDERR "CLID: $clid \n" if $config->{debug} == 1;
+        print STDERR "NAME: $name\n" if $config->{debug} == 1;
+        print STDERR "USERNAME: $username\n" if $config->{debug} == 1;
+        print STDERR "CANREINVITE: $config->{rt_sip_canreinvite} \n" if $config->{debug} == 1;
+        print STDERR "CONTEXT: $context\n" if $config->{debug} == 1;
+        print STDERR "INSECURE:  $config->{rt_sip_insecure} \n" if $config->{debug} == 1;
+        print STDERR "MAILBOX: $mailbox \n" if $config->{debug} == 1;
+        print STDERR "NAT:  $config->{rt_sip_nat}\n" if $config->{debug} == 1;
+        print STDERR "SIP PORT: $config->{sip_port}\n" if $config->{debug} == 1;
+        print STDERR "SIP QUALIFY: $config->{rt_sip_qualify} \n" if $config->{debug} == 1;
+        print STDERR "SECRET: $secret\n" if $config->{debug} == 1;
+        print STDERR "SIP TYPE: $config->{rt_sip_type}\n" if $config->{debug} == 1;
+        print STDERR "CODEC DISALLOW: $config->{rt_codec_disallow}\n" if $config->{debug} == 1;
+        print STDERR "CODEC ALLOW: $config->{rt_codec_allow}\n" if $config->{debug} == 1;
     }
     $tmp =
       "INSERT INTO $config->{freepbx_iax_table} (id,keyword,data) VALUES ("
@@ -3422,12 +3447,12 @@ sub update_context_iax_user_freepbx {
 sub del_sip_user_freepbx() {
     my ( $freepbx_db, $config, $name ) = @_;
     my $tmp;
-    print STDERR "Deleting $name\n";
+    print STDERR "Deleting $name\n" if $config->{debug} == 1;
     $tmp =
       "DELETE FROM $config->{freepbx_sip_table} WHERE id = "
       . $freepbx_db->quote($name);
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
     $freepbx_db->do($tmp) || print "$tmp failed";
 }
@@ -3436,12 +3461,12 @@ sub del_sip_user_freepbx() {
 sub del_iax_user_freepbx() {
     my ( $freepbx_db, $config, $name ) = @_;
     my $tmp;
-    print STDERR "Deleting $name\n";
+    print STDERR "Deleting $name\n" if $config->{debug} == 1;
     $tmp =
       "DELETE FROM $config->{freepbx_iax_table} WHERE id = "
       . $freepbx_db->quote($name);
     if ( $config->{debug} == 1 ) {
-        print STDERR " $tmp \n";
+        print STDERR " $tmp \n" if $config->{debug} == 1;
     }
     $freepbx_db->do($tmp) || print "$tmp failed";
 }
@@ -3499,11 +3524,6 @@ sub get_counter() {
           . " AND account = "
           . $astpp_db->quote($cardnum) 
 	  . " AND status = 1" );
-    print STDERR  "SELECT * FROM counters WHERE package = "
-          . $astpp_db->quote($package)
-          . " AND account = "
-          . $astpp_db->quote($cardnum) 
-	  . " AND status = 1";
     $sql->execute;
     $row = $sql->fetchrow_hashref;
     $sql->finish;
@@ -3520,11 +3540,6 @@ sub get_package() {
           . " RLIKE pattern AND pricelist = "
           . $astpp_db->quote( $carddata->{pricelist} )
           . " ORDER BY LENGTH(pattern) DESC LIMIT 1" );
-    print STDERR "SELECT * FROM packages WHERE "
-          . $astpp_db->quote($number)
-          . " RLIKE pattern AND pricelist = "
-          . $astpp_db->quote( $carddata->{pricelist} )
-          . " ORDER BY LENGTH(pattern) DESC LIMIT 1";
     $sql->execute;
     $record = $sql->fetchrow_hashref;
     $sql->finish;
@@ -3573,7 +3588,7 @@ sub count_unbilled_cdrs() {
     my ( $sql, $count, $record );
     $sql =
       $cdr_db->prepare( "SELECT COUNT(*) FROM $config->{cdr_table} WHERE cost = 'error' OR "
-          . "accountcode IN (" . $account . ") AND cost ='none'" );
+          . "accountcode IN (" . $account . "0) AND cost ='none'" );      
     $sql->execute;
     $record = $sql->fetchrow_hashref;
     $count  = $record->{"COUNT(*)"};
@@ -3760,18 +3775,21 @@ sub max_length() {
 		return (1,0);
 	}
 	print STDERR "Found pattern: $numdata->{pattern}\n" if $config->{debug} == 1;
-	$credit = &accountbalance( $astpp_db, $carddata->{number} ); # Find the available credit to the customer.
-	print STDERR "Account Balance: " . $credit * 10000 . "\n"  if $config->{debug} == 1;
-	$credit_limit = $carddata->{credit_limit} * 10000;
+	$credit = &accountbalance( $astpp_db, $carddata->{number} ); # Find the available credit to the customer.	
+	########
+	$credit = $credit * 1;
+	########
+	print STDERR "Account Balance: " . $credit * 1 . "\n"  if $config->{debug} == 1;
+	$credit_limit = $carddata->{credit_limit} * 1;
 	print STDERR "Credit Limit: " . $credit_limit . "\n" if $config->{debug} == 1;
 	$credit = ($credit * -1) + ($credit_limit);         # Add on the accounts credit limit.
 	#$credit = $credit / $carddata->{maxchannels} if $carddata->{maxchannels} > 0;
 	print STDERR "Credit: " . $credit .  "\n" if $config->{debug} == 1;
 	if ($branddata->{markup} > 0) {
 		$numdata->{connectcost} =
-		$numdata->{connectcost} * ( ( $branddata->{markup} / 10000 ) + 1 );
+		$numdata->{connectcost} * ( ( $branddata->{markup} / 1 ) + 1 );
 		$numdata->{cost} =
-		$numdata->{cost} * ( ( $branddata->{markup} / 10000 ) + 1 );
+		$numdata->{cost} * ( ( $branddata->{markup} / 1 ) + 1 );
 	}
 	if ( $numdata->{connectcost} > $credit ) {   # If our connection fee is higher than the available money we can't connect.
 		return (0,0);
@@ -3797,7 +3815,7 @@ sub hangup_call() {
 	$astman->user($config->{astman_user});
 	$astman->secret($config->{astman_secret});
 	$astman->host($config->{astman_host});
-	$astman->connect || die $astman->error . "\n";
+	$astman->connect || die $astman->error . "\n" if $config->{debug} == 1;
 	my %callout = ( Action => 'Hangup', Channel => $channel);
 	print STDERR $astman->sendcommand(%callout);
 }
@@ -3821,7 +3839,7 @@ sub perform_callout() {
     $astman->user($config->{astman_user});
     $astman->secret($config->{astman_secret});
     $astman->host($config->{astman_host});
-    $astman->connect || die $astman->error . "\n";
+    $astman->connect || die $astman->error . "\n" if $config->{debug} == 1;
 
 
     %callout = ( Action => 'Originate',
@@ -3837,7 +3855,7 @@ sub perform_callout() {
 				       Variable => "ACTIONID=$actionid",	
                                        Priority => '1' );
     foreach my $key (keys %callout) {
-   	 print STDERR "Key: $key Value: " . $callout{$key} . "\n";
+   	 print STDERR "Key: $key Value: " . $callout{$key} . "\n" if $config->{debug} == 1;
     }
    
 	print STDERR $astman->sendcommand(%callout);
@@ -3852,10 +3870,10 @@ sub check_card_status() {    # Check a few things before saying the card is ok.
 	# Status 3 means the card is empty.
 	my ($astpp_db,$cardinfo) = @_;
 	my $now = $astpp_db->selectall_arrayref("SELECT NOW()")->[0][0];
-	print STDERR "Present Time: $now\n";
-	print STDERR "Expiration Date: $cardinfo->{expiry}\n";
-	print STDERR "Valid for Days: $cardinfo->{validfordays}\n";
-	print STDERR "First Use: $cardinfo->{firstused}\n";
+	print STDERR "Present Time: $now\n" if $config->{debug} == 1;
+	print STDERR "Expiration Date: $cardinfo->{expiry}\n" if $config->{debug} == 1;
+	print STDERR "Valid for Days: $cardinfo->{validfordays}\n" if $config->{debug} == 1;
+	print STDERR "First Use: $cardinfo->{firstused}\n" if $config->{debug} == 1;
 	if ( $cardinfo->{inuse} != 0 )
 	{                
 		return 1; #Status 1 means card is in use.
@@ -3886,67 +3904,65 @@ sub define_sounds() {
 	my ($astpp_db,$location) = @_;
 	$location = "" if !$location;
 	my $sound;
-	$sound->{no_responding} = $location . "astpp-down.gsm";    #The calling card platform is down, please try again later.
-$sound->{cardnumber} = $location . "astpp-accountnum.gsm" ;    #Please enter your card number followed by pound.
-$sound->{cardnumber_incorrect} = $location .  "astpp-badaccount.gsm";    #Incorrect card number.
-$sound->{pin} = $location . "astpp-pleasepin.gsm";    #Please enter your pin followed by pound.
-$sound->{pin_incorrect} = $location . "astpp-invalidpin.gsm";    #Incorrect pin.
-$sound->{goodbye}       = $location . "conf-goodbye.wav";          #Goodbye.
-$sound->{destination}   = $location . "astpp-phonenum.gsm"; #Please enter the number you wish to dial followed by pound.
-$sound->{destination_incorrect} = $location . "astcc-badphone.gsm";    #Phone number not found!
-$sound->{card_inuse}     = $location . "astpp-in-use.gsm";   #This card is presently being used.
-$sound->{call_will_cost} = $location . "astpp-willcost.gsm"; #This call will cost:
-$sound->{main_currency}  = $location . "astpp-dollar.gsm";   #Dollar
-$sound->{sub_currency}   = $location . "astpp-cent.gsm";     #Cent
-$sound->{main_currency_plural}     = $location . "astpp-dollars.gsm";       #Dollars
-$sound->{sub_currency_plural}      = $location . "astpp-cents.gsm";         #cents
-$sound->{per}                      = $location . "astpp-per.gsm";           #per
-$sound->{minute}                   = $location . "astpp-minute.gsm";        #Minute
+	$sound->{no_responding} = $location . "astpp-down.wav";    #The calling card platform is down, please try again later.
+$sound->{cardnumber} = $location . "astpp-accountnum.wav" ;    #Please enter your card number followed by pound.
+$sound->{cardnumber_incorrect} = $location .  "astpp-badaccount.wav";    #Incorrect card number.
+$sound->{pin} = $location . "astpp-pleasepin.wav";    #Please enter your pin followed by pound.
+$sound->{pin_incorrect} = $location . "astpp-invalidpin.wav";    #Incorrect pin.
+$sound->{goodbye}       = $location . "astpp-goodbye.wav";          #Goodbye.
+$sound->{destination}   = $location . "astpp-phonenum.wav"; #Please enter the number you wish to dial followed by pound.
+$sound->{destination_incorrect} = $location . "astpp-badphone.wav";    #Phone number not found!
+$sound->{card_inuse}     = $location . "astpp-in-use.wav";   #This card is presently being used.
+$sound->{call_will_cost} = $location . "astpp-willcost.wav"; #This call will cost:
+$sound->{main_currency}  = $location . "astpp-dollar.wav";   #Dollar
+$sound->{sub_currency}   = $location . "astpp-cent.wav";     #Cent
+$sound->{main_currency_plural}     = $location . "astpp-dollars.wav";       #Dollars
+$sound->{sub_currency_plural}      = $location . "astpp-cents.wav";         #cents
+$sound->{per}                      = $location . "astpp-per.wav";           #per
+$sound->{minute}                   = $location . "astpp-minute.wav";        #Minute
 #Changed By Joseph Watson
-#$sound->{minutes}                  = $location . "astpp-minutes.gsm";       #Minutes
+# $sound->{minutes}                  = $location . "astpp-minutes.wav";       #Minutes
 $sound->{minutes}                  = $location . "minutes.wav";       #Minutes
-$sound->{second}                   = $location . "astpp-second.gsm";        #Second
-$sound->{seconds}                  = $location . "astpp-seconds.gsm";       #Seconds
-$sound->{a_connect_charge}         = $location . "astpp-connectcharge.gsm"; #A connect charge of
-$sound->{will_apply}               = $location . "astpp-willapply.gsm";     #Will apply
-$sound->{please_wait_will_connect} = $location . "astpp-please-wait-while-i-connect.gsm";    #Please wait while I connect your call
-$sound->{card_is_empty}       = $location . "astpp-card-is-empty.gsm";    #This card is empty.
-$sound->{card_has_balance_of} = $location . "astpp-this-card-has-a-balance-of.gsm";    #Card has a balance of:
-$sound->{card_has_expired} = $location . "astpp-card-has-expired.gsm";   #This card has expired.
-$sound->{call_will_last}   = $location . "astpp-this-call-will-last.gsm"; #This call will last:
-$sound->{not_enough_credit} = $location . "astpp-not-enough-credit.gsm";    #You do not have enough credit
-$sound->{call_completed} = $location . "astpp-call-completed.gsm";       #This call has been completed.
-$sound->{astpp_callingcard_menu} = $location . "astpp-callingcard-menu.gsm"
+$sound->{second}                   = $location . "astpp-second.wav";        #Second
+$sound->{seconds}                  = $location . "astpp-seconds.wav";       #Seconds
+$sound->{a_connect_charge}         = $location . "astpp-connectcharge.wav"; #A connect charge of
+$sound->{will_apply}               = $location . "astpp-willapply.wav";     #Will apply
+$sound->{please_wait_will_connect} = $location . "astpp-please-wait-while-i-connect.wav";    #Please wait while I connect your call
+$sound->{card_is_empty}       = $location . "astpp-card-is-empty.wav";    #This card is empty.
+$sound->{card_has_balance_of} = $location . "astpp-this-card-has-a-balance-of.wav";    #Card has a balance of:
+$sound->{card_has_expired} = $location . "astpp-card-has-expired.wav";   #This card has expired.
+$sound->{call_will_last}   = $location . "astpp-this-call-will-last.wav"; #This call will last:
+$sound->{not_enough_credit} = $location . "astpp-not-enough-credit.wav";    #You do not have enough credit
+$sound->{call_completed} = $location . "astpp-call-completed.wav";       #This call has been completed.
+$sound->{astpp_callingcard_menu} = $location . "astpp-callingcard-menu.wav"
   ; #Press one if you wish to place another call, press 2 for your card balance, or press 3 to hangup
-$sound->{busy} = $location .  "astpp-busy-tryagain.gsm";  #Number was busy, Press 1 to try again.
-$sound->{cancelled} = $location . "astpp-cancelled-tryagain.gsm";  #Call was cancelled.
-$sound->{congested} = $location . "astpp-congested-tryagain.gsm";    #Number was congested, Press 1 to try again.
-$sound->{noanswer} = $location . "astpp-noanswer-tryagain.gsm";     #There was no answer, Press 1 to try again.
-$sound->{badnumber} = $location . "astpp-badnumber.gsm";          # "Calls from this location are blocked!"
-$sound->{used_elsewhere} = $location . "astpp-used-elsewhere.gsm";     # "This location has been used already."
-$sound->{goodbye}            = $location . "conf-goodbye.wav";    # "Goodbye"
-$sound->{callback_performed} = $location . "astpp-callback-performed.gsm";    # "This callback has been performed please disconnect now"
-$sound->{cardnumber} = $location . "astpp-accountnum.gsm";    #Please enter your card number followed by pound.
-$sound->{cardnumber_incorrect} = $location . "astpp-badaccount.gsm";    #Incorrect card number.
-$sound->{pin} = $location . "astpp-pleasepin.gsm";    #Please enter your pin followed by pound.
-$sound->{pin_incorrect} = $location . "astpp-invalidpin.gsm";    #Incorrect pin.
-$sound->{point} = $location .  "astcc-point.gsm";    #point.
-$sound->{register_ani}  = $location . "astpp-register.gsm";    # "Register ANI to this card? Press 1 for yes or any other key for no."
-$sound->{card_has_expired} = $location .  "astpp_expired.gsm";    #"This card has expired"
-$sound->{card_is_empty}    = $location . "astpp-card-is-empty.gsm";      #This card is empty
-$sound->{where_to_call}    = $location . 
-  "astpp-where-to-call.gsm"
-  ;    #Press 1 to receive a call at the number you called from or registered
+$sound->{busy} = $location .  "astpp-busy-tryagain.wav";  #Number was busy, Press 1 to try again.
+$sound->{cancelled} = $location . "astpp-cancelled-tryagain.wav";  #Call was cancelled.
+$sound->{congested} = $location . "astpp-congested-tryagain.wav";    #Number was congested, Press 1 to try again.
+$sound->{noanswer} = $location . "astpp-noanswer-tryagain.wav";     #There was no answer, Press 1 to try again.
+$sound->{badnumber} = $location . "astpp-badnumber.wav";          # "Calls from this location are blocked!"
+$sound->{used_elsewhere} = $location . "astpp-used-elsewhere.wav";     # "This location has been used already."
+$sound->{goodbye}            = $location . "astpp-goodbye.wav";    # "Goodbye"
+$sound->{callback_performed} = $location . "astpp-callback-performed.wav";    # "This callback has been performed please disconnect now"
+$sound->{cardnumber} = $location . "astpp-accountnum.wav";    #Please enter your card number followed by pound.
+$sound->{cardnumber_incorrect} = $location . "astpp-badaccount.wav";    #Incorrect card number.
+$sound->{pin} = $location . "astpp-pleasepin.wav";    #Please enter your pin followed by pound.
+$sound->{pin_incorrect} = $location . "astpp-invalidpin.wav";    #Incorrect pin.
+$sound->{point} = $location .  "astpp-point.wav";    #point.
+$sound->{register_ani}  = $location . "astpp-register.wav";    # "Register ANI to this card? Press 1 for yes or any other key for no."
+$sound->{card_has_expired} = $location .  "astpp_expired.wav";    #"This card has expired"
+$sound->{card_is_empty}    = $location . "astpp-card-is-empty.wav";      #This card is empty
+$sound->{where_to_call}    = $location . "astpp-where-to-call.wav";    
+	#Press 1 to receive a call at the number you called from or registered
        #Otherwise enter the number you wish to be called at.
-$sound->{number_to_register} = $location . 
-  "astpp-number-to-register.gsm";  #Press 1 to register the number you called from.
+$sound->{number_to_register} = $location . "astpp-number-to-register.wav";  #Press 1 to register the number you called from.
                                #Otherwise enter the number you wish to register.
-$sound->{card_has_been_refilled} = $location . "astpp-card-has-been-refilled.gsm"; # Your card has been refilled.                          
-$sound->{card_to_refill} = $location . "astpp-card-to-refill.gsm"; #please enter the card number you wish to refill followed
+$sound->{card_has_been_refilled} = $location . "astpp-card-has-been-refilled.wav"; # Your card has been refilled.                          
+$sound->{card_to_refill} = $location . "astpp-card-to-refill.wav"; #please enter the card number you wish to refill followed
 							# by the pound sign.
-$sound->{card_to_empty} = $location . "astpp-card-to-empty.gsm"; #please enter the card number you wish to empty into your card
+$sound->{card_to_empty} = $location . "astpp-card-to-empty.wav"; #please enter the card number you wish to empty into your card
 							# followed by the pound sign.
-$sound->{astpp_please_pin_card_empty} = $location . "astpp-please-pin-card-empty.gsm"; #please enter the pin number for the card
+$sound->{astpp_please_pin_card_empty} = $location . "astpp-please-pin-card-empty.wav"; #please enter the pin number for the card
 									# you wish to empty followed by the pound
 									# sign.
 return $sound;	
@@ -4030,50 +4046,49 @@ sub print_csv {  # Print CDRS on rated calls.
 		$cdrinfo, @output )
 	  = @_;
 	my ( $outfile );
-	print STDERR "Reseller: $reseller \n";
+	print STDERR "Reseller: $reseller \n" if $config->{debug} == 1;
 	if ( $reseller eq "" ) {
 		$outfile = $config->{rate_engine_csv_file};
 	}
 	else {
 		$outfile = $config->{csv_dir} . $reseller . ".csv";
-	}
+	}	
 	$outfile = "/var/log/astpp/astpp.csv" if !$outfile;
 	my $notes = "Notes: " . $cdrinfo->{accountcode};
-	open( OUTFILE, ">>$outfile" )
-	  || print STDERR "CSV Error - could not open $outfile for writing\n";
-	print OUTFILE << "ending_print_tag";
+	open(OUTFILE,">>$outfile") || print STDERR "CSV Error - could not open $outfile for writing\n";
+print OUTFILE << "ending_print_tag";
 $cardno,$cost,$cdrinfo->{disposition},$cdrinfo->{calldate},$cdrinfo->{dst},$billsec,$notes
 ending_print_tag
-	close(OUTFILE);
+# 	close(OUTFILE);
 }
 
 sub rating() {  # This routine recieves a specific cdr and takes care of rating it and of marking it as rated.  It bills resellers as appropriate.
 	my ( $astpp_db, $cdr_db, $config, $cdrinfo, $carddata, $vars, @output ) = @_;
 	my ( $increment, $numdata, $package, $notes, $status );
 	$status = 0;
-	print STDERR "----------------------------------------------------------------\n";
+	print STDERR "----------------------------------------------------------------\n" if $config->{debug} == 1;
 	print STDERR
-		"uniqueid: $cdrinfo->{uniqueid}, cardno: $carddata->{number}, phoneno: $cdrinfo->{dst}, Userfield: $cdrinfo->{userfield}\n";
+		"uniqueid: $cdrinfo->{uniqueid}, cardno: $carddata->{number}, phoneno: $cdrinfo->{dst}, Userfield: $cdrinfo->{userfield}\n" if $config->{debug} == 1;
 	print STDERR
-		"disposition: $cdrinfo->{disposition} Pricelist: $carddata->{pricelist} reseller: $carddata->{reseller}\n";
+		"disposition: $cdrinfo->{disposition} Pricelist: $carddata->{pricelist} reseller: $carddata->{reseller}\n" if $config->{debug} == 1;
 	if ( $cdrinfo->{disposition} =~ /^ANSWERED$/ || $cdrinfo->{disposition} eq "NORMAL_CLEARING") {
 #    		if ($config->{thirdlane_mods} == 1 && $cdrinfo->{userfield} =~ m/.\d\d\d-IN/) {
-#    			print STDERR "Call belongs to a Thirdlane(tm) DID.\n";
+#    			print STDERR "Call belongs to a Thirdlane(tm) DID.\n" if $config->{debug} == 1;
 #			$cdrinfo->{dst} =~ s/-IN//g;
-#			print STDERR "Destination: $cdrinfo->{dst} \n";
+#			print STDERR "Destination: $cdrinfo->{dst} \n" if $config->{debug} == 1;
 #		}
 		$numdata = &get_route( $astpp_db, $config, $cdrinfo->{dst}, $carddata->{pricelist}, $carddata, $cdrinfo->{userfield} );
 		if ( !$numdata->{pattern} ) {
 			&save_cdr( $config, $cdr_db, $cdrinfo->{uniqueid}, "error",$cdrinfo->{dst} ) if !$vars && $config->{astcdr} == 1;
-			print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n";
-			print STDERR "NO MATCHING PATTERN\n";
-			print STDERR "----------------------------------------------------------------\n";
+			print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n" if $config->{debug} == 1;
+			print STDERR "NO MATCHING PATTERN\n" if $config->{debug} == 1;
+			print STDERR "----------------------------------------------------------------\n" if $config->{debug} == 1;
 		}
 		else {
-			print STDERR "FOUND A MATCHING PATTERN: $numdata->{pattern}";
+			print STDERR "FOUND A MATCHING PATTERN: $numdata->{pattern}" if $config->{debug} == 1;
 			my $branddata = &get_pricelist( $astpp_db, $carddata->{pricelist} );
 			print STDERR
-				"pricelistData: $branddata->{name} $branddata->{markup} $branddata->{inc} $branddata->{status}\n";
+				"pricelistData: $branddata->{name} $branddata->{markup} $branddata->{inc} $branddata->{status}\n" if $config->{debug} == 1;
 
 			$package = &get_package( $astpp_db, $carddata, $cdrinfo->{dst} );
 			if ($package->{id}) {
@@ -4108,8 +4123,8 @@ sub rating() {  # This routine recieves a specific cdr and takes care of rating 
 			}
 
 			if ( $branddata->{markup} ne "" && $branddata->{markup} != 0 ) {
-				$numdata->{connectcost} = $numdata->{connectcost} * ( ( $branddata->{markup} / 10000 ) + 1 );
-				$numdata->{cost} = $numdata->{cost} * ( ( $branddata->{markup} / 10000 ) + 1 );
+				$numdata->{connectcost} = $numdata->{connectcost} * ( ( $branddata->{markup} / 1 ) + 1 );
+				$numdata->{cost} = $numdata->{cost} * ( ( $branddata->{markup} / 1 ) + 1 );
 			}
 			if ( $numdata->{inc} > 0 ) {
 				$increment = $numdata->{inc};
@@ -4118,7 +4133,7 @@ sub rating() {  # This routine recieves a specific cdr and takes care of rating 
 				$increment = $branddata->{inc};
 			}
 			print STDERR
-				"$numdata->{connectcost}, $numdata->{cost}, $cdrinfo->{billsec}, $increment, $numdata->{includedseconds}";
+				"$numdata->{connectcost}, $numdata->{cost}, $cdrinfo->{billsec}, $increment, $numdata->{includedseconds}\n" if $config->{debug} == 1;
 			my $cost = &calc_call_cost(
 					$numdata->{connectcost}, $numdata->{cost},
 					$cdrinfo->{billsec},     $increment,
@@ -4126,13 +4141,13 @@ sub rating() {  # This routine recieves a specific cdr and takes care of rating 
 					);
 
 			$cost = sprintf( "%." . $config->{decimalpoints} . "f", $cost );
-			print STDERR "Matching pattern is $numdata->{pattern}\n";
+			print STDERR "Matching pattern is $numdata->{pattern}\n" if $config->{debug} == 1;
 
 
-#Blocks all signals so that the program cannot be killed while writing costs.
+			#Blocks all signals so that the program cannot be killed while writing costs.
 			my $sigset = POSIX::SigSet->new;
 			my $blockset = POSIX::SigSet->new( SIGINT, SIGQUIT, SIGCHLD );
-			sigprocmask( SIG_BLOCK, $blockset, $sigset ) or die "Could not block INT,QUIT,CHLD signals: $!\n";
+			sigprocmask( SIG_BLOCK, $blockset, $sigset ) or die "Could not block INT,QUIT,CHLD signals: $!\n" if $config->{debug} == 1;
 			&save_cdr( $config, $cdr_db, $cdrinfo->{uniqueid}, $cost,$cdrinfo->{dst} ) if !$vars && $config->{astcdr} == 1;
 			if ( $cdrinfo->{accountcode} ne $carddata->{number} && $cdrinfo->{accountcode} ne $carddata->{cc}) {
 				$notes = $cdrinfo->{accountcode} . "|" . $numdata->{comment} . "|" . $numdata->{pattern};
@@ -4147,7 +4162,8 @@ sub rating() {  # This routine recieves a specific cdr and takes care of rating 
 					$cdrinfo->{disposition}, $cdrinfo->{billsec},
 					$cost,                   $cdrinfo->{calldate},
 					"",                      $cdrinfo->{trunk},
-					$notes,$numdata->{pricelist}, $numdata->{pattern}
+					$notes,$numdata->{pricelist}, $numdata->{pattern},
+					$cdrinfo->{userfield}, $cdrinfo->{provider}
 					)
 				if $config->{posttoastpp} == 1;
 			&print_csv(
@@ -4157,16 +4173,16 @@ sub rating() {  # This routine recieves a specific cdr and takes care of rating 
 					$carddata->{reseller}, $cdrinfo, @output
 					);
 			sigprocmask( SIG_SETMASK, $sigset ) # Restore the passing of signals
-				or die "Could not restore INT,QUIT,CHLD signals: $!\n";    #
+				or die "Could not restore INT,QUIT,CHLD signals: $!\n" if $config->{debug} == 1;    #
 				$status = 1;
 		}
 	}
 	else {
 		&save_cdr( $config, $cdr_db,$cdrinfo->{uniqueid}, "error",$cdrinfo->{dst} ) if !$vars && $config->{astcdr} == 1;
-		print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n";
-		print STDERR "DISPOSITION: $cdrinfo->{disposition} \n";
-		print STDERR "UNIQUEID: $cdrinfo->{uniqueid} \n";
-		print STDERR "----------------------\n\n";
+		print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n" if $config->{debug} == 1;
+		print STDERR "DISPOSITION: $cdrinfo->{disposition} \n" if $config->{debug} == 1;
+		print STDERR "UNIQUEID: $cdrinfo->{uniqueid} \n" if $config->{debug} == 1;
+		print STDERR "----------------------\n\n" if $config->{debug} == 1;
 		$status = 0;
 	}
 	return $status;
@@ -4175,7 +4191,7 @@ sub rating() {  # This routine recieves a specific cdr and takes care of rating 
 sub catch_zap { # This subroutine will not allow you to kill the process while it's in the most vital portion of rating a call.
 	my $shucks = 0;
 	my $signame = shift;
-	our $shucks++;
+	$shucks++;
 	die "Somebody sent me a SIG$signame!";
 }
 
@@ -4185,16 +4201,16 @@ sub vendor_not_billed() {  # Prints the information on calls where the "vendor" 
 	my $sql = $cdr_db->prepare($tmp);
 	$sql->execute;
 	while ( my $cdr = $sql->fetchrow_hashref ) {
-		print STDERR "----------------------\n";
-		print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n";
-		print STDERR gettext("Destination: ") . $cdr->{dst} . "\n";
-		print STDERR gettext("Trunk: ") . $cdr->{dstchannel} . "\n";
-		print STDERR gettext("Date/Time: ") . $cdr->{calldate} . "\n";
-		print STDERR gettext("Disposition: ") . $cdr->{disposition} . "\n";
-		print STDERR gettext("Source: ") . $cdr->{src} . "\n";
-		print STDERR gettext("UniqueID: ") . $cdr->{uniqueid} . "\n";
-		print STDERR gettext("Destination: ") . $cdr->{dst} . "\n";
-		print STDERR "----------------------\n\n";
+		print STDERR "----------------------\n" if $config->{debug} == 1;
+		print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n" if $config->{debug} == 1;
+		print STDERR gettext("Destination: ") . $cdr->{dst} . "\n" if $config->{debug} == 1;
+		print STDERR gettext("Trunk: ") . $cdr->{dstchannel} . "\n" if $config->{debug} == 1;
+		print STDERR gettext("Date/Time: ") . $cdr->{calldate} . "\n" if $config->{debug} == 1;
+		print STDERR gettext("Disposition: ") . $cdr->{disposition} . "\n" if $config->{debug} == 1;
+		print STDERR gettext("Source: ") . $cdr->{src} . "\n" if $config->{debug} == 1;
+		print STDERR gettext("UniqueID: ") . $cdr->{uniqueid} . "\n" if $config->{debug} == 1;
+		print STDERR gettext("Destination: ") . $cdr->{dst} . "\n" if $config->{debug} == 1;
+		print STDERR "----------------------\n\n" if $config->{debug} == 1;
 	}
 }
 
@@ -4203,7 +4219,7 @@ sub processlist() {  # Deal with a list of calls which have not been rated so fa
 	my ($astpp_db, $cdr_db, $config, $chargelist, $vars) = @_;
 	my ( $status, $cdrinfo);
 	foreach my $uniqueid (@$chargelist) {
-		print STDERR gettext("Processing Uniqueid: ") . $uniqueid . "\n";
+		print STDERR gettext("Processing Uniqueid: ") . $uniqueid . "\n" if $config->{debug} == 1;
 		$cdrinfo  = &get_cdr( $config, $cdr_db, $uniqueid );
 		my $savedcdrinfo = $cdrinfo;
 #		if(!$vars) {
@@ -4219,17 +4235,17 @@ sub processlist() {  # Deal with a list of calls which have not been rated so fa
 #		}
 		if ( $cdrinfo->{accountcode} ) {
     			if ($config->{thirdlane_mods} == 1 && $cdrinfo->{accountcode} =~ m/.\d\d\d-IN/) {
-			    	print STDERR "Call belongs to a Thirdlane(tm) DID.\n";
+			    	print STDERR "Call belongs to a Thirdlane(tm) DID.\n" if $config->{debug} == 1;
 				my ($did,$record);
 				($did = $cdrinfo->{accountcode}) =~ s/-IN//g;
-				print STDERR "DID: $did \n";
+				print STDERR "DID: $did \n" if $config->{debug} == 1;
 				$record = &get_did($astpp_db,$did);
 				$cdrinfo->{userfield} = $cdrinfo->{accountcode};
 				$cdrinfo->{accountcode} = $record->{account};
 				$cdrinfo->{dst} = $did;
 			}
 			if ($config->{cdr_regex_accountcode}) {
-				print STDERR "Modify Accountcode\n";
+				print STDERR "Modify Accountcode\n" if $config->{debug} == 1;
 				print STDERR "Original: " . $cdrinfo->{accountcode};
 				$cdrinfo->{accountcode} =~ s/$config->{cdr_regex_accountcode}//mg;
 				print STDERR "Modified: " . $cdrinfo->{accountcode};
@@ -4244,22 +4260,48 @@ sub processlist() {  # Deal with a list of calls which have not been rated so fa
 					&save_cdr( $config, $cdr_db, $uniqueid, 0,$cdrinfo->{dst} ) if !$vars && $config->{astcdr} == 1;
 					&save_cdr_vendor( $config, $cdr_db, $uniqueid, 0,$cdrinfo->{dst} )
 						if $config->{astcdr} == 1;
-					print STDERR "\n----------------------\n";
-					print STDERR "CDR Written - No Billable Seconds\n";
+					print STDERR "\n----------------------\n" if $config->{debug} == 1;
+					print STDERR "CDR Written - No Billable Seconds\n" if $config->{debug} == 1;
 					print STDERR
-						"uniqueid $cdrinfo->{uniqueid}, cardno $cdrinfo->{accountcode}, phoneno $cdrinfo->{dst}\n";
-					print STDERR "disposition $cdrinfo->{disposition}\n";
-					print STDERR "----------------------\n";
+						"uniqueid $cdrinfo->{uniqueid}, cardno $cdrinfo->{accountcode}, phoneno $cdrinfo->{dst}\n" if $config->{debug} == 1;
+					print STDERR "disposition $cdrinfo->{disposition}\n" if $config->{debug} == 1;
+					print STDERR "----------------------\n" if $config->{debug} == 1;
+					
+					if($carddata->{maxchannels} ne '0' && $cdrinfo->{userfield} eq 'STANDARD')
+					{					
+					      &update_inuse($astpp_db,$carddata->{number},'accounts','-1');
+					}
+					if($cdrinfo->{userfield} eq 'DID')
+					{					
+					      &update_inuse($astpp_db,$cdrinfo->{dst},'dids','-1');
+					}
+					while ( $carddata->{reseller} ne "" ) {
+					    $carddata = &get_account( $astpp_db, $carddata->{reseller} );
+					    #Calculating in use count for account 
+					    if($carddata->{maxchannels} ne '0' && $cdrinfo->{userfield} eq 'STANDARD')
+					    {
+						  &update_inuse($astpp_db,$carddata->{number},'accounts','-1');
+					    }
+					}
 				}
 				elsif ( $cdrinfo->{accountcode} ) {
 					$status = 0;
 					$status = &rating( $astpp_db, $cdr_db,$config, $cdrinfo, $carddata, $vars);
+					#Calculating in use count for account 
+					if($carddata->{maxchannels} ne '0' && $cdrinfo->{userfield} eq 'STANDARD')
+					{					
+					      &update_inuse($astpp_db,$carddata->{number},'accounts','-1');
+					}
+					if($cdrinfo->{userfield} eq 'DID')
+					{					
+					      &update_inuse($astpp_db,$cdrinfo->{dst},'dids','-1');
+					}
 					$cdrinfo  = &get_cdr( $config, $cdr_db, $uniqueid ) if !$vars;
 					if ( $status == 1 ) {
 						my $previous_account = $carddata->{number};
 						while ( $carddata->{reseller} ne "" ) {
 							$cdrinfo  = &get_cdr( $config, $cdr_db, $uniqueid ) if !$vars;
-							print STDERR "Charge $uniqueid to $carddata->{reseller}" if $config->{debug} == 1;
+							print STDERR "Charge $uniqueid to $carddata->{reseller}\n" if $config->{debug} == 1;
 							$carddata = &get_account( $astpp_db, $carddata->{reseller} );
 							$status = &rating( $astpp_db, $cdr_db, $config, $cdrinfo, $carddata, $vars);
 							my $tmp = "SELECT id FROM cdrs WHERE uniqueid = '" . $uniqueid 
@@ -4283,21 +4325,28 @@ sub processlist() {  # Deal with a list of calls which have not been rated so fa
 							. " WHERE id = " . $previous_data->{id} . " AND callednum = " . $cdr_db->quote($cdrinfo->{dst});
 							print STDERR "$tmp\n" if $config->{debug} == 1;
 							$astpp_db->do($tmp);
+							
+							#Calculating in use count for account 
+							if($carddata->{maxchannels} ne '0' && $cdrinfo->{userfield} eq 'STANDARD')
+							{
+							      &update_inuse($astpp_db,$carddata->{number},'accounts','-1');
+							}
+							
 							$previous_account = $carddata->{number};
 						}
 					}
 				}
 			}
 			else {
-				print STDERR "----------------------\n";
-				print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n";
-				print STDERR "NO ACCOUNT EXISTS IN ASTPP\n";
+				print STDERR "----------------------\n" if $config->{debug} == 1;
+				print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n" if $config->{debug} == 1;
+				print STDERR "NO ACCOUNT EXISTS IN ASTPP\n" if $config->{debug} == 1;
 				print STDERR
-					"uniqueid: $uniqueid, Account: $cdrinfo->{accountcode}, phoneno: $cdrinfo->{dst}\n";
-				print STDERR "disposition: $cdrinfo->{disposition}\n";
-				print STDERR "----------------------\n";
+					"uniqueid: $uniqueid, Account: $cdrinfo->{accountcode}, phoneno: $cdrinfo->{dst}\n" if $config->{debug} == 1;
+				print STDERR "disposition: $cdrinfo->{disposition}\n" if $config->{debug} == 1;
+				print STDERR "----------------------\n" if $config->{debug} == 1;
 				if(!$vars) {
-					my $tmp = "UPDATE $config->{asterisk_cdr_table} SET cost = 'error' WHERE uniqueid = " 
+					my $tmp = "UPDATE $config->{freeswitch_cdr_table} SET cost = 'error' WHERE uniqueid = " 
 						. $cdr_db->quote($uniqueid) 
 						. " AND cost = 'rating' LIMIT 1";
 					$cdr_db->do($tmp);
@@ -4307,15 +4356,15 @@ sub processlist() {  # Deal with a list of calls which have not been rated so fa
 			}
 		}
 		else {
-			print STDERR "----------------------\n";
-			print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n";
-			print STDERR "NO ACCOUNTCODE IN DATABASE\n";
+			print STDERR "----------------------\n" if $config->{debug} == 1;
+			print STDERR "ERROR - ERROR - ERROR - ERROR - ERROR \n" if $config->{debug} == 1;
+			print STDERR "NO ACCOUNTCODE IN DATABASE\n" if $config->{debug} == 1;
 			print STDERR
-				"uniqueid: $cdrinfo->{uniqueid}, cardno: $cdrinfo->{accountcode}, phoneno: $cdrinfo->{dst}\n";
-			print STDERR "disposition: $cdrinfo->{disposition}\n";
-			print STDERR "----------------------\n";
+				"uniqueid: $cdrinfo->{uniqueid}, cardno: $cdrinfo->{accountcode}, phoneno: $cdrinfo->{dst}\n" if $config->{debug} == 1;
+			print STDERR "disposition: $cdrinfo->{disposition}\n" if $config->{debug} == 1;
+			print STDERR "----------------------\n" if $config->{debug} == 1;
 			if(!$vars) {
-				my $tmp = "UPDATE $config->{asterisk_cdr_table} SET cost = 'none' WHERE uniqueid = " 
+				my $tmp = "UPDATE $config->{freeswitch_cdr_table} SET cost = 'none' WHERE uniqueid = " 
 					. $cdr_db->quote($uniqueid) 
 					. " AND cost = 'rating' LIMIT 1";
 				$cdr_db->do($tmp);
@@ -4325,7 +4374,7 @@ sub processlist() {  # Deal with a list of calls which have not been rated so fa
 		}
 		my $phrase = "none";
 		if ($config->{trackvendorcharges} == 1) {
-			print STDERR gettext("Vendor Rating Starting") . "/n";
+			print STDERR gettext("Vendor Rating Starting") . "/n" if $config->{debug} == 1;
 			&vendor_process_rating( $astpp_db, $cdr_db, $config, $phrase, $uniqueid, $vars ) if $config->{softswitch} == 0;
 			&vendor_process_rating_fs( $astpp_db, $cdr_db, $config, $phrase, $uniqueid, $vars ) if $config->{softswitch} == 1;
 		}
@@ -4336,15 +4385,15 @@ sub processlist() {  # Deal with a list of calls which have not been rated so fa
 sub vendor_process_rating_fs() {  #Rate Vendor calls.
 	my ( $astpp_db, $cdr_db, $config, $phrase, $uniqueid, $vars ) = @_;
 	my ($sql,$tmp);
-	print STDERR "Vendor Rating Uniqueid: " . $uniqueid . "\n";
+	print STDERR "Vendor Rating Uniqueid: " . $uniqueid . "\n" if $config->{debug} == 1;
 	if($uniqueid) {
 	    $tmp = "SELECT * FROM $config->{freeswitch_cdr_table} WHERE uniqueid = '$uniqueid'";
 	} else {
 	    $tmp = "SELECT * FROM $config->{freeswitch_cdr_table} WHERE vendor IN ('error','none')";
 	}
 	print STDERR $tmp . "\n" if $config->{debug} == 1;
-    $sql = $cdr_db->prepare($tmp);
-    $sql->execute;
+	$sql = $cdr_db->prepare($tmp);
+	$sql->execute;
 	while ( my $cdrinfo = $sql->fetchrow_hashref ) {
 				my $tmp = "SELECT * FROM outbound_routes WHERE id = "
 					. $astpp_db->quote( $cdrinfo->{outbound_route} );
@@ -4367,7 +4416,8 @@ sub vendor_process_rating_fs() {  #Rate Vendor calls.
 							$cdrinfo->{disposition}, $cdrinfo->{billsec},
 							$cost * -1,              $cdrinfo->{calldate},
 							"",                      $cdrinfo->{trunk},
-							$pricerecord->{comment} . "|" . $pricerecord->{pattern}
+							$pricerecord->{comment},$pricerecord->{name},$pricerecord->{pattern},
+							$cdrinfo->{userfield}, $cdrinfo->{provider}
 							) if $config->{posttoastpp} == 1;
 					&save_cdr_vendor( $config, $cdr_db, $cdrinfo->{uniqueid}, $cost,$cdrinfo->{dst} );
 					my $tmp = "UPDATE cdrs SET cost = '" . $cost . "' WHERE uniqueid = '" .
@@ -4441,7 +4491,8 @@ sub vendor_process_rating() {  #Rate Vendor calls.
 							$cdrinfo->{disposition}, $cdrinfo->{billsec},
 							$cost * -1,              $cdrinfo->{calldate},
 							"",                      $cdrinfo->{trunk},
-							$pricerecord->{comment} . "|" . $pricerecord->{pattern}
+							$pricerecord->{comment},$pricerecord->{name},$pricerecord->{pattern},
+							$cdrinfo->{userfield}, $cdrinfo->{provider}
 							) if $config->{posttoastpp} == 1;
 					&save_cdr_vendor( $config, $cdr_db, $cdrinfo->{uniqueid}, $cost,$cdrinfo->{dst} );
 					my $tmp = "UPDATE cdrs SET cost = '" . $cost . "' WHERE uniqueid = '" .
@@ -4480,7 +4531,8 @@ sub vendor_process_rating() {  #Rate Vendor calls.
 						$cdrinfo->{disposition}, $cdrinfo->{billsec},
 						$cost * -1,              $cdrinfo->{calldate},
 						"",                      $cdrinfo->{trunk},
-						$pricerecord->{comment} . "|" . $pricerecord->{pattern}
+						$pricerecord->{comment},$pricerecord->{name},$pricerecord->{pattern},
+						$cdrinfo->{userfield}, $cdrinfo->{provider}
 						) if $config->{posttoastpp} == 1;
 				my $tmp = "UPDATE cdrs SET cost = '" . $cost . "' WHERE uniqueid = '" .
 					$cdrinfo->{uniqueid} . "' AND cost = 0 "
@@ -4500,17 +4552,18 @@ sub vendor_process_rating() {  #Rate Vendor calls.
 sub update_list_cards() {
     my ($astpp_db, $config, $sweep) = @_;
     my ( $sql, @cardlist, $row );
-    if (!$sweep || $sweep eq "" ) {
+    print $sweep."\n" if $config->{debug} == 1;
+    
+    if ($sweep eq "") {
         $sql =
-          $astpp_db->prepare(
-"SELECT number FROM accounts WHERE status < 2 AND (reseller IS NULL OR reseller = '') AND posttoexternal = 0 "
-          );
+#           $astpp_db->prepare("SELECT number FROM accounts WHERE status < 2 AND (reseller IS NULL OR reseller = '') AND posttoexternal = 0 ");
+	  $astpp_db->prepare("SELECT number FROM accounts WHERE status < 2 AND posttoexternal = 0 ");
     }
-    else {
+    else 
+    {
         $sql =
-          $astpp_db->prepare(
-"SELECT number FROM accounts WHERE status < 2 AND ( reseller IS NULL OR reseller = '') AND sweep = "
-              . $astpp_db->quote($sweep) );
+#           $astpp_db->prepare("SELECT number FROM accounts WHERE status < 2 AND ( reseller IS NULL OR reseller = '') AND sweep = ". $astpp_db->quote($sweep) );
+	  $astpp_db->prepare("SELECT number FROM accounts WHERE status < 2 AND sweep = ". $astpp_db->quote($sweep) );
     }
     $sql->execute;
     while ( $row = $sql->fetchrow_hashref ) {
@@ -4533,7 +4586,7 @@ sub osc_order_total() {
     $tmp =
       "SELECT SUM(value) FROM orders_total WHERE orders_id = "
       . $osc_db->quote($invoice_id);
-    print STDERR "$tmp \n";
+    print STDERR "$tmp \n" if $config->{debug} == 1;
     $sql = $osc_db->prepare($tmp);
     $sql->execute;
     $row = $sql->fetchrow_hashref;
@@ -4552,7 +4605,7 @@ sub osc_post_total() {
       . $osc_db->quote($value) . ", "
       . $osc_db->quote($class) . ", "
       . $osc_db->quote($sort) . ")";
-    print STDERR "$tmp \n";
+    print STDERR "$tmp \n" if $config->{debug} == 1;
     $sql = $osc_db->prepare($tmp);
     $sql->execute;
 }
@@ -4565,13 +4618,13 @@ sub osc_tax_list() {
       . $osc_db->quote($zone_id)
       . ", '0') OR zone_id IS NULL AND zone_country_id = "
       . $osc_db->quote($zone_country_id);
-    print STDERR "$tmp \n";
+    print STDERR "$tmp \n" if $config->{debug} == 1;
     $sql = $osc_db->prepare($tmp);
     $sql->execute;
     $tot_count = 0;
     while ( $row = $sql->fetchrow_hashref ) {
         push @tax_list, $row->{'geo_zone_id'};
-        print STDERR "GEO ZONE ID: $row->{'geo_zone_id'} \n";
+        print STDERR "GEO ZONE ID: $row->{'geo_zone_id'} \n" if $config->{debug} == 1;
         $tot_count++;
     }
     $sql->finish;
@@ -4579,7 +4632,7 @@ sub osc_tax_list() {
         $count    = 0;
         $tax_list = "IN (";
         foreach my $number (@tax_list) {
-            print STDERR "SQL COMMAND GEO ZONE ID: $number \n";
+            print STDERR "SQL COMMAND GEO ZONE ID: $number \n" if $config->{debug} == 1;
             $tax_list .= $number;
             $count++;
             if ( $count < $tot_count ) {
@@ -4595,7 +4648,7 @@ sub osc_tax_list() {
         "SELECT * FROM tax_rates WHERE tax_zone_id "
       . $tax_list
       . " ORDER BY tax_priority DESC";
-    print STDERR "$tmp\n";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
     $sql = $osc_db->prepare($tmp);
     $sql->execute;
     while ( $row = $sql->fetchrow_hashref ) {
@@ -4670,7 +4723,7 @@ sub osc_get_accountinfo() {
 	        return (1,$row);
 	    }
     else {
-        print STDERR "OSCommerce Account: $account NOT FOUND!!!\n";
+        print STDERR "OSCommerce Account: $account NOT FOUND!!!\n" if $config->{debug} == 1;
         return (0,"");
         #exit(0);
     }
@@ -4695,7 +4748,7 @@ sub osc_get_country() {
     $tmp =
       "SELECT * FROM `countries` WHERE `countries_id` = "
       . $osc_db->quote($country_id);
-    print STDERR "$tmp \n";
+    print STDERR "$tmp \n" if $config->{debug} == 1;
     $sql = $osc_db->prepare($tmp);
     $sql->execute;
     $row = $sql->fetchrow_hashref;
@@ -4708,7 +4761,7 @@ sub osc_get_zone() {
     my ( $tmp, $sql, $row );
     $tmp =
       "SELECT * FROM `zones` WHERE `zone_id` = " . $osc_db->quote($zone_id);
-    print STDERR "$tmp \n";
+    print STDERR "$tmp \n" if $config->{debug} == 1;
     $sql = $osc_db->prepare($tmp);
     $sql->execute;
     $row = $sql->fetchrow_hashref;
@@ -4823,7 +4876,7 @@ sub osc_post_charge() {
     my ($osc_db, $config, $invoice_id, $row ) = @_;
     my ( $sql, $desc, $tmp, $price );
     $desc  = "$row->{callstart} SRC: $row->{callerid} DST: $row->{callednum} SEC:$row->{billseconds} $row->{notes}";
-    $price = $row->{debit} / 10000;
+    $price = $row->{debit} / 1;
     if($config->{osc_post_nc} == 1 || $price != 0) { 
        $tmp   =
 "INSERT INTO `orders_products` (`orders_products_id`,`orders_id`,`products_id`,`products_name`,`products_price`,"
@@ -4866,13 +4919,13 @@ sub osc_charges() {
       . " AND status = 0";
     }
 
-    print STDERR "$tmp \n";
+    print STDERR "$tmp \n" if $config->{debug} == 1;
     $sql = $astpp_db->prepare($tmp);
     $sql->execute;
     $row       = $sql->fetchrow_hashref;
     $cdr_count = $row->{"COUNT(*)"};
     $sql->finish;
-    print STDERR "OSC_COUNT: $cdr_count \n";
+    print STDERR "OSC_COUNT: $cdr_count \n" if $config->{debug} == 1;
 
     if ( $cdr_count > 0 ) {
         my (
@@ -4930,7 +4983,7 @@ sub osc_charges() {
             my ($tax_amount);
             if ( $tax_count == 1 ) {
                 $tax_priority = $tax->{tax_priority};
-                $tax_amount = $subtotal * ( $tax->{tax_rate} / 100 );
+                $tax_amount = $subtotal * ( $tax->{tax_rate} / 1 );
                 $sort++;
                 $tax_amount = sprintf( "%." . $config->{decimalpoints_tax} . "f", $tax_amount );
                 &osc_post_total( $osc_db, $config, $invoice_id, $tax->{tax_description},
@@ -4942,7 +4995,7 @@ sub osc_charges() {
                     $subtotal = &osc_order_total($osc_db, $config, $invoice_id);
                 }
                 $tax_priority = $tax->{tax_priority};
-                $tax_amount = $subtotal * ( $tax->{tax_rate} / 100 );
+                $tax_amount = $subtotal * ( $tax->{tax_rate} / 1 );
                 $sort++;
                 $tax_amount = sprintf( "%." . $config->{decimalpoints_tax} . "f", $tax_amount );
                 &osc_post_total($osc_db, $config, $invoice_id, $tax->{tax_description},
@@ -4968,7 +5021,7 @@ sub osc_get_account() {
       "SELECT * FROM `customers` WHERE `customers_email_address` = "
       . $osc_db->quote($account) . " OR WHERE 'customers_username' = "
       . $osc_db->quote($account);
-    print STDERR "$tmp \n";
+    print STDERR "$tmp \n" if $config->{debug} == 1;
     $sql = $osc_db->prepare($tmp);
     $sql->execute;
     $row = $sql->fetchrow_hashref;
@@ -5052,7 +5105,232 @@ sub get_callshop() {
     return $accountdata;
 }
 
+#Return ANI Data
+sub get_ani_map() {
+    my ( $astpp_db, $ani_number, $config ) = @_;
+    my ( $sql,$tmp,$anidata );
+    $tmp =
+       "SELECT * FROM ani_map WHERE number = "
+          . $astpp_db->quote($ani_number);
+    print STDERR "$tmp\n" if $config->{debug} == 1;
+    $sql = $astpp_db->prepare($tmp);
+    $sql->execute;
+    $anidata = $sql->fetchrow_hashref;
+    $sql->finish;
+    return $anidata;
+}
 
 
-1;
+#Return callingcard cardnumber. Using in ANI Based authentications.
+sub get_cardnumber(){
+    my ( $astpp_db, $account,$number, $config ) = @_;
+    my ( $sql,$tmp,$ccdata );
+    $tmp =
+       "SELECT * FROM callingcards WHERE (account = "
+          . $astpp_db->quote($account)." OR account = ".$astpp_db->quote($number).")";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
+    $sql = $astpp_db->prepare($tmp);
+    $sql->execute;
+    $ccdata = $sql->fetchrow_hashref;
+    $sql->finish;
+    return $ccdata;
+}
 
+#Return Currency list 
+sub get_all_currency() {
+    my ( $astpp_db, $config ) = @_;
+    my ( $sql,$tmp,@currencydata,$record );
+    $tmp =
+       "SELECT * FROM currency WHERE Currency!="
+            . $astpp_db->quote($config->{base_currency});
+    print STDERR "$tmp\n" if $config->{debug} == 1;
+    $sql = $astpp_db->prepare($tmp);
+    $sql->execute;
+    
+    while ( $record = $sql->fetchrow_hashref ) {
+        push @currencydata, $record->{Currency};
+    }
+    $sql->finish;
+    return @currencydata;        
+}
+
+#Return List of all ips
+sub get_all_ip_map() {
+    my ( $astpp_db) = @_;
+    my ( $sql, @iplist, $row, $tmp );
+    $tmp = "SELECT * FROM ip_map";
+    print STDERR "$tmp\n" if $config->{debug} == 1;
+    $sql = $astpp_db->prepare($tmp);
+    $sql->execute;
+    while ( $row = $sql->fetchrow_hashref ) {
+        push @iplist, $row->{ip};
+    }
+    $sql->finish;    
+    return @iplist;
+}
+
+#Update account/DID inuse count
+sub update_inuse() {  
+        my ( $astpp_db, $cardnumber,$table , $count ) = @_;
+        my $sql = "UPDATE $table SET inuse = inuse $count WHERE number = ". $astpp_db->quote( $cardnumber );
+	print STDERR "$sql\n"  if $config->{debug}==1;
+        $astpp_db->do($sql);
+}
+
+#Get account / Calling card outbound callerid number to override
+sub get_outbound_callerid()
+{
+    my ( $astpp_db,$accountid,$table,$field) = @_;
+    my ( $sql, $row, $tmp );
+    $tmp = "SELECT * FROM $table where $field='".$accountid."' AND status=1";
+    $sql = $astpp_db->prepare($tmp);
+    $sql->execute;
+    $row = $sql->fetchrow_hashref;    
+    $sql->finish;    
+    return $row;
+}
+
+#Add Account callerid
+sub add_callerid() {
+    my ( $astpp_db, $params) = @_;
+    my ($callstatus,$tmp,$status);
+      
+      if($params->{status} eq "on"){
+		$callstatus = "1";
+      }
+      else {$callstatus = "0"; }
+
+      $tmp = "INSERT INTO accounts_callerid (accountid,callerid_name,callerid_number,status ) VALUES ("
+	    . $astpp_db->quote( $params->{accountid} ) . ", "
+	    . $astpp_db->quote( $params->{callerid_name} ) . ", "
+	    . $astpp_db->quote( $params->{callerid_number} )
+	    . "," .$callstatus.")";
+      if ( $astpp_db->do($tmp) ) {
+	  $status = gettext("Account CallerID Added Successfully!");
+      }
+      else 
+      {
+	  $status = gettext("Failed to Add Account CallerID!");
+      }
+}
+
+#Update Account callerid
+sub edit_callerid() {
+
+    my ( $astpp_db, $params) = @_;
+    my ($callstatus,$tmp,$status);
+
+    if($params->{status} eq "on"){
+	$callstatus = "1";
+    }
+    else { $callstatus = "0"; }
+
+    $tmp = "update accounts_callerid SET accountid =  ".$astpp_db->quote( $params->{accountid} ). ", "
+	    . " callerid_name = " . $astpp_db->quote( $params->{callerid_name} ) . ", "
+	    . " callerid_number =" . $astpp_db->quote( $params->{callerid_number} ) . ", "
+	    . " status = " .$callstatus." WHERE accountid ="
+	    . $astpp_db->quote( $params->{accountid} );
+
+    if ( $astpp_db->do($tmp) ) {
+	$status = gettext("Account CallerID Updated Successfully!");
+    }
+    else 
+    {
+	$status = gettext("Failed to Add Account CallerID!");
+    }
+}
+
+#Add Callingcard callerid
+sub add_cc_callerid() {
+    my ( $astpp_db, $params) = @_;
+    my ($callstatus,$tmp,$status);
+      
+    if($params->{status} eq "on"){
+	      $callstatus = "1";
+    }
+    else { $callstatus = "0"; }
+
+    $tmp = "INSERT INTO callingcards_callerid (cardnumber ,callerid_name,callerid_number,status ) VALUES ("
+	  . $astpp_db->quote( $params->{cardnumber} ) . ", "
+	  . $astpp_db->quote( $params->{callerid_name} ) . ", "
+	  . $astpp_db->quote( $params->{callerid_number} )
+	  . "," .$callstatus.")";
+
+    if ( $astpp_db->do($tmp) ) {
+	$status = gettext("Calling Card CallerID Added Successfully!");
+    }
+    else 
+    {
+	$status = gettext("Failed to Add Calling Card CallerID!");
+    }
+}
+
+#Update callingcard callerid
+sub edit_cc_callerid() {
+
+    my ( $astpp_db, $params) = @_;
+    my ($callstatus,$tmp,$status);
+
+    if($params->{status} eq "on"){
+	$callstatus = "1";
+    }
+    else { $callstatus = "0"; }
+
+    $tmp = "update callingcards_callerid SET cardnumber  =  ".$astpp_db->quote( $params->{cardnumber } ). ", "
+	    . " callerid_name = " . $astpp_db->quote( $params->{callerid_name} ) . ", "
+	    . " callerid_number =" . $astpp_db->quote( $params->{callerid_number} ) . ", "
+	    . " status = " .$callstatus." WHERE cardnumber  ="
+	    . $astpp_db->quote( $params->{cardnumber} );
+
+    if ( $astpp_db->do($tmp) ) {
+	$status = gettext("Calling Card CallerID Updated Successfully!");
+    }
+    else 
+    {
+	$status = gettext("Failed to Add Calling Card CallerID!");
+    }
+}
+
+#Add Email default email templates when new reseller, callshop is creating
+sub addaccountemailtemplate()
+{
+    my ( $astpp_db, $config ,$params) = @_;
+    my($accountid,$tmp,$sql,$accrecord,$temp,$record); 
+    
+    $temp = "SELECT accountid FROM accounts WHERE number = "
+	  . $astpp_db->quote($params->{customnum});
+    $sql = $astpp_db->prepare($temp);
+    $sql->execute;
+    $accrecord = $sql->fetchrow_hashref();			   	   
+      
+    $sql = $astpp_db->prepare("select * from default_templates");    
+    $sql->execute;
+
+    while ( $record = $sql->fetchrow_hashref() ) {
+	$astpp_db->do(
+	  "INSERT INTO templates (name,subject,accountid,template,modified_date) VALUES ("
+	  . $astpp_db->quote( $record->{name} ) . ","
+	  . $astpp_db->quote( $record->{subject} ) . ","
+	  . $astpp_db->quote( $accrecord->{accountid} ) . ","
+	  . $astpp_db->quote( $record->{template} ) . ","
+	  . 'now()'
+	  . ")" );
+    }    
+}
+
+#Add Default Invoice configuration
+sub addinvoiceconf()
+{
+    my ( $astpp_db, $config ,$params) = @_;
+    my($accountid,$tmp,$sql,$accrecord,$temp,$record); 
+    
+    $temp = "SELECT accountid FROM accounts WHERE number = "
+	  . $astpp_db->quote($params->{customnum});
+    $sql = $astpp_db->prepare($temp);
+    $sql->execute;
+    $accrecord = $sql->fetchrow_hashref();
+    
+    $astpp_db->do(
+	"INSERT INTO invoice_conf (accountid, company_name, address, city, province, country, zipcode, telephone, fax, emailaddress, website) VALUES ("
+	.$astpp_db->quote( $accrecord->{accountid}).", 'Company name', 'Address', 'City', 'Province', 'Country', 'Zipcode', 'Telephone', 'Fax', 'Email Address', 'Website')" );
+}

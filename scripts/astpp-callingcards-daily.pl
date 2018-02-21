@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2004, Aleph Communications
 #
-# Darren Wiebe (darren@aleph-com.net)
+# ASTPP Team (info@astpp.org)
 #
 # This program is Free Software and is distributed under the
 # terms of the GNU General Public License version 2.
@@ -59,10 +59,10 @@ foreach my $cardinfo (@cardlist) {
         && $now >= $cardinfo->{expiry} )
     {
         $sql =
-"INSERT INTO callingcardcdrs (cardnumber,clid,disposition,callstart,charge) VALUES ("
+	  "INSERT INTO callingcardcdrs (cardnumber,clid,disposition,callstart,charge) VALUES ("
           . $astpp_db->quote( $cardinfo->{cardnumber} )
           . ", 'Maintenance Fee', "
-          . $astpp_db->quote( $$cardinfo->{maint_fee_pennies} / 100 ) . ")";
+          . $astpp_db->quote( $$cardinfo->{maint_fee_pennies} / 1 ) . ")";
         $astpp_db->do($sql);
         my $sql =
             "UPDATE callingcards SET expiry = DATE_ADD("

@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2007, Aleph Communications
 #
-# Darren Wiebe (darren@aleph-com.net)
+# ASTPP Team (info@astpp.org)
 #
 # This program is Free Software and is distributed under the
 # terms of the GNU General Public License version 2.
