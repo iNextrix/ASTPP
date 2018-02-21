@@ -55,7 +55,7 @@ class email_lib {
 		$query = $query->result_array ();
 		foreach ( $query as $key => $val ) {
 			$tempvar = strtolower ( $val ['name'] );
-			$this->{$tempvar = $val ['value']};
+			$this->$tempvar = $val ['value'];
 		}
 	}
 	function get_template($type) {
