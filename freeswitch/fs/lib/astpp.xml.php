@@ -101,11 +101,20 @@ function load_acl($logger, $db, $config) {
 }
 
 // Build sofia xml
-function load_sofia($logger, $db) {
+function load_sofia($logger, $db, $config) {
 	$xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
 	$xml .= "<document type=\"freeswitch/xml\">\n";
 	$xml .= "   <section name=\"Configuration\" description=\"Configuration\">\n";
 	$xml .= "   <configuration name=\"sofia.conf\" description=\"SIP Profile\">\n";
+	
+	//Added homer integration code
+	if ($config['homer_capture_server'] != "") {
+		$xml .= " <global_settings>\n";
+		$xml .= " <param name=\"sip-capture\" value=\"yes\"/>\n";
+		$xml .= " <param name=\"capture-server\" value=\"".$config['homer_capture_server']."\"/>\n";
+		$xml .= " </global_settings>\n";
+	}
+
 	$xml .= "   <profiles>\n";
 	
 	$query = "SELECT * FROM sip_profiles WHERE status=0";

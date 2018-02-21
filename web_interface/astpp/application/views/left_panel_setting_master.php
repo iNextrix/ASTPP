@@ -81,6 +81,7 @@ $class = "active";
 	<li class="<?php if ($group_title == 'opensips') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/opensips'>Opensips</a></li>
 	<li class="<?php if ($group_title == 'paypal') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/paypal'>Paypal</a></li>
 	<li class="<?php if ($group_title == 'signup') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/signup'>Signup</a></li>
+  <li class="<?php if ($group_title == 'homer') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/homer'>Homer</a></li>
                </ul>
                
 </div>		
