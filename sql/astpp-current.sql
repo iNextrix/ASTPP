@@ -499,7 +499,7 @@ INSERT INTO system (name, value, comment, timestamp) VALUES (
 'company_slogan', 'Welcome to ASTPP','Company slogan', '');
 
 INSERT INTO system (name, value, comment, timestamp) VALUES (
-'version', '1.5Beta', 'ASTPP Version', '');
+'version', '1.6Beta', 'ASTPP Version', '');
 
 INSERT INTO system (name, value, comment, timestamp) VALUES (
 'default_language', 'en', 'Default ASTPP Language','');
@@ -565,7 +565,7 @@ INSERT INTO system (name, value, comment, timestamp) VALUES (
 'users_dids_amp','0','If this is enabled, ASTPP will create users and DIDs in the FreePBX (www.freepbx.org) database.','');
 
 INSERT INTO system (name, value, comment, timestamp) VALUES (
-'users_dids_rt','1','If this is enabled, ASTPP will create users and DIDs in the Asterisk Realtime database.','');
+'users_dids_rt','0','If this is enabled, ASTPP will create users and DIDs in the Asterisk Realtime database.','');
 
 INSERT INTO system (name, value, comment, timestamp) VALUES (
 'users_dids_freeswitch','0','If this is enabled, ASTPP will create SIP users in the freeswitch database.','');

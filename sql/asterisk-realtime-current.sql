@@ -45,7 +45,7 @@ CREATE TABLE `sip_buddies` (
  PRIMARY KEY  (`id`),
  UNIQUE KEY `name` (`name`),
  KEY `name_2` (`name`)
-) TYPE=MyISAM ROW_FORMAT=DYNAMIC; 
+); 
 
 #
 # Table structure for table `iax_buddies`
@@ -113,7 +113,7 @@ CREATE TABLE `voicemail_users` (
  `stamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
  PRIMARY KEY  (`uniqueid`),
  KEY `mailbox_context` (`mailbox`,`context`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 ;
+) ;
 
 CREATE TABLE queue_table (
  name VARCHAR(128) PRIMARY KEY,
@@ -163,4 +163,4 @@ CREATE TABLE `extensions_table` (
  `appdata` varchar(128) NOT NULL default '',
  PRIMARY KEY  (`context`,`exten`,`priority`),
  KEY `id` (`id`)
-) TYPE=MyISAM; 
+); 

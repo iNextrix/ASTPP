@@ -1,12 +1,12 @@
 <br>Welcome to ASTPP - The Open Source Voip Billing Solution
 <br>Please select a function from the menu above.
-<table class="default">
-<tr class="header"><th colspan=5>System Overview</th></tr>
-<tr class="header"><td colspan=5>Account Counts</td></tr>
+<table class="default" width='60%'>
+<tr class="header" align='center'><th colspan=5>System Overview</th></tr>
+<!--<tr class="header"><td colspan=5>Account Counts</td></tr>-->
 <tr class="header">
 	<td>Customers</td>
 	<td>Resellers</td>
-	<td>Vendors</td>
+	<td>Providers</td>
 	<td>Admins</td>
 	<td>Call Shops</td>
 </tr>
@@ -41,4 +41,5 @@
 	<td align=center><a href="/cgi-bin/astpp-admin/astpp-admin.cgi?mode=List%20Cards"><TMPL_VAR NAME="calling_cards_unused"></a></td>
 	<td align=center><a href="/cgi-bin/astpp-admin/astpp-admin.cgi?mode=List%20Cards"><TMPL_VAR NAME="calling_cards_used"></a></td>
 </tr>
+<tr><td><br/><br/><br/></td></tr>
 </table>

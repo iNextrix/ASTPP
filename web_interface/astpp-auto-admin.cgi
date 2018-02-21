@@ -1,4 +1,4 @@
-#!/usr/bin/perl  
+#!/usr/bin/perl
 #
 # ASTPP - Open Source Voip Billing
 #
@@ -25,70 +25,70 @@
 # 2 - Admin (Has login permissions everywhere)
 #
 # This program can be called from a web browser to perform automated actions such as adding and removing
-# accounts.  All requests must include the paramenter "auth" which is an authorization code stored in
+# accounts. All requests must include the paramenter "auth" which is an authorization code stored in
 # /var/lib/astpp/astpp-enh-config.conf.
 #
 # List of functions and required parameters:
 # "create_cc" Generate Calling Card
-# 	"brand" - Calling Card Brand
-#	"value" - Value of Card in 100ths Pennies
-#	"email" - Email Address of person purchasing the card
-#	"user" - ASTPP account name, if available, of person purchasing card
-#	"pins" - 1 or 0  1 is YES and 0 is NO
-#	"status" - Calling card status - 0 = inactive, 1 = active, 2 = deleted
-#       "quantity" - How many of these.  If not set we presume 1.
+# "brand" - Calling Card Brand
+# "value" - Value of Card in 100ths Pennies
+# "email" - Email Address of person purchasing the card
+# "user" - ASTPP account name, if available, of person purchasing card
+# "pins" - 1 or 0 1 is YES and 0 is NO
+# "status" - Calling card status - 0 = inactive, 1 = active, 2 = deleted
+# "quantity" - How many of these. If not set we presume 1.
 #
 # "reset_cc" Reset the inuse field on a calling card
-#	"cardnumber" - The calling card number to reset
+# "cardnumber" - The calling card number to reset
 #
 # "refill_cc" Refill Calling Card
-#	"destcard" - The calling card number to refill
-#	"destcardpin" - The pin for the calling card number to refill
-#	"emptycard" - The calling card number to empty
-#	"emptycardpin" - The pin for the calling card number to empty
+# "destcard" - The calling card number to refill
+# "destcardpin" - The pin for the calling card number to refill
+# "emptycard" - The calling card number to empty
+# "emptycardpin" - The pin for the calling card number to empty
 #
-#   "add_account" -Add an ASTPP account
-#	"brand"
-#	"user" - User name
-#	"amount" - Value of new card in 100ths of a penny.
-#	"posttoexternal" - 1 is YES and 0 is NO
-#	"accountpassword" - Account login password
-#	"creditlimit" - Account credit limit
-#	"language" - This should be passed in 2 letter style.  If blank it reverts
-#				To the default
+# "add_account" -Add an ASTPP account
+# "brand"
+# "user" - User name
+# "amount" - Value of new card in 100ths of a penny.
+# "posttoexternal" - 1 is YES and 0 is NO
+# "accountpassword" - Account login password
+# "creditlimit" - Account credit limit
+# "language" - This should be passed in 2 letter style. If blank it reverts
+# To the default
 #
 # "refill_card"
-# 	"amount" - Amount to refill in 100ths of a penny
-# 	"user" - ASTPP account name/number
-#       "quantity" - How many of these.  If not set we presume 1.
+# "amount" - Amount to refill in 100ths of a penny
+# "user" - ASTPP account name/number
+# "quantity" - How many of these. If not set we presume 1.
 #
 # "add_device" - Add a device to asterisk -realtime
-#	"type" - SIP or IAX
-#	"amount" - Amount to credit ASTPP account with in pennies
-#	"user" - ASTPP account name/number
-#	"email" - Users Email Address
-#	"brand" - Brand/Pricelist
-#	"context" - Context for the asterisk user
-#	"service" - A unique number assigned by the billing application
-#        to this particular entity.  This service number is optional.
-#       "quantity" - How many of these.  If not set we presume 1.
+# "type" - SIP or IAX
+# "amount" - Amount to credit ASTPP account with in pennies
+# "user" - ASTPP account name/number
+# "email" - Users Email Address
+# "brand" - Brand/Pricelist
+# "context" - Context for the asterisk user
+# "service" - A unique number assigned by the billing application
+# to this particular entity. This service number is optional.
+# "quantity" - How many of these. If not set we presume 1.
 #
 # "delete_device" - Delete device from asterisk -realtime
-#	"service"
-#	"type"
+# "service"
+# "type"
 # "suspend_device" - Suspend device in asterisk
-#	"service"
-#	"type"
+# "service"
+# "type"
 # "unsuspend_device" - Unsuspend device in asterisk
-#	"service"
-#	"type"
+# "service"
+# "type"
 # "add_did"
-#	"user"
-#	"did"
+# "user"
+# "did"
 # "delete_did"
-#	"did"
+# "did"
 # "suspend_did"
-#	"did"
+# "did"
 #
 # You are required to have a "suspended" context in your asterisk dialplan
 # [suspended]
@@ -105,16 +105,16 @@ use Getopt::Long;
 use Asterisk::Manager;
 use lib './lib', '../lib';
 use ASTPP;
-use strict;
+# use strict;
 use vars qw($config $astpp_db $agile_db $params @output
-  $ASTPP $fs_db $cdr_db $rt_db $freepbx_db $status);
+$ASTPP $fs_db $cdr_db $rt_db $freepbx_db $status);
 require "/usr/local/astpp/astpp-common.pl";
-$ENV{LANGUAGE} = "en";    # de, es, br - whatever
+$ENV{LANGUAGE} = "en"; # de, es, br - whatever
 print STDERR "Interface language is set to: $ENV{LANGUAGE}\n";
 bindtextdomain( "ASTPP", "/var/locale" );
 textdomain("ASTPP");
 $ASTPP = ASTPP->new;
-$ASTPP->set_verbosity(4);    #Tell ASTPP debugging how verbose we want to be.
+$ASTPP->set_verbosity(4); #Tell ASTPP debugging how verbose we want to be.
 
 #$ASTPP->set_asterisk_agi($AGI);
 $ASTPP->set_pagination_script("astpp-admin.cgi");
@@ -133,10 +133,10 @@ sub generate_card() {
         $password, $creditlimit )
       = @_;
     my ( $mail, $msg );
-    print STDERR "ASTPP New Card Pricelist:   $pricelist\n";
-    print STDERR "ASTPP New Card Number:  $customnum\n";
-    print STDERR "ASTPP New Card Value:   $amount\n";
-    my $status      = "";
+    print STDERR "ASTPP New Card Pricelist: $pricelist\n";
+    print STDERR "ASTPP New Card Number: $customnum\n";
+    print STDERR "ASTPP New Card Value: $amount\n";
+    my $status = "";
     my $description = "Initialize Account";
     if ( $creditlimit eq "" ) {
         $creditlimit = $config->{credit_limit};
@@ -161,12 +161,12 @@ sub generate_card() {
         elsif ( $sweep eq "annually" ) {
             $sweep = 5;
         }
-        $params->{number}         = $customnum;
-        $params->{pricelist}      = $pricelist;
+        $params->{number} = $customnum;
+        $params->{pricelist} = $pricelist;
         $params->{posttoexternal} = $posttoexternal;
-        $params->{sweep}          = $sweep;
-        $params->{credit_limit}   = $creditlimit;
-        $params->{password}       = $password;
+        $params->{sweep} = $sweep;
+        $params->{credit_limit} = $creditlimit;
+        $params->{password} = $password;
         &addaccount( $astpp_db, $config, $params );
         &email_add_user( $astpp_db, '', $config, $params );
     }
@@ -193,9 +193,9 @@ sub generate_card() {
 
 sub initialize() {
     my ($reseller) = @_;
-    $config   = &load_config;
+    $config = &load_config;
     $astpp_db = &connect_db( $config, @output );
-    $config   = &load_config_db( $astpp_db, $config );
+    $config = &load_config_db( $astpp_db, $config );
     $config =
       &load_config_reseller_db( $astpp_db, $config, $params->{username} )
       if ($reseller);
@@ -277,7 +277,7 @@ if ( !$params->{language} ) {
 # OSCommerce specific adjustments
 if ( $config->{externalbill} eq "oscommerce" ) {
     $params->{service} = $params->{invoice};
-    $params->{email}   = $params->{emailadd};
+    $params->{email} = $params->{emailadd};
 }
 
 if ( !$params->{service} ) {
@@ -292,9 +292,9 @@ if ( !$params->{service} ) {
       . int( rand() * 9000 + 1000 );
 }
 if ( $config->{service_prepend} eq "" ) {
-    my $passedlength  = length( $params->{service} );
+    my $passedlength = length( $params->{service} );
     my $requiredchars = $config->{service_length} - $passedlength;
-    my $prepend       = substr( $config->{service_filler}, 0, $requiredchars );
+    my $prepend = substr( $config->{service_filler}, 0, $requiredchars );
     $params->{extension} = $prepend . $params->{service};
 }
 else {
@@ -310,20 +310,20 @@ $params->{secret} =
   . int( rand() * 9000 + 1000 );
 $params->{secret} = substr( $params->{secret}, 0, 5 );
 
-print STDERR gettext("Secret") . ":   $params->{secret}\n";
+print STDERR gettext("Secret") . ": $params->{secret}\n";
 
 if ( $params->{reseller} ne "null" && $params->{reseller} ) {
     my $config_reseller =
       &load_config_reseller_db( $astpp_db, $config, $params->{username} );
     $config->{default_context} = $config_reseller->{default_context};
-    $config->{default_brand}   = $config_reseller->{new_user_brand};
+    $config->{default_brand} = $config_reseller->{new_user_brand};
     $params->{user} = $config_reseller->{account_prepend} . $params->{user};
     $config->{auth} = $config_reseller->{auth};
-    $config->{company_email}   = $config_reseller->{company_name};
-    $config->{company_name}    = $config_reseller->{company_name};
+    $config->{company_email} = $config_reseller->{company_name};
+    $config->{company_name} = $config_reseller->{company_name};
     $config->{company_website} = $config_reseller->{company_website};
-    $config->{emailadd}        = $config_reseller->{emailadd};
-    $config->{user_email}      = $config_reseller->{user_email};
+    $config->{emailadd} = $config_reseller->{emailadd};
+    $config->{user_email} = $config_reseller->{user_email};
 }
 print STDERR gettext("Email User?") . " $config->{user_email}\n";
 $params->{pricelist} = $params->{default_brand} if !$params->{pricelist};
@@ -373,20 +373,20 @@ if ( $params->{function} eq "add_device" ) {
         if ( $config->{users_dids_freeswitch} == 1 ) {
             my ( $failure, $name );
             ( $failure, $status, $name ) = $ASTPP->fs_add_sip_user(
-                accountcode        => $params->{user},
-                freeswitch_domain  => $config->{freeswitch_domain},
+                accountcode => $params->{user},
+                freeswitch_domain => $config->{freeswitch_domain},
                 freeswitch_context => $config->{freeswitch_context},
-                vm_password        => $params->{secret},
-                password           => $params->{secret},
-                sip_ext_prepend    => $config->{sip_ext_prepend},
+                vm_password => $params->{secret},
+                password => $params->{secret},
+                sip_ext_prepend => $config->{sip_ext_prepend},
             );
 
-  #                if ( $config->{email} == 1 && $params->{accounttype} == 0 ) {
-  #                        $params->{extension} = $name;
-  #                        $params->{secret} = $params->{accountpassword};
-  #                        &email_add_device( $astpp_db, '', $config, $params );
-  #                        print STDERR "Sent Device Generation Email\n";
-  #                }
+  # if ( $config->{email} == 1 && $params->{accounttype} == 0 ) {
+  # $params->{extension} = $name;
+  # $params->{secret} = $params->{accountpassword};
+  # &email_add_device( $astpp_db, '', $config, $params );
+  # print STDERR "Sent Device Generation Email\n";
+  # }
         }
 
         &email_add_user( $astpp_db, '', $config, $params, $params->{type},
@@ -465,10 +465,10 @@ elsif ( $params->{function} eq "add_account" ) {
     while ( $count < $params->{quantity} ) {
         print $count++;
         &generate_card(
-            $config->{default_brand},  $params->{extension},
-            $params->{user},           $params->{amount},
+            $config->{default_brand}, $params->{extension},
+            $params->{user}, $params->{amount},
             $params->{posttoexternal}, 2,
-            $params->{pass},           $params->{creditlimit}
+            $params->{pass}, $params->{creditlimit}
         );
     }
 }
@@ -496,7 +496,7 @@ elsif ( $params->{function} eq "unsuspend_account" ) {
     else {
         print STDERR "Card $params->{user} was NOT successfully unsuspended.\n";
     }
-#################  Calling Card Support Starts Here ################
+################# Calling Card Support Starts Here ################
 }
 elsif ( $params->{function} =~ /create_cc/ ) {
     print STDERR gettext("ADDING CALLING CARD");
@@ -511,8 +511,8 @@ elsif ( $params->{function} =~ /create_cc/ ) {
             $params->{value}, $params->{user}, $params->{pins} );
         print gettext("Calling Card:") . " $cc " . gettext("Pin:") . " $pin \n";
         $params->{pricelist} = $params->{brand};
-        $params->{pennies}   = $params->{value};
-        $params->{emailadd}  = $params->{account};
+        $params->{pennies} = $params->{value};
+        $params->{emailadd} = $params->{account};
         &email_add_callingcard( $astpp_db, '', $config, $params, $cc, $pin );
     }
 }
@@ -527,7 +527,7 @@ elsif ( $params->{function} =~ /refill_cc/ ) {
     }
     else {
         $status = gettext(
-"Please ensure that the card numbers and pins are correct.  Transfer NOT Successfuly."
+"Please ensure that the card numbers and pins are correct. Transfer NOT Successfuly."
         );
     }
 

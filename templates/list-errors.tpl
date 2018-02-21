@@ -1,4 +1,4 @@
-<table class="viewcdrs">
+<table class="default" width='90%'>
 	<tr>
 		<td colspan=7><form method="post" action="/cgi-bin/astpp-admin/astpp-admin.cgi?mode=List%20Errors" enctype="multipart/form-data"></td>
 	</tr>

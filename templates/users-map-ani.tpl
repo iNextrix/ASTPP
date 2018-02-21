@@ -1,18 +1,18 @@
 <form method="post" action="/cgi-bin/astpp/astpp-users.cgi?mode=ANI%20Mapping" enctype="multipart/form-data">
 
-<table class="default">
+<table class="default" width='40%'>
 	<tr class="header">
 		<td><input type="hidden" name="mode" value="ANI Mapping"  /></td>
 	</tr>
 	<tr>
-		<td>Map ANI to Account</td>
+		<td colspan='2'>Map ANI to Account</td>
 	</tr>
-	<tr>
+	<tr class='rowone'>
 		<td><input type="text" name="ANI" value="" width="20" /></td>
 		<td><input type="submit" name="action" value="Map ANI" /></td>
 	</tr>
 </table>
-<table class="default">
+<table class="default" width='40%'>
 	<tr class="header">
 		<td>Action</td>
 		<td>ANI</td>

@@ -5,7 +5,7 @@ var ie4=document.all;
 var ns6=document.getElementById&&!document.all;
 
 function getposOffset(what, offsettype) {
-        var totaloffset=(offsettype=="left")? what.offsetLeft : what.offsetTop;
+        var totaloffset=(offsettype=="right")? what.offsetLeft : what.offsetTop;
         var parentEl=what.offsetParent;
         while (parentEl!=null){
                 totaloffset=(offsettype=="left")? totaloffset+parentEl.offsetLeft : totaloffset+parentEl.offsetTop;
@@ -19,7 +19,7 @@ function showhide(obj, e, visible, hidden, menuwidth) {
         if (ie4||ns6) {dropmenuobj.style.left=dropmenuobj.style.top=-500;}
         if (menuwidth!=""){
                 dropmenuobj.widthobj=dropmenuobj.style
-                dropmenuobj.widthobj.width=150;
+                dropmenuobj.widthobj.width=200;
         }
         if (e.type=="click" && obj.visibility==hidden || e.type=="mouseover") {obj.visibility=visible;}
         else if (e.type=="click") {obj.visibility=hidden;}
@@ -60,7 +60,7 @@ function dropdownmenu(obj, e,doname) {
                 showhide(dropmenuobj.style, e, "visible", "hidden", 150);
                 dropmenuobj.x=getposOffset(obj, "left");
                 dropmenuobj.y=getposOffset(obj, "top");
-                dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";
+                dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";		
                 dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight+"px";
         }
 
@@ -108,28 +108,10 @@ function clearhidemenu(){
 
 
 function light_on(obj) {
-        obj.setAttribute('bgcolor', 'orange', 0);
+        obj.setAttribute('bgcolor', '#A3A3A3', 0);
 }
 
 function light_off(obj) {
-        obj.setAttribute('bgcolor', '#CCCCFF', 0);
+        obj.setAttribute('bgcolor', 'black', 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //--><!]]>

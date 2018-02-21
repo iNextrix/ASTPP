@@ -20,6 +20,6 @@ We very strongly suggest running astpp-fs-xml.pl under mod_perl as in our tests 
 
 4. You will need to manually copy the astpp-fs-xml.pl into this folder after doing the rest of the astpp installation.
 
-5. Point mod_xml_rpc.conf to http://localhost/perl/astpp-fs-xml.pl
+5. Point mod_xml_curl.conf to http://localhost/perl/astpp-fs-xml.pl
 
 6. Currently you can only use the dialplan bindings but rest assured that other bindings are coming shortly.

@@ -3,14 +3,14 @@
 <input type="hidden" name="mode" value="Account"/>
 View Account<br>
 Account Name: <TMPL_VAR NAME="account_name">
-<table class="default">
+<table class="default" width='70%'>
 	<tr class="header">
 		<td></td>
 	</tr>
 	<tr class="header">
 		<td colspan=6><a href="astpp-users.cgi?mode=Download" target="_blank">Download CDRs as CSV file (Right Click and select SAVE AS</a></td>
 	</tr>
-<table class="default">
+<table class="default" width='70%'>
 	<tr class="header">
 		<td>Id</td>
 		<td>Description</td>
@@ -25,10 +25,10 @@ Account Name: <TMPL_VAR NAME="account_name">
 			<td><TMPL_VAR NAME="charge"></td>
 		</tr>
 	</TMPL_LOOP>
-	<tr bgcolor=ccccff>
+	<tr bgcolor=#434343>
 		<td colspan=5>DIDs</td>
 	</tr>
-	<tr bgcolor=ccccff>
+	<tr bgcolor=#434343>
 		<td>Number</td>
 		<td>Monthly Fee</td>
 		<td>Action</td>
@@ -38,23 +38,23 @@ Account Name: <TMPL_VAR NAME="account_name">
 		<tr>
 			<td><TMPL_VAR NAME="number"></td>
 			<td><TMPL_VAR NAME="charge"></td>
-			<td><a href="astpp-users.cgi?mode=Account&did=<TMPL_VAR NAME="number">&action=Remove...">Remove...</a></td>
+			<td><a href="astpp-users.cgi?mode=Account&did=<TMPL_VAR NAME="number">&action=Remove..."><img alt='Remove' src='../../_astpp/delete.gif'></a></td>
 		</tr>
 	</TMPL_LOOP>
 	<tr>
 		<td>Order DID</td>
 	</tr>
-	<tr>
+	<tr class='rowone'>
 		<td><TMPL_VAR NAME="order_dids"></td>
-		<td><input type="submit" name="action" value="Purchase DID" /></td>
+		<td colspan='3'><input type="submit" name="action" value="Purchase DID" /></td>
 	</tr>
 </table>
-<table>
+<table width='60%'>
 	<tr>
 		<td colspan=2><TMPL_VAR NAME="first_name"> <TMPL_VAR NAME="middle_name"> <TMPL_VAR NAME="last_name"></td>
 	</tr>
 	<tr>
-		<td width=400><TMPL_VAR NAME="company_name"></td>
+		<td ><TMPL_VAR NAME="company_name"></td>
 		<td>Phone: <TMPL_VAR NAME="telephone_1"></td>
 	</tr>
 	<tr>
@@ -78,7 +78,7 @@ Account Name: <TMPL_VAR NAME="account_name">
 </table>
 Account: </i><b><TMPL_VAR NAME="account_name"></b><i>balance: </i><b><TMPL_VAR NAME="account_balance"></b></i> with a credit limit of </i><b><TMPL_VAR NAME="account_credit_limit"></b></i>
 
-<table class="default">
+<table class="default" width='80%'>
       <tr class="header">
         <td>UniqueID</td>
         <td>Date & Time</td>
@@ -110,5 +110,6 @@ Account: </i><b><TMPL_VAR NAME="account_name"></b><i>balance: </i><b><TMPL_VAR N
       <tr>
 	<td><TMPL_VAR NAME="status"></td>
       </tr>
-  </table>
+  </table>  
+  
 </form>

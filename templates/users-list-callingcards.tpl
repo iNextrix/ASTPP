@@ -1,7 +1,7 @@
 <input name="mode" value="Calling Cards" type="hidden">
 <form method="post" action="/cgi-bin/astpp/astpp-users.cgi?mode=Calling%20Cards" enctype="multipart/form-data">
 View Card: <TMPL_VAR NAME="card_number">
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td>Destination</td>
 	        <td>Disposition</td>
@@ -21,9 +21,9 @@ View Card: <TMPL_VAR NAME="card_number">
 		</tr>
 	</TMPL_LOOP>
 </table>
-
+<br/>
 List Calling Cards<br>
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td>Card Number</td>
 		<td>Pin</td>

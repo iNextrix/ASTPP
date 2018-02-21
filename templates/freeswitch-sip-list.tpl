@@ -16,7 +16,7 @@
 		<td>Context</td>
 		<td colspan=2>Action</td>
 	</tr>
-	<tr>
+	<tr class='rowone'>
 		<td><TMPL_VAR NAME="directory_id"><input type="hidden" name="directory_id" value="<TMPL_VAR NAME="directory_id">"></td>
 		<TD><input name="fs_username" size="20" type="text" value="<TMPL_VAR NAME="fs_username">"></a></TD>
 		<TD><input name="fs_password" size="20" type="text" value="<TMPL_VAR NAME="fs_password">"></a></TD>
@@ -45,8 +45,8 @@
           		<TD><TMPL_VAR NAME="accountcode"></TD>
           		<TD><TMPL_VAR NAME="vm_password"></TD>
           		<TD><TMPL_VAR NAME="context"></TD>
-          		<TD><a href="astpp-admin.cgi?mode=Freeswitch(TM) SIP Devices&directory_id=<TMPL_VAR NAME="directory_id">&action=Delete...">Delete...</a></TD>
-          		<TD><a href="astpp-admin.cgi?mode=Freeswitch(TM) SIP Devices&directory_id=<TMPL_VAR NAME="directory_id">&action=Edit...">Edit...</a></TD>
+          		<TD><a href="astpp-admin.cgi?mode=Freeswitch(TM) SIP Devices&directory_id=<TMPL_VAR NAME="directory_id">&action=Edit..."><img alt='Edit' src='../../_astpp/edit.jpg'></a></TD>
+          		<TD><a href="astpp-admin.cgi?mode=Freeswitch(TM) SIP Devices&directory_id=<TMPL_VAR NAME="directory_id">&action=Delete..."><img alt='Delete' src='../../_astpp/delete.jpg'></a></TD>
             </TR>
       </TMPL_LOOP>
 </table>

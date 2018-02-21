@@ -1,9 +1,9 @@
 <input name="mode" value="Remove CallShop" type="hidden">
-<table class="default">
+<table class="default" width='40%'>
 <tr class="header">
 	<td colspan=3>Please select the callshop you wish to view</td>
 </tr>
-<tr>
+<tr class='rowone'>
 	<td>
 		<TMPL_VAR NAME="callshop_list">
 	</td>
@@ -19,5 +19,6 @@
 		<TMPL_VAR NAME="status">
 	</td>
 </tr>
+<tr><td><br/><br/><br/></td></tr>
 </table>
 </form>

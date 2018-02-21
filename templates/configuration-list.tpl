@@ -36,8 +36,10 @@
                <TD><TMPL_VAR NAME="name"></TD>  
                <TD><TMPL_VAR NAME="value"></TD>         
                <TD><TMPL_VAR NAME="comment"></TD>         
-               <TD><a href="astpp-admin.cgi?mode=Configuration&action=Delete&id=<TMPL_VAR NAME="id">">Delete</a>
-                   <a href="astpp-admin.cgi?mode=Configuration&action=Edit&id=<TMPL_VAR NAME="id">">Edit</a></TD>
+               <TD>
+                   <a href="astpp-admin.cgi?mode=Configuration&action=Edit&id=<TMPL_VAR NAME="id">"><img alt='Edit' src='../../_astpp/edit.jpg'></a>
+                   <a href="astpp-admin.cgi?mode=Configuration&action=Delete&id=<TMPL_VAR NAME="id">"><img alt='Delet' src='../../_astpp/delete.jpg'></a>
+	      </TD>
             </TR>
       </TMPL_LOOP> 
 </table>

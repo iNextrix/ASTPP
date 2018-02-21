@@ -57,13 +57,6 @@ install_misc:
 install_asterisk_config:
 		install -m 644 -o $(OWNER) -g $(GROUP) ./samples/sample.astpp-dialplan.conf $(DESTDIR)$(ASTERISKDIR)/sample.astpp-dialplan.conf
 
-install_freeswitch_config:
-	@echo "--------------------";
-	@echo "Sample Freeswitch configuration files live in";
-	@echo "./freeswitch/conf.  You will need to modify your";
-	@echo "files to be similar to those.";
-	@echo "--------------------";
-
 install_samples:
 	install -m 644 -o $(OWNER) -g $(GROUP) ./samples/sample.astpp-config.conf $(DESTDIR)$(ASTPPDIR)/astpp-config.conf
 
@@ -123,56 +116,123 @@ install_images:
 		install -m 644 $$x $(DESTDIR)$(WWWDIR)/html/_astpp/; \
 	done
 	
-resolve_perl_dep:
-	perl -MCPAN -e "install Text::Template";		
-	perl -MCPAN -e "install Locale::gettext_pp";
-	perl -MCPAN -e "install Locale::Country";
-	perl -MCPAN -e "install Locale::Language";
-	perl -MCPAN -e "install DBI";
-	perl -MCPAN -e "install DBD::mysql";
-#	perl -MCPAN -e "install DBD::Pg";
-	perl -MCPAN -e "install Params::Validate";
-	perl -MCPAN -e "install CGI";
-	perl -MCPAN -e "install Asterisk::AGI";
-	perl -MCPAN -e "install LWP::Simple";
-	perl -MCPAN -e "install URI::Escape";
-	perl -MCPAN -e "install POE::Component::Client::Asterisk::Manager";
-	perl -MCPAN -e "install Getopt::Long";
-	perl -MCPAN -e "install Text::CSV";
-	perl -MCPAN -e "install Mail::Sendmail";	
-	perl -MCPAN -e "install Email::Simple";	
-	perl -MCPAN -e "install Time::DaysInMonth";	
-	perl -MCPAN -e "install Data::Paginate";
-	perl -MCPAN -e "install HTML::Template";
-	perl -MCPAN -e "install HTML::Template::Expr";
-	perl -MCPAN -e "install DateTime";
-	perl -MCPAN -e "install DateTime::TimeZone";
-	perl -MCPAN -e "install DateTime::Locale";
-	perl -MCPAN -e "install DateTime";
-	perl -MCPAN -e "install Locale::gettext_pp";
-	perl -MCPAN -e "install XML::Simple";
-	perl -MCPAN -e "install XML::LibXML";
-	cd modules/ASTPP && perl Makefile.PL && make && make install && cd ../../
-
+resolve_dep:
 	
-
+	yum -y install autoconf automake bzip2 cpio curl curl-devel curl-devel expat-devel fileutils gcc-c++ gettext-devel gnutls-devel libjpeg-devel libogg-devel libtiff-devel libtool libvorbis-devel make ncurses-devel nmap openssl openssl-devel openssl-devel perl patch unixODBC unixODBC-devel unzip wget zip zlib zlib-devel git libxml2 libxml2-devel mysql mysql-server mysql-devel
+	
+	cpan -i Bundle::CPAN;
+	cpan -i ExtUtils::CBuilder;
+	cpan -i Text::Template;
+	cpan -i Params::Check
+	cpan -i install Locale::gettext_pp;
+	cpan -i install Locale::Country;
+	cpan -i install Locale::Language;
+	cpan -i install DBI;
+	cpan -i install DBD::mysql;
+	cpan -i YAML;
+	cpan -i install Params::Validate;
+	cpan -i install CGI;
+	cpan -i install Asterisk::AGI;
+	cpan -i install LWP::Simple;
+	cpan -i install URI::Escape;
+	cpan -i install POE::Component::Client::Asterisk::Manager;
+	cpan -i install Getopt::Long;
+	cpan -i install Text::CSV;
+	cpan -i install Mail::Sendmail;	
+	cpan -i install Email::Simple;	
+	cpan -i install Time::DaysInMonth;	
+	cpan -i install Data::Paginate;
+	cpan -i install HTML::Template;
+	cpan -i install HTML::Template::Expr;
+	cpan -i install DateTime;
+	cpan -i install DateTime::TimeZone;
+	cpan -i install DateTime::Locale;		
+	cpan -i install XML::Simple;
+	cpan -i install XML::LibXML;	
+	cpan -i install Module::Build;
+	cpan -i install Class::Singleton;
+	cpan -i install Data::Dumper;
+	cpan -i install Module::Build;
+	cpan -i install Class::Singleton;
+	cpan -i install Text::Template;
+	cpan -i install Locale::Country;
+	cpan -i install Data::Dumper;
+	cpan -i install IO::Tty;	
+	cpan -i install IO::All;     
+	cpan -i install Test::Pod;
+	cpan -i install MIME::Types;
+	cpan -i install POE::Test::Loops;
+	cpan -i install Storable;
+	cpan -i install Time::Zone;
+	cpan -i install Date::Parse;
+	cpan -i install Curses;
+	cpan -i install IO::String;
+	cpan -i install POE;
+	cpan -i install Sys::Syslog;
+	cpan -i install Log::Dispatch;
+	cpan -i install Test::Simple;
+	cpan -i install FCGI;
+	cpan -i install Email::Date::Format;
+	cpan -i install ExtUtils::CBuilder;
+	cpan -i install Set::Infinite;
+	cpan -i install DateTime::Set;
+	cpan -i install DateTime::Event::Recurrence;
+	cpan -i install DateTime::Incomplete;
+	cpan -i install Class::Data::Inheritable;
+	cpan -i install Locale::Country::Multilingual;
+	cpan -i install File::Slurp;
+	cpan -i install Template::Simple;
+	cpan -i install Template::Plugin::DateTime;
+	cpan -i install Date::Language;
+	cpan -i install Date::Format;
+	cpan -i install Text::CSV_XS;
+	cpan -i install Term::ReadKey;
+	cpan -i install DateTime::Format::Strptime;
+	cpan -i install DBI::Shell;
+	cpan -i install Net::Daemon;
+	cpan -i install DBD::Mutiplex;
+	cpan -i install TimeDate Mail::Tools;
+	cpan -i install Asterisk::Manager;
+	cpan -i install Asterisk::Outgoing;
+	cpan -i install Asterisk::Voicemail;
+	cpan -i install Template::Toolkit;
+	cpan -i install Date::Language;
+	cpan -i install Date::Format;
+	cpan -i install DateTime::Locale;
+	cpan -i install XML::Writer
+	cd modules/ASTPP && perl Makefile.PL && make && make install && cd ../../
+	
 install_instructions_print:
 	@echo "------------------------------";
+	@echo "Please run 'make install_astpp' to install templates and astpp configuration file.";
 	@echo "ASTPP install appears to be successfull.";
 	@echo "------------------------------";
 	@echo "Please visit www.astpp.org for further instructions.";
 
+
+install_instructions_print_freeswitch:
+	@echo "------------------------------";
+	@echo "Sample Freeswitch configuration files live in";
+	@echo "./freeswitch/conf.  You will need to modify your";
+	@echo "files to be similar to those.";
+	@echo "";
+	@echo "Please run 'make install_astpp' to install templates and astpp configuration file.";
+	@echo "ASTPP install appears to be successfull.";
+	@echo "------------------------------";
+	@echo "Please visit www.astpp.org for further instructions.";	
+	
 install_all_pre: install_misc install_astpp_exec
 install_all_post: install_instructions_print
 
-install_asterisk: install_all_pre install_asterisk_config install_sounds_asterisk install_agi install_all_post
-install_freeswitch: install_all_pre install_freeswitch_config install_sounds_freeswitch install_all_post
+install_asterisk_conf: install_all_pre install_asterisk_config install_sounds_asterisk install_agi install_all_post
+install_freeswitch_conf: install_all_pre install_sounds_freeswitch install_instructions_print_freeswitch
 
-samples: install_images install_templates install_samples
+install_astpp: install_images install_templates install_samples
 
 install:
 	@echo "------------------------------";
-	@echo "Please use 'make install_asterisk if you are using Asterisk";
-	@echo "Please use 'make install_freeswitch you are using Freeswitch";
+	@echo "Please use 'make resolve_dep' to confirm perl packages";
+	@echo "Please use 'make install_asterisk_conf' if you are using Asterisk";	
+	@echo "Please use 'make install_freeswitch_conf' you are using Freeswitch";
+	@echo "Please use 'make install_astpp' to install templates and astpp configuration file.";
 	@echo "------------------------------";
-

@@ -1,4 +1,4 @@
-<table class="default">
+<table class="default" width='80%'>
 <input type="hidden" name="mode" value="Add Cards"  />
       <tr class="header">
         <td>Account Number</td>
@@ -7,7 +7,7 @@
         <td>Quantity</td>
         <td>Status</td>
       </tr>
-	<tr>
+	<tr class='rowone'>
 		<td><input type="text" name="account"  size="20" /></td>
 		<td><TMPL_VAR NAME="brand_list"></td>
 		<td><input type="text" name="value"  size="10" /></td>
@@ -20,6 +20,6 @@
 <table>
       <tr>
 	<td><TMPL_VAR NAME="status"></td>
-      </tr>
+      </tr>      
   </table>
 </form>

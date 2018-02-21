@@ -1,5 +1,5 @@
 <form method="post" action="/cgi-bin/astpp-admin/astpp-admin.cgi?mode=List%20Accounts" enctype="multipart/form-data">
-<table>
+<table width='80%'>
 	<tr>
 		<input type="hidden" name="mode" value="List Accounts"/>
 		<td colspan=9 align=center><TMPL_VAR NAME="status"></td>
@@ -32,8 +32,9 @@
           <TD><TMPL_VAR NAME="reseller"></TD>
             </TR>
       </TMPL_LOOP>
-	<tr bgcolor=ff8800>
-		<td colspan=3>Number of Accounts: <TMPL_VAR NAME="account_count"></td>
-		<td colspan=6>Total Owing: $ <TMPL_VAR NAME="total_owing"></td>
+	<tr bgcolor='#434343'>
+		<td colspan=3><b>Number of Accounts: <TMPL_VAR NAME="account_count"></b></td>
+		<td colspan=6><b>Total Owing: $ <TMPL_VAR NAME="total_owing"></b></td>
 	</tr>
+	<tr><td><br/><br/><br/></td></tr>
 </table>

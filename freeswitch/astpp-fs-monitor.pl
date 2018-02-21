@@ -47,6 +47,7 @@ sub initialize() {
     $config = &load_config_db( $astpp_db, $config ) if $astpp_db;
     $cdr_db = &cdr_connect_db( $config, @output );
     $fs = &fs_client_connect($config);
+    print STDERR $fs;	
     open( LOGFILE, ">>$config->{log_file}" )
       || die "Error - could not open $config->{log_file} for writing\n";
 

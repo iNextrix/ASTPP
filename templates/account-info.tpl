@@ -1,8 +1,8 @@
 <input name="mode" value="View Details" type="hidden">
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
-		<td>Either select or enter the account number:</td>
-		<td>Action</td>
+		<td width="612">Either select or enter the account number:</td>
+		<td width="412">Action</td>
 	</tr>
 	<tr class="rowone">
 		<td><TMPL_VAR NAME="accountlist">  <input name="accountnum" value="<TMPL_VAR NAME="accountnum">" size="20" type="text"></td>
@@ -10,16 +10,16 @@
 	</tr>
 </table>
 
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
-		<td>Account Number</td>
-		<td>Name</td>
-		<td>Company</td>
-		<td>Telephone</td>
-		<td>Telephone 2</td>
-		<td>Fax</td>
+		<td width="120"><div align="center">Account Number</div></td>
+		<td width="115"><div align="center">Name</div></td>
+		<td width="115"><div align="center">Company</div></td>
+		<td width="250"><div align="center">Telephone</div></td>
+		<td width="114"><div align="center">Telephone 2</div></td>
+		<td width="114"><div align="center">Fax</div></td>
 	</tr>
-	<tr>
+	<tr class='rowone'>
 		<td><TMPL_VAR NAME="accountnum"></td>
 		<td><TMPL_VAR NAME="first_name"> <TMPL_VAR NAME="middle_name"> <TMPL_VAR NAME="last_name"></td>
 		<td><TMPL_VAR NAME="company"></td>
@@ -28,16 +28,16 @@
 		<td><TMPL_VAR NAME="fascimilie"></td>
 	</tr>
 	<tr class="header">
-		<td>Address Line 1</td>
-		<td>Address Line 2</td>
-		<td>Address Line 3</td>
-		<td>Email</td>
-		<td>City</td>
-		<td>Province</td>
-		<td>Postal Code</td>
-		<td>Country</td>
+		<td><div align="center">Address Line 1</div></td>
+		<td><div align="center">Address Line 2</div></td>
+		<td><div align="center">Address Line 3</div></td>
+		<td><div align="center">Email</div></td>
+		<td><div align="center">City</div></td>
+		<td><div align="center">Province</div></td>
+		<td width="89"><div align="center">Postal Code</div></td>
+		<td width="83"><div align="center">Country</div></td>
 	</tr>
-	<tr>
+	<tr class='rowone'>
 		<td><TMPL_VAR NAME="address_1"></td>
 		<td><TMPL_VAR NAME="address_2"></td>
 		<td><TMPL_VAR NAME="address_3"></td>
@@ -54,7 +54,7 @@
 		<td>Balance</td>
 		<td>Credit Limit</td>
 	</tr>
-	<tr>
+	<tr class='rowone'>
 		<td colspan=2><TMPL_VAR NAME="dialed_modify"></td>
 		<td><TMPL_VAR NAME="maxchannels"></td>
 		<td><TMPL_VAR NAME="pin"></td>
@@ -62,7 +62,7 @@
 		<td><TMPL_VAR NAME="credit_limit"> <TMPL_VAR NAME="currency"></td>
 	</tr>
 </table>
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td colspan=5>Charges</td>
 	</tr>
@@ -74,7 +74,7 @@
 		<td>Amount</td>
 	</tr>
 	<TMPL_LOOP NAME="chargelist">
-		<tr>
+		<tr class='rowone'>
 			<td><a href="astpp-admin.cgi?mode=View Details&chargeid=<TMPL_VAR NAME="id">&accountnum=<TMPL_VAR NAME="accountnum">&action=Remove Charge...">Remove Charge...</a></td>
 			<td><TMPL_VAR NAME="id"></td>
 			<td><TMPL_VAR NAME="description"></td>
@@ -83,17 +83,17 @@
 		</tr>	
 	</TMPL_LOOP>
 </table>
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td colspan=3>Add Charge</td>
 	</tr>
-	<tr>
+	<tr class='rowone'>
 		<td><TMPL_VAR NAME="applyable_charges"></td>
 		<td><input name="id" size="3" type="text"></td>
 		<td><input name="action" value="Add Charge..." type="submit"></td>
 	</tr>
 </table>
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td colspan=3>DIDs</td>
 	</tr>
@@ -103,18 +103,18 @@
 		<td>Action</td>
 	</tr>
 	<TMPL_LOOP NAME="account_did_list">
-		<tr>
+		<tr class='rowone'>
 			<td><TMPL_VAR NAME="number"></td>
 			<td>$<TMPL_VAR NAME="cost"></td>
 			<td><a href="astpp-admin.cgi?mode=View Details&accountnum=<TMPL_VAR NAME="accountnum">&DID=<TMPL_VAR NAME="number">&action=Remove DID">Remove DID</a></td>
 		</tr>
 	</TMPL_LOOP>
-	<tr>
-		<td><TMPL_VAR NAME="available_dids"></td>
-		<td><input name="action" value="Purchase DID" type="submit"></td>
+	<tr class='rowone'>
+		<td><TMPL_VAR NAME="available_dids"></td>		
+		<td colspan='2'><input name="action" value="Purchase DID" type="submit"></td>
 	</tr>
 </table>
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td colspan=3>ANI & Prefix Mapping - Either enter prefix or ANI/CLID</td>
 	</tr>
@@ -123,20 +123,20 @@
 		<td>Context - Blank = default</td>
 		<td>Action</td>
 	<TMPL_LOOP NAME="account_ani_list">
-		<tr>
+		<tr class='rowone'>
 			<td><TMPL_VAR NAME="number"></td>
 			<td><TMPL_VAR NAME="context"></td>
 			<td><a href=\"astpp-admin.cgi?mode=View Details&accountnum=<TMPL_VAR NAME="accountnum">&ANI=<TMPL_VAR NAME="number">&action=Remove ANI">Remove ANI</a></td>
 		</tr>
 	</TMPL_LOOP>
-	<tr>
+	<tr class='rowone'>
 		<td><input name="ANI" size="20" type="text"></td>
 		<td><input name="context" size="20" type="text"></td>
 		<td><input name="action" value="Map ANI" type="submit"></td>
 	</tr>
 </table>
 
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td colspan=4>IP Address Mapping</td>
 	</tr>
@@ -147,21 +147,21 @@
 		<td>Action</td>
 	</tr>
 	<TMPL_LOOP NAME="account_ip_list">
-		<tr>
+		<tr class='rowone'>
 			<td><TMPL_VAR NAME="ip"></td>
 			<td><TMPL_VAR NAME="prefix"></td>
 			<td><TMPL_VAR NAME="context"></td>
 			<td><a href="astpp-admin.cgi?mode=View Details&accountnum=<TMPL_VAR NAME="accountnum">&prefix=<TMPL_VAR NAME="prefix">&ip=<TMPL_VAR NAME="ip">&action=Remove IP">Remove IP</a></td>
 		</tr>
 	</TMPL_LOOP>
-	<tr>
+	<tr class='rowone'>
 		<td><input name="ip" size="16" type="text"></td>
 		<td><input name="prefix" size="16" type="text"></td>
 		<td><input name="ipcontext" size="16" type="text"></td>
 		<td><input name="action" value="Map IP" type="submit"></td>
 	</tr>
 </table>
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td colspan=3>Post Charge to Account</td>
 	</tr>
@@ -170,14 +170,14 @@
 		<td>Charge in <TMPL_VAR NAME="currency"></td>
 		<td>Action</td>
 	</tr>
-	<tr>
+	<tr class='rowone'>
 		<td><input name="desc" size="16" type="text"></td>
 		<td><input name="amount" size="8" type="text"></td>
 		<td><input name="action" value="Post Charge..." type="submit"></td>
 	</tr>
 </table>
 
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td colspan=5>IAX2 & SIP Accounts</td>
 	</tr>
@@ -189,7 +189,7 @@
 		<td>Context</td>
 	</tr>
 	<TMPL_LOOP NAME="account_device_list">
-		<tr>
+		<tr class='rowone'>
 			<td><TMPL_VAR NAME="tech"></td>
 			<td><TMPL_VAR NAME="type"></td>
 			<td><TMPL_VAR NAME="username"></td>
@@ -198,7 +198,7 @@
 		</tr>
 	</TMPL_LOOP>
 </table>
-<table class="default">
+<table class="default" width='80%'>
 	<tr class="header">
 		<td colspan=5>Invoices</td>
 	</tr>
@@ -210,7 +210,7 @@
 		<td>PDF View</td>
 	</tr>
 	<TMPL_LOOP NAME="account_invoice_list">
-		<tr>
+		<tr class='rowone'>
 			<td><TMPL_VAR NAME="invoiceid"></td>
 			<td><TMPL_VAR NAME="date"></td>
 			<td><TMPL_VAR NAME="value"></td>
@@ -221,7 +221,7 @@
 	
 </table>
 	
-<table class="default">
+<table class="default" width='80%'>
       <tr class="header">
         <td>UniqueID</td>
         <td>Date & Time</td>
@@ -236,7 +236,7 @@
 	<td>Profit</td>
       </tr>
       <TMPL_LOOP NAME="account_cdr_list">
-            <TR>
+            <TR class='rowone'>
                <TD><TMPL_VAR NAME="uniqueid"></TD>
                <TD><TMPL_VAR NAME="callstart"></TD>
                <TD><TMPL_VAR NAME="callerid"></TD>           

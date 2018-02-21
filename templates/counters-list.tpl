@@ -1,4 +1,4 @@
-<table class="default">
+<table class="default" width='60%'>
       <tr class="header">
 	<td colspan=10>List Package Counters with time in them</td>
       </tr>

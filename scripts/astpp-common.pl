@@ -3499,6 +3499,11 @@ sub get_counter() {
           . " AND account = "
           . $astpp_db->quote($cardnum) 
 	  . " AND status = 1" );
+    print STDERR  "SELECT * FROM counters WHERE package = "
+          . $astpp_db->quote($package)
+          . " AND account = "
+          . $astpp_db->quote($cardnum) 
+	  . " AND status = 1";
     $sql->execute;
     $row = $sql->fetchrow_hashref;
     $sql->finish;
@@ -3515,6 +3520,11 @@ sub get_package() {
           . " RLIKE pattern AND pricelist = "
           . $astpp_db->quote( $carddata->{pricelist} )
           . " ORDER BY LENGTH(pattern) DESC LIMIT 1" );
+    print STDERR "SELECT * FROM packages WHERE "
+          . $astpp_db->quote($number)
+          . " RLIKE pattern AND pricelist = "
+          . $astpp_db->quote( $carddata->{pricelist} )
+          . " ORDER BY LENGTH(pattern) DESC LIMIT 1";
     $sql->execute;
     $record = $sql->fetchrow_hashref;
     $sql->finish;

@@ -26,7 +26,7 @@
 # 0 - Regular User (Has login permissions for astpp-users.cgi)
 # 1 - Reseller (Has login permissions for astpp-users.cgi and has reduced permissions for astpp-admin.cgi)
 # 2 - Admin (Has login permissions everywhere)
-# 3 - Vendor (Has reduced login permissions in astpp-admin.cgi)
+# 3 - Provider (Has reduced login permissions in astpp-admin.cgi)
 # 4 - Customer Service (Has reduced login permissions in astpp-admin.cgi)
 # 5 - Call shop (Has reduced login permissions in astpp-admin.cgi)
 # 6 - Booth (No login permissions)
@@ -52,7 +52,7 @@ use Data::Paginate;
 use DateTime;
 use DateTime::TimeZone;
 use ASTPP;
-use strict;
+# use strict;
 
 ;    # We use DateTime::TimeZone to show users cdrs in their own timezones.
 
@@ -70,7 +70,7 @@ $ASTPP->set_verbosity(4);    #Tell ASTPP debugging how verbose we want to be.
 #$ASTPP->set_asterisk_agi($AGI);
 $ASTPP->set_pagination_script("astpp-admin.cgi");
 my %types;
-my @Home     = ( gettext("Home Page") );
+# my @Home     = ( gettext("Home Page") );
 my @Accounts = (
     gettext("Create Account"), gettext("Process Payment"),
     gettext("Remove Account"), gettext("Edit Account"),
@@ -90,9 +90,9 @@ my @LCR = (
 );
 my @System = ( gettext("Purge Deactivated"), gettext("Configuration"), gettext("Taxes") );
 my @Statistics = (
-    gettext("Asterisk Stats"), gettext("List Errors"),
-    gettext("Trunk stats"),    gettext("View CDRs"),
-    gettext("LCR Tables")
+    gettext("List Errors"),
+    gettext("Trunk stats"),    gettext("View CDRs")
+#     ,gettext("LCR Tables")
 );
 
 my @Callingcards = (
@@ -110,7 +110,7 @@ my @Booths       = (
 );
 
 # Report added by Sonia Ali Khan <sonia.ali.khan@gmail.com>
-my @AdminReports = ( gettext("Reseller Report"), gettext("Vendor Report") );
+my @AdminReports = ( gettext("Reseller Report"), gettext("Provider Report") );
 
 my @CallShopReports = ( gettext("Booth Report") );
 
@@ -204,12 +204,14 @@ sub login() {
         -path    => $ENV->{SCRIPT_NAME}
     );
 
-    if ( $count == 1 ) {
+    if ( $count == 1 && !$params->{logintype}) {
         $status .= gettext("Successful Login!") . "<br>";
         print header( -cookie => [ $cookie, $cookie1, ] );
         $accountinfo = &get_account( $astpp_db, $params->{username} );
         $params->{logintype} = $accountinfo->{type};
     }
+   
+#     if ( $params->{username} eq 'admin' && $config->{auth} eq $params->{password} ) {
     if ( !$params->{username} && $config->{auth} eq $params->{password} ) {
         $status .= gettext("Successful Login!") . "<br>";
         $count = 1;
@@ -342,14 +344,14 @@ sub build_menu() {
 sub build_menu_ts() {
     my ($selected) = @_;
     my ( $tmp, $body, $x );
-    my $i = 0;
+    my $i = 0;    
     foreach $tmp (@modes) {
         $body .=
-"<div class=\"ts_ddm\" name=tt$i id=tt$i style=\"visibility:hidden;width:200;background-color:#CCCCFF;\"onMouseover=\"clearhidemenu()\" onMouseout=\"dynamichide(event)\"><table width=100\% border=0 cellspacing=0 cellpadding=0>";
+"<div class=\"ts_ddm\" name=tt$i id=tt$i style=\"visibility:hidden;\"onMouseover=\"clearhidemenu()\" onMouseout=\"dynamichide(event)\"><table width=100\% border=0 cellspacing=0 cellpadding=0>";
         my $j = 0;
         foreach $x ( @{ $menumap{$tmp} } ) {
             $body .=
-"<tr><td name=t$i\_$j id=t$i\_$j><a href=\"?mode=$x\" onmouseover='light_on(t$i\_$j);' onmouseout='light_off(t$i\_$j);'>  $x  </a></td></tr>
+"<tr><td name=t$i\_$j id=t$i\_$j><a href=\"?mode=$x\" onmouseover='light_on(t$i\_$j);' onmouseout='light_off(t$i\_$j);' style='font-size:14px;font-family:arial;line-height:22px;'>  $x  </a></td></tr>
 \n";
             $j++;
         }
@@ -357,14 +359,14 @@ sub build_menu_ts() {
 </div>";
         $i++;
     }
-    $body .= "<table width=900 cellpadding=0 class=ts_menu><tr>\n";
+    $body .= "<table cellpadding=0 class=ts_menu><tr><td><table class='menu_table'><tr><td>|</td>\n";
     $i = 0;
     foreach $tmp (@modes) {
         $body .=
-"<td name=t$i id=t$i><a href=\"?mode=$tmp\"  onmouseover='light_on(t$i);dropdownmenu(this, event,\"tt$i\");' onmouseout='light_off(t$i);delayhidemenu();'> $tmp </a></td>\n";
+"<td align='center' style='width:450px;font-size:14px;' name=t$i id=t$i><a href=\"?mode=$tmp\"  onmouseover='light_on(t$i);dropdownmenu(this, event,\"tt$i\");' onmouseout='light_off(t$i);delayhidemenu();'><b> $tmp </b></a></td><td>|</td>\n";
         $i++;
     }
-    $body .= "</tr></table>";
+    $body .= "</tr></table></td></tr></table>";
     return $body;
 }
 
@@ -431,7 +433,7 @@ sub build_body() {
           if $params->{mode} eq gettext("Packages");
         return &build_counters()
           if $params->{mode} eq gettext("Counters");
-        return &build_statistics()
+        return &build_statistics() 
           if $params->{mode} eq gettext("Asterisk Stats");
         return &build_create_card()
           if $params->{mode} eq gettext("Add Cards");
@@ -482,13 +484,13 @@ sub build_body() {
         return &build_admin_reseller_report()
           if $params->{mode} eq gettext("Reseller Report");
         return &build_admin_vendor_report()
-          if $params->{mode} eq gettext("Vendor Report");
+          if $params->{mode} eq gettext("Provider Report");
         return &build_taxes()
           if $params->{mode} eq gettext("Taxes");
 
         return gettext("Not Available!") . "\n";
     }
-    elsif ( $params->{logintype} == 3 ) {    #Vendor Login
+    elsif ( $params->{logintype} == 3 ) {    #Provider Login
         return &build_stats_acd()
           if $params->{mode} eq gettext("Trunk Statistics");
         return &logout()          if $params->{mode} eq gettext("Logout");
@@ -640,7 +642,7 @@ sub build_purge_deactivated() {
     my ( $status, $body );
     return gettext("Cannot drop items until database is configured")
       unless $astpp_db;
-    if ( $params->{action} eq gettext("Yes, Drop Them") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Yes, Drop Them") ) {
         if ( $astpp_db->do("DELETE FROM outbound_routes WHERE status = 2") ) {
             $status .= gettext("Dropped deactivated outbound routes.") . "<br>";
         }
@@ -706,7 +708,7 @@ sub build_purge_deactivated() {
       . gettext(
         "Remove records in your system that have been marked as deactivated.")
       . "</td></tr>\n";
-    if ( $params->{action} eq gettext("Drop Deactivated Records") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Drop Deactivated Records") ) {
         $body .=
             "<tr><td>"
           . hidden( -name => "mode", -value => gettext("Purge Deactivated") )
@@ -787,7 +789,7 @@ sub build_filter($$) {
       . param('mode')
       . "\"><table class=\"default\" width=100%>";
     $body .=
-        "<tr><td width=50%>"
+        "<tr class='rowone'><td width=50%  align='right'>"
       . gettext("Start date:")
       . "</td><td><input type=text name=start_year value=\"$start_year\" size=5><select name=start_month>";
 
@@ -802,13 +804,13 @@ sub build_filter($$) {
     $body .=
 "</select><input type=text name=start_day value=\"$start_day\" size=3></td></tr>";
     $body .=
-        "<tr><td>"
+        "<tr class='rowone'><td align='right'>"
       . gettext("Start time:")
       . "</td><td><input type=text name=start_hour value=\"$start_hour\" size=3>"
       . "<input type=text name=start_minute value=\"$start_minute\" size=3>"
       . "<input type=text name=start_second value=\"$start_second\" size=3></td></tr>";
     $body .=
-        "<tr><td>"
+        "<tr  class='rowone'><td align='right'>"
       . gettext("End date:")
       . "</td><td><input type=text name=end_year value=\"$end_year\" size=5><select name=end_month>";
     for ( my $id = 0 ; $id < 12 ; $id++ ) {
@@ -824,7 +826,7 @@ sub build_filter($$) {
     $body .=
 "</select><input type=text name=end_day value=\"$end_day\" size=3></td></tr>";
     $body .=
-        "<tr><td>"
+        "<tr class='rowone'><td align='right'>"
       . gettext("End time:")
       . "</td><td><input type=text name=end_hour value=\"$end_hour\" size=3>"
       . "<input type=text name=end_minute value=\"$end_minute\" size=3>"
@@ -861,7 +863,7 @@ sub build_admin_reseller_report() {
 }
 
 sub build_admin_vendor_report() {
-    return &build_report( "Vendor", "3" );
+    return &build_report( "Provider", "3" );
 }
 
 sub build_callshop_callshop_report() {
@@ -926,7 +928,7 @@ sub build_report($$) {
     $sth->execute()
       || return gettext("Something is wrong with astpp database") . "\n";
 
-    $body = "<tr><td align=right> $name:"
+    $body = "<tr class='rowone'><td align=right> $name:"
       . "<select name=$name value='$params->{$name}'>\n<option value='ALL'>ALL</option>\n";
 
     while ( my $row = $sth->fetchrow_hashref ) {
@@ -967,7 +969,7 @@ sub build_report($$) {
       . "<option value='ALL'>ALL</option>\n";
 
     while ( my $notes = $sth->fetchrow_hashref ) {
-        my @note = split( m/(\^|DID:)/, $notes->{'notes'}, 2 );
+        my @note = split( m/(\^|DID:)/, $notes->{'notes'}, 2 );	
         $ptn[$i] = $note[1] . $note[2];
         @note = split( /\|/, $note[0] );
         $dst[$i] = ( @note == 1 ) ? $note[0] : $note[1] if $note[0] ne "";
@@ -1433,7 +1435,7 @@ sub build_view_cdrs() {
     $body = $filter->{'form_body'};
 
     $body .= start_form()
-      . "<table class=\"viewcdrs\" width=100%><tr><td colspan=5 align=center><b>$sd - $ed</b></td></tr>
+      . "<table class=\"default\" width=100%><tr><td colspan=17 align=center><b>$sd - $ed</b></td></tr>
 "
       . "<tr class=\"header\"><td>"
       . gettext("Date")
@@ -1769,7 +1771,7 @@ sub build_account_info() {
         )
     );
 
-    if ( $params->{action} eq gettext("Post Charge...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Post Charge...") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -1792,7 +1794,7 @@ sub build_account_info() {
             $status .= "Charge Posted";
         }
     }
-    elsif ( $params->{action} eq gettext("Add Charge...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add Charge...") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -1823,7 +1825,7 @@ sub build_account_info() {
             $astpp_db->do($tmp);
         }
     }
-    elsif ( $params->{action} eq gettext("Remove Charge...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Remove Charge...") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -1844,7 +1846,7 @@ sub build_account_info() {
             $astpp_db->do($tmp);
         }
     }
-    elsif ( $params->{action} eq gettext("Remove DID") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Remove DID") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -1853,7 +1855,7 @@ sub build_account_info() {
         }
         $status .= &remove_did( $astpp_db, $config, $params->{DID}, $number );
     }
-    elsif ( $params->{action} eq gettext("Purchase DID") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Purchase DID") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -1863,7 +1865,7 @@ sub build_account_info() {
         $status .=
           &purchase_did( $astpp_db, $config, $params->{did_list}, $number );
     }
-    elsif ( $params->{action} eq gettext("Map ANI") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Map ANI") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -1888,7 +1890,7 @@ sub build_account_info() {
               . gettext("FAILED to create!") . "<br>";
         }
     }
-    elsif ( $params->{action} eq gettext("Remove ANI") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Remove ANI") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -1913,7 +1915,7 @@ sub build_account_info() {
               . gettext("FAILED to remove!") . "<br>";
         }
     }
-    elsif ( $params->{action} eq gettext("Map IP") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Map IP") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -1940,7 +1942,7 @@ sub build_account_info() {
               . gettext("FAILED to create!") . "<br>";
         }
     }
-    elsif ( $params->{action} eq gettext("Remove IP") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Remove IP") ) {
         if ( $params->{accountnum} ne "" ) {
             $number = $params->{accountnum};
         }
@@ -2272,7 +2274,7 @@ sub build_list_accounts() {
     else {
         $reseller = "";
     }
-    %types->{-1} = gettext("All");
+    $types{-1} = gettext("All");
     $body =
         start_form
       . "<table class=\"default\"><tr class=\"header\"><td colspan=9>"
@@ -2503,7 +2505,7 @@ sub build_create_account() {
       $ASTPP->list_pricelists( reseller => $params->{logged_in_reseller} );
     return gettext("Please configure 'Pricelists'") . "\n"
       unless @pricelists;
-    if ( $params->{action} eq gettext("Generate Account") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Generate Account") ) {
 	
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             my $pricelistinfo =
@@ -2707,7 +2709,7 @@ sub build_cc_brands() {
     if ( $results_per_page eq "" ) { $results_per_page = 25; }
     if ( !$params->{action} ) { $params->{action} = gettext("Information..."); }
 
-    if ( $params->{action} eq gettext("Delete...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Delete...") ) {
         my ( $tmp, $sql );
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             $tmp =
@@ -2730,7 +2732,7 @@ sub build_cc_brands() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Insert...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         my ($sql);
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             $sql =
@@ -2777,9 +2779,9 @@ sub build_cc_brands() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         $body = start_multipart_form;
-        $body .= "<table class=\"default\">";
+        $body .= "<table class=\"default\" width='100%'>";
         $body .= "<tr class=\"header\"><td>";
         $body .=
             gettext("CC Brand Name")
@@ -2847,7 +2849,7 @@ sub build_cc_brands() {
             -value => gettext("Insert...")
           ) . "</td></tr></table>";
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         my ($sql);
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             $sql =
@@ -2917,7 +2919,7 @@ sub build_cc_brands() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Edit...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         my $brandinfo = &get_cc_brand( $astpp_db, $params->{name} );
         $body =
             start_form
@@ -3025,7 +3027,7 @@ sub build_cc_brands() {
             -value => gettext("Save...")
           ) . "</td></tr></table>";
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body = start_form;
         $body .= "<table class=\"default\">";
         $body .=
@@ -3035,7 +3037,7 @@ sub build_cc_brands() {
             -name  => 'action',
             -value => gettext("Add...")
           )
-          . "</td></tr><tr class=\"header\"><td>"
+          . "</td></tr><tr class=\"header\"  align='left'><td>"
           . gettext("CC Brand Name")
           . "</td><td>"
           . gettext("Pin Required")
@@ -3043,20 +3045,20 @@ sub build_cc_brands() {
           . gettext("Pricelist")
           . "</td><td>"
           . gettext("Days Valid For")
-          . "</td><td>"
+          . "</td><td width='45px'>"
           . gettext("Maintenance Fee(pennies)")
-          . "</td><td>"
+          . "</td><td width='100px'>"
           . gettext("Days between Maint fee")
-          . "</td><td>"
+          . "</td><td width='45px'>"
           . gettext("Disconnect Fee(Pennies)")
           . "</td><td>"
           . gettext("Charge after X minutes")
           . "</td><td>"
           . gettext("Minutes used before charge")
-          . "</td><td>"
-          . gettext("Minimum length thats not charged extra (minutes)")
-          . "</td><td>"
-          . gettext("Extra charge for short calls (pennies)")
+          . "</td><td >"
+          . gettext("Minimum length thats <br/>not charged extra (minutes)")
+          . "</td><td width='100px'>"
+          . gettext("Charge for short calls (pennies)")
           . "</td><td>"
           . gettext("Status")
           . "</td><td>"
@@ -3142,13 +3144,12 @@ sub build_cc_brands() {
               . gettext("CC Brands")
               . "&name=$brandinfo->{name}&action="
               . gettext("Edit...") . "\">"
-              . gettext("Edit...") . "</a>"
+              ."<img src='../../_astpp/edit.jpg'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("CC Brands")
               . "&name=$brandinfo->{name}&action="
-              . gettext("Delete...") . "\">"
-              . gettext("Delete...")
-              . "</a></td></tr>
+              . gettext("Delete...") . "\">"              
+              . "<img src='../../_astpp/delete.jpg'></a></td></tr>
 ";
         }
         $body .= "</table>
@@ -3203,7 +3204,7 @@ sub build_create_card() {
         @brands = &list_cc_brands($astpp_db);
     }
     return gettext("Please configure 'CC Brands'") . "\n" unless @brands;
-    if ( $params->{action} eq gettext("Generate Card(s)") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Generate Card(s)") ) {
         if ( $params->{status} eq gettext("ACTIVE") ) {
             $params->{status} = 1;
         }
@@ -3237,7 +3238,7 @@ sub build_update_card_status() {
       $ASTPP->list_pricelists( reseller => $params->{logged_in_reseller} );
     return gettext("Please configure 'Pricelists'!") . "\n"
       unless @pricelists;
-    if ( $params->{action} eq gettext("Update Status on Card(s)") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Update Status on Card(s)") ) {
         my $sequence = $params->{starting};
         my $ending   = $params->{ending};
         my ($active);
@@ -3279,7 +3280,7 @@ sub build_update_card_status() {
         }
     }
     $body = start_multipart_form;
-    $body .= "<table class=\"default\">";
+    $body .= "<table class=\"default\" width='60%'>";
     $body .= "<tr class=\"header\"><td>";
     $body .=
         gettext("Starting Sequence Number")
@@ -3310,7 +3311,7 @@ sub build_update_card_status() {
 sub build_reset_card_inuse() {
     my ( @brands,$brandsql,@pricelists, $status, $body, $count );
     return gettext("Database is NOT configured!") . "\n" unless $astpp_db;
-    if ( $params->{action} eq gettext("Reset") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Reset") ) {
         my $brandssql;
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             @brands =
@@ -3395,7 +3396,7 @@ sub update_balance() {
 sub build_refill_card() {
     my ( @pricelists, $status, $body, $count, $cardinfo );
     return gettext("Database is NOT configured!") . "\n" unless $astpp_db;
-    if ( $params->{action} eq gettext("Refill") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Refill") ) {
         $cardinfo =
           &get_callingcard( $astpp_db, $params->{cardnumber}, $config );
         $ASTPP->debug(
@@ -3406,7 +3407,7 @@ sub build_refill_card() {
         $status .= "$params->{cardnumber} " . gettext("Refilled") . "<br>\n";
     }
     $body = start_form;
-    $body .= "<table class=\"default\">";
+    $body .= "<table class=\"default\" width='50%'>";
     $body .=
         "<tr class=\"header\"><td colspan=3>"
       . gettext("Refill Calling Card")
@@ -3429,7 +3430,7 @@ sub build_refill_card() {
       . "</td><td>"
       . submit( -name => 'action', -value => gettext("Refill") )
       . "</td></tr>
-<tr></tr>
+<tr><td><br/><br/><br/><br/></td></tr>
 </table>
 
 		 ";
@@ -3439,7 +3440,7 @@ sub build_refill_card() {
 sub build_delete_cards() {
     my ( @brands,$brandsql,@pricelists, $status, $body, $count );
     return gettext("Database is NOT configured!") . "\n" unless $astpp_db;
-    if ( $params->{action} eq gettext("Delete") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Delete") ) {
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             @brands =
               &list_cc_brands_reseller( $astpp_db, $params->{username} );
@@ -3469,22 +3470,24 @@ sub build_delete_cards() {
         $status .= "$params->{cardnumber} " . gettext("Deleted") . "<br>\n";
     }
     $body = start_form;
-    $body .= "<table class=\"default\">";
-    $body .=
-        "<tr class=\"header\"><td>"
-      . gettext("Delete Calling Card")
-      . "</td></tr>
-";
+    $body .= "<table class=\"default\" width='40%'>";
+#     $body .=
+#         "<tr class=\"header\"><td>"
+#       . gettext("Delete Calling Card")
+#       . "</td></tr>
+# ";
     $body .= "<tr class=\"header\"><td>";
-    $body .= gettext("Card Number") . "</td></tr>
+    $body .= gettext("Card Number") . "</td><td>"
+      . gettext("Action")
+      . "</td></tr>
 "
-      . "<tr><td>"
+      . "<tr class='rowone'><td>"
       . hidden( -name => "mode", -value => gettext("Delete Card") )
       . textfield( -name => "cardnumber", -size => 10 )
       . "</td><td>"
       . submit( -name => 'action', -value => gettext("Delete") )
       . "</td></tr>
-<tr></tr>
+<tr><td><br/><br/><br/><br/></td></tr>
 </table>
 
 		 ";
@@ -3521,7 +3524,7 @@ sub build_list_cards() {
     return gettext("Database is NOT configured!") . "\n" unless $astpp_db;
     $results_per_page = $config->{results_per_page};
     if ( $results_per_page eq "" ) { $results_per_page = 25; }
-    $body = "<table class=\"default\"><tr class=\"header\"><td>";
+    $body = "<table class=\"default\" width='80%'><tr class=\"header\"><td>";
     $body .=
         gettext("Account Number")
       . "</td><td>"
@@ -3687,7 +3690,7 @@ sub build_view_card() {
     my $deleted  = gettext("DELETED");
     return gettext("Database is NOT configured!") . "\n" unless $astpp_db;
     $body = start_form;
-    $body .= "<table class=\"default\">";
+    $body .= "<table class=\"default\" width='40%'>";
     $body .= "<tr class=\"header\"><td>";
     $body .=
         gettext("Card Number")
@@ -3695,16 +3698,16 @@ sub build_view_card() {
       . gettext("Action")
       . "</td></tr>
 "
-      . "<tr><td>"
+      . "<tr class='rowone'><td>"
       . hidden( -name => "mode", -value => gettext("View Card") )
       . textfield( -name => "number", -size => 20 )
       . "</td><td>"
       . submit( -name => 'action', -value => gettext("View Card") )
       . "</td></tr></table>";
 
-    if ( $params->{action} eq gettext("View Card") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("View Card") ) {
         $body .=
-            "<table class=\"default\"><tr class=\"header\"><td>"
+            "<table class=\"default\" width='90%'><tr class=\"header\"><td>"
           . gettext("Account Number")
           . "</td><td>"
           . gettext("Sequence")
@@ -3799,7 +3802,7 @@ sub build_view_card() {
           . "</td><td>$cardstat"
           . "</td></tr></table>";
         $body .=
-            "<table class=\"default\"><tr class=\"header\"><td>"
+            "<table class=\"default\" width='70%'><tr class=\"header\"><td>"
           . gettext("Destination")
           . "</td><td>"
           . gettext("Disposition")
@@ -3856,7 +3859,7 @@ sub build_lcr_tables() {
     # This program is free software, distributed under the terms of
     # the GNU General Public License. http://www.gnu.org/licenses.html
     #
-    use strict;
+#     use strict;
     use DBI();
     use Time::HiRes qw( gettimeofday tv_interval );
 
@@ -4244,7 +4247,7 @@ sub build_statistics() {
     my @show_channels = $astman->sendcommand( %command_show_channels, 2 );
     $astman->disconnect;
 
-    $body = "<table class=\"default\">";
+    $body = "<table class=\"default\" width='80%'>";
     $body .= "<tr class=\"header\"><td colspan = 8> SIP PEERS </td></tr>";
     $body .=
         "<tr class=\"header\"><td>"
@@ -4522,7 +4525,7 @@ sub build_statistics() {
 sub build_edit_account() {
     my ( $valid, $body, $tmp, $sql, $status, $number, @accountlist,
         @pricelists );
-    if ( $params->{action} eq gettext("Save...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             my $accountinfo = &get_account( $astpp_db, $params->{item} );
             if ( $accountinfo->{reseller} eq $params->{username} ) {
@@ -4616,9 +4619,9 @@ sub build_edit_account() {
             else {
                 $status .= gettext("Reseller Update Failed!");
             }
-        }
+        }      
     }
-    elsif ( param('action') eq gettext("Edit...") ) {
+    elsif (defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         if ( $params->{number} eq "" ) {
             $number = $params->{accountlist};
         }
@@ -4632,7 +4635,7 @@ sub build_edit_account() {
         $accountinfo = &get_account( $astpp_db, $number );
         $body =
             start_form
-          . "<table class=\"default\"><tr class=\"header\"><td colspan=4>"
+          . "<table class=\"default\" ><tr class=\"header\"><td colspan=4>"
           . hidden( -name => "mode", -value => gettext("Edit Account") )
           . hidden( -name => "item", -value => $number )
           . gettext("Account Number")
@@ -4869,10 +4872,10 @@ sub build_edit_account() {
     @accountlist = sort @accountlist;
     $body .= start_form;
     $body .=
-        "<table class=\"default\"><tr class=\"header\"><td colspan=3>"
+        "<table class=\"default\" width='40%'>"
       . hidden( -name => "mode", -value => gettext("Edit Account") )
-      . "Edit Account"
-      . "</td></tr>
+      . ""
+      . "
 <tr class=\"header\"><td>"
       . "Either select or enter the account number to edit"
       . "</td><td>"
@@ -4912,7 +4915,7 @@ sub build_periodic_charges() {
     if ( !$params->{action} ) {
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Insert...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         my $sql =
 "INSERT INTO charges (pricelist,description,charge,sweep,status) VALUES ("
           . $astpp_db->quote( $params->{pricelist} ) . ", "
@@ -4929,7 +4932,7 @@ sub build_periodic_charges() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         @pricelists =
           $ASTPP->list_pricelists( reseller => $params->{logged_in_reseller} );
         return gettext("Please configure 'Pricelists'!") . "\n"
@@ -4950,7 +4953,7 @@ sub build_periodic_charges() {
           . gettext("Action")
           . "</td></tr>
 "
-          . "<tr><td>"
+          . "<tr class='rowone'><td>"
           . hidden(
             -name  => "mode",
             -value => gettext("Periodic Charges")
@@ -4977,7 +4980,7 @@ sub build_periodic_charges() {
 </table>
 ";
     }
-    elsif ( $params->{action} eq gettext("Edit...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         @pricelists =
           $ASTPP->list_pricelists( reseller => $params->{logged_in_reseller} );
         return gettext("Please configure 'Pricelists'!") . "\n"
@@ -5006,7 +5009,7 @@ sub build_periodic_charges() {
           . gettext("Action")
           . "</td></tr>
 "
-          . "<tr><td>" 
+          . "<tr  class='rowone'><td>" 
           . $params->{chargeid} 
           . "</td><td>"
           . textfield(
@@ -5041,7 +5044,7 @@ sub build_periodic_charges() {
 </table>
 ";
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         my $sql =
             "UPDATE charges SET "
           . "pricelist = "
@@ -5064,7 +5067,7 @@ sub build_periodic_charges() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Delete...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Delete...") ) {
         my $sql = "DELETE FROM charges WHERE id = "
           . $astpp_db->quote( $params->{chargeid} );
         $ASTPP->debug( user => $params->{username}, debug => $sql );
@@ -5087,10 +5090,10 @@ sub build_periodic_charges() {
         }
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body =
             start_form 
-          . "<table class=\"default\">" 
+          . "<table class=\"default\" width='70%'>" 
           . "<tr class=\"header\"><td>"
           . hidden(
             -name  => "mode",
@@ -5182,14 +5185,12 @@ sub build_periodic_charges() {
               . gettext("Periodic Charges")
               . "&chargeid=$chargeinfo->{id}&action="
               . gettext("Edit...") . "\">"
-              . "<img src=\"/_astpp/edit.jpg\" alt="
-              . gettext("Edit...") . "></a>"
+              . "<img alt='Edit' src='../../_astpp/edit.jpg'></a>"
               . "</td><td><a href=\"astpp-admin.cgi?mode="
               . gettext("Periodic Charges")
               . "&chargeid=$chargeinfo->{id}&action="
               . gettext("Delete...") . "\">"
-              . "<img src=\"/_astpp/deactivate.jpg\" alt="
-              . gettext("Delete...") . "></a>"
+              . "<img alt='Edit' src='../../_astpp/delete.jpg'></a>"
               . "</td></tr>
 ";
         }
@@ -5240,7 +5241,7 @@ sub build_import_outbound_routes() {
     return gettext(
         "Cannot import outbound routes until database is configured!")
       unless $astpp_db;
-    if ( $params->{action} eq gettext("Import...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Import...") ) {
         $body =
             start_form
           . "<table><tr><td>"
@@ -5563,7 +5564,7 @@ sub build_import_dids() {
     my ( $body, $status );
     return gettext("Cannot import dids until database is configured!")
       unless $astpp_db;
-    if ( $params->{action} eq gettext("Import...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Import...") ) {
         my $csv = Text::CSV->new();
         my $uploaded = upload('didimport');
         my ( @data, $record );
@@ -5678,7 +5679,7 @@ sub build_import_dids() {
     }
     else {
         $body .=
-            "<table class=\"default\"><tr><td>"
+            "<table class=\"default\" width='60%'><tr><td>"
           . start_multipart_form
           . "</td></tr>
 "
@@ -5738,7 +5739,7 @@ sub build_remove_account() {
         filename          => '/var/lib/astpp/templates/account-remove.tpl',
         die_on_bad_params => $config->{template_die_on_bad_params}
     );
-    if ( $params->{action} eq gettext("Deactivate...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Deactivate...") ) {
         if ( $params->{number} ne "" ) {
             $number = $params->{number};
         }
@@ -5808,7 +5809,7 @@ sub build_process_payment() {
     }
     my @accountlist = &list_accounts_selective( $astpp_db, $reseller, "-1" );
     unshift( @accountlist, "" );
-    if ( $params->{action} eq gettext("Refill...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Refill...") ) {
         if ( param('number') ne "" ) {
             $number = param('number');
         }
@@ -5848,7 +5849,7 @@ sub build_pricelists() {
     if ( !$params->{action} ) {
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Edit...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         $body = start_form;
         my $pricelistinfo = &get_pricelist( $astpp_db, $params->{name} );
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
@@ -5908,7 +5909,7 @@ sub build_pricelists() {
         }
         return $body;
     }
-    elsif ( $params->{action} eq gettext("Insert...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         my $pricelistinfo = &get_pricelist( $astpp_db, $params->{name} );
         if ( $pricelistinfo->{name} ) {
             if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
@@ -5979,7 +5980,7 @@ sub build_pricelists() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             my $pricelistinfo = &get_pricelist( $astpp_db, $params->{oldname} );
             if ( $pricelistinfo->{reseller} eq $params->{username} ) {
@@ -6027,7 +6028,7 @@ sub build_pricelists() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Deactivate...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Deactivate...") ) {
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             my $pricelistinfo = &get_pricelist( $astpp_db, $params->{name} );
             if ( $pricelistinfo->{reseller} eq $params->{username} ) {
@@ -6059,7 +6060,7 @@ sub build_pricelists() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         $body = start_form;
         $body .=
             "<table class=\"default\">"
@@ -6093,7 +6094,7 @@ sub build_pricelists() {
           . "</td></tr></table>";
         return $body;
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body = start_form;
         $body .=
             "<table class=\"default\">"
@@ -6177,14 +6178,14 @@ sub build_pricelists() {
               . gettext("Edit...")
               . "&name="
               . $pricelistinfo->{name} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img src='../../_astpp/edit.jpg'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Pricelists")
               . "&action="
               . gettext("Deactivate...")
               . "&name="
               . $pricelistinfo->{name} . "\">"
-              . gettext("Deactivate...") . "</a>"
+              . "<img src='../../_astpp/delete.jpg'></a>"
               . "</td></tr>";
         }
         $body .= "</table>
@@ -6236,7 +6237,7 @@ sub build_dids() {
     if ( !$params->{action} ) {
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Edit...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         @providerlist = &list_providers($astpp_db);
         return gettext(
             "Please define at least one provider before creating DIDs!")
@@ -6249,7 +6250,7 @@ sub build_dids() {
         $body = start_form;
         $body .=
             "<table class=\"default\">"
-          . "<tr class=\"header\"><td colspan=12>"
+          . "<tr class=\"heabuild_didsder\"><td colspan=18>"
           . gettext("All costs are in 1/100 of a penny")
           . "</td></tr>"
           . "<tr class=\"header\"><td>"
@@ -6346,7 +6347,7 @@ sub build_dids() {
           . gettext("Action")
           . "</td></tr>";
         $body .=
-            "<tr><td>" 
+            "<tr class='rowone'><td>" 
           . $didinfo->{number} 
           . "</td><td>"
           . textfield(
@@ -6564,7 +6565,7 @@ sub build_dids() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         $tmp =
             "UPDATE dids SET"
           . " account="
@@ -6654,7 +6655,7 @@ sub build_dids() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Deactivate...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Deactivate...") ) {
         my $tmp = "DELETE FROM dids WHERE number = "
           . $astpp_db->quote( $params->{number} );
         if ( $astpp_db->do($tmp) ) {
@@ -6672,7 +6673,7 @@ sub build_dids() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         @providerlist = &list_providers($astpp_db);
         return gettext(
             "Please define at least one provider before creating DIDs!")
@@ -6768,7 +6769,7 @@ sub build_dids() {
           . gettext("Action")
           . "</td></tr>
 ";
-        $body .= "<tr><td>"
+        $body .= "<tr class='rowone'><td>"
           . textfield(
             -name => 'number',
             -size => 20
@@ -6873,14 +6874,14 @@ sub build_dids() {
 ";
         return $body;
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body = start_form;
         $body .=
             "<table class=\"default\">"
           . "<tr><td>"
           . submit( -name => 'action', -value => gettext("Add...") )
           . "</td></tr>"
-          . "<tr class=\"header\"><td colspan=16>"
+          . "<tr class=\"header\"><td colspan=17>"
           . gettext("All costs are in 1/100 of a penny")
           . "</td></tr>"
           . "<tr class=\"header\"><td>"
@@ -6888,10 +6889,10 @@ sub build_dids() {
           . gettext("Number")
           . "</td><td>"
           . gettext("Country")
-          . "</td><td>"
-          . gettext("Province")
-          . "</td><td>"
-          . gettext("City")
+#           . "</td><td>"
+#           . gettext("Province")
+#           . "</td><td>"
+#           . gettext("City")
           . "</td><td>"
           . gettext("Provider")
           . "</td><td>"
@@ -6910,8 +6911,8 @@ sub build_dids() {
           . gettext("Monthly")
           . "</acronym>"
           . "</td><td>"
-          . gettext("Prorate")
-          . "</td><td>"
+#           . gettext("Prorate")
+#           . "</td><td>"
           . "<acronym title=\""
           . gettext(
 "Connection Fee:  The connection fee is the price charged for the \"Included Seconds\""
@@ -6948,8 +6949,8 @@ sub build_dids() {
           . gettext("Bill on Allocation")
           . "</acronym>"
           . "</td><td>"
-          . gettext("Unbilled and Allocated")
-          . "</td><td>"
+#           . gettext("Unbilled and Allocated")
+#           . "</td><td>"
           . "<acronym title=\""
           . gettext(
 "If you wish to allow 'unlimited' channels for this DID then leave at 0."
@@ -6958,8 +6959,8 @@ sub build_dids() {
           . gettext("Max Channels")
           . "</acronym>"
           . "</td><td>"
-          . gettext("Dial As")
-          . "</td><td>"
+#           . gettext("Dial As")
+#           . "</td><td>"
           . gettext("Action")
           . "</td></tr>";
         $tmp = "SELECT * FROM dids WHERE status < 2";
@@ -6990,29 +6991,32 @@ sub build_dids() {
             $count++;
             $body .=
                 "<td>$record->{number}</td><td>$record->{country}</td>"
-              . "<td>$record->{province}</td><td>$record->{city}</td>"
+#               . "<td>$record->{province}</td><td>$record->{city}</td>"
               . "<td>$record->{provider}</td><td>$record->{account}</td>"
               . "<td>$record->{limittime}</td><td>$record->{extensions}</td>"
               . "<td>$record->{setup}</td><td>$record->{disconnectionfee}</td>"
-              . "<td>$record->{monthlycost}</td><td>$record->{prorate}</td>"
+              . "<td>$record->{monthlycost}</td>"
+#               . "<td>$record->{prorate}</td>"
               . "<td>$record->{connectcost}</td><td>$record->{includedseconds}</td>"
               . "<td>$record->{cost}</td><td>$record->{inc}</td><td>$record->{variables}</td>"
-              . "<td>$yesno{$record->{chargeonallocation}}</td><td>$yesno{$record->{allocation_bill_status}}</td>"
-              . "<td>$record->{maxchannels}</td><td>$record->{dial_as}</td>"
+              . "<td>$yesno{$record->{chargeonallocation}}</td>"
+#               ." <td>$yesno{$record->{allocation_bill_status}}</td>"
+              . "<td>$record->{maxchannels}</td>"
+#               ." <td>$record->{dial_as}</td>"
               . "<td><a href=\"astpp-admin.cgi?mode="
               . gettext("Manage DIDs")
               . "&action="
               . gettext("Edit...")
               . "&number="
               . $record->{number} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/edit.jpg'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Manage DIDs")
               . "&action="
               . gettext("Deactivate...")
               . "&number="
               . $record->{number} . "\">"
-              . gettext("Deactivate...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/delete.jpg'></a>"
               . "</td></tr>
 ";
         }
@@ -7067,7 +7071,7 @@ sub build_dids_reseller() {
     if ( !$params->{action} ) {
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Edit...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         my ( $didinfo, $reseller_didinfo, $accountinfo );
         $reseller_didinfo =
           &get_did_reseller( $astpp_db, $params->{number},
@@ -7254,7 +7258,7 @@ sub build_dids_reseller() {
           . "</td></tr></table>";
         return $body;
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         $tmp =
             "DELETE FROM reseller_pricing WHERE reseller = "
           . $astpp_db->quote( $params->{username} )
@@ -7338,7 +7342,7 @@ sub build_dids_reseller() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Deactivate...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Deactivate...") ) {
         my $tmp =
             "DELETE FROM reseller_pricing WHERE note = "
           . $astpp_db->quote( $params->{number} )
@@ -7360,7 +7364,7 @@ sub build_dids_reseller() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
 	my ($didinfo);
         my $resellerinfo = &get_account( $astpp_db, $params->{username} );
         if ( $resellerinfo->{reseller} ) {
@@ -7523,7 +7527,7 @@ sub build_dids_reseller() {
           . "</td></tr></table>";
         return $body;
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body =
             start_form
           . "<table class=\"default\">"
@@ -7660,14 +7664,14 @@ sub build_dids_reseller() {
                   . gettext("Edit...")
                   . "&number="
                   . $did->{number} . "\">"
-                  . gettext("Edit...") . "</a>"
+                  . "<img alt='Edit' src='../../_astpp/edit.jpg'></a>"
                   . "  <a href=\"astpp-admin.cgi?mode="
                   . gettext("Manage DIDs")
                   . "&action="
                   . gettext("Deactivate...")
                   . "&number="
                   . $did->{number} . "\">"
-                  . gettext("Deactivate...") . "</a>"
+                  . "<img alt='Edit' src='../../_astpp/delete.jpg'></a>"
                   . "</td></tr>";
             }
         }
@@ -7722,7 +7726,7 @@ sub build_routes() {
     if ( !$params->{action} ) {
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Edit...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             $tmp =
                 "SELECT * FROM routes WHERE id = "
@@ -7741,7 +7745,7 @@ sub build_routes() {
         $sql->finish;
         $body =
             start_form
-          . "<table class=\"default\">"
+          . "<table class=\"default\" width='70%'>"
           . "<tr class=\"header\"><td colspan=2>"
           . gettext("All costs are in 1/100 of a penny")
           . "</td><td colspan=8>"
@@ -7821,7 +7825,7 @@ sub build_routes() {
 ";
         return $body;
     }
-    elsif ( $params->{action} eq gettext("Insert...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         my $reseller;
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             my $pricelistinfo =
@@ -7891,7 +7895,7 @@ sub build_routes() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             my $pricelist = &get_pricelist( $astpp_db, $params->{pricelist} );
             if ( $pricelist->{reseller} ne $params->{username} ) {
@@ -7966,7 +7970,7 @@ sub build_routes() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Deactivate...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Deactivate...") ) {
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             $tmp =
                 "UPDATE routes SET status = 2 WHERE id = "
@@ -7993,12 +7997,12 @@ sub build_routes() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         @pricelists =
           $ASTPP->list_pricelists( reseller => $params->{logged_in_reseller} );
         $body =
             start_form
-          . "<table class=\"default\">"
+          . "<table class=\"default\" width='70%'>"
           . "<tr class=\"header\"><td colspan=2>"
           . gettext("All costs are in 1/100 of a penny")
           . "</td><td colspan=8>"
@@ -8066,7 +8070,7 @@ sub build_routes() {
 ";
         return $body;
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body = start_form;
         $body .=
             "<table class=\"default\">"
@@ -8163,13 +8167,13 @@ sub build_routes() {
               . "&action="
               . gettext("Edit...") . "&id="
               . $record->{id} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/edit.jpg'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Routes")
               . "&action="
               . gettext("Deactivate...") . "&id="
               . $record->{id} . "\">"
-              . gettext("Deactivate...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/delete.jpg'></a>"
               . "</td></tr>
 ";
         }
@@ -8281,7 +8285,7 @@ sub build_packages() {
         )
     );
 
-    if ( $params->{action} eq gettext("Edit...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         $tmp = "SELECT * FROM packages WHERE id = "
           . $astpp_db->quote( $params->{id} );
         $sql = $astpp_db->prepare($tmp);
@@ -8301,7 +8305,7 @@ sub build_packages() {
         $template->param(
             current_includedseconds => $record->{includedseconds} );
     }
-    elsif ( $params->{action} eq gettext("Insert...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         my $tmp =
 "INSERT INTO packages (name,pricelist,pattern,includedseconds,status) VALUES ("
           . $astpp_db->quote( $params->{name} ) . ", "
@@ -8323,7 +8327,7 @@ sub build_packages() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         my $tmp =
             "UPDATE packages SET name= "
           . $astpp_db->quote( $params->{edit_name} )
@@ -8350,7 +8354,7 @@ sub build_packages() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Deactivate...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Deactivate...") ) {
         my $tmp = "UPDATE packages SET status = 2 WHERE id = "
           . $astpp_db->quote( $params->{id} );
         if ( $astpp_db->do($tmp) ) {
@@ -8428,7 +8432,7 @@ sub build_trunks() {
     if ( !$params->{action} ) {
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Edit...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         my $tmp = "SELECT * FROM trunks WHERE name = "
           . $astpp_db->quote( $params->{name} );
         my $sql = $astpp_db->prepare($tmp);
@@ -8460,7 +8464,7 @@ sub build_trunks() {
           . gettext("Action")
           . "</td></tr>";
         $body .=
-            "<tr><td>" 
+            "<tr class='rowone'><td>" 
           . $record->{name} 
           . "</td><td>"
           . popup_menu(
@@ -8529,7 +8533,7 @@ sub build_trunks() {
           . "</td></tr></table>";
         return $body;
     }
-    elsif ( $params->{action} eq gettext("Insert...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         my @resellers    = &list_resellers($astpp_db);
         my $resellerlist = "";
         foreach my $reseller (@resellers) {
@@ -8563,7 +8567,7 @@ sub build_trunks() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         my ( $resellerlist, $count );
         $count = 0;
         my @resellers = &list_resellers($astpp_db);
@@ -8608,7 +8612,7 @@ sub build_trunks() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Deactivate...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Deactivate...") ) {
         my $tmp = "UPDATE trunks SET status = 2 WHERE name = "
           . $astpp_db->quote( $params->{name} );
         if ( $astpp_db->do($tmp) ) {
@@ -8635,7 +8639,7 @@ sub build_trunks() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         $body = start_form;
         $body .=
             "<table class=\"default\">"
@@ -8660,7 +8664,7 @@ sub build_trunks() {
           . gettext("Action")
           . "</td></tr>
 ";
-        $body .= "<tr><td>"
+        $body .= "<tr class='rowone'><td>"
           . textfield(
             -name => 'name',
             -size => 20
@@ -8726,10 +8730,10 @@ sub build_trunks() {
 ";
         return $body;
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body = start_form;
         $body .=
-            "<table class=\"default\">"
+            "<table class=\"default\" width='90%'>"
           . "<tr><td>"
           . submit( -name => 'action', -value => gettext("Add...") )
           . "</td></tr>
@@ -8815,14 +8819,14 @@ sub build_trunks() {
               . gettext("Edit...")
               . "&name="
               . $trunkinfo->{name} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img src='../../_astpp/edit.jpg' alt='Edit'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Trunks")
               . "&action="
               . gettext("Deactivate...")
               . "&name="
               . $trunkinfo->{name} . "\">"
-              . gettext("Deactivate...") . "</a>"
+              . "<img src='../../_astpp/delete.jpg' alt='Edit'></a>"
               . "</td></tr>
 ";
         }
@@ -8874,21 +8878,22 @@ sub build_providers() {
     if ( !$params->{action} ) {
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Add...") ) {
-        $params->{mode} = gettext("Create Account");
+    if ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
+        $params->{mode} = gettext("Create Provider");
         return &build_create_account();
     }
-    elsif ( $params->{action} eq gettext("Generate Account") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Generate Account") ) {
         $params->{count}   = 1;
         $params->{pennies} = 0;
+# 	$params->{accounttype} = 3;
         $params->{number}  = $params->{customnum};
         $status .= &generate_accounts( $params, $config );
         $params->{action} = gettext("Information...");
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body = start_form;
         $body .=
-            "<table class=\"default\">"
+            "<table class=\"default\" width='70%'>"
           . "<tr><td>"
           . submit( -name => 'action', -value => gettext("Add...") )
           . "</td></tr>
@@ -8915,7 +8920,7 @@ sub build_providers() {
           if ( $config->{debug} == 1 );
         $sql->finish;
         $sql = $astpp_db->prepare(
-"SELECT * FROM accounts WHERE type = '3' AND status = '1' ORDER BY number limit $params->{limit} , $results_per_page"
+	"SELECT * FROM accounts WHERE type = '3' AND status = '1' ORDER BY number limit $params->{limit} , $results_per_page"
         );
         $sql->execute
           || return gettext("Something is wrong with the ASTPP database!")
@@ -8942,14 +8947,14 @@ sub build_providers() {
               . gettext("Edit...")
               . "&number="
               . $providerinfo->{number} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img src='../../_astpp/edit.jpg'  alt='Edit'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Remove Account")
               . "&action="
               . gettext("Deactivate...")
               . "&number="
               . $providerinfo->{number} . "\">"
-              . gettext("Deactivate...") . "</a>"
+              . "<img src='../../_astpp/delete.jpg' alt='Delete'></a>"
               . "</td></tr>
 ";
         }
@@ -9015,7 +9020,7 @@ sub build_outbound_routes() {
     else {
         @trunklist = &list_trunks($astpp_db);
     }
-    if ( $params->{action} eq gettext("Edit...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         my $tmp = "SELECT * FROM outbound_routes WHERE id = "
           . $astpp_db->quote( $params->{id} );
         my $sql = $astpp_db->prepare($tmp);
@@ -9029,8 +9034,7 @@ sub build_outbound_routes() {
           . gettext("All costs are in 1/100 of a penny")
           . "</td colspan=2><td>"
           . gettext("Pattern is a Regular Expression")
-          . "</td></tr>
-"
+          . "</td></tr>"
           . "<tr class=\"header\"><td>"
           . hidden( -name => 'mode', -value => gettext("Routes") )
           . hidden( -name => 'id',   -value => $params->{id} )
@@ -9153,7 +9157,7 @@ sub build_outbound_routes() {
 ";
         return $body;
     }
-    elsif ( $params->{action} eq gettext("Insert...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         my @resellers = &list_resellers($astpp_db);
         my $resellerlist;
         foreach my $reseller (@resellers) {
@@ -9191,7 +9195,7 @@ sub build_outbound_routes() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         my @resellers = &list_resellers($astpp_db);
         my $resellerlist;
         foreach my $reseller (@resellers) {
@@ -9240,7 +9244,7 @@ sub build_outbound_routes() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Deactivate...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Deactivate...") ) {
         my $tmp = "UPDATE outbound_routes SET status = 2 WHERE id = "
           . $astpp_db->quote( $params->{id} );
         $ASTPP->debug( user => $param->{username}, debug => $tmp );
@@ -9259,7 +9263,7 @@ sub build_outbound_routes() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         $body =
             start_form
           . "<table class=\"default\">"
@@ -9374,7 +9378,7 @@ sub build_outbound_routes() {
 ";
         return $body;
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body = start_form;
         $body .=
             "<table class=\"default\">"
@@ -9491,13 +9495,13 @@ sub build_outbound_routes() {
               . "&action="
               . gettext("Edit...") . "&id="
               . $record->{id} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/edit.jpg'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Outbound Routes")
               . "&action="
               . gettext("Deactivate...") . "&id="
               . $record->{id} . "\">"
-              . gettext("Deactivate...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/delete.jpg'></a>"
               . "</td></tr>
 ";
         }
@@ -9555,7 +9559,7 @@ sub build_calc_charge() {
             -values => \@pricelists
         )
     );
-    if ( $params->{action} eq gettext("Price Call...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Price Call...") ) {
         my $branddata = &get_pricelist( $astpp_db, $params->{pricelist} );
         my $numdata = &get_route( $astpp_db, $config, $params->{phonenumber},
             $params->{pricelist} );
@@ -9612,7 +9616,7 @@ sub build_taxes() {
 
     if ( !$params->{action} ) { $params->{action} = "List"; }
 
-    if ( $params->{action} eq "Edit" ) {
+    if ( defined($params->{action}) && $params->{action} eq "Edit" ) {
 	my ($tmp,$sql);
             $tmp =
                 "SELECT * FROM taxes WHERE taxes_id = "
@@ -9634,7 +9638,7 @@ sub build_taxes() {
     $template->param(date_added => $tax_item->{date_added});
 
     }
-    elsif ( $params->{action} eq "Save Item" ) {
+    elsif ( defined($params->{action}) && $params->{action} eq "Save Item" ) {
         $tmp =
             "UPDATE taxes SET "
 		. " taxes_priority = "
@@ -9657,7 +9661,7 @@ sub build_taxes() {
         }
         $params->{action} = "List";
     }
-    elsif ( $params->{action} eq "Add Item" ) {
+    elsif ( defined($params->{action}) && $params->{action} eq "Add Item" ) {
         $tmp =
             "INSERT INTO taxes (taxes_priority,taxes_amount,taxes_rate,taxes_description) VALUES ("
           . $astpp_db->quote( $params->{taxes_priority} ) . ","
@@ -9673,7 +9677,7 @@ sub build_taxes() {
         }
         $params->{action} = "List";
     }
-    elsif ( $params->{action} eq "Delete" ) {
+    elsif ( defined($params->{action}) && $params->{action} eq "Delete" ) {
                 $tmp =
                     "DELETE FROM taxes WHERE taxes_id = "
                   . $astpp_db->quote( $params->{taxes_id} );
@@ -9686,7 +9690,7 @@ sub build_taxes() {
         }
         $params->{action} = "List";
     }
-    if ( $params->{action} eq "List" ) {
+    if ( defined($params->{action}) && $params->{action} eq "List" ) {
         $tmp = "SELECT * FROM taxes ORDER BY taxes_priority,taxes_description";
         $ASTPP->debug( user => $param->{username}, debug => $tmp );
         my $sql = $astpp_db->prepare($tmp);
@@ -9734,7 +9738,7 @@ sub build_configuration() {
 
 
     if ( !$params->{action} ) { $params->{action} = "List"; }
-    if ( $params->{action} eq "Edit" ) {
+    if ( defined($params->{action}) && $params->{action} eq "Edit" ) {
 	my ($tmp,$sql);
         if ( $params->{logintype} == 1 ) {
             $tmp =
@@ -9776,7 +9780,7 @@ sub build_configuration() {
 
 
     }
-    elsif ( $params->{action} eq "Save Item" ) {
+    elsif ( defined($params->{action}) && $params->{action} eq "Save Item" ) {
         if ( $params->{logintype} == 1 ) {
             $params->{reseller} = $params->{username};
 	}
@@ -9807,7 +9811,7 @@ sub build_configuration() {
         }
         $params->{action} = "List";
     }
-    elsif ( $params->{action} eq "Add Item" ) {
+    elsif ( defined($params->{action}) && $params->{action} eq "Add Item" ) {
         if ( $params->{logintype} == 1 ) {
             $params->{reseller} = $params->{username};
         }
@@ -9827,7 +9831,7 @@ sub build_configuration() {
         }
         $params->{action} = "List";
     }
-    elsif ( $params->{action} eq "Delete" ) {
+    elsif ( defined($params->{action}) && $params->{action} eq "Delete" ) {
         if ( $params->{logintype} == 2 ) {
             if ( $params->{reseller} ne "" ) {
                 $tmp =
@@ -9861,7 +9865,7 @@ sub build_configuration() {
         }
         $params->{action} = "List";
     }
-    if ( $params->{action} eq "List" ) {
+    if ( defined($params->{action}) && $params->{action} eq "List" ) {
     $template->param(
         brands => popup_menu(
             -name   => "brands",
@@ -9952,14 +9956,14 @@ sub build_freeswitch_sip_devices() {
         filename          => '/var/lib/astpp/templates/freeswitch-sip-list.tpl',
         die_on_bad_params => $config->{template_die_on_bad_params}
     );
-    if ( $params->{action} eq "Delete..." ) {
+    if ( defined($params->{action}) && $params->{action} eq "Delete..." ) {
         $ASTPP->fs_delete_sip_user( id => $params->{directory_id} );
         $status =
             gettext("SIP Device:") . " "
           . $params->{directory_id} . " "
           . gettext("Removed Successfully!");
     }
-    elsif ( $params->{action} eq "Save..." ) {
+    elsif ( defined($params->{action}) && $params->{action} eq "Save..." ) {
         my $failure;
         $ASTPP->debug( user => $param->{username}, debug => "Directory ID: " . $params->{directory_id});
         if (!$params->{directory_id} || $params->{directory_id} == 0 || $params->{directory_id} eq "") {
@@ -9989,7 +9993,7 @@ sub build_freeswitch_sip_devices() {
 	}
         $status .= "<br>";
     }
-    elsif ( $params->{action} eq "Edit..." ) {
+    elsif ( defined($params->{action}) && $params->{action} eq "Edit..." ) {
 	my $deviceinfo = $ASTPP->fs_retrieve_sip_user(
 		directory_id => $params->{directory_id}
 		);
@@ -10035,7 +10039,7 @@ sub build_sip_devices() {
     if ( $results_per_page eq "" ) { $results_per_page = 25; }
     if ( !$params->{action} ) { $params->{action} = gettext("Information..."); }
 
-    if ( $params->{action} eq gettext("Insert...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         if ( param('number') ne "" ) {
             $number = param('number');
         }
@@ -10069,7 +10073,7 @@ sub build_sip_devices() {
             }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Delete...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Delete...") ) {
         if ( &del_sip_user_rt( $rt_db, $config, $params->{devicename} ) ) {
             $status .=
                 gettext("Removed Device:")
@@ -10082,7 +10086,7 @@ sub build_sip_devices() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         my $tmp =
             "UPDATE $config->{rt_sip_table} SET"
           . " callerid="
@@ -10131,7 +10135,7 @@ sub build_sip_devices() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         my @accountlist = &list_accounts($astpp_db);
         $body = start_form;
         $body .= "<table class=\"default\">";
@@ -10185,7 +10189,7 @@ sub build_sip_devices() {
 </table>
 ";
     }
-    elsif ( $params->{action} eq gettext("Edit...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         my @accountlist = &list_accounts($astpp_db);
         $sql =
           $rt_db->prepare( "SELECT * FROM $config->{rt_sip_table} WHERE name = "
@@ -10361,7 +10365,7 @@ sub build_sip_devices() {
 </table>
 ";
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body =
             start_form 
           . "<table class=\"default\">" 
@@ -10437,14 +10441,14 @@ sub build_sip_devices() {
               . gettext("Edit...")
               . "&devicename="
               . $deviceinfo->{name} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/edit.jpg'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Asterisk(TM) SIP Devices")
               . "&action="
               . gettext("Delete...")
               . "&devicename="
               . $deviceinfo->{name} . "\">"
-              . gettext("Delete...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/delete.jpg'></a>"
               . "</td></tr>
 ";
         }
@@ -10529,7 +10533,7 @@ sub build_iax_devices() {
     if ( $results_per_page eq "" ) { $results_per_page = 25; }
     if ( !$params->{action} ) { $params->{action} = gettext("Information..."); }
 
-    if ( $params->{action} eq gettext("Insert...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         if ( param('number') ne "" ) {
             $number = param('number');
         }
@@ -10544,7 +10548,7 @@ sub build_iax_devices() {
             $params->{context}, $number, $params );
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Delete...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Delete...") ) {
         if ( &del_sip_user_rt( $rt_db, $config, $params->{devicename} ) ) {
             $status .=
               gettext("Removed Device:") . " $params->{devicename}<br>";
@@ -10554,7 +10558,7 @@ sub build_iax_devices() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         my $tmp =
             "UPDATE $config->{rt_iax_table} SET"
           . " callerid="
@@ -10597,7 +10601,7 @@ sub build_iax_devices() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         my @accountlist = &list_accounts($astpp_db);
         $body = start_form;
         $body .= "<table class=\"default\">";
@@ -10651,7 +10655,7 @@ sub build_iax_devices() {
 </table>
 ";
     }
-    elsif ( $params->{action} eq gettext("Edit...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         my @accountlist = &list_accounts($astpp_db);
         $sql =
           $rt_db->prepare( "SELECT * FROM $config->{rt_iax_table} WHERE name = "
@@ -10795,7 +10799,7 @@ sub build_iax_devices() {
 </table>
 ";
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body =
             start_form 
           . "<table class=\"default\">" 
@@ -10868,14 +10872,14 @@ sub build_iax_devices() {
               . gettext("Edit...")
               . "&devicename="
               . $deviceinfo->{name} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/edit.jpg'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Asterisk(TM) IAX Devices")
               . "&action="
               . gettext("Delete...")
               . "&devicename="
               . $deviceinfo->{name} . "\">"
-              . gettext("Delete...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/delete.jpg'></a>"
               . "</td></tr>
 ";
         }
@@ -10958,7 +10962,7 @@ sub build_dialplan() {
     if ( $results_per_page eq "" ) { $results_per_page = 25; }
     if ( !$params->{action} ) { $params->{action} = gettext("Information..."); }
 
-    if ( $params->{action} eq gettext("Insert...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Insert...") ) {
         my $tmp =
             "INSERT INTO $config->{rt_extensions_table} (context,"
           . "exten,priority,app,appdata) VALUES ("
@@ -10979,7 +10983,7 @@ sub build_dialplan() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Delete...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Delete...") ) {
         my $tmp = "DELETE FROM $config->{rt_extensions_table} WHERE " . "id = "
           . $rt_db->quote( $params->{id} );
         if ( $rt_db->do($tmp) ) {
@@ -10991,7 +10995,7 @@ sub build_dialplan() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Save...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Save...") ) {
         my $tmp =
             "UPDATE $config->{rt_extensions_table} SET"
           . " context="
@@ -11015,7 +11019,7 @@ sub build_dialplan() {
         }
         $params->{action} = gettext("Information...");
     }
-    elsif ( $params->{action} eq gettext("Add...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         $body = start_form;
         $body .= "<table class=\"default\">";
         $body .= "<tr class=\"header\"><td>";
@@ -11065,7 +11069,7 @@ sub build_dialplan() {
 </table>
 ";
     }
-    elsif ( $params->{action} eq gettext("Edit...") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Edit...") ) {
         $sql = $rt_db->prepare(
             "SELECT * FROM $config->{rt_extensions_table} WHERE id = "
               . $rt_db->quote( $params->{id} ) );
@@ -11137,7 +11141,7 @@ sub build_dialplan() {
 </table>
 ";
     }
-    if ( $params->{action} eq gettext("Information...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Information...") ) {
         $body =
             start_form
           . "<table class=\"default\">"
@@ -11201,13 +11205,13 @@ sub build_dialplan() {
               . "&action="
               . gettext("Edit...") . "&id="
               . $exteninfo->{id} . "\">"
-              . gettext("Edit...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/edit.jpg'></a>"
               . "  <a href=\"astpp-admin.cgi?mode="
               . gettext("Asterisk(TM) Dialplan")
               . "&action="
               . gettext("Delete...") . "&id="
               . $exteninfo->{id} . "\">"
-              . gettext("Delete...") . "</a>"
+              . "<img alt='Edit' src='../../_astpp/delete.jpg'></a>"
               . "</td></tr>
 ";
         }
@@ -11256,7 +11260,7 @@ sub build_add_callshop() {
         filename          => '/var/lib/astpp/templates/callshop-create.tpl',
         die_on_bad_params => $config->{template_die_on_bad_params}
     );
-    if ( $params->{action} eq gettext("Add...") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Add...") ) {
         if ( $params->{logintype} == 1 || $params->{logintype} == 5 ) {
             $params->{pricelist} = $params->{username};
             $params->{reseller}  = $params->{username};
@@ -11267,16 +11271,17 @@ sub build_add_callshop() {
         $params->{accounttype} = 5;
         $params->{number}      = $params->{callshop_name};
         $status .= &generate_accounts( $params, $config );
-        my $sql = $astpp_db->prepare(
-                    	"SELECT COUNT(*) FROM callshops WHERE name = "  
-              		. $astpp_db->quote( $params->{callshop_name} ) );
-        $sql->execute;
-        my $record = $sql->fetchrow_hashref;
-        my $count  = $record->{"COUNT(*)"};
-        $sql->finish;
-        if ( $count == 0 ) {
-            my $tmp =
-"INSERT INTO callshops (name,osc_dbname,osc_dbpass, osc_dbuser,osc_dbhost"
+#         my $callshop_data =
+#           $astpp_db->do( "SELECT * FROM callshops WHERE name = "
+#               . $astpp_db->quote( $params->{callshop_name} ) );
+#         if ( !$callshop_data->{callshop_name} ) {
+	 my $sql = $astpp_db->prepare("SELECT COUNT(*) FROM callshops WHERE name = ". $astpp_db->quote( $params->{callshop_name} ) );
+         $sql->execute;
+         my $record = $sql->fetchrow_hashref;
+         my $count  = $record->{"COUNT(*)"};
+         $sql->finish;
+         if ( $count == 0 ) {
+            my $tmp ="INSERT INTO callshops (name,osc_dbname,osc_dbpass, osc_dbuser,osc_dbhost"
               . ",osc_site,status) VALUES ("
               . $astpp_db->quote( $params->{callshop_name} ) . ", "
               . $astpp_db->quote( $params->{osc_dbname} ) . ", "
@@ -11326,7 +11331,7 @@ sub build_remove_callshop() {
     else {
         @callshops = &list_callshops($astpp_db);
     }
-    if ( $params->{action} eq gettext("Remove CallShop") ) {
+    if (defined($params->{action}) && $params->{action} eq gettext("Remove CallShop") ) {
         if ( !$params->{callshop} ) {
             $params->{callshop} = $params->{callshop_list};
         }
@@ -11398,7 +11403,7 @@ sub build_add_booth() {
     if ( $params->{reseller} eq "" ) {
         $status .= gettext("No Reseller Name Set!  Error!");
     }
-    elsif ( $params->{action} eq gettext("Generate Booth") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Generate Booth") ) {
         $status .= &generate_accounts( $params, $config );
         my $accountinfo = &get_account( $astpp_db, $params->{number} );
         $astpp_db->do( "UPDATE cdrs SET status = 1 WHERE cardnum = "
@@ -11569,7 +11574,7 @@ sub build_remove_booth() {
         $params->{booth_name} = $params->{booth_list};
     }
     ########
-    if ( $params->{action} eq gettext("Remove Booth") && $params->{booth_name} )
+    if ( defined($params->{action}) && $params->{action} eq gettext("Remove Booth") && $params->{booth_name} )
     {
         my $sql =
             "UPDATE accounts SET status = 2 WHERE number = "
@@ -11661,16 +11666,16 @@ sub build_list_booths() {
     my $accountinfo = &get_account( $astpp_db, $params->{username} );
 
     #	my $now = $astpp_db->selectall_arrayref("SELECT NOW() + 0")->[0][0];
-    if ( $params->{action} eq gettext("Deactivate Booth") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("Deactivate Booth") ) {
         $astpp_db->do( "UPDATE accounts SET status = 0 WHERE number = "
               . $astpp_db->quote( $params->{booth_name} ) );
         &hangup_call( $astpp_db, $config, $params->{channel} );
     }
-    elsif ( $params->{action} eq gettext("Restore Booth") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Restore Booth") ) {
         $astpp_db->do( "UPDATE accounts SET status = 1 WHERE number = "
               . $astpp_db->quote( $params->{booth_name} ) );
     }
-    elsif ( $params->{action} eq gettext("Hangup Call") ) {
+    elsif ( defined($params->{action}) && $params->{action} eq gettext("Hangup Call") ) {
         &hangup_call( $astpp_db, $config, $params->{channel} );
     }
     foreach my $name (@booth_list) {
@@ -11891,7 +11896,7 @@ sub build_view_booth() {
         }
         $params->{action} = gettext("View Booths");
     }
-    if ( $params->{action} eq gettext("View Booth") ) {
+    if ( defined($params->{action}) && $params->{action} eq gettext("View Booth") ) {
         my $accountinfo = &get_account( $astpp_db, $params->{booth_name} );
         if ( $config->{users_dids_rt} == 1 ) {
             my $tmp =
@@ -11996,6 +12001,7 @@ sub build_view_booth() {
 if ( !$config->{template_die_on_bad_params} ) {
     $config->{template_die_on_bad_params} = 0;
 }
+
 my $template = HTML::Template->new(
     filename          => '/var/lib/astpp/templates/main.tpl',
     die_on_bad_params => $config->{template_die_on_bad_params}
@@ -12056,7 +12062,8 @@ if ( $loginstat == 1 ) {
         @modes = (
             gettext("Accounts"),   gettext("Rates"),
             gettext("DIDs"),       gettext("Logout"),
-            gettext("Call Shops"), gettext("Home"),
+#             gettext("Call Shops"), gettext("Home"),
+	            gettext("Call Shops"),    
             gettext("Reseller Reports")
         );
         @Accounts = (
@@ -12089,14 +12096,14 @@ if ( $loginstat == 1 ) {
         @modes = (
             gettext("Accounts"), gettext("Rates"),
             gettext("DIDs"),     gettext("Statistics"),
-            gettext("System"),   gettext("Home"),
+#             gettext("System"),   gettext("Home"),
+	gettext("System"),	  
             gettext("Admin Reports")
         );
         if ( $config->{enablelcr} == 1 ) {
             push @modes, gettext("LCR");
         }
-        if (   $config->{users_dids_rt} == 1
-            || $config->{users_dids_freeswitch} == 1 )
+        if (   $config->{users_dids_rt} == 1 || $config->{users_dids_freeswitch} == 1 )
         {
             push @modes, gettext("Switch Config");
             if ( $config->{users_dids_rt} == 1 ) {
@@ -12107,12 +12114,13 @@ if ( $loginstat == 1 ) {
                     gettext("Asterisk(TM) Dialplan")
                   );
 		push @Statistics,(
+				gettext("Asterisk Stats"),
 				gettext("View Asterisk(TM) CDRs")
 		);
             }
             if ( $config->{users_dids_freeswitch} == 1 ) {
                 push @SwitchConfig, ( gettext("Freeswitch(TM) SIP Devices") );
-		push @Statistics,(
+		push @Statistics,(				  
 				gettext("View FreeSwitch(TM) CDRs")
 		);
             }
@@ -12130,21 +12138,22 @@ if ( $loginstat == 1 ) {
             '0' => gettext("User"),
             '1' => gettext("Reseller"),
             '2' => gettext("Administrator"),
-            '3' => gettext("Vendor"),
+            '3' => gettext("Provider"),
             '4' => gettext("Customer Service"),
             '5' => gettext("CallShop")
         );
         $params->{logged_in_reseller} = "";
     }
     elsif ( $params->{logintype} == 3 )
-    { # Vendor Login - Vendors are only allowed to look at stuff that pertains to them.
+    { # Provider Login - Providers are only allowed to look at stuff that pertains to them.
         $ASTPP->debug(
             user  => $param->{username},
             debug => "ASTPP VENDOR LOGIN"
         );
         @modes = (
             gettext("Trunk Statistics"), gettext("View CDRs"),
-            gettext("Home"),             gettext("Outbound Routes")
+#             gettext("Home"),             gettext("Outbound Routes")
+		gettext("Outbound Routes")    
         );
     }
     elsif ( $params->{logintype} == 4 ) {    # Customer Service Login
@@ -12154,7 +12163,8 @@ if ( $loginstat == 1 ) {
         );
         @modes = (
             gettext("Accounts"),   gettext("DIDs"),
-            gettext("Statistics"), gettext("Home")
+#             gettext("Statistics"), gettext("Home")
+		  gettext("Statistics")
         );
         if ( $config->{callingcards} == 1 ) {
             push @modes, gettext("Calling Cards");
@@ -12163,7 +12173,7 @@ if ( $loginstat == 1 ) {
         %types = (
             '0' => gettext("User"),
             '1' => gettext("Reseller"),
-            '3' => gettext("Vendor"),
+            '3' => gettext("Provider"),
             '4' => gettext("Customer Service"),
             '5' => gettext("CallShop")
         );
@@ -12183,7 +12193,8 @@ if ( $loginstat == 1 ) {
             debug => "ASTPP CALLSHOP LOGIN"
         );
         @modes = (
-            gettext("Booths"), gettext("Home"), gettext("Routes"),
+#             gettext("Booths"), gettext("Home"), gettext("Routes"),
+	  gettext("Booths"), gettext("Routes"),
             gettext("Pricelists"), gettext("CallShop Reports")
         );
         if ( $config->{callingcards} == 1 ) {
@@ -12193,7 +12204,7 @@ if ( $loginstat == 1 ) {
         %types = (
             '0' => gettext("User"),
             '1' => gettext("Reseller"),
-            '3' => gettext("Vendor"),
+            '3' => gettext("Provider"),
             '4' => gettext("Customer Service"),
             '5' => gettext("CallShops")
         );
@@ -12226,7 +12237,7 @@ elsif ( !$astpp_db ) {
 else {
     $body =
 "<table class=\"default\" width=100\%><tr><td colspan=2 align=center></td></tr>\n"
-      . "<tr><td colspan=2 align=center bgcolor=ffcccc >"
+      . "<tr><td colspan=2 align=center  class='login'>"
       . gettext("Please Login Now")
       . "</td></tr>\n"
       . startform
@@ -12243,7 +12254,7 @@ else {
       . "<tr><td colspan=2 align=center>"
       . submit( -name => 'mode', -value => gettext("Login") )
       . reset()
-      . "</td></tr></table>\n";
+      . "<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td></tr></table>\n";
 }
 
 $template->param( body            => $body );

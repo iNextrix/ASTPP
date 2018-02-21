@@ -130,9 +130,7 @@ sub check_card() {    # Check a few things before saying the card is ok.
     }
     elsif ( $cardinfo->{validfordays} > 0 ) {
         my $now = $astpp_db->selectall_arrayref("SELECT NOW() + 0")->[0][0];
-        $cardinfo->{expiry} = $astpp_db->selectall_arrayref(
-            "SELECT DATE_FORMAT('$cardinfo->{expiry}' , '\%Y\%m\%d\%H\%i\%s')")
-          ->[0][0];
+        $cardinfo->{expiry} = $astpp_db->selectall_arrayref("SELECT DATE_FORMAT('$cardinfo->{expiry}' , '\%Y\%m\%d\%H\%i\%s')")->[0][0];
         if ( $now >= $cardinfo->{expiry} ) {
             my $sql = "UPDATE callingcards SET status = 2 WHERE cardnumber = "
               . $astpp_db->quote( $cardinfo->{cardnumber} );

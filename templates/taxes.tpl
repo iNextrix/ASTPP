@@ -39,8 +39,8 @@
                <TD><TMPL_VAR NAME="taxes_description"></TD>         
                <TD><TMPL_VAR NAME="last_modified"></TD>         
                <TD><TMPL_VAR NAME="date_added"></TD>         
-               <TD><a href="astpp-admin.cgi?mode=Taxes&action=Delete&taxes_id=<TMPL_VAR NAME="taxes_id">">Delete</a>
-                   <a href="astpp-admin.cgi?mode=Taxes&action=Edit&taxes_id=<TMPL_VAR NAME="taxes_id">">Edit</a></TD>
+               <TD><a href="astpp-admin.cgi?mode=Taxes&action=Edit&taxes_id=<TMPL_VAR NAME="taxes_id">"><img alt='Edit' src='../../_astpp/edit.jpg'></a>&nbsp;&nbsp;<a href="astpp-admin.cgi?mode=Taxes&action=Delete&taxes_id=<TMPL_VAR NAME="taxes_id">"><img alt='Delete' src='../../_astpp/delete.jpg'></a>
+                   </TD>
             </TR>
       </TMPL_LOOP> 
 </table>

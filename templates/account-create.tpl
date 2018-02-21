@@ -1,4 +1,3 @@
-Create Account<br>
 <form method="post" action="/cgi-bin/astpp-admin/astpp-admin.cgi?mode=Create%20Account" enctype="multipart/form-data">
 <table class="default">
 	<tr>
@@ -27,7 +26,7 @@ Create Account<br>
 		<td>Last Name</td>
 		<td>Add VOIP Friend</td>
 	</tr>
-	<tr class="rowtwo">
+	<tr class="rowone">
 		<td><select name="posttoexternal" >
 			<option value="1">YES</option>
 			<option selected="selected" value="0">NO</option>
@@ -35,7 +34,7 @@ Create Account<br>
 		<td><input type="text" name="firstname"  size="20" /></td>
 		<td><input type="text" name="middlename"  size="20" /></td>
 		<td><input type="text" name="lastname"  size="20" /></td>
-		<td><label><input type="checkbox" name="SIP" value="on" />SIP</label><label><input type="checkbox" name="IAX2" value="on" />IAX2</label></td>
+		<td><label><input type="checkbox" name="SIP" value="on" />SIP</label><br/><label><input type="checkbox" name="IAX2" value="on" />IAX2</label></td>
 	</tr>
 	<tr class="header">
 		<td>Company</td>
@@ -57,7 +56,7 @@ Create Account<br>
 		<td colspan=2>Country</td>
 		<td>Device Type</td>
 	</tr>
-	<tr class="rowtwo">
+	<tr class="rowone">
 		<td><input type="text" name="postal_code"  size="20" /></td>
 		<td><input type="text" name="province"  size="20" /></td>
 		<td colspan=2><TMPL_VAR NAME="country_menu"></td>
@@ -85,7 +84,7 @@ Create Account<br>
 		<td>Dialed Number Mods</td>
 		<td>Action</td>
 	</tr>
-	<tr class="rowtwo">
+	<tr class="rowone">
 		<td><TMPL_VAR NAME="currency_menu"></td>
 		<td><TMPL_VAR NAME="accounttype_menu"></td>
 		<td><TMPL_VAR NAME="languages_menu"></td>
