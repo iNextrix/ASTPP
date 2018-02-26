@@ -1728,15 +1728,25 @@ class Accounts extends MX_Controller {
 	}
 	function reseller_edit($edit_id = '') {
 		$data ['page_title'] = gettext ( 'Edit Reseller' );
+
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		$reseller_id = ($accountinfo ['type'] == 1 || $accountinfo ['type'] == 5) ? $accountinfo ['id'] : 0;
 		$where = array (
-				'id' => $edit_id
+				'id' => $edit_id,
+				"reseller_id" => $reseller_id
 		);
-		$account = $this->db_model->getSelect ( "*", "accounts", $where );
+		$account = $this->db_model->getSelect ( "*", "accounts", $where );		
 		$data ["account_data"] = $account->result_array ();
-		$acc_data = $this->session->userdata ( "accountinfo" );
 		foreach ( $account->result_array () as $key => $value ) {
 			$edit_data = $value;
+		}		
+
+		//Record permission
+		if (count($edit_data) == 0)
+		{
+			redirect ( base_url () . 'accounts/reseller_list/' );exit;
 		}
+
 		$taxes_data = $this->db_model->getSelect ( "group_concat(taxes_id) as taxes_id", "taxes_to_accounts", array (
 				"accountid" => $edit_id
 		) );
@@ -2184,6 +2194,9 @@ class Accounts extends MX_Controller {
 		redirect ( base_url () . 'accounts/customer_list/' );
 	}
 	function reseller_delete($id) {
+
+		
+
 		$this->common->subreseller_list ( $id );
 		$this->session->set_flashdata ( 'astpp_notification', 'Reseller removed successfully!' );
 		redirect ( base_url () . 'accounts/reseller_list/' );
