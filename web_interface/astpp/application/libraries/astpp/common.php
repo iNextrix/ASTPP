@@ -1232,6 +1232,7 @@ class common {
 			$refillamount = "0";
 		}
 
+		$subject = $query [0]->subject;
 		switch ($type) {
 			case 'email_add_user' :
 				$message = str_replace ( '#NAME#', $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $message );
@@ -1312,15 +1313,13 @@ class common {
 				$balance = ($accountinfo ['posttoexternal'] == 1) ? ($accountinfo ["credit_limit"] - $accountinfo ["balance"]) : ($accountinfo ["balance"]);
 				$useremail = ! empty ( $accountinfo ['notify_email'] ) ? $accountinfo ['notify_email'] : $accountinfo ['email'];
 				$message = str_replace ( '#NAME#', $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $message );
-				$message = str_replace ( '#AMOUNT#', $balance, $message );
-				$subject = $query [0]->subject;
+				$message = str_replace ( '#AMOUNT#', $balance, $message );				
 				$subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
 				break;
 			case 'email_new_invoice' :
 				$message = str_replace ( '#NAME#', $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $message );
 				$message = str_replace ( '#AMOUNT#', $amount, $message );
-				$message = str_replace ( '#INVOICE_NUMBER#', $amount, $message );
-				$subject = $query [0]->subject;
+				$message = str_replace ( '#INVOICE_NUMBER#', $amount, $message );				
 				$subject = str_replace ( "#INVOICE_NUMBER#", $amount, $subject );
 				break;
 			case 'email_add_did' :
@@ -1333,16 +1332,14 @@ class common {
 				$message = str_replace ( '#SETUPFEE#', $accountinfo ['did_setup'], $message );
 				$message = str_replace ( '#MONTHLYFEE#', $accountinfo ['did_monthlycost'], $message );
 				$message = str_replace ( '#MAXCHANNEL#', $accountinfo ['did_maxchannels'], $message );
-				$message = str_replace ( '#NUMBER#', $accountinfo ['number'], $message );
-				$subject = $query [0]->subject;
+				$message = str_replace ( '#NUMBER#', $accountinfo ['number'], $message );				
 				$subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
 				$subject = str_replace ( "#DIDNUMBER#", $accountinfo ['did_number'], $subject );
 				break;
 			case 'email_remove_did' :
 				$message = str_replace ( '#NAME#', $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $message );
 				$message = str_replace ( '#DIDNUMBER#', $accountinfo ['did_number'], $message );
-				$message = str_replace ( '#NUMBER#', $accountinfo ['number'], $message );
-				$subject = $query [0]->subject;
+				$message = str_replace ( '#NUMBER#', $accountinfo ['number'], $message );				
 				$subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
 				$subject = str_replace ( "#DIDNUMBER#", $accountinfo ['did_number'], $subject );
 				break;
