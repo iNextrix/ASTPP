@@ -1494,145 +1494,91 @@ class Accounts extends MX_Controller {
 		exit ();
 	}
 
-	/* * ************************************************************** */
+/* * ************************************************************** */
 	function customer_payment_process_add($id = '') {
-		$account = $this->accounts_model->get_account_by_number ( $id );
-		$currency = $this->accounts_model->get_currency_by_id ( $account ['currency_id'] );
-		$data ['username'] = $this->session->userdata ( 'user_name' );
-		$data ['page_title'] = gettext ( '​Refill Process' );
-		$data ['form'] = $this->form->build_form ( $this->accounts_form->get_customer_payment_fields ( $currency ['currency'], $account ['number'], $currency ['currency'], $id ), '' );
-		$this->load->view ( 'view_accounts_process_payment', $data );
+		$accountinfo = $this->session->userdata('accountinfo');
+		$reseller_id = $accountinfo['type']== 1 ? $accountinfo['id'] : 0;
+		$customer_info =$this->db->get_where('accounts',array('id'=>$id,'reseller_id'=>$reseller_id));
+		if($customer_info->num_rows > 0){
+			$customer_info = (array)$customer_info->first_row();
+			$currency = $this->accounts_model->get_currency_by_id ( $customer_info ['currency_id'] );
+			$data ['username'] = $this->session->userdata ( 'user_name' );
+			$data ['page_title'] = gettext ( '​Refill Process' );
+			$data ['form'] = $this->form->build_form ( $this->accounts_form->get_customer_payment_fields ( $currency ['currency'], $customer_info ['number'], $currency ['currency'], $id ), '' );
+			$this->load->view ( 'view_accounts_process_payment', $data );
+		}else{
+			$this->session->set_flashdata ( 'astpp_notification', 'Permission Denied' );
+			redirect ( base_url () . 'accounts/customer_list/' );
+		}	
 	}
 	function customer_payment_save($id = '') {
 		$post_array = $this->input->post ();
-		$data ['username'] = $this->session->userdata ( 'user_name' );
-		$data ['page_title'] = gettext ( 'Process Payment' );
-		$account = $this->accounts_model->get_account_by_number ( $post_array ['id'] );
-		$currency = $this->accounts_model->get_currency_by_id ( $account ['currency_id'] );
-		$data ['form'] = $this->form->build_form ( $this->accounts_form->get_customer_payment_fields ( $currency ['currency'], $account ['number'], $currency ['currency'], $id ), '' );
-		if ($this->form_validation->run () == FALSE) {
-			$data ['validation_errors'] = validation_errors ();
-			echo $data ['validation_errors'];
-			exit ();
-		} else {
-			$post_array ['credit'] = $this->common_model->add_calculate_currency ( $post_array ['credit'], "", '', false, false );
-			$logintype = $this->session->userdata ( 'logintype' );
-			$username = $this->session->userdata ( 'username' );
-			$login_user_data = $this->session->userdata ( "accountinfo" );
-			$accountinfo = $this->accounts_model->get_account_by_number ( $post_array ['id'] );
-			if ($accountinfo ['reseller_id'] == 0) {
-				$where = array (
-						"accountid" => 1
-				);
+		$accountinfo = $this->session->userdata('accountinfo');
+		$reseller_id = $accountinfo['type']== 1 ? $accountinfo['id'] : 0;
+		$customer_info =$this->db->get_where('accounts',array('id'=>$post_array['id'],'reseller_id'=>$reseller_id));
+		//echo "sdf";exit;
+		if($customer_info->num_rows > 0){
+			$data ['page_title'] = gettext ( 'Process Payment' );
+			$customer_info = (array)$customer_info->first_row();
+			$currency = $this->accounts_model->get_currency_by_id ( $customer_info ['currency_id'] );
+			$data ['form'] = $this->form->build_form ( $this->accounts_form->get_customer_payment_fields ( $currency ['currency'], $customer_info ['number'], $currency ['currency'], $id ),$post_array);
+			if ($this->form_validation->run () == FALSE) {
+				$data ['validation_errors'] = validation_errors ();
+				echo $data ['validation_errors'];
+				exit ();
 			} else {
-				$where = array (
-						"accountid" => $accountinfo ['id']
-				);
-			}
-			$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-			if ($query->num_rows () > 0) {
-				$invoice_conf = $query->result_array ();
-				$invoice_conf = $invoice_conf [0];
-			} else {
-				$query = $this->db_model->getSelect ( "*", "invoice_conf", array (
-						"accountid" => 1
-				) );
-				$invoice_conf = $query->result_array ();
-				$invoice_conf = $invoice_conf [0];
-			}
-			$last_invoice_ID = $this->get_invoice_date ( "invoiceid", $accountinfo ["id"] );
-			$invoice_prefix = $invoice_conf ['invoice_prefix'];
-			$due_date = gmdate ( "Y-m-d H:i:s", strtotime ( gmdate ( "Y-m-d H:i:s" ) . " +" . $invoice_conf ['interval'] . " days" ) );
-			$response = $this->accounts_model->account_process_payment ( $post_array );
-
-			if ($post_array ['payment_type'] == 1) {
+				
+				$post_array ['credit'] = $this->common_model->add_calculate_currency ( $post_array ['credit'], "", '', false, false );
+				$parent_id = ($customer_info ['reseller_id'] == 0) ? 1 : $customer_info ['reseller_id'];
+				$where = "accountid IN('".$parent_id."','1')";
+				$this->db->select('*');
+				$this->db->where($where);
+				$this->db->order_by('accountid','desc');
+				$this->db->limit(1);
+				$invoice_conf = $this->db->get('invoice_conf');
+				$invoice_conf = ( array ) $invoice_conf->first_row();
+				$last_invoice_ID = $this->get_invoice_date ( "invoiceid", $customer_info ["id"] );
+				$invoice_prefix = $invoice_conf ['invoice_prefix'];
+				$due_date = $invoice_conf ['interval']  > 0 ? date ( "Y-m-d H:i:s", strtotime ( gmdate ( "Y-m-d H:i:s" ) . " +" . $invoice_conf ['interval'] . " days" ) ) : gmdate ( "Y-m-d H:i:s" );
 				$this->load->module ( 'invoices/invoices' );
-				$invoice_id = $this->invoices->invoices->generate_receipt ( $post_array ['id'], $post_array ['credit'], $accountinfo, $last_invoice_ID + 1, $invoice_prefix, $due_date );
-				$this->db->select ( 'balance,credit_limit,posttoexternal' );
-				$this->db->where ( 'id', $post_array ['id'] );
-				$this->db->from ( 'accounts' );
-				$account_balance_info = ( array ) $this->db->get ()->first_row ();
-				$account_balance = $account_balance_info ['posttoexternal'] == 1 ? $account_balance_info ['credit_limit'] - ($account_balance_info ['balance']) : $account_balance_info ['balance'];
-
+				$invoice_id = $this->invoices->invoices->generate_receipt ( $post_array ['id'], $post_array ['credit'], $customer_info, $last_invoice_ID + 1, $invoice_prefix, $due_date );
+				$account_balance = $customer_info ['posttoexternal'] == 1 ? $customer_info ['credit_limit'] - ($customer_info ['balance']) : $customer_info ['balance'];
+				//echo $account_balance;exit;
+				// Post charge
 				$insert_arr = array (
-						"accountid" => $post_array ['id'],
-						"description" => trim ( $post_array ['notes'] ),
-						"debit" => $post_array ['credit'],
-						"credit" => '0',
-						"created_date" => gmdate ( "Y-m-d H:i:s" ),
+						"accountid" =>$customer_info['id'],
+						"description" =>trim($post_array['notes']),
+						"created_date" =>gmdate("Y-m-d H:i:s"),
 						"invoiceid" => $invoice_id,
-						"reseller_id" => '0',
-						"item_type" => 'POSTCHARG',
+						"reseller_id" => $reseller_id,
 						"item_id" => '0',
-						'before_balance' => $account_balance + $post_array ['credit'],
-						'after_balance' => $account_balance
-				);
-				$this->db->insert ( "invoice_details", $insert_arr );
-			} else {
-				$this->load->module ( 'invoices/invoices' );
-				$invoice_id = $this->invoices->invoices->generate_receipt ( $post_array ['id'], $post_array ['credit'], $accountinfo, $last_invoice_ID + 1, $invoice_prefix, $due_date );
-				$this->db->select ( 'balance,credit_limit,posttoexternal' );
-				$this->db->where ( 'id', $post_array ['id'] );
-				$this->db->from ( 'accounts' );
-				$account_balance_info = ( array ) $this->db->get ()->first_row ();
-				$account_balance = $account_balance_info ['posttoexternal'] == 1 ? $account_balance_info ['credit_limit'] - ($account_balance_info ['balance']) : $account_balance_info ['balance'];
-				$insert_arr = array (
-						"accountid" => $post_array ['id'],
-						"description" => trim ( $post_array ['notes'] ),
-						"debit" => 0,
-						"credit" => $post_array ['credit'],
-						"created_date" => gmdate ( "Y-m-d H:i:s" ),
-						"invoiceid" => $invoice_id,
-						"reseller_id" => $accountinfo ['reseller_id'],
-						"item_type" => 'Refill',
-						"item_id" => '0',
-						'before_balance' => $account_balance - $post_array ['credit'],
-						'after_balance' => $account_balance
-				);
-				$this->db->insert ( "invoice_details", $insert_arr );
-				if ($login_user_data ['type'] == 1) {
-					$reseller_ids = $this->common->get_parent_info ( $login_user_data ['id'], 0 );
-					$reseller_ids = rtrim ( $reseller_ids, "," );
-					$reseller_arr = explode ( ",", $reseller_ids );
-					/*
-					 * if(!empty($reseller_arr)){
-					 * $custom_array=$post_array;
-					 * foreach($reseller_arr as $key=>$reseller_id){
-					 * $custom_array['id']=$reseller_id;
-					 * $response = $this->accounts_model->account_process_payment($custom_array);
-					 * $reseller_info=(array)$this->db->get_where('accounts',array("id"=>$reseller_id))->first_row();
-					 * $last_invoice_ID = $this->get_invoice_date("invoiceid",$reseller_info["id"]);
-					 * $invoice_id=$this->invoices->invoices->generate_receipt($reseller_info['id'],$custom_array['credit'],$reseller_info,$last_invoice_ID+1,$invoice_prefix,$due_date);
-					 * $account_balance = $this->common->get_field_name('balance', 'accounts', $reseller_info['id']);
-					 * $insert_arr = array("accountid" => $reseller_info['id'],
-					 * "description" => trim($custom_array['notes']),
-					 * "debit" => 0,
-					 * "credit" => $custom_array['credit'],
-					 * "created_date" => gmdate("Y-m-d H:i:s"),
-					 * "invoiceid"=>$invoice_id,
-					 * "reseller_id"=>$reseller_info['reseller_id'],
-					 * "item_type"=>'Refill',
-					 * "item_id"=>'0',
-					 * 'before_balance'=>$account_balance - $custom_array['credit'],
-					 * 'after_balance'=>$account_balance,
-					 * );
-					 * $this->db->insert("invoice_details", $insert_arr);
-					 * }
-					 * }
-					 */
+						'before_balance' =>$account_balance,
+					);
+				if($post_array ['payment_type'] == 1) {
+					$insert_arr['item_type'] = "POSTCHARG";
+					$insert_arr['after_balance'] = $account_balance-$post_array['credit'];
+					$insert_arr['debit'] = $post_array['credit'];
+					$insert_arr['credit'] = 0;
+				}else {
+					//Refill 
+					$insert_arr['item_type'] = "Refill";
+					$insert_arr['after_balance'] = $account_balance+$post_array['credit'];
+					$insert_arr['credit'] = $post_array['credit'];
+					$insert_arr['debit'] = 0;
 				}
-			}
-			$message = $post_array ['payment_type'] == 0 ? "Recharge successfully!" : "Post charge applied successfully.";
-			/**
-			 * ********************************************************************************************
-			 */
-			echo json_encode ( array (
+				$this->db->insert("invoice_details",$insert_arr);
+				$response = $this->accounts_model->account_process_payment ( $post_array );
+				$message = $post_array ['payment_type'] == 0 ? "Recharge successfully!" : "Post charge applied successfully.";
+				echo json_encode ( array (
 					"SUCCESS" => $message
-			) );
-			exit ();
-			// }
+				) );
+				exit ();
+			}
+			$this->load->view ( 'view_accounts_process_payment', $data );
+		}else{
+			$this->session->set_flashdata ( 'astpp_notification', 'Permission Denied' );
+			redirect ( base_url () . 'accounts/customer_list/' );
 		}
-		$this->load->view ( 'view_accounts_process_payment', $data );
 	}
 
 	/**
