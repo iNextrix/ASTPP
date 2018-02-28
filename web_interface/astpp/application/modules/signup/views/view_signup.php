@@ -137,7 +137,7 @@ ASTPP work best with JavaScript enabled
 					<br/>
                     <br/>
                    
-                   <center><h1 style='color:yellow !important;'>Registration/SignUp</h1></center>
+                   
             	<div class="col-md-8 col-md-offset-2">
                     <div class="w-section inverse no-padding margin-t-20">                       
                         <div class="w-box dark sign-in-wr box_shadow">
