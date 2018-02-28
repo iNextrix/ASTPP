@@ -216,6 +216,7 @@ class Accounts extends MX_Controller {
 			$data ['edit_id'] = $edit_id;
 			$this->load->view ( 'view_customer_details', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 		}
 	}
@@ -381,6 +382,7 @@ class Accounts extends MX_Controller {
 			$data ['form'] = $this->form->build_form ( $this->accounts_form->get_customer_form_fields ( $accounttype, $edit_id ), $account_data );
 			$this->load->view ( 'view_customer_speed_dial', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 		}
 	}
@@ -439,6 +441,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_ipmap', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -468,7 +471,7 @@ class Accounts extends MX_Controller {
 	}
 	function customer_ipmap_action($action, $accountid, $accounttype, $ipmapid = "") {
 		$add_array = $this->input->post ();
-		if ($action == "add") {
+		if ($action == "add" && !empty($add_array)) {
 			if ($add_array ['ip'] != "") {
 				$ip = $add_array ['ip'];
 				if (strpos ( $ip, '/' ) !== false) {
@@ -543,6 +546,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_animap', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -696,6 +700,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_sipdevices', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -744,6 +749,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_opensips_devices', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -792,6 +798,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_charges', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -827,6 +834,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_subscriptions', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -840,60 +848,65 @@ class Accounts extends MX_Controller {
 
 	// /*ASTPP_invoice_changes_05_05_start*/
 	function customer_subscription_action($action, $accountid, $accounttype, $chargeid = "") {
-
+		// Get Account information from session.
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		// Get Parent informartion
+		$reseller_id = ($accountinfo ['type'] == 1 || $accountinfo ['type'] == 5) ? $accountinfo ['id'] : 0;
 		/**
 		 * ASTPP 3.0
 		 * For Email Broadcast when Subscription Add - Delete
 		 */
 		$accountinfo = $this->db_model->getSelect ( "*", "accounts", array (
-				"id" => $accountid
+				"id" => $accountid,'reseller_id'=>$reseller_id
 		) );
 		$accountinfo = ( array ) $accountinfo->first_row ();
+		if(!empty($accountinfo)){
 		/* * ****************************** */
-		if ($action == "add") {
-			$charge_id = $this->input->post ( "applayable_charge", true );
-			if ($charge_id != "") {
-				$insert_arr = array (
-						"charge_id" => $charge_id,
-						"accountid" => $accountid,
-						"assign_date" => gmdate ( "Y-m-d H:i:s" )
-				);
-				$this->db->insert ( "charge_to_account", $insert_arr );
+			if ($action == "add") {
+				$charge_id = $this->input->post ( "applayable_charge", true );
+				if ($charge_id != "") {
+					$insert_arr = array (
+							"charge_id" => $charge_id,
+							"accountid" => $accountid,
+							"assign_date" => gmdate ( "Y-m-d H:i:s" )
+					);
+					$this->db->insert ( "charge_to_account", $insert_arr );
+					require_once (APPPATH . 'controllers/ProcessCharges.php');
+					$ProcessCharges = new ProcessCharges ();
+					$Params = array (
+							"ChargeID" => $charge_id,
+							"AccountInfo" => $accountinfo
+					);
+					$ProcessCharges->BillAccountCharges ( "ACCOUNTSUBSCRIPTION", $Params );
+
+					$this->session->set_flashdata ( 'astpp_errormsg', 'Subscripton Added Sucessfully.' );
+					$template_name = 'add_subscription';
+				}
+			}
+			if ($action == "delete") {
+
 				require_once (APPPATH . 'controllers/ProcessCharges.php');
 				$ProcessCharges = new ProcessCharges ();
+
 				$Params = array (
-						"ChargeID" => $charge_id,
+						"ChargeID" => $chargeid,
 						"AccountInfo" => $accountinfo
 				);
 				$ProcessCharges->BillAccountCharges ( "ACCOUNTSUBSCRIPTION", $Params );
 
-				$this->session->set_flashdata ( 'astpp_errormsg', 'Subscripton Added Sucessfully.' );
-				$template_name = 'add_subscription';
+				$this->db_model->delete ( "charge_to_account", array (
+						"id" => $chargeid
+				) );
+				$this->session->set_flashdata ( 'astpp_notification', 'Subscription Removed Sucessfully.' );
+				$template_name = 'remove_subscription';
 			}
-		}
-		if ($action == "delete") {
-
-			require_once (APPPATH . 'controllers/ProcessCharges.php');
-			$ProcessCharges = new ProcessCharges ();
-
-			$Params = array (
-					"ChargeID" => $chargeid,
-					"AccountInfo" => $accountinfo
-			);
-			$ProcessCharges->BillAccountCharges ( "ACCOUNTSUBSCRIPTION", $Params );
-
-			$this->db_model->delete ( "charge_to_account", array (
-					"id" => $chargeid
-			) );
-			$this->session->set_flashdata ( 'astpp_notification', 'Subscription Removed Sucessfully.' );
-			$template_name = 'remove_subscription';
-		}
-		/**
-		 * ASTPP 3.0
-		 * For Email Broadcast when Subscription Delete
-		 */
-		$this->common->mail_to_users ( $template_name, $accountinfo );
-		/* * ********************************* */
+			/**
+			 * ASTPP 3.0
+			 * For Email Broadcast when Subscription Delete
+			 */
+			$this->common->mail_to_users ( $template_name, $accountinfo );
+			/* * ********************************* */
+		}	
 		redirect ( base_url () . "accounts/" . $accounttype . "_subscription/$accountid/" );
 	}
 	// END
@@ -1066,6 +1079,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_invoices', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -1094,6 +1108,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_blocked_prefixes', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -1128,16 +1143,25 @@ class Accounts extends MX_Controller {
 		$this->customer_delete_block_pattern ( $accountid, $patternid );
 	}
 	function customer_delete_block_pattern($accountid, $patternid) {
-		$entity_type = $this->common->get_field_name ( 'type', 'accounts', array (
-				'id' => $accountid
-		) );
-		$entity_type = strtolower ( $this->common->get_entity_type ( '', '', $entity_type ) );
-		$url = "accounts/" . $entity_type . "_blocked_prefixes/$accountid";
-		$this->db_model->delete ( "block_patterns", array (
+		// Get Account information from session.
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		// Get Parent informartion
+		$reseller_id = ($accountinfo ['type'] == 1 || $accountinfo ['type'] == 5) ? $accountinfo ['id'] : 0;
+		$where = array (
+				'id' => $edit_id,
+				"reseller_id" => $reseller_id
+		);
+		$entity_type = $this->common->get_field_name ( 'type', 'accounts',$where);
+		if(!empty($entity_type)){
+			$entity_type = strtolower ( $this->common->get_entity_type ( '', '', $entity_type ) );
+			$url = "accounts/" . $entity_type . "_blocked_prefixes/$accountid";
+			$this->db_model->delete ( "block_patterns", array (
 				"id" => $patternid
-		) );
-		$this->session->set_flashdata ( 'astpp_notification', 'Block Code Removed Sucessfully!' );
-
+			) );
+			$this->session->set_flashdata ( 'astpp_notification', 'Block Code Removed Sucessfully!' );
+		}else{
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
+		}
 		redirect ( base_url () . $url );
 	}
 	function customer_blockedprefixes_delete_multiple() {
@@ -1189,6 +1213,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_cdrs_list', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -1217,6 +1242,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_reseller_package_list', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/reseller_list/' );
 			exit ();
 		}
@@ -1253,6 +1279,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_refill_report', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -1295,6 +1322,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_email_history', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -1337,6 +1365,7 @@ class Accounts extends MX_Controller {
 			$data ['accounttype'] = $accounttype;
 			$this->load->view ( 'view_customer_alert_threshold', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -1381,6 +1410,7 @@ class Accounts extends MX_Controller {
 			}
 			$this->load->view ( 'view_customer_alert_threshold', $data );
 		} else {
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 			exit ();
 		}
@@ -1507,7 +1537,7 @@ class Accounts extends MX_Controller {
 			$data ['form'] = $this->form->build_form ( $this->accounts_form->get_customer_payment_fields ( $currency ['currency'], $customer_info ['number'], $currency ['currency'], $id ), '' );
 			$this->load->view ( 'view_accounts_process_payment', $data );
 		}else{
-			$this->session->set_flashdata ( 'astpp_notification', 'Permission Denied' );
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 		}	
 	}
@@ -1576,7 +1606,7 @@ class Accounts extends MX_Controller {
 			}
 			$this->load->view ( 'view_accounts_process_payment', $data );
 		}else{
-			$this->session->set_flashdata ( 'astpp_notification', 'Permission Denied' );
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
 			redirect ( base_url () . 'accounts/customer_list/' );
 		}
 	}
@@ -1690,7 +1720,9 @@ class Accounts extends MX_Controller {
 		//Record permission
 		if (count($edit_data) == 0)
 		{
-			redirect ( base_url () . 'accounts/reseller_list/' );exit;
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
+			redirect ( base_url () . 'accounts/reseller_list/' );
+			exit;
 		}
 
 		$taxes_data = $this->db_model->getSelect ( "group_concat(taxes_id) as taxes_id", "taxes_to_accounts", array (
@@ -2135,16 +2167,36 @@ class Accounts extends MX_Controller {
 		$this->session->set_userdata ( 'reseller_list_search', "" );
 	}
 	function customer_delete($id) {
-		$this->common->customer_delete_dependencies ( $id );
-		$this->session->set_flashdata ( 'astpp_notification', 'Customer removed successfully!' );
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		$reseller_id = ($accountinfo ['type'] == 1 || $accountinfo ['type'] == 5) ? $accountinfo ['id'] : 0;
+		$where = array (
+				'id' => $id,
+				"reseller_id" => $reseller_id
+		);
+		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
+		if($account_res->num_rows > 0 ){
+			$this->common->customer_delete_dependencies ( $id );
+			$this->session->set_flashdata ( 'astpp_notification', 'Customer removed successfully!' );
+		
+		}else{
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
+		}	
 		redirect ( base_url () . 'accounts/customer_list/' );
 	}
 	function reseller_delete($id) {
-
-		
-
-		$this->common->subreseller_list ( $id );
-		$this->session->set_flashdata ( 'astpp_notification', 'Reseller removed successfully!' );
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		$reseller_id = ($accountinfo ['type'] == 1 || $accountinfo ['type'] == 5) ? $accountinfo ['id'] : 0;
+		$where = array (
+				'id' => $id,
+				"reseller_id" => $reseller_id
+		);
+		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
+		if($account_res->num_rows > 0 ){
+			$this->common->subreseller_list ( $id );
+			$this->session->set_flashdata ( 'astpp_notification', 'Reseller removed successfully!' );
+		}else{
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
+		}	
 		redirect ( base_url () . 'accounts/reseller_list/' );
 	}
 	function free_customer_did($accountid) {
@@ -2218,33 +2270,42 @@ class Accounts extends MX_Controller {
 		}
 	}
 	function customer_add_postcharges($accounttype, $accountid) {
-		$charge = $this->input->post ( "amount", true );
-		if ($charge != "") {
-			$charge = $this->common_model->add_calculate_currency ( $charge, "", '', false, false );
-			$date = date ( 'Y-m-d H:i:s' );
-			$insert_arr = array (
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		$reseller_id = ($accountinfo ['type'] == 1 || $accountinfo ['type'] == 5) ? $accountinfo ['id'] : 0;
+		$where = array (
+				'id' => $edit_id,
+				"reseller_id" => $reseller_id
+		);
+		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
+		if ($account_res->num_rows () > 0) {
+			$charge = $this->input->post ( "amount", true );
+			if ($charge != "") {
+				$charge = $this->common_model->add_calculate_currency ( $charge, "", '', false, false );
+				$date = date ( 'Y-m-d H:i:s' );
+				$insert_arr = array (
 					"accountid" => $accountid,
 					"description" => $this->input->post ( "desc", true ),
 					"created_date" => $date,
 					"debit" => $charge,
 					"charge_type" => "post_charge"
-			);
-			$this->db->insert ( "invoice_item", $insert_arr );
-
-			$this->accounts_model->update_balance ( $charge, $accountid, "debit" );
-			redirect ( base_url () . "accounts/" . $accounttype . "_edit/$accountid#packages" );
-		} else {
-			redirect ( base_url () . "accounts/" . $accounttype . "_edit/$accountid#packages" );
+				);
+				$this->db->insert ( "invoice_item", $insert_arr );
+				$this->accounts_model->update_balance ( $charge, $accountid, "debit" );
+				redirect ( base_url () . "accounts/" . $accounttype . "_edit/$accountid#packages" );
+			} else {
+				redirect ( base_url () . "accounts/" . $accounttype . "_edit/$accountid#packages" );
+			}
+		}else{
+			$this->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
+			redirect ( base_url () . "accounts/" . $accounttype . "_list/" );
 		}
-	}
 	function reseller_did_action($action, $accountid, $accounttype, $did_id = "") {
-		if ($action == "add") {
-			$did_id = $this->input->post ( "free_did_list", true );
-			if ($did_id != "") {
+		$did_id = $this->input->post ( "free_did_list", true );
+		$accountinfo = $this->session->userdata('accountinfo');
+		if ($action == "add" && !empty($did_id)) {
 				$account_query = $this->db_model->getSelect ( "*", "accounts", array (
 						"id" => $accountid
 				) );
-
 				$account_arr = $account_query->result_array ();
 				$idofaccount = $accountid;
 				$this->db_model->update ( "dids", array (
@@ -2274,7 +2335,7 @@ class Accounts extends MX_Controller {
 				if ($this->session->userdata ['userlevel_logintype'] == - 1) {
 					$parent_id = 0;
 				} else {
-					$parent_id = $this->session->userdata ['accountinfo'] ['id'];
+					$parent_id = $accountinfo['reseller_id'] ;
 				}
 
 				$reseller_ids = $this->common->subreseller_list ( $accountinfo ['id'] );
@@ -2326,8 +2387,10 @@ class Accounts extends MX_Controller {
 		echo $this->delete_multiple ();
 	}
 	function delete_multiple() {
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		$reseller_id = ($accountinfo ['type'] == 1 || $accountinfo ['type'] == 5) ? $accountinfo ['id'] : 0;
 		$ids = $this->input->post ( "selected_ids", true );
-		$where = "id IN ($ids)";
+		$where = "id IN ($ids) AND reseller_id = $reseller_id";
 		$data = array (
 				'deleted' => 1
 		);
