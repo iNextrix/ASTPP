@@ -1,4 +1,3 @@
-
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">

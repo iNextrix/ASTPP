@@ -1,5 +1,4 @@
 <? extend('master.php') ?>
-<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/tinymce/tinymce.min.js">

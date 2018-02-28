@@ -46,7 +46,6 @@ ASTPP work best with JavaScript enabled
 
 </head>
 <? extend('master.php') ?>
-<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 <body style="overflow:hidden; background: #343434;">
 

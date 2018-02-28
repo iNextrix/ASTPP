@@ -1,5 +1,4 @@
 <? extend('left_panel_master.php') ?>
-<?php error_reporting(E_ERROR); ?>
 <? startblock('page-title') ?>
 <?= $page_title ?>
 <? endblock() ?>
