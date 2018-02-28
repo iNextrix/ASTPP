@@ -1,6 +1,3 @@
-
-
-
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/flexigrid.css" type="text/css">
 <link href="<?php echo base_url(); ?>assets/css/facebox.css" rel="stylesheet" media="all" />	

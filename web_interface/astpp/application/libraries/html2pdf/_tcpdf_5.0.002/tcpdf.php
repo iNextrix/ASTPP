@@ -5403,7 +5403,7 @@ if (!class_exists('TCPDF', false)) {
 				$info = false;
 				if ((method_exists($this, $mtd)) AND (!($resize AND function_exists($gdfunction)))) {
 					// TCPDF image functions
-					$info = $this->{$mtd($file)};
+					//$info = $this->{$mtd($file)};
 					if ($info == 'pngalpha') {
 						return $this->ImagePngAlpha($file, $x, $y, $w, $h, 'PNG', $link, $align, $resize, $dpi, $palign);
 					}
