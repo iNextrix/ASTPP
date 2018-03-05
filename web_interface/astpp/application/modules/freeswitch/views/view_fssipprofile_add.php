@@ -147,7 +147,7 @@ function validateForm(){
 			  <input class="btn btn-line-parrot" name="action" value="Save" type="button" onclick="validateForm();">
 			<input class="btn btn-line-sky  margin-x-10" onclick="javascript:window.location ='<?= base_url() ?>/freeswitch/fssipprofile/'" name="action" value="Cancel" type="button"></div>
 			</div>
-		    </form>
+		    
         </div>      
     </section>
  </div></div></div>  

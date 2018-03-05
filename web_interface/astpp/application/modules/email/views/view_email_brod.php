@@ -383,7 +383,7 @@ table {
   
      
      
- </form>
+ 
 </section>
 
 <? endblock() ?>

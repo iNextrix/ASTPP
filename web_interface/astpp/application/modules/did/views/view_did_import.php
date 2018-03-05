@@ -94,7 +94,7 @@
                 <input type="submit" class="ui-state-default float-right ui-corner-all ui-button" name="action" value="Import..." />
             </div>
 
-        </form>
+        
 
     </div>
 </div>

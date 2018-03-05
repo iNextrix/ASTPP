@@ -127,7 +127,7 @@ function cancel(){
 			<div class='col-lg-12 padding-t-10 padding-b-10'><input class="btn btn-line-parrot" name="action" value="Save" type="button" onclick="validateForm();">
 			<input class="btn btn-line-sky  margin-x-10" onclick="javascript:window.location ='<?= base_url() ?>/freeswitch/fssipprofile/'" name="action" value="Cancel" type="button"></div>
 			</div>
-		    </form>
+		    
         </div>
         </div></div></div>
     </section>
@@ -200,14 +200,14 @@ function cancel(){
 			<input type='hidden' name='type_settings' value='<?=$type?>' />
 			<div class='col-md-5' style='padding-left:10px;'><input class="btn btn-success" name="action" value="<?=$button_name?>" type="submit">
 			<input class="btn  btn-primary"  name="action" value="Reset" type="button" onclick="cancel();"></div>
-		    </form>
+		    
 		    </div>
 			<span style="color:red;margin-left: 13%;float:left;" id="error_msg_params_name"></span>
 			<span style="color:red;margin-left: 41%;float:left;" id="error_msg_params_value"></span>
 		    <div class='col-md-12'>
-		     <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+		     
                             <table id="sip_profile_grid" align="left"></table>
-                        </form>
+                        
                 </div>  
             </div>
         </div>

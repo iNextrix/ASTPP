@@ -75,7 +75,7 @@
                         <a href="<?= base_url().'did/did_list/'?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Cancel"/></a>
                                         
                    </div>
-               </div></form>
+               </div>
             </div>
         </div>
     </div>
@@ -112,7 +112,7 @@
 		   echo "<tr><td colspan='".$cnt."'>
                         <a href='".base_url()."did/did_import/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10'  value='Back'/></a>
                         <input type='submit' class='btn btn-line-parrot pull-right' id='Process' value='Process'/></td></tr>";
-		?> </table></form>  
+		?> </table>  
         </div>
 </div></div></div>
     </section>    

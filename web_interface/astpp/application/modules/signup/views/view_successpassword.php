@@ -99,14 +99,14 @@ ASTPP work best with JavaScript enabled
 <div class="col-md-12 margin-t-20 padding-r-32 padding-l-32">
 <h3 style="color: #37A137 !important; padding: 0 0 10px;"><i class="fa fa-check-circle" style="color:#37A137;"></i> Your password successfully changed</h3>
 </div> 
-</form></div>				     
+</div>				     
 
 </div>  
 </section>
 </div>
 </div>
 </center>
-</form>
+
 
 
 </div></div></div>

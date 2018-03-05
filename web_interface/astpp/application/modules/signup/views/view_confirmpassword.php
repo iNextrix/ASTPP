@@ -121,7 +121,7 @@ ASTPP work best with JavaScript enabled
 
 <!--<div style="color:black" >Already have an account <a style="color:blue" href="<?=base_url(); ?>"> Log in </a> </div>-->
 
-</div></form>			     
+</div>			     
 
  
 </div></div></div>

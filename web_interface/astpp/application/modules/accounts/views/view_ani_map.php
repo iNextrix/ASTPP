@@ -105,7 +105,7 @@
                                         <option value="1">Inactive</option>
                                 </select>
                                 <input class="margin-l-20 btn btn-success" id="animap" name="action" value="Map ANI" type="button">
-                         </form>
+                         
                 </div>      
                 </div>  
 </section>
@@ -124,7 +124,7 @@
                 </div>	
             </div>
 
-<form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+
 <table id="animap_list" align="left" style="display:none;"></table>
-</form>
+
 

@@ -66,11 +66,11 @@
     <form action="" id="addlist_form" name="addlist_form" method="POST" enctype="multipart/form-data" style="display:block">
         <input type="hidden" id="add_patterns" name="add_patterns" readonly /><br/>
         <button id="add_patterns_btn"  class="btn btn-line-warning btn" name="add_patterns_btn" onclick="add_package_pattern();"><i class="fa fa-plus-circle fa-lg"></i>Add To List</button>        
-    </form>
+    
 </div>
-	<form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">        
+	        
 		<table id="prefixes_grid" style="display:none;"></table>
-	</form>
+	
     </div>
 </div>
 

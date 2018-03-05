@@ -92,7 +92,7 @@
                    </div>
                </div>
             </div>
-            </form>
+            
         </div>
     </div>
 </section>   
@@ -127,7 +127,7 @@
 					echo "<tr><td colspan='".$cnt."'>
                         <a href='".base_url()."rates/origination_rate_import/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
                         <input type='submit' class='btn btn-line-parrot pull-right' id='Process' value='Process'/></td></tr>";
-		?> </table></form>  
+		?> </table>  
         </div>
 </div></div></div>
     </section>  

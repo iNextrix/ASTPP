@@ -44,9 +44,9 @@
     	<div class="container">
         	<div class="row">
                 <div class="col-md-12">      
-                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                        
                             <table id="ipmap_grid" align="left" style="display:none;"></table>
-                        </form>
+                        
 <h6><font color="#375c7c"><b><?=gettext("NOTE");?></b> : <?=gettext("Changing status (Active/Inactive) from here will not reload FreeSwitch ACL. That means FreeSwitch will still be able to accept the calls request from disabled IP but as the IP is disabled, their call will be failed with authentication error.");?> </font></h6>
                 </div>  
             </div>

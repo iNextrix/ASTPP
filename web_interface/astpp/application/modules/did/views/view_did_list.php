@@ -85,7 +85,7 @@ if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logi
 				</div>
 			</div>
 			<input class="margin-l-20 btn btn-success" name="action" value="Purchase DID" type="submit">
-		    </form>
+		    
 		    </div>
                 </div>
             </div>
@@ -110,9 +110,9 @@ if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logi
     <div class="container">
       <div class="row">
         <div class="col-md-12">      
-	  <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+	  
 	     <table id="did_grid" align="left" style="display:none;"></table>
-	  </form>
+	  
         </div>  
       </div>
     </div><br/>

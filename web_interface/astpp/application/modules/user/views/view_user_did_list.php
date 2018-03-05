@@ -84,7 +84,7 @@
                                    </div>                                
                             </div>
                             <input class="margin-l-20 btn btn-success" name="action" value=<?php echo gettext("Purchase DID")?> type="submit">
-                        </form>
+                        
                 </div>
             </div>
             <div class="col-md-12 color-three padding-b-20">

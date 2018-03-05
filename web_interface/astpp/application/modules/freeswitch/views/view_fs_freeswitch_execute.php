@@ -67,7 +67,7 @@ function validateForm(){
 		</div>
 		<?php } ?>
 		</div>
-              </form>
+              
             </div>  
            </div>
         </div>

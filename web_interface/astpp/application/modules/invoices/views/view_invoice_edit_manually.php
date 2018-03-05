@@ -259,7 +259,7 @@ foreach ($taxes_to_accounts as $tax_val) {
  </div>
  </center>
 <br/>
-</form>
+
         </div>
     </div>
 </section>

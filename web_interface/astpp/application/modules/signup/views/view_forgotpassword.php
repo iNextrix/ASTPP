@@ -113,7 +113,7 @@ ASTPP work best with JavaScript enabled
 										<div class="input-group col-md-12 margin-t-15 padding-r-32 padding-l-32 margin-b-20">
 											<button type="submit" class="btn-login" >Forgot Password</button>                      
 										</div>
-								   </form>
+								   
 								</div>
 							</div>    
 						</div>

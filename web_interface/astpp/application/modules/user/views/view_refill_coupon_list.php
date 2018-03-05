@@ -78,7 +78,7 @@
 						  <div class="col-md-2">
 				  	  	<input type="input" class="col-md-4 form-control" name="refill_coupon_number" id="refill_coupon_number" maxlength="20">
 				  	  </div>
-			       </form>
+			       
 			       <div class="col-md-2">
 				<a class="btn btn-line-parrot margin-l-10" id="refill_coupon_recharge"><?php echo gettext('Recharge')?></a>
 			       </div>

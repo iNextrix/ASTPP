@@ -404,7 +404,7 @@ if ($logintype == 0 && $accountdata['paypal_permission'] == 0) {
                   <input type="hidden" readonly name="cancel_return" value="<?=$cancel_return?>">
                   <input type="hidden" readonly name="custom" id='custom' value="<?php echo $accountdata['id']; ?>">
                   <input type="hidden" name="new_amount" id="new_amount" readonly value="<?php echo $amount; ?>" >
-                   </form>
+                   
                    
 	      </div>
 	  

@@ -105,7 +105,7 @@ function form_submit(){
 				<button name="action" type="button" value="cancel" class="btn btn-line-sky margin-x-10" onclick="return redirect_page('/dashboard/')">Cancel</button>
 			    </div>
 			   </center>
-			   </form>
+			   
 			</div>
 		    </div>   
 	        </div>
