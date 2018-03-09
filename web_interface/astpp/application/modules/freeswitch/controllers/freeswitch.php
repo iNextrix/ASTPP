@@ -448,6 +448,12 @@ class Freeswitch extends MX_Controller {
 							$answer_min = $sub_fs_array [1];
 							$diff_value = substr ( $answer_min, 0, 11 ) - $value ['created_epoch'];
 						}
+						#modifying bridge string for active call stat when recording is enabled
+						if (trim ( $sub_fs_array [0] ) == 'variable_sip_req_uri' && $calls [$i] ['application'] == "record_session"){
+							$before = ["%40","%3A"];
+    							$after = ["@",":"];
+    							$calls [$i] ['application_data'] = str_replace($before, $after, $sub_fs_array [1]);
+						}
 					}
 				}
 				$duration = ($value ['callstate'] == 'ACTIVE') ? date ( "H:i:s", strtotime ( date ( "Y-m-d H:i:s" ) ) - $value ['created_epoch'] - $diff_value ) : "00:00:00";
