@@ -1062,7 +1062,7 @@ if(a.browser.msie&&a.browser.version<7){
             d+="<option value='"+r.rpOptions[B]+"' "+u+" >"+r.rpOptions[B]+"&nbsp;&nbsp;</option>"
         }
         a(".pDiv2",x.pDiv).append("<div class='pGroup'><select name='rp' class ='form-control'>"+d+"</select></div> <div class='btnseparator'></div>");
-a(".pDiv2",x.pDiv).append("<div class='btnseparator'></div><div class='pGroup'><span class='pPageStat'></span></div>");        
+//a(".pDiv2",x.pDiv).append("<div class='btnseparator'></div><div class='pGroup'><span class='pPageStat'></span></div>");        
     a("select",x.pDiv).change(function(){
         if(r.onRpChange){
             r.onRpChange(+this.value)
