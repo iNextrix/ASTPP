@@ -954,54 +954,11 @@ class Accounts extends MX_Controller {
 					"id" => $did_id
 			) )->first_row ();
 			$field_name = $account_arr ['type'] == 1 ? "parent_id" : 'accountid';
-			if ($action == "add") {
-				if ($did_arr ['accountid'] == 0 && $did_arr ['parent_id'] == $reseller_id) {
-					if ($accountinfo ['type'] == 1) {
-						// for getting reseller setup price if reseller customer purchase
-						$reseller_pricing_query = $this->db_model->getSelect ( "*", "reseller_pricing", array (
-								"note" => $did_arr ['number'],
-								'reseller_id' => $reseller_id
-						) );
-						if ($reseller_pricing_query->num_rows () > 0) {
-							$reseller_pricing = ( array ) $reseller_pricing_query->first_row ();
-							$did_arr = array_merge ( $did_arr, $reseller_pricing );
-						}
-					}
-					$available_bal = $this->db_model->get_available_bal ( $account_arr );
-					if ($available_bal >= $did_arr ['setup']) {
-						$available_bal = $this->db_model->update_balance ( $did_arr ['setup'], $accountid, "debit" );
-						$this->db_model->update ( "dids", array (
-								$field_name => $accountid,
-								"assign_date" => gmdate ( "Y-m-d H:i:s" )
-						), array (
-								"id" => $did_id
-						) );
-						if ($account_arr ['type'] == 1) {
-							$this->load->module ( 'did/did' );
-							$this->did->did_model->insert_reseller_pricing ( $account_arr, $did_arr );
-						}
-						$this->common->add_invoice_details ( $account_arr, "DIDCHRG", $did_arr ['setup'], $did_arr ['number'] );
-						require_once (APPPATH . 'controllers/ProcessCharges.php');
-						$ProcessCharges = new ProcessCharges ();
-						$Params = array (
-								"DIDid" => $did_id
-						);
-						$ProcessCharges->BillAccountCharges ( "DIDs", $Params );
-
-						$account_arr ['did_number'] = $did_arr ['number'];
-						$account_arr ['did_country_id'] = $this->common->get_field_name ( 'country', 'countrycode', $did_arr ['country_id'] );
-						$account_arr ['did_setup'] = $this->common_model->to_calculate_currency ( $did_arr ['setup'], "", '', true, true );
-						$account_arr ['did_monthlycost'] = $this->common_model->to_calculate_currency ( $did_arr ['monthlycost'], "", '', true, true );
-						$account_arr ['did_maxchannels'] = $did_arr ['maxchannels'];
-
-						$this->common->mail_to_users ( 'email_add_did', $account_arr );
-						$this->session->set_flashdata ( 'astpp_errormsg', 'DID Purchased Successfully.' );
-					} else {
-						$this->session->set_flashdata ( 'astpp_notification', 'Insuffiecient fund to purchase this DID' );
-					}
-				} else {
-					$this->session->set_flashdata ( 'astpp_notification', 'This DID already purchased by someone.' );
-				}
+			if ($action == "add") {				
+				$this->load->library ( 'did_lib' );				
+				$did_result = $this->did_lib->did_billing_process($this->session->userdata,$account_arr['id'],$did_id);
+				$astpp_flash_message_type = ($did_result[0] == "SUCCESS")?"astpp_errormsg":"astpp_notification";
+				$this->session->set_flashdata ( $astpp_flash_message_type, $did_result[1] );	
 			}
 			if ($action == "delete") {
 				$data = array (
