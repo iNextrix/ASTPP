@@ -1,0 +1,47 @@
+"File Name ";"Text in to File";
+;;
+"astcc-badphone.WAV";"That number is invallid.";
+"astpp-accountnum.WAV";"Please enter your card numbers followed by the pound sign.";
+"astpp-badaccount.WAV";"That card number is incorrect.";
+"astpp-badphone.WAV";"That phone number is not found.";
+"astpp-busy-tryagain.WAV";"This number is buzzy press 1 to try again.";
+"astpp-call-completed.WAV";"This call has  been completed.";
+"astpp-callingcard-menu.WAV";"Press 1 you wish place another call Press 2 Your credit balance Press 3 to hang up";
+"astpp-card-has-expired.WAV";"This card has expired.";
+"astpp-card-is-empty.WAV";"This card is empty.";
+"astpp-card-to-empty.WAV";"please enter the number of the card you wish to empty.";
+"astpp-card-to-refill.WAV";"Please enter the number of the card you wish to refill.";
+"astpp-cents.WAV";"cents";
+"astpp-cent.WAV";"cent";
+"astpp-congested-tryagain.WAV";"this number was congested please press 1 to try again.";
+"astpp-connectcharge.WAV";"the connect charge of.";
+"astpp-dollars.WAV";"dollars";
+"astpp-dollar.WAV";"dollar";
+"astpp-down.WAV";"The calling card platform is presently down please try again later.";
+"astpp-in-use.WAV";"That card number is presently being used.";
+"astpp-invalidpin.WAV";"That pin is invallid.";
+"astpp-menu.WAV";"Press 1 to enter calling card system Press 2 To enter your caller id number Press 3 to request call back Press  or 4 to recharge your card.";
+"astpp-minute.WAV";"minute";
+"astpp-noanswer-tryagain.WAV";"There is no answer press1 to try again.";
+"astpp-not-enough-credit.WAV";"you did not have enough credit.";
+"astpp-not-enough-money.WAV";"you did not have enough credit to place this call.";
+"astpp-per.WAV";"per";
+"astpp-phonenum.WAV";"Please enter the number you wish to call followed by the pound sign.";
+"astpp-pleasepin.WAV";"Please enter your pin code followed by the pound sign.";
+"astpp-please-wait-while-i-connect.WAV";"Please wait while i connect your call.";
+"astpp-seconds.WAV";"seconds";
+"astpp-second.WAV";"second";
+"astpp-this-call-will-last.WAV";"this call will last.";
+"astpp-this-card-has-a-balance-of.gsm";"this card has a balance of.";
+"astpp-this-card-has-a-balance-of.WAV";"this card has a balance of.";
+"astpp-willapply.WAV";"will apply";
+"astpp-willcost.WAV";"this call will cost.";
+"cent.WAV";"cent ";"female"
+"is-suspended.WAV";"is suspended";"female"
+"of-local-credit.WAV";"of local credit";"female"
+"of-longdistance.WAV";"of longdistance credit.";"female"
+"per.WAV";"per ";"female"
+"please-wait-while-i-connect.WAV";"Please wait while i connect your call.";"female"
+"press_one_if_you_wish.WAV";"Press 1 if you wish to place another call.";
+"this-call-will-last.WAV";"this call will last.";"female"
+"this-card-has-a-balance-of.WAV";"this card has a balance of.";"female"
