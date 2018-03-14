@@ -715,7 +715,7 @@ class Accounts_form {
 							'',
 							'',
 							'',
-							'custom_status' 
+							'custom_status_recording' 
 					),
 					array (
 							gettext ( 'Balance Below' ),
