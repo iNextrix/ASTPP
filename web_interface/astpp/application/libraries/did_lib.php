@@ -26,6 +26,8 @@ if (! defined ( 'BASEPATH' )) {
 class did_lib extends MX_Controller {
 
 	/**
+	* Function will do allocation of DID and billing of it. 
+	*
 	* $request_from = array (Logged into account info.)
 	* $accountid = Int. (Account id)
 	* $did = numeric value (DID number)
@@ -175,6 +177,13 @@ class did_lib extends MX_Controller {
 		}else{			
 			return array("INSUFFIECIENT_BALANCE","Insuffiecient fund to purchase this DID.");
 		}
+	}
+
+	/**
+	* Function will do did release process
+	**/
+	function did_release()) {
+		//TODO
 	}
 }	
 ?>
