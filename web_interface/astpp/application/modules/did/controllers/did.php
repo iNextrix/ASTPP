@@ -29,6 +29,7 @@ class DID extends MX_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( 'did_form' );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission' );
 		$this->load->model ( 'did_model' );
 		$this->load->library ( 'csvreader' );
 		$this->load->library ( 'did_lib' );
@@ -50,6 +51,7 @@ class DID extends MX_Controller {
 		$this->load->view ( 'view_did_add_edit', $data );
 	}
 	function did_edit($edit_id = '') {
+		$this->permission->check_web_record_permission('','','did/did_list/',true);
 		$data ['page_title'] = gettext ( 'Edit DID' );
 		$where = array (
 				'id' => $edit_id 
@@ -140,6 +142,7 @@ class DID extends MX_Controller {
 	}
 	// /*ASTPP_invoice_changes_05_05_start*/
 	function did_remove($id) {
+		$this->permission->check_web_record_permission('','','did/did_list/',true);
 		require_once (APPPATH . 'controllers/ProcessCharges.php');
 		$ProcessCharges = new ProcessCharges ();
 		$Params = array (

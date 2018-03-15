@@ -29,6 +29,7 @@ class pricing extends CI_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( "pricing_form" );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission' );
 		$this->load->model ( 'pricing_model' );
 		
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
@@ -43,6 +44,7 @@ class pricing extends CI_Controller {
 		$this->load->view ( 'view_price_add_edit', $data );
 	}
 	function price_edit($edit_id = '') {
+		$this->permission->check_web_record_permission($edit_id,'pricelists','pricing/price_list/');
 		$data ['page_title'] = gettext ( 'Edit Rate Group' );
 		$where = array (
 				'id' => $edit_id 
@@ -165,6 +167,7 @@ class pricing extends CI_Controller {
 		echo json_encode ( $json_data );
 	}
 	function price_delete($pricelist_id) {
+		$this->permission->check_web_record_permission($pricelist_id,'pricelists','pricing/price_list/');
 		$where = array (
 				"id" => $pricelist_id 
 		);
