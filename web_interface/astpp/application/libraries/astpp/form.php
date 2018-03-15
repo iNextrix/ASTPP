@@ -73,12 +73,10 @@ class Form {
 					return true;
 				}
 			} else {
+				$this->CI->load->library('astpp/permission');
 				$this->CI->session->set_userdata ( 'astpp_errormsg', 'You do not have permission to access this module..!' );
-				if ($this->CI->session->userdata ( 'userlevel_logintype' ) == '-1' || $this->CI->session->userdata ( 'logintype' ) == '1' || $this->CI->session->userdata ( 'logintype' ) == '4') {
-					redirect ( base_url () . 'dashboard/' );
-				} else {
-					redirect ( base_url () . 'user/user/' );
-				}
+				$url= $this->CI->session->userdata ( 'userlevel_logintype' ) ==0 ? 'user/user/' : "dashboard/";
+				$this->CI->permission->permission_redirect_url($url);
 			}
 		} else {
 			redirect ( base_url () );
