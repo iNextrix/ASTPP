@@ -113,7 +113,7 @@ class Permission {
 	 */
 	
 	function permission_redirect_url($redirect_url){
-		$this->CI->session->set_flashdata ( 'astpp_notification','Permisssion Denied!');
+		$this->CI->session->set_flashdata ( 'astpp_notification','Permission Denied!');
 		redirect(base_url().$redirect_url);
 	}
 	/* customer_web_record_permission
