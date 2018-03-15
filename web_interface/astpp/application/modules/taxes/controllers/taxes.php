@@ -29,6 +29,7 @@ class Taxes extends CI_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( "taxes_form" );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission');
 		$this->load->model ( 'taxes_model' );
 		
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
@@ -43,6 +44,7 @@ class Taxes extends CI_Controller {
 		$this->load->view ( 'view_taxes_add_edit', $data );
 	}
 	function taxes_edit($edit_id = '') {
+		$this->permission->check_web_record_permission($edit_id,'taxes','taxes/taxes_list/');
 		$data ['page_title'] = gettext ( 'Edit Tax' );
 		$where = array (
 				'id' => $edit_id 
@@ -89,6 +91,7 @@ class Taxes extends CI_Controller {
 		}
 	}
 	function taxes_delete($id) {
+		$this->permission->check_web_record_permission($id,'taxes','taxes/taxes_list/');
 		$this->db->select ( 'taxes_description' );
 		$this->db->where ( 'id', $id );
 		$taxes_name = ( array ) $this->db->get ( 'taxes' )->first_row ();

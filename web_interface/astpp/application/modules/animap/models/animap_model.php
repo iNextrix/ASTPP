@@ -27,27 +27,20 @@ class ANIMAP_model extends CI_Model {
 	}
 	function animap_list($flag, $start = 0, $limit = 0) {
 		$accountinfo = $this->session->userdata ( 'accountinfo' );
-		
-		if ($this->session->userdata ( 'logintype' ) == 1 || $this->session->userdata ( 'logintype' ) == 5) {
-			$qry = $this->db_model->getselect ( 'id', 'accounts', array (
-					'reseller_id' => $accountinfo ['id'] 
+		$reseller_id  = $accountinfo['type'] == 1 || $accountinfo['type'] == 5 ? $accountinfo['id'] : 0 ;
+		$qry = $this->db_model->getselect ( 'id', 'accounts', array (
+					'reseller_id' => $reseller_id 
 			) );
+		if($qry->num_rows() > 0){
 			$result = $qry->result_array ();
-			
-			foreach ( $result as $value1 ) {
-				$value [] = $value1 ['id'];
-			}
-			$this->db->where_in ( 'accountid', $value );
-		} else {
-			$qry = $this->db_model->getselect ( 'id', 'accounts', array (
-					'reseller_id' => 0 
-			) );
-			$result = $qry->result_array ();
-			
-			foreach ( $result as $value1 ) {
-				$value [] = $value1 ['id'];
-			}
-			$this->db->where_in ( 'accountid', $value );
+				foreach ( $result as $value1 ) {
+					$value [] = $value1 ['id'];
+				}
+				if(!empty($value)){
+					$this->db->where_in ( 'accountid', $value );
+				}
+		}else{
+			$this->db->where('accountid',-1);
 		}
 		$this->db_model->build_search ( 'animap_list_search' );
 		if ($flag) {

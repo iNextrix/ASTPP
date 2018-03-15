@@ -30,6 +30,7 @@ class Charges extends MX_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( "charges_form" );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission' );
 		$this->load->model ( 'charges_model' );
 		
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
@@ -43,16 +44,14 @@ class Charges extends MX_Controller {
 		$this->load->view ( 'view_periodiccharges_add_edit', $data );
 	}
 	function periodiccharges_edit($edit_id = '') {
+		$this->permission->check_web_record_permission($edit_id,'charges',"charges/periodiccharges/");
 		$data ['page_title'] = gettext ( 'Edit Subscription' );
 		$where = array (
-				'id' => $edit_id 
+				'id' => $edit_id
 		);
-		$account = $this->db_model->getSelect ( "*", "charges", $where );
-		foreach ( $account->result_array () as $key => $value ) {
-			$edit_data = $value;
-		}
+		$charges_info = $this->db_model->getSelect ( "*", "charges", $where );
+		$edit_data =(array)$charges_info->first_row();
 		$edit_data ['charge'] = $this->common_model->to_calculate_currency ( $edit_data ['charge'], '', '', true, false );
-		
 		$data ['form'] = $this->form->build_form ( $this->charges_form->get_charge_form_fields (), $edit_data );
 		$this->load->view ( 'view_periodiccharges_add_edit', $data );
 	}
@@ -102,6 +101,7 @@ class Charges extends MX_Controller {
 	
 	// /*ASTPP_invoice_changes_05_05_start*/
 	function periodiccharges_delete($id) {
+		$this->permission->check_web_record_permission($id,'charges',"charges/periodiccharges/");
 		$this->charges_model->remove_charge ( $id );
 		
 		require_once (APPPATH . 'controllers/ProcessCharges.php');

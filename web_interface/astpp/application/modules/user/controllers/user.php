@@ -28,6 +28,7 @@ class User extends MX_Controller {
 		$this->load->helper ( 'form' );
 		$this->load->library ( "astpp/form" );
 		$this->load->library ( "user_form" );
+		$this->load->library ( "astpp/permission" );
 		$this->load->model ( 'Auth_model' );
 		$this->load->model ( 'Astpp_common' );
 		$this->load->model ( 'user_model' );
@@ -225,6 +226,7 @@ class User extends MX_Controller {
 		}
 	}
 	function user_did_edit($edit_id = '') {
+		$this->permission->customer_web_record_permission($edit_id,'dids','user/user_didlist/');
 		$data ['page_title'] = gettext ( 'Edit DIDs' );
 		$account_data = $this->session->userdata ( "accountinfo" );
 		$this->db->where ( 'id', $edit_id );
@@ -258,6 +260,7 @@ class User extends MX_Controller {
 				redirect ( base_url () . "user/user_didlist/" );	
 			}
 			if ($action == "edit") {
+				$this->permission->customer_web_record_permission($did_id,'dids','user/user_didlist/');
 				$add_array = $this->input->post ();
 				$data ['form'] = $this->form->build_form ( $this->user_form->build_user_did_form ( $add_array ['free_didlist'] ), $add_array );
 				if ($this->form_validation->run () == FALSE) {
@@ -287,6 +290,7 @@ class User extends MX_Controller {
 				$this->load->view ( 'view_user_did_edit', $data );
 			}
 			if ($action == "delete") {
+				$this->permission->customer_web_record_permission($did_id,'dids','user/user_didlist/');
 				$this->db->update ( "dids", array (
 						"accountid" => 0,
 						"assign_date" => "0000-00-00 00:00:00",
@@ -999,6 +1003,7 @@ class User extends MX_Controller {
 		}
 	}
 	function user_invoice_download($invoiceid) {
+		$this->permission->customer_web_record_permission($invoiceid,'invoices','user/user_invoices_list/');
 		$this->load->module ( 'invoices/invoices' );
 		$this->invoices->invoice_download ( $invoiceid );
 	}
@@ -1351,6 +1356,7 @@ class User extends MX_Controller {
 			}
 		}
 		if ($action == 'delete') {
+			$this->permission->customer_web_record_permission($id,'ip_map','user/user_ipmap/');
 			$this->db->delete ( 'ip_map', array (
 					'id' => $id 
 			) );
@@ -1359,6 +1365,9 @@ class User extends MX_Controller {
 		redirect ( base_url () . "user/user_ipmap/" );
 	}
 	function user_sipdevices() {
+		if(common_model::$global_config['system_config']['opensips']== 0){
+			$this->permission->permission_redirect_url("user/user/");
+		}
 		$data ['page_title'] = gettext ( 'SIP Devices' );
 		$this->session->set_userdata ( 'advance_search', 0 );
 		$data ['grid_fields'] = $this->user_form->build_user_sipdevices ();
@@ -1417,6 +1426,7 @@ class User extends MX_Controller {
 		$this->load->view ( 'view_user_sipdevices_add_edit', $data );
 	}
 	function user_sipdevices_edit($edit_id = '') {
+		$this->permission->customer_web_record_permission($edit_id,'sip_devices','user/user_sipdevices/');
 		$account_data = $this->session->userdata ( "accountinfo" );
 		$data ['page_title'] = gettext ( 'Edit SIP Device' );
 		$where = array (
@@ -1458,6 +1468,7 @@ class User extends MX_Controller {
 		}
 	}
 	function user_sipdevices_delete($id) {
+		$this->permission->customer_web_record_permission($id,'sip_devices','user/user_sipdevices/');
 		$this->db->delete ( 'sip_devices', array (
 				'id' => $id 
 		) );
@@ -1516,6 +1527,7 @@ class User extends MX_Controller {
 			}
 		}
 		if ($action == "delete") {
+			$this->permission->customer_web_record_permission($aniid,'ani_map','user/user_animap_list/');
 			$this->session->set_flashdata ( 'astpp_notification', 'Caller ID removed sucessfully!' );
 			$this->db_model->delete ( "ani_map", array (
 					"id" => $aniid 
@@ -1861,6 +1873,9 @@ class User extends MX_Controller {
 		$this->load->view('view_user_fund_transfer', $data);
 	}
 	function user_opensips() {
+		if(common_model::$global_config['system_config']['opensips']== 1){
+			$this->permission->permission_redirect_url("user/user/");
+		}
 		$data ['username'] = $this->session->userdata ( 'user_name' );
 		$data ['page_title'] = gettext ( 'Opensips List' );
 		$data ['search_flag'] = true;

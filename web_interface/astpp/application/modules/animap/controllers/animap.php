@@ -29,6 +29,7 @@ class Animap extends MX_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( "animap_form" );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission');
 		$this->load->model ( 'animap_model' );
 		
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
@@ -43,7 +44,8 @@ class Animap extends MX_Controller {
 		
 		$this->load->view ( 'animap_add_edit', $data );
 	}
-	function animap_edit($edit_id = '') {
+	function animap_edit($edit_id = '') { 
+		$this->permission->check_web_record_permission($edit_id,'ani_map','animap/animap_detail/',false,array('field_name'=>"accountid","parent_table"=>"accounts"));
 		$data ['page_title'] = gettext ( 'Edit Caller ID' );
 		$where = array (
 				'id' => $edit_id 
@@ -93,6 +95,7 @@ class Animap extends MX_Controller {
 		}
 	}
 	function animap_delete($id) {
+		$this->permission->check_web_record_permission($id,'ani_map','animap/animap_detail/',false,array('field_name'=>"accountid","parent_table"=>"accounts"));
 		$this->animap_model->remove_animap ( $id );
 		$this->session->set_flashdata ( 'astpp_notification', 'Caller ID removed successfully!' );
 		redirect ( base_url () . 'animap/animap_detail/' );

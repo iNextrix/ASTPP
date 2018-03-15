@@ -61,5 +61,75 @@ class Permission {
 			return true;
 		}
 	}
+	/* check_record_permission
+	 * 
+	 * Check record level permission
+	 * 
+	 * @param
+	 * 
+	 *    integer accountid
+	 *    integer reseller_id 
+	 */
+	private function _check_record_permission($table_name,$where_condition=array(),$select_field= 'id'){
+		$this->CI->db->select($select_field);
+		return (array)$this->CI->db->get_where($table_name,$where_condition)->first_row();
+	}
+	
+	/* check_web_record_permission
+	 * 
+	 * Get request from web portal session and pass into check_record_permission
+	 * 
+	 * @param
+	 * 
+	 *    integer accountid
+	 *    string redirect_url
+	 */
+	
+	function check_web_record_permission($id,$table_name,$redirect_url,$check_function_access=false,$dependencies=array()){
+		$accountinfo = $this->CI->session->userdata('accountinfo') ;
+		$reseller_id = $accountinfo['type'] == 1 || $accountinfo['type'] == 5 ? $accountinfo['id'] : 0 ;
+		$permission_result =array();
+		if(!empty($dependencies)){
+			$table_row =$this->_check_record_permission($table_name,array('id'=>$id),$dependencies['field_name']);
+			if(!empty($table_row)){
+				$permission_result = $this->_check_record_permission($dependencies['parent_table'],array('id'=>$table_row[$dependencies['field_name']],'reseller_id'=>$reseller_id));	
+			}
+		}
+		else if(!$check_function_access){
+			$permission_result  = $this->_check_record_permission($table_name,array('id'=>$id,'reseller_id'=>$reseller_id));
+		}
+		if( $reseller_id > 0 && ((empty($permission_result) || $check_function_access) )){
+				$this->permission_redirect_url($redirect_url);
+		}	
+	}
+	
+	/* permission_redirect_url 
+	 * 
+	 * Redirect to url if it doesn't have enough permissions to access url.
+	 * 
+	 * @param
+	 * 
+	 *    string redirect_url
+	 */
+	
+	function permission_redirect_url($redirect_url){
+		$this->CI->session->set_flashdata ( 'astpp_notification','Permission Denied!');
+		redirect(base_url().$redirect_url);
+	}
+	/* customer_web_record_permission
+	 * 
+	 * Redirect user if it doesn't have enough permissions to access url.
+	 * 
+	 * @param
+	 * 
+	 *    string redirect_url
+	 */
+	function customer_web_record_permission($id,$table,$redirect_url){
+		$accountinfo = $this->CI->session->userdata('accountinfo');
+		$query_result = $this->_check_record_permission($table,array("accountid"=>$accountinfo['id'],"id"=>$id));
+		if(empty($query_result)){
+			$this->permission_redirect_url($redirect_url);
+		}
+	}
 }
 ?> 
