@@ -31,6 +31,7 @@ class DID extends MX_Controller {
 		$this->load->library ( 'astpp/form' );
 		$this->load->model ( 'did_model' );
 		$this->load->library ( 'csvreader' );
+		$this->load->library ( 'did_lib' );
 		
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
 			redirect ( base_url () . '/astpp/login' );
@@ -133,8 +134,7 @@ class DID extends MX_Controller {
 				echo json_encode ( array (
 						"SUCCESS" => $add_array ["number"] . " DID Added Successfully!" 
 				) );
-				exit ();
-				exit ();
+				exit ();				
 			}
 		}
 	}
@@ -527,7 +527,7 @@ class DID extends MX_Controller {
 			$did_info = ( array ) $this->db->get_where ( 'dids', array (
 					'number' => $did_number 
 			) )->first_row ();
-			$query = "select count(id) as count from reseller_pricing where id >= (select id from reseller_pricing where note =$did_number AND parent_id =" . $accountinfo ['reseller_id'] . " AND reseller_id =" . $accountinfo ['id'] . ") AND note= $did_number order by id desc";
+			$query = "select count(id) as count from reseller_pricing where id >= (select id from reseller_pricing where note =$did_number AND parent_id =" . $accountinfo ['reseller_id'] . " AND reseller_id =" . $accountinfo ['id'] . " limit 1) AND note= $did_number order by id desc";
 			$result = ( array ) $this->db->query ( $query )->first_row ();
 			if ($result ['count'] > 0) {
 				$str = $this->common->get_parent_info ( $did_info ['parent_id'], $accountinfo ['id'] );
@@ -568,71 +568,22 @@ class DID extends MX_Controller {
 			redirect ( base_url () . 'did/did_list/' );
 		}
 	}
+
+	//Reseller DID purchase process function
 	function did_reseller_purchase() {
 		// Get account information from session.
 		$accountinfo = $this->session->userdata ( 'accountinfo' );
-		$where = array (
-				'id' => $accountinfo ['id'] 
-		);
-		$account = $this->db_model->getSelect ( "*", "accounts", $where );
-		$currency_name = $this->common->get_field_name ( 'currency', "currency", array (
-				'id' => $accountinfo ['currency_id'] 
-		) );
-		$accountinfo = ( array ) $account->first_row ();
+
 		if (($this->input->post ())) {
 			$post = $this->input->post ();
-			if (isset ( $post ['free_did_list'] ) && $post ['free_did_list'] != '') {
-				// For deduction of admin price to reseller
-				$didinfo = $this->did_model->get_did_by_number ( $post ['free_did_list'] );
-				if ($accountinfo ['reseller_id'] > 0) {
-					$reseller_pricing_query = $this->db_model->getSelect ( "call_type,setup,extensions,monthlycost,connectcost,includedseconds,cost,inc", "reseller_pricing", array (
-							"note" => $didinfo ['number'],
-							'reseller_id' => $accountinfo ['reseller_id'] 
-					) );
-					$reseller_pricing_result = ( array ) $reseller_pricing_query->first_row ();
-					$didinfo ['call_type'] = $reseller_pricing_result ['call_type'];
-					$didinfo ['extensions'] = $reseller_pricing_result ['extensions'];
-					$didinfo ['setup'] = $reseller_pricing_result ['setup'];
-					$didinfo ['monthlycost'] = $reseller_pricing_result ['monthlycost'];
-					$didinfo ['connectcost'] = $reseller_pricing_result ['connectcost'];
-					$didinfo ['includedseconds'] = $reseller_pricing_result ['includedseconds'];
-					$didinfo ['cost'] = $reseller_pricing_result ['cost'];
-					$didinfo ['inc'] = $reseller_pricing_result ['inc'];
-				}
-				$available_bal = $this->db_model->get_available_bal ( $accountinfo );
-				$accountinfo ['did_number'] = $didinfo ['number'];
-				$accountinfo ['did_country_id'] = $didinfo ['country_id'];
-				$accountinfo ['did_setup'] = $this->common_model->calculate_currency ( $didinfo ['setup'], '', $currency_name, true, true );
-				$accountinfo ['did_monthlycost'] = $this->common_model->calculate_currency ( $didinfo ['monthlycost'], '', $currency_name, true, true );
-				$accountinfo ['did_maxchannels'] = $didinfo ['maxchannels'];
-				if ($available_bal >= $didinfo ["setup"]) {
-					$available_bal = $this->db_model->update_balance ( $didinfo ['setup'], $accountinfo ['id'], "debit" );
-					$this->db_model->update ( "dids", array (
-							'parent_id' => $accountinfo ['id'],
-							"assign_date" => gmdate ( "Y-m-d H:i:s" ) 
-					), array (
-							"id" => $didinfo ['id'] 
-					) );
-					$this->did_model->insert_reseller_pricing ( $accountinfo, $didinfo );
-					$this->common->add_invoice_details ( $accountinfo, "DIDCHRG", $didinfo ['setup'], $didinfo ['number'] );
-					require_once (APPPATH . 'controllers/ProcessCharges.php');
-					$ProcessCharges = new ProcessCharges ();
-					$Params = array (
-							"DIDid" => $didinfo ['id'] 
-					);
-					$ProcessCharges->BillAccountCharges ( "DIDs", $Params );
-					
-					$this->common->mail_to_users ( 'email_add_did', $accountinfo, "", $didinfo ['number'] );
-					$this->session->set_flashdata ( 'astpp_errormsg', 'DID Purchased Successfully.' );
-				} else {
-					$this->session->set_flashdata ( 'astpp_notification', 'Insuffiecient fund to purchase this did' );
-				}
-			} else {
-				$this->session->set_flashdata ( 'astpp_notification', 'Please Select DID.' );
-			}
-		}
+			$did_result = $this->did_lib->did_billing_process($this->session->userdata,$accountinfo['id'],$post ['free_did_list']);
+			$astpp_flash_message_type = ($did_result[0] == "SUCCESS")?"astpp_errormsg":"astpp_notification";
+			$this->session->set_flashdata ( $astpp_flash_message_type, $did_result[1] );						
+		}else {
+			$this->session->set_flashdata ( 'astpp_notification', 'Please Select DID.' );
+		}	
 		redirect ( base_url () . 'did/did_list/' );
-		exit ();
+		exit ();		
 	}
 	function add_invoice_data_user($accountid, $charge_type, $description, $credit) {
 		$insert_array = array (

@@ -31,6 +31,7 @@ class User extends MX_Controller {
 		$this->load->model ( 'Auth_model' );
 		$this->load->model ( 'Astpp_common' );
 		$this->load->model ( 'user_model' );
+		$this->load->library ( 'did_lib' );
 	}
 	function index() {
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
@@ -248,47 +249,13 @@ class User extends MX_Controller {
 			) );
 			$did_arr = ( array ) $did_query->first_row ();
 			if ($action == "add") {
-				if ($did_arr ['accountid'] == 0 && $did_arr ['parent_id'] == $reseller_id) {
-					$setup_cost = $did_arr ['setup'];
-					if ($accountinfo ["reseller_id"] > 0) {
-						$reseller_pricing_res = $this->db_model->getSelect ( "*", "reseller_pricing", array (
-								"note" => $did_arr ['number'],
-								"reseller_id" => $accountinfo ['reseller_id'] 
-						) );
-						$reseller_pricing_arr = ( array ) $reseller_pricing_res->first_row ();
-						$setup_cost = $reseller_pricing_arr ['setup'];
-					}
-					$available_bal = $this->db_model->get_available_bal ( $account_arr );
-					if ($available_bal >= $setup_cost) {
-						$available_bal = $this->db_model->update_balance ( $setup_cost, $accountinfo ["id"], "debit" );
-						$accountinfo = ( array ) $this->db->get_where ( 'accounts', array (
-								"id" => $accountinfo ['id'] 
-						) )->first_row ();
-						$this->common->add_invoice_details ( $accountinfo, "DIDCHRG", $setup_cost, $did_arr ['number'] );
-						require_once (APPPATH . 'controllers/ProcessCharges.php');
-						$ProcessCharges = new ProcessCharges ();
-						$Params = array (
-								"DIDid" => $did_arr ['id'] 
-						);
-						$ProcessCharges->BillAccountCharges ( "DIDs", $Params );
-						
-						$this->db_model->update ( "dids", array (
-								"accountid" => $accountinfo ["id"],
-								"assign_date" => gmdate ( 'Y-m-d H:i:s' ) 
-						), array (
-								"id" => $did_id 
-						) );
-						$this->common->mail_to_users ( 'email_add_did', $account_arr, "", $did_arr ['number'] );
-						$this->session->set_flashdata ( 'astpp_errormsg', 'Did added successfully.' );
-						redirect ( base_url () . "user/user_didlist/" );
-					} else {
-						$this->session->set_flashdata ( 'astpp_notification', 'Insuffiecient fund to purchase this did' );
-						redirect ( base_url () . "user/user_didlist/" );
-					}
-				} else {
-					$this->session->set_flashdata ( 'astpp_notification', 'This DID already purchased by someone.' );
-					redirect ( base_url () . "user/user_didlist/" );
-				}
+				$this->load->library ( 'did_lib' );
+				
+				$did_result = $this->did_lib->did_billing_process($this->session->userdata,$accountinfo ['id'],$did_id);
+				$astpp_flash_message_type = ($did_result[0] == "SUCCESS")?"astpp_errormsg":"astpp_notification";
+				$this->session->set_flashdata ( $astpp_flash_message_type, $did_result[1] );	
+
+				redirect ( base_url () . "user/user_didlist/" );	
 			}
 			if ($action == "edit") {
 				$add_array = $this->input->post ();
@@ -933,8 +900,15 @@ class User extends MX_Controller {
 			if ($invoice_total_query->num_rows () > 0) {
 				$invoice_total_query = $invoice_total_query->result_array ();
 				$outstanding -= $invoice_total_query [0] ['credit'];
-				$payment_last = ($invoice_total_query [0] ['created_date']) ? date ( "Y-m-d", strtotime ( $invoice_total_query [0] ['created_date'] ) ) : '';
+				$payment_last = ($invoice_total_query [0] ['created_date']) ? date ( "Y-m-d", strtotime ( $invoice_total_query [0] ['created_date'] ) ) : '';				
 			}
+
+			//If that's receipt then forcefully override outstanding amount as user has already paid for the service.
+			if ($value ['type'] == 'R') {
+				$outstanding = '';
+				$payment_last = $invoice_date;
+			}
+
 			$invoice_total_query = $this->db_model->select ( "debit,created_date", "invoice_details", array (
 					"invoiceid" => $value ['id'],
 					"item_type" => "INVPAY" 

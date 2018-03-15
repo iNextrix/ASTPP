@@ -647,6 +647,7 @@ class common {
 	 * @param string $select
 	 */
 	function get_invoice_date($select, $accountid = 0, $reseller_id, $order_by = 'id') {
+
 		$where = array (
 				"reseller_id" => $reseller_id
 		);
@@ -660,11 +661,14 @@ class common {
 			if ($posttoexternal == 1)
 				$where ['type'] = "I";
 		}
+		
 		$invoice_res = $this->CI->db_model->select ( $select, "invoices", $where, $order_by, "DESC", "1", "0" );
+
 		if ($invoice_res->num_rows () > 0) {
 			$invoice_info = ( array ) $invoice_res->first_row ();
 			return $invoice_info [$select];
 		}
+
 		return false;
 	}
 	function convert_to_date($select = '', $table = '', $from_date) {
@@ -1981,27 +1985,43 @@ class common {
 		$number_convert = number_format ( ( float ) $amount, $decimal_amount, '.', '' );
 		return $number_convert;
 	}
-	function add_invoice_details($account_arr, $charge_type, $amount, $description) {
+	function add_invoice_details($account_arr, $charge_type, $amount, $description) {		
 		$accountinfo = $this->CI->session->userdata ( 'accountinfo' );
-		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
-		$where = "accountid IN ('" . $reseller_id . "','1')";
+		//$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 1;
+
+		//Get company profile information from invoice_conf table
+		$reseller_id = ($account_arr['reseller_id'] > 0)?$account_arr['reseller_id']:1;
+		$where = "accountid IN ('" . $reseller_id . "')";
 		$this->CI->db->where ( $where );
 		$this->CI->db->select ( '*' );
 		$this->CI->db->order_by ( 'accountid', 'desc' );
 		$this->CI->db->limit ( 1 );
 		$invoiceconf = $this->CI->db->get ( 'invoice_conf' );
 		$invoice_conf = ( array ) $invoiceconf->first_row ();
+
+		//Get last invoice id
 		$last_invoiceid = $this->get_invoice_date ( 'invoiceid', '', $account_arr ['reseller_id'] );
+
 		if ($last_invoiceid && $last_invoiceid > 0) {
-			$last_invoiceid = ($last_invoiceid + 1);
+			$last_invoiceid = ($last_invoiceid + 1);			
+			if ($last_invoiceid < $invoice_conf ['invoice_start_from'])
+					$last_invoiceid = $invoice_conf ['invoice_start_from'];	
 		} else {
 			$last_invoiceid = $invoice_conf ['invoice_start_from'];
 		}
-		$last_invoiceid = str_pad ( $last_invoiceid, (strlen ( $last_invoiceid ) + 4), '0', STR_PAD_LEFT );
+		$last_invoiceid = str_pad ( $last_invoiceid, 6 , '0', STR_PAD_LEFT );
 		$invoice_prefix = $invoice_conf ['invoice_prefix'];
-		$due_date = gmdate ( "Y-m-d H:i:s", strtotime ( gmdate ( "Y-m-d H:i:s" ) . " +" . $invoice_conf ['interval'] . " days" ) );
+		
+		//Calculate due date
+		$due_date = $invoice_conf ['interval']  > 0 ? date ( "Y-m-d H:i:s", strtotime ( gmdate ( "Y-m-d H:i:s" ) . " +" . $invoice_conf ['interval'] . " days" ) ) : gmdate ( "Y-m-d H:i:s" );
+
+		//Generate receipt
 		$invoiceid = $account_arr ['posttoexternal'] == 0 ? $this->CI->common_model->generate_receipt ( $account_arr ['id'], $amount, $account_arr, $last_invoiceid, $invoice_prefix, $due_date ) : 0;
+
+		//Get balance
 		$balance = ($account_arr ['posttoexternal'] == 1) ? $account_arr ['credit_limit'] - $account_arr ['balance'] : $account_arr ['balance'];
+
+		//Generate receipt detail by inserting information in invoice_details table
 		$insert_arr = array (
 				"accountid" => $account_arr ['id'],
 				"description" => $description,

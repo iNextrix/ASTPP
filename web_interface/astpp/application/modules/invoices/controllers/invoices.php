@@ -83,12 +83,7 @@ class Invoices extends MX_Controller {
 				$invoice_date = date ( "Y-m-d", $date );
 				$fromdate = strtotime ( $value ['from_date'] );
 				$from_date = date ( "Y-m-d", $fromdate );
-				$duedate = strtotime ( $value ['due_date'] );
-				if ($value ['type'] == 'I') {
-					$due_date = date ( "Y-m-d", $duedate );
-				} else {
-					$due_date = '';
-				}
+				$due_date = date("Y-m-d",strtotime ( $value ['due_date'] ));				
 				$outstanding = $value ['amount'];
 				$last_payment_date = '';
 				$invoice_total_query = $this->db_model->select ( "sum(debit) as debit,sum(credit) as credit,created_date", "invoice_details", array (
@@ -113,7 +108,7 @@ class Invoices extends MX_Controller {
 							$payment_last = '';
 						}
 					} else {
-						$payment_last = '';
+						$payment_last = $invoice_date;
 					}
 				}
 				
