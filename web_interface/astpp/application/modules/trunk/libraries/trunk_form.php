@@ -127,10 +127,23 @@ class trunk_form {
 						) 
 				),
 				array (
-						gettext ( 'CC' ),
+						gettext ( 'Concurrent Calls' ),
 						'INPUT',
 						array (
 								'name' => 'maxchannels',
+								'value' => '0',
+								'size' => '20',
+								'class' => "text field medium" 
+						),
+						'',
+						'tOOL TIP',
+						'' 
+				),
+				array (
+						gettext ( 'CPS' ),
+						'INPUT',
+						array (
+								'name' => 'cps',
 								'value' => '0',
 								'size' => '20',
 								'class' => "text field medium" 
@@ -387,7 +400,7 @@ class trunk_form {
 						"center" 
 				),
 				array (
-						gettext ( "Gateway Name" ),
+						gettext ( "Gateway<br/> Name" ),
 						"100",
 						"gateway_id",
 						"name",
@@ -421,8 +434,19 @@ class trunk_form {
 				),
 				array (
 						gettext ( "CC" ),
-						"90",
+						"55",
 						"maxchannels",
+						"",
+						"",
+						"",
+						"",
+						"true",
+						"center" 
+				),
+				array (
+						gettext ( "CPS" ),
+						"55",
+						"cps",
 						"",
 						"",
 						"",
@@ -454,7 +478,7 @@ class trunk_form {
 				),
 				array (
 						gettext ( "Status" ),
-						"100",
+						"90",
 						"status",
 						"status",
 						"trunks",
@@ -484,7 +508,7 @@ class trunk_form {
 				),
 				array (
 						gettext ( "Action" ),
-						"100",
+						"95",
 						"",
 						"",
 						"",

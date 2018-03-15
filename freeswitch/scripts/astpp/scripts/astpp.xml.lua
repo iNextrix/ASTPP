@@ -86,12 +86,16 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	if(xml_did_rates ~= nil) then
 		table.insert(xml, [[<action application="set" data="origination_rates=]]..xml_did_rates..[["/>]]);
 	end
-    
+       
 	-- Set max channel limit for user if > 0
-	if(tonumber(customer_userinfo['maxchannels']) > 0) then    
-		local customer_maxchannel = customer_userinfo['maxchannels'] .."/".. customer_userinfo['interval']
-	    	table.insert(xml, [[<action application="limit" data="db ]]..accountcode..[[ user_]]..accountcode..[[ ]]..customer_maxchannel..[[ !SWITCH_CONGESTION"/>]]);
-	end 
+	if(tonumber(customer_userinfo['maxchannels']) > 0) then    		
+	    	table.insert(xml, [[<action application="limit" data="db ]]..accountcode..[[ user_]]..accountcode..[[ ]]..customer_userinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);
+	end
+
+	-- Set CPS limit for user if > 0
+	if (tonumber(customer_userinfo['cps']) > 0) then
+		table.insert(xml, [[<action application="limit" data="hash CPS_]]..accountcode..[[ CPS_user_]]..accountcode..[[ ]]..customer_userinfo['cps']..[[/1 !SWITCH_CONGESTION"/>]]);
+	end
 
     -- Set max channel limit for resellers
     if (reseller_cc_limit ~= nil) then
@@ -188,10 +192,15 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	end
 	----------------------- END Gateway configuraiton -------------------------------
 	-- Set force codec if configured
-        chan_var = "leg_timeout="..outbound_info['leg_timeout']
-        if (outbound_info['codec'] ~= '') then
-                chan_var = chan_var..",absolute_codec_string=".."^^:"..outbound_info['codec']:gsub("%,", ":")
-        end
+    chan_var = "leg_timeout="..outbound_info['leg_timeout']
+    if (outbound_info['codec'] ~= '') then
+            chan_var = chan_var..",absolute_codec_string=".."^^:"..outbound_info['codec']:gsub("%,", ":")
+    end            
+
+	-- Set CPS limit for user if > 0
+	if (tonumber(outbound_info['cps']) > 0) then
+		table.insert(xml, [[<action application="limit" data="hash CPS_]]..outbound_info['trunk_id']..[[ CPS_trunk_]]..outbound_info['trunk_id']..[[ ]]..outbound_info['cps']..[[/1 !SWITCH_CONGESTION"/>]]);
+	end
 
 	if(tonumber(outbound_info['maxchannels']) > 0) then    
 		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge []]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
@@ -513,7 +522,6 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 		session:execute("set", "process_cdr=false" );
 		session:streamFile( audio_file );
 	end
-
 end
 
 -- Generate calling card dialplan
@@ -540,6 +548,16 @@ end
 
 -- Set reseller concurrent call limits
 function set_cc_limit_resellers(reseller_userinfo)
-        return "<action application=\"limit\" data=\"db "..reseller_userinfo['number'].. " user_"..reseller_userinfo['number'].." "..reseller_userinfo['maxchannels'].." !SWITCH_CONGESTION\"/>";
 
+		local xml_temp = ""
+		-- Set CPS limit for reseller if > 0
+		if (tonumber(reseller_userinfo['maxchannels']) > 0) then
+			xml_temp = "<action application=\"limit\" data=\"db "..reseller_userinfo['number'].. " user_"..reseller_userinfo['number'].." "..reseller_userinfo['maxchannels'].." !SWITCH_CONGESTION\"/>"
+		end
+
+		if (tonumber(reseller_userinfo['cps']) > 0) then
+			xml_temp = xml_temp.."<action application=\"limit\" data=\"hash CPS_"..reseller_userinfo['number'].. " CPS_user_"..reseller_userinfo['number'].." "..reseller_userinfo['cps'].."/1 !SWITCH_CONGESTION\"/>"
+		end
+
+		return xml_temp
 end

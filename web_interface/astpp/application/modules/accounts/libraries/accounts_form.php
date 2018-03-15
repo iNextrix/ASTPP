@@ -505,10 +505,10 @@ class Accounts_form {
 						'' 
 				),
 				array (
-						gettext ( 'Interval' ),
+						gettext ( 'CPS' ),
 						'INPUT',
 						array (
-								'name' => 'interval',
+								'name' => 'cps',
 								'size' => '20',
 								'class' => "text field medium" 
 						),

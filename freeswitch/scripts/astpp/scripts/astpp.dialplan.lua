@@ -336,7 +336,7 @@ if (userinfo ~= nil) then
 			end
 
             -- ITPL : Added checkout for reseller concurrent calls.    
-            if (tonumber(reseller_userinfo['maxchannels']) > 0) then
+            if (tonumber(reseller_userinfo['maxchannels']) > 0 or tonumber(reseller_userinfo['cps']) > 0) then
                 reseller_cc_limit = set_cc_limit_resellers(reseller_userinfo)
             end
 
