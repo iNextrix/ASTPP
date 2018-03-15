@@ -29,6 +29,7 @@ class Invoices extends MX_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( 'invoices_form' );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission' );
 		$this->load->model ( 'invoices_model' );
 		$this->load->model ( 'Astpp_common' );
 		$this->load->model ( 'common_model' );
@@ -1584,17 +1585,17 @@ class Invoices extends MX_Controller {
 		$this->load->view ( 'view_account_invoice_detail', $data );
 	}
 	function invoice_download($invoiceid) {
+		$this->permission->check_web_record_permission($invoiceid,'invoices',"invoices/invoice_list/");
 		$this->db->where ( 'id', $invoiceid );
-		$this->db->select ( 'type' );
+		$this->db->select ( 'type,accountid' );
 		$this->db->from ( 'invoices' );
 		$result = $this->db->get ();
 		if ($result->num_rows () > 0) {
-			$result = $result->result_array ();
-			$type = $result [0] ['type'];
-			if ($type == 'I') {
+			$result = (array)$result->first_row ();
+			if ($result['type'] == 'I') {
 				$this->invoice_main_download ( $invoiceid );
 			}
-			if ($type == 'R') {
+			if ($result['type'] == 'R') {
 				$this->receipt_download ( $invoiceid );
 			}
 		} else {
@@ -1804,16 +1805,14 @@ class Invoices extends MX_Controller {
 		$invoicedata = $this->db_model->getSelect ( "*", "invoices", array (
 				"id" => $invoiceid 
 		) );
-		$invoicedata = $invoicedata->result_array ();
-		$invoicedata = $invoicedata [0];
+		$invoicedata = (array)$invoicedata->first_row();
 		
-		$data ['invoiceid'] = @$invoicedata [0] ['id'];
-		$data ['id'] = @$invoicedata ['invoiceid'];
-		
-		$data ['invoice_date'] = @$invoicedata [0] ['invoice_date'];
-		$data ['accountid'] = @$invoicedata [0] ['accountid'];
-		$data ['from_date'] = @$invoicedata [0] ['from_date'];
-		$data ['to_date'] = @$invoicedata [0] ['to_date'];
+		$data ['invoiceid'] = $invoicedata['id'];
+		$data ['id'] = $invoicedata ['invoiceid'];
+		$data ['invoice_date'] = $invoicedata['invoice_date'];
+		$data ['accountid'] = $invoicedata['accountid'];
+		$data ['from_date'] = $invoicedata['from_date'];
+		$data ['to_date'] = $invoicedata['to_date'];
 		$total_list = array ();
 		$data ['description'] = '';
 		$data ['item_type'] = '';

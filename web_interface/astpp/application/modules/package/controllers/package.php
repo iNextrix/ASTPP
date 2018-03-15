@@ -29,6 +29,7 @@ class Package extends MX_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( 'package_form' );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission');
 		$this->load->model ( 'package_model' );
 		$this->load->library ( 'csvreader' );
 		
@@ -96,6 +97,7 @@ class Package extends MX_Controller {
 		$this->load->view ( 'view_package_add', $data );
 	}
 	function package_edit($edit_id = '') {
+		$this->permission->check_web_record_permission($edit_id,'packages','package/package_list/');
 		$data ['page_title'] = gettext ( 'Package Details' );
 		$accountinfo = $this->session->userdata ( "accountinfo" );
 		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
@@ -158,6 +160,7 @@ class Package extends MX_Controller {
 		}
 	}
 	function package_delete($id) {
+		$this->permission->check_web_record_permission($id,'packages','package/package_list/');
 		/**
 		 * ASTPP 3.0
 		 * For Email Broadcast when package is add
@@ -190,6 +193,7 @@ class Package extends MX_Controller {
 		echo $this->db->delete ( "packages" );
 	}
 	function package_pattern_list($package_id) {
+		$this->permission->check_web_record_permission($package_id,'packages',"package/package_list/");
 		$data ['page_title'] = gettext ( 'Package Codes' );
 		if (! empty ( $package_id )) {
 			$data ['grid_fields'] = $this->package_form->build_pattern_list_for_customer ( $package_id );
@@ -312,6 +316,7 @@ class Package extends MX_Controller {
 		exit ();
 	}
 	function package_patterns_delete($packageid, $patternid) {
+		$this->permission->check_web_record_permission($patternid,'package_patterns','package/package_list/',false,array('field_name'=>"package_id","parent_table"=>"packages"));
 		$this->db->delete ( "package_patterns", array (
 				"id" => $patternid 
 		) );

@@ -757,9 +757,9 @@ class Accounts_model extends CI_Model {
 		}
 		return $query;
 	}
-	function remove_customer($id) {
+	function remove_customer($id,$type) {
 		$this->db->where ( "id", $id );
-		$this->db->where ( "type <>", "-1" );
+		$this->db->where ( "type",$type );
 		$data = array (
 				'deleted' => '1' 
 		);
@@ -793,8 +793,11 @@ class Accounts_model extends CI_Model {
 		return $query;
 	}
 	function get_account_number($accountid) {
+		$accountinfo = $this->session->userdata('accountinfo');
+                $reseller_id = $accountinfo['type'] ==1 || $accountinfo['type'] ==5 ? $accountinfo['id'] : 0 ;
+
 		$query = $this->db_model->getSelect ( "number", "accounts", array (
-				"id" => $accountid 
+				"id" => $accountid,'reseller_id'=>$reseller_id
 		) );
 		if ($query->num_rows () > 0)
 			return $query->row_array ();
@@ -868,6 +871,9 @@ class Accounts_model extends CI_Model {
 			return false;
 	}
 	function get_account_by_number($id) {
+		$accountinfo = $this->session->userdata('accountinfo');
+		$reseller_id = $accountinfo['type'] ==1 || $accountinfo['type'] ==5 ? $accountinfo['id'] : 0 ;
+		$this->db->where('reseller_id',$reseller_id);
 		$this->db->where ( "id", $id );
 		$query = $this->db->get ( "accounts" );
 		

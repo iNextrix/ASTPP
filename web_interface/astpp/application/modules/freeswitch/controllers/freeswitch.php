@@ -30,6 +30,7 @@ class Freeswitch extends MX_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( "freeswitch_form" );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission');
 		$this->load->library ( 'freeswitch_lib' );
 		$this->load->model ( 'freeswitch_model' );
 		
@@ -61,6 +62,7 @@ class Freeswitch extends MX_Controller {
 		}
 	}
 	function fssipdevices_edit($edit_id = '') {
+		$this->permission->check_web_record_permission($edit_id,'sip_devices','freeswitch/fssipdevices/');
 		$data ['page_title'] = gettext ( 'Edit SIP Device' );
 		$account_data = $this->session->userdata ( "accountinfo" );
 		$where = array (
@@ -76,6 +78,7 @@ class Freeswitch extends MX_Controller {
 		}
 	}
 	function customer_fssipdevices_edit($edit_id, $accountid) {
+		$this->permission->check_web_record_permission($edit_id,'sip_devices','freeswitch/fssipdevices/');
 		$data ['username'] = $this->session->userdata ( 'user_name' );
 		$account_data = $this->session->userdata ( "accountinfo" );
 		$data ['page_title'] = gettext ( 'Edit SIP device' );

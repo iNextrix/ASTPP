@@ -29,6 +29,7 @@ class Refill_coupon extends MX_Controller {
 		$this->load->model ( 'refill_coupon_model' );
 		$this->load->library ( "refill_coupon_form" );
 		$this->load->library ( "astpp/form" );
+		$this->load->library ( "astpp/permission" );
 		$this->load->library ( "session" );
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
 			redirect ( base_url () . 'login/login' );
@@ -145,6 +146,7 @@ class Refill_coupon extends MX_Controller {
 		}
 	}
 	function refill_coupon_list_delete($id) {
+		$this->permission->check_web_record_permission($id,'refill_coupon',"refill_coupon/refill_coupon_list/");
 		$this->refill_coupon_model->remove_refill_coupon ( $id );
 		$this->session->set_flashdata ( 'astpp_notification', 'Refill coupon removed successfully!' );
 		redirect ( base_url () . 'refill_coupon/refill_coupon_list/' );

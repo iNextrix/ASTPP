@@ -30,6 +30,7 @@ class Email extends MX_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( 'email_form' );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission' );
 		$this->load->model ( 'email_model' );
 		$this->load->library ( 'csvreader' );
 		$this->load->library ( 'astpp/email_lib' );
@@ -103,6 +104,7 @@ class Email extends MX_Controller {
 		redirect ( base_url () . 'email/email_history_list/' );
 	}
 	function email_resend_edit($edit_id = '') {
+		$this->permission->check_web_record_permission($edit_id,'mail_details',"email/email_history_list/");
 		$data ['page_title'] = gettext ( 'Resend Email' );
 		$where = array (
 				'id' => $edit_id 
@@ -210,6 +212,7 @@ class Email extends MX_Controller {
 		redirect ( base_url () . '/email/email_history_list/' );
 	}
 	function email_view($edit_id = '') {
+		$this->permission->check_web_record_permission($edit_id,'mail_details',"email/email_history_list/");
 		$data ['page_title'] = gettext ( 'View Email' );
 		$where = array (
 				'id' => $edit_id 
@@ -248,11 +251,13 @@ class Email extends MX_Controller {
 		}
 	}
 	function email_delete($id) {
+		$this->permission->check_web_record_permission($id,'mail_details',"email/email_history_list/");
 		$this->email_model->remove_email ( $id );
 		$this->session->set_flashdata ( 'astpp_notification', 'Email removed successfully!' );
 		redirect ( base_url () . '/email/email_history_list/' );
 	}
 	function email_delete_customer($accounttype, $accountid, $id) {
+		$this->permission->check_web_record_permission($id,'mail_details',"email/email_history_list/");
 		$this->email_model->remove_email ( $id );
 		$where = array (
 				'id' => $id 

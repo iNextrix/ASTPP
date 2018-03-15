@@ -29,6 +29,7 @@ class Rates extends MX_Controller {
 		$this->load->library ( 'session' );
 		$this->load->library ( 'rates_form' );
 		$this->load->library ( 'astpp/form' );
+		$this->load->library ( 'astpp/permission' );
 		$this->load->model ( 'rates_model' );
 		$this->load->library ( 'csvreader' );
 		ini_set ( "memory_limit", "2048M" );
@@ -230,7 +231,7 @@ class Rates extends MX_Controller {
 		$data ['page_title'] = gettext ( 'Import Origination Rates' );
 		$check_header = $this->input->post ( 'check_header', true );
 		if (empty ( $_FILES ) || ! isset ( $_FILES )) {
-			redirect ( base_url () . "rates/origination_rate_list/" );
+			redirect ( base_url () . "rates/origination_rates_list/" );
 		}
 		$get_extension = strpos ( $_FILES ['origination_rate_import'] ['name'], '.' );
 		$new_final_arr_key = $this->config->item ( 'Origination-rates-field' );
@@ -402,6 +403,7 @@ class Rates extends MX_Controller {
 		$this->load->view ( 'view_origination_rate_add_edit', $data );
 	}
 	function origination_rate_edit($edit_id = '') {
+		$this->permission->check_web_record_permission($edit_id,'routes','rates/origination_rates_list/');
 		$data ['page_title'] = gettext ( 'Edit Origination Rate' );
 		if ($this->session->userdata ( 'logintype' ) == 1 || $this->session->userdata ( 'logintype' ) == 5) {
 			$account_data = $this->session->userdata ( "accountinfo" );
@@ -427,7 +429,7 @@ class Rates extends MX_Controller {
 			$data ['form'] = $this->form->build_form ( $this->rates_form->get_origination_rate_form_fields (), $edit_data );
 			$this->load->view ( 'view_origination_rate_add_edit', $data );
 		} else {
-			redirect ( base_url () . 'rates/origination_rate_list/' );
+			redirect ( base_url () . 'rates/origination_rates_list/' );
 		}
 	}
 	function origination_rate_save() {
@@ -490,6 +492,7 @@ class Rates extends MX_Controller {
 		redirect ( base_url () . '/rates/termination_rates_list/' );
 	}
 	function origination_rate_delete($id) {
+		$this->permission->check_web_record_permission($id,'routes','rates/origination_rates_list/');
 		$this->rates_model->remove_origination_rate ( $id );
 		$this->session->set_flashdata ( 'astpp_notification', 'Origination rate removed successfully!' );
 		redirect ( base_url () . 'rates/origination_rates_list/' );
