@@ -20,7 +20,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
-define ( 'ENVIRONMENT', 'production' );
+define ( 'ENVIRONMENT', 'development' );
 if (defined ( 'ENVIRONMENT' )) {
 	switch (ENVIRONMENT) {
 		case 'development' :
@@ -70,10 +70,10 @@ if (isset ( $_SERVER ["CONTENT_TYPE"] ) && $_SERVER ["CONTENT_TYPE"] == "applica
 	// process_cdr($data,$db,$logger,$decimal_points);
 	if ($data ['variables'] ['calltype'] == "CALLINGCARD") {
 		if (isset ( $data ['variables'] ['originating_leg_uuid'] )) {
-			process_cdr ( $data, $db, $logger, $decimal_points );
+			process_cdr ( $data, $db, $logger, $decimal_points,$config );
 		}
 	} else {
-		process_cdr ( $data, $db, $logger, $decimal_points );
+		process_cdr ( $data, $db, $logger, $decimal_points,$config );
 	}
 }
 

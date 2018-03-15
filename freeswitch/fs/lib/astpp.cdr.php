@@ -22,7 +22,7 @@
 // ##############################################################################
 
 // Process CDR
-function process_cdr($data, $db, $logger, $decimal_points) {
+function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	// $logger->log(print_r($data,true));//exit;
 	
 	// Initializing variables
@@ -126,12 +126,12 @@ function process_cdr($data, $db, $logger, $decimal_points) {
 	
 	// Update customer balance
 	if ($debit > 0 && $dataVariable ['calltype'] != "FREE") {
-		update_balance ( $accountid, $debit, 0, $logger, $db );
+		update_balance ( $accountid, $debit, 0, $logger, $db, $config );
 	}
 	
 	// Update parent or provider balance
 	if ($parent_cost > 0) {
-		update_balance ( $termination_rate ['PROVIDER'], ($parent_cost * - 1), 3, $logger, $db );
+		update_balance ( $termination_rate ['PROVIDER'], ($parent_cost * - 1), 3, $logger, $db, $config );
 	}
 	
 	// Resellers CDR entry
@@ -171,13 +171,13 @@ function process_cdr($data, $db, $logger, $decimal_points) {
 		$receiver_parentid = $receiver_carddata ['reseller_id'];
 		
 		// For additional cdr entry of receiver
-		insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $receiver_parentid, $flag_parent, $dataVariable ['receiver_accid'], $logger, $db, $decimal_points );
+		insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $receiver_parentid, $flag_parent, $dataVariable ['receiver_accid'], $logger, $db, $decimal_points, $config );
 		
 		$flag_parent = true;
 		$dataVariable ['uuid'] = $dataVariable ['uuid'] . $dataVariable ['calltype'] . "_" . $receiver_parentid;
 		
 		// Insert parent reseller cdr
-		insert_parent_data ( $dataVariable, $actual_calltype, $receiver_parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points );
+		insert_parent_data ( $dataVariable, $actual_calltype, $receiver_parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points, $config );
 		$logger->log ( "*********************** EXTRA ENTRY SECTION FOR BILLING END *************" );
 	}
 	// *****************************************************************************************
@@ -190,7 +190,7 @@ function process_cdr($data, $db, $logger, $decimal_points) {
  * @param string $provider_cost        	
  * @param boolean $flag_parent        	
  */
-function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points) {
+function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points, $config) {
 	while ( $parentid > 0 ) {
 		$logger->log ( "*************** IN PARENT DATA SECTION ********" );
 		$dataVariable ['calltype'] = $actual_calltype;
@@ -225,7 +225,7 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
 		if (isset ( $dataVariable ['receiver_accid'] ) && $dataVariable ['receiver_accid'] != "" && $flag_parent == true) {
 			$logger->log ( "********* IN RESELLER FOR RECEIVER ENTRY START ******" );
 			$flag_parent = true;
-			insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points );
+			insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points, $config );
 			$logger->log ( "********* IN RESELLER FOR RECEIVER ENTRY END ******" );
 		} else {
 			
@@ -238,7 +238,7 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
 			
 			// Update reseller balance
 			if ($debit > 0 && $dataVariable ['calltype'] != "FREE") {
-				update_balance ( $accountid, $debit, 0, $logger, $db );
+				update_balance ( $accountid, $debit, 0, $logger, $db, $config );
 			}
 		}
 	}
@@ -249,7 +249,7 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
  *
  * @param boolean $flag_parent        	
  */
-function insert_extra_receiver_entry($dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points) {
+function insert_extra_receiver_entry($dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points, $config) {
 	$localVariable = $dataVariable;
 	$localVariable ['call_direction'] = "inbound";
 	$localVariable ['uuid'] = $localVariable ['uuid'] . $dataVariable ['calltype'] . "_" . $accountid;
@@ -285,8 +285,9 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 	$logger->log ( $query );
 	$db->run ( $query );
 	
+	//if ($debit > 0 && ($dataVariable ['calltype'] != "FREE" && $dataVariable ['calltype'] != "LOCAL")) {
 	if ($debit > 0 && ($dataVariable ['calltype'] != "FREE" && $dataVariable ['calltype'] != "LOCAL")) {
-		update_balance ( $accountid, $debit, 0, $logger, $db );
+		update_balance ( $accountid, $debit, 0, $logger, $db, $config );
 	}
 	return true;
 }
@@ -333,9 +334,10 @@ function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actu
  *
  * @param integer $entity_id        	
  */
-function update_balance($user_id, $amount, $entity_id, $logger, $db) {
+function update_balance($user_id, $amount, $entity_id, $logger, $db, $config) {
 	/*If not realtime billing */
-	if ($this->config ['realtime_billing'] == '1') {
+
+	if ($config ['realtime_billing'] == '1') {
 		$math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
 		$query = "UPDATE accounts SET balance=IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") WHERE id=" . $user_id;
 		$logger->log ( "Balance update : " . $query );
@@ -414,13 +416,13 @@ function package_calculation($destination_number, $pricelist_id, $duration, $cal
 	$custom_destination = number_loop ( $destination_number, "patterns", $db );
 	
 	$query = "SELECT * FROM packages  as P inner join package_patterns as PKGPTR on P.id = PKGPTR.package_id WHERE " . $custom_destination . " AND status = 0 AND pricelist_id = " . $pricelist_id . " ORDER BY LENGTH(PKGPTR.patterns) DESC LIMIT 1";
-	
+	$logger->log ( "Package query  : " . $query );
 	$package_info = $db->run ( $query );
 	if ($package_info) {
 		$package_info = $package_info [0];
-		
-		if (($package_info ['applicable_for'] == "0" && $call_direction == "outbound") || ($package_info ['applicable_for'] == "1" && $call_direction == "inbound") || ($package_info ['applicable_for'] == "2")) {
-			
+
+		if (($package_info ['applicable_for'] == "0" && $call_direction == "outbound") || ($package_info ['applicable_for'] == "1" && $call_direction == "inbound") || ($package_info ['applicable_for'] == "2")) {					
+
 			$counter_info = get_counters ( $accountid, $package_info ['package_id'], $db, $logger );
 			
 			if (! $counter_info) {
@@ -466,7 +468,7 @@ function get_accounts($parent_id, $logger, $db) {
 
 // Get configuration
 function load_configuration($logger) {
-	$query = "SELECT name,value FROM system WHERE name='decimal_points' and group_title = 'global'";
+	$query = "SELECT name,value FROM system WHERE name IN ('decimal_points','realtime_billing') and group_title = 'global'";
 	$config = $db->run ( $query );
 	$logger->log ( "GET configuration  : " . $query );
 	return $config [0];
