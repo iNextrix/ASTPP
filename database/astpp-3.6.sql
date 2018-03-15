@@ -20,6 +20,12 @@ INSERT INTO `q850code` VALUES ('UNSPECIFIED',0),('UNALLOCATED_NUMBER',1),('NO_RO
 /*!40000 ALTER TABLE `q850code` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--Account table query 
+ALTER TABLE `accounts` CHANGE `interval` `cps` INT(11) NOT NULL DEFAULT '0';
+
+-- Trunk table query 
+ALTER TABLE `trunks` CHANGE `inuse` `cps` INT(4) NOT NULL DEFAULT '0';
+
 -- menu table queries
 UPDATE `menu_modules` SET `menu_label` = 'Settings' WHERE `menu_modules`.`id` = 69;
 
