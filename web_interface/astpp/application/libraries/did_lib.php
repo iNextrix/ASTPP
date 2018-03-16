@@ -182,7 +182,7 @@ class did_lib extends MX_Controller {
 	/**
 	* Function will do did release process
 	**/
-	function did_release()) {
+	function did_release() {
 		//TODO
 	}
 }	
