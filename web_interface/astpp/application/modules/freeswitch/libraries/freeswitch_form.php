@@ -1147,7 +1147,7 @@ class Freeswitch_form {
 						gettext ( 'From- Domain' ),
 						'INPUT',
 						array (
-								'name' => 'from_domain',
+								'name' => 'from-domain',
 								'size' => '20',
 								'class' => "text field medium" 
 						),
@@ -1159,7 +1159,7 @@ class Freeswitch_form {
 						gettext ( 'From User' ),
 						'INPUT',
 						array (
-								'name' => 'from_user',
+								'name' => 'from-user',
 								'size' => '20',
 								'class' => "text field medium" 
 						),
