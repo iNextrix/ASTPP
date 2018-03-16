@@ -463,11 +463,11 @@ class Summary extends MX_Controller {
 	 */
 	function summary_search_info($entity) {
 		$accountinfo = $this->session->userdata ( 'accountinfo' );
-		$this->db->select ( 'gmttime' );
+		$this->db->select ( 'gmttime,gmtoffset' );
 		$timezone_info = ( array ) $this->db->get_where ( 'timezone', array (
 				"id" => $accountinfo ['timezone_id']
 		) )->first_row ();
-		if (! empty ( $timezone_info ['gmttime'] )) {
+		if (! empty ( $timezone_info ['gmttime'] ) && $timezone_info ['gmtoffset'] != 0) {
 			$user_timezone = $timezone_info ['gmttime'];
 		} else {
 			$user_timezone = "GMT+00:00";
