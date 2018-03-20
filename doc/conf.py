@@ -49,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'ASTPP'
-copyright = u'2017 iNextrix Technologies Pvt. Ltd'
+copyright = u'2018 iNextrix Technologies Pvt. Ltd'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
