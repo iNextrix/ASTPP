@@ -18,22 +18,20 @@ Realtime Billing (Experimental)
 Follow below steps to enable real-time billing in ASTPP.
 
 
-**Enable nibble billing in modules.conf of FreeSwitch source**
+**1. Enable nibble billing in modules.conf of FreeSwitch source**
 ::
 
 vim /usr/local/src/freeswitch/modules.conf
-
 Uncomment #applications/mod_nibblebill
-
 Save and Close the file
 
 
-**Replace nibblebill source code file**
+**2. Replace nibblebill source code file**
 ::
 
 cp -rf /usr/src/ASTPP/freeswitch/mod/mod_nibblebill.c <FreeSwitch Src>/freeswitch/src/mod/applications/mod_nibblebill/mod_nibblebill.c
 
-**Copy & Change nibblebill.conf accordingly with your database user and password**
+**3. Copy & Change nibblebill.conf accordingly with your database user and password**
 ::
 
 cp -rf  /usr/src/ASTPP/freeswitch/conf/autoload_configs/nibblebill.conf.xml /usr/local/freeswitch/conf/autoload_configs/nibblebill.conf.xml
@@ -42,7 +40,7 @@ Change here : <param name="odbc-dsn" value="dbname:user:password"/>
 
 Note: Only change dbname, user, and password.
 
-**Compile and install FreeSWITCH**
+**4. Compile and install FreeSWITCH**
 ::
 
 Go to FreeSwitch source. 
@@ -50,7 +48,7 @@ Go to FreeSwitch source.
 make
 make install   			
 
-**Enable mod_nibblebill in FreeSwitch autoload**
+**5. Enable mod_nibblebill in FreeSwitch autoload**
 ::
 
 vim /usr/local/freeswitch/conf/autoload_configs/modules.conf.xml
@@ -58,4 +56,4 @@ Uncomment Or Add <load module="mod_nibblebill"/>
 Save and Close the file
 
 
-**Restart FreeSwitch OR load mod_nibblebill manually from fs_cli console**
+**6. Restart FreeSwitch OR load mod_nibblebill manually from fs_cli console**
