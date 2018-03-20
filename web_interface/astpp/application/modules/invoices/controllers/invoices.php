@@ -106,7 +106,7 @@ class Invoices extends MX_Controller {
 							$payment_date = strtotime ( $last_payment_date );
 							$payment_last = date ( "Y-m-d", $payment_date );
 						} else {
-							$payment_last = '';
+						    $payment_last = ($value ['amount']>0)?'':$invoice_date;
 						}
 					} else {
 						$payment_last = $invoice_date;
@@ -175,12 +175,7 @@ class Invoices extends MX_Controller {
 					$payment = '<button style="padding: 0 17px;" type="button"  class="btn btn-line-sky">Deleted</button>';
 					$delete_button = '';
 				}
-				
-				if ($value ['deleted'] == 1) {
-					$download = '';
-					$payment = '<button style="padding: 0 17px;" type="button"  class="btn btn-line-sky">Deleted</button>';
-					$delete_button = '';
-				}
+
 				if ($value ['type'] == 'R') {
 					$icon = '<div class="flx_font flx_magenta">R</div>';
 				} else {
