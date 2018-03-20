@@ -1856,8 +1856,8 @@ class common {
 	}
 	function automatic_invoice() {
 		$status_array = array (
-				'0' => gettext ( 'Automatic' ),
-				'1' => gettext ( 'Manual' )
+				'0' => gettext ( 'Confirmed' ),
+				'1' => gettext ( 'Draft' )
 		);
 		return $status_array;
 	}
