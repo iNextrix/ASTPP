@@ -40,7 +40,7 @@ UPDATE `system` SET `display_name` = 'Country' WHERE `system`.`id` = 181;
 UPDATE `system` SET `display_name` = 'Rategroup' WHERE `system`.`id` = 204;
 UPDATE `system` SET `display_name` = 'Initial Balance' WHERE `system`.`id` = 207;
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`)
-VALUES(219,'realtime_billing','Realtime Billing <b>(<a href=\'http://astpp.readthedocs.io/en/v3.5/Integrations/realtime_billing.html\' target="_blank">Experimental</a>)</b>',1,'enable_disable_option','Set enable to use realtime
+VALUES(219,'realtime_billing','Realtime Billing <b>(<a href=\'http://astpp.readthedocs.io/en/v3.6/Integrations/realtime_billing.html\' target="_blank">Experimental</a>)</b>',1,'enable_disable_option','Set enable to use realtime
 billing.',NULL,0,0,'global'); 
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES ('0', 'homer_capture_server', 'Capture Server', '', 'default_system_input', 'Set enable to capture logs in homer. Format : udp:192.168.1.200:9060', NULL, '0', '0', 'homer');
 UPDATE `system` SET `display_name` = 'Default Invoice Mode', `comment` = 'Draft will give possibility to admin and reseller to modify invoice after generation whereas Confirmed invoices will be readonly.' WHERE `system`.`id` = 216;
