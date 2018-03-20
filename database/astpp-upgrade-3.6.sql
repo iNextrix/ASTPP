@@ -32,6 +32,9 @@ ALTER TABLE `invoice_details` ADD `quantity` INT(11) NOT NULL DEFAULT '1' COMMEN
 -- menu table queries
 UPDATE `menu_modules` SET `menu_label` = 'Settings' WHERE `menu_modules`.`id` = 69;
 
+-- Email template table query 
+INSERT INTO `default_templates` (`id`, `name`, `subject`, `template`, `last_modified_date`, `reseller_id`) VALUES ('0', 'invoice_due_reminder', 'Invoice due reminder #INVOICE_NUMBER#', 'Hi #NAME#, This is a reminder that your invoice number #INVOICE_NUMBER# which was generated on #INVOICE_DATE# is due on #DUE_DATE# Invoice Information : Invoice Date : #INVOICE_DATE# Invoice Number : #INVOICE_NUMBER# Due Amount : #AMOUNT# You can login into customer portal and pay the invoice. For more info, Please visit on our website #COMPANY_WEBSITE# or contact to our support at #COMPANY_EMAIL# Thanks, #COMPANY_NAME#', CURRENT_DATE(), '0');
+
 -- system table queries
 UPDATE `system` SET `group_title` = 'signup' WHERE `system`.`id` = 179;
 UPDATE `system` SET `display_name` = 'Timezone' WHERE `system`.`id` = 179;
