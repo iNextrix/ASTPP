@@ -49,4 +49,4 @@ Follow below steps to enable realtime billing in ASTPP.
     Save and Close the file
 
 
-**Restart FreeSwitch OR load mod_nibblebill manually from fs_cli console*
+**Restart FreeSwitch OR load mod_nibblebill manually from fs_cli console**
