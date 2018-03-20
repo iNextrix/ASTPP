@@ -7,3 +7,4 @@ Integrations
 
    opensips.rst
    homer.rst
+   realtime_billing.rst
