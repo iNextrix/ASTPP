@@ -164,6 +164,7 @@ class did_lib extends MX_Controller {
 			
 			//Create invoice/receipt for purchase
 			$this->common->add_invoice_details ( $accountinfo, "DIDCHRG", $didinfo ['setup']+$didinfo ["monthlycost"], "DID : ".$didinfo ['number']." (Setup Fee :".$accountinfo ['did_setup'].", Monthly Fee : ".$accountinfo ['did_monthlycost'].")" );
+			
 			require_once (APPPATH . 'controllers/ProcessCharges.php');
 			$ProcessCharges = new ProcessCharges ();
 			$Params = array (

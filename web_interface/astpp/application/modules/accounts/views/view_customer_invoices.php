@@ -48,7 +48,8 @@
                 <div class="col-md-12 no-padding">
                     <div class="col-md-12 color-three padding-b-20 slice color-three pull-left content_border">
                         <table id="invoices_list" align="left" style="display:none;"></table>
-                    </div>   
+                   		<i><?php echo gettext("Note : Page will display only receipts and confirmed invoices.");?></i> 
+                   </div>   
                 </div>
             </div>
 

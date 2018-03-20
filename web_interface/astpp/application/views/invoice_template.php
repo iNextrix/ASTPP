@@ -15,7 +15,7 @@
 		</td>
 
 		<td style="width:50%;" align="right">
-		<b>Bill To:</b>
+		<b>Bill To :</b>
 		
 		    
 		</td>
@@ -42,7 +42,7 @@
  
 <table cellspacing="1" style="width:100%; padding-right:50px; padding-left:50px;" border="0">
    <tr>
-	<td style="width:12%;padding-right:10px;"><b>Notes:</b></td>
+	<td style="width:12%;padding-right:10px;"><b>Notes :</b></td>
 	<td style="width:88%;margin-top:12px;"><NOTES></td>
    </tr>
 </table>

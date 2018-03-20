@@ -2320,33 +2320,29 @@ class common {
 		/**
 		 * ****************************Invoivce number*************************************************************
 		 */
-		$INVOICE_NUM = '<td style="font-size: 10px;color:#000;font-family:arial; line-height: 22px;letter-spacing:02;float:right;"><b><h2>INVOICE :' . $invoicedata ["invoice_prefix"] . $invoicedata ["invoiceid"] . '</h2></b></td>';
+		$INVOICE_NUM = '<td style="font-size: 10px;color:#000;font-family:arial; line-height: 22px;letter-spacing:02;float:right;"><b><h2>INVOICE : ' . $invoicedata ["invoice_prefix"] . $invoicedata ["invoiceid"] . '</h2></b></td>';
 		/**
 		 * ************************* Company Address Code START **************************************************
 		 */
 //ASTPP_invoice_download_issue
 		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['company_name'] . '</td>';
 		$ACCOUNTADD .= '</tr>';
-		if ($invoice_conf_res ['address'] != "") {
+		//if ($invoice_conf_res ['address'] != "") {
 
 			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['address'] . '</td></tr>';
-		}
-		if ($invoice_conf_res ['city'] != "") {
+		//}
+		//if ($invoice_conf_res ['city'] != "") {
+		    $ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['city']. ' - ' .$invoice_conf_res ['zipcode']. '</td></tr>';
+		//}		
+		//if ($invoice_conf_res ['province'] != "") {
 
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['city'] . '</td></tr>';
-		}
-		if ($invoice_conf_res ['province'] != "") {
-
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['province'] . '</td></tr>';
-		}
-		if ($invoice_conf_res ['country'] != "") {
+		    $ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['province'] . ', ' .$invoice_conf_res ['country'].'</td></tr>';
+		//}
+		/*if ($invoice_conf_res ['country'] != "") {
 
 			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['country'] . '</td></tr>';
-		}
-		if ($invoice_conf_res ['zipcode'] != "") {
-
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $invoice_conf_res ['zipcode'] . '</td></tr>';
-		}
+		}*/
+		    $ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">Tax Number : ' . $invoice_conf_res ['invoice_taxes_number'] . '</td></tr>';
 //END
 		/**
 		 * ************************* Company Address Code END **************************************************
@@ -2359,26 +2355,26 @@ class common {
 		$ACCOUNTADD_CUSTOMER .= '<tr>';
 		$ACCOUNTADD_CUSTOMER .= '<td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['company_name'] . '</td></tr>';
 
-		if ($accountdata ['address_1'] != "") {
+		//if ($accountdata ['address_1'] != "") {
 
 			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['address_1'] . '</td></tr>';
-		}
-		if ($accountdata ['city'] != "") {
+		//}
+		//if ($accountdata ['city'] != "") {
 
-			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['city'] . '</td></tr>';
-		}
-		if ($accountdata ['province'] != "") {
+			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['city'] . ' - ' .$accountdata ['postal_code'].'</td></tr>';
+		//}
+		//if ($accountdata ['province'] != "") {
 
-			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['province'] . '</td></tr>';
-		}
-		if ($accountdata ['country'] != "") {
+			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['province'] . ', ' .$accountdata ['country'].'</td></tr>';
+		//}
+		/*if ($accountdata ['country'] != "") {
 
 			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['country'] . '</td></tr>';
 		}
 		if ($accountdata ['postal_code'] != "") {
 
 			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['postal_code'] . '</td></tr>';
-		}
+		}*/
 		$ACCOUNTADD_CUSTOMER .= "</table>";
 		/**
 		 * ************************* Customer Address Code END **************************************************
@@ -2466,7 +2462,7 @@ class common {
                                                         <td style="width:20%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;padding:5px;">' . date ( 'Y-m-d', strtotime ( $charge_res ['created_date'] ) ) . '</td>
                                                         <td style="width:40%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;padding:5px;">' . $charge_res ['description'] . '</td>
                                                         <td style="width:15%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $charge_res ['debit'] ) ) . '</td>
-                                                         <td style="width:10%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">1</td>
+                                                         <td style="width:10%;line-height:15px;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">'.$charge_res ['quantity'].'</td>
                                                         <td style="width:15%;line-height:15px;border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000;text-align:right;padding:5px;">' . $this->currency_decimal ( $this->CI->common_model->calculate_currency ( $charge_res ['debit'] ) ) . '</td>
                                                      </tr>';
 			$total_sum += $charge_res ['debit'];
@@ -2543,7 +2539,7 @@ class common {
 		// echo $content; exit;
 
 		$invoice_path = $this->CI->config->item ( 'invoices_path' );
-		$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . "_invoice.pdf";
+		$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . ".pdf";
 		// echo $download_path; exit;
 		$this->CI->html2pdf->pdf->SetDisplayMode ( 'fullpage' );
 		$this->CI->html2pdf->writeHTML ( $content );
@@ -2560,7 +2556,7 @@ class common {
 				chmod ( $current_dir . $dir_name, 0777 );
 			}
 			$invoice_path = $this->CI->config->item ( 'invoices_path' );
-			$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . "_invoice.pdf";
+			$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . ".pdf";
 			$this->CI->html2pdf->Output ( $download_path, "F" );
 		}
 	}
@@ -2634,9 +2630,15 @@ class common {
 	function get_status_new($select = "", $table = "", $status = "") {
 		return ($status ['status'] == 0) ? "<span class='label label-sm label-inverse arrowed-in' title='release'>Active<span>" : "<span class='label label-sm' title='release'>Inactive<span>";
 	}
+
+	
 	// ASTPP_invoice_changes_05_05_start
+    //@TODO : Make it common to use for receipt and invoice generate. 
 	function Get_Invoice_configuration($AccountData) {
+	    	    
 		$InvoiceConf = array ();
+		
+		//Get company profile information from invoice_conf table
 		$reseller_id = ($AccountData ['reseller_id'] == 0) ? 1 : $AccountData ['reseller_id'];
 		$where = "accountid IN ('" . $reseller_id . "','1')";
 		$this->CI->db->select ( '*' );
@@ -2645,7 +2647,9 @@ class common {
 		$this->CI->db->limit ( 1 );
 		$InvoiceConf = $this->CI->db->get ( 'invoice_conf' );
 		$InvoiceConf = ( array ) $InvoiceConf->first_row ();
-		$InvoiceConf ['invoice_prefix'] = str_pad ( $InvoiceConf ['invoice_prefix'], (strlen ( $InvoiceConf ['invoice_prefix'] ) + 4), '0', STR_PAD_RIGHT );
+		
+		
+		//$InvoiceConf ['invoice_prefix'] = str_pad ( $InvoiceConf ['invoice_prefix'], (strlen ( $InvoiceConf ['invoice_prefix'] ) + 4), '0', STR_PAD_RIGHT );
 
 		return $InvoiceConf;
 	}

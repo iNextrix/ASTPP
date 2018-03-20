@@ -71,12 +71,16 @@ class ProcessInvoice extends MX_Controller {
 			$this->PrintLogger ( ":::::" . gmdate ( "Y-m-d H:i:s" ) . ":::::\n" );
 		}
 		
+		//Fetch postpaid acocunts. 
 		$where = array (
 				"posttoexternal" => 1,
 				"deleted" => "0",
 				"status" => "0" 
 		);
 		$query = $this->db_model->getSelect ( "*", "accounts", $where );
+		
+		
+		//If count > 0 
 		if ($query->num_rows () > 0) {
 			$account_data = $query->result_array ();
 			foreach ( $account_data as $data_key => $AccountData ) {
@@ -100,6 +104,11 @@ class ProcessInvoice extends MX_Controller {
 					 * Invoice process for monthly customers.
 					 */
 					case 2 :
+					    
+					    if ($this->Error_flag) {
+					        $this->PrintLogger ( "Current day : ".gmdate ( "d", strtotime ( "-1 days" ) ) ." ||| ".$AccountData ['invoice_day'] );
+					    }
+					    
 						// $AccountData['invoice_day'] = "01";
 						if (gmdate ( "d", strtotime ( "-1 days" ) ) == $AccountData ['invoice_day']) {
 							$EndDate = date ( "Y-m-" . $AccountData ['invoice_day'] . " 23:59:59", strtotime ( $StartDate . " + 1 month" ) );
@@ -190,9 +199,12 @@ class ProcessInvoice extends MX_Controller {
 		$last_invoice_ID = $this->common->get_invoice_date ( "invoiceid", "", $AccountData ['reseller_id'] );
 		if ($last_invoice_ID && $last_invoice_ID > 0) {
 			$last_invoice_ID = ($last_invoice_ID + 1);
+			if ($last_invoice_ID < $InvoiceConf ['invoice_start_from'])
+			    $last_invoice_ID = $InvoiceConf ['invoice_start_from'];
 		} else {
 			$last_invoice_ID = $InvoiceConf ['invoice_start_from'];
 		}
+		$last_invoice_ID = str_pad ( $last_invoice_ID, 6 , '0', STR_PAD_LEFT );
 		
 		// Generate one blank invoice
 		$InvocieID = $this->create_invoice ( $AccountData, $StartDate, $EndDate, $last_invoice_ID, $InvoiceConf );
@@ -267,7 +279,7 @@ class ProcessInvoice extends MX_Controller {
 	/*
 	 * Process subscription and other charges like DIDs etc...
 	 */
-	function ProcessCharges($AccountData, $StartDate, $EndDate, $InvocieID, $NowDate) {
+	function ProcessCharges ($AccountData, $StartDate, $EndDate, $InvocieID, $NowDate) {
 		if ($this->Error_flag) {
 			$this->PrintLogger ( "CHARGES CALCULATION PROCESS START" );
 		}
@@ -298,12 +310,18 @@ class ProcessInvoice extends MX_Controller {
 		$SubTotal = "0.0000";
 		
 		// Generate CDRs entry for invoices in invoice detail table.
-		$CDRqr = "select calltype,sum(debit) as debit from cdrs where accountid = " . $AccountData ['id'] . " AND callstart >='" . $StartDate . "' AND callstart <= '" . $EndDate . "' AND invoiceid=0 group by calltype";
+		$CDRqr = "select calltype,sum(debit) as debit,sum(billseconds) as duration from cdrs where accountid = " . $AccountData ['id'] . " AND callstart >='" . $StartDate . "' AND callstart <= '" . $EndDate . "' AND invoiceid=0 group by calltype";
+		$this->PrintLogger ( $CDRqr);
 		$CDRdata = $this->db->query ( $CDRqr );
 		if ($CDRdata->num_rows () > 0) {
 			$CDRdata = $CDRdata->result_array ();
 			// echo '<pre>'; print_r($cdr_data); exit;
 			foreach ( $CDRdata as $CDRvalue ) {
+			    
+			    //If Call is FREE then forcefully set debit = 0 for invoice.
+			    if ($CDRvalue ['calltype'] == "FREE")
+			        $CDRvalue ['debit'] = 0 ;
+			    
 				$tempArr = array (
 						"accountid" => $AccountData ['id'],
 						"reseller_id" => $AccountData ['reseller_id'],
@@ -312,7 +330,8 @@ class ProcessInvoice extends MX_Controller {
 						"debit" => $CDRvalue ['debit'],
 						"item_type" => $CDRvalue ['calltype'],
 						"created_date" => $this->CurrentDate,
-						"invoiceid" => $InvocieID 
+						"invoiceid" => $InvocieID,
+				        "quantity" => $CDRvalue ['duration']
 				);
 				if ($this->Error_flag) {
 					$this->PrintLogger ( $tempArr );
@@ -322,7 +341,10 @@ class ProcessInvoice extends MX_Controller {
 		}
 		
 		// Get the subtotal.
-		$Invoicequery = "select count(id) as count,sum(debit) as debit,sum(credit) as credit from invoice_details where accountid=" . $AccountData ['id'] . " AND invoiceid =" . $InvocieID . " AND item_type != 'FREECALL'";
+		$Invoicequery = "select count(id) as count,sum(debit) as debit,sum(credit) as credit from invoice_details where accountid=" . $AccountData ['id'] . " AND invoiceid =" . $InvocieID . " AND item_type != 'FREE'";
+		
+		$this->PrintLogger ( $Invoicequery);
+		
 		$Invoicequery = $this->db->query ( $Invoicequery );
 		if ($Invoicequery->num_rows () > 0) {
 			$InvData = $Invoicequery->result_array ();
@@ -372,8 +394,8 @@ class ProcessInvoice extends MX_Controller {
 		) );
 		$InvoiceData = $InvoiceData->result_array ();
 		$InvoiceData = $InvoiceData [0];
-		$FilePath = FCPATH . "invoices/" . $AccountData ["id"] . '/' . $InvoiceData ['invoice_prefix'] . "" . $InvoiceData ['invoiceid'] . "_invoice.pdf";
-		$Filenm = $InvoiceData ['invoice_prefix'] . "_" . $InvoiceData ['invoiceid'] . "_invoice.pdf";
+		$FilePath = FCPATH . "invoices/" . $AccountData ["id"] . '/' . $InvoiceData ['invoice_prefix'] . "" . $InvoiceData ['invoiceid'] . ".pdf";
+		$Filenm = $InvoiceData ['invoice_prefix'] . $InvoiceData ['invoiceid'] . ".pdf";
 		
 		$this->common->get_invoice_template ( $InvoiceData, $AccountData, false, true );
 		if ($InvoiceConf ['invoice_notification']) {
@@ -441,15 +463,3 @@ class ProcessInvoice extends MX_Controller {
 }
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
