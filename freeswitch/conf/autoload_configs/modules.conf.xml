@@ -16,6 +16,7 @@
     <!--  Required to run astpp    -->
     <load module="mod_xml_curl"/>
     <load module="mod_json_cdr"/>
+    <load module="mod_hash"/>
     <!--<load module="mod_xml_cdr"/>-->
 
     <!-- Event Handlers -->
