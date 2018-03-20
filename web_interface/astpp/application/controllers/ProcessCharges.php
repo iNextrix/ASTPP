@@ -24,6 +24,7 @@
 class ProcessCharges extends MX_Controller {
 	public $Error_flag = false;
 	public $currentdate = "";
+	//public $fp = "";
 	function __construct() {
 		parent::__construct ();
 		$this->load->model ( "db_model" );
@@ -33,6 +34,8 @@ class ProcessCharges extends MX_Controller {
 		// Set custom current date to generate invoice for specific date.
 		$this->currentdate = gmdate ( "Y-m-d H:i:s" );
 		// $this->currentdate = "2016-02-15 00:00:01";
+		
+		//$this->fp = fopen ( "/tmp/astpp-invoice.log", "a+" );
 	}
 	
 	/*
@@ -56,6 +59,7 @@ class ProcessCharges extends MX_Controller {
 	 * We define different different cases to manage it you can add it more if needed.
 	 */
 	function BillAccountCharges($BillType, $params) {
+	    	   
 		switch ($BillType) {
 			
 			case "SUBSCRIPTION" :
@@ -305,6 +309,7 @@ class ProcessCharges extends MX_Controller {
 							}
 						}
 					}
+					
 					// Apply charges for DID usage.
 					$last_invoice_date = $this->calculate_charges ( $AccountData, $InvocieID, $itemArr, $DIDvalue ["monthlycost"], $StartDate, $EndDate, "1" );
 					if ($last_invoice_date)
@@ -319,7 +324,7 @@ class ProcessCharges extends MX_Controller {
 			}
 		}
 		if ($this->Error_flag) {
-			echo ":::::::::::::::::::::::: DIDs BILLING END ::::::::::::::::::::::::\n";
+		    echo ":::::::::::::::::::::::: DIDs BILLING END ::::::::::::::::::::::::\n";
 		}
 	}
 	function Get_Date_Range_Array($billing_cycle, $itemArr, $StartDate, $EndDate) {
@@ -355,6 +360,7 @@ class ProcessCharges extends MX_Controller {
 	
 	// Calculate charges for the specific date range for defined services and log the entries in table.
 	function calculate_charges($AccountData, $InvocieID, $itemArr, $Charge, $StartDate, $EndDate, $pro_rate = "1") {
+	    
 		if ($this->Error_flag) {
 			echo "<pre> :::::::::::::::::::::::: Item Array :::::::::::::::::::::::: \n";
 			print_r ( $itemArr );
@@ -362,6 +368,8 @@ class ProcessCharges extends MX_Controller {
 		
 		$billing_cycle = ($itemArr ['BillCycle'] == "0") ? "1 day" : "1 month";
 		$last_invoice_date = $itemArr ['LastBillDate'];
+		
+		echo "Last Invoice date : ".$last_invoice_date." || Billing Cycle : ".$billing_cycle;
 		
 		// get array between start and end date based on the billing cycle.
 		$DateRangArr = $this->Get_Date_Range_Array ( $billing_cycle, $itemArr, $StartDate, $EndDate );
@@ -405,8 +413,10 @@ class ProcessCharges extends MX_Controller {
 						}
 					}
 				}
+				
+				
 				if ($this->Error_flag) {
-					echo "<pre> Month difference between the date : " . $month . " Days are " . $days_diff . " Total No Of Days " . $total_num_of_day . "\n";
+				    echo ( "<pre> Month difference between the date : " . $month . " Days are " . $days_diff . " Total No Of Days " . $total_num_of_day . "\n");
 				}
 				// If product charges more then 0 then we log entries in database.
 				if ($temp_charge > 0) {
@@ -414,6 +424,8 @@ class ProcessCharges extends MX_Controller {
 				}
 			}
 		}
+		
+		echo ( "Last Invoice id : ".$last_invoice_date);
 		
 		return $last_invoice_date;
 	}
@@ -563,6 +575,24 @@ class ProcessCharges extends MX_Controller {
 		);
 		return $ItemArr;
 	}
+	
+	/*function PrintLogger($Message) {
+	    if (is_array ( $Message )) {
+	        foreach ( $Message as $MessageKey => $MessageValue ) {
+	            if (is_array ( $MessageValue )) {
+	                foreach ( $MessageValue as $LogKey => $LogValue ) {
+	                    fwrite ( $this->fp, "::::: " . $LogKey . " ::::: " . $LogValue . " :::::\n" );
+	                }
+	            } else {
+	                fwrite ( $this->fp, "::::: " . $MessageKey . " ::::: " . $MessageValue . " :::::\n" );
+	            }
+	        }
+	    } else {
+	        if ($this->Error_flag) {
+	            fwrite ( $this->fp, "::::: " . $Message . " :::::\n" );
+	        }
+	    }
+	}*/
 }
 
 ?> 

@@ -655,15 +655,16 @@ class Invoices extends MX_Controller {
 		$account_balance = $this->common->get_field_name ( 'balance', 'accounts', $response_arr ['accountid'] );
 		if ($response_arr ['taxes_count'] > 0) {
 			for($a = 0; $a < $response_arr ['row_count']; $a ++) {
-				$arr_update = array (
-						'item_type' => 'TAX',
-						'id' => $response_arr ['description_total_tax_id_' . $a] 
-				);
-				$this->db->where ( $arr_update );
+				
 				$update_arr = array (
 						'debit' => $this->common_model->add_calculate_currency ( $response_arr ['abc_total_tax_input_' . $a], "", "", true, false ) 
 				);
 				$final_tax_bal += $this->common_model->add_calculate_currency ( $response_arr ['abc_total_tax_input_' . $a], "", "", true, false );
+				$arr_update = array (
+				    'item_type' => 'TAX',
+				    'id' => $response_arr ['description_total_tax_id_' . $a]
+				);
+				$this->db->where ( $arr_update );
 				$this->db->update ( "invoice_details", $update_arr );
 			}
 		}
@@ -1758,13 +1759,13 @@ class Invoices extends MX_Controller {
 			if ($debit) {
 				// echo 'debit'; exit;
 				$invoice_path = $this->config->item ( 'invoices_path' );
-				$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . "_invoice.pdf";
+				$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . ".pdf";
 				unlink ( $download_path );
 				$res = $this->common->get_invoice_template ( $invoicedata, $accountdata, "TRUE" );
 			}
 		}
 		$invoice_path = $this->config->item ( 'invoices_path' );
-		$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . "_invoice.pdf";
+		$download_path = $invoice_path . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . ".pdf";
 		$res = $this->common->get_invoice_template ( $invoicedata, $accountdata, "TRUE" );
 	}
 	function Sec2Minutes($seconds) {

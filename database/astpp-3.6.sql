@@ -26,6 +26,9 @@ ALTER TABLE `accounts` CHANGE `interval` `cps` INT(11) NOT NULL DEFAULT '0';
 -- Trunk table query 
 ALTER TABLE `trunks` CHANGE `inuse` `cps` INT(4) NOT NULL DEFAULT '0';
 
+-- Invoice detail table query 
+ALTER TABLE `invoice_details` ADD `quantity` INT(11) NOT NULL DEFAULT '1' COMMENT 'Default will be 1' AFTER `after_balance`;
+
 -- menu table queries
 UPDATE `menu_modules` SET `menu_label` = 'Settings' WHERE `menu_modules`.`id` = 69;
 

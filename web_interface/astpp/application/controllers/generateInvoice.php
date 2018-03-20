@@ -278,8 +278,8 @@ class GenerateInvoice extends MX_Controller {
 		) );
 		$invoicedata = $invoicedata->result_array ();
 		$invoicedata = $invoicedata [0];
-		$FilePath = FCPATH . "invoices/" . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . "" . $invoicedata ['invoiceid'] . "_invoice.pdf";
-		$Filenm = $invoicedata ['invoice_prefix'] . "_" . $invoicedata ['invoiceid'] . "_invoice.pdf";
+		$FilePath = FCPATH . "invoices/" . $accountdata ["id"] . '/' . $invoicedata ['invoice_prefix'] . "" . $invoicedata ['invoiceid'] . ".pdf";
+		$Filenm = $invoicedata ['invoice_prefix'] . $invoicedata ['invoiceid'] . ".pdf";
 		$this->common->get_invoice_template ( $invoicedata, $accountdata, false );
 		if ($invoice_conf ['invoice_notification']) {
 			$this->send_email_notification ( $FilePath, $Filenm, $accountdata, $invoice_conf, $invoicedata );
