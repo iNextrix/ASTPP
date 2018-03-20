@@ -1394,7 +1394,7 @@ class common {
 		}
 	}
 	function convert_GMT($date) {
-		return $this->CI->timezone->convert_to_GMT ( $select = "", $table = "", $date );
+		return $this->CI->timezone->convert_to_GMT ($date );
 	}
 
 	// @todo : Not sure how above function working. Rather impacting on existing application, creating new function.
