@@ -4,7 +4,7 @@ Realtime Billing (Experimental)
 
 .. note:: Contributor of the feature: Rokib
 
-.. note:: We strongly recommend you to test the feature first in a LAB environment before applying it in production. 
+	We strongly recommend you to test the feature first in a LAB environment before applying it in production. 
 
 .. note:: Feature includes : 
 
