@@ -7,11 +7,12 @@ Realtime Billing (Experimental)
 .. note:: We strongly recommend you to test the feature first in a LAB environment before applying it in production. 
 
 .. note:: Feature includes : 
-   1. Code has been written for only outbound calls. 
-   2. No package is taken under calculation.
-   3. No free minutes are taken under calculation.
-   4. Max depth account is set to 10
-   5. Heartbeat set to 30 seconds per channel
+
+   - Code has been written for only outbound calls.  
+   - No package is taken under calculation.
+   - No free minutes are taken under calculation.
+   - Max depth account is set to 10
+   - Heartbeat set to 30 seconds per channel
 
 
 Follow below steps to enable real-time billing in ASTPP.
