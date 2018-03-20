@@ -1366,6 +1366,7 @@ class Invoices extends MX_Controller {
 				$download = "<a href=" . $url . $value ['id'] . " class='btn btn-royelblue btn-sm'  title='Download Invoice' ><i class='fa fa-cloud-download fa-fw'></i></a>&nbsp";
 				if ($value ['type'] == 'R') {
 					$payment = '';
+					$payment_last = $invoice_date;
 					$outstanding = 0;
 				} else {
 					if ($outstanding > 0) {
