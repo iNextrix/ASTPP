@@ -63,6 +63,8 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 		table.insert(xml, [[<action application="set" data="fax_enable_t38=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38_request=true"/>]]);    
 	end
+	--custom outbound        
+	if custom_outbound then custom_outbound(xml) end 
 
 	if(tonumber(config['balance_announce']) == 0) then
 		table.insert(xml, [[<action application="sleep" data="1000"/>]]);
@@ -312,6 +314,8 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
 		table.insert(xml, [[<action application="set" data="calltype=DID@IP"/>]]);
 		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[["/>]]);
 	else
+		--Inbound custom 
+		if custom_inbound then custom_inbound(xml,didinfo,userinfo,config,xml_did_rates,callerid_array) end  
 		--error_xml_without_cdr(destination_number,"DID_DESTINATION_NOT_FOUND","DID",config['playback_audio_notification'],userinfo['number'])
 
 	end
