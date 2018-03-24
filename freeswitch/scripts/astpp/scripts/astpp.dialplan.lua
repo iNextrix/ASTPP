@@ -70,7 +70,9 @@ if(config['opensips'] == '0') then
     else
         callerid_number = ''
     end
-end   	      
+end   	 
+--To override custom callerid
+if custom_callerid then custom_callerid() end     
 Logger.info("[Dialplan] Caller Id name / number  : "..callerid_name.." / "..callerid_number)
 
 --Saving caller id information in array
@@ -93,6 +95,20 @@ local accountname = 'default'
 -- Check call type 
 
 accountcode = params:getHeader("variable_accountcode")
+--To override custom calltype
+if custom_calltype then
+	calltype_custom = custom_calltype() 
+	if(calltype_custom ~= '' and calltype_custom ~= nil) then
+		calltype = calltype_custom 
+	end
+end
+--To override custom accountcode
+if custom_accountcode then
+	accountcode_custom = custom_accountcode()
+	if(accountcode_custom ~= '' and accountcode_custom ~= nil) then
+		accountcode = accountcode_custom 
+	end
+end
 sipcall = params:getHeader("variable_sipcall")
 
 call_direction = define_call_direction(destination_number,accountcode,config)
