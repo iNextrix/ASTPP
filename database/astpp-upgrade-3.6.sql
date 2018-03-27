@@ -48,3 +48,7 @@ billing.',NULL,0,0,'global');
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES ('0', 'homer_capture_server', 'Capture Server', '', 'default_system_input', 'Set enable to capture logs in homer. Format : udp:192.168.1.200:9060', NULL, '0', '0', 'homer');
 UPDATE `system` SET `display_name` = 'Default Invoice Mode', `comment` = 'Draft will give possibility to admin and reseller to modify invoice after generation whereas Confirmed invoices will be readonly.' WHERE `system`.`id` = 216;
 UPDATE `system` SET `value` ='3.6' WHERE `system`.`id` = 191;
+
+-- add call request field in CDRs
+ALTER TABLE `cdrs` ADD `call_request` TINYINT( 3 ) NOT NULL DEFAULT '0';
+ALTER TABLE `reseller_cdrs` ADD `call_request` TINYINT( 3 ) NOT NULL DEFAULT '0';

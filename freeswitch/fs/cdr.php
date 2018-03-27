@@ -43,6 +43,8 @@ include ("lib/astpp.db.php");
 include ("lib/astpp.logger.php");
 include ("lib/astpp.lib.php");
 include ("lib/astpp.constants.php");
+//load custom file.
+include ("lib/astpp.custom.php");
 include ("lib/astpp.cdr.php");
 
 // Define db object
