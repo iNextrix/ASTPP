@@ -96,13 +96,13 @@ class User_form {
 						"convert_to_currency" 
 				),
 				array (
-						gettext ( "Refill By" ),
-						"230",
-						"payment_by",
-						"payment_by",
-						"payment_by",
-						"get_refill_by" 
-				),
+                                                gettext ( "Refill By" ),
+                                                "230",
+                                                "payment_by",
+                                                "first_name,last_name,number",
+                                                "accounts",
+                                                "get_refill_by"
+                                ),
 				array (
 						gettext ( "Note" ),
 						"290",
