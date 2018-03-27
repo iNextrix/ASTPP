@@ -29,40 +29,23 @@ class Currencyupdate extends CI_Controller {
 		$this->load->library ( "astpp/common" );
 	}
 	function update_currency() {
-		$where = array (
-				"currency <>" => Common_model::$global_config ['system_config'] ['base_currency'] 
-		);
-		$query = $this->db_model->getSelect ( "*", "currency", $where );
-		
-		if ($query->num_rows () > 0) {
-			$currency_data = $query->result_array ();
-			$url = "http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=";
-			foreach ( $currency_data as $currency_value ) {
-				$url .= Common_model::$global_config ['system_config'] ['base_currency'] . $currency_value ['currency'] . '=X+';
+		$url = "https://api.fixer.io/latest?base=".Common_model::$global_config ['system_config'] ['base_currency'];
+		$currencyData = $this->curl_response ( $url );
+		$currencyData = json_decode($currencyData);
+		//print_r($currencyData);
+		$base_currency = $currencyData->base;
+		$last_updated = $currencyData->date;
+			foreach ($currencyData as $currencykey => $currencyvalue) {			
+				foreach ($currencyvalue as $key => $value) {
+					 $sql = "UPDATE currency SET currencyrate = '".$value."',last_updated = '".$last_updated."' WHERE currency = '" . $key . "'\n";
+					$this->db->query ( $sql );
+				}			
 			}
-			$url .= '&f=l1';
-			
-			$sql = '';
-			$response = $this->curl_response ( $url );
-			$content_data = explode ( ' ', $response );
-			
-			foreach ( $content_data as $content_data1 ) {
-				$currency_arr = explode ( "\n", $content_data1 );
-				foreach ( $currency_arr as $final_val ) {
-					$currency_final = array ();
-					$currency_final = explode ( ',', $final_val );
-					if (isset ( $currency_final [1] ) && $currency_final [1] != "" && $currency_final [0] != '' && $currency_final [1] != 'N/A') {
-						$sql = "UPDATE currency SET currencyRate = " . $currency_final [1] . " WHERE currency = '" . substr ( $currency_final [0], 4, 3 ) . "'";
-						$this->db->query ( $sql );
-					}
-				}
-			}
-			$sql = "UPDATE currency SET currencyRate = '1' WHERE currency = '" . Common_model::$global_config ['system_config'] ['base_currency'] . "'";
-			$this->db->query ( $sql );
-		}
-		$this->session->set_flashdata ( "astpp_errormsg", "Currency exchange rates successfully updated." );
+		$updatebasecurrency = "UPDATE currency SET currencyrate = '1.000',last_updated = '" .$last_updated."' WHERE currency = '" . Common_model::$global_config ['system_config'] ['base_currency'] . "'";
+		$this->db->query ( $updatebasecurrency );
+$this->session->set_flashdata ( "astpp_errormsg", "Currency exchange rates successfully updated." );
 		redirect ( base_url () . "/systems/currency_list/" );
-		exit ();
+		exit;
 	}
 	
 	/**
