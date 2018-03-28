@@ -89,7 +89,7 @@
 	            <input type="button" class="btn btn-line-parrot" id='submit' style="margin-left:5px;" name="action" value="<?= isset($did) ? "Save" : "Insert"; ?>" /> 
              <button class="btn btn-line-sky margin-x-10" name="action" type="button" value="cancel" onclick="return redirect_page('NULL')"><?php echo gettext('Close'); ?></button>
             </div></center>
-        </form>
+        
        </div>      
     </section>        
  </div>

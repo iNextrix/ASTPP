@@ -78,7 +78,7 @@
 
                    </div>
                </div>
-            </form>
+            
             </div>
         </div>
     </div>
@@ -114,7 +114,7 @@
 					echo "<tr><td colspan='".$cnt."'>
                         <a href='".base_url()."rates/termination_rates_list/'><input type='button' class='btn btn-line-sky pull-right  margin-x-10' value='Back'/></a>
                         <input type='submit' class='btn btn-line-parrot pull-right'' id='Process' value='Process'/></td></tr>";
-		?> </table></form>  
+		?> </table>  
      </div>  
             </div>
         </div>

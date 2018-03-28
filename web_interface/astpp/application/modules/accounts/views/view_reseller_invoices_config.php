@@ -239,7 +239,7 @@ $(function() {
 			<button name="action" type="button" value="cancel" class="btn btn-line-sky margin-x-10" onclick="return redirect_page('<?= base_url().'accounts/'.strtolower($accounttype).'_edit/'.$edit_id.'/'; ?>')">Cancel</button>
 		</div>
 		</center>
-		</form>
+		
        </div>
      </div>   
    </div>

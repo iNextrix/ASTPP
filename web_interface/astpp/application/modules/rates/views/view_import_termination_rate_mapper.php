@@ -108,7 +108,7 @@
                   </a>
                </div>
             </div>
-         </form>
+         
       </div>
    </div>
    </div>
@@ -197,7 +197,7 @@
                                             <input type='submit' class='btn btn-line-parrot pull-right'' id='Process' value='Process Records'/></td></tr>";
                      ?>
                </table>
-            </form>
+            
          </div>
       </div>
    </div>

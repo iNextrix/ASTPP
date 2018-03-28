@@ -77,7 +77,7 @@
                                         <div style="width:60px;">
 					  <input class="ui-state-default ui-corner-all ui-button" name="action" value="Map Ip" type="submit">
 					</div>
-                                    </form>
+                                    
     </div>
 </div>  
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
@@ -85,9 +85,9 @@
         <span id="error_msg" class=" success"></span>
         <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
     <div class="portlet-content">         
-        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+        
             <table id="ipmap_grid" align="left" style="display:none;"></table>
-        </form>
+        
     </div>
 </div>  
 

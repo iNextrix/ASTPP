@@ -70,7 +70,7 @@
                             <div class="col-md-12">
                             <input class=" btn btn-success" name="action" value="Map IP" type="submit">
                             </div>
-                        </form>
+                        
                     </fieldset>
                 </div>
                 <div class="margin-b-10 slice color-three pull-left content_border col-md-12" id="left_panel_search_form" style="cursor: pointer; display: none;">

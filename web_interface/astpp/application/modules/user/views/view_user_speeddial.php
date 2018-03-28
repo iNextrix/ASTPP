@@ -151,7 +151,7 @@
                                         <span class="speed_dial" style="color:red;float:left;" id="error_speed_dial_<?php echo $i; ?>"></span>  
                                     </div>
 <?php } ?>
-                            </form>
+                            
                         </div>                
                     </div>
                 </div>

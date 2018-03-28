@@ -212,7 +212,7 @@ function validateform(){
                   <button type="submit" value="save" class="btn btn-line-parrot">Save</button>
                 </div>
               </center>
-            </form>
+            
         </div>
       </div>
     </div>

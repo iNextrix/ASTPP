@@ -59,7 +59,7 @@
                                         <button type="submit" class="btn btn-line-parrot pull-right">Change Password</button>                      
                                     </div>
                               <br/><br/>
-                            </form>
+                            
           </div>  
             </div>
         </div>

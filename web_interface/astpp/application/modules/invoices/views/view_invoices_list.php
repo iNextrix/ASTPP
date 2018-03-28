@@ -155,7 +155,7 @@ $login_type = $this->session->userdata['userlevel_logintype'];
 		        <span style="color:red;margin-left:440px;float:left;" id="error_msg_to"></span>
 			<span style="color:red;margin-left:750px;float:left;" id="error_msg_port"></span>
 	</fieldset>	
-	    </form>
+	    
                   
             </div>
         </div>
@@ -168,9 +168,9 @@ $login_type = $this->session->userdata['userlevel_logintype'];
     	<div class="container">
         	<div class="row">
                 <div class="col-md-12">      
-                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                        
                             <table id="invoices_grid" align="left" style="display:none;"></table>
-                        </form>
+                        
                 </div>  
             </div>
         </div>

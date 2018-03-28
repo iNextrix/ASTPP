@@ -48,9 +48,9 @@
     	<div class="container">
         	<div class="row">
                 <div class="col-md-12">      
-                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
+                        
                             <table id="payment_report_grid" align="left" style="display:none;"></table>
-                        </form>
+                        
                 </div>  
             </div>
         </div>

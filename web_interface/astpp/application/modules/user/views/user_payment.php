@@ -134,7 +134,7 @@ return false;
 		      </div>			
 		  </div>
 
-    </form>
+    
 </div>      
     
     </section>

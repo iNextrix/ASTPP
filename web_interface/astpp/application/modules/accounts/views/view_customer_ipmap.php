@@ -134,7 +134,7 @@
                             <div class="col-md-12">
                             <input class=" btn btn-success" name="action" value="Save" type="submit">
                             </div>
-                        </form>
+                        
                     </fieldset>
                 </div>
             

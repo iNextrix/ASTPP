@@ -86,7 +86,7 @@
                             
                             </div>
                             
-                        </form>
+                        
                     </fieldset>
                 </div>
                 <div class="col-md-12 color-three padding-b-20 slice color-three pull-left content_border">

@@ -119,7 +119,7 @@
                             </div>
                            
                             <input class="margin-l-20 btn btn-success" name="action" value="Purchase DID" type="submit">
-                        </form>
+                        
                     </fieldset>
                 </div>
             </div>

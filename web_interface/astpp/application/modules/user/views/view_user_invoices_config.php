@@ -227,7 +227,7 @@ $(function() {
 			<input type="submit" value="save" name='submit' class="btn btn-line-parrot">
 		</div>
 		</center>
-		</form>
+		
        </div>
      </div>   
    </div>

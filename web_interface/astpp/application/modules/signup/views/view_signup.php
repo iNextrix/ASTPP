@@ -336,7 +336,7 @@ ASTPP work best with JavaScript enabled
 		</div>
 			
 		</center>
-	</form>
+	
 								</div>
 							  
 						</div>
