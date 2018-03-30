@@ -94,10 +94,6 @@ get_linux_distribution ()
 	V1=`cat /etc/*release | head -n1 | tail -n1 | cut -c 14- | cut -c1-18`
 	V2=`cat /etc/*release | head -n7 | tail -n1 | cut -c 14- | cut -c1-14`
 	PHPV=`php -v |sed -n 1p|awk '{ print $1 $2 }'|cut -c 1-4`
-	if [ "$PHPV" = "PHP7" ]; then 
-		echo 'Opps!! Currently we are not supporting PHP 7 or greater, Please downgrade your PHP version to 5.6 OR below.'
-		exit 1
-	fi
 	if [ "$V1" = "Debian GNU/Linux 8" ]; then
 		DIST="DEBIAN"
 		else if [ "$V2" = "CentOS Linux 7" ]; then
@@ -152,8 +148,8 @@ ask_to_install_astpp ()
 		if [ -f LICENSE ]; then
 			more LICENSE
 		else
-			wget --no-check-certificate -q -O GNU-AGPLv3.5.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
-			more GNU-AGPLv3.5.txt	
+			wget --no-check-certificate -q -O GNU-AGPLv3.6.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
+			more GNU-AGPLv3.6.txt	
 		fi
 		echo "***"
 		echo "*** I agree to be bound by the terms of the license - [YES/NO]"
@@ -169,7 +165,7 @@ ask_to_install_astpp ()
 		else
 			echo "Licence accepted!"
 			echo "============checking your working directory=================="			
-			git clone https://github.com/iNextrix/ASTPP.git
+			git clone -b v3.6-dev https://github.com/iNextrix/ASTPP.git
 			cp -rf ASTPP latest			
 			if [ ${CURRENT_DIR} == ${DOWNLOAD_DIR} ]; then
 				echo "dir is '$CURRENT_DIR' and it's matched!!!"			
@@ -226,7 +222,7 @@ install_freeswitch_for_astpp ()
 			echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
 			apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y --force-yes freeswitch-video-deps-most
 			# Install Freeswitch pre-requisite packages using apt-get
-			apt-get install -y autoconf automake devscripts gawk chkconfig dnsutils sendmail-bin sensible-mda ntpdate ntp g++ git-core curl libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libgdbm-dev libyuv-dev libdb-dev libvpx2-dev gettext sudo lua5.1 php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
+			apt-get install -y autoconf automake devscripts gawk chkconfig dnsutils sendmail-bin sensible-mda ntpdate ntp g++ git-core curl libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libgdbm-dev libyuv-dev libdb-dev libvpx2-dev gettext sudo lua5.1 php7.0 php7.0-dev php7.0-common php7.0-cli php7.0-gd php-pear php7.0-cli php-apc php7.0-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
 			
 			#-------------------MySQL setup in for freeswitch Start ------------------------
 			clear
@@ -236,7 +232,7 @@ install_freeswitch_for_astpp ()
 			echo "astppuser password is set to : ${ASTPPUSER_MYSQL_PASSWORD}"
 			echo mysql-server mysql-server/root_password password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
 			echo mysql-server mysql-server/root_password_again password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
-			apt-get install -y mysql-server php5-mysql
+			apt-get install -y mysql-server php7.0-mysql
 			echo "======================Mysql installation end======================="
 			sleep 20
 			#-------------------MySQL setup in for freeswitch End ------------------------
@@ -306,7 +302,7 @@ astpp_freeswitch_startup_script ()
 		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
 			echo "ASTPP source doesn't exists, downloading it..."
 			cd /usr/src/			
-			git clone https://github.com/iNextrix/ASTPP.git
+			git clone -b v3.6-dev https://github.com/iNextrix/ASTPP.git
 			cp -rf ASTPP latest			
 		fi 		
 		if [ ${DIST} = "DEBIAN" ]; then
@@ -380,6 +376,7 @@ mySQL_for_astpp ()
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"		
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-3.0.sql
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-3.5.sql
+		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-3.6.sql
 		if [ ${DIST} = "DEBIAN" ]; then
 			apt-get install libmyodbc unixodbc-bin
 			cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbc.ini /etc/odbc.ini
@@ -399,7 +396,7 @@ install_astpp ()
 		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
 			echo "ASTPP source doesn't exists, downloading it..."
 			cd /usr/src/
-			git clone https://github.com/iNextrix/ASTPP.git
+			git clone -b v3.6-dev https://github.com/iNextrix/ASTPP.git
 			cp -rf ASTPP latest			
     	fi
     	if [ ${DIST} = "DEBIAN" ]; then
@@ -407,7 +404,7 @@ install_astpp ()
 			systemctl stop apache2
 			systemctl disable apache2
 			apt-get -o Acquire::Check-Valid-Until=false update
-			apt-get install -y curl libyuv-dev libvpx2-dev nginx php5-fpm php5 php5-mcrypt libmyodbc unixodbc-bin php5-dev php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc g++
+			apt-get install -y curl libyuv-dev libvpx2-dev nginx php7.0-fpm php7.0 php7.0-mcrypt libmyodbc unixodbc-bin php7.0-dev php7.0-common php7.0-cli php7.0-gd php-pear php7.0-cli php-apc php7.0-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc g++
 		elif  [ ${DIST} = "CENTOS" ]; then
 			# Install ASTPP pre-requisite packages using YUM
 			yum install -y autoconf automake bzip2 cpio curl nginx php-fpm php-mcrypt* unixODBC mysql-connector-odbc curl-devel php php-devel php-common php-cli php-gd php-pear php-mysql php-pdo php-pecl-json mysql mariadb-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++ httpd httpd-devel
@@ -420,7 +417,7 @@ install_astpp ()
 			touch /var/log/nginx/fs_access_log
 			touch /var/log/nginx/fs_error_log			
 			php5enmod mcrypt
-			systemctl restart php5-fpm
+			systemctl restart php7.0-fpm
 			service nginx reload
 		fi
 		if [ ${DIST} = "CENTOS" ]; then
@@ -470,7 +467,7 @@ install_astpp ()
 				chown -Rf root.root ${WWWDIR}/astpp
 				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_astpp.conf /etc/nginx/sites-enabled/astpp.conf
 				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_fs.conf /etc/nginx/sites-enabled/fs.conf		
-				sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php5/fpm/pool.d/www.conf
+				sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php/7.0/fpm/pool.d/www.conf
 				sed -i "s/client_max_body_size 8M/client_max_body_size 20M/" /etc/nginx/sites-enabled/astpp.conf
 				sed -i '35i fastcgi_read_timeout 300;' /etc/nginx/sites-enabled/astpp.conf
 				systemctl restart nginx
@@ -508,13 +505,13 @@ finalize_astpp_installation ()
 		# short_open_tag = Off   to short_open_tag = On        
 		echo "Make sure Short Open Tag is switched On"    
 		if [ ${DIST} = "DEBIAN" ]; then
-			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php5/fpm/php.ini
-			sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php5/fpm/php.ini
-			sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php5/fpm/php.ini
-			sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php5/fpm/php.ini
-			sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php5/fpm/php.ini
-			sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php5/fpm/php.ini
-			systemctl restart php5-fpm
+			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php/7.0/fpm/php.ini
+			sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php/7.0/fpm/php.ini
+			sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php/7.0/fpm/php.ini
+			sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php/7.0/fpm/php.ini
+			sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php/7.0/fpm/php.ini
+			sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini
+			systemctl restart php7.0-fpm
 			systemctl restart nginx
 		elif [ ${DIST} = "CENTOS" ]; then
 			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
