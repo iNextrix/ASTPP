@@ -2174,7 +2174,9 @@ class Invoices extends MX_Controller {
 				"balance" => $accountinfo ['balance'],
 				"amount" => $amount,
 				"type" => 'R',
-				"confirm" => '1' 
+				"confirm" => '1',
+				"notes" => '',
+				"invoice_note" => ''
 		);
 		$this->db->insert ( "invoices", $invoice_data );
 		$invoiceid = $this->db->insert_id ();

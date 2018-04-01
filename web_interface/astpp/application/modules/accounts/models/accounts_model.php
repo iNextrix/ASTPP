@@ -639,9 +639,11 @@ class Accounts_model extends CI_Model {
 						"credit" => "-" . $data ['credit'],
 						'payment_mode' => $data ['payment_mode'],
 						'type' => "SYSTEM",
-						"notes" => $data ['notes'],
+						"notes" => (string) $data ['notes'],
 						"payment_date" => $date,
-						'payment_by' => $data ['payment_by'] 
+						'payment_by' => $data ['payment_by'],
+						"paypalid" => 0, 
+						"txn_id" => 0, 
 				);
 				$this->db->insert ( "payments", $insert_arr );
 			} else {
@@ -652,9 +654,11 @@ class Accounts_model extends CI_Model {
 						"credit" => $data ['credit'],
 						'payment_mode' => $data ['payment_mode'],
 						'type' => "SYSTEM",
-						"notes" => $data ['notes'],
+						"notes" => (string) $data ['notes'],
 						"payment_date" => $date,
-						'payment_by' => $data ['payment_by'] 
+						'payment_by' => $data ['payment_by'],
+						"paypalid" => 0,
+						"txn_id" => 0, 
 				);
 				$this->db->insert ( "payments", $insert_arr );
 				$accountdata ['refill_amount'] = $data ['credit'];
