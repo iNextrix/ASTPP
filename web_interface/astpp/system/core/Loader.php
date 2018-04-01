@@ -149,7 +149,7 @@ class CI_Loader {
 		$this->_ci_classes = array();
 		$this->_ci_loaded_files = array();
 		$this->_ci_models = array();
-		$this->_base_classes = & is_loaded();
+		$this->_base_classes = is_loaded();
 
 		$this->_ci_autoloader();
 
@@ -195,6 +195,7 @@ class CI_Loader {
 	 */
 	public function library($library = '', $params = NULL, $object_name = NULL)
 	{
+print "Doing $library\n";
 		if (is_array($library))
 		{
 			foreach ($library as $class)
@@ -492,7 +493,7 @@ class CI_Loader {
 	 * @param	mixed
 	 * @return	void
 	 */
-	public function helper($helpers = array())
+	public function helper($helpers)
 	{
 		foreach ($this->_ci_prep_filename($helpers, '_helper') as $helper)
 		{
@@ -553,7 +554,7 @@ class CI_Loader {
 	 * @param	array
 	 * @return	void
 	 */
-	public function helpers($helpers = array())
+	public function helpers($helpers)
 	{
 		$this->helper($helpers);
 	}

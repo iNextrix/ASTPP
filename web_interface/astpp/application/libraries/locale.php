@@ -26,7 +26,7 @@ if (! defined ( 'BASEPATH' ))
 /**
  * Dynamically build forms for display
  */
-class Locale {
+class xLocale {
 	function __construct($library_name = '') {
 		$this->CI = & get_instance ();
 		$this->CI->load->model ( 'db_model' );
