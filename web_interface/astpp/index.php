@@ -19,7 +19,7 @@
  */
 //ini_set('display_errors','on');
 ini_set ( "date.timezone", "UTC" );
-define ( 'ENVIRONMENT', 'production' );
+define ( 'ENVIRONMENT', 'development' );
 /*
  * ---------------------------------------------------------------
  * ERROR REPORTING
@@ -32,7 +32,11 @@ define ( 'ENVIRONMENT', 'production' );
 if (defined ( 'ENVIRONMENT' )) {
 	switch (ENVIRONMENT) {
 		case 'development' :
-			error_reporting ( E_ALL );
+			error_reporting ( -1 );
+			include 'vendor/autoload.php';
+			$whoops = new \Whoops\Run;
+			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+			$whoops->register();
 			break;
 		
 		case 'testing' :
