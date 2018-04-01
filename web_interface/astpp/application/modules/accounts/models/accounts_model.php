@@ -29,11 +29,15 @@ class Accounts_model extends CI_Model {
 		if (empty($accountinfo['id'])) {
 			$accountinfo['id'] = null;
 		}
-		if (empty($accountinfo['maxchannels'])) {
-			unset($accountinfo['maxchannels']);
+		$ints = array ("maxchannels", "interval", "validfordays", "notify_credit_limit");
+		foreach ($ints as $i) {
+			if (empty($accountinfo[$i])) {
+				unset($accountinfo[$i]);
+			}
 		}
-		if (empty($accountinfo['interval'])) {
-			unset($accountinfo['interval']);
+		// notify_credit_limit doesn't have a default value
+		if (empty($accountinfo['notify_credit_limit'])) {
+			$accountinfo['notify_credit_limit'] = 1;
 		}
 		$account_data = $this->session->userdata ( "accountinfo" );
 		$accountinfo ['reseller_id'] = ($account_data ['type'] == 1) ? $account_data ['id'] : 0;
