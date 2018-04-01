@@ -1424,7 +1424,7 @@ CREATE TABLE IF NOT EXISTS `templates` (
   `accountid` int(11) NOT NULL,
   `template` text NOT NULL,
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_date` timestamp NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `reseller` (`accountid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

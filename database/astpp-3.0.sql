@@ -29,7 +29,7 @@ CREATE TABLE `accounts` (
   `pricelist_id` int(4) NOT NULL COMMENT 'pricelist table id',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:active,1:inactive',
   `sweep_id` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Sweep list table id',
-  `creation` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `credit_limit` decimal(10,5) NOT NULL DEFAULT '0.00000',
   `posttoexternal` tinyint(1) NOT NULL DEFAULT '0',
   `balance` decimal(20,5) NOT NULL DEFAULT '0.00000',
@@ -83,7 +83,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,'admin',0,0,0,2,'2016-07-25 00:00:01',0.00000,0,1.00000,'drwcmIaIlzzUaQ9PwgOGRn2KcKmSq44tWvKGgHfkpl0','Administrator','Admin','Your Company','ADDRESS','','','','',85,'','','your@email.com',1,139,1,0,'',-1,27,0,0,0,0,'0',0,0,'','2016-07-26 11:26:24','2046-07-25 11:26:24',60000,0.00000,0,0,'1',0,0),(2,'2457848300',0,1,0,2,'2016-07-25 11:26:24',0.00000,0,1.00000,'GpMl9v2b32xNILRXMxHxrStFNd4I26bTNDAEG2eYQDM','default','customer','ASTPP','adress','','','','',85,'','','yourcustomer@test.com',0,59,1,0,'',0,49,0,0,0,1,'',0,1,'2457848300','2016-07-26 11:26:24','2046-07-25 11:26:24',3652,0.00000,0,0,'1',0,0),(3, '7335503421', 0, 1, 0, 2, '2016-07-26 15:15:20', 0.00000, 0, 0.00000, 'gaiaRg3lAZI$nTbTjVVe4Z0-hFxXrxCzQTOIug0SHow', 'default', 'provider', 'ASTPP', 'adress', '', '', '', '', 85, '', '', 'yourprovider@test.com', 0, 59, 0, 0, '', 3, 49, 0, 0, 0, 0, '', 0, 1, '320736', '0000-00-00 00:00:00', '2026-07-26 15:12:18', 0, 0.00000, 0, 0, '', 0, 0);
+INSERT INTO `accounts` VALUES (1,'admin',0,0,0,2,'2016-07-25 00:00:01',0.00000,0,1.00000,'drwcmIaIlzzUaQ9PwgOGRn2KcKmSq44tWvKGgHfkpl0','Administrator','Admin','Your Company','ADDRESS','','','','',85,'','','your@email.com',1,139,1,0,'',-1,27,0,0,0,0,'0',0,0,'','2016-07-26 11:26:24','2046-07-25 11:26:24',60000,0.00000,0,0,'1',0,0),(2,'2457848300',0,1,0,2,'2016-07-25 11:26:24',0.00000,0,1.00000,'GpMl9v2b32xNILRXMxHxrStFNd4I26bTNDAEG2eYQDM','default','customer','ASTPP','adress','','','','',85,'','','yourcustomer@test.com',0,59,1,0,'',0,49,0,0,0,1,'',0,1,'2457848300','2016-07-26 11:26:24','2046-07-25 11:26:24',3652,0.00000,0,0,'1',0,0),(3, '7335503421', 0, 1, 0, 2, '2016-07-26 15:15:20', 0.00000, 0, 0.00000, 'gaiaRg3lAZI$nTbTjVVe4Z0-hFxXrxCzQTOIug0SHow', 'default', 'provider', 'ASTPP', 'adress', '', '', '', '', 85, '', '', 'yourprovider@test.com', 0, 59, 0, 0, '', 3, 49, 0, 0, 0, 0, '', 0, 1, '320736', '1980-01-01 00:00:00', '2026-07-26 15:12:18', 0, 0.00000, 0, 0, '', 0, 0);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,8 +127,8 @@ CREATE TABLE `ani_map` (
   `accountid` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-Active,1-inactive',
   `context` varchar(20) NOT NULL DEFAULT '',
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `number` (`number`),
   KEY `account` (`accountid`)
@@ -214,7 +214,7 @@ CREATE TABLE `cdrs` (
   `trunkip` varchar(15) NOT NULL DEFAULT '',
   `callerip` varchar(15) NOT NULL DEFAULT '',
   `disposition` varchar(45) NOT NULL DEFAULT '',
-  `callstart` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `callstart` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `debit` decimal(20,6) NOT NULL DEFAULT '0.000000',
   `cost` decimal(20,6) NOT NULL DEFAULT '0.000000',
   `provider_id` int(11) NOT NULL DEFAULT '0',
@@ -234,12 +234,12 @@ CREATE TABLE `cdrs` (
   `provider_call_cost` decimal(20,6) NOT NULL,
   `call_direction` enum('outbound','inbound') NOT NULL,
   `calltype` enum('STANDARD','DID','FREE','CALLINGCARD') NOT NULL DEFAULT 'STANDARD',
-  `profile_start_stamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `answer_stamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `bridge_stamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `progress_stamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `progress_media_stamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `end_stamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `profile_start_stamp` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `answer_stamp` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `bridge_stamp` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `progress_stamp` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `progress_media_stamp` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `end_stamp` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `billmsec` int(11) NOT NULL DEFAULT '0',
   `answermsec` int(11) NOT NULL DEFAULT '0',
   `waitmsec` int(11) NOT NULL DEFAULT '0',
@@ -271,9 +271,9 @@ CREATE TABLE `charge_to_account` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `charge_id` int(4) NOT NULL DEFAULT '0',
   `accountid` int(11) NOT NULL DEFAULT '0',
-  `assign_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `charge_upto` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `assign_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `charge_upto` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `charge_id` (`charge_id`),
   KEY `accountid` (`accountid`)
@@ -305,8 +305,8 @@ CREATE TABLE `charges` (
   `sweep_id` int(1) NOT NULL DEFAULT '0' COMMENT 'sweeplist table id',
   `reseller_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Accounts table id',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0:active,1:Inactive',
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `pricelist` (`pricelist_id`),
   KEY `sweep_id` (`sweep_id`),
@@ -443,7 +443,7 @@ CREATE TABLE `default_templates` (
   `name` varchar(45) NOT NULL DEFAULT '',
   `subject` varchar(500) NOT NULL,
   `template` mediumtext NOT NULL,
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `reseller_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
@@ -495,9 +495,9 @@ CREATE TABLE `dids` (
   `dial_as` char(40) NOT NULL DEFAULT '',
   `call_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'call type',
   `inuse` int(4) NOT NULL DEFAULT '0',
-  `assign_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `charge_upto` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `assign_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `charge_upto` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `account` (`accountid`),
   KEY `number` (`number`)
@@ -526,8 +526,8 @@ CREATE TABLE `freeswich_servers` (
   `freeswitch_password` varchar(50) NOT NULL,
   `freeswitch_port` char(10) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=Active , 1= inactive',
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -554,11 +554,11 @@ CREATE TABLE `gateways` (
   `sip_profile_id` int(4) NOT NULL DEFAULT '0',
   `name` varchar(20) NOT NULL DEFAULT '',
   `gateway_data` text NOT NULL,
-  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `accountid` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for Active 1 for Inactive',
   `dialplan_variable` varchar(500) NOT NULL,
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -665,11 +665,11 @@ CREATE TABLE `invoices` (
   `invoiceid` varchar(255) NOT NULL,
   `accountid` int(11) NOT NULL DEFAULT '0',
   `reseller_id` int(11) NOT NULL DEFAULT '0',
-  `from_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `to_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `from_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `to_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `due_date` datetime NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:paid,1:unpaid,2:partial_payment',
-  `invoice_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `invoice_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `type` enum('I','R') NOT NULL DEFAULT 'I' COMMENT 'I => Invoice R=> Receipt',
   `amount` varchar(10) NOT NULL DEFAULT '0.00000',
   `balance` decimal(20,5) NOT NULL DEFAULT '0.00000',
@@ -710,7 +710,7 @@ CREATE TABLE `ip_map` (
   `context` varchar(20) NOT NULL DEFAULT 'default',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-Active,1-inactive',
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `account` (`accountid`),
   KEY `ip` (`ip`),
@@ -837,8 +837,8 @@ CREATE TABLE IF NOT EXISTS `outbound_routes` (
  `reseller_id` int(11) NOT NULL DEFAULT '0',
  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for active 1 for inactive',
  `init_inc` int(11) NOT NULL DEFAULT '0',
- `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
- `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+ `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
  PRIMARY KEY (`id`),
  UNIQUE KEY `pattern2` (`pattern`,`trunk_id`),
  KEY `trunk` (`trunk_id`),
@@ -901,8 +901,8 @@ CREATE TABLE `packages` (
   `reseller_id` int(11) DEFAULT '0' COMMENT 'Accoun',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `applicable_for` varchar(10) NOT NULL DEFAULT '0' COMMENT '0 for outbound 1 for inbound adn 2 for both',
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `pricelist` (`pricelist_id`),
   KEY `reseller` (`reseller_id`)
@@ -966,7 +966,7 @@ CREATE TABLE `payments` (
   `payment_by` int(11) NOT NULL DEFAULT '0' COMMENT 'accountid by recharge done',
   `notes` mediumtext,
   `reference` varchar(80) DEFAULT NULL,
-  `payment_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `payment_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `paypalid` int(11) NOT NULL,
   `txn_id` varchar(25) NOT NULL,
   `reseller_id` int(11) NOT NULL DEFAULT '0',
@@ -1053,8 +1053,8 @@ CREATE TABLE `pricelists` (
   `inc` int(4) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for active,1 for inactive,2 for delete',
   `reseller_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Accounts table id',
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `reseller_id` (`reseller_id`)
@@ -1105,11 +1105,11 @@ CREATE TABLE `refill_coupon` (
   `amount` decimal(10,5) NOT NULL,
   `description` varchar(55) NOT NULL,
   `status` tinyint(1) NOT NULL COMMENT '0=Active,1=Inactive,2-Inuse',
-  `firstused` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `firstused` timestamp NOT NULL DEFAULT '1980-01-01 00:00:00',
   `account_id` int(11) NOT NULL,
   `reseller_id` int(11) NOT NULL,
   `currency_id` int(11) NOT NULL,
-  `creation_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` timestamp NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1137,7 +1137,7 @@ CREATE TABLE `reseller_cdrs` (
   `callednum` varchar(30) NOT NULL DEFAULT '',
   `billseconds` smallint(6) NOT NULL DEFAULT '0',
   `disposition` varchar(45) NOT NULL DEFAULT '',
-  `callstart` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `callstart` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `debit` decimal(20,6) NOT NULL DEFAULT '0.000000',
   `cost` decimal(20,6) NOT NULL DEFAULT '0.000000',
   `pricelist_id` smallint(6) NOT NULL DEFAULT '0',
@@ -1191,9 +1191,9 @@ CREATE TABLE `reseller_pricing` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `inc` int(4) NOT NULL,
   `init_inc` int(11) NOT NULL,
-  `assign_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `charge_upto` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `assign_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `charge_upto` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `reseller` (`reseller_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1229,8 +1229,8 @@ CREATE TABLE `routes` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for active 1 for inactive',
   `trunk_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Trunk id for force routing',
   `init_inc` int(11) NOT NULL DEFAULT '0',
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `pattern_2` (`pattern`,`pricelist_id`),
   KEY `pattern` (`pattern`),
@@ -1246,7 +1246,7 @@ CREATE TABLE `routes` (
 
 LOCK TABLES `routes` WRITE;
 /*!40000 ALTER TABLE `routes` DISABLE KEYS */;
-INSERT INTO `routes` VALUES (1,'^1.*','USA',0.00000,0,66.66667,1,60,0,0,0,0,30,'2016-07-26 15:11:50','0000-00-00 00:00:00');
+INSERT INTO `routes` VALUES (1,'^1.*','USA',0.00000,0,66.66667,1,60,0,0,0,0,30,'2016-07-26 15:11:50','1980-01-01 00:00:00');
 /*!40000 ALTER TABLE `routes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1290,8 +1290,8 @@ CREATE TABLE `sip_devices` (
   `dir_params` mediumtext NOT NULL,
   `dir_vars` mediumtext NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:active,1:inactive',
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `call_waiting` int(11) NOT NULL DEFAULT '0' COMMENT '0:Enable 1:Disable',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
@@ -1304,7 +1304,7 @@ CREATE TABLE `sip_devices` (
 
 LOCK TABLES `sip_devices` WRITE;
 /*!40000 ALTER TABLE `sip_devices` DISABLE KEYS */;
-INSERT INTO `sip_devices` VALUES (1,'4810338297',1,0,2,'{\"password\":\"aa0b9a\",\"vm-enabled\":0,\"vm-password\":\"aa0b9a\",\"vm-mailto\":\"\",\"vm-attach-file\":0,\"vm-keep-local-after-email\":0,\"vm-email-all-messages\":0}','{\"effective_caller_id_name\":\"ASTPP\",\"effective_caller_id_number\":\"4810338297\",\"user_context\":\"default\"}',0,'2016-07-26 15:19:43','0000-00-00 00:00:00',0);
+INSERT INTO `sip_devices` VALUES (1,'4810338297',1,0,2,'{\"password\":\"aa0b9a\",\"vm-enabled\":0,\"vm-password\":\"aa0b9a\",\"vm-mailto\":\"\",\"vm-attach-file\":0,\"vm-keep-local-after-email\":0,\"vm-email-all-messages\":0}','{\"effective_caller_id_name\":\"ASTPP\",\"effective_caller_id_number\":\"4810338297\",\"user_context\":\"default\"}',0,'2016-07-26 15:19:43','1980-01-01 00:00:00',0);
 /*!40000 ALTER TABLE `sip_devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1321,8 +1321,8 @@ CREATE TABLE `sip_profiles` (
   `sip_ip` varchar(15) NOT NULL DEFAULT '',
   `sip_port` varchar(6) NOT NULL DEFAULT '',
   `profile_data` text NOT NULL,
-  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `accountid` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for active 1 for inactive',
   PRIMARY KEY (`id`)
@@ -1335,7 +1335,7 @@ CREATE TABLE `sip_profiles` (
 
 LOCK TABLES `sip_profiles` WRITE;
 /*!40000 ALTER TABLE `sip_profiles` DISABLE KEYS */;
-INSERT INTO `sip_profiles` VALUES (1,'default','$${local_ip_v4}','5060','{\"rtp-ip\":\"$${local_ip_v4}\",\"dialplan\":\"XML\",\"user-agent-string\":\"ASTPP\",\"debug\":\"0\",\"sip-trace\":\"no\",\"tls\":\"false\",\"inbound-reg-force-matching-username\":\"true\",\"disable-transcoding\":\"true\",\"all-reg-options-ping\":\"false\",\"unregister-on-options-fail\":\"true\",\"log-auth-failures\":\"true\",\"status\":\"0\",\"inbound-bypass-media\":\"false\",\"inbound-proxy-media\":\"false\",\"disable-transfer\":\"true\",\"enable-100rel\":\"false\",\"rtp-timeout-sec\":\"300\",\"dtmf-duration\":\"2000\",\"manual-redirect\":\"true\",\"aggressive-nat-detection\":\"true\",\"enable-timer\":\"false\",\"minimum-session-expires\":\"120\",\"session-timeout-pt\":\"1800\",\"auth-calls\":\"true\",\"apply-inbound-acl\":\"default\",\"inbound-codec-prefs\":\"PCMA,PCMU\",\"outbound-codec-prefs\":\"PCMA,PCMU\",\"inbound-late-negotiation\":\"false\",\"sip-capture\":\"no\",\"forward-unsolicited-mwi-notify\":\"false\",\"context\":\"default\",\"rfc2833-pt\":\"101\",\"rtp-timer-name\":\"soft\",\"hold-music\":\"$${hold_music}\",\"manage-presence\":\"true\",\"presence-hosts\":\"$${domain},$${local_ip_v4}\",\"presence-privacy\":\"$${presence_privacy}\",\"inbound-codec-negotiation\":\"generous\",\"auth-all-packets\":\"false\",\"ext-rtp-ip\":\"$${local_ip_v4}\",\"ext-sip-ip\":\"$${local_ip_v4}\",\"rtp-hold-timeout-sec\":\"1800\",\"force-register-domain\":\"$${domain}\",\"force-subscription-domain\":\"$${domain}\",\"force-register-db-domain\":\"$${domain}\",\"challenge-realm\":\"auto_from\",\"nonce-ttl\":\"60\",\"pass-callee-id\":\"false\"}','2015-01-21 17:25:01','0000-00-00 00:00:00',0,0);
+INSERT INTO `sip_profiles` VALUES (1,'default','$${local_ip_v4}','5060','{\"rtp-ip\":\"$${local_ip_v4}\",\"dialplan\":\"XML\",\"user-agent-string\":\"ASTPP\",\"debug\":\"0\",\"sip-trace\":\"no\",\"tls\":\"false\",\"inbound-reg-force-matching-username\":\"true\",\"disable-transcoding\":\"true\",\"all-reg-options-ping\":\"false\",\"unregister-on-options-fail\":\"true\",\"log-auth-failures\":\"true\",\"status\":\"0\",\"inbound-bypass-media\":\"false\",\"inbound-proxy-media\":\"false\",\"disable-transfer\":\"true\",\"enable-100rel\":\"false\",\"rtp-timeout-sec\":\"300\",\"dtmf-duration\":\"2000\",\"manual-redirect\":\"true\",\"aggressive-nat-detection\":\"true\",\"enable-timer\":\"false\",\"minimum-session-expires\":\"120\",\"session-timeout-pt\":\"1800\",\"auth-calls\":\"true\",\"apply-inbound-acl\":\"default\",\"inbound-codec-prefs\":\"PCMA,PCMU\",\"outbound-codec-prefs\":\"PCMA,PCMU\",\"inbound-late-negotiation\":\"false\",\"sip-capture\":\"no\",\"forward-unsolicited-mwi-notify\":\"false\",\"context\":\"default\",\"rfc2833-pt\":\"101\",\"rtp-timer-name\":\"soft\",\"hold-music\":\"$${hold_music}\",\"manage-presence\":\"true\",\"presence-hosts\":\"$${domain},$${local_ip_v4}\",\"presence-privacy\":\"$${presence_privacy}\",\"inbound-codec-negotiation\":\"generous\",\"auth-all-packets\":\"false\",\"ext-rtp-ip\":\"$${local_ip_v4}\",\"ext-sip-ip\":\"$${local_ip_v4}\",\"rtp-hold-timeout-sec\":\"1800\",\"force-register-domain\":\"$${domain}\",\"force-subscription-domain\":\"$${domain}\",\"force-register-db-domain\":\"$${domain}\",\"challenge-realm\":\"auto_from\",\"nonce-ttl\":\"60\",\"pass-callee-id\":\"false\"}','2015-01-21 17:25:01','1980-01-01 00:00:00',0,0);
 /*!40000 ALTER TABLE `sip_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1437,8 +1437,8 @@ CREATE TABLE `taxes` (
   `taxes_rate` decimal(20,5) NOT NULL DEFAULT '0.00000',
   `taxes_description` varchar(255) NOT NULL,
   `reseller_id` int(11) NOT NULL DEFAULT '0',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for active 1 for inactive',
   PRIMARY KEY (`id`),
   KEY `taxes_priority` (`taxes_priority`)
@@ -1529,8 +1529,8 @@ CREATE TABLE `trunks` (
   `maxchannels` int(4) NOT NULL DEFAULT '0',
   `inuse` int(4) NOT NULL DEFAULT '0',
   `codec` varchar(100) NOT NULL,
-  `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creation_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
+  `last_modified_date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `provider` (`provider_id`),
   KEY `resellers_id` (`resellers_id`)
@@ -1543,7 +1543,7 @@ CREATE TABLE `trunks` (
 
 LOCK TABLES `trunks` WRITE;
 /*!40000 ALTER TABLE `trunks` DISABLE KEYS */;
-INSERT INTO `trunks` VALUES (1,'YourTrunk','',1,0,0,3,0,'','0',0,0,0,'PCMA,G729,PCMA','0000-00-00 00:00:00','2016-07-26 15:16:00');
+INSERT INTO `trunks` VALUES (1,'YourTrunk','',1,0,0,3,0,'','0',0,0,0,'PCMA,G729,PCMA','1980-01-01 00:00:00','2016-07-26 15:16:00');
 /*!40000 ALTER TABLE `trunks` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;

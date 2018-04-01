@@ -75,7 +75,7 @@ class ProcessCharges extends MX_Controller {
 						'accountid' => $AccountData ['id'],
 						'charge_id' => $params ['ChargeID'] 
 				) );
-				if ($LastBillDate == '0000-00-00 00:00:00' || $LastBillDate == '') {
+				if ($LastBillDate == '1980-01-01 00:00:00' || $LastBillDate == '') {
 					$LastBillDate = $this->common->get_field_name ( 'assign_date', 'charge_to_account', array (
 							'accountid' => $AccountData ['id'],
 							'charge_id' => $params ['ChargeID'] 
@@ -100,7 +100,7 @@ class ProcessCharges extends MX_Controller {
 						"id" => $params ['DIDid'] 
 				) );
 				$DIDData = $DIDData [0];
-				if ($DIDData ['charge_upto'] == '0000-00-00 00:00:00') {
+				if ($DIDData ['charge_upto'] == '1980-01-01 00:00:00') {
 					$DIDData ['charge_upto'] = $DIDData ['assign_date'];
 				}
 				$LastBillDate = $DIDData ['charge_upto'];
@@ -144,7 +144,7 @@ class ProcessCharges extends MX_Controller {
 				if ($AccountCharges->num_rows () > 0) {
 					$AccountCharges = $AccountCharges->result_array ();
 					foreach ( $AccountCharges as $AccChargeValue ) {
-						if ($AccChargeValue ['charge_upto'] == '0000-00-00 00:00:00') {
+						if ($AccChargeValue ['charge_upto'] == '1980-01-01 00:00:00') {
 							$AccChargeValue ['charge_upto'] = $AccChargeValue ['assign_date'];
 						}
 						$last_invoice_date = false;
@@ -205,7 +205,7 @@ class ProcessCharges extends MX_Controller {
 				) );
 				if ($ChargeData && ! empty ( $ChargeData )) {
 					$ChargeData = $ChargeData [0];
-					if ($AccChargeValue ['charge_upto'] == '0000-00-00 00:00:00') {
+					if ($AccChargeValue ['charge_upto'] == '1980-01-01 00:00:00') {
 						$AccChargeValue ['charge_upto'] = $AccChargeValue ['assign_date'];
 					}
 					// build an array for further process.
@@ -258,13 +258,13 @@ class ProcessCharges extends MX_Controller {
 		$AccountData ['sweep_id'] = '2';
 		if ($DIDsData) {
 			foreach ( $DIDsData as $DIDvalue ) {
-				if ($DIDvalue ['charge_upto'] == '0000-00-00 00:00:00') {
+				if ($DIDvalue ['charge_upto'] == '1980-01-01 00:00:00') {
 					$DIDvalue ['charge_upto'] = $DIDvalue ['assign_date'];
 				}
 //ASTPP_DID_monthly_billing_issue
 				$next_invoice_date = date("Y-m-d H:i:s",strtotime($DIDvalue ['charge_upto']." + 1 month"));
 				$next_invoice_date = date("Y-m-d 23:59:59",strtotime($next_invoice_date." - 1 day"));
-				if ($DIDvalue ['charge_upto'] != "0000-00-00 00:00:00" && strtotime ( $next_invoice_date ) < strtotime ( $EndDate )) {
+				if ($DIDvalue ['charge_upto'] != "1980-01-01 00:00:00" && strtotime ( $next_invoice_date ) < strtotime ( $EndDate )) {
 //END
 					$itemArr = $this->Build_ItemArr ( $DIDvalue ['number'], $DIDvalue ['id'], "DIDCHRG", "2", $DIDvalue ['assign_date'], $DIDvalue ['charge_upto'], $NowDate );
 					if ($DIDvalue ['parent_id'] > 0) {
@@ -555,7 +555,7 @@ class ProcessCharges extends MX_Controller {
 		} else {
 			$this->db->where ( 'accountid', $AccountData ['id'] );
 		}
-		$this->db->where ( "(charge_upto ='0000-00-00 00:00:00' OR charge_upto <='" . $NowDate . "')" );
+		$this->db->where ( "(charge_upto ='1980-01-01 00:00:00' OR charge_upto <='" . $NowDate . "')" );
 		$this->db->select ( '*' );
 		$data = $this->db->get ( 'charge_to_account' );
 		// echo $this->db->last_query(); exit;

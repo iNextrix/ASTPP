@@ -1387,7 +1387,7 @@ class common {
 
 	// Added new parameter timezone_id for API
 	function convert_GMT_to($select = "", $table = "", $date, $timezone_id = '') {
-		if ($date == '0000-00-00 00:00:00') {
+		if ($date == '1980-01-01 00:00:00') {
 			return $date;
 		} else {
 			return $this->CI->timezone->display_GMT ( $date, 1, $timezone_id );
@@ -1545,7 +1545,7 @@ class common {
 		return $refill_coupon_array [$status];
 	}
 	function firstused_check($select = '', $table = '', $status) {
-		if ($status == '0000-00-00 00:00:00') {
+		if ($status == '1980-01-01 00:00:00') {
 			return '-';
 		}
 		return $status;

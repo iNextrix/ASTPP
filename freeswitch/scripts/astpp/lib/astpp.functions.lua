@@ -141,7 +141,7 @@ end
 -- Do Account authorization
 function doauthorization(accountcode,call_direction,destination_number,number_loop)
 	local callstart = os.date("!%Y-%m-%d %H:%M:%S")
-    local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 AND (expiry >= '".. callstart .."' OR expiry = '0000-00-00 00:00:00') limit 1";
+    local query = "SELECT * FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 AND (expiry >= '".. callstart .."' OR expiry = '1980-01-01 00:00:00') limit 1";
     Logger.debug("[DOAUTHORIZATION] Query :" .. query)
     
     userinfo = nil;
@@ -177,7 +177,7 @@ function doauthorization(accountcode,call_direction,destination_number,number_lo
     	return userinfo
     end
 
-	if(userinfo['allow'] == true and userinfo['first_used'] == "0000-00-00 00:00:00") then
+	if(userinfo['allow'] == true and userinfo['first_used'] == "1980-01-01 00:00:00") then
 		update_first_used_account(userinfo)
 	end
     return userinfo;

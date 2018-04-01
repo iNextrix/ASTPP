@@ -980,15 +980,15 @@ class Accounts extends MX_Controller {
 						if ($action == "delete") {
 				$data = array (
 						"accountid" => "0",
-						"assign_date" => "0000-00-00 00:00:00",
-						"charge_upto" => "0000-00-00 00:00:00"
+						"assign_date" => "1980-01-01 00:00:00",
+						"charge_upto" => "1980-01-01 00:00:00" 
 				);
 				if ($accounttype == 'reseller') {
 					$data = array (
 							"accountid" => "0",
 							"parent_id" => $reseller_id,
-							"assign_date" => "0000-00-00 00:00:00",
-							"charge_upto" => "0000-00-00 00:00:00"
+							"assign_date" => "1980-01-01 00:00:00",
+							"charge_upto" => "1980-01-01 00:00:00" 
 					);
 				}
 				if($reseller_id > 0 ){

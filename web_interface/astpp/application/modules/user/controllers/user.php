@@ -170,7 +170,7 @@ class User extends MX_Controller {
 				}
 				$data ['charge_id'] = isset ( $charges_arr [$data ['charge_id']] ['description'] ) ? $charges_arr [$data ['charge_id']] ['description'] : "Anonymous";
 				$json_data [$i] ['charge_id'] = $data ['charge_id'];
-				if ($data ['assign_date'] != '0000-00-00 00:00:00') {
+				if ($data ['assign_date'] != '1980-01-01 00:00:00') {
 					$json_data [$i] ['assign_date'] = date ( 'Y-m-d H:i:s', strtotime ( $data ['assign_date'] ) + $gmtoffset );
 				} else {
 					$json_data [$i] ['assign_date'] = $data ['assign_date'];
@@ -293,8 +293,8 @@ class User extends MX_Controller {
 				$this->permission->customer_web_record_permission($did_id,'dids','user/user_didlist/');
 				$this->db->update ( "dids", array (
 						"accountid" => 0,
-						"assign_date" => "0000-00-00 00:00:00",
-						'charge_upto' => "0000-00-00 00:00:00" 
+						"assign_date" => "1980-01-01 00:00:00",
+						'charge_upto' => "1980-01-01 00:00:00" 
 				), array (
 						"id" => $did_id 
 				) );
