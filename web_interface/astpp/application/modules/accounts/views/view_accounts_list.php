@@ -93,7 +93,13 @@ first used,creation,expiry search date picker
    <?php /**
 ASTPP  3.0 
 first used,creation,expiry search date picker
-**/ ?>
+**/ 
+
+if (!isset($form_batch_update)) {
+	$form_batch_update = "";
+}
+
+?>
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
     	<div class="container">

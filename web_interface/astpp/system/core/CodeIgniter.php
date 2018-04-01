@@ -70,7 +70,7 @@
  *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
-	set_error_handler('_exception_handler');
+//	set_error_handler('_exception_handler');
 
 	if ( ! is_php('5.3'))
 	{
