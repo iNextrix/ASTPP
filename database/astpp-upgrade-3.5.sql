@@ -47,7 +47,7 @@ DROP TABLE post_load_modules_conf;
 DROP TABLE post_load_switch_conf;
 
 -- system table queries
-INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES (NULL, 'mail_debug', 'Mail Debug', NULL, 'enable_disable_option', 'To enable mail debug, set it to Enable. Logs will appear at LOG_PATH/astpp_mail.log', NULL, '', '', 'email');
+INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES (NULL, 'mail_debug', 'Mail Debug', NULL, 'enable_disable_option', 'To enable mail debug, set it to Enable. Logs will appear at LOG_PATH/astpp_mail.log', NULL, '0', '0', 'email');
 INSERT INTO `system` (`id` ,`name` ,`display_name` ,`value` ,`field_type` ,`comment` ,`timestamp` ,`reseller_id` ,`brand_id` ,`group_title`)
 VALUES (NULL , 'enterprise', 'Enterprise', '1', 'enable_disable_option', '0:Enable 1:Disable', NULL , '0', '0', 'global');
 INSERT INTO `system` (`id` ,`name` ,`display_name` ,`value` ,`field_type` ,`comment` ,`timestamp` ,`reseller_id` ,`brand_id` ,`group_title`)
