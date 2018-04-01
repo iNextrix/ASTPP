@@ -1,9 +1,9 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("user_emails_list","",<? echo $grid_fields; ?>,"");
+        build_grid("user_emails_list","",<?php echo $grid_fields; ?>,"");
         $("#user_email_search_btn").click(function(){
             post_request_for_search("user_emails_list","","user_emails_search");
         });
@@ -12,11 +12,11 @@
         });
     });
 </script>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>        
+<?php endblock() ?>
+<?php startblock('content') ?>        
 <div id="main-wrapper" class="tabcontents">  
     <div id="content">   
         <div class="row"> 
@@ -55,5 +55,5 @@
     </div>
 </div>
   
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

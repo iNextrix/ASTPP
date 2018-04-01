@@ -1,5 +1,5 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <style>
     label.error {
         float: left; color: red;
@@ -10,9 +10,9 @@
     }
 </style>
 <?php endblock() ?>
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 <?php startblock('content') ?>
 <div id="main-wrapper" class="tabcontents">
     <div id="content">   
@@ -46,12 +46,12 @@
                             var ERR_STR = '<?php echo $validation_errors; ?>';
                             print_error(ERR_STR);
                         </script>
-                    <? } ?> 
+                    <?php } ?> 
 					
                 </div>
             </div> 
         </div>
     </div>
 </div> 
-<? endblock() ?>
-<? end_extend() ?>  
+<?php endblock() ?>
+<?php end_extend() ?>  

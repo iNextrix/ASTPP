@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 <!--
 ASTPP  3.0 
@@ -100,10 +100,10 @@ tinymce.init({
   </div>
 </div>
 <br><br>
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>
 
 <script type="text/javascript">
 $(function() {

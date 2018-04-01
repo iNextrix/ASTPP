@@ -70,24 +70,24 @@ main_template.php:
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>
 
-        <? start_block_marker('title') ?>
+        <?php start_block_marker('title') ?>
             Dan's Music Store
-        <? end_block_marker() ?>
+        <?php end_block_marker() ?>
 
     </title>
 
-    <? start_block_marker('extra_head') ?>
+    <?php start_block_marker('extra_head') ?>
         <link rel="stylesheet" href="css/base.css" type="text/css" media="all" />
-    <? end_block_marker() ?>
+    <?php end_block_marker() ?>
 
 </head>
 <body id="body">
     <div id="container">
 
-        <? start_block_marker('content') ?>
+        <?php start_block_marker('content') ?>
             <h1>Welcome to the Dan's Music Store</h1>
             <p>Instruments from all over the world</p>
-        <? end_block_marker() ?>
+        <?php end_block_marker() ?>
 
     </div> <!-- container -->
 </body>
@@ -97,27 +97,27 @@ If you include just this, essentially you would get the same output as in the fi
 To use this file as a base template for different content, you have to use the extend() function and start overriding the blocks of the base template. Let's call this one "guitars.php". It will be a section template which includes some extra content for the guitar section of our music store.
 
 guitars.php:
-<? extend('main_template.php') ?>
+<?php extend('main_template.php') ?>
 
-    <? startblock('title') ?>
+    <?php startblock('title') ?>
         <?= get_extended_block() ?>
         - Guitars
-    <? endblock() ?>
+    <?php endblock() ?>
 
-    <? startblock('extra_head') ?>
+    <?php startblock('extra_head') ?>
         <?= get_extended_block() ?>
         <link rel="stylesheet" href="css/guitars.css" type="text/css" media="all" />
-    <? endblock() ?>
+    <?php endblock() ?>
 
-    <? startblock('content') ?>
+    <?php startblock('content') ?>
         <h2>Look around!</h2>
         <p>Such a fine selection of Guitars!</p>
-    <? endblock() ?>
+    <?php endblock() ?>
 
-<? end_extend() ?>
+<?php end_extend() ?>
 
 
-With extend('filename'), you tell this template which base template it should extend. You need to wrap this file up with a call to <? end_extend() ?> to make the magic work.
+With extend('filename'), you tell this template which base template it should extend. You need to wrap this file up with a call to <?php end_extend() ?> to make the magic work.
 You can call get_extended_block() to inherit / receive the content of the parent block, which is useful for adding additional data to the base template.
 In this example it's used to add a second part to the <title> - tag and to add an additional stylesheet.
 Now we would include "guitars.php" instead of "main_template.php".
@@ -155,14 +155,14 @@ Then we need a page where we display the specific guitars. We'll create a file
 'destroyer_guitar.php'. It will extend the "guitar.php" - file. Of course the contents of this file will probably be dynamic in your case and not only a file for a specific guitar, but this is an example, mkaaaaay?
 
 destroyer_guitar.php:
-<? extend('guitars.php') ?>
+<?php extend('guitars.php') ?>
 
-    <? startblock('title'); ?>
-        <? get_extended_block() ?>
+    <?php startblock('title'); ?>
+        <?php get_extended_block() ?>
         - Destroyer ZX80
-    <? endblock() ?>
+    <?php endblock() ?>
 
-    <? startblock('content') ?>
+    <?php startblock('content') ?>
         <h1>Destroyer ZX80</h1>
         <p>A most excellent heavy metal Axe.</p>
         <p>Available in the following sizes:</p>
@@ -171,11 +171,11 @@ destroyer_guitar.php:
             <li>Large</li>
             <li>Troll</li>
         </ul>
-    <? endblock() ?>
+    <?php endblock() ?>
 
-<? end_extend() ?>
+<?php end_extend() ?>
 
-So here we once more replace the content with something different. The 'content' - data will overwrite the content from "guitars.php" and "main_content.php". If we wanted to preserve it, we could have left the content block out or could have inserted <? get_extended_block() ?> somewhere.
+So here we once more replace the content with something different. The 'content' - data will overwrite the content from "guitars.php" and "main_content.php". If we wanted to preserve it, we could have left the content block out or could have inserted <?php get_extended_block() ?> somewhere.
 Then the content from "guitars.php" would appear in that spot in the main template.
 We did this for the 'title' - block, which inherits the data from the base templates.
 If we would include "destroyer_guitar.php" now instead of "main_template.php" or "guitars.php", the output would look like this:
@@ -224,11 +224,11 @@ will always be executed, whether its output will be used or not.
 
 If this calculation would be too expensive, there is a function you can call to check if the current block's content is required or if it only will be overridden by the child templates anyways. Call block_rendering_neccessary() to find out if the block you're currently crafting will be rendered to avoid unneccessary computation. Like this:
 
-<? startblock('weather') ?>
-    <? if (block_rendering_neccessary()): ?>
+<?php startblock('weather') ?>
+    <?php if (block_rendering_neccessary()): ?>
         <?= simulate_global_warming_effects() ?>
-    <? endif; ?>
-<? endblock() ?>
+    <?php endif; ?>
+<?php endblock() ?>
 
 You could also check django's template inheritance documentation for another example. Django's template inheritance was my inspiration - actually I pretty much copied its functionality. I hope they don't mind.
 

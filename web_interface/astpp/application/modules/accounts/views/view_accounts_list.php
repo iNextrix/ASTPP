@@ -1,10 +1,10 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("flex1","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("flex1","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
@@ -68,13 +68,13 @@ first used,creation,expiry search date picker
     /*********************************************************************/
 </script>
 
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 
 
@@ -123,6 +123,6 @@ first used,creation,expiry search date picker
 
 
 
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

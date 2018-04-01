@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
  <link href="<?= base_url() ?>assets/css/invoice.css" rel="stylesheet">
 <?php endblock() ?>
@@ -236,7 +236,7 @@ foreach ($taxes_to_accounts as $tax_val) {
 </td>
 </tr>
 
-<? $taxi++; } ?>
+<?php $taxi++; } ?>
 
 <tr style='background-color:#375c7c;color:#fff;height:30px;'>
 <td colspan="2" style="text-align:right;">Total Due:&nbsp;
@@ -263,7 +263,7 @@ foreach ($taxes_to_accounts as $tax_val) {
         </div>
     </div>
 </section>
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>

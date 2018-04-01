@@ -1,8 +1,8 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("email_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("email_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $("#email_search_btn").click(function(){
             post_request_for_search("email_grid","","email_search");
         });        
@@ -18,13 +18,13 @@
         $("#customer_cdr_to_date").datetimepicker();
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>
+<?php startblock('content') ?>
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
     	<div class="container">
@@ -50,5 +50,5 @@
     </div>
 </section>
 
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">    <title>
 	ASTPP - Open Source Voip Billing Solution</title>
-  <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico">
+  <link rel="icon" href="<?php echo base_url(); ?>assets/images/favicon.ico">
     <script language="javascript" type="text/javascript">
 	    var base_url = '<?php echo base_url(); ?>';
     </script>

@@ -1,9 +1,9 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
 	$('a[rel*=facebox]').facebox();
-        build_grid("user_sipdevices_grid","",<? echo $grid_fields; ?>,"");
+        build_grid("user_sipdevices_grid","",<?php echo $grid_fields; ?>,"");
         $("#user_sipdevices_search_btn").click(function(){
             post_request_for_search("user_sipdevices_grid","","user_sipdevices_search");
         });
@@ -15,11 +15,11 @@
         });
     });
 </script>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>        
+<?php endblock() ?>
+<?php startblock('content') ?>        
 <div id="main-wrapper" class="tabcontents">  
     <div id="content">   
         <div class="row"> 
@@ -80,5 +80,5 @@
     </div>
 </div>
   
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

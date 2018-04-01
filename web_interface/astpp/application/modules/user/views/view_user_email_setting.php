@@ -1,5 +1,5 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript">
 $(document).ready(function() {
 var country_id = "<?php echo $account_data[0]['country_id']; ?>"
@@ -113,7 +113,7 @@ function form_submit(){
         </div>
     </div>
 
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>

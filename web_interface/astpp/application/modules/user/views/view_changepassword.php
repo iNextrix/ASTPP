@@ -1,14 +1,14 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>   
+<?php startblock('content') ?>   
 <section class="slice gray no-margin">
  <div class="w-section inverse no-padding">
    <div>
@@ -65,6 +65,6 @@
         </div>
     </div>
 </section>
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>   
+<?php end_extend() ?>   

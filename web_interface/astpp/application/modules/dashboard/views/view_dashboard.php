@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/chart/highcharts.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/chart/exporting.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/chart/highcharts-3d.js"></script>
@@ -341,11 +341,11 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
         });
     });
 </script> 
-<? endblock() ?>
+<?php endblock() ?>
 <?php startblock('page-title') ?>
     <?php echo $page_title; ?>
 <?php endblock() ?>
-<? startblock('content') ?>
+<?php startblock('content') ?>
 
 <section class="slice">
     <div class="w-section inverse no-padding">
@@ -452,7 +452,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
     </div>
 </section>
 
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?> 
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?> 

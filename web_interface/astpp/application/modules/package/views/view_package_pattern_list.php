@@ -1,9 +1,9 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
 		$('a[rel*=facebox]').facebox();
-        build_grid("package_pattern_list","<? echo base_url()."package/package_pattern_list_json/".$edit_id."/"?>",<? echo $grid_fields ?>,"");
+        build_grid("package_pattern_list","<?php echo base_url()."package/package_pattern_list_json/".$edit_id."/"?>",<? echo $grid_fields ?>,"");
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
@@ -12,11 +12,11 @@
         });
     });
 </script>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>   
+<?php endblock() ?>
+<?php startblock('content') ?>   
 <div id="main-wrapper" class="tabcontents">
     <div id="content">   
         <div class="row"> 
@@ -77,6 +77,6 @@
         </div>
     </div>
 </div>
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

@@ -2,7 +2,7 @@
    extend('master.php') ?>
 <?php
    startblock('extra_head') ?>
-   <? //echo "<pre>";print_r($csv_tmp_data);exit;
+   <?php //echo "<pre>";print_r($csv_tmp_data);exit;
    if (isset($csv_tmp_data) && !empty($csv_tmp_data)) {
    echo '<script>';
    echo 'var csv_tmp_data = ' . json_encode($csv_tmp_data) . ';';

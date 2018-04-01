@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript">
 $(document).ready(function() {
   var showOrHide=false;
@@ -65,13 +65,13 @@ $(function() {
 });
 </script>
 
-	<? endblock() ?>
+	<?php endblock() ?>
 
-    <? startblock('page-title') ?>
+    <?php startblock('page-title') ?>
         <?=$page_title?>
-    <? endblock() ?>
+    <?php endblock() ?>
     
-	<? startblock('content') ?>
+	<?php startblock('content') ?>
 
 
 
@@ -107,5 +107,5 @@ $(function() {
 
 
 
-<? endblock() ?>
-<? end_extend() ?>  
+<?php endblock() ?>
+<?php end_extend() ?>  

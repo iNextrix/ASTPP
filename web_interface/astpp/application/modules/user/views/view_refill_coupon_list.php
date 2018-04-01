@@ -1,10 +1,10 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <link href="<?= base_url() ?>assets/css/shop_popup.css" rel="stylesheet" type="text/css"/>
 <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("refill_coupon_grid","",<? echo $grid_fields; ?>,"");
+        build_grid("refill_coupon_grid","",<?php echo $grid_fields; ?>,"");
         $("#refill_coupon_recharge").click(function () {
 	  var refill_coupon_no = document.getElementById('refill_coupon_number').value; 
 	  if(refill_coupon_no !=''){
@@ -61,13 +61,13 @@
        
     }
 </style>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>   
+<?php startblock('content') ?>   
 <section class="slice color-three margin-b-20">
     <div class="w-section inverse no-padding">
         <div class="container">
@@ -122,7 +122,7 @@
 	</center>
 </div>             
                 
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  
 

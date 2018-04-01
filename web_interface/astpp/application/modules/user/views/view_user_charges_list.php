@@ -1,9 +1,9 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("charges_history_grid","",<? echo $grid_fields; ?>,"");
+        build_grid("charges_history_grid","",<?php echo $grid_fields; ?>,"");
         $("#charges_search_btn").click(function(){
             post_request_for_search("charges_history_grid","","user_charge_history_search");
         });        
@@ -30,11 +30,11 @@
         });
     });
 </script>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>        
+<?php endblock() ?>
+<?php startblock('content') ?>        
 <div id="main-wrapper" class="tabcontents">  
     <div id="content">   
         <div class="row"> 
@@ -81,5 +81,5 @@
     </div>
 </div>
   
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

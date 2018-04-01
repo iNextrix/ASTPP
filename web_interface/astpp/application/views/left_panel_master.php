@@ -1,4 +1,4 @@
-<? include('header.php'); ?>
+<?php include('header.php'); ?>
 <section class="slice color-one">
  <div class="w-section inverse no-padding border_box">
    <div class="container">
@@ -156,7 +156,7 @@
 				}
 			 ?>
 </div>		
-<? start_block_marker('content') ?><? end_block_marker() ?>	
+<?php start_block_marker('content') ?><? end_block_marker() ?>	
 
 
 <?php include('footer.php'); ?>

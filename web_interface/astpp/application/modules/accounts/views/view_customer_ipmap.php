@@ -1,9 +1,9 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("ipsettings_list","<?php echo base_url()."accounts/customer_ipmap_json/$edit_id/$accounttype/"; ?>",<? echo $grid_fields; ?>,"");
+        build_grid("ipsettings_list","<?php echo base_url()."accounts/customer_ipmap_json/$edit_id/$accounttype/"; ?>",<?php echo $grid_fields; ?>,"");
         $.validator.addMethod('IP4Checker', function(value) {
             //var pattern = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/;
             var n = value.indexOf("/");
@@ -75,11 +75,11 @@
        
     }
 </style>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>   
+<?php endblock() ?>
+<?php startblock('content') ?>   
 <div id="main-wrapper" class="tabcontents">  
     <div id="content">   
         <div class="row"> 
@@ -147,6 +147,6 @@
         </div> 
     </div>
 </div>
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

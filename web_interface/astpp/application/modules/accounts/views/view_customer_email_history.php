@@ -1,16 +1,16 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("emailhistory_grid","<?php echo base_url()."accounts/customer_details_json/emailhistory/$edit_id/"; ?>",<? echo $grid_fields ?>,"");
+        build_grid("emailhistory_grid","<?php echo base_url()."accounts/customer_details_json/emailhistory/$edit_id/"; ?>",<?php echo $grid_fields ?>,"");
     });
 
 </script>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>   
+<?php endblock() ?>
+<?php startblock('content') ?>   
 <div id="main-wrapper" class="tabcontents">    
     <div id="content">   
         <div class="row"> 
@@ -43,6 +43,6 @@
         </div>
     </div>
 </div>
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

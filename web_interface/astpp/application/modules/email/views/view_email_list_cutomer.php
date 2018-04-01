@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
 	
@@ -7,7 +7,7 @@
              $("#update_bar").toggle();
       	});   */   
 
-        build_grid("application_grid","",<? echo $grid_fields; ?>,'');
+        build_grid("application_grid","",<?php echo $grid_fields; ?>,'');
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
@@ -47,13 +47,13 @@
     });
 </script>
 
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?><br/>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>
+<?php startblock('content') ?>
 
 
 
@@ -71,5 +71,5 @@
     </div>
 </section>
 
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

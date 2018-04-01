@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
  <link href="<?= base_url() ?>assets/css/invoice.css" rel="stylesheet">
 <script type="text/javascript">
@@ -515,7 +515,7 @@ function amidn_pay(){
 }
 </script>
 
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>

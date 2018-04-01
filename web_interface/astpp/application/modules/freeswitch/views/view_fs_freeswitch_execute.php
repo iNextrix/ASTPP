@@ -1,11 +1,11 @@
 
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?=$page_title?><br/>
-<? endblock() ?>
-<? startblock('content') ?>
+<?php endblock() ?>
+<?php startblock('content') ?>
 <?php 	$command_show = str_replace("api ", "", $command); ?>
 <script>
 $(document).ready(function(){
@@ -77,5 +77,5 @@ function validateForm(){
 
 
 
-<? endblock() ?>
-<? end_extend() ?>  
+<?php endblock() ?>
+<?php end_extend() ?>  

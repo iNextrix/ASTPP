@@ -1,4 +1,4 @@
-<? include('header.php'); ?>
+<?php include('header.php'); ?>
 <!--
 ASTPP  3.0 
 Add classes 
@@ -17,7 +17,7 @@ if (strpos($url, 'customer_cdrs') != true) {
 ?>
         <div class="col-md-12 no-padding">
 	        <div class="col-md-8 no-padding">
-                    <h2><? start_block_marker('page-title') ?><? end_block_marker() ?>	</h2>
+                    <h2><?php start_block_marker('page-title') ?><? end_block_marker() ?>	</h2>
 	        
 	        
                 <span id="error_msg" class=" success"></span></div>
@@ -100,7 +100,7 @@ Email host test
     display_astpp_message(validate_ERR,ERR_type);
 </script>
 <?php } ?>
-<? start_block_marker('content') ?><? end_block_marker() ?>
+<?php start_block_marker('content') ?><? end_block_marker() ?>
  
 <?php include('footer.php'); ?>
 

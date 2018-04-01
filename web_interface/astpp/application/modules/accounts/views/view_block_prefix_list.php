@@ -8,7 +8,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
 	$('a[rel*=facebox]').facebox();
-        build_grid("prefixes_grid","<?php echo base_url(); ?>accounts/customer_add_blockpatterns_json/<?= $accountid; ?>",<? echo $patters_grid_fields ?>,"");
+        build_grid("prefixes_grid","<?php echo base_url(); ?>accounts/customer_add_blockpatterns_json/<?= $accountid; ?>",<?php echo $patters_grid_fields ?>,"");
 
         $('.checking').click(function () {
             $('.PatternChkBox').attr('checked', this.checked);//if you want to select/deselect checkboxes use this
@@ -56,7 +56,7 @@
    <div>
      <div>
         <div class="col-md-12 no-padding margin-t-15 margin-b-10">
-	        <div class="col-md-10"><b><? echo "Codes List"; ?></b></div>
+	        <div class="col-md-10"><b><?php echo "Codes List"; ?></b></div>
 	  </div>
      </div>
     </div>

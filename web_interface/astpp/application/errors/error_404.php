@@ -57,7 +57,7 @@ p {
 	<div id="container">
 		<h1><?php echo $heading; ?></h1>
 		<?php echo $message; ?>
-		<? Header("Location: /dashboard/"); ?>
+		<?php Header("Location: /dashboard/"); ?>
 	</div>
 </body>
 </html>

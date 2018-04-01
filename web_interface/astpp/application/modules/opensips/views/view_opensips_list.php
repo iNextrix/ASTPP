@@ -1,11 +1,11 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 <!--<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>-->
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("opensipsdevice_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("opensipsdevice_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         
         $("#opensipsdevice_search_btn").click(function(){
 //alert('fdgdfgdf');
@@ -19,13 +19,13 @@
     });
 </script>
 
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
@@ -53,5 +53,5 @@
     </div>
 </section>
 
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

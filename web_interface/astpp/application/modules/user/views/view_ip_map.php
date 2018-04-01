@@ -1,8 +1,8 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("ipmap_grid","<?=  base_url()?>user/user_ipmap_json",<? echo $ipmap_grid_field; ?>,"");
+        build_grid("ipmap_grid","<?=  base_url()?>user/user_ipmap_json",<?php echo $ipmap_grid_field; ?>,"");
               	jQuery.validator.addMethod("lettersonly", function(value, element) {
 	    return this.optional(element) || /^[a-z]+$/i.test(value);
 	  }, "Letters only please");
@@ -39,13 +39,13 @@
     }
     </style>
 
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>  
+<?php startblock('content') ?>  
                 <?= @$page_title ?>
                 <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
             <div style="color:red;margin-left: 60px;">
@@ -91,6 +91,6 @@
     </div>
 </div>  
 
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

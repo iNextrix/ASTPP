@@ -45,10 +45,10 @@
                         <?php if (isset($accountnum)) { ?>
                             <input class="desc" value="<?php echo $accountnum; ?>" type="text" id="account_num" name="account_num"  size="20" readonly="readonly" />
                             <input class="text field medium"  type="hidden" id="account_id" name="account_id" value="<?php echo $account_id; ?>" size="20" />
-                        <? } else { ?>
+                        <?php } else { ?>
                             <input class="text field medium" type="text" id="account_num" name="account_num"  size="20" />
                             <input class="text field medium"  type="hidden" id="account_id" name="account_id"  size="20" />
-                        <? } ?>
+                        <?php } ?>
                         <span id="availability_status"></span> 
                     </li>
                     <div style="float:left; width:275px; margin-left:6px;">
@@ -63,7 +63,7 @@
 										echo"<tr>";
 									?>
                                 <td style="padding-left: 10px;">
-                                    <input type="checkbox" id="tax_<?= $values->id; ?>"name="tax_<?= $values->id; ?>" value="<?= $values->id; ?>" <? if (in_array($values->id, $tax_ids)) {
+                                    <input type="checkbox" id="tax_<?= $values->id; ?>"name="tax_<?= $values->id; ?>" value="<?= $values->id; ?>" <?php if (in_array($values->id, $tax_ids)) {
 								echo "checked";
 							} ?>/> <?= $values->taxes_description; ?></label><br />        
                                 </td>

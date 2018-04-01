@@ -32,7 +32,7 @@
             }
     }
     $(document).ready(function() {
-    build_grid("animap_list","<?php echo base_url(); ?>accounts/customer_animap_list_json/<?=$animap_id; ?>",<? echo $grid_fields ?>,<?= $grid_buttons ?>);
+    build_grid("animap_list","<?php echo base_url(); ?>accounts/customer_animap_list_json/<?=$animap_id; ?>",<?php echo $grid_fields ?>,<?= $grid_buttons ?>);
         $("#animap").click(function(){
             var b=document.getElementById('id').value;
          document.getElementById('error_1').innerHTML="";

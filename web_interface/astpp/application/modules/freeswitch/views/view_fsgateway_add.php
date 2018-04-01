@@ -11,7 +11,7 @@
    <div>
      <div>
         <div class="col-md-12 no-padding margin-t-15 margin-b-10">
-	        <div class="col-md-10"><b><? echo $page_title; ?></b></div>
+	        <div class="col-md-10"><b><?php echo $page_title; ?></b></div>
 	  </div>
      </div>
     </div>

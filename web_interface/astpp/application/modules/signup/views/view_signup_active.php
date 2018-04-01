@@ -23,7 +23,7 @@
 	}
 	?>
 </title>
-    <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico">
+    <link rel="icon" href="<?php echo base_url(); ?>assets/images/favicon.ico">
     <link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/fonts/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css">
@@ -85,10 +85,10 @@
 							if ($this->session->userdata('userlevel_logintype') != '0') {?>
 							<a class="col-md-12" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
 							<img style="height: 44px; width:216px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
-							<? } else {?> 
+							<?php } else {?> 
 							<a class="col-md-12" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
 							<img style="height: 44px; width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
-							<? }?>	
+							<?php }?>	
                             	</a>
                            </div>
                            <div class="col-md-3">

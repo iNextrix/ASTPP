@@ -1,10 +1,10 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title; ?>
-<? endblock() ?>
-<? startblock('content') ?>        
+<?php endblock() ?>
+<?php startblock('content') ?>        
    <?php if ( ! isset($csv_tmp_data)) { ?>
    
 <section class="slice color-three padding-t-20">
@@ -15,7 +15,7 @@
               <div class="col-md-12">
             	<div class="w-box">
                    <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
-                    <? if(isset($error) && !empty($error)) {
+                    <?php if(isset($error) && !empty($error)) {
 						echo $error;
 					}?>
                    </span>            	
@@ -31,7 +31,7 @@
                            <div class="col-md-12 no-padding">
                                <label class="col-md-3">Rate Group:</label>
                                <div>
-                               <? $pricelists = form_dropdown('pricelist_id', $this->db_model->build_dropdown("id,name", "pricelists","where_arr", array("reseller_id" => "0", "status" => "0")), '');
+                               <?php $pricelists = form_dropdown('pricelist_id', $this->db_model->build_dropdown("id,name", "pricelists","where_arr", array("reseller_id" => "0", "status" => "0")), '');
 									echo $pricelists;
 							   ?>
                                </div>
@@ -43,11 +43,11 @@
                            <div class="col-md-12 no-padding">
                                <label class="col-md-3">Force Trunk:</label>
                                <div>
-                               <? $trunklist = form_dropdown_all('trunk_id', $this->db_model->build_dropdown("id,name", "trunks","where_arr", array("status" => "0")), '');
+                               <?php $trunklist = form_dropdown_all('trunk_id', $this->db_model->build_dropdown("id,name", "trunks","where_arr", array("status" => "0")), '');
 									echo $trunklist;
 							   ?>
                                </div>
-                           </div><? } else {?>
+                           </div><?php } else {?>
 							    <input type="hidden" name="trunk_id" value="0" />
 				<?} ?>
                            <div class="col-md-12 no-padding">
@@ -109,7 +109,7 @@
              <div class="col-md-12 margin-t-10">
             <form id="import_form" name="import_form" action="<?=base_url()?>rates/origination_rate_import_file/<?= $pricelistid?>/<?=$trunkid?>/<?=$check_header?>/" method="POST">
             <table width="100%" border="1"  class="details_table table">
-                <?  $cnt =7;
+                <?php  $cnt =7;
 					foreach($csv_tmp_data as $csv_key => $csv_value){
 						if($csv_key <  15){
 							echo "<tr>";
@@ -132,5 +132,5 @@
 </div></div></div>
     </section>  
     <?} ?>
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

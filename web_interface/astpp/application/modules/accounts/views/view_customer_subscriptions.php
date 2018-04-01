@@ -1,9 +1,9 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("subscription_list","<?php echo base_url()."accounts/customer_details_json/subscription/$edit_id/"; ?>",<? echo $grid_fields; ?>,"");
+        build_grid("subscription_list","<?php echo base_url()."accounts/customer_details_json/subscription/$edit_id/"; ?>",<?php echo $grid_fields; ?>,"");
         $("#left_panel_quick_search").keyup(function(){
             quick_search("accounts/customer_details_search/"+'<?php echo $accounttype?>'+"_subscription/");
         });
@@ -33,11 +33,11 @@
        
     }
 </style>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>   
+<?php endblock() ?>
+<?php startblock('content') ?>   
 <div id="main-wrapper" class="tabcontents">  
     <div id="content">   
         <div class="row"> 
@@ -81,7 +81,7 @@
                             <div class="col-md-8">
                                 <label class="col-md-3 no-padding">Subscriptions:</label>
                                    <div class="col-md-4 no-padding sel_drop">
-                                        <? echo $chargelist; ?>
+                                        <?php echo $chargelist; ?>
                                         <span id="err"></span>
                                    </div>
                                 <div class="col-md-3">
@@ -102,6 +102,6 @@
         </div>
     </div>
 </div>
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

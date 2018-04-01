@@ -1,4 +1,4 @@
-<? include('header.php'); ?>
+<?php include('header.php'); ?>
 <!--
 ASTPP  3.0 
 Add classes 
@@ -86,7 +86,7 @@ $class = "active";
                
 </div>		
 
-<? start_block_marker('content') ?><? end_block_marker() ?>	
+<?php start_block_marker('content') ?><? end_block_marker() ?>	
 
 
 <?php include('footer.php'); ?>

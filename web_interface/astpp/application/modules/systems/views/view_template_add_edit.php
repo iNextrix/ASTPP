@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/tinymce/tinymce.min.js">
 
@@ -48,16 +48,16 @@ tinymce.init({
 					var ERR_STR = '<?php echo $validation_errors; ?>';
 					print_error(ERR_STR);
 				</script>
-			<? } ?>           
+			<?php } ?>           
         </div>      
     </section>
   </div>
 </div>
 
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>
 
 <script type="text/javascript">
 $(function() {

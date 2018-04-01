@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script>
 $(document).ready(function(){
   $("#ANI_ID").change(function(){
@@ -15,7 +15,7 @@ $(document).ready(function(){
 </script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("animap_grid","",<? echo $grid_fields; ?>,"");
+        build_grid("animap_grid","",<?php echo $grid_fields; ?>,"");
     });
 function validateForm(){
       var val=document.getElementById('ANI_ID').value;
@@ -38,13 +38,13 @@ function validateForm(){
 } 
 </script>
 
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 <section class="slice color-three padding-b-20">
 		<div class="row">
@@ -79,6 +79,6 @@ function validateForm(){
 </section>
 
 
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

@@ -1,9 +1,9 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("commission_report_grid","",<? echo $grid_fields; ?>,"");
+        build_grid("commission_report_grid","",<?php echo $grid_fields; ?>,"");
         
         $("#commission_search_btn").click(function(){
             post_request_for_search("commission_report_grid","<?php echo base_url(); ?>reports/reseller_commissionreport_search/","reseller_commission_search");
@@ -19,13 +19,13 @@
         $("#commission_to_date").datetimepicker({ dateFormat: 'yy-mm-dd' });			
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="searchbar">
     <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
@@ -45,5 +45,5 @@
 </div>  
 
 <br/><br/>
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

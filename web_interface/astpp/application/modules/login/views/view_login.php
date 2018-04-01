@@ -24,7 +24,7 @@
 	?>
 	</title>
     <?php  $user_favicon = $this->session->userdata('user_favicon'); ?>
-    <link rel="icon" href="<? echo base_url(); ?>assets/images/<? echo $user_favicon ?>"/>
+    <link rel="icon" href="<?php echo base_url(); ?>assets/images/<? echo $user_favicon ?>"/>
     <link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/fonts/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css">
@@ -115,9 +115,9 @@
 
 							if ($this->session->userdata('userlevel_logintype') != '0') {?>
 									<img style="height:53px;width:216px;" id="logo" alt="login" src="<?php echo base_url(); ?>upload/<?php echo $logo;?>">
-							<? } else {?> 
+							<?php } else {?> 
 									<img style="height:53px;width:216px;" id="logo"  alt='login' src="<?php echo base_url(); ?>upload/<?php echo $logo;?>">
-							<? }?>
+							<?php }?>
                             	<div class="clear"></div>
                             
                             </h2>

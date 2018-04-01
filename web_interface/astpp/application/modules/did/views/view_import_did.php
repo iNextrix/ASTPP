@@ -1,10 +1,10 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
-<? endblock() ?>
-<? startblock('page-title') ?>
-    <?php echo gettext('DID Import Process')?> <?//= isset($pricelistid)?$this->common->get_field_name('name', 'pricelists',$pricelistid):"";?><? //= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>  
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
+    <?php echo gettext('DID Import Process')?> <?//= isset($pricelistid)?$this->common->get_field_name('name', 'pricelists',$pricelistid):"";?><?php //= $page_title ?>
+<?php endblock() ?>
+<?php startblock('content') ?>  
 <?php if ( ! isset($csv_tmp_data)) { ?>
 
 <section class="slice color-three padding-t-20">
@@ -15,7 +15,7 @@
               <div class="col-md-12">
             	<div class="w-box">
             	 <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
-                    <? if(isset($error) && !empty($error)) {
+                    <?php if(isset($error) && !empty($error)) {
 						echo $error;
 					}?>
                  </span>
@@ -30,7 +30,7 @@
                            <div class="col-md-12 no-padding">
                                <label class="col-md-3">Provider:</label>
                                <div>
-                               <? $provider_id = form_dropdown('provider_id', $this->db_model->build_concat_select_dropdown("id,first_name,number", " accounts", "where_arr", array("type" => "3","status"=>"0","deleted" => "0")), '');
+                               <?php $provider_id = form_dropdown('provider_id', $this->db_model->build_concat_select_dropdown("id,first_name,number", " accounts", "where_arr", array("type" => "3","status"=>"0","deleted" => "0")), '');
 							echo $provider_id;
 							  ?> </div>
                            </div>
@@ -117,5 +117,5 @@
 </div></div></div>
     </section>    
     <?php } ?>
-<? endblock() ?>	
-<? end_extend() ?>   
+<?php endblock() ?>	
+<?php end_extend() ?>   

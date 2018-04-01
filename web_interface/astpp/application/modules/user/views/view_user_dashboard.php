@@ -1,13 +1,13 @@
-<? extend('master.php') ?>
-<? startblock('page-title') ?>
+<?php extend('master.php') ?>
+<?php startblock('page-title') ?>
   <?php echo $page_title; ?>
-<? endblock() ?>
+<?php endblock() ?>
 <?php
 	$accountinfo=$this->session->userdata('accountinfo');
 	$currency=$this->common->get_field_name('currency','currency',array("id"=>$accountinfo['currency_id']));
 
 ?>
-<? startblock('extra_head') ?>
+<?php startblock('extra_head') ?>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/highcharts.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/exporting.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/chart/highcharts-3d.js"></script>
@@ -199,8 +199,8 @@ function get_package_data(){
     get_invoices_data();
     });
     </script> 
-<? endblock() ?>
-<? startblock('content') ?>
+<?php endblock() ?>
+<?php startblock('content') ?>
 
 <section class="slice">
     <div class="w-section inverse no-padding">
@@ -292,7 +292,7 @@ function get_package_data(){
     </div>
 </section>
 
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>  
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>  

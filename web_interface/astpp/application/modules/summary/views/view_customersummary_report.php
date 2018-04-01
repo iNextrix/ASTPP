@@ -1,16 +1,16 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         $(this).css('background-color', 'Green');
-        build_grid("customersummary_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("customersummary_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         
         $("#customersummary_search_btn").click(function(){
             document.customersummary_search.submit();
         });
         $("#id_reset").click(function(){
             clear_search_request("customersummary_grid","");
-            window.location="<? echo base_url() ?>summary/customer_clearsearchfilter/";
+            window.location="<?php echo base_url() ?>summary/customer_clearsearchfilter/";
         });
     });
 </script>
@@ -20,13 +20,13 @@
         jQuery("#customer_to_date").datetimepicker({format:'Y-m-d H:i:s'});
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 <section class="slice color-three">
     <div class="w-section inverse no-padding">
         <div class="container">
@@ -61,10 +61,10 @@
 														}
 														?>
                                                         <option value='<?php echo $sub_key; ?>'<?php echo $selected; ?>><?php echo $sub_value ?></option>
-                                                <? }
+                                                <?php }
 												?>
                                                 </optgroup>
-    <? }
+    <?php }
 }
 ?>
                                     </select>
@@ -232,5 +232,5 @@ if (!empty($search_report)) {
 
 
 
-<? endblock() ?>	
-<? end_extend() ?> 
+<?php endblock() ?>	
+<?php end_extend() ?> 

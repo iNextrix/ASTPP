@@ -1,8 +1,8 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-	 build_grid("reseller_rates_grid","",<?  echo $grid_fields; ?> ,<? echo $grid_buttons; ?>);
+	 build_grid("reseller_rates_grid","",<?php  echo $grid_fields; ?> ,<? echo $grid_buttons; ?>);
          $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
@@ -15,13 +15,13 @@
 
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
@@ -51,5 +51,5 @@
 
 
 <br/><br/>
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

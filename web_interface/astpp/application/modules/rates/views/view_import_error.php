@@ -9,13 +9,13 @@
     vertical-align:middle;
 }
     </style>
-<? extend('master.php') ?>
-  <? startblock('extra_head') ?>
-  <? endblock() ?>      
-    <? startblock('page-title') ?>
+<?php extend('master.php') ?>
+  <?php startblock('extra_head') ?>
+  <?php endblock() ?>      
+    <?php startblock('page-title') ?>
         <?=$page_title?>
-    <? endblock() ?>
-	<? startblock('content') ?>
+    <?php endblock() ?>
+	<?php startblock('content') ?>
   <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">
     	<div class="container">
@@ -51,10 +51,10 @@
                        <?php $profile_url = explode("/",base_url(uri_string()));
         if($profile_url[4] == 'termination_rate_rates_import'){ ?>
                         <a href="<?= base_url().'rates/termination_rate_error_download/'?>"><input class="btn btn-line-parrot" id="ok" type="button" name="action" value="Download Errors" /> </a>
-             </div></div>       <? }else{ ?>
+             </div></div>       <?php }else{ ?>
              <a href="<?= base_url().'rates/termination_rate_mapper_error_download/'?>"><input class="btn btn-line-parrot" id="ok" type="button" name="action" value="Download Errors" /> </a>
              
-           <?  } }?>    
+           <?php  } }?>    
 
                     <?php if (isset($pricelistid) && $pricelistid != "") { ?>
 <div class="col-md-12 padding-b-10">
@@ -65,10 +65,10 @@
             </fieldset>
 </section>		
                    
-        <? endblock() ?>
-    <? startblock('sidebar') ?>
+        <?php endblock() ?>
+    <?php startblock('sidebar') ?>
         Filter by
-    <? endblock() ?>
-<? end_extend() ?>  
+    <?php endblock() ?>
+<?php end_extend() ?>  
     
 

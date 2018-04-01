@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
  $(document).ready(function() {
@@ -7,7 +7,7 @@
 	     $(".did_dropdown").removeClass("col-md-5");  
              $(".did_dropdown").addClass("col-md-3"); 
     });
-    build_grid("did_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+    build_grid("did_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
     $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
     });
@@ -49,11 +49,11 @@
   width:100% !important;
  }
 </style>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>      
+<?php endblock() ?>
+<?php startblock('content') ?>      
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
     	<div class="container">
@@ -80,7 +80,7 @@ if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logi
 			<div class="col-md-4">
 			    <label class="col-md-4 no-padding">Available DIDs : </label>
 				<div class="col-md-8 no-padding sel_drop">
-				    <? echo $didlist; ?>
+				    <?php echo $didlist; ?>
 				    <span id="err"></span>
 				</div>
 			</div>
@@ -118,5 +118,5 @@ if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logi
     </div><br/>
   </div>
 </section>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php end_extend() ?>

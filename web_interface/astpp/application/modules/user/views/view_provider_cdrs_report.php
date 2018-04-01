@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var currentdate = new Date(); 
@@ -15,7 +15,7 @@
         $("#customer_cdr_to_date").val(datetime1);
         jQuery("#customer_cdr_from_date").datetimepicker({format:'Y-m-d h:s:i'});		
         jQuery("#customer_cdr_to_date").datetimepicker({format:'Y-m-d h:s:i'});
-        build_grid("user_provider_cdrs_report","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("user_provider_cdrs_report","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $("#user_provider_cdr_search_btn").click(function(){
             post_request_for_search("user_provider_cdrs_report","","user_provider_cdrs_report_search");
         });        
@@ -24,13 +24,13 @@
         });
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
@@ -59,5 +59,5 @@
 </section>
 
 
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

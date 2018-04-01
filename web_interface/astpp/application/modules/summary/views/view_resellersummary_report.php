@@ -1,16 +1,16 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("resellersummary_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("resellersummary_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         
         $("#resellersummary_search_btn").click(function(){
             document.resellersummary_search.submit();
         });        
         $("#id_reset").click(function(){
             clear_search_request("resellersummary_grid","");
-            window.location="<? echo base_url() ?>summary/reseller_clearsearchfilter/";
+            window.location="<?php echo base_url() ?>summary/reseller_clearsearchfilter/";
         });
     });
 </script>
@@ -20,13 +20,13 @@
         jQuery("#reseller_to_date").datetimepicker({format:'Y-m-d H:i:s'});
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 <section class="slice color-three">
     <div class="w-section inverse no-padding">
         <div class="container">
@@ -61,10 +61,10 @@
 														}
 														?>
                                                         <option value='<?php echo $sub_key; ?>'<?php echo $selected; ?>><?php echo $sub_value ?></option>
-                                                <? }
+                                                <?php }
 												?>
                                                 </optgroup>
-    <? }
+    <?php }
 }
 ?>
                                     </select>
@@ -232,5 +232,5 @@ if (!empty($search_report)) {
 
 
 
-<? endblock() ?>	
-<? end_extend() ?> 
+<?php endblock() ?>	
+<?php end_extend() ?> 

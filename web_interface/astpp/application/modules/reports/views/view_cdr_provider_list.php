@@ -1,10 +1,10 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("cdr_provider_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("cdr_provider_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         
         $("#provider_cdr_search_btn").click(function(){
            
@@ -30,13 +30,13 @@
         $("#customer_cdr_to_date").val(to_date);
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
@@ -64,5 +64,5 @@
     </div>
 </section>
 
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

@@ -1,5 +1,5 @@
-<? extend('left_panel_setting_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_setting_master.php') ?>
+<?php startblock('extra_head') ?>
 <?php endblock() ?>
 
 <?php startblock('page-title') ?>
@@ -222,7 +222,7 @@ function validateform(){
 
 
 
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>

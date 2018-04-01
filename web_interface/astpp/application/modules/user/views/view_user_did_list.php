@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
@@ -7,7 +7,7 @@
 	     $(".did_dropdown").removeClass("col-md-5");  
              $(".did_dropdown").addClass("col-md-3"); 
 	});
-        build_grid("did_grid","",<? echo $grid_fields; ?>,"");
+        build_grid("did_grid","",<?php echo $grid_fields; ?>,"");
         $("#user_did_search_btn").click(function(){
             post_request_for_search("did_grid","","user_did_search");
         }); 
@@ -49,12 +49,12 @@
        
     }
 </style>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title; ?>
-<? endblock() ?>
-<? startblock('content') ?>   
+<?php endblock() ?>
+<?php startblock('content') ?>   
 <section class="slice color-three">
     <div class="w-section inverse no-padding">
         <div class="container">
@@ -79,7 +79,7 @@
                             <div class="col-md-4">
                                 <label class="col-md-4 no-padding"><?php echo gettext('Available DIDs:')?> </label>
                                    <div class="col-md-8 no-padding sel_drop">
-                                        <? echo $didlist; ?>
+                                        <?php echo $didlist; ?>
                                         <span id="err"></span>
                                    </div>                                
                             </div>
@@ -96,6 +96,6 @@
 </section>
 
 
-<? endblock() ?>  
+<?php endblock() ?>  
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

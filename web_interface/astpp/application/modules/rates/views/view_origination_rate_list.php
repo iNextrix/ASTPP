@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
 /**********
 ASTPP  3.0
@@ -26,7 +26,7 @@ function check_btn(){
 }
 /************************/
     $(document).ready(function() {
-        build_grid("origination_rate_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("origination_rate_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
@@ -72,13 +72,13 @@ Batch Delete
     });
 </script>
 
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>
+<?php startblock('content') ?>
 
 
 
@@ -119,5 +119,5 @@ Batch Delete
     </div>
 </section>
 
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

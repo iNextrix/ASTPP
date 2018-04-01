@@ -1,9 +1,9 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("dids_list","<?php echo base_url()."accounts/customer_details_json/did/$edit_id/"; ?>",<? echo $grid_fields; ?>,"");
+        build_grid("dids_list","<?php echo base_url()."accounts/customer_details_json/did/$edit_id/"; ?>",<?php echo $grid_fields; ?>,"");
         $("#country_id" ).change(function() {
             var country_id= $('#country_id').val();
             var url ='<?php echo base_url()."accounts/customer_did_country/"; ?>';
@@ -52,11 +52,11 @@
        
     }
 </style>
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>   
+<?php endblock() ?>
+<?php startblock('content') ?>   
 <div id="main-wrapper" class="tabcontents">
     <div id="content">
         <div class="row">
@@ -112,7 +112,7 @@
                             <div class="col-md-4">
                                 <label class="col-md-4 no-padding">Available DIDs : </label>
                                    <div class="col-md-8 no-padding sel_drop">
-                                        <? echo $didlist; ?>
+                                        <?php echo $didlist; ?>
                                         <span id="err"></span>
                                    </div>
                                 
@@ -131,6 +131,6 @@
         </div>
     </div>
 </div>    
-<? endblock() ?>	
+<?php endblock() ?>	
 
-<? end_extend() ?>  
+<?php end_extend() ?>  

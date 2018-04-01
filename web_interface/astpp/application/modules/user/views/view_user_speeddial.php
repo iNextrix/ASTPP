@@ -1,5 +1,5 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     function isNumberKey(evt){
         var charCode = (evt.which) ? evt.which : event.keyCode
@@ -63,9 +63,9 @@
     }
 </style>
 <?php endblock() ?>
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 <?php startblock('content') ?>
 <div id="main-wrapper" class="tabcontents">   
     <div id="content">   
@@ -159,8 +159,8 @@
         </div>
     </div> 
 </div>
-<? endblock() ?>	
-<? startblock('sidebar') ?>
+<?php endblock() ?>	
+<?php startblock('sidebar') ?>
 Filter by
-<? endblock() ?>
-<? end_extend() ?>  
+<?php endblock() ?>
+<?php end_extend() ?>  

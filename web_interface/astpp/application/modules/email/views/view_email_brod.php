@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 <!--
 ASTPP  3.0 
@@ -226,17 +226,17 @@ table {
  border:"1";
    }
 </style>
-<? endblock() ?>
-<? startblock('page-title') ?>
-    Compose Email <? $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
+    Compose Email <?php $page_title ?>
+<?php endblock() ?>
+<?php startblock('content') ?>
 
 <section class="slice color-three padding-">
  <div class="container">
  <form method="post" action="<?= base_url()?>email/email_client_get/" enctype="multipart/form-data" name="myform" id="myform" onsubmit="return(regvalidate())">
      <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
-                    <? if(isset($error) && !empty($error)) {
+                    <?php if(isset($error) && !empty($error)) {
 						echo $error;
 					}?>
                  </span>
@@ -386,7 +386,7 @@ table {
  </form>
 </section>
 
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>

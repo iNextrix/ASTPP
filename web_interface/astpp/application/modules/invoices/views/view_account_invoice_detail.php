@@ -150,10 +150,10 @@ Addres : <?=$accountinfo['address_1']?>
  </div>
 	</div>
 </div>  
-    <? endblock() ?>	
-    <? startblock('sidebar') ?>						
+    <?php endblock() ?>	
+    <?php startblock('sidebar') ?>						
 		<br/><br/><br/><br/><br/><br/>    	
 
-    <? endblock() ?>
+    <?php endblock() ?>
     
-<? end_extend() ?>  
+<?php end_extend() ?>  

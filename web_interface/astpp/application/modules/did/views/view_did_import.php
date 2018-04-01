@@ -16,7 +16,7 @@
               <div class="col-md-12">
             	<div class="w-box">
             	 <span  style="margin-left:10px; text-align: center;background-color: none;color:#1c8400;">
-                    <? if(isset($error) && !empty($error)) {
+                    <?php if(isset($error) && !empty($error)) {
 						echo $error;
 					}?>
                  </span>
@@ -33,7 +33,7 @@
                            <div class="col-md-12 no-padding">
                                <label class="col-md-3">Trunk List:</label>
                                <div>
-                               <? $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "", ""), '');
+                               <?php $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "", ""), '');
 							echo $trunklist; ?></div>
                            </div>
                            <div class="col-md-12 no-padding"s>

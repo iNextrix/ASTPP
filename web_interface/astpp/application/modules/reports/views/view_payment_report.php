@@ -1,9 +1,9 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("payment_report_grid","",<? echo $grid_fields; ?>,"");
+        build_grid("payment_report_grid","",<?php echo $grid_fields; ?>,"");
         
         $("#cusotmer_cdr_payment_search_btn").click(function(){
 
@@ -23,13 +23,13 @@
         $("#customer_cdr_to_date").datetimepicker();
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
@@ -56,5 +56,5 @@
         </div>
     </div>
 </section>
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

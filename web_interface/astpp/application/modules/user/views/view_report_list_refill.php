@@ -1,5 +1,5 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
@@ -7,7 +7,7 @@
 ASTPP  3.0 
 Payment to refill
 ******/
-        build_grid("report_grid","",<? echo $grid_fields; ?>,"");
+        build_grid("report_grid","",<?php echo $grid_fields; ?>,"");
         $("#cusotmer_cdr_refill_search_btn").click(function(){
             post_request_for_search("report_grid","<?php echo base_url(); ?>reports/user_refillreport_search/","cdr_refill_search");
         });        
@@ -19,13 +19,13 @@ Payment to refill
         $("#customer_cdr_to_date").datetimepicker();
     });
 </script>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 
-<? startblock('content') ?>        
+<?php startblock('content') ?>        
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
@@ -53,5 +53,5 @@ Payment to refill
     </div>
 </section>
 
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  

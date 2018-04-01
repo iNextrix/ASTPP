@@ -52,7 +52,7 @@
 	    
 	    </div>
 	    
-	<? } } else{ ?>
+	<?php } } else{ ?>
 			 <div  class="pull-left col-md-3">
 			<span><?php echo gettext('Powered by')?> </span>
 			<a href="http://www.astppbilling.org" target="_blank">

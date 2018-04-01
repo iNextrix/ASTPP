@@ -1,9 +1,9 @@
-<? extend('master.php') ?>	
+<?php extend('master.php') ?>	
 
 <?php startblock('page-title') ?>
 	<?php echo $page_title; ?>
 <?php endblock() ?>
-<? startblock('content') ?>  
+<?php startblock('content') ?>  
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
     	<div class="container">
@@ -15,7 +15,7 @@
         </div>
     </div>
 </section>
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>  
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>  

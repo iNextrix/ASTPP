@@ -9,13 +9,13 @@
     vertical-align:middle;
 }
     </style>
-<? extend('master.php') ?>
-  <? startblock('extra_head') ?>
-  <? endblock() ?>      
-    <? startblock('page-title') ?>
+<?php extend('master.php') ?>
+  <?php startblock('extra_head') ?>
+  <?php endblock() ?>      
+    <?php startblock('page-title') ?>
         <?=$page_title?><br/>
-    <? endblock() ?>
-	<? startblock('content') ?>
+    <?php endblock() ?>
+	<?php startblock('content') ?>
  <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">
     	<div class="container">
@@ -45,10 +45,10 @@
                     <?}?>
                      <a href="<?= base_url().'did/did_list/'?>"><input class="btn btn-line-parrot" id="did_list" type="button" name="action" value="Back to DID List" /> </a>  </div></div>
             </fieldset></section>
-        <? endblock() ?>
-    <? startblock('sidebar') ?>
+        <?php endblock() ?>
+    <?php startblock('sidebar') ?>
         Filter by
-    <? endblock() ?>
-<? end_extend() ?>  
+    <?php endblock() ?>
+<?php end_extend() ?>  
     
 

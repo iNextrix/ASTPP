@@ -1,10 +1,10 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 
 
 <script type="text/javascript">
 $(document).ready(function() {
-  build_grid("sip_profile_grid","<?php echo base_url(); ?>freeswitch/fssipprofile_params_json/<?=$edited_id?>",<? echo $grid_fields ?>,'');
+  build_grid("sip_profile_grid","<?php echo base_url(); ?>freeswitch/fssipprofile_params_json/<?=$edited_id?>",<?php echo $grid_fields ?>,'');
 })
    function validateForm(){
 	var formflag = true;
@@ -214,7 +214,7 @@ function cancel(){
     </div>
 </section>
 
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>

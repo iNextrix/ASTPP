@@ -5,7 +5,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("prefixes_grid","<?php echo base_url(); ?>package/package_patterns_add_json/<?= $packageid; ?>",<? echo $patters_grid_fields ?>,"");
+        build_grid("prefixes_grid","<?php echo base_url(); ?>package/package_patterns_add_json/<?= $packageid; ?>",<?php echo $patters_grid_fields ?>,"");
 
         $('.checking').click(function () {
 			$('.PatternChkBox').attr('checked', this.checked);//if you want to select/deselect checkboxes use this
@@ -50,7 +50,7 @@
    <div>
      <div>
         <div class="col-md-12 no-padding margin-t-15 margin-b-10">
-	        <div class="col-md-10"><b><? echo "Rates List"; ?></b></div>
+	        <div class="col-md-10"><b><?php echo "Rates List"; ?></b></div>
 	  </div>
 </div>
 </div>

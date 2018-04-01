@@ -1,5 +1,5 @@
-<? extend('left_panel_master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('left_panel_master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -50,9 +50,9 @@ $(function() {
 });
 </script>
 <?php endblock() ?>
-<? startblock('page-title') ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
+<?php endblock() ?>
 <?php startblock('content') ?>
 <div id="main-wrapper" class="tabcontents">   
     <div id="content">   
@@ -246,7 +246,7 @@ $(function() {
   </div>
  </div>
 </div>
-<? endblock() ?>
-<? startblock('sidebar') ?>
-<? endblock() ?>
-<? end_extend() ?>
+<?php endblock() ?>
+<?php startblock('sidebar') ?>
+<?php endblock() ?>
+<?php end_extend() ?>

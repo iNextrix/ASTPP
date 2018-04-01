@@ -1,8 +1,8 @@
-<? extend('master.php') ?>
-<? startblock('extra_head') ?>
+<?php extend('master.php') ?>
+<?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("fs_sipprofile_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("fs_sipprofile_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
       
         $("#fssipprofile_search_btn").click(function(){
 //             alert('ascsd');
@@ -14,11 +14,11 @@
      });
 </script>
 
-<? endblock() ?>
-<? startblock('page-title') ?>
+<?php endblock() ?>
+<?php startblock('page-title') ?>
 <?= $page_title ?>
-<? endblock() ?>
-<? startblock('content') ?>    
+<?php endblock() ?>
+<?php startblock('content') ?>    
 
 
 
@@ -59,5 +59,5 @@
 
 
 
-<? endblock() ?>	
-<? end_extend() ?>  
+<?php endblock() ?>	
+<?php end_extend() ?>  
