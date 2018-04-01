@@ -26,6 +26,15 @@ class Accounts_model extends CI_Model {
 		parent::__construct ();
 	}
 	function add_account($accountinfo) {
+		if (empty($accountinfo['id'])) {
+			$accountinfo['id'] = null;
+		}
+		if (empty($accountinfo['maxchannels'])) {
+			unset($accountinfo['maxchannels']);
+		}
+		if (empty($accountinfo['interval'])) {
+			unset($accountinfo['interval']);
+		}
 		$account_data = $this->session->userdata ( "accountinfo" );
 		$accountinfo ['reseller_id'] = ($account_data ['type'] == 1) ? $account_data ['id'] : 0;
 		// $accountinfo['maxchannels'] = ($accountinfo['type'] == 1 || $account_data['type'] == 2 || $account_data['type'] == -1 ) ? "0" : $accountinfo['maxchannels'];

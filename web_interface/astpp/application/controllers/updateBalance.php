@@ -48,7 +48,7 @@ class UpdateBalance extends MX_Controller {
 		
 		// Check Charge is applied that is for first time or already calculated before
 		
-		$where = "(charge_upto ='0000-00-00 00:00:00' OR charge_upto <='" . gmdate ( "Y-m-d H:i:s" ) . "')";
+		$where = "(charge_upto ='1980-01-01 00:00:00' OR charge_upto <='" . gmdate ( "Y-m-d H:i:s" ) . "')";
 		$this->db->where ( 'accountid', $accountinfo ['id'] );
 		$this->db->where ( $where );
 		$this->db->select ( '*' );
@@ -65,7 +65,7 @@ class UpdateBalance extends MX_Controller {
 				if ($charge_data && ! empty ( $charge_data )) {
 					$charge_data = $charge_data [0];
 					// Get Start Date of Charge
-					$charge_upto = ($accharges ["charge_upto"] != "0000-00-00 00:00:00" && $accharges ["charge_upto"] != "") ? date ( "Y-m-d H:i:s", strtotime ( "+1 Second", strtotime ( $accharges ["charge_upto"] ) ) ) : $accharges ["assign_date"];
+					$charge_upto = ($accharges ["charge_upto"] != "1980-01-01 00:00:00" && $accharges ["charge_upto"] != "") ? date ( "Y-m-d H:i:s", strtotime ( "+1 Second", strtotime ( $accharges ["charge_upto"] ) ) ) : $accharges ["assign_date"];
 					if ($accountinfo ['original_sweep_id'] == 2 && $charge_data ['pro_rate'] == 0 && $charge_data ['sweep_id'] == 2 && ($accountinfo ['invoice_day'] < gmdate ( "d", strtotime ( $accharges ['assign_date'] ) ))) {
 						$charge_upto = date ( "Y-m-" . $accountinfo ['invoice_day'] . " H:i:s", strtotime ( $accharges ["assign_date"] ) );
 					}
@@ -74,7 +74,7 @@ class UpdateBalance extends MX_Controller {
 						$accountinfo ['sweep_id'] = $charge_data ['sweep_id'];
 					}
 					// IF its already assigned before invoice start date then no need to applied same charge one more time
-					if ($charge_upto != "0000-00-00 00:00:00" && $charge_upto != "" && strtotime ( $charge_upto ) < strtotime ( $enddate )) {
+					if ($charge_upto != "1980-01-01 00:00:00" && $charge_upto != "" && strtotime ( $charge_upto ) < strtotime ( $enddate )) {
 						$fromdate = gmdate ( "Y-m-d H:i:s", strtotime ( $charge_upto ) );
 						if ($Manualflg) {
 							$todate = gmdate ( "Y-m-d H:i:s", strtotime ( $enddate ) );
@@ -116,9 +116,9 @@ class UpdateBalance extends MX_Controller {
 		$AccountDATA ['sweep_id'] = '2';
 		if ($dids_data) {
 			foreach ( $dids_data as $did_value ) {
-				$charge_upto = ($did_value ["charge_upto"] != "0000-00-00 00:00:00" && $did_value ["charge_upto"] != "") ? $did_value ["charge_upto"] : $did_value ["assign_date"];
+				$charge_upto = ($did_value ["charge_upto"] != "1980-01-01 00:00:00" && $did_value ["charge_upto"] != "") ? $did_value ["charge_upto"] : $did_value ["assign_date"];
 				
-				if ($charge_upto != "0000-00-00 00:00:00" && $charge_upto != "" && strtotime ( $charge_upto ) < strtotime ( $enddate )) {
+				if ($charge_upto != "1980-01-01 00:00:00" && $charge_upto != "" && strtotime ( $charge_upto ) < strtotime ( $enddate )) {
 					$fromdate = gmdate ( "Y-m-d H:i:s", strtotime ( $charge_upto ) );
 					if ($Manualflg) {
 						$todate = gmdate ( "Y-m-d H:i:s", strtotime ( $enddate ) );
@@ -206,7 +206,7 @@ class UpdateBalance extends MX_Controller {
 		$assign_day = ($AccountDATA ['original_sweep_id'] == 2 && $AccountDATA ['posttoexternal'] == 1) ? gmdate ( "d", strtotime ( $itemArr ['assign_date'] ) ) : 0;
 		$billing_day = ($AccountDATA ['original_sweep_id'] == 2 && $AccountDATA ['posttoexternal'] == 1) ? $AccountDATA ['invoice_day'] : 0;
 		// Create an array if charge not applied yet and invoice day is greater than assign_day
-		if ($itemArr ['charge_upto'] == "0000-00-00 00:00:00" && ($billing_day > $assign_day) && $pro_rate == 0 && $itemArr ['cycle'] == 2 && $AccountDATA ['original_sweep_id'] == 2) {
+		if ($itemArr ['charge_upto'] == "1980-01-01 00:00:00" && ($billing_day > $assign_day) && $pro_rate == 0 && $itemArr ['cycle'] == 2 && $AccountDATA ['original_sweep_id'] == 2) {
 			$last_invoice_date = gmdate ( "Y-m-d H:i:s", strtotime ( "-1 second", strtotime ( date ( "Y-m-" . $AccountDATA ['invoice_day'] . " 00:00:00", strtotime ( $itemArr ["assign_date"] ) ) ) ) );
 			$prorate_array [] = array (
 					"start_date" => date ( "Y-m-d H:i:s", strtotime ( $itemArr ['assign_date'] ) ),
@@ -231,7 +231,7 @@ class UpdateBalance extends MX_Controller {
 					$ChargeVal ['end_date'] = gmdate ( "Y-m-d 23:59:59", strtotime ( "-1 Day", strtotime ( $ChargeVal ['end_date'] ) ) );
 				}
 				if (! empty ( $itemArr ['charge_upto'] ) && empty ( $lastdate )) {
-					$start_date = ($itemArr ['charge_upto'] == '0000-00-00 00:00:00' && $AccountDATA ['sweep_id'] == 2) ? $itemArr ['assign_date'] : $ChargeVal ['start_date'];
+					$start_date = ($itemArr ['charge_upto'] == '1980-01-01 00:00:00' && $AccountDATA ['sweep_id'] == 2) ? $itemArr ['assign_date'] : $ChargeVal ['start_date'];
 				} else {
 					$start_date = (empty ( $lastdate )) ? $ChargeVal ['start_date'] : gmdate ( "Y-m-d H:i:s", strtotime ( "+1 second", strtotime ( $lastdate ) ) );
 				}

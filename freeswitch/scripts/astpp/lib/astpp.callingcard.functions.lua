@@ -168,7 +168,7 @@ function validate_card_usage(carddata)
         local callstart = os.date("!%Y-%m-%d %H:%M:%S")
     
         -- Now the card is in use and nobody else can use it.
-        if ( carddata['first_used'] == "0000-00-00 00:00:00") then
+        if ( carddata['first_used'] == "1980-01-01 00:00:00") then
 
             -- If "firstused" has not been set, we will set it now.
                local query = "UPDATE accounts SET first_used = now() WHERE id = " .. carddata['id'];
@@ -185,7 +185,7 @@ function validate_card_usage(carddata)
     
         elseif ( tonumber(carddata['validfordays']) >= 0 ) then
         
-                if (carddata['expiry'] == '0000-00-00 00:00:00') then
+                if (carddata['expiry'] == '1980-01-01 00:00:00') then
                     local query = "UPDATE accounts SET expiry = DATE_ADD('"..callstart.."', INTERVAL " .. carddata['validfordays'].." day) WHERE id = "..carddata['id']
                     Logger.debug("[validate_card_usage] Query :" .. query)
     	            dbh:query(query);

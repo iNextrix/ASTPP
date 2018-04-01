@@ -524,7 +524,7 @@ class Accounts_form {
 								'size' => '20',
 								'readonly' => true,
 								'class' => "text field medium",
-								'value' => '0000-00-00 00:00:00' 
+								'value' => '1980-01-01 00:00:00' 
 						),
 						'',
 						'tOOL TIP',
