@@ -20,4 +20,4 @@ CREATE TABLE IF NOT EXISTS `subscriber` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `account_idx` (`username`,`domain`),
   KEY `username_idx` (`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=ascii AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=ascii AUTO_INCREMENT=6 ;
