@@ -59,7 +59,6 @@ $autoload ['packages'] = array ();
 $autoload ['libraries'] = array (
 		'database',
 		'session',
-		'locale',
 		'global_locale' 
 );
 
