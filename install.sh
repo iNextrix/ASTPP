@@ -122,7 +122,7 @@ deb-src http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/php7.li
 		fi
 	fi 
 }
-
+install_php7
 install_epel () 
 {
 		yum install epel-release
