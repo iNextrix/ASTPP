@@ -122,18 +122,6 @@ deb-src http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/php7.li
 		fi
 	fi 
 }
-install_php7
-install_epel () 
-{
-		yum install epel-release
-}
-
-remove_epel () 
-{
-		# only on CentOS
-		yum remove epel-release
-}
-
 # Generate random password (for MySQL)
 genpasswd() 
 {
@@ -179,6 +167,7 @@ ask_to_install_astpp ()
 			exit 0
 		else
 			echo "Licence accepted!"
+			install_php7
 			echo "============checking your working directory=================="			
 			git clone -b v3.6-dev https://github.com/iNextrix/ASTPP.git
 			cp -rf ASTPP latest			
@@ -255,9 +244,7 @@ install_freeswitch_for_astpp ()
 	    elif  [ ${DIST} = "CENTOS" ]; then
 			# Install Freeswitch pre-requisite packages using yum
 			yum groupinstall "Development tools" -y
-			install_epel
 			rpm -Uvh http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm
-			yum install epel-release
 			yum install -y wget git autoconf automake expat-devel yasm nasm gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel bc e2fsprogs-devel libcurl-devel libxml2-devel libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbound-devel libuuid-devel lua-devel libsndfile-devel
 		fi
 		NAT1=$(dig +short myip.opendns.com @resolver1.opendns.com)
