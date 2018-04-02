@@ -1878,6 +1878,9 @@ class Accounts extends MX_Controller {
 	}
 	function admin_save($add_array = false) {
 		$add_array = $this->input->post ();
+		if (empty($add_array['credit_limit'])) {
+			$add_array['credit_limit'] = 1;
+		}
 		$accountinfo = $this->session->userdata ( 'accountinfo' );
 		$type = $add_array ['type'] == - 1 ? 2 : $add_array ['type'];
 		$entity_type = strtolower ( $this->common->get_entity_type ( '', '', $type ) );

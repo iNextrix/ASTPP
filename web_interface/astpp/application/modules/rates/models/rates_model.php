@@ -300,6 +300,10 @@ class rates_model extends CI_Model {
 		 */
 		$data ['pattern'] = "^" . $data ['pattern'] . ".*";
 		$this->db->where ( "id", $id );
+		// If no trunk is selected, set it to 0
+		if (empty($data['trunk_id'])) {
+			$data['trunk_id'] = 0;
+		}
 		$this->db->update ( "routes", $data );
 	}
 	function remove_origination_rate($id) {
@@ -439,7 +443,7 @@ class rates_model extends CI_Model {
 		$insert_value = "";
 		$update_str = "";
 		foreach ( $add_array as $key => $value ) {
-			if ($key != 'id') {
+			if ($key != 'id' && $value) {
 				$insert_key .= $key . ",";
 				//$insert_value .= "'" . mysqli_real_escape_string ( $db, $value ) . "',";
 				//$update_str .= $key . " = '" . mysqli_real_escape_string ( $db, $value ) . "',";

@@ -49,6 +49,13 @@
 <?= $page_title ?>
 <?php endblock() ?>
 <?php startblock('content') ?>
+
+<?php
+// Why is accounttype undefined?
+if (empty($accounttype)) {
+	$accounttype = "";
+}
+?>
 <div id="main-wrapper" class="tabcontents">
     <div id="content">   
         <div class="row"> 

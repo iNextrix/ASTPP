@@ -43,6 +43,14 @@ class trunk_model extends CI_Model {
 		return true;
 	}
 	function edit_trunk($data, $id) {
+		// If our failover gateways are blank, NULL them so we don't
+		// give the database a string for an int col.
+		$vals = array("failover_gateway_id", "failover_gateway_id1");
+		foreach ($vals as $v) {
+			if (empty($data[$v])) {
+				unset($data[$v]);
+			}
+		}
 		unset ( $data ["action"] );
 		$data ['last_modified_date'] = gmdate ( 'Y-m-d H:i:s' );
 		$this->db->where ( "id", $id );

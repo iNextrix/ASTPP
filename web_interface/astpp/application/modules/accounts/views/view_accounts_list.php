@@ -100,7 +100,7 @@ first used,creation,expiry search date picker
    	    <div class="row">
         <span id="error_msg" class=" success"></span>
             	<div class="portlet-content"  id="update_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_batch_update; ?>
+                    	<?php echo isset($form_batch_update)?$form_batch_update:""; ?>
     	        </div>
             </div>
         </div>

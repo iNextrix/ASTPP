@@ -1350,6 +1350,9 @@ class common {
 		}
 
 		$subject = str_replace ( "#NAME#", $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
+		if (empty($accountinfo['company_name'])) {
+			$accountinfo['company_name'] = "";
+		}
 		$message = str_replace ( "#COMPANY#", $accountinfo ['company_name'], $message );
 		$subject = str_replace ( "#COMPANY#", $accountinfo ['company_name'], $subject );
 

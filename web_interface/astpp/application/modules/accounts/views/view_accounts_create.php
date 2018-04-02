@@ -21,7 +21,7 @@
             });
         });
         $(".change_pin").click(function(){
-         var str_size='<?php echo $callingcard; ?>';
+         var str_size='<?php echo isset($callingcard)?$callingcard:""; ?>';
             $.ajax({type:'POST',
                 url: "<?= base_url()?>accounts/customer_generate_number/"+str_size,
                 success: function(response) {
@@ -44,7 +44,7 @@
    $(".country_id").val(<?=$country_id?>);
    $(".timezone_id").val(<?=$timezone_id?>);
    $(".currency_id").val(<?=$currency_id?>);
-   <?php if ($entity_name != 'admin' && $entity_name != 'subadmin') { ?>
+   <?php if (isset($entity_name) && $entity_name != 'admin' && $entity_name != 'subadmin') { ?>
    document.getElementsByName("sweep_id")[0].selectedIndex = <?=1?>;
 
 	 $(".sweep_id").change(function(e){

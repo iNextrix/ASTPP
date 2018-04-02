@@ -67,3 +67,25 @@ UPDATE `system` SET `value` ='3.6' WHERE `system`.`id` = 191;
 --
 ALTER TABLE `cdrs` ADD `call_request` TINYINT( 3 ) NOT NULL DEFAULT '0';
 ALTER TABLE `reseller_cdrs` ADD `call_request` TINYINT( 3 ) NOT NULL DEFAULT '0';
+
+--
+-- Add missing defaults
+--
+ALTER TABLE `accounts` MODIFY `pin` VARCHAR(20) DEFAULT '';
+ALTER TABLE `accounts` MODIFY `first_used` datetime NOT NULL DEFAULT '1980-01-01 00:00:00';
+ALTER TABLE `accounts` MODIFY `charge_per_min` varchar(100) DEFAULT '';
+ALTER TABLE `accounts` MODIFY `std_cid_translation` varchar(100) DEFAULT '';
+ALTER TABLE `accounts` MODIFY `did_cid_translation` varchar(100) DEFAULT '';
+ALTER TABLE `invoice_conf` MODIFY `fax` varchar(20) DEFAULT '';
+ALTER TABLE `invoice_conf` MODIFY `website` varchar(100) DEFAULT '';
+ALTER TABLE `invoice_conf` MODIFY `logo` varchar(100) DEFAULT '';
+ALTER TABLE `invoice_conf` MODIFY `favicon` varchar(100) DEFAULT '';
+ALTER TABLE `invoice_conf` MODIFY `interval` varchar(11) DEFAULT '1';
+-- This was previously "ABN 35 155 859 340" which is the ABN of CallCentral.com.au
+-- and they're using ASTPP here:  http://www.centbill.com.au/ (Yes. Not https)
+ALTER TABLE `invoice_conf` MODIFY `invoice_taxes_number` varchar(100) NOT NULL DEFAULT 'Unknown Tax Number';
+ALTER TABLE `invoice_conf` MODIFY `domain` varchar(100) NOT NULL DEFAULT '';
+ALTER TABLE `invoice_conf` MODIFY `website_title` varchar(100) NOT NULL DEFAULT '';
+ALTER TABLE `invoice_conf` MODIFY `website_footer` varchar(100) NOT NULL DEFAULT '';
+
+

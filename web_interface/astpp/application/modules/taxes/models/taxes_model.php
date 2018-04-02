@@ -44,6 +44,7 @@ class Taxes_model extends CI_Model {
 	}
 	function add_tax($data) {
 		unset ( $data ["action"] );
+		unset ( $data ["id"] );
 		$data ["creation_date"] = date ( "Y-m-d H:i:s" );
 		if ($this->session->userdata ( 'logintype' ) == 1 || $this->session->userdata ( 'logintype' ) == 5) {
 			$data ['reseller_id'] = $this->session->userdata ["accountinfo"] ['id'];

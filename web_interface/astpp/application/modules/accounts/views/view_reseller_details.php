@@ -7,7 +7,7 @@
             if(sweep_id != 0){
                 $.ajax({
                     type:'POST',
-                    url: "<?= base_url() ?>/accounts/customer_invoice_option/<?= $invoice_date ?>",
+                    url: "<?= base_url() ?>/accounts/customer_invoice_option/<?= isset($invoice_date)?$invoice_date:"" ?>",
                     data:"sweepid="+sweep_id, 
                     success: function(response) {
                         $(".invoice_day").html(response);

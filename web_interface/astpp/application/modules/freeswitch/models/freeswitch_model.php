@@ -372,6 +372,7 @@ class Freeswitch_model extends CI_Model {
 		 * ********************************
 		 */
 		unset ( $data ['action'] );
+		unset ( $data ['id'] );
 		$this->db->insert ( 'freeswich_servers', $data );
 		return true;
 	}

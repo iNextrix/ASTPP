@@ -25,15 +25,17 @@
 					    </script>
 				     <?php } ?>
 
-<!--                                <?php
-								$data_errrors = json_decode($validation_errors);
-								foreach ($data_errrors as $key => $value) {
-									echo $value . "<br/>";
-								}
-								?> 
-                          </div>
-                        <?php echo $form; ?> -->
-                          </div> 
+<!--
+<?php
+$data_errors = @json_decode($validation_errors);
+if (is_array($data_errors)) {
+	foreach ($data_errrors as $key => $value) {
+		echo $value . "<br/>";
+	}
+}
+?> 
+<?php echo $form; ?> -->
+  </div> 
             </section>        
           </div>
         </div>    

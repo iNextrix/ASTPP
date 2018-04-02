@@ -102,7 +102,7 @@ function validateForm(){
 }
 ?> 
             </div>
-            <?php echo $form; ?>
+            <?php echo isset($form)?$form:""; ?>
         </div>      
     </section>
   </div>

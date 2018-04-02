@@ -145,9 +145,7 @@ function cancel(){
     	<div class="container">
    	    <div class="row">
             	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_search;
-
-?>
+                    	<?php echo isset($form_search)?$form_search:""; ?>
     	        </div>
             </div>
         </div>
@@ -162,10 +160,7 @@ function cancel(){
                         
                        
                         <div style="color:red;margin-left: 60px;">
-			<?php if (isset($validation_errors)) {
-	echo $validation_errors;
-}
-?> 
+			<?php if (isset($validation_errors)) { echo $validation_errors; } ?> 
 		    </div>
                     <form method="post" name="form2" id="form2" action="<?= base_url() ?>freeswitch/fssipprofile_edit" enctype="multipart/form-data">
 			<input type='hidden' name='id' value=<?=$id?> />
@@ -176,7 +171,7 @@ function cancel(){
 			          <label class="col-md-12 no-padding" style='padding-left:10px;'>Name  </label>
 			          </div>
 			          <div class='col-md-2'>
-			          <input class="col-md-12 form-control" value="<?=$params_name?>" name="params_name" id='params_name' size="25" type="text">
+			          <input class="col-md-12 form-control" value="<?= isset($params_name)?$params_name:"" ?>" name="params_name" id='params_name' size="25" type="text">
 			          </div>
 		          
 			</div>
@@ -185,12 +180,12 @@ function cancel(){
 			          <label class="col-md-12" style="padding-left:10px;">Value  </label>
 			           </div>
 			          <div class='col-md-2'>
-			          <input class="col-md-12 form-control" value="<?=$params_value?>" name="params_value" id='params_value' size="25" type="text">
+			          <input class="col-md-12 form-control" value="<?= isset($params_value)?$params_value:"" ?>" name="params_value" id='params_value' size="25" type="text">
 			           </div>
 			          
 			</div>
 			<?
-			  if($params_name!='')
+			  if(!empty($params_name))
 			  {
 				$type="edit_setting";
 			  }else{

@@ -29,7 +29,7 @@ class Accounts_model extends CI_Model {
 		if (empty($accountinfo['id'])) {
 			$accountinfo['id'] = null;
 		}
-		$ints = array ("maxchannels", "interval", "validfordays", "notify_credit_limit");
+		$ints = array ("maxchannels", "interval", "validfordays", "notify_credit_limit", "cps");
 		foreach ($ints as $i) {
 			if (empty($accountinfo[$i])) {
 				unset($accountinfo[$i]);
@@ -73,6 +73,7 @@ class Accounts_model extends CI_Model {
 			$invoice_config = "";
 		}
 		unset ( $accountinfo ['invoice_config_flag'] );
+		$accountinfo['dialed_modify'] = "";  // Blobs etc can not have default values
 		$result = $this->db->insert ( 'accounts', $accountinfo );
 		$last_id = $this->db->insert_id ();
 		/**
