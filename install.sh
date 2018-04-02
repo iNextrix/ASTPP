@@ -104,9 +104,24 @@ get_linux_distribution ()
 			exit 1
 		fi
 	fi
-}														
+}
 get_linux_distribution
-
+install_php7 ()
+{
+	if [ "$DIST" = "DEBIAN" ]; then
+		echo "
+deb http://packages.dotdeb.org jessie all
+deb-src http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/php7.list
+		curl https://www.dotdeb.org/dotdeb.gpg | apt-key add -
+		apt-get update
+		else if [ "$DIST" = "CENTOS" ]; then
+			yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+			yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+			yum install yum-utils
+			yum-config-manager --enable remi-php70
+		fi
+	fi 
+}
 
 install_epel () 
 {
