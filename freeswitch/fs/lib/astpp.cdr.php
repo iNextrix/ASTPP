@@ -48,7 +48,7 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 		$hangup_cause = $dataVariable ['hangup_cause'];
 	}
 	
-	if ($dataVariable ['error_cdr'] == '1') {
+	if (isset($dataVariable ['error_cdr']) && $dataVariable ['error_cdr'] == '1') {
 		// Get actual hangup cause
 		$hangup_cause = (isset ( $dataVariable ['error_cdr'] )) ? $dataVariable ['last_bridge_hangup_cause'] : (isset ( $dataVariable ['last_bridge_hangup_cause'] ) ? $dataVariable ['last_bridge_hangup_cause'] : $dataVariable ['hangup_cause']);
 	}
@@ -146,7 +146,7 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	
 	// Resellers CDR entry
 	$flag_parent = false;
-	insert_parent_data ( $dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points );
+	insert_parent_data ( $dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points, $config );
 	
 	$logger->log ( "*********************** OUTBOUND CALL ENTRY END *************" );
 	
@@ -304,21 +304,105 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 
 // Generate CDR string for insert query for customer.
 function get_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost, $logger, $db) {
-	$dataVariable ['calltype'] = ($dataVariable ['calltype'] == 'DID-LOCAL' || $dataVariable ['calltype'] == 'SIP-DID' || $dataVariable ['calltype'] == 'OTHER') ? "DID" : $dataVariable ['calltype'];
-	// $callerIdNumber = isset($dataVariable['effective_caller_id_number']) && !empty($dataVariable['effective_caller_id_number'])? $dataVariable['effective_caller_id_number'] :$dataVariable['caller_id'];
-	$callerIdNumber = ($dataVariable ['calltype'] == "DID") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
+
+	// Get our call type - if it's DID-LOCAL, SIP-DID or OTHER, it's "DID'. Otherwise, it's whatever it is.
+	switch ($dataVariable['calltype']) {
+	case "DID-LOCAL":
+	case "SIP-DID":
+	case "OTHER":
+		$dataVariable['calltype'] = "DID";
+	}
+
+	// If it's a DID Call Type, use the effective_caller_id values, not the original_caller_id values.
+	if ($dataVariable['calltype'] == "DID") {
+		$cidname = isset($dataVariable['effective_caller_id_name'])?$dataVariable ['effective_caller_id_name']:"";
+		$cidnum = isset($dataVariable['effective_caller_id_number'])?$dataVariable ['effective_caller_id_number']:"";
+	} else {
+		$cidname = isset($dataVariable['original_caller_id_name'])?$dataVariable ['original_caller_id_name']:"";
+		$cidnum = isset($dataVariable['original_caller_id_number'])?$dataVariable ['original_caller_id_number']:"";
+	}
+
+	// If cidname is blank, remove leading spaces
+	$callerIdNumber = trim("$cidname <$cidnum>");
 
         //Adding q.850 code in cdr table
-	if(table_exists('q850code', 'astpp', $logger, $db)==1) {
+	if(table_exists('q850code', 'astpp', $logger, $db)) {
 	        $query = "SELECT code FROM q850code WHERE cause='" . ($dataVariable ['hangup_cause']) . "'";
-        	//$logger->log ( "Geting Q.850 Code Query : " . $query );
 	        $q850code = $db->run ( $query );
-        	//$logger->log("Code: " .$q850code[0]['code'] );
-        	$q850code [0]['code'] = ($q850code [0]['code']=='')?'31':$q850code [0]['code'];
-	        $dataVariable ['hangup_cause'] = $dataVariable ['hangup_cause'] .' ['. $q850code [0]['code'].']';
+		// If there wasn't a hangup cause, set it to 31. Otherwise, use the one returned
+		if (!isset($q850code[0])) {
+			$code = 31;
+		} else {
+			$code = $q850code[0]['code'];
+		}
+	        $dataVariable['hangup_cause'] = $dataVariable ['hangup_cause'] ." [$code]";
 	}
-	
-	return $cdr_string = "'" . ($dataVariable ['uuid']) . "','" . $accountid . "','" . $account_type . "','" . (urldecode ( $callerIdNumber )) . "','" . ($dataVariable ['effective_destination_number']) . "','" . $actual_duration . "'," . (($termination_rate ['TRUNK']) ? $termination_rate ['TRUNK'] : '0') . "," . (($dataVariable ['sip_via_host']) ? "'" . $dataVariable ['sip_via_host'] . "'" : '""') . "," . (($dataVariable ['sip_contact_host']) ? "'" . $dataVariable ['sip_contact_host'] . "'" : '""') . ",'" . ($dataVariable ['hangup_cause']) . "','" . urldecode ( $dataVariable ['callstart'] ) . "','" . $debit . "','" . $cost . "'," . (($termination_rate ['PROVIDER']) ? $termination_rate ['PROVIDER'] : '0') . ",'" . $origination_rate [$accountid] ['RATEGROUP'] . "','" . $dataVariable ['package_id'] . "','" . ($origination_rate [$accountid] ['CODE']) . "'," . (($origination_rate [$accountid] ['DESTINATION']) ? "'" . htmlentities ( $origination_rate [$accountid] ['DESTINATION'], ENT_COMPAT, 'UTF-8' ) . "'" : "'" . '' . "'") . "," . (($origination_rate [$accountid] ['COST']) ? "'" . $origination_rate [$accountid] ['COST'] . "'" : "'" . '0' . "'") . ",'" . $parentid . "'," . (($origination_rate [$parentid] ['CODE']) ? "'" . $origination_rate [$parentid] ['CODE'] . "'" : "'" . '0' . "'") . "," . (($origination_rate [$parentid] ['DESTINATION']) ? "'" . $origination_rate [$parentid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$parentid] ['COST']) ? "'" . $origination_rate [$parentid] ['COST'] . "'" : '0') . "," . (($termination_rate ['CODE']) ? "'" . $termination_rate ['CODE'] . "'" : "'" . '' . "'") . "," . (($termination_rate ['DESTINATION']) ? "'" . $termination_rate ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($termination_rate ['COST']) ? "'" . $termination_rate ['COST'] . "'" : '0') . ",'" . $provider_cost . "'," . (($dataVariable ['call_direction']) ? "'" . $dataVariable ['call_direction'] . "'" : "'internal'") . ",'" . ($dataVariable ['calltype']) . "','" . urldecode ( $dataVariable ['profile_start_stamp'] ) . "','" . urldecode ( $dataVariable ['answer_stamp'] ) . "','" . urldecode ( $dataVariable ['bridge_stamp'] ) . "','" . urldecode ( @$dataVariable ['progress_stamp'] ) . "','" . urldecode ( @$dataVariable ['progress_media_stamp'] ) . "','" . urldecode ( $dataVariable ['end_stamp'] ) . "'," . $dataVariable ['billmsec'] . ",'" . $dataVariable ['answermsec'] . "','" . $dataVariable ['waitmsec'] . "','" . $dataVariable ['progress_mediamsec'] . "','" . $dataVariable ['flow_billmsec'] . "','" . $dataVariable ['call_request'] . "'";
+
+	// Security - Pick a random, un-hackable string to represent NULL
+	$nullvar = base64_encode(openssl_random_pseudo_bytes(32));
+
+	// Fixups - If the call wasn't complete, there will be missing timestamps. Set them
+	// to be null.
+	$stamps = array ("answer_stamp", "bridge_stamp", "progress_stamp", "progress_media_stamp");
+	foreach ($stamps as $s) {
+		if (empty($dataVariable[$s])) {
+			$$s = $nullvar;
+		} else {
+			$$s = urldecode($dataVariable[$s]);
+		}
+	}
+
+	// Build array to return
+	$cdr_array = array(
+		"uuid" => $dataVariable ['uuid'],
+		"accountid" => $accountid,
+		"account_type" => $account_type,
+		"cidnum" => urldecode($callerIdNumber),
+		"eff_dest" => $dataVariable ['effective_destination_number'],
+		"act_dur" => $actual_duration,
+		"tr_trunk" => empty($termination_rate ['TRUNK']) ? '0' : $termination_rate ['TRUNK'],
+		"sip_via_host" => empty($dataVariable ['sip_via_host']) ? "" : $dataVariable ['sip_via_host'],
+		"sip_contact_host" => empty($dataVariable ['sip_contact_host']) ? "" : $dataVariable ['sip_contact_host'],
+		"hangup_cause" => $dataVariable ['hangup_cause'],
+		"callstart" => $dataVariable ['callstart'],
+		"debit" => $debit,
+		"cost" => $cost,
+		"term_rate_prov" => empty($termination_rate ['PROVIDER']) ? "0" : $termination_rate ['PROVIDER'],
+		"orig_rate_rategroup" => $origination_rate [$accountid] ['RATEGROUP'],
+		"package_id" => $dataVariable ['package_id'],
+		"orig_rate_code" => $origination_rate [$accountid] ['CODE'],
+		"orig_rate_dest" => htmlentities(isset($origination_rate [$accountid] ['DESTINATION'])?$origination_rate [$accountid] ['DESTINATION']:"", ENT_COMPAT, 'UTF-8' ),
+		"orig_rate_cost" => empty($origination_rate [$accountid] ['COST'])? "0":$origination_rate [$accountid] ['COST'],
+		"parentid" => empty($parentid)?"0":$parentid,
+		"parent_orig_rate" => isset($origination_rate [$parentid])?$origination_rate[$parentid]['CODE']:"",
+		"parent_dest" => isset($origination_rate[$parentid])?$origination_rate[$parentid]['DESTINATION']:"",
+		"parent_cost" => isset($origination_rate[$parentid])?$origination_rate[$parentid]['COST']:"0",
+		"term_code" =>  $termination_rate ['CODE'],
+		"term_dest" => $termination_rate ['DESTINATION'],
+		"term_cost" => $termination_rate ['COST'],
+		"provider_cost" => $provider_cost,
+		"call_direction" => empty($dataVariable ['call_direction']) ? "internal": $dataVariable ['call_direction'],
+		"calltype" => $dataVariable['calltype'],
+		"profile_start_stamp" => urldecode ( $dataVariable ['profile_start_stamp'] ),
+		"answer_stamp" => $answer_stamp,
+		"bridge_stamp" => $bridge_stamp,
+		"progress_stamp" => $progress_stamp,
+		"progress_media_stamp" => $progress_media_stamp,
+		"end_stamp" => urldecode ( $dataVariable ['end_stamp'] ),
+		"billmsec" => $dataVariable ['billmsec'],
+		"answermsec" => $dataVariable ['answermsec'],
+		"waitmsec" => $dataVariable ['waitmsec'],
+		"progress_mediamsec" => $dataVariable ['progress_mediamsec'],
+		"flow_billmsec" => $dataVariable ['flow_billmsec'],
+		"call_request" => $dataVariable ['call_request'],
+	);
+
+	// Now convert that array into a string
+	$cdr_str = "'".join("', '", $cdr_array)."'";
+
+	// If anything is null, ('$nullvar'), replace it with NULL
+	return(str_replace("'$nullvar'", "NULL", $cdr_str));
+
 }
 
 // Generate CDR string for insert query for reseller
@@ -347,7 +431,7 @@ function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actu
 function update_balance($user_id, $amount, $entity_id, $logger, $db, $config) {
 	/*If not realtime billing */
 
-	if ($config ['realtime_billing'] == '1') {
+	if (isset($config['realtime_billing']) && $config['realtime_billing']) {
 		$math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
 		$query = "UPDATE accounts SET balance=IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") WHERE id=" . $user_id;
 		$logger->log ( "Balance update : " . $query );

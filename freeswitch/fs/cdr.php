@@ -21,12 +21,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
 ini_set ( "date.timezone", "UTC" );
-define ( 'ENVIRONMENT', 'production' );
+define ( 'ENVIRONMENT', 'development' );
 if (defined ( 'ENVIRONMENT' )) {
 	switch (ENVIRONMENT) {
 		case 'development' :
 			// error_reporting(E_ALL);
-			error_reporting ( E_ERROR | E_WARNING | E_PARSE );
+			error_reporting ( -1 );
 			break;
 		
 		case 'testing' :
