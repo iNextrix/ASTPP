@@ -30,6 +30,8 @@ class DID_model extends CI_Model {
 			$add_array ['assign_date'] = gmdate ( 'Y-m-d H:i:s' );
 		}
 		unset ( $add_array ["action"] );
+		unset ( $add_array ["id"] );
+		$add_array["variables"] = "";
 		$this->db->insert ( "dids", $add_array );
 		//$last_id = $this->db->insert_id ();
 		if ($add_array ['accountid'] > 0) {
