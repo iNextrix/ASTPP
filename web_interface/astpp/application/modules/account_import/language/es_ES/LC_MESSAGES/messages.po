@@ -1,0 +1,480 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-09-27 05:50-0300\n"
+"Last-Translator: Inextrix <astpp@inextrix.com>\n"
+"Language-Team: inextrix <astpp@inextrix.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/astpp/application/modules/taxes/language\n"
+
+msgid "Search"
+msgstr "Búsqueda"
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Add Tax"
+msgstr "Añadir Impuesto"
+
+msgid "Taxes Information"
+msgstr "Información de Impuestos"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Priority"
+msgstr "Prioridad"
+
+msgid "Amount"
+msgstr "Cantidad"
+
+msgid "Rate(%)"
+msgstr "Tarifas(%)"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Edit Tax"
+msgstr "Editar Impuestos"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "taxes updated successfully!"
+msgstr "Impuestos actualizados correctamente!"
+
+msgid "taxes added successfully!"
+msgstr "Impuestos añadidos correctamente!"
+
+msgid "taxes removed successfully!"
+msgstr "Impuestos eliminados correctamente!"
+
+msgid "The Priority field is required."
+msgstr "El campo Prioridad es requerido."
+
+msgid ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All Rights "
+"Reserved. "
+msgstr ""
+"Copyright @ 2003 - 2015 ASTPP - Solución de Facturación VOIP Open Source. Todos "
+"los Derechos Reservados."
+
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgid "DIDs"
+msgstr "DID's"
+
+msgid "Switch"
+msgstr "Interruptor"
+
+msgid "Email Mass"
+msgstr "Correo Electrónico Masivo"
+
+msgid "Accounting"
+msgstr "Contabilidad"
+
+msgid "Payment Report"
+msgstr "Reporte de Pago"
+
+msgid "Tariff"
+msgstr "Tarifa"
+
+msgid "Rate Groups"
+msgstr "Grupos de Tarifas"
+
+msgid "Origination Rates"
+msgstr "Creaciones de Tarifas"
+
+msgid "Usage Report"
+msgstr "Reporte de Uso"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "Termination Rates"
+msgstr "Terminación de Tarifas "
+
+msgid "Gateways"
+msgstr "Adaptadores"
+
+msgid "Sip Profiles"
+msgstr "Perfiles Sip"
+
+msgid "Freeswitch Server"
+msgstr "Servidor Freeswitch "
+
+msgid "IP MAP (ACL)"
+msgstr "MAPA IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Reporte de Llamadas"
+
+msgid "Details Reports"
+msgstr "Detalles de Reportes"
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Reseller"
+msgstr "Revendedor"
+
+msgid "Provider Outbound"
+msgstr "Proveedor de Salida"
+
+msgid "Summary Reports"
+msgstr "Resumen Reportes"
+
+msgid "Trunk Stats"
+msgstr "Estadísticas de la Troncal"
+
+msgid "Live Call Report"
+msgstr "Reporte de Llamadas Online"
+
+msgid "Email History"
+msgstr "Historial de Correo Electrónico "
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Invoice Config"
+msgstr "Configuración de Factura "
+
+msgid "Email Templates"
+msgstr "Plantillas de Correo Electrónico"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Currencies"
+msgstr "Monedas"
+
+msgid "Database Restore"
+msgstr "Restaurar Base de Datos"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Tarjeta de llamada"
+
+msgid "Report A Bug"
+msgstr "Reportar un Error"
+
+msgid "Donate Us"
+msgstr "Donar"
+
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ""
+".ASTPP - Solución de Facturación VOIP Open Source. Todos los Derechos Reservados."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-Beta"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "Welcome"
+msgstr "Bienvenido"
+
+msgid "status"
+msgstr "Estado"
+
+msgid ". ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ""
+".ASTPP - Solución de Facturación VOIP Open Source. Todos los Derechos Reservados."
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - Solución de Facturación VOIP Open Source."
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP funciona mejor con Javascript activado"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 de las Cuentas"
+
+msgid "By Minutes"
+msgstr "Por Minutos"
+
+msgid "By Calls"
+msgstr "Por Llamadas"
+
+msgid "Recharge Information"
+msgstr "Información de Recarga"
+
+msgid "Trunk add"
+msgstr "Agregar Troncal"
+
+msgid "Trunk Information"
+msgstr "Información de la Troncal"
+
+msgid "Trunk Name"
+msgstr "Nombre de la Troncal"
+
+msgid "Gateway"
+msgstr "Adaptador"
+
+msgid "Fail Over Gateway"
+msgstr "Falla Sobre Adaptador"
+
+msgid "Max Channels"
+msgstr "Maximo Canales"
+
+msgid "Trunk Settings"
+msgstr "Configuración de Troncales"
+
+msgid "Number Translation"
+msgstr "Número de Traducción"
+
+msgid "Codecs"
+msgstr "Codecs"
+
+msgid "Precedence"
+msgstr "Precedencia"
+
+msgid "Failover GW name"
+msgstr "Conmutación por error de nombre de GW"
+
+msgid "Max channels"
+msgstr "Canales Maximo"
+
+msgid "Rate Count"
+msgstr "Conteo de Tarifas"
+
+msgid "Edit Trunk"
+msgstr "Editar Troncal"
+
+msgid "My Rates"
+msgstr "Mis tarifas"
+
+msgid "Rates"
+msgstr "Tarifas"
+
+msgid "Manage DIDs"
+msgstr "Administrar DID"
+
+msgid "SIP Devices"
+msgstr "Dispositivos SIP"
+
+msgid "Manage Invoice"
+msgstr "Administrar Factura"
+
+msgid "CDRs Reports"
+msgstr "Reportes CDR's"
+
+msgid "Payment"
+msgstr "Pago"
+
+msgid "Payment Reports"
+msgstr "Reporte de Pago"
+
+msgid "Fund Transfer"
+msgstr "Transferencia de Fondos"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "Recharge"
+msgstr "Recargar"
+
+msgid "admins"
+msgstr "administradores"
+
+msgid "invoices"
+msgstr "facturas"
+
+msgid "packages"
+msgstr "paquetes"
+
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "Provider"
+msgstr "Proveedor"
+
+msgid "summary reports"
+msgstr "reportes resumidos"
+
+msgid "Detail reports"
+msgstr "Detalle de Reportes"
+
+msgid "Caller Id"
+msgstr "Identificador de llamadas"
+
+msgid "Caller ID"
+msgstr "Identificador de Llamadas"
+
+msgid "Trunks"
+msgstr "Troncales"
+
+msgid "subscriptions"
+msgstr "Suscripciones"
+
+msgid "Resellers"
+msgstr "Revendedores"
+
+msgid "customers"
+msgstr "clientes"
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "Detail Reports"
+msgstr "Detalle de Reportes"
+
+msgid "Packages"
+msgstr "Paquetes"
+
+msgid "View Details"
+msgstr "Ver detalles"
+
+msgid "Download Database"
+msgstr "Descargar Base de Datos"
+
+msgid "<b>Rescan"
+msgstr "<b>Volver a Explorar"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "<b>Reload"
+msgstr "<b> Actualizar"
+
+msgid "<b>Stop"
+msgstr "<b>Deténer"
+
+msgid "<b>Start"
+msgstr "<b>Iniciar"
+
+msgid "The Rate(%) field must contain only numbers."
+msgstr "El campo Tarifa(%) debe contener sólo números."
+
+msgid "The Priority field must contain only numbers."
+msgstr "El campo Prioridad debe contener sólo números."
+
+msgid "The Amount field must contain only numbers."
+msgstr "El campo Monto debe contener sólo números."
+
+msgid "Create Tax"
+msgstr "Crear impuesto"
+
+
+msgid "Refill Report"
+msgstr "Informe de relleno"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajuste"
+
+msgid "Invoices"
+msgstr "Facturas"
+
+msgid "IP Setting"
+msgstr "Configuración de IP"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+###
+
+msgid "Begins With"
+msgstr "Empieza con"
+
+msgid "Contains"
+msgstr "Contiene"
+
+msgid "Doesnt Contain"
+msgstr "No contiene"
+
+msgid "Is Equal To"
+msgstr "Es igual a"
+
+msgid "Is Not Equal To"
+msgstr "No es igual a"
+
+msgid "Ends With"
+msgstr "Termina con"
+
+msgid "Greater Than"
+msgstr "Mas grande que"
+
+msgid "Less Than"
+msgstr "Menos que"
+
+msgid "Greater Or Equal Than"
+msgstr "Mayor o igual que"
+
+msgid "Less Or Equal Than"
+msgstr "Menos o igual que"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Inactive"
+msgstr "Inactivo"
+
+msgid "Close"
+msgstr "Cerca"
+
+
+#####
+
+msgid "Powered by"
+msgstr "Energizado por"
+
+msgid " Follow us on"
+msgstr "Siga con nosotros"

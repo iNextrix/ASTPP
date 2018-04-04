@@ -4114,6 +4114,18 @@ class Accounts_form {
 	function build_grid_buttons_customer() {
 		$logintype = $this->CI->session->userdata ( 'userlevel_logintype' );
 		$provider = null;
+		$account_import= array();
+		// Enable  Account import mapper for master admin.
+		if($logintype == -1){
+			$account_import = array (
+						gettext ( "Import with field map" ),
+						"btn btn-line-blue",
+						"fa fa-upload fa-lg",
+						"button_action",
+						"/account_import/customer_import_mapper/",
+						'single' 
+				);
+		}
 		if ($logintype != 1)
 			$provider = array (
 					gettext ( "Create Provider" ),
@@ -4140,6 +4152,7 @@ class Accounts_form {
 						"popup",
 						"medium" 
 				),
+				$account_import,
 				$provider,
 				array (
 						gettext ( "Export" ),
