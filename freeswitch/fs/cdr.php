@@ -22,6 +22,12 @@
 // ##############################################################################
 ini_set ( "date.timezone", "UTC" );
 define ( 'ENVIRONMENT', 'development' );
+include 'vendor/autoload.php';
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
+
+
 if (defined ( 'ENVIRONMENT' )) {
 	switch (ENVIRONMENT) {
 		case 'development' :
@@ -60,7 +66,7 @@ $decimal_points = ($config ['decimal_points'] <= 0) ? 4 : $config ['decimal_poin
 // Define logger object
 $logger = new logger ( $lib );
 
-if (isset ( $_SERVER ["CONTENT_TYPE"] ) && $_SERVER ["CONTENT_TYPE"] == "application/json") {
+if (isset($_SERVER ["CONTENT_TYPE"]) && $_SERVER["CONTENT_TYPE"] === "application/json" || $_SERVER["CONTENT_TYPE"] === "application/x-www-form-urlencoded" ) {
 	
 	$db->run ( "SET NAMES utf8" );
 	//$data = json_decode ( file_get_contents ( "php://input" ), true );
@@ -68,17 +74,13 @@ if (isset ( $_SERVER ["CONTENT_TYPE"] ) && $_SERVER ["CONTENT_TYPE"] == "applica
         $data = utf8_encode($data);
 	$data = json_decode($data,true);
 
-	// error_log(print_r($data,true));
-	$logger->log ( print_r ( $data, true ) );
-	// process_cdr($data,$db,$logger,$decimal_points);
-	if ($data ['variables'] ['calltype'] == "CALLINGCARD") {
-		if (isset ( $data ['variables'] ['originating_leg_uuid'] )) {
-			process_cdr ( $data, $db, $logger, $decimal_points,$config );
+	if (isset($data['variables']['calltype']) && $data['variables']['calltype'] === "CALLINGCARD") {
+		if (isset ($data['variables']['originating_leg_uuid'])) {
+			process_cdr( $data, $db, $logger, $decimal_points,$config );
 		}
 	} else {
-		process_cdr ( $data, $db, $logger, $decimal_points,$config );
+		process_cdr( $data, $db, $logger, $decimal_points,$config );
 	}
 }
 
 // $db->cleanup();
-?>

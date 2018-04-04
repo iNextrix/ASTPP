@@ -63,25 +63,20 @@ class db extends PDO {
 		$this->bind = $this->cleanup ( $bind );
 		$this->error = "";
 		
-		try {
-			$pdostmt = $this->prepare ( $this->sql );
-			if ($pdostmt->execute ( $this->bind ) !== false) {
-				if (preg_match ( "/^(" . implode ( "|", array (
-						"select",
-						"describe",
-						"pragma" 
-				) ) . ") /i", $this->sql ))
-					return $pdostmt->fetchAll ( PDO::FETCH_ASSOC );
-				elseif (preg_match ( "/^(" . implode ( "|", array (
-						"delete",
-						"insert",
-						"update" 
-				) ) . ") /i", $this->sql ))
-					return $pdostmt->rowCount ();
-			}
-		} catch ( PDOException $e ) {
-			$this->error = $e->getMessage ();
-			return $this->error;
+		$pdostmt = $this->prepare ( $this->sql );
+		if ($pdostmt->execute ( $this->bind ) !== false) {
+			if (preg_match ( "/^(" . implode ( "|", array (
+					"select",
+					"describe",
+					"pragma" 
+			) ) . ") /i", $this->sql ))
+				return $pdostmt->fetchAll ( PDO::FETCH_ASSOC );
+			elseif (preg_match ( "/^(" . implode ( "|", array (
+					"delete",
+					"insert",
+					"update" 
+			) ) . ") /i", $this->sql ))
+				return $pdostmt->rowCount ();
 		}
 	}
 }

@@ -39,8 +39,28 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	$accountid = isset ( $dataVariable ['account_id'] ) ? $dataVariable ['account_id'] : '0';
 	
 	// Get caller id name and number
-	$dataVariable ['effective_caller_id_name'] = (isset ( $dataVariable ['effective_caller_id_name'] )) ? $dataVariable ['effective_caller_id_name'] : $dataCallflow ['caller_profile'] ['caller_id_name'];
-	$dataVariable ['effective_caller_id_number'] = (isset ( $dataVariable ['effective_caller_id_number'] )) ? $dataVariable ['effective_caller_id_number'] : $dataCallflow ['caller_profile'] ['caller_id_number'];
+	if (!empty($dataVariable ['effective_caller_id_name'])) {
+		$cidname = trim($dataVariable ['effective_caller_id_name']);
+	} else {
+		if (!empty($dataCallflow['caller_profile'])) {
+			$cidname = $dataCallflow['caller_profile']['caller_id_name'];
+		} else {
+			$cidname = "";
+		}
+	}
+
+	if (!empty($dataVariable ['effective_caller_id_number'])) {
+		$cidnum = trim($dataVariable ['effective_caller_id_number']);
+	} else {
+		if (!empty($dataCallflow['caller_profile'])) {
+			$cidnum = $dataCallflow['caller_profile']['caller_id_number'];
+		} else {
+			$cidnum = "";
+		}
+	}
+
+	$dataVariable['effective_caller_id_name'] = $cidname;
+	$dataVariable['effective_caller_id_number'] = $cidnum;
 	
 	if ($dataVariable ['billsec'] == 0 && $dataVariable ['hangup_cause'] == 'NORMAL_CLEARING') {
 		$hangup_cause = isset ( $dataVariable ['last_bridge_hangup_cause'] ) ? $dataVariable ['last_bridge_hangup_cause'] : $dataVariable ['hangup_cause'];
@@ -104,7 +124,7 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 //check custom end
 	
 	// Check if cusotmer have any package seconds left to use
-	if ($actual_duration > 0) {
+	if ($actual_duration > 0 && !empty($dataVariable['effective_destination_number'])) {
 		$package_array = package_calculation ( $dataVariable ['effective_destination_number'], $origination_rate [$accountid] ['RATEGROUP'], $actual_duration, $dataVariable ['call_direction'], $accountid, $db, $logger );
 		if (! empty ( $package_array )) {
 			$dataVariable ['calltype'] = "FREE";
@@ -113,7 +133,11 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	}
 	
 	// Calculate debit of customer call
-	$debit = calc_cost ( $dataVariable, $origination_rate [$accountid], $logger, $decimal_points );
+	if (!$accountid) {
+		$debit = 0;
+	} else {
+		$debit = calc_cost ( $dataVariable, $origination_rate [$accountid], $logger, $decimal_points );
+	}
 	
 	// Calculate cost for customer call for provider
 	$provider_cost = calc_cost ( $dataVariable, $termination_rate, $logger, $decimal_points );
@@ -128,9 +152,10 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	// Outbound call entry for all type of calls
 	$logger->log ( "*********************** OUTBOUND CALL ENTRY START *************" );
 	
-	$cdr_string = get_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost, $logger, $db );
+	$cdr_array = get_cdr_array ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost, $logger, $db );
 	
-	$query = "INSERT INTO cdrs (uniqueid,accountid,type,callerid,callednum,billseconds,trunk_id,trunkip,callerip,disposition,callstart,debit,cost,provider_id,pricelist_id,package_id,pattern,notes,rate_cost,reseller_id,reseller_code,reseller_code_destination,reseller_cost,provider_code,provider_code_destination,provider_cost,provider_call_cost,call_direction,calltype,profile_start_stamp,answer_stamp,bridge_stamp,progress_stamp,progress_media_stamp,end_stamp,billmsec,answermsec,waitmsec,progress_mediamsec,flow_billmsec,call_request)  values ($cdr_string)";
+	
+	$query = generate_sql("cdrs", $cdr_array);
 	$logger->log ( $query );
 	$db->run ( $query );
 	
@@ -268,7 +293,7 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 		$origination_rate [$accountid] ['CODE'] = $dataVariable ['effective_destination_number'];
 		$origination_rate [$accountid] ['DESTINATION'] = $dataVariable ['calltype'];
 		if ($flag_parent == false) {
-			$cdr_string = get_cdr_string ( $localVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, 0, 0, $logger, $db );
+			$cdr_array = get_cdr_array ( $localVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, 0, 0, $logger, $db );
 		} else {
 			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost );
 		}
@@ -279,7 +304,7 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 		
 		if ($flag_parent == false) {
 			
-			$cdr_string = get_cdr_string ( $localVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate_did, $provider_cost, $parentid, $debit, 0, $logger, $db );
+			$cdr_array = get_cdr_array ( $localVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate_did, $provider_cost, $parentid, $debit, 0, $logger, $db );
 		} else {
 			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost );
 		}
@@ -303,7 +328,7 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 }
 
 // Generate CDR string for insert query for customer.
-function get_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost, $logger, $db) {
+function get_cdr_array($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost, $logger, $db) {
 
 	// Get our call type - if it's DID-LOCAL, SIP-DID or OTHER, it's "DID'. Otherwise, it's whatever it is.
 	switch ($dataVariable['calltype']) {
@@ -338,50 +363,53 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
 	        $dataVariable['hangup_cause'] = $dataVariable ['hangup_cause'] ." [$code]";
 	}
 
-	// Security - Pick a random, un-hackable string to represent NULL
-	$nullvar = base64_encode(openssl_random_pseudo_bytes(32));
-
 	// Fixups - If the call wasn't complete, there will be missing timestamps. Set them
 	// to be null.
 	$stamps = array ("answer_stamp", "bridge_stamp", "progress_stamp", "progress_media_stamp");
 	foreach ($stamps as $s) {
 		if (empty($dataVariable[$s])) {
-			$$s = $nullvar;
+			$$s = null;
 		} else {
 			$$s = urldecode($dataVariable[$s]);
 		}
 	}
 
+	// If the call wasn't answered, the $accountid will be zero, which then
+	// tries to reference a bunch of things.
+	if (!$accountid) {
+		$origination_rate[0] = [ "RATEGROUP" => "0", "CODE" => "0", "DESTINATION" => "", "COST" => "0" ];
+	}
+
 	// Build array to return
 	$cdr_array = array(
-		"uuid" => $dataVariable ['uuid'],
+		"uniqueid" => $dataVariable ['uuid'],
 		"accountid" => $accountid,
-		"account_type" => $account_type,
-		"cidnum" => urldecode($callerIdNumber),
-		"eff_dest" => $dataVariable ['effective_destination_number'],
-		"act_dur" => $actual_duration,
-		"tr_trunk" => empty($termination_rate ['TRUNK']) ? '0' : $termination_rate ['TRUNK'],
-		"sip_via_host" => empty($dataVariable ['sip_via_host']) ? "" : $dataVariable ['sip_via_host'],
-		"sip_contact_host" => empty($dataVariable ['sip_contact_host']) ? "" : $dataVariable ['sip_contact_host'],
-		"hangup_cause" => $dataVariable ['hangup_cause'],
-		"callstart" => $dataVariable ['callstart'],
+		"type" => $account_type,
+		"callerid" => urldecode($callerIdNumber),
+		"callednum" => empty($dataVariable['effective_destination_number'])?"":$dataVariable['effective_destination_number'],
+		"billseconds" => $actual_duration,
+		"trunk_id" => empty($termination_rate ['TRUNK']) ? '0' : $termination_rate ['TRUNK'],
+		"trunkip" => empty($dataVariable ['sip_via_host']) ? "" : $dataVariable ['sip_via_host'],
+		"callerip" => empty($dataVariable ['sip_contact_host']) ? "" : $dataVariable ['sip_contact_host'],
+		"disposition" => $dataVariable ['hangup_cause'],
+		"callstart" => empty($dataVariable['callstart'])?null:$dataVariable['callstart'],
 		"debit" => $debit,
 		"cost" => $cost,
-		"term_rate_prov" => empty($termination_rate ['PROVIDER']) ? "0" : $termination_rate ['PROVIDER'],
-		"orig_rate_rategroup" => $origination_rate [$accountid] ['RATEGROUP'],
+		"provider_id" => empty($termination_rate ['PROVIDER']) ? "0" : $termination_rate ['PROVIDER'],
+		"pricelist_id" => $origination_rate [$accountid] ['RATEGROUP'],
 		"package_id" => $dataVariable ['package_id'],
-		"orig_rate_code" => $origination_rate [$accountid] ['CODE'],
-		"orig_rate_dest" => htmlentities(isset($origination_rate [$accountid] ['DESTINATION'])?$origination_rate [$accountid] ['DESTINATION']:"", ENT_COMPAT, 'UTF-8' ),
-		"orig_rate_cost" => empty($origination_rate [$accountid] ['COST'])? "0":$origination_rate [$accountid] ['COST'],
-		"parentid" => empty($parentid)?"0":$parentid,
-		"parent_orig_rate" => isset($origination_rate [$parentid])?$origination_rate[$parentid]['CODE']:"",
-		"parent_dest" => isset($origination_rate[$parentid])?$origination_rate[$parentid]['DESTINATION']:"",
-		"parent_cost" => isset($origination_rate[$parentid])?$origination_rate[$parentid]['COST']:"0",
-		"term_code" =>  $termination_rate ['CODE'],
-		"term_dest" => $termination_rate ['DESTINATION'],
-		"term_cost" => $termination_rate ['COST'],
-		"provider_cost" => $provider_cost,
-		"call_direction" => empty($dataVariable ['call_direction']) ? "internal": $dataVariable ['call_direction'],
+		"pattern" => $origination_rate [$accountid] ['CODE'],
+		"notes" => htmlentities(isset($origination_rate [$accountid] ['DESTINATION'])?$origination_rate [$accountid] ['DESTINATION']:"", ENT_COMPAT, 'UTF-8' ),
+		"rate_cost" => empty($origination_rate [$accountid] ['COST'])? "0":$origination_rate [$accountid] ['COST'],
+		"reseller_id" => empty($parentid)?"0":$parentid,
+		"reseller_code" => isset($origination_rate [$parentid])?$origination_rate[$parentid]['CODE']:"",
+		"reseller_code_destination" => isset($origination_rate[$parentid])?$origination_rate[$parentid]['DESTINATION']:"",
+		"reseller_cost" => isset($origination_rate[$parentid])?$origination_rate[$parentid]['COST']:"0",
+		"provider_code" =>  isset($termination_rate['CODE'])?$termination_rate['CODE']:"",
+		"provider_code_destination" => isset($termination_rate['DESTINATION'])?$termination_rate['DESTINATION']:"",
+		"provider_cost" => isset($termination_rate['COST'])?$termination_rate ['COST']:"0",
+		"provider_call_cost" => $provider_cost,
+		"call_direction" => empty($dataVariable ['call_direction']) ? "inbound": $dataVariable ['call_direction'],
 		"calltype" => $dataVariable['calltype'],
 		"profile_start_stamp" => urldecode ( $dataVariable ['profile_start_stamp'] ),
 		"answer_stamp" => $answer_stamp,
@@ -397,12 +425,7 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
 		"call_request" => $dataVariable ['call_request'],
 	);
 
-	// Now convert that array into a string
-	$cdr_str = "'".join("', '", $cdr_array)."'";
-
-	// If anything is null, ('$nullvar'), replace it with NULL
-	return(str_replace("'$nullvar'", "NULL", $cdr_str));
-
+	return $cdr_array;
 }
 
 // Generate CDR string for insert query for reseller
@@ -487,7 +510,9 @@ function calc_cost($dataVariable, $rates, $logger, $decimal_points) {
 	// $logger->log(print_r($rates,true));
 	$duration = $dataVariable ['billsec'];
 	$call_cost = 0;
-	$duration -= $rates ['INCLUDEDSECONDS'];
+	if (isset($rates['INCLUDEDSECONDS'])) {
+		$duration -= $rates['INCLUDEDSECONDS'];
+	}
 	if ($duration > 0) {
 		
 		$rates ['INC'] = ($rates ['INC'] == 0) ? 1 : $rates ['INC'];
@@ -592,4 +617,22 @@ function number_loop($destination, $field, $db) {
 function convert_to_gmt($date) {
 	return gmdate ( 'Y-m-d H:i:s', strtotime ( $date ) );
 }
-?>
+
+
+// Generate an 'INSERT INTO' using a k=>v hash
+function generate_sql($table, $array) {
+	$sql = "INSERT INTO `$table` (`".join('`, `',array_keys($array))."`) VALUES (";
+	$valarr = array();
+	foreach ($array as $val) {
+		if ($val === null) {
+			$valarr[] = "NULL";
+		} else {
+			// Escape any single quotes that are there. However,
+			// this REALLY should be using PDO.
+			$valarr[] = "'".str_replace("'", "''", $val)."'";
+		}
+	}
+	$sql .= join(", ", $valarr).")";
+	return $sql;
+}
+
