@@ -97,5 +97,6 @@ ALTER TABLE `cdrs` MODIFY `answer_stamp` datetime NULL DEFAULT '1980-01-01 00:00
 ALTER TABLE `cdrs` MODIFY `bridge_stamp` datetime NULL DEFAULT '1980-01-01 00:00:00';
 ALTER TABLE `cdrs` MODIFY `progress_stamp` datetime NULL DEFAULT '1980-01-01 00:00:00';
 ALTER TABLE `cdrs` MODIFY `progress_media_stamp` datetime NULL DEFAULT '1980-01-01 00:00:00';
+ALTER TABLE `cdrs` MODIFY `callstart` datetime NULL DEFAULT '1980-01-01 00:00:00';
 
 
