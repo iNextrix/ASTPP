@@ -239,7 +239,7 @@
 <?php
    } ?>
 <?php // echo "<pre>";	print_R($csv_tmp_data);exit;
-   if (isset($csv_tmp_data) && !empty($csv_tmp_data)) { ?>
+   if (!empty($csv_tmp_data)) { ?>
 <section class="slice color-three padding-b-20">
    <div class="w-section inverse no-padding">
       <div class="container">
