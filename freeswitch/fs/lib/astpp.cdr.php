@@ -407,6 +407,7 @@ function calc_cost($dataVariable, $rates, $logger, $decimal_points) {
 	if ($duration > 0) {
 		
 		$rates ['INC'] = ($rates ['INC'] == 0) ? 1 : $rates ['INC'];
+		$rates ['INITIALBLOCK'] = ($rates ['INITIALBLOCK'] == 0) ? 1 : $rates ['INITIALBLOCK'];
 		$call_cost = $rates ['CONNECTIONCOST'];
 		$call_cost += ($rates ['INITIALBLOCK'] * $rates ['COST']) / 60;
 		$billseconds = $duration - $rates ['INITIALBLOCK'];
