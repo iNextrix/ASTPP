@@ -265,6 +265,7 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
 		rates = {}
 		rates['pattern'] = destination_number
 		rates['comment'] = "Local"
+		rates['init_inc'] = 60
 		rates['inc'] = 60
 		rates['cost'] = userinfo['charge_per_min']
 		if (userinfo['charge_per_min'] == "") then
@@ -292,18 +293,10 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
         if (tonumber(rate_group['markup']) > 0) then
             Logger.info("Markup : "..rate_group['markup'])  
             rates['cost'] = rates['cost'] + ((rate_group['markup']*rates['cost'])/100)
-	end
-        if( rates['cost'] == nil) then
-            rates['cost']=0
-	end
-		Logger.info("=============== Rates Information ===================")
-		Logger.info("ID : "..rates['id'])  
-		Logger.info("Connectcost : "..rates['connectcost'])  
-		Logger.info("Includedseconds : "..rates['includedseconds'])  
-		Logger.info("Cost : "..rates['cost'])
-		Logger.info("comment : "..rates['comment'])
-		Logger.info("Accid : "..userinfo['id'])
-		Logger.info("================================================================")  
+		end
+    	if( rates['cost'] == nil) then
+        	rates['cost']=0
+		end  
 	end
 	    rates['routing_type'] = rate_group['routing_type']		
 		if( call_direction == "inbound" ) then
@@ -313,17 +306,13 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
 			xml_rates = "ID:"..rates['id'].."|CODE:"..rates['pattern'].."|DESTINATION:"..rates['comment'].."|CONNECTIONCOST:"..rates['connectcost'].."|INCLUDEDSECONDS:"..rates['includedseconds'].."|COST:"..rates['cost'].."|INC:"..rates['inc'].."|INITIALBLOCK:"..rates['init_inc'].."|RATEGROUP:0|MARKUP:"..rate_group['markup'].."|ACCID:"..didinfo['accountid'].."";
 		else
 
-			if( rates['inc']  == 0 or rates['inc'] == "" ) then
+			if(rates['inc'] == nil or rates['inc']  == '0' or rates['inc'] == "" ) then
 				rates['inc'] = rate_group['inc'];
 			end
 
-			if( rates['init_inc']  == 0 or rates['init_inc'] == "" ) then
+			if(rates['init_inc'] == nil or rates['init_inc']  == '0' or rates['init_inc'] == "" ) then
 				rates['init_inc'] = rate_group['initially_increment'];
-			end
-			
-			if( rates['init_inc'] == nil)then
-				rates['init_inc']=0;
-			end
+			end		
 	
 			xml_rates = "ID:"..rates['id'].."|CODE:"..rates['pattern'].."|DESTINATION:"..rates['comment'].."|CONNECTIONCOST:"..rates['connectcost'].."|INCLUDEDSECONDS:"..rates['includedseconds'].."|COST:"..rates['cost'].."|INC:"..rates['inc'].."|INITIALBLOCK:"..rates['init_inc'].."|RATEGROUP:"..rate_group['id'].."|MARKUP:"..rate_group['markup'].."|ACCID:"..userinfo['id'].."";
 
@@ -344,6 +333,19 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
 		      Logger.info("[FIND_MAXLENGTH] Call is free - assigning max length!!! :: " .. config['max_free_length'] )
 		      maxlength = config['max_free_length']
 		end      
+
+
+	Logger.info("=============== Rates Information ===================")
+	Logger.info("ID : "..rates['id'])  
+	Logger.info("Code : "..rates['pattern'])  
+	Logger.info("Destination : "..rates['comment'])
+	Logger.info("Connectcost : "..rates['connectcost'])  
+	Logger.info("Includedseconds : "..rates['includedseconds'])  
+	Logger.info("Cost : "..rates['cost'])	
+	Logger.info("Initial Increment : "..rates['init_inc'])
+	Logger.info("Increment : "..rates['inc'])
+	Logger.info("Accid : "..userinfo['id'])
+	Logger.info("================================================================")
 
     tmp[1] = maxlength
     tmp[2] = rates
@@ -381,8 +383,16 @@ function get_pricelists (userinfo,destination_number,number_loop,call_direction)
 	Logger.debug("[GET_PRICELIST_INFO] Query :" .. query)
 	assert (dbh:query(query, function(u)
 		rategroup_info = u
-		end))  
-		
+	end))  
+	
+	if (rategroup_info['initially_increment'] == nil or rategroup_info['initially_increment'] == '0') then
+		rategroup_info['initially_increment'] = 1
+	end
+
+	if (rategroup_info['inc'] == nil or rategroup_info['inc'] == '0') then
+		rategroup_info['inc'] = 1
+	end
+
 	return rategroup_info
 end
 
