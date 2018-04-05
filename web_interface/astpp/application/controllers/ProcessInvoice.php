@@ -70,7 +70,11 @@ class ProcessInvoice extends MX_Controller
     {
         $last_invoice_date = $this->common->get_invoice_date("to_date", $AccountData["id"], $AccountData['reseller_id'], "to_date");
         $last_invoice_date = ($last_invoice_date) ? $last_invoice_date : $AccountData['creation'];
-        $last_invoice_date = date("Y-m-d 00:00:01", strtotime($last_invoice_date));
+        
+        //Samir Doshi : Invoice was generating with static hours, minutes and seconds.
+        //$last_invoice_date = date("Y-m-d 00:00:01", strtotime($last_invoice_date));
+        $last_invoice_date = gmdate ( "Y-m-d H:i:s", strtotime ( '+1 seconds',strtotime($last_invoice_date)) );
+        
         return $last_invoice_date;
     }
 
