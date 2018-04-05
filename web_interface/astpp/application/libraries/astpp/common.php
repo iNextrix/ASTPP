@@ -659,8 +659,11 @@ class common {
 					"id" => $accountid
 			) );
 			if ($posttoexternal == 1)
-				$where ['type'] = "I";
+				$where ['type'] = "I";			
 		}
+		
+		//Fetch date for only auto generated invoice date
+		$where ['generate_type'] = "0";		
 		
 		$invoice_res = $this->CI->db_model->select ( $select, "invoices", $where, $order_by, "DESC", "1", "0" );
 
