@@ -20,22 +20,35 @@ INSERT INTO `q850code` VALUES ('UNSPECIFIED',0),('UNALLOCATED_NUMBER',1),('NO_RO
 /*!40000 ALTER TABLE `q850code` ENABLE KEYS */;
 UNLOCK TABLES;
 
---Account table query 
+--
+-- Account table query 
+--
+
 ALTER TABLE `accounts` CHANGE `interval` `cps` INT(11) NOT NULL DEFAULT '0';
 
+--
 -- Trunk table query 
+--
 ALTER TABLE `trunks` CHANGE `inuse` `cps` INT(4) NOT NULL DEFAULT '0';
 
+--
 -- Invoice detail table query 
+--
 ALTER TABLE `invoice_details` ADD `quantity` INT(11) NOT NULL DEFAULT '1' COMMENT 'Default will be 1' AFTER `after_balance`;
 
+--
 -- menu table queries
+--
 UPDATE `menu_modules` SET `menu_label` = 'Settings' WHERE `menu_modules`.`id` = 69;
 
+--
 -- Email template table query 
+--
 INSERT INTO `default_templates` (`id`, `name`, `subject`, `template`, `last_modified_date`, `reseller_id`) VALUES ('0', 'invoice_due_reminder', 'Invoice due reminder #INVOICE_NUMBER#', 'Hi #NAME#, This is a reminder that your invoice number #INVOICE_NUMBER# which was generated on #INVOICE_DATE# is due on #DUE_DATE# Invoice Information : Invoice Date : #INVOICE_DATE# Invoice Number : #INVOICE_NUMBER# Due Amount : #AMOUNT# You can login into customer portal and pay the invoice. For more info, Please visit on our website #COMPANY_WEBSITE# or contact to our support at #COMPANY_EMAIL# Thanks, #COMPANY_NAME#', CURRENT_DATE(), '0');
 
+--
 -- system table queries
+--
 UPDATE `system` SET `group_title` = 'signup' WHERE `system`.`id` = 179;
 UPDATE `system` SET `display_name` = 'Timezone' WHERE `system`.`id` = 179;
 UPDATE `system` SET `group_title` = 'signup' WHERE `system`.`id` = 181;
@@ -48,3 +61,9 @@ billing.',NULL,0,0,'global');
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES ('0', 'homer_capture_server', 'Capture Server', '', 'default_system_input', 'Set enable to capture logs in homer. Format : udp:192.168.1.200:9060', NULL, '0', '0', 'homer');
 UPDATE `system` SET `display_name` = 'Default Invoice Mode', `comment` = 'Draft will give possibility to admin and reseller to modify invoice after generation whereas Confirmed invoices will be readonly.' WHERE `system`.`id` = 216;
 UPDATE `system` SET `value` ='3.6' WHERE `system`.`id` = 191;
+
+--
+-- add call request field in CDRs
+--
+ALTER TABLE `cdrs` ADD `call_request` TINYINT( 3 ) NOT NULL DEFAULT '0';
+ALTER TABLE `reseller_cdrs` ADD `call_request` TINYINT( 3 ) NOT NULL DEFAULT '0';
