@@ -29,7 +29,7 @@
                   <div class="col-md-8">
                      <div class="w-box">
                         <h3 class="padding-t-10 padding-l-16 padding-b-10">Import Customers:</h3>
-                        <div class="col-md-12 no-padding">
+                        <div class="no-padding">
                            <input type="hidden" name="mode" value="import_account_mapper" />
                            <div class="col-md-6">
 							   <div class='col-sm-12 form-inline form-group'>
