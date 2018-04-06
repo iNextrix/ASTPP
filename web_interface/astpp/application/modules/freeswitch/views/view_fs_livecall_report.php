@@ -82,7 +82,7 @@ $(function() {
     	<div class="container">
    	    <div class="row">
             	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_search; ?>
+                    	<?php echo isset($form_search)?$form_search:""; ?>
     	        </div>
             </div>
         </div>

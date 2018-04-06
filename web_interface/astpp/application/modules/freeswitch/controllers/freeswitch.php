@@ -436,7 +436,7 @@ class Freeswitch extends MX_Controller {
 		$json_data = array ();
 		$count = 0;
 		foreach ( $calls as $key => $value ) {
-			if (isset ( $value ['state'] ) && ($value ['state'] == 'CS_EXCHANGE_MEDIA' || $value ['state'] == 'CS_CONSUME_MEDIA')) {
+			if (isset ( $value ['state'] ) && ($value ['state'] == 'CS_EXCHANGE_MEDIA' || $value ['state'] == 'CS_CONSUME_MEDIA' || $value['state'] == "CS_HIBERNATE" )) {
 				$calls [$i] ['application'] = @$calls_final [$value ['call_uuid']] ['application'];
 				$calls [$i] ['application_data'] = @$calls_final [$value ['call_uuid']] ['application_data'];
 				
