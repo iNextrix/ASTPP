@@ -294,8 +294,14 @@ install_freeswitch_for_astpp ()
 		ln -s /usr/local/freeswitch/bin/freeswitch /usr/local/bin/freeswitch
 		ln -s /usr/local/freeswitch/bin/fs_cli /usr/local/bin/fs_cli		
 		#-----------------Freeswitch Installation End------------------------------
-		systemctl stop apache2
-		systemctl disable apache2
+		if [ ${DIST} = "DEBIAN" ]; then
+			systemctl stop apache2
+			systemctl disable apache2			
+		elif  [ ${DIST} = "CENTOS" ]; then
+			systemctl stop httpd
+			systemctl disable httpd			
+		fi		
+
 }
 
 #SUB Configure astpp Freeswitch Startup Script
@@ -423,8 +429,8 @@ install_astpp ()
 			service nginx reload
 		fi
 		if [ ${DIST} = "CENTOS" ]; then
-			systemctl stop apache2
-			systemctl disable apache2
+			systemctl stop httpd
+			systemctl disable httpd
 			systemctl start php-fpm			
 		fi
 		if [ ${ASTPP_USING_FREESWITCH} = "yes" ]; then
