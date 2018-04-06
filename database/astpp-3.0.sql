@@ -600,7 +600,7 @@ CREATE TABLE `invoice_conf` (
   `invoice_notification` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:enable,1:disable',
   `interval` varchar(11) NOT NULL,
   `notify_before_day` int(11) NOT NULL DEFAULT '1',
-  `invoice_taxes_number` varchar(100) NOT NULL DEFAULT 'ABN 35 155 859 340',
+  `invoice_taxes_number` varchar(100) NOT NULL DEFAULT 'ABN 12 345 678 901',
   `domain` varchar(100) NOT NULL,
   `website_title` varchar(100) NOT NULL,
   `website_footer` varchar(100) NOT NULL,
