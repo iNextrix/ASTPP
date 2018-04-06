@@ -1650,7 +1650,11 @@ class Invoices extends MX_Controller {
 							$invoice_conf = $query->result_array ();
 							$invoice_conf = $invoice_conf [0];
 						}
-						$last_invoice_ID = $this->get_invoice_date ( "invoiceid" );
+						$this->db->select('invoiceid');
+						$this->db->limit(1);
+						$this->db->order_by('id','DESC');
+						$invoices_result = (array)$this->db->get("invoices")->first_row();
+						$last_invoice_ID = $invoices_result['invoiceid'];
 						if ($last_invoice_ID && $last_invoice_ID > 0) {
 							$last_invoice_ID = ($last_invoice_ID + 1);
 						} else {
