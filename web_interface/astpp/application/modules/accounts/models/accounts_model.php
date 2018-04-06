@@ -346,17 +346,17 @@ class Accounts_model extends CI_Model {
 			$opensip_flag = true;
 		}
 		unset ( $add_array ['count'], $add_array ['pin'], $add_array ['account_length'], $add_array ['prefix'], $add_array ['sip_device_flag'], $add_array ['opensips_device_flag'] );
-		if (isset ( $add_array ['is_recording'] ) && $add_array ['is_recording'] != '') {
+		if (isset ( $add_array ['is_recording'] ) && $add_array ['is_recording'] == TRUE) {
 			$is_recording = 1;
 		} else {
 			$is_recording = 0;
 		}
-		if (isset ( $add_array ['allow_ip_management'] ) && $add_array ['allow_ip_management'] != '') {
+		if (isset ( $add_array ['allow_ip_management'] ) && $add_array ['allow_ip_management'] == TRUE) {
 			$allow_ip_management = 1;
 		} else {
 			$allow_ip_management = 0;
 		}
-		if (isset ( $add_array ['local_call'] ) && $add_array ['local_call'] != '') {
+		if (isset ( $add_array ['local_call'] ) && $add_array ['local_call'] == TRUE) {
 			$local_call = 1;
 		} else {
 			$local_call = 0;
