@@ -62,7 +62,7 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	$dataVariable['effective_caller_id_name'] = $cidname;
 	$dataVariable['effective_caller_id_number'] = $cidnum;
 	
-	if ($dataVariable ['billsec'] == 0 && $dataVariable ['hangup_cause'] == 'NORMAL_CLEARING') {
+	if (isset($dataVariable['billsec']) && $dataVariable ['billsec'] == 0 && $dataVariable ['hangup_cause'] == 'NORMAL_CLEARING') {
 		$hangup_cause = isset ( $dataVariable ['last_bridge_hangup_cause'] ) ? $dataVariable ['last_bridge_hangup_cause'] : $dataVariable ['hangup_cause'];
 	} else {
 		$hangup_cause = $dataVariable ['hangup_cause'];
@@ -97,7 +97,7 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	$parent_cost = 0;
 	$cost = 0;
 	$dataVariable ['package_id'] = 0;
-	$actual_duration = $dataVariable ['billsec'];
+	$actual_duration = isset($dataVariable ['billsec'])?$dataVariable ['billsec']:0;
 	$dataVariable ['calltype'] = isset ( $dataVariable ['calltype'] ) ? $dataVariable ['calltype'] : "STANDARD";
 	$actual_calltype = $dataVariable ['calltype'];
 	
@@ -365,7 +365,7 @@ function get_cdr_array($dataVariable, $accountid, $account_type, $actual_duratio
 
 	// Fixups - If the call wasn't complete, there will be missing timestamps. Set them
 	// to be null.
-	$stamps = array ("answer_stamp", "bridge_stamp", "progress_stamp", "progress_media_stamp");
+	$stamps = array ("answer_stamp", "bridge_stamp", "progress_stamp", "progress_media_stamp", "profile_start_stamp", "end_stamp");
 	foreach ($stamps as $s) {
 		if (empty($dataVariable[$s])) {
 			$$s = null;
@@ -411,17 +411,17 @@ function get_cdr_array($dataVariable, $accountid, $account_type, $actual_duratio
 		"provider_call_cost" => $provider_cost,
 		"call_direction" => empty($dataVariable ['call_direction']) ? "inbound": $dataVariable ['call_direction'],
 		"calltype" => $dataVariable['calltype'],
-		"profile_start_stamp" => urldecode ( $dataVariable ['profile_start_stamp'] ),
+		"profile_start_stamp" => $profile_start_stamp,
 		"answer_stamp" => $answer_stamp,
 		"bridge_stamp" => $bridge_stamp,
 		"progress_stamp" => $progress_stamp,
 		"progress_media_stamp" => $progress_media_stamp,
-		"end_stamp" => urldecode ( $dataVariable ['end_stamp'] ),
-		"billmsec" => $dataVariable ['billmsec'],
-		"answermsec" => $dataVariable ['answermsec'],
-		"waitmsec" => $dataVariable ['waitmsec'],
-		"progress_mediamsec" => $dataVariable ['progress_mediamsec'],
-		"flow_billmsec" => $dataVariable ['flow_billmsec'],
+		"end_stamp" => $end_stamp,
+		"billmsec" => isset($dataVariable ['billmsec'])?$dataVariable['billmsec']:0,
+		"answermsec" => isset($dataVariable ['answermsec'])?$dataVariable['answermsec']:0,
+		"waitmsec" => isset($dataVariable ['waitmsec'])?$dataVariable['waitmsec']:0,
+		"progress_mediamsec" => isset($dataVariable ['progress_mediamsec'])?$dataVariable['progress_mediamsec']:0,
+		"flow_billmsec" => isset($dataVariable['flow_billmsec'])?$dataVariable['flow_billmsec']:0,
 		"call_request" => $dataVariable ['call_request'],
 	);
 
@@ -508,13 +508,12 @@ function table_exists($tablename, $database, $logger, $db) {
 // Calculate cost for billing
 function calc_cost($dataVariable, $rates, $logger, $decimal_points) {
 	// $logger->log(print_r($rates,true));
-	$duration = $dataVariable ['billsec'];
+	$duration = isset($dataVariable['billsec'])?$dataVariable ['billsec']:0;
 	$call_cost = 0;
 	if (isset($rates['INCLUDEDSECONDS'])) {
 		$duration -= $rates['INCLUDEDSECONDS'];
 	}
-	if ($duration > 0) {
-		
+	if ($duration > 0 && isset($rates['INC'])) {
 		$rates ['INC'] = ($rates ['INC'] == 0) ? 1 : $rates ['INC'];
 		$call_cost = $rates ['CONNECTIONCOST'];
 		$call_cost += ($rates ['INITIALBLOCK'] * $rates ['COST']) / 60;
