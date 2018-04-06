@@ -96,7 +96,7 @@
 					}
 				}
 			 }
-			 if($accountinfo['type']==0 || $accountinfo['type']==3){
+			 if($accountinfo['type']==0 || $accountinfo['type']==3 || $accountinfo['type']==4){
 		  if($uri_arr[0]=='user' && $uri_arr[1] =='user_myprofile' || $uri_arr[0]=='user' && $uri_arr[1]=='user_change_password'){
 		$menu_info=unserialize(CUSTOMERPROFILE_ARRAY);
 		  }
