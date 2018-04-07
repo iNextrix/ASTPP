@@ -2,7 +2,7 @@
 <?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("refill_coupon_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);        
+        build_grid("refill_coupon_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);        
         $("#refill_coupon_search_btn").click(function(){
             post_request_for_search("refill_coupon_grid","","refill_coupon_list_search");
         });        

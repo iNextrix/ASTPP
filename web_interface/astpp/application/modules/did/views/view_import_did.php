@@ -2,7 +2,7 @@
 <?php startblock('extra_head') ?>
 <?php endblock() ?>
 <?php startblock('page-title') ?>
-    <?php echo gettext('DID Import Process')?> <?//= isset($pricelistid)?$this->common->get_field_name('name', 'pricelists',$pricelistid):"";?><?php //= $page_title ?>
+    <?php echo gettext('DID Import Process')?>
 <?php endblock() ?>
 <?php startblock('content') ?>  
 <?php if ( ! isset($csv_tmp_data)) { ?>
@@ -81,10 +81,11 @@
     </div>
 </section>
 
-<?php }?>    
-        
 <?php
-	if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
+}
+if(isset($csv_tmp_data) && !empty($csv_tmp_data)) {
+?>
+
  <section class="slice color-three">
 	<div class="w-section inverse no-padding">
            <div class="container">

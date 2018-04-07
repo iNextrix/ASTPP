@@ -7,7 +7,7 @@
 	     $(".did_dropdown").removeClass("col-md-5");  
              $(".did_dropdown").addClass("col-md-3"); 
     });
-    build_grid("did_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+    build_grid("did_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
     $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
     });

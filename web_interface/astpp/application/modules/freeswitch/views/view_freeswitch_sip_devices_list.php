@@ -3,7 +3,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("fs_sip_devices_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("fs_sip_devices_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         
         $("#fssipdevice_search_btn").click(function(){
 	  

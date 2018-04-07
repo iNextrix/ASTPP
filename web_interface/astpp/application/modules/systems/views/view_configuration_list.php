@@ -5,7 +5,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("configuration_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("configuration_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         
       $("#configuration_search_btn").click(function(){
             post_request_for_search("configuration_grid","","configuration_search");

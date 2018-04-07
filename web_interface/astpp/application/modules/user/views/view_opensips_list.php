@@ -4,7 +4,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("opensipsdevice_grid","",<?php echo $grid_fields; ?>,<? echo $fs_grid_buttons; ?>);
+        build_grid("opensipsdevice_grid","",<?php echo $grid_fields; ?>,<?php echo $fs_grid_buttons; ?>);
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked);
         });

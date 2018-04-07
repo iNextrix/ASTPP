@@ -42,7 +42,7 @@
                    <div class="pull-right">
                         <a href="<?= base_url().'did/did_error_download/'?>"><input class="btn btn-line-sky margin-x-10" id="dwnld_err" type="button" name="action" value="Download Errors" /> </a>
                        
-                    <?}?>
+                    <?php }?>
                      <a href="<?= base_url().'did/did_list/'?>"><input class="btn btn-line-parrot" id="did_list" type="button" name="action" value="Back to DID List" /> </a>  </div></div>
             </fieldset></section>
         <?php endblock() ?>

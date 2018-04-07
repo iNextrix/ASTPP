@@ -333,11 +333,7 @@ class MX_Loader extends CI_Loader
 
 		ob_start();
 
-		if ((bool)@ini_get('short_open_tag') === FALSE AND CI::$APP->config->item('rewrite_short_tags') == TRUE) {
-			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
-		} else {
-			include($_ci_path);
-		}
+		include($_ci_path);
 
 		log_message('debug', 'File loaded: '.$_ci_path);
 

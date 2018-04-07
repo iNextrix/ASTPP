@@ -2,7 +2,7 @@
 <?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("refill_report_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("refill_report_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         
         $("#cusotmer_cdr_refill_search_btn").click(function(){
 

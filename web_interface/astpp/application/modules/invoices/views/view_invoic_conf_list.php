@@ -5,7 +5,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
      
-        build_grid("invoice_conf_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("invoice_conf_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
@@ -25,7 +25,6 @@
     	<div class="container">
    	    <div class="row">
             	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-                    	<?//php echo $form_search; ?>
     	        </div>
             </div>
         </div>

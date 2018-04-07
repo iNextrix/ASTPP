@@ -3,7 +3,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
 		$('a[rel*=facebox]').facebox();
-        build_grid("package_pattern_list","<?php echo base_url()."package/package_pattern_list_json/".$edit_id."/"?>",<? echo $grid_fields ?>,"");
+        build_grid("package_pattern_list","<?php echo base_url()."package/package_pattern_list_json/".$edit_id."/"?>",<?php echo $grid_fields ?>,"");
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });

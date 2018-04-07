@@ -3,7 +3,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("charges_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("charges_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
     });
 </script>
 

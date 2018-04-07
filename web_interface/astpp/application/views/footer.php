@@ -47,7 +47,7 @@
 		
 			?>
 		 <div class="col-md-offset-4 col-md-4"><?=$user_footer ?> </div>
-		<?} else {  ?>
+		<?php } else {  ?>
 	    <div class="col-md-offset-4 col-md-4">Copyright @ <?php echo date("Y"); ?> <a style="color:#3989c0;" href="http://www.inextrix.com" target="_blank"> Inextrix Technologies Pvt. Ltd</a>. All Rights Reserved.
 	    
 	    </div>

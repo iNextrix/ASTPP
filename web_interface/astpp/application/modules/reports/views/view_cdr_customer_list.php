@@ -3,7 +3,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("configuration_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("configuration_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         
         $("#cusotmer_cdr_search_btn").click(function(){
             post_request_for_search("configuration_grid","","cdr_customer_search");

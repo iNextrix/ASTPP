@@ -3,7 +3,7 @@
 
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("user_rates_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("user_rates_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         $("#user_rates_list_search_btn").click(function(){
             post_request_for_search("user_rates_grid","","user_rates_list_search");
         });        

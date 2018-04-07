@@ -2,7 +2,7 @@
 <?php startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("fs_sipprofile_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("fs_sipprofile_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
       
         $("#fssipprofile_search_btn").click(function(){
 //             alert('ascsd');

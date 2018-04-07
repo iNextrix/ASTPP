@@ -84,7 +84,7 @@
     </div>
 </section>
 
-<?}?>    
+<?php }?>    
         
 <?php
 	if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>

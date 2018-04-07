@@ -17,7 +17,7 @@ if (strpos($url, 'customer_cdrs') != true) {
 ?>
         <div class="col-md-12 no-padding">
 	        <div class="col-md-8 no-padding">
-                    <h2><?php start_block_marker('page-title') ?><? end_block_marker() ?>	</h2>
+                    <h2><?php start_block_marker('page-title') ?><?php end_block_marker() ?>	</h2>
 	        
 	        
                 <span id="error_msg" class=" success"></span></div>

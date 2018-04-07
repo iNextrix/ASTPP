@@ -34,7 +34,7 @@
                                
                                </div>
                            </div>
-				<?
+				<?php
 				 $logintype=$this->session->userdata('userlevel_logintype');
 					   // $trunk=null;
 				 if($logintype !=1) { ?>
@@ -45,7 +45,7 @@
                                </div>
                            </div><?php } else {?>
 							    <input type="hidden" name="trunk_id" value="0" />
-				<?} ?>
+				<?php } ?>
                            <div class="col-md-12 no-padding">
                             <input type="hidden" name="mode" value="Import Routes" />
                             <input type="hidden" name="logintype" value="<?= $this->session->userdata('logintype') ?>" />
@@ -94,10 +94,11 @@
     </div>
 </section>   
 
-<?}?>    
-        
-<?php
-	if(isset($csv_tmp_data) && !empty($csv_tmp_data)){ ?>
+<?php 
+}
+
+if(isset($csv_tmp_data) && !empty($csv_tmp_data)) {
+?>
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">

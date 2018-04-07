@@ -5,7 +5,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("opensipsdevice_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("opensipsdevice_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         
         $("#opensipsdevice_search_btn").click(function(){
 //alert('fdgdfgdf');

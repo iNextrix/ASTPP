@@ -8,17 +8,17 @@
 	 <?php
 	$user_header = $this->session->userdata('user_header');
 	if (isset($user_header) && $user_header != '') { ?>
-		<?php start_block_marker('page-title') ?><? end_block_marker() ?> | <?php echo $user_header; ?>
+		<?php start_block_marker('page-title') ?><?php end_block_marker() ?> | <?php echo $user_header; ?>
 	<?php
 	} else { ?>
-		<?php start_block_marker('page-title') ?><? end_block_marker() ?> | ASTPP - Open Source Voip Billing Solution
+		<?php start_block_marker('page-title') ?><?php end_block_marker() ?> | ASTPP - Open Source Voip Billing Solution
 	<?php
 	}
 	?>
 </title>
 <?php  $user_favicon = $this->session->userdata('user_favicon'); ?>
 <?php if($user_favicon) {  ?>
-        <link rel="icon" href="<?php echo base_url(); ?>upload/<? echo $user_favicon ?>"/>
+        <link rel="icon" href="<?php echo base_url(); ?>upload/<?php echo $user_favicon ?>"/>
 <?php } else { ?>
     <link rel="icon" href="<?php echo base_url(); ?>assets/images/favicon.ico"/>
 <?php } ?>
@@ -184,15 +184,16 @@ jQuery(document).ready(function() {
 ?>
 		    <li><a href="<?php echo base_url();?>user/user_myprofile/"><i class= "fa fa-user"></i> &nbsp;
 		    <?php echo gettext('My Profile'); ?></a></li>
-		      <?
-}?>
+<?php
+}
+?>
 	    
 		    <?php if($this->session->userdata('userlevel_logintype') == '-1'){?>
 
 		      <li style="-moz-border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;"><a href="https://github.com/iNextrix/ASTPP/issues" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>		    
 		    <li><a href="http://astpp.readthedocs.io" target="_blank"><i class="fa fa-file-text"></i> &nbsp;Documentation</a></li>
 		    <li><a href="http://www.astppbilling.org/mobile-dialers/" target="_blank"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i> &nbsp;Get App</a></li>
-		    <?}?>
+		    <?php }?>
 				
                 <li><a href="<?php echo base_url();?>logout"><i class="fa fa-power-off"></i> &nbsp;Log out</a></li>
                 </ul>
@@ -230,8 +231,8 @@ jQuery(document).ready(function() {
 				if((common_model::$global_config['system_config']['paypal_status']== 1 && strtolower($sub_menu_lables["menu_label"]) =='recharge')|| (common_model::$global_config['system_config']['enterprise']== 0 &&  $sub_menu_lables["menu_label"] =='Opensips devices')  || (common_model::$global_config['system_config']['enterprise']== 0 &&  $sub_menu_lables["menu_label"] =='Opensips')  || (common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Dispatcher list') || (common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Opensips devices')  || (common_model::$global_config['system_config']['opensips']== 1 &&  $sub_menu_lables["menu_label"] =='Opensips') || (common_model::$global_config['system_config']['enterprise']== 1 && common_model::$global_config['system_config']['opensips']== 0 &&  $sub_menu_lables["menu_label"] =='SIP Devices') || (($acc_info['type'] == '3' || $acc_info['type'] == '0') && $acc_info['allow_ip_management'] == '1' && strtolower($sub_menu_lables["menu_label"]) == 'ip settings')){
 								}else{?>
                                 <li><a href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?php echo gettext($sub_menu_lables["menu_label"]);?></a></li>
-				<?}?>
-				<?} ?>
+				<?php }?>
+				<?php } ?>
                             <?php }else{
 				if(common_model::$global_config['system_config']['opensips']==0 && $menu_key !='System Configuration'){ ?>    
 				    <li><a href="#"><span><?=$sub_menu_key;?></span><i class="fa fa-caret-right pull-right"></i></a>
@@ -255,7 +256,7 @@ jQuery(document).ready(function() {
 				}
 				} ?>
 				</ul></div></div>         
-                        <?} 
+                        <?php } 
 						}  ?> 
                   </ul>   
                 </li> 

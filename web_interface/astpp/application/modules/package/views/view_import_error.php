@@ -48,7 +48,7 @@
                    <div class="pull-right">
                         <a href="<?= base_url().'package/package_pattern_list/'.$packageid?>"><input class="btn btn-line-sky margin-x-10" id="back_to_list" type="button" name="action" value="Back to Package Patterns List" /> </a>
                         <a href="<?= base_url().'package/package_patterns_error_download/'?>"><input class="btn btn-line-parrot" id="download_file" type="button" name="action" value="Download Errors" /> </a>
-           </div></div>          <?}?>
+           </div></div>          <?php } ?>
             </fieldset>
 </section>		
                    

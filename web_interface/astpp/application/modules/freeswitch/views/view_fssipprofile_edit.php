@@ -118,8 +118,8 @@ function cancel(){
 			<div style="width:550px;"><label style="text-align:right;" class="col-md-3">Status </label>
 			<select name="sipstatus" class="col-md-5 form-control selectpicker" data-live-search='true'>
 			    
-			    <option value="0" <?if ($status == 0)echo 'selected=selected;'?>>Active</option>
-			    <option value="1" <?if ($status == 1)echo 'selected=selected;'?>>Inactive</option>
+			    <option value="0" <?php if ($status == 0)echo 'selected=selected;'?>>Active</option>
+			    <option value="1" <?php if ($status == 1)echo 'selected=selected;'?>>Inactive</option>
 			  </select>
                        </div>
 		       </div>
@@ -184,7 +184,7 @@ function cancel(){
 			           </div>
 			          
 			</div>
-			<?
+			<?php
 			  if(!empty($params_name))
 			  {
 				$type="edit_setting";

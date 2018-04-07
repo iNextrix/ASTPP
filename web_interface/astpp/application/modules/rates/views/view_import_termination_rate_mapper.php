@@ -13,7 +13,7 @@
 <script type="text/javascript" language="javascript">
    $(document).ready(function() {
    });
-</script> <script type="text/javascript" language="javascript"><?
+</script> <script type="text/javascript" language="javascript"><?php
    if (isset($mapto_fields) && !empty($mapto_fields)) {
     foreach($mapto_fields as $csv_key => $csv_value) {
     echo '$("#'.$csv_value .'-prefix").live("change", function () {';

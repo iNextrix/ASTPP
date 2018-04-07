@@ -30,7 +30,7 @@ function check_btn(){
         }); 
 /******************/
     $(document).ready(function() {
-        build_grid("termination_rate_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("termination_rate_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });

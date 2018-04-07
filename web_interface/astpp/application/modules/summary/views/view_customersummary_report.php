@@ -3,7 +3,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         $(this).css('background-color', 'Green');
-        build_grid("customersummary_grid","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("customersummary_grid","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         
         $("#customersummary_search_btn").click(function(){
             document.customersummary_search.submit();

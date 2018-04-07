@@ -264,7 +264,7 @@ ASTPP work best with JavaScript enabled
 			<li class="col-md-6  no-padding">
 				<label for="Country" class="col-md-3 no-padding" style="text-align: left;">Country</label>
 				<div class='col-md-9'>
-				<?
+				<?php
 				$js = 'id="country_id"';
 				$country = form_dropdown(array('id'=>'country_id', 'name'=>'country_id'), $this->db_model->build_dropdown("id,country", "countrycode", "", ""), '', 'id="country_id"');
 				echo $country;
@@ -279,7 +279,7 @@ ASTPP work best with JavaScript enabled
 			<li class="col-md-6  no-padding">
 				<label for="Timezone" class="col-md-3 no-padding add_settings" style="text-align: left;">Timezone</label>
 				<div class='col-md-9'>
-				<?
+				<?php
 				$timezone = form_dropdown(array('id'=>'timezone_id', 'name'=>'timezone_id'), $this->db_model->build_dropdown("id,gmtzone", "timezone", "", ""), '', 'id="timezone_id"');
 				echo $timezone;
 				?>
@@ -288,7 +288,7 @@ ASTPP work best with JavaScript enabled
 			<li class="col-md-6 no-padding">
 				<label for="Currency" class="col-md-3  no-padding add_settings" style="text-align: left;">Currency</label>
 				<div class='col-md-9'>
-				<?
+				<?php
 				$currency = form_dropdown(array('id'=>'currency_id', 'name'=>'currency_id'), $this->db_model->build_dropdown("id,currencyname", "currency", "", ""), '', 'id="currency_id"');
 				echo $currency;
 				?>

@@ -4,7 +4,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
       
-        build_grid("flex1","",<?php echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
+        build_grid("flex1","",<?php echo $grid_fields; ?>,<?php echo $grid_buttons; ?>);
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
@@ -126,4 +126,5 @@ first used,creation,expiry search date picker
 <?php
 
 endblock();
-php end_extend();
+end_extend();
+

@@ -268,5 +268,5 @@ foreach ($taxes_to_accounts as $tax_val) {
 endblock();
 startblock('sidebar');
 endblock();
-end_extend(;)
+end_extend();
 
