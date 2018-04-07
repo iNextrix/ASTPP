@@ -146,7 +146,7 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	
 	// Resellers CDR entry
 	$flag_parent = false;
-	insert_parent_data ( $dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points );
+	insert_parent_data ( $dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points, $config );
 	
 	$logger->log ( "*********************** OUTBOUND CALL ENTRY END *************" );
 	
