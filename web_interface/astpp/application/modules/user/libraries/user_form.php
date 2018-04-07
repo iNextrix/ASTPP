@@ -3649,4 +3649,4 @@ class User_form {
 		return $form;
 	}
 }
-?>
+

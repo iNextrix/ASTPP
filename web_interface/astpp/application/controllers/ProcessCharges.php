@@ -595,21 +595,3 @@ class ProcessCharges extends MX_Controller {
 	}*/
 }
 
-?> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

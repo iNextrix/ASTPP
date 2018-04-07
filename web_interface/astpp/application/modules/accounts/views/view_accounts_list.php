@@ -123,6 +123,7 @@ first used,creation,expiry search date picker
 
 
 
-<?php endblock() ?>	
+<?php
 
-<?php end_extend() ?>  
+endblock();
+php end_extend();

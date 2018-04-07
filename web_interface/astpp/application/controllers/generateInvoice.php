@@ -330,8 +330,3 @@ class GenerateInvoice extends MX_Controller {
 	}
 }
 
-?>
-
-
-
-

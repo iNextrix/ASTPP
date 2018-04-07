@@ -86,8 +86,8 @@ $class = "active";
                
 </div>		
 
-<?php start_block_marker('content') ?><? end_block_marker() ?>	
-
-
-<?php include('footer.php'); ?>
+<?php
+start_block_marker('content');
+end_block_marker();
+include 'footer.php';
 

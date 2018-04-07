@@ -177,6 +177,7 @@ $login_type = $this->session->userdata['userlevel_logintype'];
     </div>
 </section>
 
-<?php endblock() ?>	
+<?php
 
-<?php end_extend() ?> 
+endblock();
+end_extend();

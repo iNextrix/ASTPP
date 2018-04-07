@@ -560,4 +560,4 @@ class Refill_coupon_form {
 		return $grid_field_arr;
 	}
 }
-?>
+

@@ -147,5 +147,3 @@ class Animap extends MX_Controller {
 	}
 }
 
-?>
- 

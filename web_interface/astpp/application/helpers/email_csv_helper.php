@@ -43,4 +43,3 @@ function send_csv_mail ($csvData, $body, $to, $subject,$file_name) {
 	mail($to, $subject, $body, implode("\r\n", $headers));
 }
 
-?>

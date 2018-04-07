@@ -25,4 +25,3 @@ $config ['argv'] = array (
 );
 $config ['CRON_BETA_MODE'] = false; // Beta Mode (useful for blocking submissions for testing)
 
-?>

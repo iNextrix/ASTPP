@@ -146,4 +146,4 @@ class Astpp_common extends CI_Model {
 		return $this->db_get_item ( $tmp, 'val1' );
 	}
 }
-?>
+

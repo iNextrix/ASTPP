@@ -150,5 +150,3 @@ class Taxes extends CI_Controller {
 	}
 }
 
-?>
- 

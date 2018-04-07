@@ -627,5 +627,3 @@ class Systems extends CI_Controller {
 	}
 }
 
-?>
-  

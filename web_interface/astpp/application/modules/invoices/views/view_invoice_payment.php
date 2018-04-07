@@ -515,7 +515,10 @@ function amidn_pay(){
 }
 </script>
 
-<?php endblock() ?>
-<?php startblock('sidebar') ?>
-<?php endblock() ?>
-<?php end_extend() ?>
+<?php
+
+endblock();
+startblock('sidebar');
+endblock();
+end_extend();
+

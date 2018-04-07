@@ -927,5 +927,4 @@ class DID extends MX_Controller {
 		array_to_csv ( $outbound_array, 'DIDs_' . date ( "Y-m-d" ) . '.csv' );
 	}
 }
-?>
- 
+

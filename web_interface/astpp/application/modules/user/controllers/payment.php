@@ -53,4 +53,4 @@ class Payment extends MX_Controller {
 		echo number_format ( ( float ) $amount, 2 );
 	}
 }
-?> 
+

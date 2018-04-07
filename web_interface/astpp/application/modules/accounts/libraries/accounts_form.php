@@ -4441,4 +4441,3 @@ class Accounts_form {
 	}
 }
 
-?>

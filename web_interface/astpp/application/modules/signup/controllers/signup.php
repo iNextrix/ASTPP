@@ -538,6 +538,4 @@ class Signup extends MX_Controller {
 		$this->load->view ( 'view_successpassword' );
 	}
 }
-?>
-
 

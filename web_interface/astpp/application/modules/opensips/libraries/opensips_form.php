@@ -872,4 +872,3 @@ class Opensips_form {
 	}
 }
 
-?>

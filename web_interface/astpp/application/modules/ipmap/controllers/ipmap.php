@@ -264,5 +264,3 @@ class IPMAP extends MX_Controller {
 	}
 }
 
-?>
- 

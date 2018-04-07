@@ -996,4 +996,3 @@ class Summary_form {
 	}
 }
 
-?>

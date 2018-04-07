@@ -116,6 +116,9 @@
         </div>
 </div></div></div>
     </section>    
-    <?php } ?>
-<?php endblock() ?>	
-<?php end_extend() ?>   
+<?php
+	} 
+
+endblock();
+end_extend();
+

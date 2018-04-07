@@ -42,4 +42,4 @@ class Getstatus extends MX_Controller {
 		echo TRUE;
 	}
 }
-?>
+

@@ -335,4 +335,3 @@ class Animap_form {
 	}
 }
 
-?>

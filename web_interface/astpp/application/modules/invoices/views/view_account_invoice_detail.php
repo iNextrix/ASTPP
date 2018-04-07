@@ -154,6 +154,7 @@ Addres : <?=$accountinfo['address_1']?>
     <?php startblock('sidebar') ?>						
 		<br/><br/><br/><br/><br/><br/>    	
 
-    <?php endblock() ?>
-    
-<?php end_extend() ?>  
+<?php
+endblock();
+end_extend();
+

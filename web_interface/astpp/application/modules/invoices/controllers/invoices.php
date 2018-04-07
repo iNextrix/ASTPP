@@ -2267,5 +2267,3 @@ class Invoices extends MX_Controller {
 	}
 }
 
-?>
- 

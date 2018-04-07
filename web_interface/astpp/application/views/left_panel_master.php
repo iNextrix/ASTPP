@@ -156,8 +156,9 @@
 				}
 			 ?>
 </div>		
-<?php start_block_marker('content') ?><? end_block_marker() ?>	
+<?php
 
-
-<?php include('footer.php'); ?>
+start_block_marker('content');
+end_block_marker();
+include 'footer.php';
 

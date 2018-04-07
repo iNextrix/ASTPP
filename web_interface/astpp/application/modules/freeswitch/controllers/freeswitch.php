@@ -1135,5 +1135,3 @@ class Freeswitch extends MX_Controller {
 	}
 }
 
-?>
- 

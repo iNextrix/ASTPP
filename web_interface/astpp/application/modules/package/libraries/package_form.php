@@ -617,4 +617,3 @@ class Package_form {
 	}
 }
 
-?>

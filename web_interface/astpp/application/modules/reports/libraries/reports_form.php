@@ -3501,5 +3501,4 @@ class Reports_form {
 	}
 }
 
-?>
 

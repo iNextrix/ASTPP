@@ -91,4 +91,4 @@ class Timezone {
 		return $date;
 	}
 }
-?>
+

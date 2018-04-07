@@ -745,5 +745,4 @@ class Summary extends MX_Controller {
 		array_to_csv ( $reseller_array, 'Reseller_Summary_Report_' . date ( "Y-m-d" ) . '.csv' );
 	}
 }
-?>
 

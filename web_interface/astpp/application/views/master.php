@@ -99,8 +99,11 @@ Email host test
     var ERR_type = '<?= $msg_type; ?>';
     display_astpp_message(validate_ERR,ERR_type);
 </script>
-<?php } ?>
-<?php start_block_marker('content') ?><? end_block_marker() ?>
- 
-<?php include('footer.php'); ?>
+<?php 
+   }
+
+
+start_block_marker('content');
+end_block_marker();
+include 'footer.php';
 

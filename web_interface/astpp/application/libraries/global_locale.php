@@ -36,5 +36,4 @@ class Global_locale {
 		header ( "Pragma: no-cache" );
 	}
 }
-?>
 

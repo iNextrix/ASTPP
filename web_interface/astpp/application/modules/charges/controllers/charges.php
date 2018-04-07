@@ -218,5 +218,3 @@ class Charges extends MX_Controller {
 	}
 }
 
-?>
- 

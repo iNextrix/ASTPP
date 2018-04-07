@@ -70,5 +70,6 @@ function form_submit(){
         </div>
     </div>
 </div>
-<?php endblock() ?>
-<?php end_extend() ?>
+<?php
+endblock();
+end_extend();

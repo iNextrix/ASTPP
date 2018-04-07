@@ -1331,4 +1331,3 @@ class did_form {
 	}
 }
 
-?>

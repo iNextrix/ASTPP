@@ -452,7 +452,10 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
     </div>
 </section>
 
-<?php endblock() ?>
-<?php startblock('sidebar') ?>
-<?php endblock() ?>
-<?php end_extend() ?> 
+<?php
+
+endblock();
+startblock('sidebar');
+endblock();
+end_extend();
+

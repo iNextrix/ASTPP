@@ -2236,4 +2236,3 @@ class rates_form {
 	}
 }
 
-?>

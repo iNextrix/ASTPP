@@ -98,4 +98,4 @@ $lang['Freeswitch Server'] = 'Freeswitch Server';
 $lang['Configuration'] = 'Configuration';
 $lang['Email Template'] = 'Email Template';
 $lang['Freeswitch'] = 'Freeswitch';
-?>
+

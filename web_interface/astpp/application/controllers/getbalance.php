@@ -125,5 +125,3 @@ class Getbalance extends MX_Controller {
 	}
 }
 
-?>
- 

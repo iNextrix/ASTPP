@@ -43,4 +43,4 @@ class Broadcastemail extends CI_Controller {
 		}
 	}
 }
-?>
+

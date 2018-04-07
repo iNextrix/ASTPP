@@ -1380,5 +1380,4 @@ class Rates extends MX_Controller {
  * **********************
  */
 }
-?>
- 
+

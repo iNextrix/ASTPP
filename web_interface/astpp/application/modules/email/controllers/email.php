@@ -482,5 +482,4 @@ class Email extends MX_Controller {
 		}
 	}
 }
-?>
- 
+

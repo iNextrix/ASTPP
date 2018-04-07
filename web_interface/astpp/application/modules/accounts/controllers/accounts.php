@@ -2741,5 +2741,4 @@ class Accounts extends MX_Controller {
 		echo gettext ( $_POST ['display'] );
 	}
 }
-?>
 

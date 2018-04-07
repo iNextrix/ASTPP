@@ -197,4 +197,4 @@ class Refill_coupon extends MX_Controller {
 		echo json_encode ( $json_data );
 	}
 }
-?>
+

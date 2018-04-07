@@ -540,5 +540,3 @@ class Package extends MX_Controller {
 	}
 }
 
-?>
- 

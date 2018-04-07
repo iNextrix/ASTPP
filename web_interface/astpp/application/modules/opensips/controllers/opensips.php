@@ -387,5 +387,3 @@ class Opensips extends MX_Controller {
 	}
 }
 
-?>
- 

@@ -48,7 +48,9 @@
         <?php endblock() ?>
     <?php startblock('sidebar') ?>
         Filter by
-    <?php endblock() ?>
-<?php end_extend() ?>  
-    
+<?php
+
+endblock();
+end_extend();
+
 

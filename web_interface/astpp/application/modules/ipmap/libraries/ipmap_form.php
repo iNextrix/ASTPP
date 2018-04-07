@@ -617,4 +617,3 @@ class Ipmap_form {
  */
 }
 
-?>

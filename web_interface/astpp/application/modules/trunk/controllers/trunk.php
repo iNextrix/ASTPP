@@ -177,5 +177,3 @@ class Trunk extends CI_Controller {
 	}
 }
 
-?>
- 

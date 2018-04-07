@@ -1103,4 +1103,5 @@ class invoices_form {
 		return $form;
 	}
 }
-?>
+
+

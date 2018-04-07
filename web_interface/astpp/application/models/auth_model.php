@@ -53,4 +53,4 @@ class Auth_model extends CI_Model {
 }
 
 // end class
-?>
+

@@ -252,5 +252,3 @@ class pricing extends CI_Controller {
  */
 }
 
-?>
- 

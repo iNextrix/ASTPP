@@ -53,9 +53,8 @@
     </div>
 </section>
 
+<?php
 
+endblock();
+end_extend();
 
-
-<?php endblock() ?>	
-
-<?php end_extend() ?>  

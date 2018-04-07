@@ -295,4 +295,3 @@ Reason: Improvement of Dashboard Performance*/
 	}
 }
 
-?>

@@ -64,5 +64,4 @@ $this->session->set_flashdata ( "astpp_errormsg", "Currency exchange rates succe
 		return $data;
 	}
 }
-?>
 

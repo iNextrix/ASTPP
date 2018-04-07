@@ -554,4 +554,3 @@ class Charges_form {
 	}
 }
 
-?>

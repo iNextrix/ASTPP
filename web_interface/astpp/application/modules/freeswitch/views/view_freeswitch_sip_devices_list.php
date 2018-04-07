@@ -54,8 +54,7 @@
     </div>
 </section>
 
+<?php
 
-
-<?php endblock() ?>	
-
-<?php end_extend() ?>  
+endblock();
+end_extend();

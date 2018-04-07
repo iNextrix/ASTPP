@@ -361,4 +361,3 @@ class Taxes_form {
 	}
 }
 
-?>

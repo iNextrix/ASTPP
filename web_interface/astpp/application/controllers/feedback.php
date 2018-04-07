@@ -129,4 +129,4 @@ class Feedback extends MX_Controller {
 		$this->load->view ( 'view_feedback_response' );
 	}
 }
-?>
+

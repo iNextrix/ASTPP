@@ -79,6 +79,8 @@ function validateForm(){
 </section>
 
 
-<?php endblock() ?>	
+<?php
 
-<?php end_extend() ?>  
+endblock();
+end_extend();
+

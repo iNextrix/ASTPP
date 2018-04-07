@@ -332,4 +332,4 @@ class UpdateBalance extends MX_Controller {
 		$this->db->insert ( "invoice_details", $invoice_item_arr );
 	}
 }
-?> 
+
