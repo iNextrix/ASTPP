@@ -28,18 +28,22 @@ class Getstatus extends MX_Controller {
 	}
 	function customer_list_status($id) {
 		$post_data = $this->input->post ();
-		$post_data ['table'] = $this->common->decode ( $post_data ['table'] );
-		$data ['status'] = $post_data ['status'] == 'true' ? 0 : 1;
-		if ($post_data ['table'] == 'accounts') {
-			$where = array (
-					'id' => $post_data ['id'] 
-			);
-			$account_data = ( array ) $this->db_model->getSelect ( "*", "accounts", $where )->first_row ();
-		}
-		$result = $post_data ['table'] == 'accounts' && $post_data ['id'] == 1 ? null : $this->db->update ( $post_data ['table'], $data, array (
-				"id" => $post_data ['id'] 
-		) );
-		echo TRUE;
+		if(!empty($post_data) && isset($post_data['table'])){
+			$post_data ['table'] = $this->common->decode ( $post_data ['table'] );
+			$data ['status'] = $post_data ['status'] == 'true' ? 0 : 1;
+			if ($post_data ['table'] == 'accounts') {
+				$where = array (
+						'id' => $post_data ['id'] 
+				);
+				$account_data = ( array ) $this->db_model->getSelect ( "*", "accounts", $where )->first_row ();
+			}
+			$result = $post_data ['table'] == 'accounts' && $post_data ['id'] == 1 ? null : $this->db->update ( $post_data ['table'], $data, array (
+					"id" => $post_data ['id'] 
+			) );
+			echo TRUE;
+		}else{
+			redirect(base_url()."dashboard/");
+		}	
 	}
 }
 ?>
