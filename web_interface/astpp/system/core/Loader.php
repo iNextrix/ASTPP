@@ -170,7 +170,7 @@ class CI_Loader {
 	 * @param 	string	class being checked for
 	 * @return 	mixed	class object name on the CI SuperObject or FALSE
 	 */
-	public function is_loaded($class)
+	public function &is_loaded($class)
 	{
 		if (isset($this->_ci_classes[$class]))
 		{

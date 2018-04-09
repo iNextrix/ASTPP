@@ -12,7 +12,7 @@ class Router {
           $res = $db->get("invoice_conf");
           $domain = $res->result();
           if(!empty($domain) && $domain[0]->domain != ""){
-            if($_SERVER['HTTPS'] == "on"){
+            if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"){
                 self::$_domain = "https://".$domain[0]->domain."/";
             }else{
                 self::$_domain = "http://".$domain[0]->domain."/";
