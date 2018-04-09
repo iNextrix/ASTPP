@@ -139,7 +139,7 @@ ASTPP work best with JavaScript enabled
 			if((email.value) == "")
 			{
 				document.getElementById("e_name").innerHTML = "The Username or Email field is required! ";
-				document.getElementById("error_mail").innerHTML = "";
+				//document.getElementById("error_mail").innerHTML = "";
 				return false;   
 			}else{
 				return true;
