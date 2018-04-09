@@ -25,6 +25,7 @@ UNLOCK TABLES;
 --
 
 ALTER TABLE `accounts` CHANGE `interval` `cps` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `accounts` ADD `tax_number` VARCHAR(100) NULL DEFAULT NULL AFTER `did_cid_translation`;
 
 --
 -- Trunk table query 

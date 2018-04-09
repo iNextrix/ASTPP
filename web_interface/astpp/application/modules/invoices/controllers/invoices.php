@@ -1887,60 +1887,26 @@ class Invoices extends MX_Controller {
 		/**
 		 * ************************* Company Address Code START **************************************************
 		 */
-		
-		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf'] ['company_name'] . '</td>';
+		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data['invoiceconf']['company_name'] . '</td>';
 		$ACCOUNTADD .= '</tr>';
-		if ($data ['invoiceconf'] != "") {
-			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf'] ['address'] . '</td></tr>';
-		}
-		if ($data ['invoiceconf'] ['city'] != "") {
-			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf'] ['city'] . '</td></tr>';
-		}
-		if ($data ['invoiceconf'] ['province'] != "") {
-			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf'] ['province'] . '</td></tr>';
-		}
-		if ($data ['invoiceconf'] ['country'] != "") {
-			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf'] ['country'] . '</td></tr>';
-		}
-		if ($data ['invoiceconf'] ['zipcode'] != "") {
-			
-			$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf'] ['zipcode'] . '</td></tr>';
-		}
+		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf']['address'] . '</td></tr>';
+		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf']['city']. ' - ' .$data ['invoiceconf']['zipcode']. '</td></tr>';
+		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf']['province'] . ', ' .$data ['invoiceconf']['country'].'</td></tr>';
+		$ACCOUNTADD .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $data ['invoiceconf']['invoice_taxes_number'] . '</td></tr>';
 		/**
 		 * ************************* Company Address Code END **************************************************
 		 */
-		
+	
 		/**
 		 * ************************* Customer Address Code START **************************************************
 		 */
 		$ACCOUNTADD_CUSTOMER .= '<table align=right>';
 		$ACCOUNTADD_CUSTOMER .= '<tr>';
 		$ACCOUNTADD_CUSTOMER .= '<td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['company_name'] . '</td></tr>';
-		
-		if ($accountdata ['address_1'] != "") {
-			
-			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['address_1'] . '</td></tr>';
-		}
-		if ($accountdata ['city'] != "") {
-			
-			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['city'] . '</td></tr>';
-		}
-		if ($accountdata ['province'] != "") {
-			
-			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['province'] . '</td></tr>';
-		}
-		if ($accountdata ['country'] != "") {
-			
-			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['country'] . '</td></tr>';
-		}
-		if ($accountdata ['postal_code'] != "") {
-			
-			$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['postal_code'] . '</td></tr>';
-		}
+		$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['address_1'] . '</td></tr>';
+		$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['city'] . ' - ' .$accountdata ['postal_code'].'</td></tr>';
+		$ACCOUNTADD_CUSTOMER .= '<tr><td align="right" style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['province'] . ', ' .$accountdata ['country'].'</td></tr>';
+		$ACCOUNTADD_CUSTOMER .= '<tr><td style="width:100%;font-size: 12px;color:#000;font-family:arial; line-height: 22px;">' . $accountdata ['tax_number'] . '</td></tr>';
 		$ACCOUNTADD_CUSTOMER .= "</table>";
 		/**
 		 * ************************* Customer Address Code END **************************************************
