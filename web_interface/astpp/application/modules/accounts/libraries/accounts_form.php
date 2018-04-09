@@ -4150,7 +4150,16 @@ class Accounts_form {
 	function build_grid_buttons_customer() {
 		$logintype = $this->CI->session->userdata ( 'userlevel_logintype' );
 		$provider = null;
-		if ($logintype != 1)
+		$account_import= array();
+		if ($logintype != 1){
+			$account_import = array (
+						gettext ( "Import customers" ),
+						"btn btn-line-warning",
+						"fa fa-upload fa-lg",
+						"button_action",
+						"/account_import/customer_import_mapper/",
+						'single' 
+			);
 			$provider = array (
 					gettext ( "Create Provider" ),
 					"btn btn-line-blue btn",
@@ -4158,6 +4167,7 @@ class Accounts_form {
 					"button_action",
 					"/accounts/provider_add/" 
 			);
+		}	
 			// array(display name, width, db_field_parent_table,feidname, db_field_child_table,function name);
 		$buttons_json = json_encode ( array (
 				array (
@@ -4176,6 +4186,7 @@ class Accounts_form {
 						"popup",
 						"medium" 
 				),
+				$account_import,
 				$provider,
 				array (
 						gettext ( "Export" ),

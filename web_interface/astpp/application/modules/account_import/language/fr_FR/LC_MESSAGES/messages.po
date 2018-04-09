@@ -1,0 +1,431 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-08-13 16:45+0530\n"
+"Last-Translator: ankit prajapati <ankit.prajapati28@yahoo.in>\n"
+"Language-Team: ankit <ankit.prajapati28@yahoo.in>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/ITPLATP_2015/application/modules/taxes/language/\n"
+
+
+msgid "Create"
+msgstr "Créer"
+msgid "Add Tax"
+msgstr "Ajouter Impôt"
+msgid "Taxes Information"
+msgstr "Impôts Information"
+msgid "Name"
+msgstr "Nom"
+msgid "Priority"
+msgstr "Priorité"
+msgid "Amount"
+msgstr "Montant"
+msgid "Rate(%)"
+msgstr "Taux (%)"
+msgid "Status"
+msgstr "Statut"
+msgid "Edit Tax"
+msgstr "Modifier Impôt"
+
+msgid "taxes updated successfully!"
+msgstr "impôts mis à jour avec succès!"
+msgid "taxes added successfully!"
+msgstr "taxes ajoutées avec succès!"
+msgid "taxes removed successfully!"
+msgstr "impôts supprimés avec succès!"
+msgid "The Priority field is required."
+msgstr "Le champ Priorité est nécessaire."
+
+msgid ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All "
+"Rights Reserved. "
+msgstr ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Solution De Facturation. "
+"Tous Droits Réservés."
+
+msgid "Accounts"
+msgstr "Comptes"
+
+msgid "DIDs"
+msgstr "DID"
+
+msgid "Switch"
+msgstr "Interrupteur"
+
+msgid "Customers"
+msgstr "Clientèle"
+
+msgid "Admins"
+msgstr "Admins"
+
+msgid "Resellers"
+msgstr "Revendeurs"
+
+msgid "Email Mass"
+msgstr "Email Messe"
+
+msgid "Accounting"
+msgstr "Comptabilité"
+
+msgid "Invoices"
+msgstr "Factures"
+
+msgid "Subscriptions"
+msgstr "Abonnements"
+
+
+
+msgid "Tariff"
+msgstr "Tarif"
+
+msgid "Rate Groups"
+msgstr "Groupes De Taux"
+
+msgid "Origination Rates"
+msgstr "Tarifs Origines"
+
+msgid "Packages"
+msgstr "Forfaits"
+
+msgid "Usage Report"
+msgstr "Rapport d'utilisation"
+
+msgid "Carriers"
+msgstr "Carriers"
+
+msgid "Trunks"
+msgstr "Trunks"
+
+msgid "Termination Rates"
+msgstr "Tarifs Terminaison"
+
+msgid "Sip Devices"
+msgstr "Appareils Sip"
+
+msgid "Gateways"
+msgstr "passerelles"
+
+msgid "Sip Profiles"
+msgstr "Les Profils SIP"
+
+msgid "Freeswitch Server"
+msgstr "FreeSwitch Serveur"
+
+msgid "IP MAP (ACL)"
+msgstr "CARTE IP (ACL)"
+
+msgid "Caller Id"
+msgstr "Identification De L'Appelant"
+
+msgid "Call Reports"
+msgstr "Rapports d'appel"
+
+msgid "Details Reports"
+msgstr "Rapports Détaillés"
+
+msgid "customer"
+msgstr "client"
+
+msgid "Reseller"
+msgstr "Revendeur"
+
+msgid "Provider Outbound"
+msgstr "Fournisseur Outbound"
+
+msgid "Summary Reports"
+msgstr "Rapports De Synthèse"
+
+msgid "Provider"
+msgstr "Fournisseur"
+
+msgid "Trunk Stats"
+msgstr "Tronc Statistiques"
+
+msgid "Live Call Report"
+msgstr "Live Report Appel"
+
+msgid "Email History"
+msgstr "Email Histoire"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Invoice Config"
+msgstr "facture Config"
+
+msgid "Taxes"
+msgstr "impôts"
+
+msgid "Email Templates"
+msgstr "email Templates"
+
+msgid "Countries"
+msgstr "pays"
+
+msgid "Currencies"
+msgstr "Devises"
+
+msgid "Database Restore"
+msgstr "Base de données de restauration"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Global"
+msgstr "mondial"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Carte De Visite"
+
+msgid "Report A Bug"
+msgstr "Signaler Un Bug"
+
+msgid "Donate Us"
+msgstr "Donner nous"
+
+msgid "Dashboard"
+msgstr "tableau de bord"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Se déconnecter"
+
+msgid ""
+"Copyright @ 2003 - 2015 . ASTPP - Open Source VOIP Billing Solution. All "
+"Rights Reserved. "
+msgstr ""
+"Copyright @ 2003-2015. ASTPP - Open Source VOIP Solution de facturation. "
+"Tous droits réservés."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-beta"
+
+msgid "Welcome"
+msgstr "Bienvenue"
+
+msgid ". ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ""
+". ASTPP - Open Source VOIP Solution de facturation. Tous droits réservés."
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - VoIP Open Source Solution de facturation"
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP fonctionne mieux avec JavaScript enabled"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 des Comptes"
+
+msgid "By Minutes"
+msgstr "par Minutes"
+
+msgid "By Calls"
+msgstr "par des appels"
+
+msgid "Recharge Information"
+msgstr "Informations Recharge"
+
+
+
+
+msgid "Trunk add"
+msgstr "tronc add"
+msgid "Trunk Information"
+msgstr "Informations Trunk"
+msgid "Trunk Name"
+msgstr "tronc Nom"
+
+msgid "Gateway"
+msgstr "passerelle"
+msgid "Fail Over Gateway"
+msgstr "Fail Over passerelle"
+msgid "Max Channels"
+msgstr "Max Chaînes"
+msgid "Trunk Settings"
+msgstr "Paramètres de Tronc"
+msgid "Number Translation"
+msgstr "nombre Traduction"
+msgid "Codecs"
+msgstr "codecs"
+msgid "Precedence"
+msgstr "priorité"
+msgid "Failover GW name"
+msgstr "Basculement nom GW"
+msgid "Max channels"
+msgstr "canaux Max"
+msgid "Rate Count"
+msgstr "taux comte"
+msgid "Search"
+msgstr "Recherche"
+msgid "Clear"
+msgstr "clair"
+msgid "Save"
+msgstr "Sauvegarder"
+msgid "Cancel"
+msgstr "Annuler"
+msgid "Edit Trunk"
+msgstr "Modifier Trunk"
+
+msgid "My Rates"
+msgstr "My Rates"
+msgid "Rates"
+msgstr "Tarifs"
+msgid "Manage DIDs"
+msgstr "gérer DID"
+msgid "SIP Devices"
+msgstr "Appareils SIP"
+msgid "Manage Invoice"
+msgstr "gérer facture"
+msgid "Reports"
+msgstr "rapports"
+msgid "CDRs Reports"
+msgstr "Rapports CDR"
+msgid "Payment Report"
+msgstr "Rapport des paiements"
+msgid "Payment"
+msgstr "paiement"
+msgid "Payment Reports"
+msgstr "Rapports de paiement"
+msgid "Fund Transfer"
+msgstr "Transfert de fonds"
+
+msgid "recharge"
+msgstr "recharge"
+
+msgid "Opensips devices"
+msgstr "Appareils OpenSIPS"
+
+
+
+msgid "Dispatcher list"
+msgstr "liste Dispatcher"
+
+
+
+
+msgid "Are you sure want to release DID?"
+msgstr "Êtes-vous sûr de vouloir libérer DID?"
+
+
+msgid "Are you sure to delete?"
+msgstr "Êtes-vous sûr de vouloir supprimer?"
+
+
+msgid "Are you sure want to restore this database?"
+msgstr "Êtes-vous sûr de vouloir restaurer cette base de données?"
+
+msgid "View Details"
+msgstr "Voir les détailss"
+msgid "Download Database"
+msgstr "téléchargement base de données"
+msgid "<b>Rescan"
+msgstr "<b> Rescan"
+
+msgid "Edit"
+msgstr "Modifier"
+msgid "<b>Reload"
+msgstr "<b> Recharger"
+msgid "<b>Stop"
+msgstr "<b> Arrêter"
+msgid "<b>Start"
+msgstr "<b> Démarrer"
+msgid "Update"
+msgstr "Mise À Jour"
+msgid "Delete"
+msgstr "Effacer"
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ".ASTPP - VoIP Open Source Solution de facturation. Tous Droits Réservés."
+
+
+msgid "The Rate(%) field must contain only numbers."
+msgstr "Le (%) Taux champ doit contenir que des chiffres."
+msgid "The Priority field must contain only numbers."
+msgstr "Le champ Priorité doit contenir que des chiffres."
+msgid "The Amount field must contain only numbers."
+msgstr "Le champ Montant doit contenir que des chiffres."
+
+
+
+msgid "Powered by"
+msgstr "Alimenté par"
+
+msgid "Follow us on"
+msgstr "Suivez-nous sur"
+
+
+
+#####
+
+msgid "Begins With"
+msgstr "Commence par"
+
+msgid "Contains"
+msgstr "Contient"
+
+msgid "Doesnt Contain"
+msgstr "Ne contient pas"
+
+msgid "Is Equal To"
+msgstr "Est égal à"
+
+msgid "Is Not Equal To"
+msgstr "N'est pas égal à"
+
+msgid "Ends With"
+msgstr "Se termine par"
+
+
+msgid "Less Than"
+msgstr "Moins que"
+
+msgid "Greater Than"
+msgstr "Plus grand que"
+
+msgid "Greater Or Equal Than"
+msgstr "Plus grand ou égal que celui"
+
+msgid "Less Or Equal Than"
+msgstr "Moins ou égal que"
+
+msgid "--Select--"
+msgstr "--Seleccionar--"
+
+msgid "Active"
+msgstr "actif"
+
+msgid "Inactive"
+msgstr "Inactif"
+
+msgid "Close"
+msgstr "Fermer"
+
+#####
+
+
+
+
+
+
+
+

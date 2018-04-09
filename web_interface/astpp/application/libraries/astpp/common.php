@@ -1665,14 +1665,14 @@ class common {
 		);
 		return $status_array;
 	}
-	function custom_status($status) {
+	function custom_status($status='') {
 		$status_array = array (
 				'0' => gettext ( 'Yes' ),
 				'1' => gettext ( 'No' )
 		);
 		return $status_array;
 	}
-	function custom_status_recording($status) {
+	function custom_status_recording($status='') {
 		$status_array = array (
 				'1' => gettext ( 'No' ),
 				'0' => gettext ( 'Yes' )
@@ -2628,6 +2628,52 @@ class common {
 		//$InvoiceConf ['invoice_prefix'] = str_pad ( $InvoiceConf ['invoice_prefix'], (strlen ( $InvoiceConf ['invoice_prefix'] ) + 4), '0', STR_PAD_RIGHT );
 
 		return $InvoiceConf;
+	}
+	// END
+	// Account Import mapper functions
+	function csv_to_array($filename = '', $delimiter = ',') {
+		if (! file_exists ( $filename ) || ! is_readable ( $filename ))
+			return FALSE;
+		$header = NULL;
+		$data = array ();
+		if (($handle = fopen ( $filename, 'r' )) !== FALSE) {
+			while ( ($row = fgetcsv ( $handle, 1000, $delimiter )) !== FALSE ) {
+				
+				if (! $header)
+					$header = $row;
+				else{
+					if(!empty($row)){
+						$data [] = array_combine ( $header, $row );
+					}	
+				}	
+			}
+			
+			fclose ( $handle );
+		}
+		
+		return $data;
+	}
+	function utf8_converter($array) {
+		array_walk_recursive ( $array, function (&$item, $key) {
+			if (! mb_detect_encoding ( $item, 'utf-8', true )) {
+				$item = utf8_encode ( $item );
+			}
+		} );
+		return $array;
+	}
+	
+	function get_value_by_option($value,$default_value){
+		$options = array("Yes"=>0,"No"=>1);
+		return isset($options[$value]) ?  ($options[$value]) : $options[$default_value];
+	}
+	function get_values(){
+		return array("Yes"=>0,"No"=>1);
+	}
+	function get_account_type_value($value){
+		return $value =='Postpaid' ? '1' : '0';
+	}
+	function get_sipinfo_array(){
+		return array("Random"=>"Random");
 	}
 	// END
 }
