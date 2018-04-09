@@ -530,7 +530,19 @@ class User_form {
 						'build_dropdown',
 						'',
 						'' 
-				) 
+				),
+				array (
+						gettext ( 'Tax Number' ),
+						'INPUT',
+						array (
+								'name' => 'tax_number',
+								'size' => '100',
+								'class' => "text field medium" 
+						),
+						'',
+						'tOOL TIP',
+						'' 
+				)
 		);
 		$form ['button_save'] = array (
 				'name' => 'action',

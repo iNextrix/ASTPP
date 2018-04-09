@@ -689,6 +689,18 @@ class Accounts_form {
 								"reseller_id" => $loginid 
 						),
 						'multi' 
+				),
+				array (
+						gettext ( 'Tax Number' ),
+						'INPUT',
+						array (
+								'name' => 'tax_number',
+								'size' => '100',
+								'class' => "text field medium" 
+						),
+						'',
+						'tOOL TIP',
+						'' 
 				) 
 		);
 		if ($id == 0) {
@@ -1665,6 +1677,18 @@ class Accounts_form {
 									'reseller_id' => $loginid 
 							),
 							'multi' 
+					),
+					array (
+							gettext ( 'Tax Number' ),
+							'INPUT',
+							array (
+									'name' => 'tax_number',
+									'size' => '100',
+									'class' => "text field medium" 
+							),
+							'',
+							'tOOL TIP',
+							'' 
 					) 
 			);
 		} else {
@@ -1794,6 +1818,18 @@ class Accounts_form {
 									'reseller_id' => $loginid 
 							),
 							'multi' 
+					),
+					array (
+							gettext ( 'Tax Number' ),
+							'INPUT',
+							array (
+									'name' => 'tax_number',
+									'size' => '100',
+									'class' => "text field medium" 
+							),
+							'',
+							'tOOL TIP',
+							'' 
 					),
 					$invoice_config 
 			);
