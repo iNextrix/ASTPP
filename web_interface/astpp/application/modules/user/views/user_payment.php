@@ -1,4 +1,3 @@
-
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
 <style>
@@ -108,7 +107,7 @@ return false;
 			  <input type="hidden" readonly name="cmd" value="_xclick">
 			  <input type="hidden" readonly  name="business" value="<?=$paypal_email_id?>">
 			  <input type="hidden" readonly name="item_name" value="Billing Store">
-			  <input type="hidden" readonly name="item_number" value="<?=$accountid?>"> 
+			  <input type="hidden" readonly name="item_number" value="<?=$item_number?>"> 
 			  <input type="hidden" readonly name="LC" value="US">
 			  <input type="hidden" readonly name="country" value="USA">
 			  <input type="hidden" readonly name="quantity" value="1"> 
