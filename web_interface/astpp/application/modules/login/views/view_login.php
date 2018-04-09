@@ -125,12 +125,12 @@
                             <form role="form"  id="login_form" class="form-light" name="login_form"  action="<?php echo base_url(); ?>login/login" method="POST">
                                 <div class="input-group col-md-12 padding-t-10  padding-r-32 padding-l-32">
 				    <span class="input-group-addon login_validate "><i class="fa fa-user"></i></span>
-				    <input type="text" class="form-control error_login" id="username" name="username" placeholder="Username OR Email" value = "" style="height:40px;">
+				    <input type="text" class="form-control error_login" id="username" name="username" placeholder="Username OR Email" value = "" style="height:40px;" autocomplete="off">
                                 </div>
                               
                                 <div class="input-group col-md-12 margin-t-15 padding-r-32 padding-l-32">
 				   <span class="input-group-addon login_validate"><i class="fa fa-lock"></i></span>
-                                   <input type="password" class="form-control error_login" id="password" name="password" placeholder="Password" value = "" style="height:40px;">
+                                   <input type="password" class="form-control error_login" id="password" name="password" placeholder="Password" value = "" style="height:40px;" autocomplete="off">
                                 </div>
                   
                                
