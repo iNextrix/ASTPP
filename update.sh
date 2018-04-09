@@ -21,7 +21,7 @@
 ###############################################################################
 
 clear;
-echo "**************     Script to update ASTPP Version to 3.5   *******************"
+echo "**************     Script to update ASTPP latest version  *******************"
 echo " "
 read -n 1 -p "Press any key to continue ..."
 
@@ -123,13 +123,13 @@ fi
 echo "Current ASTPP Version : "$VERSION;
 SQLFILE=$(echo $VERSION + 0.1 | bc);
 
-
+if [ ${VERSION} = "3.5" ]; then
 echo "New Updated Version : "$SQLFILE;
 filename_sql="astpp-upgrade-"$SQLFILE".sql";
 VERSION=3.6
 echo "New SQL File Name : "$filename_sql;
 [ -f $ASTPP_SOURCE_DIR/database/$filename_sql ] && mysql -h${dbhost} -u${dbuser} -p${dbpass} ${dbname} < $ASTPP_SOURCE_DIR/database/$filename_sql || echo "Database update not succeed !!!"
-
+fi
 curl --data "email=$EMAIL" --data "data=$NAT2" --data "type=Update" http://astppbilling.org/lib/
 echo "******************************************************************************************"
 echo "******************************************************************************************"
