@@ -508,8 +508,8 @@ class Signup extends MX_Controller {
 		
 		foreach ( $EmailTemplate->result_array () as $value ) {
 			$TemplateData = $value;
-			$message = str_replace ( "<p>", "", $TemplateData ['template'] );
-			$message = str_replace ( "</p>", "", $TemplateData ['template'] );
+			$TemplateData['template'] = str_replace ( "<p>", "", $TemplateData ['template'] );
+			$TemplateData['template'] = str_replace ( "</p>", "", $TemplateData ['template'] );
 			
 			$TemplateData ['subject'] = str_replace ( '#NAME#', $user_data ['first_name'] . " " . $user_data ['last_name'], $TemplateData ['subject'] );
 			$TemplateData ['template'] = str_replace ( '#NAME#', $user_data ['first_name'] . " " . $user_data ['last_name'], $TemplateData ['template'] );
