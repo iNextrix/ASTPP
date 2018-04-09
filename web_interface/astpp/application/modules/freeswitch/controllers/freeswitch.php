@@ -844,11 +844,11 @@ class Freeswitch extends MX_Controller {
 				redirect ( base_url () . 'freeswitch/fssipprofile_add/' );
 				exit ();
 			}
-			if (! preg_match ( '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $sipprofile_data ['sip_ip'] )) {
+			/*if (! preg_match ( '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $sipprofile_data ['sip_ip'] )) {
 				$this->session->set_flashdata ( 'astpp_notification', 'SIP IP must be proper!' );
 				redirect ( base_url () . 'freeswitch/fssipprofile_add/' );
 				exit ();
-			}
+			}*/
 			$sipprofile_data ['id'] = '';
 			$check_authentication = $this->freeswitch_model->profile_authentication ( $sipprofile_data );
 			if ($check_authentication->num_rows () == 0) {
