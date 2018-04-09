@@ -225,45 +225,66 @@ class Login extends MX_Controller {
 	}
 	function paypal_response() {
 		if (count ( $_POST ) > 0) {
-			$response_arr = $_POST;
-			
+			$response_arr = $_POST;				
+
 			$logger = ( array ) $this->db->get_where ( "system", array (
 					"name" => "log_path",
 					"group_title" => "global" 
 			) )->first_row ();
-			$logger_path = $logger ['value'];
+			$logger_path = $logger ['value'];			
 			$fp = fopen ( $logger_path . "astpp_payment.log", "a+" );
 			$date = date ( "Y-m-d H:i:s" );
 			fwrite ( $fp, "====================" . $date . "===============================\n" );
 			foreach ( $response_arr as $key => $value ) {
 				fwrite ( $fp, $key . ":::>" . $value . "\n" );
 			}
-			$payment_check = $this->db_model->countQuery ( "txn_id", "payments", array (
-					"txn_id" => $response_arr ['txn_id'] 
+			/*$payment_check = $this->db_model->countQuery ( "accountid", "payment_transaction", array (
+					"transaction_details" => $response_arr ['item_number'] 
+			) );*/
+
+			//Check if transaction originated from our system /user/user_payment/
+			$payment_transaction = ( array ) $this->db->get_where ( "payment_transaction", array (
+					"transaction_details" => $response_arr ['item_number'],
+					"amount" => "0",
+					"actual_amount" => "0",
+					"user_currency" => ""
+			) )->first_row ();
+			$accountid = $payment_transaction ['accountid'];
+
+			//Delete unique transaction entry as we do not need it now
+			$this->db->where ( array (
+				"transaction_details"=>$response_arr ['item_number']
 			) );
-			if (($response_arr ["payment_status"] == "Pending" || $response_arr ["payment_status"] == "Complete" || $response_arr ["payment_status"] == "Completed") && $payment_check == 0) {
+			$this->db->delete ( "payment_transaction");
+
+			$balance_amt = $actual_amount = $response_arr ["custom"];
+
+			$paypal_fee = ( array ) $this->db->get_where ( "system", array (
+				"name" => "paypal_fee",
+				"group_title" => "paypal" 
+			) )->first_row ();
+			$paypal_fee = $paypal_fee ['value'];
+			$paypalfee = ($paypal_fee == 0) ? '0' : $response_arr ["mc_gross"];
+
+			if (($response_arr ["payment_status"] == "Pending" || $response_arr ["payment_status"] == "Complete" || $response_arr ["payment_status"] == "Completed") && $accountid != '') {
 				
 				$paypal_tax = ( array ) $this->db->get_where ( "system", array (
 						"name" => "paypal_tax",
 						"group_title" => "paypal" 
 				) )->first_row ();
-				$paypal_tax = $paypal_tax ['value'];
-				$balance_amt = $actual_amount = $response_arr ["custom"];
-				$paypal_fee = ( array ) $this->db->get_where ( "system", array (
-						"name" => "paypal_fee",
-						"group_title" => "paypal" 
-				) )->first_row ();
-				$paypal_fee = $paypal_fee ['value'];
-				$paypalfee = ($paypal_fee == 0) ? '0' : $response_arr ["mc_gross"];
+				$paypal_tax = $paypal_tax ['value'];				
+
 				$account_data = ( array ) $this->db->get_where ( "accounts", array (
-						"id" => $response_arr ["item_number"] 
+						"id" => $accountid
 				) )->first_row ();
+
 				$currency = ( array ) $this->db->get_where ( 'currency', array (
 						"id" => $account_data ["currency_id"] 
 				) )->first_row ();
 				$date = date ( 'Y-m-d H:i:s' );
+				
 				$payment_trans_array = array (
-						"accountid" => $response_arr ["item_number"],
+						"accountid" => $accountid,
 						"amount" => $response_arr ["payment_gross"],
 						"tax" => "1",
 						"payment_method" => "Paypal",
@@ -277,7 +298,7 @@ class Login extends MX_Controller {
 				$paymentid = $this->db->insert ( 'payment_transaction', $payment_trans_array );
 				$parent_id = $account_data ['reseller_id'] > 0 ? $account_data ['reseller_id'] : '-1';
 				$payment_arr = array (
-						"accountid" => $response_arr ["item_number"],
+						"accountid" => $accountid,
 						"payment_mode" => "1",
 						"credit" => $balance_amt,
 						"type" => "PAYPAL",
@@ -318,61 +339,25 @@ class Login extends MX_Controller {
 						'after_balance' => $account_data ['balance'] + $balance_amt 
 				);
 				$this->db->insert ( "invoice_details", $details_insert );
-				$this->db_model->update_balance ( $balance_amt, $account_data ["id"], "credit" );
-				/*
-				 * if($parent_id > 0){
-				 * $reseller_ids=$this->common->get_parent_info($parent_id,0);
-				 * $reseller_ids=rtrim($reseller_ids,",");
-				 * $reseller_arr=explode(",",$reseller_ids);
-				 * if(!empty($reseller_arr)){
-				 * foreach($reseller_arr as $key=>$reseller_id){
-				 * $account_data = (array)$this->db->get_where("accounts", array("id" => $reseller_id))->first_row();
-				 * $this->db->select('invoiceid');
-				 * $this->db->order_by('id','desc');
-				 * $this->db->limit(1);
-				 * $last_invoice_result=(array)$this->db->get('invoices')->first_row();
-				 * $last_invoice_ID=$last_invoice_result['invoiceid'];
-				 * $reseller_id=$account_data['reseller_id'] > 0 ? $account_data['reseller_id'] : 0;
-				 * $where="accountid IN ('".$reseller_id."','1')";
-				 * $this->db->where($where);
-				 * $this->db->select('*');
-				 * $this->db->order_by('accountid', 'desc');
-				 * $this->db->limit(1);
-				 * $invoiceconf = $this->db->get('invoice_conf');
-				 * $invoiceconf = (array)$invoiceconf->first_row();
-				 * $invoice_prefix=$invoiceconf['invoice_prefix'];
-				 * $due_date = gmdate("Y-m-d H:i:s",strtotime(gmdate("Y-m-d H:i:s")." +".$invoiceconf['interval']." days"));
-				 * $invoice_id=$this->generate_receipt($account_data['id'],$balance_amt,$account_data,$last_invoice_ID+1,$invoice_prefix,$due_date);
-				 * $parent_id=$account_data['reseller_id'] > 0 ? $account_data['reseller_id'] : -1;
-				 * $payment_arr = array("accountid"=> $account_data["id"],
-				 * "payment_mode"=>"1",
-				 * "credit"=>$balance_amt,
-				 * "type"=>"PAYPAL",
-				 * "payment_by"=>$parent_id,
-				 * "notes"=>"Your account has been credited due to your customer account recharge done by paypal",
-				 * "paypalid"=>$paymentid,
-				 * "txn_id"=>$response_arr["txn_id"],
-				 * 'payment_date'=>gmdate('Y-m-d H:i:s',strtotime($response_arr['payment_date'])));
-				 * $this->db->insert('payments', $payment_arr);
-				 * $details_insert=array(
-				 * 'created_date'=>$date,
-				 * 'credit'=>$balance_amt,
-				 * 'debit'=>'-',
-				 * 'accountid'=>$account_data['id'],
-				 * 'reseller_id'=>$parent_id,
-				 * 'invoiceid'=>$invoice_id,
-				 * 'description'=>"Your account has been credited due to your customer account recharge done by paypal",
-				 * 'item_type'=>'PAYMENT',
-				 * 'before_balance'=>$account_data['balance'],
-				 * 'after_balance'=>$account_data['balance']+$balance_amt,
-				 * );
-				 * $this->db->insert("invoice_details", $details_insert);
-				 * $this->db_model->update_balance($balance_amt,$account_data["id"],"credit");
-				 * }
-				 * }
-				 * }
-				 */
+				$this->db_model->update_balance ( $balance_amt, $account_data ["id"], "credit" );				
 				redirect ( base_url () . 'user/user/' );
+			}else{
+				$response_arr['astpp_status']="Invalid request. No transaction id found in database.";
+
+				$payment_trans_array = array (
+					"accountid" => ($accountid)?$accountid:0,
+					"amount" => $response_arr ["payment_gross"],
+					"tax" => "1",
+					"payment_method" => "Paypal",
+					"actual_amount" => $actual_amount,
+					"paypal_fee" => $paypalfee,
+					"user_currency" => ($currency ["currency"])?$currency ["currency"]:'',
+					"currency_rate" => ($currency ["currencyrate"])?$currency ["currencyrate"]:'',
+					"transaction_details" => json_encode ( $response_arr ),
+					"date" => $date 
+				);
+				$paymentid = $this->db->insert ( 'payment_transaction', $payment_trans_array );
+				$this->session->set_flashdata('astpp_notification', 'Payment transaction invalid. Please contact Administrator.');
 			}
 		}
 		redirect ( base_url () . 'user/user/' );
