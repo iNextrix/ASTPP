@@ -255,6 +255,7 @@ if ( ! function_exists('form_password'))
 		}
 
 		$data['type'] = 'password';
+		$data['autocomplete'] = "off";
 		return form_input($data, $value, $extra);
 	}
 }
