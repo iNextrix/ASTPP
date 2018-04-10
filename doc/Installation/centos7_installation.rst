@@ -33,7 +33,7 @@ CentOs 7 Installation
   cd /usr/local/src
   git config --global pull.rebase true
 
-  #Clone freeswitch version 1.6.8 from git 
+  #Clone freeswitch version 1.6.19 from git 
   git clone -b v1.6.19 https://freeswitch.org/stash/scm/fs/freeswitch.git
   cd freeswitch
   ./bootstrap.sh -j
@@ -87,9 +87,9 @@ CentOs 7 Installation
 **1. Download ASTPP** 
 ::
 
-   # Download ASTPP 3.5 source from git
+   # Download ASTPP 3.6 source from git
      cd /usr/src
-     git clone https://github.com/iNextrix/ASTPP
+     git clone -b v3.6 https://github.com/iNextrix/ASTPP
 
 **2. Change Apache working scenario** 
 ::
@@ -101,6 +101,13 @@ CentOs 7 Installation
 **3. Install ASTPP pre-requisite packages** 
 ::
   
+    #php7.0 repository
+    yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    yum install yum-utils
+    yum-config-manager --enable remi-php70
+    yum update
+    
     yum install -y autoconf automake bzip2 cpio curl nginx php-fpm php-mcrypt* unixODBC mysql-connector-odbc curl-devel php 
     php-devel php-common php-cli php-gd php-pear php-mysql php-mbstring sendmail sendmail-cf php-pdo php-pecl-json mysql
     mariadb-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++
@@ -220,6 +227,13 @@ CentOs 7 Installation
   
    #Open php short tag
    sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
+   sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php.ini
+   sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php.ini
+   sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php.ini
+   sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php.ini
+   sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php.ini
+   systemctl restart php-fpm
+   systemctl restart nginx
 
    #Configure services for startup
    systemctl disable httpd   #If you are using it then change the port or update your configuration for nginx otherwise 
