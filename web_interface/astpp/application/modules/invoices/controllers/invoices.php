@@ -607,8 +607,8 @@ class Invoices extends MX_Controller {
 				$act_status = 1;
 			}
 			$balance_data = array (
-					'balance' => $bal_data,
-					'status' => $act_status 
+					'balance' => $bal_data
+					//,'status' => $act_status 
 			);
 			$this->db->update ( "accounts", $balance_data );
 			/**
@@ -886,6 +886,14 @@ class Invoices extends MX_Controller {
 	}
 	function invoice_list_responce() {
 		$response_arr = $_POST;
+
+		/*$fp = fopen ( "/tmp/astpp_payment.log", "a+" );
+		$date = date ( "Y-m-d H:i:s" );
+		fwrite ( $fp, "====================" . $date . "===============================\n" );
+		foreach ( $response_arr as $key => $value ) {
+			fwrite ( $fp, $key . ":::>" . $value . "\n" );
+		}*/
+
 		$logintype = $this->session->userdata ( 'logintype' );
 		if (($response_arr ["payment_status"] == "Pending" || $response_arr ["payment_status"] == "Complete" || $response_arr ["payment_status"] == "Completed")) {
 			$invoice_id = $response_arr ['item_number'];
@@ -1056,18 +1064,17 @@ class Invoices extends MX_Controller {
 			) );
 			// echo '<pre>'; print_r($reseller_debit); exit;
 			if ($reseller_debit > 0) {
-				$this->accounts_model->update_balance ( $amount, $response_arr ["custom"], "debit" );
-				$this->accounts_model->update_balance ( $amount, $reseller_debit, "debit" );
+				$this->accounts_model->update_balance ( $amount*-1, $response_arr ["custom"], "debit" );
+				$this->accounts_model->update_balance ( $amount*-1, $reseller_debit, "debit" );
 			} else {
-				$this->accounts_model->update_balance ( $amount, $response_arr ["custom"], "debit" );
+				$this->accounts_model->update_balance ( $amount*-1, $response_arr ["custom"], "debit" );
 			}
 			$account_data ['accountid'] = $account_data ['id'];
-			$this->email_lib->send_email ( 'email_payment_notification', $account_data, '', '', 0, 0, 0 );
-			if ($logintype = '1') {
-				$this->session->set_flashdata ( 'astpp_errormsg', 'Invoice payment done successfully!' );
+			//$this->email_lib->send_email ( 'email_payment_notification', $account_data, '', '', 0, 0, 0 );
+			$this->session->set_flashdata ( 'astpp_errormsg', 'Invoice payment done successfully!' );
+			if ($logintype = '1') {				
 				redirect ( base_url () . 'invoices/invoice_list/' );
-			} else {
-				$this->session->set_flashdata ( 'astpp_errormsg', 'Invoice payment done successfully!' );
+			} else {				
 				redirect ( base_url () . 'user/user_invoices_list/' );
 			}
 		}
@@ -1629,25 +1636,34 @@ class Invoices extends MX_Controller {
 						$command = "cd " . $screen_path . " && /usr/bin/screen -d -m -S  $screen_filename php cron.php BroadcastEmail";
 						exec ( $command );
 						$invoice_data_count = 0;
-						// Get invoice configuration
-						$reseller_id = ($accountdata ['reseller_id'] == 0) ? 1 : $accountdata ['reseller_id'];
-						$where = "accountid IN ('" . $reseller_id . "','1')";
-						$this->db->select ( '*' );
-						$this->db->where ( $where );
-						$this->db->order_by ( 'accountid', 'desc' );
-						$this->db->limit ( 1 );
-						$invoice_conf = $this->db->get ( 'invoice_conf' );
-						$invoice_conf = ( array ) $invoice_conf->first_row ();
-						// Get last generated invoice for admin or reseller
-						$last_invoice_ID = $this->common->get_invoice_date("invoiceid", "", $accountdata ['reseller_id']);
-						if ($last_invoice_ID && $last_invoice_ID > 0) {
-								$last_invoice_ID = ($last_invoice_ID + 1);
-								if ($last_invoice_ID < $invoice_conf['invoice_start_from'])
-									$last_invoice_ID = $invoice_conf['invoice_start_from'];
+						$invoice_conf = array ();
+						if ($accountdata ['reseller_id'] == 0) {
+							$where = array (
+									"accountid" => 1 
+							);
 						} else {
-								$last_invoice_ID = $invoice_conf['invoice_start_from'];
+							$where = array (
+									"accountid" => $accountdata ['reseller_id'] 
+							);
 						}
-						$last_invoice_ID = str_pad($last_invoice_ID, 6, '0', STR_PAD_LEFT);
+						$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
+						if ($query->num_rows () > 0) {
+							$invoice_conf = $query->result_array ();
+							$invoice_conf = $invoice_conf [0];
+						} else {
+							$query = $this->db_model->getSelect ( "*", "invoice_conf", array (
+									"accountid" => 1 
+							) );
+							$invoice_conf = $query->result_array ();
+							$invoice_conf = $invoice_conf [0];
+						}
+						$last_invoice_ID = $this->get_invoice_date ( "invoiceid" );
+						if ($last_invoice_ID && $last_invoice_ID > 0) {
+							$last_invoice_ID = ($last_invoice_ID + 1);
+						} else {
+							$last_invoice_ID = $invoice_conf ['invoice_start_from'];
+						}
+						$last_invoice_ID = str_pad ( $last_invoice_ID, (strlen ( $last_invoice_ID ) + 4), '0', STR_PAD_LEFT );
 						if ($accountdata ['posttoexternal'] == 1) {
 							$balance = ($accountdata ['credit_limit'] - $accountdata ['balance']);
 						} else {
