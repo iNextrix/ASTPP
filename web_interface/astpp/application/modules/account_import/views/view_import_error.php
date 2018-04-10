@@ -30,9 +30,9 @@
 								<div class="container">
 									<div class="row">
 										<div class="col-md-12">
-												Records Imported Successfully: <?php echo $count;?>
+												Records imported successfully: <?php echo $count;?>
 												<br/>
-												Records Not Imported : <?php echo $invalid_count;?>  
+												Records not imported : <?php echo $invalid_count;?>  
 										</div>
 									</div>
 								</div>
@@ -44,7 +44,7 @@
 		</div>
 		<div class="col-md-12 padding-b-10">
 			<br/>
-			<i><?php echo gettext("Note : Duplicate Account Number/Email are ignored.");?></i> 
+			<i><?php echo gettext("Note : Duplicate accounts with account number / email are ignored.");?></i> 
 			<div class="pull-right">
 				<a href="<?= base_url().'accounts/customer_list/'?>"><input class="btn btn-line-parrot" id="customer_list" type="button" name="action" value="Back to Customer List" /> </a> 
 			</div>
