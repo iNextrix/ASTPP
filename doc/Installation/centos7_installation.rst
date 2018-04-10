@@ -204,6 +204,7 @@ CentOs 7 Installation
    GRANT OPTION;FLUSH PRIVILEGES;"
    mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-3.0.sql
    mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-upgrade-3.5.sql
+   mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-upgrade-3.6.sql
 
 **ASTPP Freeswitch Configuration**
 ::
