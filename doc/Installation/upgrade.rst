@@ -4,6 +4,8 @@ Upgrade
 
 .. note:: Script wil upgrade only version from 3.5 to latest. For older version, it require manual upgradation.
 
+	**For production systems which are having huge CDRs, its advisable to upgrade ASTPP version in downtime to avoid any database related issues.**
+
 **Upgrade Steps**
 ::
 
