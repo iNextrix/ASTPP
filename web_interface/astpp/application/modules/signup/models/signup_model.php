@@ -46,6 +46,7 @@ class Signup_model extends CI_Model {
 		unset ( $data ['key_unique'] );
 		$data ['creation'] = gmdate ( 'Y-m-d H:i:s' );
 		$data ['expiry'] = date ( 'Y-m-d H:i:s', strtotime ( '+10 years' ) );
+		$data['type'] = 0;
 		$this->db->insert ( "accounts", $data );
 		return $this->db->insert_id ();
 	}
