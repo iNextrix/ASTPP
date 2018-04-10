@@ -9,7 +9,7 @@ Upgrade
 **Upgrade Steps**
 ::
 
- wget -no-check-certificate http://bit.do/astpp36-upgrade -O update.sh
+ wget --no-check-certificate http://bit.do/astpp36-upgrade -O update.sh
  chmod +x update.sh
  ./update.sh
 
