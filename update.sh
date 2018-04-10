@@ -42,7 +42,7 @@ echo "database password : "$dbpass
 
 VERSION=$(echo "SELECT value FROM system where name='version'" | mysql $dbname -h $dbhost -u $dbuser -p$dbpass -ss -N)
 
-if [ "$VERSION" != "3.5" || "$VERSION" != "3.6" ]; then 
+if ! [[ $VERSION == "3.5" ||  $VERSION == "3.6" ]]; then 
 	echo 'This upgrade script only supporting ASTPP v3.5 or v3.6'
 	exit 1
 fi
