@@ -1,15 +1,13 @@
 ![logo](http://www.astppbilling.org/wp-content/uploads/2017/03/astpp-logo-big.png)
 
-![ASTPP Release](https://img.shields.io/badge/Version-3.5-ff69b4.svg)
-[![Tech Doc](https://img.shields.io/badge/Docs-3.5-green.svg)](http://astpp.readthedocs.io)
+![ASTPP Release](https://img.shields.io/badge/Version-3.6-ff69b4.svg)
+[![Tech Doc](https://img.shields.io/badge/Docs-3.6-green.svg)](http://astpp.readthedocs.io)
 [![Join the chat at https://gitter.im/ASTPP-Official/Lobby](https://badges.gitter.im/ASTPP-Official/Lobby.svg)](https://gitter.im/ASTPP-Official/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![AGPLv3](https://img.shields.io/badge/license-AGPLv3-blue.svg?style=flat-square)](https://raw.githubusercontent.com/iNextrix/ASTPP/v3.5/LICENSE)
+[![AGPLv3](https://img.shields.io/badge/license-AGPLv3-blue.svg?style=flat-square)](https://raw.githubusercontent.com/iNextrix/ASTPP/v3.6/LICENSE)
 [![Project Stats](https://www.openhub.net/p/astpp/widgets/project_thin_badge.gif)](https://www.openhub.net/p/astpp)
 
 ASTPP
 -----
-
-*** NOTE: Updated ASTPP Docs http://astpp.readthedocs.io ***
 
 ASTPP is a Open Source VoIP Billing Solution for Freeswitch. It supports prepaid and postpaid billing with call rating and credit control. It also provides many other features such as,
 
@@ -30,10 +28,10 @@ and many more
 
 Getting started with ASTPP
 --------------------------
-For a standard installation please follow the <a href="http://astpp.readthedocs.io/en/v3.5/Installation/installation.html">Setup instructions</a>
+For a standard installation please follow the <a href="http://astpp.readthedocs.io/en/v3.6/Installation/installation.html">Setup instructions</a>
 from the documentation.
 
-Then follow <a href="http://astpp.readthedocs.io/en/v3.5/Installation/quick_start.html">quick setup guide</a>
+Then follow <a href="http://astpp.readthedocs.io/en/v3.6/Installation/quick_start.html">quick setup guide</a>
 
 
 Community
@@ -45,8 +43,8 @@ Community
 - <a href="https://groups.google.com/forum/#!forum/astpp">Community Forums</a>
 - <a href="http://github.com/iNextrix/ASTPP/issues">Bug Tracker</a>
 - <a href="https://gitter.im/ASTPP-Official/Lobby">Community Chatter</a>
-- <a href="http://astpp.readthedocs.io/en/v3.5/Introduction/how_to_contribute.html">How to Contribute</a>
-- <a href="http://astpp.readthedocs.io/en/v3.5/Introduction/contribute_to_git.html">Guideline for Git Contribution</a>
+- <a href="http://astpp.readthedocs.io/en/v3.6/Introduction/how_to_contribute.html">How to Contribute</a>
+- <a href="http://astpp.readthedocs.io/en/v3.6/Introduction/contribute_to_git.html">Guideline for Git Contribution</a>
 
 Report security issues to our Security email address security@inextrix.com.
 
