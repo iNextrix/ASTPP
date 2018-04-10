@@ -1,6 +1,18 @@
 <?php extend('master.php') ?>
 <? startblock('extra_head') ?>
-
+<?php
+   if (!isset($csv_tmp_data)) { ?>
+<style>
+	.w-section{
+		text-align:none !important;
+	}
+	.w-box{
+		display: inline-block;
+		overflow: visible !important;
+		
+		}
+</style>
+<?php }?>	   
 <?php endblock() ?>
 <?php startblock('page-title') ?>
 <?php echo $page_title; ?>
@@ -9,7 +21,7 @@
 <?php
    if (!isset($csv_tmp_data)) { ?>
 <section class="slice color-three padding-t-20">
-   <div class="w-section inverse no-padding">
+   <div class="w-section">
       <div class="container">
          <form method="post" action="<?php echo base_url() ?>account_import/customer_import_preview/" enctype="multipart/form-data" id="account_import">
             <div class="row">
@@ -259,7 +271,11 @@
 											echo "<td>" . $csv_key . '(' . $csv_value . ")</td>";
 											echo "<td>$mapper_array[$csv_value]</td>";
 											echo "<td>";
-											echo str_replace('col-md-5','col-md-12',str_replace('form-control','',form_dropdown_all ($params_arr,$file_data, '' )));
+											if($csv_value != "number" && $csv_value !="email"){
+												echo str_replace('col-md-5','col-md-12',str_replace('form-control','',form_dropdown_all ($params_arr,$file_data, '' )));
+											}else{
+												echo str_replace('col-md-5','col-md-12',str_replace('form-control','',form_dropdown($params_arr,$file_data, '' )));
+											}	
 											echo "</td>";
 											echo "</tr>";
 
@@ -282,6 +298,8 @@
 							<tbody>
 								<?php  //echo "<pre>";	print_R($mapto_fields);exit;
 								foreach($mapto_fields['settings'] as $csv_key => $csv_value) {
+									$custom_value = $csv_value."-select";
+									$params_arr = array("id"=>$custom_value,"name"=>$custom_value,"class"=>$custom_value);
 									echo "<tr>";
 										echo "<td>" . $csv_key . '(' . $csv_value . ")</td>";
 										echo "<td>$mapper_array[$csv_value]</td>";

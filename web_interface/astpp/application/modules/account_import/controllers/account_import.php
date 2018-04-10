@@ -114,10 +114,7 @@ class Account_import extends MX_Controller {
 		}
 		
 		if ($invalid_flag) {
-			$str = '';
-			if (empty ( $_FILES ['customer_import_mapper'] ['name'] )) {
-				$str .= '<br/>'.$error;
-			}
+			$str = '<br/>'.$error;
 			$data['invoice_date'] = gmdate("d") > 28 ? gmdate("28") : gmdate("d");
 			$data ['config_array'] = $this->_create_common_array();
 			$data ['error'] = $str;
@@ -185,36 +182,37 @@ class Account_import extends MX_Controller {
 			$invoiceconf = ( array ) $invoiceconf->first_row ();
 			// Set default date for accounts,invoices,payments,sip devices for all records.
 			$current_date =gmdate("Y-m-d H:i:s");
-
+			$count =0;
+			$invalid_count =0;
 			foreach ( $csv_tmp_data as $key => $csv_data ) {
 				$error=null;
-				$current_number = !empty($add_array["number-select"]) ? $csv_data [$add_array["number-select"]] : '';
-				$current_email =  !empty($add_array["email-select"]) ? $csv_data [$add_array["email-select"]]: $add_array['email'];
-				if(!empty($current_number) && !isset($number[$current_number])){
+				$invalid_flag= FALSE;
+				if(!empty($add_array["number-select"]) && $csv_data [$add_array["number-select"]] && !isset($number[$csv_data [$add_array["number-select"]]])){
 					$this->db->select('id');
-					$number_result = (array)$this->db->get_where('accounts',array('number'=>$current_number,"deleted"=>0))->first_row();
+					$number_result = (array)$this->db->get_where('accounts',array('number'=>$csv_data [$add_array["number-select"]],"deleted"=>0))->first_row();
 					if(empty($number_result)){
 						$new_array ['number'] =  $csv_data [$add_array["number-select"]];
+						$number[$new_array ['number']] = $new_array ['number'];
 					}else{
-						$new_array ['number'] =  $number_array[$i];
-					}	
+						$invalid_flag= TRUE;
+					}
 				}else{
-					$new_array ['number'] = $number_array[$i];
+					$invalid_flag= TRUE;
 				}
-				$number[$new_array ['number']] = $new_array ['number'];				
-				if(!empty($current_email) && !isset($email[$current_email])){
+				if(!empty($add_array["email-select"]) && $csv_data [$add_array["email-select"]] && !isset($email[$csv_data [$add_array["email-select"]]])){
 					$this->db->select('id');
-					$email_result = (array)$this->db->get_where('accounts',array('email'=>$current_email,"deleted"=>0))->first_row();
+					$email_result = (array)$this->db->get_where('accounts',array('email'=>$csv_data [$add_array["email-select"]],"deleted"=>0))->first_row();
 					if(empty($email_result)){
 						$new_array ['email'] =  $csv_data [$add_array["email-select"]];
+						$email[$current_email] = $new_array ['email'];
 					}else{
-						$new_array ['email'] =  '';
-					}	
+						$invalid_flag= TRUE;
+					}
 				}else{
-					$new_array ['email'] = '';
+					$invalid_flag= TRUE;
 				}
-				if(!empty($new_array['email']))
-					$email[$current_email] = $new_array ['email'];
+				if($invalid_flag== FALSE){
+					
 				$new_array['password'] =   !empty($add_array["password-select"]) && !empty($csv_data[$add_array["password-select"]]) ? $csv_data[$add_array["password-select"]] : (!empty($add_array['password']) ? $add_array['password'] : $this->common->generate_password ());
 				$current_password = $new_array['password'];
 				$new_array['password'] = $this->common->encode($current_password);
@@ -392,6 +390,10 @@ class Account_import extends MX_Controller {
 							'after_balance' => $balance 
 					);
 					$invoice_details_array[$i] = $insert_arr;
+					}
+					$count++;
+				}else{
+					$invalid_count++;
 				}
 				$i++;
 			}
@@ -408,12 +410,10 @@ class Account_import extends MX_Controller {
 			if(!empty($invoice_details_array)){
 				$this->db->insert_batch ( 'invoice_details', $invoice_details_array );
 			}
-			$astpp_errormsg = 'Total ' .$i. ' Accounts imported successfully!';
-		}else{
-			$astpp_errormsg = 'Error - Nothing selected to import/process!' ;
 		}
 		$data =array();
-		$data['astpp_errormsg']= $astpp_errormsg;
+		$data['invalid_count']= $invalid_count;
+		$data['count']= $count;
 		$data['page_title'] = "Account Import Error";
 		$this->load->view('view_import_error',$data);
 	}
@@ -541,7 +541,7 @@ class Account_import extends MX_Controller {
 						}
 					}
 				}elseif($value =="number"){
-					$custom_array[$value] = str_replace('col-md-5','col-md-12',str_replace('form-control','',form_dropdown ($params_arr,array("random"=>"Random"), '' )));
+					$custom_array[$value] = str_replace('col-md-5','col-md-12',str_replace('form-control','',form_dropdown ($params_arr,array(""=>""), '' )));
 				}else{
 					if($value == "telephone_1"){
 						$params_arr['placeholder'] = " Ex: 12025550120";
