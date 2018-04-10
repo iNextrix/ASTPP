@@ -351,6 +351,7 @@ class Signup extends MX_Controller {
 			);
 			$this->db->where ( $where_arr );
 			$this->db->or_where ( 'number', $email );
+			$this->db->order_by('id','DESC');
 			$acountdata = $this->db_model->getSelect ( "*", "accounts", "" );
 			if ($acountdata->num_rows () > 0) {
 				$user_data = $acountdata->result_array ();
