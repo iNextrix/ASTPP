@@ -27,6 +27,8 @@ class Getstatus extends MX_Controller {
 		$this->load->library ( "astpp/common" );
 	}
 	function customer_list_status($id) {
+
+		if ($this->session->userdata ( 'user_login' ) == TRUE) {
 		$post_data = $this->input->post ();
 		$post_data ['table'] = $this->common->decode ( $post_data ['table'] );
 		$data ['status'] = $post_data ['status'] == 'true' ? 0 : 1;
@@ -40,6 +42,9 @@ class Getstatus extends MX_Controller {
 				"id" => $post_data ['id'] 
 		) );
 		echo TRUE;
+		}else{
+			redirect ( base_url () . 'dashboard/' );
+		}
 	}
 }
 
