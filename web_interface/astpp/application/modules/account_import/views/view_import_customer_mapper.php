@@ -34,7 +34,7 @@ if (!isset($csv_tmp_data)) {
             <div class="row">
                <div class="col-md-12">
                   <div class="w-box">
-                     <span  style="margin-left:10px; text-align: center;background-color: none;color:#DD191D;">
+                     <span class="padding-l-16" style="text-align: center;background-color: none;color:#DD191D;">
                      <?php
                         if (isset($error) && !empty($error)) {
                         	echo $error;
@@ -42,6 +42,7 @@ if (!isset($csv_tmp_data)) {
                      </span>
                      <h3 class="padding-l-16">You must either select a field from your file OR provide a default value for the following fields:</h3>
                      <p>Account Number,Password,First Name,Last Name,Company,Phone,Mobile,Email,Address,city,Province/State,Zip/Postal Code,Number Translation,Out Callerid Translation,In Callerid Translation,Concurrent Calls,CPS,Balance,Credit Limit,SIP Username,SIP Password</p>
+                     <i class="padding-l-16"><?php echo gettext("Note : Records with duplicate account number and email will be ignored.");?></i> 
                   </div>
                </div>
                <div class="col-md-12">

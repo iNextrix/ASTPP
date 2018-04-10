@@ -114,10 +114,9 @@ class Account_import extends MX_Controller {
 		}
 		
 		if ($invalid_flag) {
-			$str = '<br/>'.$error;
 			$data['invoice_date'] = gmdate("d") > 28 ? gmdate("28") : gmdate("d");
 			$data ['config_array'] = $this->_create_common_array();
-			$data ['error'] = $str;
+			$data ['error'] = $error;
 		}
 		$this->load->view ( 'view_import_customer_mapper', $data );
 	}
