@@ -1629,38 +1629,25 @@ class Invoices extends MX_Controller {
 						$command = "cd " . $screen_path . " && /usr/bin/screen -d -m -S  $screen_filename php cron.php BroadcastEmail";
 						exec ( $command );
 						$invoice_data_count = 0;
-						$invoice_conf = array ();
-						if ($accountdata ['reseller_id'] == 0) {
-							$where = array (
-									"accountid" => 1 
-							);
-						} else {
-							$where = array (
-									"accountid" => $accountdata ['reseller_id'] 
-							);
-						}
-						$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-						if ($query->num_rows () > 0) {
-							$invoice_conf = $query->result_array ();
-							$invoice_conf = $invoice_conf [0];
-						} else {
-							$query = $this->db_model->getSelect ( "*", "invoice_conf", array (
-									"accountid" => 1 
-							) );
-							$invoice_conf = $query->result_array ();
-							$invoice_conf = $invoice_conf [0];
-						}
-						$this->db->select('invoiceid');
-						$this->db->limit(1);
-						$this->db->order_by('id','DESC');
-						$invoices_result = (array)$this->db->get("invoices")->first_row();
-						$last_invoice_ID = $invoices_result['invoiceid'];
+						// Get invoice configuration
+						$reseller_id = ($accountdata ['reseller_id'] == 0) ? 1 : $accountdata ['reseller_id'];
+						$where = "accountid IN ('" . $reseller_id . "','1')";
+						$this->db->select ( '*' );
+						$this->db->where ( $where );
+						$this->db->order_by ( 'accountid', 'desc' );
+						$this->db->limit ( 1 );
+						$invoice_conf = $this->db->get ( 'invoice_conf' );
+						$invoice_conf = ( array ) $invoice_conf->first_row ();
+						// Get last generated invoice for admin or reseller
+						$last_invoice_ID = $this->common->get_invoice_date("invoiceid", "", $accountdata ['reseller_id']);
 						if ($last_invoice_ID && $last_invoice_ID > 0) {
-							$last_invoice_ID = ($last_invoice_ID + 1);
+								$last_invoice_ID = ($last_invoice_ID + 1);
+								if ($last_invoice_ID < $invoice_conf['invoice_start_from'])
+									$last_invoice_ID = $invoice_conf['invoice_start_from'];
 						} else {
-							$last_invoice_ID = $invoice_conf ['invoice_start_from'];
+								$last_invoice_ID = $invoice_conf['invoice_start_from'];
 						}
-						$last_invoice_ID = str_pad ( $last_invoice_ID, (strlen ( $last_invoice_ID ) + 4), '0', STR_PAD_LEFT );
+						$last_invoice_ID = str_pad($last_invoice_ID, 6, '0', STR_PAD_LEFT);
 						if ($accountdata ['posttoexternal'] == 1) {
 							$balance = ($accountdata ['credit_limit'] - $accountdata ['balance']);
 						} else {
