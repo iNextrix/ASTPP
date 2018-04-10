@@ -75,15 +75,11 @@ $('document').ready(function()
 						email: true,
 					},
 					first_name: {
-						required: true,
-						Alphaonly: true 
-					},
-					last_name: {
-						Alphaonly: true,
+						required: true						
 					},
 					telephone_1: {
-                                            phn_number: true,
-                                         },
+                        phn_number: true,
+                     },
                 },
                 messages: {
                     userCaptcha: "<div id= 'capcha_error' style='color: red; margin-right: 113px; margin-top: -8px; text-transform: none;'>Captcha is required</div>",

@@ -255,6 +255,7 @@ if ( ! function_exists('form_password'))
 		}
 
 		$data['type'] = 'password';
+		$data['autocomplete'] = "off";
 		return form_input($data, $value, $extra);
 	}
 }
@@ -387,7 +388,7 @@ if ( ! function_exists('form_dropdown'))
 					  $str.='disabled = "disabled"';
 					 }
 					 $name['class'] = isset($name['class']) ? $name['class'] : '';
-							   $form = '<select '.$str." class='col-md-5 form-control selectpicker ".$name['class'].$extra."' data-live-search='true'>\n";
+					 $form = '<select '.$str." class='col-md-5 form-control selectpicker ".$name['class'].$extra."' data-live-search='true'>\n";
 				}else{
 					if(!empty($extra)){
 						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-5 form-control selectpicker ".$extra."' data-live-search='true'>\n";

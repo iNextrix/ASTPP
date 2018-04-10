@@ -291,7 +291,7 @@ class MX_Loader extends CI_Loader
 
 	public function _ci_is_instance() {}
 
-	public function _ci_get_component($component) {
+	public function &_ci_get_component($component) {
 		return CI::$APP->{$component};
 	}
 

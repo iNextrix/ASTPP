@@ -34,11 +34,7 @@ class Signup extends MX_Controller {
 		$this->load->model ( 'common_model' );
 		$this->load->library ( 'session' );
 		$this->load->library ( 'encrypt' );
-		$this->load->model ( 'Astpp_common' );
-		
-		error_reporting ( - 1 );
-		ini_set ( 'display_errors', 'On' );
-		
+		$this->load->model ( 'Astpp_common' );				
 		$data ['row'] = $this->signup_model->get_rate ();
 	}
 	function index($key = "") {
@@ -92,7 +88,7 @@ class Signup extends MX_Controller {
 				}
 			}
 		}
-		$data ['captcha'] = create_captcha ( $vals );
+		$data ['captcha'] = create_captcha ( $vals );		
 		$this->session->set_userdata ( 'captchaWord', $data ['captcha'] ['word'] );
 		$this->db->select ( "*" );
 		$this->db->where ( array (
@@ -508,8 +504,8 @@ class Signup extends MX_Controller {
 		
 		foreach ( $EmailTemplate->result_array () as $value ) {
 			$TemplateData = $value;
-			$message = str_replace ( "<p>", "", $TemplateData ['template'] );
-			$message = str_replace ( "</p>", "", $TemplateData ['template'] );
+			$TemplateData['template'] = str_replace ( "<p>", "", $TemplateData ['template'] );
+			$TemplateData['template'] = str_replace ( "</p>", "", $TemplateData ['template'] );
 			
 			$TemplateData ['subject'] = str_replace ( '#NAME#', $user_data ['first_name'] . " " . $user_data ['last_name'], $TemplateData ['subject'] );
 			$TemplateData ['template'] = str_replace ( '#NAME#', $user_data ['first_name'] . " " . $user_data ['last_name'], $TemplateData ['template'] );

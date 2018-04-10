@@ -673,7 +673,7 @@ class invoices_form {
 			$file_name_fav = '';
 			$accountid = 0;
 			$image_path = array (
-					'Existing Image',
+					'Existing Logo',
 					'HIDDEN',
 					array (
 							'type' => '',
@@ -880,7 +880,19 @@ class invoices_form {
 						'',
 						'tOOL TIP',
 						'Please Enter account number' 
-				) 
+				),
+				array (
+						gettext ( 'Company Tax number' ),
+						'INPUT',
+						array (
+								'name' => 'invoice_taxes_number',
+								'size' => '20',
+								'class' => "text field medium" 
+						),
+						'',
+						'tOOL TIP',
+						'Please Enter account number' 
+				)
 		)
 		;
 		$form ['Invoice Configuration '] = array (
@@ -933,7 +945,7 @@ class invoices_form {
 						'set_allow_invoice' 
 				),
 				array (
-						gettext ( 'Invoice Date Interval' ),
+						gettext ( 'Invoice Due Days' ),
 						'INPUT',
 						array (
 								'name' => 'interval',
@@ -945,7 +957,7 @@ class invoices_form {
 						'Please Enter account number' 
 				),
 				array (
-						gettext ( 'Notify before days' ),
+						gettext ( 'Notify before due days' ),
 						'INPUT',
 						array (
 								'name' => 'notify_before_day',
@@ -981,18 +993,6 @@ class invoices_form {
 						'Please Enter account number' 
 				),
 				array (
-						gettext ( 'Invoice Taxes number' ),
-						'INPUT',
-						array (
-								'name' => 'invoice_taxes_number',
-								'size' => '20',
-								'class' => "text field medium" 
-						),
-						'',
-						'tOOL TIP',
-						'Please Enter account number' 
-				),
-				array (
 						'',
 						'HIDDEN',
 						array (
@@ -1015,10 +1015,10 @@ class invoices_form {
 						'' 
 				) 
 		);
-		$form ['Company personalization'] = array (
+		$form ['Portal personalization'] = array (
 				
 				array (
-						gettext ( 'Website Domain' ),
+						gettext ( 'Domain' ),
 						'INPUT',
 						array (
 								'name' => 'domain',
@@ -1031,7 +1031,7 @@ class invoices_form {
 						'' 
 				),
 				array (
-						gettext ( 'Website Header' ),
+						gettext ( 'Header' ),
 						'INPUT',
 						array (
 								'name' => 'website_title',
@@ -1044,7 +1044,7 @@ class invoices_form {
 						'' 
 				),
 				array (
-						gettext ( 'Website Footer' ),
+						gettext ( 'Footer' ),
 						'INPUT',
 						array (
 								'name' => 'website_footer',
@@ -1057,7 +1057,7 @@ class invoices_form {
 						'' 
 				),
 				array (
-						gettext ( 'Company logo' ),
+						gettext ( 'Logo' ),
 						'IMAGE',
 						array (
 								'name' => 'file',
@@ -1075,7 +1075,7 @@ class invoices_form {
 				$delete_logo,
 				$image_path,
 				array (
-						'Company Favicon',
+						'Favicon',
 						'IMAGE',
 						array (
 								'name' => 'file_fav',
