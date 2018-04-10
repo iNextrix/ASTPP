@@ -33,7 +33,9 @@ startblock('content');
 								<div class="container">
 									<div class="row">
 										<div class="col-md-12">
-											<?php echo $astpp_errormsg;?>
+												Records Imported Successfully: <?php echo $count;?>
+												<br/>
+												Records Not Imported : <?php echo $invalid_count;?>  
 										</div>
 									</div>
 								</div>
@@ -44,6 +46,8 @@ startblock('content');
 			</div>
 		</div>
 		<div class="col-md-12 padding-b-10">
+			<br/>
+			<i><?php echo gettext("Note : Duplicate Account Number/Email are ignored.");?></i> 
 			<div class="pull-right">
 				<a href="<?= base_url().'accounts/customer_list/'?>"><input class="btn btn-line-parrot" id="customer_list" type="button" name="action" value="Back to Customer List" /> </a> 
 			</div>

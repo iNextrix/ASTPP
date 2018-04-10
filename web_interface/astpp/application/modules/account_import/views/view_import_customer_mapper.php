@@ -1,7 +1,22 @@
 <?php
 
 extend('master.php');
-startblock('extra_head')
+startblock('extra_head');
+
+if (!isset($csv_tmp_data)) {
+?>
+<style>
+	.w-section{
+		text-align:none !important;
+	}
+	.w-box{
+		display: inline-block;
+		overflow: visible !important;
+		
+	}
+</style>
+<?php 
+}
 
 endblock();
 startblock('page-title');
@@ -267,7 +282,11 @@ if (!empty($csv_tmp_data)) {
 											echo "<td>" . $csv_key . '(' . $csv_value . ")</td>";
 											echo "<td>$mapper_array[$csv_value]</td>";
 											echo "<td>";
-											echo str_replace('col-md-5','col-md-12',str_replace('form-control','',form_dropdown_all ($params_arr,$file_data, '' )));
+											if($csv_value != "number" && $csv_value !="email"){
+												echo str_replace('col-md-5','col-md-12',str_replace('form-control','',form_dropdown_all ($params_arr,$file_data, '' )));
+											}else{
+												echo str_replace('col-md-5','col-md-12',str_replace('form-control','',form_dropdown($params_arr,$file_data, '' )));
+											}	
 											echo "</td>";
 											echo "</tr>";
 
@@ -290,6 +309,8 @@ if (!empty($csv_tmp_data)) {
 							<tbody>
 								<?php  //echo "<pre>";	print_R($mapto_fields);exit;
 								foreach($mapto_fields['settings'] as $csv_key => $csv_value) {
+									$custom_value = $csv_value."-select";
+									$params_arr = array("id"=>$custom_value,"name"=>$custom_value,"class"=>$custom_value);
 									echo "<tr>";
 										echo "<td>" . $csv_key . '(' . $csv_value . ")</td>";
 										echo "<td>$mapper_array[$csv_value]</td>";
