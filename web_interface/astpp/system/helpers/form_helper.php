@@ -387,6 +387,7 @@ if ( ! function_exists('form_dropdown'))
 					 if(isset($name['disabled']) && $name['disabled']== 'disabled'){
 					  $str.='disabled = "disabled"';
 					 }
+					 $name['class'] = isset($name['class']) ? $name['class'] : '';
 							   $form = '<select '.$str." class='col-md-5 form-control selectpicker ".$name['class'].$extra."' data-live-search='true'>\n";
 				}else{
 					if(!empty($extra)){
