@@ -19,11 +19,11 @@ CentOs 7 Installation
 ::
 
  #Install dependencies for freeswitch
- yum install -y wget git autoconf automake expat-devel yasm gnutls-devel libtiff-devel libX11-devel unixODBC-devel 
- python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel uuid-devel @development-tools gdbm-devel 
- db4-devel libjpeg libjpeg-deve compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++
- @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC 
- zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel bc e2fsprogs-devel libcurl-devel libxml2-devel 
+ yum install -y wget git autoconf automake expat-devel yasm gnutls-devel libtiff-devel libX11-devel unixODBC-devel \ 
+ python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel uuid-devel @development-tools gdbm-devel \
+ db4-devel libjpeg libjpeg-deve compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ \
+ @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC \
+ zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel bc e2fsprogs-devel libcurl-devel libxml2-devel \
  libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbou-nd devel libuuid-devel lua-devel libsndfile-devel
 
 
@@ -108,8 +108,8 @@ CentOs 7 Installation
     yum-config-manager --enable remi-php70
     yum update
     
-    yum install -y autoconf automake bzip2 cpio curl nginx php-fpm php-mcrypt* unixODBC mysql-connector-odbc curl-devel php 
-    php-devel php-common php-cli php-gd php-pear php-mysql php-mbstring sendmail sendmail-cf php-pdo php-pecl-json mysql
+    yum install -y autoconf automake bzip2 cpio curl nginx php-fpm php-mcrypt* unixODBC mysql-connector-odbc curl-devel php \ 
+    php-devel php-common php-cli php-gd php-pear php-mysql php-mbstring sendmail sendmail-cf php-pdo php-pecl-json mysql \
     mariadb-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++
 
 
