@@ -57,6 +57,7 @@ We do offer commercial services for installation, support, training and custom d
 - <a href="http://www.astppbilling.org/installation/">Installation</a>
 - <a href="http://www.astppbilling.org/support/">On Demand Support</a>
 - <a href="http://www.astppbilling.org/training/">Training</a>
+- <a href="http://www.astppbilling.org/pilot-program/">Pilot Program</a>
 - <a href="http://www.astppbilling.org/contact-us/">Custom Development</a>
 
 
