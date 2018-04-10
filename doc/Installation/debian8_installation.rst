@@ -14,17 +14,22 @@ Debian 8 Installation
     #Add freeswitch source list
     curl https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add -
     echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-
+    
+    #Add php7.0  source list
+    echo "deb http://packages.dotdeb.org jessie all
+    deb-src http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/php7.list
+    curl https://www.dotdeb.org/dotdeb.gpg | apt-key add -
+    
     #Install dependencies
-    apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y --force-yes freeswitch-video-deps-
-    most apt-get install -y autoconf automake devscripts gawk chkconfig dnsutils sendmail-bin sensible-mda ntpdate ntp g++ 
-    git-core curl libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libgdbm-dev libyuv-dev libdb-
-    dev libvpx2-dev gettext sudo lua5.1 php5 php5-dev php5-common php5-cli php5-gd php-pear php5-cli 
-    php5-gd php-pear php5-cli php-apc php5-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev
+    apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y --force-yes freeswitch-video-deps-most
+    apt-get install -y autoconf automake devscripts gawk chkconfig dnsutils sendmail-bin sensible-mda ntpdate ntp g++ \
+    git-core curl libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libgdbm-dev libyuv-dev libdb-\
+    dev libvpx2-dev gettext sudo lua5.1 php7.0 php7.0-dev php7.0-common php7.0-cli php7.0-gd php-pear \
+    php7.0-apc php7.0-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev \
     libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
     
     #Install mysql server
-    apt-get install -y mysql-server php5-mysql
+    apt-get install -y mysql-server php7.0-mysql
 
 **2. Download latest freeswitch version**
 ::
@@ -72,9 +77,9 @@ Debian 8 Installation
 
 **1. Download ASTPP**
 ::
-    # Download ASTPP 3.5 source from git
+    # Download ASTPP 3.6 source from git
     cd /usr/src
-    git clone https://github.com/iNextrix/ASTPP
+    git clone -b v3.6 https://github.com/iNextrix/ASTPP
 
 **2.  Change Apache working scenario**
 ::
@@ -87,8 +92,8 @@ Debian 8 Installation
 ::
     apt-get -o Acquire::Check-Valid-Until=false update
     
-    apt-get install -y curl libyuv-dev libvpx2-dev nginx php5-fpm php5 php5-mcrypt libmyodbc unixodbc-bin php5-dev 
-    php5-common php5-cli php5-gd php-pear php5-cli php-apc php5-curl libxml2 libxml2-dev openssl libcurl4-openssl-
+    apt-get install -y curl libyuv-dev libvpx2-dev nginx php7.0-fpm php7.0 php7.0-mcrypt libmyodbc unixodbc-bin php7.0-dev \
+    php7.0-common php7.0-cli php7.0-gd php-pear php7.0-cli php7.0-apc php7.0-curl libxml2 libxml2-dev openssl libcurl4-openssl-\
     dev gettext gcc g++
 
 
@@ -101,7 +106,7 @@ Debian 8 Installation
     touch /var/log/nginx/fs_access_log
     touch /var/log/nginx/fs_error_log			
     php5enmod mcrypt
-    systemctl restart php5-fpm
+    systemctl restart php7.0-fpm
     service nginx reload
   
   
@@ -171,7 +176,7 @@ Debian 8 Installation
     GRANT OPTION;FLUSH PRIVILEGES;"
     mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-3.0.sql
     mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-upgrade-3.5.sql
-
+    mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-upgrade-3.6.sql
 
     #Setup ODBC Connection for mysql
     cp /usr/src/ASTPP/misc/odbc/deb_odbc.ini /etc/odbc.ini
@@ -200,13 +205,20 @@ Debian 8 Installation
 **Finalize Installation & Start Services**
 ::
     #Open php short tag
-    sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
+    sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php/7.0/fpm/php.ini
+    sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php/7.0/fpm/php.ini
+    sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php/7.0/fpm/php.ini
+    sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php/7.0/fpm/php.ini
+    sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php/7.0/fpm/php.ini
+    sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini
+    systemctl restart php7.0-fpm
+    systemctl restart nginx
 
     #Configure services for startup
     systemctl disable apache2   #If you are using it then change the port or update your configuration for nginx 
     otherwise your gui will not up
     systemctl enable nginx
-    systemctl enable php5-fpm			
+    systemctl enable php7.0-fpm			
     systemctl start mysql
     systemctl start freeswitch
     chkconfig --levels 345 mariadb on
@@ -242,7 +254,7 @@ Debian 8 Installation
     systemctl status nginx
     systemctl status mysql
     systemctl status freeswitch
-    systemctl status php5-fpm
+    systemctl status php7.0-fpm
 
 
 .. note:: You are done with GUI installation. Enjoy :)
