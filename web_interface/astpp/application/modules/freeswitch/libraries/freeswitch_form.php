@@ -116,7 +116,7 @@ class Freeswitch_form {
 						'where_arr',
 						array (
 								"reseller_id" => "0",
-								"type" => "0",
+								"type" => "0,3",
 								"deleted" => "0" 
 						) 
 				),
