@@ -54,18 +54,15 @@ class Charges_model extends CI_Model {
 		/**
 		 * *******************************************************************************************
 		 */
-		if ($this->session->userdata ( 'logintype' ) == 1 || $this->session->userdata ( 'logintype' ) == 5) {
-			$account_data = $this->session->userdata ( "accountinfo" );
-			$add_array ['reseller_id'] = $account_data ['id'];
-		} else {
-			$add_array ['reseller_id'] = "0";
-		}
+		// Get Account Information
+		$accountinfo = $this->session->userdata('accountinfo');
+		$reseller_id = ($accountinfo['type'] == 1 || $accountinfo['type'] ==5) ? $accountinfo['id'] : 0 ;
 		
 		unset ( $add_array ['action'] );
 		$this->db->insert ( "charges", $add_array );
 		$insert_id = $this->db->insert_id ();
 		$data = $this->db_model->getSelect ( "*", "accounts", array (
-				"pricelist_id" => $add_array ['pricelist_id'] 
+				"pricelist_id" => $add_array ['pricelist_id'],'reseller_id'=>$reseller_id,'deleted'=>0
 		) );
 		if ($data->num_rows () > 0) {
 			foreach ( $data->result_array () as $key => $value ) {
