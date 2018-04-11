@@ -99,23 +99,24 @@ class Charges_model extends CI_Model {
 		}
 	}
 	function remove_charge($id) {
+		// Get Account Information
+		$accountinfo = $this->session->userdata('accountinfo');
+		$reseller_id = ($accountinfo['type'] == 1 || $accountinfo['type'] ==5) ? $accountinfo['id'] : 0 ;
+		// Get information of charges before remove it to notify user
+		$data = (array)$this->db->get_where('charges',array("id"=>$id))->first_row();
 		$this->db->where ( "id", $id );
 		$this->db->delete ( "charges" );
 		$this->db->where ( "charge_id", $id );
 		$this->db->delete ( "charge_to_account" );
-		$data = $this->db_model->getSelect ( "*", "charges", array (
-				"id" => $id 
-		) );
-		$data = $data->result_array ();
-		$data = $data [0];
-		$data = $this->db_model->getSelect ( "*", "accounts", array (
-				"pricelist_id" => $data ['pricelist_id'] 
-		) );
-		if ($data->num_rows () > 0) {
-			foreach ( $data->result_array () as $key => $value ) {
-				$this->common->mail_to_users ( 'remove_subscription', $value );
+		// Send notifications to users for removed subscription,If they are belongs to this rate group.
+		if($data['pricelist_id'] > 0){
+			$data = $this->db->get_where('accounts',array("pricelist_id"=>$data['pricelist_id'],'reseller_id'=>$reseller_id,'deleted'=>0));
+			if ($data->num_rows () > 0) {
+				foreach ( $data->result_array () as $key => $value ) {
+					$this->common->mail_to_users ( 'remove_subscription', $value );
+				}
 			}
-		}
+		}	
 		return true;
 	}
 	function add_account_charges($pricelistid, $chargeid, $flag) {
