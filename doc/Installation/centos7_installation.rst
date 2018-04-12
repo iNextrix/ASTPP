@@ -214,6 +214,10 @@ CentOs 7 Installation
    #Edit db password in autoload config files.
    sed -i "s#dbpass = <PASSSWORD>#dbpass = <MYSQL_ROOT_PASSWORD>#g" /var/lib/astpp/astpp-config.conf
    sed -i "s#DB_PASSWD=\"<PASSSWORD>\"#DB_PASSWD = \"<MYSQL_ROOT_PASSWORD>\"#g" /var/lib/astpp/astpp.lua
+   
+   #Setup ODBC Connection for mysql
+   cp /usr/src/ASTPP/misc/odbc/cent_odbc.ini /etc/odbc.ini
+   cp /usr/src/ASTPP/misc/odbc/cent_odbcinst.ini /etc/odbcinst.ini
 
    #Edit base URL in astpp-config
    sed -i "s#base_url=http://localhost:8081/#base_url=http://<SERVER FQDN / IP ADDRESS>:8089/#g" /var/lib/astpp/
@@ -254,10 +258,10 @@ CentOs 7 Installation
 ::
  
     # Generate Invoice   
-    0 1 * * * cd /var/www/html/astpp/cron/ && php cron.php GenerateInvoice
+    0 12 * * * cd /var/www/html/astpp/cron/ && php cron.php GenerateInvoice
 
-    # Low balance notification
-    0 1 * * * cd /var/www/html/astpp/cron/ && php cron.php UpdateBalance
+    # Update balance notification
+    0 12 * * * cd /var/www/html/astpp/cron/ && php cron.php UpdateBalance
 
     # Low balance notification
     0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowBalance
