@@ -110,7 +110,7 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 		table.insert(xml, [[<action application="export" data="media_bug_answer_req=true"/>]]);
 		table.insert(xml, [[<action application="export" data="RECORD_STEREO=true"/>]]);
 		table.insert(xml, [[<action application="export" data="record_sample_rate=8000"/>]]);
-		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${base_dir}/recordings/${strftime(%Y-%m-%d-%H:%M:%S)}_]]..customer_userinfo['number']..[[.wav"/>]]);
+		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${recordings_dir}/${strftime(%Y-%m-%d-%H:%M:%S)}_]]..customer_userinfo['number']..[[.wav"/>]]);
 	end
 
     -- Set original caller id for CDRS
