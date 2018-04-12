@@ -229,10 +229,10 @@ Debian 8 Installation
 **Setup cron**
 ::
     # Generate Invoice   
-    0 1 * * * cd /var/www/html/astpp/cron/ && php cron.php GenerateInvoice
+    0 12 * * * cd /var/www/html/astpp/cron/ && php cron.php GenerateInvoice
 
-    # Low balance notification
-    0 1 * * * cd /var/www/html/astpp/cron/ && php cron.php UpdateBalance
+    # Update balance notification
+    0 12 * * * cd /var/www/html/astpp/cron/ && php cron.php UpdateBalance
 
     # Low balance notification
     0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowBalance
