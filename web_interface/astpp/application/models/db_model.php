@@ -519,9 +519,9 @@ class Db_model extends CI_Model {
 		foreach($timezone_identifiers as $key => $zone) {
 			date_default_timezone_set($zone);
 			$offset = 'GMT' . date('P', $timestamp);
-	        $timezones[$key] = $offset . ' ' . $zone;
-	    }
-	    return $timezones;	 
+	        	$timezones[$key] = $offset . ' ' . $zone;
+	    	}
+	    	return $timezones;	 
 	}
 
 	function build_dropdown($select, $table, $id_where = '', $id_value = '') {
