@@ -44,7 +44,7 @@ class Timezone {
 			date_default_timezone_set($zone);
 			$offset = date('Z', $timestamp);
 	                $timezones[$key] = $offset;
-	    }
+	    	}
 		
 		$USER_GMT = $timezones[$number];
 		
