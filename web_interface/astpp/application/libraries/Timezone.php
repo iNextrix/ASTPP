@@ -38,10 +38,15 @@ class Timezone {
 		$number = ($timezone_id == "") ? $this->uset_timezone () : $timezone_id;
 		$SERVER_GMT = '0';
 		
-		$result = $this->CI->db->query ( "select gmtoffset from timezone where id =" . $number );
-		$timezone_offset = $result->result ();
+		$timestamp = time();
+		$timezone_identifiers = DateTimeZone::listIdentifiers();
+		foreach($timezone_identifiers as $key => $zone) {
+			date_default_timezone_set($zone);
+			$offset = date('Z', $timestamp);
+	        $timezones[$key] = $offset;
+	    }
 		
-		$USER_GMT = $timezone_offset ['0']->gmtoffset;
+		$USER_GMT = $timezones[$number];
 		
 		$date_time_array = getdate ( strtotime ( $currDate ) );
 		

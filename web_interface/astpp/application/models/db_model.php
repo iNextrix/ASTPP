@@ -512,6 +512,18 @@ class Db_model extends CI_Model {
 		}
 		return $drp_list;
 	}
+
+	function timezone_list() {
+		$timestamp = time();
+		$timezone_identifiers = DateTimeZone::listIdentifiers();
+		foreach($timezone_identifiers as $key => $zone) {
+			date_default_timezone_set($zone);
+			$offset = 'GMT' . date('P', $timestamp);
+	        $timezones[$key] = $offset . ' ' . $zone;
+	    }
+	    return $timezones;	 
+	}
+
 	function build_dropdown($select, $table, $id_where = '', $id_value = '') {
 		$select_params = explode ( ',', $select );
 		$where = '';

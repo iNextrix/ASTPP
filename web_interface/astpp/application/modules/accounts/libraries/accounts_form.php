@@ -2381,7 +2381,7 @@ class Accounts_form {
 						'id',
 						'gmtzone',
 						'timezone',
-						'build_dropdown',
+						'timezone_list',
 						'',
 						'' 
 				),
