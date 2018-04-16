@@ -88,11 +88,17 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	if(xml_did_rates ~= nil) then
 		table.insert(xml, [[<action application="set" data="origination_rates=]]..xml_did_rates..[["/>]]);
 	end
-       
-	-- Set max channel limit for user if > 0
-	if(tonumber(customer_userinfo['maxchannels']) > 0) then    		
-	    	table.insert(xml, [[<action application="limit" data="db ]]..accountcode..[[ user_]]..accountcode..[[ ]]..customer_userinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);
-	end
+
+	-- Issue 383 - Updated Check over the limits function replaces the old code
+	-- check maxchannels and maxchannels_in for the account
+	-- Set DIDINFO to NA as it Non Applicable on outbound calls.
+
+	check_account_maxchannels(xml,config,customer_userinfo,'NA',call_direction,destination_number)
+
+	-- Set max channel limit for user if > 0 ** Replaced by Line above
+	-- if(tonumber(customer_userinfo['maxchannels']) > 0) then
+	--     	table.insert(xml, [[<action application="limit" data="db ]]..accountcode..[[ user_]]..accountcode..[[ ]]..customer_userinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);
+	-- end
 
 	-- Set CPS limit for user if > 0
 	if (tonumber(customer_userinfo['cps']) > 0) then
@@ -232,7 +238,13 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
     Logger.warning("[FSXMLINBOUND] Caller ID Translation Ends")
     -----------------------------------------------
 
-	table.insert(xml, [[<action application="set" data="receiver_accid=]]..didinfo['accountid']..[["/>]]);  
+	table.insert(xml, [[<action application="set" data="receiver_accid=]]..didinfo['accountid']..[["/>]]);
+
+	-- Issue 383
+	-- Check Accounts limits first -
+	check_account_maxchannels(xml,config,userinfo,didinfo,call_direction,destination_number)
+
+
 	-- Set max channel limit for did if > 0     
 	if(tonumber(didinfo['maxchannels']) > 0) then    
 	    table.insert(xml, [[<action application="limit" data="db ]]..destination_number..[[ did_]]..destination_number..[[ ]]..didinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);        
@@ -565,3 +577,184 @@ function set_cc_limit_resellers(reseller_userinfo)
 
 		return xml_temp
 end
+
+-- Issue 383 Code changes
+-- Log the over the limit into the  overmax table
+function log_overlimit(destination_number,call_direction,customerid,xml, limittype, ccmax, ccmaxin, account_maxchannels_type,account_maxchannels, account_maxchannels_reserved, account_maxchannels_in)
+	-- Overlimit Codes
+	-- 1 - Over max Calls
+	-- 2 - Over Max In
+	-- 3 - DID over Limit
+	-- 4
+	-- 5
+	-- 9 - Interval Limit.
+
+
+	local sound_path = "/usr/local/freeswitch/sounds/en/us/callie/"
+	local audio_file = sound_path .. "astpp-alllinesused.wav";
+	-- local hangup_cause = "USER_BUSY";
+	if (call_direction == 'outbound') then
+		table.insert(xml, [[<action application="playback" data="]] .. audio_file .. [["/>]]);
+	end
+	-- table.insert(xml, [[<action application="hangup" data="]] .. hangup_cause .. [["/>]]);
+	local startdate = os.date("!%Y-%m-%d %H:%M:%S")
+	Logger.info("=============== Log Over Limit Information ===================")
+	Logger.info("Direction : "..call_direction)
+	Logger.info("Account id : "..customerid)
+	Logger.info("Destination Number : "..destination_number)
+	Logger.info("Date : "..startdate)
+	Logger.info("Limit Type: : "..limittype)
+	Logger.info("Total Channels: "..account_maxchannels)
+	Logger.info("Total Reserved Channels: "..account_maxchannels_reserved)
+	Logger.info("Total Inbound Channels: "..account_maxchannels_in)
+	Logger.info("CC MAX: "..ccmax)
+	Logger.info("CC MAXIN: "..ccmaxin)
+	Logger.info("================================================================")
+	local query = "INSERT INTO "..TBL_OVERMAX.." (direction, accountid, datetime, destinationnumber, limittype, ccmax, ccmaxin, maxchannels_type,maxchannels, maxchannels_reserved, maxchannels_in) VALUES ('"..call_direction.."', '"..customerid.."', '"..startdate.."', '"..destination_number.."', '"..limittype.."', '".. ccmax.."', '"..tonumber(ccmaxin).."', '".. account_maxchannels_type.."', '"..account_maxchannels.."', '".. account_maxchannels_reserved.."', '".. account_maxchannels_in.."');";
+	Logger.debug("[LOAD_CONF] Query :" .. query)
+
+	dbh:query(query)
+
+
+end
+
+-- Issue 383 Code changes
+-- Check account and get inbound and outbound channels in use.
+-- This function will be called at approx line 80 in astpp.xml.lua for OUTBOUND Calls. actual call is check_account_maxchannels(xml,config,userinfo,didinfo,call_direction)
+-- This function will be called at appox line 230 in astpp.xml.lua for INBOUND Calls. actual call is check_account_maxchannels(xml,config,userinfo,didinfo,call_direction)
+-- New Function get_account_maxchannels was created in astpp.functions.lua, this returns the maxhcannels and maxchannels_in (new table field) from the NON-PROVIDER Account
+
+function check_account_maxchannels(xml,config,customerinfo,didinfo,call_direction,destination_number)
+
+	Logger.info("=============== Check Concurrent Call Limits ===================")
+	Logger.info("Call Direction: "..call_direction)
+	Logger.info("Destination Number: "..destination_number)
+	-- Account Max channels - This is the TOTAL Number of PATHS a customer can use at one time.
+	-- This does NOT override the maxchannels on a DID, or trunk, but if the maxchannels number is reached for the account, then any calls to or from this account will be denied!
+	--
+	--
+	-- Settings:
+	-- Maxchannels is total paths as defined by Maxchannels Type
+	-- Maxchannels Type - 0 - limit outbound only ** Legacy MODE (This is how it works before this patch/update)
+	--                  - 1 - limit inbound and outbound
+	--                  - 2 - limit inbound only ** Future development if there is a need, possible fraud concern.
+	--
+	-- Maxchannels_reserve_out - # of channels to reserve for outbound.
+	--      IF THIS IS > 0, then the system will always reserve this number of channels to ensure that inbound calls cannot use up all the channels.
+	--      IF the total calls is >  inbound and outbound (including the reserved outbound channels), calls will be denied.
+	--
+	-- Note: This does not override the maxchannels on a trunk or DID, but if all the channels for the account are used up the DID will ring busy.
+	--
+	--
+	--api = freeswitch.API()
+	--cc = api:executeString("limit_usage db ".. accountcode .. " user_" .. accountcode);
+	if ( call_direction == 'inbound' and type(didinfo) == 'string') then -- The firstime this is called on an inbound call it is the DID from the Provider not Account that owns the did, so ignore it.
+		return
+	end
+
+	-- Lets Check the Call Direction, if it is inbound then we need to get information of the account that owns the DID.
+	-- We need this so we can get the maxchannels_in (new table field) of the Account as well as the Maxchannels (OUT)
+	if (call_direction == "inbound") then
+		if (tonumber(didinfo['account_maxchannels_type']) == 0) then -- Legacy Mode.
+			-- This is an inbound call and we are only using account maxchannels for outbound limiting so ignore and return ** rethink this...
+			Logger.info("Concurrent Calls: Legacy mode detected - DO NOT check inbound calls.")
+			Logger.info("========================================================")
+			return
+		end
+		accountid = didinfo['accountid']
+		accountcode = didinfo['account_code'];
+		account_maxchannels_type = tonumber(didinfo['account_maxchannels_type'])
+		if (tonumber(didinfo['account_maxchannels_type']) == 1) then -- We are going to limit inbound and outbound - lets get started.
+			account_maxchannels = tonumber(didinfo['account_maxchannels']);
+			account_maxchannels_in = tonumber(didinfo['account_maxchannels']);
+			account_maxchannels_reserved =tonumber(didinfo['account_maxchannels_reserved'])
+			if (account_maxchannels_reserved > 0 ) then
+				account_maxchannels_in = tonumber(didinfo['account_maxchannels']) - tonumber(didinfo['account_maxchannels_reserved'])
+			end
+			-- We return USER_BUSY, because this is inbound and we want the caller to hear a busy tone instead of fast busy or a all circuits busy message.account_maxchannels
+			-- SWITCH_CONGESTION - should only be used when it is a true congestions or the end point cannot be reached.
+			--   table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_calls_]] .. accountcode .. [[ ]] .. account_maxchannels .. [[ !USER_BUSY"/>]]);
+			--   table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_in_]] .. accountcode .. [[ ]] .. account_maxchannels_in .. [[ !USER_BUSY"/>]]);
+		end
+	end
+	if (call_direction == "outbound") then
+		accountid = customerinfo['id'];
+		accountcode = customerinfo['number'];
+		account_maxchannels_type = tonumber(customerinfo['maxchannels_type'])
+		if (tonumber(customerinfo['maxchannels_type']) == 1) then -- We are going to limit inbound and outbound - lets get started.
+
+			account_maxchannels_type = customerinfo['maxchannels_type'];
+			account_maxchannels = tonumber(customerinfo['maxchannels']);
+			account_maxchannels_in = tonumber(customerinfo['maxchannels']);
+			account_maxchannels_reserved =tonumber(customerinfo['maxchannels_reserved'])
+			if (account_maxchannels_reserved > 0 ) then
+				account_maxchannels_in = tonumber(customerinfo['maxchannels']) - tonumber(customerinfo['maxchannels_reserved'])
+			end
+			-- We return USER_BUSY, because this is inbound and we want the caller to hear a busy tone instead of fast busy or a all circuits busy message.account_maxchannels
+			-- SWITCH_CONGESTION - should only be used when it is a true congestions or the end point cannot be reached.
+			--table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_calls_]] .. accountcode .. [[ ]] .. account_maxchannels .. [[ !USER_BUSY"/>]]);
+			--table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_in_]] .. accountcode .. [[ ]] .. account_maxchannels_in .. [[ !USER_BUSY"/>]]);
+		end
+	end
+
+	if (tonumber(account_maxchannels) == 0) then -- We are not using max channels - so return
+		Logger.info("Concurrent Calls Limiting is NOT Enabled")
+		Logger.info("========================================================")
+		return
+	end
+	-- Check to see if we are at or over the limits
+	Logger.info("Account ID: "..accountid)
+	Logger.info("Account Number: "..accountcode)
+	Logger.info("Limit Type: "..account_maxchannels_type)
+	Logger.info("Total Channels: "..account_maxchannels)
+	Logger.info("Total Reserved Channels: "..account_maxchannels_reserved)
+	Logger.info("Total Inbound Channels: "..account_maxchannels_in)
+	api = freeswitch.API()
+	cc_max = api:executeString("limit_usage db ".. accountcode .. " max_calls_" .. accountcode);
+	Logger.info("CC MAX: "..cc_max)
+	cc_maxin = api:executeString("limit_usage db ".. accountcode .. " max_in_" .. accountcode);
+	Logger.info("CC MAXIN: "..cc_maxin)
+	if (tonumber(cc_max) >= tonumber(account_maxchannels)) then -- We hit max limits on all calls - Logit.
+		limittype = 1 -- set over limit to maxchannels
+		log_overlimit(destination_number,call_direction,accountid,xml, limittype, cc_max,cc_maxin, account_maxchannels_type,account_maxchannels, account_maxchannels_reserved, account_maxchannels_in);
+	end
+
+	if (call_direction == 'inbound') then -- On inbound we want to set it so the caller get a busy_tone and not a congestion message.
+		if (tonumber(cc_maxin) >= tonumber(account_maxchannels_in)) then
+			limittype = 2 -- set over limit to maxchannels_in
+			log_overlimit(destination_number,call_direction,accountid,xml, limittype, cc_max, cc_maxin, account_maxchannels_type,account_maxchannels, account_maxchannels_reserved, account_maxchannels_in);
+		end
+		table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_calls_]] .. accountcode .. [[ ]] .. account_maxchannels .. [[ !USER_BUSY"/>]]);
+		table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_in_]] .. accountcode .. [[ ]] .. account_maxchannels_in .. [[ !USER_BUSY"/>]]);
+	else -- if it is an outbound call, we only care about the maxchannels, we dont insert the maxchannels_in check.
+		table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_calls_]] .. accountcode .. [[ ]] .. account_maxchannels .. [[ !SWITCH_CONGESTION"/>]]);
+		-- table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_in_]] .. accountcode .. [[ ]] .. account_maxchannels_in .. [[ !SWITCH_CONGESTION"/>]]);
+	end
+	Logger.info("================================================================")
+
+end
+
+function print_r(arr, indentLevel)
+	local str = ""
+	local indentStr = "#"
+
+	if(indentLevel == nil) then
+		Logger.warning(print_r(arr, 0))
+		return
+	end
+
+	for i = 0, indentLevel do
+		indentStr = indentStr.."\t"
+	end
+
+	for index,value in pairs(arr) do
+		if type(value) == "table" then
+			str = str..indentStr..index..": \n"..print_r(value, (indentLevel + 1))
+		else
+			str = str..indentStr..index..": "..value.."\n"
+		end
+	end
+	return str
+end
+
+
