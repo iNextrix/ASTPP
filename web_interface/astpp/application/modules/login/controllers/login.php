@@ -191,11 +191,7 @@ class Login extends MX_Controller {
 			 * Purpose : Display logo based on domain name
 			 *
 			 */
-			if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"){
-                                $custom_domain = "https://".$_SERVER ["HTTP_HOST"];
-                        }else{
-                                $custom_domain = "http://".$_SERVER ["HTTP_HOST"];
-                        }
+                        $custom_domain = "//".$_SERVER ["HTTP_HOST"];
                         $where = "domain in ('$custom_domain','".$_SERVER ["HTTP_HOST"]."')";
                         $this->db->select ( "*" );
                         $this->db->where ($where);
