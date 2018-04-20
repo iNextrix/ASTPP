@@ -5,8 +5,6 @@ $(document).ready(function() {
    document.getElementsByName("sweep_id")[0].selectedIndex = <?=1?>;
 
 		$("#sweep_id").change(function(e){
-			$('.selectpicker').selectpicker('refresh');
-			$(".selectpicker").val("2");
 			//end
 			var id_mass = document.getElementById("sweep_id").value;
             if(id_mass != 0){
@@ -34,6 +32,8 @@ $(document).ready(function() {
 document.getElementsByName("currency_id")[0].selectedIndex = <?=$currency_id - 1?>;
 document.getElementsByName("timezone_id")[0].selectedIndex = <?=$timezone_id - 1?>;
 document.getElementsByName("country_id")[0].selectedIndex = <?=$country_id - 2?>;
+$('.selectpicker').selectpicker('refresh');
+
     $("#submit").click(function(){
         submit_form("customer_bulk_form","<?php echo base_url(); ?>accounts/customer_bulk_save/");
     });
