@@ -26,6 +26,7 @@ class rates_form {
 	function __construct($library_name = '') {
 		$this->CI = & get_instance ();
 	}
+
 	function get_termination_rate_form_fields() {
 		$form ['forms'] = array (
 				base_url () . 'rates/termination_rate_save/',

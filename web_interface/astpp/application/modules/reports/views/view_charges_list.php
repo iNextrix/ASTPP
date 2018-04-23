@@ -10,7 +10,7 @@
             $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
         });
        $("#charges_search_btn").click(function(){
-           
+            $data ["grid_buttons"] = $this->reports_form->build_grid_customer ();
             post_request_for_search("charges_grid","","charges_search");
         });        
         $("#id_reset").click(function(){
