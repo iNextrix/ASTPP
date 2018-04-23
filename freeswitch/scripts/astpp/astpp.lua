@@ -75,6 +75,7 @@ if (config['debug']==2) then
     	Logger.info ("[xml_REQUEST] "..param_key..": " .. param_value)
     end
 end
-
+Logger.warning ('Here we go!')
+logger.warning ()
 dofile(script_path.."scripts/astpp."..XML_REQUEST["section"]..".lua")
 
