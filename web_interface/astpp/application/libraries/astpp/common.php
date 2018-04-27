@@ -659,7 +659,7 @@ class common {
 					"id" => $accountid
 			) );
 			if ($posttoexternal == 1)
-				$where ['type'] = "I";
+				$where ['type'] = "I";			
 		}
 		
 		//Fetch date for only auto generated invoice date
