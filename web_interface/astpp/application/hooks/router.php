@@ -12,11 +12,9 @@ class Router {
           $res = $db->get("invoice_conf");
           $domain = $res->result();
           if(!empty($domain) && $domain[0]->domain != ""){
-            if($_SERVER['HTTPS'] == "on"){
-                self::$_domain = "https://".$domain[0]->domain."/";
-            }else{
-                self::$_domain = "http://".$domain[0]->domain."/";
-            }
+            // Do not specify a protocol. This makes the User Agent use the
+            // current protocol (http or https)
+            self::$_domain = "//".$domain[0]->domain."/";
           }
         }
       }
@@ -29,4 +27,4 @@ class Router {
           }
       }
 }
-?>
+
