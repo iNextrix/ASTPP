@@ -38,6 +38,7 @@ class trunk_model extends CI_Model {
 	}
 	function add_trunk($add_array) {
 		unset ( $add_array ["action"] );
+		unset ( $add_array ["id"] );
 		$add_array ['creation_date'] = gmdate ( 'Y-m-d H:i:s' );
 		$this->db->insert ( "trunks", $add_array );
 		return true;

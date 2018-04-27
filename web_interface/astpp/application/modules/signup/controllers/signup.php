@@ -527,7 +527,7 @@ class Signup extends MX_Controller {
 				'from' => $invoiceconf ['emailaddress'],
 				'to' => $user_data ['email'],
 				'status' => "1",
-				// 'attachment'=> $Filenm,
+				'attachment'=> "",
 				'template' => '' 
 		);
 		// echo "<pre>"; print_r($TemplateData); exit;
