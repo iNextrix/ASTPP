@@ -72,8 +72,8 @@ class ProcessInvoice extends MX_Controller
         $last_invoice_date = ($last_invoice_date) ? $last_invoice_date : $AccountData['creation'];
         
         //Samir Doshi : Invoice was generating with static hours, minutes and seconds.
-        //$last_invoice_date = date("Y-m-d 00:00:01", strtotime($last_invoice_date));
-        $last_invoice_date = gmdate ( "Y-m-d H:i:s", strtotime ( '+1 seconds',strtotime($last_invoice_date)) );
+        // xrobau: Why add 1 second?
+        $last_invoice_date = gmdate ( "Y-m-d H:i:s", strtotime($last_invoice_date) + 1);
         
         return $last_invoice_date;
     }
