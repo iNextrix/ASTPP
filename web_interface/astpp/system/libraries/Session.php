@@ -177,6 +177,7 @@ class CI_Session {
 		// Is the session current?
 		if (($session['last_activity'] + $this->sess_expiration) < $this->now)
 		{
+			throw new \Exception("Ahha". json_encode($session));
 			$this->sess_destroy();
 			return FALSE;
 		}
