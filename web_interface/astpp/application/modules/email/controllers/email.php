@@ -443,7 +443,9 @@ class Email extends MX_Controller {
 			redirect ( base_url () . '/email/email_client_area/' );
 		}
 		$this->email_model->multipal_email ( $add_array );
-		$screen_path = "/var/www/html/ITPLATP/cron";
+		// We are application/modules/email/controllers/email.php, but we
+		// want to run cron/cron.php.
+		$screen_path = __DIR__."/../../../../cron";
 		$screen_filename = "Email_Broadcast_" . strtotime ( 'now' );
 		$command = "cd " . $screen_path . " && /usr/bin/screen -d -m -S  $screen_filename php cron.php BroadcastEmail";
 		exec ( $command );
