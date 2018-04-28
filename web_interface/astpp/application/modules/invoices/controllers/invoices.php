@@ -1834,7 +1834,7 @@ class Invoices extends MX_Controller {
 		$data ['item_type'] = '';
 		$data ['debit'] = '';
 		$invoice_total_list = array ();
-		$query = "select item_type,description,created_date,invoiceid,debit,credit from invoice_details where invoiceid = " . $invoiceid . " And ( item_type='POSTCHARG' Or item_type='Refill') Group By item_type";
+		$query = "select item_type,description,created_date,invoiceid,debit,credit from invoice_details where invoiceid = " . $invoiceid . " And ( item_type='POSTCHARG' Or item_type='Refill')";
 		$invoice_total_query = $this->db->query ( $query );
 		if ($invoice_total_query->num_rows () > 0) {
 			$invoice_total_query = $invoice_total_query->result_array ();
