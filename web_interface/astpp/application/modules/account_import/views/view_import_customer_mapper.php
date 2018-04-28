@@ -1,13 +1,17 @@
-<?php extend('master.php') ?>
-<? startblock('extra_head') ?>
-
-<?php endblock() ?>
-<?php startblock('page-title') ?>
-<?php echo $page_title; ?>
-<?php endblock() ?>
-<?php startblock('content') ?>
 <?php
-   if (!isset($csv_tmp_data)) { ?>
+
+extend('master.php');
+startblock('extra_head')
+
+endblock();
+startblock('page-title');
+echo $page_title;
+endblock();
+startblock('content');
+
+if (!isset($csv_tmp_data)) {
+?>
+
 <section class="slice color-three padding-t-20">
    <div class="w-section inverse no-padding">
       <div class="container">
@@ -227,9 +231,13 @@
 
 </script>
 <?php
-   } ?>
-<?php // echo "<pre>";	print_R($csv_tmp_data);exit;
-   if (!empty($csv_tmp_data)) { ?>
+
+}
+
+// echo "<pre>";	print_R($csv_tmp_data);exit;
+
+if (!empty($csv_tmp_data)) {
+?>
 <section class="slice color-three padding-b-20">
    <div class="w-section inverse no-padding">
       <div class="container">
@@ -328,8 +336,9 @@
    </div>
 </section>
 <?php
-   } ?>
-<?php
-   endblock() ?>
-<?php
-   end_extend() ?>
+}
+
+endblock();
+end_extend();
+
+

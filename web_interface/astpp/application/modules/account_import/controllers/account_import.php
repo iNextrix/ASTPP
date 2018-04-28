@@ -580,5 +580,3 @@ class Account_import extends MX_Controller {
 	}
 }
 
-?>
- 

@@ -9,13 +9,16 @@
     vertical-align:middle;
 }
     </style>
-<? extend('master.php') ?>
-  <? startblock('extra_head') ?>
-  <? endblock() ?>      
-    <? startblock('page-title') ?>
-        <?=$page_title?><br/>
-    <? endblock() ?>
-	<? startblock('content') ?>
+<?php 
+extend('master.php');
+startblock('extra_head');
+endblock();
+startblock('page-title');
+echo "$page_title<br/>";
+endblock();
+startblock('content');
+?>
+
  <section class="slice color-three padding-b-20">
 	<div class="w-section inverse no-padding">
     	<div class="container">
@@ -47,10 +50,12 @@
 		</div>
 	</div>
  </section>
-        <? endblock() ?>
-    <? startblock('sidebar') ?>
-        Filter by
-    <? endblock() ?>
-<? end_extend() ?>  
-    
+
+<?php
+endblock();
+startblock('sidebar');
+// xrobau: Is this MEANT to be here? 
+echo "Filter by";
+endblock()
+end_extend();
 
