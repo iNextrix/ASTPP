@@ -20,6 +20,12 @@
 //ini_set('display_errors','on');
 ini_set ( "date.timezone", "UTC" );
 define ( 'ENVIRONMENT', 'development' );
+
+// Make mysqli throw exceptions when it errors, so we can have
+// proper tracebacks to see what is CAUSING the errors! Argh.
+// We really should be using PDO 8-(
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 /*
  * ---------------------------------------------------------------
  * ERROR REPORTING
