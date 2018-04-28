@@ -60,6 +60,7 @@ endblock();
 startblock('sidebar');
 // xrobau: Is this MEANT to be here? 
 echo "Filter by";
-endblock()
+
+endblock();
 end_extend();
 
