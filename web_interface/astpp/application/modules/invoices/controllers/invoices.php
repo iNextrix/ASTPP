@@ -87,10 +87,27 @@ class Invoices extends MX_Controller {
 				$due_date = date("Y-m-d",strtotime ( $value ['due_date'] ));				
 				$outstanding = $value ['amount'];
 				$last_payment_date = '';
-				$invoice_total_query = $this->db_model->select ( "sum(debit) as debit,sum(credit) as credit,created_date", "invoice_details", array (
-						"invoiceid" => $value ['id'],
-						"item_type" => "INVPAY" 
-				), "created_date", "DESC", "1", "0" );
+				$payment_last = '';
+				/*
+				$invoice_total_query = $this->db_model->select ("sum(debit) as debit,sum(credit) as credit,created_date",
+					"invoice_details",
+					array ( "invoiceid" => $value ['id'], "item_type" => "INVPAY" ), "created_date", "DESC", "1", "0");
+				*/
+				// Unfortunately, that's not right with MySQL 5.7 - see
+				//     https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html
+				//
+				// The correct syntax now requires a GROUP BY for everything (eg, invoice_details.created_date)
+				//
+				$invoice_total_query = $this->db_model->select (
+					"sum(debit) as debit,sum(credit) as credit,created_date", // select
+					"invoice_details", // tableName
+					array ( "invoiceid" => $value ['id'], "item_type" => "INVPAY" ), // where
+					"created_date", // order_by
+					"DESC", // order_type
+					"1", // paging_limit
+					"0", // start_limit
+					"invoice_details.created_date" // groupby
+				);
 				// echo $this->db->last_query(); exit;
 				if ($invoice_total_query->num_rows () > 0) {
 					$invoice_total_query = $invoice_total_query->result_array ();

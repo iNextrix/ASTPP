@@ -176,7 +176,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 	function _execute($sql)
 	{
 		$sql = $this->_prep_query($sql);
-		$result = mysqli_query($this->conn_id, $sql);
+		try {
+			$result = mysqli_query($this->conn_id, $sql);
+		} catch (\Exception $e) {
+			throw new \Exception("Query '$sql' caused Exception", 0, $e);
+		}
 		return $result;
 	}
 
