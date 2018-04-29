@@ -8,7 +8,7 @@
         });
         $("#fsgateway_search_btn").click(function(){
 //              alert('sdvdv');
-            post_request_for_search("fs_gateway_grid","","freeswith_search");
+            post_request_for_search("fs_gateway_grid","","freeswitch_search");
         });        
         $("#id_reset").click(function(){
             clear_search_request("fs_gateway_grid","");

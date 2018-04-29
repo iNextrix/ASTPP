@@ -27,7 +27,7 @@ class Freeswitch_form {
 	function __construct() {
 		$this->CI = & get_instance ();
 	}
-	function get_freeswith_form_fields($id = false) {
+	function get_freeswitch_form_fields($id = false) {
 		$log_type = $this->CI->session->userdata ( "logintype" );
 		if ($log_type == 0 || $log_type == 3 || $log_type == 1) {
 			$sip_pro = null;
@@ -271,11 +271,11 @@ class Freeswitch_form {
 		// echo "<pre>";print_r($form);exit;
 		return $form;
 	}
-	function get_freeswith_search_form() {
+	function get_freeswitch_search_form() {
 		$form ['forms'] = array (
 				"",
 				array (
-						'id' => "freeswith_search" 
+						'id' => "freeswitch_search" 
 				) 
 		);
 		$form [gettext ( 'Search' )] = array (
@@ -384,7 +384,7 @@ class Freeswitch_form {
 		);
 		$form ['button_search'] = array (
 				'name' => 'action',
-				'id' => "freeswith_search_btn",
+				'id' => "freeswitch_search_btn",
 				'content' => gettext ( 'Search' ),
 				'value' => 'save',
 				'type' => 'button',
@@ -484,7 +484,7 @@ class Freeswitch_form {
 		$form ['forms'] = array (
 				"",
 				array (
-						'id' => "freeswith_search" 
+						'id' => "freeswitch_search" 
 				) 
 		);
 		$form [gettext ( 'Search' )] = array (
@@ -698,7 +698,7 @@ class Freeswitch_form {
 		$form ['forms'] = array (
 				"",
 				array (
-						'id' => "freeswith_search" 
+						'id' => "freeswitch_search" 
 				) 
 		);
 		$form [gettext ( 'Search' )] = array (

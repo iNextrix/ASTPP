@@ -93,7 +93,7 @@ class Freeswitch_model extends CI_Model {
 	 * Voicemail add in database
 	 * *****
 	 */
-	function add_freeswith($add_array) {
+	function add_freeswitch($add_array) {
 		$where = array (
 				'id' => $add_array ['accountcode'] 
 		);
@@ -175,7 +175,7 @@ class Freeswitch_model extends CI_Model {
 	 * Voicemail edit
 	 * *****
 	 */
-	function edit_freeswith($add_array, $id) {
+	function edit_freeswitch($add_array, $id) {
 		$parms_array = array (
 				'password' => $add_array ['fs_password'],
 				'vm-enabled' => $add_array ['voicemail_enabled'],
@@ -260,7 +260,7 @@ class Freeswitch_model extends CI_Model {
 	/**
 	 * **********************
 	 */
-	function delete_freeswith_devices($id) {
+	function delete_freeswitch_devices($id) {
 		$this->db->where ( 'id', $id );
 		$this->db->delete ( 'sip_devices' );
 		return true;

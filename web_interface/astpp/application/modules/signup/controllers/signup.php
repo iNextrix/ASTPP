@@ -281,7 +281,7 @@ class Signup extends MX_Controller {
 					$user_custom_array ['email'] = $user_data ['email'];
 					
 					$this->load->model ( 'freeswitch/freeswitch_model' );
-					$this->freeswitch_model->add_freeswith ( $user_custom_array );
+					$this->freeswitch_model->add_freeswitch ( $user_custom_array );
 				}
 				// echo "<pre>"; print_r ($user_data); exit;
 				$activation = $this->encrypt->encode ( $user_data ['number'] );

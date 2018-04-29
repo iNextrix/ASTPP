@@ -716,7 +716,7 @@ class Accounts extends MX_Controller {
 		$entity_type = strtolower ( $this->common->get_entity_type ( '', '', $entity_type ) );
 		$this->load->module ( 'freeswitch/freeswitch' );
 		if ($action == "delete") {
-			$this->freeswitch->freeswitch_model->delete_freeswith_devices ( $id );
+			$this->freeswitch->freeswitch_model->delete_freeswitch_devices ( $id );
 			$this->session->set_flashdata ( 'astpp_notification', 'Sip Device removed successfully!' );
 			redirect ( base_url () . "accounts/" . $entity_type . "_sipdevices/$accountid/" );
 		}

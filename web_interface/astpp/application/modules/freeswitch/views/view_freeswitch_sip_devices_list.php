@@ -7,7 +7,7 @@
         
         $("#fssipdevice_search_btn").click(function(){
 	  
-	post_request_for_search("fs_sip_devices_grid","","freeswith_search");
+	post_request_for_search("fs_sip_devices_grid","","freeswitch_search");
         });        
         $("#id_reset").click(function(){
             clear_search_request("fs_sip_devices_grid","");

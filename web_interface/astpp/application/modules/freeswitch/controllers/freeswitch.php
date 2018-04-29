@@ -46,7 +46,7 @@ class Freeswitch extends MX_Controller {
 			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->fsdevice_form_fields_for_customer ( $type ), '' );
 			$this->load->view ( 'view_freeswitch_add_edit', $data );
 		} else {
-			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswith_form_fields (), '' );
+			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswitch_form_fields (), '' );
 			$this->load->view ( 'view_freeswitch_customer_add_edit', $data );
 		}
 	}
@@ -70,10 +70,10 @@ class Freeswitch extends MX_Controller {
 		);
 		$account = $this->freeswitch_model->get_edited_data ( $edit_id );
 		if ($account_data ['type'] == '-1') {
-			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswith_form_fields ( $edit_id ), $account );
+			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswitch_form_fields ( $edit_id ), $account );
 			$this->load->view ( 'view_freeswitch_add_edit', $data );
 		} else {
-			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswith_form_fields ( $edit_id ), $account );
+			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswitch_form_fields ( $edit_id ), $account );
 			$this->load->view ( 'view_freeswitch_customer_add_edit', $data );
 		}
 	}
@@ -138,7 +138,7 @@ class Freeswitch extends MX_Controller {
 	function fssipdevices_save($user_flg = false) {
 		$add_array = $this->input->post ();
 		if (! $user_flg) {
-			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswith_form_fields ( $add_array ['id'] ), $add_array );
+			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswitch_form_fields ( $add_array ['id'] ), $add_array );
 		} else {
 			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->fsdevice_form_fields_for_customer ( $add_array ["accountcode"], $add_array ['id'] ), $add_array );
 		}
@@ -149,7 +149,7 @@ class Freeswitch extends MX_Controller {
 				echo $data ['validation_errors'];
 				exit ();
 			} else {
-				$this->freeswitch_model->edit_freeswith ( $add_array, $add_array ['id'] );
+				$this->freeswitch_model->edit_freeswitch ( $add_array, $add_array ['id'] );
 				echo json_encode ( array (
 						"SUCCESS" => "SIP Device Updated Successfully!" 
 				) );
@@ -162,7 +162,7 @@ class Freeswitch extends MX_Controller {
 				echo $data ['validation_errors'];
 				exit ();
 			} else {
-				$this->freeswitch_model->add_freeswith ( $add_array );
+				$this->freeswitch_model->add_freeswitch ( $add_array );
 				echo json_encode ( array (
 						"SUCCESS" => "SIP Device Added Successfully!" 
 				) );
@@ -173,7 +173,7 @@ class Freeswitch extends MX_Controller {
 	function customer_fssipdevices_save($user_flg = false) {
 		$add_array = $this->input->post ();
 		if (! $user_flg) {
-			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswith_form_fields (), $add_array );
+			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->get_freeswitch_form_fields (), $add_array );
 		} else {
 			$data ['form'] = $this->form->build_form ( $this->freeswitch_form->fsdevice_form_fields_for_customer ( $add_array ["accountcode"], $add_array ['id'] ), $add_array );
 		}
@@ -184,7 +184,7 @@ class Freeswitch extends MX_Controller {
 				echo $data ['validation_errors'];
 				exit ();
 			} else {
-				$this->freeswitch_model->edit_freeswith ( $add_array, $add_array ['id'] );
+				$this->freeswitch_model->edit_freeswitch ( $add_array, $add_array ['id'] );
 				echo json_encode ( array (
 						"SUCCESS" => "SIP Device Updated Successfully!" 
 				) );
@@ -197,7 +197,7 @@ class Freeswitch extends MX_Controller {
 				echo $data ['validation_errors'];
 				exit ();
 			} else {
-				$this->freeswitch_model->add_freeswith ( $add_array );
+				$this->freeswitch_model->add_freeswitch ( $add_array );
 				echo json_encode ( array (
 						"SUCCESS" => "SIP Device Added Successfully!" 
 				) );
@@ -215,7 +215,7 @@ class Freeswitch extends MX_Controller {
 				echo $data ['validation_errors'];
 				exit ();
 			} else {
-				$this->freeswitch_model->edit_freeswith ( $add_array, $add_array ['id'] );
+				$this->freeswitch_model->edit_freeswitch ( $add_array, $add_array ['id'] );
 				echo json_encode ( array (
 						"SUCCESS" => "SIP Device Updated Successfully!" 
 				) );
@@ -231,7 +231,7 @@ class Freeswitch extends MX_Controller {
 				$sip_profile_id = $this->common->get_field_name ( 'id', 'sip_profiles', array (
 						'name' => 'default' 
 				) );
-				$this->freeswitch_model->add_freeswith ( $add_array );
+				$this->freeswitch_model->add_freeswitch ( $add_array );
 				echo json_encode ( array (
 						"SUCCESS" => "SIP Device Added Successfully!" 
 				) );
@@ -381,7 +381,7 @@ class Freeswitch extends MX_Controller {
 		return $ret_url;
 	}
 	function fssipdevices_delete($id) {
-		$this->freeswitch_model->delete_freeswith_devices ( $id );
+		$this->freeswitch_model->delete_freeswitch_devices ( $id );
 		$this->session->set_flashdata ( 'astpp_notification', 'SIP Device Removed Successfully!' );
 		redirect ( base_url () . 'freeswitch/fssipdevices/' );
 		exit ();

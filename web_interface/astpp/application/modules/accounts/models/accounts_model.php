@@ -130,7 +130,7 @@ class Accounts_model extends CI_Model {
 					"vm_send_all_message" => "true" 
 			);
 			$this->load->model ( 'freeswitch/freeswitch_model' );
-			$this->freeswitch_model->add_freeswith ( $free_switch_array );
+			$this->freeswitch_model->add_freeswitch ( $free_switch_array );
 		}
 		if ($opensip_flag == 1) {
 			$opensips_array = array (
