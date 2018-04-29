@@ -1343,10 +1343,16 @@ class Invoices extends MX_Controller {
 				$due_date = date ( "Y-m-d", $duedate );
 				$outstanding = $value ['amount'];
 				$last_payment_date = '';
-				$invoice_total_query = $this->db_model->select ( "sum(debit) as debit,sum(credit) as credit,created_date", "invoice_details", array (
-						"invoiceid" => $value ['id'],
-						"item_type" => "INVPAY" 
-				), "created_date", "DESC", "1", "0" );
+				$invoice_total_query = $this->db_model->select (
+					"sum(debit) as debit,sum(credit) as credit,created_date", // select
+					"invoice_details", // tableName
+					array("item_type" => "INVPAY"), // where
+					"created_date", // order_by
+					"DESC", // order_type
+					"1", // paging_limit
+					"0", // start_limit
+					"invoice_details.created_date" // groupby
+				);
 				// echo $this->db->last_query(); exit;
 				if ($invoice_total_query->num_rows () > 0) {
 					$invoice_total_query = $invoice_total_query->result_array ();
