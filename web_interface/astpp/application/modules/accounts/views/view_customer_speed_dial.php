@@ -94,7 +94,7 @@
                                 <div class="col-md-4">Action</div>
                                  </div>
                                 <?php
-								$res = $this->db_model->getSelect("*", "speed_dial", array("accountid" => $account_data[0]['id']));
+								$res = $this->db_model->getSelect("*", "speed_dial", array("accountid" => $account_data['id']));
 								if ($res->num_rows() > 0) {
 									$result = $res->result_array();
 								} else {
@@ -111,14 +111,11 @@
                                             </div>   
                                             <div class="col-md-3">
                                                 <label class="col-md-2" name="speed_dial" size="16"> 
-                                                    <?php 
-                                                    /* Date : 09-Feb-2017
-													   Purpose : To see speed dial number without click on edit
-													   Done By : itpl */
-                                                      echo $speeddial[$i];
-                                                    //if ($result[$i]['speed_num'] == $i) {
-														//echo $result[$i]['number'];
-													//} ?>
+						<?php 
+							if (!empty($speeddial[$i])) {
+								echo $speeddial[$i];
+							}
+						?>
                                                 </label>
                                             </div>
                                             <div class="col-md-4 margin-b-10">
