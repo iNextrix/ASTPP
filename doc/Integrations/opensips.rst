@@ -208,6 +208,7 @@ Opensips Install guide for CentOS 6.0
 ::
 
  ALTER TABLE `subscriber` ADD `accountcode` VARCHAR( 20 ) NOT NULL;
+ ALTER TABLE `subscriber` ADD `reseller_id` VARCHAR( 20 ) NOT NULL DEFAULT 0;
  
  
 **8. Enable opensips support in ASTPP**
