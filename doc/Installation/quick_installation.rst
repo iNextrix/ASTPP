@@ -16,8 +16,8 @@ Quick installation will install ASTPP 3.6 in scratch system only.
 
 |
 
-`Click here
-<https://m.do.co/c/2000afbc6cda>`_ : Looking for cloud hosting?
+Looking for Cloud Hosting? : `Click here
+<https://m.do.co/c/2000afbc6cda>`_
 
-`Click here
-<https://billing.freeswitch.com/aff.php?pid=3&aff=014>`_ : Freeswitch G729 License? 
+Freeswitch G729 License? : `Click here
+<https://billing.freeswitch.com/aff.php?pid=3&aff=014>`_
