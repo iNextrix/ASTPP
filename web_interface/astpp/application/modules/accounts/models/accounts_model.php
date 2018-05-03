@@ -584,7 +584,7 @@ class Accounts_model extends CI_Model {
 			// $this->db->insert_batch('accounts', $insert_array);
 			if ($opensip_flag == 1) {
 				$db_config = Common_model::$global_config ['system_config'];
-				$opensipdsn = "mysql://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+				$opensipdsn = "mysqli://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
 				$this->opensips_db = $this->load->database ( $opensipdsn, true );
 				$this->opensips_db->insert_batch ( "subscriber", $opensips_array );
 			}

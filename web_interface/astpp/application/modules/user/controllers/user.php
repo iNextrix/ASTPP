@@ -1924,7 +1924,7 @@ class User extends MX_Controller {
 	function user_opensips_edit($edit_id) {
 		$data ['page_title'] = gettext ( 'Edit Opensips' );
 		$db_config = Common_model::$global_config ['system_config'];
-		$opensipdsn = "mysql://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+		$opensipdsn = "mysqli://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
 		$this->opensips_db = $this->load->database ( $opensipdsn, true );
 		$where = array (
 				'id' => $edit_id 
@@ -1983,7 +1983,7 @@ class User extends MX_Controller {
 	function validate_device_data($data) {
 		if (isset ( $data ["username"] ) && $data ["username"] != "") {
 			$db_config = Common_model::$global_config ['system_config'];
-			$opensipdsn = "mysql://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+			$opensipdsn = "mysqli://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
 			$this->opensips_db = $this->load->database ( $opensipdsn, true );
 			$where = array (
 					"username" => $data ["username"] 
@@ -2015,7 +2015,7 @@ class User extends MX_Controller {
 	}
 	function user_opensips_delete_multiple() {
 		$db_config = Common_model::$global_config ['system_config'];
-		$opensipdsn = "mysql://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+		$opensipdsn = "mysqli://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
 		$this->opensips_db = $this->load->database ( $opensipdsn, true );
 		$ids = $this->input->post ( "selected_ids", true );
 		$where = "id IN ($ids)";
