@@ -325,8 +325,9 @@ function get_call_maxlength(userinfo,destination_number,call_direction,number_lo
 		end
 		if (tonumber(rates['cost']) > 0 ) then
 		      maxlength = ( balance -  rates['connectcost'] ) / rates['cost']
-		      if ( config['call_max_length'] and (tonumber(maxlength) > tonumber(config['call_max_length']) / 1000)) then
-				maxlength = config['call_max_length'] / 1000 / 60
+		      		      
+		      if ( config['call_max_length'] and (tonumber(maxlength) > tonumber(config['call_max_length']) / 1000 / 60)) then
+					maxlength = config['call_max_length'] / 1000 / 60
 			      Logger.info("[FIND_MAXLENGTH] LIMITING CALL TO CONFIG MAX LENGTH "..maxlength.."!!!")
 		      end
 		else
