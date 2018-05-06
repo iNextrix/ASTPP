@@ -20,14 +20,15 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --------------------------------------------------------------------------------------
 
-destination_number = params:getHeader("Caller-Destination-Number")
+orig_destination_number = params:getHeader("Caller-Destination-Number")
 
-if (destination_number == nil) then
+if (orig_destination_number == nil) then
     return;
 end
 
-Logger.info("[Dialplan] Dialed number : "..destination_number)
-
+Logger.info("[Dialplan] Original Dialed number : "..orig_destination_number)
+destination_number = remap_dest_number(orig_destination_number)
+Logger.info("[Dialplan] Remapped  Dialed number : "..destination_number)
 
 --Check if dialed number is calling card access number
 if (config['cc_access_numbers'] ~= '') then 
