@@ -76,6 +76,7 @@ class Package_model extends CI_Model {
 		/**
 		 * ****************************************
 		 */
+		unset($add_array['id']);
 		$this->db->insert ( "packages", $add_array );
 		return true;
 	}
