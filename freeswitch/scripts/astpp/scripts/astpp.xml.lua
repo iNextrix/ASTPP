@@ -694,7 +694,13 @@ function check_account_maxchannels(xml,config,customerinfo,didinfo,call_directio
 			-- SWITCH_CONGESTION - should only be used when it is a true congestions or the end point cannot be reached.
 			--table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_calls_]] .. accountcode .. [[ ]] .. account_maxchannels .. [[ !USER_BUSY"/>]]);
 			--table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_in_]] .. accountcode .. [[ ]] .. account_maxchannels_in .. [[ !USER_BUSY"/>]]);
+		else
+					account_maxchannels_type = customerinfo['maxchannels_type'];
+					account_maxchannels = tonumber(customerinfo['maxchannels']);
+					account_maxchannels_in = tonumber(customerinfo['maxchannels']);
+					account_maxchannels_reserved =tonumber(customerinfo['maxchannels_reserved'])
 		end
+
 	end
 
 	if (tonumber(account_maxchannels) == 0) then -- We are not using max channels - so return

@@ -491,7 +491,7 @@ class Accounts_form {
 						'tOOL TIP',
 						'' 
 				),
-				// Issue 383
+				// Issue 383 - Fixed
 				// Added Concurrent Calls Type
 				// 0 - Limit Outbound Only
 				// 1 - Limit Outbound and Inbound
