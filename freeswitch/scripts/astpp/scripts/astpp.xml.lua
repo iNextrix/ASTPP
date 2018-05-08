@@ -115,7 +115,7 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 		table.insert(xml, [[<action application="export" data="media_bug_answer_req=true"/>]]);
 		table.insert(xml, [[<action application="export" data="RECORD_STEREO=true"/>]]);
 		table.insert(xml, [[<action application="export" data="record_sample_rate=8000"/>]]);
-		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${recordings_dir}/${strftime(%Y-%m-%d-%H:%M:%S)}_]]..customer_userinfo['number']..[[.wav"/>]]);
+		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${base_dir}/recordings/${strftime(%Y-%m-%d-%H:%M:%S)}_]]..customer_userinfo['number']..[[.wav"/>]]);
 	end
 
     -- Set original caller id for CDRS
@@ -694,11 +694,6 @@ function check_account_maxchannels(xml,config,customerinfo,didinfo,call_directio
 			-- SWITCH_CONGESTION - should only be used when it is a true congestions or the end point cannot be reached.
 			--table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_calls_]] .. accountcode .. [[ ]] .. account_maxchannels .. [[ !USER_BUSY"/>]]);
 			--table.insert(xml, [[<action application="limit" data="db ]] .. accountcode .. [[ max_in_]] .. accountcode .. [[ ]] .. account_maxchannels_in .. [[ !USER_BUSY"/>]]);
-		else
-			account_maxchannels_type = customerinfo['maxchannels_type'];
-			account_maxchannels = tonumber(customerinfo['maxchannels']);
-			account_maxchannels_in = tonumber(customerinfo['maxchannels']);
-			account_maxchannels_reserved =tonumber(customerinfo['maxchannels_reserved'])
 		end
 	end
 
