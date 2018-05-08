@@ -954,6 +954,15 @@ class common {
 		);
 		return $status_array;
 	}
+	// Issue 383
+	// Added maxchannel_type
+	function set_Maxchannels_Type_status($select = '') {
+    		$status_array = array (
+    				"0" => gettext ( "Outbound Only (Legacy Mode)" ),
+    				"1" => gettext ( "Total Inbound and Outbound" )
+    		);
+    		return $status_array;
+    	}
 	function get_action_buttons($buttons_arr, $linkid) {
 		$ret_url = '';
 		if (! empty ( $buttons_arr ) && $buttons_arr != '') {

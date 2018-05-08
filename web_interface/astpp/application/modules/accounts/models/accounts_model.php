@@ -337,6 +337,13 @@ class Accounts_model extends CI_Model {
 		} else {
 			$is_recording = 0;
 		}
+		// Issues 383
+        // Added maxchannels_type
+        if (isset ( $add_array ['maxchannels_type'] ) && $add_array ['maxchannels_type'] != '') {
+             	$maxchannels_type = 1;
+        } else {
+            	$maxchannels_type = 0;
+        }
 		if (isset ( $add_array ['allow_ip_management'] ) && $add_array ['allow_ip_management'] == TRUE) {
 			$allow_ip_management = 1;
 		} else {
@@ -379,7 +386,13 @@ class Accounts_model extends CI_Model {
 						"local_call" => $local_call,
 						"invoice_day" => $add_array ['invoice_day'],
 						"allow_ip_management" => $allow_ip_management,
+						// Issues 383
+                        // added maxchannels_reserved and maxchannels_type
+                        "maxchannels_reserved" => 0,
+                        "maxchannels_type" => $maxchannels_type,
+                        // End Changes
 						"is_recording" => $is_recording,
+
 						"expiry" => gmdate ( 'Y-m-d H:i:s', strtotime ( '+10 years' ) ) 
 				);
 				if ($pin_flag == 1) {
@@ -498,6 +511,12 @@ class Accounts_model extends CI_Model {
 						"creation" => gmdate ( "Y-m-d H:i:s" ),
 						"is_recording" => 0,
 						"maxchannels" => 0,
+						// Issue 383
+                        // Added maxchannels_type
+                        "maxchannels_type" => 0,
+                        // Issue 383
+                        // Added maxchannels_reserved
+                        "maxchannels_reserved" => 0,
 						"sweep_id" => 2,
 						"invoice_day" => gmdate ( "d" ),
 						"expiry" => gmdate ( 'Y-m-d H:i:s', strtotime ( '+10 years' ) ) 
