@@ -700,7 +700,6 @@ function check_account_maxchannels(xml,config,customerinfo,didinfo,call_directio
 					account_maxchannels_in = tonumber(customerinfo['maxchannels']);
 					account_maxchannels_reserved =tonumber(customerinfo['maxchannels_reserved'])
 		end
-
 	end
 
 	if (tonumber(account_maxchannels) == 0) then -- We are not using max channels - so return

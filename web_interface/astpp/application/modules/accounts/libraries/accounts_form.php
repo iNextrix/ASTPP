@@ -491,7 +491,7 @@ class Accounts_form {
 						'tOOL TIP',
 						'' 
 				),
-				// Issue 383 - Fixed
+				// Issue 383 Fix
 				// Added Concurrent Calls Type
 				// 0 - Limit Outbound Only
 				// 1 - Limit Outbound and Inbound
@@ -521,7 +521,7 @@ class Accounts_form {
 						'tOOL TIP',
 						'' 
 				),
-				// Issue 383
+				// Issue 383 Fix
                 // Added Reserved Outbound Paths
                 // This is used to make sure inbound calls canno
                 array (
