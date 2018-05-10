@@ -484,7 +484,7 @@ function load_configuration($logger) {
 	$logger->log ( "GET configuration  : " . $query );
 	return $config [0];
 }
- *
+ /*
  * @param string $field        	
  */
 function number_loop($destination, $field, $db) {
