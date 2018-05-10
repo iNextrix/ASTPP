@@ -239,7 +239,7 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
 			$logger->log ( "********* IN RESELLER FOR RECEIVER ENTRY END ******" );
 		} else {
 			
-			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost );
+			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db);
 			
 			$query = "INSERT INTO reseller_cdrs (uniqueid,accountid,callerid,callednum,billseconds,disposition,callstart,debit,cost,pricelist_id,package_id,pattern,notes,rate_cost,
 		reseller_id,reseller_code,reseller_code_destination,reseller_cost,call_direction,calltype,call_request) values ($cdr_string)";
@@ -270,7 +270,7 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 		if ($flag_parent == false) {
 			$cdr_string = get_cdr_string ( $localVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, 0, 0, $logger, $db );
 		} else {
-			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost );
+			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db );
 		}
 	} else {
 		
@@ -281,7 +281,7 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 			
 			$cdr_string = get_cdr_string ( $localVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate_did, $provider_cost, $parentid, $debit, 0, $logger, $db );
 		} else {
-			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost );
+			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db );
 		}
 	}
 	
@@ -322,7 +322,7 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
 }
 
 // Generate CDR string for insert query for reseller
-function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost) {
+function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db) {
 	$dataVariable ['calltype'] = ($dataVariable ['calltype'] == 'DID-LOCAL' || $dataVariable ['calltype'] == 'SIP-DID' || $dataVariable ['calltype'] == 'OTHER') ? "DID" : $dataVariable ['calltype'];
 	// $callerIdNumber = isset($dataVariable['effective_caller_id_number']) && !empty($dataVariable['effective_caller_id_number'])? $dataVariable['effective_caller_id_number'] :$dataVariable['caller_id'];
 	$callerIdNumber = ($dataVariable ['calltype'] == "DID") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
@@ -484,9 +484,6 @@ function load_configuration($logger) {
 	$logger->log ( "GET configuration  : " . $query );
 	return $config [0];
 }
-
-// String append prefix for checking rates
-/**
  *
  * @param string $field        	
  */
