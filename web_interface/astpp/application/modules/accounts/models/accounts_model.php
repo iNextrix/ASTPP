@@ -62,6 +62,28 @@ class Accounts_model extends CI_Model {
 		unset ( $accountinfo ['invoice_config_flag'] );
 		$result = $this->db->insert ( 'accounts', $accountinfo );
 		$last_id = $this->db->insert_id ();
+		/* ASTPP 3.6
+		 * To assign subscription based on tariff plan.
+		 */
+		 $charges_arr = $this->db->get_where('charges',array('pricelist_id'=>$accountinfo['pricelist_id']));
+		 if($charges_arr ->num_rows() > 0){
+			 require_once (APPPATH . 'controllers/ProcessCharges.php');
+			 foreach($charges_arr->result_array() as $key=>$value){
+				 $charge_arr = array (
+						"charge_id" => $value['id'],
+						"accountid" => $last_id ,
+						"assign_date" => gmdate ( "Y-m-d H:i:s" ) 
+				);
+				$this->db->insert ( "charge_to_account", $charge_arr );
+				$accountinfo['id']=$last_id;
+				$Params = array (
+						"ChargeID" => $value['id'],
+						"AccountInfo" => $accountinfo 
+				);
+				$ProcessCharges = new ProcessCharges ();
+				$ProcessCharges->BillAccountCharges ( "ACCOUNTSUBSCRIPTION", $Params );
+			 }
+		 }
 		/**
 		 * ASTPP 3.0
 		 * For Invoice Configuration
