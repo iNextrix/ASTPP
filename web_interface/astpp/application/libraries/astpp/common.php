@@ -2044,7 +2044,7 @@ class common {
 	/*
 	 * ASTPP 3.0 Remove all information related to going to delete customer.
 	 */
-	function customer_delete_dependencies($id) {
+	function customer_delete_dependencies($id,$entity=0) {
 		$this->delete_data ( 'ani_map', array (
 				'accountid' => $id
 		) );
@@ -2082,6 +2082,16 @@ class common {
 		), array (
 				"deleted" => 1
 		) );
+
+		//If provider deleted then disable their trunks. 
+		if ($entity == 3)
+		{
+			$this->update_data ( "trunks", array (
+					"provider_id" => $id
+			), array (
+					"status" => 1
+			) );
+		}
 	}
 	/*
 	 * ASTPP 3.0

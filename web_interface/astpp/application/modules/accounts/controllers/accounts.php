@@ -2207,8 +2207,17 @@ class Accounts extends MX_Controller {
 		return true;
 	}
 	function provider_delete($id) {
-		$this->accounts_model->remove_customer ( $id,3 );
-		$this->session->set_flashdata ( 'astpp_notification', 'Provider removed successfully!' );
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		$where = array (
+				'id' => $id,
+				"reseller_id" => 0
+		);
+		$account_res = $this->db_model->getSelect ( "type", "accounts", $where );
+		if($account_res->num_rows > 0 ){
+			$this->common->customer_delete_dependencies ( $id,3 );
+			$this->session->set_flashdata ( 'astpp_notification', 'Provider removed successfully!' );
+
+		}
 		redirect ( base_url () . 'accounts/customer_list/' );
 	}
 	function admin_delete($id) {
