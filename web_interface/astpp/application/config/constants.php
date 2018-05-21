@@ -112,7 +112,17 @@ define ( "DATABASE_DIRECTORY", FCPATH . 'database_backup' . DIRECTORY_SEPARATOR 
 define ( 'LOCALE_REQUEST_PARAM', 'lang' );
 define ( 'WEBSITE_DOMAIN', 'messages' );
 
-//Define default language
+/*
+ * |--------------------------------------------------------------------------
+ * | Define default language for UI
+ * |--------------------------------------------------------------------------
+ * |
+ * | Set en_EN for English language
+ * | Set es_ES for Spanish language
+ * | Set fr_FR for French language
+ * | Set pt_BR for portuguese Brazilian language
+ * |
+ */
 define ('DEFAULT_LANGUAGE','en_EN');
 
 /* End of file constants.php */
