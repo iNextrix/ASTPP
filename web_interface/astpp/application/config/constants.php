@@ -120,7 +120,7 @@ define ( 'WEBSITE_DOMAIN', 'messages' );
  * | Set en_EN for English language
  * | Set es_ES for Spanish language
  * | Set fr_FR for French language
- * | Set pt_BR for portuguese Brazilian language
+ * | Set pt_BR for portuguese Brazilian language 
  * |
  */
 define ('DEFAULT_LANGUAGE','en_EN');
