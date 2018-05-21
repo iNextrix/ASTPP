@@ -33,6 +33,32 @@ function load_conf()
     return config;
 end
 
+-- Remap destination numbers
+-- This avoids the need to duplicate data in rate groups. This is used
+-- in Australia, for example, where calls can be sent as '617xxxxxxxx' or
+-- '07xxxxxxxx', but all the billing is based around 617xxxxxxxx.
+--
+-- Important note: This does NOT scale well for a high volume system. It would
+-- be unwise to have more than 20 or 30 entries here, as it's CPU and Database
+-- intensive (Make sure you have Query Caching turned on!)
+--
+-- create table dialed_remap ( prefix char(10) not null, remap char(10) default '' );
+--
+function remap_dest_number(orig_dest_number)
+	local query = "SELECT * FROM dialed_remap";
+    	assert (dbh:query(query, function(u)
+		Logger.debug("[REMAP] Checking prefix:"..u['prefix']..", remap: "..u['remap'])
+		if (string.sub(orig_dest_number, 1, string.len(u['prefix'])) == u['prefix']) then
+			s = string.gsub(orig_dest_number, u['prefix'], u['remap'], 1)
+			Logger.debug("[REMAP] Matched. New Number "..s)
+			orig_dest_number = s
+			return s
+		end
+	end))
+	return orig_dest_number;
+end
+
+
 -- Get Speed dial number value
 function get_speeddial_number(destination_number,accountid)  
 	local query = "SELECT A.number FROM "..TBL_SPEED_DIAL.." as A,"..TBL_USERS.." as B WHERE B.status=0 AND B.deleted=0 AND B.id=A.accountid AND A.speed_num =\"" ..destination_number .."\" AND A.accountid = '"..accountid.."' limit 1";
