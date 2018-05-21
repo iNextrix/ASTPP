@@ -490,19 +490,51 @@ class Accounts_form {
 						'',
 						'tOOL TIP',
 						'' 
-				),
-				
+				),				
+				// Issue 383
+				// Added Concurrent Calls Type
+				// 0 - Limit Outbound Only
+				// 1 - Limit Outbound and Inbound
 				array (
-						gettext ( 'Concurrent Calls' ),
-						'INPUT',
-						array (
-								'name' => 'maxchannels',
-								'size' => '20',
-								'class' => "text field medium" 
-						),
-						'numeric',
-						'tOOL TIP',
-						'' 
+				               gettext ( 'Concurrent Calls Limit Type' ),
+				               'maxchannels_type',
+				               'SELECT',
+				               '',
+				               '',
+				               'tOOL TIP',
+				               'Type of Concurrent Calls Limiting',
+				               '',
+				               '',
+				               '',
+				               'set_Maxchannels_Type_status'
+				            ),
+
+				array (
+				      gettext ( 'Concurrent Calls' ),
+				      'INPUT',
+				     array (
+				            'name' => 'maxchannels',
+				            'size' => '20',
+				            'class' => "text field medium" 
+				      ),
+				      'numeric',
+				      'tOOL TIP',
+				      '' 
+				),
+				// Issue 383
+				            // Added Reserved Outbound Paths
+				            // This is used to make sure inbound calls canno
+				            array (
+				      gettext ( 'Reserved Outbound Paths' ),
+				      'INPUT',
+				      array (
+				            'name' => 'maxchannels_reserved',
+				            'size' => '20',
+				            'class' => "text field medium"
+				      ),
+				      'numeric',
+				      'tOOL TIP',
+				      ''
 				),
 				array (
 						gettext ( 'CPS' ),
