@@ -43,8 +43,15 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
    end
      
 	table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);
-	table.insert(xml, [[<action application="set" data="hangup_after_bridge=true"/>]]);    
-	table.insert(xml, [[<action application="set" data="continue_on_fail=true"/>]]);  
+	table.insert(xml, [[<action application="set" data="hangup_after_bridge=true"/>]]);
+
+	-- Made it configurable if someone want to set continue_on_fail for specific disposition	
+	local continue_on_fail = 'true'
+	if (config['continue_on_fail'] ~= nil) then
+		continue_on_fail = config['continue_on_fail']
+	end
+
+	table.insert(xml, [[<action application="set" data="continue_on_fail=]]..continue_on_fail..[["/>]]);  
 	--table.insert(xml, [[<action application="set" data="ignore_early_media=true"/>]]);       
 
 	table.insert(xml, [[<action application="set" data="account_id=]]..customer_userinfo['id']..[["/>]]);              
