@@ -401,19 +401,32 @@ function table_exists($tablename, $database, $logger, $db) {
 // Calculate cost for billing
 function calc_cost($dataVariable, $rates, $logger, $decimal_points) {
 	// $logger->log(print_r($rates,true));
-	$duration = $dataVariable ['billsec'];
-	$call_cost = 0;
-	$duration -= $rates ['INCLUDEDSECONDS'];
+	$duration = (int) isset($dataVariable['billsec'])?$dataVariable ['billsec']:0;
+
+	// If the call was less than 1 second), or we don't have any rates, it didn't cost anything
+	if ($duration < 1 || empty($rates)) {
+		return 0;
+	}
+
+	$call_cost = $rates['CONNECTIONCOST'];
+	$rates['COST'] = (int) empty($rates['COST'])?"0":$rates['COST'];
+
+	if (!empty($rates['INCLUDEDSECONDS'])) {
+		$duration -= $rates ['INCLUDEDSECONDS'];
+	}
+
+	// If there is any duration left, we need to bill for that.
 	if ($duration > 0) {
 		
-		$rates ['INC'] = ($rates ['INC'] == 0) ? 1 : $rates ['INC'];
-		$rates ['INITIALBLOCK'] = ($rates ['INITIALBLOCK'] == 0) ? 1 : $rates ['INITIALBLOCK'];
-		$call_cost = $rates ['CONNECTIONCOST'];
-		$call_cost += ($rates ['INITIALBLOCK'] * $rates ['COST']) / 60;
-		$billseconds = $duration - $rates ['INITIALBLOCK'];
+		// Take off the 'Initial Increment', and bill for that.
+		$rates ['INITIALBLOCK'] = (empty($rates['INITIALBLOCK']) || $rates['INITIALBLOCK'] < 1) ? 1 : $rates ['INITIALBLOCK'];
+		$call_cost += ($rates['COST'] / 60) * $rates ['INITIALBLOCK'];
+		$duration -= $rates ['INITIALBLOCK'];
 		
-		if ($billseconds > 0) {
-			$call_cost += (ceil ( $billseconds / $rates ['INC'] ) * $rates ['INC']) * ($rates ['COST'] / 60);
+		if ($duration > 0) {
+
+			$rates ['INC'] = (empty($rates['INC']) || $rates['INC'] < 1) ? 1 : $rates ['INC'];
+			$call_cost += (ceil ( $duration / $rates ['INC'] ) * $rates ['INC']) * ($rates ['COST'] / 60);
 		}
 	}
 	$call_cost = number_format ( $call_cost, $decimal_points );
