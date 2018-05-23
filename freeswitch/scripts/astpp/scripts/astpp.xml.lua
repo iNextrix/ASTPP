@@ -46,7 +46,7 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<action application="set" data="hangup_after_bridge=true"/>]]);
 
 	-- Made it configurable if someone want to set continue_on_fail for specific disposition	
-	local continue_on_fail = 'true'
+	local continue_on_fail = '!USER_BUSY'
 	if (config['continue_on_fail'] ~= nil) then
 		continue_on_fail = config['continue_on_fail']
 	end
