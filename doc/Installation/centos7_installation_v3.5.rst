@@ -208,7 +208,7 @@ CentOs 7 Installation V3.5
    sed -i "s#DB_PASSWD=\"<PASSSWORD>\"#DB_PASSWD = \"<MYSQL_ROOT_PASSWORD>\"#g" /var/lib/astpp/astpp.lua
 
    #Edit base URL in astpp-config
-   sed -i "s#base_url=http://localhost:8081/#base_url=http://<SERVER FQDN / IP ADDRESS>:8089/#g" /var/lib/astpp/
+   sed -i "s#base_url=http://localhost:8089/#base_url=http://<SERVER FQDN / IP ADDRESS>:8089/#g" /var/lib/astpp/
    astpp-config.conf
 
    Note:- Replace "<SERVER FQDN / IP ADDRESS>" with your server domain name or IPaddress
