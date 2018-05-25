@@ -550,7 +550,7 @@ finalize_astpp_installation ()
 		# /var/lib/astpp/astpp-config.conf
 		sed -i "s#dbpass = <PASSSWORD>#dbpass = ${MYSQL_ROOT_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
 		sed -i "s#DB_PASSWD=\"<PASSSWORD>\"#DB_PASSWD = \"${MYSQL_ROOT_PASSWORD}\"#g" ${ASTPPDIR}astpp.lua
-		sed -i "s#base_url=http://localhost:8081/#base_url=http://${ASTPP_HOST_DOMAIN_NAME}:8089/#g" ${ASTPPDIR}/astpp-config.conf
+		sed -i "s#base_url=http://localhost:8089/#base_url=http://${ASTPP_HOST_DOMAIN_NAME}:8089/#g" ${ASTPPDIR}/astpp-config.conf
 }
 
 setup_cron()
