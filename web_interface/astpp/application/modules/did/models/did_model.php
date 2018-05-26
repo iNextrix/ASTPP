@@ -82,9 +82,9 @@ class DID_model extends CI_Model {
 		
 		if ($accountinfo ['type'] == 1) {
 			$where = array (
-					'reseller_id' => $accountinfo ['id'],
-					"parent_id" => $parent_id 
-			);
+					'reseller_pricing.reseller_id' => $accountinfo ['id'],
+					"reseller_pricing.parent_id" => $parent_id 
+				);
 			if ($flag) {
 				if ($accountinfo ['reseller_id'] > 0) {
 					$search_string = $this->db_model->build_search_string ( 'did_list_search' );
@@ -96,11 +96,11 @@ class DID_model extends CI_Model {
 					$query = $this->db->query ( "SELECT a.note AS number,a.*,IF((SELECT COUNT( id ) AS count FROM reseller_pricing AS b WHERE b.parent_id =" . $accountinfo ['id'] . " AND a.note = b.note ) >0,(SELECT reseller_id AS accountid FROM reseller_pricing AS c WHERE c.note = a.note AND c.parent_id =" . $accountinfo ['id'] . "), (SELECT accountid from dids as d where d.parent_id = " . $accountinfo ['id'] . " AND d.number=a.note)) AS accountid FROM reseller_pricing AS a where a.reseller_id=" . $accountinfo ['id'] . " AND a.parent_id =" . $accountinfo ['reseller_id'] . $search_string );
 				} else {
 					$this->db_model->build_search ( 'did_list_search' );
-					$query = $this->db_model->select ( "*,note as number,IF((SELECT COUNT( id ) AS count FROM reseller_pricing AS b WHERE b.parent_id =" . $accountinfo ['id'] . " AND reseller_pricing.note = b.note ) >0,(SELECT reseller_id AS accountid FROM reseller_pricing AS c WHERE c.note = reseller_pricing.note AND c.parent_id =" . $accountinfo ['id'] . "), (SELECT accountid from dids as d where d.parent_id = " . $accountinfo ['id'] . " AND d.number=reseller_pricing.note)) AS accountid", "reseller_pricing", $where, "note", "desc", $limit, $start );
+					$query = $this->db_model->getJionQuery("reseller_pricing", "*,note as number,IF((SELECT COUNT( id ) AS count FROM reseller_pricing AS b WHERE b.parent_id =" . $accountinfo ['id'] . " AND reseller_pricing.note = b.note ) >0,(SELECT reseller_id AS accountid FROM reseller_pricing AS c WHERE c.note = reseller_pricing.note AND c.parent_id =" . $accountinfo ['id'] . "), (SELECT accountid from dids as d where d.parent_id = " . $accountinfo ['id'] . " AND d.number=reseller_pricing.note)) AS accountid", $where, "dids", "reseller_pricing.did_id=dids.id", '',  $limit, $start,"reseller_pricing.id", '', '');
 				}
 			} else {
 				$this->db_model->build_search ( 'did_list_search' );
-				$query = $this->db_model->countQuery ( "*", "reseller_pricing", $where );
+				$query = $this->db_model->getJionQueryCount("reseller_pricing", "*", $where, "dids", "reseller_pricing.did_id=dids.id", '', '', '', '', '', '');
 			}
 		} else {
 			$this->db_model->build_search ( 'did_list_search' );
