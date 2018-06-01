@@ -28,6 +28,12 @@ ALTER TABLE `accounts` CHANGE `interval` `cps` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `accounts` ADD `tax_number` VARCHAR(100) NULL DEFAULT NULL AFTER `did_cid_translation`;
 
 --
+-- To select default trunk in default rate group
+--
+
+INSERT INTO `routing` VALUES (1,1,1);
+
+--
 -- Trunk table query 
 --
 ALTER TABLE `trunks` CHANGE `inuse` `cps` INT(4) NOT NULL DEFAULT '0';
