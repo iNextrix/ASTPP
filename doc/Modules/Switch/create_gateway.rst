@@ -13,57 +13,59 @@ Create Gateway
   
 **Basic Information**
 
-=====================  =======================================
-**Name**               Username of gateway
+=====================     =======================================
+**Name**                  Username of gateway
  
-**SIP Profile**        Select appropriate sip profile
+**SIP Profile**           Select appropriate sip profile
  
-**Username**           Same as gateway name
+**Username**              Same as gateway name
  
-**Password**           Password for authentication
+**Password**              Password for authentication
  
-**Proxy**              Here specify the ip of proxy server
+**Proxy**                 Here specify the ip of proxy server
  
-**Outbound-Proxy**     Here specify the ip of outbound-proxy
+**Outbound-Proxy**        Here specify the ip of outbound-proxy
  
-**Register**           True / False 
+**Register**              True / False 
  
-**Caller-Id-In-From**  True / False
+**Caller-Id-In-From**     True / False
+
+**Extension-In-Contact**  True / False
  
-**Status**             Active / Inactive
-=====================  ======================================= 	
+**Status**                Active / Inactive
+=====================     ======================================= 	
 	
 
 **Optional Information**
 
 
-=====================    ====================================================================
-**From-Domain**          Domain url
+=====================       ====================================================================
+**From-Domain**             Domain url
  
-**From User**            From user : *optional* same as  username
+**From User**               From user : *optional* same as  username
 
 **Realm**
  
-**Extension**            Extensions to be registered with your voip provider
+**Extension**               Extensions to be registered with your voip provider
  
-**Expire Seconds**       Expire in seconds
+**Expire Seconds**          Expire in seconds
  
-**Reg-Transport**        Which transport to use for register
+**Reg-Transport**           Which transport to use for register
 
 **Contact Params**
  
-**Ping**                 Send an options ping every x seconds, failure will unregister 
+**Ping**                    Send an options ping every x seconds, failure will unregister 
 			
 			 and/or mark it down
  
-**Retry-Seconds**        How many seconds before a retry when a failure or timeout occurs
+**Retry-Seconds**           How many seconds before a retry when a failure or timeout occurs
  
-**Register-Proxy**       Send register to this proxy: *optional* same as proxy
+**Register-Proxy**          Send register to this proxy: *optional* same as proxy
  
 **Channel**             
 
 **Dialplan Variable**
-=====================    ====================================================================
+=====================       ====================================================================
 
 
   

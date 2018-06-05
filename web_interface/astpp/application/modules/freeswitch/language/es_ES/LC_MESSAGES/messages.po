@@ -75,6 +75,9 @@ msgstr "Nombre de Usuario"
 msgid "Caller-Id-In-From"
 msgstr "ID-de-Llamada-Desde"
 
+msgid "Extension-In-Contact"
+msgstr "Extensión-de-Contacto"
+
 msgid "Optional Information"
 msgstr "Información Opcional"
 
