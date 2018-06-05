@@ -1128,6 +1128,22 @@ class Freeswitch_form {
 						'set_sip_config_option' 
 				),
 				array (
+						gettext ( 'Extension-In-Contact' ),
+						array (
+								'name' => 'extension-in-contact',
+								'class' => 'add_settings' 
+						),
+						'SELECT',
+						'',
+						'',
+						'tOOL TIP',
+						'',
+						'',
+						'',
+						'',
+						'set_sip_config_option' 
+				),
+				array (
 						gettext ( 'Status' ),
 						'status',
 						'SELECT',

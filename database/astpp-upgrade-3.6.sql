@@ -27,6 +27,11 @@ UNLOCK TABLES;
 ALTER TABLE `accounts` CHANGE `interval` `cps` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `accounts` ADD `tax_number` VARCHAR(100) NULL DEFAULT NULL AFTER `did_cid_translation`;
 
+-- 
+-- gateways table query
+--
+UPDATE `gateways` SET `gateway_data` = '{\"username\":\"USERNAME\",\"password\":\"PASSWORD\",\"proxy\":\"sip.provider.com\",\"register\":\"false\",\"caller-id-in-from\":\"true\",\"extension-in-contact\":\"false\"}' WHERE `gateways`.`id`= 1;
+
 --
 -- Trunk table query 
 --
