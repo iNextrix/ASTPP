@@ -523,6 +523,13 @@ class common {
 		);
 		return $config_option;
 	}
+	function set_option_default_false($option = "") {
+                $config_option = array (
+                                "false" => "False",
+                                "true" => "True"
+                );
+                return $config_option;
+        }
 	function get_entity_type($select = "", $table = "", $entity_type) {
 		$entity_array = array (
 				'-1' => "Administrator",
