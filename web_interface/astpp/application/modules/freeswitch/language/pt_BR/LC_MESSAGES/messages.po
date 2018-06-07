@@ -87,6 +87,9 @@ msgstr "Do Usuário"
 msgid "Realm"
 msgstr "Região"
 
+msgid "Extension-In-Contact"
+msgstr "Extensão-De-Contato"
+
 msgid "Extension"
 msgstr "Extensão"
 
