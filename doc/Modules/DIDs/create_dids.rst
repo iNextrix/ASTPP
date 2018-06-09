@@ -92,7 +92,9 @@ You can create new DID using below page,
     
 ===========================  =================================================================
 
-
+Inbound call flow
+^^^^^^^^^^^^^^^^^^^
+.. image:: /Images/inbound_call_flow.png
 
 |image| `How to create DID 
 <https://youtu.be/60kP7QmH2A8>`_ 
