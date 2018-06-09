@@ -40,6 +40,9 @@ Outbound call flow
 ^^^^^^^^^^^^^^^^^^^
 .. image:: /Images/outbound_call_flow.png
 
+Outbound call flow
+^^^^^^^^^^^^^^^^^^^
+.. image:: /Images/inbound_call_flow.png
    
 |image| `How to ASTPP Quick Start
 <https://youtu.be/mQpAptAETp8>`_ 
