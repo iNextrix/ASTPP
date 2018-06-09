@@ -40,7 +40,7 @@ Outbound call flow
 ^^^^^^^^^^^^^^^^^^^
 .. image:: /Images/outbound_call_flow.png
 
-Outbound call flow
+Inbound call flow
 ^^^^^^^^^^^^^^^^^^^
 .. image:: /Images/inbound_call_flow.png
    
