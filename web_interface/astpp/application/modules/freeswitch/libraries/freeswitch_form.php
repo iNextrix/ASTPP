@@ -1180,6 +1180,22 @@ class Freeswitch_form {
 						'' 
 				),
 				array (
+                                                gettext ( 'Extension-In-Contact' ),
+                                                array (
+                                                        'name' => 'extension-in-contact',
+                                                        'class' => 'add_settings'
+                                                ),
+                                                'SELECT',
+                                                '',
+                                                '',
+                                                'tOOL TIP',
+                                                '',
+                                                '',
+                                                '',
+                                                '',
+                                                'set_option_default_false'
+                                ),
+				array (
 						gettext ( 'Extension' ),
 						'INPUT',
 						array (
