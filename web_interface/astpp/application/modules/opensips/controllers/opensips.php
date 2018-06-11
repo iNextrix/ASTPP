@@ -30,7 +30,7 @@ class Opensips extends MX_Controller {
 		$this->load->library ( 'astpp/form' );
 		$this->load->model ( 'opensips_model' );
 		$db_config = Common_model::$global_config ['system_config'];
-		$opensipdsn = "mysql://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
+		$opensipdsn = "mysqli://" . $db_config ['opensips_dbuser'] . ":" . $db_config ['opensips_dbpass'] . "@" . $db_config ['opensips_dbhost'] . "/" . $db_config ['opensips_dbname'] . "?char_set=utf8&dbcollat=utf8_general_ci&cache_on=true&cachedir=";
 		$this->opensips_db = $this->load->database ( $opensipdsn, true );
 		if ($this->session->userdata ( 'user_login' ) == FALSE)
 			redirect ( base_url () . '/astpp/login' );
