@@ -108,3 +108,140 @@ Technical Questions
 
 19. What is difference between Customer and Provider ?
       We consider customers as (Originator or client ) and providers as (Terminator + Originator).
+      
+20. How to set callerid in ASTPP ?
+     1.If you want to configure callerid for customer then you can set force caller id.
+     
+     Navigate on ASTPP >> Accounts >> Customer >> List of customer      
+     
+     For every customer, you will get four action button.
+     The second button is for Force caller id to set caller id
+
+     2.If you want to set callerid for specific user of customer then you can set on sip device configuration.
+     
+     Navigate on ASTPP >> Switch >> SIP Devices >> Click on sip device edit >> Set Caller Number
+
+21. How to take database backup?
+     Navigate on ASTPP >> Configuration >> Database Restore >> Create backup
+     
+22. How to do number translation?
+     You can do number translation in two places in ASTPP.
+     
+     1. Customer configuration
+     
+     If you wish to translate number with some defined number for a specific customer then use this feature.
+
+     2. Trunk configuration 
+     
+     If you wish to translate number with some defined number for trunk then use this feature.
+
+     Ex: “011/2222” (You can define multiple translations like “011/2222”,”02/33”)
+     That means from called/dialed number 011 is replaced by 2222.
+
+     Refer : https://www.youtube.com/watch?v=KjO2sIqvCBY
+
+23. How to do callerid translation?
+     You can do callerid number translation in two places in ASTPP.
+     
+     1. Customer configuration
+     OUT Callerid Translation: This will apply to outbound call
+     
+     IN Callerid Translation: This will apply to inbound/DID call
+
+     2. Trunk 
+     Callerid Translation: This will apply to outbound call
+
+     Ex: “011/2222” (You can define multiple translations like “011/2222”,”02/33”)
+     That means from callerID number 011 is replaced by 2222.
+     
+24. How to create sip device?
+     Navigate on ASTPP >> Switch  >> Sip Devices >> Create sip device
+     
+25. How to setup calling card access number?
+     You can define CC(Calling card) access number as below.
+     
+     Navigate on ASTPP >> Configuration >> Settings >> Calling Cards >> CC Access Numbers
+     
+26. How to check registered device list?
+     If you have configured FM addon. Refer : http://www.astppbilling.org/addons/freeswitch-monitoring-addon/ 
+     
+     Navigate on ASTPP >> Addons >> FS Monitor >> SIP Devices
+     
+     Or
+     
+     SSH on astpp server and connect fs_cli
+     
+     freeswitch>show registrations
+     
+     You will get the list of registered device list.
+     
+27. What is default sip port for registration?
+     By default, sip port is 5060 for registration.
+     
+28. How to integrate FusionPBX with ASTPP?
+     You can configure your ASTPP as trunk in FusionPBX outbound route.
+     So your FusioPBX routes all calls to ASTPP and then to provider.
+
+29. How to refill/recharge on customer account?
+     Navigate on ASTPP >> Accounts >> Customer >> List of customer
+     
+     For every customer, you will get four action button.
+     First button $ is for refill/recharge.
+
+30. How to enable video call for sip accounts?
+     Navigate on ASTPP >> Switch >> SIP Profiles >> Default
+     
+     You will get two params for codec.
+
+     inbound-codec-prefs and outbound-codec-prefs
+     
+     You can add video codec H263,H264,H261 and rescan your profile.
+     Also, you need load required module in FreeSWITCH.
+     
+31. How to configure SMTP server on ASTPP?
+     Navigate on ASTPP >> Configuration >> Settings >> Email 
+
+     In that page, you can configure your SMTP details
+
+     Example if you want to configure your gmail account as SMTP:
+     Email Notifications : Enable
+     1.SMTP : Enable
+     2.SMTP Host : ssl://smtp.gmail.com
+     3.SMTP Port : 465
+     4.SMTP User : yourgmailusername@gmail.com
+     5.SMTP Pass : yourgmailpassword
+     
+32. Why calls disconnect after 1440 seconds or 24 minutes?
+     Becuase by default 24 minutes configured on global setting you can change it as per your need.
+
+     Navigate on ASTPP >> Configuration >> Settings >> Global >> Call Max Length(ms)
+     
+33. How to import origination rates sheet on ASTPP?
+     Navigate on ASTPP >> Tariff >> Origination Rates >> Import >> Upload your CSV file
+
+     You can download also sample file from there or
+     File must be in the following format(.csv): Code,Destination,Connect Cost,Included Seconds,Per Minute Cost,Initial Increment,Increment.
+
+34. How to import termination rates sheet on ASTPP?
+     Navigate on ASTPP >> Carriers >> Termination Rates >> Import  >> Upload your CSV file
+
+     You can download also sample file from there or
+     The file must be in the following format(.csv): Code,Destination,Connect Cost,Included Seconds,Per Minute Cost,Initial Increment,Increment.
+
+     Also, you import the file using filed map 
+     
+     Navigate on ASTPP >> Carriers >> Termination Rates >> Import Termination Rates using field mapper  >> Upload your CSV file
+
+35. How to bill local calls?
+     You can define local call charge on customer configuration.
+
+     Navigate on ASTPP >> Accounts >> Customers >> Click on customer edit >> LC Charge / Min
+     
+36. How to enable call recording?
+     Navigate on ASTPP >> Accounts >> Customers >> Click on customer edit >> Allow Recording =Yes
+     
+37. How to send multiple codecs or single codec to a provider(gateway)?
+     You can configure codecs on specific trunk
+     
+     Navigate on ASTPP >> Carriers >> Trunks >> Click on trunk edit >> Codecs
+     Ex : Codec = PCMA,PCMU,G729
