@@ -496,6 +496,3 @@ msgstr "Date modifiée"
 
 msgid "NOTE"
 msgstr "REMARQUE"
-
-msgid "Changing status (Active/Inactive) from here will not reload FreeSwitch ACL. That means FreeSwitch will still be able to accept the calls request from disabled IP but as the IP is disabled, their call will be failed with authentication error."
-msgstr "La modification de l'état (Active / Inactive) à partir d'ici ne va pas recharger l'ACL FreeSwitch. Cela signifie que FreeSwitch pourra toujours accepter la demande d'appels à partir d'une IP désactivée, mais comme l'IP est désactivée, son appel sera échoué avec une erreur d'authentification."
