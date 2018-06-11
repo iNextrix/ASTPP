@@ -45,11 +45,6 @@ class Getstatus extends MX_Controller {
 		$post_data = $this->input->post ();
 		$post_data ['table'] = $this->common->decode ( $post_data ['table'] );
 		$data ['status'] = $post_data ['status'] == 'true' ? 0 : 1;
-		if ($post_data ['table'] == "ip_map") {
-                        $this->load->library ( 'freeswitch_lib' );
-                        $command = "api reloadacl";
-                        $response = $this->reload_freeswitch ( $command );
-                }
 		if ($post_data ['table'] == 'accounts') {
 			$where = array (
 					'id' => $post_data ['id'] 
@@ -59,6 +54,11 @@ class Getstatus extends MX_Controller {
 		$result = $post_data ['table'] == 'accounts' && $post_data ['id'] == 1 ? null : $this->db->update ( $post_data ['table'], $data, array (
 				"id" => $post_data ['id'] 
 		) );
+		if ($post_data ['table'] == "ip_map") {
+                        $this->load->library ( 'freeswitch_lib' );
+                        $command = "api reloadacl";
+                        $response = $this->reload_freeswitch ( $command );
+                }
 		echo TRUE;
 		}else{
 			redirect ( base_url () . 'dashboard/' );
