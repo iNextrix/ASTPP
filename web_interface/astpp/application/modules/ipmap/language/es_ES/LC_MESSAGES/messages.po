@@ -408,12 +408,6 @@ msgstr "Configuración de IP"
 msgid "Subscriptions"
 msgstr "Suscripciones"
 
-
-
-
-
-###### Mayur start
-
 msgid "Is Equal To"
 msgstr "Es igual a"
 
@@ -586,8 +580,3 @@ msgstr "Estado"
 
 msgid "​NOTE"
 msgstr "NOTA"
-
-msgid "​Changing status (Active/Inactive) from here will not reload FreeSwitch ACL. That means FreeSwitch will still be able to accept the calls request from disabled IP but as the IP is disabled, their call will be failed with authentication error."
-msgstr "Cambiar el estado (Activo / Inactivo) de aquí no volverá a cargar la ACL de FreeSwitch. Eso significa que FreeSwitch seguirá siendo capaz de aceptar la solicitud de llamadas de IP deshabilitado, pero como la IP está deshabilitada, su llamada se producirá un error de autenticación."
-
-##### Mayur End
