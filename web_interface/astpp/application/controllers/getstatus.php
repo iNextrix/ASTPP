@@ -26,6 +26,19 @@ class Getstatus extends MX_Controller {
 		$this->load->model ( "db_model" );
 		$this->load->library ( "astpp/common" );
 	}
+	function reload_freeswitch($command, $server_host = "") {
+                $response = '';
+                $query = $this->db_model->getSelect ( "*", "freeswich_servers", "" );
+                $fs_data = $query->result_array ();
+                foreach ( $fs_data as $fs_key => $fs_value ) {
+                        $fp = $this->freeswitch_lib->event_socket_create ( $fs_value ["freeswitch_host"], $fs_value ["freeswitch_port"], $fs_value ["freeswitch_password"] );
+                        if ($fp) {
+                                $response .= $this->freeswitch_lib->event_socket_request ( $fp, $command );
+                                fclose ( $fp );
+                        }
+                }
+                return $response;
+        }
 	function customer_list_status($id) {
 
 		if ($this->session->userdata ( 'user_login' ) == TRUE) {
@@ -41,6 +54,11 @@ class Getstatus extends MX_Controller {
 		$result = $post_data ['table'] == 'accounts' && $post_data ['id'] == 1 ? null : $this->db->update ( $post_data ['table'], $data, array (
 				"id" => $post_data ['id'] 
 		) );
+		if ($post_data ['table'] == "ip_map") {
+                        $this->load->library ( 'freeswitch_lib' );
+                        $command = "api reloadacl";
+                        $response = $this->reload_freeswitch ( $command );
+                }
 		echo TRUE;
 		}else{
 			redirect ( base_url () . 'dashboard/' );
