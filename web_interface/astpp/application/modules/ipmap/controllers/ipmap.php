@@ -66,10 +66,12 @@ class IPMAP extends MX_Controller {
 	function ipmap_save() {
 		$add_array = $this->input->post ();
 		$ip = $add_array ['ip'];
-		if (strpos ( $ip, '/' ) !== false) {
-			$add_array ['ip'] = $add_array ['ip'];
-		} else {
-			$add_array ['ip'] = $add_array ['ip'] . '/32';
+		if(!preg_match("/[a-zA-Z\-]/i", $ip)){
+			if (strpos ( $ip, '/' ) !== false) {
+				$add_array ['ip'] = $add_array ['ip'];
+			} else {
+				$add_array ['ip'] = $add_array ['ip'] . '/32';
+			}
 		}
 		$data ['form'] = $this->form->build_form ( $this->ipmap_form->get_ipmap_form_fields (), $add_array );
 		if ($add_array ['id'] != '') {
