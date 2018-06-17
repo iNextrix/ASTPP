@@ -109,6 +109,7 @@ get_linux_distribution
 install_php7 ()
 {
 	if [ "$DIST" = "DEBIAN" ]; then
+		apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y curl
 		echo "
 deb http://packages.dotdeb.org jessie all
 deb-src http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/php7.list
@@ -221,7 +222,6 @@ clear
 install_freeswitch_for_astpp () 
 {  
 		if [ ${DIST} = "DEBIAN" ]; then
-			apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y curl
 			curl https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add -
 			echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
 			apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y --force-yes freeswitch-video-deps-most
