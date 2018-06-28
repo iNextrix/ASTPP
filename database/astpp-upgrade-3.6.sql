@@ -61,6 +61,9 @@ VALUES(219,'realtime_billing','Realtime Billing <b>(<a href=\'http://astpp.readt
 billing.',NULL,0,0,'global'); 
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `brand_id`, `group_title`) VALUES ('0', 'homer_capture_server', 'Capture Server', '', 'default_system_input', 'Set enable to capture logs in homer. Format : udp:192.168.1.200:9060', NULL, '0', '0', 'homer');
 UPDATE `system` SET `display_name` = 'Default Invoice Mode', `comment` = 'Draft will give possibility to admin and reseller to modify invoice after generation whereas Confirmed invoices will be readonly.' WHERE `system`.`id` = 216;
+-- add entries for currency update, added by Alex Heylin re https://github.com/iNextrix/ASTPP/issues/445
+insert into astpp.system (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `reseller_id`, `brand_id`, `group_title`) VALUES  (222, "currency_conv_loss_pct", "Currency Conversion Loss Percentage", 20, "default_system_input", "What percentage to allow for currency conversion losses", 0, 0, "global");
+insert into astpp.system (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `reseller_id`, `brand_id`, `group_title`) VALUES  (221, "currency_conv_api_key", "API key for currency rate import from 1forge.com", "YourKeyGoesHere", "default_system_input", "", 0, 0, "global");
 
 --
 -- add call request field in CDRs
