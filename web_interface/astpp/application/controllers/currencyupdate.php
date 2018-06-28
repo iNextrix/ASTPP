@@ -4,6 +4,7 @@
 //
 // Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
 // Samir Doshi <samir.doshi@inextrix.com>
+// Hacked about to use 1forge.com by Alex Heylin <alex@alexheylin.com>
 // ASTPP Version 3.0 and above
 // License https://www.gnu.org/licenses/agpl-3.0.html
 //
@@ -20,6 +21,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
+
+
 class Currencyupdate extends CI_Controller {
 	function __construct() {
 		parent::__construct ();
@@ -28,25 +31,72 @@ class Currencyupdate extends CI_Controller {
 		$this->load->model ( "db_model" );
 		$this->load->library ( "astpp/common" );
 	}
-	function update_currency() {
-		$url = "https://api.fixer.io/latest?base=".Common_model::$global_config ['system_config'] ['base_currency'];
-		$currencyData = $this->curl_response ( $url );
-		$currencyData = json_decode($currencyData);
-		//print_r($currencyData);
-		$base_currency = $currencyData->base;
-		$last_updated = $currencyData->date;
-			foreach ($currencyData as $currencykey => $currencyvalue) {			
-				foreach ($currencyvalue as $key => $value) {
-					 $sql = "UPDATE currency SET currencyrate = '".$value."',last_updated = '".$last_updated."' WHERE currency = '" . $key . "'\n";
-					$this->db->query ( $sql );
-				}			
-			}
-		$updatebasecurrency = "UPDATE currency SET currencyrate = '1.000',last_updated = '" .$last_updated."' WHERE currency = '" . Common_model::$global_config ['system_config'] ['base_currency'] . "'";
-		$this->db->query ( $updatebasecurrency );
-$this->session->set_flashdata ( "astpp_errormsg", "Currency exchange rates successfully updated." );
-		redirect ( base_url () . "/systems/currency_list/" );
-		exit;
-	}
+
+    function update_currency() {
+        $apiKey = Common_model::$global_config ['system_config'] ['currency_conv_api_key'];
+        if (Common_model::$global_config ['system_config'] ['currency_conv_api_key'] != ""
+            && Common_model::$global_config ['system_config'] ['currency_conv_api_key'] != "YourKeyGoesHere"
+        ) {
+            $baseCurrency = Common_model::$global_config ['system_config'] ['base_currency'];
+            $url = "https://forex.1forge.com/1.0.3/symbols?api_key=".$apiKey."";
+            $symbolsData = $this->curl_response ( $url );
+            $symbolsData = json_decode($symbolsData);
+            $symbolString = "" ;
+            foreach ($symbolsData as $symbol) {
+                if ( substr($symbol,0, 3) == $baseCurrency ) {
+                    $curQry = "select currency from astpp.currency WHERE currency REGEXP '[A-Z][A-Z][A-Z]';";
+                    $curData = $this->db->query($curQry);
+                    if ($curData->num_rows() > 0) {
+                        $currency_arr = $curData->result_array();
+                        foreach ( $currency_arr  as $currency ) {
+                            foreach ($currency  as $key => $value ) {
+                                if (strtolower($value) == strtolower(substr($symbol, 3, 3))) {
+                                    if ($symbolString == "") {
+                                        $symbolString = $symbol;
+                                    } else {
+                                        $symbolString = $symbolString . "," . $symbol;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $url = "https://forex.1forge.com/1.0.3/quotes?pairs=".$symbolString."&api_key=".$apiKey."";
+            $quotesData = $this->curl_response ( $url );
+            $quotesData = json_decode($quotesData);
+            $debugstring = "";
+            foreach ($quotesData as $quote) {
+                $debugstring = $debugstring . "A," ;
+                if (isset(Common_model::$global_config ['system_config'] ['currency_conv_loss_pct'])
+                    && (Common_model::$global_config ['system_config'] ['currency_conv_loss_pct'] > 0 )
+                    && (Common_model::$global_config ['system_config'] ['currency_conv_loss_pct'] < 100)
+                ) {
+                    $debugstring = $debugstring . "B," ;
+                    $value = ($quote->price * (1 - ( Common_model::$global_config ['system_config'] ['currency_conv_loss_pct'] / 100)));
+                } else {
+                    $debugstring = $debugstring . "C," ;
+                    $value = $quote->price;
+                }
+                $curSymbol = strtoupper(substr($quote->symbol,3, 3));
+                $debugstring = $debugstring . "D_" . $curSymbol . ":" . $value . "," ;
+                $sql = "UPDATE currency SET currencyrate = '".$value."',last_updated = now() WHERE currency = '" . $curSymbol . "'\n";
+                $debugstring = $debugstring . $sql ;
+                $this->db->query ( $sql );
+            }
+            $updatebasecurrency = "UPDATE currency SET currencyrate = '1.000',last_updated = now() WHERE currency = '" . Common_model::$global_config ['system_config'] ['base_currency'] . "'";
+            $this->db->query ( $updatebasecurrency );
+            $this->session->set_flashdata ( "astpp_errormsg", "Currency exchange rates successfully updated." );
+
+            redirect ( base_url () . "/systems/currency_list/" );
+        } else {
+            $this->session->set_flashdata ( "astpp_notification", "You must enter your API key for 1forge.com." );
+            redirect ( base_url () . "/systems/configuration/global" );
+        }
+        exit;
+    }
+
 	
 	/**
 	 *
@@ -64,5 +114,5 @@ $this->session->set_flashdata ( "astpp_errormsg", "Currency exchange rates succe
 		return $data;
 	}
 }
-?>
 
+?>
