@@ -23,7 +23,7 @@
 class logger {
 	var $fp;
 	var $config;
-	function logger($lib) {
+	function __construct($lib) {
 		$this->config = $lib->config;
 		// $this->config['log_path'] = "/var/log/astpp/";
 		if ($this->config ['debug'] == '0') {
