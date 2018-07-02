@@ -49,12 +49,6 @@ class did_lib extends MX_Controller {
 
 		//Get DID information
 		$didinfo = $this->did->did_model->get_did_by_number ( $did );
-
-		if ($didinfo['accountid'] > 0)
-		{
-			return array("NOT_AVAL_FOR_PURCHASE","This DID is already purchased by someone.");
-		}
-
 		if ($request_from['logintype'] == 1 && $request_from['accountinfo']['id'] == $accountinfo ['id']){
 			if ($didinfo['parent_id'] > 0)
 			{
