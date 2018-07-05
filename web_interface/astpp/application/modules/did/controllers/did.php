@@ -741,7 +741,7 @@ class DID extends MX_Controller {
 							$invalid_array [$i] = $csv_data;
 							$invalid_array [$i] ['error'] = 'Duplicate DID found from database';
 						} else {
-							if ($csv_data ['accountid'] > 0 && $csv_data ['setup'] > 0) {
+							if ($csv_data ['accountid'] > 0) {
 								$this->db->where ( 'type IN(0,1,3)' );
 								$this->db->where ( 'reseller_id', 0 );
 								$this->db->where ( 'deleted', 0 );
