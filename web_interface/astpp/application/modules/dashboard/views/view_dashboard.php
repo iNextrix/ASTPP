@@ -156,7 +156,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             min: 0,
                             opposite: true, //optional, you can have it on the same side.
                             title: {
-                                text: 'Call Ratio with Profit'
+                                text: 'Profit per day'
                             }
                         }],
                     tooltip: {
@@ -190,13 +190,14 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             name: 'Total Calls',
                             type: 'column',
                             color:'#6E8CD7  ',
+							yAxis:0,
                             data: response_data.total
                         },
                         {
                             name: 'Answered Calls',
                             type: 'spline',
                             color:'#34D3EB',
-                            yAxis:1,
+                            yAxis:0,
                             data: response_data.answered,
                             marker: {
                                 enabled: true
@@ -207,7 +208,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             name: 'Failed Calls',
                             type: 'spline',
                             color:'#E94E02',
-                            yAxis:1,
+                            yAxis:0,
                             data: response_data.failed,
                             marker: {
                                 enabled: true
