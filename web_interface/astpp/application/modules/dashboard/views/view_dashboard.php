@@ -219,7 +219,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             name: 'Profit',
                             type: 'spline',
                             yAxis:1,
-                            color:'#5FBEAA',
+                            color:'#008000',
                             data: response_data.profit,
                             marker: {
                                 enabled: true
