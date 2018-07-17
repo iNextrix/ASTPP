@@ -506,7 +506,7 @@ class DID extends MX_Controller {
 				if ($this->session->userdata ( 'logintype' ) == 1) {
 					$accountinfo = $this->did_model->get_account ( $accountinfo ['number'] );
 					$reseller_did = $this->db_model->getSelect ( "*", "reseller_pricing", array (
-							'id' => $id 
+							'did_id' => $id 
 					) );
 					$reseller_didinfo = ( array ) $reseller_did->first_row ();
 					if (! empty ( $reseller_didinfo )) {
