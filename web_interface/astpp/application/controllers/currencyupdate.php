@@ -33,7 +33,7 @@ class Currencyupdate extends CI_Controller {
 		// exit();
 		$this->load->model ( "db_model" );
 		$this->load->library ( "astpp/common" );
-        $this->fp = fopen("/var/log/astpp/astpp-currency.log", "a+");
+        $this->fp = fopen( Common_model::$global_config ['system_config'] ['log_path'] ."/astpp-currency.log", "a+");
 	}
 
     function update_currency() {
