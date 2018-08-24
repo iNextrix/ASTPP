@@ -602,7 +602,7 @@ class Freeswitch extends MX_Controller {
 					$insert_arr [$key] = $gateway_data ["status"];
 				} else {
 					if ($key != "id") {
-						$gateway_arr [$key] = $gateway_value;
+						$gateway_arr [$key] = trim($gateway_value);
 					}
 				}
 			}
