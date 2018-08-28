@@ -811,9 +811,9 @@ class Freeswitch extends MX_Controller {
 		if ($button_name == "start") {
 			$cmd = "api sofia profile " . trim ( $query [0] ['name'] ) . " start";
 		} elseif ($button_name == "stop") {
-			$cmd = "api sofia profile stop";
+			$cmd = "api sofia profile " . trim ( $query [0] ['name'] ) . " stop";
 		} elseif ($button_name == "reload") {
-			$cmd = "api reloadxml";
+			$cmd = "api reload mod_sofia";
 		} elseif ($button_name == "rescan") {
 			$cmd = "api sofia profile " . trim ( $query [0] ['name'] ) . " rescan";
 		}
