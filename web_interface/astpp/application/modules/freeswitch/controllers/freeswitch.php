@@ -868,6 +868,8 @@ class Freeswitch extends MX_Controller {
 				redirect ( base_url () . 'freeswitch/fssipprofile_add/' );
 			}
 			$this->session->set_flashdata ( 'astpp_errormsg', 'SIP Profile Added Successfully!' );
+                        $cmd = "api reload mod_sofia";
+                        $this->freeswitch_model->reload_freeswitch ( $cmd );
 			redirect ( base_url () . 'freeswitch/fssipprofile/' );
 		}
 		
@@ -1013,6 +1015,8 @@ class Freeswitch extends MX_Controller {
 				"id" => $profile_id 
 		) );
 		$this->session->set_flashdata ( 'astpp_notification', 'SIP Profile Removed Successfully!' );
+		$cmd = "api reload mod_sofia";
+		$this->freeswitch_model->reload_freeswitch ( $cmd );
 		redirect ( base_url () . 'freeswitch/fssipprofile/' );
 	}
 	function fsserver_list() {
