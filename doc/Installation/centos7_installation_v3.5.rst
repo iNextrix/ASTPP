@@ -21,7 +21,7 @@ CentOs 7 Installation V3.5
  #Install dependencies for freeswitch
  yum install -y wget git autoconf automake expat-devel yasm gnutls-devel libtiff-devel libX11-devel unixODBC-devel 
  python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel uuid-devel @development-tools gdbm-devel 
- db4-devel libjpeg libjpeg-deve compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++
+ db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++
  @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC 
  zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel bc e2fsprogs-devel libcurl-devel libxml2-devel 
  libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbou-nd devel libuuid-devel lua-devel libsndfile-devel
