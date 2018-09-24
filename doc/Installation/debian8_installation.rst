@@ -115,7 +115,9 @@ Debian 8 Installation
 **1. Configure freeswitch startup script**
 ::
     cp /usr/src/ASTPP/freeswitch/init/freeswitch.debian.init /etc/init.d/freeswitch
-
+    adduser --disabled-password  --quiet --system --home /usr/local/freeswitch --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch
+    chown -R freeswitch:daemon /usr/local/freeswitch/ 
+    chmod -R o-rwx /usr/local/freeswitch/
     chmod 755 /etc/init.d/freeswitch
     chmod +x /etc/init.d/freeswitch
     update-rc.d freeswitch defaults
