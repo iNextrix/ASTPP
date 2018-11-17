@@ -24,7 +24,10 @@
 	?>
 	</title>
     <?php  $user_favicon = $this->session->userdata('user_favicon'); ?>
-    <link rel="icon" href="<? echo base_url(); ?>assets/images/<? echo $user_favicon ?>"/>
+    <?php if($user_favicon) {  ?>
+	<link rel="icon" href="<? echo base_url(); ?>upload/<? echo $user_favicon ?>"/>
+    <?php } else { ?>
+	<link rel="icon" href="<? echo base_url(); ?>assets/images/<? echo $user_favicon ?>"/>
     <link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/fonts/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/css/global-style.css" rel="stylesheet" type="text/css">
