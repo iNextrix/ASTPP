@@ -7,7 +7,7 @@
 [![Project Stats](https://www.openhub.net/p/astpp/widgets/project_thin_badge.gif)](https://www.openhub.net/p/astpp)
 
 
-:pray::recycle::trophy:<a href="https://www.indiegogo.com/projects/astpp-open-source-voip-billing-solution#/">BACK US. ASTPP raising fund to keep serving and sustaining.</a>
+- ![#1589F0] :pray: :recycle: :trophy:  <a href="https://www.indiegogo.com/projects/astpp-open-source-voip-billing-solution#/">BACK US. ASTPP raising fund to keep serving and sustaining.</a>  :trophy: :recycle: :pray: 
 
 
 ASTPP
