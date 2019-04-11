@@ -385,6 +385,7 @@ mySQL_for_astpp ()
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-3.0.sql
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-3.5.sql
 		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-3.6.sql
+		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-partner.sql
 		if [ ${DIST} = "DEBIAN" ]; then
 			apt-get install libmyodbc unixodbc-bin
 			cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbc.ini /etc/odbc.ini
