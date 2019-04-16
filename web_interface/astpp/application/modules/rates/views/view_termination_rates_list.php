@@ -110,7 +110,8 @@ Batch Delete
 	<div class="w-section inverse no-padding">
     	<div class="container">
         	<div class="row">
-                <div class="col-md-12">     
+                <div class="col-md-12">
+			<a href="https://starcompartners.com/termination#signup" target="_blank" class="col-xs-offset-9"><img title='Star Communication' alt='Star Communication' src="<?php echo base_url();?>/assets/images/logo-2.png"></a>
                         <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
                             <table id="termination_rate_grid" align="left" style="display:none;"></table>
                         </form>
