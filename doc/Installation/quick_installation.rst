@@ -10,7 +10,7 @@ Quick installation will install ASTPP 4.0 in scratch system only.
 **Steps**
 ::
 
- wget --no-check-certificate https://github.com/iNextrix/ASTPP/blob/v4.0/install.sh -O install.sh
+ wget --no-check-certificate https://raw.githubusercontent.com/iNextrix/ASTPP/v4.0/install.sh -O install.sh
  chmod +x install.sh
  ./install.sh
 
