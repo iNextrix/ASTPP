@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>alarm</tech_name>
+	<name>Alarm</name>
+	<description>Setup various alarms on trunks for monitoring ASR, ACD, CIC, Gateway and Live Calls </description>		
+	<icon>static/images/alarm_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

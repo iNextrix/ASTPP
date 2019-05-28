@@ -93,7 +93,8 @@ if ( ! function_exists('create_captcha'))
 			if ($filename != "." and $filename != ".." and $filename != "index.html")
 			{
 				$name = str_replace(".jpg", "", $filename);
-
+				$name =	intval($name);
+				$now  = intval($now);
 				if (($name + $expiration) < $now)
 				{
 					@unlink($img_path.$filename);
@@ -231,7 +232,7 @@ if ( ! function_exists('create_captcha'))
 
 		ImageJPEG($im, $img_path.$img_name);
 
-		$img = "<img src=\"$img_url$img_name\" width=\"$img_width\" height=\"$img_height\" style=\"border:0;\" alt=\" \" />";
+		$img = "<img class=\"w-100\" src=\"$img_url$img_name\" style=\"border:0;\" alt=\" \" />";
 
 		ImageDestroy($im);
 

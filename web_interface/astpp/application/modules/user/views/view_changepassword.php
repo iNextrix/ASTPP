@@ -33,13 +33,13 @@
     	        </div>    
 			<div class="col-md-5 " style="text-align:right;">
                                 	<h4>
-			old Password :
+			<?php echo gettext('Old Password') ?> :
 		</h4></div><div class="col-md-5 "><input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Old password" style="height:40px;" >
                                 </div>
                                <br/><br/> <br/><br/>
                                 <div class="col-md-5 " style="text-align:right;">
                                 	<h4>
-			New Password :		
+			<?php echo gettext('New Password') ?>:		
 		</h4>          </div> 
 				<div class="col-md-5 " style="text-align:right;">
 				<input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="password" style="height:40px;">
@@ -47,7 +47,7 @@
  				 <br/><br/> <br/><br/>
                                 <div class="col-md-5 " style="text-align:right;">
                                 	<h4>
-			Conform Password :		
+			<?php echo gettext('Conform Password')?> :		
 			</h4>
 			</div>
 			<div class="col-md-5 " style="text-align:right;">             
@@ -56,7 +56,7 @@
                   
                                 <br/><br/> <br/><br/>
                                     <div class="col-md-8 " style="text-align:right;">
-                                        <button type="submit" class="btn btn-line-parrot pull-right">Change Password</button>                      
+                                        <button type="submit" class="btn btn-line-parrot pull-right"><?php echo gettext('Change Password') ?></button>                      
                                     </div>
                               <br/><br/>
                             </form>

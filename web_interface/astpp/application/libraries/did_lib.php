@@ -24,161 +24,159 @@ if (! defined ( 'BASEPATH' )) {
 	exit ( 'No direct script access allowed' );
 }
 class did_lib extends MX_Controller {
+	function did_billing_process($request_from,$accountid,$did,$skip_balance_check=false,$extra_info='') {
 
-	/**
-	* Function will do allocation of DID and billing of it. 
-	*
-	* $request_from = array (Logged into account info.)
-	* $accountid = Int. (Account id)
-	* $did = numeric value (DID number)
-	* $skip_balance_check = Boolean (True Or False)
-	**/
-	function did_billing_process($request_from,$accountid,$did,$skip_balance_check=false) {
-
-		//Load DID module
 		$this->load->module ( 'did/did' );	
 
-		//Get account information 		
 		$account = $this->db_model->getSelect ( "*", "accounts", array ('id' => $accountid ));
 		$accountinfo = ( array ) $account->first_row ();
-		//print_r($accountinfo);exit;
+
 
 		$currency_name = $this->common->get_field_name ( 'currency', "currency", array (
 				'id' => $accountinfo ['currency_id'] 
 		) );
 
-		//Get DID information
+
 		$didinfo = $this->did->did_model->get_did_by_number ( $did );
-		if ($request_from['logintype'] == 1 && $request_from['accountinfo']['id'] == $accountinfo ['id']){
-			if ($didinfo['parent_id'] > 0)
+		if ($request_from['logintype'] == 1 && $accountinfo ['reseller_id'] > 0){ 
+			if ($didinfo['parent_id'] > 0 && $didinfo['accountid'] > 0 )
 			{
 				return array("NOT_AVAL_FOR_PURCHASE","This DID is already purchased by someone.");
+			}else{
+				$reseller_pricing_query = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,reseller_products.buy_cost,reseller_products.commission,reseller_products.setup_fee,reseller_products.price,reseller_products.billing_type,reseller_products.billing_days,reseller_products.status,reseller_products.billing_days,reseller_products.billing_type,dids.last_modified_date,dids.product_id', array('dids.number'=>$didinfo['number']), 'reseller_products','dids.product_id=reseller_products.product_id', 'inner','','','','');
+			if(!empty($reseller_pricing_query)){ 
+				$reseller_pricing_result = ( array ) $reseller_pricing_query->first_row ();
+				$didinfo ['call_type'] = ($reseller_pricing_result ['call_type'] > 0)?$reseller_pricing_result ['call_type']:0;
+				$didinfo ['extensions'] = ($reseller_pricing_result ['extensions']>0)?$reseller_pricing_result ['extensions']:'';
+				$didinfo ['setup_fee'] = ($reseller_pricing_result ['setup_fee'] > 0)?$reseller_pricing_result ['setup_fee']:0;
+				$didinfo ['price'] = ($reseller_pricing_result ['price'] > 0)?$reseller_pricing_result ['price']:0;
+				$didinfo ['connectcost'] = ($reseller_pricing_result ['connectcost'] > 0)?$reseller_pricing_result ['connectcost']:0;
+				$didinfo ['includedseconds'] = ($reseller_pricing_result ['includedseconds'] > 0)?$reseller_pricing_result ['includedseconds']:0;
+				$didinfo ['cost'] = ($reseller_pricing_result ['cost'] > 0)?$reseller_pricing_result ['cost']:0;
+				$didinfo ['inc'] = ($reseller_pricing_result ['inc']>0)?$reseller_pricing_result ['inc']:0;
+				$didinfo ['billing_days'] = $reseller_pricing_result['billing_days'];
+				$didinfo ['billing_type'] = $reseller_pricing_result['billing_type'];
+				
+			}
+
+			}
+		}
+		if ($request_from['logintype'] == 1 && $accountinfo ['reseller_id'] == 0){ 
+			if ($didinfo['parent_id'] > 0 && $didinfo['accountid'] > 0 )
+			{
+				return array("NOT_AVAL_FOR_PURCHASE","This DID is already purchased by someone.");
+			}else{ 
+				$reseller_pricing_query = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,products.buy_cost,products.commission,products.setup_fee,products.price,products.billing_type,products.billing_days,products.status,dids.last_modified_date,dids.product_id', array('dids.number'=>$didinfo['number']), 'products','dids.product_id=products.id', 'inner','','','','');
+			if(!empty($reseller_pricing_query)){
+				$reseller_pricing_result = ( array ) $reseller_pricing_query->first_row ();
+				$didinfo ['call_type'] = ($reseller_pricing_result ['call_type'] > 0)?$reseller_pricing_result ['call_type']:0;
+				$didinfo ['extensions'] = ($reseller_pricing_result ['extensions']>0)?$reseller_pricing_result ['extensions']:'';
+				$didinfo ['setup_fee'] = ($reseller_pricing_result ['setup_fee'] > 0)?$reseller_pricing_result ['setup_fee']:0;
+				$didinfo ['price'] = ($reseller_pricing_result ['price'] > 0)?$reseller_pricing_result ['price']:0;
+				$didinfo ['connectcost'] = ($reseller_pricing_result ['connectcost'] > 0)?$reseller_pricing_result ['connectcost']:0;
+				$didinfo ['includedseconds'] = ($reseller_pricing_result ['includedseconds'] > 0)?$reseller_pricing_result ['includedseconds']:0;
+				$didinfo ['cost'] = ($reseller_pricing_result ['cost'] > 0)?$reseller_pricing_result ['cost']:0;
+				$didinfo ['inc'] = ($reseller_pricing_result ['inc']>0)?$reseller_pricing_result ['inc']:0;
+				$didinfo ['billing_days'] = $reseller_pricing_result['billing_days'];
+				$didinfo ['billing_type'] = $reseller_pricing_result['billing_type'];
+			}
+
 			}
 		}
 
-		//Check if account have any parent reseller or not. 0 = Admin
-		if ($accountinfo ['reseller_id'] > 0) {
-			$reseller_pricing_query = $this->db_model->getSelect ( "call_type,setup,extensions,monthlycost,connectcost,includedseconds,cost,inc", "reseller_pricing", array (
-					"note" => $didinfo ['number'],
-					'reseller_id' => $accountinfo ['reseller_id'] 
-			) );
-			$reseller_pricing_result = ( array ) $reseller_pricing_query->first_row ();
-			$didinfo ['call_type'] = $reseller_pricing_result ['call_type'];
-			$didinfo ['extensions'] = $reseller_pricing_result ['extensions'];
-			$didinfo ['setup'] = $reseller_pricing_result ['setup'];
-			$didinfo ['monthlycost'] = $reseller_pricing_result ['monthlycost'];
-			$didinfo ['connectcost'] = $reseller_pricing_result ['connectcost'];
-			$didinfo ['includedseconds'] = $reseller_pricing_result ['includedseconds'];
-			$didinfo ['cost'] = $reseller_pricing_result ['cost'];
-			$didinfo ['inc'] = $reseller_pricing_result ['inc'];
+		if ($accountinfo ['reseller_id'] > 0 && $accountinfo ['type'] == 0  ) {
+			$customer_result_array = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,reseller_products.buy_cost,reseller_products.commission,reseller_products.setup_fee,reseller_products.price,reseller_products.billing_type,reseller_products.billing_days,reseller_products.status,dids.last_modified_date,dids.product_id', array('dids.number'=>$didinfo['number'],'reseller_products.account_id'=>$accountinfo['reseller_id']), 'reseller_products','dids.product_id=reseller_products.product_id', 'inner','','','','');
+			$customer_result_array = ( array ) $customer_result_array->first_row ();
+			$didinfo ['call_type'] = $customer_result_array ['call_type'];
+			$didinfo ['extensions'] = $customer_result_array ['extensions'];
+			$didinfo ['setup_fee'] = $customer_result_array ['setup_fee'];
+			$didinfo ['price'] = $customer_result_array ['price'];
+			$didinfo ['connectcost'] = $customer_result_array ['connectcost'];
+			$didinfo ['includedseconds'] = $customer_result_array ['includedseconds'];
+			$didinfo ['cost'] = $customer_result_array ['cost'];
+			$didinfo ['inc'] = $customer_result_array ['inc'];
+			$didinfo ['billing_days'] = $customer_result_array['billing_days'];
+			$didinfo ['billing_type'] = $customer_result_array['billing_type'];
+		}
+		if($accountinfo ['reseller_id'] == 0 && $accountinfo ['type'] == 0){
+			$did_info_arr = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,products.buy_cost,products.commission,products.setup_fee,products.price,products.billing_type,products.billing_days,products.status,dids.last_modified_date,dids.product_id', array('dids.number'=>$didinfo['number']), 'products','dids.product_id=products.id', 'inner','','','','');
+
+			$did_info_arr = ( array ) $did_info_arr->first_row ();
+			$didinfo ['call_type'] = $did_info_arr ['call_type'];
+			$didinfo ['extensions'] = $did_info_arr ['extensions'];
+			$didinfo ['setup_fee'] = $did_info_arr ['setup_fee'];
+			$didinfo ['price'] = $did_info_arr ['price'];
+			$didinfo ['connectcost'] = $did_info_arr ['connectcost'];
+			$didinfo ['includedseconds'] = $did_info_arr ['includedseconds'];
+			$didinfo ['cost'] = $did_info_arr ['cost'];
+			$didinfo ['inc'] = $did_info_arr ['inc'];
+			$didinfo ['billing_days'] = $did_info_arr['billing_days'];
+			$didinfo ['billing_type'] = $did_info_arr['billing_type'];
+
+
 		}
 
-		//Get account balance
 		$available_bal = $this->db_model->get_available_bal ( $accountinfo );
-
-		//Assigning did information to account array
 		$accountinfo ['did_number'] = $didinfo ['number'];
 		$accountinfo ['did_country_id'] = $didinfo ['country_id'];
-		$accountinfo ['did_setup'] = $this->common_model->calculate_currency ( $didinfo ['setup'], '', $currency_name, true, true );
-		$accountinfo ['did_monthlycost'] = $this->common_model->calculate_currency ( $didinfo ['monthlycost'], '', $currency_name, true, true );
+		$accountinfo ['did_setup'] = $this->common_model->calculate_currency ( $didinfo ['setup_fee'], '', $currency_name, true, true );
+		$accountinfo ['did_monthlycost'] = $this->common_model->calculate_currency ( $didinfo ['price'], '', $currency_name, true, true );
 		$accountinfo ['did_maxchannels'] = $didinfo ['maxchannels'];
 
-		//Check if account have enough balance to purchase the DID.
-		if ($available_bal >= ($didinfo ["setup"]+$didinfo ["monthlycost"]) || $skip_balance_check==true) {
-			$this->db_model->update_balance ( $didinfo ['setup']+$didinfo ["monthlycost"], $accountinfo ['id'], "debit" );
+		$account_balance = $accountinfo ['posttoexternal'] == 1 ? $accountinfo ['credit_limit'] - ($accountinfo ['balance']) : $accountinfo ['balance'];
 
-			/*if (request_from = admin)
-			{
-				If (allocating to customer)
-					update account id
-				If (allocating to reseller)
-					update parent id and also create new did entry in reseller_pricing
-			}
+		$didinfo ["setup_fee"] = (isset($extra_info['setup_fee']) && $extra_info['setup_fee'] > 0)?$extra_info['setup_fee']:$didinfo ["setup_fee"];
 
-			if (request_from = reseller)
-			{
-				If (reseller purchasing)
-					update parent id and create new did entry in reseller pricing
-				if (allocating to customer)
-					update account id
-				if (allocating to reseller)
-					create new did entry in reseller pricing						
-			}
+		$didinfo ["price"] = (isset($extra_info['price']) && $extra_info['price'] > 0)?$extra_info['price']:$didinfo ["price"];
 
-			if (request from = customer)
-			{
-				update account id
-			}
+
+		if ($account_balance  >= ($didinfo ["setup_fee"]+$didinfo ["price"]) || $skip_balance_check==true) {
 			
-			*/
-			//Admin (2 = admin, 1 = reseller, 0 = customer, 3 = provider)
 			if ($request_from['logintype'] == 2 || ($request_from['logintype'] == 1 && $request_from['accountinfo']['id']) == $accountinfo ['id']){
 
 				$field_name = $accountinfo ['type'] == '1' ? "parent_id" : 'accountid';
 
-				//Update DID account id information
-				$this->db_model->update ( "dids", array (
-					$field_name => ($accountinfo ['id'] > 0)?$accountinfo ['id']:'',					
-					"assign_date" => gmdate ( "Y-m-d H:i:s" ) 
-				), array (
-					"id" => $didinfo ['id']
-				) );
-
-				//If customer under reseller then create did in reseller pricing table for reseller.			
-				if ($field_name == 'parent_id'){
-					$this->did->did_model->insert_reseller_pricing ( $accountinfo, $didinfo );			
-				}			
+						
 			}elseif($request_from['logintype'] == 1){
 
 				$field_name = $accountinfo ['type'] == 1 ? "parent_id" : 'accountid';
-				if ($accountinfo ['type'] == 0)
+				if ($accountinfo ['type'] == 0 ||$accountinfo ['type'] == 3 )
 				{
-					//Update DID account id information
 					$this->db_model->update ( "dids", array (
-						"accountid" => $accountinfo ['id'],					
-						"assign_date" => gmdate ( "Y-m-d H:i:s" ) 
+						"accountid" => $accountinfo ['id']
 					), array (
 						"id" => $didinfo ['id']
 					) );
 				}
 
-				if ($accountinfo ['type'] == 1)
-				{
-					$this->did->did_model->insert_reseller_pricing ( $accountinfo, $didinfo );
-				}
-			}elseif($request_from['logintype'] == 0 || $request_from['logintype'] == 4){
-				//Update DID account id information
+				
+			}elseif($request_from['logintype'] == 0 || $request_from['logintype'] == 4 || $request_from['logintype'] == 3){
 				$this->db_model->update ( "dids", array (
-					"accountid" => $accountinfo ['id'],					
-					"assign_date" => gmdate ( "Y-m-d H:i:s" ) 
+					"accountid" => $accountinfo ['id'] 
 				), array (
 					"id" => $didinfo ['id']
 				) );
 			}
+
 			
-			//Create invoice/receipt for purchase
-			$this->common->add_invoice_details ( $accountinfo, "DIDCHRG", $didinfo ['setup']+$didinfo ["monthlycost"], "DID : ".$didinfo ['number']." (Setup Fee :".$accountinfo ['did_setup'].", Monthly Fee : ".$accountinfo ['did_monthlycost'].")" );
-			
-			require_once (APPPATH . 'controllers/ProcessCharges.php');
-			$ProcessCharges = new ProcessCharges ();
-			$Params = array (
-					"DIDid" => $didinfo ['id'] 
-			);
-			$ProcessCharges->BillAccountCharges ( "DIDs", $Params );
-			
-			//Send email to user
-			$this->common->mail_to_users ( 'email_add_did', $accountinfo, "", $didinfo ['number'] );			
+			$final_array = array_merge($accountinfo,$didinfo);
+			$final_array['next_billing_date'] = ($final_array['billing_days'] == 0)?gmdate('Y-m-d 23:59:59', strtotime('+10 years')):gmdate("Y-m-d 23:59:59",strtotime("+".$final_array['billing_days']." days"));
+			$final_array['product_name'] =$final_array['number'];
+			$final_array['category_name'] ="DID";
+			$final_array['payment_by'] ="Account Balance";
+			$final_array['quantity']=1;
+			$final_array['total_price']=($final_array['setup_fee']+$final_array['price'])*($final_array['quantity']);
+			$final_array['total_price_amount']=($final_array['setup_fee']+$final_array['price']);
+			$this->common->mail_to_users ( 'product_purchase',$final_array);			
 			return array("SUCCESS","DID Purchased Successfully.");
 		}else{			
 			return array("INSUFFIECIENT_BALANCE","Insuffiecient fund to purchase this DID.");
 		}
 	}
 
-	/**
-	* Function will do did release process
-	**/
-	function did_release() {
-		//TODO
+	
+	function did_release($final_array) {
+		$this->common->mail_to_users('product_release',$final_array);
 	}
 }	
 ?>

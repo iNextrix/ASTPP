@@ -33,10 +33,10 @@ class Permission {
 				"userlevelid" => $user_type 
 		);
 		$modules_arr = $this->CI->db_model->getSelect ( "module_permissions", "userlevels", $where );
+		$accountinfo = $this->CI->session->userdata('accountinfo');
 		if ($modules_arr->num_rows () > 0) {
 			$modules_arr = $modules_arr->result_array ();
 			$modules_arr = $modules_arr [0] ['module_permissions'];
-			
 			$menu_arr = $this->CI->db_model->select ( "*", "menu_modules", "id IN ($modules_arr)", "priority", "asc", "", "", "" );
 			$menu_list = array ();
 			$permited_modules = array ();
@@ -44,7 +44,10 @@ class Permission {
 			$modules_seq_arr = explode ( ",", $modules_arr );
 			$label_arr = array ();
 			foreach ( $menu_arr->result_array () as $menu_key => $menu_value ) {
-				if (! isset ( $label_arr [$menu_value ['menu_label']] ) && $menu_value ['menu_label'] != 'Configuration') {
+				if($accountinfo['posttoexternal'] == '1' && ($menu_value['menu_label']=='TopUp' || $menu_value['menu_label']=='Send Credit' || $menu_value['module_name']=='refill')){
+					unset($menu_value);
+				}
+				if ( isset($menu_value) && !isset ( $label_arr [$menu_value ['menu_label']] ) && $menu_value ['menu_label'] != 'Configuration') {
 					$label_arr [$menu_value ['menu_label']] = $menu_value ['menu_label'];
 					$menu_value ["menu_image"] = ($menu_value ["menu_image"] == "") ? "Home.png" : $menu_value ["menu_image"];
 					$menu_list [$menu_value ["menu_title"]] [$menu_value ["menu_subtitle"]] [] = array (
@@ -54,36 +57,28 @@ class Permission {
 							"menu_image" => trim ( $menu_value ["menu_image"] ) 
 					);
 				}
-				$permited_modules [] = trim ( $menu_value ["module_name"] );
+			$permissioninfo = $this->CI->session->userdata('permissioninfo');
+                        $module_url_explode=explode("/",$menu_value["module_url"]);
+                        $main_module=$module_url_explode[0];
+                        $sub_main_module=$module_url_explode[1];
+			$sub_url_explode=explode('_',$sub_main_module);
+                        $logintype = $this->CI->session->userdata('logintype');
+                        if((isset($permissioninfo[$main_module][$sub_main_module]['list']) && $permissioninfo[$main_module][$sub_main_module]['list'] == 0 or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3') or ($permissioninfo['login_type'] == '1' and $sub_main_module='resellersrates_list') or (isset($permissioninfo[$main_module][$sub_main_module]['list']) && $permissioninfo[$main_module][$sub_main_module]['list'] == 0 and $permissioninfo['login_type'] == '2')){
+                                $permited_modules[] = trim($sub_url_explode[0]);
+                        }
+
 			}
 			$this->CI->session->set_userdata ( 'permited_modules', serialize ( $permited_modules ) );
 			$this->CI->session->set_userdata ( 'menuinfo', serialize ( $menu_list ) );
 			return true;
 		}
 	}
-	/* check_record_permission
-	 * 
-	 * Check record level permission
-	 * 
-	 * @param
-	 * 
-	 *    integer accountid
-	 *    integer reseller_id 
-	 */
 	private function _check_record_permission($table_name,$where_condition=array(),$select_field= 'id'){
 		$this->CI->db->select($select_field);
 		return (array)$this->CI->db->get_where($table_name,$where_condition)->first_row();
 	}
 	
-	/* check_web_record_permission
-	 * 
-	 * Get request from web portal session and pass into check_record_permission
-	 * 
-	 * @param
-	 * 
-	 *    integer accountid
-	 *    string redirect_url
-	 */
+
 	
 	function check_web_record_permission($id,$table_name,$redirect_url,$check_function_access=false,$dependencies=array()){
 		$accountinfo = $this->CI->session->userdata('accountinfo') ;
@@ -103,27 +98,10 @@ class Permission {
 		}	
 	}
 	
-	/* permission_redirect_url 
-	 * 
-	 * Redirect to url if it doesn't have enough permissions to access url.
-	 * 
-	 * @param
-	 * 
-	 *    string redirect_url
-	 */
-	
 	function permission_redirect_url($redirect_url){
 		$this->CI->session->set_flashdata ( 'astpp_notification','Permission Denied!');
 		redirect(base_url().$redirect_url);
 	}
-	/* customer_web_record_permission
-	 * 
-	 * Redirect user if it doesn't have enough permissions to access url.
-	 * 
-	 * @param
-	 * 
-	 *    string redirect_url
-	 */
 	function customer_web_record_permission($id,$table,$redirect_url){
 		$accountinfo = $this->CI->session->userdata('accountinfo');
 		$query_result = $this->_check_record_permission($table,array("accountid"=>$accountinfo['id'],"id"=>$id));

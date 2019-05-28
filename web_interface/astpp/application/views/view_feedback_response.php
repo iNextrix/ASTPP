@@ -1,15 +1,3 @@
-
-
- 
-<script type="text/javascript">
-
-    
-  
-  
-
-</script>
-
- 
 <html>
 <title>ASTPP-Feedback-Response</title>
 <div id="form-main">

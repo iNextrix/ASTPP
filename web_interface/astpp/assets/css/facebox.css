@@ -1,17 +1,23 @@
 #facebox {
   position: absolute;
-  top: 0;
   z-index: 99999;
   text-align: left;  
   width: 60%;
- /* height: 100%;  */
+  margin: 0 auto;
+  padding: 5%;
+  top: 0%;
+  right: 0;
+  left: 0;
+/*
+  overflow: auto;
+*/
 }
 
 
 #facebox .popup{
   position:relative;
   width:100%;
-  border:3px solid rgba(0,0,0,0);
+  /*border:3px solid rgba(0,0,0,0);*/
   -webkit-border-radius:5px;
   -moz-border-radius:5px;
   border-radius:5px;
@@ -24,7 +30,7 @@
 #facebox .content {
   display:table;
   width:100%;  
-  padding: 10px;
+  /*padding: 10px;*/
   background: #fff;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -41,8 +47,8 @@
 
 #facebox .close{
   position:absolute;
-  top:5px;
-  right:5px;
+  top:0px;
+  right:0px;
   padding:2px;
 /*  background:#fff;*/
 }
@@ -116,3 +122,13 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 }
 
 
+@media screen and (max-width:768px){
+  #facebox {
+    width: 100% !important;
+  }
+}
+@media screen and (max-width:991px){
+  #facebox {
+    width: 75%;
+  }
+}

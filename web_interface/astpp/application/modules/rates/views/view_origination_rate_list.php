@@ -1,10 +1,6 @@
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
-/**********
-ASTPP  3.0
-Batch Delete
-**********/
 function search_btn(){
     document.getElementById('origination_rate_batch_dlt').style.display = 'block';
 }
@@ -17,40 +13,48 @@ function check_btn(){
 			 if(alt > 0){
 		  	   post_request_for_batch_delete("origination_rate_grid",alt,"origination_rate_list_search");
 	  	           $('#origination_rate_grid').flexOptions({newp:1}).flexReload();
-		 	   location.reload();
 			  }else{
 			     alert('No record found');
 			  }
 			}
 		});
 }
-/************************/
+
     $(document).ready(function() {
         build_grid("origination_rate_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+            $('.chkRefNos').prop('checked', $(this).prop('checked')); //if you want to select/deselect checkboxes use this
         });
         $("#origination_rate_list_search_btn").click(function(){
             post_request_for_search("origination_rate_grid","","origination_rate_list_search");
         });        
         $("#id_reset").click(function(){
-/*****
-ASTPP  3.0 
-Batch Delete 
-*****/
     document.getElementById('origination_rate_batch_dlt').style.display = 'none';
-/*******************/
             clear_search_request("origination_rate_grid","");
+            $("#pricelist_id_search_drp").html("<option value='' selected='selected'>--Select--</option>");
         });
 
          $("#batch_update").click(function(){
             submit_form("origination_rate_batch_update");
         })
-        $("#id_batch_reset").click(function(){ 
-            $(".update_drp").each(function(){
-                var inputid = this.name.split("[");
-                $('#'+inputid[0]).hide();
+        $("#id_batch_reset").click(function(){
+            $(".update_drp").each(function() {
+				var name=this.name;
+				var split_name;
+				if(name!=undefined){
+					split_name=name.split("[");
+					$('#'+split_name[0]).hide();
+					$('#'+split_name[0]).val("");
+					$('.update_drp').selectpicker('refresh');
+				}else{
+					$('.update_drp').val("1");
+					$('.update_drp').selectpicker('refresh');
+				}
             });
+            $(".trunk_id").val("");
+            $('.trunk_id').selectpicker('refresh');
+            
+            
         });
         
        $(".update_drp").change(function(){
@@ -68,6 +72,25 @@ Batch Delete
                 $('#'+inputid[0]).hide();
             }
         });
+        
+        $(".reseller_id_search_drp").change(function(){
+                if(this.value!=""){
+					$.ajax({
+						type:'POST',
+						url: "<?= base_url()?>/accounts/customer_pricelist/",
+						data:"reseller_id="+this.value, 
+						success: function(response) {
+							 $("#pricelist_id_search_drp").html(response);
+							 $("#pricelist_id_search_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $('.pricelist_id_search_drp').selectpicker('refresh');
+						}
+					});
+				}else{
+							$("#pricelist_id_search_drp").html("");
+					}	
+        });
+        
+        $(".reseller_id_search_drp").change();
 
     });
 </script>
@@ -82,41 +105,36 @@ Batch Delete
 
 
 
+
 <section class="slice color-three">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-   	    <div class="row">
-            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_search; ?>
-    	        </div>
-            </div>
-        </div>
-    </div>
+	<div class="w-section inverse p-0">
+		<div class="col-12">
+			<div class="portlet-content mb-4" id="search_bar"
+				style="display: none;">
+                        <?php echo $form_search; ?>
+                </div>
+		</div>
+	</div>
 </section>
 <section class="slice color-three">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-   	    <div class="row">
-        <span id="error_msg" class=" success"></span>
-            	<div class="portlet-content"  id="update_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_batch_update; ?>
-    	        </div>
-            </div>
-        </div>
-    </div>
+	<div class="w-section inverse p-0">
+		<div class="col-12">
+			<div class="portlet-content mb-4" id="update_bar"
+				style="display: none;">
+                        <?php echo $form_batch_update; ?>
+                </div>
+		</div>
+	</div>
 </section>
-<section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12">      
-                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-                            <table id="origination_rate_grid" align="left" style="display:none;"></table>
-                        </form>
-                </div>  
-            </div>
-        </div>
-    </div>
+<section class="slice color-three pb-4">
+	<div class="w-section inverse p-0">
+		<div class="card col-md-12 pb-4">
+			<form method="POST" enctype="multipart/form-data" id="ListForm">
+				<table id="origination_rate_grid" align="left"
+					style="display: none;"></table>
+			</form>
+		</div>
+	</div>
 </section>
 
 <? endblock() ?>	

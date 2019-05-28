@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>supportticket</tech_name>
+	<name>Support Tickets</name>
+	<description>Assist your customers by setting up Help Desk to raise tickets in different departments</description>		
+	<icon>static/images/supportticket_icon.png</icon>
+	<version>1.0.0</version>
+	<license>AGPL-3</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

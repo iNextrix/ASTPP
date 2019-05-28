@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------
 
 -- Dialplan header part
-function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config,xml_did_rates,reseller_cc_limit,callerid_array)
+function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,customer_userinfo,config,xml_did_rates,reseller_cc_limit,callerid_array,original_destination_number)
 	local callstart = os.date("!%Y-%m-%d %H:%M:%S")
 
 	table.insert(xml, [[<?xml version="1.0" encoding="UTF-8" standalone="no"?>]]);
@@ -30,8 +30,10 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<context name="]]..params:getHeader("Caller-Context")..[[">]]);
 	table.insert(xml, [[<extension name="]]..destination_number..[[">]]); 
 	table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(params:getHeader("Caller-Destination-Number"))..[[">]]);
-	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..destination_number..[["/>]]); 
-	table.insert(xml, [[<action application="sched_hangup" data="+]]..((maxlength) * 60)..[[ normal_clearing"/>]]);  
+	table.insert(xml, [[<action application="set" data="effective_destination_number=]]..plus_destination_number(original_destination_number)..[["/>]]);
+	Logger.info("maxlength::::::::: "..maxlength);
+	table.insert(xml, [[<action application="set" data="bridge_pre_execute_bleg_app=sched_hangup"/>]]);
+	table.insert(xml, [[<action application="set" data="bridge_pre_execute_bleg_data=+]]..((maxlength) * 60)..[[ normal_clearing"/>]]);
    
    if (call_direction == "outbound" and config['realtime_billing'] == "0") then
       table.insert(xml, [[<action application="set" data="nibble_account=]]..customer_userinfo["nibble_accounts"]..[["/>]])
@@ -51,7 +53,7 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 		continue_on_fail = config['continue_on_fail']
 	end
 
-	table.insert(xml, [[<action application="set" data="continue_on_fail=]]..continue_on_fail..[["/>]]);  
+	table.insert(xml, [[<action application="set" data="continue_on_fail=TRUE"/>]]);  
 	--table.insert(xml, [[<action application="set" data="ignore_early_media=true"/>]]);       
 
 	table.insert(xml, [[<action application="set" data="account_id=]]..customer_userinfo['id']..[["/>]]);              
@@ -60,7 +62,9 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 	table.insert(xml, [[<action application="set" data="call_processed=internal"/>]]);    
 	table.insert(xml, [[<action application="set" data="call_direction=]]..call_direction..[["/>]]); 	
 	table.insert(xml, [[<action application="set" data="accountname=]]..accountname..[["/>]]);
-
+	if (package_id and tonumber(package_id) > 0) then
+		table.insert(xml, [[<action application="set" data="package_id=]]..package_id..[["/>]]);              
+	end
 	if (call_direction == "inbound" and tonumber(config['inbound_fax']) > 0) then
 		table.insert(xml, [[<action application="export" data="t38_passthru=true"/>]]);    
 		table.insert(xml, [[<action application="set" data="fax_enable_t38=true"/>]]);    
@@ -75,15 +79,20 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 
 	if(tonumber(config['balance_announce']) == 0) then
 		table.insert(xml, [[<action application="sleep" data="1000"/>]]);
-		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-card-has-a-balance-of.wav"/>]]);
-		table.insert(xml, [[<action application="say" data="en CURRENCY PRONOUNCED ]].. customer_userinfo['balance']..[["/>]]);
+		table.insert(xml, [[<action application="playback" data="/usr/share/freeswitch/sounds/en/us/callie/astpp-this-card-has-a-balance-of.wav"/>]]);
+		local tmp_prefix=''
+		if get_international_balance_prefix then tmp_prefix = get_international_balance_prefix(customer_userinfo) end 	
+
+		customer_balance = tonumber(customer_userinfo['posttoexternal']) == 1 and tonumber(customer_userinfo[tmp_prefix..'credit_limit'])+(tonumber(customer_userinfo[tmp_prefix..'balance'])*(-1)) or tonumber(customer_userinfo[tmp_prefix..'balance'])
+
+		table.insert(xml, [[<action application="say" data="en CURRENCY PRONOUNCED ]].. customer_balance..[["/>]]);
 
 	end
 	if(tonumber(config['minutes_announce']) == 0) then
 		table.insert(xml, [[<action application="sleep" data="500"/>]]);
-		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-this-call-will-last.wav"/>]]);
+		table.insert(xml, [[<action application="playback" data="/usr/share/freeswitch/sounds/en/us/callie/astpp-this-call-will-last.wav"/>]]);
 		table.insert(xml, [[<action application="say" data="en NUMBER PRONOUNCED ]].. math.floor(maxlength)..[["/>]]);
-		table.insert(xml, [[<action application="playback" data="/usr/local/freeswitch/sounds/en/us/callie/astpp-minute.wav"/>]]);       
+		table.insert(xml, [[<action application="playback" data="/usr/share/freeswitch/sounds/en/us/callie/astpp-minute.wav"/>]]);       
 	end
     
 	if (call_direction == "inbound") then 
@@ -92,9 +101,17 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 		table.insert(xml, [[<action application="set" data="origination_rates=]]..xml_user_rates..[["/>]]);
 	end
 
-	if(xml_did_rates ~= nil) then
+	if(xml_did_rates ~= nil and xml_did_rates ~= '') then
 		table.insert(xml, [[<action application="set" data="origination_rates=]]..xml_did_rates..[["/>]]);
 	end
+	
+	-- Set original caller id for CDRS
+    if (callerid_array['original_cid_name'] ~= '' and callerid_array['original_cid_name'] ~= '<null>')  then
+            table.insert(xml, [[<action application="set" data="original_caller_id_name=]]..callerid_array['original_cid_name']..[["/>]]);
+    end
+    if (callerid_array['cid_number'] ~= '' and callerid_array['cid_number'] ~= '<null>')  then
+            table.insert(xml, [[<action application="set" data="original_caller_id_number=]]..callerid_array['original_cid_number']..[["/>]]);
+    end
        
 	-- Set max channel limit for user if > 0
 	if(tonumber(customer_userinfo['maxchannels']) > 0) then    		
@@ -116,17 +133,8 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
 		table.insert(xml, [[<action application="export" data="media_bug_answer_req=true"/>]]);
 		table.insert(xml, [[<action application="export" data="RECORD_STEREO=true"/>]]);
 		table.insert(xml, [[<action application="export" data="record_sample_rate=8000"/>]]);
-		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${recordings_dir}/${strftime(%Y-%m-%d-%H:%M:%S)}_]]..customer_userinfo['number']..[[.wav"/>]]);
+		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${recordings_dir}/${uuid}.wav"/>]]);
 	end
-
-    -- Set original caller id for CDRS
-    if (callerid_array['original_cid_name'] ~= '' and callerid_array['original_cid_name'] ~= '<null>')  then
-            table.insert(xml, [[<action application="set" data="original_caller_id_name=]]..callerid_array['original_cid_name']..[["/>]]);
-    end
-    if (callerid_array['cid_number'] ~= '' and callerid_array['cid_number'] ~= '<null>')  then
-            table.insert(xml, [[<action application="set" data="original_caller_id_number=]]..callerid_array['original_cid_number']..[["/>]]);
-    end
-       
 	return xml
 end
 
@@ -150,21 +158,27 @@ function freeswitch_xml_footer(xml)
 	return xml
 end
 
-
 -- Dialplan for outbound calls
-function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_array)
+function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_array,rate_group_id,old_trunk_id,force_outbound_routes,rategroup_type,livecall_data)
 
-    -------------- Caller Id translation ---------
-    Logger.warning("[FSXMLOUTBOUND] Caller ID Translation Starts")
-    callerid_array['cid_name'] = do_number_translation(outbound_info['cid_translation'],callerid_array['cid_name'])
-	callerid_array['cid_number'] = do_number_translation(outbound_info['cid_translation'],callerid_array['cid_number'])    
-	xml = freeswitch_xml_callerid(xml,callerid_array)	    	   
-    Logger.warning("[FSXMLOUTBOUND] Caller ID Translation Ends")
-    ----------------------------------------------------------------------
-  	
-    local temp_destination_number = destination_number
-	if (outbound_info['number_translation'] ~= '') then 
-		temp_destination_number = do_number_translation(outbound_info['dialed_modify'],destination_number)
+	local temp_destination_number = destination_number
+	local tr_localization=nil
+	tr_localization = get_localization(outbound_info['provider_id'],'T')
+
+	
+	if (tr_localization ~= nil) then
+		tr_localization['out_caller_id_terminate'] = tr_localization['out_caller_id_terminate']:gsub(" ", "")
+		-------------- Caller Id translation ---------	 
+		callerid_array['cid_name'] = do_number_translation(tr_localization['out_caller_id_terminate'],callerid_array['cid_name'])
+		callerid_array['cid_number'] = do_number_translation(tr_localization['out_caller_id_terminate'],callerid_array['cid_number'])    
+		xml = freeswitch_xml_callerid(xml,callerid_array)	    	   	    
+    	----------------------------------------------------------------------
+
+    	-------------- Destination number translation ---------
+		tr_localization['number_terminate'] = tr_localization['number_terminate']:gsub(" ", "")
+		temp_destination_number = do_number_translation(tr_localization['number_terminate'],destination_number)
+		-----------------------------------
+		
 	end
 
 	if(outbound_info['prepend'] ~= '' or outbound_info['strip'] ~= '') then
@@ -186,7 +200,11 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	table.insert(xml, [[<action application="set" data="termination_rates=]]..xml_termiantion_rates..[["/>]]);        
 	table.insert(xml, [[<action application="set" data="trunk_id=]]..outbound_info['trunk_id']..[["/>]]);        
 	table.insert(xml, [[<action application="set" data="provider_id=]]..outbound_info['provider_id']..[["/>]]);           
-    
+	table.insert(xml, [[<action application="set" data="rate_flag=]]..rategroup_type..[["/>]]);           
+	table.insert(xml, [[<action application="set" data="force_trunk_flag=]]..force_outbound_routes..[["/>]]);    
+    table.insert(xml, [[<action application="export" data="presence_data=trunk_id=]]..outbound_info['trunk_id']..[["/>]])
+    table.insert(xml, [[<action application="set" data="intcall=]]..(outbound_info['intcall'] and 1 or 0)..[["/>]])
+
 	-- Check if is there any gateway configuration params available for it.
 	if (outbound_info['dialplan_variable'] ~= '') then 
 		Logger.info(" ".. outbound_info['dialplan_variable']);
@@ -201,13 +219,24 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	end
 	----------------------- END Gateway configuraiton -------------------------------
 	-- Set force codec if configured
+	
+	--~ livecall_data = livecall_data.."|||"..outbound_info['trunk_name'].." // "..outbound_info['pattern'].." // "..outbound_info['comment'].." // "..outbound_info['cost']
+	
+	if(outbound_info['trunk_id']~=nil) then
+		livecall_data = livecall_data.."|||"..outbound_info['trunk_name'].." // "..outbound_info['pattern'].." // "..outbound_info['comment'].." // "..outbound_info['cost'].." // trunk_id="..outbound_info['trunk_id']
+	else
+		livecall_data = livecall_data.."|||"..outbound_info['trunk_name'].." // "..outbound_info['pattern'].." // "..outbound_info['comment'].." // "..outbound_info['cost']
+	end
+	
+    table.insert(xml, [[<action application="export" data="presence_data=]]..livecall_data..[[|||STD"/>]])
+	
     chan_var = "leg_timeout="..outbound_info['leg_timeout']
     if (outbound_info['codec'] ~= '') then
             chan_var = chan_var..",absolute_codec_string=".."^^:"..outbound_info['codec']:gsub("%,", ":")
     end            
 
 	-- Set CPS limit for user if > 0
-	if (tonumber(outbound_info['cps']) > 0) then
+	if (tonumber(outbound_info['cps']) ~=nil and tonumber(outbound_info['cps']) > 0) then
 		table.insert(xml, [[<action application="limit" data="hash CPS_]]..outbound_info['trunk_id']..[[ CPS_trunk_]]..outbound_info['trunk_id']..[[ ]]..outbound_info['cps']..[[/1 !SWITCH_CONGESTION"/>]]);
 	end
 
@@ -217,132 +246,148 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	end
 
-	if(outbound_info['path1'] ~= '' and outbound_info['path1'] ~= outbound_info['gateway']) then
+	if(outbound_info['path1'] ~= '' and outbound_info['path1'] ~= outbound_info['path']) then
 		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path1']..[[/]]..temp_destination_number..[["/>]]);
 	end
 
-	if(outbound_info['path2'] ~= '' and outbound_info['path2'] ~= outbound_info['gateway']) then
+	if(outbound_info['path2'] ~= '' and outbound_info['path2'] ~= outbound_info['path'] and outbound_info['path2'] ~= outbound_info['path1']) then
 		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path2']..[[/]]..temp_destination_number..[["/>]]);
 	end
-                           
     return xml
 end
 
 -- Dialplan for inbound calls
-function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,callerid_array)
-
-    -------------- Caller Id translation ---------
-    Logger.warning("[FSXMLINBOUND] Caller ID Translation Starts")
-    callerid_array['cid_name'] = do_number_translation(didinfo['did_cid_translation'],callerid_array['cid_name'])
+function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
+	local is_local_extension = "0"
+	callerid_array['cid_name'] = do_number_translation(didinfo['did_cid_translation'],callerid_array['cid_name'])
 	callerid_array['cid_number'] = do_number_translation(didinfo['did_cid_translation'],callerid_array['cid_number'])
-	xml = freeswitch_xml_callerid(xml,callerid_array)	    	   
-    Logger.warning("[FSXMLINBOUND] Caller ID Translation Ends")
-    -----------------------------------------------
-
+	if(tonumber(didinfo['maxchannels']) > 0) then    		
+	    	table.insert(xml, [[<action application="limit" data="db ]]..didinfo['accountid']..[[ user_]]..didinfo['accountid']..[[ ]]..didinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);
+	end
+	if (tonumber(userinfo['localization_id']) > 0 and or_localization and or_localization['in_caller_id_originate'] ~= nil) then     
+		callerid_array['cid_name'] = do_number_translation(or_localization['in_caller_id_originate'],callerid_array['cid_name'])
+		callerid_array['cid_number'] = do_number_translation(or_localization['in_caller_id_originate'],callerid_array['cid_number'])
+	end   
+	xml = freeswitch_xml_callerid(xml,callerid_array)	    	       
 	table.insert(xml, [[<action application="set" data="receiver_accid=]]..didinfo['accountid']..[["/>]]);  
-	-- Set max channel limit for did if > 0     
 	if(tonumber(didinfo['maxchannels']) > 0) then    
 	    table.insert(xml, [[<action application="limit" data="db ]]..destination_number..[[ did_]]..destination_number..[[ ]]..didinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);        
 	end
-
-        local bridge_str = ""
-        local common_chan_var = ""
-	--To split the DID destination number string
-	local destination_str = {}
-	string.gsub(didinfo['extensions'], "([^,|]+)", function(value) destination_str[#destination_str + 1] =     value;  end);
-	local deli_str = {}
-	string.gsub(didinfo['extensions'], "([,|]+)", function(value) deli_str[#deli_str + 1] =     value;  end);
-
-	if (tonumber(didinfo['call_type']) == 0 and didinfo['extensions'] ~= '') then
-		table.insert(xml, [[<action application="set" data="calltype=STANDARD"/>]]);     
-		table.insert(xml, [[<action application="set" data="accountcode=]]..didinfo['account_code']..[["/>]]);
-		table.insert(xml, [[<action application="set" data="caller_did_account_id=]]..userinfo['id']..[["/>]]);
-        table.insert(xml, [[<action application="set" data="origination_rates_did=]]..xml_did_rates..[["/>]]);
-		table.insert(xml, [[<action application="transfer" data="]]..didinfo['extensions']..[[ XML default"/>]]);
-
-	elseif (tonumber(didinfo['call_type']) == 1 and didinfo['extensions'] ~= '') then
-
-		table.insert(xml, [[<action application="set" data="calltype=DID-LOCAL"/>]]);             
-        if (config['opensips'] == '1') then
-          for i = 1, #destination_str do
-          		if notify then notify(xml,destination_str[i]) end
-                bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]user/"..destination_str[i].."@${domain_name}"
-                if i <= #deli_str then
-                        bridge_str = bridge_str..deli_str[i]
-                end
-          end
-          table.insert(xml, [[<action application="bridge" data="]]..bridge_str..[["/>]]);          
-        else      
-          common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
-          for i = 1, #destination_str do
-          	    if notify then notify(xml,destination_str[i]) end
-                bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
-                if i <= #deli_str then
-                        bridge_str = bridge_str..deli_str[i]
-                end
-          end
-          table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
-        end
-        -- To leave voicemail 
-        leave_voicemail(xml,destination_number,destination_str[1])
-	 elseif (tonumber(didinfo['call_type']) == 3 and didinfo['extensions'] ~= '') then
-	    table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]);            
-		if (config['opensips'] == '1') then
-            common_chan_var = "{sip_contact_user="..destination_number.."}"
-            for i = 1, #destination_str do
-            	  if notify then notify(xml,destination_str[i]) end
-                  bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_number.."${regex(${sofia_contact("..destination_str[i].."@${domain_name})}|^[^@]+(.*)|%1)}"
-                  if i <= #deli_str then
-                          bridge_str = bridge_str..deli_str[i]
-                  end
-            end
-            table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);            
-        else
-            common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
-            for i = 1, #destination_str do
-            	  if notify then notify(xml,destination_str[i]) end
-                  bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
-                  if i <= #deli_str then
-                          bridge_str = bridge_str..deli_str[i]
-                  end
-            end
-            table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
-        end
-        -- To leave voicemail 
-        leave_voicemail(xml,destination_number,destination_str[1])
-
-	elseif(tonumber(didinfo['call_type']) == 2 and didinfo['extensions'] ~= '') then
-		table.insert(xml, [[<action application="set" data="calltype=OTHER"/>]]); 
-		table.insert(xml, [[<action application="bridge" data="]]..didinfo['extensions']..[["/>]]);
-	elseif(tonumber(didinfo['call_type']) == 4 and didinfo['extensions'] ~= '') then
-		table.insert(xml, [[<action application="set" data="calltype=DIRECT-IP"/>]]);
-		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..destination_number..[[@]]..didinfo['extensions']..[["/>]]);
-	elseif(tonumber(didinfo['call_type']) == 5 and didinfo['extensions'] ~= '') then
-		table.insert(xml, [[<action application="set" data="calltype=DID@IP"/>]]);
-		table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[["/>]]);
-	else
-		--Inbound custom 
-		if custom_inbound then custom_inbound(xml,didinfo,userinfo,config,xml_did_rates,callerid_array) end  
-		--error_xml_without_cdr(destination_number,"DID_DESTINATION_NOT_FOUND","DID",config['playback_audio_notification'],userinfo['number'])
-
-	end
+	if callerid_lookup_dialplan then callerid_lookup_dialplan(xml,didinfo) end
+	table.insert(xml, [[<action application="export" data="presence_data=]]..livecall_data..[[||||||DID"/>]])
+	table.insert(xml, [[<action application="export" data="call_type=]]..didinfo['call_type']..[["/>]])
+	local custom_function_name = "custom_inbound_"..didinfo['call_type']
+	Logger.debug("custom_function_name:::::::::::::::::::::::::" .. custom_function_name)
+	_G[custom_function_name](xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data) -- calls function from the global namespace
 	return xml
 end
 
--- Dialplan for sip2sip calls
-function freeswitch_xml_local(xml,destination_number,destinationinfo,callerid_array)
+function custom_inbound_0(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
+	is_local_extension = "1"
+        local bridge_str = ""
+        local common_chan_var = ""
+	local destination_str = {}
+	string.gsub(didinfo['extensions'], "([^,|]+)", function(value) destination_str[#destination_str + 1] =     value;  end);
+	table.insert(xml, [[<action application="set" data="calltype=DID-LOCAL"/>]]);  
+	local deli_str = {}
+	string.gsub(didinfo['extensions'], "([,|]+)", function(value) deli_str[#deli_str + 1] =     value;  end);           
+	if (config['opensips'] == '1') then
+		for i = 1, #destination_str do
+			if notify then notify(xml,destination_str[i]) end
+			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]user/"..destination_str[i].."@${domain_name}"
+			if i <= #deli_str then
+				bridge_str = bridge_str..deli_str[i]
+			end
+		end
+		table.insert(xml, [[<action application="bridge" data="]]..bridge_str..[["/>]]);
+	else      
+		common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
+		for i = 1, #destination_str do
+			if notify then notify(xml,destination_str[i]) end
+			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
+			if i <= #deli_str then
+				bridge_str = bridge_str..deli_str[i]
+			end
+		end
+		table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
+	end
+	-- To leave voicemail 
+	leave_voicemail(xml,destination_number,destination_str[1])
+	return xml;
+end
+function custom_inbound_1(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
+	table.insert(xml, [[<action application="set" data="calltype=DID@IP"/>]]);
+	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[["/>]]);
+	return xml;
+end
+function custom_inbound_2(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
+	table.insert(xml, [[<action application="set" data="calltype=DIRECT-IP"/>]]);
+	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..destination_number..[[@]]..didinfo['extensions']..[["/>]]);
+	return xml;
+end
+function custom_inbound_3(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
+	table.insert(xml, [[<action application="set" data="calltype=OTHER"/>]]); 
+	table.insert(xml, [[<action application="bridge" data="]]..didinfo['extensions']..[["/>]]);
+	return xml;
+end
+function custom_inbound_4(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
+	table.insert(xml, [[<action application="set" data="calltype=STANDARD"/>]]);     
+	table.insert(xml, [[<action application="set" data="accountcode=]]..didinfo['account_code']..[["/>]]);
+	table.insert(xml, [[<action application="set" data="caller_did_account_id=]]..userinfo['id']..[["/>]]);
+	if(xml_did_rates ~= nil and xml_did_rates ~= '')then
+	        table.insert(xml, [[<action application="set" data="origination_rates_did=]]..xml_did_rates..[["/>]]);
+	end
+	table.insert(xml, [[<action application="transfer" data="]]..didinfo['extensions']..[[ XML default"/>]]);
+	return xml;
+end
+function custom_inbound_5(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
+	is_local_extension = "1"
+        local bridge_str = ""
+	local destination_str = {}
+	string.gsub(didinfo['extensions'], "([^,|]+)", function(value) destination_str[#destination_str + 1] =     value;  end);
 
-    -------------- Caller Id translation ---------
-    Logger.warning("[FSXMLLOCAL] Caller ID Translation Starts")
+        local common_chan_var = ""
+	table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]); 
+	local deli_str = {}
+	string.gsub(didinfo['extensions'], "([,|]+)", function(value) deli_str[#deli_str + 1] =     value;  end);           
+	if (config['opensips'] == '1') then
+		common_chan_var = "{sip_contact_user="..destination_number.."}"
+		for i = 1, #destination_str do
+			if notify then notify(xml,destination_str[i]) end
+			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_number.."${regex(${sofia_contact("..destination_str[i].."@${domain_name})}|^[^@]+(.*)|%1)}"
+			if i <= #deli_str then
+				bridge_str = bridge_str..deli_str[i]
+			end
+		end
+		table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);            
+        else
+		common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
+		for i = 1, #destination_str do
+			if notify then notify(xml,destination_str[i]) end
+			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
+			if i <= #deli_str then
+				bridge_str = bridge_str..deli_str[i]
+			end
+		end
+		table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
+        end
+-- To leave voicemail 
+        leave_voicemail(xml,destination_number,destination_str[1])
+	return xml;
+end
+
+-- Dialplan for sip2sip calls
+function freeswitch_xml_local(xml,destination_number,destinationinfo,callerid_array,livecall_data)
+
+    -------------- Caller Id translation ---------    
     callerid_array['cid_name'] = do_number_translation(destinationinfo['did_cid_translation'],callerid_array['cid_name'])
 	callerid_array['cid_number'] = do_number_translation(destinationinfo['did_cid_translation'],callerid_array['cid_number'])
-	xml = freeswitch_xml_callerid(xml,callerid_array)	    	   
-    Logger.warning("[FSXMLLOCAL] Caller ID Translation Ends")
+	xml = freeswitch_xml_callerid(xml,callerid_array)	    	       
     ----------------------------------------------------------------------
 
     table.insert(xml, [[<action application="set" data="calltype=LOCAL"/>]]);
     table.insert(xml, [[<action application="set" data="receiver_accid=]]..destinationinfo['accountid']..[["/>]]);
-
+	table.insert(xml, [[<action application="export" data="presence_data=]]..livecall_data..[[||||||Local"/>]]);
     if notify then notify(xml,destination_number) end
 
     if (config['opensips'] == '1') then
@@ -389,8 +434,8 @@ function xml_header(xml,destination_number)
 	table.insert(xml, [[<document type="freeswitch/xml">]]);
 	table.insert(xml, [[<section name="dialplan" description="ASTPP Dialplan">]]);
 	table.insert(xml, [[<context name="]]..params:getHeader("Caller-Context")..[[">]]);
-	table.insert(xml, [[<extension name="]]..destination_number..[[">]]); 
-	table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(destination_number)..[[">]]);
+	table.insert(xml, [[<extension name="]]..plus_destination_number(params:getHeader("Caller-Destination-Number"))..[[">]]); 
+	table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(params:getHeader("Caller-Destination-Number"))..[[">]]);
 	return xml
 end
 
@@ -428,17 +473,18 @@ end
 
 -- Handle calls errors 
 function error_xml_without_cdr(destination_number,error_code,calltype,playback_audio_notification,account_id)
+
      local xml = {};
 
-	--Logger.warning("[ERROR]  :" .. destination_number)
+	--Logger.warning("[ERROR]  call_direction:" .. call_direction)
 	local log_type
 	local log_message
 	local hangup_cause 
 	local audio_file
 	local audio_file = ""
-	local sound_path = "/usr/local/freeswitch/sounds/en/us/callie/"
+	local sound_path = "/usr/share/freeswitch/sounds/en/us/callie/"
 	local accountcode = ""
-
+	local post_cdrs = 0
 	if(params:getHeader("variable_accountcode") == nil) then
 		if(accountnumber ~= nil) then
 			accountcode = accountnumber
@@ -456,10 +502,35 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 		log_message = "Accountcode ".. accountcode.." is either inactive or deleted!!";
 		hangup_cause = "ACCOUNT_INACTIVE_DELETED";
 		audio_file = sound_path ..  "astpp_expired.wav";
+		if(account_id ~= '' and tonumber(account_id) >= 0)then post_cdrs = 1 end
+	--~ Fraud Detection
+	elseif(error_code == "FRAUD_CALL_PER_ACCOUNT") then
+		log_type = "WARNING";
+		log_message = "FRAUD_CALL_PER_ACCOUNT ".. account_id;
+		hangup_cause = "FRAUD_CALL_PER_ACCOUNT";
+	elseif(error_code == "FRAUD_COST_PER_ACCOUNT") then
+		log_type = "WARNING";
+		log_message = "FRAUD_COST_PER_ACCOUNT ".. account_id;
+		hangup_cause = "FRAUD_COST_PER_ACCOUNT";
+	elseif(error_code == "FRAUD_CALL_PER_DESTINATION") then
+		log_type = "WARNING";
+		log_message = "FRAUD_CALL_PER_DESTINATION ".. account_id;
+		hangup_cause = "FRAUD_CALL_PER_DESTINATION";
+	elseif(error_code == "FRAUD_COST_PER_DESTINATION") then
+		log_type = "WARNING";
+		log_message = "FRAUD_COST_PER_DESTINATION ".. account_id;
+		hangup_cause = "FRAUD_COST_PER_DESTINATION";
+	--~ Fraud Detection End
+	--~ CLI - NONCLI Rategroup
+	elseif(error_code == "CALLERID_NOT_FOUND") then
+		log_type = "WARNING";
+		log_message = "CALLERID_NOT_FOUND ".. account_id;
+		hangup_cause = "CALLERID_NOT_FOUND";
+	--~ CLI - NONCLI Rategroup End
 	elseif(error_code == "ACCOUNT_EXPIRE") then
 		log_type = "WARNING";
 		log_message = "Accountcode ".. accountcode.." Account has been expired!!";
-		hangup_cause = "CALL_REJECTED";
+		hangup_cause = "ACCOUNT_EXPIRE";
 		audio_file = sound_path ..  "astpp_expired.wav";
 	elseif(error_code == "NO_SUFFICIENT_FUND") then
 		log_type = "WARNING";
@@ -493,13 +564,23 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 		log_message = "Accountcode ".. accountcode..". Dialed number ("..destination_number..") destination not found!!";
 		hangup_cause = "DID_DESTINATION_NOT_FOUND";
 		audio_file = sound_path ..  "astpp-badphone.wav";
+	elseif(error_code == "UNALLOCATED_NUMBER") then
+		log_type = "WARNING";
+		log_message = "Accountcode ".. accountcode..". Dialed DID number ("..destination_number..") is inactive!!";
+		hangup_cause = "UNALLOCATED_NUMBER";
+		audio_file = sound_path ..  "astpp-badphone.wav";
+	elseif(error_code == "NO_ROUTE_DESTINATION") then
+		log_type = "WARNING";
+		log_message = "Accountcode ".. accountcode..". Dialed DID number ("..destination_number..") routes not set!!";
+		hangup_cause = "NO_ROUTE_DESTINATION";
+		audio_file = sound_path ..  "astpp-badphone.wav";
 	end
-
-	if(calltype ~= "ASTPP-CALLINGCARD") then
+	    Logger.debug("post_cdrs:::" .. post_cdrs)
+	if(calltype ~= "ASTPP-CALLINGCARD" and tonumber(post_cdrs) ==0) then
 	    xml = xml_header(xml,destination_number)
     	table.insert(xml, [[<action application="log" data="]]..log_type.." "..log_message..[["/>]]); 
 
-	    if (playback_audio_notification == "1") then
+	    if (playback_audio_notification == "0") then
 	    	table.insert(xml, [[<action application="playback" data="]]..audio_file..[["/>]]);
 	    end
 
@@ -516,7 +597,24 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
             table.insert(xml, [[<action application="set" data="error_cdr=1"/>]]);
 	    table.insert(xml, [[<action application="set" data="callstart=]]..callstart..[["/>]]);
 	    table.insert(xml, [[<action application="set" data="account_id=]]..account_id..[["/>]]);
-	    table.insert(xml, [[<action application="set" data="call_direction=outbound"/>]]);
+	    local parent_id= ""
+	    if(account_id ~= '' and tonumber(account_id) >= 0)then
+	        parent_id=get_parentid(account_id);
+	    end
+	    if(parent_id~=nil and parent_id~="") then
+			table.insert(xml, [[<action application="set" data="parent_id=]]..parent_id..[["/>]]);
+	    end
+	    if(call_direction == 'local')then
+		    table.insert(xml, [[<action application="set" data="call_direction=inbound"/>]]);
+	    else
+		    table.insert(xml, [[<action application="set" data="call_direction=]]..call_direction..[["/>]]);
+	    end	
+	    if(call_direction == 'inbound')then
+		    table.insert(xml, [[<action application="set" data="calltype=DID"/>]]);
+	    end
+	    if(call_direction == 'local')then
+		    table.insert(xml, [[<action application="set" data="calltype=LOCAL"/>]]);
+	    end
 	    table.insert(xml, [[<action application="set" data="sip_ignore_remote_cause=true"/>]]);        
 	    table.insert(xml, [[<action application="set" data="call_processed=internal"/>]]);
 	    table.insert(xml, [[<action application="set" data="effective_destination_number=]]..destination_number..[["/>]]); 
@@ -529,6 +627,17 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 	    XML_STRING = table.concat(xml, "\n");
 	    Logger.debug("Generated XML:\n" .. XML_STRING)
 	    return
+	elseif(tonumber(post_cdrs) ==1)then
+	    Logger.debug("post_cdrs IN:::" .. post_cdrs)
+		xml = xml_header(xml,destination_number)
+	  	table.insert(xml, [[<action application="set" data="sip_ignore_remote_cause=true"/>]]);        
+	    	table.insert(xml, [[<action application="playback" data="]]..audio_file..[["/>]]);
+		table.insert(xml, [[<action application="hangup" data="]]..hangup_cause..[["/>]]);  
+		xml = xml_footer(xml);
+		XML_STRING = table.concat(xml, "\n");
+		Logger.debug("Generated XML:\n" .. XML_STRING)
+		return
+    
 	else
 		session:execute("set", "process_cdr=false" );
 		session:streamFile( audio_file );
@@ -560,15 +669,15 @@ end
 -- Set reseller concurrent call limits
 function set_cc_limit_resellers(reseller_userinfo)
 
-		local xml_temp = ""
-		-- Set CPS limit for reseller if > 0
-		if (tonumber(reseller_userinfo['maxchannels']) > 0) then
-			xml_temp = "<action application=\"limit\" data=\"db "..reseller_userinfo['number'].. " user_"..reseller_userinfo['number'].." "..reseller_userinfo['maxchannels'].." !SWITCH_CONGESTION\"/>"
-		end
+	local xml_temp = ""
+	-- Set CPS limit for reseller if > 0
+	if (tonumber(reseller_userinfo['maxchannels']) > 0) then
+		xml_temp = "<action application=\"limit\" data=\"db "..reseller_userinfo['number'].. " user_"..reseller_userinfo['number'].." "..reseller_userinfo['maxchannels'].." !SWITCH_CONGESTION\"/>"
+	end
 
-		if (tonumber(reseller_userinfo['cps']) > 0) then
-			xml_temp = xml_temp.."<action application=\"limit\" data=\"hash CPS_"..reseller_userinfo['number'].. " CPS_user_"..reseller_userinfo['number'].." "..reseller_userinfo['cps'].."/1 !SWITCH_CONGESTION\"/>"
-		end
+	if (tonumber(reseller_userinfo['cps']) > 0) then
+		xml_temp = xml_temp.."<action application=\"limit\" data=\"hash CPS_"..reseller_userinfo['number'].. " CPS_user_"..reseller_userinfo['number'].." "..reseller_userinfo['cps'].."/1 !SWITCH_CONGESTION\"/>"
+	end
 
-		return xml_temp
+	return xml_temp
 end

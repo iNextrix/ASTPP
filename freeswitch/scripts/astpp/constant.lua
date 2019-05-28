@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------
 
 -- Define table parameters 
-TBL_CONFIG="system"
+TBL_CONFIG="`system`"
 TBL_USERS="accounts"
 TBL_DIDS="dids"
 TBL_IP_MAP="ip_map"
@@ -35,9 +35,11 @@ TBL_ROUTING="routing"
 TBL_ACCOUNTS_CALLERID="accounts_callerid"
 TBL_RATE_GROUP="pricelists"
 TBL_SPEED_DIAL="speed_dial"
-TBL_PACKAGE="packages"
+TBL_PACKAGE="packages_view"
 TBL_PACKAGE_PATTERN="package_patterns"
 TBL_COUNTERS="counters"
 TBL_RESELLER_PRICING="reseller_pricing"
+TBL_LOCALIZATION="localization"
+TBL_CALL_BARRING="call_barring"
 
 

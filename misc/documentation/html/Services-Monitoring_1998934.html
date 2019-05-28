@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASTPP Documentation : Services Monitoring</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">ASTPP Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Welcome-to-ASTPP_491525.html">Welcome to ASTPP</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            ASTPP Documentation : Services Monitoring
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> ASTPP</span>, last modified on Jul 02, 2015
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><span style="color: rgb(0,0,0);text-decoration: none;">Monit is a small Open Source utility for managing and monitoring systems. Monit conducts automatic maintenance and repair and can execute meaningful causal actions in error situations.</span></p><p><span style="color: rgb(0,0,0);text-decoration: none;">For ASTPP we can configure apache,freeswitch and mysql services to monitor.</span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Installation:</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">For CentOS
+yum install monit
+
+For Debian
+apt-get install monit</pre>
+</div></div><h2 id="ServicesMonitoring-Configurations:"><span style="color: rgb(0,0,0);text-decoration: none;"> <span style="color: rgb(0,0,0);text-decoration: none;">Configurations:</span></span></h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Enable Web Interface in Monit</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">Monit also provided an web interface to view services and processes status. To enable monit web interface, edit configuration file ( For CentOS /etc/monit.conf &amp; For Debian System /etc/monit/monitrc ) and modify following lines as per your server information&#39;s
+
+set httpd port 2812 and
+use address localhost
+allow localhost
+allow admin:monit
+allow @monit
+allow @users readonly</pre>
+</div></div><p><span style="color: rgb(0,0,0);text-decoration: none;"><br/></span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Configure Monit To Monitor Services</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">1)Apache
+
+For CentOS,
+check process httpd with pidfile /var/run/httpd/httpd.pid
+group apache
+start program = &quot;/etc/init.d/httpd start&quot;
+stop program = &quot;/etc/init.d/httpd stop&quot;
+if cpu &gt; 60% for 6 cycles then alert
+if cpu &gt; 70% for 6 cycles then alert
+if cpu &gt; 80% for 6 cycles then alert
+
+For Debian
+check process apache with pidfile /run/apache2.pid
+start program = &quot;/etc/init.d/apache2 start&quot; with timeout 60 seconds
+stop program = &quot;/etc/init.d/apache2 stop&quot;
+if cpu &gt; 60% for 2 cycles then alert
+if cpu &gt; 80% for 5 cycles then alert
+
+
+2)MySQL
+check process mysqld with pidfile /var/run/mysqld/mysqld.pid
+start program = &quot;/etc/init.d/mysql start&quot;
+stop program = &quot;/etc/init.d/mysql stop&quot;
+group resources
+if cpu &gt; 60% for 2 cycles then alert
+if cpu &gt; 80% for 5 cycles then restart
+
+
+3)Freeswitch
+check process freeswitch with pidfile /usr/local/freeswitch/run/freeswitch.pid
+start program = &quot;/etc/init.d/freeswitch start&quot;
+stop program = &quot;/etc/init.d/freeswitch stop&quot;
+if 5 restarts within 5 cycles then timeout
+if cpu &gt; 60% for 2 cycles then alert
+if cpu &gt; 80% for 5 cycles then alert
+if totalmem &gt; 2000.0 MB for 5 cycles then restart
+if children &gt; 2500 then restart
+</pre>
+</div></div><p><span style="color: rgb(0,0,0);text-decoration: none;"> </span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Configuration for email notification</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;"># set mailserver mail.bar.baz, # primary mailserver
+# backup.bar.baz port 10025, # backup mailserver on port 10025
+# localhost # fallback relay
+
+set mailserver localhost
+
+# set alert sysadm@foo.bar # receive all alerts
+# set alert manager@foo.bar only on { timeout } # receive just service-
+# # timeout alert
+
+set alert your@email.com
+
+It will notify the status of services in email which are configured in configuration file.</pre>
+</div></div><p><span style="color: rgb(0,0,0);text-decoration: none;">  <br/></span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Start service</b></div><div class="codeContent panelContent pdl">
+<pre class="brush: css; gutter: false; theme: Confluence" style="font-size:12px;">Now start the monit service
+# service monit start</pre>
+</div></div><p><span style="color: rgb(0,0,0);text-decoration: none;"><br/></span></p><p> </p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Aug 17, 2015 10:25</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

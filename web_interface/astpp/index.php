@@ -17,7 +17,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-//ini_set('display_errors','on');
+ini_set('display_errors','on');
 ini_set ( "date.timezone", "UTC" );
 define ( 'ENVIRONMENT', 'production' );
 /*

@@ -8,19 +8,26 @@ $(document).ready(function() {
     url: "<?php echo base_url(); ?>freeswitch/livecall_report_json/",
     method: 'GET',
     dataType: 'json',
-	colModel : [
-		{display: 'Call Date', name: 'Call Date', width: 110, sortable: false, align: 'center'},
-		{display: 'CID Name', name: 'CID Name', width: 120, sortable: false, align: 'center'},
-		{display: 'CID Number', name: 'CID Number', width: 120, sortable: false, align: 'center'},
-		{display: 'IP Address', name: 'IP Address', width: 120, sortable: false, align: 'center'},
-		{display: 'Destination', name: 'Destination', width: 120, sortable: false, align: 'center'},
-		{display: 'Bridge', name: 'Bridge', width: 200, sortable: false, align: 'center'},
-		{display: 'Read codec', name: 'Read Codec', width: 120, sortable: false, align: 'center'},
-		{display: 'Write codec', name: 'Write Codec', width: 120, sortable: false, align: 'center'},
-		{display: 'Call State', name: 'Call State', width: 110, sortable: false, align: 'center'},
-		{display: 'Duration', name: 'Duration', width: 130, sortable: false, align: 'center'}
+ colModel : [
+		{display: 'Action', name: 'Action', width: 90, sortable: true, align: 'center'},
+		{display: 'Call Date', name: 'Call Date', width: 70, sortable: true, align: 'center'},
+		{display: 'CID', name: 'CID Name', width: 70, sortable: true, align: 'center'},
+		{display: 'Caller IP', name: 'IP Address', width: 75, sortable: true, align: 'center'},
+		{display: 'Customer', name: 'Customer', width: 75, sortable: true, align: 'center'},
+		{display: 'Org.<br/>Pefix', name: 'Org. Prefix', width: 60, sortable: true, align: 'center'},
+		{display: 'Org.<br/>Destination', name: 'Org. Destination', width: 90, sortable: true, align: 'center'},
+		{display: 'Org.<br/>Cost', name: 'Org. Cost', width: 80, sortable: true, align: 'center'},
+		{display: 'Term.<br/>Trunk', name: 'Term. Trunk', width: 80, sortable: true, align: 'center'},
+		{display: 'Term.<br/>Prefix', name: 'Term. Prefix', width: 60, sortable: true, align: 'center'},
+		{display: 'Term.<br/>Destination', name: 'Term. Destination', width: 80, sortable: true, align: 'center'},
+		{display: 'Term.<br/>Cost', name: 'Term. Cost', width: 80, sortable: true, align: 'center'},
+		{display: 'Destination', name: 'Destination', width: 90, sortable: true, align: 'center'},
+		{display: 'Duration', name: 'Duration', width: 70, sortable: true, align: 'center'},
+		{display: 'Type', name: 'Type', width: 60, sortable: true, align: 'center'},
+		{display: 'Status', name: 'Call State', width: 80, sortable: true, align: 'center'},
+        {display: 'Read / Write <br/>codecs', name: 'Codecs', width: 200, sortable: true, align: 'center'}
 		],
-	nowrap: true,
+	nowrap: false,
 	showToggleBtn: false,
 	sortname: "id",
 	sortorder: "asc",
@@ -43,11 +50,22 @@ $(document).ready(function() {
 		    closeImage   : '<?php echo base_url(); ?>/images/closelabel.png'
 	    });
 	},
-	/*onError: function(){
-	    alert('Sorry, we are unable to connect to freeswitch!!!');
-	}*/
+	
 });
+
+
 });
+
+function hangupcall(uuid){
+	 $.ajax({
+      type: "POST",
+      url: "<?php echo base_url(); ?>freeswitch/call_hangup/"+uuid,
+      data: '',
+      success:function(response) {
+         alert(response);
+      }
+      });
+}
 
 function reload_button()
 {
@@ -57,7 +75,7 @@ function reload_button()
 </script>
 
 <script type="text/javascript">
-setInterval( "refreshAjax();", 10000 );  ///////// 20 seconds
+setInterval( "refreshAjax();", 10000 ); 
 
 $(function() {
   refreshAjax = function(){$("#flex1").flexReload();
@@ -65,7 +83,7 @@ $(function() {
 });
 </script>
 
-	<? endblock() ?>
+<? endblock() ?>
 
     <? startblock('page-title') ?>
         <?=$page_title?>
@@ -79,29 +97,24 @@ $(function() {
 
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
-    	<div class="container">
-   	    <div class="row">
-            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
+		<div class="row">
+			<div class="portlet-content" id="search_bar"
+				style="cursor: pointer; display: none">
                     	<?php echo $form_search; ?>
     	        </div>
-            </div>
-        </div>
-    </div>
+		</div>
+	</div>
 </section>
 
-<section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12"> 
-					<br/>     
-                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-                            <table id="flex1" align="left" style="display:none;"></table>
-                        </form>
-                </div>  
-            </div>
-        </div>
-    </div>
+<section class="slice color-three pb-4">
+	<div class="w-section inverse p-0">
+		<div class="card col-md-12 p-4">
+			<form method="POST" action="del/0/" enctype="multipart/form-data"
+				id="ListForm">
+				<table id="flex1" align="left" style="display: none;"></table>
+			</form>
+		</div>
+	</div>
 </section>
 
 
@@ -109,3 +122,4 @@ $(function() {
 
 <? endblock() ?>
 <? end_extend() ?>  
+

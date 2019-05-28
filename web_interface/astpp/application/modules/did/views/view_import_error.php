@@ -1,54 +1,42 @@
-<style>
-.details_table td{
-    text-shadow: 0 1px 0 white;
-    /*font-weight: bold;*/
-    padding: 6px;
-    font-size: 11px;
-    text-align: center;
-/*    background-color: #E6E6E6;*/
-    vertical-align:middle;
-}
-    </style>
 <? extend('master.php') ?>
   <? startblock('extra_head') ?>
   <? endblock() ?>      
     <? startblock('page-title') ?>
-        <?=$page_title?><br/>
+        <?=$page_title?>
     <? endblock() ?>
 	<? startblock('content') ?>
- <section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12">  
-            <fieldset >
-                <legend><span style="font-size:15px;padding:5px;font-family:Open sans,sans-serif;color:#163B80; ">Error In CSV File</span></legend><section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12">      
-          
-                    Records Imported Successfully: <?= $import_record_count; ?><br/>
-                    Records Not Imported : <?= $failure_count?></div>  
-            </div>
-        </div>
-    </div>
+<section class="slice color-three bp-4">
+	<div class="w-section inverse p-0">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Error In CSV File "); ?></h3>
+					<div class="col-md-12 p-4">
+						<?php echo gettext("Records Imported Successfully: "); ?><?= $import_record_count; ?>
+								<br />
+								<?php echo gettext("Records Not Imported : "); ?><?= $failure_count?>
+						</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 pb-2 mt-4 pr-0">
+			<div class="float-right">
+						<?php if (isset($provider_id) && $provider_id != "") { ?>
+							<button class="btn btn-success" id="dwnld_err" type="button"
+					name="action" value="Download Errors"
+					onclick="return redirect_page('<?= base_url().'did/did_error_download/'?>')"><?php echo gettext("Download Errors"); ?></button>
+						<?}?>
+						<button class="btn btn-secondary mr-2" id="did_list" type="button"
+					name="action" value="Back to DID List"
+					onclick="return redirect_page('/did/did_list/')"><?php echo gettext("Back to DID List"); ?></button>
+			</div>
+		</div>
+	</div>
 </section>
-  </div>
-        </div>
-    </div> 
-<br/>
-                    <?php if (isset($provider_id) && $provider_id != "") { ?><div class="col-md-12 padding-b-10">
-                   <div class="pull-right">
-                        <a href="<?= base_url().'did/did_error_download/'?>"><input class="btn btn-line-sky margin-x-10" id="dwnld_err" type="button" name="action" value="Download Errors" /> </a>
-                       
-                    <?}?>
-                     <a href="<?= base_url().'did/did_list/'?>"><input class="btn btn-line-parrot" id="did_list" type="button" name="action" value="Back to DID List" /> </a>  </div></div>
-            </fieldset></section>
-        <? endblock() ?>
-    <? startblock('sidebar') ?>
-        Filter by
-    <? endblock() ?>
+<? endblock() ?>
+<? startblock('sidebar') ?>
+  Filter by
+<? endblock() ?>
 <? end_extend() ?>  
     
 

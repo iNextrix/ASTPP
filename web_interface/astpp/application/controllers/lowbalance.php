@@ -23,32 +23,34 @@
 class Lowbalance extends CI_Controller {
 	function __construct() {
 		parent::__construct ();
-		if (! defined ( 'CRON' ))
-			exit ();
 		$this->load->model ( "db_model" );
 		$this->load->library ( "astpp/common" );
 	}
 	function low_balance() {
-		$where = array (
-				"notify_flag" => 0,
-				"deleted" => "0",
-				"status" => "0" 
-		);
-		$entity_array = array (
-				"0",
-				"1",
-				"3" 
-		);
-		$this->db->where_in ( "type", $entity_array );
-		$query = $this->db_model->getSelect ( "*", "accounts", $where );
-		if ($query->num_rows () > 0) {
-			$account_data = $query->result_array ();
-			foreach ( $account_data as $data_key => $accountinfo ) {
-				if (($accountinfo ['posttoexternal'] == 0 && ($accountinfo ["balance"] <= $accountinfo ["notify_credit_limit"])) || ($accountinfo ['posttoexternal'] == 1 && ($accountinfo ["credit_limit"] - $accountinfo ["balance"]) <= $accountinfo ["notify_credit_limit"])) {
-					$this->common->mail_to_users ( "email_low_balance", $accountinfo );
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'Wget') !== false) {
+			$where = array (
+					"notify_flag" => 0,
+					"deleted" => "0",
+					"status" => "0"
+			);
+			$entity_array = array (
+					"0",
+					"1",
+					"3" 
+			);
+			$this->db->where_in ( "type", $entity_array );
+			$query = $this->db_model->getSelect ( "*", "accounts", $where );
+
+			if ($query->num_rows () > 0) {
+				$account_data = $query->result_array ();
+
+				foreach ( $account_data as $data_key => $accountinfo ) {
+					if (($accountinfo ['posttoexternal'] == 0 && ($accountinfo ["balance"] <= $accountinfo ["notify_credit_limit"])) || ($accountinfo ['posttoexternal'] == 1 && ($accountinfo ["credit_limit"] - $accountinfo ["balance"]) <= $accountinfo ["notify_credit_limit"])) {
+							$this->common->mail_to_users ( "low_balance", $accountinfo );
+					}
 				}
 			}
 		}
 		exit ();
 	}
-} 
+}

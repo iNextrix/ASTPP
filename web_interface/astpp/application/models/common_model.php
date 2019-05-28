@@ -28,23 +28,23 @@ class Common_model extends CI_Model {
 	var $db_link;
 	var $conn = false;
 	public static $global_config;
-	function Common_model() {
+	public function __construct() {
 		parent::__construct ();
 		$this->get_system_config ();
 		$this->get_currencylist ();
-		$this->get_language_list ();
 		$this->get_country_list ();
 		$this->get_admin_info ();
 		$this->load->library ( 'astpp/common' );
 		$this->db->query ( 'SET time_zone = "+00:00"' );
 	}
 	function get_language_list() {
-		$query = $this->db->get ( "language" );
+		$query = $this->db->get ( "languages" );
 		$result = $query->result_array ();
 		$language_list = array ();
 		foreach ( $result as $row ) {
-			$language_list [$row ['language']] = $row ['languagename'];
+			$language_list [$row ['id']] = $row;
 		}
+		
 		self::$global_config ['language_list'] = $language_list;
 		return $language_list;
 	}
@@ -58,6 +58,7 @@ class Common_model extends CI_Model {
 			}
 			$config [$row ['name']] = $row ['value'];
 		}
+		
 		self::$global_config ['system_config'] = $config;
 		return $config;
 	}
@@ -71,8 +72,6 @@ class Common_model extends CI_Model {
 		self::$global_config ['country_list'] = $country_list;
 		return $country_list;
 	}
-	
-	// Return list of currency with rate
 	function get_currencylist() {
 		$query = $this->db->get ( "currency" );
 		$currencylist = array ();
@@ -91,10 +90,6 @@ class Common_model extends CI_Model {
 		self::$global_config ['admin_info'] = $result [0];
 		return $result [0];
 	}
-	/*
-	 * ASTPP 3.0
-	 * Changes for invoices
-	 */
 	function generate_receipt($accountid, $amount, $accountinfo, $last_invoice_ID, $invoice_prefix, $due_date) {
 		$amount = str_replace ( ',', '', $amount );
 		$invoice_data = array (
@@ -122,8 +117,11 @@ class Common_model extends CI_Model {
 			$to_currency1 = $this->session->userdata ['accountinfo'] ['currency_id'];
 			$to_currency = $this->common->get_field_name ( 'currency', 'currency', $to_currency1 );
 		}
+		
 		$from_cur_rate = (self::$global_config ['currency_list'] [$from_currency] > 0) ? self::$global_config ['currency_list'] [$from_currency] : 1;
-		$to_cur_rate = (self::$global_config ['currency_list'] [$to_currency]) ? self::$global_config ['currency_list'] [$to_currency] : 1;
+		  
+		 $to_cur_rate = (self::$global_config ['currency_list'] [$to_currency]) ? self::$global_config ['currency_list'] [$to_currency] : 1;
+
 		$amount = str_replace ( ',', '', $amount );
 		$cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
 		if ($format_currency)
@@ -136,20 +134,23 @@ class Common_model extends CI_Model {
 	}
 	function calculate_currency_customer($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
 		$from_currency = ($from_currency == '') ? self::$global_config ['system_config'] ['base_currency'] : $from_currency;
-		
 		if ($to_currency == '') {
 			$to_currency1 = $this->session->userdata ['accountinfo'] ['currency_id'];
 			$to_currency = $this->common->get_field_name ( 'currency', 'currency', $to_currency1 );
 		}
+
 		$from_cur_rate = (self::$global_config ['currency_list'] [$from_currency] > 0) ? self::$global_config ['currency_list'] [$from_currency] : 1;
+
 		$to_cur_rate = (self::$global_config ['currency_list'] [$to_currency]) ? self::$global_config ['currency_list'] [$to_currency] : 1;
 		$amount = str_replace ( ',', '', $amount );
 		$cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
+
 		if ($format_currency)
 			$cal_amount = $this->format_currency ( $cal_amount );
 		if ($append_currency)
 			$cal_amount = $cal_amount;
 		$cal_amount = str_replace ( ',', '', $cal_amount );
+
 		return $cal_amount;
 	}
 	function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
@@ -159,9 +160,11 @@ class Common_model extends CI_Model {
 			$from_currency = $this->common->get_field_name ( 'currency', 'currency', $from_currency1 );
 		}
 		$to_currency = ($to_currency == '') ? self::$global_config ['system_config'] ['base_currency'] : $to_currency;
-		if (self::$global_config ['currency_list'] [$from_currency] > 0) {
+		if (self::$global_config ['currency_list'] [$from_currency] > 0) { 
+
 			$cal_amount = ($amount * self::$global_config ['currency_list'] [$to_currency]) / self::$global_config ['currency_list'] [$from_currency];
-		} else {
+
+		} else { 
 			$cal_amount = $amount;
 		}
 		if ($format_currency)
@@ -169,6 +172,7 @@ class Common_model extends CI_Model {
 		if ($append_currency)
 			$cal_amount = $cal_amount . " " . $to_currency;
 		$cal_amount = str_replace ( ',', '', $cal_amount );
+
 		return $cal_amount;
 	}
 	function to_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
@@ -189,10 +193,10 @@ class Common_model extends CI_Model {
 		$cal_amount = str_replace ( ',', '', $cal_amount );
 		return $cal_amount;
 	}
+
 	function format_currency($amount) {
 		$amount = str_replace ( ',', '', $amount );
 		return number_format ( $amount, Common_model::$global_config ['system_config'] ['decimalpoints'] );
-		// return $amount;
 	}
 	function money_format($format, $number) {
 		$regex = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?' . '(?:#([0-9]+))?(?:\.([0-9]+))?([in%])/';
@@ -293,10 +297,6 @@ class Common_model extends CI_Model {
 		$query = $query->result ();
 		return $query;
 	}
-	/*
-	 * ASTPP 3.0
-	 * Using for Payment Functionality from Admin/Reseller Login
-	 */
 	function get_parent_info($accountid) {
 		$this->db->where ( 'id', $accountid );
 		$this->db->select ( 'reseller_id,type' );
@@ -351,4 +351,54 @@ class Common_model extends CI_Model {
 		}
 		return TRUE;
 	}
+	function calculate_taxes($accountinfo,$amount){ 
+		$taxes_info=$this->get_account_taxes($accountinfo,$amount);
+
+		if(!empty($taxes_info)){ 
+			$total_tax= 0;
+			foreach ( $taxes_info as $taxe_val ) {
+				$total_tax += $taxe_val;
+			}
+			$tax_arr['tax'] = $taxes_info;
+			$tax_arr['amount_without_tax'] = $amount;
+			$tax_arr['amount_with_tax'] =$total_tax+ $amount;
+			$tax_arr['total_tax'] = $total_tax;
+
+			return $tax_arr;
+		}			
+	}
+ 	function get_account_taxes($accountinfo,$amount){	
+		$taxes = "select * from taxes inner join taxes_to_accounts on taxes.id = taxes_to_accounts.taxes_id where taxes_to_accounts.accountid= ".$accountinfo ['id'];
+
+		$taxes = $this->db->query ( $taxes );
+		$total_tax = 0;
+		$taxes_count= $taxes->num_rows ();
+		$data = array();
+		if ($taxes->num_rows () > 0) {
+			$taxe_res = $taxes->result_array ();
+			if(!empty($taxe_res)){
+				foreach ( $taxe_res as $taxe_res_val ) {
+					$data [$taxe_res_val['taxes_description']."-".$taxe_res_val['taxes_rate']."(%)"] = (($amount*$taxe_res_val['taxes_rate'])/100)+$taxe_res_val['taxes_amount'];
+				}
+			}
+		}
+		return $data;	
+	}
+	
+	function check_unique_data($action,$Select,$value,$tbl) {
+		$where = array (
+				$Select =>$value
+		);
+		if($action=='edit'){
+			$this->db->where ($where);
+			$this->db->select ( "*" );
+			$this->db->from ($tbl);
+			$query = $this->db->get ();
+		}else{
+			$query = $this->db_model->countQuery ( "*", $tbl, $where);
+		}	
+		
+		return $query;
+	}
+
 }

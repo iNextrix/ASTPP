@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>countryreports</tech_name>
+	<name>Country Report</name>
+	<description>Get country wise Total calls, Total used Minutes and Total Charges made with advance Filters</description>
+	<icon>static/images/countryreports_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

@@ -3,9 +3,6 @@
  <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/popup/custom.js"></script>
 <script type="text/javascript">
 
-    
-  
-  
 function validateForm(){
     var email = document.forms["form1"]["email"].value;
     if (email == null || email == "") {

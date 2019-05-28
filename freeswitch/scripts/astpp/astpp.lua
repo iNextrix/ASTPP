@@ -21,13 +21,13 @@
 --------------------------------------------------------------------------------------
 
 -- Define script path 
-local script_path = "/usr/local/freeswitch/scripts/astpp/";
+local script_path = "/usr/share/freeswitch/scripts/astpp/";
 
 -- Load config file
 dofile("/var/lib/astpp/astpp.lua");
 
 -- Load CONSTANT file
-dofile("/usr/local/freeswitch/scripts/astpp/constant.lua");
+dofile("/usr/share/freeswitch/scripts/astpp/constant.lua");
 
 -- Load json file to decode json string
 JSON = (loadfile (script_path .."lib/JSON.lua"))();
@@ -47,6 +47,8 @@ db_connect()
 -- Include common functions file 
 dofile(script_path.."lib/astpp.functions.lua");
 config = load_conf()
+--load_addon_list array
+addon_list = load_addon_list()
 
 -- Include file to build xml for fs
 dofile(script_path.."scripts/astpp.xml.lua");
@@ -54,6 +56,10 @@ dofile(script_path.."scripts/astpp.xml.lua");
 -- Include custom file to load custom function
 dofile(script_path.."lib/astpp.custom.lua");
 
+-- Load addons files
+dirname = script_path..'lib/addons/'
+f = io.popen('ls ' .. dirname)
+for name in f:lines() do dofile(dirname..name..'') end
 
 if (not params) then
 	params = {}

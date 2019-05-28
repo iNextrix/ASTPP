@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>ipboss</tech_name>
+	<name>IPBOSS</name>
+	<description>Manage IPtables and firewall rules of Fail2ban using attractive UI</description>		
+	<icon>static/images/ipboss_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>development</status>
+</addon>

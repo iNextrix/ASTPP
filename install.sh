@@ -2,7 +2,7 @@
 ###############################################################################
 # ASTPP - Open Source VoIP Billing Solution
 #
-# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Copyright (C) 2019 iNextrix Technologies Pvt. Ltd.
 # ASTPP Version 3.5
 # License https://www.gnu.org/licenses/agpl-3.0.html
 #
@@ -24,683 +24,819 @@
 #################################
 ##########  variables ###########
 #################################
+
+#General Congifuration
 TEMP_USER_ANSWER="no"
-INSTALL_ASTPP="no"
-CURRENT_DIR="${PWD}"
-DOWNLOAD_DIR="/usr/src"
-ASTPP_SOURCE_DIR=/usr/src/latest
+ASTPP_SOURCE_DIR=/opt/ASTPP
 ASTPP_HOST_DOMAIN_NAME="host.domain.tld"
+IS_ENTERPRISE="False"
 
 #ASTPP Configuration
 ASTPPDIR=/var/lib/astpp/
 ASTPPEXECDIR=/usr/local/astpp/
 ASTPPLOGDIR=/var/log/astpp/
-LOCALE_DIR=/usr/local/share/locale
 
 #Freeswich Configuration
-FS_DIR=/usr/local/freeswitch
+FS_DIR=/usr/share/freeswitch
 FS_SOUNDSDIR=${FS_DIR}/sounds/en/us/callie
-FS_SCRIPTS=${FS_DIR}/scripts
+
+#HTML and Mysql Configuraition
 WWWDIR=/var/www/html
-
-ASTPP_USING_FREESWITCH="no"
-ASTPP_USING_ASTERISK="no"
-INSTALL_ASTPP_WEB_INTERFACE="no"
-
 ASTPP_DATABASE_NAME="astpp"
-
 ASTPP_DB_USER="astppuser"
 
-MYSQL_ROOT_PASSWORD=""
-ASTPPUSER_MYSQL_PASSWORD=""
-
+#Enable Enterprise Repository
+IS_ENTERPRISE="True"
 
 #################################
 ####  general functions #########
 #################################
 
-# task of function: ask to user yes or no
-# usage: ask_to_user_yes_or_no "your question"
-# return TEMP_USER_ANSWER variable filled with "yes" or "no"
-ask_to_user_yes_or_no () 
-{
-		# default answer = no
-		TEMP_USER_ANSWER="no"
-		clear
-		echo ""
-		echo -e ${1}
-		read -n 1 -p "(y/n)? :"
-		if [ "${REPLY}" = "y" ]; then
-			TEMP_USER_ANSWER="yes"
-		else
-			TEMP_USER_ANSWER="no"
-		fi
-}
-
-# Determine the OS architecture
-get_os_architecture () 
-{
-		if [ ${HOSTTYPE} == "x86_64" ]; then
-			ARCH=x64
-		else
-			ARCH=x32
-		fi
-}
-get_os_architecture
-
-# Linux Distribution CentOS or Debian
-get_linux_distribution ()
-{ 
-	V1=`cat /etc/*release | head -n1 | tail -n1 | cut -c 14- | cut -c1-18`
-	V2=`cat /etc/*release | head -n7 | tail -n1 | cut -c 14- | cut -c1-14`
-	PHPV=`php -v |sed -n 1p|awk '{ print $1 $2 }'|cut -c 1-4`
-	if [ "$V1" = "Debian GNU/Linux 8" ]; then
-		DIST="DEBIAN"
-		else if [ "$V2" = "CentOS Linux 7" ]; then
-			DIST="CENTOS"
-		else
-			DIST="OTHER"
-			echo 'Opps!! Quick Installation does not support your distribution'
-			exit 1
-		fi
-	fi
-}
-get_linux_distribution
-install_php7 ()
-{
-	if [ "$DIST" = "DEBIAN" ]; then
-		apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y curl
-		echo "
-deb http://packages.dotdeb.org jessie all
-deb-src http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/php7.list
-		curl https://www.dotdeb.org/dotdeb.gpg | apt-key add -
-		apt-get update
-		else if [ "$DIST" = "CENTOS" ]; then
-			yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-			yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-			yum install yum-utils
-			yum-config-manager --enable remi-php70
-		fi
-	fi 
-}
-# Generate random password (for MySQL)
+#Generate random password
 genpasswd() 
 {
-		length=$1
-		[ "$length" == "" ] && length=16
-		tr -dc A-Za-z0-9_ < /dev/urandom | head -c ${length} | xargs
+        length=$1
+        [ "$length" == "" ] && length=16
+        tr -dc '12345_*qwertQWERTasdfgASDFGzxcvbZXCVB' < /dev/urandom | head -c ${length} | xargs
 }
 
-MYSQL_ROOT_PASSWORD=$(genpasswd)
-ASTPPUSER_MYSQL_PASSWORD=$(genpasswd)
-
-#################################
-########  ASK SCRIPTS ###########
-#################################
-
-# Ask to install astpp
-ask_to_install_astpp () 
-{        
-        if [ ${DIST} = "CENTOS" ]; then
-            yum install -y wget
+MYSQL_ROOT_PASSWORD=`echo "$(genpasswd 20)" | sed s/./*/5`
+ASTPPUSER_MYSQL_PASSWORD=`echo "$(genpasswd 20)" | sed s/./*/5`
+#Fetch OS Distribution
+get_linux_distribution ()
+{ 
+        V1=`cat /etc/*release | head -n1 | tail -n1 | cut -c 14- | cut -c1-18`
+        V2=`cat /etc/*release | head -n7 | tail -n1 | cut -c 14- | cut -c1-14`
+        if [[ $V1 = "Debian GNU/Linux 9" ]]; then
+                DIST="DEBIAN"
+        else if [[ $V2 = "CentOS Linux 7" ]]; then
+                DIST="CENTOS"
+        else
+                DIST="OTHER"
+                echo -e 'Ooops!!! Quick Installation does not support your distribution \nPlease use manual steps or contact ASTPP Sales Team \nat sales@astpp.com.'
+                exit 1
         fi
-		# License acceptance		
-		clear		
-		echo "********************"
-		echo "License acceptance"
-		echo "********************"		
-		if [ -f LICENSE ]; then
-			more LICENSE
-		else
-			wget --no-check-certificate -q -O GNU-AGPLv3.6.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
-			more GNU-AGPLv3.6.txt	
-		fi
-		echo "***"
-		echo "*** I agree to be bound by the terms of the license - [YES/NO]"
-		echo "*** " 
-		read ACCEPT
-		while [ "$ACCEPT" != "yes" ] && [ "$ACCEPT" != "Yes" ] && [ "$ACCEPT" != "YES" ] && [ "$ACCEPT" != "no" ] && [ "$ACCEPT" != "No" ] && [ "$ACCEPT" != "NO" ]; do
-			echo "I agree to be bound by the terms of the license - [YES/NO]"
-			read ACCEPT
-		done
-		if [ "$ACCEPT" != "yes" ] && [ "$ACCEPT" != "Yes" ] && [ "$ACCEPT" != "YES" ]; then
-			echo "License rejected!"
-			exit 0
-		else
-			echo "Licence accepted!"
-			install_php7
-			echo "============checking your working directory=================="			
-			git clone -b v3.6 https://github.com/iNextrix/ASTPP.git
-			cp -rf ASTPP latest			
-			if [ ${CURRENT_DIR} == ${DOWNLOAD_DIR} ]; then
-				echo "dir is '$CURRENT_DIR' and it's matched!!!"			
-			else			
-				echo "dir is '$CURRENT_DIR' and not matched!!!"
-				mv -f ${CURRENT_DIR}/latest ${DOWNLOAD_DIR}/.			
-				clear
-				echo "====================Starting installation again======================"
-				sleep 10
-				cd ${ASTPP_SOURCE_DIR} && chmod +x install.sh && ./install.sh			
-				clear
-			fi
-		fi
-		ask_to_user_yes_or_no "Do you want to install ASTPP?"
-		if [ "${TEMP_USER_ANSWER}" = "yes" ]; then
-			INSTALL_ASTPP="yes"
-			echo ""
-			read -p "Enter FQDN example (i.e ${ASTPP_HOST_DOMAIN_NAME}): "
-			ASTPP_HOST_DOMAIN_NAME=${REPLY}
-			echo "Your entered FQDN is : ${ASTPP_HOST_DOMAIN_NAME} "
-			echo ""
-			read -p "Enter your email address: ${EMAIL}"
-			EMAIL=${REPLY}
-			read -n 1 -p "Press any key to continue ... "
-			ask_to_user_yes_or_no "Do you want use FreeSwitch on ASTPP?"
-			if 	[ ${TEMP_USER_ANSWER} = "yes" ]; then
-				ASTPP_USING_FREESWITCH="yes"			  
-			fi					  
-			ask_to_user_yes_or_no "Do you want to install ASTPP web interface?"
-			if [ ${TEMP_USER_ANSWER} = "yes" ]; then
-				INSTALL_ASTPP_WEB_INTERFACE="yes"
-			fi	 
-		fi
-		echo "Installation Done"
-}
-ask_to_install_astpp
-
-
-#################################
-####  INSTALL SCRIPTS ###########
-#################################
-
-clear
-echo -e "Are you ready?"
-read -n 1 -p "Press any key to continue ... "
-clear
-
-# install freeswitch for astpp
-install_freeswitch_for_astpp () 
-{  
-		if [ ${DIST} = "DEBIAN" ]; then
-			curl https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add -
-			echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-			apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y --force-yes freeswitch-video-deps-most
-			# Install Freeswitch pre-requisite packages using apt-get
-			apt-get install -y autoconf automake devscripts gawk chkconfig dnsutils sendmail-bin sensible-mda ntpdate ntp g++ git-core curl libjpeg62-turbo-dev libncurses5-dev make python-dev pkg-config libgdbm-dev libyuv-dev libdb-dev libvpx2-dev gettext sudo lua5.1 php7.0 php7.0-dev php7.0-common php7.0-cli php7.0-gd php-pear php7.0-cli php-apc php7.0-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc libldns-dev libpcre3-dev build-essential libssl-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev bc
-			
-			#-------------------MySQL setup in for freeswitch Start ------------------------
-			clear
-			echo "======================Mysql installation start======================="
-			sleep 20
-			echo "MySQL root password is set to : ${MYSQL_ROOT_PASSWORD}" 
-			echo "astppuser password is set to : ${ASTPPUSER_MYSQL_PASSWORD}"
-			echo mysql-server mysql-server/root_password password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
-			echo mysql-server mysql-server/root_password_again password ${MYSQL_ROOT_PASSWORD} | debconf-set-selections
-			apt-get install -y mysql-server php7.0-mysql
-			echo "======================Mysql installation end======================="
-			sleep 20
-			#-------------------MySQL setup in for freeswitch End ------------------------
-			
-	    elif  [ ${DIST} = "CENTOS" ]; then
-			# Install Freeswitch pre-requisite packages using yum
-			yum groupinstall "Development tools" -y
-			rpm -Uvh http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm
-			yum install -y wget git autoconf automake expat-devel yasm nasm gnutls-devel libtiff-devel libX11-devel unixODBC-devel python-devel zlib-devel alsa-lib-devel libogg-devel libvorbis-devel uuid-devel @development-tools gdbm-devel db4-devel libjpeg libjpeg-devel compat-libtermcap ncurses ncurses-devel ntp screen sendmail sendmail-cf gcc-c++ @development-tools bison bzip2 curl curl-devel dmidecode git make mysql-connector-odbc openssl-devel unixODBC zlib pcre-devel speex-devel sqlite-devel ldns-devel libedit-devel bc e2fsprogs-devel libcurl-devel libxml2-devel libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbound-devel libuuid-devel lua-devel libsndfile-devel
-		fi
-		NAT1=$(dig +short myip.opendns.com @resolver1.opendns.com)
-		NAT2=$(curl http://ip-api.com/json/)
-		INTF=$(ifconfig $1|sed -n 2p|awk '{ print $2 }'|awk -F : '{ print $2 }')
-		if [ "${NAT1}" != "${INTF}" ]; then
-			echo "Server is behind NAT";
-		fi
-		curl --data "email=$EMAIL" --data "data=$NAT2" --data "type=Install" http://astppbilling.org/lib/
-		echo "Lets first make sure that time is correct before we continue ... "
-    
-		# set right time
-		set_right_time () 
-		{
-			echo "Setting up correct time ..."
-			ntpdate pool.ntp.org
-			if [ ${DIST} = "DEBIAN" ]; then
-				systemctl restart ntp
-				chkconfig ntp on
-			else [ -f /etc/redhat-release ]
-				systemctl restart ntpd
-				chkconfig ntpd on
-			fi
-		}
-		set_right_time
-		
-		#-----------------Freeswitch Installation Start------------------------------
-		# Download latest freeswitch version
-		cd /usr/local/src		
-		git config --global pull.rebase true
-		git clone -b v1.6.19 https://freeswitch.org/stash/scm/fs/freeswitch.git
-		cd freeswitch
-		./bootstrap.sh -j
-		# Edit modules.conf
-		
-		sed -i "s#\#xml_int/mod_xml_curl#xml_int/mod_xml_curl#g" /usr/local/src/freeswitch/modules.conf
-		sed -i "s#\#applications/mod_curl#applications/mod_curl#g" /usr/local/src/freeswitch/modules.conf
-		sed -i "s#\#event_handlers/mod_json_cdr#event_handlers/mod_json_cdr#g" /usr/local/src/freeswitch/modules.conf
-		sed -i "s#\#applications/mod_voicemail#applications/mod_voicemail#g" /usr/local/src/freeswitch/modules.conf
-		
-		# Compile the Source
-		./configure -C
-		# Install Freeswitch with sound files		
-		make all install cd-sounds-install cd-moh-install
-		make && make install
-		# Create symbolic links for Freeswitch executables
-		ln -s /usr/local/freeswitch/bin/freeswitch /usr/local/bin/freeswitch
-		ln -s /usr/local/freeswitch/bin/fs_cli /usr/local/bin/fs_cli		
-		#-----------------Freeswitch Installation End------------------------------
-		if [ ${DIST} = "DEBIAN" ]; then
-			systemctl stop apache2
-			systemctl disable apache2			
-		elif  [ ${DIST} = "CENTOS" ]; then
-			systemctl stop httpd
-			systemctl disable httpd			
-		fi		
-
+        fi
 }
 
-#SUB Configure astpp Freeswitch Startup Script
-astpp_freeswitch_startup_script ()
+#Install Prerequisties
+install_prerequisties ()
 {
-		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
-			echo "ASTPP source doesn't exists, downloading it..."
-			cd /usr/src/			
-			git clone -b v3.6 https://github.com/iNextrix/ASTPP.git
-			cp -rf ASTPP latest			
-		fi 		
-		if [ ${DIST} = "DEBIAN" ]; then
-			adduser --disabled-password  --quiet --system --home ${FS_DIR} --gecos "FreeSWITCH Voice Platform" --ingroup daemon freeswitch
-			chown -R freeswitch:daemon ${FS_DIR}/
-			chmod -R o-rwx ${FS_DIR}/
-			chmod -R u=rwx,g=rx ${FS_DIR}/bin/*
-			cp ${ASTPP_SOURCE_DIR}/freeswitch/init/freeswitch.debian.init /etc/init.d/freeswitch
-		elif  [ ${DIST} = "CENTOS" ]; then
-			cp ${ASTPP_SOURCE_DIR}/freeswitch/init/freeswitch.centos.init /etc/init.d/freeswitch
-		fi
-	  	chmod 755 /etc/init.d/freeswitch
-	  	chmod +x /etc/init.d/freeswitch
-		update-rc.d freeswitch defaults
-		chkconfig --add freeswitch
-		chkconfig --level 345 freeswitch on
-		mkdir /var/run/freeswitch
-		chown -R freeswitch:daemon  /var/run/freeswitch
+        if [ $DIST = "CENTOS" ]; then
+                systemctl stop httpd
+                systemctl disable httpd
+                yum update
+                yum install -y wget curl git bind-utils ntpdate systemd net-tools whois sendmail sendmail-cf mlocate vim
+        else if [ $DIST = "DEBIAN" ]; then
+                systemctl stop apache2
+                systemctl disable apache2
+                apt update
+                apt install -y wget curl git dnsutils ntpdate systemd net-tools whois sendmail-bin sensible-mda mlocate vim
+        fi
+        fi
 }
 
-startup_services() 
+#Fetch ASTPP Source
+get_astpp_source ()
 {
-	# Startup Services
-    if [ ${DIST} = "DEBIAN" ]; then
-		chkconfig --add nginx
-		chkconfig --level 345 nginx on
-		chkconfig --add mysql
-		chkconfig --level 345 mysql on			
-		systemctl restart mysql
-		systemctl restart nginx
-		systemctl restart freeswitch
-	elif  [ ${DIST} = "CENTOS" ]; then
-		chkconfig --add nginx
-		chkconfig --levels 35 nginx on
-		chkconfig --add mysqld
-		chkconfig --levels 35 mysqld on
-		systemctl restart mariadb
-		systemctl restart nginx
-		systemctl restart freeswitch		
-	fi
+        cd /opt
+        git clone -b v4.0 https://github.com/iNextrix/ASTPP.git
 }
 
-# Setup MySQL For ASTPP
-mySQL_for_astpp () 
+#License Acceptence
+license_accept ()
 {
-		# Start MySQL server
-		if [ ${DIST} = "DEBIAN" ]; then
-			systemctl restart mysql
-		else [ -f /etc/redhat-release ]
-		#	/etc/init.d/mysqld restart
-			systemctl restart mariadb
-		fi
-		# Configure MySQL server
-		sleep 5
-		
-		# Save MySQL root password to a text file in /root
-		echo ""
-		echo "MySQL password set to '${MYSQL_ROOT_PASSWORD}'. Remember to delete ~/.mysql_passwd" | tee ~/.mysql_passwd
-		echo "" >>  ~/.mysql_passwd
-		echo "MySQL astppuser password:  ${ASTPPUSER_MYSQL_PASSWORD} " >>  ~/.mysql_passwd
-		chmod 400 ~/.mysql_passwd
-		read -n 1 -p "*** Press any key to continue ..."
+        cd /usr/src
+        if [ $IS_ENTERPRISE = "True" ]; then
+                echo ""
+        fi
+        if [ $IS_ENTERPRISE = "False" ]; then
+                clear
+                echo "********************"
+                echo "License acceptance"
+                echo "********************"
+                if [ -f LICENSE ]; then
+                        more LICENSE
+                else
+                        wget --no-check-certificate -q -O GNU-AGPLv4.0.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
+                        more GNU-AGPLv4.0.txt
+                fi
+                echo "***"
+                echo "*** I agree to be bound by the terms of the license - [YES/NO]"
+                echo "*** " 
+                read ACCEPT
+                while [ "$ACCEPT" != "yes" ] && [ "$ACCEPT" != "Yes" ] && [ "$ACCEPT" != "YES" ] && [ "$ACCEPT" != "no" ] && [ "$ACCEPT" != "No" ] && [ "$ACCEPT" != "NO" ]; do
+                        echo "I agree to be bound by the terms of the license - [YES/NO]"
+                        read ACCEPT
+                done
+                if [ "$ACCEPT" != "yes" ] && [ "$ACCEPT" != "Yes" ] && [ "$ACCEPT" != "YES" ]; then
+                        echo "Ooops!!! License rejected!"
+                        LICENSE_VALID=False
+                        exit 0
+                else
+                        echo "Hey!!! Licence accepted!"
+                        LICENSE_VALID=True
+                fi
+        fi
+}
 
-        if  [ ${DIST} = "CENTOS" ]; then
-            mysql -uroot -e "UPDATE mysql.user SET password=PASSWORD('${MYSQL_ROOT_PASSWORD}') WHERE user='root'; FLUSH PRIVILEGES;"		
+#Install PHP
+install_php ()
+{
+        cd /usr/src
+        if [ "$DIST" = "DEBIAN" ]; then
+                apt -y install lsb-release apt-transport-https ca-certificates 
+                wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+                echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
+                apt-get update
+                apt install -y php7.3 php7.3-fpm php7.3-mysql php7.3-cli php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-gd php7.3-json php7.3-mbstring php7.3-mysql php7.3-opcache
+                systemctl stop apache2
+                systemctl disable apache2
+        else if [ "$DIST" = "CENTOS" ]; then
+                yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm 
+                yum -y install epel-release yum-utils
+                yum-config-manager --disable remi-php54
+                yum-config-manager --enable remi-php73
+                yum install -y php php-fpm php-mysql php-cli php-json php-readline php-xml php-curl php-gd php-json php-mbstring php-mysql php-opcache
+                systemctl stop httpd
+                systemctl disable httpd
+        fi
         fi 
-
-		# Create astpp database
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "create database ${ASTPP_DATABASE_NAME};"
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER 'astppuser'@'localhost' IDENTIFIED BY '${ASTPPUSER_MYSQL_PASSWORD}';"
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"		
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-3.0.sql
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-3.5.sql
-		mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-upgrade-3.6.sql
-		if [ ${DIST} = "DEBIAN" ]; then
-			apt-get install libmyodbc unixodbc-bin
-			cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbc.ini /etc/odbc.ini
-			cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbcinst.ini /etc/odbcinst.ini
-		fi
-		if  [ ${DIST} = "CENTOS" ]; then
-			yum install unixODBC mysql-connector-odbc
-			cp ${ASTPP_SOURCE_DIR}/misc/odbc/cent_odbc.ini /etc/odbc.ini
-			cp ${ASTPP_SOURCE_DIR}/misc/odbc/cent_odbcinst.ini /etc/odbcinst.ini
-		fi
-		sed -i "s#PASSWORD = <PASSWORD>#PASSWORD = ${MYSQL_ROOT_PASSWORD}#g" /etc/odbc.ini
 }
 
-install_astpp () 
+#Install Mysql
+install_mysql ()
 {
-		# Download ASTPP
-		if [ ! -d ${ASTPP_SOURCE_DIR} ]; then
-			echo "ASTPP source doesn't exists, downloading it..."
-			cd /usr/src/
-			git clone -b v3.6 https://github.com/iNextrix/ASTPP.git
-			cp -rf ASTPP latest			
-    	fi
-    	if [ ${DIST} = "DEBIAN" ]; then
-			# Install ASTPP pre-requisite packages using apt-get
-			systemctl stop apache2
-			systemctl disable apache2
-			apt-get -o Acquire::Check-Valid-Until=false update
-			apt-get install -y curl libyuv-dev libvpx2-dev nginx php7.0-fpm php7.0 php7.0-mcrypt libmyodbc unixodbc-bin php7.0-dev php7.0-common php7.0-cli php7.0-gd php-pear php7.0-cli php-apc php7.0-curl libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc g++
-		elif  [ ${DIST} = "CENTOS" ]; then
-			# Install ASTPP pre-requisite packages using YUM
-			yum install -y autoconf automake bzip2 cpio curl nginx php-fpm php-mcrypt* unixODBC mysql-connector-odbc curl-devel php php-devel php-common php-cli php-gd php-pear php-mysql php-pdo php-pecl-json mysql mariadb-server mysql-devel libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++ httpd httpd-devel
-		fi	
-		#	cd ${ASTPP_SOURCE_DIR}	
-		if [ ${DIST} = "DEBIAN" ]; then
-			echo "Normalize ASTPP for Debian"			
-			touch /var/log/nginx/astpp_access_log
-			touch /var/log/nginx/astpp_error_log
-			touch /var/log/nginx/fs_access_log
-			touch /var/log/nginx/fs_error_log			
-			php5enmod mcrypt
-			systemctl restart php7.0-fpm
-			service nginx reload
-		fi
-		if [ ${DIST} = "CENTOS" ]; then
-			systemctl stop httpd
-			systemctl disable httpd
-			systemctl start php-fpm			
-		fi
-		if [ ${ASTPP_USING_FREESWITCH} = "yes" ]; then
-			#Folder creation and permission
-			mkdir -p ${ASTPPDIR}		
-			mkdir -p ${ASTPPLOGDIR}		
-			mkdir -p ${ASTPPEXECDIR}
-			if [ ${DIST} = "DEBIAN" ]; then
-				chown -Rf root.root ${ASTPPDIR}
-				chown -Rf www-data.www-data ${ASTPPLOGDIR}
-				chown -Rf root.root ${ASTPPEXECDIR}				
-			elif [ ${DIST} = "CENTOS" ]; then
-				chown -Rf root.root ${ASTPPDIR}
-				chown -Rf root.root ${ASTPPLOGDIR}
-				chown -Rf root.root ${ASTPPEXECDIR}				
-			fi
-			
-			#Setup FS-Scripts
-			/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/scripts/* ${FS_SCRIPTS}/
-			/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/fs /var/www/html/
-						
-			/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/sounds/*.wav ${FS_SOUNDSDIR}/
-			chmod -Rf 755 ${FS_SOUNDSDIR}
-			rm -rf  /usr/local/freeswitch/conf/dialplan/*
-			touch /usr/local/freeswitch/conf/dialplan/astpp.xml
-			rm -rf  /usr/local/freeswitch/conf/directory/*
-			touch /usr/local/freeswitch/conf/directory/astpp.xml
-			rm -rf  /usr/local/freeswitch/conf/sip_profiles/*
-			touch /usr/local/freeswitch/conf/sip_profiles/astpp.xml
-		fi
-		if [ ${INSTALL_ASTPP_WEB_INTERFACE} = "yes" ]; then
-			echo "Installing ASTPP web interface"
-			mkdir -p ${ASTPPDIR}		
-			#Copy configuration file
-			cp ${ASTPP_SOURCE_DIR}/config/astpp-config.conf ${ASTPPDIR}astpp-config.conf
-			cp ${ASTPP_SOURCE_DIR}/config/astpp.lua ${ASTPPDIR}astpp.lua			
-			#Install GUI of ATSPP
-			mkdir -p ${WWWDIR}/astpp
-			echo "Directory created ${WWWDIR}/astpp"
-			cp -rf ${ASTPP_SOURCE_DIR}/web_interface/astpp/* ${WWWDIR}/astpp/			
-			if [ ${DIST} = "DEBIAN" ]; then
-				chown -Rf root.root ${WWWDIR}/astpp
-				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_astpp.conf /etc/nginx/sites-enabled/astpp.conf
-				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_fs.conf /etc/nginx/sites-enabled/fs.conf		
-				sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php/7.0/fpm/pool.d/www.conf
-				sed -i "s/client_max_body_size 8M/client_max_body_size 20M/" /etc/nginx/sites-enabled/astpp.conf
-				sed -i '35i fastcgi_read_timeout 300;' /etc/nginx/sites-enabled/astpp.conf
-				systemctl restart nginx
-			elif  [ ${DIST} = "CENTOS" ]; then
-				chown -Rf root.root ${WWWDIR}/astpp
-				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_astpp.conf /etc/nginx/conf.d/astpp.conf
-				cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_fs.conf /etc/nginx/conf.d/fs.conf
-				sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/sysconfig/selinux
-				sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
-				sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php-fpm.d/www.conf
-				sed -i "s/client_max_body_size 8M/client_max_body_size 20M/" /etc/nginx/conf.d/astpp.conf
-				sed -i '35i fastcgi_read_timeout 300;' /etc/nginx/conf.d/astpp.conf
-				/etc/init.d/iptables stop
-				chkconfig iptables off
-				setenforce 0
-			fi
-			chmod -Rf 755 ${WWWDIR}/astpp
-			chmod -Rf 755 ${WWWDIR}/fs
-			if [ ${DIST} = "DEBIAN" ]; then
-				chown -Rf www-data.www-data ${WWWDIR}/astpp
+        cd /usr/src
+        if [ "$DIST" = "DEBIAN" ]; then
+                wget https://repo.mysql.com/mysql-apt-config_0.8.13-1_all.deb
+                dpkg -i mysql-apt-config_0.8.13-1_all.deb
+                apt update
+                apt -y install unixodbc unixodbc-bin
+                debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password ${MYSQL_ROOT_PASSWORD}"
+                debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password ${MYSQL_ROOT_PASSWORD}"
+                debconf-set-selections <<< "mysql-community-server mysql-server/default-auth-override select Use Legacy Authentication Method (Retain MySQL 5.x Compatibility)"
+                DEBIAN_FRONTEND=noninteractive apt install -y mysql-server
+                wget https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.15-linux-debian9-x86-64bit.tar.gz
+                tar -xzvf  mysql-connector-odbc-8.0.15-linux-debian9-x86-64bit.tar.gz
+                cd /usr/src/mysql-connector-odbc-8.0.15-linux-debian9-x86-64bit/
+                cp -rf lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/.
+        else if [ "$DIST" = "CENTOS" ]; then
+                wget https://repo.mysql.com/mysql80-community-release-el7-1.noarch.rpm
+                yum localinstall -y mysql80-community-release-el7-1.noarch.rpm
+                yum install -y mysql-community-server unixODBC mysql-connector-odbc
+                systemctl start mysqld
+                MYSQL_ROOT_TEMP=$(grep 'temporary password' /var/log/mysqld.log | cut -c 14- | cut -c100-111 2>&1)
+                mysql -uroot -p${MYSQL_ROOT_TEMP} --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';FLUSH PRIVILEGES;"
+        fi
+        fi
+        echo ""
+        echo "MySQL password set to '${MYSQL_ROOT_PASSWORD}'. Remember to delete ~/.mysql_passwd" >> ~/.mysql_passwd
+        echo "" >>  ~/.mysql_passwd
+        echo "MySQL astppuser password:  ${ASTPPUSER_MYSQL_PASSWORD} " >>  ~/.mysql_passwd
+        chmod 400 ~/.mysql_passwd
+}
+
+#Normalize mysql installation
+normalize_mysql ()
+{
+        if [ ${DIST} = "DEBIAN" ]; then
+                cp ${ASTPP_SOURCE_DIR}/misc/odbc/deb_odbc.ini /etc/odbc.ini
+                sed -i '33i wait_timeout=600' /etc/mysql/mysql.conf.d/mysqld.cnf
+        sed -i '33i interactive_timeout = 600' /etc/mysql/mysql.conf.d/mysqld.cnf
+        sed -i '33i sql_mode=""' /etc/mysql/mysql.conf.d/mysqld.cnf
+        systemctl restart mysql
+                systemctl enable mysql
+        elif  [ ${DIST} = "CENTOS" ]; then
+                systemctl start mysqld
+                systemctl enable mysqld
+                cp ${ASTPP_SOURCE_DIR}/misc/odbc/cent_odbc.ini /etc/odbc.ini
+                sed -i '26i wait_timeout=600' /etc/my.cnf
+        sed -i '26i interactive_timeout = 600' /etc/my.cnf
+        sed -i '26i sql-mode=""' /etc/my.cnf
+
+        systemctl restart mysql
+                systemctl enable mysql
+        fi
+}
+
+#User Response Gathering
+get_user_response ()
+{
+        echo ""
+        read -p "Enter FQDN example (i.e ${ASTPP_HOST_DOMAIN_NAME}): "
+        ASTPP_HOST_DOMAIN_NAME=${REPLY}
+        echo "Your entered FQDN is : ${ASTPP_HOST_DOMAIN_NAME} "
+        echo ""
+        read -p "Enter your email address: ${EMAIL}"
+        EMAIL=${REPLY}
+        read -n 1 -p "Press any key to continue ... "
+        NAT1=$(dig +short myip.opendns.com @resolver1.opendns.com)
+        NAT2=$(curl http://ip-api.com/json/)
+        INTF=$(ifconfig $1|sed -n 2p|awk '{ print $2 }'|awk -F : '{ print $2 }')
+        if [ "${NAT1}" != "${INTF}" ]; then
+                echo "Server is behind NAT";
+                NAT="True"
+        fi
+        curl --data "email=$EMAIL" --data "data=$NAT2" --data "type=Install" http://astppbilling.org/lib/
+}
+
+#Install ASTPP with dependencies
+install_astpp ()
+{
+        if [ ${DIST} = "DEBIAN" ]; then
+                echo "Installing dependencies for ASTPP"
+                apt update
+                apt install -y nginx ntpdate ntp lua5.1 bc libxml2 libxml2-dev openssl libcurl4-openssl-dev gettext gcc g++
+                echo "Installing dependencies for ASTPP"
+        elif  [ ${DIST} = "CENTOS" ]; then
+                echo "Installing dependencies for ASTPP"
+                yum install -y nginx libxml2 libxml2-devel openssl openssl-devel gettext-devel fileutils gcc-c++
+        fi
+        echo "Creating neccessary locations and configuration files ..."
+        mkdir -p ${ASTPPDIR}
+        mkdir -p ${ASTPPLOGDIR}
+        mkdir -p ${ASTPPEXECDIR}
+        mkdir -p ${WWWDIR}
+        cp -rf ${ASTPP_SOURCE_DIR}/config/astpp-config.conf ${ASTPPDIR}astpp-config.conf
+        cp -rf ${ASTPP_SOURCE_DIR}/config/astpp.lua ${ASTPPDIR}astpp.lua
+        ln -s ${ASTPP_SOURCE_DIR}/web_interface/astpp ${WWWDIR}
+        ln -s ${ASTPP_SOURCE_DIR}/freeswitch/fs ${WWWDIR}
+}
+
+#Normalize astpp installation
+normalize_astpp ()
+{
+        mkdir -p /etc/nginx/ssl
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+        if [ ${DIST} = "DEBIAN" ]; then
+                cp -rf ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_astpp.conf /etc/nginx/conf.d/astpp.conf
+                systemctl start nginx
+                systemctl enable nginx
+                systemctl start php7.3-fpm
+                systemctl enable php7.3-fpm
+                chown -Rf root.root ${ASTPPDIR}
                 chown -Rf www-data.www-data ${ASTPPLOGDIR}
-				chown -Rf root.root ${WWWDIR}/fs
-			elif [ ${DIST} = "CENTOS" ]; then
-				chown -Rf apache.apache ${WWWDIR}/astpp
+                chown -Rf root.root ${ASTPPEXECDIR}
+                chown -Rf www-data.www-data ${WWWDIR}/astpp   
+                chmod -Rf 755 ${WWWDIR}/astpp     
+                sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php/7.3/fpm/pool.d/www.conf
+                sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php/7.3/fpm/php.ini
+                sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php/7.3/fpm/php.ini
+                sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php/7.3/fpm/php.ini
+                sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php/7.3/fpm/php.ini
+                sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php/7.3/fpm/php.ini
+                sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php/7.3/fpm/php.ini
+                systemctl restart php7.3-fpm
+        elif  [ ${DIST} = "CENTOS" ]; then
+                cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_astpp.conf /etc/nginx/conf.d/astpp.conf
+                setenforce 0
+                systemctl start nginx
+                systemctl enable nginx
+                systemctl start php-fpm
+                systemctl enable php-fpm
+                chown -Rf root.root ${ASTPPDIR}
                 chown -Rf apache.apache ${ASTPPLOGDIR}
-				chown -Rf root.root ${WWWDIR}/fs
-			fi
-		fi	
-		touch /var/log/astpp/astpp.log
+                chown -Rf root.root ${ASTPPEXECDIR}
+                chown -Rf apache.apache ${WWWDIR}/astpp
+                chmod -Rf 755 ${WWWDIR}/astpp
+                sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php-fpm.d/www.conf
+                sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
+                sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php.ini
+                sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php.ini
+                sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php.ini
+                sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php.ini
+                sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php.ini
+				systemctl restart php-fpm
+        fi
+        touch /var/log/astpp/astpp.log
+        chmod 777 /var/log/astpp/astpp.log
+        sed -i "s#dbpass = <PASSSWORD>#dbpass = ${ASTPPUSER_MYSQL_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
+        sed -i "s#DB_PASSWD=\"<PASSSWORD>\"#DB_PASSWD = \"${ASTPPUSER_MYSQL_PASSWORD}\"#g" ${ASTPPDIR}astpp.lua
+        sed -i "s#base_url=http://localhost:8089/#base_url=https://${ASTPP_HOST_DOMAIN_NAME}/#g" ${ASTPPDIR}/astpp-config.conf
+        sed -i "s#PASSWORD = <PASSWORD>#PASSWORD = ${ASTPPUSER_MYSQL_PASSWORD}#g" /etc/odbc.ini
+        systemctl restart nginx
 }
 
-finalize_astpp_installation () 
+#Install freeswitch with dependencies
+install_freeswitch ()
 {
-		# /etc/php.ini short_open_tag = On
-		# short_open_tag = Off   to short_open_tag = On        
-		echo "Make sure Short Open Tag is switched On"    
-		if [ ${DIST} = "DEBIAN" ]; then
-			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php/7.0/fpm/php.ini
-			sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php/7.0/fpm/php.ini
-			sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php/7.0/fpm/php.ini
-			sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php/7.0/fpm/php.ini
-			sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php/7.0/fpm/php.ini
-			sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini
-			systemctl restart php7.0-fpm
-			systemctl restart nginx
-		elif [ ${DIST} = "CENTOS" ]; then
-			sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
-			sed -i "s#;cgi.fix_pathinfo=1#cgi.fix_pathinfo=1#g" /etc/php.ini
-			sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php.ini
-			sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php.ini
-			sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php.ini
-			sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php.ini
-			
-			#######   Some more steps for CentOS 7  #########
-			yum update					
-			sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/sysconfig/selinux
-			sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
-			setenforce 0			
-			systemctl disable httpd
-			systemctl enable nginx
-			systemctl enable php-fpm			
-			systemctl start mariadb
-			systemctl start freeswitch
-			systemctl stop firewalld			
-			chkconfig --levels 345 mariadb on
-			chkconfig --levels 345 freeswitch on
-			chkconfig --levels 123456 firewalld off
-		fi		
-		/bin/cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/conf/autoload_configs/* /usr/local/freeswitch/conf/autoload_configs/
-			
-		# edit ASTPP Database Connection Information
-		# /var/lib/astpp/astpp-config.conf
-		sed -i "s#dbpass = <PASSSWORD>#dbpass = ${MYSQL_ROOT_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
-		sed -i "s#DB_PASSWD=\"<PASSSWORD>\"#DB_PASSWD = \"${MYSQL_ROOT_PASSWORD}\"#g" ${ASTPPDIR}astpp.lua
-		sed -i "s#base_url=http://localhost:8089/#base_url=http://${ASTPP_HOST_DOMAIN_NAME}:8089/#g" ${ASTPPDIR}/astpp-config.conf
+        if [ ${DIST} = "DEBIAN" ]; then
+                clear
+                echo "Installing FREESWITCH"
+                sleep 5
+                apt-get install -y gnupg2
+                wget -O - https://files.freeswitch.org/repo/deb/freeswitch-1.8/fsstretch-archive-keyring.asc | apt-key add -
+                echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.8/ stretch main" > /etc/apt/sources.list.d/freeswitch.list
+                echo "deb-src http://files.freeswitch.org/repo/deb/freeswitch-1.8/ stretch main" >> /etc/apt/sources.list.d/freeswitch.list
+                apt-get update && apt-get install -y freeswitch-meta-all
+                echo "FREESWITCH installed successfully. . ."
+        elif  [ ${DIST} = "CENTOS" ]; then
+                clear
+                sleep 5
+                echo "Installing FREESWITCH"
+                yum install -y http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm epel-release deltarpm
+                yum install -y freeswitch-config-vanilla freeswitch-lang-* freeswitch-sounds-* freeswitch-xml-curl freeswitch-event-json-cdr freeswitch-lua
+                echo "FREESWITCH installed successfully. . ."
+        fi
+        mv -f ${FS_DIR}/scripts /tmp/.
+        ln -s ${ASTPP_SOURCE_DIR}/freeswitch/fs ${WWWDIR}
+        ln -s ${ASTPP_SOURCE_DIR}/freeswitch/scripts ${FS_DIR}
+        cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/sounds/*.wav ${FS_SOUNDSDIR}/
+        cp -rf ${ASTPP_SOURCE_DIR}/freeswitch/conf/autoload_configs/* /etc/freeswitch/autoload_configs/
 }
 
-setup_cron()
+#Normalize freeswitch installation
+normalize_freeswitch ()
 {
-		if [ ${DIST} = "DEBIAN" ]; then
-			CRONPATH='/var/spool/cron/crontabs/astpp'
-		elif [ ${DIST} = "CENTOS" ]; then
-			CRONPATH='/var/spool/cron/astpp'
-		fi
-		echo "# Generate Invoice   
-		0 12 * * * cd /var/www/html/astpp/cron/ && php cron.php GenerateInvoice
-		# Update Balance notification
-		0 12 * * * cd /var/www/html/astpp/cron/ && php cron.php UpdateBalance
-		# Low balance notification
-		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php LowBalance		
-		# Update currency rate
-		0 0 * * * cd /var/www/html/astpp/cron/ && php cron.php CurrencyUpdate
-		# Email Broadcasting
-		* * * * * cd /var/www/html/astpp/cron/ && php cron.php BroadcastEmail
-		" > $CRONPATH
-		chmod 600 $CRONPATH
-		crontab $CRONPATH
+        systemctl start freeswitch
+        systemctl enable freeswitch
+        sed -i "s#max-sessions\" value=\"1000#max-sessions\" value=\"2000#g" /etc/freeswitch/autoload_configs/switch.conf.xml
+        sed -i "s#sessions-per-second\" value=\"30#sessions-per-second\" value=\"50#g" /etc/freeswitch/autoload_configs/switch.conf.xml
+        sed -i "s#max-db-handles\" value=\"50#max-db-handles\" value=\"500#g" /etc/freeswitch/autoload_configs/switch.conf.xml
+        sed -i "s#db-handle-timeout\" value=\"10#db-handle-timeout\" value=\"30#g" /etc/freeswitch/autoload_configs/switch.conf.xml
+        rm -rf  /etc/freeswitch/dialplan/*
+        touch /etc/freeswitch/dialplan/astpp.xml
+        rm -rf  /etc/freeswitch/directory/*
+        touch /etc/freeswitch/directory/astpp.xml
+        rm -rf  /etc/freeswitch/sip_profiles/*
+        touch /etc/freeswitch/sip_profiles/astpp.xml
+        chmod -Rf 755 ${FS_SOUNDSDIR}
+        if [ ${DIST} = "DEBIAN" ]; then
+                cp -rf ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_fs.conf /etc/nginx/conf.d/fs.conf
+                chown -Rf root.root ${WWWDIR}/fs
+                chmod -Rf 755 ${WWWDIR}/fs
+                /bin/systemctl restart freeswitch
+                /bin/systemctl enable freeswitch
+        elif  [ ${DIST} = "CENTOS" ]; then
+                cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_fs.conf /etc/nginx/conf.d/fs.conf
+                chown -Rf root.root ${WWWDIR}/fs
+                chmod -Rf 755 ${WWWDIR}/fs
+                sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/sysconfig/selinux
+                sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
+                /usr/bin/systemctl restart freeswitch
+                /usr/bin/systemctl enable freeswitch
+        fi
 }
 
+#Install Database for ASTPP
+install_database ()
+{
+        mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} create ${ASTPP_DATABASE_NAME}
+        mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER 'astppuser'@'localhost' IDENTIFIED BY '${ASTPPUSER_MYSQL_PASSWORD}';"
+        mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER 'astppuser'@'localhost' IDENTIFIED WITH mysql_native_password BY '${ASTPPUSER_MYSQL_PASSWORD}';"
+        mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"
+        mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-4.0.sql
+}
+
+#Firewall Configuration
+configure_firewall ()
+{
+        if [ ${DIST} = "DEBIAN" ]; then
+                apt install -y firewalld
+                systemctl start firewalld
+                systemctl enable firewalld
+                firewall-cmd --permanent --zone=public --add-service=https
+				firewall-cmd --permanent --zone=public --add-service=http
+                firewall-cmd --permanent --zone=public --add-port=5060/udp
+				firewall-cmd --permanent --zone=public --add-port=5060/tcp
+                firewall-cmd --permanent --zone=public --add-port=16384-32767/udp
+                firewall-cmd --reload
+        elif  [ ${DIST} = "CENTOS" ]; then
+                yum install -y firewalld
+                systemctl start firewalld
+                systemctl enable firewalld
+                firewall-cmd --permanent --zone=public --add-service=https
+				firewall-cmd --permanent --zone=public --add-service=http
+                firewall-cmd --permanent --zone=public --add-port=5060/udp
+				firewall-cmd --permanent --zone=public --add-port=5060/tcp
+                firewall-cmd --permanent --zone=public --add-port=16384-32767/udp
+                firewall-cmd --reload
+        fi
+}
+
+#Install Fail2ban for security
 install_fail2ban()
 {
-		read -n 1 -p "Do you want to install and configure Fail2ban ? (y/n) "
-		if [ "$REPLY"   = "y" ]; then
-			if [ -f /etc/debian_version ] ; then
-				DIST="DEBIAN"
-				apt-get -y install fail2ban
-				echo '[DEFAULT]
+                read -n 1 -p "Do you want to install and configure Fail2ban ? (y/n) "
+                if [ "$REPLY"   = "y" ]; then
+                        if [ -f /etc/debian_version ] ; then
+                                DIST="DEBIAN"
+                                apt-get -y install fail2ban
+                                echo ""
+                            read -p "Enter Client's Notification email address: ${NOTIEMAIL}"
+                            NOTIEMAIL=${REPLY}
+                            echo ""
+                            read -p "Enter sender email address: ${NOTISENDEREMAIL}"
+                            NOTISENDEREMAIL=${REPLY}
+                            cd /usr/src
+                            wget http://dlys20.inextrix.com:50990/ASTPP_Support/fail2ban_Deb8.tar.gz
+                            tar xzvf fail2ban_Deb8.tar.gz
+                            rm -rf /etc/fail2ban
+                            cp -rf /usr/src/fail2ban /etc/fail2ban
+                                echo '[DEFAULT]
 # Ban hosts for one hour:
 bantime = -1
-ignoreip = 127.0.0.1
+ignoreip = 127.0.0.0/8 
 # Override /etc/fail2ban/jail.d/00-firewalld.conf:
 banaction = iptables-multiport
+
 [ssh]
-enabled = true
-maxretry = 3
-bantime = 10000000
-action   = iptables-multiport[name=ssh, port="ssh", protocol=tcp]
+enabled  = true
+action   = iptables-allports[name=sshd, protocol=all]
+           sendmail-whois[name=Fail2ban-SSH-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 5
+findtime = 7200
+bantime  = 86400
 [ssh-ddos]
 enabled = true
 maxretry = 3
 bantime = 10000000
 action   = iptables-multiport[name=ssh-ddos, port="ssh", protocol=tcp]
-[nginx-http-auth]
-enabled = true
-maxretry = 3
-bantime = 10000000
-action   = iptables-multiport[name=nginx, port="http,https,8089,8735", protocol=tcp]
-[freeswitch]
-enabled = true
-logpath = /usr/local/freeswitch/log/freeswitch.log
+          sendmail-whois[name=Fail2ban-SSH-DDOS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+[freeswitch-udp]
+enabled  = true
+port     = 5060
+protocol = all
+filter   = freeswitch
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=freeswitch-udp, port="%(port)s", protocol=udp]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
 maxretry = 5
-bantime = 10000000
-port = 5060
-action   = %(banaction)s[name=%(__name__)s-tcp, port="%(port)s", protocol="tcp", chain="%(chain)s", actname=%(banaction)s-tcp]
-           %(banaction)s[name=%(__name__)s-udp, port="%(port)s", protocol="udp", chain="%(chain)s", actname=%(banaction)s-udp]
-#findtime = 10' >> /etc/fail2ban/jail.local			
-			elif [ -f /etc/redhat-release ] ; then
-				DIST="CENTOS"
-				yum install fail2ban	
-				echo '[DEFAULT]
+findtime = 600
+bantime  = 3600
+#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
+sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+[freeswitch-tcp]
+enabled  = true
+port     = 5060
+protocol = all
+filter   = freeswitch
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=freeswitch-tcp, port="%(port)s", protocol=tcp]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 5
+findtime = 600
+bantime  = 3600
+#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
+
+[freeswitch-ip-tcp]
+enabled  = false
+port     = 5060
+protocol = all
+filter   = freeswitch-ip
+logpath  = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=freeswitch-ip-tcp, port="%(port)s", protocol=tcp]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 1
+findtime = 30
+bantime  = 86400
+
+[freeswitch-ip-udp]
+enabled  = false
+port     = 5060
+protocol = all
+filter   = freeswitch-ip
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=freeswitch-ip-udp, port="%(port)s", protocol=udp]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 1
+findtime = 30
+bantime  = 86400
+
+[sip-auth-failure]
+enabled  = true
+port     = 5060
+protocol = all
+filter   = sip-auth-failure
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=sip-auth-failure, port="%(port)s", protocol=all]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 3
+findtime = 30
+bantime  = 7200
+
+[sip-auth-challenge]
+enabled  = true
+port     = 5060
+protocol = all
+filter   = sip-auth-challenge
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=sip-auth-challenge, port="%(port)s", protocol=all]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender=fail2ban.astpp@myctel.com ,dest="'${NOTIEMAIL}'"]
+maxretry = 50
+findtime = 30
+bantime  = 7200' >> /etc/fail2ban/jail.local
+                        elif [ -f /etc/redhat-release ] ; then
+                                DIST="CENTOS"
+                                yum install -y fail2ban
+                                echo ""
+                            read -p "Enter Client's Notification email address: ${NOTIEMAIL}"
+                            NOTIEMAIL=${REPLY}
+                            echo ""
+                            read -p "Enter sender email address: ${NOTISENDEREMAIL}"
+                            NOTISENDEREMAIL=${REPLY}
+                            cd /usr/src
+                            wget http://dlys20.inextrix.com:50990/ASTPP_Support/fail2ban_Cent7.tar.gz
+                            tar xzvf fail2ban_Cent7.tar.gz
+                            rm -rf /etc/fail2ban
+                            cp -rf /usr/src/fail2ban /etc/fail2ban
+                                echo '[DEFAULT]
 # Ban hosts for one hour:
 bantime = -1
-ignoreip = 127.0.0.1
+ignoreip = 127.0.0.0/8 
 # Override /etc/fail2ban/jail.d/00-firewalld.conf:
 banaction = iptables-multiport
+
 [sshd]
-enabled = true
-maxretry = 3
-bantime = 10000000
-action   = iptables-multiport[name=ssh, port="ssh", protocol=tcp]
+enabled  = true
+action   = iptables-allports[name=sshd, protocol=all]
+           sendmail-whois[name=Fail2ban-SSHD-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 5
+findtime = 7200
+bantime  = 86400
 [sshd-ddos]
 enabled = true
 maxretry = 3
 bantime = 10000000
-action   = iptables-multiport[name=ssh-ddos, port="ssh", protocol=tcp]
-[nginx-http-auth]
-enabled = true
-maxretry = 3
-bantime = 10000000
-action   = iptables-multiport[name=nginx, port="http,https,'${FSPORT}','${UIPORT}'", protocol=tcp]
-[freeswitch]
-enabled = true
-logpath = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-multiport[name=sshd-ddos, port="ssh", protocol=tcp]
+          sendmail-whois[name=Fail2ban-SSHD-DDOS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+[freeswitch-udp]
+enabled  = true
+port     = 5060
+protocol = all
+filter   = freeswitch
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=freeswitch-udp, port="%(port)s", protocol=udp]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
 maxretry = 5
-bantime = 10000000
-port = 5060
-action   = %(banaction)s[name=%(__name__)s-tcp, port="%(port)s", protocol="tcp", chain="%(chain)s", actname=%(banaction)s-tcp]
-           %(banaction)s[name=%(__name__)s-udp, port="%(port)s", protocol="udp", chain="%(chain)s", actname=%(banaction)s-udp]
-#findtime = 10' >> /etc/fail2ban/jail.local					
-			fi		
-			################################# JAIL.CONF FILE READY ######################
-			echo "################################################################"
-			mkdir /var/run/fail2ban			
-			chkconfig fail2ban on
-			systemctl restart fail2ban
-			systemctl enable fail2ban
-			echo "################################################################"
-			echo "Fail2Ban for FreeSwitch & IPtables Integration completed"
-			else
-			echo ""
-			echo "Fail2ban installation is aborted !"
-		fi   
+findtime = 600
+bantime  = 3600
+#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
+sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+[freeswitch-tcp]
+enabled  = true
+port     = 5060
+protocol = all
+filter   = freeswitch
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=freeswitch-tcp, port="%(port)s", protocol=tcp]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 5
+findtime = 600
+bantime  = 3600
+#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
+
+[freeswitch-ip-tcp]
+enabled  = false
+port     = 5060
+protocol = all
+filter   = freeswitch-ip
+logpath  = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=freeswitch-ip-tcp, port="%(port)s", protocol=tcp]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 1
+findtime = 30
+bantime  = 86400
+
+[freeswitch-ip-udp]
+enabled  = false
+port     = 5060
+protocol = all
+filter   = freeswitch-ip
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=freeswitch-ip-udp, port="%(port)s", protocol=udp]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 1
+findtime = 30
+bantime  = 86400
+
+[sip-auth-failure]
+enabled  = true
+port     = 5060
+protocol = all
+filter   = sip-auth-failure
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=sip-auth-failure, port="%(port)s", protocol=all]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
+maxretry = 3
+findtime = 30
+bantime  = 7200
+
+[sip-auth-challenge]
+enabled  = true
+port     = 5060
+protocol = all
+filter   = sip-auth-challenge
+logpath = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=sip-auth-challenge, port="%(port)s", protocol=all]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender=fail2ban.astpp@myctel.com ,dest="'${NOTIEMAIL}'"]
+maxretry = 50
+findtime = 30
+bantime  = 7200' >> /etc/fail2ban/jail.local
+                        fi
+                        ################################# JAIL.CONF FILE READY ######################
+                        echo "################################################################"
+                        mkdir /var/run/fail2ban
+                        chkconfig fail2ban on
+                        systemctl restart fail2ban
+                        systemctl enable fail2ban
+                        echo "################################################################"
+                        echo "Fail2Ban for FreeSwitch & IPtables Integration completed"
+                        else
+                        echo ""
+                        echo "Fail2ban installation is aborted !"
+                fi   
 }
 
-astpp_install () 
+#Install Monit for service monitoring
+install_monit ()
 {
-		if [ ${ASTPP_USING_FREESWITCH} = "yes" ]; then
-			install_freeswitch_for_astpp
-			astpp_freeswitch_startup_script
-			echo ""
-			echo "FreeSWITCH is Installed"
-		fi
-		install_astpp
-		mySQL_for_astpp
-		finalize_astpp_installation		
-		setup_cron
-		startup_services	
-		install_fail2ban		
-		clear
-		echo "******************************************************************************************"
-		echo "******************************************************************************************"
-		echo "******************************************************************************************"
-		echo "**********                                                                      **********"
-		echo "**********           Your ASTPP is installed successfully                       **********"
-		echo "                     Browse URL: http://${ASTPP_HOST_DOMAIN_NAME}:8089"
-		echo "                     Username: admin"     
-		echo "                     Password: admin"                                       
-		echo "**********           IMPORTANT NOTE: Please reboot your server once.            **********"
-		echo "**********                                                                      **********"
-		echo "******************************************************************************************"
-		echo "******************************************************************************************"
-		echo "******************************************************************************************"
-}
+if [ ${DIST} = "DEBIAN" ]; then
+apt-get -y install monit
+sed -i -e 's/# set mailserver mail.bar.baz,/set mailserver localhost/g' /etc/monit/monitrc
+sed -i -e '/# set mail-format { from: monit@foo.bar }/a set alert '$EMAIL /etc/monit/monitrc
+sed -i -e 's/##   subject: monit alert on --  $EVENT $SERVICE/   subject: monit alert --  $EVENT $SERVICE/g' /etc/monit/monitrc
+sed -i -e 's/##   subject: monit alert --  $EVENT $SERVICE/   subject: monit alert on '${INTF}' --  $EVENT $SERVICE/g' /etc/monit/monitrc
+sed -i -e 's/## set mail-format {/set mail-format {/g' /etc/monit/monitrc
+sed -i -e 's/## }/ }/g' /etc/monit/monitrc
+echo '
+#------------MySQL
+check process mysqld with pidfile /var/run/mysqld/mysqld.pid
+    start program = "/bin/systemctl start mysql"
+    stop program = "/bin/systemctl stop mysql"
+if failed host 127.0.0.1 port 3306 then restart
+if 5 restarts within 5 cycles then timeout
 
-# Install astpp
-start_install_astpp () 
-{
-		if [ ${DIST} = "CENTOS" ]; then
-			astpp_install
-		elif [ ${DIST} = "DEBIAN" ]; then
-			astpp_install
-		else
-			echo "Can't install with this script on your OS"
-		fi
-}
-if [ ${INSTALL_ASTPP} = "yes" ]; then
-		start_install_astpp
+#------------Fail2ban
+check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
+    start program = "/bin/systemctl start fail2ban"
+    stop program = "/bin/systemctl stop fail2ban"
+
+# ---- FreeSWITCH ----
+check process freeswitch with pidfile /var/run/freeswitch/freeswitch.pid
+    start program = "/bin/systemctl start freeswitch"
+    stop program  = "/bin/systemctl stop freeswitch"
+
+#-------nginx----------------------
+check process nginx with pidfile /var/run/nginx.pid
+    start program = "/bin/systemctl start nginx" with timeout 30 seconds
+    stop program  = "/bin/systemctl stop nginx"
+
+#-------php-fpm----------------------
+check process php7.3-fpm with pidfile /var/run/php/php7.3-fpm.pid
+    start program = "/bin/systemctl start php7.3-fpm" with timeout 30 seconds
+    stop program  = "/bin/systemctl stop php7.3-fpm"
+
+#--------system
+check system localhost
+    if loadavg (5min) > 8 for 4 cycles then alert
+    if loadavg (15min) > 8 for 4 cycles then alert
+    if memory usage > 80% for 4 cycles then alert
+    if swap usage > 20% for 4 cycles then alert
+    if cpu usage (user) > 80% for 4 cycles then alert
+    if cpu usage (system) > 20% for 4 cycles then alert
+    if cpu usage (wait) > 20% for 4 cycles then alert
+
+check filesystem "root" with path /
+    if space usage > 80% for 1 cycles then alert' >> /etc/monit/monitrc
+
+systemctl restart monit
+systemctl enable monit    
+
+elif [ ${DIST} = "CENTOS" ]; then
+yum install -y monit
+rm -rf /etc/monit.d
+rpm --force -Uvh /var/cache/yum/x86_64/7/epel/packages/monit-*.rpm
+sed -i -e 's/# set mailserver mail.bar.baz,/set mailserver localhost/g' /etc/monitrc
+sed -i -e '/# set mail-format { from: monit@foo.bar }/a set alert '$EMAIL /etc/monitrc
+sed -i -e 's/##   subject: monit alert --  $EVENT $SERVICE/   subject: monit alert on '${INTF}' --  $EVENT $SERVICE/g' /etc/monitrc
+sed -i -e 's/## set mail-format {/set mail-format {/g' /etc/monitrc
+sed -i -e 's/## }/ }/g' /etc/monitrc
+echo '
+#------------MySQL
+check process mysqld with pidfile /var/run/mysqld/mysqld.pid
+    start program = "/bin/systemctl start mysqld"
+    stop program = "/bin/systemctl stop mysqld"
+if failed host 127.0.0.1 port 3306 then restart
+if 5 restarts within 5 cycles then timeout
+
+#------------Fail2ban
+check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
+    start program = "/bin/systemctl start fail2ban"
+    stop program = "/bin/systemctl stop fail2ban"
+
+# ---- FreeSWITCH ----
+check process freeswitch with pidfile /var/run/freeswitch/freeswitch.pid
+    start program = "/bin/systemctl start freeswitch"
+    stop program  = "/bin/systemctl stop freeswitch"
+
+#-------nginx----------------------
+check process nginx with pidfile /var/run/nginx.pid
+    start program = "/bin/systemctl start nginx" with timeout 30 seconds
+    stop program  = "/bin/systemctl stop nginx"
+    
+#-------php-fpm----------------------
+check process php-fpm with pidfile /var/run/php-fpm/php-fpm.pid
+    start program = "/bin/systemctl start php-fpm" with timeout 30 seconds
+    stop program  = "/bin/systemctl stop php-fpm"
+
+#--------system
+check system localhost
+    if loadavg (5min) > 8 for 4 cycles then alert
+    if loadavg (15min) > 8 for 4 cycles then alert
+    if memory usage > 80% for 4 cycles then alert
+    if swap usage > 20% for 4 cycles then alert
+    if cpu usage (user) > 80% for 4 cycles then alert
+    if cpu usage (system) > 20% for 4 cycles then alert
+    if cpu usage (wait) > 20% for 4 cycles then alert
+
+check filesystem "root" with path /
+    if space usage > 80% for 1 cycles then alert' >> /etc/monitrc
+systemctl restart monit
+systemctl enable monit    
 fi
+}
+
+#Configure logrotation for maintain log size
+logrotate_install ()
+{
+if [ ${DIST} = "DEBIAN" ]; then
+        sed -i -e 's/daily/size 30M/g' /etc/logrotate.d/rsyslog
+        sed -i -e 's/weekly/size 30M/g' /etc/logrotate.d/rsyslog
+        sed -i -e 's/rotate 7/rotate 5/g' /etc/logrotate.d/rsyslog
+        sed -i -e 's/weekly/size 30M/g' /etc/logrotate.d/php7.3-fpm
+        sed -i -e 's/rotate 12/rotate 5/g' /etc/logrotate.d/php7.3-fpm
+        sed -i -e 's/weekly/size 30M/g' /etc/logrotate.d/nginx
+        sed -i -e 's/rotate 52/rotate 5/g' /etc/logrotate.d/nginx
+        sed -i -e 's/weekly/size 30M/g' /etc/logrotate.d/fail2ban
+        sed -i -e 's/weekly/size 30M/g' /etc/logrotate.d/monit    
+elif [ ${DIST} = "CENTOS" ]; then
+        sed -i '7 i size 30M' /etc/logrotate.d/syslog
+        sed -i '7 i rotate 5' /etc/logrotate.d/syslog
+        sed -i '2 i size 30M' /etc/logrotate.d/php-fpm
+        sed -i '2 i rotate 5' /etc/logrotate.d/php-fpm
+        sed -i -e 's/daily/size 30M/g' /etc/logrotate.d/nginx
+        sed -i -e 's/rotate 10/rotate 5/g' /etc/logrotate.d/nginx
+        sed -i '9 i size 30M' /etc/logrotate.d/fail2ban
+        sed -i '9 i rotate 5' /etc/logrotate.d/fail2ban
+        sed -i '2 i rotate 5' /etc/logrotate.d/monit
+        sed -i -e 's/size 100k/size 30M/g' /etc/logrotate.d/monit
+fi
+}
+
+#Remove all downloaded and temp files from server
+clean_server ()
+{
+        cd /usr/src
+        rm -rf fail2ban* GNU-AGPLv3.6.txt install.sh mysql80-community-release-el7-1.noarch.rpm
+        echo "FS restarting...!"
+        systemctl restart freeswitch
+        echo "FS restarted...!"
+}
+
+#Installation Information Print
+start_installation ()
+{
+        get_linux_distribution
+        install_prerequisties
+        license_accept
+        get_astpp_source
+        get_user_response
+        install_mysql
+        normalize_mysql
+        install_freeswitch
+        install_php
+        install_astpp
+        install_database
+        normalize_freeswitch
+        normalize_astpp
+        configure_firewall
+        install_fail2ban
+        install_monit
+        logrotate_install
+        clean_server
+        clear
+        echo "******************************************************************************************"
+        echo "******************************************************************************************"
+        echo "******************************************************************************************"
+        echo "**********                                                                      **********"
+        echo "**********           Your ASTPP is installed successfully                       **********"
+        echo "                     Browse URL: https://${ASTPP_HOST_DOMAIN_NAME}"
+        echo "                     Username: admin"     
+        echo "                     Password: admin"
+        echo ""
+        echo "                     MySQL root user password:"
+        echo "                     ${MYSQL_ROOT_PASSWORD}"                                       
+        echo ""
+        echo "                     MySQL astppuser password:"
+        echo "                     ${ASTPPUSER_MYSQL_PASSWORD}" 
+        echo ""               
+        echo "**********           IMPORTANT NOTE: Please reboot your server once.            **********"
+        echo "**********                                                                      **********"
+        echo "******************************************************************************************"
+        echo "******************************************************************************************"
+        echo "******************************************************************************************"
+}
+start_installation
+

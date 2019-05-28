@@ -17,11 +17,8 @@
     }
     .back_strip
     {
-        /*background-color: #62BFE4;*/
-        background: #4B9ED4 none repeat scroll 0% 0%;
-border: 1px solid rgba(0, 0, 0, 0.15);
+   }
 
-box-shadow: 1px 1px 0px rgba(255, 255, 255, 0.2) inset; }
 <!--Name:pooja
 Date: 01-07-2016 -->
  .ball-clip-rotate>div
@@ -48,79 +45,32 @@ display:inline-block;
 {
 0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
 
-to
-{
--webkit-transform:rotate(1turn);transform:rotate(1turn)}
+    to
+    {
+    -webkit-transform:rotate(1turn);transform:rotate(1turn)
+    }
 }
 @keyframes spin-rotate
 {
 0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
 to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
-}<!-------------------------------------------------------------->
+}
 </style>
 <script type="text/javascript">
     
-    function get_recharge_info(){
+    function build_recharge_graph(drop_val){
+    		var month_year=$("#month_year_dropdown").val();
+    		var items = month_year.split('#');	
+        var year=items[1];
+        var month=items[0];
         $.ajax({
             type:'POST',
-            url: "<?php echo base_url(); ?>"+'dashboard/customerReport_recent_payments/',
-            success: function(response_data) {
-                var custom_data=JSON.parse(response_data);
-                if(custom_data !=''){
-                    $("div.recharge_not_data").hide();
-                    $("div.recharge_data").show();
-                    var str = "<table class='table table-bordered flexigrid'>";  
-                    var arrayLength = custom_data.length;
-                    for (var i = 0; i < arrayLength; i++) {
-                        str=str+"<tr>";
-                        if(i==0){
-                            str=str+"<th style='text-align:center;'>"+custom_data[i].payment_date+"</th>";                    
-                            str=str+"<th style='text-align:center;'>"+custom_data[i].accountid+"</th>";  
-                            str=str+"<th style='text-align:center;'>"+custom_data[i].credit+"</th>";  
-                        }else{
-                            str=str+"<td style='text-align:center;'>"+custom_data[i].payment_date+"</td>";                    
-                            str=str+"<td style='text-align:center;'>"+custom_data[i].accountid+"</td>";  
-                            str=str+"<td style='text-align:right;'>"+custom_data[i].credit+"</td>";  
-                        }
-                        str=str+"</tr>";
-                    }   
-                    str+="</table>";
-                    document.getElementById("recharge_data").innerHTML = str;  
-                }
-                if(custom_data ==''){
-                    $("div.recharge_data").hide();          
-                    $("div.recharge_not_data").addClass("second");
-                    $("div.recharge_not_data").show();
-                    $('div.recharge_not_data').text('No Records Found');
-                }
-                    
-            }
-        });
-    };
-    function build_recharge_graph(){
-        var year=$("#year_dropdown").val();
-        var month=$("#month_dropdown").val();
-        var monthNames = ["January",
-                         "February",
-                         "March",
-                         "April",
-                         "May",
-                         "June",
-                         "July",
-                         "August",
-                         "September",
-                         "October",
-                         "November",
-                         "December"
-            ];
-        $.ajax({
-            type:'POST',
-            dataType: 'JSON',
+            dataType: 'json',
+            async: false ,
             url: "<?php echo base_url(); ?>dashboard/customerReport_call_statistics_with_profit/",
-            data:{"year":year,"month":month},
+            data:{"month":month, "year":year ,"drop_val":drop_val},
             beforeSend: function(){
                 $("#call-graph").append('<div class="loading col-md-offset-6"><div class="ball-clip-rotate"><div></div></div></div>');
-                /* -------------------- */
                 $("#call-graph").show();
             },
             complete: function(){
@@ -129,14 +79,6 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
             },
             success: function(response_data) {
                 $("#call-graph").hide();
-		$("#month_total_info").html("<b> ASR : "+response_data.total_count.asr
-					    +" | ACD : "+response_data.total_count.acd
-                                            +" | MCD : "+response_data.total_count.mcd
-					    +" |Total Calls : "+response_data.total_count.sum
-                                            +" | Debit : "+response_data.total_count.debit
-                                            +" | Cost : "+response_data.total_count.cost
-                                            +" | Profit : "+response_data.total_count.profit + "</b>"
-                                            );
                 $('#call_graph_data').highcharts({
                     chart: {
                         zoomType: 'xy'
@@ -150,11 +92,11 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                     yAxis: [{
                             min: 0,
                             title: {
-                                text: 'Total Calls ('+monthNames[month-1] +' - '+ year +')'
+                                	text: ' '
                             }
                         }, {
                             min: 0,
-                            opposite: true, //optional, you can have it on the same side.
+                            opposite: true, 
                             title: {
                                 text: 'Profit per day'
                             }
@@ -165,15 +107,24 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                         borderRadius: 10,
                         borderWidth: 2,
                         formatter: function() {
-                            if(this.series.name == 'Total Calls'){
-                                return '<b>Total : </b>'+ this.y
-                                    +'<br/><b>ACD : </b>'+ response_data.acd[this.x-1][1]
-                                    +'<br/><b>MCD : </b>'+ response_data.mcd[this.x-1][1]
-                                    +'<br/><b>ASR : </b>'+ response_data.asr[this.x-1][1];
-
-                            }else{
-                                return this.series.name+': <b>'+this.y+'</b>';
-                            }  
+							var today_dropdown=$("#today_dropdown").val();
+							if(this.series.name == 'Total Calls'){
+								if(today_dropdown == 't_month'){
+										return '<b>Total : </b>'+ this.y
+										+'<br/><b>ACD : </b>'+ response_data.acd[this.x-1][1]
+										+'<br/><b>MCD : </b>'+ response_data.mcd[this.x-1][1]
+										+'<br/><b>ASR : </b>'+ response_data.asr[this.x-1][1];
+								}else{
+										var day_str = new Date(year+"-"+month+"-"+this.x);
+										var day_count = day_str.getDay();
+										return '<b>Total : </b>'+ this.y
+										+'<br/><b>ACD : </b>'+ response_data.acd[day_count-1][1]
+										+'<br/><b>MCD : </b>'+ response_data.mcd[day_count-1][1]
+										+'<br/><b>ASR : </b>'+ response_data.asr[day_count-1][1];
+								}
+							}else{
+								return this.series.name+': <b>'+this.y+'</b>';
+							}
                         }
                                   
                     },
@@ -231,14 +182,71 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
             }
         });
     }
-    function build_call_graph(url){
-        var year=$("#year_dropdown").val();
-        var month=$("#month_dropdown").val();
+    
+    function get_account_count(drop_val,year,month){
+    		$.ajax({
+            type:'POST',
+            url: "<?php echo base_url(); ?>dashboard/account_count",
+            dataType: 'JSON',
+            data:{"drop_val":drop_val,"year":year,"month":month},
+            success: function(response_data) {     
+            	$("#accounts_count").html(response_data.count);
+            }
+        });
+    }
+    
+    function get_total_calls(drop_val,year,month){
+    		$.ajax({
+            type:'POST',
+            url: "<?php echo base_url(); ?>dashboard/call_count",
+            dataType: 'JSON',
+            data:{"drop_val":drop_val,"year":year,"month":month},
+            success: function(response_data) {     
+            	$("#call_count").html(response_data.total_calls);
+            }
+        });
+    }
+    
+    function get_orders_count(drop_val,year,month){
+    		$.ajax({
+            type:'POST',
+            url: "<?php echo base_url(); ?>dashboard/orders_count",
+            dataType: 'JSON',
+            data:{"drop_val":drop_val,"year":year,"month":month},
+            success: function(response_data) {     
+            	$("#order_count").html(response_data.count);
+            }
+        });
+    }
+    
+    function get_refill_value(drop_val,year,month){
+    		$.ajax({
+            type:'POST',
+            url: "<?php echo base_url(); ?>dashboard/getrefill_value",
+            dataType: 'JSON',
+            data:{"drop_val":drop_val,"year":year,"month":month},
+            success: function(response_data) {     
+            	$("#refill_value").html(response_data.total_refill_amount);
+            }
+        });
+    }
+    
+    function build_call_graph(url,drop_val){
+    		var month_year=$("#month_year_dropdown").val();
+    		var items = month_year.split('#');	
+        var year=items[1];
+        var month=items[0];
+        get_account_count(drop_val,year,month);
+				get_total_calls(drop_val,year,month);
+				get_orders_count(drop_val,year,month);
+				get_refill_value(drop_val,year,month);
+				
         $.ajax({
             type:'POST',
             url: "<?php echo base_url(); ?>dashboard/customerReport_maximum_call"+url+"/",
             dataType: 'JSON',
-            data:{"year":year,"month":month},
+            async: false ,
+            data:{"year":year,"month":month,"drop_val":drop_val},
             beforeSend: function(){
                 $("#call-count").append('<div class="loading col-md-offset-6"><div class="ball-clip-rotate"><div></div></div></div>');
                 $("#call-count").show();
@@ -248,12 +256,20 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                 $("#call-count").hide();
             },
             success: function(response_data) {
+           // alert(response_data);
+				var radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
+				if(radiobuttonvalue == 'count'){
+					var graphby = "By Calls";
+				}else{
+					var graphby = "By Minutes";
+				}
+				$("#bygraph").val(graphby);
                 $("#call-count").hide();
                 if(response_data == ''){
                     $("div.call_count_data").hide();            
                     $("div.not_data").addClass("second");
                     $("div.not_data").show();
-                    $('div.not_data').text('No Records Found');
+                    $('div.not_data').html('<i class="fa fa-meh-o"></i> No Records Found');
                 }
                 else{
                     $("div.not_data").hide();
@@ -305,7 +321,109 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
             }
         });
     }
+    
+    function build_country_graph(url,drop_val){
+    		var month_year=$("#month_year_dropdown").val();
+    		var items = month_year.split('#');	
+        var year=items[1];
+        var month=items[0];
+
+			//	alert("<?php echo base_url(); ?>dashboard/customerReport_maximum_country"+url+"/");
+        $.ajax({
+            type:'POST',
+            url: "<?php echo base_url(); ?>dashboard/customerReport_maximum_country"+url+"/",
+            dataType: 'JSON',
+            data:{"year":year,"month":month,"drop_val":drop_val},
+            beforeSend: function(){
+                $("#country-count").append('<div class="loading col-md-offset-6"><div class="ball-clip-rotate"><div></div></div></div>');
+                $("#country-count").show();
+            },
+            complete: function(){
+                $("#country-count").empty();
+                $("#country-count").hide();
+            },
+            success: function(response_data) {
+				var radiobuttonvaluecountry = $("input[name='country_pie_chart']:checked").val(); 
+				if(radiobuttonvaluecountry == 'count'){
+					var graphby = "By Calls";
+				}else{
+					var graphby = "By Minutes";
+				}
+				$("#bygraphcountry").val(graphby);
+                $("#country-count").hide();
+                if(response_data == ''){
+                    $("div.country_count_data").hide();            
+                    $("div.country_not_data").addClass("second");
+                    $("div.country_not_data").show();
+                    $('div.country_not_data').html('<i class="fa fa-meh-o"></i> No Records Found');
+                }
+                else{
+                    $("div.country_not_data").hide();
+                    $("div.country_count_data").show();
+                    $('#country_count_data').highcharts({
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0,
+                                depth: 25,
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: ""
+                        },
+                        tooltip: {
+                            backgroundColor: '#FEFEC5',
+                            borderColor: 'black',
+                            borderRadius: 10,
+                            borderWidth: 2,
+                            formatter: function() {
+                                return this.point.name+': <b>'+this.y+'</b>';
+                            }
+                        
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 25,
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+                                name: '',
+                                data: response_data
+                            }]
+                    });
+                }
+            }
+        });
+    }
+    
+    function build_today_result(){
+    		$.ajax({
+            type:'POST',
+            url: "<?php echo base_url(); ?>dashboard/get_today_result",
+            dataType: 'JSON',
+            success: function(response_data) {     
+            	$("#today_refill_value").html(response_data.today_refill_amount);
+            	$("#today_order_count").html(response_data.today_order_count);
+            	$("#today_accounts_count").html(response_data.today_account_count);
+            	$("#today_call_count").html(response_data.today_total_calls);
+            }
+        });
+    }
+    
     $(document).ready(function() {
+	    $('.selectpicker').selectpicker();  
         var monthNames = ["January",
                          "February",
                          "March",
@@ -321,138 +439,386 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
             ];
         var month=$("#month_dropdown").val();
         $("#month_year_name").html(monthNames[month-1]);
-        get_recharge_info();
-        build_recharge_graph();
-        build_call_graph('minutes');
+        build_recharge_graph('t_week');
+        build_call_graph('minutes','t_week');
+        build_country_graph('minutes','t_week');
+        
+        build_today_result();
+
+        
         $('input[name=calls_pie_chart]').change(function(){
             var radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
-            build_call_graph(radiobuttonvalue);
+            var drop_val=$("#today_dropdown").val();
+            build_call_graph(radiobuttonvalue,drop_val);
         });
-        $("#year_dropdown").change(function(){
-	    var radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
-            build_recharge_graph();
-            build_call_graph(radiobuttonvalue);
+       	$('input[name=country_pie_chart]').change(function(){
+            var radiobuttonvaluecountry = $("input[name='country_pie_chart']:checked").val();
+            var drop_val=$("#today_dropdown").val();
+            build_country_graph(radiobuttonvaluecountry,drop_val);
         });
-        $("#month_dropdown").change(function(){
-            var month=$("#month_dropdown").val();
+        $("#month_year_dropdown").change(function(){
+            var month_year=$("#month_year_dropdown").val();
             var radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
+            var radiobuttonvaluecountry = $("input[name='country_pie_chart']:checked").val();
             $("#month_year_name").html(monthNames[month-1]);
-            build_recharge_graph();
-            build_call_graph(radiobuttonvalue);
+            build_recharge_graph('t_month');
+            build_country_graph(radiobuttonvaluecountry,'t_month');
+            build_call_graph(radiobuttonvalue,'t_month');
+			
         });
+        
+        $("#today_dropdown").change(function(){
+            var drop_val=$("#today_dropdown").val();
+          	var radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
+          	var radiobuttonvaluecountry = $("input[name='country_pie_chart']:checked").val();
+          	build_recharge_graph(drop_val);
+            $("#month_year_name").html(monthNames[month-1]);
+            build_country_graph(radiobuttonvaluecountry,drop_val);
+            build_call_graph(radiobuttonvalue,drop_val);
+            
+        });
+        
+        
+        $.ajax({
+            type:'POST',
+            url: "<?php echo base_url(); ?>dashboard/customerReport_calculation",
+            dataType: 'JSON',
+            success: function(response_data) {                   	  
+            	$("#asr_today").html(response_data.ASR);
+            	$("#asr_month").html(response_data.ASR_month);
+            	$("#acd_today").html(response_data.ACD);
+            	$("#acd_month").html(response_data.ACD_month);
+            	$("#mcd_today").html(response_data.mcd);
+            	$("#mcd_month").html(response_data.mcd_month);
+            	$("#total_calls_today").html(response_data.total_calls);
+            	$("#total_calls_month").html(response_data.total_calls_month);
+            	$("#debit_today").html(response_data.total_debit);
+            	$("#debit_month").html(response_data.total_debit_month);
+            	$("#cost_today").html(response_data.total_cost);
+            	$("#cost_month").html(response_data.total_cost_month);
+            	$("#profit_today").html(response_data.profit);
+            	$("#profit_month").html(response_data.profit_month);
+            }
+        });
+        
+        
+            
+             
     });
+    
 </script> 
 <? endblock() ?>
 <?php startblock('page-title') ?>
     <?php echo $page_title; ?>
+   
 <?php endblock() ?>
 <? startblock('content') ?>
 
-<section class="slice">
-    <div class="w-section inverse no-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 no-padding">        
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-									
-													
-                                    <h3 class="panel-title col-md-10">
-                                          <div class='col-sm-2 no-padding'>
-                    					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-bar-chart-o fa-fw"></i> Monthly Stat
-                    					     </div>
-                                          </div>
-
-
-                                          <div class='col-sm-11 no-padding'>
-											   <div style="font-size: 13px; width: auto; background:rgba(243, 236, 49, 0.34) none repeat scroll 0% 0% !important;" class="pull-left back_strip panel_padding" >
-													<div id="month_year_name" class='pull-left'><?=date('F'); ?></div>
-	                                           </div>
-											   <div style="width: 91%; font-size: 13px;" class="pull-left back_strip panel_padding">
-												    <div id="month_total_info" style="color:#FFFC00;font-weight: 500;" class="pull-left"></div>
-											   </div>
-                                          </div>
-                                    </h3>
-
-
-                                     <div class="col-md-2 padding-t-5">
-                                    
-                                    <div class="col-md-5 no-padding pull-right ">
-                                        <select id="year_dropdown" name='year' class="form-control no-margin" style="z-index:9;height:29px;width:100% !important;">
-                                            <?php
-											$currentyear = gmdate('Y');
-											$start_year = $currentyear - 1;
-											$end_year = $currentyear;
-											$yearArray = range($start_year, $end_year);
-											foreach ($yearArray as $year) {
-												$selected = ($year == $currentyear) ? 'selected' : '';
-												echo '<option ' . $selected . ' value="' . $year . '">' . $year . '</option>';
-											}
-											?>
-                                        </select>
-                                    </div>
-                                           <div class="col-md-6 no-padding pull-right margin-x-4">
-                                        <select id="month_dropdown" name="month" class="form-control no-margin" style="z-index:9;height:29px;width:100% !important;">
-                                            <?php
-											$monthArray = range(1, 12);
-											foreach ($monthArray as $month) {
-												$monthPadding = str_pad($month, 2, "0", STR_PAD_LEFT);
-												$fdate = date("F", strtotime($monthPadding));
-												$selected = (date("m") == $monthPadding) ? 'selected' : null;
-												echo '<option value="' . $monthPadding . '" ' . $selected . '>' . date("F", mktime(null, null, null, $monthPadding, 1)) . '</option>';
-											}
-											?>
-                                        </select>
-                                    </div>
+<section class="slice p-0">
+    <div class="w-section inverse p-0">
+        <div class="">
+                <div class="row">
+                    <div class="col-sm-12 mb-5">
+                            <div class="col-lg-9 col-md-8 p-0 float-left card border">
+                            <h3 class="text-dark float-left col-sm-12 p-3">
+                                  <div class="p-0 float-left">
+                                     <div class="" style="margin-top:3px;">
+                                        <i class="fa fa-bar-chart-o text-primary fa-fw"></i> <?php echo gettext("Call Stat"); ?>
                                      </div>
-                                        
+                                  </div>
+
+                             <div class="float-right col-lg-8 col-md-9 p-0" id="floating-label">
+                            
+                            <div class="today_dd col-md-3 float-right pb-md-0">
+                                <select id="today_dropdown" name='today' class="form-control selectpicker m-0" style="z-index:9;">   
+                                		
+                                    <option value="t_week"><?php echo gettext("This Week"); ?></option>
+                                    <option value="t_month"><?php echo gettext("By Month"); ?></option>
+                                </select>
+                                
+                            </div>
+                            <div class="year_select d-none">
+                           	<div class="col-md-3 float-right pb-3 pr-md-0 pt-3 pt-md-0 pb-md-0">
+                          				<select id="month_year_dropdown" name='year' class="form-control selectpicker m-0" style="z-index:9;">
+                          				<?php
+                          					for ($i =0; $i < 6; $i++) {
+																			echo '<option'.$selected.' value="'.date("m#Y", strtotime( date( 'Y-m-01' )." -$i months")).'">'.date("F Y", strtotime( date( 'Y-m-01' )." -$i months")).'</option>'."\n";
+																		}	
+																	?>
+                          				</select>
+                            	</div>
+                            </div>
+                             </div>
+                            </h3>
+
+                                
+
+                            <div id="call-graph"></div>
+                            <div id='call_graph_data' class='call_graph_data p-0'></div>
+                        </div>
+
+                        <div class="float-left col-lg-3 col-md-4 px-sm-0 pl-md-4 pt-4 pt-md-0 p-0">
+                                <div id="month_total_info" class="col-12">
+                                <div class="card p-4">
+                                        <div class="col-md-12 float-left p-1 alert-dark">
+                                            <div class="col-6 float-left"><?php echo gettext("Today"); ?></div>
+                                            <div class="col-6 float-left text-right"><?php echo gettext("This Month"); ?></div>
+                                        </div>
+                                        <div class="col-md-12 float-left p-2 border border-primary">
+                                            <div class="col-12 text-left badge text-primary"><?php echo gettext("ASR (%)"); ?></div>
+                                            <div class="col-6 float-left" id="asr_today">0.00</div>
+                                            <div class="col-6 float-left text-right" id="asr_month">0.00</div>
+                                        </div>
+                                        <div class="col-md-12 float-left p-2 border border-dark">
+                                            <div class="col-12 text-left badge text-dark"><?php echo gettext("ACD"); ?></div>
+                                            <div class="col-6 float-left" id="acd_today">0</div>
+                                            <div class="col-6 float-left text-right" id="acd_month">0</div>
+                                        </div>
+                                        <div class="col-md-12 float-left p-2 border border-warning">
+                                            <div class="col-12 text-left badge text-warning"><?php echo gettext("MCD"); ?></div>
+                                            <div class="col-6 float-left" id="mcd_today">0.0000</div>
+                                            <div class="col-6 float-left text-right" id="mcd_month">0.0000</div>
+                                        </div>
+                                        <div class="col-md-12 float-left p-2 border border-danger">
+                                            <div class="col-12 text-left badge text-danger"><?php echo gettext("Total Calls"); ?></div>
+                                            <div class="col-6 float-left" id="total_calls_today">0</div>
+                                            <div class="col-6 float-left text-right" id="total_calls_month">0</div>
+                                        </div>
+                                        <div class="col-md-12 float-left p-2 border border-secondary">
+                                            <div class="col-12 text-left badge text-secondary"><?php echo gettext("Debit"); ?></div>
+                                            <div class="col-6 float-left" id="debit_today">0.0000 USD</div>
+                                            <div class="col-6 float-left text-right" id="debit_month">0.0000 USD</div>
+                                        </div>
+                                        <div class="col-md-12 float-left p-2 border border-info">
+                                            <div class="col-12 text-left badge text-info"><?php echo gettext("Cost"); ?></div>
+                                            <div class="col-6 float-left" id="cost_today">0.0000 USD</div>
+                                            <div class="col-6 float-left text-right" id="cost_month">0.0000 USD</div>
+                                        </div>
+                                        <div class="col-md-12 float-left p-2 border border-success">
+                                            <div class="col-12 text-left badge text-success"><?php echo gettext("Profit"); ?></div>
+                                            <div class="col-6 float-left" id="profit_today">0.0000 USD</div>
+                                            <div class="col-6 float-left text-right" id="profit_month">0.0000 USD</div>
+                                        </div>
+                  
                                 </div>
-                                <div class="panel-body">
-                                    <div id="call-graph"></div>
-                                    <div id='call_graph_data' class='call_graph_data col-md-12 no-padding'></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title panel_padding margin-l-15"><i class="fa fa-users fa-fw"></i> Top 10 Accounts</h3>
+                    <div class="dashboard_values row mb-5">
+                        <a href="<?php echo base_url(); ?>accounts/customer_list/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                            <div class="bg-primary card col-12 text-light">
+                            	<div class="alert-primary col-md-12 pt-2 px-0">
+                        					<dl class="row m-0">
+                        						<dt class="col-7"><?php echo gettext("Today"); ?></dt>
+                        						<dd class="col-5 text-right" id="today_accounts_count">0</dd>
+                        					</dl>
+	                            </div>
+                                <div class="col-lg-8 col-7 float-left py-4">
+                                    <div class="h1" id="accounts_count">0</div>
+                                    <h3><?php echo gettext("New Accounts"); ?></h3>
                                 </div>
-                                <div class="panel-body">
-                                    <div class="w-box col-md-6 padding-t-10 padding-b-10 pull-right margin-t-10"> 
-                                        <input type="radio" name="calls_pie_chart" checked="checked" value="minutes" class="ace"><label class="lbl">By Minutes</label>
-                                        &nbsp;&nbsp;
-                                        <input type="radio" name="calls_pie_chart" value="count" class="ace"><label class="lbl"> By Calls</label></div>
-                                    <div id="call-count"></div>
-                                    <div id='call_count_data' class=' call_count_data col-md-12' style ='display:none'></div>  
-                                    <div id='not_data' class='col-md-12 not_data' style ='display:none'></div>
+                                <div class="col-lg-4 col-5 float-left py-4">
+                                    <i class="fa fa-users fa-4x float-left"></i>
                                 </div>
                             </div>
-                        </div>
+                        </a>
+                        <a href="<?php echo base_url(); ?>orders/orders_list/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                            <div class="card col-12 text-light bg-success">
+                            <div class="alert-success col-md-12 pt-2 px-0">
+                        					<dl class="row m-0">
+                        						<dt class="col-7"><?php echo gettext("Today"); ?></dt>
+                        						<dd class="col-5 text-right" id="today_order_count">0</dd>
+                        					</dl>
+	                            </div>
+                                <div class="col-lg-8 col-7 float-left py-4">
+                                    <div class="h1" id="order_count">0</div>
+                                    <h3><?php echo gettext("Orders"); ?></h3>
+                                </div>
+                                <div class="col-lg-4 col-5 float-left py-4">
+                                    <i class="fa fa-shopping-cart fa-4x float-left"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="<?php echo base_url(); ?>reports/refillreport/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                            <div class="card col-12 text-light bg-dark">
+                            <div class="alert-dark col-md-12 pt-2 px-0">
+                        					<dl class="row m-0">
+                        						<dt class="col-6"><?php echo gettext("Today"); ?></dt>
+                        						<dd class="col-6 text-right" id="today_refill_value">0</dd>
+                        					</dl>
+	                            </div>
+                                <div class="col-lg-8 col-7 float-left py-4">
+                                    <div class="h1" id="refill_value">0</div>
+                                    <h3><?php echo gettext("Refills"); ?> (<?php echo $currency;?>)</h3>
+                                </div>
+                                <div class="col-lg-4 col-5 float-left py-4">
+                                    <i class="fa fa-credit-card fa-4x float-left"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="<?php echo base_url(); ?>reports/customerReport/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                            <div class="card col-12 text-light bg-danger">
+                            <div class="alert-danger col-md-12 pt-2 px-0">
+                        					<dl class="row m-0">
+                        						<dt class="col-7"><?php echo gettext("Today"); ?></dt>
+                        						<dd class="col-5 text-right" id="today_call_count">0</dd>
+                        					</dl>
+	                            </div>
+                                <div class="col-lg-8 col-7 float-left py-4">
+                                    <div class="h1" id="call_count">0</div>
+                                    <h3><?php echo gettext("Total Calls"); ?></h3>
+                                </div>
+                                <div class="col-lg-4 col-5 float-left py-4">
+                                    <i class="fa fa-phone fa-4x float-left"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
 
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title panel_padding margin-l-15"><i class="fa fa-usd fa-fw"></i> Refill Information</h3>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-5">
+                            <h3 class="text-dark p-3">
+                                <i class="fa fa-users text-primary fa-fw"></i> <?php echo gettext("Top 10 Accounts"); ?>
+                              <div class="dropdown float-right col-5 p-0">
+								<input type="text" class="border-primary col-8 float-right form-control text-center text-primary" readonly="true" name="bygraph" id="bygraph" value="By Minutes" style="background: transparent;font-size: 12px;">
+                                <button type="button" class="btn btn-link dropdown-toggle position-relative float-right py-0" id="radioToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-ellipsis-v"></i>
+                                </button>
+								
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="radioToggle">
+                                  <label class="dropdown-item">
+                                    <input type="radio" name="calls_pie_chart" id="option2" value="count" class="ace" autocomplete="off"> <?php echo gettext("By Calls"); ?>
+                                  </label>
+                                  <label class="dropdown-item">
+                                    <input type="radio" name="calls_pie_chart" id="option1" value="minutes" class="ace" autocomplete="off" checked> <?php echo gettext("By Minutes"); ?>
+                                  </label>
                                 </div>
-                                <div class="panel-body">
-                                    <div id='recharge_data' class='col-md-12 recharge_data margin-t-10' style ='display:none'></div>
-                                    <div id='recharge_not_data' class='col-md-12 recharge_not_data' style ='display:none'></div>
-                                </div>
-                            </div>
+                              </div>
+                            </h3>
+                        <div class="card-body">
+                            <div id="call-count"></div>
+                            <div id='call_count_data' class=' call_count_data col-md-12' style ='display:none'></div>  
+                            <div id='not_data' class='col-md-12 not_data' style ='display:none'></div>
                         </div>
-                    </div>                
-                </div>          
-            </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card mb-5">
+                            <h3 class="text-dark p-3">
+                              <i class="fa fa-plane text-primary fa-fw"></i> <?php echo gettext("Top 10 Countries"); ?>
+                              <div class="dropdown float-right col-5 p-0">
+								<input type="text" class="border-primary col-8 float-right form-control text-center text-primary" readonly="true" name="bygraphcountry" id="bygraphcountry" value="By Minutes" style="background: transparent;font-size: 12px;">
+                                <button type="button" class="btn btn-link dropdown-toggle position-relative float-right py-0" id="radioToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-ellipsis-v"></i>
+                                </button>
+								
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="radioToggle">
+                                  <label class="dropdown-item">
+                                    <input type="radio" name="country_pie_chart" id="option22" value="count" class="ace" autocomplete="off"> <?php echo gettext("By Calls"); ?>
+                                  </label>
+                                  <label class="dropdown-item">
+                                    <input type="radio" name="country_pie_chart" id="option11" value="minutes" class="ace" autocomplete="off" checked><?php echo gettext(" By Minutes"); ?>
+                                  </label>
+                                </div>
+                              </div>
+                            </h3>
+
+                        <div class="card-body">
+                        		<div id="country-count"></div>
+                            <div id='country_count_data' class='col-md-12 country_count_data' style ='display:none'></div>
+                            <div id='country_not_data' class='col-md-12 country_not_data' style ='display:none'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            
+            <div class="row">
+                 <div class="col-lg-12">
+                    <div class="card">
+                        <h3 class="text-dark p-3"><i class="fa fa-shopping-cart text-primary fa-fw"></i> <?php echo gettext("Latest Orders"); ?>
+                                
+                        <a href="<?php echo base_url();?>orders/orders_list/" class="float-right btn btn-secondary"><?php echo gettext("View All"); ?></a>
+                        </h3>
+                        <div class="card-body">
+			   <div class="table-responsive">
+                            <table class="table table-hover">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th scope="col"><?php echo gettext("Date"); ?></th>
+                                  <th scope="col"><?php echo gettext("Order"); ?></th>
+                                  <th scope="col"><?php echo gettext("Account"); ?></th>
+                                  <th scope="col"><?php echo gettext("Payment Method"); ?></th>
+                                  <th scope="col"><?php echo gettext("Setup Fee"); ?>  (<?php echo $currency;?>)</th>
+                                  <th scope="col"><?php echo gettext("Price"); ?> (<?php echo $currency;?>)</th>
+                                  <th scope="col"><?php echo gettext("Status"); ?></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <?php
+                              		$accountinfo = $this->session->userdata ( 'accountinfo' );
+																	if($accountinfo['type'] == '1'){
+																		$reseller_id = $accountinfo['id'];
+																	}else{
+																		$reseller_id = "0";
+																	}
+																	$where_arr = array (
+																			"orders.reseller_id" => $reseller_id 
+																	);
+            											$query = $this->db_model->getJionQuery('orders','orders.id,orders.order_id ,orders.order_date,orders.accountid,orders.payment_gateway,orders.payment_status,orders.reseller_id,orders.accountid,order_items.setup_fee,order_items.price',$where_arr, 'order_items','orders.id=order_items.order_id', 'inner', 10 , 0,'DESC','orders.order_date');
+																	
+																	if($query->num_rows > 0){
+																		$result_array =  $query->result_array();
+																		foreach($result_array as $key=>$val){
+																			if($val['accountid'] != "" && $val['accountid'] != "0"){
+																				$val['accountid'] = $this->common->get_field_name_coma_new ( 'first_name,last_name,number', 'accounts', $val ['accountid'] );
+																			}
+																			if($val['reseller_id'] != "" && $val['reseller_id'] != "0"){
+																				$val['reseller_id'] = $this->common->get_field_name_coma_new ( 'first_name,last_name,number', 'accounts', $val ['reseller_id'] );
+																			}
+																			echo "<tr>";
+											                echo "<td>".$val['order_date']."</td>";
+											                echo "<th scope='row'>".$val['order_id']."</th>";
+											                echo "<td>".$val['accountid']."</td>";
+											                echo "<td>".$val['payment_gateway']."</td>";
+											                echo "<td>".$this->common_model->calculate_currency_customer($val['setup_fee'])."</td>";
+											                echo "<td>".$this->common_model->calculate_currency_customer($val['price'])."</td>";
+											             
+											                if($val['payment_status'] == "PAID"){
+						                          	echo "<td><span class='badge badge-success'>".$val['payment_status']."</span></td>";
+						                          }else{
+						                          	echo "<td><span class='badge badge-danger'>".$val['payment_status']."</span></td>";
+						                          }
+											                echo "</tr>";
+																		}
+																	}
+                                ?>
+                              </tbody>
+                            </table>
+                         </div>
+                        </div>
+                    </div>
+                 </div>
+             </div>             
         </div>
     </div>
 </section>
-
+<script>
+    $(document).ready(function(){
+        $('#today_dropdown').on('change', function() {
+          if ( this.value == 't_month')
+          {
+            $(".year_select").removeClass("d-none");
+          }
+          else
+          {
+            $(".year_select").addClass("d-none");
+          }
+        });
+    });
+</script>
 <? endblock() ?>
 <? startblock('sidebar') ?>
 <? endblock() ?>

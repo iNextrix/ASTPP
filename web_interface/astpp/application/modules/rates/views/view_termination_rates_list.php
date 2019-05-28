@@ -1,10 +1,6 @@
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
-/********
-ASTPP  3.0
-Batch Delete
-*******/
 function search_btn(){
     document.getElementById('termination_rate_batch_dlt').style.display = 'block';
 }
@@ -17,7 +13,6 @@ function check_btn(){
 		 if(alt > 0){
 	  	   post_request_for_batch_delete("termination_rates_grid",alt,"termination_rate_search");
   	           $('#termination_rate_grid').flexOptions({newp:1}).flexReload();
-		    location.reload();
 		  }else{
 		     alert('No record found');
 		  }
@@ -28,22 +23,27 @@ function check_btn(){
             post_request_for_batch_delete("termination_rate_grid","","termination_rate_search");
             $('#termination_rate_grid').flexOptions({newp:1}).flexReload();
         }); 
-/******************/
     $(document).ready(function() {
+
+
+
+        var popup_flag = "<?php echo $this->session->userdata ( 'termination_ratespopup_flag' ); ?>";
+        if (popup_flag == '1') {
+            
+            $(".fbutton").trigger('click');
+        }
+
+
         build_grid("termination_rate_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+            $('.chkRefNos').prop('checked', $(this).prop('checked')); //if you want to select/deselect checkboxes use this
         });
         $("#termination_rate_search_btn").click(function(){
             post_request_for_search("termination_rate_grid","","termination_rate_search");
         });        
         $("#id_reset").click(function(){
-/*****
-ASTPP  3.0 
-Batch Delete 
-*****/
     document.getElementById('termination_rate_batch_dlt').style.display = 'none';
-/*******************/
+
             clear_search_request("termination_rate_grid","");
         });
         $("#batch_update_btn").click(function(){
@@ -51,8 +51,17 @@ Batch Delete
         })
         $("#id_batch_reset").click(function(){ 
             $(".update_drp").each(function(){
-                var inputid = this.name.split("[");
-                $('#'+inputid[0]).hide();
+                var name=this.name;
+				var split_name;
+				if(name!=undefined){
+					split_name=name.split("[");
+					$('#'+split_name[0]).hide();
+					$('#'+split_name[0]).val("");
+					$('.update_drp').selectpicker('refresh');
+				}else{
+					$('.update_drp').val("1");
+					$('.update_drp').selectpicker('refresh');
+				}
             });
         });
         
@@ -80,45 +89,42 @@ Batch Delete
 <?= $page_title ?>
 <? endblock() ?>
 
-<? startblock('content') ?>     
+<? startblock('content') ?>
+
+
 
 
 <section class="slice color-three">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-   	    <div class="row">
-            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_search; ?>
-    	        </div>
-            </div>
-        </div>
-    </div>
+	<div class="w-section inverse p-0">
+		<div class="col-12">
+			<div class="portlet-content mb-4" id="search_bar"
+				style="cursor: pointer; display: none">
+                        <?php echo $form_search; ?>
+                </div>
+		</div>
+	</div>
 </section>
+
 <section class="slice color-three">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-   	    <div class="row">
-        <span id="error_msg" class=" success"></span>
-            	<div class="portlet-content"  id="update_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_batch_update; ?>
-    	        </div>
-            </div>
-        </div>
-    </div>
+	<div class="w-section inverse p-0">
+		<div class="col-12">
+			<div class="portlet-content mb-4" id="update_bar"
+				style="cursor: pointer; display: none">
+                        <?php echo $form_batch_update; ?>
+                </div>
+		</div>
+	</div>
 </section>
-<section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12">     
-                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-                            <table id="termination_rate_grid" align="left" style="display:none;"></table>
-                        </form>
-                        <div class="margin-t-10"></div>
-                </div>  
-            </div>
-        </div>
-    </div>
+
+<section class="slice color-three pb-4">
+	<div class="w-section inverse p-0">
+		<div class="card col-md-12 pb-4">
+			<form method="POST" enctype="multipart/form-data" id="ListForm">
+				<table id="termination_rate_grid" align="left"
+					style="display: none;"></table>
+			</form>
+		</div>
+	</div>
 </section>
 
 

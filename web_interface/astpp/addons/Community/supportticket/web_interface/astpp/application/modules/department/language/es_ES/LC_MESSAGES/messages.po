@@ -1,0 +1,828 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-09-27 05:43-0300\n"
+"Last-Translator: Inextrix <astpp@inextrix.com>\n"
+"Language-Team: Inextrix <astpp@inextrix.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/astpp/application/modules/systems/language\n"
+
+#: ../../../../index.php:36 /var/www/html/gettext/index.php:36 ../../../../index.php:37 /var/www/html/gettext/index.php:37
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Subject"
+msgstr "Asignatura"
+
+msgid "Action"
+msgstr "Acción"
+
+msgid "Email Templates"
+msgstr "Plantillas de Correo Electrónico"
+
+msgid "Edit Email Template"
+msgstr "Editar Plantillas de Correo Electrónico"
+
+msgid "Search"
+msgstr "Búsqueda"
+
+msgid "Email Template"
+msgstr "Plantilla de Correo Electrónico"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Add Country"
+msgstr "Añadir País"
+
+msgid "Country List"
+msgstr "Listado de Países"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Edit Country"
+msgstr "Editar País"
+
+msgid "Currencies"
+msgstr "Monedas"
+
+msgid "Code"
+msgstr "Prefijo"
+
+msgid "Rate"
+msgstr "Tarifa"
+
+msgid "Add Currency"
+msgstr "Añadir Moneda"
+
+msgid "Currency List"
+msgstr "Lista de Monedas"
+
+msgid "Edit Currency"
+msgstr "Cambiar la Moneda"
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "File Name"
+msgstr "Nombre del Archivo"
+
+msgid "Database backup"
+msgstr "Copia de seguridad de base de datos"
+
+msgid "Backup Database"
+msgstr "Copia de seguridad de base de datos"
+
+msgid "Path"
+msgstr "Camino"
+
+msgid "Import Database"
+msgstr "Importar Base de Datos"
+
+msgid "Select File:"
+msgstr "Seleccione Archivo:"
+
+msgid "Upload"
+msgstr "Subir"
+
+msgid "Paypal - Settings"
+msgstr "PayPal - Ajustes"
+
+msgid "Paypal status"
+msgstr "Estado de payPal"
+
+msgid "status"
+msgstr "Estado"
+
+msgid "Paypal url"
+msgstr "PayPal URL"
+
+msgid "Paypal sandbox url"
+msgstr "PayPal Caja de Arena URL "
+
+msgid "Paypal id"
+msgstr "Identificación de Paypal"
+
+msgid "Paypal sandbox id"
+msgstr "PayPal Identificación de la Caja de Arena"
+
+msgid "Paypal mode"
+msgstr "Modo de PayPal"
+
+msgid "Paypal fee"
+msgstr "Cuota de PayPal"
+
+msgid "Paypal tax"
+msgstr "Impuesto de PayPal"
+
+msgid "Email - Settings"
+msgstr "Correo Electrónico - Ajustes"
+
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "SMTP"
+msgstr "SMTP"
+
+msgid "SMTP host"
+msgstr "Servidor SMTP"
+
+msgid "SMTP port"
+msgstr "Puerto SMTP"
+
+msgid "SMTP user"
+msgstr "Usuario SMTP"
+
+msgid "SMTP pass"
+msgstr "Contraseña SMTP"
+
+msgid "Global - Settings"
+msgstr "Global - Ajustes"
+
+msgid "Company website"
+msgstr "Página Web de la Empresa"
+
+msgid "Company name"
+msgstr "Nombre de la Empresa"
+
+msgid "Debug"
+msgstr "Depuración"
+
+msgid "Decimalpoints"
+msgstr "Puntos decimales"
+
+msgid "Decimalpoints tax"
+msgstr "Puntos decimales de impuestos"
+
+msgid "Body"
+msgstr "Cuerpo"
+
+msgid "Decimalpoints total"
+msgstr "Puntos decimales totales"
+
+# fee = Cuota
+# free = libre
+msgid "Max free length"
+msgstr "Maximo longitud cuota"
+
+msgid "Call max length"
+msgstr "Longitud máxima llamada"
+
+msgid "Base currency"
+msgstr "Moneda Base"
+
+msgid "Default timezone"
+msgstr "Zona Horaria Por Defecto"
+
+msgid "Country"
+msgstr "País"
+
+msgid "Timezone"
+msgstr "Zona Horaria"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Did global translation"
+msgstr "Traducción Global Did"
+
+msgid "Opensips - Settings"
+msgstr "OpenSIPS - Ajustes"
+
+msgid "Opensips dbengine"
+msgstr "OpenSIPS Motor de Base de Datos"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Opensips dbname"
+msgstr "OpenSIPS Nombre de Base de Datos"
+
+msgid "Opensips dbuser"
+msgstr "OpenSIPS Usuario de Base de Datos"
+
+msgid "Opensips dbhost"
+msgstr "OpenSIPS Servidor de Base de Datos"
+
+msgid "Opensips dbpass"
+msgstr "OpenSIPS Contraseña de Base de Datos"
+
+msgid "Opensips domain"
+msgstr "OpenSIPS Dominio"
+
+msgid "Callingcard - Settings"
+msgstr "Tarjeta de Llamadas - Ajustes"
+
+msgid "Startingdigit"
+msgstr "A partir del dígito"
+
+msgid "Cardlength"
+msgstr "Longitud de Tarjeta"
+
+msgid "Pinlength"
+msgstr "Longitud de Pin"
+
+msgid "Card retries"
+msgstr "Reintentos de Tarjeta"
+
+msgid "Pin retries"
+msgstr "Reintentos de Pin"
+
+msgid "Calling cards rate announce"
+msgstr "Anunciar tarifa de tarjeta de llamadas"
+
+msgid "Calling cards timelimit announce"
+msgstr "Anunciar límite de tiempo de tarjetas de llamadas"
+
+msgid "Calling cards pin input timeout"
+msgstr "Tiempo de espera de entrada pin de tarjeta de llamadas"
+
+msgid "Calling cards number input timeout"
+msgstr "Tiempo de espera de entrada numero de tarjeta de llamadas"
+
+msgid "Calling cards dial input timeout"
+msgstr "Tiempo de espera de marcación de tarjeta de llamadas"
+
+msgid "Calling cards general input timeout"
+msgstr "Tiempo de espera de entrada general"
+
+msgid "Calling cards welcome file"
+msgstr "Archivo de Bienvenida de tarjetas de llamada"
+
+msgid "Cc ani auth"
+msgstr "Cc ani auth"
+
+msgid "Ivr count"
+msgstr "Conteo de IVR"
+
+msgid "Calling cards balance announce"
+msgstr "Anunciar balance de tarjetas prepagadas"
+
+msgid "Cc access numbers"
+msgstr "Números de acceso Cc"
+
+msgid "setting updated successfully!"
+msgstr "configuración actualizado correctamente!"
+
+msgid "country updated successfully!"
+msgstr "País actualizado correctamente!"
+
+msgid "country added successfully!"
+msgstr "País añadido correctamente!"
+
+msgid "currency updated successfully!"
+msgstr "Moneda actualizado correctamente!"
+
+msgid "currency added successfully!"
+msgstr "Moneda añadido correctamente!"
+
+msgid "Settings updated sucessfully!"
+msgstr "Configuracion actualizado correctamente!"
+
+msgid "Template updated successfully!"
+msgstr "Plantilla actualizada correctamente!"
+
+msgid "Template added successfully!"
+msgstr "Plantilla añadida correctamente!"
+
+msgid "Country removed successfully!"
+msgstr "País eliminado correctamente!"
+
+msgid "Currency removed successfully!"
+msgstr "Moneda eliminado correctamente!"
+
+msgid "backup added successfully!"
+msgstr "Copia de seguridad Añadido con éxito!"
+
+msgid "An error occur when the system tried to backup of the database. Please check yours system settings for the backup section"
+msgstr "Un error se produce cuando el sistema trató de copia de seguridad de la base de datos. Por favor, consulte sus ajustes del sistema para la sección de copia de seguridad"
+
+msgid "An error occur when the system tried to compress the backup realized. Please check yours system settings for the backup section!"
+msgstr "Un error se produce cuando el sistema intentó comprimir la copia de seguridad realizada. Por favor, consulte sus ajustes del sistema para la sección de copia de seguridad!"
+
+msgid "Please fill up proper information!"
+msgstr "Por favor, rellene la información adecuada!"
+
+msgid "File not exists!"
+msgstr "Archivo no existe!"
+
+msgid "Backup restore successfully!"
+msgstr "Copia de seguridad de restauración con éxito!"
+
+msgid "The Name field is required."
+msgstr "Se requiere el campo Nombre."
+
+msgid "The Code field is required."
+msgstr "Se requiere el campo Código."
+
+msgid "The Rate field is required."
+msgstr "Se requiere el campo Tarifa."
+
+msgid "The Paypal url Field Is Required."
+msgstr "Se requiere el URL Campo PayPal URL."
+
+msgid "The Paypal sandbox url Field Is Required."
+msgstr "El campo PayPal URL Caja de Arena es obligatorio."
+
+msgid "The Paypal id Field Is Required."
+msgstr "Se requiere campo ID de PayPal."
+
+msgid "The Paypal sandbox id Field Is Required."
+msgstr "El campo Identificación del recinto de seguridad de PayPal es requerido."
+
+msgid "The Paypal tax Field Is Required."
+msgstr "El Campo impuestos de PayPal es requerido."
+
+msgid "The Smtp host Field Is Required."
+msgstr "El campo Servidor SMTP es requerido."
+
+msgid "The Smtp user Field Is Required."
+msgstr "El campo usuario SMTP es requerido."
+
+msgid "The Smtp pass Field Is Required."
+msgstr "La contraseña SMTP es obligatorio."
+
+msgid "The Log file Field Is Required."
+msgstr "El campo del archivo de registro es requerido."
+
+msgid "The Company website Field Is Required."
+msgstr "La página web de la empresa es un campo obligatorio."
+
+msgid "The Company name Field Is Required."
+msgstr "El campo \"Nombre de la Empresa\" es obligatorio."
+
+msgid "The Rate engine csv file Field Is Required."
+msgstr "El campo \"Motor Archivo CSV de Tarifas\" es obligatorio."
+
+msgid "The Csv dir Field Is Required."
+msgstr "El Campo \"Directorio CSV\" es requerida."
+
+msgid "The Decimalpoints Field Is Required."
+msgstr "El campo \"puntos decimales\" es obligatorio."
+
+msgid "The Decimalpoints tax Field Is Required."
+msgstr "El campo \"puntos decimales de impuestos\" es obligatorio."
+
+msgid "The Decimalpoints total Field Is Required."
+msgstr "El campo \"total de puntos decimales\" se requiere."
+
+msgid "The Max free length Field Is Required."
+msgstr "El campo \"Maximo longitud cuota\" es necesario."
+
+msgid "The Auth Field Is Required."
+msgstr "El campo \"Autenticación\" es obligatorio."
+
+msgid "The Externalbill Field Is Required."
+msgstr "El campo \"Cuenta Externa\" es obligatorio."
+
+msgid "The Sleep Field Is Required."
+msgstr "El Campo \"Sleep\" es necesario."
+
+msgid "The Call max length Field Is Required."
+msgstr "El campo \"Longitud de Llamada Máxima\" se requiere."
+
+msgid "The Did global translation Field Is Required."
+msgstr "El Campo \"Traducción Mundial Did\" se requiere."
+
+msgid "The Playback audio notification Field Is Required."
+msgstr "El Campo \"Notificación Reproducción de Audio\" se requiere."
+
+msgid "The Opensips dbengine Field Is Required."
+msgstr "El campo \"Motor de Base de Datos\" OpenSIPS es obligatorio."
+
+msgid "The Opensips dbname Field Is Required."
+msgstr "El campo \"Nombre de Base de Datos\" OpenSIPS es obligatorio."
+
+msgid "The Opensips dbuser Field Is Required."
+msgstr "El campo \"Usuario de Base de Datos\" OpenSIPS es obligatorio."
+
+msgid "The Opensips dbhost Field Is Required."
+msgstr "El campo \"Servidor de Base de Datos\" OpenSIPS es obligatorio."
+
+msgid "The Opensips dbpass Field Is Required."
+msgstr "El campo \"Contraseña de Base de Datos\" OpenSIPS es obligatorio."
+
+msgid "The Opensips domain Field Is Required."
+msgstr "El campo \"Dominio\" OpenSIPS se requiere."
+
+msgid "The Startingdigit Field Is Required."
+msgstr "El campo \"A partir del dígito\" es obligatorio."
+
+msgid "The Cardlength Field Is Required."
+msgstr "El campo \"Longitud de Tarjeta\" es obligatorio."
+
+msgid "The Pinlength Field Is Required."
+msgstr "El campo \"Longitud de PIN\" es obligatorio."
+
+msgid "The Card retries Field Is Required."
+msgstr "El Campo \"Reintentos de Tarjetas\" se requiere."
+
+msgid "The Pin retries Field Is Required."
+msgstr "El campo \"PIN Reintentos\" es obligatorio."
+
+msgid "The Number retries Field Is Required."
+msgstr "El campo \"Número de Reintentos\" es obligatorio."
+
+msgid "The Callingcards max length Field Is Required."
+msgstr "La campo longitud máxima de tarjetas de llamadas es requerido."
+
+msgid "The Calling cards cancelled prompt Field Is Required."
+msgstr "El Campo tarjetas de llamadas canceladas por plazo es requerido."
+
+msgid "The Calling cards menu Field Is Required."
+msgstr "El Campo de menú de tarjetas de llamadas se requiere."
+
+msgid "The Calling cards connection prompt Field Is Required."
+msgstr "La conexión de las tarjetas de llamadas Campo indicador se requiere."
+
+msgid "The Calling cards pin input timeout Field Is Required."
+msgstr "El campo Tiempo de espera de entrada de tarjetas de llamadas pin se requiere."
+
+msgid "The Calling cards number input timeout Field Is Required."
+msgstr "El Campo número de tarjetas de llamada de tiempo de espera de entrada se requiere."
+
+msgid "The Calling cards dial input timeout Field Is Required."
+msgstr "Las campo tarjetas de llamadas marcar Tiempo de espera de entrada se requiere."
+
+msgid "The Calling cards general input timeout Field Is Required."
+msgstr "El campo tarjetas de llamadas de entrada general de tiempo de espera es obligatorio."
+
+msgid "The Calling cards welcome file Field Is Required."
+msgstr "El Campo tarjetas de llamadas bienvenidos de archivos se requiere."
+
+msgid "The Ivr count Field Is Required."
+msgstr "El recuento de Campo IVR se requiere."
+
+msgid "The Cc access numbers Field Is Required."
+msgstr "El campo Cc números de acceso es obligatorio."
+
+msgid "Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All Rights Reserved. "
+msgstr "Copyright @ 2003 - 2015 ASTPP - Solución de Facturación VOIP Open Source. Todos los Derechos Reservados."
+
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgid "DIDs"
+msgstr "DID's"
+
+msgid "Switch"
+msgstr "Interruptor"
+
+msgid "Email Mass"
+msgstr "Correo Electrónico Masivo"
+
+msgid "Accounting"
+msgstr "Contabilidad"
+
+msgid "Payment Report"
+msgstr "Reporte de Pago"
+
+msgid "Tariff"
+msgstr "Tarifa"
+
+msgid "Rate Groups"
+msgstr "Grupos de Tarifas"
+
+msgid "Origination Rates"
+msgstr "Creaciones de Tarifas"
+
+msgid "Packages"
+msgstr "Paquetes"
+
+msgid "Usage Report"
+msgstr "Reporte de Uso"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "Termination Rates"
+msgstr "Terminación de Tarifas "
+
+msgid "Gateways"
+msgstr "Adaptadores"
+
+msgid "Sip Profiles"
+msgstr "Perfiles Sip"
+
+msgid "Freeswitch Server"
+msgstr "Servidor Freeswitch "
+
+msgid "IP MAP (ACL)"
+msgstr "MAPA IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Reporte de Llamadas"
+
+msgid "Details Reports"
+msgstr "Detalles de Reportes"
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Reseller"
+msgstr "Revendedor"
+
+msgid "Department"
+msgstr "Departamento"
+
+msgid "Provider Outbound"
+msgstr "Proveedor de Salida"
+
+msgid "Summary Reports"
+msgstr "Resumen Reportes"
+
+msgid "Trunk Stats"
+msgstr "Estadísticas de la Troncal"
+
+msgid "Live Call Report"
+msgstr "Reporte de Llamadas Online"
+
+msgid "Email History"
+msgstr "Historial de Correo Electrónico "
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Invoice Config"
+msgstr "Configuración de Factura "
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Database Restore"
+msgstr "Restaurar Base de Datos"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Callingcard"
+msgstr "Tarjeta de Llamada"
+
+msgid "Report A Bug"
+msgstr "Reportar un Error"
+
+msgid "Donate Us"
+msgstr "Donar"
+
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ".ASTPP - Solución de Facturación VOIP Open Source. Todos los Derechos Reservados."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-Beta"
+
+msgid "Welcome"
+msgstr "Bienvenido"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid ". ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ".ASTPP - Solución de Facturación VOIP Open Source. Todos Los Derechos Reservados."
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - Solución de Facturación VOIP Open Source."
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP funciona mejor con Javascript activado"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 de las Cuentas"
+
+msgid "By Minutes"
+msgstr "Por Minutos"
+
+msgid "By Calls"
+msgstr "Por Llamadas"
+
+msgid "Recharge Information"
+msgstr "Información de Recarga"
+
+msgid "Trunk add"
+msgstr "Agregar Troncal"
+
+msgid "Trunk Information"
+msgstr "Información de la Troncal"
+
+msgid "Trunk Name"
+msgstr "Nombre de la Troncal"
+
+msgid "Gateway"
+msgstr "Adaptador"
+
+msgid "Fail Over Gateway"
+msgstr "Falla Sobre Adaptador"
+
+msgid "Max Channels"
+msgstr "Maximo Canales"
+
+msgid "Trunk Settings"
+msgstr "Configuración de Troncales"
+
+msgid "Number Translation"
+msgstr "Número de Traducción"
+
+msgid "Codecs"
+msgstr "Codecs"
+
+msgid "Precedence"
+msgstr "Precedencia"
+
+msgid "Failover GW name"
+msgstr "Conmutación por error de nombre de GW"
+
+msgid "Max channels"
+msgstr "Canales Maximo"
+
+msgid "Rate Count"
+msgstr "Conteo de Tarifas"
+
+msgid "Edit Trunk"
+msgstr "Editar Troncal"
+
+msgid "My Rates"
+msgstr "Mis tarifas"
+
+msgid "Rates"
+msgstr "Tarifas"
+
+msgid "Manage DIDs"
+msgstr "Administrar DID"
+
+msgid "SIP Devices"
+msgstr "Dispositivos SIP"
+
+msgid "Manage Invoice"
+msgstr "Administrar Factura"
+
+msgid "CDRs Reports"
+msgstr "Reportes CDR's"
+
+msgid "Payment"
+msgstr "Pago"
+
+msgid "Payment Reports"
+msgstr "Reporte de Pago"
+
+msgid "Fund Transfer"
+msgstr "Transferencia de Fondos"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "Recharge"
+msgstr "Recargar"
+
+msgid "admins"
+msgstr "administradores"
+
+msgid "invoices"
+msgstr "facturas"
+
+msgid "packages"
+msgstr "paquetes"
+
+msgid "Provider"
+msgstr "Proveedor"
+
+msgid "summary reports"
+msgstr "reportes resumidos"
+
+msgid "Detail reports"
+msgstr "Detalle Reportes"
+
+msgid "Caller Id"
+msgstr "Identificador de Llamadas"
+
+msgid "Caller ID"
+msgstr "Identificador de Llamadas"
+
+msgid "Trunks"
+msgstr "Troncales"
+
+msgid "subscriptions"
+msgstr "suscripciones"
+
+msgid "Resellers"
+msgstr "Revendedores"
+
+msgid "customers"
+msgstr "clientes"
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "Detail Reports"
+msgstr "Detalle Reportes"
+
+msgid "View Details"
+msgstr "Ver detalles"
+
+msgid "Download Database"
+msgstr "Descargar Base de Datos"
+
+msgid "<b>Rescan"
+msgstr "<b>Volver a Explorar"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "<b>Reload"
+msgstr "<b> Actualizar"
+
+msgid "<b>Stop"
+msgstr "<b>Deténer"
+
+msgid "<b>Start"
+msgstr "<b>Iniciar"
+
+msgid "EDIT_RESTORE"
+msgstr "EDITAR RESTAURAR"
+
+msgid "DOWNLOAD_DATABASE"
+msgstr "DESCARGAR_BASE DE DATOS"
+
+msgid "import"
+msgstr "Importar"
+
+msgid "Restore"
+msgstr "Restaurar"
+
+msgid "Update Currencies"
+msgstr "Actualizar Monedas"
+
+msgid "Powered by"
+msgstr "Energizado por"
+
+msgid "Invoices"
+msgstr "facturas"
+
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+msgid "Refill Report"
+msgstr "Informe de recarga"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Recordings"
+msgstr "Grabaciones"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "IP Settings"
+msgstr "Configuración de IP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajust"
+
+msgid "Addons"
+msgstr "Complementos"

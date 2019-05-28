@@ -972,25 +972,33 @@ class CI_Form_validation {
 	 * @param	field
 	 * @return	bool
 	 */
-	public function is_unique($str, $field)
-	{
-				$id='';
-		$data =explode('.', $field);
-				$table=$data[0];
-				$field=$data[1];
+	public function is_unique($str, $field) {
+				$id    = '';
+				$data  = explode('.', $field);
+				$table = $data[0];
+				$field = $data[1];
 				if(isset($data[2]))
-				$id=$data[2];
+				$id = $data[2];
 				$where=array($field => $str);
 				if($id != ''){
-				 $where['id !=']=$id;
+					$where['id !=']=$id;
 				}
 				if($table == 'accounts'){
-		  $where['deleted']=0;
+		  			$where['deleted']=0;
 				}
 				$query = $this->CI->db->limit(1)->get_where($table,$where );
-		return $query->num_rows() > 0 ? FALSE : TRUE;
-		 }
+				return $query->num_rows() > 0 ? FALSE : TRUE;
+	}
 
+	/** 
+	* check card length
+	*
+	*/
+	public function is_match_number($str, $field){
+				$card_length=(array)$this->CI->db->get_where('system',array("name"=>"card_length"))->first_row();
+				return (strlen($str) > $card_length['value']) ? FALSE : TRUE;
+				
+	}
 	// --------------------------------------------------------------------
 
 	/**
@@ -1118,10 +1126,10 @@ class CI_Form_validation {
 	 * @return	string
 	 */
 	public function valid_ip($ip)
-	{
-		$explode_ip = explode('/',$ip);
-		$ip = (isset($explode_ip[0]) && $explode_ip[0] != '')?$explode_ip[0]:$ip;
-		return $this->CI->input->valid_ip($ip);
+	{	
+		$ip=explode("/",$ip);
+		$ip=$ip[0];
+		return (bool) filter_var($ip, FILTER_VALIDATE_IP);
 	}
 
 	// --------------------------------------------------------------------
@@ -1178,6 +1186,12 @@ class CI_Form_validation {
 	public function numeric($str)
 	{
 		return (bool)preg_match('/^[\-+]?[0-9]*\.?[0-9]+$/', $str);
+
+	}
+
+	public function dropdown_required($str)
+	{
+		return (bool)preg_match('/^[\-+]?[1-9]*\.?[1-9]+$/', $str);
 
 	}
 
@@ -1240,7 +1254,7 @@ class CI_Form_validation {
 		}
 		return $str > $min;
 	}
-
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -1259,6 +1273,29 @@ class CI_Form_validation {
 		return $str < $max;
 	}
 
+    public function check_priority_total($str, $field)
+	{
+		if($_POST['routing_type']==3){
+			$data =explode('.', $field);
+			$name=$data[0];
+			$count=$data[1];
+			$total=0;
+			for($i=1;$i<=$count;$i++){
+				$total+=$_POST[$name.$i];
+
+			}
+			
+			if ( ! is_numeric($total))
+			{
+				return FALSE;
+			}else if($total==100){
+				return TRUE;
+			}else{
+				return FALSE;
+			}
+		}
+			return TRUE;
+	}
 	// --------------------------------------------------------------------
 
 	/**
@@ -1460,28 +1497,66 @@ class CI_Form_validation {
 			  return false;
 		  }
 		}
-		public function did_account_checking($str){
-		  $post_array=$this->CI->input->post();
-		  if($str > 0){
-		  $this->CI->db->where("id",$str);
-		  $this->CI->db->select('posttoexternal,balance,credit_limit');
-		  $acc_result=$this->CI->db->get('accounts');
-		  $customer_info=(array)$acc_result->first_row();
-		  $available_bal = ($customer_info["posttoexternal"] == 1) ? ($customer_info["credit_limit"] - $customer_info["balance"]) :($customer_info["balance"]);
-		  if($available_bal >= $post_array['setup']){
-		   return TRUE;
+		public function password_check_old($str,$table){
+
+		  $this->CI->db->select('password');
+		  $this->CI->db->where('id',$_POST['id']);
+		  $result=$this->CI->db->get($table);
+
+		  if($result->num_rows() > 0 ){
+			  $result=(array)$result->first_row();
+			  $password=$this->CI->common->decode($result['password']);
+			  if($password == $_POST ['new_password']) {
+				  return false;
+			  }else {
+				  return true;
+			  }
 		  }else{
-		   return FALSE;
-		  }
-		  }else{
-		   return TRUE;
+			  return true;
 		  }
 		}
+
 		public function phn_number($str)
 	        {
 		        return (!preg_match('/^[0-9 +-]+$/', $str)) ? FALSE : TRUE;
 	        }
 
+		public function ctype_alnum($str)
+	        {
+		        return (!preg_match('/^[a-zA-Z0-9]+$/', $str)) ? FALSE : TRUE;
+	        }
+	    public function chk_password_expression( $str ) {
+
+    		$password_type = common_model::$global_config ['system_config'] ['password_type'];
+
+    		if( $password_type == '0' ) {
+
+
+    			if(1 !== preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%^&*()+]{8,}$/', $str)) {
+		        	$this->CI->form_validation->set_message('chk_password_expression', gettext('%s must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit and any special characters must have included'));
+			        
+			        return FALSE;
+
+			    } else {
+		        
+		        	return TRUE;
+		    	}
+
+    		} else {
+
+    			if(1 !== preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,255}$/', $str)) {
+    				
+		        	$this->CI->form_validation->set_message('chk_password_expression', gettext('%s must be at least 8 characters not contains any special characters expect . and _ and not start with numbers or space not allowed'));
+			        
+			        return FALSE;
+
+			    } else {
+
+		        	return TRUE;
+
+		    	}
+    		}
+		}
 }
 // END Form Validation Class
 

@@ -29,7 +29,7 @@
 <section class="slice color-three">
 	<div class="w-section inverse no-padding">
     	<div class="container">
-   	    <div class="row">
+   	    <div class="mb-4 col-12">
             	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
                     	<?php echo $form_search; ?>
     	        </div>

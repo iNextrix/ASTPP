@@ -39,75 +39,107 @@ define ( 'FOPEN_WRITE_CREATE', 'ab' );
 define ( 'FOPEN_READ_WRITE_CREATE', 'a+b' );
 define ( 'FOPEN_WRITE_CREATE_STRICT', 'xb' );
 define ( 'FOPEN_READ_WRITE_CREATE_STRICT', 'x+b' );
-define ( "RESELLERPROFILE_ARRAY", serialize ( array (
+
+//HP: Permission changes 25-Jan-2019
+$PERMISSION_EDIT_ARRAY=array (
+		"SIP Devices" => "freeswitch/fssipdevices/main",
+		"IP Settings" => "ipmap/ipmap_detail/main",
+		"Caller ID" => "animap/animap_detail/main",
+		"DID" => "did/did_list/main",
+		"Invoice" => "invoices/invoice_list/main",
+		"Refill Report" => "reports/refillreport/main",
+		"Charges History" => "reports/charges_history/main",
+		"CDRs" => "reports/customerReport/main",
+		"Emails" => "email/email_history_list/main",
+		"Products" => "products/products_list/main",
+);
+
+$CUSTOMEREDIT_ARRAY=array (
+		"Customer Profile" => "accounts/customer_edit/",
+		"SIP Devices" => "accounts/customer_sipdevices/",
+		"IP Settings" => "accounts/customer_ipmap/",
+		"Caller IDs" => "accounts/customer_animap/",
+		"Force Caller ID" => "accounts/customer_add_callerid/",
+		"DIDs" => "accounts/customer_dids/",
+		"Products" => "accounts/customer_product/",
+		"Speed Dial" => "accounts/customer_speeddial/",
+		"Blocked Codes" => "accounts/customer_blocked_prefixes/",
+		"Alert Threshold" => "accounts/customer_alert_threshold/",
+		"Invoices" => "accounts/customer_invoices/",
+		"Refill Report" => "accounts/customer_refillreport/",
+		"Charges History" => "accounts/customer_charges/",
+		"CDRs"=>"accounts/customer_cdrs/",
+		"Emails" => "accounts/customer_emailhistory/",
+);
+$RESELLERPROFILE_ARRAY=array (
 		"My Profile" => "user/user_myprofile/",
 		"Change Password" => "user/user_change_password/",
-		"Subscriptions" => "user/user_subscriptions/",
 		"Invoice" => "user/user_invoices_list/",
 		"Refill Report" => "user/user_refill_report/",
 		"Charges History" => "user/user_charges_history/",
-		"Packages" => "user/user_packages/",
-		"Company Profile" => "user/user_invoice_config/",
 		"CDRs" => "user/user_cdrs/",
 		"Emails" => "user/user_emails/",
-		"Alert Threshold" => "user/user_alert_threshold/" 
-) ) );
-define ( "CUSTOMEREDIT_ARRAY", serialize ( array (
-		"Customer Profile" => "accounts/customer_edit/",
-		"SIP Devices" => "accounts/customer_sipdevices/",
-		"Opensips Device" => "accounts/customer_opensips/",
-		"IP Settings" => "accounts/customer_ipmap/",
-		"Caller ID" => "accounts/customer_animap/",
-		"Speed Dial" => "accounts/customer_speeddial/",
-		"Blocked Codes" => "accounts/customer_blocked_prefixes/",
-		"DID" => "accounts/customer_dids/",
-		"Subscription" => "accounts/customer_subscription/",
-		"Invoice" => "accounts/customer_invoices/",
-		"Refill Report" => "accounts/customer_refillreport/",
-		"Charges History" => "accounts/customer_charges/",
-		"CDRs" => "accounts/customer_cdrs/",
-		"Emails" => "accounts/customer_emailhistory/",
-		"Alert Threshold" => "accounts/customer_alert_threshold/" 
-) ) );
+		"Alert Threshold" => "user/user_alert_threshold/",
+		"My Order" => "user/user_get_order_list/"
+);
 
-define ( "PROVIDEREDIT_ARRAY", serialize ( array (
-		"Provider Profile" => "accounts/provider_edit/",
-		"SIP Devices" => "accounts/provider_sipdevices/",
-		"Opensips Device" => "accounts/provider_opensips/",
-		"IP Settings" => "accounts/provider_ipmap/",
-		"Caller ID" => "accounts/provider_animap/",
-		"Speed Dial" => "accounts/provider_speeddial/",
-		"Blocked Codes" => "accounts/provider_blocked_prefixes/",
-		"DID" => "accounts/provider_dids/",
-		"Subscription" => "accounts/provider_subscription/",
-		"Invoice" => "accounts/provider_invoices/",
-		"Refill Report" => "accounts/provider_refillreport/",
-		"Charges History" => "accounts/provider_charges/",
-		"CDRs" => "accounts/provider_cdrs/",
-		"Emails" => "accounts/provider_emailhistory/",
-		"Alert Threshold" => "accounts/provider_alert_threshold/" 
-) ) );
-define ( "RESELLEREDIT_ARRAY", serialize ( array (
-		"Reseller Profile" => "accounts/reseller_edit/",
-		"DID" => "accounts/reseller_dids/",
-		"Subscription" => "accounts/reseller_subscription/",
-		"Invoice" => "accounts/reseller_invoices/",
-		"Refill Report" => "accounts/reseller_refillreport/",
-		"Charges History" => "accounts/reseller_charges/",
-		"Packages" => "accounts/reseller_packages/",
-		"Company Profile" => "accounts/reseller_invoice_config/",
-		"CDRs" => "accounts/reseller_cdrs/",
-		"Emails" => "accounts/reseller_emailhistory/",
-		"Alert Threshold" => "accounts/reseller_alert_threshold/" 
-) ) );
-define ( "PACKAGEEDIT_ARRAY", serialize ( array (
+$PROVIDEREDIT_ARRAY=array (
+		"Provider Profile" => "accounts/provider_edit/"
+);
+
+$RESELLEREDIT_ARRAY=array (
+		"Reseller Profile" => "accounts/reseller_edit/"
+);
+
+$PACKAGEEDIT_ARRAY=array (
 		"Package Details" => "package/package_edit/",
 		"Package Codes" => "package/package_pattern_list/" 
-) ) );
-define ( "CUSTOMERPROFILE_ARRAY", serialize ( array (
+);
+
+$CUSTOMERPROFILE_ARRAY=array (
+		"My Profile" => "user/user_myprofile/",
+		"SIP Devices" => "user/user_sipdevices/",
+		"IP Settings"=>"user/user_ipmap/",
+		"Speed Dial"=>"user/user_speeddial/",
+		"Alert Threshold"=>"user/user_alert_threshold/",
+		"Change Password"=>"user/user_change_password/"
+);
+
+$PROVIDERPROFILE_ARRAY=array (
 		"My Profile" => "user/user_myprofile/",
 		"Change Password" => "user/user_change_password" 
-) ) );
+);
+define("PLANS_ARRAY",  serialize( array(
+                                "Plans Details"=>"plans/plans_edit/",
+
+				 "Plans Code"=>"plans/plans_code_list/"
+)));
+//Make menu dynamic
+$dir=getcwd()."/application/config/addons";
+$a = scandir($dir);
+
+foreach($a as $key=>$val){
+
+	if($val!=='.' || $val!='..'){
+		$function=str_replace(".php","",$val);
+		if(file_exists($dir."/".$val."/constants.php")){
+			include_once($dir."/".$val."/constants.php");
+		}
+	}
+}
+
+
+define ( "RESELLERPROFILE_ARRAY", serialize ($RESELLERPROFILE_ARRAY) );
+
+define ( "CUSTOMEREDIT_ARRAY", serialize ($CUSTOMEREDIT_ARRAY) );
+
+define ( "PROVIDEREDIT_ARRAY", serialize ($PROVIDEREDIT_ARRAY) );
+define ( "RESELLEREDIT_ARRAY", serialize ($RESELLEREDIT_ARRAY) );
+
+define ( "PERMISSION_EDIT_ARRAY", serialize ($PERMISSION_EDIT_ARRAY) );
+define ( "PACKAGEEDIT_ARRAY", serialize ($PACKAGEEDIT_ARRAY) );
+define ( "CUSTOMERPROFILE_ARRAY", serialize ($CUSTOMERPROFILE_ARRAY) );
+define ( "PROVIDERPROFILE_ARRAY", serialize ($PROVIDERPROFILE_ARRAY) );
 define ( "DATABASE_DIRECTORY", FCPATH . 'database_backup' . DIRECTORY_SEPARATOR );
 define ( 'LOCALE_REQUEST_PARAM', 'lang' );
 define ( 'WEBSITE_DOMAIN', 'messages' );

@@ -1,62 +1,103 @@
-<? include('header.php'); ?>
-<!--
-ASTPP  3.0 
-Add classes 
--->
-<section class="slice color-one">
- <div class="w-section inverse no-padding border_box">
-   <div class="container">
-     <div class="">
-<!--******************************************-->   
+<?php if(!empty($this->session->userdata('accountinfo'))) { 
+ include('header.php'); 
+ }else{
+ include('header_webpage.php');
+} ?>
 
+<section class="slice color-one">
+ <div class="w-section inverse border_box p-0 border-top">
+   <div class="">
+     <div class="row">
 <?php
+
 $url = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
 if (strpos($url, 'customer_cdrs') != true) {
    
 ?>
-        <div class="col-md-12 no-padding">
-	        <div class="col-md-8 no-padding">
-                    <h2><? start_block_marker('page-title') ?><? end_block_marker() ?>	</h2>
+        <div class="col-md-12 d-flex">
+	        <div class="col-8 float-left align-self-center">
+                    <h2 class="text-light my-3 fw4"><? start_block_marker('page-title') ?><? end_block_marker() ?>	</h2>
 	        
 	        
-                <span id="error_msg" class=" success"></span></div>
-                 <div class="pull-right">
-				</div>
-<!--
-ASTPP  3.0
-Email host test
--->
-	        <?php if (isset($test_email_flag) && $test_email_flag) { ?>
-	                <div id="show_search" class="pull-right btn btn-warning btn margin-t-51"><a onclick="PopupCenter('<?=base_url()?>newmail/',resizable=1,width=580,height=700) "><font color="#fff"><i class= " fa fa-envelope-o"></i> &nbsp;Test Mail</font></a></div>
-                <?php } ?>
+                <span id="error_msg" class=" success"></span>
+              </div>
+                  <?php if(isset($dashboard_flag) && $dashboard_flag){?>
+                  <div class="col-4 float-right pl-2 align-self-center">
+                      <ul class="">
+                          <li class="active float-right">
+                          <a data-ripple=" " class="btn text-light" href="/addons/addons_list/Community" style="position: relative;background: #D05935;"> <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Get Addons</a>
+                          </li>
+                      </ul>       
+                  </div>
+                  <?php } ?>
+                  <?php if(isset($back) && $back){?>
+                  <div class="col-4 float-right pl-2 align-self-center">
+					  
+						<div class="float-right">
+						  <a class="btn btn-primary" href="<?php echo base_url().$back_url;?>"><i class="fa fa-fast-backward"></i> Back</a>
+						</div>
+						
+                      
+                  </div>
+                  <?php } ?>
+                 <div class="float-right"> </div>
 
-<!--/*******************************/ -->
-	        <div class="col-sm-4 no-padding">
-		 <?php if (isset($batch_update_flag) && $batch_update_flag) { ?>
-                <div id="updatebar" class="pull-right btn btn-update btn margin-t-51 margin-l-10"><i class="fa fa-retweet fa-lg"></i> <?php echo gettext('Batch Update'); ?></div>
+	        <?php if (isset($test_email_flag) && $test_email_flag) { ?>
+	                <div id="show_search" class="float-right btn btn-warning btn margin-t-51"><a data-ripple onclick="PopupCenter('<?=base_url()?>newmail/',resizable=1,width=580,height=700) "><font color="#fff"><i class= " fa fa-envelope-o"></i> &nbsp;Test Mail</font></a></div>
                 <?php } ?>
-	        <?php if (isset($search_flag) && $search_flag) { ?>
-	                <div id="show_search" class="pull-right btn btn-warning btn margin-t-51"><i class="fa fa-search"></i> <?php echo gettext('Search'); ?></div>
-                <?php } ?>
+	        <div class="col-4 float-right pl-2 align-self-center">
+		 <?php if (isset($batch_update_flag) && $batch_update_flag) { 
+			 
+			 $permissioninfo = $this->session->userdata('permissioninfo');
+                        $currnet_url=current_url();
+                        $url_explode= explode('/',$currnet_url);
+                        $module_name= $url_explode[3];
+                        $sub_module_name= $url_explode[4];
+
+                        $logintype = $this->session->userdata('logintype');
+                        if((isset($permissioninfo[$module_name][$sub_module_name]['batch_update']) && $permissioninfo[$module_name][$sub_module_name]['batch_update'] == 0) or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3' ){
+
+
+
+                      
+			 ?>
+			 
+                <div id="updatebar" class="float-right btn-update btn ml-3 py-1"><i class="fa fa-wrench fa-lg"></i> <?php  ?></div>
+                <?php }}?>
+	        <?php if (isset($search_flag) && $search_flag) {
+                        $permissioninfo = $this->session->userdata('permissioninfo');
+                        $currnet_url=current_url();
+                        $url_explode= explode('/',$currnet_url);
+                        $module_name= $url_explode[3];
+                        $sub_module_name= $url_explode[4];
+                        $logintype = $this->session->userdata('logintype');
+                        if((isset($permissioninfo[$module_name][$sub_module_name]['search']) && $permissioninfo[$module_name][$sub_module_name]['search'] == 0) or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3' ){
+                                ?>
+
+	                <div id="show_search" class="float-right btn btn-warning py-1"><i class="fa fa-search"></i> <?php  ?></div>
+                <?php }} ?>
                 <?php if (isset($back_flag) && $back_flag) {?>
-					<ul class="breadcrumb">
-                <li class="active pull-right">
-				<a href="<?= $_SERVER['HTTP_REFERER']?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a>
+                
+					<ul class="">
+                <li class="active float-right">
+				<a data-ripple class="btn btn-primary" href="<?= isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_URI']?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a>
 				</li></ul>
-				<!----------------------------------------------------------------------------------------------------->
                 <?php } ?>
                 
+                 <?php if (isset($full_screen) && $full_screen) {?>
+					<div id="show_full_screen" class="fullscreen float-right btn btn-warning ml-3 py-1"><i class="glyphicon glyphicon-fullscreen"></i> <?php echo gettext('Full Screen'); ?></div>
+				<?php } ?>
+                
                 </div>
-        	<div class="col-md-12 no-padding"></div>
-<!--******************************************-->        	
+        	<div class="col-md-12 p-0"></div>        	
 	  </div>
 <?php } ?>
      </div>
     </div>
   </div>    
 </section>
-<section class="page-wrap">
+<section class="page-wrap p-4">
 <div id="toast-container" class="toast-top-right col-md-6" style="display:none;" >
  <div class="toast fa-check toast-success1">
         <button class="toast-close-button">
@@ -68,11 +109,18 @@ Email host test
   </div>
 </div>
 
-<div id="toast-container_error" class="toast-top-right col-md-6" style="display:none;z-index:999"> <!--  style="display:none;" -->
+<div id="toast-container_error" class="toast-top-right col-md-6" style="display:none;z-index:999"> 
 <div class="toast fa fa-times toast-danger1">
         <button class="toast-close-button">
             <i class="fa fa-close"></i>
         </button>
+        <div class="toast-message">
+                    Error message light
+        </div>
+  </div>
+</div>
+<div id="toast-container_ok" class="toast-top-right col-md-6" style="display:none;z-index:999;">
+<div class="toast toast-danger1">
         <div class="toast-message">
                     Error message light
         </div>
@@ -100,7 +148,20 @@ Email host test
     display_astpp_message(validate_ERR,ERR_type);
 </script>
 <?php } ?>
+
+<?if ($this->session->flashdata('astpp_danger_alert')!=''){?>
+<div class="container alert alert-danger alert-dismissible fade show">
+  <strong>Danger!</strong> <?=$this->session->flashdata('astpp_danger_alert');?>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<?}?>
+
 <? start_block_marker('content') ?><? end_block_marker() ?>
- 
-<?php include('footer.php'); ?>
+<?php if(!empty($this->session->userdata('accountinfo'))) { 
+ include('footer.php'); 
+} else {
+include('footer_webpage.php'); 
+ } ?>
 

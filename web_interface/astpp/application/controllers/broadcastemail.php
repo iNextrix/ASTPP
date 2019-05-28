@@ -23,8 +23,6 @@
 class Broadcastemail extends CI_Controller {
 	function __construct() {
 		parent::__construct ();
-		if (! defined ( 'CRON' ))
-			exit ();
 		$this->load->model ( "db_model" );
 		$this->load->library ( "astpp/email_lib" );
 	}
@@ -38,7 +36,7 @@ class Broadcastemail extends CI_Controller {
 			foreach ( $account_data as $data_key => $account_value ) {
 				$account_value ['history_id'] = $account_value ['id'];
 				unset ( $account_value ['id'] );
-				$this->email_lib->send_email ( '', $account_value, '', $account_value ['attachment'], 1, 0, 1 );
+				$this->email_lib->send_notifications ( '', $account_value, '', $account_value ['attachment'], 1, 0, 1 );
 			}
 		}
 	}

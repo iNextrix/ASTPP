@@ -26,7 +26,7 @@ class db extends PDO {
 	private $bind;
 	private $errorCallbackFunction;
 	private $errorMsgFormat;
-	public function __construct($dsn = "", $user = "", $passwd = "") {
+	public function __construct($cdr = "") {
 		$config = parse_ini_file ( "/var/lib/astpp/astpp-config.conf" );
 		
 		$options = array (
@@ -35,7 +35,11 @@ class db extends PDO {
 		);
 		
 		try {
-			parent::__construct ( "mysql:host=" . $config ['dbhost'] . ";dbname=" . $config ['dbname'] . "", $config ['dbuser'], $config ['dbpass'], $options );
+			$dbhost = (isset($config [$cdr.'dbhost']) && $config [$cdr.'dbhost'] != '')?$config [$cdr.'dbhost']:$config ['dbhost'];
+			$dbname = (isset($config [$cdr.'dbname']) && $config [$cdr.'dbname'] != '')?$config [$cdr.'dbname']:$config ['dbname'];
+			$dbuser = (isset($config [$cdr.'dbuser']) && $config [$cdr.'dbuser'] != '')?$config [$cdr.'dbuser']:$config ['dbuser'];
+			$dbpass = (isset($config [$cdr.'dbpass']) && $config [$cdr.'dbpass'] != '')?$config [$cdr.'dbpass']:$config ['dbpass'];
+			parent::__construct ( "mysql:host=" . $dbhost . ";dbname=" . $dbname . "", $dbuser, $dbpass, $options );
 		} catch ( PDOException $e ) {
 			
 			$this->error = $e->getMessage ();

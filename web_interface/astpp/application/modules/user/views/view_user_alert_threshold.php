@@ -1,5 +1,6 @@
 <? extend('left_panel_master.php') ?>
 <? startblock('extra_head') ?>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 function form_submit(){
     var email = document.forms["reseller_form"]["notify_email"].value;
@@ -18,42 +19,54 @@ function form_submit(){
     }
 }
 </script>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $(".breadcrumb li a").removeAttr("data-ripple","");
+      
+  });
+</script>
 <?php endblock() ?>
 <? startblock('page-title') ?>
 <?= $page_title ?>
 <? endblock() ?>
 <?php startblock('content') ?>
 
-<div id="main-wrapper" class="tabcontents">
-    <div id="content">   
+<div id="main-wrapper">
+    <div id="content" class="container-fluid">   
         <div class="row"> 
-            <div class="col-md-12 no-padding color-three border_box"> 
-                <div class="pull-left">
-                     <ul class="breadcrumb">
-                                         <?php $accountinfo=$this->session->userdata('accountinfo');
+            <div class="col-md-12 color-three border_box"> 
+                <div class="float-left m-2 lh19">
+                     <nav aria-label="breadcrumb">
+						<ol class="breadcrumb m-0 p-0">
+                          <?php $accountinfo=$this->session->userdata('accountinfo');
 						  if($accountinfo['type']==1){ ?>
-                          <li><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
-                          <?php } else{ ?>
-			    <li><a href="#"><?php echo gettext('Configuration')?></a></li>
+                          <li class="breadcrumb-item"><a href="<?= base_url() . "user/user_myprofile/"; ?>"><?php echo gettext('My Profile')?></a></li>
+                          <?php } 
+                          else if($accountinfo['type']==0 || $accountinfo['type']==3){ ?>
+								<li class="breadcrumb-item"><a href=<?= base_url() . "user/user_myprofile/"; ?>><?php echo gettext('My Account')?></a></li>
+							 <?php } 
+                          else{ ?>
+								<li class="breadcrumb-item"><a href="#"><?php echo gettext('Configuration')?></a></li>
                           <?php } ?>
-			  <li class='active'>
+							<li class="breadcrumb-item active">
                              <a href="<?= base_url() . "user/user_alert_threshold/"; ?>"><?php echo gettext('Alert Threshold')?></a>
                           </li>
-                    </ul>
+                    </ol>
+                    </nav>
                 </div>
-                <?php if($accountinfo['type']==1) { ?>
-                   <div class="pull-right">
-                    <ul class="breadcrumb">
-		      <li class="active pull-right">
-		      <a href="<?= base_url() . "user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
-                    </ul>
-                   </div>
-                <?php }?>      
+
+                <div class="m-2 float-right">
+					<a class="btn btn-light btn-hight" href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a>
+                </div>
+                  
 
 	     </div>
-            <div class="padding-15 col-md-12">
-                <div class="slice color-three pull-left content_border">
-                    <?php echo $form; ?>
+            <div class="p-4 col-md-12">
+                <div class="col-md-12">
+                    <?php 
+					if(isset($form)){
+						echo $form;
+					}	 ?>
                     <?php if (isset($validation_errors) && $validation_errors != '') { ?>
                         <script>
                             var ERR_STR = '<?php echo $validation_errors; ?>';
@@ -69,3 +82,8 @@ function form_submit(){
 <? startblock('sidebar') ?>
 <? endblock() ?>
 <? end_extend() ?>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('.page-wrap').addClass('addon_wrap');
+  });
+</script>

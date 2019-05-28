@@ -7,122 +7,20 @@
 <?php endblock() ?>
 <?php startblock('content')?>
 <style>
-div .tleft {
-  position: relative;
-
+.tooltip-inner {
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #000;
+      font-size: 14px;
+  }
+.arrow{
+    left: 5% !important;
 }
-div.tleft .demo {
-  visibility: hidden;
-  opacity: 1;
-  color: #FFF !important;
-  position: absolute;
-  display: inline-block;
-  z-index: 1111;
-  background-color: #2E4E6A !important;
-  padding: 0.5em 0.8em !important;
-  text-transform: none !important;
-  margin-right: 0px;
-  bottom: 10px;
-  border-radius: 5px;
-  border-color: #2E4E6A !important;
-  text-align: left;
-  font-size: 12px;
-  width: 280px;
-  left: 40%;
+@media screen and (max-width:991px){
+ .arrow{
+    left: 15% !important;
+  } 
 }
-div.tleft .demo:before {
-  content: '';
-  position: absolute;
-  background-color: #2E4E6A !important;
-  bottom: -0.3em;
-  left: 70%;
-  margin-left: -0.3em;
-  right: auto;
-  top: auto;
-  width: .6em;
-  height: .6em;
-  transform: rotate(45deg);
-  z-index: 2;
-  transition:background .1s linear;
-}
-
-div:hover.tleft .demo {
- visibility: visible;
-  opacity: 1;
-  color: #FFF !important;
-  position: absolute;
-  display: inline-block;
-  z-index: 1111;
-  background-color: #2E4E6A !important;
-  padding: 0.5em 0.8em !important;
-  text-transform: none !important;
-  margin-right: 0px;
-  bottom: 10px;
-  border-radius: 5px;
-  border-color: #2E4E6A !important;
-  text-align: left;
-  font-size: 12px;
-  width: 280px;
-  left: 40%;
-
-}
-
-div.tright {
-  position: relative;
-}
-div.tright .demo {
-   visibility:hidden;
-  border-radius: 6px;
-  text-align: left;
-  border-radius: 6px;
-  background-color: #2E4E6A !important;
-  border-color: #2E4E6A !important;
-  color: rgb(255, 255, 255) !important;
-  bottom: 25px;
-  right: -60%;
-  z-index: 11;
-  text-transform: none !important;
-  position: absolute;
-  padding: 0.5em 0.8em !important;
-  display: inline-block;
-  width:250px !important;
-}
-div.tright .demo:before {
-  content: '';
-  position: absolute;
-  background-color: #2E4E6A !important;
-  bottom: -0.3em;
-  left: 70%;
-  margin-left: -0.3em;
-  right: auto;
-  top: auto;
-  width: .6em;
-  height: .6em;
-  transform: rotate(45deg);
-  z-index: 2;
-  transition:background .1s linear;
-}
-
-div:hover.tright .demo {
-  visibility: visible;
-  opacity: 1;
-  color: #FFF !important;
-  position: absolute;
-  display: inline-block;
-  z-index: 1111;
-  background-color: #2E4E6A !important;
-  padding: 0.5em 0.8em !important;
-  text-transform: none !important;
-  margin-right: 0px;
-  bottom: 10px;
-  border-radius: 5px;
-  border-color: #2E4E6A !important;
-  text-align: left;
-  font-size: 12px;
-  width: 280px;
-  left: 40%;
-}
-
 </style>
 <script>
 
@@ -149,69 +47,102 @@ function validateform(){
   }
   return true;
 }
-</script>
 
-<div id="main-wrapper" class="tabcontents">
-  <div id="content">
+
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+      $('.page-wrap').addClass('addon_wrap');
+  });
+</script>
+<div id="main-wrapper">
+  <div id="content" class="container-fluid">
     <div class="row">
-      <div class="col-md-12 no-padding color-three border_box">
-        <div class="col-md-8"><h2><?= $page_title; ?></h2></div>
-        <div class="pull-right">
-            <ul class="breadcrumb">
-                <li>
-                    <a href="<?= base_url()."systems/configuration/global"; ?>"> Global</a>
-                </li>
-                <?php if ($group_title != "global") { ?>
-                <li class="active">
-                    <a href="<?= base_url()."systems/configuration/".$group_title; ?>"> <?php echo ucfirst($group_title); ?></a>
-                </li>
-                <?php } ?>
-            </ul>
+      <div class="col-md-12 color-three border_box">
+        <div class="col-md-8 float-left my-2"><h2 class="m-0 text-light"><?= $page_title; ?></h2></div>
+        <div class="float-right my-2 lh19 pr-4">
+          <nav aria-label="breadcrumb float-right">
+            <ol class="breadcrumb m-0 p-0">
+            </ol>
+          </nav>
         </div>
       </div>
-      <div class="padding-15 col-md-12">
-        <div class="slice color-three pull-left content_border col-md-12">
+      <div class="p-4 col-md-12">
+        <div class="slice color-three float-left content_border col-12">
            <form action="<?=base_url()?>/systems/configuration/<?=$group_title?>" accept-charset="utf-8" id="system_conf_form" method="POST" name="invoice_conf_form"  onsubmit='return validateform()'>
-              <fieldset>
-               <legend> <?=ucfirst($group_title)?></legend>
-                  <div style="width:50%;float:left;">
-                    <?php $currency = Common_model::$global_config['system_config']['base_currency'];?>
-                    <?php $count=ceil(sizeof($details)/2); $i=0; $class="tleft";?>
-                    <?php foreach($details as$key=>$val){ ?>
-                          <?php if($count==$i){
-							  echo '</div><div style="width:50%;float:left;">';
-							  $class="tright";
-						  } ?>
-                          <div class="col-md-12">
-                            <div class="<?=$class?>" href='#'>
-                            <label class="col-md-5 no-padding"><?php echo $val['display_name'];?> * </label>
-                            <?php if(method_exists($this->common,$val['field_type'])){
-								$option_array =  $this->common->{$val['field_type']}();
-								$drpstr = '<select name="'.$val['name'].'" class="col-md-5 form-control selectpicker"  data-live-search="true">';
-									  foreach($option_array as $option_key=>$option_val){
-										$selected = ($val['value'] == $option_key)? "selected='selected'":"";
-										$drpstr .= '<option value="'.$option_key.'"'.$selected.'>'.$option_val.'</option>';
-									  }
-								$drpstr .= '</select>';
-								echo $drpstr;
-								unset($drpstr);
-							} else{ ?>
-								<input name="<?php echo $val['name'] ?>" value='<?php echo isset($val['value'])?$val['value']:''; ?>' size="20" maxlength="100" class="col-md-5 form-control" type="text">
-						<?php }?>
-                              <span class="demo"><?php echo str_replace('smtp',"SMTP",$val['comment']);?></span>
+              <div class="col-md-12 col-sm-12 float-left p-0">
+							  <?php foreach($details as $key1=>$val1){
+									echo "<div class='col-12 px-2'>";
+										echo "<ul class='card p-0'>";
+												echo "<div class='pb-4' id='floating-label'>";
+													echo "<h3 class='bg-secondary text-light p-3 rounded-top'>".$key1."</h3>";?>
+														<?php $currency = Common_model::$global_config['system_config']['base_currency'];?>
+														<?php 
+														$count=count($val1);
+														$class="tleft";
+														echo "<div class='col-md-12'>";
+														echo "<div class='row'>";
+														foreach($val1 as $key=>$val){
+                              ?>
+																<div class="col-md-4 col-sm-12 form-group">
+																	 <label title="<?php echo str_replace('smtp',"SMTP",$val['comment']);?>" data-toggle="tooltip" data-placement="top" data-html="true" class="col-sm-6 col-xs-4 p-0 control-label"><?php echo $val['display_name'];?> * </label>
+																	 <?php 
+																			if($val['name']=='tax_type'){
+																					$select_array=array();
+																					$options =  $this->common->{$val['field_type']}();
+																					  $tmp = str_replace("smtp","SMTP",$val["comment"]);
+																					  $form='<select name="'.$val['name'].'[]"'." multiple='multiple' class='selectpicker select field multiselectable col-md-12 form-control form-control-lg' data-hide-disabled='true' data-actions-box='true'>\n";
+																					  $selected_options=explode(",",$val['value']);
+																					  foreach($selected_options as $key => $value){
+																						$select_array[$value]=$value;
+																					  }
+																					  foreach ($options as $key => $value)
+																					  { 
+																						$selected = isset($select_array[$key])? "selected='selected'":"";
+																						$form .= '<option value="'.$key.'"'.$selected.'>'.$value.'</option>';
+																					  }
+																					  $form .= '</select>';
+																					  echo $form;
+																			}
+																			else if(method_exists($this->common,$val['field_type'])){
+																			$option_array =  $this->common->{$val['field_type']}();
+																			$tmp = str_replace("smtp","SMTP",$val["comment"]);
 
-                            </div>
-                          </div>
+																							$drpstr = "<select name='".$val['name']."' class='col-md-12 form-control form-control-lg selectpicker sp'  data-live-search='true' data-live-search-style='begins' >";
+																								  foreach($option_array as $option_key=>$option_val){
+																									$selected = ($val['value'] == $option_key)? "selected='selected'":"";
+																									$drpstr .= '<option value="'.$option_key.'"'.$selected.'>'.$option_val.'</option>';
+																								  }
+																							$drpstr .= '</select>';
+																							echo $drpstr;
+																							unset($drpstr);
+																			}
+																			 else{?>
+                                        <input name="<?php echo $val['name'] ?>" value='<?php echo isset($val['value'])?$val['value']:''; ?>' size="20" maxlength="100" class="col-md-12 form-control form-control-lg" type="text">
 
-                      <?php $i++;?>
-                    <?php }?>
-                  </div>
-              </fieldset>
-              <center>
-                <div class="col-md-12 margin-t-20 margin-b-20">
-                  <button type="submit" value="save" class="btn btn-line-parrot">Save</button>
-                </div>
-              </center>
+																			<?php } ?>	
+																	
+																</div>	
+														
+														<?php }
+														
+														 ?>
+														</div>
+														</div>
+												</div>
+										</ul>
+								</div>
+							  <?php } ?>		
+						  
+			  
+				  <center>
+					<div class="col-12 my-4">
+					  <button type="submit" value="save" class="btn btn-success">Save</button>
+					</div>
+				  </center>
+			  </div>	  	  
+					 	
             </form>
         </div>
       </div>
@@ -226,3 +157,25 @@ function validateform(){
 <? startblock('sidebar') ?>
 <? endblock() ?>
 <? end_extend() ?>
+<script type="text/javascript" language="javascript">
+
+$(document).ready(function() {
+
+
+  $('.multiselectable').on('focus blur', function (e) {
+        $(this).parents('.form-group').toggleClass('focused');
+  }).trigger('blur');   
+
+});
+
+</script>
+
+<script>
+  $('select').on('shown.bs.select', function (e) {
+    $(this).tooltip('show');
+  });
+
+  $('select').on('hidden.bs.select', function (e) {
+    $(this).tooltip('hide');
+  });
+</script>

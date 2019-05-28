@@ -21,8 +21,13 @@ $config ['argv'] = array (
 		"ProcessDailyCharges" => "ProcessCharges/ProcessDailyCharges",
 		"BillAccountCharges" => "ProcessCharges/BillAccountCharges",		
 		"FeedBack" => "feedback/customer_feedback_result/TRUE",
-		"BroadcastEmail" => "broadcastemail/broadcast_email" 
+		//CDRs Archive
+		"ArchiveCDRs" => "CDRsArchive/ProcessCDRsArchive",
+		"FaxSend"=>"faxsend/index",
+        "SendFax"=>"sendFax/index",
+		"Purge" => "purge/ProcessPurge",
+		"BroadcastEmail" => "broadcastemail/broadcast_email",
+		"crons" => "crons/index",
 );
 $config ['CRON_BETA_MODE'] = false; // Beta Mode (useful for blocking submissions for testing)
-
 ?>

@@ -5,7 +5,7 @@
 	}
 .invoice_table1 > thead > tr > th, .invoice_table1 > tbody > tr > th, .invoice_table1 > tfoot > tr > th, .invoice_table1 > thead > tr > td, .invoice_table1 > tbody > tr > td, .invoice_table1 > tfoot > tr > td
 	{
-		padding: 4px 8px;
+		padding: 5px 15px;
 		line-height: 1.42857;
 		vertical-align: top;
 		border: 0px solid #DDD !important;
@@ -70,7 +70,7 @@ border-bottom:3px solid #e3e3e3;
 	{
 	
 		margin-bottom: 20px;
-	        border: 1px solid #c7c7c7 !important;
+	      /*  border: 1px solid #c7c7c7 !important; */
 	}
 
 .invoice_table4 > thead > tr > th, .invoice_table4 > tbody > tr > th, .invoice_table4 > tfoot > tr > th, .invoice_table4 > thead > tr > td, .invoice_table4 > tbody > tr > td, .invoice_table4 > tfoot > tr > td

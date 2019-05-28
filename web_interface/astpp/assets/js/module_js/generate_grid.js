@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     $("#show_search").click(function(){
         $("#search_bar").slideToggle("slow");
     });  
@@ -19,13 +20,7 @@ $(document).ready(function() {
         $("#update_bar").slideToggle("slow");
     });
     $('.checkall').click(function () { 
-        $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
-    });
-    jQuery("#customer_cdr_from_date").datetimepicker({
-        format:'Y-m-d H:i:s'
-    });		
-    jQuery("#customer_cdr_to_date").datetimepicker({
-        format:'Y-m-d H:i:s'
+        $('.chkRefNos').prop('checked', $(this).prop('checked'));//if you want to select/deselect checkboxes use this
     });
     $('.toast-close-button').click(function(){
         $("#toast-container").css("display","none");
@@ -95,23 +90,23 @@ function get_alert_msg_restore(id)
     var answer = confirm(confirm_string);
     return answer; // answer is a boolean
 }
-
+// harshs changes for fix customer side record select issue
 function clickchkbox(chkid){
 
     var chk_flg = 0;
-    $(".chkRefNos").each( function () {
-        if(this.checked == false) {
-            $('.checkall').attr('checked', false);
-            chk_flg++;
+    $(".chkRefNos").change( function () {
+        if($(this).prop("checked") == false){
+            $('.checkall').prop("checked", false);
         } 
+      if($(".chkRefNos:checked").length == $(".chkRefNos").length){
+          $('.checkall').prop("checked", true)
+      }
     });
-    if(chk_flg == 0){
-        $('.checkall').attr('checked', true);
-    }
     $("#add_patterns_btn").removeAttr('disabled');
 }
-
+// harshs changes for fix customer side record select issue end here
 function post_request_for_search(grid_id,destination,form_id){
+
     if(destination == ""){
         destination = build_url("_search");
     }
@@ -144,7 +139,15 @@ function clear_search_request(grid_id,destination){
 }
 function build_url(append_value){
     var url_string ="";
-    url_string = document.URL.substring(0,document.URL.length-1)+append_value;
+    var pathname = window.location.pathname;
+    url = pathname.split("/");
+    var path =url[1] +'/' +url[2];
+	    if (append_value == "_json"){ 
+		    var custom_url = base_url + path;	
+		    url_string = custom_url.substring(0,document.URL.length-1)+append_value;
+	    }else{	
+		    url_string = document.URL.substring(0,document.URL.length-1)+append_value;
+	    }
     return url_string;
 }
 function build_grid_reports(grid_id,destination,collumn_arr,buttons){
@@ -157,8 +160,8 @@ function build_grid_reports(grid_id,destination,collumn_arr,buttons){
         dataType: 'json',
         colModel :build_collumns(collumn_arr),
         buttons :build_buttons(buttons),
-        sortname: "",
-        sortorder: "",
+        sortname: "id",
+        sortorder: "desc",
         usepager: false,
         resizable: true,
         title: '',
@@ -180,9 +183,25 @@ function build_grid_reports(grid_id,destination,collumn_arr,buttons){
     $("#"+grid_id).addClass("flex_grid_reports");
 }
 function build_grid(grid_id,destination,collumn_arr,buttons){
+
+    // alert(buttons);
     if(destination == ""){
         destination = build_url("_json");
     }
+	var callstart=collumn_arr;
+    var sort='';
+    var col_arr=String(callstart);
+    if(col_arr.toLowerCase().indexOf("callstart") >= 0) {
+		sort='callstart';
+	}else if(col_arr.toLowerCase().indexOf("country_id") >= 0){
+		sort='country_id';
+	}
+	else if(col_arr.toLowerCase().indexOf("module_name") >= 0){
+		sort='module_name';
+	}
+	else{
+		sort='id';
+	}
     $("#"+grid_id).flexigrid({
         url: destination,
         method: 'GET',
@@ -193,6 +212,8 @@ function build_grid(grid_id,destination,collumn_arr,buttons){
         resizable: true,
         title: '',
 	    sort:true,
+        sortname:sort,
+        sortorder: "desc",	
         pagetext: 'Page',
         outof: 'of',
         nomsg: 'No Records',
@@ -231,15 +252,22 @@ function build_collumns(collumn_arr){
             var col_str =col_field[i];
 	    if(col_str != 'null' && col_str != ''){
             collumn_property = col_str.toString().split(',');
+	    if(collumn_property[6] =='false' && collumn_property[0] == 'Action'){
+		continue;
+	    }
             // 	    alert("{display:"+collumn_property[0]+", name:"+collumn_property[0]+", width:"+collumn_property[1]+" , sortable: 'false', align: 'center'}");
+        // sandip add else if condition for account disable sorting
 	    if(collumn_property[7] =='false' || collumn_property[0] == 'Action'){
 		searchflg = false;
-	    }else{
+	    }else if(collumn_property[0] == 'Account' && collumn_property[7]== 'build_concat_string' && collumn_property[9]=='false'){
+            searchflg = false;
+        }else{
 	      searchflg = true;
 	    }
 	    if(!collumn_property[8]){
 		collumn_property[8] = "center";
 	    }
+	    //alert(collumn_property[0]);
             var custom_str=collumn_property[0].slice(0,6);
                	var custom_display ='';
                	if(custom_str != "<input"){
@@ -290,28 +318,42 @@ function build_buttons(buttons_arr){
 	     if(typeof button_property[6] != 'undefined' && button_property[6] != ''){
 		layout = button_property[6];
 	     }
-
-            if(button_property[5] == 'popup'){ 
-                jsonObj.push({
-                    //name: gettext_custom(button_property[0]), 
-                    name:button_property[0],
-                    bclass: button_property[1],
-                    iclass: button_property[2],
-                    btn_url:newURL, 
-		    clayout: layout,
-                    onpress: button_action_popup
-                });
-            }else{
-                jsonObj.push({
-                    //name: gettext_custom(button_property[0]), 
-                    name:button_property[0], 
-                    bclass: button_property[1],
-                    iclass: button_property[2],
-                    btn_url:button_property[4], 
-		    clayout: layout,
-                    onpress: button_action
-                });
-            }
+	     var post_data={};
+                post_data['button_name']=button_property[7]; //HP: Permission changes 25-Jan-2019
+                post_data['current_url']=window.location.href;
+	    $.ajax({
+                type:'POST',
+                async:false,
+                url: base_url+"login/customer_permission_list/",
+                data: post_data,
+                success: function(response) {
+                        var response_trim=response.trim();
+// alert(button_property[0]+'---'+response_trim);
+                        if(response_trim == 0){
+			    if(button_property[5] == 'popup'){ 
+				jsonObj.push({
+				    //name: gettext_custom(button_property[0]), 
+				    name:button_property[0],
+				    bclass: button_property[1],
+				    iclass: button_property[2],
+				    btn_url:newURL, 
+				    clayout: layout,
+				    onpress: button_action_popup
+				});
+			    }else{
+				jsonObj.push({
+				    //name: gettext_custom(button_property[0]), 
+				    name:button_property[0], 
+				    bclass: button_property[1],
+				    iclass: button_property[2],
+				    btn_url:button_property[4], 
+				    clayout: layout,
+				    onpress: button_action
+				});
+			    }
+			}
+		}
+		});
         }
     }
     return jsonObj;
@@ -331,7 +373,6 @@ function redirect_page(url)
 }
 ///*ASTPP_invoice_changes_05_05_start*/
 function delete_multiple(btn_url,flag){
-
     var result = "";                        
     var idarr = [];
     $(".chkRefNos").each( function () {
@@ -356,7 +397,7 @@ function delete_multiple(btn_url,flag){
                 async    : true,  
                 url: btn_url,
                 data: "selected_ids="+result,
-                success: function(data){
+                success: function(data){ //alert(data); 
 					var tmpdata = '';
 					if(data.trim() == 'SUBSCRIPTION'){
 						process_subscription('SUBSCRIPTION',idarr);
@@ -544,6 +585,13 @@ function submit_form(form_id){
         data:$('#'+form_id).serialize(), 
         success: function(response) {
             var tmp = jQuery.parseJSON(response);
+            if(tmp.SUCCESS_ORDER){
+                $("#toast-container").css("display","block");
+                $(".toast-message").html(tmp.SUCCESS_ORDER);
+                $('.toast-top-right').delay(5000).fadeOut();
+                $(document).trigger('close.facebox');
+		location.reload();
+	    }
             if(!tmp.SUCCESS){
                 //$(".error_div").css("display","block");
                 var myObject = eval('(' + response + ')');
@@ -616,9 +664,8 @@ function post_request_for_batch_delete(grid_id,destination,form_id){
     }
 }
 
-function get_lang(value){
-//alert('Hello '+value);
-var stuff ={value:value};
+function get_lang(value) {
+    // alert(value);
  $.ajax({
         type:'GET',
         cache:false,
@@ -627,7 +674,6 @@ var stuff ={value:value};
 		location.reload(true);
         },
     });
-
 }
 function gettext_custom(collumn_property)
 {
@@ -635,7 +681,7 @@ function gettext_custom(collumn_property)
 	var collumn='';
 	//var url = 'http://65.111.177.99:9999/accounts/customer_global_grid_list/';
 	var url = base_url+"login/get_language_text/";
-	//var  url= base_url+"accounts/customer_global_grid_list/",
+	//var url = "http://192.168.1.22:8073/login/get_language_text/";
 	//alert(url);exit;
 	$.ajax({
 	    url: url,
@@ -649,4 +695,7 @@ function gettext_custom(collumn_property)
 	});
 	return collumn;
 }
+
+
+
 /********************/

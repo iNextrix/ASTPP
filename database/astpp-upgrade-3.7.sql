@@ -1,3 +1,0 @@
--- add entries for currency update, added by Alex Heylin re https://github.com/iNextrix/ASTPP/issues/445
-insert into astpp.system (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `reseller_id`, `brand_id`, `group_title`) VALUES  (222, "currency_conv_loss_pct", "Currency Conversion Loss Percentage", 20, "default_system_input", "What percentage to allow for currency conversion losses", 0, 0, "global");
-insert into astpp.system (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `reseller_id`, `brand_id`, `group_title`) VALUES  (221, "currency_conv_api_key", "API key for currency rate import from 1forge.com", "YourKeyGoesHere", "default_system_input", "", 0, 0, "global");

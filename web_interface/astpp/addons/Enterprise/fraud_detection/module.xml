@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>fraud_detection</tech_name>
+	<name>Fraud Detection</name>
+	<description>Secure your business from hackers by setting different fraud detection parameters</description>		
+	<icon>static/images/fraud_detection_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

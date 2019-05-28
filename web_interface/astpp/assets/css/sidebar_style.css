@@ -1,50 +1,32 @@
-﻿/*Changes
- Date : 13-Apr-2016
-*/
-.sidebar {
-    position: absolute;
-top: 0px;
-bottom: 0px;
-width: 240px;
-display: block;
-left: 0;
-margin-top: 0px /*64px*/;
-background : #3a3f51 none repeat scroll 0 0;
-/*background:rgba(0, 0, 0, 0) linear-gradient(to right, #3a3633 93%, #2a2725 100%) repeat scroll 0 0;*/
+﻿.sidebar {
+    /*position: absolute;*/
+    top: 0px;
+    bottom: 0px;
+    width: 190px;
+    display: block;
+    left: 0;
+    margin-top: 0px;
 }
-/*Added
- Date : 13-Apr-2016
-*/
+
 .sidebar:before{
  content:"";
     position:fixed;
     display:block;
-    width:240px;
+    width:190px;
     bottom:0;
     top:0;
-    left:0px;
-    
-    /*
-     Changes : 
-     Date : 18-Apr-2016
-    */
-    
-    /*background:rgba(0, 0, 0, 0) linear-gradient(to right, #3a3633 93%, #2a2725 100%) repeat scroll 0 0;*/
-    background: #3a3f51 none repeat scroll 0 0;
+    left:0px;    
     -webkit-box-shadow:0 0 10px 0 rgba(0,0,0,.2);
     -moz-box-shadow:0 0 10px 0 rgba(0,0,0,.2);
     box-shadow:0 0 10px 0 rgba(0,0,0,.2);
-/*    background:-moz-linear-gradient(left,#3a3633 93%,#2a2725 100%);
-    background:-webkit-gradient(linear,left top,right top,color-stop(93%,#3a3633),color-stop(100%,#2a2725));
-    background:-webkit-linear-gradient(left,#3a3633 93%,#2a2725 100%);
-    background:-o-linear-gradient(left,#3a3633 93%,#2a2725 100%);
-    background:-ms-linear-gradient(left,#3a3633 93%,#2a2725 100%);
-    background:linear-gradient(to right,#3a3633 93%,#2a2725 100%);*/
+    background : #000000 none repeat scroll 0 0;
 }
-/*******************************************/
 .sidebar .sidemenu {
     padding: 0px;
     margin: 0px;
+}
+.page-wrap .navbar-toggler{
+        display: none !important;
 }
 .sidebar .sidemenu li {
     width: 100%;
@@ -55,12 +37,7 @@ background : #3a3f51 none repeat scroll 0 0;
 .sidebar .sidemenu li.active, .sidebar .sidemenu li:hover {
     color: #FFF;
     position: relative;
-    /*
-     Change : 
-    Date :18-Apr-2016
-    */
-    /*background: rgba(69, 69, 69, 0.6) none repeat scroll 0% 0%;*/
-    background: #363a4b none repeat scroll 0 0
+    background: #004470 none repeat scroll 0 0;
 }
 
 .sidebar .sidemenu li.active > a {
@@ -71,70 +48,40 @@ background : #3a3f51 none repeat scroll 0 0;
     display: block;
     font-size: 14px;
     text-decoration: none;
-    /*
-     Change : 
-    Date :18-Apr-2016
-    */
-    /*color: #c0bbb7;*/
     color : #bbc0cf;
-    /*padding: 11px 15px 11px 12px;*/
     padding :8px 15px 8px 12px;
-        position: relative;
+    position: relative;
    
 }
-.sidebar .sidemenu li a:hover
-{
+.sidebar .sidemenu li a:hover{
 	color:#fff;
 }
 #main-wrapper {
     background: transparent none repeat scroll 0% 0% !important;
-    min-height: 647px;
+    width: calc(100% - 190px);
+    float: right;
+    top: 0 !important;
 }
-#main-wrapper {
-    padding: 1px 0px 0px 240px; top:0;
-}
-.tabcontents
-{
+.tabcontents{
     margin-top:-15px !important;
-  
 }
-
-@media (max-width:767px)
-{
-	#main-wrapper {
-    padding: 1px 0px 0px 0px; top:0;
+@media screen and (min-width:992px){
+    .sidebar.collapse{
+        display:block!important;
+        height:auto!important;
+        padding-bottom:0;
+        overflow:visible!important
+    }   
 }
-.sidebar
-{
-	
-	z-index:9;
-}
-
-}
-@media (min-width:768px) and (max-width:991px)
-{
-	#main-wrapper {
-    padding: 1px 0px 0px 0px; top:0;
-}
-.sidebar
-{
-	
-	z-index:9;
-}
-
-}
-@media (min-width:992px) and (max-width:1199px){
-#main-wrapper {
-    padding: 1px 0px 0px 0px; top:0;
-}
-.sidebar
-{
-	
-	z-index:9;
-}
-}
-@media (min-width:1200px)
-{
-.sidebar.collapse{display:block!important;height:auto!important;padding-bottom:0;overflow:visible!important}
-
+@media screen and (max-width:991px){
+    #main-wrapper {
+        width: 100%;
+    }
+    .sidebar{
+        position: absolute;
+	    z-index:9;
+    }
+    .page-wrap .navbar-toggler{
+        display: block !important;
+    }
 }

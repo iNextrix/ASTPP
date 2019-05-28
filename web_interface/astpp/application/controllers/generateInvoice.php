@@ -86,26 +86,13 @@ class GenerateInvoice extends MX_Controller {
 		$last_invoice_date = gmdate ( "Y-m-d H:i:s", strtotime ( "+1 Second", strtotime ( $last_invoice_date ) ) );
 		return $last_invoice_date;
 	}
-	
-	/**
-	 *
-	 * @param string $start_date        	
-	 * @param string $end_date        	
-	 */
 	function Generate_Daily_invoice($account_value, $start_date, $end_date) {
-		// echo "INVOICE SCRIPT-------start date :".$start_date."-------end date....".$end_date;
 		require_once ('updateBalance.php');
 		$updateBalance = new updateBalance ();
 		$updateBalance->process_subscriptions ( $account_value, $start_date, $end_date, TRUE );
 		$updateBalance->process_DID_charges ( $account_value, $start_date, $end_date, TRUE );
 		$this->process_invoice ( $account_value, $start_date, $end_date );
 	}
-	
-	/**
-	 *
-	 * @param string $start_date        	
-	 * @param string $end_date        	
-	 */
 	function Generate_Monthly_invoice($account_value, $start_date, $end_date) {
 		require_once ('updateBalance.php');
 		$updateBalance = new updateBalance ();
@@ -114,7 +101,6 @@ class GenerateInvoice extends MX_Controller {
 		$this->process_invoice ( $account_value, $start_date, $end_date );
 	}
 	function process_invoice($accountdata, $start_date, $end_date) {
-		// Get Invoice configuration using single query instead of multiple queries.
 		$invoice_conf = array ();
 		$reseller_id = ($accountdata ['reseller_id'] == 0) ? 1 : $accountdata ['reseller_id'];
 		$where = "accountid IN ('" . $reseller_id . "','1')";
@@ -124,9 +110,6 @@ class GenerateInvoice extends MX_Controller {
 		$this->db->limit ( 1 );
 		$invoice_conf = $this->db->get ( 'invoice_conf' );
 		$invoice_conf = ( array ) $invoice_conf->first_row ();
-		/**
-		 * ****************************************************
-		 */
 		$last_invoice_ID = $this->common->get_invoice_date ( "invoiceid", "", $accountdata ['reseller_id'] );
 		if ($last_invoice_ID && $last_invoice_ID > 0) {
 			$last_invoice_ID = ($last_invoice_ID + 1);
@@ -152,11 +135,9 @@ class GenerateInvoice extends MX_Controller {
 		$inv_data_query = "";
 		$cdr_query = "select calltype,sum(debit) as debit from cdrs where accountid = " . $account ['id'];
 		$cdr_query .= " AND callstart >='" . $start_date . "' AND callstart <= '" . $end_date . "' AND invoiceid=0 group by calltype";
-		// echo $cdr_query;
 		$cdr_data = $this->db->query ( $cdr_query );
 		if ($cdr_data->num_rows () > 0) {
 			$cdr_data = $cdr_data->result_array ();
-			// echo '<pre>'; print_r($cdr_data); exit;
 			foreach ( $cdr_data as $cdrvalue ) {
 				$cdrvalue ['debit'] = round ( $cdrvalue ['debit'], self::$global_config ['system_config'] ['decimalpoints'] );
 				$tempArr = array (
@@ -172,7 +153,6 @@ class GenerateInvoice extends MX_Controller {
 			}
 		}
 		$inv_data_query = "select count(id) as count,sum(debit) as debit,sum(credit) as credit from invoice_details where accountid=" . $account ['id'] . " AND created_date >='" . $start_date . "' AND created_date <= '" . $end_date . "'  AND invoiceid=0 AND item_type != 'FREECALL'";
-		// echo $inv_data_query;
 		$invoice_data = $this->db->query ( $inv_data_query );
 		if ($invoice_data->num_rows () > 0) {
 			$invoice_data = $invoice_data->result_array ();
@@ -186,27 +166,18 @@ class GenerateInvoice extends MX_Controller {
 		}
 		return "0";
 	}
-	
-	// Change Order of arguements
 	function update_cdrs_data($accountid, $invoiceid, $start_date = "", $end_date = "") {
 		$inv_data_query = "update invoice_details SET invoiceid = '" . $invoiceid . "' where accountid=" . $accountid;
 		$inv_data_query .= " AND created_date >='" . $start_date . "' AND created_date <= '" . $end_date . "'  AND invoiceid=0 AND item_type !='PAYMENT'";
 		$this->db->query ( $inv_data_query );
 		return true;
 	}
-	
-	/**
-	 *
-	 * @param string $last_invoice_ID        	
-	 */
 	function create_invoice($account, $from_date, $to_date, $last_invoice_ID, $INVprefix, $invoiceconf) {
-		// $due_date = gmdate("Y-m-d H:i:s",strtotime($to_date." +".$invoiceconf['interval']." days"));
 		if ($invoiceconf ['interval'] > 0) {
 			$due_date = gmdate ( "Y-m-d H:i:s", strtotime ( gmdate ( "Y-m-d H:i:s" ) . " +" . $invoiceconf ['interval'] . " days" ) );
 		} else {
 			$due_date = gmdate ( "Y-m-d H:i:s", strtotime ( gmdate ( "Y-m-d H:i:s" ) . " +7 days" ) );
 		}
-		// echo "due daye-------".$due_date.'----------'.$to_date.'------------> Invoice interval'.$invoiceconf['interval'];
 		$balance = ($account ['credit_limit'] - $account ['balance']);
 		$automatic_flag = self::$global_config ['system_config'] ['automatic_invoice'];
 		if ($automatic_flag == 1) {
@@ -239,7 +210,6 @@ class GenerateInvoice extends MX_Controller {
 					"confirm" => 1 
 			);
 		}
-		// echo "<pre>"; print_r($invoice_data); exit;
 		$this->db->insert ( "invoices", $invoice_data );
 		$invoiceid = $this->db->insert_id ();
 		if ($automatic_flag == 0) {
@@ -285,12 +255,6 @@ class GenerateInvoice extends MX_Controller {
 			$this->send_email_notification ( $FilePath, $Filenm, $accountdata, $invoice_conf, $invoicedata );
 		}
 	}
-	
-	/**
-	 *
-	 * @param string $FilePath        	
-	 * @param string $Filenm        	
-	 */
 	function send_email_notification($FilePath, $Filenm, $AccountData, $invoice_conf, $invData) {
 		$TemplateData = array ();
 		$where = array (
@@ -325,7 +289,6 @@ class GenerateInvoice extends MX_Controller {
 				'attachment' => $Filenm,
 				'template' => '' 
 		);
-		// echo "<pre>"; print_r($TemplateData); exit;
 		$this->db->insert ( "mail_details", $email_array );
 	}
 }

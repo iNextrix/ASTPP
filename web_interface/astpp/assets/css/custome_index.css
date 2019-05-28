@@ -1,0 +1,223 @@
+:root {
+  --input-padding-x: .75rem;
+  --input-padding-y: .75rem;
+}
+.form_card{
+  max-width: 450px;
+}
+.bs-select{
+	Width:100%;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+.control-label {
+    color: rgba(0, 0, 0, 0.87);
+    cursor: text;
+    font-size: 12px;
+    line-height: 0.8;
+    margin: 0;
+    padding-top: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    font-weight: 400;
+    margin: 0;
+    max-width: 100%;
+    white-space: nowrap;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: color, -webkit-transform;
+    transition-property: color, -webkit-transform;
+    transition-property: color, transform;
+    transition-property: color, transform, -webkit-transform;
+    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-group [class*="col-"] .control-label {
+    left: 16px;
+}
+
+.form-group.control-select .control-label, .form-group.control-focus .control-label, .form-group.control-highlight .control-label {
+    -webkit-transform: scale(0.9, 0.86) translateY(-27px);
+    transform: scale(0.9, 0.86) translateY(-25px);
+}
+
+.form-group.control-focus .control-label {
+    color: #4285f4;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group .form-control::-webkit-input-placeholder,
+.form-group .form-control::-moz-placeholder,
+.form-group .form-control:-ms-input-placeholder,
+.form-group .form-control::placeholder {
+    color: transparent;
+}
+
+legend + .form-group {
+    margin-top: 12px;
+}
+
+.form-control {
+    width: 100%;
+    height: 32px;
+    padding: 0px;
+    padding-bottom: -10px;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #e0e0e0;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
+    -webkit-transition: 0;
+    -o-transition: 0;
+    transition: 0;
+}
+.form-control:focus{
+  background-color: transparent;
+}
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus 
+.form-control:-webkit-autofill {
+    background-color: transparent; !important;
+    background-image: none;
+    -webkit-box-shadow: 0;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.form-control, .form-control:focus {
+    box-shadow: 0 0 0px transparent !important;
+}
+
+.form-control:focus {
+    border-color: #4285f4;
+    border-bottom-width: 2px;
+    outline: 0;
+    box-shadow: 0 0 0 !important;
+    -webkit-box-shadow: 0 0 0 !important;
+}
+
+.form-control:focus:invalid {
+    border-color: #4285f4;
+    border-bottom-width: 2px;
+}
+
+.form-control::-webkit-input-placeholder,
+.form-control::-moz-placeholder,
+.form-control:-ms-input-placeholder,
+.form-control::placeholder {
+    color: transparent !important;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    border-style: double;
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.38);
+    cursor: not-allowed;
+    opacity: 1;
+}
+.carousel-indicators{
+  bottom: -10px;
+}
+.bootstrap-select.form-control-sm .dropdown-toggle, .bootstrap-select.form-control-lg .dropdown-toggle{
+  height: inherit;
+  font-size: 13px;
+}
+.error_label{
+  margin: 0;
+  vertical-align: top;
+}
+.error_label span{
+  font-size: 10px;
+  vertical-align: top;
+}
+
+/* MAD-RIPPLE EFFECT */
+.ripple{
+  position: absolute;
+  top:0; left:0; bottom:0; right:0;
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  border-radius: inherit; 
+  pointer-events: none;
+          animation: ripple-shadow 0.4s forwards;
+  -webkit-animation: ripple-shadow 0.4s forwards;
+}
+.rippleWave{
+  backface-visibility: hidden;
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0.7); -webkit-transform: scale(0.7);
+  background: rgba(255,255,255, 1);
+  opacity: 0.45;
+          animation: ripple 2s forwards;
+  -webkit-animation: ripple 2s forwards;
+}
+@keyframes ripple-shadow {
+  0%   {box-shadow: 0 0 0 rgba(0,0,0,0.0);}
+  20%  {box-shadow: 0 4px 16px rgba(0,0,0,0.3);}
+  100% {box-shadow: 0 0 0 rgba(0,0,0,0.0);}
+}
+@-webkit-keyframes ripple-shadow {
+  0%   {box-shadow: 0 0 0 rgba(0,0,0,0.0);}
+  20%  {box-shadow: 0 4px 16px rgba(0,0,0,0.3);}
+  100% {box-shadow: 0 0 0 rgba(0,0,0,0.0);}
+}
+@keyframes ripple {
+  to {transform: scale(24); opacity:0;}
+}
+@-webkit-keyframes ripple {
+  to {-webkit-transform: scale(24); opacity:0;}
+}
+
+.border_box{
+  background: linear-gradient(135deg, rgba(40, 78, 123, 0.9) 0%, #2871b9 100%);
+  color: #fff;
+}
+.btn_index:hover{
+  color: #fff;
+  background: linear-gradient(135deg, rgba(40, 78, 123, 0.9) 0%, #2871b9 100%);
+  border-color: transparent;
+}
+.forgot_pass{
+	color:#007bff;
+}
+.forgot_pass:hover{
+	color:#e06d58;
+}
+
+/* Fallback for Edge
+-------------------------------------------------- */
+@supports (-ms-ime-align: auto) {
+  .form-label-group > label {
+    display: none;
+  }
+  .form-label-group input::-ms-input-placeholder {
+    color: #777;
+  }
+}
+
+/* Fallback for IE
+-------------------------------------------------- */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .form-label-group > label {
+    display: none;
+  }
+  .form-label-group input:-ms-input-placeholder {
+    color: #777;
+  }
+}

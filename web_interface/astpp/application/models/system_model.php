@@ -259,7 +259,6 @@ class System_model extends CI_Model {
 		$this->db->order_by ( "taxes_priority,taxes_description desc" );
 		$this->db->from ( 'taxes' );
 		$query = $this->db->get ();
-		// echo $this->db->last_query();
 		return $query;
 	}
 	function getAuthInfo() {

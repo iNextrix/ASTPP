@@ -1,0 +1,428 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-10 15:12+0530\n"
+"PO-Revision-Date: 2015-09-26 15:35-0300\n"
+"Last-Translator: Inextrix <astpp@inextrix.com>\n"
+"Language-Team: Inextrix <astpp@inextrix.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_attr__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../../../..\n"
+"X-Poedit-SearchPath-1: /var/www/html/astpp/application/modules/pricing/language\n"
+
+#: ../../../../index.php:36 /var/www/html/gettext/index.php:36
+#: ../../../../index.php:37 /var/www/html/gettext/index.php:37
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Default Increment"
+msgstr "Incremento por Defecto"
+
+msgid "Markup"
+msgstr "Marcado"
+
+msgid "Rate Count"
+msgstr "Conteo de Tarifas"
+
+msgid "status"
+msgstr "estado"
+
+msgid "Action"
+msgstr "Acción"
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "Create Rate Group"
+msgstr "Crear Grupo de Tarifas"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Rate Group Information"
+msgstr "Información del Grupo de Tarifas"
+
+msgid "Rate Groups"
+msgstr "Grupos de Tarifas"
+
+msgid "Edit Rate Group"
+msgstr "Editar Grupo de Tarifas"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "The Name field is required."
+msgstr "Se requiere que el campo Nombre."
+
+msgid "The Default Increment field is required."
+msgstr "Se requiere que el campo Incremento Predeterminado."
+
+msgid "rate group updated successfully!"
+msgstr "grupo de tarifas actualizado correctamente!"
+
+msgid "Rate group updated successfully!"
+msgstr "Grupo de Tarifas Actualizado Correctamente!"
+
+msgid "rate group added successfully!"
+msgstr "grupo de tarifas agregado correctamente!"
+
+msgid "Rate group added successfully!"
+msgstr "Grupo de Tarifas Agregado Correctamente!"
+
+msgid "Rate group removed successfully!"
+msgstr "Grupo de Tarifas Eliminado Correctamente!"
+
+msgid ""
+"Copyright @ 2003 - 2015. ASTPP - Open Source VOIP Billing Solution. All Rights "
+"Reserved. "
+msgstr ""
+"Copyright @ 2003 - 2015 ASTPP - Solución de Facturación VOIP Open Source. Todos "
+"Los Derechos Reservados."
+
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgid "DIDs"
+msgstr "DID's"
+
+msgid "Switch"
+msgstr "Interruptor"
+
+msgid "Email Mass"
+msgstr "Correo Electrónico Masivo"
+
+msgid "Accounting"
+msgstr "Contabilidad"
+
+msgid "Tariff"
+msgstr "Tarifa"
+
+msgid "Origination Rates"
+msgstr "Creaciones de Tarifas"
+
+msgid "Packages"
+msgstr "Paquetes"
+
+msgid "Usage Report"
+msgstr "Informe de Uso"
+
+msgid "Carriers"
+msgstr "Transportes"
+
+msgid "Termination Rates"
+msgstr "Terminación de Tarifas "
+
+msgid "Gateways"
+msgstr "Adaptadores"
+
+msgid "Sip Profiles"
+msgstr "Perfiles Sip"
+
+msgid "Freeswitch Server"
+msgstr "Servidor Freeswitch"
+
+msgid "IP MAP (ACL)"
+msgstr "MAPA IP (ACL)"
+
+msgid "Call Reports"
+msgstr "Reporte de Llamadas"
+
+msgid "Details Reports"
+msgstr "Detalles de Reportes"
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Reseller"
+msgstr "Revendedor"
+
+msgid "Provider Outbound"
+msgstr "Proveedor de salida"
+
+msgid "Summary Reports"
+msgstr "Resumen Reportes"
+
+msgid "Trunk Stats"
+msgstr "Estadísticas de Troncales"
+
+msgid "Live Call Report"
+msgstr "Reporte de Llamadas Online"
+
+msgid "Email History"
+msgstr "Historial de Correo Electrónico"
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Invoice Config"
+msgstr "Configuración de Facturas"
+
+msgid "Taxes"
+msgstr "Impuestos"
+
+msgid "Email Templates"
+msgstr "Plantillas de Correo Electrónico"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Currencies"
+msgstr "Monedas"
+
+msgid "Database Restore"
+msgstr "Restaurar Base de Datos"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Opensips"
+msgstr "OpenSIPS"
+
+msgid "Callingcard"
+msgstr "Tarjeta de Llamada"
+
+msgid "Report A Bug"
+msgstr "Reportar un Error"
+
+msgid "Donate Us"
+msgstr "Donar"
+
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+msgid "FeedBack"
+msgstr "FeedBack"
+
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+msgid ".ASTPP - Open Source VOIP Billing Solution. All Rights Reserved."
+msgstr ""
+".ASTPP - Solución de Facturación VOIP Open Source. Todos Los Derechos Reservados."
+
+msgid "Version 2.1-beta"
+msgstr "Version 2.1-beta"
+
+msgid "Welcome"
+msgstr "Bienvenida"
+
+msgid "ASTPP - Open Source Voip Billing Solution"
+msgstr "ASTPP - Solución de Facturación VOIP Open Source"
+
+msgid "ASTPP work best with JavaScript enabled"
+msgstr "ASTPP funciona mejor con Javascript activado"
+
+msgid "Top 10 Accounts"
+msgstr "Top 10 de las Cuentas"
+
+msgid "By Minutes"
+msgstr "Por Minutos"
+
+msgid "By Calls"
+msgstr "Por Llamadas"
+
+msgid "Recharge Information"
+msgstr "Información de Recarga"
+
+msgid "Trunk add"
+msgstr "Agregar Troncal"
+
+msgid "Trunk Information"
+msgstr "Información de la Troncal"
+
+msgid "Trunk Name"
+msgstr "Nombre de la Troncal"
+
+msgid "Gateway"
+msgstr "Adaptador"
+
+msgid "Fail Over Gateway"
+msgstr "Falla Sobre Adaptador"
+
+msgid "Max Channels"
+msgstr "Maximo Canales"
+
+msgid "Trunk Settings"
+msgstr "Configuración de Troncales"
+
+msgid "Number Translation"
+msgstr "Número de Traducción"
+
+msgid "Codecs"
+msgstr "Codecs"
+
+msgid "Precedence"
+msgstr "Precedencia"
+
+msgid "Failover GW name"
+msgstr "Conmutación por error de nombre de GW"
+
+msgid "Max channels"
+msgstr "Canales Maximo"
+
+msgid "Edit Trunk"
+msgstr "Editar Troncal"
+
+msgid "My Rates"
+msgstr "Mis Tarifas"
+
+msgid "Rates"
+msgstr "Tarifas"
+
+msgid "Manage DIDs"
+msgstr "Administrar DID's"
+
+msgid "SIP Devices"
+msgstr "Dispositivos SIP"
+
+msgid "Manage Invoice"
+msgstr "Administrar Facturas"
+
+msgid "CDRs Reports"
+msgstr "Reporte CDR "
+
+msgid "Payment Report"
+msgstr "Reporte de Pago"
+
+msgid "Payment"
+msgstr "Pago"
+
+msgid "Payment Reports"
+msgstr "Reportes de Pago"
+
+msgid "Fund Transfer"
+msgstr "Transferencia de Fondos"
+
+msgid "recharge"
+msgstr "recargar"
+
+msgid "Recharge"
+msgstr "Recargar"
+
+msgid "admins"
+msgstr "administradores"
+
+msgid "invoices"
+msgstr "facturas"
+
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "Provider"
+msgstr "Proveedor"
+
+msgid "summary reports"
+msgstr "Reportes Resumidos"
+
+msgid "Detail reports"
+msgstr "Detalle de Reportes"
+
+msgid "Resellers"
+msgstr "Revendedores"
+
+msgid "customers"
+msgstr "clientes"
+
+msgid "Customers"
+msgstr "Clientes"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "Detail Reports"
+msgstr "Detalle de Reportes"
+
+msgid "View Details"
+msgstr "Ver Detalles"
+
+msgid "Download Database"
+msgstr "Descargar Base de Datos"
+
+msgid "<b>Rescan"
+msgstr "<b>Volver a explorar"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "<b>Reload"
+msgstr "<b> Actualizar"
+
+msgid "<b>Stop"
+msgstr "<b>Deténer"
+
+msgid "<b>Start"
+msgstr "<b>Iniciar"
+
+msgid "Markup(%)"
+msgstr "Marcado(%)"
+
+msgid "Routing Type"
+msgstr "Tipo de enrutamiento"
+
+msgid "Initial Increment"
+msgstr "incremento inicial"
+
+
+msgid "Created Date"
+msgstr "Fecha de creación"
+
+msgid "Modified Date"
+msgstr "Fecha modificada"
+
+msgid "Support Tickets"
+msgstr "Boletos de soporte"
+
+msgid "Powered by"
+msgstr "Energizado por"
+
+msgid "Refill Report"
+msgstr "Informe de recarga"
+
+msgid "Charges History"
+msgstr "Cargos Historia"
+
+msgid "Refill Coupon"
+msgstr "Cupón de recarga"
+
+msgid "SIP Profiles"
+msgstr "Perfiles SIP"
+
+msgid "Company Profile"
+msgstr "Perfil de la compañía"
+
+msgid "Setting"
+msgstr "Ajuste"
+
+msgid "FS Monitor"
+msgstr "Monitor FS"
+
+msgid "Register Gateways"
+msgstr "Registrar gateways"
+
+msgid "Live Call Graph"
+msgstr "Gráfico de llamadas en vivo"

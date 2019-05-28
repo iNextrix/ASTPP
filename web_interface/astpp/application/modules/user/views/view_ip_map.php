@@ -63,15 +63,15 @@
     <div class="sub-form">         
 <form method="post" name="ip_map" id="ip_map" action="<?= base_url() ?>user/user_ipmap_action/add" enctype="multipart/form-data">
                                         <div style="width:20%">
-					  <label class="label_custom">Name:&nbsp;</label>
+					  <label class="label_custom"><?php echo gettext('Name')?>:&nbsp;</label>
 					  <input class="text field" name="name" style="float:left;" type="text">
 					</div>
                                         <div style="width:20%">
-					  <label class="label_custom">IP:&nbsp;</label>
+					  <label class="label_custom"><?php echo gettext('IP')?>:&nbsp;</label>
 					  <input class="text field" name="ip" size="16" style="float:left;"  type="text">
 					</div>
                                         <div style="width:20%">
-					  <label class="label_custom">Prefix:&nbsp;</label>
+					  <label class="label_custom"><?php echo gettext('Prefix')?>:&nbsp;</label>
 					  <input class="text field" name="prefix" size="16" style="float:left;" type="text">
 					</div>
                                         <div style="width:60px;">
@@ -81,7 +81,7 @@
     </div>
 </div>  
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">IP Map List
+    <div class="portlet-header ui-widget-header"><?php echo gettext('IP Map List')?>
         <span id="error_msg" class=" success"></span>
         <span class="ui-icon ui-icon-circle-arrow-s"></span></div>
     <div class="portlet-content">         

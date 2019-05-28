@@ -50,7 +50,7 @@ function form_submit(){
                 <div class="pull-left">
                     <ul class="breadcrumb">
                         <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
-                        <li class="active"><a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <?= ucfirst($accounttype); ?> Profile </a></li>
+                        <li class="active"><a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <?= ucfirst($accounttype); ?> <?php echo gettext('Profile');?> </a></li>
                     </ul>
                 </div>
             </div>     

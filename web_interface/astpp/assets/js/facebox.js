@@ -89,19 +89,19 @@
 
   $.extend($.facebox, {
     settings: {
-      opacity      : 0.2,
+      opacity      : 0.6,
       overlay      : true,
       loadingImage : '/assets/images/loder-1.png',
       closeImage   : '/assets/images/closelabel.png',
       imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
       faceboxHtml  : '\
-    <div id="facebox" style="display:none;"> \
+    <div class="main d-none"><div id="facebox" style="display:none;"> \
       <div class="popup"> \
         <div class="content"> \
         </div> \
         <a href="#" class="close"></a> \
       </div> \
-    </div>'
+    </div><div id="facebox_overlay" class="facebox_hide" />'
     },
 
     loading: function() {
@@ -111,20 +111,35 @@
 
       $('#facebox .content').empty().
         append('<div class="loading"><div class="ball-clip-rotate"><div></div></div></div>')
-      if(clayout == 'small'){
-	      $('#facebox').show().css({
-		top:	getPageScroll()[1] + (getPageHeight() / 10),
-	/** 	Change:  Add below line to set popup position with site layout.*/
-	         left:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 3),
-		 width:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 6)
-	      })
-      }else{
-	      $('#facebox').show().css({
-		top:	getPageScroll()[1] + (getPageHeight() / 10),
-	/** 	Change:  Add below line to set popup position with site layout.*/
-	         left:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2),
-	      })
-      }
+ //      if(clayout == 'small'){
+	//       $('#facebox').show().css({
+	// 	top:	getPageScroll()[1] + (getPageHeight() / 10),
+	// /** 	Change:  Add below line to set popup position with site layout.*/
+	//          left:	$(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2.5),
+ //           width: $(window).width() / 1.5
+ //        })
+ //      }else{
+ //        $('#facebox').show().css({
+ //    top:  getPageScroll()[1] + (getPageHeight() / 10),
+ //  /**   Change:  Add below line to set popup position with site layout.*/
+ //           left:  $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 1.5),
+  //         width: $(window).width() / 1.25
+  //       })
+ //      }
+       $('#facebox').css({
+        // top:  getPageScroll()[1] + (getPageHeight() / 10)
+        // left: $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2) - ($('#facebox .popup').outerWidth() / 6 )
+	// 	       width:	$(window).width() / 1.25
+      }).show()
+
+      // $(document).bind('reveal.facebox', function() {
+      //  if($('#facebox').show()){
+      //   $(".site-footer").css('position','fixed');
+      //  }else{
+      //   $(".site-footer").css('position','absolute');
+      //  }
+      // }
+
       $(document).bind('keydown.facebox', function(e) {
         if (e.keyCode == 27) $.facebox.close()
         return true
@@ -142,22 +157,23 @@
       if (klass) $('#facebox .content').addClass(klass)
       $('#facebox .content').empty().append(data)
       $('#facebox .popup').children().fadeIn('normal')
-      
+      // $(".site-footer").css('position','fixed');
       $('#facebox .close')
       .click($.facebox.close)
       .html('<img alt="close_image" src="'
               + $.facebox.settings.closeImage
-              + '" class="close_image" title="close" style="height:15px;width:15px; margin:17px 10px 0px 0px;" alt="Close">')
+              + '" class="close_image" title="close" style="height:15px;width:15px; margin:15px;" alt="Close">')
       
 /** 	Change:  Add below line to set popup position with site layout.*/
-        $('#facebox').css('right', $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2) - ($('#facebox .popup').outerWidth() / 12 ));
+        // $('#facebox').css('right', $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2) - ($('#facebox .popup').outerWidth() / 12 ));
+
 //        $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').outerWidth() / 2) - ($('#facebox .popup').outerWidth() / 6 ))
 
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
 
     close: function() {
-      $(document).trigger('close.facebox')
+      $(document).trigger('close.facebox');
       return false
     }
   })
@@ -327,6 +343,7 @@
       $("#facebox_overlay").removeClass("facebox_overlayBG")
       $("#facebox_overlay").addClass("facebox_hide")
       $("#facebox_overlay").remove()
+      // $(".site-footer").removeAttr("style")
     })
 
     return false
