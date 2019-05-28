@@ -45,9 +45,6 @@ WWWDIR=/var/www/html
 ASTPP_DATABASE_NAME="astpp"
 ASTPP_DB_USER="astppuser"
 
-#Enable Enterprise Repository
-IS_ENTERPRISE="True"
-
 #################################
 ####  general functions #########
 #################################
