@@ -427,7 +427,7 @@ install_fail2ban()
                             read -p "Enter sender email address: ${NOTISENDEREMAIL}"
                             NOTISENDEREMAIL=${REPLY}
                             cd /usr/src
-                            wget http://dlys20.inextrix.com:50990/ASTPP_Support/fail2ban_Deb8.tar.gz
+                            wget --no-check-certificate https://latest.astppbilling.org/fail2ban_Deb.tar.gz
                             tar xzvf fail2ban_Deb8.tar.gz
                             rm -rf /etc/fail2ban
                             cp -rf /usr/src/fail2ban /etc/fail2ban
@@ -534,7 +534,7 @@ bantime  = 7200' >> /etc/fail2ban/jail.local
                             read -p "Enter sender email address: ${NOTISENDEREMAIL}"
                             NOTISENDEREMAIL=${REPLY}
                             cd /usr/src
-                            wget http://dlys20.inextrix.com:50990/ASTPP_Support/fail2ban_Cent7.tar.gz
+                            wget --no-check-certificate https://latest.astppbilling.org/fail2ban_Cent.tar.gz
                             tar xzvf fail2ban_Cent7.tar.gz
                             rm -rf /etc/fail2ban
                             cp -rf /usr/src/fail2ban /etc/fail2ban
