@@ -212,8 +212,8 @@ normalize_mysql ()
         sed -i '26i interactive_timeout = 600' /etc/my.cnf
         sed -i '26i sql-mode=""' /etc/my.cnf
 
-        systemctl restart mysql
-                systemctl enable mysql
+        systemctl restart mysqld
+                systemctl enable mysqld
         fi
 }
 
