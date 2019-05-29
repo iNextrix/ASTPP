@@ -520,7 +520,7 @@ protocol = all
 filter   = sip-auth-challenge
 logpath = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=sip-auth-challenge, port="%(port)s", protocol=all]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender=fail2ban.astpp@myctel.com ,dest="'${NOTIEMAIL}'"]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender=fail2ban@astpptelephony.com ,dest="'${NOTIEMAIL}'"]
 maxretry = 50
 findtime = 30
 bantime  = 7200' >> /etc/fail2ban/jail.local
@@ -627,7 +627,7 @@ protocol = all
 filter   = sip-auth-challenge
 logpath = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=sip-auth-challenge, port="%(port)s", protocol=all]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender=fail2ban.astpp@myctel.com ,dest="'${NOTIEMAIL}'"]
+           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender=fail2ban@astpptelephony.com ,dest="'${NOTIEMAIL}'"]
 maxretry = 50
 findtime = 30
 bantime  = 7200' >> /etc/fail2ban/jail.local
