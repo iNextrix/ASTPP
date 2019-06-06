@@ -52,9 +52,20 @@ ASTPP_DB_USER="astppuser"
 #Generate random password
 genpasswd() 
 {
-        length=$1
-        [ "$length" == "" ] && length=16
-        tr -dc '12345_*qwertQWERTasdfgASDFGzxcvbZXCVB' < /dev/urandom | head -c ${length} | xargs
+	length=$1
+	digits=({1..9})
+	lower=({a..z})
+	upper=({A..Z})
+	CharArray=(${digits[*]} ${lower[*]} ${upper[*]})
+	ArrayLength=${#CharArray[*]}
+	password=""
+	for i in `seq 1 $length`
+	do
+	        index=$(($RANDOM%$ArrayLength))
+	        char=${CharArray[$index]}
+	        password=${password}${char}
+	done
+	echo $password
 }
 
 MYSQL_ROOT_PASSWORD=`echo "$(genpasswd 20)" | sed s/./*/5`
