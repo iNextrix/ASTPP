@@ -36,7 +36,7 @@ function Logger.critical(message)
 end
 
 function Logger.error(message)  
-  Logger.print("error",message)
+  Logger.print("err",message)
 end
 
 function Logger.warning(message)  
