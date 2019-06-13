@@ -286,7 +286,8 @@ normalize_astpp ()
                 chown -Rf root.root ${ASTPPDIR}
                 chown -Rf www-data.www-data ${ASTPPLOGDIR}
                 chown -Rf root.root ${ASTPPEXECDIR}
-                chown -Rf www-data.www-data ${WWWDIR}/astpp   
+                chown -Rf www-data.www-data ${WWWDIR}/astpp
+		chown -Rf www-data.www-data ${ASTPP_SOURCE_DIR}/web_interface/astpp
                 chmod -Rf 755 ${WWWDIR}/astpp     
                 sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php/7.3/fpm/pool.d/www.conf
                 sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php/7.3/fpm/php.ini
@@ -308,6 +309,7 @@ normalize_astpp ()
                 chown -Rf apache.apache ${ASTPPLOGDIR}
                 chown -Rf root.root ${ASTPPEXECDIR}
                 chown -Rf apache.apache ${WWWDIR}/astpp
+		chown -Rf apache.apache ${ASTPP_SOURCE_DIR}/web_interface/astpp
                 chmod -Rf 755 ${WWWDIR}/astpp
                 sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php-fpm.d/www.conf
                 sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
