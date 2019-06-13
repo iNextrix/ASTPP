@@ -296,6 +296,7 @@ normalize_astpp ()
                 sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php/7.3/fpm/php.ini
                 sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php/7.3/fpm/php.ini
                 systemctl restart php7.3-fpm
+		CRONPATH='/var/spool/cron/crontabs/astpp'
         elif  [ ${DIST} = "CENTOS" ]; then
                 cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_astpp.conf /etc/nginx/conf.d/astpp.conf
                 setenforce 0
@@ -315,8 +316,14 @@ normalize_astpp ()
                 sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php.ini
                 sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php.ini
                 sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php.ini
-				systemctl restart php-fpm
+		systemctl restart php-fpm
+		CRONPATH='/var/spool/cron/astpp'
         fi
+	echo "# To call all crons   
+		* * * * * cd ${ASTPP_SOURCE_DIR}/astpp/cron/ && php cron.php crons
+		" > $CRONPATH
+		chmod 600 $CRONPATH
+		crontab $CRONPATH
         touch /var/log/astpp/astpp.log
         chmod 777 /var/log/astpp/astpp.log
         sed -i "s#dbpass = <PASSSWORD>#dbpass = ${ASTPPUSER_MYSQL_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
