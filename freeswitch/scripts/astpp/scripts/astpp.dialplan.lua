@@ -111,7 +111,7 @@ Logger.info("[Dialplan] Call direction : ".. call_direction)
 --IF opensips then check then get account code from $params->{'variable_sip_h_P-Accountcode'}
 if(config['opensips']=='0' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == nil and params:getHeader('variable_sip_h_P-Accountcode') ~= '<null>')
 then
-	accountcode = params:getHeader('variable_scheck_blocked_prefixip_h_P-Accountcode');
+	accountcode = params:getHeader('variable_sip_h_P-Accountcode');
 end
 
 -- If no account code found then do further authentication of call
