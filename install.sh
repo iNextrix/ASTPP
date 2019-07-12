@@ -70,6 +70,8 @@ genpasswd()
 
 MYSQL_ROOT_PASSWORD=`echo "$(genpasswd 20)" | sed s/./*/5`
 ASTPPUSER_MYSQL_PASSWORD=`echo "$(genpasswd 20)" | sed s/./*/5`
+PR_KEY=`echo "$(genpasswd 32)"`
+EN_KEY=`echo "$(genpasswd 12)"`
 #Fetch OS Distribution
 get_linux_distribution ()
 { 
@@ -332,6 +334,8 @@ normalize_astpp ()
         sed -i "s#DB_PASSWD=\"<PASSSWORD>\"#DB_PASSWD = \"${ASTPPUSER_MYSQL_PASSWORD}\"#g" ${ASTPPDIR}astpp.lua
         sed -i "s#base_url=http://localhost:8089/#base_url=https://${ASTPP_HOST_DOMAIN_NAME}/#g" ${ASTPPDIR}/astpp-config.conf
         sed -i "s#PASSWORD = <PASSWORD>#PASSWORD = ${ASTPPUSER_MYSQL_PASSWORD}#g" /etc/odbc.ini
+        sed -i "s#<PR_KEY>#${PR_KEY}#g" ${ASTPPDIR}astpp-config.conf
+        sed -i "s#<EN_KEY>#${EN_KEY}#g" ${ASTPPDIR}astpp-config.conf
         systemctl restart nginx
 }
 

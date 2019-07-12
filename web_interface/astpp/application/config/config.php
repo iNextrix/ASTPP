@@ -228,7 +228,7 @@ $config ['cache_path'] = '';
  * | MUST set private key with 32 characters.
  * |
  */
-$config ['private_key'] = '8YSDaBtDHAB3EQkxPAyTz2I5DttzA9uR';
+$config ['private_key'] = $astpp_config ['PRIVATE_KEY'];
 /*
  * |--------------------------------------------------------------------------
  * | Encryption Key
@@ -238,8 +238,7 @@ $config ['private_key'] = '8YSDaBtDHAB3EQkxPAyTz2I5DttzA9uR';
  * | MUST set an encryption key. See the user guide for info.
  * |
  */
-$config ['encryption_key'] = 'r)fddEw232f';
-
+$config ['encryption_key'] = $astpp_config ['ENCRYPTION_KEY'];
 /*
  * |--------------------------------------------------------------------------
  * | Session Variables
