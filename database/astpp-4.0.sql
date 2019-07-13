@@ -2327,7 +2327,7 @@ INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comm
 (288, 'purge_emails', 'Emails Older Than Days', '-1', 'default_system_input', 'Remove emails from table older than defined days', '2019-05-24 19:03:37', 0, 0, 'purge', '', ''),
 (289, 'purge_invoices', 'Inovices Older Than Days', '-1', 'default_system_input', 'Remove invoices from table older than defined days', '2019-05-24 19:03:37', 0, 0, 'purge', '', ''),
 (290, 'purge_accounts_expired', 'Expired Accounts After Days', '-1', 'default_system_input', 'Removed expired accounts from table after defined days', '2019-05-24 19:03:37', 0, 0, 'purge', '', ''),
-(298, 'mail_log', 'Mail Log', '/backup/log/astpp_email.log', 'default_system_input', '2019-05-24 19:03:37', '2019-05-24 19:03:37', 0, 0, 'notifications', 'Email', ''),
+(298, 'mail_log', 'Mail Log', '/var/log/astpp/astpp_email.log', 'default_system_input', '2019-05-24 19:03:37', '2019-05-24 19:03:37', 0, 0, 'notifications', 'Email', ''),
 (299, 'sms_notications', 'SMS Notifications', '1', 'enable_disable_option', 'Set Enable To Use SMS Notification ', '2019-05-24 19:03:37', 0, 0, 'notifications', 'SMS', ''),
 (300, 'sms_api_key', 'Nexmo API Key', 'EnterAPIKey', 'default_system_input', 'Set your API Key for SMS', '2019-05-24 19:03:37', 0, 0, 'notifications', 'SMS', ''),
 (301, 'sms_secret_key', 'Nexmo Secret Key', 'EnterSecretKey', 'default_system_input', 'Set your API Secret Key ', '2019-05-24 19:03:37', 0, 0, 'notifications', 'SMS', ''),

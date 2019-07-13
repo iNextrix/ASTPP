@@ -327,7 +327,9 @@ normalize_astpp ()
 		chmod 600 $CRONPATH
 		crontab $CRONPATH
         touch /var/log/astpp/astpp.log
+        touch /var/log/astpp/astpp_email.log
         chmod 777 /var/log/astpp/astpp.log
+        chmod 777 /var/log/astpp/astpp_email.log
         sed -i "s#dbpass = <PASSSWORD>#dbpass = ${ASTPPUSER_MYSQL_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
         sed -i "s#DB_PASSWD=\"<PASSSWORD>\"#DB_PASSWD = \"${ASTPPUSER_MYSQL_PASSWORD}\"#g" ${ASTPPDIR}astpp.lua
         sed -i "s#base_url=http://localhost:8089/#base_url=https://${ASTPP_HOST_DOMAIN_NAME}/#g" ${ASTPPDIR}/astpp-config.conf
