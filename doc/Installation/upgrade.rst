@@ -2,16 +2,24 @@
 Upgrade
 ===================
 
-.. note:: Script wil upgrade only version from 3.5 to latest. For older version, it require manual upgradation.
+.. note:: 
 
 	**For production systems which are having huge CDRs, its advisable to upgrade ASTPP version in downtime to avoid any database related issues.**
 
-**Upgrade Steps**
+**Upgrade Steps from 4.0 to 4.0.1**
 ::
 
- wget --no-check-certificate http://bit.do/astpp36-upgrade -O update.sh
- chmod +x update.sh
- ./update.sh
+ Pull new source from git repository
+ cd /opt/ASTPP/
+ git pull origin v4.0.1
+
+ Update database changes
+ mysql -u<DB_USER> -p astpp < database/astpp-4.0.1.sql
+
+ Open config file /var/lib/astpp/astpp-config.conf and set below lines in that,
+
+ PRIVATE_KEY = 8YSDaBtDHAB3EQkxPAyTz2I5DttzA9uR
+ ENCRYPTION_KEY = r)fddEw232f
 
 |
 

@@ -75,7 +75,7 @@ var $PDFVersion; // PDF version number
 *                               Public methods                                 *
 *                                                                              *
 *******************************************************************************/
-function FPDF($props = array())
+function __construct($props = array())
 {
 	 if(count($props) == 3)
 	 {

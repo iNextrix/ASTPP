@@ -103,7 +103,7 @@
                                 ?>
 
 		<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Commission(%)"); ?></label>
+							<label class="col-md-12 no-padding control-label"><?php echo gettext("Commission")."(%)"; ?></label>
 							<input class="col-md-12 form-control form-control-lg m-0"
 								name="commission"
 								value="<?php echo (isset($product_info['commission']))?$product_info['commission']:'' ?>"

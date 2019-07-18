@@ -101,7 +101,7 @@ class Fsmonitor extends CI_Controller {
 
 
 
- function sip_devices_json($id){
+ function sip_devices_json($id=0){
 	$account_info = $accountinfo = $this->session->userdata('accountinfo');
         $command = "api sofia xmlstatus profile default reg";  
         $response = $this->fsmonitor_model->reload_freeswitch($command,$id);
@@ -127,7 +127,7 @@ class Fsmonitor extends CI_Controller {
 						$response_value["agent"],
 					));
 				} else {
-					$reseller_id=$this->common->get_field_name('reseller_id', 'sip_devices',array('username'=>$response_value["sip-auth-user"]));	
+					$reseller_id=$this->common->get_field_name('reseller_id', 'sip_devices',array('username'=>@$response_final_arr['registration']["sip-auth-user"]));	
 					$res_id= ($reseller_id==0)?1:$reseller_id;
 					if($res_id == $account_info['id']){
 						$json_data['rows'][] = array('cell'=>array(

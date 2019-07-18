@@ -45,7 +45,7 @@
                       <label class="col-md-12 p-0 control-label"><?php echo gettext('Country')?></label>
                       <?php
 								$country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
-								$country = form_dropdown_all($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""),"");
+								$country = form_dropdown_all($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""),isset($add_array['country_id'])?$add_array['country_id']:''); 
 								echo $country;
 								?>
 			
@@ -106,17 +106,17 @@
                       </select>
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Commission (%)');?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Commission');?> (%)</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="commission" value="<?php echo (isset($add_array['commission']))?$add_array['commission']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="commission_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="commission_error">   </span></div>	
                   </div>
 		 <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee ('.$currency.')')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="setup_fee" value="<?php echo (isset($add_array['setup_fee']))?$add_array['setup_fee']:'' ?>" size="16" type="text"/>	
 			<div class="tooltips error_div pull-left no-padding" id="setup_fee_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="setup_fee_error">   </span></div>		
                   </div>
 		   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label">Price (<?php echo ($currency)?>) *</label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Price'); ?><?php echo gettext(' (<?'); ?>php echo ($currency)?>) *</label>
                       <input name="price" id="price" class="col-md-12 form-control form-control-lg m-0" value="<?php echo (isset($add_array['price']))?$add_array['price']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="price_error">   </span></div>	
                   </div>
@@ -177,9 +177,9 @@
                       <label class="col-md-12 p-0 control-label"><?php echo gettext('Applicable For'); ?></label>
                       <select  name="applicable_for" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['applicable_for'])){ ?>
-                       		 <option value="0" <?php if($add_array['applicable_for'] == '0'){ ?> selected="selected" <?php }  ?>>Inbound</option>
-                        	<option value="1" <?php if($add_array['applicable_for'] == '1'){ ?> selected="selected" <?php }  ?>>Outbound</option>
-				<option value="2" <?php if($add_array['applicable_for'] == '2'){ ?> selected="selected" <?php }  ?>>Both</option>
+                       		 <option value="0" <?php if($add_array['applicable_for'] == '0'){ ?> selected="selected" <?php }  ?>><?php echo gettext('Inbound'); ?></option>
+                        	<option value="1" <?php if($add_array['applicable_for'] == '1'){ ?> selected="selected" <?php }  ?>><?php echo gettext('Outbound'); ?></option>
+				<option value="2" <?php if($add_array['applicable_for'] == '2'){ ?> selected="selected" <?php }  ?>><?php echo gettext('Both'); ?></option>
 			<?php } else { ?>
 				<option value="0"><?php echo gettext('Inbound'); ?></option>
                        	 	<option value="1"><?php echo gettext('Outbound'); ?></option>

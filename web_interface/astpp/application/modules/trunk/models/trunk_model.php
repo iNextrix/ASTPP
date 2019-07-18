@@ -24,7 +24,7 @@
 class trunk_model extends CI_Model
 {
 
-    function trunk_model()
+    function __construct()
     {
         parent::__construct();
     }

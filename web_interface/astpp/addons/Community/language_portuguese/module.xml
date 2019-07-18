@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>language_portuguese</tech_name>
+	<name>Brazilian Portuguese Localization</name>
+	<description>Add Brazilian Portuguese Language Support</description>		
+	<icon>static/images/language_portuguese.png</icon>
+	<version>1.0.0</version>
+	<license>Community</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

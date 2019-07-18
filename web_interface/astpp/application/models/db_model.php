@@ -261,10 +261,16 @@ class Db_model extends CI_Model {
 		if ($where != "") {
 			$this->db->where ( $where );
 		}
-		if (isset ( $_GET ['sortname'] ) && $_GET ['sortname'] != 'undefined') {
+		// OLD CODE
+		/*if (isset ( $_GET ['sortname'] ) && $_GET ['sortname'] != 'undefined') {
 
 		} else {
 			if ($order_by)
+				$this->db->order_by ( $order_by, $order_type );
+		}
+		*/
+		// NEW CODE 
+		if ($order_by){
 				$this->db->order_by ( $order_by, $order_type );
 		}
 
@@ -584,7 +590,11 @@ class Db_model extends CI_Model {
 		$drp_list = array ();
 		$drp_list[0]="--Select--";
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]} ."(".$drp_value->{$select_params [2]}.")";
+			if(isset($select_params [2]) && $select_params [2] != ""){
+				$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]} ."(".$drp_value->{$select_params [2]}.")";
+			}else{
+				$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
+			}
 		}
 		return $drp_list;
 	}
@@ -624,19 +634,25 @@ class Db_model extends CI_Model {
                 $drp_array = $drp_array->result_array();
 
                 $name = explode ( "as", $select );
-                if (isset ( $name [3] )) {
+                 if (isset ( $name [3] ) && (!isset ( $name [4] ))  ) {
                         $name = trim ( $name [3] );
-                } else {
+                }else if(isset ( $name [4] )){
+		 	 $name = trim ( $name [4] );
+		}else {
                         $name = trim ( $name [1] );
                 }
 
                 $drp_list = array ();
                 $dele = array ();
+		$inavtive = array ();
                 foreach ( $drp_array as $drp_value ) {
                         $dele = explode ( "^", $drp_value[$name]);
+			$inavtive = explode ( "*", $drp_value[$name]);
                         if (isset ( $dele [1] )) {
                                 $drp_list ['Deleted'] [$drp_value[$select_params [0]]] = str_replace ( "^", "", $drp_value[$name] );
-                        } else {
+                        }else if(isset( $inavtive [1])){
+			 	$drp_list ['Inactive'] [$drp_value[$select_params [0]]] = str_replace ( "*", "", $drp_value[$name] );
+			} else {
                                 $drp_list ['Active'] [$drp_value[$select_params [0]]] = $drp_value[$name];
                         }
                 }
@@ -1285,6 +1301,15 @@ class Db_model extends CI_Model {
 				$final_array['Customer'] = $account_arr; 
 		}
 		return $final_array;
+	}
+	function build_dropdown_languages($select, $table, $id_where = '', $id_value = '') {
+		$drp_array = $this->getSelect('name', 'languages', '');
+		$drp_array = $drp_array->result();
+		$drp_list = array();	
+		foreach ($drp_array as $drp_value) {
+	   		$drp_list[$drp_value->name] = $drp_value->name;
+		}
+		return $drp_list;
 	}
 
 }

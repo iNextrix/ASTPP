@@ -388,7 +388,13 @@ class Addons extends MX_Controller
                         "package_name" => $module
                     ));
                 }
-
+		//AD: Language
+                if (strpos($module, 'language') !== false) {
+                    $command = "wget --no-check-certificate -q -O- ".base_url() ."Translation_script/insert_translation/".$module;
+                    system($command);
+                }
+                $command = "wget --no-check-certificate -q -O- ".base_url() ."Translation_script/insert_translation_addons/".$module;
+                system($command);
                 echo "<i><b>Module successfully imported!!</b></i><br/><br/>";
                 echo "Please re-login to get impact of addon!! <a href='/logout'>Re-login</a> | <a href='" . base_url() . "addons/addons_list/" . $type . "'>Back</a><br/><br/>";
                 exit();
@@ -408,6 +414,10 @@ class Addons extends MX_Controller
                         $reflection_method->setAccessible(true);
                         $result = $reflection_method->invoke($addon_class);
                     }
+                }
+		if (strpos($module, 'language') !== false) {
+                    $command = "wget --no-check-certificate -q -O- ".base_url() ."Translation_script/language_uninstall/".$module;
+                    system($command);
                 }
                 // AD: Done
                 if (file_exists($addons_path . $type . "/" . $module . "/database/uninstall.sql")) {

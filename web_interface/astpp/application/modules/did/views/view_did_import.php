@@ -39,7 +39,7 @@ if (isset($error) && ! empty($error)) {
 							<div class="w-box">
 								<h3 class="padding-t-10 padding-l-16 padding-b-10"><?php echo gettext("Import DIDs"); ?></h3>
 								<div class="col-md-12 no-padding">
-									<label class="col-md-3"><?php echo gettext("Trunk List:"); ?></label>
+									<label class="col-md-3"><?php echo gettext("Trunk List").":"; ?></label>
 									<div>
                                <?
 
@@ -117,7 +117,7 @@ $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name"
 				value="<?= $this->session->userdata('logintype') ?>" /> <input
 				type="hidden" name="username"
 				value="<?= $this->session->userdata('username') ?>" /> <label
-				class="desc">Select the file:</label> <input type="file"
+				class="desc"><?php echo gettext('Select the file'); ?>:</label> <input type="file"
 				class="ui-state-default ui-corner-all ui-button" name="didimport"
 				size="40" />
 			<iframe name="submitter" id="submitter" frameborder="0" src=""
@@ -130,7 +130,7 @@ $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name"
 					id="ok" type="button" name="action" value="Cancel" /> <input
 					type="submit"
 					class="ui-state-default float-right ui-corner-all ui-button"
-					name="action" value="Import..." />
+					name="action" value=<?php echo gettext("Import"); ?> />
 			</div>
 
 		</form>

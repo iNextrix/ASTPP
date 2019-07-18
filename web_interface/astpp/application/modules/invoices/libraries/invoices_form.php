@@ -71,11 +71,11 @@ class invoices_form extends common
                 "accounts",
                 "build_concat_string",
                 "",
-                "true",
+                "false",
                 "center"
             ),
             array(
-                gettext("Invoice<br/> Date"),
+                gettext("Invoice Date"),
                 "100",
                 "generate_date",
                 "generate_date",
@@ -108,26 +108,26 @@ class invoices_form extends common
                 "center"
             ),
             array(
-                gettext("Amount <br/> ($currency)"),
+                gettext("Amount")." <br/> ($currency)",
                 "100",
                 "id",
                 "id",
                 "id",
                 "get_invoice_total",
                 "",
-                "true",
+                "false",
                 "right"
             ),
 
             array(
-                gettext("Outstanding Amount <br/>($currency)"),
+                gettext("Outstanding Amount")." <br/>($currency)",
                 "140",
                 "",
                 "",
                 "",
                 "",
                 "",
-                "true",
+                "false",
                 "right"
             ),
             array(
@@ -138,7 +138,7 @@ class invoices_form extends common
                 "accounts",
                 "get_field_name",
                 "",
-                "true",
+                "false",
                 "center"
             ),
             array(
@@ -190,7 +190,7 @@ class invoices_form extends common
                 "center"
             ),
             array(
-                gettext("Generated<br/> Date"),
+                gettext("Generated Date"),
                 "120",
                 "invoice_date",
                 "invoice_date",
@@ -223,7 +223,7 @@ class invoices_form extends common
                 "center"
             ),
             array(
-                gettext("Last <br/>Pay Date"),
+                gettext("Last Pay Date"),
                 "100",
                 "",
                 "",
@@ -234,7 +234,7 @@ class invoices_form extends common
                 "center"
             ),
             array(
-                gettext("Amount($currency)"),
+                gettext("Amount")." ($currency)",
                 "100",
                 "id",
                 "id",
@@ -246,7 +246,7 @@ class invoices_form extends common
             ),
 
             array(
-                gettext("Outstanding <br/>Amount($currency)"),
+                gettext("Outstanding Amount")." <br/>($currency)",
                 "100",
                 "",
                 "",
@@ -893,7 +893,7 @@ class invoices_form extends common
                 ''
             );
         }
-        $form['Configuration '] = array(
+        $form[gettext('Configuration')] = array(
             array(
                 '',
                 'HIDDEN',
@@ -930,7 +930,7 @@ class invoices_form extends common
                 'Please Enter account number'
             ),
             array(
-                gettext('Address1'),
+                gettext('Address')."1",
                 'INPUT',
                 array(
                     'name' => 'address',
@@ -1024,7 +1024,7 @@ class invoices_form extends common
                 'Please Enter account number'
             ),
             array(
-                gettext('Email '),
+                gettext('Email'),
                 'INPUT',
                 array(
                     'name' => 'emailaddress',
@@ -1060,7 +1060,7 @@ class invoices_form extends common
                 'Please Enter account number'
             )
         );
-        $form['Invoice Configuration '] = array(
+        $form[gettext('Invoice Configuration')] = array(
             array(
                 '',
                 'HIDDEN',
@@ -1171,6 +1171,18 @@ class invoices_form extends common
                 'set_allow_invoice'
             ),
             array(
+                gettext('Invoice Note'),
+                'INPUT',
+                array(
+                    'name' => 'invoice_note',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
                 '',
                 'HIDDEN',
                 array(
@@ -1236,7 +1248,7 @@ class invoices_form extends common
             ),
 
             array(
-                gettext('Logo') . (' (250 * 60)') . (' (Allowed Extentions JPG, JPEG)'),
+                gettext('Logo') . (' (250 * 60)') . (' ('.gettext("Allowed Extentions JPG, PNG, JPEG").')'),
                 'INPUT',
                 array(
                     'name' => 'file',
@@ -1256,7 +1268,7 @@ class invoices_form extends common
             $delete_logo,
             $image_path,
             array(
-                gettext('Favicon' . (' (16 * 16)')) . (' (Allowed Extentions ICO, PNG, JPG, JPEG)'),
+                gettext('Favicon' . (' (16 * 16)')) . (' ('.gettext("Allowed Extentions ICO, PNG, JPG, JPEG").')'),
                 'INPUT',
                 array(
                     'name' => 'file_fav',

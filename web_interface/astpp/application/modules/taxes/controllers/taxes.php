@@ -84,7 +84,7 @@ class Taxes extends MX_Controller
                 $add_array['taxes_amount'] = $this->common_model->add_calculate_currency($add_array['taxes_amount'], '', '', false, false);
                 $this->taxes_model->edit_tax($add_array, $add_array['id']);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s Tax updated successfully!', $add_array["taxes_description"]))
+                    "SUCCESS" => $add_array["taxes_description"].' '.gettext('Tax updated successfully!')
                 ));
 
                 exit();
@@ -99,7 +99,7 @@ class Taxes extends MX_Controller
                 $add_array['taxes_amount'] = $this->common_model->add_calculate_currency($add_array['taxes_amount'], '', '', false, false);
                 $this->taxes_model->add_tax($add_array);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s Tax added successfully!', $add_array["taxes_description"]))
+                    "SUCCESS" => $add_array["taxes_description"].' '.gettext('Tax added successfully!')
                 ));
 
                 exit();
@@ -114,7 +114,7 @@ class Taxes extends MX_Controller
         $this->db->where('id', $id);
         $taxes_name = (array) $this->db->get('taxes')->first_row();
         $this->taxes_model->remove_taxes($id);
-        $this->session->set_flashdata('astpp_notification', gettext(sprintf('%s Tax removed successfully!', $add_array["taxes_description"])));
+        $this->session->set_flashdata('astpp_notification', $add_array["taxes_description"].' '.gettext('Tax removed successfully!'));
 
         redirect(base_url() . 'taxes/taxes_list/');
     }

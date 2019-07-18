@@ -51,6 +51,7 @@ class ProcessInvoice extends MX_Controller
         
 
         $this->CurrentDate = gmdate("Y-m-d 00:00:01");
+	$this->custom_current_date = gmdate("Y-m-d 23:59:59");
         // $this->CurrentDate = "2019-04-13 00:00:01";
     }
 
@@ -85,7 +86,8 @@ class ProcessInvoice extends MX_Controller
     }
 
     function generate_invoices($accountinfo){
-
+	$this->StartDate = ($accountinfo['last_bill_date'] == '0000-00-00 00:00:00')?$accountinfo['creation']:$accountinfo['last_bill_date'];
+	$this->StartDate = date ( "Y-m-d 00:00:01", strtotime ( $this->StartDate ) );
 //	$this->StartDate = $accountinfo ['last_bill_date'];
 /*	$this->StartDate = gmdate("Y-m-01 00:00:01");
 	$this->EndDate = gmdate("Y-m-30 23:59:59");
@@ -121,7 +123,8 @@ class ProcessInvoice extends MX_Controller
 			}
 			break;
 	}
- 	
+ 		$this->db->where("id",$accountinfo['id']);
+		$this->db->update("accounts",array("last_bill_date" => $this->EndDate));
 
 
 
@@ -219,7 +222,7 @@ class ProcessInvoice extends MX_Controller
 
 	    $tax_calculation=$this->common_model->calculate_taxes($accountinfo,$total_billable_item["debit"]);
 
-	    if(isset($tax_calculation['tax']) && !empty($tax_calculation['tax'])){
+	    if(isset($tax_calculation['tax']) && !empty($tax_calculation['tax'] && $total_billable_item["debit"] > 0)){
 
 		$base_currency = Common_model::$global_config ['system_config'] ['base_currency'];
 		$account_balance = $accountinfo ['posttoexternal'] == 1 ? $accountinfo ['credit_limit'] - ($accountinfo ['balance']) : $accountinfo ['balance'];
@@ -319,7 +322,7 @@ class ProcessInvoice extends MX_Controller
 order_items.quantity,order_items.billing_type,order_items.billing_days,order_items.free_minutes,
 order_items.billing_date,order_items.next_billing_date,order_items.is_terminated ,order_items.termination_date,
 order_items.termination_note,order_items.from_currency,order_items.exchange_rate,order_items.to_currency,
-order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.price',array("DATE_SUB(order_items.next_billing_date, INTERVAL 2 HOUR) >="=>gmdate("Y-m-d 21:58:00"),"order_items.next_billing_date <=" => $this->CurrentDate,"order_items.product_category <>"=>"3", "order_items.is_terminated" => "0","orders.payment_status <>"=>"FAIL"),'order_items','orders.id=order_items.order_id', 'inner', '' ,'','','');
+order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.price',array("DATE_SUB(order_items.next_billing_date, INTERVAL 2 HOUR) >="=>gmdate("Y-m-d 21:58:00"),"order_items.next_billing_date <=" => $this->custom_current_date,"order_items.product_category <>"=>"3", "order_items.is_terminated" => "0","orders.payment_status <>"=>"FAIL"),'order_items','orders.id=order_items.order_id', 'inner', '' ,'','','');
 
 	if($renewable_order->num_rows > 0){
 
@@ -351,7 +354,7 @@ order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.
 				    $product_info = (array)$user_product_info;
 					$total_amt = ($ordervalue['price']*$ordervalue['quantity']);
 					$account_balance = $accountdata ['posttoexternal'] == 1 ? $accountdata ['credit_limit'] - ($accountdata ['balance']) : $accountdata ['balance'];
-					$product_info['product_name']=$product_info['name'];
+					//$product_info['product_name']=$product_info['name'];
 			     		$final_array = array_merge($accountdata,$product_info);
 			     		$acc_id='';
 			     		$order_id='';
@@ -373,6 +376,7 @@ order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.
 						if($product_info['product_category'] == 4){ 
 							$this->db->update("dids",$did_update_array,array("product_id"=>$ordervalue['product_id']));
 						}
+						$final_array['next_billing_date'] = $update_order_arr['termination_date'];
 						$this->common->mail_to_users ( "product_release", $final_array );
 		
 					} if(($product_info['can_purchase'] == 1 ||$product_info['can_resell'] == 1) && ($product_info['reseller_id'] == $ordervalue['reseller_id'] && $ordervalue['reseller_id'] > 0)){   
@@ -381,6 +385,7 @@ order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.
 						if($product_info['product_category'] == 4){
 							$this->db->update("dids",$did_update_array,array("product_id"=>$ordervalue['product_id']));
 						}
+						$final_array['next_billing_date'] = $update_order_arr['termination_date'];
 						$this->common->mail_to_users ( "product_release", $final_array );
 				     } 
 
@@ -391,9 +396,8 @@ order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.
 						if($product_info['product_category'] == 4){
 							$this->db->update("dids",$did_update_array,array("product_id"=>$ordervalue['product_id']));
 						}
+							$final_array['next_billing_date'] = $update_order_arr['termination_date'];
 							$this->common->mail_to_users ( "product_release", $final_array );
-						}else{
-							$is_process = true;
 						}
 					}
 				if($is_process == true){ 
@@ -513,6 +517,7 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 					
 
 				}
+				$this->db->update("counters",array("used_seconds"=>0),array("product_id"=>$ordervalue['product_id'],"accountid"=>$ordervalue['accountid']));
 				$this->db->update("order_items",$update_order_arr,array("id"=>$ordervalue['id']));
 							
 			   }
@@ -554,6 +559,7 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 					$final_array['next_billing_date'] =($product_info['billing_days'] == 0)?gmdate('Y-m-d 23:59:59', strtotime('+10 years')):gmdate("Y-m-d 23:59:59",strtotime("+".($product_info['billing_days']-1)." days"));
 					$final_array['product_name'] = $product_info['name'];
 					if($product_info['status'] == 1 ||   $product_info['billing_type'] == 0 ){ 
+						$final_array['next_billing_date'] = $ordervalue['termination_date'];
 						$this->common->mail_to_users ( "product_release", $final_array );
 					}else if(($product_info['can_purchase'] == 1 ||$product_info['can_resell'] == 1) && $product_info['reseller_id'] == $ordervalue['reseller_id'] && $ordervalue['reseller_id'] > 0){  
 

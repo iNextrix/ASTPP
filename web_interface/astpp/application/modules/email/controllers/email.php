@@ -140,33 +140,22 @@ class Email extends MX_Controller
         }
     }
 
-    function email_resend_customer($edit_id = '')
-    {
+    function email_resend_customer($edit_id = '') {
         $add_array = $this->input->post();
         $data['page_title'] = gettext('Resand Email');
         $where = array(
             'id' => $add_array['id']
         );
-        $account = $this->db_model->getSelect("*", "mail_details", $where);
-        foreach ($account->result_array() as $key => $value) {
-            $edit_data = $value;
-        }
-        $add_array = array(
-            'accountid' => $edit_data['accountid'],
-            'subject' => $add_array['subject'],
-            'body' => $add_array['body'],
-            'from' => $edit_data['from'],
-            'to' => $edit_data['to'],
-            'status' => $edit_data['status'],
-            'template' => $edit_data['template'],
-            'sms_body' => $edit_data['sms_body'],
-            'to_number' => $edit_data['to_number'],
-            'attachment' => $edit_data['attachment']
-        );
-        $this->email_lib->send_notifications('', $add_array, '', '', 1);
+	$this->db->order_by('id', 'desc');
+	$this->db->limit(1);
+        $email_array = (array)$this->db->get_where("mail_details", $where)->first_row();
+	unset($email_array['id']);
+	$email_array['status'] = 1;
+	$email_array['date'] = gmdate('Y-m-d H:i:s');
+	$this->db->insert('mail_details',$email_array);
         $this->load->module('accounts/accounts');
-        $this->session->set_flashdata('astpp_errormsg', gettext('Email resend successfully!'));
-        redirect(base_url() . 'accounts/customer_emailhistory/' . $value["accountid"]);
+        $this->session->set_flashdata('astpp_errormsg', gettext('Email Resend Successfully!'));
+        redirect(base_url() . 'accounts/customer_emailhistory/' . $email_array['accountid'].'/');
     }
 
     function email_add($type = "")

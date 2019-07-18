@@ -65,7 +65,7 @@ class calltype extends MX_Controller
 
     function calltype_add($type = "")
     {
-        $data['page_title'] = gettext('Create Calltype');
+        $data['page_title'] = gettext('Create calltype');
         $data['form'] = $this->form->build_form($this->calltype_form->get_calltype_form_fields(), '');
         $this->load->view('view_calltype_add', $data);
     }
@@ -140,7 +140,7 @@ class calltype extends MX_Controller
 
                 $this->calltype_model->edit_calltype($add_array, $add_array['id']);
                 echo json_encode(array(
-                    "SUCCESS" => ucfirst($add_array["call_type"]) . gettext(" Calltype Updated Successfully!")
+                    "SUCCESS" => ucfirst($add_array["call_type"]) .' '. gettext("Calltype Updated Successfully!")
                 ));
                 exit();
             }
@@ -168,7 +168,7 @@ class calltype extends MX_Controller
                     "deleted" => 0
                 ));
                 $accountinfo = $accountinfo->result_array();
-                $this->session->set_flashdata('astpp_errormsg', gettext('calltype added successfully!'));
+                $this->session->set_flashdata('astpp_errormsg', gettext('Calltype Added Successfully!'));
                 echo json_encode(array(
                     "SUCCESS" => ucfirst($add_array["call_type"]) . gettext("Calltype Added Successfully!")
                 ));

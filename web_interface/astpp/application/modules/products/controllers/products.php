@@ -65,7 +65,7 @@ class Products extends MX_Controller {
 		if ($this->session->userdata ( 'logintype' ) == '-1' || $this->session->userdata ( 'logintype' ) == '2' ){
 			$data ['page_title']  = gettext ('Products');	
 		}else{
-			$data ['page_title']  = gettext (' My Products');
+			$data ['page_title']  = gettext ('My Products');
 		}
 		$data ['grid_fields']  = $this->product_form->build_product_list_for_admin ();
 		$data ["grid_buttons"] = $this->product_form->build_grid_buttons ();
@@ -111,8 +111,8 @@ class Products extends MX_Controller {
 		$accountinfo = $this->session->userdata ( "accountinfo" );
 		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
 		$data['currency'] = $this->common->get_field_name("currency","currency",array("id"=>$accountinfo['currency_id'])); 
-		$where_arr['where'] = $this->db->where(array("reseller_id"=>$reseller_id));
-		$data['product_rate_group'] = $this->db_model->build_dropdown("id,name", "pricelists","", $where_arr);
+		$where_arr= array("reseller_id"=>$reseller_id,"status"=>0);
+		$data['product_rate_group'] = $this->db_model->build_dropdown("id,name", "pricelists","where_arr", $where_arr);
 		$accountinfo = $this->session->userdata ( 'accountinfo' );
 		if(isset($_POST['product_category']) && $_POST['product_category'] != ''){
 			$data['product_name'] = isset($_POST['product_name'])?$_POST['product_name']:'';
@@ -135,10 +135,10 @@ class Products extends MX_Controller {
 		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
 		$data['product_category'] = $this->ProductCategory;
 		$data ['grid_fields'] = $this->product_form->build_block_pattern_list_for_customer($edit_id);
-		$where_arr['where'] = $this->db->where(array("reseller_id"=>$reseller_id));
-		$data['product_rate_group'] = $this->db_model->build_dropdown("id,name", "pricelists", "", $where_arr);
+		$where_arr = array("reseller_id"=>$reseller_id,"status"=>0);
+		$data['product_rate_group'] = $this->db_model->build_dropdown("id,name", "pricelists", "where_arr", $where_arr);
 		$data ['grid_field'] = $this->product_form->build_pattern_list_for_customer( $edit_id );
-		$data['destination_rategroups'] = $this->db_model->build_dropdown("id,name", "pricelists", "",  $where_arr);	
+		$data['destination_rategroups'] = $this->db_model->build_dropdown("id,name", "pricelists", "where_arr",  $where_arr);
 		$data['currency'] = $this->common->get_field_name("currency","currency",array("id"=>$accountinfo['currency_id']));
 		
 		$add_array = $this->db_model->getSelect ( "*", " products", array ('id' => $edit_id));
@@ -264,7 +264,7 @@ class Products extends MX_Controller {
 		      }
 		}
 		if(isset($add_array['billing_days'])){
-			$this->form_validation->set_rules('billing_days', 'Billing Days', 'numeric|required|greater_than[-1]|min_length[0]|max_length[3]|integer|xss_clean');
+			$this->form_validation->set_rules('billing_days', 'Billing Days', 'numeric|required|greater_than[-1]|min_length[0]|max_length[3]|integer');
 		}
 
 		if(isset($add_array['setup_fee'])){
@@ -376,7 +376,7 @@ class Products extends MX_Controller {
 		$productinfo['product_id'] = $product_id;
 		$accountinfo = $this->session->userdata ( "accountinfo" );
 		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
-		if($productinfo['apply_on_existing_account'] == 0 && $productinfo['release_no_balance'] == 1 ){   
+		if($productinfo['apply_on_existing_account'] == 0 && $productinfo['release_no_balance'] == 1 && (isset($productinfo['product_rate_group']) && $productinfo['product_rate_group'] > 0 )){      
 			$this->db->select("*");
 			$this->db->from("accounts");
 			$this->db->where(array("status"=>0,"deleted"=>0,"type"=>0,"reseller_id"=>$reseller_id));
@@ -411,7 +411,7 @@ class Products extends MX_Controller {
 			}
 			return true;
 	     }else{ 
-	    	 if($productinfo['apply_on_existing_account'] == 0 && $productinfo['release_no_balance'] == 0){
+	    	 if($productinfo['apply_on_existing_account'] == 0 && $productinfo['release_no_balance'] == 0 && (isset($productinfo['product_rate_group']) && $productinfo['product_rate_group'] > 0 )){
 		    $total_amt = $productinfo['price'] + $productinfo['setup_fee'];
 		        $this->db->select("*");
 			$this->db->from("accounts");
@@ -611,12 +611,12 @@ class Products extends MX_Controller {
 				$order_item = $order_item->result_array();
 				foreach($order_item as $key =>$item){
 					$this->db->update("order_items",array("is_terminated"=>1,"termination_date"=>gmdate('Y-m-d H:i:s'),"termination_note"=> "Product  has been released by ".$accountinfo['number']."( ".$accountinfo['first_name']." ".$accountinfo['last_name'].") "));
-					$order_item_details['product_name']=$this->common->get_field_name("name","products",array("id"=>$item['product_id']));
+					$order_item_details['name']=$this->common->get_field_name("name","products",array("id"=>$item['product_id']));
 					$order_item_details['order_id']=$this->common->get_field_name("order_id","orders",array("id"=>$item['order_id']));
 					
 					$acc_info_result = array();
 					$acc_info=$this->db_model->getSelect ( "id,first_name,last_name,company_name,email,reseller_id,number", "accounts",array("id"=>$item['accountid'],'deleted'=>0));
-					$order_item_details['next_billing_date'] = $item['next_billing_date'];
+					$order_item_details['next_billing_date'] = gmdate('Y-m-d H:i:s');
 					
 					if($acc_info->num_rows > 0){
 						$acc_info_result=$acc_info->result_array()[0];
@@ -651,12 +651,12 @@ class Products extends MX_Controller {
 			$did_where = array("product_id"=>$value['id']);
 			if($order_item->num_rows > 0){
 				$order_item=$order_item->result_array()[0];
-				$order_item['product_name']=$this->common->get_field_name("name","products",array("id"=>$order_item['product_id']));
+				$order_item['name']=$this->common->get_field_name("name","products",array("id"=>$order_item['product_id']));
 				$order_item['order_id']=$this->common->get_field_name("order_id","orders",array("id"=>$order_item['order_id']));
 				$acc_info_result = array();
 				$acc_info=$this->db_model->getSelect ( "id,first_name,last_name,company_name,email,number", "accounts",array("id"=>$order_item['accountid'],'deleted'=>0));
 				
-				$value['next_billing_date'] = $order_item['next_billing_date'];
+				$value['next_billing_date'] = gmdate('Y-m-d H:i:s');
 				if($value['product_category'] == 4){
 
 					 $this->product_model->products_release($value,$accountinfo);

@@ -132,7 +132,7 @@ class Accounts_form extends common
             'id',
             'name',
             'localization',
-            'build_dropdown',
+            'build_dropdown_reseller',
             'where_arr',
             array(
                 "status" => "0"
@@ -214,7 +214,7 @@ class Accounts_form extends common
                         'id' => 'number',
                         'readonly' => true
                     ),
-                    'required|integer|greater_than[0]|is_unique[' . $account_val . ']|is_match_number[' . $account_val . ']',
+                    'required|integer|greater_than[0]|is_unique[' . $account_val . ']',
                     'tOOL TIP',
                     '',
                     ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
@@ -370,7 +370,7 @@ class Accounts_form extends common
                     'id',
                     'name',
                     'localization',
-                    'build_dropdown',
+                    'build_dropdown_reseller',
                     'where_arr',
                     array(
                         "status" => "0"
@@ -691,7 +691,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                gettext('Address 1'),
+                gettext('Address'). ' 1',
                 'INPUT',
                 array(
                     'name' => 'address_1',
@@ -703,7 +703,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                gettext('Address 2'),
+                gettext('Address').' 2',
                 'INPUT',
                 array(
                     'name' => 'address_2',
@@ -1093,7 +1093,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                gettext('Acc. Number Length'),
+                gettext('Account Number Length'),
                 'INPUT',
                 array(
                     'name' => 'account_length',
@@ -1304,8 +1304,16 @@ class Accounts_form extends common
         return $form;
     }
 
-    function get_customer_callerid_fields($id)
+    function get_customer_callerid_fields($id,$post_array)
     {
+		$required='';
+		$callerid_name='';
+		$callerid_number='';
+		if(isset($post_array) && !empty($post_array)){
+				if(isset($post_array['status']) && $post_array['status']==0){
+					$required='|required';
+				}		
+		}
         $form['forms'] = array(
             base_url() . 'accounts/customer_add_callerid/' . $id . '',
             array(
@@ -1345,7 +1353,7 @@ class Accounts_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                'trim',
+                ''.$required.'|trim',
                 'tOOL TIP',
                 ''
             ),
@@ -1357,7 +1365,7 @@ class Accounts_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                'trim|numeric',
+                ''.$required.'|trim',
                 'tOOL TIP',
                 ''
             )
@@ -2074,7 +2082,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                gettext('Address 1'),
+                gettext('Address').' 1',
                 'INPUT',
                 array(
                     'name' => 'address_1',
@@ -2086,7 +2094,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                gettext('Address 2'),
+                gettext('Address').' 2',
                 'INPUT',
                 array(
                     'name' => 'address_2',
@@ -2469,7 +2477,7 @@ class Accounts_form extends common
                 );
 
                 $Address_1 = array(
-                    gettext('Address 1'),
+                    gettext('Address').' 1',
                     'INPUT',
                     array(
                         'name' => 'address_1',
@@ -2482,7 +2490,7 @@ class Accounts_form extends common
                 );
 
                 $Address_2 = array(
-                    gettext('Address 2'),
+                    gettext('Address').' 2',
                     'INPUT',
                     array(
                         'name' => 'address_2',
@@ -4680,7 +4688,7 @@ class Accounts_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Balance <br/>") . "($currency)",
+                    gettext("Balance") . " <br/>($currency)",
                     "80",
                     "balance",
                     "balance",
@@ -4695,7 +4703,7 @@ class Accounts_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Credit Limit <br/>") . "($currency)",
+                    gettext("Credit Limit") . " <br/>($currency)",
                     "90",
                     "credit_limit",
                     "credit_limit",
@@ -4874,7 +4882,7 @@ class Accounts_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Balance <br/>") . "($currency)",
+                    gettext("Balance") . " <br/>($currency)",
                     "80",
                     "balance",
                     "balance",
@@ -4889,7 +4897,7 @@ class Accounts_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Credit Limit <br/>") . "($currency)",
+                    gettext("Credit Limit") . " <br/>($currency)",
                     "90",
                     "credit_limit",
                     "credit_limit",
@@ -5076,7 +5084,7 @@ class Accounts_form extends common
                 "center"
             ),
             array(
-                gettext("Balance <br/>") . " ($currency)",
+                gettext("Balance") . " <br/> ($currency)",
                 "60",
                 "balance",
                 "balance",
@@ -5091,7 +5099,7 @@ class Accounts_form extends common
                 "right"
             ),
             array(
-                gettext("Credit Limit <br/>") . " ($currency)",
+                gettext("Credit Limit") . " <br/> ($currency)",
                 "90",
                 "credit_limit",
                 "credit_limit",
@@ -5102,7 +5110,7 @@ class Accounts_form extends common
                 "right"
             ),
             array(
-                "CC",
+                gettext("CC"),
                 "45",
                 "maxchannels",
                 "",
@@ -5210,7 +5218,7 @@ class Accounts_form extends common
                 "/accounts/provider_add/",
                 "single",
                 "medium",
-                "create"
+                "create_provider"
             );
         }
         $buttons_json = json_encode(array(
@@ -5232,7 +5240,7 @@ class Accounts_form extends common
                 "/accounts/customer_bulk_creation/",
                 "popup",
                 "medium",
-                "create"
+                "mass_create"
             ),
             $account_import,
             $provider,
@@ -5463,7 +5471,7 @@ class Accounts_form extends common
     {
         $grid_field_arr = json_encode(array(
             array(
-                "Tech",
+                gettext("Tech"),
                 "150",
                 "tech",
                 "",
@@ -5517,7 +5525,7 @@ class Accounts_form extends common
     {
         $grid_field_arr = json_encode(array(
             array(
-                "Caller ID",
+                gettext("Caller ID"),
                 "180",
                 "number",
                 "",
@@ -5562,11 +5570,12 @@ class Accounts_form extends common
     function custom_status_option($status)
     {
         $status_array = array(
-            '1' => 'No',
-            '0' => 'Yes'
+            '1' => gettext('No'),
+            '0' => gettext('Yes')
         );
         return $status_array;
     }
 }
 
 ?>
+

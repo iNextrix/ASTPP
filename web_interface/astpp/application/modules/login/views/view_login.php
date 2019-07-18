@@ -14,13 +14,9 @@
     $invoiceconf = $this->db->get('invoice_conf');
     $invoiceconf = (array) $invoiceconf->first_row();
     if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
-        ?>
-    Log In | <?php echo $invoiceconf['website_title']; ?>
-    <?php
+        echo gettext("Log In")." | ";echo $invoiceconf['website_title'];
     } else {
-        ?>
-    Log In | ASTPP - Open Source Voip Billing Solution
-    <?php
+        echo gettext("Log In")." | ".gettext("ASTPP - A Smart TelePhony Platform");
     }
     ?>
     </title>
@@ -60,7 +56,7 @@
 	rel="stylesheet">
 
 <noscript>
-	<div id="noscript-warning">ASTPP work best with JavaScript enabled</div>
+	<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
 </noscript>
 
 
@@ -89,10 +85,10 @@
                 },
                  messages: {
                      username: { 
-                         required: '<span class="text-danger">Username is Required</span>',
+                         required: '<span class="text-danger"><?php echo gettext("Username is Required"); ?></span>',
                      },
                      password: {
-                        required: '<span class="text-danger">Password is Required</span>',
+                        required: '<span class="text-danger"><?php echo gettext("Password is Required"); ?></span>',
                      },
                  },
                  errorClass: "error_label",
@@ -150,7 +146,7 @@ body {
             if (isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != "") {
                 $logo = $this->session->userdata['user_logo'];
             } else {
-                $logo = 'logo.jpg';
+                $logo = 'logo.png';
             }
 
             if ($this->session->userdata('userlevel_logintype') != '0') {

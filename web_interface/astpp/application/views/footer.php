@@ -1,5 +1,8 @@
 </section>
 </span></span>
+<div class="overlay">
+    <div id="loading-img"></div>
+</div>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dlmenu.js"></script>
 <script>
 	$(document).ready(function() {
@@ -59,8 +62,8 @@ $(document).ready(function() {
   
   $("#reseller_batch_update .col-md-4.input-group .gj-datepicker").addClass("col-md-6 p-0");
   $("#customer_batch_update .col-md-4.input-group .gj-datepicker").addClass("col-md-6 p-0");
-  $(".language").on('change',function(){
-  var language=$(".language").val();
+  $("#language_drp_sown").on('change',function(){
+  var language=$("#language_drp_sown").val();
   get_lang(language);
   });
 

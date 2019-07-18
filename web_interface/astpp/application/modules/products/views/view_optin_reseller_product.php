@@ -45,7 +45,7 @@
       </div>
       <?php if($this->session->userdata ( 'logintype' ) == 1  && $accountinfo['is_distributor'] == 1){ ?>
       <div class='col-md-12 form-group'> 
-        <label class="col-md-3 p-0"><?php echo gettext('Commission (%)')?></label>
+        <label class="col-md-3 p-0"><?php echo gettext('Commission')?> (%)</label>
         <div class="col-md-4 p-0">
           <input class="col-md-12 form-control form-control-lg" name="commission" value="<?php echo (isset($product_info['commission']))?$product_info['commission']:'' ?>" type="text" disabled/>
         </div>

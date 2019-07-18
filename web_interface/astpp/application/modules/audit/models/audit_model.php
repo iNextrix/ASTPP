@@ -24,7 +24,7 @@
 class Audit_model extends CI_Model
 {
 
-    function Audit_model()
+    function __construct()
     {
         parent::__construct();
     }

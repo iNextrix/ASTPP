@@ -23,7 +23,7 @@
             
             messages: {
                number: {
-                required: "<i style='color:#D95C5C; padding-right: 6px; padding-top: 20px;float: right;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'>The Caller ID field is required.</span>"
+                required: "<i style='color:#D95C5C; padding-right: 6px; padding-top: 20px;float: right;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'><?php echo gettext('The Caller ID field is required.'); ?></span>"
                }
             },
             errorPlacement: function(error, element) {
@@ -74,7 +74,7 @@
 										 </div>	 
 									</div>
 									 <div class="col-12 my-4 text-center">
-									   <button class="btn btn-success" id="animap" name="action" value="Save" type="submit">Save</button>
+									   <button class="btn btn-success" id="animap" name="action" value="Save" type="submit"><?php echo gettext("Save"); ?></button>
 									</div>
 								</div>
 							</div>

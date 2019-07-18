@@ -500,7 +500,7 @@ function package_calculation($destination_number, $package_id, $duration, $call_
 	}
 	$custom_destination = number_loop ( $destination_number, "patterns", $db );
 	
-	$query = "SELECT * FROM packages_view  as P inner join package_patterns as PKGPTR on P.id = PKGPTR.product_id WHERE " . $custom_destination . " AND accountid = " . $accountid . " ORDER BY LENGTH(PKGPTR.patterns) DESC";
+	$query = "SELECT *,P.id as package_id,P.product_id as product_id FROM packages_view  as P inner join package_patterns as PKGPTR on P.product_id = PKGPTR.product_id WHERE " . $custom_destination . " AND accountid = " . $accountid . " ORDER BY LENGTH(PKGPTR.patterns) DESC";
 	$logger->log ( "Package query  : " . $query );
 	$package_info_arr = $db->run ( $query );
 	if (!empty($package_info_arr)) {
@@ -510,13 +510,13 @@ function package_calculation($destination_number, $package_id, $duration, $call_
 //			$package_info = $package_info [0];
 			if (($package_info ['applicable_for'] == "0" && $call_direction == "inbound") || ($package_info ['applicable_for'] == "1" && $call_direction == "outbound") || ($package_info ['applicable_for'] == "2")) {					
 
-				$counter_info = get_counters ( $accountid, $package_info ['product_id'], $db, $logger );
+				$counter_info = get_counters ( $accountid, $package_info ['package_id'], $db, $logger );
 			
 				if (! $counter_info) {
-					$Insert_Query = "INSERT INTO counters (product_id,accountid) VALUES (" . $package_info ['product_id'] . "," . $accountid . ")";
+					$Insert_Query = "INSERT INTO counters (product_id,package_id,accountid) VALUES (" . $package_info ['product_id'] . "," . $package_info ['package_id'] . "," . $accountid . ")";
 					$logger->log ( "Insert Counters  : " . $Insert_query );
 					$db->run ( $Insert_Query );
-					$counter_info = get_counters ( $accountid, $package_info ['product_id'], $db, $logger );
+					$counter_info = get_counters ( $accountid, $package_info ['package_id'], $db, $logger );
 				}
 				$package_info ['free_seconds'] = $package_info ['free_minutes']*60;
 				if ($package_info ['free_seconds'] > ($counter_info ['used_seconds'])) {
@@ -533,7 +533,7 @@ function package_calculation($destination_number, $package_id, $duration, $call_
 					$update_query = "UPDATE counters SET used_seconds = " . ($final_min) . " WHERE id = " . $counter_info ['id'];
 					$logger->log ( "Update Counters  : " . $update_query );
 					$db->run ( $update_query );
-					$package_array ['package_id'] = $package_info ['product_id'];
+					$package_array ['package_id'] = $package_info ['package_id'];
 					$package_array ['calltype'] = "FREE";
 					break;
 				}
@@ -545,7 +545,7 @@ function package_calculation($destination_number, $package_id, $duration, $call_
 
 // Getting used package minutes in counter table
 function get_counters($accountid, $package_id, $db, $logger) {
-	$query_counter = "SELECT id,used_seconds FROM counters  WHERE  accountid = " . $accountid . " AND product_id = " . $package_id . " AND status=1 LIMIT 1";
+	$query_counter = "SELECT id,used_seconds FROM counters  WHERE  accountid = " . $accountid . " AND package_id = " . $package_id . " AND status=1 LIMIT 1";
 	$counter = $db->run ( $query_counter );
 	$logger->log ( "GET Counters  : " . $query_counter );
 	if ($counter)

@@ -36,7 +36,7 @@ class Crons extends MX_Controller {
 		       foreach ($crons->result() as $row) {
 			 $this->db->set('next_execution_date', '"'.$this->calculateNextRun($row,$this->CurrentDate).'"', false)->where('id', $row->id)->update('cron_settings');
 			 $row->file_path = str_replace("{BASE_URL}",base_url(),$row->file_path);
-			 $output = system($row->file_path);
+			 $output = shell_exec($row->file_path." > /dev/null 2>/dev/null &");
 			 $this->db->set('last_execution_date', "'".gmdate("Y-m-d H:i:s")."'", false)->where('id', $row->id)->update('cron_settings');
 		       }
 		}

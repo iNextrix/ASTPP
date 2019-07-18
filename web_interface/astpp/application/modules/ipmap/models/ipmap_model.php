@@ -24,7 +24,7 @@
 class IPMAP_model extends CI_Model
 {
 
-    function IPMAP_model()
+    function __construct()
     {
         parent::__construct();
     }

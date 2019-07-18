@@ -194,7 +194,7 @@ class Summary_model extends CI_Model
         return $result;
     }
 
-    function get_productsummary_report_list($flag, $start = 0, $limit = 0, $group_by, $select, $order, $export)
+  function get_productsummary_report_list($flag, $start = 0, $limit = 0, $group_by, $select, $order, $export)
     {
         $this->db_model->build_search('summary_product_search');
         $accountinfo = $this->session->userdata('accountinfo');
@@ -202,28 +202,51 @@ class Summary_model extends CI_Model
         $join_table = 'orders';
         $logintype = $this->session->userdata('logintype');
         $product_summary_search = $this->session->userdata('productsummary_reports_search');
+
+	$reseller_id = $this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5 ? $this->session->userdata['accountinfo']['id'] : 0;
         if (! empty($group_by)) {
             $this->db->_protect_identifiers = false;
             $this->db->group_by($group_by, false);
             $this->db->_protect_identifiers = true;
         }
-        $this->db->select($select . ",orders.id,orders.order_date,order_items.product_category,order_items.product_id,order_items.order_id,sum(order_items.quantity) as quantity,sum(order_items.price) as price,sum(order_items.free_minutes) as free_minutes,order_items.billing_type,sum(order_items.billing_days) as billing_days,order_items.accountid", false);
+	if($reseller_id > 0){
+		$this->db->where('orders.reseller_id',$reseller_id);  
+	}
+	if ($this->session->userdata('advance_search') != 1) { 
+		if(isset($product_summary_search['order_items.accountid']) && $product_summary_search['order_items.accountid'] != ''){
+			  $this->db->where('orders.accountid',$product_summary_search['order_items.accountid']);         
+		}
+		$where = array(    
+                    'orders.order_date >= ' => date('Y-m-d') . " 00:00:01",
+                    'orders.order_date <=' => date("Y-m-d") . " 23:59:59"
+       		);
+	}else{ 
+		$where = array(     
+                    'orders.order_date >= ' => date('Y-m-d') . " 00:00:01",
+                    'orders.order_date <=' => date("Y-m-d") . " 23:59:59"
+       		);
+	}
+	if((isset($product_summary_search) && $product_summary_search !="" )){
+		$this->db->where("product_category",$product_summary_search['product_category']);
+	}else{
+		$this->db->where("product_category",1);
+	}
+	$this->db->where($where);
+        $this->db->select($select . ",orders.id,orders.payment_status,orders.order_date,order_items.product_category,order_items.product_id,order_items.product_id as productid,order_items.order_id,sum(order_items.quantity) as quantity,sum(order_items.price) as price,sum(setup_fee) as setup_fee,sum(order_items.free_minutes) as free_minutes,order_items.billing_type,sum(order_items.billing_days) as billing_days,order_items.accountid", false);
+
         $this->db->order_by($order, "ASC");
         if (! $export && $limit > 0) {
             $this->db->limit($limit, $start);
         }
         $this->db->from($table_name);
         $this->db->join($join_table, 'order_items.order_id = orders.id');
-        $this->db->where_not_in($join_table . '.payment_status', array(
-            'PENDING',
-            'FAIL'
-        ));
         $query = $this->db->get();
-
+	//echo $this->db->last_query(); exit;
         if ($flag) {
             return $query;
         } else {
             return $query->num_rows();
         }
     }
+
 }

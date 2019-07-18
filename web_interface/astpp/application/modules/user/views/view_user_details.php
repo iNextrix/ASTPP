@@ -57,13 +57,13 @@
 							if(isset($domain_name['domain']) && $domain_name['domain'] != ""){
 								$val=$domain_name['domain'];
 							}
-							
+							if($accountinfo['type']==0){
 					?>
 							<div class="col-3 float-right input-group m-2 pr-0">
 								<label class="border border-light col m-0 p-1 rounded-left text-center text-light text-truncate"><?php echo $val; ?></label>
 							</div>
 
-					<?php } ?>
+					<?php }} ?>
             </div>
             <div class="p-4 col-md-12">
                 <div class="slice color-three float-left content_border">

@@ -111,7 +111,7 @@ class Rates extends MX_Controller
             $new_final_arr_key[$key] = $value;
         }
         if (! empty($_SERVER['CONTENT_LENGTH']) && empty($_FILES) && empty($_POST)) {
-            $data['error'] = "The uploaded file is too large. You must upload a file smaller than " . ini_get('upload_max_filesize');
+            $data['error'] = gettext("The uploaded file is too large. You must upload a file smaller than").' ' . ini_get('upload_max_filesize');
         } else {
             $extension = explode(".", $_FILES['termination_rate_import']['name']);
             if ((isset($extension[1])) && (! isset($extension[2]))) {
@@ -248,7 +248,7 @@ class Rates extends MX_Controller
             $data['page_title'] = gettext('Termination Rates Import Error');
             $this->load->view('view_import_error', $data);
         } else {
-            $this->session->set_flashdata('astpp_errormsg', 'Total ' . count($new_final_arr) . ' Termination Rates Imported Successfully!');
+            $this->session->set_flashdata('astpp_errormsg', gettext('Total').' '. count($new_final_arr) .' '. gettext('Termination Rates Imported Successfully!'));
             redirect(base_url() . "rates/termination_rates_list/");
         }
     }
@@ -260,7 +260,7 @@ class Rates extends MX_Controller
         $full_path = $this->config->item('rates-file-path');
         ob_clean();
         $data = file_get_contents($full_path . $error_data);
-        force_download("Termination_rate_error.csv", $data);
+        force_download(gettext("Termination_rate_error").".csv", $data);
     }
 
     function origination_rate_import()
@@ -367,7 +367,7 @@ class Rates extends MX_Controller
                 $str .= '<div class="col-12">Please Select Rate Group.</div>';
             }
             if (empty($_FILES['origination_rate_import']['name'])) {
-                $str .= '<div class="col-12">Please Select File.</div>';
+                $str .= '<div class="col-12">'.gettext("Please Select File.").'</div>';
             }
             $data['error'] = $str;
         }
@@ -484,7 +484,7 @@ class Rates extends MX_Controller
             $data['page_title'] = gettext('Origination Rates Import Error');
             $this->load->view('view_import_error', $data);
         } else {
-            $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('Total %s  Origination Rate Imported Successfully!', count($new_final_arr))));
+            $this->session->set_flashdata('astpp_errormsg', gettext('Total').' '.count($new_final_arr).' '.gettext('Origination Rate Imported Successfully!'));
             redirect(base_url() . "rates/origination_rates_list/");
         }
     }
@@ -532,7 +532,7 @@ class Rates extends MX_Controller
         $full_path = $this->config->item('rates-file-path');
         ob_clean();
         $data = file_get_contents($full_path . $error_data);
-        force_download("Origination_rate_error.csv", $data);
+        force_download(gettext("Origination_rate_error").".csv", $data);
     }
 
     function origination_rate_add($type = "")
@@ -654,7 +654,7 @@ class Rates extends MX_Controller
 
                     $this->rates_model->edit_origination_rate($add_array, $add_array['id']);
                     echo json_encode(array(
-                        "SUCCESS" => gettext(sprintf('%s  Origination Rate Updated Successfully!', ucfirst($add_array['pattern'])))
+                        "SUCCESS" => ucfirst($add_array['pattern'].' '.gettext('Origination Rate Updated Successfully!'))
                     ));
 
                     exit();
@@ -678,7 +678,7 @@ class Rates extends MX_Controller
                         }
                     }
                     echo json_encode(array(
-                        "SUCCESS" => gettext(sprintf('%s Origination Rate Added Successfully!', $add_array['pattern']))
+                        "SUCCESS" => $add_array['pattern'].' '.gettext('Origination Rate Added Successfully!')
                     ));
 
                     exit();
@@ -814,7 +814,7 @@ class Rates extends MX_Controller
                     $add_array['cost'] = isset($add_array['cost']) && ($add_array['cost'] != "") ? $this->common_model->add_calculate_currency($add_array['cost'], '', '', false, false) : 0;
                     $this->rates_model->edit_termination_rate($add_array, $add_array['id']);
                     echo json_encode(array(
-                        "SUCCESS" => gettext(sprintf('%s Termination Rate Updated Successfully!', $add_array['pattern']))
+                        "SUCCESS" => $add_array['pattern'].' '.gettext('Termination Rate Updated Successfully!')
                     ));
                     exit();
                 }
@@ -829,7 +829,7 @@ class Rates extends MX_Controller
                     $add_array['cost'] = isset($add_array['cost']) && ($add_array['cost'] != "") ? $this->common_model->add_calculate_currency($add_array['cost'], '', '', false, false) : 0;
                     $this->rates_model->add_termination_rate($add_array);
                     echo json_encode(array(
-                        "SUCCESS" => gettext(sprintf('%s Termination Rate Added Successfully!', $add_array['pattern']))
+                        "SUCCESS" => $add_array['pattern'].' '.gettext('Termination Rate Added Successfully!')
                     ));
 
                     exit();
@@ -837,7 +837,7 @@ class Rates extends MX_Controller
             }
             $this->load->view('view_termination_rate_add_edit', $data);
         } else {
-            $this->session->set_flashdata('astpp_notification', 'Permission Denied!');
+            $this->session->set_flashdata('astpp_notification', gettext('Permission Denied!'));
             redirect(base_url() . 'rates/termination_rates_list/');
         }
     }
@@ -976,7 +976,7 @@ class Rates extends MX_Controller
             )
         );
         $file = file_get_contents($full_path, false, stream_context_create($arrContextOptions));
-        force_download("samplefile.csv", $file);
+        force_download(gettext("samplefile").".csv", $file);
     }
 
     function termination_rate_batch_update()
@@ -1034,7 +1034,6 @@ class Rates extends MX_Controller
                     $row['pattern'] = $this->common->get_only_numeric_val("", "", $row["pattern"]),
                     $row['comment'],
                     $this->common_model->calculate_currency($row['connectcost'], '', '', TRUE, false),
-
                     $row['includedseconds'],
                     $this->common_model->calculate_currency($row['cost'], '', '', TRUE, false),
                     $row['init_inc'],
@@ -1051,7 +1050,7 @@ class Rates extends MX_Controller
         }
         $this->load->helper('csv');
 
-        array_to_csv($outbound_array, 'Termination_Rates_' . date("Y-m-d") . '.csv');
+        array_to_csv($outbound_array, gettext('Termination_Rates').'_' . date("Y-m-d") . '.csv');
     }
 
     function termination_rate_export_cdr_pdf()
@@ -1203,7 +1202,7 @@ class Rates extends MX_Controller
             }
         }
         $this->load->helper('csv');
-        array_to_csv($inbound_array, 'Origination_Rates_' . date("Y-m-d") . '.csv');
+        array_to_csv($inbound_array, gettext('Origination_Rates').'_' . date("Y-m-d") . '.csv');
     }
 
     function origination_rate_export_cdr_pdf()
@@ -1258,7 +1257,7 @@ class Rates extends MX_Controller
         $this->fpdf->lMargin = 2;
 
         $dimensions = $this->fpdf->export_pdf($inbound_array, "5");
-        $this->fpdf->Output('Origination_Rate_' . date("Y-m-d") . '.pdf', "D");
+        $this->fpdf->Output(gettext('Origination_Rate').'_' . date("Y-m-d") . '.pdf', "D");
     }
 
     function user_origination_rate_cdr_pdf()
@@ -1311,7 +1310,7 @@ class Rates extends MX_Controller
         $this->fpdf->lMargin = 2;
 
         $dimensions = $this->fpdf->export_pdf($inbound_array, "5");
-        $this->fpdf->Output('Rates_' . date("Y-m-d") . '.pdf', "D");
+        $this->fpdf->Output(gettext('Rates').'_' . date("Y-m-d") . '.pdf', "D");
     }
 
     function resellersrates_list()
@@ -1452,7 +1451,7 @@ class Rates extends MX_Controller
 
     function termination_rate_import_mapper()
     {
-        $data['page_title'] = gettext('Import Termination Rates using field mapper');
+        $data['page_title'] = gettext('Import Termination Rates Using Field Mapper');
         $this->session->set_userdata('import_termination_rate_mapper_csv', "");
         $this->session->set_userdata('import_termination_rate_mapper_csv_error', "");
         $account_info = $this->session->userdata('accountinfo');
@@ -1514,7 +1513,7 @@ class Rates extends MX_Controller
 
         $data['mapto_fields'] = $mapto_fields_array;
         if (! empty($_SERVER['CONTENT_LENGTH']) && empty($_FILES) && empty($_POST)) {
-            $data['error'] = "The uploaded file is too large. You must upload a file smaller than " . ini_get('upload_max_filesize');
+            $data['error'] = gettext("The uploaded file is too large. You must upload a file smaller than")." " . ini_get('upload_max_filesize');
         } else {
             $extension = explode(".", isset($_FILES['termination_rate_import_mapper']['name']) ? $_FILES['termination_rate_import_mapper']['name'] : '');
             if ((isset($extension[1])) && (! isset($extension[2]))) {
@@ -1534,7 +1533,7 @@ class Rates extends MX_Controller
                         );
                         $error = $_FILES['termination_rate_import_mapper']['error'];
                         if (! in_array($mime_type, $acceptable_mime_types)) {
-                            $data['error'] = "Invalid file format : Only CSV file allows to import records(Can't import empty file)";
+                            $data['error'] = gettext("Invalid file format : Only CSV file allows to import records(Can't import empty file)");
                         } else {
                             if ($error == 0) {
                                 $uploadedFile = $_FILES["termination_rate_import_mapper"]["tmp_name"];
@@ -1582,11 +1581,11 @@ class Rates extends MX_Controller
         if ($invalid_flag) {
             $str = '';
             if (! isset($_POST['trunk_id']) || empty($_POST['trunk_id'])) {
-                $str .= '<div class="col-12">Please Select Trunk.</div>';
+                $str .= '<div class="col-12">'.gettext("Please Select Trunk.").'</div>';
             }
 
             if (empty($_FILES['termination_rate_import_mapper']['name'])) {
-                $str .= '<div class="col-12">Please Select  File.</div>';
+                $str .= '<div class="col-12">'.gettext("Please Select File.").'</div>';
             }
 
             $data['error'] = $str;
@@ -1713,7 +1712,7 @@ class Rates extends MX_Controller
         $error_data = $this->session->userdata('import_termination_rate_mapper_csv_error');
         $full_path = $this->config->item('rates-file-path');
         $data = file_get_contents($full_path . $error_data);
-        force_download("Termination_rate_mapper_error.csv", $data);
+        force_download(gettext("Termination_rate_mapper_error").".csv", $data);
     }
 
     function reseller_pricelist()
@@ -1733,6 +1732,7 @@ class Rates extends MX_Controller
         }
         exit();
     }
+   
 }
 ?>
  

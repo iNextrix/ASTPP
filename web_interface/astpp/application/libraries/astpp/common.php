@@ -457,7 +457,7 @@ class common {
 		$this->CI->db->where ( "status", 0 );
 		$did_localization_result = $this->CI->db->get ( "localization" )->result_array ();
 		$did_localization_dropdown = array ();
-		$did_localization_dropdown [0] = "--Select--";
+		$did_localization_dropdown [0] = gettext("--Select--");
 		foreach ( $did_localization_result as $result ) {
 			$did_localization_dropdown [$result ['id']] = $result ['name'];
 		}
@@ -557,15 +557,15 @@ class common {
 	}
 	function set_sip_config_option($option = "") {
 		$config_option = array (
-				"true" => "True",
-				"false" => "False"
+				"true" => gettext("True"),
+				"false" => gettext("False")
 		);
 		return $config_option;
 	}
 	function set_option_default_false($option = "") {
                 $config_option = array (
-                                "false" => "False",
-                                "true" => "True"
+                                "false" => gettext("False"),
+                                "true" => gettext("True")
                 );
                 return $config_option;
         }
@@ -1760,7 +1760,7 @@ class common {
 		return $gmtoffset;
 	}
 	function sip_profile_date() {
-		$defualt_profile_data = '{"rtp_ip":"$${local_ip_v4}","dialplan":"XML","user-agent-string":"ASTPP","debug":"0","sip-trace":"no","tls":"false","inbound-reg-force-matching-username":"true","disable-transcoding":"true","all-reg-options-ping":"false","unregister-on-options-fail":"true","log-auth-failures":"true","status":"0","inbound-bypass-media":"false","inbound-proxy-media":"false","disable-transfer":"true","enable-100rel":"false","rtp-timeout-sec":"60","dtmf-duration":"2000","manual-redirect":"false","aggressive-nat-detection":"false","enable-timer":"false","minimum-session-expires":"120","session-timeout-pt":"1800","auth-calls":"true","apply-inbound-acl":"default","inbound-codec-prefs":"PCMU,PCMA,G729","outbound-codec-prefs":"PCMU,PCMA,G729","inbound-late-negotiation":"false"}';
+		$defualt_profile_data = '{"rtp-ip":"$${local_ip_v4}","dialplan":"XML","user-agent-string":"ASTPP","debug":"0","sip-trace":"no","tls":"false","inbound-reg-force-matching-username":"true","disable-transcoding":"true","all-reg-options-ping":"false","unregister-on-options-fail":"true","log-auth-failures":"true","status":"0","inbound-bypass-media":"false","inbound-proxy-media":"false","disable-transfer":"true","enable-100rel":"false","rtp-timeout-sec":"60","dtmf-duration":"2000","manual-redirect":"false","aggressive-nat-detection":"false","enable-timer":"false","minimum-session-expires":"120","session-timeout-pt":"1800","auth-calls":"true","apply-inbound-acl":"default","inbound-codec-prefs":"PCMU,PCMA,G729","outbound-codec-prefs":"PCMU,PCMA,G729","inbound-late-negotiation":"false"}';
 		return $defualt_profile_data;
 	}
 	function set_refill_coupon_status($select = '', $table = '', $status = '') {
@@ -2261,7 +2261,24 @@ class common {
 		$this->update_data ( 'dids', array (
 				"accountid" => $id
 		), array (
-				'accountid' => 0
+				'accountid' => 0,
+				"call_type" => 0,
+				"extensions" => "",
+				"always" => 0,
+				"always_destination" => "",
+				"user_busy" => 0,
+				"user_busy_destination" => "",
+				"user_not_registered" => 0,
+				"user_not_registered_destination" => "",
+				"no_answer" => 0,
+				"no_answer_destination" => "",
+				"call_type_vm_flag" => 1,
+				"failover_call_type" => 1,
+				"always_vm_flag" => 1,
+				"user_busy_vm_flag" => 1,
+				"user_not_registered_vm_flag" => 1,
+				"no_answer_vm_flag" => 1,
+				"failover_extensions" => ""
 		) );
 		$this->update_data ( "accounts", array (
 				"id" => $id
@@ -2943,9 +2960,10 @@ class common {
        }
 	function payment_status($status = '') {
 		$status_array = array (
-				''=>'--Select--',
+				''=>gettext('--Select--'),
 				'PAID' => gettext ( 'PAID' ),
-				'PENDING' => gettext ( 'PENDING' )
+				'PENDING' => gettext ( 'PENDING' ),
+				'FAIL' => gettext ( 'FAIL' )
 		);
 		return $status_array;
 	}
@@ -3032,13 +3050,21 @@ class common {
 		);
 		return $status_array[$status];
 	}
-	
+//ekta	
 	function set_product_groupby($status = '') {
 		$status_array = array (
 				'' => gettext ( "--Select--" ),
 				'product_id' => gettext ( 'Product' ),
-				'product_category' => gettext ( 'Category' ),
 				'accountid' => gettext ( "Account" )
+		);
+		return $status_array;
+	}
+	function group_by_time_for_product() {
+		$status_array = array (
+				'' => gettext ( "--Select--" ),
+				'DAY' => gettext ( "Day" ),
+				'MONTH' => gettext ( 'Month' ),
+				"YEAR" => gettext ( "Year" )
 		);
 		return $status_array;
 	}
@@ -3372,5 +3398,22 @@ class common {
 				'1' => gettext ( 'Sandbox' )
 		);
 		return $status_array;
+	}
+
+	function get_available_seconds_for_package($productid = '',$free_minutes,$used_seconds, $show_seconds=""){ 
+		 $reseller_id = $this->CI->session->userdata('logintype') == 1 || $this->CI->session->userdata('logintype') == 5 ? $this->CI->session->userdata['accountinfo']['id'] : 0;
+					$available_seconds =  $free_minutes - $used_seconds;
+					 if ($show_seconds == 'minutes') {
+						$available_seconds = $available_seconds;
+						$available_seconds = $available_seconds > 0 ? sprintf('%02d', $available_seconds / 60) . ":" . sprintf('%02d', ($available_seconds % 60)) : "00:00";						
+					    } else { 
+						$available_seconds = $available_seconds;
+						$available_seconds = sprintf('%02d', $available_seconds);	
+					    }
+					return  $available_seconds;	
+	 }
+	function get_total_available_minutes($free_minutes,$used_seconds){ 
+					$available_seconds =  $free_minutes - $used_seconds;
+					return  $available_seconds;	
 	}
 }

@@ -20,7 +20,7 @@ CREATE TABLE `support_ticket_details` (
   `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `last_modified_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 ALTER TABLE `support_ticket_details`
@@ -43,7 +43,7 @@ CREATE TABLE `support_ticket` (
   `department_id` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `close_ticket_display_flag` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 ALTER TABLE `support_ticket`
@@ -70,7 +70,7 @@ update userlevels set module_permissions = concat( module_permissions, ',', (  S
   `smtp_password` varchar(100) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `reseller_id` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 ALTER TABLE `department`
   ADD PRIMARY KEY (`id`);

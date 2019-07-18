@@ -285,7 +285,7 @@ class Localization extends MX_Controller
                             $number_terminate .= trim($val[0]) . "/" . trim($val[1]) . ",";
                         }
                     }
-                    if ($out_caller_id_terminate != "") {
+                    if ($number_terminate != "") {
                         if (substr($number_terminate, - 1) == ',') {
                             $number_terminate = substr($number_terminate, 0, - 1);
                         }
@@ -299,7 +299,7 @@ class Localization extends MX_Controller
                 $add_array['creation_date'] = gmdate('Y-m-d H:i:s');
                 $add_array['modified_date'] = gmdate('Y-m-d H:i:s');
                 $this->localization_model->insert_localization($add_array);
-                $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s Localization Added Successfully!', ucfirst($add_array['name']))));
+                $this->session->set_flashdata('astpp_errormsg', ucfirst($add_array['name'].' '.gettext('Localization Added Successfully!')));
 
                 redirect(base_url() . 'localization/localization_list/');
                 exit();
@@ -402,7 +402,7 @@ class Localization extends MX_Controller
 
                 $add_array['modified_date'] = gmdate('Y-m-d H:i:s');
                 $this->localization_model->edit_localization($add_array, $add_array['id']);
-                $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s Localization Updated Successfully!', ucfirst($add_array['name']))));
+                $this->session->set_flashdata('astpp_errormsg', ucfirst($add_array['name']).' '. gettext('Localization Updated Successfully!'));
                 redirect(base_url() . 'localization/localization_list/');
                 exit();
             }
@@ -431,7 +431,7 @@ class Localization extends MX_Controller
                 'type' => $type
             ));
             if ($query->num_rows() > 0) {
-                echo "Globalization is already exist in this system";
+                echo gettext("Globalization is already exist in this system");
                 exit();
             }
         }

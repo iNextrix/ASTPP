@@ -159,15 +159,32 @@ class Invoices extends MX_Controller
                 $from_currency = Common_model::$global_config['system_config']['base_currency'];
                 $to_currency = $this->common->get_field_name('currency', 'currency', $accountinfo['currency_id']);
                 if ($from_currency != $to_currency) {
-                    $outstanding = ($value['is_paid'] == 1) ? $value['debit'] - $value['credit'] : 0.00;
+			if($value['debit']  >  $value['credit']){
+                    		$outstanding = ($value['is_paid'] == 1) ? $value['debit'] - $value['credit'] : 0.00;
+			}else{
+				$outstanding = ($value['is_paid'] == 1) ? $value['credit'] - $value['debit'] : 0.00;
+			}
                     $outstanding = $this->common_model->calculate_currency($outstanding, "", "", true, false);
-
-                    $amount = ($value['debit'] > 0) ? $value['debit'] : $value['credit'];
-                    $amount = $this->common_model->calculate_currency($amount, "", "", true, false);
+		   if($charge_type == "REFILL" || $charge_type == "Voucher" || $charge_type == "COMMISSION" ){
+			    $amount = $value['credit'];
+		            $amount = $this->common_model->calculate_currency($amount, "", "", true, false);
+		    }else{
+		            $amount = ($value['debit'] > 0) ? $value['debit'] : $value['credit'];
+		            $amount = $this->common_model->calculate_currency($amount, "", "", true, false);
+		    }
                 } else {
-                    $outstanding = ($value['is_paid'] == 1) ? $value['debit'] - $value['credit'] : 0.00;
 
-                    $amount = ($value['debit'] > 0) ? $value['debit'] : $value['credit'];
+		
+                   if($value['debit']  >  $value['credit']){
+                    		$outstanding = ($value['is_paid'] == 1) ? $value['debit'] - $value['credit'] : 0.00;
+			}else{
+				$outstanding = ($value['is_paid'] == 1) ? $value['credit'] - $value['debit'] : 0.00;
+			}
+		    if($charge_type == "REFILL" || $charge_type == "Voucher" || $charge_type == "COMMISSION" ){
+			$amount = $value['credit'];
+		    }else{
+                    	$amount = ($value['debit'] > 0) ? $value['debit'] : $value['credit'];
+		    }
                 }
 
                 $json_data['rows'][] = array(
@@ -195,7 +212,7 @@ class Invoices extends MX_Controller
         echo json_encode($json_data);
     }
 
-    function invoice_download($invoiceid)
+ function invoice_download($invoiceid)
     {
         if ($invoiceid != '' && isset($invoiceid)) {
 
@@ -203,21 +220,26 @@ class Invoices extends MX_Controller
                 'id' => $invoiceid
             ));
             $invoicedata = $query->first_row();
-
             $data['invoicenumber'] = $invoicedata->number;
-	    if($invoicedata->credit > 0 && $invoicedata->credit !=''  ){
+	    $posttoexternal = $this->common->get_field_name("posttoexternal","accounts",array("id"=>$invoicedata->accountid));
+	    if($posttoexternal == 0 && $invoicedata->credit > 0 && $invoicedata->credit !=''  ){
 			$data['all_total_count'] = ($invoicedata->credit );
 	    }else{
-            	$data['all_total_count'] = ($invoicedata->debit);
+            		$data['all_total_count'] = ($invoicedata->debit);
 	    }
-	   $posttoexternal = $this->common->get_field_name("posttoexternal","accounts",array("id"=>$invoicedata->accountid));
+
+	  
 	   $data['this_month_recharges'] =$this->common->currency_decimal(0);
 	   if($posttoexternal == 0 && $invoicedata->credit != "" && $invoicedata->credit > 0 ){
 		        $data['this_month_recharges'] = ($invoicedata->credit - $invoicedata->debit) ; 
-	    }
+	   }
+		
+	   if($posttoexternal == 1 && $invoicedata->credit != "" && $invoicedata->credit > 0 ){
+			$data['this_month_recharges'] = $invoicedata->credit; 
+	   }
 	
 	    $data['posttoexternal'] = $posttoexternal;
-            $total_calls_amount = "select sum(debit) as debit from invoice_details where charge_type IN('STANDARD','DID','LOCAL') AND  order_item_id > 0 AND  invoiceid ='" . $invoiceid . "'  ";
+            $total_calls_amount = "select sum(debit) as debit from invoice_details where charge_type IN('STANDARD','DID','LOCAL','CALLINGCARD') AND  order_item_id = 0 AND  invoiceid ='" . $invoiceid . "'  ";
             $total_calls_amount = (array) $this->db->query($total_calls_amount)->first_row();
             if (! empty($total_calls_amount)) {
                 $data['total_calls_amount'] = (float) $total_calls_amount['debit'];
@@ -276,7 +298,7 @@ class Invoices extends MX_Controller
                     if ($accountsdata->province == '' && $country_name->country != '') {
                         $data['province_country'] = $country_name->country;
                     }
-                    if ($accountsdata->province != '' && $accountsdata->country == '') {
+                    if ($accountsdata->province != '' && $country_name->country == '') {
                         $data['province_country'] = $accountsdata->province;
                     }
                 } else {
@@ -301,12 +323,22 @@ class Invoices extends MX_Controller
                 $this->db->where("domain LIKE '%$domain%'");
                 $this->db->or_where("domain LIKE '%$http_host%'");
                 $invoice_details = (array) $this->db->get_where("invoice_conf")->first_row();
-                $accountid_invoice = ((isset($invoice_details)) && ($invoice_details['accountid'] != '')) ? $invoice_details['accountid'] : 1;
+                $accountid_invoice = ((!empty($invoice_details)) && ($invoice_details['accountid'] != '')) ? $invoice_details['accountid'] : 1;
 
                 $query = $this->db->get_where('invoice_conf', array(
                     'accountid' => $accountid_invoice
                 ));
                 $company_data = $query->first_row();
+
+		$logo = explode (".",$company_data->logo);
+		if((!isset($logo[2])) && ($logo[1] == "png")){
+			$sourceFile = FCPATH.'upload/'.$company_data->logo;
+			$DestFile = FCPATH.'upload/'.$logo[0].'.jpg';
+			$filePath = FCPATH.'upload/';
+			$convert_png  = "convert ".$sourceFile." -background white -flatten ".$DestFile;
+			$convert_png_file = system($convert_png, $retval);
+			$company_data->logo = $logo[0].'.jpg';
+		}
 
                 $data['cmp_name'] = $company_data->company_name;
                 $data['cmp_address'] = $company_data->address;
@@ -324,11 +356,24 @@ class Invoices extends MX_Controller
 		$debit_data = $this->common->currency_decimal(0);
 		$debit_data = $this->common->get_field_name("debit","view_invoices",array("id"=>$invoiceid));
 		$data['debit_data'] = $debit_data;
-                $query = $this->db->get_where('invoice_details', array(
-                    'invoiceid' => $invoiceid,
-                    'is_tax' => '0',
-		    'charge_type <>' =>'INVPAY'
-                ));
+		
+		if($posttoexternal == 1){
+		        $query = $this->db->get_where('invoice_details', array(
+		            'invoiceid' => $invoiceid,
+		            'is_tax' => '0',
+			    'charge_type <>' =>'INVPAY',
+			    'charge_type <>' =>'REFILL'
+			
+		        ));
+		
+		}else{
+			$query = $this->db->get_where('invoice_details', array(
+		            'invoiceid' => $invoiceid,
+		            'is_tax' => '0',
+			    'charge_type <>' =>'INVPAY'
+		        ));
+
+		}
                 $invoice_details_data = $query->result_array();
 
                 $query = $this->db->get_where('invoice_details', array(
@@ -1323,10 +1368,8 @@ class Invoices extends MX_Controller
                         $file_type = $file['type'];
                         if ($file_type == 'image/jpg' || $file_type == 'image/png' || $file_type == 'image/jpeg') {
                             $imageInformation = getimagesize($_FILES['file']['tmp_name']);
-                            if ($imageInformation === FALSE || ! in_array($imageInformation[2], array(
-                                IMAGETYPE_JPEG
-                            ))) {
-                                $error_file = gettext("Logo only allows file types of JPG and JPEG.");
+                            if ($imageInformation === FALSE) {
+                                $error_file = gettext("Logo only allows file types of JPG, PNG and JPEG.");
                             } else {
                                 $imageWidth = $imageInformation[0];
 
@@ -1471,7 +1514,7 @@ class Invoices extends MX_Controller
         $logintype = $this->session->userdata('logintype');
         if ($logintype == 1 || $logintype == 2) {
             $data['username'] = $this->session->userdata('user_name');
-            $data['page_title'] = 'Company Profiles';
+            $data['page_title'] = gettext('Company Profiles');
             $data['search_flag'] = true;
             $this->session->set_userdata('advance_search', 0);
             $data['grid_fields'] = $this->invoices_form->build_invoice_conf_list();
@@ -1531,7 +1574,7 @@ class Invoices extends MX_Controller
 
     function invoice_conf_edit($edit_id = '')
     {
-        $data['page_title'] = 'Edit Company Profile';
+        $data['page_title'] = gettext('Edit Company Profile');
         $where = array(
             'id' => $edit_id
         );
@@ -2030,7 +2073,7 @@ class Invoices extends MX_Controller
                     }
                 }
             } else {
-                $this->session->set_flashdata('astpp_errormsg', gettext('No data found.....'));
+                $this->session->set_flashdata('astpp_errormsg', gettext('No data found.').'....');
                 redirect(base_url() . "invoices/invoice_list/");
             }
         } else {

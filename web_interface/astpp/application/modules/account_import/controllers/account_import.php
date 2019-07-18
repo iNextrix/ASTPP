@@ -37,7 +37,7 @@ class Account_import extends MX_Controller
 
     function customer_import_mapper()
     {
-        $data['page_title'] = gettext('Import Customer using field mapper');
+        $data['page_title'] = gettext('Import Customer Using Field Mapper');
         $data['config_array'] = $this->_create_common_array();
         $this->session->set_userdata('import_customer_mapper_csv', "");
         $this->session->set_userdata('import_customer_mapper_csv_error', "");
@@ -77,7 +77,7 @@ class Account_import extends MX_Controller
                 $txt = $ext = '';
                 if (count($segments) !== 2) {
                     $invalid_flag = true;
-                    $error = "File Uploading Fail Please Try Again";
+                    $error = gettext("File Uploading Fail Please Try Again");
                 } else {
                     list ($txt, $ext) = $segments;
                 }
@@ -95,7 +95,7 @@ class Account_import extends MX_Controller
                         'text/plain'
                     );
                     if (! in_array($mime_type, $acceptable_mime_types)) {
-                        $data['error'] = "Invalid file format : Only CSV file allows to import records(Can't import empty file)";
+                        $data['error'] = gettext("Invalid file format : Only CSV file allows to import records(Can't import empty file)");
                     } else {
                         if ($error == 0) {
                             $uploadedFile = $_FILES["customer_import_mapper"]["tmp_name"];
@@ -413,7 +413,7 @@ class Account_import extends MX_Controller
         $data = array();
         $data['invalid_count'] = $invalid_count;
         $data['count'] = $count;
-        $data['page_title'] = "Account Import Error";
+        $data['page_title'] = gettext("Account Import Error");
         $this->load->view('view_import_error', $data);
     }
 
@@ -442,7 +442,7 @@ class Account_import extends MX_Controller
         $sweep_id_array = array();
         if (! empty($sweepid_result)) {
             foreach ($sweepid_result as $key => $value) {
-                $sweep_id_array[$value['id']] = $value['sweep'];
+                $sweep_id_array[$value['id']] = gettext($value['sweep']);
             }
         }
 
@@ -635,4 +635,5 @@ class Account_import extends MX_Controller
 }
 
 ?>
+
 

@@ -60,7 +60,7 @@
           else {
            return true;
           }
-       }, "The IP field must contain a unique value."); 
+       }, "<?php echo gettext('The IP field must contain a unique value.'); ?>"); 
         $('#ip_map').validate({
             rules: {
                 ip: {
@@ -83,11 +83,11 @@
         $('#submit_form').on("click",function() {
             var error_msg='';
             if($.trim($('#ip').val()) == ''){
-                $('#err').html('The IP field is required.');
+                $('#err').html('<?php echo gettext("The IP field is required."); ?>');
                 error_msg="true";
             }
             if($.trim($('#name').val()) == ''){
-                $('#err_name').html('The Name field is required.');
+                $('#err_name').html('<?php echo gettext("The Name field is required."); ?>');
                 error_msg="true";
             }
             if(error_msg != ''){
@@ -115,7 +115,7 @@
 						<ol class="breadcrumb m-0 p-0">
                          <?php $accountinfo=$this->session->userdata('accountinfo');
 						  if($accountinfo['type']==1){ ?>
-                          <li class="breadcrumb-item"><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
+                          <li class="breadcrumb-item"><a href="<?= base_url() . "user/user_myprofile/"; ?>"><?php echo gettext('My Profile'); ?></a></li>
                           <?php }
                           else if($accountinfo['type']==0 || $accountinfo['type']==3){ ?>
 								<li class="breadcrumb-item"><a href=<?= base_url() . "user/user_myprofile/"; ?>><?php echo gettext('My Account')?></a></li>
@@ -132,7 +132,7 @@
                 </div>
 
                 <div class="m-2 float-right">
-                  <a class="btn btn-light btn-hight" href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a>
+                  <a class="btn btn-light btn-hight" href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> <?php echo gettext('Back'); ?></a>
                 </div>
                 <?php if($accountinfo['type']==1) { ?>
                    <div class="m-2 float-right">

@@ -13,14 +13,10 @@ $this->db->order_by('accountid', 'desc');
 $this->db->limit(1);
 $invoiceconf = $this->db->get('invoice_conf');
 $invoiceconf = (array) $invoiceconf->first_row();
-if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
-    ?>
-	Signup | <?php echo $invoiceconf['website_title']; ?>
-	<?php
+if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {    
+	echo gettext("Signup")." | "; echo $invoiceconf['website_title']; 
 } else {
-    ?>
-	Signup | ASTPP - Open Source Voip Billing Solution
-	<?php
+	echo gettext("Signup")." | ".gettext("ASTPP - A Smart TelePhony Platform");
 }
 ?>
 </title>
@@ -39,7 +35,7 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 <script type="text/javascript"
 	src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
 <noscript>
-	<div id="noscript-warning">ASTPP work best with JavaScript enabled</div>
+	<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
 </noscript>
 <style>
 .form-control {
@@ -118,14 +114,14 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 
 if ($user_data['success']) {
 
-    echo "<div class=\"col-md-12 margin-t-20 padding-r-32 padding-l-32\" style=\"color: #232222;\">Your account has been created successfully!!!</div>";
-    echo "<div class=\"col-md-12 margin-t-10 padding-r-32 padding-l-32\" style=\"color: #232222;\">Here is your login information :</div>";
+    echo "<div class=\"col-md-12 margin-t-20 padding-r-32 padding-l-32\" style=\"color: #232222;\">".gettext("Your account has been created successfully!")."</div>";
+    echo "<div class=\"col-md-12 margin-t-10 padding-r-32 padding-l-32\" style=\"color: #232222;\">".gettext("Here is your login information")." :</div>";
 
-    echo "<div class=\"col-md-12 margin-t-10 padding-r-32 padding-l-32\" style=\"color: #232222;\">Username : " . $user_data['number'] . "</div>";
-    echo "<div <div class=\"col-md-12 margin-t-10 margin-b-10 padding-r-32 padding-l-32\" style=\"color: #232222;\">Password : " . $this->common->decode($user_data['password']) . "</div>";
+    echo "<div class=\"col-md-12 margin-t-10 padding-r-32 padding-l-32\" style=\"color: #232222;\">".gettext("Username")." : " . $user_data['number'] . "</div>";
+    echo "<div <div class=\"col-md-12 margin-t-10 margin-b-10 padding-r-32 padding-l-32\" style=\"color: #232222;\">".gettext("Password")." : " . $this->common->decode($user_data['password']) . "</div>";
     echo "<br><br>";
 } else {
-    echo "<div class=\"col-md-12 margin-t-10 margin-b-20 padding-r-32 padding-l-32\" style=\"color: #232222;\">Link is Expire Please Try Again</div><br>";
+    echo "<div class=\"col-md-12 margin-t-10 margin-b-20 padding-r-32 padding-l-32\" style=\"color: #232222;\">".gettext("Link is Expire Please Try Again")."</div><br>";
     echo "";
 }
 ?>

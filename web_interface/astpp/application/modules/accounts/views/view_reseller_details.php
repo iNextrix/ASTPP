@@ -2,13 +2,7 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
   $(document).ready(function() {
-   var check = "<?php echo $reseller_id; ?>";
-   if(check == 0){
-    $('.is_distributor').parents('li.form-group').removeClass("d-none");               
-    $('.is_distributor').selectpicker('show');
-  }else{
-    $('.is_distributor').parents('li.form-group').addClass("d-none");
-  }
+   $('.is_distributor').prop("disabled", true);
   $(".sweep_id").change(function(){
     var sweep_id =$('.sweep_id option:selected').val();
     if(sweep_id != 0){

@@ -145,7 +145,7 @@ class pricing extends MX_Controller
 
                     $this->pricing_model->edit_price($add_array, $add_array['id']);
                     echo json_encode(array(
-                        "SUCCESS" => gettext(sprintf('%s Rate Group Updated Successfully!', ucfirst($add_array['name'])))
+                        "SUCCESS" => ucfirst($add_array['name']).' '.gettext('Rate Group Updated Successfully!')
                     ));
                     exit();
                 }
@@ -191,7 +191,7 @@ class pricing extends MX_Controller
                         }
                     }
                     echo json_encode(array(
-                        "SUCCESS" => gettext(sprintf('%s  Rate Group Added Successfully!', ucfirst($add_array['name'])))
+                        "SUCCESS" => ucfirst($add_array['name']). ' '.gettext('Rate Group Added Successfully!')
                     ));
                     exit();
                 }
@@ -390,17 +390,17 @@ class pricing extends MX_Controller
                         }
 
                         echo json_encode(array(
-                            "SUCCESS" => ucfirst($add_array["name"]) . " Duplicate Rate Group Added Successfully!"
+                            "SUCCESS" => ucfirst($add_array["name"]) .' '. gettext("Duplicate Rate Group Added Successfully!")
                         ));
                         die();
                     } else {
                         echo json_encode(array(
-                            "SUCCESS" => ucfirst($add_array["name"]) . " Duplicate Rate Group Added Successfully!"
+                            "SUCCESS" => ucfirst($add_array["name"]) .' '. gettext("Duplicate Rate Group Added Successfully!")
                         ));
                         exit();
                     }
                 } else {
-                    echo "error";
+                    echo gettext("error");
                     exit();
                 }
             }

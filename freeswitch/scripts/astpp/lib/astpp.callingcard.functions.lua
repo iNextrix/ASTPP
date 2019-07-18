@@ -115,14 +115,6 @@ function auth_callingcard()
          end
 	end 
 
-    -- Check if account have balance
-    balance = get_balance(cardinfo,'',config);
-	  if (tonumber(balance) <= 0) then
---        say_balance(cardinfo)
-	    error_xml_without_cdr('CALLINGCARD',"NO_SUFFICIENT_FUND","ASTPP-CALLINGCARD",config['playback_audio_notification']) 
-        session:hangup();
-	  end
-
 	return cardinfo;
 end
 
@@ -253,6 +245,8 @@ function playback_ivr(userinfo)
 			process_destination(userinfo);  
 	     elseif (tonumber(result) == 2) then
             config['calling_cards_balance_announce'] = '0';
+			local play_balance = get_balance(userinfo,'',config);
+			userinfo['balance']=play_balance
 			say_balance(userinfo); 
 			retries = retries - 1   
 	     elseif (tonumber(result) == 3) then
@@ -264,23 +258,16 @@ end
 
 -- Play balance of account   --Calculate and say the card balance.
 function say_balance(cardinfo)
-    local balance = get_balance(cardinfo,'',config)  
-    if ( balance > 0 ) then
+	local balance = get_balance(cardinfo,'',config)  
+	if ( balance > 0 ) then
 		if (tonumber(config['calling_cards_balance_announce']) == tonumber('0')) then
-            session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
-	        -- Doing currency conversion to play audio file in customer currency
-		    customer_balance = (balance * cardinfo['currencyrate'])
-		    play_amount(customer_balance)
- 	        ---------------------------------	
-            --session:execute("say", "en currency pronounced " ..  customer_balance);
-        end	
-	else     
-		 session:streamFile( "astpp-card-is-empty.wav" )
-		 session:streamFile( "astpp-goodbye.wav" )
-	  	 session:hangup()
-	  	 return 1
+			session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
+			-- Doing currency conversion to play audio file in customer currency
+			customer_balance = (balance * cardinfo['currencyrate'])
+			play_amount(customer_balance)
+		end	
 	end
-    return balance
+	return balance
 end
 
 -- Play amount audio file 
@@ -518,7 +505,11 @@ function dialout( original_destination_number, destination_number, maxlength, us
                     if ( session:ready() ) then
 					xml_termination_rates= "ID:"..termination_rate_arr_value['outbound_route_id'].."|CODE:"..termination_rate_arr_value['pattern'].."|DESTINATION:"..termination_rate_arr_value['comment'].."|CONNECTIONCOST:"..termination_rate_arr_value['connectcost'].."|INCLUDEDSECONDS:"..termination_rate_arr_value['includedseconds'].."|COST:"..termination_rate_arr_value['cost'].."|INC:"..termination_rate_arr_value['inc'].."|TRUNK:"..termination_rate_arr_value['trunk_id'].."|PROVIDER:"..termination_rate_arr_value['provider_id'];
 					session:execute("export","termination_rates="..xml_termination_rates);
-    
+        				--//Pass package id in dialplan
+					if (package_id and tonumber(package_id) > 0) then
+					    	Logger.notice("::::::::::: package_id!!!"..package_id);
+						session:execute("export","package_id="..package_id.."");
+					end
 					session:execute("export","trunk_id="..termination_rate_arr_value['trunk_id']);        
 					session:execute("export","provider_id="..termination_rate_arr_value['provider_id']);
 					session:execute("set","hangup_after_bridge=false");
@@ -555,7 +546,7 @@ end
 
 -- Get destination number and findout origination rates related logic inside this function
 function process_destination(userinfo)
-	  
+	call_direction = 'outbound' 	  
 	local origination_dp_string
 
 	local destination = session:playAndGetDigits(1, 35, 3, config['calling_cards_dial_input_timeout'], "#", "astpp-phonenum.wav", "astpp-badphone.wav", '^[0-9]+$')
@@ -653,17 +644,19 @@ function process_destination(userinfo)
     end
 
     -- Get package information of customer	
+	package_id = 0
 	package_array = package_calculation (destination,userinfo,'outbound')
 		
 	userinfo = package_array[1]
 	package_maxlength = package_array[2] or ""	
     -------------------------------------------------
-
-	if(userinfo['ACCOUNT_ERROR'] == 'NO_SUFFICIENT_FUND') then
-		error_xml_without_cdr(destination,"NO_SUFFICIENT_FUND",calltype,config['playback_audio_notification'],userinfo['id'])
-		return 0
+    -- Check if account have balance
+	balance = get_balance(userinfo,'',config);
+	if (tonumber(balance) <= 0 and tonumber(package_id) == 0) then
+		error_xml_without_cdr('CALLINGCARD',"NO_SUFFICIENT_FUND","ASTPP-CALLINGCARD",config['playback_audio_notification']) 
+		session:streamFile( "astpp-goodbye.wav" );
+		session:hangup();
 	end
-
 	-- Fine max length of call based on origination rates.
   	local tmp_array = get_call_maxlength(userinfo,destination,"",number_loop_str,config)
 	    

@@ -27,11 +27,11 @@
                    var objJSON = JSON.parse(response);
                    if(objJSON.state_list && objJSON.state_list!=""){
                       $("#provience_id_search_drp").html(objJSON.state_list);
-                      $("#provience_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+                      $("#provience_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
                       $('#provience_id_search_drp').selectpicker('refresh');
                   }else{
                       $("#provience_id_search_drp").html("");
-                      $("#provience_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+                      $("#provience_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
                       $('#provience_id_search_drp').selectpicker('refresh');
                   }
                   if(objJSON.didlist && objJSON.didlist!=""){
@@ -62,11 +62,11 @@
 					var objJSON = JSON.parse(response);
 					if(objJSON.city_list && objJSON.city_list!=""){
 						$("#city_id_search_drp").html(objJSON.city_list);
-						$("#city_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+						$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
 						$('#city_id_search_drp').selectpicker('refresh');
 					}else{
 						$("#city_id_search_drp").html("");
-						$("#city_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+						$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
 						$('.#city_id_search_drp').selectpicker('refresh');
 					}
 					if(objJSON.didlist && objJSON.didlist!=""){
@@ -141,12 +141,12 @@ label.error {
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb m-0 p-0">
 							<li class="breadcrumb-item"><a
-								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= gettext(ucfirst($accounttype)."s"); ?></a></li>
 							<li class="breadcrumb-item"><a
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <?php echo gettext('Profile');?> </a>
 							</li>
 							<li class="breadcrumb-item active"><a
-								href="<?= base_url()."accounts/".strtolower($accounttype)."_dids/".$edit_id."/"; ?>"><?= $page_title; ?></a>
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_dids/".$edit_id."/"; ?>"><?= gettext($page_title); ?></a>
 							</li>
 						</ol>
 					</nav>
@@ -179,7 +179,7 @@ label.error {
 							id="left_panel_quick_search"
 							class="form-control form-control-lg m-0"
 							value="<?php echo $this->session->userdata('left_panel_search_'.$accounttype.'_did')?>"
-							placeholder="Search" />
+							placeholder=<?php echo gettext("Search"); ?> />
 					</div>
     <?php } ?>
 </div>

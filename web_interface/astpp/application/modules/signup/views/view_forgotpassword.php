@@ -14,14 +14,10 @@ $this->db->order_by('accountid', 'desc');
 $this->db->limit(1);
 $invoiceconf = $this->db->get('invoice_conf');
 $invoiceconf = (array) $invoiceconf->first_row();
-if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
-    ?>
-	Forgot Password | <?php echo $invoiceconf['website_title']; ?>
-	<?php
+if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {    
+	echo gettext("Forgot Password")." |"; echo $invoiceconf['website_title']; 
 } else {
-    ?>
-	Forgot Password | ASTPP - Open Source Voip Billing Solution
-	<?php
+	echo gettext("Forgot Password")." | ".gettext("ASTPP - A Smart TelePhony Platform");
 }
 ?>
 </title>
@@ -86,8 +82,7 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 										src="<?php echo base_url(); ?>assets/js/custome_index.js"></script>
 
 									<noscript>
-										<div id="noscript-warning">ASTPP work best with JavaScript
-											enabled</div>
+										<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
 									</noscript>
 
 									</script>
@@ -121,7 +116,7 @@ body {
                         <div class="col-md-12">
 					<div
 						class="container alert alert-danger alert-dismissible mt-5 fade show">
-						<strong><?php echo gettext('Login unsuccessful')?></strong> <?php echo gettext('Please make sure you entered the correct username and password, and that your account is active.')?>
+						<strong><?php echo gettext('Login unsuccessful')?></strong> <?php echo gettext('Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.')?>
 		                        <button type="button" class="close"
 							data-dismiss="alert" aria-label="Close" data-ripple=" ">
 							<span aria-hidden="true">×</span>
@@ -250,7 +245,7 @@ body {
 			
 			if((email.value) == "")
 			{
-				document.getElementById("e_name").innerHTML = "The Email field is Required";				
+				document.getElementById("e_name").innerHTML = "<?php echo gettext('The Email field is Required'); ?>";
 				return false;   
 			}else{
 				return true;
@@ -262,7 +257,7 @@ body {
 		{   
 			if((number.value) == "")
 			{
-				document.getElementById("n_number").innerHTML = "The Account Number field is Required";				
+				document.getElementById("n_number").innerHTML = "<?php echo gettext('The Account Number field is Required'); ?>";
 				return false;   
 			}else{
 				return true;

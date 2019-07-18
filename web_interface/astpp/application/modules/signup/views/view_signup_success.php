@@ -13,14 +13,10 @@ $this->db->order_by('accountid', 'desc');
 $this->db->limit(1);
 $invoiceconf = $this->db->get('invoice_conf');
 $invoiceconf = (array) $invoiceconf->first_row();
-if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
-    ?>
-	Signup | <?php echo $invoiceconf['website_title']; ?>
-	<?php
+if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {    
+	echo gettext("Signup")." | "; echo $invoiceconf['website_title']; 
 } else {
-    ?>
-	Signup | ASTPP - Open Source Voip Billing Solution
-	<?php
+	echo gettext("Signup")." | ".gettext("ASTPP - A Smart TelePhony Platform");
 }
 ?>
 </title>
@@ -38,7 +34,7 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 <script type="text/javascript"
 	src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
 <noscript>
-	<div id="noscript-warning">ASTPP work best with JavaScript enabled</div>
+	<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
 </noscript>
 <style>
 .form-control {
@@ -114,7 +110,7 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 									<i class="fa fa-check-circle"></i>  <?php echo gettext('Successful!')?></h2>
 							</div>
 							<div class="margin-t-15 padding-r-32 padding-l-32"
-								style="color: #232222; text-align: left;"><?php echo "Your account has been created successfully!!! <br> Please check your Email!!!"; ?></div>
+								style="color: #232222; text-align: left;"><?php echo gettext("Your account has been created successfully!")."!! <br> ".gettext("Please check your Email!")."!!"; ?></div>
 							<div class="margin-b-20 padding-r-32 padding-l-32">
 								<div class="col-md-12 no-padding">
 									<a href="<?php echo base_url(); ?>"> <input type="submit"

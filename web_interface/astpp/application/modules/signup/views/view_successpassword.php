@@ -12,14 +12,10 @@ $this->db->order_by('accountid', 'desc');
 $this->db->limit(1);
 $invoiceconf = $this->db->get('invoice_conf');
 $invoiceconf = (array) $invoiceconf->first_row();
-if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
-    ?>
-	Forgot Password | <?php echo $invoiceconf['website_title']; ?>
-	<?php
+if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {    
+	echo gettext("Forgot Password")." | "; echo $invoiceconf['website_title']; 
 } else {
-    ?>
-	Forgot Password | ASTPP - Open Source Voip Billing Solution
-	<?php
+	echo gettext("Forgot Password")." | ".gettext("ASTPP - A Smart TelePhony Platform");
 }
 ?>
 </title>
@@ -44,8 +40,7 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 						<script type="text/javascript"
 							src="<?php echo base_url(); ?>/assets/js/module_js/generate_grid.js"></script>
 						<noscript>
-							<div id="noscript-warning">ASTPP work best with JavaScript
-								enabled</div>
+							<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
 						</noscript>
 
 						</script>

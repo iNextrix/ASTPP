@@ -5,7 +5,7 @@
 <script type="text/javascript" language="javascript">
 function get_alert_msg(id)
 {
-    confirm_string = 'are you sure to delete?';
+    confirm_string = '<?php echo gettext("are you sure to delete?"); ?>';
     var answer = confirm(confirm_string);
     return answer 
 }

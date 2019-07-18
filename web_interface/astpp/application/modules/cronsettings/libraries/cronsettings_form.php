@@ -247,7 +247,7 @@ class Cronsettings_form extends common
                 'command',
                 'SELECT',
                 '',
-                '',
+                'trim|required|xss_clean',
                 'tOOL TIP',
                 '',
                 '',
@@ -264,7 +264,7 @@ class Cronsettings_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                '',
+                'trim|required|xss_clean',
                 'tOOL TIP',
                 ''
             ),

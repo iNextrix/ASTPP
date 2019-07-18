@@ -887,7 +887,7 @@ class Product_form {
 				),
 
 				array (
-						gettext ( "Buy Cost<br>($currency)"  ),
+						gettext ( "Buy Cost"  )."<br>($currency)",
 						"85",
 						"buy_cost",
 						"buy_cost",
@@ -898,7 +898,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Setup Fee<br>($currency)" ),
+						gettext ( "Setup Fee" )."<br>($currency)",
 						"85",
 						"setup_fee",
 						"setup_fee",
@@ -909,7 +909,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Price ($currency)" ),
+						gettext ( "Price" )." ($currency)",
 						"90",
 						"price",
 						"price",
@@ -1033,7 +1033,7 @@ class Product_form {
 				),
 
 				array (
-						gettext ( "Buy Cost<br>($currency)"  ),
+						gettext ( "Buy Cost"  )."<br>($currency)",
 						"85",
 						"buy_cost",
 						"buy_cost",
@@ -1044,7 +1044,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Setup Fee<br>($currency)" ),
+						gettext ( "Setup Fee" )."<br>($currency)",
 						"85",
 						"setup_fee",
 						"setup_fee",
@@ -1055,7 +1055,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Price ($currency)" ),
+						gettext ( "Price" )." ($currency)",
 						"90",
 						"price",
 						"price",
@@ -1066,7 +1066,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Commission (%)"),
+						gettext ( "Commission")." (%)",
 						"120",
 						"commission",
 						"",
@@ -1191,7 +1191,7 @@ class Product_form {
 				),
 
 				array (
-						gettext ( "Buy Cost<br>($currency)"  ),
+						gettext ( "Buy Cost"  )."<br>($currency)",
 						"85",
 						"buy_cost",
 						"buy_cost",
@@ -1202,7 +1202,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Setup Fee<br>($currency)" ),
+						gettext ( "Setup Fee" )."<br>($currency)",
 						"85",
 						"setup_fee",
 						"setup_fee",
@@ -1213,7 +1213,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Price ($currency)" ),
+						gettext ( "Price" )." ($currency)",
 						"90",
 						"price",
 						"price",
@@ -1224,7 +1224,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Commission (%)"),
+						gettext ( "Commission")." (%)",
 						"120",
 						"commission",
 						"commission",
@@ -1321,7 +1321,7 @@ class Product_form {
 		$currency = $this->CI->common->get_field_name ( 'currency', 'currency', $currency_id );
 		if($account_info['reseller_id'] > 0 ){
 			$buy_cost =array (
-						gettext ( " Buy Cost ($currency)" ),
+						gettext ( "Buy Cost" )." ($currency)",
 						"85",
 						"buycost",
 						"buycost",
@@ -1335,7 +1335,7 @@ class Product_form {
 
 		}else if($this->CI->session->userdata ( 'logintype' ) == 1 && $account_info['reseller_id'] == 0 ){
 			$buy_cost =array (
-						gettext ( " Buy Cost ($currency)" ),
+						gettext ( "Buy Cost" )." ($currency)",
 						"85",
 						"buycst",
 						"buycst",
@@ -1347,7 +1347,7 @@ class Product_form {
 					);
 		}else{
 			$buy_cost =array (
-						gettext ( " Buy Cost ($currency)" ),
+						gettext ( "Buy Cost" )." ($currency)",
 						"85",
 						"buy_cost",
 						"buy_cost",
@@ -1362,17 +1362,7 @@ class Product_form {
 		}
 		if(($this->CI->session->userdata ( 'logintype' ) == 1 || $this->CI->session->userdata ( 'logintype' ) == 5) && ($account_info['is_distributor'] == 0)){
 			$grid_field_arr = json_encode ( array (
-					array (
-							"<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>",
-							"30",
-							"",
-							"",
-							"",
-							"",
-							"",
-							"false",
-							"center" 
-					),
+					
 					
 					array (
 							gettext ( "Name" ),
@@ -1409,7 +1399,7 @@ class Product_form {
 					),
 					$buy_cost,
 					array (
-							gettext ( "Setup Fee ($currency)" ),
+							gettext ( "Setup Fee" )." ($currency)",
 							"90",
 							"setup_fee",
 							"setup_fee",
@@ -1420,7 +1410,7 @@ class Product_form {
 							"right" 
 					),
 					array (
-							gettext ( "Price ($currency)" ),
+							gettext ( "Price" )." ($currency)",
 							"90",
 							"price",
 							"price",
@@ -1507,17 +1497,7 @@ class Product_form {
 			) );
 		}else if(($this->CI->session->userdata ( 'logintype' ) == 1 || $this->CI->session->userdata ( 'logintype' ) == 5) && ($account_info['is_distributor'] == 1)){
 			$grid_field_arr = json_encode ( array (
-				array (
-						"<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>",
-						"30",
-						"",
-						"",
-						"",
-						"",
-						"",
-						"false",
-						"center" 
-				),
+				
 				
 				array (
 						gettext ( "Name" ),
@@ -1544,7 +1524,7 @@ class Product_form {
 				$buy_cost,
 				
 				array (
-						gettext ( "Setup Fee ($currency)" ),
+						gettext ( "Setup Fee" )." ($currency)",
 						"90",
 						"setup_fee",
 						"setup_fee",
@@ -1555,7 +1535,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Price ($currency)" ),
+						gettext ( "Price" )." ($currency)",
 						"90",
 						"price",
 						"price",
@@ -1566,7 +1546,7 @@ class Product_form {
 						"right" 
 				),
 				 array (
-						gettext ( "Commission (%)"),
+						gettext ( "Commission")." (%)",
 						"120",
 						"commission",
 						"",
@@ -1692,7 +1672,7 @@ class Product_form {
 					$buy_cost,
 					
 					array (
-							gettext ( "Setup Fee ($currency)" ),
+							gettext ( "Setup Fee" )." ($currency)",
 							"90",
 							"setup_fee",
 							"setup_fee",
@@ -1703,7 +1683,7 @@ class Product_form {
 							"right" 
 					),
 					array (
-							gettext ( "Price ($currency)" ),
+							gettext ( "Price" )." ($currency)",
 							"90",
 							"price",
 							"price",
@@ -1792,9 +1772,23 @@ class Product_form {
 		return $grid_field_arr;
 	}
 	function build_grid_buttons() {
-		$buttons_json = json_encode ( array (
+		if($this->CI->session->userdata ( 'logintype' ) == 1 || $this->CI->session->userdata ( 'logintype' ) == 5){
+			$buttons_json = json_encode ( array (
 				array (
-						gettext ( "Create" ),
+					gettext ( "Delete" ),
+					"btn btn-line-danger",
+					"fa fa-times-circle fa-lg",
+					"button_action",
+					"/products/products_delete_multiple/",
+					"",
+					"",
+					"delete"
+					)
+				) );
+		}else{
+			$buttons_json = json_encode ( array (
+				array (
+					gettext ( "Create" ),
 						"btn btn-line-warning btn",
 						"fa fa-plus-circle fa-lg",
 						"button_action",
@@ -1802,8 +1796,8 @@ class Product_form {
 						"",
 						"",
 						"create"
-				),
-				array (
+					),
+					array (
 						gettext ( "Delete" ),
 						"btn btn-line-danger",
 						"fa fa-times-circle fa-lg",
@@ -1813,9 +1807,10 @@ class Product_form {
 						"",
 						"delete"
 				)
-		) );
+			) );
+		}
 		return $buttons_json;
-	}
+		}
 	function build_pattern_list_for_customer($productid) {
 		$grid_field_arr = json_encode ( array (
 				array (

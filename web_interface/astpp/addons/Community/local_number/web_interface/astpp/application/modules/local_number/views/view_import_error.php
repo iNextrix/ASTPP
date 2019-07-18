@@ -16,33 +16,27 @@
         <?=$page_title?><br/>
     <? endblock() ?>
 	<? startblock('content') ?>
- <section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12">  
-            <fieldset >
-                <legend><span style="font-size:15px;padding:5px;font-family:Open sans,sans-serif;color:#163B80; ">Error In CSV File</span></legend><section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12">      
-          
-                    Records Imported Successfully: <?= $import_record_count; ?><br/>
-                    Records Not Imported : <?= $failure_count?></div>  
-            </div>
-        </div>
-    </div>
-</section>
-  </div>
-        </div>
-    </div> 
-<br/>
-                    <div class="col-md-12 padding-b-10">
-                   <div class="pull-right">
-                        <a href="<?= base_url().'local_number/local_number_error_download/'?>"><input class="btn btn-line-sky margin-x-10" id="dwnld_err" type="button" name="action" value="Download Errors" /> </a>
-                     <a href="<?= base_url().'local_number/local_number_list/'?>"><input class="btn btn-line-parrot" id="local_number_list" type="button" name="action" value="Back to Local Number List" /> </a>  </div></div>
-            </fieldset></section>
+ <section class="slice color-three bp-4">
+	<div class="w-section inverse p-0">
+    	<div class="row">
+        	<div class="col-md-12">
+                <div class="card">
+					<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Error In CSV File"); ?></h3>  
+							<div class="col-md-12 p-4">
+														Records Imported Successfully: <?= $import_record_count; ?><br/>
+														Records Not Imported : <?= $failure_count?></div>  		
+							</div>		
+				</div>
+		</div>	 
+             <div class="col-md-12 pb-2 mt-4 pr-0">
+                   <div class="float-right">
+                        <a href="<?= base_url().'local_number/local_number_error_download/'?>"><input class="btn btn-success" id="dwnld_err" type="button" name="action" value="Download Errors" /> </a>
+						<a href="<?= base_url().'local_number/local_number_list/'?>"><input class="btn btn-secondary" id="local_number_list" type="button" name="action" value="Back to Local Number List" /> </a>  </div></div>
+					</div>
+			 </div>
+		</div>
+	</div>
+</section>	
         <? endblock() ?>
     <? startblock('sidebar') ?>
         Filter by

@@ -108,7 +108,7 @@ install_prerequisties ()
 get_astpp_source ()
 {
         cd /opt
-        git clone -b v4.0 https://github.com/iNextrix/ASTPP.git
+        git clone -b v4.0.1 https://github.com/iNextrix/ASTPP.git
 }
 
 #License Acceptence
@@ -126,8 +126,8 @@ license_accept ()
                 if [ -f LICENSE ]; then
                         more LICENSE
                 else
-                        wget --no-check-certificate -q -O GNU-AGPLv4.0.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
-                        more GNU-AGPLv4.0.txt
+                        wget --no-check-certificate -q -O GNU-AGPLv4.0.1.txt https://raw.githubusercontent.com/iNextrix/ASTPP/master/LICENSE
+                        more GNU-AGPLv4.0.1.txt
                 fi
                 echo "***"
                 echo "*** I agree to be bound by the terms of the license - [YES/NO]"
@@ -406,6 +406,7 @@ install_database ()
         mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER 'astppuser'@'localhost' IDENTIFIED WITH mysql_native_password BY '${ASTPPUSER_MYSQL_PASSWORD}';"
         mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON \`${ASTPP_DATABASE_NAME}\` . * TO 'astppuser'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;"
         mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-4.0.sql
+        mysql -uroot -p${MYSQL_ROOT_PASSWORD} astpp < ${ASTPP_SOURCE_DIR}/database/astpp-4.0.1.sql
 }
 
 #Firewall Configuration

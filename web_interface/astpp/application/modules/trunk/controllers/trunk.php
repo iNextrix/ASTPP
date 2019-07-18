@@ -101,7 +101,7 @@ class Trunk extends MX_Controller
             } else {
                 $this->trunk_model->edit_trunk($add_array, $add_array['id']);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s Trunk Updated Successfully!', ucfirst($add_array["name"])))
+                    "SUCCESS" => ucfirst($add_array["name"].' '.gettext('Trunk Updated Successfully!'))
                 ));
                 exit();
             }
@@ -114,7 +114,7 @@ class Trunk extends MX_Controller
             } else {
                 $this->trunk_model->add_trunk($add_array);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s Trunk Added Successfully!', ucfirst($add_array["name"])))
+                    "SUCCESS" => ucfirst($add_array["name"].' '.gettext('Trunk Added Successfully!'))
                 ));
 
                 exit();

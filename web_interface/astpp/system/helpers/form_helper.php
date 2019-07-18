@@ -546,7 +546,7 @@ if ( ! function_exists('form_dropdown_all'))
 					$form = '<select name="'.$name.'"' .$multiple." class='$class selectpicker' data-live-search='true' ".$onchange.">\n";
 				}
 
-		$form .= '<option value=""> --Select-- </option>';
+		$form .= '<option value="">'. gettext("--Select--") .' </option>';
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;

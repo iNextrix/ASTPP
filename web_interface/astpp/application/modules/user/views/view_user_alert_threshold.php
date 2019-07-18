@@ -5,7 +5,7 @@
 function form_submit(){
     var email = document.forms["reseller_form"]["notify_email"].value;
     if (email == null || email == "") {
-	  $("#email_err").html('Please enter your email');    
+	  $("#email_err").html('<?php echo gettext("Please enter your email"); ?>');    
         return false;
     }else{
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
@@ -13,7 +13,7 @@ function form_submit(){
 	if(check == true ){
 	  $("#email_err").html('');    
 	}else{
-	  $("#email_err").html('Please enter proper email');    
+	  $("#email_err").html('<?php echo gettext("Please enter proper email"); ?>');    
           return false;
 	}
     }
@@ -56,7 +56,7 @@ function form_submit(){
                 </div>
 
                 <div class="m-2 float-right">
-					<a class="btn btn-light btn-hight" href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a>
+					<a class="btn btn-light btn-hight" href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> <?php echo gettext("Back"); ?></a>
                 </div>
                   
 

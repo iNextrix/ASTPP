@@ -71,7 +71,7 @@
 		
                   <?php if($this->session->userdata ( 'logintype' ) == 1  && $accountinfo['is_distributor'] == 1){ ?>
                 <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Commission (%)");?></label>
+                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Commission");?> (%)</label>
                      <input class="col-md-12 form-control form-control-lg m-0" name="commission" value="<?php echo (isset($product_info['commission']))?$product_info['commission']:'' ?>" size="16" type="text" readonly/>
                   </div>
 		<?php } ?>
@@ -84,7 +84,7 @@
                   </div>
 		 
 			<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee ('.$currency.')')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="setup_fee" value = "<?php echo  $this->common->convert_to_currency ( '', '', $optin_product['setup_fee'] )?>" size="16" type="text"/>
 				
                   </div>

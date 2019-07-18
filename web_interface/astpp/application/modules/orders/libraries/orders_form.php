@@ -131,25 +131,21 @@ class Orders_form
                 ''
             ),
             $reseller_array,
-            array(
-                gettext('Account'),
-                'accountid',
-                'SELECT',
-                '',
-                '',
-                'tOOL TIP',
-                'Please Enter account number',
-                'id',
-                'first_name,last_name,number',
-                'accounts',
-                'build_concat_dropdown',
-                'where_arr',
-                array(
-
-                    "type" => 0,
-                    "deleted" => "0"
-                )
-            ),
+           array(
+		gettext('Account'), 
+		'accountid', 
+		'SELECT',
+		'',			 
+		'', 
+		'tOOL TIP', 
+		'Please Enter account number', 
+		'id', 
+		'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),IF(`status`=1,concat( first_name, " ", last_name, " ", "(", number, ")*" ),concat( first_name, " ", last_name, " ", "(", number, ")" ))) as number', 
+		'accounts', 
+		'build_dropdown_deleted', 
+		'where_arr', 
+		''
+		),
             array(
                 gettext('Status'),
                 'payment_status',

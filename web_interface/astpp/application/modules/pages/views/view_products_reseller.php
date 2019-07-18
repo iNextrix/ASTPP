@@ -48,7 +48,7 @@
             foreach ($productdata as $key => $value) {?>
                 <button class="test btn btn-outline-info mb-4 p-5 c-active"  id="<?php echo $value ['id'];?>" value="<?php echo $value ['id'];?>"><?php echo isset($value['price'])? $value['price']  :'0' ?></button>
               <?php } } ?>
-                <a id ='add_voucher' href='<?php echo base_url()."pages/refill_coupon_add_view/"; ?>' rel="facebox_medium" class="btn btn-info mb-4 py-4 px-3" id=" " value="" style="line-height:200%;"><i class="fa fa-ticket fa-2x"></i> <br><span class="">Use Voucher</span></a>
+                <a id ='add_voucher' href='<?php echo base_url()."pages/refill_coupon_add_view/"; ?>' rel="facebox_medium" class="btn btn-info mb-4 py-4 px-3" id=" " value="" style="line-height:200%;"><i class="fa fa-ticket fa-2x"></i> <br><span class=""><?php echo gettext("Use Voucher"); ?></span></a>
             </div>
           </div>
         </div>

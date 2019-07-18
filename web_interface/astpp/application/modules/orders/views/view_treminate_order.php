@@ -71,7 +71,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 				</div>
 				<div class='col-md-6 mx-auto mt-4'>
 					<button class="submit btn btn-success btn-block" id="submit"
-						name="action" value="Save" type="button">Terminate</button>
+						name="action" value="Save" type="button"><?php echo gettext("Terminate"); ?></button>
 				</div>
 			</div>
 			<?php

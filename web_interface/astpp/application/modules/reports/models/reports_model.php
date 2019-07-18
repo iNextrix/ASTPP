@@ -291,12 +291,13 @@ payment_transaction.transaction_id,invoice_details.charge_type,invoice_details.d
         $this->db_model->build_search('charges_list_search');
         $accountinfo = $this->session->userdata('accountinfo');
         $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
-        $where['invoice_details.reseller_id'] = $reseller_id;
-        $where['invoice_details.accountid'] = $accountid;
+        $where['reseller_id'] = $reseller_id;
+        $where['accountid'] = $accountid;
+		$this->db->where($where);
         if ($flag) {
-            $query = $this->db_model->getJionQuery('invoice_details', 'invoice_details.id,invoice_details.accountid,invoice_details.reseller_id,invoice_details.invoiceid,invoice_details.order_item_id,invoice_details.charge_type,invoice_details.payment_id,invoice_details.product_category,invoice_details.is_tax,invoice_details.base_currency,invoice_details.exchange_rate,invoice_details.account_currency,invoice_details.description,invoice_details.debit,invoice_details.credit,invoice_details.created_date,invoice_details.generate_type,invoice_details.before_balance,invoice_details.after_balance,invoice_details.quantity,view_invoices.number', $where, 'view_invoices', 'invoice_details.invoiceid=view_invoices.id', 'inner', $limit, $start, 'DESC', 'invoice_details.invoiceid');
+            $query = $this->db_model->select('*', "invoice_details", "", "id", "DESC", $limit, $start);
         } else {
-            $query = $this->db_model->getJionQueryCount('invoice_details', 'invoice_details.id,invoice_details.accountid,invoice_details.reseller_id,invoice_details.invoiceid,invoice_details.order_item_id,invoice_details.charge_type,invoice_details.payment_id,invoice_details.product_category,invoice_details.is_tax,invoice_details.base_currency,invoice_details.exchange_rate,invoice_details.account_currency,invoice_details.description,invoice_details.debit,invoice_details.credit,invoice_details.created_date,invoice_details.generate_type,invoice_details.before_balance,invoice_details.after_balance,invoice_details.quantity,view_invoices.number', $where, 'view_invoices', 'invoice_details.invoiceid=view_invoices.id', 'inner', "", "", 'DESC', 'invoice_details.invoiceid');
+            $query = $this->db_model->countQuery("*", "invoice_details", "");
         }
         return $query;
     }

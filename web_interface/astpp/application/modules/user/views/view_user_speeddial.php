@@ -109,7 +109,7 @@
                         <div class="col-md-12 alert-dark mb-4">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-2 col-2"><label class=""><?php echo gettext('Speed Dial (#Digits)');?></label></div>
+                                        <div class="col-md-2 col-2"><label class=""><?php echo gettext('Speed Dial')." (#".gettext("Digits").")";?></label></div>
                                         <div class="col-md-8 col-6"><label class=""><?php echo gettext('Extension');?></label></div>
                                         <div class="col-md-2 col-4 text-right"><label class=""><?php echo gettext('Action');?></label></div>
                                     </div>

@@ -24,7 +24,7 @@ if (isset($error) && ! empty($error)) {
     }
     ?>
 								
-								<h3 class="px-4"><?php echo gettext( " File must be in the following format(.csv):"); ?></h3>
+								<h3 class="px-4"><?php echo gettext( "File must be in the following format")."(.csv):"; ?></h3>
 							<p><?= $fields;?></p>
 						</div>
 					</div>
@@ -36,7 +36,7 @@ if (isset($error) && ! empty($error)) {
 								<a
 									href="<?= base_url(); ?>accessnumber/accessnumber_download_sample_file/accessnumber_sample"
 									class="btn btn-success btn-block text-light"><i
-									class="fa fa-download"></i> Download</a>
+									class="fa fa-download"></i> <?php echo gettext("Download"); ?></a>
 
 							</div>
 						</div>
@@ -73,7 +73,7 @@ if (isset($error) && ! empty($error)) {
 								</div>
 							</div>
 							<div class="col-sm-12 form-group">
-								<label class="p-2"><span class="mr-4 align-middle"><?php echo gettext( "Skip Header:"); ?></span>
+								<label class="p-2"><span class="mr-4 align-middle"><?php echo gettext( "Skip Header").':'; ?></span>
 									<input type='checkbox' class="align-middle" name='check_header' /></label>
 							</div>
 

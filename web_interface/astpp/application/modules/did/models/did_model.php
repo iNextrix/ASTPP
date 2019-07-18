@@ -264,6 +264,7 @@ reseller_products.price,reseller_products.billing_type,reseller_products.billing
             $did_insert_array = array(
                 "number" => $value['number'],
                 "country_id" => $value['country_id'],
+                "provider_id" => $value['provider_id'],
                 'city' => $value['city'],
                 'province' => $value['province'],
                 "accountid" => $value['accountid'],

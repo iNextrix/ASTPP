@@ -78,8 +78,7 @@
 	}
 }
 </style>
-<page backtop="10mm" backbottom="10mm" backleft="10mm" backright="10mm"
-	footer="date;time;page" style="font-size: 8pt">
+<page backtop="10mm" backbottom="10mm" backleft="10mm" backright="10mm"  style="font-size: 8pt">
 <table class="page_header">
 	<tr>
             <?php if ($logo == '' || getimagesize('upload/'.$logo) === False) { ?>
@@ -107,14 +106,14 @@
                             <?php echo $cmp_address;?>,<br>
                             <?php echo $cmp_city_zipcode;?><br>
                             <?php echo $cmp_province_country;?><br>
-                     <?php echo gettext('Phone:')?> <?php echo $cmp_telephone;?><br>
+                     <?php echo gettext('Phone').":"; ?> <?php echo $cmp_telephone;?><br>
                             <?php echo $cmp_tax;?><br>
 				</address>
 			</td>
 
 			<td style="width: 50%; text-align: right">
 				<address>
-					<b><?php echo gettext('Bill To:')?></b><br>
+					<b><?php echo gettext('Bill To').":"; ?></b><br>
                             <?php echo $fullname;?><br>
                             <?php
                             if (isset($address_1) && trim($address_1) != '') {
@@ -123,25 +122,33 @@
                             ?>
                             <?php
                             if (isset($address_2) && trim($address_2) != '') {
-                                echo ",<br>";
+				if(isset($address_1) && trim($address_1) != ''){
+                                	echo ",<br>";
+				}
                                 echo ucfirst($address_2);
                             }
                             ?>
                             <?php
                             if (isset($city_postalcode) && $city_postalcode != '') {
-                                echo ";;;;,<br>";
+				if(isset($address_2) && trim($address_2) != ''){
+                                	echo ",<br>";
+				}
                                 echo ucfirst($city_postalcode);
                             }
                             ?>
                             <?php
                             if (isset($province_country) && $province_country != '') {
-                                echo ",<br>";
+			        if(isset($city_postalcode) && $city_postalcode != ''){
+                                	echo ",<br>";
+				}
                                 echo ucfirst($province_country);
                             }
                             ?>
                             <?php
                             if (isset($tax_number) && $tax_number != '') {
-                                echo ",<br>";
+				if(isset($tax_number) && $tax_number != ''){
+                                	echo ",<br>";
+				}
                                 echo $tax_number;
                             }
                             ?>
@@ -237,7 +244,7 @@
 				class="text-right">
 			<?php if($posttoexternal == 0 && $inv_data_value['credit'] > 0 && $inv_data_value['credit'] != ''){ ?>
 				 <?php echo $this->common_model->calculate_currency ( $this->common->currency_decimal($inv_data_value ['credit'] - $debit_data), '', '', true, false );?>
-
+			
 			<?php } else { ?>
                        	 <?php echo $this->common_model->calculate_currency ( $this->common->currency_decimal($inv_data_value ['debit']), '', '', true, false );?>
 			<?php } ?>
@@ -254,39 +261,34 @@
 	<hr>
 	<table class="table table-condensed" style="padding: 0;">
 		<tr style="width: 100%;">
-			<td style="width: 15%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
-			<td style="width: 55%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
-			<td class="thick-line text-right"><?php echo gettext('Subtotal')?></td>
-			<td class="thick-line text-right"><?php echo $this->common_model->calculate_currency($this->common->currency_decimal($total_amt));?></td>
+			<td style="width: 60%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
+			<td class="thick-line text-right" style="width: 20%; border-bottom: 1px solid #f5f5f5;"><?php echo gettext('Subtotal')?></td>
+			<td class="thick-line text-right" style="width: 20%; border-bottom: 1px solid #f5f5f5;"><?php echo $this->common_model->calculate_currency($this->common->currency_decimal($total_amt));?></td>
 		</tr>
                   <?php foreach ($invoicetax_details_data as $key => $value) { ?>
 		
                     <tr style="width: 100%;">
 			  <?php if($value ['description'] != '' || $value ['debit'] > 0 ){ ?>
-	                    <td
-				style="width: 15%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
-			<td style="width: 55%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
+			<td style="width: 60%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
 
-			<td class="thick-line text-right"><?php echo $value ['description'];?></td>
+			<td class="thick-line text-right" style="width: 20%; border-bottom: 1px solid #f5f5f5;"><?php echo $value ['description'];?></td>
 
-			<td class="thick-line text-right"><?php echo $this->common_model->calculate_currency ($this->common->currency_decimal($value ['debit']), '', '', true, false );?></td>
+			<td class="thick-line text-right" style="width: 20%; border-bottom: 1px solid #f5f5f5;"><?php echo $this->common_model->calculate_currency ($this->common->currency_decimal($value ['debit']), '', '', true, false );?></td>
 		 <?php $total_amt = $total_amt+$value['debit']; } ?>
                     </tr>
                 <?php }   ?>
 		 <?php if($this_month_recharges > 0){ ?>
                     <tr style="width: 100%;">
-			<td style="width: 15%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
-			<td style="width: 55%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
-			<td style="width: 15%; border-bottom: 1px solid #f5f5f5;"
+			<td style="width: 60%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
+			<td style="width: 20%; border-bottom: 1px solid #f5f5f5;"
 				class="text-right"><b><?php echo gettext('Total')?></b></td>
-			<td style="width: 15%; border-bottom: 1px solid #f5f5f5;"
+			<td style="width: 20%; border-bottom: 1px solid #f5f5f5;"
 				class="text-right"><b><?php echo $this->common_model->calculate_currency($this->common->currency_decimal($total_amt), '', '', true, false );?></b></td>
 		</tr>
 		<?php } else{?>
 			<tr style="width: 100%;">
-			<td style="width: 15%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
-			<td style="width: 55%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
-			<td style="width: 15%; border-bottom: 1px solid #f5f5f5;"
+			<td style="width: 60%; border-bottom: 1px solid #f5f5f5;">&nbsp;</td>
+			<td style="width: 20%; border-bottom: 1px solid #f5f5f5;"
 				class="text-right"><b><?php echo gettext('Total')?></b></td>
 			<td style="width: 15%; border-bottom: 1px solid #f5f5f5;"
 				class="text-right"><b><?php echo $this->common_model->calculate_currency($this->common->currency_decimal($total_amt), '', '', true, false );?></b></td>
@@ -299,7 +301,8 @@
 <div>
 	<p>
                 <?php
-                echo $cmp_invoice_note;
+                echo "<b>".gettext("NOTE"). ": </b>";
+                echo gettext($cmp_invoice_note);
                 ?>
             </p>
 </div>

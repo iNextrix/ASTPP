@@ -166,7 +166,7 @@ $cnt = 0;
 								class="btn btn-secondary ml-2 float-right" value="Back"
 								onclick="return redirect_page('ratedeck/ratedeck_import/')"><?php echo gettext('Back'); ?></button>
 							<button type="submit" class="btn btn-success float-right"
-								id="Process" value="Process"><?php echo gettext('Process'); ?></button>
+								id="Process" ><?php echo gettext('Process'); ?></button>
 
 									<?php echo "</td></tr>";?> 
 										</table>
@@ -193,4 +193,5 @@ $cnt = 0;
         </script>
 <? endblock() ?>	
 <? end_extend() ?> 
+
 

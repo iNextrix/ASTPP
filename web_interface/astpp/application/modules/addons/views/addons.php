@@ -5,7 +5,11 @@
 <?= $page_title ?>
 <? endblock() ?>
 <?php startblock('content') ?>      
-
+<script>
+function install_addon(){
+	$(".overlay").show();
+}
+</script>
 <?php
 $addon_type = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1);
 ?>
@@ -87,7 +91,7 @@ if ($version_error == 'false') {
                     ?>
 												<a
 												href="<?= base_url() ?>addons/addons_install/<?= $type."/".$package_name ?>/update/<?= $new_version."/".$old_version ?>"
-												class="btn btn-block btn-info"><?php echo gettext("Update"); ?></a>
+												class="btn btn-block btn-info" onclick='return install_addon()'><?php echo gettext("Update"); ?></a>
 										  <?
 
 } else {
@@ -104,11 +108,11 @@ if ($version_error == 'false') {
                             ?>
 														<a
 												href="<?= base_url() ?>addons/addons_enterprise_license/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>"
-												class="btn btn-info btn-block" rel="facebox">Install</a> 
+												class="btn btn-info btn-block" rel="facebox" >Install</a> 
 													<?php }else{?>
 															<a
 												href="<?= base_url() ?>addons/addons_install/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>"
-												class="btn btn-block btn-info">Install</a> 
+												class="btn btn-block btn-info" onclick='return install_addon()'>Install</a> 
 													<?php
 
 }

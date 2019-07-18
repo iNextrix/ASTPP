@@ -56,7 +56,7 @@
                       <input class="col-md-12 form-control form-control-lg m-0" readonly value="<?php echo (isset($product_data['name']))?$product_data['name']:'' ?>" name="product_name" size="16" type="text"/>
                   </div>
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Commission(%)"); ?></label>
+                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Commission"); ?>(%)</label>
                      <input class="col-md-12 form-control form-control-lg m-0" readonly name="commission" value="<?php echo (isset($product_data['commission']))?$product_data['commission']:'' ?>" size="16" type="text"/>
                   </div>
 		 <div class='col-md-6 form-group'> 

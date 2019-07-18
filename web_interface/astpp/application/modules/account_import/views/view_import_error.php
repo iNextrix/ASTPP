@@ -22,9 +22,9 @@
 					<div class="card">
 						<h3 class="bg-secondary text-light p-3 rounded-top"> <?php echo gettext("Error In CSV File"); ?> </h3>
 						<div class="col-md-12 p-4">
-							<?php echo gettext("Records imported successfully: ")?><?php echo $count;?>
+							<?php echo gettext("Records imported successfully").'. : '; ?><?php echo $count;?>
 							<br />
-							<?php echo gettext("Records not imported : "); ?> <?php echo $invalid_count;?>  
+							<?php echo gettext("Records not imported")." : "; ?> <?php echo $invalid_count;?>  
 						</div>
 					</div>
 				</div>
@@ -36,7 +36,7 @@
 				<div class="pull-right">
 					<a href="<?= base_url().'accounts/customer_list/'?>"><input
 						class="btn btn-line-parrot" id="customer_list" type="button"
-						name="action" value="Back to Customer List" /> </a>
+						name="action" value=<?php echo gettext("Back to Customer List"); ?> /> </a>
 				</div>
 			</div>
 		</div>
@@ -47,5 +47,6 @@
 <?php echo gettext("Filter by "); ?>
 <? endblock() ?>
 <? end_extend() ?>  
+
 
 

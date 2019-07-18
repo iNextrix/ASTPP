@@ -273,7 +273,7 @@ class Reports_form extends common
                     )
                 ),
                 array(
-                    gettext('Disposition [Q.850]'),
+                    gettext('Disposition')." [Q.850]",
                     'disposition',
                     'SELECT',
                     '',
@@ -551,7 +551,7 @@ class Reports_form extends common
                     ''
                 ),
                 array(
-                    gettext('Disposition [Q.850]'),
+                    gettext('Disposition')." [Q.850]",
                     'disposition',
                     'SELECT',
                     '',
@@ -851,7 +851,7 @@ class Reports_form extends common
             ),
 
             array(
-                gettext('Disposition [Q.850]'),
+                gettext('Disposition')." [Q.850]",
                 'disposition',
                 'SELECT',
                 '',
@@ -1204,7 +1204,7 @@ class Reports_form extends common
                 ''
             ),
             array(
-                gettext('Disposition [Q.850]'),
+                gettext('Disposition')." [Q.850]",
                 'disposition',
                 'SELECT',
                 '',
@@ -1327,7 +1327,7 @@ class Reports_form extends common
     {
         $logintype = $this->CI->session->userdata('userlevel_logintype');
         $recording = array(
-            "Recording",
+            gettext("Recording"),
             "127",
             "recording",
             "",
@@ -1421,7 +1421,7 @@ class Reports_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Debit ($currency)"),
+                    gettext("Debit")." ($currency)",
                     "75",
                     "debit",
                     "debit",
@@ -1432,7 +1432,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Cost ($currency)"),
+                    gettext("Cost")." ($currency)",
                     "75",
                     "cost",
                     "cost",
@@ -1443,7 +1443,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Disposition [Q.850]"),
+                    gettext("Disposition")." [Q.850]",
                     "130",
                     "disposition",
                     "",
@@ -1591,7 +1591,7 @@ class Reports_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Debit($currency)"),
+                    gettext("Debit")."($currency)",
                     "75",
                     "debit",
                     "debit",
@@ -1602,7 +1602,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Cost($currency)"),
+                    gettext("Cost")."($currency)",
                     "75",
                     "cost",
                     "cost",
@@ -1613,7 +1613,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Disposition [Q.850]"),
+                    gettext("Disposition")." [Q.850]",
                     "130",
                     "disposition",
                     "",
@@ -1739,7 +1739,7 @@ class Reports_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Debit <br/> ($currency)"),
+                    gettext("Debit")." <br/> ($currency)",
                     "100",
                     "debit",
                     "debit",
@@ -1750,7 +1750,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Cost <br/> ($currency)"),
+                    gettext("Cost")." <br/> ($currency)",
                     "90",
                     "cost",
                     "cost",
@@ -1761,7 +1761,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Disposition [Q.850]"),
+                    gettext("Disposition")." [Q.850]",
                     "100",
                     "disposition",
                     "",
@@ -1885,7 +1885,7 @@ class Reports_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Debit <br/> ($currency)"),
+                    gettext("Debit")." <br/> ($currency)",
                     "100",
                     "debit",
                     "debit",
@@ -1896,7 +1896,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Cost <br/> ($currency)"),
+                    gettext("Cost")." <br/> ($currency)",
                     "90",
                     "cost",
                     "cost",
@@ -1907,7 +1907,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Disposition [Q.850]"),
+                    gettext("Disposition")." [Q.850]",
                     "100",
                     "disposition",
                     "",
@@ -1962,7 +1962,7 @@ class Reports_form extends common
         $currency = $this->CI->common->get_field_name('currency', 'currency', $currency_id);
         $grid_field_arr = json_encode(array(
             array(
-                "Date",
+                gettext("Date"),
                 "100",
                 "callstart",
                 "callstart",
@@ -2039,7 +2039,7 @@ class Reports_form extends common
                 "center"
             ),
             array(
-                gettext("Cost<br/>($currency)"),
+                gettext("Cost")."<br/>($currency)",
                 "100",
                 "provider_call_cost",
                 "provider_cost",
@@ -2051,7 +2051,7 @@ class Reports_form extends common
             ),
 
             array(
-                gettext("Disposition [Q.850]"),
+                gettext("Disposition")." [Q.850]",
                 "200",
                 "disposition",
                 "",
@@ -2172,7 +2172,7 @@ class Reports_form extends common
 
         if ($accounttype == 'customer' || $accounttype == 'reseller') {
             $cost_array = array(
-                "Debit($currency)",
+                gettext("Debit")."($currency)",
                 "100",
                 "debit",
                 "debit",
@@ -2185,7 +2185,7 @@ class Reports_form extends common
         }
         if (strtolower($accounttype) == 'provider') {
             $cost_array = array(
-                "Debit($currency)",
+                gettext("Debit")."($currency)",
                 "140",
                 "cost",
                 "cost",
@@ -2251,7 +2251,7 @@ class Reports_form extends common
             ),
             $cost_array,
             array(
-                gettext("Disposition [Q.850]"),
+                gettext("Disposition")." [Q.850]",
                 "160",
                 "disposition",
                 "",
@@ -2305,7 +2305,7 @@ class Reports_form extends common
                 "center"
             ),
             array(
-                gettext("Amount <br/> ($currency)"),
+                gettext("Amount")." <br/> ($currency)",
                 "80",
                 "amount",
                 "",
@@ -2316,7 +2316,7 @@ class Reports_form extends common
                 "right"
             ),
             array(
-                gettext("Payment <br>Method"),
+                gettext("Payment Method"),
                 "80",
                 "",
                 "",
@@ -2371,7 +2371,7 @@ class Reports_form extends common
                 "center"
             ),
             array(
-                "Reseller",
+                gettext("Reseller"),
                 "100",
                 "reseller_id",
                 "first_name,last_name,number",
@@ -2696,7 +2696,7 @@ class Reports_form extends common
                 "build_concat_string"
             ),
             array(
-                gettext("Commission Rate(%)"),
+                gettext("Commission Rate")."(%)",
                 "150",
                 "commission_percent",
                 "",
@@ -3630,7 +3630,7 @@ class Reports_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Before Balance<br/>($currency)"),
+                    gettext("Before Balance")."<br/>($currency)",
                     "110",
                     "before_balance",
                     "before_balance",
@@ -3641,7 +3641,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Debit (-)<br/>($currency)"),
+                    gettext("Debit")." (-)<br/>($currency)",
                     "110",
                     "debit",
                     "debit",
@@ -3652,7 +3652,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Credit (+)<br/>($currency)"),
+                    gettext("Credit")." (+)<br/>($currency)",
                     "110",
                     "credit",
                     "credit",
@@ -3663,7 +3663,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("After Balance<br/>($currency)"),
+                    gettext("After Balance")." <br/>($currency)",
                     "110",
                     "after_balance",
                     "after_balance",
@@ -3740,7 +3740,7 @@ class Reports_form extends common
                     "reseller_select_value"
                 ),
                 array(
-                    gettext("Before Balance<br/>($currency)"),
+                    gettext("Before Balance")." <br/>($currency)",
                     "110",
                     "before_balance",
                     "",
@@ -3751,7 +3751,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Debit (-)<br/>($currency)"),
+                    gettext("Debit")." (-)<br/>($currency)",
                     "110",
                     "debit",
                     "",
@@ -3762,7 +3762,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Credit (+)<br/>($currency)"),
+                    gettext("Credit")." (+)<br/>($currency)",
                     "110",
                     "credit",
                     "",
@@ -3773,7 +3773,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("After Balance<br/>($currency)"),
+                    gettext("After Balance")."<br/>($currency)",
                     "110",
                     "after_balance",
                     "",
@@ -4063,7 +4063,7 @@ class Reports_form extends common
             array(
                 gettext("Invoice Number"),
                 "110",
-                "created_date",
+                "invoiceid",
                 "",
                 "",
                 "",
@@ -4074,7 +4074,7 @@ class Reports_form extends common
             array(
                 gettext("Charge Type"),
                 "100",
-                "item_type",
+                "charge_type",
                 "",
                 "",
                 "",
@@ -4094,7 +4094,7 @@ class Reports_form extends common
                 "center"
             ),
             array(
-                gettext("Before Balance<br/>($currency)"),
+                gettext("Before Balance")."<br/>($currency)",
                 "120",
                 "before_balance",
                 "before_balance",
@@ -4105,7 +4105,7 @@ class Reports_form extends common
                 "right"
             ),
             array(
-                gettext("Debit (-)<br/>($currency)"),
+                gettext("Debit")." (-)<br/>($currency)",
                 "110",
                 "debit",
                 "debit",
@@ -4116,7 +4116,7 @@ class Reports_form extends common
                 "right"
             ),
             array(
-                gettext("Credit (+)<br/>($currency)"),
+                gettext("Credit")." (+)<br/>($currency)",
                 "110",
                 "credit",
                 "credit",
@@ -4127,7 +4127,7 @@ class Reports_form extends common
                 "right"
             ),
             array(
-                gettext("After Balance<br/>($currency)"),
+                gettext("After Balance")."<br/>($currency)",
                 "120",
                 "after_balance",
                 "after_balance",
@@ -4163,7 +4163,7 @@ class Reports_form extends common
             array(
                 gettext("Date"),
                 "225",
-                "payment_date",
+                "date",
                 "",
                 "",
                 "",
@@ -4172,12 +4172,12 @@ class Reports_form extends common
                 "center"
             ),
             array(
-                gettext("Amount($currency)"),
+                gettext("Amount")." ($currency)",
                 "250",
-                "credit",
-                "credit",
-                "credit",
-                "convert_to_currency",
+                "actual_amount",
+                "",
+                "",
+                "",
                 "",
                 "true",
                 "right"
@@ -4185,10 +4185,10 @@ class Reports_form extends common
             array(
                 gettext("Refill By"),
                 "230",
-                "payment_by",
-                "payment_by",
-                "payment_by",
-                "get_refill_by",
+                "payment_method",
+                "",
+                "",
+                "",
                 "",
                 "true",
                 "center"
@@ -4196,7 +4196,7 @@ class Reports_form extends common
             array(
                 gettext("Note"),
                 "325",
-                "notes",
+                "description",
                 "",
                 "",
                 "",
@@ -4261,7 +4261,7 @@ class Reports_form extends common
                 ),
 
                 array(
-                    gettext("Amount") . " " . "($currency)",
+                    gettext("Amount") ." ($currency)",
                     "140",
                     "amount",
                     "amount",
@@ -4272,7 +4272,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Commission") . " " . "($currency)",
+                    gettext("Commission") ." ($currency)",
                     "140",
                     "commission",
                     "commission",
@@ -4283,7 +4283,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Commission (%)"),
+                    gettext("Commission")." (%)",
                     "140",
                     "commission_rate",
                     "",
@@ -4364,7 +4364,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    "Reseller",
+                    gettext("Reseller"),
                     "80",
                     "reseller_id",
                     "first_name,last_name,number",
@@ -4387,7 +4387,7 @@ class Reports_form extends common
                 ),
 
                 array(
-                    gettext("Amount") . " " . "($currency)",
+                    gettext("Amount") . " ($currency)",
                     "140",
                     "amount",
                     "amount",
@@ -4398,7 +4398,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Commission") . " " . "($currency)",
+                    gettext("Commission") . " ($currency)",
                     "140",
                     "commission",
                     "commission",
@@ -4409,7 +4409,7 @@ class Reports_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Commission (%)"),
+                    gettext("Commission")." (%)",
                     "140",
                     "commission_rate",
                     "commission_rate",

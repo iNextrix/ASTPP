@@ -17,7 +17,7 @@
       },
       messages:{
        number:{
-         required: '<i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  p-0">This field is required</span>'
+         required: '<i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  p-0"><?php echo gettext('This field is required'); ?></span>'
        }
      },
      
@@ -80,7 +80,7 @@ label.error {
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb m-0 p-0">
 							<li class="breadcrumb-item"><a
-								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= gettext(ucfirst($accounttype)."s"); ?></a></li>
 							<li class="breadcrumb-item"><a
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <?php echo gettext('Profile');?></a>
 							</li>

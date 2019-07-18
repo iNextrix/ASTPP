@@ -23,6 +23,12 @@
  text-align:center;
  font-size:250%;
 }
+.active_product table td{
+	word-break:break-all;
+	}
+.new_products table td{
+	word-break:break-all;
+	}	
 </style>
 <script type="text/javascript">
 	function get_current_data(){
@@ -109,7 +115,7 @@
 
                 <div class="row mb-5">
                  <div class="col-lg-6 d-flex">
-                    <div class="card w-100">
+                    <div class="card w-100 active_product">
                         <h3 class="text-dark p-3"><i class="fa fa-archive text-primary fa-fw"></i> <?php echo gettext('Active Products'); ?>
                                 <a href="<?php echo base_url();?>user/user_products_list/" class="float-right btn btn-secondary"><?php echo gettext('View All'); ?></a>
                         </h3>
@@ -122,6 +128,7 @@
                                   <th scope="col"><?php echo gettext('Date'); ?></th>
                                   <th scope="col"><?php echo gettext('Order');?></th>
                                   <th scope="col"><?php echo gettext('Payment method'); ?></th>
+				  <th scope="col"><?php echo gettext('Quantity'); ?></th>
                                   <th scope="col"><?php echo gettext('Setup Fee'); ?> [<?php echo $currency;?>]</th>
                                   <th scope="col"><?php echo gettext('Price');?> [<?php echo $currency;?>]</th>
                                   <th scope="col"><?php echo gettext('Status'); ?></th>
@@ -137,7 +144,7 @@
 																	
 
 																	
-																	$query = $this->db_model->getJionQuery('orders', 'orders.id,orders.order_date,orders.order_id as id1,orders.payment_gateway,orders.payment_status,order_items.order_id as orderid,order_items.price,order_items.setup_fee,order_items.product_id',$where_arr, 'order_items','orders.id=order_items.order_id', 'inner',10, 0,'','');
+																	$query = $this->db_model->getJionQuery('orders', 'orders.id,orders.order_date,orders.order_id as id1,orders.payment_gateway,orders.payment_status,order_items.order_id as orderid,order_items.price,order_items.quantity,order_items.setup_fee,order_items.product_id',$where_arr, 'order_items','orders.id=order_items.order_id', 'inner',10, 0,'','');
 																	
 
 																	//
@@ -149,6 +156,8 @@
 											                echo "<td>".$val['order_date']."</td>";
 											                echo "<td>".$val['id1']."</td>";
 											                echo "<td>".$val['payment_gateway']."</td>";
+
+     echo "<td>".$val['quantity']."</td>";
 											                echo "<td>".$this->common_model->calculate_currency_customer($val ['setup_fee'])."</td>";
 											                echo "<td>".$this->common_model->calculate_currency_customer($val ['price'])."</td>";
 											                echo "<td>".$val['payment_status']."</td>";
@@ -164,7 +173,7 @@
                  </div>
              
                  <div class="col-lg-6 d-flex">
-                    <div class="card w-100">
+                    <div class="card w-100 new_products">
                         <h3 class="text-dark p-3"><i class="fa fa-archive text-primary fa-fw"></i> <?php echo gettext('New Products');?>
                                 
                                 <a href="<?php echo base_url();?>user/user_available_products/" class="float-right btn btn-secondary"><?php echo gettext('View All')?></a>

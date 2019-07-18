@@ -21,7 +21,7 @@ table.datatable th {
 </style>
 <script type="text/javascript" language="javascript">
    function form_confirm() {
-       var confirm_string = 'Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.';
+       var confirm_string = "<?php echo gettext('Are you sure want to confirm this invoice ? once you confirm it'); ?>, <?php echo gettext('can not able to edit invoice again.'); ?>";
        var answer = confirm(confirm_string);
        if (answer) {
            document.getElementById("payment_form").submit();
@@ -170,17 +170,17 @@ table.datatable th {
 															</th>
 														</tr>
 														<tr>
-															<td><b><?php echo gettext('Invoice Number :')?> </b><span
+															<td><b><?php echo gettext('Invoice Number')?>  :</b><span
 																style="color: #a09d9d;"><?php echo $invoice_prefix; ?><?php echo $prefix_id; ?> </span>
 															</td>
 														</tr>
 														<tr>
-															<td><b><?php echo gettext('From Date :')?> </b><span
+															<td><b><?php echo gettext('From Date')?> : </b><span
 																style="color: #a09d9d;"> <?php echo date('Y-m-d', strtotime($from_date)) ; ?></span>
 															</td>
 														</tr>
 														<tr>
-															<td><b><?php echo gettext('Due Date :')?> </b><span
+															<td><b><?php echo gettext('Due Date')?> : </b><span
 																style="color: #a09d9d;"><?php
                 echo date('Y-m-d', strtotime($payment_due_date));
                 ?></span></td>
@@ -313,7 +313,7 @@ table.datatable th {
 												<td style="text-align: right;">
 													<div id="total_tax_<?= $taxi; ?>"
 														name="total_tax_<?= $taxi; ?>">
-                                       <?=  $this->common->currency_decimal($total_tax_dis[$taxi]); ?>
+                                       <?=  $this->common->currency_decimal(isset($total_tax_dis[$taxi])?$total_tax_dis:0); ?>
                                        </div>
 												</td>
 											</tr>
@@ -334,12 +334,12 @@ table.datatable th {
 											<div class="col-md-12 padding-b-20">
 												<div class="margin-t-20 ">
 													<input class="btn btn-success search_generate_bar btn-lg"
-														name="save" id="save" value="Save" type="submit"> <input
+														name="save" id="save" value=<?php echo gettext("Save"); ?> type="submit"> <input
 														class="btn btn btn-warning search_generate_bar mx-2 btn-lg"
-														name="confirm" id="save" value="Confirm" type="button"
+														name="confirm" id="save" value=<?php echo gettext("Confirm"); ?> type="button"
 														onclick='form_confirm()'> <a href="../invoice_list/"> <input
 														id="ok" class="btn btn-secondary btn-lg" type="button"
-														value="Cancel" name="action">
+														value=<?php echo gettext("Cancel"); ?> name="action">
 													</a>
 													<h6 class="mt-4">
 														<font color="#375c7c"><b><?php echo gettext('NOTE')?></b> : <?php echo gettext('Once you confirm the invoice, you will no longer able to update it again.')?></font>

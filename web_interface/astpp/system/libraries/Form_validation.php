@@ -1557,6 +1557,10 @@ class CI_Form_validation {
 		    	}
     		}
 		}
+	public function numeric_with_spacial_characters($str)
+	{
+		return ( ! preg_match("/^[0-9*#+]+$/", $str)) ? FALSE : TRUE;
+	}
 }
 // END Form Validation Class
 

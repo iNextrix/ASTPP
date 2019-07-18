@@ -14,14 +14,10 @@ $this->db->order_by('accountid', 'desc');
 $this->db->limit(1);
 $invoiceconf = $this->db->get('invoice_conf');
 $invoiceconf = (array) $invoiceconf->first_row();
-if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
-    ?>
-	Signup | <?php echo $invoiceconf['website_title']; ?>
-	<?php
+if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {    
+	echo gettext("Signup")." | "; echo $invoiceconf['website_title']; 
 } else {
-    ?>
-	Signup | ASTPP - Open Source Voip Billing Solution
-	<?php
+	echo gettext("Signup")." | ".gettext("ASTPP - A Smart TelePhony Platform");
 }
 ?>
 </title>
@@ -160,16 +156,16 @@ $(document).ready(function() {
                       
                  },
                  messages: {
-		     userCaptcha: '<span class="text-danger">Captcha is required</span>',
+		     userCaptcha: '<span class="text-danger"><?php echo gettext("Captcha is required"); ?></span>',
                      first_name: { 
-                         required: '<span class="text-danger">First Name is Required</span>',
+                         required: '<span class="text-danger"><?php echo gettext("First Name is Required"); ?></span>',
                      },
 				     telephone: {
-						 required: '<span class="text-danger">Telephone is Required</span>',
+						 required: '<span class="text-danger"><?php echo gettext("Telephone is Required"); ?></span>',
 				     },
                      email: {
-						required: '<span class="text-danger">Email is Required</span>',
-						email:'<span class="text-danger">Please enter a valid email address</span>',
+						required: '<span class="text-danger"><?php echo gettext("Email is Required"); ?></span>',
+						email:'<span class="text-danger"><?php echo gettext("Please enter a valid email address"); ?></span>',
 					 },
 					 
                  },
@@ -191,8 +187,7 @@ function isNumberKey(evt){
  </script>
 
 									<noscript>
-										<div id="noscript-warning">ASTPP work best with JavaScript
-											enabled</div>
+										<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
 									</noscript>
 
 									</script>
@@ -303,7 +298,7 @@ if (isset($error['account_number']) && $error['account_number']) {
 					<?php echo $error['account_number'];?>
 				</label>
 		<?php }?>
-													<label for="telephone" class="control-label"><?php echo gettext('Telephone *')?></label>
+													<label for="telephone" class="control-label"><?php echo gettext('Telephone')?> *</label>
 
 				</div>
 				<div class="form-group">
@@ -317,7 +312,7 @@ if (isset($error['account_email']) && $error['account_email']) {
 					<?php echo $error['account_email'];?>
 				</label>
 		<?php }?>
-													<label for="email" class="control-label"><?php echo gettext('Email *')?></label>
+													<label for="email" class="control-label"><?php echo gettext('Email')?> *</label>
 
 				</div>
 				<div class="col-md-12">
@@ -326,7 +321,7 @@ if (isset($error['account_email']) && $error['account_email']) {
 							<input type="text" name="first_name"
 								value="<?php if (isset($first_name)) {echo $first_name;} else {'';}?>"
 								id="first_name" maxlength="40" class="form-control" /> <label
-								for="first_name" class="control-label"><?php echo gettext('First Name *')?></label>
+								for="first_name" class="control-label"><?php echo gettext('First Name')?> *</label>
 						</div>
 						<div class="form-group col-6 p-0">
 							<input type="text" name="last_name" id="last_name"
@@ -382,7 +377,7 @@ if (isset($error['captcha_err']) && $error['captcha_err']) {
 				</label>
 		<?php }?>
 
-												<label for="userCaptcha" class="control-label"><?php echo gettext('Enter above Captcha *')?></label>
+												<label for="userCaptcha" class="control-label"><?php echo gettext('Enter above Captcha')?> *</label>
 
 
 				</div>
@@ -447,4 +442,3 @@ if (isset($error['captcha_err']) && $error['captcha_err']) {
 		$("select").closest('.form-group').addClass('control-select');
 	});
 </script>
-

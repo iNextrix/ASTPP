@@ -44,6 +44,7 @@
   $(document).ready(function(){
       $('.page-wrap').addClass('addon_wrap');
       $("span.input-group-append").addClass('align-self-end').removeClass('input-group-append');
+      $(".reset_password").parents("li").removeClass('form-group').addClass('mt-4');
   });
 </script>
 <style>
@@ -71,7 +72,7 @@ label.error {
 						<ol class="breadcrumb m-0 p-0">
                         <?php $entity = $entity_name == 'provider' ? 'customer' : $entity_name; ?>
                         <li class="breadcrumb-item"><a
-								href="<?= base_url()."accounts/".strtolower($entity)."_list/"; ?>"><?= ucfirst($entity_name); ?>s</a></li>
+								href="<?= base_url()."accounts/".strtolower($entity)."_list/"; ?>"><?= gettext(ucfirst($entity_name)); ?>s</a></li>
 							<li class="breadcrumb-item active" aria-current="page"><a
 								href="<?= base_url()."accounts/".strtolower($entity_name)."_edit/".$edit_id."/"; ?>"> <?= ucfirst(@$accounttype); ?> <?php echo gettext('Profile');?> </a></li>
 						</ol>

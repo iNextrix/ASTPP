@@ -138,7 +138,7 @@ class Login extends MX_Controller
                                     $url = "/user/user_change_password";
                                 else
                                     $url = "#";
-                                $this->session->set_flashdata('astpp_danger_alert', gettext("Please do not use default or less secure password for your account!! You must change password from <a href='" . $url . "'><b>HERE</b></a> ."));
+                                $this->session->set_flashdata('astpp_danger_alert', gettext("Please do not use default or less secure password for your account!! You must change password from")." <a href='" . $url . "'><b>".gettext('HERE')."</b></a> .");
 
                                 {}
                             }
@@ -243,12 +243,16 @@ class Login extends MX_Controller
                 }
             } else {
                 if (! empty ( $_POST ) && ((isset($_POST ['password']) && ($_POST ['password'] == '')) || (isset($_POST ['password']) && ($_POST ['username'] == '')))) {
-					$data ['astpp_notification'] = "Please enter Username/email and Password.";
+					$data ['astpp_notification'] = gettext("Please enter Username/email and Password.");
 				}
             }
 
             if (isset($_SERVER['HTTP_HOST'])) {
-
+		if($_SERVER['HTTP_HOST'] == $_SERVER['SERVER_NAME']){
+			$_SERVER['HTTP_HOST'] = $_SERVER['HTTP_HOST'];
+		}else{
+			$_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'];		
+		}
                 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                     $domain = "https://" . $_SERVER["HTTP_HOST"] . "/";
                 } else {
@@ -277,7 +281,11 @@ class Login extends MX_Controller
             $data['app_name'] = 'ASTPP - Open Source Billing Solution';
             $this->load->view('view_login', $data);
         } else {
-
+	    if($_SERVER['HTTP_HOST'] == $_SERVER['SERVER_NAME']){
+			$_SERVER['HTTP_HOST'] = $_SERVER['HTTP_HOST'];
+	    }else{
+			$_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'];		
+	    }
             if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                 $custom_domain = "https://" . $_SERVER["HTTP_HOST"];
             } else {
@@ -474,7 +482,7 @@ class Login extends MX_Controller
                     "date" => $date
                 );
                 $paymentid = $this->db->insert('payment_transaction', $payment_trans_array);
-                $this->session->set_flashdata('astpp_notification', 'Payment transaction invalid. Please contact Administrator.');
+                $this->session->set_flashdata('astpp_notification', gettext('Payment transaction invalid. Please contact Administrator.'));
             }
         }
         redirect(base_url() . 'user/user/');
@@ -616,7 +624,7 @@ class Login extends MX_Controller
                 $url = "/user/user_change_password";
             else
                 $url = "#";
-            $this->session->set_flashdata('astpp_danger_alert', gettext("Please do not use default or less secure password for your account!! You must change password from <a href='" . $url . "'><b>HERE</b></a> ."));
+            $this->session->set_flashdata('astpp_danger_alert', gettext("Please do not use default or less secure password for your account!! You must change password from")." "." <a href='" . $url . "'><b>".gettext("HERE"). "</b></a> .");
 
             {}
         }

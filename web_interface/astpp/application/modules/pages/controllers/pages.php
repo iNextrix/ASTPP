@@ -109,25 +109,28 @@ function services($category= '') {
 	
 	function checkout($id){  
 		
-	
-		$account_info = $this->session->userdata ( 'token' );
-		$account_info = ((isset($account_info)) && $account_info != '')?$account_info:$this->session->userdata ( "accountinfo" );
-		$productarr =  $this->order->get_product_info($account_info,$id);
-		if(!isset($productarr['error'])){
-			$data['page_title']="Product Information";
-			$data['product_info'] = $productarr;
-			$data['ewallet_payment'] = common_model::$global_config ['system_config']['ewallet_payment'];
-			$data['account_info'] = $account_info;
-			$data['product_info']['setup_price']=($data['product_info']['price'] + $data['product_info']['setup_fee']);
-			$this->load->view( 'view_checkout',$data);
-
+		if (!$this->session->userdata('accountinfo'))
+		{
+			redirect ( base_url ());
 		}else{
+			$account_info = $this->session->userdata ( 'token' );
+			$account_info = ((isset($account_info)) && $account_info != '')?$account_info:$this->session->userdata ( "accountinfo" );
+			$productarr =  $this->order->get_product_info($account_info,$id);
+			if(!isset($productarr['error'])){
+				$data['page_title']=gettext("Product Information");
+				$data['product_info'] = $productarr;
+				$data['ewallet_payment'] = common_model::$global_config ['system_config']['ewallet_payment'];
+				$data['account_info'] = $account_info;
+				$data['product_info']['setup_price']=($data['product_info']['price'] + $data['product_info']['setup_fee']);
+				$this->load->view( 'view_checkout',$data);
 
-			$this->session->set_flashdata ( 'astpp_notification',  gettext('Something went worong !') );
-						redirect ( base_url () . 'pages/services' );
+			}else{
 
+				$this->session->set_flashdata ( 'astpp_notification',  gettext('Something went worong !') );
+							redirect ( base_url () . 'pages/services' );
+
+			}
 		}
-		
 
 		
 
@@ -176,8 +179,8 @@ function services($category= '') {
 						$final_array = array_merge($account_info,$productinfo);
 						$final_array['quantity']=$quantity;
 						$final_array['total_price']=($productinfo['setup_fee']+$productinfo['price'])*($final_array['quantity']);
-						$final_array['total_price_amount']=($productinfo['setup_fee']+$productinfo['price']);
-						$final_array['product_name']=$product_info['product_name'];
+						$final_array['price']=($productinfo['setup_fee']+$productinfo['price']);
+						$final_array['name']=$product_info['product_name'];
 						$final_array['category_name']=$product_info['category_name'];
 						$final_array['next_billing_date']=$product_info['next_billing_date'];
 						$final_array['payment_by']=$product_info['payment_by'];
@@ -206,6 +209,9 @@ function services($category= '') {
 
 				}
 		      }
+			}else{
+				$this->session->set_flashdata ( 'astpp_notification',  gettext('Something went worong !'));
+				redirect ( base_url () . 'pages/services' );
 			}
 		 }else{
 			$this->session->set_flashdata ( 'astpp_notification',  gettext('Something went worong !'));
@@ -411,13 +417,13 @@ function services($category= '') {
 							$invoiceid =$this->payment->add_payments_transcation($orderarr,$account_info,$currency_info);
 						}
 						$this->db_model->update ( "orders",array("payment_status"=>"PAID"),array("id"=>$orderarr['id']));
-						$orderarr['product_name']=$orderarr['name'];
+						$orderarr['name']=$orderarr['name'];
 						$orderarr['category_name']=$this->common->get_field_name("name","category",array("id"=>$orderarr['product_category']));
 						$orderarr['price']=$price;
 						$orderarr['next_billing_date']=($orderarr['billing_days'] == 0)?gmdate('Y-m-d 23:59:59', strtotime('+10 years')):gmdate("Y-m-d 23:59:59",strtotime("+".$orderarr['billing_days']." days"));
 						$final_array = array_merge($account_info,$orderarr);
 						$final_array['total_price']=($price+$setupfee)*($orderarr['quantity']);
-						$final_array['total_price_amount']=($price+$setupfee);
+						$final_array['price']=($price+$setupfee);
 						$this->common->mail_to_users ('product_purchase', $final_array );
 					}
 			   	}else{
@@ -571,23 +577,24 @@ function services($category= '') {
 						'firstused' => $date 
 				);
 				$this->db->update ( 'refill_coupon', $refill_coupon_data );
-				$tax_calculation=$this->common_model->calculate_taxes($accountinfo,$refill_coupon_result['amount']);
+				/*$tax_calculation=$this->common_model->calculate_taxes($accountinfo,$refill_coupon_result['amount']);
 				if(isset($tax_calculation['tax']) && !empty($tax_calculation['tax'])){
 					$amount = $refill_coupon_result['amount'] - $tax_calculation['total_tax'];
 				}else{
 					$amount = $refill_coupon_result['amount'];
-				}
+				}*/
 				$payment_info=array(
-						"price"=>$amount,
+						"price"=>$refill_coupon_result['amount'],
 						"payment_by"=>"Voucher",
 						"payment_fee"=>0,
 						"invoice_type"=>"credit",
 						"product_category"=>3,
 						"description"=>"Refill done using voucher'('".$refill_coupon_no." ')'",
 						"order_item_id"=>0,
-						"charge_type"=>"Voucher"
+						"charge_type"=>"Voucher",
+						"is_apply_tax"=>"true"
+
 				);
-				
 				$where = array ('id' => $accountinfo['currency_id']);
 				$currency_info = ( array ) $this->db->get_where( "currency", $where )->result_array()[0];
 				

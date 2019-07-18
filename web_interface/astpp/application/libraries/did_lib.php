@@ -81,37 +81,48 @@ class did_lib extends MX_Controller {
 				$didinfo ['billing_type'] = $reseller_pricing_result['billing_type'];
 			}
 
-			}
+		   }
 		}
 
 		if ($accountinfo ['reseller_id'] > 0 && $accountinfo ['type'] == 0  ) {
-			$customer_result_array = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,reseller_products.buy_cost,reseller_products.commission,reseller_products.setup_fee,reseller_products.price,reseller_products.billing_type,reseller_products.billing_days,reseller_products.status,dids.last_modified_date,dids.product_id', array('dids.number'=>$didinfo['number'],'reseller_products.account_id'=>$accountinfo['reseller_id']), 'reseller_products','dids.product_id=reseller_products.product_id', 'inner','','','','');
-			$customer_result_array = ( array ) $customer_result_array->first_row ();
-			$didinfo ['call_type'] = $customer_result_array ['call_type'];
-			$didinfo ['extensions'] = $customer_result_array ['extensions'];
-			$didinfo ['setup_fee'] = $customer_result_array ['setup_fee'];
-			$didinfo ['price'] = $customer_result_array ['price'];
-			$didinfo ['connectcost'] = $customer_result_array ['connectcost'];
-			$didinfo ['includedseconds'] = $customer_result_array ['includedseconds'];
-			$didinfo ['cost'] = $customer_result_array ['cost'];
-			$didinfo ['inc'] = $customer_result_array ['inc'];
-			$didinfo ['billing_days'] = $customer_result_array['billing_days'];
-			$didinfo ['billing_type'] = $customer_result_array['billing_type'];
+			if ($didinfo['accountid'] > 0)
+			{
+				return array("NOT_AVAL_FOR_PURCHASE","This DID is already purchased by someone.");
+			}else{ 
+				$customer_result_array = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,reseller_products.buy_cost,reseller_products.commission,reseller_products.setup_fee,reseller_products.price,reseller_products.billing_type,reseller_products.billing_days,reseller_products.status,dids.last_modified_date,dids.product_id', array('dids.number'=>$didinfo['number'],'reseller_products.account_id'=>$accountinfo['reseller_id']), 'reseller_products','dids.product_id=reseller_products.product_id', 'inner','','','','');
+				$customer_result_array = ( array ) $customer_result_array->first_row ();
+				$didinfo ['call_type'] = $customer_result_array ['call_type'];
+				$didinfo ['extensions'] = $customer_result_array ['extensions'];
+				$didinfo ['setup_fee'] = $customer_result_array ['setup_fee'];
+				$didinfo ['price'] = $customer_result_array ['price'];
+				$didinfo ['connectcost'] = $customer_result_array ['connectcost'];
+				$didinfo ['includedseconds'] = $customer_result_array ['includedseconds'];
+				$didinfo ['cost'] = $customer_result_array ['cost'];
+				$didinfo ['inc'] = $customer_result_array ['inc'];
+				$didinfo ['billing_days'] = $customer_result_array['billing_days'];
+				$didinfo ['billing_type'] = $customer_result_array['billing_type'];
+
+			}
 		}
 		if($accountinfo ['reseller_id'] == 0 && $accountinfo ['type'] == 0){
-			$did_info_arr = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,products.buy_cost,products.commission,products.setup_fee,products.price,products.billing_type,products.billing_days,products.status,dids.last_modified_date,dids.product_id', array('dids.number'=>$didinfo['number']), 'products','dids.product_id=products.id', 'inner','','','','');
+			if ($didinfo['accountid'] > 0)
+			{
+				return array("NOT_AVAL_FOR_PURCHASE","This DID is already purchased by someone.");
+			}else{ 
+				$did_info_arr = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,products.buy_cost,products.commission,products.setup_fee,products.price,products.billing_type,products.billing_days,products.status,dids.last_modified_date,dids.product_id', array('dids.number'=>$didinfo['number']), 'products','dids.product_id=products.id', 'inner','','','','');
 
-			$did_info_arr = ( array ) $did_info_arr->first_row ();
-			$didinfo ['call_type'] = $did_info_arr ['call_type'];
-			$didinfo ['extensions'] = $did_info_arr ['extensions'];
-			$didinfo ['setup_fee'] = $did_info_arr ['setup_fee'];
-			$didinfo ['price'] = $did_info_arr ['price'];
-			$didinfo ['connectcost'] = $did_info_arr ['connectcost'];
-			$didinfo ['includedseconds'] = $did_info_arr ['includedseconds'];
-			$didinfo ['cost'] = $did_info_arr ['cost'];
-			$didinfo ['inc'] = $did_info_arr ['inc'];
-			$didinfo ['billing_days'] = $did_info_arr['billing_days'];
-			$didinfo ['billing_type'] = $did_info_arr['billing_type'];
+				$did_info_arr = ( array ) $did_info_arr->first_row ();
+				$didinfo ['call_type'] = $did_info_arr ['call_type'];
+				$didinfo ['extensions'] = $did_info_arr ['extensions'];
+				$didinfo ['setup_fee'] = $did_info_arr ['setup_fee'];
+				$didinfo ['price'] = $did_info_arr ['price'];
+				$didinfo ['connectcost'] = $did_info_arr ['connectcost'];
+				$didinfo ['includedseconds'] = $did_info_arr ['includedseconds'];
+				$didinfo ['cost'] = $did_info_arr ['cost'];
+				$didinfo ['inc'] = $did_info_arr ['inc'];
+				$didinfo ['billing_days'] = $did_info_arr['billing_days'];
+				$didinfo ['billing_type'] = $did_info_arr['billing_type'];
+			}
 
 
 		}
@@ -161,12 +172,12 @@ class did_lib extends MX_Controller {
 			
 			$final_array = array_merge($accountinfo,$didinfo);
 			$final_array['next_billing_date'] = ($final_array['billing_days'] == 0)?gmdate('Y-m-d 23:59:59', strtotime('+10 years')):gmdate("Y-m-d 23:59:59",strtotime("+".$final_array['billing_days']." days"));
-			$final_array['product_name'] =$final_array['number'];
+			$final_array['name'] =$final_array['number'];
 			$final_array['category_name'] ="DID";
 			$final_array['payment_by'] ="Account Balance";
 			$final_array['quantity']=1;
 			$final_array['total_price']=($final_array['setup_fee']+$final_array['price'])*($final_array['quantity']);
-			$final_array['total_price_amount']=($final_array['setup_fee']+$final_array['price']);
+			$final_array['price']=($final_array['setup_fee']+$final_array['price']);
 			$this->common->mail_to_users ( 'product_purchase',$final_array);			
 			return array("SUCCESS","DID Purchased Successfully.");
 		}else{			

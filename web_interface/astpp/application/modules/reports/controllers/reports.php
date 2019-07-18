@@ -166,7 +166,7 @@ class Reports extends MX_Controller
             $duration = ($show_seconds == 'minutes') ? ($count_all['billseconds'] > 0) ? floor($count_all['billseconds'] / 60) . ":" . sprintf('%02d', $count_all['billseconds'] % 60) : "00:00" : $count_all['billseconds'];
             $json_data['rows'][] = array(
                 "cell" => array(
-                    "<b>Grand Total</b>",
+                    "<b>".gettext("Grand Total")."</b>",
                     "",
                     "",
                     "",
@@ -446,7 +446,7 @@ class Reports extends MX_Controller
             $duration = ($show_seconds == 'minutes') ? ($count_all['billseconds'] > 0) ? sprintf('%02d', $count_all['billseconds'] / 60) . ":" . sprintf('%02d', $count_all['billseconds'] % 60) : "00:00" : sprintf('%02d', $count_all['billseconds']);
             $json_data['rows'][] = array(
                 "cell" => array(
-                    "<b>Grand Total</b>",
+                    "<b>".gettext("Grand Total")."</b>",
                     "",
                     "",
                     "",
@@ -562,7 +562,7 @@ class Reports extends MX_Controller
             }
             $duration = ($show_seconds == 'minutes') ? ($count_all['billseconds'] > 0) ? floor($count_all['billseconds'] / 60) . ":" . sprintf('%02d', $count_all['billseconds'] % 60) : "00:00" : $count_all['billseconds'];
             $reseller_array[] = array(
-                "Grand Total",
+                gettext("Grand Total"),
                 "",
                 "",
                 "",
@@ -612,7 +612,7 @@ class Reports extends MX_Controller
             $duration = ($show_seconds == 'minutes') ? ($count_all['billseconds'] > 0) ? floor($count_all['billseconds'] / 60) . ":" . sprintf("%02d", $count_all['billseconds'] % 60) : "00:00" : $count_all['billseconds'];
             $json_data['rows'][] = array(
                 "cell" => array(
-                    "<b>Grand Total</b>",
+                    "<b>".gettext("Grand Total")."</b>",
                     "",
                     "",
                     "",
@@ -719,7 +719,7 @@ class Reports extends MX_Controller
             }
             $duration = ($show_seconds == 'minutes') ? ($count_all['billseconds'] > 0) ? floor($count_all['billseconds'] / 60) . ":" . sprintf("%02d", $count_all['billseconds'] % 60) : "00:00" : $count_all['billseconds'];
             $provider_array[] = array(
-                "Grand Total",
+                gettext("Grand Total"),
                 "",
                 "",
                 "",
@@ -1093,7 +1093,7 @@ class Reports extends MX_Controller
         }
         if ($this->session->userdata('logintype') == 1) {
             $json_data['rows'][$count_all]['cell'] = array(
-                '<b>Total</b>',
+                '<b>'.gettext("Total").'</b>',
                 '-',
                 '-',
                 '-',
@@ -1151,13 +1151,8 @@ class Reports extends MX_Controller
     {
         $json_data = array();
         $instant_search = $this->session->userdata('left_panel_search_' . $accounttype . '_charges');
-        $like_str = ! empty($instant_search) ? "(invoice_details.charge_type like '%$instant_search%'  
-                                            OR   invoice_details.before_balance like '%$instant_search%'
-                                            OR   invoice_details.debit like '%$instant_search%'
-					    OR   invoice_details.created_date like '%$instant_search%'
-                                            OR   invoice_details.credit like '%$instant_search%'
-					    OR   view_invoices.number like '%$instant_search%'
-                                            OR   invoice_details.description like '%$instant_search%')" : null;
+        $like_str = ! empty($instant_search) ? "(charge_type like '%$instant_search%'
+                                            OR   description like '%$instant_search%')" : null;
 
         if (! empty($like_str))
             $this->db->where($like_str);
@@ -1184,10 +1179,15 @@ class Reports extends MX_Controller
             $invocienumber = (array) $this->db->get_where("invoices", array(
                 'id' => $value['invoiceid']
             ))->first_row();
+            if (count($invocienumber) && is_array($invocienumber)) {
+                $prefix_number = $invocienumber['prefix'] . "" . $invocienumber['number'];
+            } else {
+                $prefix_number = "";
+            }
             if ($this->session->userdata('logintype') == 1) {
                 $json_data['rows'][] = array(
                     'cell' => array(
-                        $value['number'],
+                        $prefix_number,
                         $value['charge_type'],
                         $value['description'],
                         $this->common->convert_to_currency_account("", "", $value['before_balance'] * $value['exchange_rate']),
@@ -1200,7 +1200,7 @@ class Reports extends MX_Controller
             } else {
                 $json_data['rows'][] = array(
                     'cell' => array(
-                        $value['number'],
+                        $prefix_number,
                         $value['charge_type'],
                         $value['description'],
                         $this->common->convert_to_currency_account("", "", $value['before_balance'] * $value['exchange_rate']),
@@ -1222,7 +1222,7 @@ class Reports extends MX_Controller
         }
         if ($this->session->userdata('logintype') == 1) {
             $json_data['rows'][$count_all]['cell'] = array(
-                '<b>Total</b>',
+                '<b>'.gettext("Total").'</b>',
                 '-',
                 '-',
                 '-',
@@ -1234,7 +1234,7 @@ class Reports extends MX_Controller
             );
         } else {
             $json_data['rows'][$count_all]['cell'] = array(
-                '<b>Total</b>',
+                '<b>'.gettext("Total").'</b>',
                 '-',
                 '-',
                 '-',

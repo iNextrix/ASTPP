@@ -5,7 +5,11 @@
 <?= $page_title ?>
 <? endblock() ?>
 <?php startblock('content') ?>
-
+<script>
+function install_addon(){
+	$(".overlay").show();
+}
+</script>
 
 <div id="main-wrapper">
 	<section class="slice color-three py-4">
@@ -43,10 +47,10 @@
                 ?>
 										<a
 													href="<?= base_url() ?>addons/addons_install/<?= $type."/".$package_name ?>/update/<?= $new_version."/".$old_version ?>"
-													class="btn btn-info btn-block"><?php echo gettext("Update"); ?></a>
+													class="btn btn-info btn-block" onclick='return install_addon()'><?php echo gettext("Update"); ?></a>
 												<a
 													href="<?= base_url() ?>addons/addons_install/<?php echo $type;?>/<?= $package_name ?>/uninstall/"
-													class="btn btn-light border btn-block"><?php echo gettext("Uninstall"); ?></a>
+													class="btn btn-light border btn-block" onclick='return install_addon()'><?php echo gettext("Uninstall"); ?></a>
 									<?
 
 } else {
@@ -54,14 +58,14 @@
                     ?>
 												<a
 													href="<?= base_url() ?>addons/addons_install/<?php echo $type;?>/<?= $package_name ?>/uninstall/"
-													class="btn btn-light border btn-block"><?php echo gettext("Uninstall"); ?></a>
+													class="btn btn-light border btn-block" onclick='return install_addon()'><?php echo gettext("Uninstall"); ?></a>
 										<?  }else{?>
 												<?php 
 												$request_uri=explode("/",$_SERVER['REQUEST_URI']);
 												if (isset($request_uri) && $request_uri[3]=='Enterprise') {?>
-														<a href="<?= base_url() ?>addons/addons_enterprise_license/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>" class="btn btn-info btn-block" rel="facebox">Install</a> 
+														<a href="<?= base_url() ?>addons/addons_enterprise_license/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>" class="btn btn-info btn-block" rel="facebox" >Install</a> 
 													<?php }else{?>
-															<a href="<?= base_url() ?>addons/addons_install/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>" class="btn btn-info btn-block">Install</a> 
+															<a href="<?= base_url() ?>addons/addons_install/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>" class="btn btn-info btn-block" onclick='return install_addon()'>Install</a> 
 												 <?php }
 									
 

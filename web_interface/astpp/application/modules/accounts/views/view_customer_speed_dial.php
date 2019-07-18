@@ -17,7 +17,7 @@
          document.getElementById(speed_dial).focus();
          return false;
      }else if (!/^[A-Za-z0-9]+$/.test(speeddial_number)) {
-        $('#error_'+speed_dial).text( "Please enter only alpha-numeric value" );
+        $('#error_'+speed_dial).text( "<?php echo gettext('Please enter only alpha-numeric value'); ?>" );
         document.getElementById(speed_dial).focus();
         return false;
     }
@@ -77,7 +77,7 @@ label.error {
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb m-0 p-0">
 							<li class="breadcrumb-item"><a
-								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s </a></li>
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= gettext(ucfirst($accounttype)."s"); ?> </a></li>
 							<li class="breadcrumb-item"><a
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <?php echo gettext('Profile');?> </a>
 							</li>
@@ -103,7 +103,7 @@ label.error {
 							<div class="col-md-12">
 								<div class="row">
 									<div class="col-md-2 col-2">
-										<label class="font-weight-bold"><?php echo gettext('Speed Dial (#Digits)');?></label>
+										<label class="font-weight-bold"><?php echo gettext('Speed Dial')." (#".gettext("Digits").")";?></label>
 									</div>
 									<div class="col-md-8 col-6">
 										<label class="font-weight-bold"><?php echo gettext('Extension');?></label>

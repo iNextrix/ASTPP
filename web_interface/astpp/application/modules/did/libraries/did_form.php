@@ -171,7 +171,7 @@ class did_form extends common
                 ''
             ),
             array(
-                gettext('Price'),
+                gettext('Monthly Fee'),
                 'INPUT',
                 array(
                     'name' => 'monthlycost[monthlycost]',
@@ -403,7 +403,7 @@ class did_form extends common
                 ''
             ),
             array(
-                gettext('Price'),
+                gettext('Monthly Fee'),
                 'INPUT',
                 array(
                     'name' => 'monthlycost[monthlycost]',
@@ -580,7 +580,7 @@ class did_form extends common
                 "right"
             ),
             array(
-                gettext("Cost/Min ($currency)"),
+                gettext("Cost/Min")." ($currency)",
                 "60",
                 "cost",
                 "cost",
@@ -591,7 +591,7 @@ class did_form extends common
                 "right"
             ),
             array(
-                gettext("Setup Fee ($currency)"),
+                gettext("Setup Fee")." ($currency)",
                 "80",
                 "setup",
                 "setup",
@@ -602,7 +602,7 @@ class did_form extends common
                 "right"
             ),
             array(
-                gettext("Price ($currency)"),
+                gettext("Monthly Fee")." ($currency)",
                 "80",
                 "monthlycost",
                 "monthlycost",
@@ -828,7 +828,7 @@ class did_form extends common
             ),
             $account,
             array(
-                gettext("Cost/Min<br>($currency)"),
+                gettext("Cost/Min")."<br>($currency)",
                 "85",
                 "cost",
                 "cost",
@@ -839,7 +839,7 @@ class did_form extends common
                 "right"
             ),
             array(
-                gettext("Setup Fee ($currency)"),
+                gettext("Setup Fee")." ($currency)",
                 "80",
                 "setup_fee",
                 "setup_fee",
@@ -851,7 +851,7 @@ class did_form extends common
             ),
 
             array(
-                gettext("Price ($currency)"),
+                gettext("Monthly Fee")." ($currency)",
                 "80",
                 "price",
                 "price",
@@ -1099,7 +1099,7 @@ class did_form extends common
                 "center"
             ),
             array(
-                gettext("Per Minute Cost ($currency)"),
+                gettext("Per Minute Cost")." ($currency)",
                 "150",
                 "cost",
                 "cost",
@@ -1132,22 +1132,22 @@ class did_form extends common
                 "right"
             ),
             array(
-                gettext("Setup Fee($currency)"),
+                gettext("Setup Fee")." ($currency)",
                 "140",
-                "setup",
-                "setup",
-                "setup",
+                "setup_fee",
+                "setup_fee",
+                "setup_fee",
                 "convert_to_currency_account",
                 "",
                 "true",
                 "right"
             ),
             array(
-                gettext("Monthly Fee($currency)"),
+                gettext("Monthly Fee")." ($currency)",
                 "140",
-                "monthlycost",
-                "monthlycost",
-                "monthlycost",
+                "price",
+                "price",
+                "price",
                 "convert_to_currency_account",
                 "",
                 "true",
@@ -1193,7 +1193,7 @@ class did_form extends common
                 "convert_to_currency_account"
             ),
             array(
-                gettext("Included<br> Seconds"),
+                gettext("Included Seconds"),
                 "100",
                 "includedseconds",
                 "",
@@ -1201,7 +1201,7 @@ class did_form extends common
                 ""
             ),
             array(
-                gettext("Setup <br> Fee"),
+                gettext("Setup Fee"),
                 "109",
                 "setup",
                 "setup",
@@ -1209,7 +1209,7 @@ class did_form extends common
                 "convert_to_currency_account"
             ),
             array(
-                gettext("Monthly<br> Fee"),
+                gettext("Monthly Fee"),
                 "140",
                 "monthlycost",
                 "monthlycost",
@@ -1225,7 +1225,7 @@ class did_form extends common
                 "convert_to_currency_account"
             ),
             array(
-                gettext("Disconnection <br> Fee"),
+                gettext("Disconnection Fee"),
                 "140",
                 "disconnectionfee",
                 "disconnectionfee",
@@ -1257,7 +1257,7 @@ class did_form extends common
         $currency = $this->CI->common->get_field_name('currency', 'currency', $currency_id);
         if ($account_info['reseller_id'] > 0) {
             $setup_fee = array(
-                gettext("Setup Fee ($currency)"),
+                gettext("Setup Fee")." ($currency)",
                 "80",
                 "setup_fee",
                 "setup_fee",
@@ -1268,7 +1268,7 @@ class did_form extends common
                 "right"
             );
             $price = array(
-                gettext("Price ($currency)"),
+                gettext("Monthly Fee")." ($currency)",
                 "80",
                 "price",
                 "price",
@@ -1280,7 +1280,7 @@ class did_form extends common
             );
         } else {
             $setup_fee = array(
-                gettext("Setup Fee ($currency)"),
+                gettext("Setup Fee")." ($currency)",
                 "80",
                 "setup",
                 "setup",
@@ -1291,7 +1291,7 @@ class did_form extends common
                 "right"
             );
             $price = array(
-                gettext("Price ($currency)"),
+                gettext("Monthly Fee")." ($currency)",
                 "80",
                 "monthlycost",
                 "monthlycost",
@@ -1349,7 +1349,7 @@ class did_form extends common
                 "center"
             ),
             array(
-                gettext("Cost/Min ($currency)"),
+                gettext("Cost/Min")." ($currency)",
                 "85",
                 "cost",
                 "cost",

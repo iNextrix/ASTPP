@@ -19,7 +19,7 @@ $(document).ready(function(){
 function validateForm(){
       if(document.getElementById('freeswitch_command').value == "")
       {
-	  $('#error_field_command').text( "Please Enter Switch command" );
+	  $('#error_field_command').text( "<?php echo gettext('Please Enter Switch command'); ?>" );
 	  document.getElementById('freeswitch_command').focus();
 	  return false;
       }
@@ -36,7 +36,7 @@ function validateForm(){
 						enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-2" style="text-align: right;">
-								<h4><?php echo gettext('Switch Host:')?></h4>
+								<h4><?php echo gettext('Switch Host').':'; ?></h4>
 							</div>
 							<div class="col-md-2">
 								<select class="form-control" name="host_id" id="host_id">
@@ -51,7 +51,7 @@ function validateForm(){
 		   </select>
 							</div>
 							<div class="col-md-2 " style="text-align: left;">
-								<h4><?php echo gettext('Switch Command:')?></h4>
+								<h4><?php echo gettext('Switch Command').":"; ?></h4>
 							</div>
 							<div class="row">
 								<div class="col-md-3">
@@ -70,7 +70,7 @@ function validateForm(){
 				</div>
 	     <?php if ($command != '') { ?>
              <div style="margin-left: 00px;">
-					<h2><?php echo gettext('Command : ')?><font color="blue"><?php echo $command_show; ?></font>
+					<h2><?php echo gettext('Command')." : "; ?><font color="blue"><?php echo $command_show; ?></font>
 					</h2>
 				</div>
 

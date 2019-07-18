@@ -10,21 +10,21 @@ $("#timezone_id").val(timezone_id);
 function form_submit(){
     var password = document.forms["reseller_form"]["password"].value;
     if (password == null || password == "") {
-	  $("#password_err").html('Please enter your password');    
+	  $("#password_err").html('<?php echo gettext("Please enter your password"); ?>');    
         return false;
     }else{
 	  $("#password_err").html('');    
     }
     var fname = document.forms["reseller_form"]["first_name"].value;
     if (fname == null || fname == "") {
-	  $("#fname_err").html('Please enter your first name');    
+	  $("#fname_err").html('<?php echo gettext("Please enter your first name"); ?>');    
         return false;
     }else{
 	  $("#fname_err").html('');    
     }
     var email = document.forms["reseller_form"]["email"].value;
     if (email == null || email == "") {
-	  $("#email_err").html('Please enter your email');    
+	  $("#email_err").html('<?php echo gettext("Please enter your email"); ?>');    
         return false;
     }else{
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
@@ -32,7 +32,7 @@ function form_submit(){
 	if(check == true ){
 	  $("#email_err").html('');    
 	}else{
-	  $("#email_err").html('Please enter proper email');    
+	  $("#email_err").html('<?php echo gettext("Please enter proper email"); ?>');    
           return false;
 	}
     }

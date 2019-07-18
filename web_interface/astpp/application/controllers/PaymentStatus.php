@@ -36,6 +36,12 @@ class PaymentStatus extends CI_Controller {
 				foreach($order_info as $key => $order){
 					$this->db->where("id",$order['id']);
 					$this->db->update("orders",array("payment_status"=>"FAIL"),"");
+					$update_order_arr = array("is_terminated"=>'1',
+							      "termination_date"=> gmdate("Y-m-d H:i:s"),
+							      "termination_note" => "Product has been terminated"
+					);
+					$this->db->where("order_id",$order['id']);
+					$this->db->update("order_items",$update_order_arr,"");
 				} 
 			}
 		}

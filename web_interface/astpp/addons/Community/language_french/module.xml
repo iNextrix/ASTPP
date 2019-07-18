@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>language_french</tech_name>
+	<name>French Localization</name>
+	<description>Add French Language Support</description>		
+	<icon>static/images/language_french.png</icon>
+	<version>1.0.0</version>
+	<license>Community</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

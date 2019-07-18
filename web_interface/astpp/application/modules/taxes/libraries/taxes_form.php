@@ -155,7 +155,7 @@ class Taxes_form extends common
                 ''
             ),
             array(
-                gettext('Rate(%)'),
+                gettext('Rate').' (%)',
                 'INPUT',
                 array(
                     'name' => 'taxes_rate',
@@ -248,7 +248,7 @@ class Taxes_form extends common
                 ''
             ),
             array(
-                gettext('Rate(%)'),
+                gettext('Rate').' (%)',
                 'INPUT',
                 array(
                     'name' => 'taxes_rate[taxes_rate]',
@@ -372,7 +372,7 @@ class Taxes_form extends common
                 "center"
             ),
             array(
-                gettext("Amount ($currency)"),
+                gettext("Amount"). " ($currency)",
                 "200",
                 "taxes_amount",
                 "taxes_amount",
@@ -383,7 +383,7 @@ class Taxes_form extends common
                 "right"
             ),
             array(
-                gettext("Rate(%)"),
+                gettext("Rate")." (%)",
                 "200",
                 "taxes_rate",
                 "",

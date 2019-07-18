@@ -89,7 +89,7 @@ return false;
 											</div>
 											
 											<div class="col-md-12 form-group">
-												<label class="col-md-3 p-0 control-label"><?php echo gettext('Tax Rate:')?> (<?= $paypal_tax; ?>%):</label>
+												<label class="col-md-3 p-0 control-label"><?php echo gettext('Tax Rate')?>: (<?= $paypal_tax; ?>%):</label>
 												<input type="text" name="tax_amount" id="tax_amount" readonly value="0"  class="col-md-12 form-control form-control-lg">
 											</div>
 											

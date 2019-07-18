@@ -100,7 +100,7 @@
                   </div>
 		<?php if($this->session->userdata ( 'logintype' ) == '-1' || $this->session->userdata ( 'logintype' ) == '2' || ($this->session->userdata ( 'logintype' ) == 1  && $accountinfo['is_distributor'] == 1)){ ?>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Commission (%)'); ?></label>
+                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Commission'); ?> (%)</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="commission" value= "<?php echo (isset($add_array['commission']))?$add_array['commission']:'' ?>" size="16" type="text"/>
                   </div>
 		   <?php } ?>
@@ -119,12 +119,12 @@
                       </select>
                   </div>
 		  <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Billing Days *'); ?></label>
+                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Billing Days'); ?> *</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="billing_days"  value= "<?php echo (isset($add_array['billing_days']))?$add_array['billing_days']:'' ?>"  size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="billing_days_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="billing_days_error"></span></div>	  
                   </div>
                  <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee ('.$currency.')')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="setup_fee"  value= "<?php echo (isset($add_array['setup_fee']))?$add_array['setup_fee']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="setup_fee_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="setup_fee_error"></span></div>
 				
@@ -152,7 +152,7 @@
 		    </div>
                   </div>
 		    <div class='col-md-6 form-group'>
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Apply on existing accounts *'); ?></label>
+                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Apply on existing accounts'); ?> *</label>
                       <select  name="apply_on_existing_account" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
                         <?php if(isset($add_array['apply_on_existing_account'])){ ?>
                         	<option value="1" <?php if($add_array['apply_on_existing_account'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext('No');?></option>

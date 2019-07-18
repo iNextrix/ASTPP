@@ -71,7 +71,7 @@ function validateform(){
       <div class="p-4 col-md-12">
         <div class="slice color-three float-left content_border col-12">
            <form action="<?=base_url()?>/systems/configuration/<?=$group_title?>" accept-charset="utf-8" id="system_conf_form" method="POST" name="invoice_conf_form"  onsubmit='return validateform()'>
-              <div class="col-md-12 col-sm-12 float-left p-0">
+              <div class="setting_tooltip col-md-12 col-sm-12 float-left p-0">
 							  <?php foreach($details as $key1=>$val1){
 									echo "<div class='col-12 px-2'>";
 										echo "<ul class='card p-0'>";
@@ -138,7 +138,7 @@ function validateform(){
 			  
 				  <center>
 					<div class="col-12 my-4">
-					  <button type="submit" value="save" class="btn btn-success">Save</button>
+					  <button type="submit" value="save" class="btn btn-success"><?php echo gettext("Save"); ?></button>
 					</div>
 				  </center>
 			  </div>	  	  

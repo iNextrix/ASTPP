@@ -73,7 +73,7 @@ if (! isset($csv_tmp_data)) {
 											<?php echo $config_array['pricelist_id'];?>
 										</div>
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Create Sip Device"); ?> </label>	 
+										<label class="col-md-12 p-0 control-label"><?php echo gettext("Create SIP Device"); ?> </label>	 
 											<?php echo $config_array['sipdevice_flag']; ?> 
 										</div>
 
@@ -111,7 +111,7 @@ if (! isset($csv_tmp_data)) {
 										</div>
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("LC Charge/Min "); ?></label>	 
+										<label class="col-md-12 p-0 control-label"><?php echo gettext("LC Charge/Min"); ?></label>	 
 											<?php echo $config_array['charge_per_min']; ?>
 										</div>
 
@@ -192,9 +192,7 @@ if (! isset($csv_tmp_data)) {
 </script>
 <?php
 }
-?>
-
-<? if (!empty($csv_tmp_data)) { ?>
+if (!empty($csv_tmp_data)) { ?>
 <section class="slice color-three padding-b-20">
 	<div class="w-section inverse p-0">
 		<div class="content">
@@ -206,17 +204,13 @@ if (! isset($csv_tmp_data)) {
 						<div class="col-12 padding-x-4">
 							<ul class="card no-padding">
 								<div class="pb-6" id="floating-label">
-									<h3 class="bg-secondary text-light p-3 m-0 rounded-top">Account
-										Information</h3>
-
-
-
+									<h3 class="bg-secondary text-light p-3 m-0 rounded-top"><?php gettext("Account Information"); ?></h3>
 									<table class="table">
 										<thead>
 											<tr>
 												<th><?php echo gettext("Account");?></th>
 												<th><?php echo gettext("DEFAULT VALUE");?></th>
-												<th><?php echo gettext("select Account");?></th>
+												<th><?php echo gettext("Select Account");?></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -229,7 +223,7 @@ if (! isset($csv_tmp_data)) {
                 "class" => $custom_value
             );
             echo "<tr>";
-            echo "<td><b>" . $csv_key . '(' . $csv_value . ")</b></td>";
+            echo "<td><b>" . gettext($csv_key) . '(' . gettext($csv_value) . ")</b></td>";
             echo "<td>$mapper_array[$csv_value]</td>";
             echo "<td>";
             if ($csv_value != "number" && $csv_value != "email") {
@@ -271,7 +265,7 @@ if (! isset($csv_tmp_data)) {
                 "class" => $custom_value
             );
             echo "<tr>";
-            echo "<td><b>" . $csv_key . '(' . $csv_value . ")</b></td>";
+            echo "<td><b>" . gettext($csv_key) . '(' . gettext($csv_value) . ")</b></td>";
             echo "<td>$mapper_array[$csv_value]</td>";
             echo "<td>";
             echo str_replace('col-md-5', 'col-md-12', str_replace('form-control', '', form_dropdown_all($params_arr, $file_data, '')));
@@ -291,7 +285,7 @@ if (! isset($csv_tmp_data)) {
 				value="<?php echo htmlspecialchars($post_array); ?>" /> <input
 				type="hidden" name="mode" value="import_customer_mapper" />
 			<div class="col-12 card">
-				<h2 class="h2 card-header"> <?php echo gettext("Import File Data..");?></h2>
+				<h2 class="h2 card-header"> <?php echo gettext("Import File Data.");?></h2>
 				<div class="p-4">
 					<div class="table-responsive">
 						<table width="100%" border="1"
@@ -313,8 +307,8 @@ if (! isset($csv_tmp_data)) {
         }
     }
     echo "<tr><td colspan='" . $cnt . "'>
-                     <input type='submit' class='btn btn-success float-left' id='Process' value='Process Records'/>
-                     <a href='" . base_url() . "accounts/customer_list/'><input type='button' class='btn btn-secondary mx-2 float-left' value='Back'/></a></td></tr>";
+                     <input type='submit' class='btn btn-success float-left' id='Process' value='".gettext('Process Records')."'/>
+                     <a href='" . base_url() . "accounts/customer_list/'><input type='button' class='btn btn-secondary mx-2 float-left' value='".gettext('Back')."'/></a></td></tr>";
     ?>
                  </table>
 					</div>
@@ -345,3 +339,4 @@ if (! isset($csv_tmp_data)) {
 endblock() ?>
 <?php
 end_extend() ?>
+

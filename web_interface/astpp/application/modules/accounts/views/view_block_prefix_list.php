@@ -37,12 +37,12 @@
                     $('#pattern_grid').flexReload();
                     
                 } else{
-                    alert("Problem In Add Patterns to account.");
+                    alert("<?php echo gettext('Problem In Add Patterns to account.'); ?>");
                 }
             }
         });
     } else{
-        alert("Please select atleast one pattern.");
+        alert("<?php echo gettext('Please select atleast one pattern.'); ?>");
     }
 }
 </script>
@@ -54,7 +54,7 @@
 		<div>
 			<div>
 				<div class="col-md-12 p-0 card-header">
-					<h3 class="fw4 p-4 m-0"><? echo "Blocked Codes"; ?></h3>
+					<h3 class="fw4 p-4 m-0"><? echo gettext("Blocked Codes"); ?></h3>
 				</div>
 			</div>
 		</div>
@@ -81,7 +81,7 @@
 				<div class="col-12">
 					<ul class="p-0">
 						<div class="col-12" id="floating-label">
-							<h3 class="bg-secondary text-light p-3 rounded-top"><? echo "Blocked Codes"; ?></h3>
+							<h3 class="bg-secondary text-light p-3 rounded-top"><? echo gettext("Blocked Codes"); ?></h3>
 
 							<div class="col-12" id="package_patterns">
 

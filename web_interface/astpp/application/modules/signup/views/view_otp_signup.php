@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   
+  
 <title>
 	<?php       
         $this->db->where('domain',$_SERVER['HTTP_HOST']);
@@ -13,16 +13,13 @@
         $this->db->limit(1);
         $invoiceconf = $this->db->get('invoice_conf');
         $invoiceconf = (array)$invoiceconf->first_row();
-	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
+				if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {    
+					echo gettext("OTP Verification")." | "; echo $invoiceconf['website_title']; 
+				} else {
+					echo gettext("OTP Verification")." | ".gettext("ASTPP - A Smart TelePhony Platform");
+				}
 	?>
-	OTP Verification | <?php echo $invoiceconf['website_title']; ?>
-	<?php
-		}else{ 
-	?>
-	OTP Verification | ASTPP - Open Source Voip Billing Solution
-	<?php
-	}
-	?>
+
 </title>
 <?php { 
 	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"){
@@ -66,7 +63,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/custome_index.js"></script>
 <noscript>	
 <div id="noscript-warning">
-ASTPP work best with JavaScript enabled
+<?php echo gettext("ASTPP work best with JavaScript enabled"); ?>
 </div>
 </noscript>
 
@@ -95,7 +92,7 @@ ASTPP work best with JavaScript enabled
        }
   function validateForm() {
 		if (document.forms["otp_form"]["otp_number"].value == "") {
-			document.getElementById("otp_number_error").innerHTML="OTP Number is Required";
+			document.getElementById("otp_number_error").innerHTML="<?php echo gettext('OTP Number is Required'); ?>";
 			return false;
 		}else{
 			var account_id=document.forms["otp_form"]["account_id"].value;
@@ -112,20 +109,20 @@ ASTPP work best with JavaScript enabled
 						response = $.trim(response);  
 						if(response == "success"){ 
 							 $("#toast-container").css("display","block");
-						   	 $(".toast-message").html("Your account created successfully and account details sent to your registered email address");
+						   	 $(".toast-message").html("<?php echo gettext('Your account created successfully and account details sent to your registered email address'); ?>");
 						   	 $('.toast-top-right').delay(900000).fadeOut(40000).fadeIn(2000);
 							 $("#submit_otp").attr("disabled", true);
 							 $('.resend_otp').unbind('click');
 							 setTimeout(function(){window.location.href = "<?= base_url() ?>"} , 5000);   
 						}else if(response == "forgot"){
 							 $("#toast-container").css("display","block");
-						   	 $(".toast-message").html("Your password change successfully and new password sent to your registered email address");
+						   	 $(".toast-message").html("<?php echo gettext('Your password change successfully and new password sent to your registered email address'); ?>");
 						   	 $('.toast-top-right').delay(900000).fadeOut(40000).fadeIn(2000);
 							 $("#submit_otp").attr("disabled", true);
 							 $('.resend_otp').unbind('click');
 							 setTimeout(function(){window.location.href = "<?= base_url() ?>"} , 5000); 
 						}else{
-							$("#otp_number_error").html("OTP Number is Wrong Please try again Or OTP expire Please Resend"); 
+							$("#otp_number_error").html("<?php echo gettext('OTP Number is Wrong Please try again Or OTP expire Please Resend'); ?>"); 
 						}
 					}
 				}); 
@@ -196,7 +193,7 @@ $(document).ready(function() {
 	});
     });
  });
-</script> 
+</script>  
 </head>
 <? extend('master.php') ?>
 <? startblock('extra_head') ?>
@@ -271,13 +268,13 @@ $(document).ready(function() {
 									</div>
 									<div class="gray_lohin col-md-12 mt-4 resend_otpdiv text-center">
 												<label class="resend_otp my-2">
-														Not Get OTP ? <a class="btn text-primary"><?php echo gettext('Resend OTP')?></a>
+														<?php echo gettext('Not Get OTP ?'); ?> <a class="btn text-primary"><?php echo gettext('Resend OTP')?></a>
 												</label>
 												
 									</div>		
 						
 					</div>
-			<p class="text-danger my-2" style="font-size:11px;font-weight: normal;"><b><?php echo gettext('Note:')?></b> <?php echo gettext("Please make sure do not refresh the page or don't go back")?></p>			
+			<p class="text-danger my-2" style="font-size:11px;font-weight: normal;"><b><?php echo gettext("Note:");?></b> <?php echo gettext("Please make sure do not refresh the page or don't go back"); ?></p>			
 				</form>	
 			</div>
 

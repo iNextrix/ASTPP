@@ -116,10 +116,10 @@ if (! isset($csv_tmp_data)) {
 				<div class="col-md-12">
 					<div class="text-center">
 						<button class="btn btn-success mt-4" id="import_terminationrate"
-							type="submit" name="action" value="Import">Import</button>
+							type="submit" name="action" value="Import"><?php echo gettext("Import"); ?></button>
 						<button class="btn btn-secondary ml-2 mt-4" id="ok" type="button"
 							name="action" value="Cancel"
-							onclick="return redirect_page('/rates/termination_rates_list/')">Cancel</button>
+							onclick="return redirect_page('/rates/termination_rates_list/')"><?php echo gettext("Cancel"); ?></button>
 					</div>
 				</div>
 			</div>

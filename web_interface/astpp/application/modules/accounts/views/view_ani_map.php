@@ -24,7 +24,7 @@ function get_alert_msg_destination(id){
          $('.flex_grid').flexReload();
          if(response == 1){
              document.getElementById('added').innerHTML='';
-             document.getElementById('deleted').innerHTML="ANIMAP deleted successfully...";
+             document.getElementById('deleted').innerHTML="<?php echo gettext('ANIMAP deleted successfully.'); ?>";
              document.getElementById('already').innerHTML="";
          }
      }
@@ -100,9 +100,9 @@ $(document).ready(function() {
 				enctype="multipart/form-data">
 				<input type="hidden" id="animap_id" name="animap_id"
 					value="<?=$animap_id; ?>" /> <input type="hidden" name="id" id='id'
-					value='' /> <label>ANI<span style="color: red"> *</span>:
+					value='' /> <label><?php echo gettext("ANI"); ?><span style="color: red"> *</span>:
 				</label> <input type="input" name="number" id="number"
-					maxlength="15"> <label>Status: </label> <select name="status"
+					maxlength="15"> <label><?php echo gettext("Status"); ?>: </label> <select name="status"
 					id="status" class="field select">
 					<option value="0"><?php echo gettext("Active");?></option>
 					<option value="1"><?php echo gettext("Inactive");?></option>

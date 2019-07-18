@@ -2805,7 +2805,7 @@ class Freeswitch_form extends common
                 "center"
             ),
             array(
-                gettext("User Name"),
+                gettext("User name"),
                 "80",
                 "username",
                 "",

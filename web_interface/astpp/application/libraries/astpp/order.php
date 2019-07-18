@@ -463,7 +463,7 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 
 	function get_product_info($accountdata,$product_id){
 		if($accountdata['type'] == '1'){
-			$product_query = $this->CI->db_model->getJionQuery('products', 'products.id,products.name,products.product_category,products.buy_cost,products.commission,products.price,products.setup_fee,products.billing_type,products.billing_days,products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id,reseller_products.setup_fee,reseller_products.is_optin', array('products.status'=>0,'reseller_products.product_id'=>$product_id,'reseller_products.is_optin'=>0), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','DESC','products.id');
+			$product_query = $this->CI->db_model->getJionQuery('products', 'products.id,products.name,products.product_category,products.buy_cost,products.commission,products.price,products.setup_fee,products.billing_type,products.billing_days,products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id,reseller_products.setup_fee,reseller_products.is_optin', array('products.status'=>0,'reseller_products.product_id'=>$product_id,'reseller_products.is_optin'=>0,'products.is_deleted'=>0), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','DESC','products.id');
 
 			if($product_query->num_rows > 0){
 			   return $product_query->result_array()[0];
@@ -474,14 +474,14 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 		}else{
 			if($accountdata['reseller_id'] > 0){
 				if($accountdata['type'] == 0){
-					$product_info = $this->CI->db_model->getJionQuery('products', 'products.id,products.name,products.product_category,products.buy_cost,products.commission,reseller_products.price,reseller_products.setup_fee,products.billing_type,products.billing_days,reseller_products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id,reseller_products.setup_fee,reseller_products.is_optin', array('products.status'=>0,'reseller_products.product_id'=>$product_id,'reseller_products.account_id'=>$accountdata['reseller_id']), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','DESC','products.id');
+					$product_info = $this->CI->db_model->getJionQuery('products', 'products.id,products.name,products.product_category,products.buy_cost,products.commission,reseller_products.price,reseller_products.setup_fee,products.billing_type,products.billing_days,reseller_products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id,reseller_products.setup_fee,reseller_products.is_optin', array('products.status'=>0,'reseller_products.product_id'=>$product_id,'reseller_products.account_id'=>$accountdata['reseller_id'],'products.is_deleted'=>0), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','DESC','products.id');
 
 				}else{
-					$product_info = $this->CI->db_model->getJionQuery('products', 'products.id,products.name,products.product_category,products.buy_cost,products.commission,reseller_products.price,reseller_products.setup_fee,products.billing_type,products.billing_days,reseller_products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id,reseller_products.setup_fee,reseller_products.is_optin', array('products.status'=>0,'reseller_products.product_id'=>$product_id,'reseller_products.is_optin'=>0,'reseller_products.account_id'=>$accountdata['reseller_id']), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','DESC','products.id');
+					$product_info = $this->CI->db_model->getJionQuery('products', 'products.id,products.name,products.product_category,products.buy_cost,products.commission,reseller_products.price,reseller_products.setup_fee,products.billing_type,products.billing_days,reseller_products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id,reseller_products.setup_fee,reseller_products.is_optin', array('products.status'=>0,'reseller_products.product_id'=>$product_id,'reseller_products.is_optin'=>0,'reseller_products.account_id'=>$accountdata['reseller_id'],'products.is_deleted'=>0), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','DESC','products.id');
 				}
 
 			}else{ 
-				$product_info = $this->CI->db_model->getSelect("*","products",array("id"=>$product_id,"status"=>"0"));
+				$product_info = $this->CI->db_model->getSelect("*","products",array("id"=>$product_id,"status"=>"0",'is_deleted'=>0));
 			}
 			
 			if($product_info->num_rows > 0 ){

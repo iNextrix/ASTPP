@@ -17,11 +17,11 @@ $(document).ready(function() {
         var FileUploadPath = fuData.value;
         if (FileUploadPath != '') {
             var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
-            if ( Extension == "jpeg" || Extension == "jpg") {
+            if ( Extension == "jpeg" || Extension == "jpg" || Extension == "png") {
                     if (fuData.files && fuData.files[0]) {
                         var size = fuData.files[0].size;
                         if(size > 1000000){
-                            alert("Maximum Logo upload size is 1MB");
+                            alert("<?php echo gettext('Maximum Logo upload size is 1MB'); ?>");
                             $("#uploadFile").val('');
                             $('#company_logo').attr('src', '');
                         }else{

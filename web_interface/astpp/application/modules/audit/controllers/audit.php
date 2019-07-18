@@ -24,11 +24,10 @@
 class Audit extends MX_Controller
 {
 
-    function Audit()
+    function __construct()
     {
         parent::__construct();
 
-        parent::__construct();
         $this->load->helper('template_inheritance');
 
         $this->load->library('audit_form');

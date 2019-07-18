@@ -577,9 +577,28 @@ class Freeswitch extends MX_Controller
 
     function livecall_hangup()
     {
-        $uuid = $_GET['uuid'];
-        $command = "api uuid_kill " . $uuid;
-        $response = $this->freeswitch_model->reload_live_freeswitch($command);
+
+        $get_uuid = $_GET['uuid'];	
+	$value = strip_slashes ( trim ( $get_uuid ) );
+	$value = preg_replace ( '#<script.*</script>#is', '', $value );
+	$value = strip_tags ( filter_var ( $value, FILTER_SANITIZE_STRING ) );
+	$value=$this->security->xss_clean ( $value );
+	$value_array = explode("-",$value);
+	$segment_1=strlen($value_array['1']);
+	$segment_2=strlen($value_array['2']);
+	$segment_3=strlen($value_array['3']);
+	$uuid = "";
+	if(($segment_1 == 4) && ($segment_2 == 4) && ($segment_3 == 4)){
+		$segment_0 = substr($value_array[0], -8);
+		$segment_4 = substr($value_array[4], 0, 12);
+		if(ctype_xdigit($segment_0) && ctype_xdigit($value_array['1']) && ctype_xdigit($value_array['2']) && ctype_xdigit($value_array['3']) && ctype_xdigit($segment_4)) {
+			$uuid=$segment_0.'-'.$value_array['1'].'-'.$value_array['2'].'-'.$value_array['3'].'-'.$segment_4;
+		}
+	}
+	if(!empty($uuid)){
+		$command = "api uuid_kill " . $uuid;
+		$response = $this->freeswitch_model->reload_live_freeswitch($command);
+	}
         redirect(base_url() . 'freeswitch/livecall_report/');
     }
 
@@ -755,7 +774,7 @@ class Freeswitch extends MX_Controller
                     $this->freeswitch_model->reload_freeswitch($cmd2, $sip_ip);
                 }
                 echo json_encode(array(
-                    "SUCCESS" => ucfirst($insert_arr['name']) . gettext(" Gateway Updated Successfully!")
+                    "SUCCESS" => ucfirst($insert_arr['name']) . gettext("Gateway Updated Successfully!")
                 ));
                 exit();
             }
@@ -793,7 +812,7 @@ class Freeswitch extends MX_Controller
                     $this->freeswitch_model->reload_freeswitch($cmd, $sip_ip);
                 }
                 echo json_encode(array(
-                    "SUCCESS" => ucfirst($insert_arr['name']) . gettext(" Gateway Added Successfully!")
+                    "SUCCESS" => ucfirst($insert_arr['name']) . gettext("Gateway Added Successfully!")
                 ));
                 exit();
             }
@@ -1032,7 +1051,7 @@ class Freeswitch extends MX_Controller
                 $update = $this->db->update("sip_profiles", $insert_arr, array(
                     'id' => $sipprofile_data['id']
                 ));
-                $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s SIP Profile Updated Successfully!', $sipprofile_data['name'])));
+                $this->session->set_flashdata('astpp_errormsg', $sipprofile_data['name']." ".gettext('SIP Profile Updated Successfully!'));
 
                 redirect(base_url() . 'freeswitch/fssipprofile/');
                 exit();
@@ -1100,9 +1119,9 @@ class Freeswitch extends MX_Controller
                     'id' => $edit_id
                 ));
                 if ($sipprofile_data['type_settings'] == "add_setting") {
-                    $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s SIP Setting Added Successfully!', $data['sip_name'])));
+                    $this->session->set_flashdata('astpp_errormsg', $data['sip_name'].' '.gettext('SIP Setting Added Successfully!'));
                 } else {
-                    $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s SIP Setting Updated Successfully!', $data['sip_name'])));
+                    $this->session->set_flashdata('astpp_errormsg', $data['sip_name'].' '.gettext('SIP Setting Updated Successfully!'));
                 }
                 redirect(base_url() . 'freeswitch/fssipprofile_edit/' . $sipprofile_data['id']);
                 exit();
@@ -1166,7 +1185,7 @@ class Freeswitch extends MX_Controller
         $update = $this->db->update("sip_profiles", $insert_arr, array(
             'id' => $id
         ));
-        $this->session->set_flashdata('astpp_notification', gettext(sprintf('%s SIP Setting Removed Successfully!', $name)));
+        $this->session->set_flashdata('astpp_notification', $name.' '. gettext('SIP Setting Removed Successfully!'));
         redirect(base_url() . 'freeswitch/fssipprofile_edit/' . $id);
     }
 
@@ -1352,4 +1371,3 @@ class Freeswitch extends MX_Controller
 }
 
 ?>
- 

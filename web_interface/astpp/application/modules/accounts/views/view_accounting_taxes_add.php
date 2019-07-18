@@ -23,7 +23,7 @@
                   });
       }
       else{
-        $("#availability_status").html('<font color="#cc0000">Please Enter Valid Account Number</font>');
+        $("#availability_status").html('<font color="#cc0000"><?php echo gettext("Please Enter Valid Account Number"); ?></font>');
       }
       return false;
     });
@@ -33,7 +33,7 @@
 <div
 	class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 	<div class="portlet-header ui-widget-header">
-		Account Taxes<span class="ui-icon ui-icon-circle-arrow-s"></span>
+		<?php echo gettext("Account Taxes"); ?><span class="ui-icon ui-icon-circle-arrow-s"></span>
 	</div>
 	<div class="portlet-content">
 		<form method="post" id="account_taxes_form"
@@ -42,7 +42,7 @@
 			<ul style="width: 600px">
 				<fieldset style="width: 585px;">
 					<legend>
-						<span style="font-size: 14px; font-weight: bold; color: #000;"><?php echo gettext("Account Taxes Information"0;?></span>
+						<span style="font-size: 14px; font-weight: bold; color: #000;"><?php echo gettext("Account Taxes Information"); ?></span>
 					</legend>
 					<li><label class="desc"><?php echo gettext("Account Number:");?></label>
 
@@ -99,7 +99,7 @@ if (in_array($values->id, $tax_ids)) {
 				style="width: 100%; float: left; height: 50px; margin-top: 20px;">
 				<input class="ui-state-default float-right ui-corner-all ui-button"
 					type="submit" name="action"
-					value="<?= isset($accountnum) ? "Save" : "Add" ?>" />
+					value="<?= isset($accountnum) ? gettext("Save") : gettext("Add") ?>" />
 			</div>
 
 		</form>

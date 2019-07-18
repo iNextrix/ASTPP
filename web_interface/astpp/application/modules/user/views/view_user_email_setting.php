@@ -14,25 +14,25 @@ function form_submit(){
 	var smtp_user = document.forms["reseller_form"]["smtp_user"].value;
 	var smtp_password = document.forms["reseller_form"]["smtp_password"].value;
 	if(smtp_port == ''){
-		$("#smtp_port_err").html('This field is require');    
+		$("#smtp_port_err").html('<?php echo gettext("This field is require"); ?>');    
 		return false;
 	}else{
 		$("#smtp_port_err").html('');    
 	}
 	if(smtp_host == ''){
-		$("#smtp_host_err").html('This field is require');    
+		$("#smtp_host_err").html('<?php echo gettext("This field is require"); ?>');    
 		return false;
 	}else{
 		$("#smtp_host_err").html('');    
 	}
 	if(smtp_user == ''){
-		$("#smtp_user_err").html('This field is require');    
+		$("#smtp_user_err").html('<?php echo gettext("This field is require"); ?>');    
 		return false;
 	}else{
 		$("#smtp_user_err").html('');    
 	}
 	if(smtp_password == ''){
-		$("#smtp_password_err").html('This field is require');    
+		$("#smtp_password_err").html('<?php echo gettext("This field is require"); ?>');    
 		return false;
 	}else{
 		$("#smtp_password_err").html('');    

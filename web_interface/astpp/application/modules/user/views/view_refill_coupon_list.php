@@ -9,7 +9,7 @@ $(document).ready(function() {
 	  var refill_coupon_no = document.getElementById('refill_coupon_number').value; 
 	  if(refill_coupon_no !=''){
 	    if (!/^[0-9]+$/.test(refill_coupon_no)) {
-	      $("#refill_coupon_number_error").html('The Coupon Number field must contain only numbers.');
+	      $("#refill_coupon_number_error").html('<?php echo gettext("The Coupon Number field must contain only numbers."); ?>');
 	      document.getElementById('refill_coupon_number').focus();
 	    }
 	    else{
@@ -20,11 +20,11 @@ $(document).ready(function() {
 			success:function(response) {
 				var data = jQuery.parseJSON(response);
 					if(response == 1){
-						$("#refill_coupon_number_error").html('The  Coupon Number field have inactive refill coupon.');
+						$("#refill_coupon_number_error").html('<?php echo gettext("The Coupon Number field have inactive refill coupon."); ?>');
 					}else if (response ==2){
-						$("#refill_coupon_number_error").html('This Coupon Number is already in use.');
+						$("#refill_coupon_number_error").html('<?php echo gettext("This Coupon Number is already in use."); ?>');
 					}else if (response ==3){
-						$("#refill_coupon_number_error").html('This Coupon Number is not found.');
+						$("#refill_coupon_number_error").html('<?php echo gettext("This Coupon Number is not found."); ?>');
 					}
 					else{
 						$("#amount_refill").html(data.amount);
@@ -36,7 +36,7 @@ $(document).ready(function() {
 			});
 	  }
 	  }else{
-	      $("#refill_coupon_number_error").html('The Coupon Number field is required.');
+	      $("#refill_coupon_number_error").html('<?php echo gettext("The Coupon Number field is required."); ?>');
 	      document.getElementById('refill_coupon_number').focus();
 	  }
 	});

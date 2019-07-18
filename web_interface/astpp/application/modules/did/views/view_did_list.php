@@ -26,7 +26,7 @@
       },
       messages:{
         free_did_list:{
-	    required: "The Available DIDs field is required."
+	    required: "<?php echo gettext('The Available DIDs field is required.'); ?>"
         }
       },
       errorPlacement: function(error, element) {

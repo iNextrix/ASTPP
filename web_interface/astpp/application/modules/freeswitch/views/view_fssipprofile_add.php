@@ -41,7 +41,7 @@ function validateForm(){
       var numbers  = isNaN(val);
 	  if(document.getElementById('sip_port').value == "")
 		  {
-			  document.getElementById('error_msg_port').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'>SIP Port is Required.</span>";
+			  document.getElementById('error_msg_port').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'><?php echo gettext('SIP Port is Required.'); ?></span>";
 			  document.getElementById('sip_port').focus();
 			  jQuery('#sip_port').addClass('borderred');
 			  formflag = false;
@@ -49,7 +49,7 @@ function validateForm(){
 
       if(document.getElementById('sip_ip').value == "")
 		  { 
-			  document.getElementById('error_msg_ip').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'>SIP IP is Required.</span>";
+			  document.getElementById('error_msg_ip').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'><?php echo gettext('SIP IP is Required.'); ?></span>";
 			  document.getElementById('sip_ip').focus();
 			  jQuery('#sip_ip').addClass('borderred');
 			  formflag = false;
@@ -63,24 +63,24 @@ function validateForm(){
       if(document.getElementById('sip_name').value == "")
 		  {
 			  
-			  document.getElementById('name_error').innerHTML = "Name is Required.";
+			  document.getElementById('error_msg_name').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'><?php echo gettext('Name is Required.'); ?></span>";
 			  document.getElementById('sip_name').focus();
 			  jQuery('#sip_name').addClass('borderred');
 			  formflag = false;
 		  }else{
-		$("#name_error").remove();
+		$("#error_msg_name").remove();
 		jQuery('#sip_name').removeClass('borderred');
 		  }
       if(numbers == true)
 		  {
-				  document.getElementById('error_msg_port').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'>The SIP Port field must contain only numbers.</span>";
+				  document.getElementById('error_msg_port').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'><?php echo gettext('The SIP Port field must contain only numbers'); ?>.</span>";
 				  document.getElementById('sip_port').focus();
 				  jQuery('#sip_port').addClass('borderred');
 				  formflag = false;
 		  }
 	  if(length1 > 5)
 		  {
-			 document.getElementById('error_msg_port').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'>The SIP Port field can not exceed 5 characters in length.</span>";
+			 document.getElementById('error_msg_port').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'><?php echo gettext('The SIP Port field can not exceed 5 characters in length.'); ?></span>";
 			 document.getElementById('sip_port').focus();
 			  jQuery('#sip_port').addClass('borderred');
 			 formflag = false;
@@ -88,7 +88,7 @@ function validateForm(){
 		   
 		  if(val < 0 || val > 65535)
 		  {
-			 document.getElementById('error_msg_port').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'>The SIP Port field can not exceed value of 0 to 65535.</span>";
+			 document.getElementById('error_msg_port').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'><?php echo gettext('The SIP Port field can not exceed value of 0 to 65535.'); ?></span>";
 			 document.getElementById('sip_port').focus();
 			  jQuery('#sip_port').addClass('borderred');
 			 formflag = false;
@@ -115,22 +115,20 @@ function validateForm(){
 					<div class="col-md-12">
 						<div class="card">
 							<div class="pb-4" id="floating-label">
-								<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext('Product Category')?>Create SIP Profile</h3>
+								<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext('Create SIP Profile')?></h3>
 								<div class="col-md-12">
 									<div class="row">
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('Name*')?></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext('Name')?>*</label>
 											<input class="col-md-12 form-control form-control-lg"
 												id="sip_name" name="name" size="20" type="text"
 												value="<?php echo isset($details['name'])?$details['name']:"";?>">
-											<div class="tooltips error_div pull-left p-0"
-												id="name_error_div" style="display: none;">
-												<i class="fa fa-exclamation-triangle error_triangle"></i><span
-													class="popup_error error p-0" id="name_error"></span>
-											</div>
+											<div id="error_msg_name"
+												class="tooltips error_div float-left p-0"
+												style="display: block;"></div>
 										</div>
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP IP *')?> </label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP IP')." *"; ?> </label>
 											<input class="col-md-12 form-control form-control-lg"
 												id="sip_ip" name="sip_ip" size="20" type="text"
 												value="<?php echo isset($details['sip_ip'])?$details['sip_ip']:"";?>">
@@ -139,7 +137,7 @@ function validateForm(){
 												style="display: block;"></div>
 										</div>
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP Port *')?></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP Port')." *"; ?></label>
 											<input class="col-md-12 form-control form-control-lg"
 												id="sip_port" name="sip_port" size="20" type="text"
 												value="<?php echo isset($details['sip_port'])?$details['sip_port']:"";?>">
@@ -154,10 +152,10 @@ function validateForm(){
 												data-live-search='true'>
 												<option value="0"
 													<?php if(isset($details['sipstatus']) && $details['sipstatus'] == 0){?>
-													selected="select" <?php } ?>>Active</option>
+													selected="select" <?php } ?>><?php echo gettext("Active"); ?></option>
 												<option value="1"
 													<?php if(isset($details['sipstatus']) && $details['sipstatus'] == 1){?>
-													selected="select" <?php } ?>>Inactive</option>
+													selected="select" <?php } ?>><?php echo gettext("Inactive"); ?></option>
 											</select>
 										</div>
 									</div>

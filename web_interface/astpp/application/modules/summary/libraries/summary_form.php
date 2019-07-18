@@ -103,7 +103,7 @@ class Summary_form extends common
                 )
             ),
             array(
-                gettext('Code '),
+                gettext('Code'),
                 'INPUT',
                 array(
                     'name' => 'pattern[pattern]',
@@ -122,7 +122,7 @@ class Summary_form extends common
                 ''
             ),
             array(
-                gettext(' Code Destination '),
+                gettext('Code Destination'),
                 'INPUT',
                 array(
                     'name' => 'notes[notes]',
@@ -410,7 +410,7 @@ class Summary_form extends common
                 ''
             ),
             array(
-                gettext("Cost <br/>($currency)"),
+                gettext("Cost")." <br/>($currency)",
                 "117",
                 "cost",
                 '',
@@ -495,7 +495,7 @@ class Summary_form extends common
                 )
             ),
             array(
-                gettext('Code '),
+                gettext('Code'),
                 'INPUT',
                 array(
                     'name' => 'pattern[pattern]',
@@ -514,7 +514,7 @@ class Summary_form extends common
                 ''
             ),
             array(
-                gettext('Destination '),
+                gettext('Destination'),
                 'INPUT',
                 array(
                     'name' => 'notes[notes]',
@@ -656,7 +656,7 @@ class Summary_form extends common
                 "center"
             ),
             array(
-                gettext("Debit <br/>($currency)"),
+                gettext("Debit")." <br/>($currency)",
                 "80",
                 "cost",
                 '',
@@ -667,7 +667,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Cost <br/>($currency)"),
+                gettext("Cost")." <br/>($currency)",
                 "80",
                 "price",
                 '',
@@ -678,7 +678,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Profit <br/>($currency)"),
+                gettext("Profit")." <br/>($currency)",
                 "80",
                 "profit",
                 "",
@@ -767,7 +767,7 @@ class Summary_form extends common
                 )
             ),
             array(
-                gettext('Code '),
+                gettext('Code'),
                 'INPUT',
                 array(
                     'name' => 'pattern[pattern]',
@@ -786,7 +786,7 @@ class Summary_form extends common
                 ''
             ),
             array(
-                gettext('Code Destination '),
+                gettext('Code Destination'),
                 'INPUT',
                 array(
                     'name' => 'notes[notes]',
@@ -970,7 +970,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Debit <br/> ($currency)"),
+                gettext("Debit")."<br/> ($currency)",
                 "87",
                 "cost",
                 "cost",
@@ -981,7 +981,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Cost <br/> ($currency)"),
+                gettext("Cost")."<br/> ($currency)",
                 "85",
                 "price",
                 "price",
@@ -992,7 +992,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Profit <br/> ($currency)"),
+                gettext("Profit")."<br/> ($currency)",
                 "93",
                 "profit",
                 "profit",
@@ -1024,85 +1024,326 @@ class Summary_form extends common
         return $buttons_json;
     }
 
-    function build_product_summary($new_column_arr)
+    function build_product_summary($new_column_arr="")
     {
         $account_info = $accountinfo = $this->CI->session->userdata('accountinfo');
+	$session_info = $this->CI->session->userdata('productsummary_reports_search');
+
+	if((isset($session_info) && $session_info !="" )){
+		$session_info['product_category'] = $session_info['product_category'];
+	}else{
+		$session_info['product_category'] = 1;
+	}
         $currency_id = $account_info['currency_id'];
         $currency = $this->CI->common->get_field_name('currency', 'currency', $currency_id);
 
-        $column_arr = array(
-            array(
-                gettext("Order Date"),
-                "100",
-                "order_date",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Quantity"),
-                "80",
-                "quantity",
-                '',
-                '',
-                '',
-                "",
-                "true",
-                "center"
-            ),
+	if($session_info['product_category'] == 2){
+		$free_minutes=array();
+		$used_minutes=array();
+		$available_minutes=array();
+	}else{
+		$free_minutes= array(
+				gettext("Free Minutes"),
+				"100",
+				"free_minutes",
+				"",
+				"",
+				"",
+				"",
+				"false",
+				"right"
+			    );
+		$used_minutes= array(
+				gettext("Used Minutes"),
+				"93",
+				"product_id",
+				"product_id",
+				"product_id",
+				"get_available_seconds_for_package",
+				"",
+				"false",
+				"right"
+			    );
+		$available_minutes=   array(
+				gettext("Available Minutes"),
+				"115",
+				"productid",
+				"productid",
+				"productid",
+				"get_available_seconds_for_package",
+				"",
+				"false",
+				"right"
+			    );
 
-            array(
-                gettext("Price"),
-                "80",
-                "price  ",
-                "price",
-                "price",
-                "convert_to_currency_account",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Free Minutes"),
-                "93",
-                "free_minutes",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("Billing Type"),
-                "93",
-                "billing_type",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("Billing Days"),
-                "93",
-                "billing_days",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "right"
-            )
-        );
-        $grid_field_arr = json_encode(array_merge($new_column_arr, $column_arr));
+	}
+	if(((isset($session_info['groupby_1']) && $session_info['groupby_1'] == "product_id" ) || (isset($session_info['groupby_2']) && $session_info['groupby_2'] == "product_id")) && ((isset($session_info['groupby_1']) && $session_info['groupby_1'] == "accountid") || (isset($session_info['groupby_2']) && $session_info['groupby_2'] == "accountid" ) ) ){ //echo 6565; exit;
+	$new_column_arr = $new_column_arr;
+	 $column_arr = array(
+		array(
+		        gettext("Quantity"),
+		        "80",
+		        "quantity",
+		        '',
+		        '',
+		        '',
+		        "",
+		        "false",
+		        "center"
+		    ),
+
+		    array(
+		        gettext("Price"),
+		        "80",
+		        "price  ",
+		        "price",
+		        "price",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "center"
+		    ),
+		    array(
+		        gettext("Setup Fee"),
+		        "80",
+		        "setup_fee  ",
+		        "setup_fee",
+		        "setup_fee",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "center"
+		    ),
+		   $free_minutes,
+		   $used_minutes,
+		   $available_minutes,
+		    array(
+		        gettext("Total Price"),
+		        "93",
+		        "",
+		        "",
+		        "",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "right"
+		    ),
+		    array(
+		        gettext("Active User"),
+		        "93",
+		        "accountid",
+		        "",
+		        "",
+		        "",
+		        "",
+		        "false",
+		        "right"
+		    ),
+		    array(
+		        gettext("Total User"),
+		        "93",
+		        "accountid",
+		        "",
+		        "",
+		        "",
+		        "",
+		        "false",
+		        "right"
+		    ),
+
+	);
+	}else if((isset($session_info['groupby_1']) && $session_info['groupby_1'] == "product_id") || (isset($session_info['groupby_2']) && $session_info['groupby_2'] == "product_id" )){
+
+	$new_column_arr = $new_column_arr;
+	$column_arr = array(
+		array(
+		        gettext("Quantity"),
+		        "80",
+		        "quantity",
+		        '',
+		        '',
+		        '',
+		        "",
+		        "false",
+		        "center"
+		    ),
+
+		    array(
+		        gettext("Price"),
+		        "80",
+		        "price  ",
+		        "price",
+		        "price",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "center"
+		    ),
+		    array(
+		        gettext("Setup Fee"),
+		        "80",
+		        "setup_fee  ",
+		        "setup_fee",
+		        "setup_fee",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "center"
+		    ),
+		    $free_minutes,
+		    $used_minutes,
+		    $available_minutes,
+		
+		    array(
+		        gettext("Total Price"),
+		        "93",
+		        "",
+		        "",
+		        "",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "right"
+		    ),
+		    array(
+		        gettext("Active User"),
+		        "93",
+		        "accountid",
+		        "",
+		        "",
+		        "",
+		        "",
+		        "false",
+		        "right"
+		    ),
+		    array(
+		        gettext("Total User"),
+		        "93",
+		        "accountid",
+		        "",
+		        "",
+		        "",
+		        "",
+		        "false",
+		        "right"
+		    ),
+	);
+	}else if((isset($session_info['groupby_1']) && $session_info['groupby_1'] == "accountid") || (isset($session_info['groupby_2']) && $session_info['groupby_2'] == "accountid" )){ 
+	$new_column_arr = $new_column_arr;
+	$column_arr = array(
+		
+		    $free_minutes,
+		    $used_minutes,
+		    $available_minutes,
+		    array(
+		        gettext("Total Number of Product"),
+		        "159",
+		        "",
+		        "",
+		        "",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "right"
+		    ),
+		    
+
+	);
+
+	}else{ 
+		if(isset($session_info['time']) && $session_info['time'] != ""){
+			$new_column_arr = $new_column_arr;
+		}else{
+			$new_column_arr = array();
+		}
+	 $column_arr = array(
+		array(
+			gettext("Product Name"),
+			"80",
+			"name",
+			'',
+			'',
+			'',
+			"",
+			"false",
+			"center"
+            	),
+		array(
+		        gettext("Quantity"),
+		        "80",
+		        "quantity",
+		        '',
+		        '',
+		        '',
+		        "",
+		        "false",
+		        "center"
+		    ),
+
+		    array(
+		        gettext("Price"),
+		        "80",
+		        "price  ",
+		        "price",
+		        "price",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "center"
+		    ),
+		    array(
+		        gettext("Setup Fee"),
+		        "80",
+		        "setup_fee  ",
+		        "setup_fee",
+		        "setup_fee",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "center"
+		    ),
+		    $free_minutes,
+		    $used_minutes,
+		    $available_minutes,
+		 
+		    array(
+		        gettext("Total Price"),
+		        "93",
+		        "",
+		        "",
+		        "",
+		        "convert_to_currency_account",
+		        "",
+		        "false",
+		        "right"
+		    ),
+		    array(
+		        gettext("Active User"),
+		        "93",
+		        "accountid",
+		        "",
+		        "",
+		        "",
+		        "",
+		        "false",
+		        "right"
+		    ),
+		    array(
+		        gettext("Total User"),
+		        "93",
+		        "accountid",
+		        "",
+		        "",
+		        "",
+		        "",
+		        "false",
+		        "right"
+		    ),
+	);
+	}	
+	$grid_field_arr = json_encode(array_merge($new_column_arr, $column_arr));
         return $grid_field_arr;
     }
-
     function build_grid_buttons_products_summary()
     {
         $buttons_json = json_encode(array(
@@ -1120,5 +1361,4 @@ class Summary_form extends common
         return $buttons_json;
     }
 }
-
 ?>

@@ -219,7 +219,8 @@ class Orders extends MX_Controller
                 if ($customer_data->num_rows > 0) {
                     $customer_data = $customer_data->result_array()[0];
                 }
-                $total_amt = (($ProductData['price'] + $ProductData['setup_fee']) * $ProductData['quantity']);
+		$quantity = (isset($ProductData['quantity']) && $ProductData['quantity'] > 1)?$ProductData['quantity']:1;
+                $total_amt = (($ProductData['price'] + $ProductData['setup_fee']) * $quantity);
                 $account_balance = $customer_data['posttoexternal'] == 1 ? $customer_data['credit_limit'] - ($customer_data['balance']) : $customer_data['balance'];
                 if ($account_balance >= $total_amt) {
                     $ProductData['invoice_type'] = ($ProductData['category'] == 3) ? "credit" : "debit";
@@ -231,11 +232,12 @@ class Orders extends MX_Controller
                             "id" => $ProductData['category']
                         ));
                         $final_array = array_merge($customer_data, $ProductData);
-                        $final_array['quantity'] = $ProductData['quantity'];
+                       $final_array['quantity'] = (isset($ProductData['quantity']) && $ProductData['quantity'] > 1)?$ProductData['quantity']:1;
                         $final_array['price'] = ($ProductData['setup_fee'] + $ProductData['price']);
                         $final_array['total_price'] = ($ProductData['setup_fee'] + $ProductData['price']) * (isset($ProductData['quantity']) ? $ProductData['quantity'] : 1);
                         $final_array['total_price_amount'] = ($ProductData['setup_fee'] + $ProductData['price']);
                         $final_array['category_name'] = $ProductData['category'];
+			$final_array['name'] = $ProductData['product_name'];
                         $this->common->mail_to_users('product_purchase', $final_array);
                     }
                     $this->session->set_flashdata('astpp_errormsg', gettext("Product assign successfully"));
@@ -572,24 +574,27 @@ class Orders extends MX_Controller
                             $this->did_model->did_number_release($did_info, $accountinfo, 'release');
                         } else {
                             $user_info = (array) $user_info->first_row();
-                            $user_info['product_name'] = $product_name;
+                            $user_info['name'] = $product_name;
                             $user_info['order_id'] = $update_array['order_id'];
                             $ord_id = '';
-                            $next_billing_date = '';
+                            $termination_date = '';
                             $accountid = '';
                             $ord_id = $this->common->get_field_name("id", "orders", array(
                                 "order_id" => $update_array['order_id']
                             ));
-                            $next_billing_date = $this->common->get_field_name("next_billing_date", "order_items", array(
+                          /*  $next_billing_date = $this->common->get_field_name("next_billing_date", "order_items", array(
                                 "order_id" => $ord_id
-                            ));
+                            ));*/
+
+
+			     $termination_date = $order_update_array['termination_date'];
                             $accountid = $this->common->get_field_name("accountid", "orders", array(
                                 "order_id" => $update_array['order_id']
                             ));
                             $user_info['number'] = $this->common->get_field_name("number", "accounts", array(
                                 "id" => $accountid
                             ));
-                            $user_info['next_billing_date'] = $next_billing_date;
+                            $user_info['next_billing_date'] = $termination_date;
                             $final_array = array_merge($user_info, $user_info);
                             $this->common->mail_to_users("product_release", $final_array);
                         }

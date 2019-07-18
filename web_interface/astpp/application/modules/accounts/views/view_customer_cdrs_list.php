@@ -32,7 +32,7 @@
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb m-0 p-0">
 							<li class="breadcrumb-item"><a
-								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= gettext(ucfirst($accounttype)."s"); ?></a></li>
 							<li class="breadcrumb-item"><a
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"><?php echo gettext('Profile');?> </a>
 							</li>
@@ -57,7 +57,7 @@
 							id="left_panel_quick_search"
 							class="form-control form-control-lg m-0"
 							value="<?php echo $this->session->userdata('left_panel_search_'.$accounttype.'_cdrs')?>"
-							placeholder="Search" />
+							placeholder=<?php echo gettext("Search"); ?> />
 					</div>
 				</div>
 				<div

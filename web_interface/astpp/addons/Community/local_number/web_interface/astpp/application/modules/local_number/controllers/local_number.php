@@ -151,35 +151,64 @@ class Local_number extends MX_Controller {
 		}
 		$check_header = $this->input->post ( 'check_header', true );
 		$invalid_flag = false;
-		if (isset ( $_FILES ['localnumberimport'] ['name'] ) && $_FILES ['localnumberimport'] ['name'] != "") {
-			list ( $txt, $ext ) = explode ( ".", $_FILES ['localnumberimport'] ['name'] );
-			if ($ext == "csv" && $_FILES ["localnumberimport"] ['size'] > 0) {
-				$error = $_FILES ['localnumberimport'] ['error'];
-				if ($error == 0) {
-					$uploadedFile = $_FILES ["localnumberimport"] ["tmp_name"];
-					$full_path = $this->config->item ( 'rates-file-path' );
-					$actual_file_name = "ASTPP-Local-Number-" . date ( "Y-m-d H:i:s" ) . "." . $ext;
-					if (move_uploaded_file ( $uploadedFile, $full_path . $actual_file_name )) {
-						$data ['page_title'] = gettext ( 'Import Local Number Preview' );
-						$data ['csv_tmp_data'] = $this->csvreader->parse_file ( $full_path . $actual_file_name, $local_number_fields_array, $check_header );
-						$data ['check_header'] = $check_header;
-						$this->session->set_userdata ( 'import_local_number_rate_csv', $actual_file_name );
+		if (! empty($_SERVER['CONTENT_LENGTH']) && empty($_FILES) && empty($_POST)) {
+            $data['error'] = "The uploaded file is too large. You must upload a file smaller than " . ini_get('upload_max_filesize');
+        } else {
+			if(isset($_FILES['localnumberimport']['name'])){
+				$extension = explode(".", $_FILES['localnumberimport']['name']);
+			}	
+			if ((isset($extension[1])) && (! isset($extension[2]))) {
+				if (isset ( $_FILES ['localnumberimport'] ['name'] ) && $_FILES ['localnumberimport'] ['name'] != "") {
+					list ( $txt, $ext ) = explode ( ".", $_FILES ['localnumberimport'] ['name'] );
+					if ($ext == "csv" && $_FILES ["localnumberimport"] ['size'] > 0) {
+						$error = $_FILES ['localnumberimport'] ['error'];
+						$finfo = finfo_open(FILEINFO_MIME_TYPE);
+                        $mime_type = finfo_file($finfo, $_FILES["localnumberimport"]["tmp_name"]);
+                        $acceptable_mime_types = array(
+                            'application/csv',
+                            'application/x-csv',
+                            'text/csv',
+                            'text/comma-separated-values',
+                            'text/x-comma-separated-values',
+                            'text/tab-separated-values',
+                            'text/plain'
+                        );
+                        if (! in_array($mime_type, $acceptable_mime_types)) {
+                            $data['error'] = gettext("Invalid file format : Only CSV file allows to import records(Can't import empty file)");
+                        } else {
+							if ($error == 0) {
+								$uploadedFile = $_FILES ["localnumberimport"] ["tmp_name"];
+								$full_path = $this->config->item ( 'rates-file-path' );
+								$actual_file_name = "ASTPP-Local-Number-" . date ( "Y-m-d H:i:s" ) . "." . $ext;
+								if (move_uploaded_file ( $uploadedFile, $full_path . $actual_file_name )) {
+									$data ['page_title'] = gettext ( 'Import Local Number Preview' );
+									$data ['csv_tmp_data'] = $this->csvreader->parse_file ( $full_path . $actual_file_name, $local_number_fields_array, $check_header );
+									$data ['check_header'] = $check_header;
+									$this->session->set_userdata ( 'import_local_number_rate_csv', $actual_file_name );
+								} else {
+									$data ['error'] = "File Uploading Fail Please Try Again";
+								}
+							}else{
+								$data ['error'] = "File Uploading Fail Please Try Again";
+							}
+						}	
 					} else {
-						$data ['error'] = "File Uploading Fail Please Try Again";
+						$data ['error'] = "Invalid file format : Only CSV file allows to import records(Can't import empty file)";
 					}
+					$data ['fields'] =  "Number,Country,Province/State,City,Status";
+				} else {
+					$invalid_flag = true;
 				}
-			} else {
-				$data ['fields'] =  "Number,Country,Province/State,City,Status";
-				$data ['error'] = "Invalid file format : Only CSV file allows to import records(Can't import empty file)";
-			}
-		} else {
-			$invalid_flag = true;
-		}
+			}else {
+                $invalid_flag = true;
+                $data['error'] = gettext("Invalid file format : Only CSV file allows to import records(Can't import empty file)");
+            }	
+		}	
 		if ($invalid_flag) {
 			$data ['fields'] =  "Number,Country,Province/State,City,Status";
 			$str = '';
 			if (empty ( $_FILES ['localnumberimport'] ['name'] )) {
-				$str .= '<br/>Please Select  File.';
+				$str .= '<div class="col-12">Please Select  File.</div>';
 			}
 			$data ['error'] = $str;
 		}

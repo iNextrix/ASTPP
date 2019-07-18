@@ -242,7 +242,7 @@ if ((isset($permissioninfo['invoices']['invoice_list']['generate'])) && ($permis
 								</div>
 								<div class="col-md-12 text-right">
 									<input type="button" class="btn btn-success" name="invoice"
-										value="Generate invoice" id="invoice"
+										value=<?php echo gettext("Generate Invoice"); ?> id="invoice"
 										onClick="validateForm();">
 								</div>
 

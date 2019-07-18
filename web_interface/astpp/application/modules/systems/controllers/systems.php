@@ -392,7 +392,7 @@ class Systems extends MX_Controller
             } else {
                 $this->system_model->edit_country($add_array, $add_array['id']);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s country updated successfully!', $add_array["country"]))
+                    "SUCCESS" => $add_array["country"].' '.gettext('Country Updated successfully!')
                 ));
                 exit();
             }
@@ -405,7 +405,7 @@ class Systems extends MX_Controller
             } else {
                 $response = $this->system_model->add_country($add_array);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s country added successfully!', $add_array["country"]))
+                    "SUCCESS" => $add_array["country"].' '.gettext('Country Added successfully!')
                 ));
                 exit();
             }
@@ -416,7 +416,7 @@ class Systems extends MX_Controller
     {
         $this->system_model->remove_country($id);
         $country = $this->common->get_field_name('country', 'countrycode', $id);
-        $this->session->set_flashdata('astpp_notification', gettext(sprintf('%s Country removed successfully!', $country)));
+        $this->session->set_flashdata('astpp_notification', $country.' '.gettext('Country removed successfully!'));
 
         redirect(base_url() . 'systems/country_list/');
     }
@@ -514,7 +514,6 @@ class Systems extends MX_Controller
         $data['form'] = $this->form->build_form($this->system_form->get_currency_form_fields($add_array['id']), $add_array);
         if ($add_array['id'] != '') {
             $data['page_title'] = gettext('Edit Currency');
-            $data['page_title'] = gettext('Edit Currency');
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -522,7 +521,7 @@ class Systems extends MX_Controller
             } else {
                 $this->system_model->edit_currency($add_array, $add_array['id']);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s currency updated successfully!', $add_array["currencyname"]))
+                    "SUCCESS" =>  $add_array["currencyname"].' '.gettext('Currency Updated Successfully!')
                 ));
                 exit();
             }
@@ -535,7 +534,7 @@ class Systems extends MX_Controller
             } else {
                 $response = $this->system_model->add_currency($add_array);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s  currency added successfully!', $add_array["currencyname"]))
+                    "SUCCESS" => $add_array["currencyname"].' '.gettext('Currency Added Successfully!')
                 ));
                 exit();
             }
@@ -546,7 +545,7 @@ class Systems extends MX_Controller
     {
         $currencyname = $this->common->get_field_name('currencyname', 'currency', $id);
         $this->system_model->remove_currency($id);
-        $this->session->set_flashdata('astpp_notification', gettext(sprintf('%s  Currency removed successfully!', $currencyname)));
+        $this->session->set_flashdata('astpp_notification', $currencyname.' '.gettext('Currency Removed Successfully!'));
 
         redirect(base_url() . 'systems/currency_list/');
     }
@@ -604,7 +603,7 @@ class Systems extends MX_Controller
                 if ($error == 0 && $error_zip == 0) {
                     $this->system_model->backup_insert($add_array);
                     echo json_encode(array(
-                        "SUCCESS" => gettext(sprintf('%s  backup exported successfully!', $add_array['backup_name']))
+                        "SUCCESS" => $add_array['backup_name'].' ' .gettext('Backup Exported Successfully!')
                     ));
 
                     exit();
@@ -699,26 +698,43 @@ class Systems extends MX_Controller
 
     function database_import_file()
     {
-        $filename_text = $_POST['fname'];
-        $upload_greeting_file = $_FILES['userfile']['name'];
-        $filename = DATABASE_DIRECTORY . $upload_greeting_file;
-        if (file_exists($filename)) {
-            $this->session->set_flashdata('astpp_notification', "This file " . basename($_FILES['userfile']['name']) . " is exists.");
-            redirect(base_url() . "systems/database_restore/");
-        } else {
-            $db_file = explode(".", $upload_greeting_file);
-            if ($db_file[1] == 'csv' || $db_file[1] == 'tar' || $db_file[1] == 'sql') {
-                $target_path = basename($_FILES['userfile']['name']);
-                move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_path);
-
-                $query = $this->system_model->import_database($filename_text, $_FILES['userfile']['name']);
-                $this->session->set_flashdata('astpp_errormsg', "The file " . basename($_FILES['userfile']['name']) . " has been uploaded");
-                redirect(base_url() . "systems/database_restore/");
+        if ($_POST['fname'] !='' && $_FILES['userfile']['name'] != '' && $_FILES['userfile']['type'] == "application/gzip") {
+            $filename_text = $_POST['fname'];
+            $upload_greeting_file = $_FILES['userfile']['name'];
+            $filename = DATABASE_DIRECTORY . $upload_greeting_file;
+            if (file_exists($filename)) {
+                $data['error'] = gettext("This file " . basename($_FILES['userfile']['name']) . " is exists.");
+                $data['page_title'] = gettext('Import Database');
+                $this->load->view('view_import_database', $data);
             } else {
-                $this->session->set_flashdata('astpp_notification', gettext("There is a some issue or invalid file format."));
-                redirect(base_url() . "systems/database_restore/");
+                $db_file = explode(".", $upload_greeting_file);
+                if ($db_file[1] == 'csv' || $db_file[1] == 'tar' || $db_file[1] == 'sql') {
+                    $target_path = basename($_FILES['userfile']['name']);
+                    move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_path);
+
+                    $query = $this->system_model->import_database($filename_text, $_FILES['userfile']['name']);
+                    $this->session->set_flashdata('astpp_errormsg', "The file " . basename($_FILES['userfile']['name']) . " has been uploaded");
+                    redirect(base_url() . "systems/database_restore/");
+                } else {
+                    $this->session->set_flashdata('astpp_notification', gettext("There is a some issue or invalid file format."));
+                    redirect(base_url() . "systems/database_restore/");
+                }
             }
+        }else{
+            if($_POST['fname'] =='' && $_FILES['userfile']['name'] == ''){
+                $data['error'] = gettext("Please enter name and select file.");
+            }else if($_POST['fname'] =='' ){
+                $data['error'] = gettext("Please enter name.");
+            }else if($_FILES['userfile']['name'] == ''){
+                $data['error'] = gettext("Please Select File");
+            }else{
+                $data['error'] = gettext("Please select valid file");
+            }
+            
+            $data['page_title'] = gettext('Import Database');
+            $this->load->view('view_import_database', $data);
         }
+        
     }
 
     function database_delete($id)
@@ -796,7 +812,48 @@ class Systems extends MX_Controller
         $this->session->set_userdata('advance_search', 0);
         $this->session->set_userdata('currency_search', "");
     }
-
+	function languages_export($multiple_ids)
+    {
+        $multiple_ids=explode('_',$multiple_ids);
+        $ids='';
+        foreach ($multiple_ids as $key => $id) {
+            $ids .=$id.',';
+        }
+        $ids=rtrim($ids,',');
+        if($ids != ''){
+            $where = "id IN ($ids)";
+            $this->db->where($where);
+            $result=$this->db->get("languages")->result_array();
+            $select_columns='';
+            if(!empty($result)){
+                foreach ($result as $key => $value) {
+                    $select_columns .= $value['locale'].',';
+                    $languagename_selected[] = gettext($value ['name']);
+                }
+                $select_columns=rtrim($select_columns,',');
+                $final_csv_array[] = $languagename_selected;
+                $this->db->select($select_columns);
+                $translation_query=$this->db->get("translations")->result_array();
+                $columns=explode(',',$select_columns);
+                if(!empty($translation_query)){
+                    foreach ($translation_query as $key => $value) {
+                        $data=array();
+                        foreach ($columns as $key1 => $row) {
+                            $data[]=$value[$row];
+                        }
+                        $final_csv_array[]=$data;
+                    }
+                }
+                ob_clean();
+                $this->load->helper('csv');
+                array_to_csv($final_csv_array, 'Languages_' . date("Y-m-d") . '.csv');
+            }else{
+                redirect(base_url().'systems/languages_list/');
+            }
+        }else{
+            redirect(base_url().'systems/languages_list/');
+        }
+    }
     function languages_list_edit($edit_id = '')
     {
         $data['page_title'] = gettext('Edit Languages');
@@ -819,12 +876,47 @@ class Systems extends MX_Controller
         $data['form'] = $this->form->build_form($this->system_form->get_languages_form_fields(), '');
         $this->load->view('view_languages_add_edit', $data);
     }
-
+	function languages_default()
+    {
+        $data['username'] = $this->session->userdata('user_name');
+        $data['flag'] = 'create';
+        $data['page_title'] = gettext('Set Default Language');
+        $this->db->where("name", 'default_language');
+        $query = $this->db->get("system");
+        $language=array();
+        if($query->num_rows() > 0){
+            $languges_result=(array)$query->first_row();
+            $language['name']=$languges_result['value'];
+        }
+        $data['form'] = $this->form->build_form($this->system_form->get_default_languages_form_fields($language), $language);
+        $this->load->view('view_languages_default', $data);
+    }
+    function languages_set_default(){
+        $this->db->where("name", 'default_language');
+        $query = $this->db->get("system");
+        if($query->num_rows() > 0){
+            $this->db->where("name","default_language");
+            $this->db->set('value', $this->input->post('name'));
+            $this->db->update('system');
+        }else{
+            $data=array(
+                "name"=>"default_language",
+                "value"=>$this->input->post('name'), 
+                "is_display"=>1 
+            );
+            $this->db->insert('system', $data);
+        }
+        echo json_encode(array(
+            "SUCCESS" => $this->input->post('name').' '.gettext('Languages updated successfully!')
+        ));
+        exit();
+        
+    }
     function languages_remove($id)
     {
         $languagename = $this->common->get_field_name('*', 'languages', $id);
         $this->system_model->remove_languages($id);
-        $this->session->set_flashdata('astpp_notification', gettext(sprintf('%s Languages removed successfully!', $languagename)));
+        $this->session->set_flashdata('astpp_notification', $languagename.' '.gettext('Languages removed successfully!'));
 
         redirect(base_url() . 'systems/languages_list/');
     }
@@ -846,7 +938,7 @@ class Systems extends MX_Controller
             $localedata = $query->first_row();
             $localename = $localedata->locale;
             if ($this->db->field_exists($localename, 'translations')) {
-                $this->db->query('ALTER TABLE translations DROP ' . $localename . ' ');
+                $this->db->query('ALTER TABLE translations DROP `' . $localename . '` ');
             } else {
                 redirect(base_url() . 'systems/languages_list/');
                 exit();
@@ -883,7 +975,7 @@ class Systems extends MX_Controller
             } else {
                 $this->system_model->edit_languages($add_array, $add_array['id']);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s languages updated successfully!', $add_array["name"]))
+                    "SUCCESS" => $add_array["name"].' '.gettext('Languages updated successfully!')
                 ));
                 exit();
             }
@@ -907,7 +999,7 @@ class Systems extends MX_Controller
                 $add_array['code'] = str_replace(' ', '_', trim($add_array['code']));
                 $response = $this->system_model->add_languages($add_array);
                 echo json_encode(array(
-                    "SUCCESS" => gettext(sprintf('%s languages added successfully!', $add_array["name"]))
+                    "SUCCESS" => $add_array["name"].' '.gettext('%s Languages added successfully!')
                 ));
                 exit();
             }
@@ -1023,7 +1115,7 @@ class Systems extends MX_Controller
                 $this->load->view('view_translation_edit', $data);
             } else {
                 $response = $this->system_model->edit_translation($add_array, $add_array['id']);
-                $this->session->set_flashdata('astpp_errormsg', ucfirst($add_array["module_name"]) . ' translation updated successfully!');
+                $this->session->set_flashdata('astpp_errormsg', ucfirst($add_array["module_name"]) .' '. gettext('Translation updated successfully!'));
                 redirect(base_url() . 'systems/translation_list/');
             }
         } else {
@@ -1036,7 +1128,7 @@ class Systems extends MX_Controller
             } else {
                 $data['page_title'] = gettext('Create Translation');
                 $response = $this->system_model->add_translation($add_array);
-                $this->session->set_flashdata('astpp_errormsg', ucfirst($add_array["module_name"]) . ' translation added successfully!');
+                $this->session->set_flashdata('astpp_errormsg', ucfirst($add_array["module_name"]) .' '. gettext('Translation added successfully!'));
                 redirect(base_url() . 'systems/translation_list/');
             }
         }
@@ -1084,7 +1176,7 @@ class Systems extends MX_Controller
 
                 $this->system_model->edit_configuration($update_array, $key);
             }
-            $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s  Settings updated sucessfully!', ucfirst($group_title))));
+            $this->session->set_flashdata('astpp_errormsg', ucfirst($group_title).' '.gettext('Settings updated sucessfully!'));
 
             redirect(base_url() . 'systems/configuration/' . $group_title);
         } else {
@@ -1093,3 +1185,4 @@ class Systems extends MX_Controller
         }
     }
 }
+

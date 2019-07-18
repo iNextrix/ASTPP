@@ -8,7 +8,7 @@ CREATE TABLE `local_number` (
   `status` tinyint(1) NOT NULL COMMENT '0:active,1:inactive',
   `created_date` datetime NOT NULL,
   `last_modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 ALTER TABLE `local_number`
   ADD PRIMARY KEY (`id`);
@@ -24,7 +24,7 @@ CREATE TABLE `local_number_destination` (
   `destination_number` varchar(50) DEFAULT NULL,
   `creation_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_modified_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 ALTER TABLE `local_number_destination`
   ADD PRIMARY KEY (`id`);

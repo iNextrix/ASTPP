@@ -48,7 +48,7 @@ class System_form extends common
                 ''
             ),
             array(
-                gettext(' Name'),
+                gettext('Name'),
                 'INPUT',
                 array(
                     'name' => 'name',
@@ -1669,12 +1669,12 @@ class System_form extends common
                 "create"
             ),
             array(
-                gettext("import"),
+                gettext("Import"),
                 "btn btn-line-blue",
                 "fa fa-upload fa-lg",
                 "button_action",
                 "systems/database_import/",
-                "popup",
+                "single",
                 "",
                 "import"
             ),
@@ -1717,7 +1717,7 @@ class System_form extends common
                 "",
                 "",
                 "",
-                "EDITABLE",
+                "",
                 "true",
                 "left"
             ),
@@ -1764,20 +1764,66 @@ class System_form extends common
         ));
         return $grid_field_arr;
     }
-
+	function get_default_languages_form_fields($id = '')
+    {
+       
+        $form['forms'] = array(
+            base_url() . 'systems/languages_set_default/',
+            array(
+                'id' => 'default_language_form',
+                'method' => 'POST',
+                'name' => 'default_language_form'
+            )
+        );
+        $form['Languages'] = array(
+            array(
+                gettext('Default Language'),
+                'name',
+                'SELECT',
+                '',
+                '',
+                'tOOL TIP',
+                'Please Enter account number',
+                'id',
+                'language',
+                'languages',
+                'build_dropdown_languages',
+                'where_arr',
+                ''
+            ),
+            
+        );
+        $form['button_save'] = array(
+            'name' => 'action',
+            'content' => gettext('Save'),
+            'value' => 'save',
+            'id' => 'submit',
+            'type' => 'button',
+            'class' => 'btn btn-success'
+        );
+        $form['button_cancel'] = array(
+            'name' => 'action',
+            'content' => gettext('Close'),
+            'value' => 'cancel',
+            'type' => 'button',
+            'class' => 'btn btn-secondary mx-2',
+            'onclick' => 'return redirect_page(\'NULL\')'
+        );
+        return $form;
+    }
     function build_admin_languages_grid_buttons()
     {
         $buttons_json = json_encode(array(
-            array(
-                gettext("Create"),
-                "btn btn-line-warning btn",
-                "fa fa-plus-circle fa-lg",
-                "button_action",
-                "systems/languages_add/",
-                "popup",
-                "",
-                "create"
-            ),
+             // array(
+            //     gettext("Create"),
+            //     "btn btn-line-warning btn",
+            //     "fa fa-plus-circle fa-lg",
+            //     "button_action",
+            //     "systems/languages_add/",
+            //     "popup",
+            //     "",
+            //     "create"
+            // ),
             array(
                 gettext("Delete"),
                 "btn btn-line-danger",
@@ -1797,7 +1843,27 @@ class System_form extends common
                 'single',
                 "",
                 "update"
-            )
+            ),
+	array(
+                gettext("Export"),
+                "btn btn-xing",
+                "fa fa-upload fa-lg",
+                "button_action",
+                "systems/languages_export",
+                '',
+                "",
+                "delete"
+            ),
+	 array(
+                gettext("Default Language"),
+                "btn btn-line-warning btn",
+                "fa fa-plus-circle fa-lg",
+                "button_action",
+                "systems/languages_default/",
+                "popup",
+                "",
+                "create"
+            ),
         ));
         return $buttons_json;
     }
@@ -2029,7 +2095,7 @@ class System_form extends common
                 'Please Enter country'
             ),
             array(
-                gettext('language'),
+                gettext('Language'),
                 'INPUT',
                 array(
                     'name' => 'code',
@@ -2042,7 +2108,7 @@ class System_form extends common
                 'Please Enter country'
             ),
             array(
-                gettext('locale code'),
+                gettext('Locale code'),
                 'INPUT',
                 array(
                     'name' => 'locale',
@@ -2286,7 +2352,6 @@ class System_form extends common
 
     function get_translation_form_fields($fields_data, $data_fields = '')
     {
-        // print_r($fields_data); die();
         $id[] = array(
             '',
             'HIDDEN',
@@ -2363,6 +2428,8 @@ class System_form extends common
         );
         return $form;
     }
+
 }
 
 ?>
+

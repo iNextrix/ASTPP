@@ -91,7 +91,7 @@ $(function() {
 									<input type='text' name="address" value="<?= $account_data['address'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label">Invoice Due Notification</label>
+									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Invoice Due Notification'); ?></label>
 									<select name="invoice_due_notification" value="<?= $account_data['invoice_due_notification'] ?>" class="form-control selectpicker">
 										<option value=0 <?=$account_data['invoice_due_notification'] == 0 ? 'selected' : ''; ?>><?php echo gettext('Enable');?></option>
 										<option value=1 <?=$account_data['invoice_due_notification'] == 1 ? 'selected' : ''; ?>><?php echo gettext('Disable');?></option>

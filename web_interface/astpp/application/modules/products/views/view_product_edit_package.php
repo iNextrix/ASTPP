@@ -40,7 +40,7 @@
                   </div>
 
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Name *'); ?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Name'); ?> *</label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo (isset($product_info['name']))?$product_info['name']:'' ?>" name="product_name" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="product_name_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="product_name_error">  
  </span></div>	
@@ -101,12 +101,12 @@
                   </div>
 		
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Commission (%)'); ?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Commission'); ?> (%)</label>
                      <input class="col-md-12 form-control form-control-lg m-0" name="commission" value="<?php echo (isset($product_info['commission']))?$product_info['commission']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="commission_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="commission_error">   </span></div>	
                   </div>
 			<div class='col-md-6 form-group'> 
-                      	  <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee ('.$currency.')')?></label>
+                      	  <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
                           <input class="col-md-12 form-control form-control-lg m-0" name="setup_fee" value = "<?php echo  $this->common->convert_to_currency ( '', '', $product_info['setup_fee'] )?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="setup_fee_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="setup_fee_error">   </span></div>	
 				
@@ -125,7 +125,7 @@
                       </select>
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Billing Days *'); ?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Billing Days'); ?> *</label>
                         <input class="col-md-12 form-control form-control-lg m-0" name="billing_days" value= "<?php echo (isset($product_info['billing_days']))?$product_info['billing_days']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="billing_days_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="billing_days_error"></span></div>
                   </div>
@@ -154,7 +154,7 @@
                       </select>
                   </div>
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Free Minutes *'); ?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Free Minutes'); ?> *</label>
                      <input class="col-md-12 form-control form-control-lg m-0" name="free_minutes" value="<?php echo (isset($product_info['free_minutes']))?$product_info['free_minutes']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="free_minutes_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="free_minutes_error">   </span></div>	
                   </div>

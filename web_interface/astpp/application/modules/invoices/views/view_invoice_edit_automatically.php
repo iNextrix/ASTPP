@@ -24,7 +24,7 @@ table.datatable th {
 </style>
 <script type="text/javascript" language="javascript">
 function form_confirm() {
-	var confirm_string = "Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.";
+	var confirm_string = "<?php echo gettext('Are you sure want to confirm this invoice ? once you confirm it'); ?>, <?php echo gettext('can not able to edit invoice again.'); ?>";
 	var answer = confirm(confirm_string);
 	if(answer){
 		document.getElementById("payment_form").submit();
@@ -155,20 +155,20 @@ function isNumber(evt, element) {
 												</h4></th>
 										</tr>
 										<tr>
-											<td><font style="font-weight: bold;"><?php echo gettext('Account Number :')?> </font>
+											<td><font style="font-weight: bold;"><?php echo gettext('Account Number')." :"; ?> </font>
 												<font><span style="font-size: bold; color: green;"><?php echo $accountdata['number']; ?></span></font></font>
 
 											</td>
 										</tr>
 										<tr>
-											<td><font style="font-weight: bold;"><?php echo gettext('Name :')?> </font>
+											<td><font style="font-weight: bold;"><?php echo gettext('Name')." :"; ?> </font>
 												<font color="#a09d9d"><?php echo $accountdata['first_name']; ?> <?php echo $accountdata['last_name']; ?> </font></font>
 
 											</td>
 										</tr>
 
 										<tr>
-											<td><font style="font-weight: bold;"><?php echo gettext('Email :')?></font>
+											<td><font style="font-weight: bold;"><?php echo gettext('Email')." :"; ?></font>
 												<font style="color: #a09d9d;">
 				<?php
     if ($accountdata['email'] != "") {
@@ -193,17 +193,17 @@ function isNumber(evt, element) {
 												</h4></th>
 										</tr>
 										<tr>
-											<td><b><?php echo gettext('Invoice Number :')?> </b><span
+											<td><b><?php echo gettext('Invoice Number')?> : </b><span
 												style="color: #a09d9d;"><?php echo $invoices['prefix']; ?><?php echo $invoices['number']; ?> </span>
 											</td>
 										</tr>
 										<tr>
-											<td><b><?php echo gettext('From Date :')?> </b><span
+											<td><b><?php echo gettext('From Date')?>  :</b><span
 												style="color: #a09d9d;"> <?php echo date('Y-m-d', strtotime($invoices['from_date'])) ; ?></span>
 											</td>
 										</tr>
 										<tr>
-											<td><b><?php echo gettext('Due Date : ')?></b><span
+											<td><b><?php echo gettext('Due Date')?> : </b><span
 												style="color: #a09d9d;"><?php
             echo date('Y-m-d', strtotime($invoices['due_date']));
             ?></span></td>
@@ -215,7 +215,7 @@ function isNumber(evt, element) {
 						<table width="50%" border="1" colspan="2"
 							class="invoice_table4 float-right mt-5">
 							<tr style='background-color: #375c7c; color: #fff; height: 30px;'>
-								<td style="padding: 0 10px;"><b><?php echo gettext('Invoice Amount :')?></b></td>
+								<td style="padding: 0 10px;"><b><?php echo gettext('Invoice Amount')?> :</b></td>
 								<td style="padding: 0 10px;"><span class="float-right"><b><?php echo $this->common->currency_decimal($amount); ?> <?php  echo isset($invoice_details['account_currency'])?$invoice_details['account_currency']:''; ?></b>
 								</span></td>
 								<input type="hidden" name="total_amount" id="total_amount"
@@ -226,7 +226,7 @@ function isNumber(evt, element) {
 						</table>
 						<div class="col-md-6 pl-0 mt-4">
 							<label class=""><h5>
-									<b style="color: #163B80;";><?php echo gettext('Invoice Note:')?></b>
+									<b style="color: #163B80;";><?php echo gettext('Invoice Note')?>:</b>
 								</h5></label>
 							<textarea id="invoice_notes" name="invoice_notes" style=''
 								class="form-control form-control-lg"><?= $invoice_info['notes']; ?></textarea>
@@ -299,7 +299,7 @@ for ($i = 1; $i <= $row_count; $i ++) {
 
 		<?php } ?>
 		<tr style='background-color: #375c7c; color: #fff; height: 30px;'>
-								<td colspan="2" style="text-align: right;"><?php echo gettext('Sub Total:')?>&nbsp; 
+								<td colspan="2" style="text-align: right;"><?php echo gettext('Sub Total')?>:&nbsp; 
 			</td>
 								<td style="text-align: right; padding: 0 10px;"><div
 										id='amount_val' name='amount_val'><?= $this->common->currency_decimal($this->common_model->calculate_currency($total_credit_sum)); ?></div>
@@ -323,7 +323,7 @@ if (isset($taxes_to_accounts) && ! empty($taxes_to_accounts)) {
 								value="<?= $tax_val['description']; ?>">
 
 							<tr style='background-color: #375c7c; color: #fff; height: 30px;'>
-								<td colspan="2" style="text-align: right;">Tax ( <?= $tax_val['description'] ?> ):&nbsp; 
+								<td colspan="2" style="text-align: right;"><?php echo gettext('Tax'); ?> ( <?= $tax_val['description'] ?> ):&nbsp; 
 		</td>
 
 								<td style="text-align: right; padding: 0 10px;"><div
@@ -335,7 +335,7 @@ if (isset($taxes_to_accounts) && ! empty($taxes_to_accounts)) {
 	<?php  ?>
 
 	<tr style='background-color: #375c7c; color: #fff; height: 30px;'>
-								<td colspan="2" style="text-align: right;"><?php echo gettext('Total Due:')?>&nbsp;
+								<td colspan="2" style="text-align: right;"><?php echo gettext('Total Due')?>:&nbsp;
 		</td>
 		<?php  if($total_tax > 0){ ?>
 		<td style="text-align: right; padding: 0 10px;"><div
@@ -358,11 +358,11 @@ if (isset($taxes_to_accounts) && ! empty($taxes_to_accounts)) {
 							<div class="col-md-12 pb-4">
 								<div class="mt-4 ">
 									<input class="btn btn-success search_generate_bar" name="save"
-										id="save" value="Submit" type="submit"> <input
+										id="save" value=<?php echo gettext("Submit"); ?> type="submit"> <input
 										class="btn btn btn-warning search_generate_bar margin-x-10"
 										name="confirm" id="save" value="Confirm" type="button"
 										onclick='form_confirm()'> <a href="../invoice_list/"> <input
-										id="ok" class="btn btn-secondary" type="button" value="Cancel"
+										id="ok" class="btn btn-secondary" type="button" value=<?php echo gettext("Cancel"); ?>
 										name="action">
 									</a>
 								</div>

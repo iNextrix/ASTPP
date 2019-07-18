@@ -22,10 +22,10 @@
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb m-0 p-0">
 							<li class="breadcrumb-item"><a
-								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s</a></li>
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= gettext(ucfirst($accounttype)."s"); ?></a></li>
 							<li class="breadcrumb-item"><a
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>">
-									Profile </a></li>
+									<?php echo gettext("Profile"); ?> </a></li>
 							<li class="breadcrumb-item active" aria-current="page"><a
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_add_callerid/".$edit_id."/"; ?>">
                             <?php echo gettext("Force Caller ID");?>

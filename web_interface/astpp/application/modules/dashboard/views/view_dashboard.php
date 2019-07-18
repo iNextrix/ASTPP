@@ -98,7 +98,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             min: 0,
                             opposite: true, 
                             title: {
-                                text: 'Profit per day'
+                                text: '<?php echo gettext("Profit per day"); ?>'
                             }
                         }],
                     tooltip: {
@@ -138,14 +138,14 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                     },
                     series: [
                         {
-                            name: 'Total Calls',
+                            name: '<?php echo gettext("Total Calls"); ?>',
                             type: 'column',
                             color:'#6E8CD7  ',
 							yAxis:0,
                             data: response_data.total
                         },
                         {
-                            name: 'Answered Calls',
+                            name: '<?php echo gettext("Answered Calls"); ?>',
                             type: 'spline',
                             color:'#34D3EB',
                             yAxis:0,
@@ -156,7 +156,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             dashStyle: 'shortdot'
                         },
                         {
-                            name: 'Failed Calls',
+                            name: '<?php echo gettext("Failed Calls"); ?>',
                             type: 'spline',
                             color:'#E94E02',
                             yAxis:0,
@@ -167,7 +167,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             dashStyle: 'shortdot'
                         },
                         {
-                            name: 'Profit',
+                            name: '<?php echo gettext("Profit"); ?>',
                             type: 'spline',
                             yAxis:1,
                             color:'#008000',
@@ -259,9 +259,9 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
            // alert(response_data);
 				var radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
 				if(radiobuttonvalue == 'count'){
-					var graphby = "By Calls";
+					var graphby = "<?php echo gettext('By Calls'); ?>";
 				}else{
-					var graphby = "By Minutes";
+					var graphby = "<?php echo gettext('By Minutes'); ?>";
 				}
 				$("#bygraph").val(graphby);
                 $("#call-count").hide();
@@ -269,7 +269,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                     $("div.call_count_data").hide();            
                     $("div.not_data").addClass("second");
                     $("div.not_data").show();
-                    $('div.not_data').html('<i class="fa fa-meh-o"></i> No Records Found');
+                    $('div.not_data').html('<i class="fa fa-meh-o"></i> <?php echo gettext("No Records Found"); ?>');
                 }
                 else{
                     $("div.not_data").hide();
@@ -345,9 +345,9 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
             success: function(response_data) {
 				var radiobuttonvaluecountry = $("input[name='country_pie_chart']:checked").val(); 
 				if(radiobuttonvaluecountry == 'count'){
-					var graphby = "By Calls";
+					var graphby = "<?php echo gettext('By Calls'); ?>";
 				}else{
-					var graphby = "By Minutes";
+					var graphby = "<?php echo gettext('By Minutes'); ?>";
 				}
 				$("#bygraphcountry").val(graphby);
                 $("#country-count").hide();
@@ -355,7 +355,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                     $("div.country_count_data").hide();            
                     $("div.country_not_data").addClass("second");
                     $("div.country_not_data").show();
-                    $('div.country_not_data').html('<i class="fa fa-meh-o"></i> No Records Found');
+                    $('div.country_not_data').html('<i class="fa fa-meh-o"></i> <?php echo gettext("No Records Found"); ?>');
                 }
                 else{
                     $("div.country_not_data").hide();
@@ -424,18 +424,19 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
     
     $(document).ready(function() {
 	    $('.selectpicker').selectpicker();  
-        var monthNames = ["January",
-                         "February",
-                         "March",
-                         "April",
-                         "May",
-                         "June",
-                         "July",
-                         "August",
-                         "September",
-                         "October",
-                         "November",
-                         "December"
+        var monthNames = [
+                        "<?php echo gettext('January'); ?>",
+                        "<?php echo gettext('February'); ?>",
+                        "<?php echo gettext('March'); ?>",
+                        "<?php echo gettext('April'); ?>",
+                        "<?php echo gettext('May'); ?>",
+                        "<?php echo gettext('June'); ?>",
+                        "<?php echo gettext('July'); ?>",
+                        "<?php echo gettext('August'); ?>",
+                        "<?php echo gettext('September'); ?>",
+                        "<?php echo gettext('October'); ?>",
+                        "<?php echo gettext('November'); ?>",
+                        "<?php echo gettext('December'); ?>"
             ];
         var month=$("#month_dropdown").val();
         $("#month_year_name").html(monthNames[month-1]);
@@ -445,7 +446,6 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
         
         build_today_result();
 
-        
         $('input[name=calls_pie_chart]').change(function(){
             var radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
             var drop_val=$("#today_dropdown").val();
@@ -682,7 +682,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             <h3 class="text-dark p-3">
                                 <i class="fa fa-users text-primary fa-fw"></i> <?php echo gettext("Top 10 Accounts"); ?>
                               <div class="dropdown float-right col-5 p-0">
-								<input type="text" class="border-primary col-8 float-right form-control text-center text-primary" readonly="true" name="bygraph" id="bygraph" value="By Minutes" style="background: transparent;font-size: 12px;">
+								<input type="text" class="border-primary col-8 float-right form-control text-center text-primary" readonly="true" name="bygraph" id="bygraph" value="<?php echo gettext("By Minutes"); ?>" style="background: transparent;font-size: 12px;">
                                 <button type="button" class="btn btn-link dropdown-toggle position-relative float-right py-0" id="radioToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   <i class="fa fa-ellipsis-v"></i>
                                 </button>
@@ -720,7 +720,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                                     <input type="radio" name="country_pie_chart" id="option22" value="count" class="ace" autocomplete="off"> <?php echo gettext("By Calls"); ?>
                                   </label>
                                   <label class="dropdown-item">
-                                    <input type="radio" name="country_pie_chart" id="option11" value="minutes" class="ace" autocomplete="off" checked><?php echo gettext(" By Minutes"); ?>
+                                    <input type="radio" name="country_pie_chart" id="option11" value="minutes" class="ace" autocomplete="off" checked><?php echo gettext("By Minutes"); ?>
                                   </label>
                                 </div>
                               </div>
@@ -823,3 +823,4 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 <? startblock('sidebar') ?>
 <? endblock() ?>
 <? end_extend() ?> 
+

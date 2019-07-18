@@ -29,9 +29,9 @@ if (isset($error) && ! empty($error)) {
           </span>
 							<h3 class="padding-t-10 padding-l-16"><?php
 
-echo gettext("File must be in the following format:<br />
-            access_number,country,status,creation_date,last_modified_date
-            <br/><br/>The file shall have the text fields escaped with quotation marks and the fields seperated by commas.</p>")?>
+echo gettext("File must be in the following format:")."<br />".
+            gettext("access_number,country,status,creation_date,last_modified_date")."
+            <br/><br/>".gettext("The file shall have the text fields escaped with quotation marks and the fields seperated by commas.</p>")?>
           
 						
 						</div>
@@ -42,7 +42,7 @@ echo gettext("File must be in the following format:<br />
 							<div class="w-box">
 								<h3 class="padding-t-10 padding-l-16 padding-b-10"><?php echo gettext( "Import Accessnumber") ?></h3>
 								<div class="col-md-12 no-padding">
-									<label class="col-md-3"> <?php echo gettext( "Trunk List: ") ?> </label>
+									<label class="col-md-3"> <?php echo gettext( "Trunk List").': ' ?> </label>
 									<div>
                <?
 

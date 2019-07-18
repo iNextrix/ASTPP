@@ -307,8 +307,15 @@ class Accounts_model extends CI_Model
         $this->db->where($where);
         if ($flag) {
             if (! $export) {
+                $get_array=$this->input->get();
+		$sortfield_name='number';
+		$sordorder_name='desc';
+		if(isset($get_array['sortname'])){
+			$sortfield_name=$get_array['sortname'];
+			$sordorder_name=$get_array['sortorder'];	
+		}
                 $this->db->limit($limit, $start);
-                $this->db->order_by('number', 'desc');
+                $this->db->order_by($sortfield_name,$sordorder_name);
             }
         }
         $result = $this->db->get('accounts');

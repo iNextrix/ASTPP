@@ -604,8 +604,8 @@ class Form {
 						}
 						if ($fieldvalue [10] == 'set_status') {
 							$drp_array = array (
-									'0' => 'Active',
-									'1' => 'Inactive' 
+								'0' => gettext('Active'),
+								'1' => gettext('Inactive')
 							);
 						} 
 						else {

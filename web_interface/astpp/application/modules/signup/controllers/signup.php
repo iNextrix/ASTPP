@@ -79,7 +79,7 @@ class Signup extends MX_Controller
             $number = '';
             $insert_array = array();
             if (! is_numeric($add_array['telephone'])) {
-                $data['error']['telephone'] = "<span class='text-danger'>Telephone number is only numeric</span";
+                $data['error']['telephone'] = "<span class='text-danger'>".gettext('Telephone number is only numeric')."</span";
             }
 
             $reseller_id = '0';
@@ -107,10 +107,10 @@ class Signup extends MX_Controller
                 $account_arr = (array) $this->db->get('accounts')->first_row();
             }
             if ($userCaptcha != $this->session->userdata('captchaWord')) {
-                $data['error']['captcha_err'] = "<span class='text-danger'>Please enter valid Captcha code</span>";
+                $data['error']['captcha_err'] = "<span class='text-danger'>".gettext("Please enter valid Captcha code")."</span>";
             } else {
                 if (isset($account_arr) && empty($account_arr)) {
-                    $data['error']['account_deleted'] = "<span class='text-danger'>Please contact to administrator</span>";
+                    $data['error']['account_deleted'] = "<span class='text-danger'>".gettext("Please contact to administrator")."</span>";
                 } else {
                     if ($account_generate == 0) {
                         $number = $country_code . $add_array['telephone'];
@@ -142,9 +142,9 @@ class Signup extends MX_Controller
                     }
                     if ($cnt_result['count'] > 0) {
                         if ($account_generate == 0) {
-                            $data['error']['account_number'] = "<span class='text-danger'>Requested number is already exist</span>";
+                            $data['error']['account_number'] = "<span class='text-danger'>".gettext("Requested number is already exist")."</span>";
                         } else {
-                            $data['error']['account_email'] = "<span class='text-danger'>Requested email is already exist</span>";
+                            $data['error']['account_email'] = "<span class='text-danger'>".gettext("Requested email is already exist")."</span>";
                         }
                     } else {
 
@@ -204,7 +204,7 @@ class Signup extends MX_Controller
                 }
                 if ($verification_by == '0' || $verification_by == '2') {
 
-                    $this->send_mail('0', 'signup_confirmation', $insert_array);
+                    $this->send_mail('0', 'signup_confirmation', $insert_array,$number);
                 }
 
                 $signup_key = $this->session->userdata('key');
@@ -378,12 +378,44 @@ class Signup extends MX_Controller
             $sms_message = str_replace('#TIME#', $otp_expire_min, $sms_message);
             $sms_message = str_replace('#COMPANY_NAME#', $invoice_arr['company_name'], $sms_message);
         }
+	$url = 'https://rest.nexmo.com/sms/json?' . http_build_query([
+   			     'api_key' =>$sms_api_key,
+   			     'api_secret' => $sms_secret_key,
+        		     'to' => $number,
+       			     'from' =>'ABC',
+   			     'text' => "".$sms_message."".$user_data['otp'].""
+   			 ]);
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$response = curl_exec($ch);
+	$verification_by = common_model::$global_config['system_config']['verification_by'];
+	if($verification_by != "2"){
+		$email_array = array(
+		    'accountid' => isset($account_id) ? $account_id : "",
+		    'date' => gmdate('Y-m-d H:i:s'),
+		    'subject' => $query[0]->subject,
+		    'body' => "",
+		    'from' => $invoice_arr['emailaddress'],
+		    'to' => $user_data['email'],
+		    'status' => "1",
+		    'attachment' => '',
+		    'template' => '',
+		    'reseller_id' => '0',
+		    'to_number' => $number,
+		    'sms_body' => $sms_message
+		);
+	$this->db->insert("mail_details", $email_array);
+	}
         return true;
     }
 
-    function send_mail($account_id, $temp_name, $user_data)
+   function send_mail($account_id, $temp_name, $user_data,$number="")
     {
         $system_config = common_model::$global_config['system_config'];
+	$query = $this->db_model->getSelect("*", "default_templates", array(
+            'name' => $temp_name
+        ))->result();
+        $sms_message = $query[0]->sms_template;
         $EmailTemplate = (array) $this->db->get_where("default_templates", array(
             'name' => $temp_name
         ))->first_row();
@@ -408,6 +440,10 @@ class Signup extends MX_Controller
         $template = $EmailTemplate['template'];
         if (! empty($EmailTemplate)) {
             if ($EmailTemplate['name'] == 'signup_confirmation') {
+		$sms_message = str_replace('#FIRST_NAME#', $user_data['first_name'], $sms_message);
+		$sms_message = str_replace('#OTP#', $user_data['otp'], $sms_message);
+		$sms_message = str_replace('#TIME#', $otp_expire_min, $sms_message);
+		$sms_message = str_replace('#COMPANY_NAME#', $company_name, $sms_message);
                 $TemplateData['subject'] = $EmailTemplate['subject'];
                 $template = str_replace('#NAME#', $user_data['first_name'] . " " . $user_data['last_name'], $template);
                 $template = str_replace('#OTP#', $user_data['otp'], $template);
@@ -418,6 +454,10 @@ class Signup extends MX_Controller
                 $template = str_replace('#COMPANY_NAME#', $company_name, $template);
             }
             if ($EmailTemplate['name'] == 'forgot_password_confirmation') {
+		$sms_message = str_replace('#FIRST_NAME#', $user_data['first_name'], $sms_message);
+		$sms_message = str_replace('#OTP#', $user_data['otp'], $sms_message);
+		$sms_message = str_replace('#TIME#', $otp_expire_min, $sms_message);
+		$sms_message = str_replace('#COMPANY_NAME#', $company_name, $sms_message);
                 $TemplateData['subject'] = $EmailTemplate['subject'];
                 $template = str_replace('#NAME#', $user_data['first_name'] . " " . $user_data['last_name'], $template);
                 $template = str_replace('#OTP#', $user_data['otp'], $template);
@@ -428,6 +468,12 @@ class Signup extends MX_Controller
                 $template = str_replace('#COMPANY_NAME#', $company_name, $template);
             }
         }
+	$TemplateData['subject']=strip_tags ($TemplateData['subject']);
+        $template=strip_tags($template);
+	$verification_by = common_model::$global_config['system_config']['verification_by'];
+	if($verification_by == "0"){
+		$sms_message = "";
+	}
         $email_array = array(
             'accountid' => $account_id,
             'date' => gmdate('Y-m-d H:i:s'),
@@ -439,8 +485,8 @@ class Signup extends MX_Controller
             'attachment' => '',
             'template' => '',
             'reseller_id' => '0',
-            'to_number' => '0',
-            'sms_body' => ''
+            'to_number' => isset($number) ? $number : '',
+            'sms_body' => $sms_message
         );
         $this->db->insert("mail_details", $email_array);
         return true;
@@ -540,6 +586,8 @@ class Signup extends MX_Controller
                         "pin" => $account_details['pin'],
                         "posttoexternal" => "0",
                         "local_call" => Common_model::$global_config['system_config']['local_call'],
+			"maxchannels" => Common_model::$global_config['system_config']['maxchannels'],
+			"cps" => Common_model::$global_config['system_config']['cps'],
                         "type" => "0"
                     );
                     $this->load->library('astpp/signup_lib');
@@ -679,30 +727,30 @@ class Signup extends MX_Controller
                 $user_data = $acountdata->result_array();
                 $user_data = $user_data[0];
                 if ($user_data['deleted'] == 1) {
-                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Your account has been deleted. Please contact administrator for more information.</span></label>";
+                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext("Your account has been deleted. Please contact administrator for more information.")."</span></label>";
                     $this->load->view('view_forgotpassword', $data);
                     exit();
                 }
                 if ($user_data['status'] > 0) {
-                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Your account is inactive. Please contact administrator for more information.</span></label>";
+                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext("Your account is inactive. Please contact administrator for more information.")."</span></label>";
                     $this->load->view('view_forgotpassword', $data);
                     exit();
                 }
             }
             if ($acountdata->num_rows() == 0 && ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 if ((! filter_var($email, FILTER_VALIDATE_EMAIL)) && (! filter_var($number, FILTER_SANITIZE_NUMBER_INT))) {
-                    $data['error']['email'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Please enter proper Email.</span></label>";
+                    $data['error']['email'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext("Please enter proper Email.")."</span></label>";
 
-                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Please enter proper Username</span></label>";
+                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext("Please enter proper Username")."</span></label>";
 
                     $this->load->view('view_forgotpassword', $data);
                 } else {
-                    $data['error']['email'] = "<label class='error_label'><span id='error_mail' class='text-danger'>This Username or Email is not valid.</span></label>";
+                    $data['error']['email'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext("This Username or Email is not valid.")."</span></label>";
 
                     $this->load->view('view_forgotpassword', $data);
                 }
             } else if ($acountdata->num_rows() == 0) {
-                $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Please enter proper Username .</span></label>";
+                $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext("Please enter proper Username .")."</span></label>";
                 $this->load->view('view_forgotpassword', $data);
             } else {
                 $acountdata = $acountdata->result_array();
@@ -750,7 +798,7 @@ class Signup extends MX_Controller
                 );
                 $this->db->update("account_unverified", $data);
                 $this->send_sms($user_data['number'], 'forgot_password_confirmation', $user_data);
-                $this->send_mail($user_data['id'], 'forgot_password_confirmation', $user_data);
+                $this->send_mail($user_data['id'], 'forgot_password_confirmation', $user_data,$number);
                 $post_data['account_id'] = $user_data['id'];
                 $post_data['creation_date'] = $current_date;
                 $this->load->view('view_otp_signup', $post_data);

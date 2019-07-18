@@ -133,25 +133,25 @@ class Accounts extends MX_Controller
                     $reseller_id = $this->common->build_concat_string('first_name,last_name,number', 'accounts', $row['reseller_id']);
                 }
                 $customer_array[] = array(
-                    $row['number'],
-                    $row['first_name'],
-                    $row['last_name'],
-                    $row['company_name'],
-                    $this->common->get_field_name('name', 'pricelists', $row['pricelist_id']),
-                    $this->common_model->calculate_currency_customer($row['balance']),
-                    $this->common_model->calculate_currency_customer($row['credit_limit']),
-                    $row['first_used'],
-                    $row['expiry'],
-                    $row['maxchannels'],
-                    $this->common->get_field_name('name', 'localization', $row['localization_id']),
-                    $reseller_id,
-                    $this->common->get_status('export', '', $row['status']),
-                    $row['creation']
+                    (isset($row['number']) && $row['number'] != "")?$row['number']:' ',
+                    (isset($row['first_name']) && $row['first_name'] != "")?$row['first_name']:' ',
+                    (isset($row['last_name']) && $row['last_name'] != "")?$row['last_name']:' ',
+                    (isset($row['company_name']) && $row['company_name'] != "")?$row['company_name']:' ',
+                    (isset($row['pricelist_id']) && $row['pricelist_id'] != "")?$this->common->get_field_name('name', 'pricelists', $row['pricelist_id']):' ',
+                    (isset($row['balance']) && $row['balance'] != "")?$this->common_model->calculate_currency_customer($row['balance']):' ',
+                    (isset($row['credit_limit']) && $row['credit_limit'] != "")?$this->common_model->calculate_currency_customer($row['credit_limit']):' ',
+                    (isset($row['first_used']) && $row['first_used'] != "")?$row['first_used']:' ',
+                    (isset($row['expiry']) && $row['expiry'] != "")?$row['expiry']:' ',
+                    (isset($row['maxchannels']) && $row['maxchannels'] != "")?$row['maxchannels']:' ',
+                    (isset($row['localization_id']) && $row['localization_id'] !=0)?$this->common->get_field_name('name', 'localization', $row['localization_id']):' ',
+                    (isset($reseller_id) && $reseller_id != "")?$reseller_id:' ',
+                    (isset($row['status']) && $row['status'] != "")?$this->common->get_status('export', '', $row['status']):' ',
+                    (isset($row['creation']) && $row['creation'] != "")?$row['creation']:' ',
                 );
             }
         }
         $this->load->helper('csv');
-        array_to_csv($customer_array, 'Customers_' . date("Y-m-d") . '.csv');
+        array_to_csv($customer_array, gettext('Customers').'_' . date("Y-m-d") . '.csv');
     }
 
     function provider_add()
@@ -301,7 +301,7 @@ class Accounts extends MX_Controller
                     }
                     $add_array['first_name'] = preg_replace('/[^A-Za-z0-9\-]/', '', $add_array['first_name']);
                     $this->accounts_model->edit_account($add_array, $add_array['id']);
-                    $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s updated successfully!', ucfirst($entity_name))));
+                    $this->session->set_flashdata('astpp_errormsg', gettext(ucfirst($entity_name)).' '.gettext('Updated successfully!'));
 
                     redirect(base_url() . 'accounts/customer_list/');
                     exit();
@@ -315,12 +315,12 @@ class Accounts extends MX_Controller
                 } else {
                     $add_array['password'] = $this->common->encode($add_array['password']);
                     $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
-		    $add_array['notification_email'] = (! empty($add_array['notification_email'])) ? $add_array['notification_email'] : $add_array['email'];
+		            $add_array['notification_email'] = (! empty($add_array['notification_email'])) ? $add_array['notification_email'] : $add_array['email'];
                     if ($add_array['posttoexternal'] == 1) {
                         $add_array['balance'] = 0;
                     }
                     $last_id = $this->accounts_model->add_account($add_array);
-                    $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s added successfully!', ucfirst($entity_name))));
+                    $this->session->set_flashdata('astpp_errormsg', gettext(ucfirst($entity_name)).' '.gettext('Added Successfully!'));
 
                     redirect(base_url() . 'accounts/customer_list/');
                     exit();
@@ -406,7 +406,7 @@ class Accounts extends MX_Controller
 
                 $this->db->insert_batch('speed_dial', $data);
 
-                $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s Speed Dial Number Added Successfully', $number)));
+                $this->session->set_flashdata('astpp_errormsg', $number.' '.gettext('Speed Dial Number Added Successfully'));
             } else {
                 $updateinfo = array(
                     'number' => $number
@@ -415,7 +415,7 @@ class Accounts extends MX_Controller
                     $this->db->where('speed_num', $speed_num);
                     $this->db->where('accountid', $accountid);
                     $result = $this->db->update('speed_dial', $updateinfo);
-                    $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s Speed Dial Number Updated Successfully', $updateinfo['number'])));
+                    $this->session->set_flashdata('astpp_errormsg', $updateinfo['number'] .' '.gettext('Speed Dial Number Updated Successfully'));
                 } else {
                     $this->session->set_flashdata('astpp_notification', gettext('Please insert only numeric value!'));
                 }
@@ -441,7 +441,7 @@ class Accounts extends MX_Controller
             $this->db->where('speed_num', $speed_num);
             $this->db->where('accountid', $accountid);
             $result = $this->db->update('speed_dial', $updateinfo);
-            $this->session->set_flashdata('astpp_notification', gettext(sprintf('%s Speed Dial Number Removed Successfully', $number['number'])));
+            $this->session->set_flashdata('astpp_notification', $number['number'].' '.gettext('Speed Dial Number Removed Successfully'));
         } else {
             $this->session->set_flashdata('astpp_notification', gettext('Speed Dial Number is Empty'));
         }
@@ -898,9 +898,13 @@ class Accounts extends MX_Controller
                 ));
                 $did_result = $this->did_lib->did_billing_process($this->session->userdata, $account_arr['id'], $didid);
                 if ($did_result[0] == "SUCCESS") {
-                    $product_info = $this->db_model->getSelect("*", "products", array(
-                        "id" => $did_id
-                    ));
+                    if($account_arr['reseller_id'] > 0){
+				$product_info = $this->db_model->getJionQuery('dids', 'dids.id,dids.number,dids.cost,dids.inc,dids.call_type,dids.extensions,dids.connectcost,dids.includedseconds,reseller_products.buy_cost,reseller_products.commission,reseller_products.setup_fee,reseller_products.price,reseller_products.billing_type,reseller_products.billing_days,reseller_products.status,dids.last_modified_date,dids.product_id', array('dids.product_id'=>$did_id,'dids.parent_id'=>$account_arr['reseller_id'],'reseller_products.account_id'=>$account_arr['reseller_id']),'reseller_products','dids.product_id=reseller_products.product_id', 'inner','','','','');
+		    }else{
+                    	$product_info = $this->db_model->getSelect("*", "products", array(
+                    	    "id" => $did_id
+                    	));
+		    }
                     if ($product_info->num_rows > 0) {
                         $product_info = $product_info->result_array()[0];
                         $product_info['product_id'] = $did_id;
@@ -912,13 +916,15 @@ class Accounts extends MX_Controller
                             ));
                         }
                     }
-                    $astpp_flash_message_type = ($did_result[0] == "SUCCESS") ? "astpp_errormsg" : "astpp_notification";
+
+                }
+		    $astpp_flash_message_type = ($did_result[0] == "SUCCESS") ? "astpp_errormsg" : "astpp_notification";
                     $this->session->set_flashdata($astpp_flash_message_type, $did_result[1]);
-                } else {
+		 /*else {
 
                     $astpp_flash_message_type = ($did_result[0] == "INSUFFIECIENT_BALANCE") ? "astpp_notification" : "astpp_errormsg";
                     $this->session->set_flashdata($astpp_flash_message_type, $did_result[1]);
-                }
+                }*/
             }
             if ($action == "delete") {
                 $data = array(
@@ -1351,7 +1357,7 @@ class Accounts extends MX_Controller
                 exit();
             } else if ($currentlength > 0 && $add_array['count'] > $currentlength) {
                 echo json_encode(array(
-                    "count_error" => gettext(sprintf('%s accounts with %u prefix', $currentlength, $add_array['prefix']))
+                    "count_error" => $currentlength.' '.gettext('accounts with'.' '.$add_array['prefix'].' '.gettext('prefix'))
                 ));
                 exit();
             } else {
@@ -1531,7 +1537,7 @@ class Accounts extends MX_Controller
                 $customer_info['refill_amount'] = $post_array['credit'];
                 $customer_info['balance'] = $customer_info['balance'] + $customer_info['refill_amount'];
                 $this->common->mail_to_users('account_refilled', $customer_info);
-                $message = $post_array['payment_type'] == 0 ? "Recharge successfully!" : "Post charge applied successfully.";
+                $message = $post_array['payment_type'] == 0 ? gettext("Recharge successfully!") : gettext("Post charge applied successfully.");
                 echo json_encode(array(
                     "SUCCESS" => gettext($message)
                 ));
@@ -1577,8 +1583,19 @@ class Accounts extends MX_Controller
             $data['flag'] = '0';
         }
         $data['accountid'] = $account_num['number'];
-        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_callerid_fields($id), $data);
         $post_array = $this->input->post();
+        if(isset($post_array) && !empty($post_array)){
+				if(isset($post_array['status']) && $post_array['status']!=""){
+					$data['status']=$post_array['status'];
+				}
+				if(isset($post_array['callerid_name']) && $post_array['callerid_name']!=""){
+					$data['callerid_name']=$post_array['callerid_name'];
+				}
+				if(isset($post_array['callerid_number']) && $post_array['callerid_number']!=""){
+					$data['callerid_number']=$post_array['callerid_number'];
+				}	
+		}
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_callerid_fields($id,$post_array), $data);
         $post_array['accountid'] = $this->uri->segment('3');
         $id = $this->uri->segment('3');
 
@@ -1726,19 +1743,16 @@ class Accounts extends MX_Controller
                     $reseller_id = (array) $this->db->get_where("accounts", array(
                         "id" => $add_array['id']
                     ))->first_row();
-                    if ($reseller_id['reseller_id'] > 0) {
-                        unset($add_array['is_distributor']);
-                    }
+                    unset($add_array['is_distributor']);
+		    $add_array['password'] = $this->common->encode($add_array['password']);
                     $this->accounts_model->edit_account($add_array, $add_array['id']);
-                    $this->session->set_flashdata('astpp_errormsg', 'Reseller updated successfully!');
+                    $this->session->set_flashdata('astpp_errormsg', gettext('Reseller updated successfully!'));
                     redirect(base_url() . 'accounts/reseller_list/');
                     exit();
                 }
                 $data["account_data"]["0"] = $add_array;
                 $edit_id = $add_array["id"];
-                $this->load->module('charges/charges');
-                $data['charges_grid_field'] = $this->charges->charges_form->build_charges_list_for_customer($edit_id, "reseller");
-
+               
                 $data["sipiax_grid_field"] = json_decode($this->accounts_form->build_sipiax_list_for_customer());
 
                 $this->load->module('did/did');
@@ -1768,7 +1782,7 @@ class Accounts extends MX_Controller
                     $add_array['credit_limit'] = $this->common_model->add_calculate_currency($add_array['credit_limit'], '', '', false, false);
 		    $add_array['notification_email'] = (! empty($add_array['notification_email'])) ? $add_array['notification_email'] : $add_array['email'];
                     $last_id = $this->accounts_model->add_account($add_array);
-                    $this->session->set_flashdata('astpp_errormsg', gettext('Reseller added successfully!'));
+                    $this->session->set_flashdata('astpp_errormsg', gettext('Reseller Added Successfully!'));
                     redirect(base_url() . 'accounts/reseller_list/');
                     exit();
                 }
@@ -1903,7 +1917,7 @@ class Accounts extends MX_Controller
                         $result = $result->result_array();
                         $this->session->set_userdata('accountinfo', $result[0]);
                     }
-                    $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s  updated successfully!', ucfirst($entity_type))));
+                    $this->session->set_flashdata('astpp_errormsg', gettext(ucfirst($entity_type)).' '.gettext('updated successfully!'));
 
                     redirect(base_url() . 'accounts/admin_list/');
                     exit();
@@ -1917,7 +1931,7 @@ class Accounts extends MX_Controller
                     $add_array['password'] = $this->common->encode($add_array['password']);
 		    $add_array['notification_email'] = (! empty($add_array['notification_email'])) ? $add_array['notification_email'] : $add_array['email'];
                     $last_id = $this->accounts_model->add_account($add_array);
-                    $this->session->set_flashdata('astpp_errormsg', ucfirst($entity_type) . ' added successfully!');
+                    $this->session->set_flashdata('astpp_errormsg', gettext(ucfirst($entity_type)) .' '.gettext('Added Successfully!'));
                     redirect(base_url() . 'accounts/admin_list/');
                     exit();
                 }
@@ -2884,7 +2898,7 @@ class Accounts extends MX_Controller
             if ($account_balance > $total_amt) {
                 $last_id = $this->order->confirm_order($ProductData, $account_id, $accountinfo);
                 if ($last_id != "" && (isset($ProductData['email_notify']) && $ProductData['email_notify'] == 1)) {
-                    $ProductData['product_name'] = $this->common->get_field_name("name", "products", array(
+                    $ProductData['name'] = $this->common->get_field_name("name", "products", array(
                         "id" => $ProductData['product_id']
                     ));
                     $ProductData['next_billing_date'] = ($ProductData['billing_days'] = 0) ? gmdate('Y-m-d 23:59:59', strtotime('+10 years')) : gmdate("Y-m-d 23:59:59", strtotime("+" . ($ProductData['billing_days'] - 1) . " days"));
@@ -2895,7 +2909,7 @@ class Accounts extends MX_Controller
                         $final_array['quantity'] = 1;
                     }
                     $final_array['total_price'] = ($ProductData['setup_fee'] + $ProductData['price']) * ($final_array['quantity']);
-                    $final_array['total_price_amount'] = ($ProductData['setup_fee'] + $ProductData['price']);
+                    $final_array['price'] = ($ProductData['setup_fee'] + $ProductData['price']);
                     $this->common->mail_to_users('product_purchase', $final_array);
                 }
                 $this->session->set_flashdata('astpp_errormsg', gettext('Product assigned successfully!'));
@@ -3068,4 +3082,5 @@ class Accounts extends MX_Controller
     }
 }
 ?>
+
 

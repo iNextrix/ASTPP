@@ -12,14 +12,10 @@ $this->db->order_by('accountid', 'desc');
 $this->db->limit(1);
 $invoiceconf = $this->db->get('invoice_conf');
 $invoiceconf = (array) $invoiceconf->first_row();
-if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
-    ?>
-	Signup | <?php echo $invoiceconf['website_title']; ?>
-	<?php
+if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {    
+	echo gettext("Signup")." | "; echo $invoiceconf['website_title']; 
 } else {
-    ?>
-	Signup | ASTPP - Open Source Voip Billing Solution
-	<?php
+	echo gettext("Signup")." | ".gettext("ASTPP - A Smart TelePhony Platform");
 }
 ?>
 </title>
@@ -67,8 +63,7 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 										src="<?php echo base_url(); ?>assets/js/custome_index.js"></script>
 
 									<noscript>
-										<div id="noscript-warning">ASTPP work best with JavaScript
-											enabled</div>
+										<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
 									</noscript>
 
 									</script>

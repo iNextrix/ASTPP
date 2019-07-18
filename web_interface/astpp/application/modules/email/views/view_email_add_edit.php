@@ -30,7 +30,7 @@ if (isset($validation_errors)) {
         <?php
 
 if (isset($maildata) && $maildata != '') {
-            echo "<div class='col-md-12 no-padding'>Attachments :</div>";
+            echo "<div class='col-md-12 no-padding'>".gettext("Attachments")." :</div>";
             $imgArr = explode(",", $maildata);
             foreach ($imgArr as $key => $imgname) {
                 $imgpath = base_url() . "email/email_history_list_attachment/" . $imgname;

@@ -84,6 +84,7 @@ class user_model extends CI_Model
             "province"=>$accountinfo['province'],
             "postal_code"=>$accountinfo['postal_code'],
             "tax_number"=>$accountinfo['tax_number'],
+            "timezone_id"=>$accountinfo['timezone_id']
         );
         $this->db->where('id', $edit_id);
         $result = $this->db->update('accounts', $update_profile_arr);
@@ -261,8 +262,8 @@ class user_model extends CI_Model
                         'vm_keep_local_after_email' => $vars_new['vm-keep-local-after-email'],
                         'effective_caller_id_number' => $vars->effective_caller_id_number,
                         'password' => $passowrds->password,
-                        'creation_date' => gmdate('Y-m-d H:i:s'),
-                        'last_modified_date' => gmdate('Y-m-d H:i:s')
+                        'creation_date' => $value['creation_date'],
+                        'last_modified_date' => $value['last_modified_date']
                     );
                 }
             }

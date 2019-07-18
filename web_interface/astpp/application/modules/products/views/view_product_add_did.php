@@ -32,7 +32,7 @@
 								$accountinfo = $this->session->userdata ( "accountinfo" );
 								$where = array("status"=>0,"deleted"=>0,"type"=>3);
 								$provider_arr = array("id" => "provider_id", "name" => "provider_id", "class" => "provider_id");
-								$provider = form_dropdown($provider_arr, $this->db_model->build_concat_dropdown("id,first_name,last_name,number", "accounts","",  $where),isset($add_array['provider_id'])?$add_array['provider_id']:isset($accountinfo['provider_id'])?$accountinfo['provider_id']:'');
+								$provider = form_dropdown($provider_arr, $this->db_model->build_concat_dropdown("id,first_name,last_name,number", "accounts","",  $where),isset($add_array['provider_id'])?$add_array['provider_id']:'');
 
 								echo $provider;
 								?>
@@ -84,20 +84,20 @@
 		     <h3 class="bg-secondary text-light p-2 rounded-top"><?php echo gettext('Product Details') ?></h3>
 		<div class="row px-4">
                   <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Connection Cost ( '.$currency.' )')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Connection Cost').' ( '.$currency.' )'?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="connectcost"  value="<?php echo (isset($add_array['connectcost']))?$add_array['connectcost']:'' ?>"  size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="connectcost_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="connectcost_error">  
  </span></div>	
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time (Sec.)')?> </label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time')." (Sec.)"; ?> </label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="includedseconds" value="<?php echo (isset($add_array['includedseconds']))?$add_array['includedseconds']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="includedseconds_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="includedseconds_error">  
  </span></div>	
 			
                   </div>
 		<div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Cost/Min ('.$currency.') ')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Cost/Min').' ('.$currency.') '; ?></label>
 			<input class="col-md-12 form-control form-control-lg m-0" name="cost" value="<?php echo (isset($add_array['cost']))?$add_array['cost']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="cost_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="cost_error">  
  </span></div>	
@@ -117,17 +117,17 @@
                   </div>
 
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee ('.$currency.')')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0"  name="setup_fee" value="<?php echo (isset($add_array['setup_fee']))?$add_array['setup_fee']:'' ?>" size="16" type="text"/>
 				
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('MonthlyFee ('.$currency.')')?> *</label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('MonthlyFee').' ('.$currency.')'; ?> *</label>
                      <input class="col-md-12 form-control form-control-lg m-0" name="price" value="<?php echo (isset($add_array['price']))?$add_array['price']:'' ?>"  size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="price_error">   </span></div>
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout (Sec.)')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout')?> (Sec.)</label>
                      <input class="col-md-12 form-control form-control-lg m-0" name="leg_timeout" value="<?php echo (isset($add_array['leg_timeout']))?$add_array['leg_timeout']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="leg_timeout_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="leg_timeout_error">  
  </span></div>		

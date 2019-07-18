@@ -75,9 +75,28 @@ class Locale {
 // ekta
 function set_lang($lang = FALSE) {
 		$current_locale = $this->CI->session->userdata ( 'user_language' );
-//echo "<pre>"; print_r( $this->CI->session->userdata); exit;
 		if (empty ( $current_locale )) {
-			$current_locale = 'en_US';
+			$this->CI->db->where("name", 'default_language');
+			$query = $this->CI->db->get("system");
+			if($query->num_rows() > 0){
+				$languges_result=(array)$query->first_row();
+				$this->CI->db->where('name',$languges_result['value']);
+				$language_locale=(array)$this->CI->db->get('languages')->first_row();
+				if(isset($language_locale['locale']) && $language_locale['locale'] != ''){
+					$current_locale=$language_locale['locale'];
+					$this->CI->config->set_item('language', $languges_result['value']);
+					$this->CI->session->set_userdata ( 'user_language',$language_locale['locale']);
+				}else{
+					$current_locale = 'en_US';
+				}
+			}else{
+				$current_locale = 'en_US';
+			}
+			
+		}else{
+			$this->CI->db->where('locale',$current_locale);
+			$language_name=(array)$this->CI->db->get('languages')->first_row();
+			$this->CI->config->set_item('language', $language_name['name']);
 		}
 
 		//$current_locale = 'fr_FR';

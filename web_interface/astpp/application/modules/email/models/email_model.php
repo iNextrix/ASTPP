@@ -24,7 +24,7 @@
 class Email_model extends CI_Model
 {
 
-    function Email_model()
+    function __construct()
     {
         parent::__construct();
     }

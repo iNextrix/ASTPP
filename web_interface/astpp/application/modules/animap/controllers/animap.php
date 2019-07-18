@@ -108,7 +108,7 @@ class Animap extends MX_Controller
                 $ip_id = $this->animap_model->add_animap($add_array);
 
                 echo json_encode(array(
-                    "SUCCESS" => " Caller ID added successfully!"
+                    "SUCCESS" => gettext("Caller ID added successfully!")
                 ));
                 exit();
             }
@@ -122,7 +122,7 @@ class Animap extends MX_Controller
             "parent_table" => "accounts"
         ));
         $this->animap_model->remove_animap($id);
-        $this->session->set_flashdata('astpp_notification', 'Caller ID removed successfully!');
+        $this->session->set_flashdata('astpp_notification', gettext('Caller ID removed successfully!'));
         redirect(base_url() . 'animap/animap_detail/');
     }
 
@@ -244,3 +244,4 @@ class Animap extends MX_Controller
 
 ?>
  
+

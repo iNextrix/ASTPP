@@ -145,26 +145,9 @@ if ($categoryinfo->num_rows > 0) {
 								value="<?php echo (isset($product_info['name']))?$product_info['name']:$add_array['product_name']; ?>"
 								name="product_name" readonly size="16" type="text" />
 						</div>
-						<!--
-                  /*sonal*/
--->
-						<div class='col-md-6 form-group'>
-							<label class="col-md-12 p-0 control-label">Category</label> 
-                                  <?php
-                                $product_add = array(
-                                    "id" => "product_category",
-                                    "name" => "product_category",
-                                    "class" => "product_category"
-                                );
-                                echo form_dropdown($product_add, $category_list, isset($product_info['product_category']) ? $product_info['product_category'] : '', '');
-                                ?>
-					</div>
-						<!--
-                  /*sonal*/
--->
 		<?php if($this->session->userdata ( 'logintype' ) == '-1' || $this->session->userdata ( 'logintype' ) == '2' || ($this->session->userdata ( 'logintype' ) == 1  && $accountinfo['is_distributor'] == 1)){ ?>
 		<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Commission (%)"); ?></label>
+							<label class="col-md-12 no-padding control-label"><?php echo gettext("Commission")." (%)"; ?></label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								name="commission"

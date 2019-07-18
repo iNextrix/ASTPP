@@ -20,7 +20,7 @@ if (isset($error) && ! empty($error)) {
         echo "<span class='row alert alert-danger m-2'>" . $error . "</span>";
     }
     ?>
-								   <h3 class="px-4"><?php echo gettext("File must be in the following format(.csv):"); ?></h3>
+								   <h3 class="px-4"><?php echo gettext("File must be in the following format")."(.csv):"; ?></h3>
 							<p><?php echo isset($fields)?$fields:'';?></p>
 						</div>
 					</div>
@@ -31,7 +31,7 @@ if (isset($error) && ! empty($error)) {
 								<a
 									href="<?= base_url(); ?>did/did_download_sample_file/did_sample"
 									class="btn btn-success btn-block text-light"><i
-									class="fa fa-download"></i> Download</a>
+									class="fa fa-download"></i> <?php echo gettext("Download"); ?></a>
 							</div>
 						</div>
 					</div>

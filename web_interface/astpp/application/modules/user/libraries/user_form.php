@@ -380,7 +380,7 @@ class User_form extends common
                     'name' => 'number',
                     'value' => $uname,
                     'size' => '20',
-                    'readonly' => true,
+                    'disabled' =>'true',
                     'class' => "text field medium"
                 ),
                 '',
@@ -461,7 +461,7 @@ class User_form extends common
                 'Please Enter Password'
             ),
             array(
-                gettext('Address 1'),
+                gettext('Address')." 1",
                 'INPUT',
                 array(
                     'name' => 'address_1',
@@ -473,7 +473,7 @@ class User_form extends common
                 'Please Enter Password'
             ),
             array(
-                gettext('Address 2'),
+                gettext('Address')." 2",
                 'INPUT',
                 array(
                     'name' => 'address_2',
@@ -524,7 +524,8 @@ class User_form extends common
                 gettext('Country'),
                 array(
                     'name' => 'country_id',
-                    'class' => 'country_id'
+                    'class' => 'country_id',
+                    'disabled' =>true, 
                 ),
                 'SELECT',
                 '',
@@ -892,7 +893,7 @@ class User_form extends common
         $currency = $this->CI->common->get_field_name('currency', 'currency', $currency_id);
         $grid_field_arr = json_encode(array(
             array(
-                gettext(" Date"),
+                gettext("Date"),
                 "130",
                 "created_date",
                 "",
@@ -1018,7 +1019,7 @@ class User_form extends common
                 'end_date[end_date-date]'
             ),
             array(
-                gettext('Debit '),
+                gettext('Debit'),
                 'INPUT',
                 array(
                     'name' => 'debit[debit]',
@@ -1037,7 +1038,7 @@ class User_form extends common
                 ''
             ),
             array(
-                gettext('Credit '),
+                gettext('Credit'),
                 'INPUT',
                 array(
                     'name' => 'credit[credit]',
@@ -1435,8 +1436,8 @@ class User_form extends common
                 "",
                 "true",
                 "center"
-            ),
-            $modified_date
+            )/*,
+            $modified_date*/
         ));
         return $grid_field_arr;
     }
@@ -2783,7 +2784,7 @@ class User_form extends common
             ),
 
             array(
-                "Recording",
+                gettext("Recording"),
                 "127",
                 "uid",
                 "uid",
@@ -2981,7 +2982,7 @@ class User_form extends common
                 'set_calltype'
             ),
             array(
-                'Select Year',
+                gettext('Select Year'),
                 'cdrs_year',
                 'SELECT',
                 '',
@@ -2994,7 +2995,7 @@ class User_form extends common
                 'set_year_dropdown'
             ),
             array(
-                'Direction',
+                gettext('Direction'),
                 'call_direction',
                 'SELECT',
                 '',
@@ -3108,7 +3109,7 @@ class User_form extends common
                 "center"
             ),
             array(
-                gettext("Amount ($currency)"),
+                gettext("Amount")." ($currency)",
                 "120",
                 "amount",
                 "amount",
@@ -3715,7 +3716,7 @@ class User_form extends common
 
         if ($type == '0' || $type == '1') {
             $cost_array = array(
-                gettext("Debit($currency)"),
+                gettext("Debit")."($currency)",
                 "140",
                 "debit",
                 "debit",
@@ -3728,7 +3729,7 @@ class User_form extends common
         }
         if ($type == '3') {
             $cost_array = array(
-                gettext("Cost($currency)"),
+                gettext("Cost")."($currency)",
                 "140",
                 "cost",
                 "cost",
@@ -4109,7 +4110,7 @@ class User_form extends common
                 "center"
             ),
             array(
-                gettext("Setup Fee ($currency)"),
+                gettext("Setup Fee")." ($currency)",
                 "150",
                 "setup_fee",
                 "setup_fee",
@@ -4121,7 +4122,7 @@ class User_form extends common
             ),
 
             array(
-                gettext("Price ($currency)"),
+                gettext("Price")." ($currency)",
                 "150",
                 "price",
                 "price",

@@ -117,7 +117,7 @@ class Accessnumber extends CI_Controller
             } else {
                 $this->accessnumber_model->edit_accessnumber($add_array, $add_array['id']);
                 echo json_encode(array(
-                    "SUCCESS" => $add_array["access_number"] . gettext(" Accessnumber Updated Successfully!")
+                    "SUCCESS" => $add_array["access_number"] .' '. gettext("Accessnumber Updated Successfully!")
                 ));
                 exit();
             }
@@ -130,7 +130,7 @@ class Accessnumber extends CI_Controller
             } else {
                 $this->accessnumber_model->add_accessnumber($add_array);
                 echo json_encode(array(
-                    "SUCCESS" => $add_array["access_number"] . gettext("Accessnumber Added Successfully!")
+                    "SUCCESS" => $add_array["access_number"] .' '. gettext("Accessnumber Added Successfully!")
                 ));
                 exit();
             }
@@ -235,7 +235,7 @@ class Accessnumber extends CI_Controller
             )
         );
         $file = file_get_contents($full_path, false, stream_context_create($arrContextOptions));
-        force_download("samplefile.csv", $file);
+        force_download(gettext("samplefile.csv"), $file);
     }
 
     function _push_file($path, $name)
@@ -321,7 +321,7 @@ class Accessnumber extends CI_Controller
             $data['fields'] = gettext("Access Number,Country");
             $str = '';
             if (empty($_FILES['accessnumberimport']['name'])) {
-                $str .= '<br/>Please Select  File.';
+                $str .= '<br/>'.gettext('Please Select File.');
             }
             $data['error'] = $str;
         }
@@ -433,7 +433,7 @@ class Accessnumber extends CI_Controller
             $this->load->view('view_import_error', $data);
         } else {
 
-            $this->session->set_flashdata('astpp_errormsg', 'Total ' . count($new_final_arr) . ' AccessNumber Imported Successfully!');
+            $this->session->set_flashdata('astpp_errormsg', gettext('Total').' ' . count($new_final_arr) .' '.gettext('AccessNumber Imported Successfully!'));
             redirect(base_url() . "accessnumber/accessnumber_list/");
         }
     }

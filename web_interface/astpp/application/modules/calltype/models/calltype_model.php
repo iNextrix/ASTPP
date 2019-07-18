@@ -24,7 +24,7 @@
 class calltype_model extends CI_Model
 {
 
-    function calltype_model()
+    function __construct()
     {
         parent::__construct();
     }

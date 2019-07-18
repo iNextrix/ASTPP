@@ -171,9 +171,9 @@
 								data-live-search='true' datadata-live-search-style='begins'
 								disabled>
 								<option value="1" <?php if($did_info['billing_type'] == '0'){ ?>
-									selected="selected" <?php } ?>>One Time</option>
+									selected="selected" <?php } ?>><?php echo gettext("One Time"); ?></option>
 								<option value="0" <?php if($did_info['billing_type'] == '1'){ ?>
-									selected="selected" <?php } ?>>Recurring</option>
+									selected="selected" <?php } ?>><?php echo gettext("Recurring"); ?></option>
 							</select>
 						</div>
 						<div class="col-md-5 pr-0">
@@ -182,9 +182,9 @@
 								data-live-search='true' datadata-live-search-style='begins'
 								disabled>
 								<option value="1" <?php if($did_info['billing_type'] == '0'){ ?>
-									selected="selected" <?php } ?>>One Time</option>
+									selected="selected" <?php } ?>><?php echo gettext("One Time"); ?></option>
 								<option value="0" <?php if($did_info['billing_type'] == '1'){ ?>
-									selected="selected" <?php } ?>>Recurring</option>
+									selected="selected" <?php } ?>><?php echo gettext("Recurring"); ?></option>
 							</select>
 						</div>
 					</div>

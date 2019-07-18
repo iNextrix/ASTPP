@@ -151,20 +151,20 @@ class Refill_coupon extends MX_Controller
 
             if ($account_length <= strlen($add_array['prefix'])) {
                 echo json_encode(array(
-                    "count_error" => gettext(sprintf('You can not create %s Refill coupon with %u prefix', $add_array['count'], $add_array['prefix']))
+                    "count_error" => gettext('You can not create').' '.$add_array['count'] .' '.gettext('Refill coupon with').' '.  $add_array['prefix'].gettext('prefix')
                 ));
                 exit();
             }
             if ($currentlength <= 0) {
                 echo json_encode(array(
-                    "count_error" => gettext(sprintf('You can not create %s Refill coupon with %u prefix', $add_array['count'], $add_array['prefix']))
+                    "count_error" => gettext('You can not create').' '.$add_array['count'] .' '.gettext('Refill coupon with').' '.  $add_array['prefix'].gettext('prefix')
                 ));
 
                 exit();
             }
             if ($currentlength > 0 && $add_array['count'] > $currentlength) {
                 echo json_encode(array(
-                    "count_error" => gettext(sprintf('You can create maximum  %s Refill coupon with %u prefix', $currentlength, $add_array['prefix']))
+                    "count_error" => gettext('You can create maximum').' '.$currentlength .' '.gettext('Refill coupon with').' '.  $add_array['prefix'].gettext('prefix')
                 ));
                 exit();
             } else {
@@ -221,7 +221,7 @@ class Refill_coupon extends MX_Controller
             }
         }
         $this->load->helper('csv');
-        array_to_csv($cc_array, 'refill_coupon_' . date("Y-m-d") . '.csv');
+        array_to_csv($cc_array, gettext('refill_coupon').'_' . date("Y-m-d") . '.csv');
     }
 
     function refill_coupon_customer_json($accountid)

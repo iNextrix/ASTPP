@@ -26,7 +26,7 @@ if (strpos($url, 'customer_cdrs') != true) {
                   <div class="col-4 float-right pl-2 align-self-center">
                       <ul class="">
                           <li class="active float-right">
-                          <a data-ripple=" " class="btn text-light" href="/addons/addons_list/Community" style="position: relative;background: #D05935;"> <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Get Addons</a>
+                          <a data-ripple=" " class="btn text-light" href="/addons/addons_list/Community" style="position: relative;background: #D05935;"> <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> <?php echo gettext('Get Addons'); ?></a>
                           </li>
                       </ul>       
                   </div>
@@ -35,7 +35,7 @@ if (strpos($url, 'customer_cdrs') != true) {
                   <div class="col-4 float-right pl-2 align-self-center">
 					  
 						<div class="float-right">
-						  <a class="btn btn-primary" href="<?php echo base_url().$back_url;?>"><i class="fa fa-fast-backward"></i> Back</a>
+						  <a class="btn btn-primary" href="<?php echo base_url().$back_url;?>"><i class="fa fa-fast-backward"></i> <?php echo gettext('Back'); ?></a>
 						</div>
 						
                       
@@ -44,7 +44,7 @@ if (strpos($url, 'customer_cdrs') != true) {
                  <div class="float-right"> </div>
 
 	        <?php if (isset($test_email_flag) && $test_email_flag) { ?>
-	                <div id="show_search" class="float-right btn btn-warning btn margin-t-51"><a data-ripple onclick="PopupCenter('<?=base_url()?>newmail/',resizable=1,width=580,height=700) "><font color="#fff"><i class= " fa fa-envelope-o"></i> &nbsp;Test Mail</font></a></div>
+	                <div id="show_search" class="float-right btn btn-warning btn margin-t-51"><a data-ripple onclick="PopupCenter('<?=base_url()?>newmail/',resizable=1,width=580,height=700) "><font color="#fff"><i class= " fa fa-envelope-o"></i> &nbsp;<?php echo gettext('Test Mail'); ?></font></a></div>
                 <?php } ?>
 	        <div class="col-4 float-right pl-2 align-self-center">
 		 <?php if (isset($batch_update_flag) && $batch_update_flag) { 
@@ -81,7 +81,7 @@ if (strpos($url, 'customer_cdrs') != true) {
                 
 					<ul class="">
                 <li class="active float-right">
-				<a data-ripple class="btn btn-primary" href="<?= isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_URI']?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a>
+				<a data-ripple class="btn btn-primary" href="<?= isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_URI']?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> <?php echo gettext('Back'); ?></a>
 				</li></ul>
                 <?php } ?>
                 
@@ -164,4 +164,5 @@ if (strpos($url, 'customer_cdrs') != true) {
 } else {
 include('footer_webpage.php'); 
  } ?>
+
 

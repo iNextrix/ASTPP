@@ -264,7 +264,7 @@ class User extends MX_Controller
                     ))
                         ->first_row());
                 }
-                $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s updated successfully!', ucfirst($entity_name))));
+                $this->session->set_flashdata('astpp_errormsg', ucfirst($entity_name).' '. gettext('updated successfully!'));
 
                 redirect(base_url() . 'user/user/');
             }
@@ -381,7 +381,7 @@ class User extends MX_Controller
                         ));
                     }
                     echo json_encode(array(
-                        "SUCCESS" => gettext(sprintf('%s DID Updated Successfully!', $did_arr['number']))
+                        "SUCCESS" => $did_arr['number'].' '.gettext('DID Updated Successfully!')
                     ));
                     exit();
                 }
@@ -1032,15 +1032,28 @@ class User extends MX_Controller
 
             $from_currency = Common_model::$global_config['system_config']['base_currency'];
             $to_currency = $this->common->get_field_name('currency', 'currency', $accountinfo['currency_id']);
-
+	    $charge_type = $this->common->get_field_name("charge_type","invoice_details",array("invoiceid"=>$value['id']));	
+    
             if ($from_currency != $to_currency) {
                 $outstanding = ($value['is_paid'] == 1) ? $value['debit'] - $value['credit'] : 0.00;
                 $outstanding = $this->common_model->calculate_currency($outstanding, "", "", true, false);
-                $amount = ($value['debit'] > 0) ? $value['debit'] : $value['credit'];
-                $amount = $this->common_model->calculate_currency($amount, "", "", true, false);
+
+		if($charge_type == "REFILL" || $charge_type == "Voucher" || $charge_type == "COMMISSION"){
+
+		        $amount =  $value['credit'];
+		        $amount = $this->common_model->calculate_currency($amount, "", "", true, false);
+		}else{
+			$amount = ($value['debit'] > 0) ? $value['debit'] : $value['credit'];
+		        $amount = $this->common_model->calculate_currency($amount, "", "", true, false);
+		}
             } else {
                 $outstanding = ($value['is_paid'] == 1) ? $value['debit'] - $value['credit'] : 0.00;
-                $amount = ($value['debit'] > 0) ? $value['debit'] : $value['credit'];
+
+		if($charge_type == "REFILL" || $charge_type == "Voucher" || $charge_type == "COMMISSION"){
+			$amount =  $value['credit'];
+		}else{
+                	$amount = ($value['debit'] > 0) ? $value['debit'] : $value['credit'];
+		}
             }
 
             $payment_last_date = '';
@@ -1076,7 +1089,6 @@ class User extends MX_Controller
         }
         echo json_encode($json_data);
     }
-
     function user_invoices_list_search()
     {
         $ajax_search = $this->input->post('ajax_search', 0);
@@ -1223,7 +1235,7 @@ class User extends MX_Controller
         }
 
         $json_data['rows'][$count_all]['cell'] = array(
-            '<b>Total</b>',
+            '<b>'.gettext("Total").'</b>',
             '-',
             '-',
             '-',
@@ -1465,6 +1477,19 @@ class User extends MX_Controller
                 $action['dids.country_id'] = $action['country_id'];
                 unset($action['country_id']);
             }
+	    
+	    if (isset($action['number']) && $action['number'] != '') {
+                $action['dids.number'] = $action['number'];
+                $action['dids.number']['dids.number'] = $action['number']['number'];
+                $action['dids.number']['dids.number-string'] = $action['number']['number-string'];
+                unset($action['number']);
+                unset($action['dids.number']['number']);
+                unset($action['dids.number']['number-string']);
+              
+            }	
+
+
+	   
             if (isset($action['province']) && $action['province'] != '') {
                 $action['dids.province'] = $action['province'];
                 $action['dids.province']['dids.province'] = $action['province']['province'];
@@ -1474,6 +1499,32 @@ class User extends MX_Controller
                 unset($action['dids.province']['province-string']);
             }
 
+	    if(isset($action['city']) && $action['city'] != ''){
+		$action['dids.city'] = $action['city'];
+		$action['dids.city']['dids.city'] = $action['city']['city'];
+                $action['dids.city']['dids.city-string'] = $action['city']['city-string'];
+                unset($action['city']);
+		unset($action['dids.city']['city']);
+                unset($action['dids.city']['city-string']);
+	    }
+	    
+	    if(isset($action['cost']) && $action['cost'] != ''){
+		$action['dids.cost'] = $action['cost'];
+		$action['dids.cost']['dids.cost'] = $action['cost']['cost'];
+                $action['dids.cost']['dids.cost-integer'] = $action['cost']['cost-integer'];
+                unset($action['cost']);
+		unset($action['dids.cost']['cost']);
+                unset($action['dids.cost']['cost-integer']);
+	    }
+		
+	   if(isset($action['extensions']) && $action['extensions'] != ''){
+		$action['dids.extensions'] = $action['extensions'];
+		$action['dids.extensions']['dids.extensions'] = $action['extensions']['extensions'];
+                $action['dids.extensions']['dids.extensions-string'] = $action['extensions']['extensions-string'];
+                unset($action['extensions']);
+		unset($action['dids.extensions']['extensions']);
+                unset($action['dids.extensions']['extensions-string']);
+	    }
             unset($action['action']);
             unset($action['advance_search']);
             $this->session->set_userdata('user_did_search', $action);
@@ -1482,7 +1533,6 @@ class User extends MX_Controller
             redirect(base_url() . 'user/user_didlist/');
         }
     }
-
     function user_didlist_clearsearchfilter()
     {
         $this->session->set_userdata('advance_search', 0);
@@ -1941,7 +1991,7 @@ class User extends MX_Controller
             }
             $duration = ($show_seconds == 'minutes') ? ($count_all['billseconds'] > 0) ? floor($count_all['billseconds'] / 60) . ":" . sprintf("%02d", $count_all['billseconds'] % 60) : "00:00" : $count_all['billseconds'];
             $customer_array[] = array(
-                "Grand Total",
+                gettext("Grand Total"),
                 "",
                 "",
                 "",
@@ -2557,7 +2607,7 @@ class User extends MX_Controller
                 );
             }
             $this->db->insert_batch('speed_dial', $data);
-            $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s Speed-dial number added successfully!', $data['number'])));
+            $this->session->set_flashdata('astpp_errormsg', $data['number'].' '.gettext('Speed-dial Number Added Successfully!'));
         } else {
             $this->db->where('speed_num', $add_array['number']);
             $this->db->where('accountid', $accountinfo['id']);
@@ -2565,7 +2615,7 @@ class User extends MX_Controller
                 'number' => $add_array['destination']
             ));
 
-            $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s Speed-dial Number Added Successfully!', $add_array['destination'])));
+            $this->session->set_flashdata('astpp_errormsg', $add_array['destination'].' '.gettext('Speed-dial Number Added Successfully!'));
         }
     }
 
@@ -2584,7 +2634,7 @@ class User extends MX_Controller
         $this->db->where('speed_num', $add_array['number']);
         $this->db->where('accountid', $accountinfo['id']);
         $result = $this->db->update('speed_dial', $updateinfo);
-        $this->session->set_flashdata('astpp_notification', gettext(sprintf('%s Speed-dial Number Removed Successfully!', $add_array['destination'])));
+        $this->session->set_flashdata('astpp_notification', $add_array['destination'].' '.gettext('Speed-dial Number Removed Successfully!'));
     }
 
     function user_available_products()
@@ -2653,7 +2703,7 @@ class User extends MX_Controller
         $query = $this->db->get('accounts');
         $result = $query->result_array();
         $data['pin_info'] = $result[0];
-        $data['page_title'] = gettext('pin');
+        $data['page_title'] = gettext('Pin');
         $this->load->view('view_user_pin', $data);
     }
 
@@ -2663,7 +2713,7 @@ class User extends MX_Controller
         $account_info = $this->session->userdata('accountinfo');
         $id = $account_info['id'];
         $this->user_model->edit_user_pin($add_array, $id);
-        $this->session->set_flashdata('astpp_errormsg', 'Pin Updated Successfully!.');
+        $this->session->set_flashdata('astpp_errormsg', gettext('Pin Updated Successfully!.'));
         redirect(base_url() . "user/user_pin_add/");
     }
 

@@ -56,7 +56,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 						<div class="card col-12 p-4 alert-secondary">
 							<div class="col-lg-10 col-9 float-left p-0">
 								<label class="text-secondary" for=""><?php echo gettext("Account"); ?></label>
-								<h2 class="h4"><?php echo isset($account_info)? $account_info['first_name'].'('.$account_info['number'] .')':''?></h2>
+								<h2 class="h4"><?php echo isset($account_info)? $account_info['first_name']:''?></h2>
 							</div>
 							<div class="col-lg-2 col-3 float-left p-0">
 								<i class="fa fa-user-o text-secondary float-left fa-2x"></i>
@@ -96,8 +96,9 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
                         <div class="card col-12 p-4">
 							<div class="col-lg-10 col-9 float-left p-0">
 								<label class="text-secondary" for=""><?php echo gettext("Invoice"); ?> #</label>
+
 			  <?php if(isset($invoice_data)){?>
-                           <h2 class="h4"><?php echo  (!empty($invoice_data))?$invoice_data ['prefix'].'_'.$invoice_data ['number'] :'-';?></h2>
+                           <h2 class="h4"><?php echo  (!empty($invoice_data))?$invoice_data ['prefix'].''.$invoice_data ['number'] :'_';?></h2>
 								<div class="col-lg-2 col-3 float-left p-0">
 									<a
 										href="<?php echo $url.$invoice_data ['id']."/".$invoice_data ['prefix'] . $invoice_data ['number']?>"
@@ -114,7 +115,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 				 <div class="card col-12 p-4">
 						<div class="col-lg-10 col-9 float-left p-0">
 							<label class="text-secondary" for=""><?php echo gettext("Invoice"); ?> #</label>
-							 <h2 class="h4"><?php echo  (!empty($invoice_data))?$invoice_data ['prefix'].'_'.$invoice_data ['number'] :'-';?></h2>
+							 <h2 class="h4"><?php echo  (!empty($invoice_data))?$invoice_data ['prefix'].''.$invoice_data ['number'] :'-';?></h2>
 						<div class="col-lg-2 col-3 float-left p-0">
 									<a
 										href="<?php echo $url.$invoice_data ['id']."/".$invoice_data ['prefix'] . $invoice_data ['number']?>"
@@ -129,7 +130,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 			  <div class="card col-12 p-4">
 						<div class="col-lg-10 col-9 float-left p-0">
 							<label class="text-secondary" for=""><?php echo gettext("Invoice"); ?> #</label>
-							<h2 class="h4">-</h2>
+							<h2 class="h4">_</h2>
 						</div>
 						<div class="col-lg-2 col-3 float-left p-0"></div>
 					</div>
@@ -153,7 +154,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 			<?php if($order_items['is_terminated'] != 1 ){ ?>	
 			<a
 						href="<?php echo base_url().$order_terminate_url.$order_items['orderid'];?>"
-						rel='facebox'><span class="btn btn-block btn-line-sky">Terminate</span></a>
+						rel='facebox'><span class="btn btn-block btn-line-sky"><?php echo gettext("Terminate"); ?></span></a>
 			<?php } ?>
                     </div>
 
@@ -166,6 +167,10 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 					<div class="row">
 						<div class="col-md-6">
 							<dl class="border p-3">
+							<dt><?php echo gettext("Account number"); ?></dt>
+								<?php echo isset($account_info)? $account_info['number']:''?></dd>
+							</dl>
+							<dl class="border p-3">
 								<dt><?php echo gettext("Product");?></dt>
 								<dd><?php  echo isset($product_info)?$product_info['name']:$this->common->get_field_name("name","products",array("id"=>$order_items['product_id'])); ?></dd>
 							</dl>
@@ -174,10 +179,11 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 				<?php $order_items['billing_date']=  $this->common->convert_GMT_to($date= "",$date ="",$order_items['billing_date'],$date = "");?>
                                 <dd><?php echo $billing_date = date("Y-m-d",strtotime($order_items['billing_date'])) ; ?></dd>
 							</dl>
-							<dl class="border p-3">
-								<dt><?php echo gettext("Billing Cycle"); ?></dt>
-								<dd><?php  echo $order_items['billing_type'] == 0 ?"One Time":"Recurring" ?></dd>
-							</dl>
+							 <dl class="border p-3">
+                                				<dt><?php echo gettext("Billing Cycle"); ?></dt>
+                              					<dd><?php  echo ($order_items['billing_type'] == 0) ? "One Time" : (( $order_items['billing_type'] == 1 ) ? "Recurring" : "Monthly Recurring"); ?></dd>
+
+                           				 </dl>
 							<dl class="border p-3 ">
 								<dt><?php echo gettext("Setup Fee"); ?> <?php echo '('.$currency.')';?></dt>
 								<dd><?php echo (isset($order_items['setup_fee']))?$this->common->convert_to_currency ( '', '', $order_items['setup_fee'] ):'' ?></dd>
@@ -193,33 +199,30 @@ $order_generate_by = $this->db_model->getSelect("first_name,number", "accounts",
     ?>
                                 <dd><?php  echo $order_generate_by['first_name'] .'('.$order_generate_by['number'] .')' ?></dd>
 							</dl>
-			  <?php if($order_items['product_category'] == 2){ ?>
-                            <dl class="border p-3 ">
-								<dt><?php echo gettext("Quantity"); ?></dt>
-								<dd><?php  echo $order_items['quantity'] ?></dd>
-							</dl>
-			<?php } ?>
-			<?php if($order_items['is_terminated'] == 1 ){ ?>
-				<dl class="border p-3 ">
-								<dt><?php echo gettext("Termination Date"); ?></dt>
-				 <?php $termination_date = $order_items['termination_date']; ?>
-                                <dd><?php echo $date = date("Y-m-d",strtotime($termination_date)) ; ?></dd>
-							</dl>
-			<?php } ?>
+			 
+			
                         </div>
 						<div class="col-md-6 pl-4 pt-4 pt-md-0 pl-lg-0">
 							<dl class="border p-3">
 								<dt><?php echo gettext("Product Category"); ?></dt>
 								<dd><?php echo$this->common->get_field_name("name","category",array("id"=>$order_items['product_category'])); ?></dd>
 							</dl>
-
+			<?php if($order_items['is_terminated'] == 0 ){ ?>
 							<dl class="border p-3">
 								<dt><?php echo gettext("Next Bill Date"); ?></dt>
 				<?php $order_items['next_billing_date']=  $this->common->custom_convert_GMT($order_items['next_billing_date'],'');?>
 
                                 <dd><?php echo $next_billing_date = date("Y-m-d",strtotime($order_items['next_billing_date'])) ; ?></dd>
 							</dl>
+	<?php } else {?>
 
+	
+				<dl class="border p-3 ">
+								<dt><?php echo gettext("Termination Date"); ?></dt>
+				 <?php $termination_date = $order_items['termination_date']; ?>
+                                <dd><?php echo $date = date("Y-m-d",strtotime($termination_date)) ; ?></dd>
+							</dl>
+			<?php } ?>
 							<dl class="border p-3">
 								<dt><?php echo gettext("Billing Days"); ?></dt>
 								<dd><?php  echo $order_items['billing_days'] ?></dd>
@@ -249,6 +252,12 @@ $order_generate_by = $this->db_model->getSelect("first_name,number", "accounts",
 								</dd>
 				<?php } } ?>
                             </dl>
+				 <?php if($order_items['product_category'] == 2){ ?>
+                            <dl class="border p-3 ">
+								<dt><?php echo gettext("Quantity"); ?></dt>
+								<dd><?php  echo $order_items['quantity'] ?></dd>
+							</dl>
+			<?php } ?>
 						</div>
 
 					</div>
@@ -260,4 +269,3 @@ $order_generate_by = $this->db_model->getSelect("first_name,number", "accounts",
 
 <? endblock() ?>	
 <? end_extend() ?>  
-<?php exit; ?>

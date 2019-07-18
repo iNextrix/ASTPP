@@ -24,7 +24,7 @@
 class Permissions extends MX_Controller
 {
 
-    function Permissions()
+    function __construct()
     {
         parent::__construct();
         $this->load->helper('template_inheritance');
@@ -53,7 +53,7 @@ class Permissions extends MX_Controller
     {
         $this->load->library('astpp/form');
         $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = 'Roles & Permissions';
+        $data['page_title'] = gettext('Roles & Permissions');
         $data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $data['grid_fields'] = $this->permissions_form->build_permissions_list_for_admin();
@@ -107,7 +107,7 @@ class Permissions extends MX_Controller
                 $display_name_array[$value['menu_name']][$value['module_name']][$value['module_url']] = $value['display_name'];
             }
         }
-        $data['page_title'] = 'Create Roles & Permissions';
+        $data['page_title'] = gettext('Create Roles & Permissions');
         $data['display_name_array'] = $display_name_array;
         $data['permission_main_array'] = $permission_array;
         $this->load->view('view_permissions_add', $data);
@@ -116,7 +116,7 @@ class Permissions extends MX_Controller
     function permissions_edit($edit_id = '')
     {
         $this->load->library('astpp/form');
-        $data['page_title'] = 'Edit Roles & Permissions';
+        $data['page_title'] = gettext('Edit Roles & Permissions');
         $where = array(
             'id' => $edit_id
         );

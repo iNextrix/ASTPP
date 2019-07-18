@@ -431,7 +431,7 @@ class local_number_form extends common {
 						"center" 
 				),
 				array (
-						gettext ( "Added Date" ),
+						gettext ( "Created Date" ),
 						"130",
 						"created_date",
 						"created_date",

@@ -719,11 +719,45 @@ a[title="Refill"] {
   margin-top: 1.25rem;
   margin-right: 0;
 }*/
+.setting_tooltip #floating-label .control-label{
+	pointer-events:auto;
+}
+#loading-img {
+    background: url(../images/logo-only.png) center center no-repeat;
+    width: 10%;
+    height: 10%;
+    z-index: 9999 !important;
+    -webkit-animation: rotation 2s infinite linear;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+}
+.overlay {
+    background:rgba(233, 233, 233,0.5); 
+    display: none;       
+    position: absolute; 
+    top: 0;                 
+    right: 0;                
+    bottom: 0;
+    left: 0;
+    z-index:19;
+  }
+@-webkit-keyframes rotation {
+		from {
+				-webkit-transform: rotate(0deg);
+		}
+		to {
+				-webkit-transform: rotate(359deg);
+		}
+}
+.w-section .addons li{
+	text-transform:none;
+}
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 .chrome .pop_md .card-columns .card{
         display: -webkit-inline-box;
   }
-  html.chrome, html.mobile{
+  html.mobile{
     overflow: auto;
   }
 }

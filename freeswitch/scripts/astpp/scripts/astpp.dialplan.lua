@@ -111,7 +111,7 @@ Logger.info("[Dialplan] Call direction : ".. call_direction)
 --IF opensips then check then get account code from $params->{'variable_sip_h_P-Accountcode'}
 if(config['opensips']=='0' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == nil and params:getHeader('variable_sip_h_P-Accountcode') ~= '<null>')
 then
-	accountcode = params:getHeader('variable_sip_h_P-Accountcode');
+	accountcode = params:getHeader('variable_scheck_blocked_prefixip_h_P-Accountcode');
 end
 
 -- If no account code found then do further authentication of call
@@ -462,9 +462,10 @@ if (userinfo ~= nil) then
 		local actual_userinfo = customer_userinfo
 		Logger.info("[userinfo] Actual CustomerInfo XML:" .. actual_userinfo['id'])
 		--customer_userinfo['id'] = didinfo['accountid'];
-		if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND' and origination_array_DID[3] ~= nil) then 
+		if((origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND' and origination_array_DID[3] ~= nil) or tonumber(config['free_inbound']) == 1) then 
 			Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
 			xml_did_rates = origination_array_DID[3]
+			if(xml_did_rates == '' or xml_did_rates == nil)then xml_did_rates = 0 end
 		else
 			error_xml_without_cdr(destination_number,"ORIGNATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification'],customer_userinfo['id'])
 			return

@@ -479,7 +479,7 @@ function package_calculation (destination_number,userinfo,call_direction)
 	custom_destination = number_loop(destination_number,"patterns")
 	local package_info_arr = {}   
 	local i = 1  
-	local query = "SELECT * FROM ".. TBL_PACKAGE.." as P inner join "..TBL_PACKAGE_PATTERN.." as PKGPTR on P.id = PKGPTR.product_id WHERE ".. custom_destination.." AND accountid = ".. package_act_id .. " ORDER BY LENGTH(PKGPTR.patterns) DESC";
+	local query = "SELECT *,P.id as package_id,P.product_id as product_id FROM ".. TBL_PACKAGE.." as P inner join "..TBL_PACKAGE_PATTERN.." as PKGPTR on P.product_id = PKGPTR.product_id WHERE ".. custom_destination.." AND accountid = ".. package_act_id .. " ORDER BY LENGTH(PKGPTR.patterns) DESC";
 	Logger.debug("[GET_PACKAGE_INFO] Query :" .. query)
 	assert (dbh:query(query, function(u)
 		package_info_arr[i] = u
@@ -490,6 +490,8 @@ function package_calculation (destination_number,userinfo,call_direction)
 		for package_info_key,package_info in pairs(package_info_arr) do
 			--local counter_info = {}
 			local used_seconds = 0
+			Logger.info("Package ID : "..package_info['package_id'] );
+			Logger.info("Product ID : "..package_info['product_id'] );
 			Logger.info("Package Type : "..package_info['applicable_for'] .. " Call Direction : "..call_direction .." [0:inbound,1:outbound,2:both]");
 			if( (package_info['applicable_for'] == "0" and call_direction == "inbound") or (package_info['applicable_for'] == "1" and call_direction == "outbound") or (package_info['applicable_for'] == "2") ) then
 				local counter_info =  get_counters(userinfo,package_info,package_act_id)
@@ -510,7 +512,7 @@ function package_calculation (destination_number,userinfo,call_direction)
 					userinfo['ACCOUNT_ERROR'] = ''
 					--remaining_sec = remaining_sec + 5
 					package_maxlength = remaining_minutes;	
-					package_id = package_info['id']
+					package_id = package_info['package_id']
 					Logger.notice("package_id : "..package_id)
 					break
 				end
@@ -524,7 +526,7 @@ end
 
 function get_counters(userinfo,package_info,package_act_id)
 	local counter_info;
-	local query_counter = "SELECT used_seconds FROM ".. TBL_COUNTERS.."  WHERE  accountid = "..package_act_id.." AND product_id = ".. package_info['product_id'] .." AND status=1 LIMIT 1";
+	local query_counter = "SELECT used_seconds FROM ".. TBL_COUNTERS.."  WHERE  accountid = "..package_act_id.." AND package_id = ".. package_info['package_id'] .." AND status=1 LIMIT 1";
 		Logger.debug("[GET_COUNTER_INFO] Query :" .. query_counter)
 		assert (dbh:query(query_counter, function(u)
 			counter_info = u

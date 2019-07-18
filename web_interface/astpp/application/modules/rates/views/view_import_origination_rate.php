@@ -47,8 +47,8 @@ if (isset($error) && ! empty($error)) {
     }
     ?>
 						   </span>
-							<h3 class="px-4"><?php echo gettext("File must be in the following format(.csv):"); ?></h3>
-						   <?php echo "<p>Code,Destination,Connection Cost($currency),Grace Time,Cost / Min ($currency),Initial Increment,Increment.</p>";?>
+							<h3 class="px-4"><?php echo gettext("File must be in the following format")."(.csv):"; ?></h3>
+						   <?php echo "<p>".gettext("Code,Destination,Connection Cost")."($currency),".gettext("Grace Time,Cost / Min")." ($currency)",gettext("Initial Increment,Increment.")."</p>";?>
 						 </div>
 					</div>
 					<div class="col-md-2 col-sm-12 float-left pl-md-4 p-0">
@@ -58,7 +58,7 @@ if (isset($error) && ! empty($error)) {
 								<a
 									href="<?= base_url(); ?>rates/customer_rates_download_sample_file/originationrates_sample"
 									class="btn btn-success btn-block text-light"><i
-									class="fa fa-download"></i> Download</a>
+									class="fa fa-download"></i> <?php echo gettext("Download"); ?></a>
 							</div>
 						</div>
 					</div>

@@ -49,7 +49,6 @@ if (! defined ( 'BASEPATH' )) {
  * | the active record class
  */
 
-
 $astpp_config = parse_ini_file ( "/var/lib/astpp/astpp-config.conf" );
 
 $active_group = 'default';

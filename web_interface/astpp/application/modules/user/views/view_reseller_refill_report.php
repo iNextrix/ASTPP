@@ -57,7 +57,7 @@
                 <div class="float-left m-2 lh19">
                    <nav aria-label="breadcrumb">
 					    <ol class="breadcrumb m-0 p-0">
-                         <li class="breadcrumb-item"><a href="<?= base_url() . "user/user_myprofile/"; ?>">My Profile</a></li>
+                         <li class="breadcrumb-item"><a href="<?= base_url() . "user/user_myprofile/"; ?>"><?php echo gettext('My Profile');?></a></li>
 						 <li class="breadcrumb-item active">
                              <a href="<?= base_url() . "user/user_refill_report/"; ?>"><?php echo gettext('Refill Report')?></a>
                           </li>

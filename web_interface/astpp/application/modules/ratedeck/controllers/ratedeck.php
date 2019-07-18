@@ -287,7 +287,7 @@ class Ratedeck extends MX_Controller
             $data['fields'] = gettext("Number,Country,Country");
             $str = '';
             if (empty($_FILES['ratedeckimport']['name'])) {
-                $str .= '<br/>Please Select  File.';
+                $str .= '<br/>'.gettext("Please Select File.");
             }
             $data['error'] = $str;
         }
@@ -438,3 +438,4 @@ class Ratedeck extends MX_Controller
 }
 ?>
  
+
