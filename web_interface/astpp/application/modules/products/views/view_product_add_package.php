@@ -116,7 +116,7 @@
 			<div class="tooltips error_div pull-left no-padding" id="setup_fee_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="setup_fee_error">   </span></div>		
                   </div>
 		   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Price'); ?><?php echo gettext(' (<?'); ?>php echo ($currency)?>) *</label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Price').' ('.$currency.')'; ?> *</label>
                       <input name="price" id="price" class="col-md-12 form-control form-control-lg m-0" value="<?php echo (isset($add_array['price']))?$add_array['price']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="price_error">   </span></div>	
                   </div>

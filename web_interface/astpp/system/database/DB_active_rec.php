@@ -1397,7 +1397,7 @@ class CI_DB_active_record extends CI_DB_driver {
 					$index_set = TRUE;
 				} else
 				{
-					$not[] = $k.'-'.$v;
+					$not[] = $k2.'-'.$v2;
 				}
 
 				if ($escape === FALSE)
@@ -2161,6 +2161,58 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$this->_reset_run($ar_reset_items);
 	}
+
+/*
+	*Function For Batch Insert using Ignore Into
+	*/
+	public function custom_insert_ignore_batch($table = '', $set = NULL)
+	{
+	    if ( ! is_null($set))
+	    {
+		$this->set_insert_batch($set);
+	    }
+
+	    if (count($this->ar_set) == 0)
+	    {
+		if ($this->db_debug)
+		{
+		    //No valid data array.  Folds in cases where keys and values did not match up
+		    return $this->display_error('db_must_use_set');
+		}
+		return FALSE;
+	    }
+
+	    if ($table == '')
+	    {
+		if ( ! isset($this->ar_from[0]))
+		{
+		    if ($this->db_debug)
+		    {
+			return $this->display_error('db_must_set_table');
+		    }
+		    return FALSE;
+		}
+
+		$table = $this->ar_from[0];
+	    }
+
+	    // Batch this baby
+	    for ($i = 0, $total = count($this->ar_set); $i < $total; $i = $i + 100)
+	    {
+
+		$sql = $this->_insert_batch($this->_protect_identifiers($table, TRUE, NULL, FALSE), $this->ar_keys, array_slice($this->ar_set, $i, 100));
+		$sql = str_replace('INSERT INTO','INSERT IGNORE INTO',$sql);
+		//echo $sql;
+
+		$this->query($sql);
+	    }
+
+	    $this->_reset_write();
+
+
+	    return TRUE;
+	}
+
 }
 
 /* End of file DB_active_rec.php */

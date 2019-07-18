@@ -705,6 +705,12 @@ class Form {
 			if ($Actionkey == '') {
 				$Actionkey = array_search ('Ação',array_column ( $grid_fields, 0 ) );
 			}
+			if ($Actionkey == '') {
+				$Actionkey = array_search ('действие',array_column ( $grid_fields, 0 ) );
+			}
+			if ($Actionkey == '') {
+				$Actionkey = array_search ('Açao',array_column ( $grid_fields, 0 ) );
+			}
 			$ActionArr = $grid_fields [$Actionkey];
 
 			$current_button_url = '';

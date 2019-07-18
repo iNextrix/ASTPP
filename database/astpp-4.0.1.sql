@@ -133,14 +133,6 @@ INSERT INTO `default_templates` (`id`, `name`, `subject`, `description`, `sms_te
 
 UPDATE `default_templates` SET `description` = 'Change password notification template', `sms_template` = 'Dear #FIRST_NAME#, Your account password has been changed. Thanks, #COMPANY_NAME# ', `template` = '<p>Dear #NAME#,</p>\r\n\r\n<p>Your account password has been changed.</p>\r\n\r\n<p>Henceforth, Please use the latest password.</p>\r\n\r\n<p>For more info, Please visit on our website #COMPANY_WEBSITE# or contact to our support at #COMPANY_EMAIL#.</p>\r\n\r\n<p>Thanks,<br />\r\n#COMPANY_NAME#</p>\r\n' WHERE `default_templates`.`id` = 13; 
 
-UPDATE userlevels ul CROSS JOIN( SELECT GROUP_CONCAT(id) id FROM menu_modules WHERE module_url IN('did_purchase/did_purchase_list/')) mm SET ul.module_permissions =( CASE WHEN mm.id IS NOT NULL THEN REPLACE (ul.module_permissions, CONCAT(",",mm.id ), '') ELSE ul.module_permissions END ) WHERE ul.userlevelid = -1;
-UPDATE userlevels ul CROSS JOIN( SELECT GROUP_CONCAT(id) id FROM menu_modules WHERE module_url IN('did_purchase/did_purchase_list/')) mm SET ul.module_permissions =( CASE WHEN mm.id IS NOT NULL THEN REPLACE (ul.module_permissions, CONCAT(",",mm.id ), '') ELSE ul.module_permissions END ) WHERE ul.userlevelid = 1;
-
-INSERT INTO `menu_modules` (`id`, `menu_label`, `module_name`, `module_url`, `menu_title`, `menu_image`, `menu_subtitle`, `priority`) VALUES(NULL, 'Bulk DID Assign', 'did_purchase', 'did_purchase/did_purchase_list/', 'Inbound', '', '0', 31.22);
-
-UPDATE `userlevels` SET `module_permissions` = concat( `module_permissions`, ',', (  SELECT max( `id` ) FROM `menu_modules` ) ) WHERE `userlevelid` = -1;
-UPDATE `userlevels` SET `module_permissions` = concat( `module_permissions`, ',', (  SELECT max( `id` ) FROM `menu_modules` ) ) WHERE `userlevelid` = 1;
-
 update `system` set name='paypal_url' where display_name='Live Url';
 
 
