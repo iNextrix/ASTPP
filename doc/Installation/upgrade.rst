@@ -2,10 +2,6 @@
 Upgrade
 ===================
 
-.. note:: 
-
-	**For production systems which are having huge CDRs, its advisable to upgrade ASTPP version in downtime to avoid any database related issues.**
-
 **Upgrade Steps from 4.0 to 4.0.1**
 ::
 
