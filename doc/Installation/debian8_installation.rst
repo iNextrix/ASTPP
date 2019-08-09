@@ -179,7 +179,7 @@ Debian 8 Installation
     mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-3.0.sql
     mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-upgrade-3.5.sql
     mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-upgrade-3.6.sql
-
+    mysql -uroot -p<MYSQL_ROOT_PASSWORD> astpp < /usr/src/ASTPP/database/astpp-upgrade-partner.sql
     #Setup ODBC Connection for mysql
     cp /usr/src/ASTPP/misc/odbc/deb_odbc.ini /etc/odbc.ini
     cp /usr/src/ASTPP/misc/odbc/deb_odbcinst.ini /etc/odbcinst.ini
