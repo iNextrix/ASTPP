@@ -1,5 +1,5 @@
 ================
-DID
+DIDs
 ================
 
 Assign DID To account.

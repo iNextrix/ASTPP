@@ -6,6 +6,7 @@
 .. raw:: html
 
    <head>
+   
 ========================  
 Introduction
 ========================
@@ -279,7 +280,6 @@ Related pages
 .. toctree::
    :maxdepth: 2
    
-   features.rst
    components.rst
    system_requirement.rst
    how_to_contribute.rst

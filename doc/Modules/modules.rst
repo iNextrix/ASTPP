@@ -1,24 +1,21 @@
-================
+===========
 Modules
-================
-
-
-
+===========
 
 .. toctree::
-   :maxdepth: 2
-
+   :maxdepth: 5
+   
    login.rst
+   forgot_password.rst
+   signup.rst
    dashboard.rst
    accounts.rst
-   accounting.rst
-   dids.rst
+   billing.rst
+   inbound.rst
    tariff.rst
    carriers.rst
+   services.rst
    switch.rst
-   call_reports.rst
+   reports.rst
    configuration.rst
-   forgot_password.rst
-   signup_now.rst
-
-
+ 

@@ -4,7 +4,7 @@ Manual Installation
 
 
 .. toctree::
-   :maxdepth: 3
+  :maxdepth: 1
 
   version3.6.rst
 

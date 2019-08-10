@@ -2,7 +2,6 @@
 Carriers
 ================
 
-.. image:: /Images/carriers_menu.png
 
 
 **Related pages**
@@ -10,6 +9,7 @@ Carriers
 .. toctree::
     :maxdepth: 3
     
+   Carriers/gateway.rst 
    Carriers/trunk.rst
    Carriers/termination_rates.rst
    

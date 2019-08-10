@@ -10,3 +10,4 @@ Currencies
     :maxdepth: 4
     
    create_currency.rst
+   edit_currency.rst

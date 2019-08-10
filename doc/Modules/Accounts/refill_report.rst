@@ -2,4 +2,4 @@
 Refill Report
 ================
 
-.. image:: /Images/refill_report.jpg
+.. image:: /Images/refill_report.png

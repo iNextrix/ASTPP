@@ -2,4 +2,4 @@
 Speed Dial
 ================
 
-.. image:: /Images/speed_dial.jpg
+.. image:: /Images/speed_dial.png

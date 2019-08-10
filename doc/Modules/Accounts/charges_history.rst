@@ -1,5 +1,5 @@
 ================
 Charges History
 ================
-.. image:: /Images/charge_history.jpg
+.. image:: /Images/charge_history.png
 

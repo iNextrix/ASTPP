@@ -1,6 +1,6 @@
-=========
+====================
 Technical Questions
-=========
+====================
 
   1. What databases are supported in ASTPP ?
       It supports only MySQL (PostgreSQL support will be added in future release).

@@ -12,13 +12,13 @@ ASTPP have different types accounts based on their roles and responsibility. The
      2. Profile management
      3. Purchase DIDs & configure it
      4. Recharge account
-     5. Create own SIP Devices
-     6. Manage IP Settings (If permission given by admin)
-     7. Manage own caller ids
-     8. Invoices
-     9. Check their own CDRS
-     10. Outbound CDRS **(Only to Providers)**
-
+     5. Package and Subscriptions
+     6. Create own SIP Devices
+     7. Manage IP Settings (If permission given by admin)
+     8. Manage own caller ids
+     9. Invoices
+     10. Check their own CDRS
+     11. Outbound CDRS **(Only to Providers)**
 
 
 - **Resellers**
@@ -28,21 +28,16 @@ ASTPP have different types accounts based on their roles and responsibility. The
      1. Create customers & sub-resellers 
      2. Configure rate groups & rates 
      3. Purchase DIDs 
-     4. Invoices
-     5. Check reports
-     6. Personalize invoices configurations
+     4. Reseller and Opt-in Admin's product and resell it to their customer
+     5. Invoices
+     6. Check reports
+     7. Personalize invoices configurations
      
      
 - **Admin / Sub admins**
  - Admins are having full control over system whereas sub admins are having only reporting permissions.
  
-
-
 .. image:: /Images/account_menu.png
-
-
-
-
 
 You can navigate through different menus of ASTPP.
 
@@ -51,14 +46,13 @@ Customers, Admins, Resellers.Click on Customers and then click on Create
 Create Customer. 
 
 
-
-
 **Related pages**
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 5
    
-   Accounts/list_account.rst
-   Accounts/create_account.rst
-   Accounts/edit_account.rst
-   Accounts/email_mass.rst
+   Accounts/customers.rst
+   Accounts/reseller_list.rst
+   Accounts/admin_list.rst
+   Accounts/roles_permission_list.rst
+   

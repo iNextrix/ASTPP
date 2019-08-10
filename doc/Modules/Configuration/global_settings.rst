@@ -1,53 +1,40 @@
 ================
-Global-Settings
+Global Settings
 ================
 
 
-.. image:: /Images/global.jpg
+.. image:: /Images/global.png
   
   
 **Global - Settings Field Description**
 
 
-=============================== ===========================================================================
-**Company Website**             Company Website
+=========================================   ==================================================================================================================================
+Decimal Points             					Set decimal points to use throughout system
 
-**Company Name**                The name of your company.  Used in emails.
+Minimum Fund Transfer           			Set minimum amount for fund transfer
 
-**Call Debug**                  Enable debugging output? 0=no 1=yes.
+Password Strength               			Set Password Security Type For New Password Creation
 
-**Decimal Points**              How many decimal points do we bill to?
+Number of the Default Rows      			Set your pagination size
 
-**Max Free Length**             What is the maximum length (in minutes) of calls that are at no charge?
+Base Currency             					Set base currency of system.
 
-**Call Max Length**             What is the maximum length (in ms) of a LCR call?
+Default Invoice mode           				Draft will give possibility to admin and reseller to modify invoice after generation whereas Confirmed invoices will be readonly.
 
-**Base Currency**               Base Currency of System.
+Fixer Key             						Set your API Key for currency rate
 
-**Default Timezone**            System timezone.
+Account Number Editable         			Create new entity account number set editable
 
-**Default Country**             Default country.
+Refill Coupon Length            			Set refill coupon generation length
 
-**Version**	                    ASTPP Version.
+Log Path                    				ASTPP log files path
 
-**Did Global Translation**      Global number translation for DID.  
+Currency conversion loss percentage     	What percentage to allow for currency conversion losses
  
-**Playback Audio Notification** Global audio notification.
+Mobile Dialer Global audio notification.   	Set Mobile dialer for update password of account same as sip device
   
-**Outbound Fax**                Set enable to allow outbound fax in call.  
-
-**Inbound Fax**                 Set enable to allow inbound fax in call.
-
-**Refill Coupon Length**        Set refill coupon generation length.
-
-**Minimum Fund Transfer**       Set minimum amount for fund transfer.
-  
-**Balance Announcement**        To enable balance playback in call. 
-  
-**Minutes  Announcement**       To enable minute playback in call.
- 
-**Voicemail Number**            Voicemail listen number.
-=============================== ===========================================================================
+=========================================   ==================================================================================================================================
 
 
 

@@ -2,8 +2,6 @@
 Tariff
 ================
 
-.. image:: /Images/tariff_menu.PNG
-
 **Related pages**
 
 .. toctree::
@@ -11,7 +9,8 @@ Tariff
     
    Tariff/rate_group.rst
    Tariff/origination_rates.rst
-   Tariff/packages.rst
+   Tariff/ratedeck.rst
+   Tariff/calltype.rst
 
 
 

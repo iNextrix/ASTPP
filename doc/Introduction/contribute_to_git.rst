@@ -1,6 +1,6 @@
-============ 
+===================== 
 Contribute to Git
-============
+=====================
 
 Steps to contribute your changes / patches in open source repository.
 

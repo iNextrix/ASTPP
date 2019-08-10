@@ -1,0 +1,31 @@
+===================
+DIDs Export Process
+===================
+
+Export your DIDs by clicking on the Export button.
+If you would like to export specific criteria DIDs then you can search those DIDs using search feature and then export.
+Below is an example with search option,
+
+.. image:: /Images/DID_export.png
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

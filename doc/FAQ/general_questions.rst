@@ -1,6 +1,6 @@
-=========
+===================
 General Questions
-=========
+===================
 
  1. Is this solution completely open source?
      Yes.
@@ -19,7 +19,7 @@ General Questions
 
 
  5. What do i need to setup ASTPP on my system?
-     You need to have linux based server (Centos 7 OR Debian 8 Operating system) and carriers to route the calls. You can find requirement from http://astpp.readthedocs.io/en/v3.5/Introduction/system_requirement.html.  
+     You need to have linux based server (Centos 7 OR Debian 9 Operating system) and carriers to route the calls. You can find requirement from http://astpp.readthedocs.io/en/v4.0.1/Introduction/system_requirement.html.  
 
 
  6. Which OS are preferable for ASTPP?
@@ -48,7 +48,7 @@ General Questions
  11. How can I contribute code or donate money to support project?
       You can simply send your code to us for review and we will include it in open source version.
       You can donate us at paypal account billing@inextrix.com.
-      You can also refer http://astpp.readthedocs.io/en/v3.5/Introduction/how_to_contribute.html
+      You can also refer http://astpp.readthedocs.io/en/v4.0.1/Introduction/how_to_contribute.html
 
 
  12. Do you offer support?

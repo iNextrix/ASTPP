@@ -1,24 +1,20 @@
 ================
-Create Currency
+Add Currency
 ================
 
 
-.. image:: /Images/currencies_popup.PNG
+.. image:: /Images/create_currencies.png
   
   
   
 **Currencies Add/Edit Field description**
   
 ========= ===================  
-**Name**	Name of currency
+Name	  Name of currency
   
-**Code**	Code of currency
+Code	  Code of currency
   
-**Rate**	Rate of currency
+Rate	  Rate of currency
 ========= ===================
 
 
-|image| `How to create currency 
-<https://youtu.be/VBCK_wLXO0Q>`_ 
-
-.. |image| image:: /Images/favicon.png

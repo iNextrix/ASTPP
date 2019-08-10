@@ -3,7 +3,7 @@ Countries
 ================
 
 
-.. image:: /Images/countries.png
+.. image:: /Images/country_list.png
 
 
   
@@ -11,6 +11,7 @@ Countries
     :maxdepth: 4
     
     create_country.rst
+    edit_country.rst
     
     
     

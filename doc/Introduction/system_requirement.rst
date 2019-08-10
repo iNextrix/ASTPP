@@ -1,12 +1,12 @@
 
-============ 
+==================== 
 System Requirement
-============
+====================
 
 **Minimal System requirement**
  - 2GB RAM
  - 40GB Hard drive
- - 64 bit OS (Centos 7 / Debian 8)
+ - 64 bit OS (Centos 7 / Debian 9)
 
 **VoIP Requirement**
  - Termination gateway to route outbound calls

@@ -10,56 +10,38 @@ Customer edit page contains settings tabs,
 Here is left side menu information, 
 
 ====================  ===================================================================================================
-Customer Profile      To edit customer’s personal details.
+Customer Profile      To edit customer’s personal details and account related settings.
                              
-SIP Devices           Create/update SIP Devices.
+SIP Devices           Create/update SIP Devices..
                       
-IP Settings           Configure IP to allow calls from defined IPs. 
+IP Settings           White list customer  IP to allow calls from defined IPs.
 
-Caller ID             Set caller id for pinless authentication.
+Caller IDs            Set caller id for pinless authentication. (this will use for calling card features only)
 
-Speed Dial            Set your favourite number as speed dial from here.
+Force Caller ID       Use to overwrite customer callerid forcefully.
 
-Block Codes           Configure blocked prefixes for account.
+DIDs                  Assign DID To account.
 
-DID                   Assign DID To account.
+Products              Allow customer to assign new products on account.
 
-Subscription          Assign subscription charges to account.
+Speed Dial         	  Set your favourite number as speed dial from here.
+
+Blocked Codes	      Configure blocked prefixes for account.
+
+Alert Threshold	      Here we can set low balance email notification.
 
 Invoices              Shows list of invoices generated for this account.
 
-Refill Report         Show all refill histrory of specific account.
+Refill Report         Show all refill history of specific account.
 
 Charges History	      It shows all charges which apply to specific customer.
 
-CDRS	                Customer accounts CDRs information.
+CDRs                  Customer accounts CDRs information.
 
 Emails                Here you can check email history of accounts.
 
-Alert Threshold       Here we can set low balance email notification.
-
-
 ====================  ===================================================================================================
 
-**Related pages**
-
-.. toctree::
-    :maxdepth: 4
-   
-   account_details.rst
-   customer_sip_devices.rst
-   ip_settings.rst
-   caller_id.rst
-   speed_dial.rst
-   block_codes.rst
-   did.rst
-   subscription.rst
-   account_invoices.rst
-   refill_report.rst
-   charges_history.rst
-   cdrs.rst
-   emails.rst
-   alert_threshold.rst
 
   
       

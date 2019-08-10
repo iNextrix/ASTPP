@@ -2,101 +2,116 @@
 Create Account
 ================
 
-Once you click on Create Customer button, it will show you page to create new account like below screenshot.
-Enter appropriate information in page and click on save button to create account successfully. 
+Once you click on Create Customer button, it will show you page to create new account like below screenshot. 
+Enter appropriate information in page and click on the save button to create account successfully.
 
 For creating resellers, admins and sub-admins, we have similar process.
 
 
 .. image:: /Images/cutomer_add.png
 
-**Create Customer Account Form Fields Details:**
 
-====================  ================================================================================================
- Account              Also referred as User Name,Card Number or ID is typically a 10 unique digits that identify an
-                      account into the system.   
-                      
-                      Length of account number is configurable, admin can change it from global configuration. 
- Password             The password that needs to be provided to the customer so he/she can log into portal. 
-             
- Pin                  Calling Card Pin
-                      Important if customer is using calling card feature. Length of pin is configurable, admin can 
-                      change it from calling card configuration. 
-             
-FirstName             Customer First name
+================================  ===============================================================================================================================================================================================================
+  
+  **Panel Access**
 
-LastName              Customer Last name
+  Reseller     			  		  While you are creating customers under of the particular reseller then you have to be selected Reseller. 
+								 
+  Account           		      Also referred as User Name,Card Number or ID is typically a 10 unique digits that identify an account into the system.Length of account number is configurable, admin can change it from global configuration.
+					  
+  Password          		 	  The password that needs to be provided to the customer so he/she can log into portal.
+
+  Pin            			      Calling Card Pin Important if customer is using calling card feature. Length of pin is configurable, admin can change it from calling card configuration.
+
+  Email      				  	  E-mail address of the customers.
+
+  Create SIP Device         	  By selecting check-box sip device is automatically created for that new user account.	
+
+
+================================  ===============================================================================================================================================================================================================
+
+
+================================  ===================================================================================================
  
-Company               Customer Company name
+ **Account Settings**
+
+  Concurrent Calls      		  Defined the number of concurrent calls to allow the particular customer.
+		  
+  CPS	      					  It will manage the calls within the call per second.
+
+  Localization     				  It will managae the number translation for caller id and destination number.
+
+  Allow Local Calls               Allow customers to do local calls or not based on the selection.
+
+  Notifications        			  Allow to send the notifications to the customer.
+
+  Payment Gateway Permission	  Defined to access the permission of the gateway.
+
+================================  ===================================================================================================
+
+
+================================  ===================================================================================================================
  
-Telephone             Customer Telephone number
+ **Profile**      
+				
+  First Name					  Customer First name
+	 
+  Last Name                       Customer Last name
+		   
+  Company						  Customer Company name
+				
+  Phone 						  Customer Phone number
+	 
+  Notification Email  			  Customers can define the notifications email here.
 
-Country               Customer Country
+  Address 1						  Customer address
 
-Timezone              Customer Timezone
- 
-Status                Customer account status
+  Address 2						  Customer other address (If any)
 
-Max Channels          Maximum allowed concurrent channels for outbound calls. 0=Unlimited
- 
-Number Translation    If you wish to translate number with some defined number for specific customer then use 
-                      this feature.
- 
-First Used            Customer account's first used date and time. It will be updated when customer will do first 
-                      call from system.
+  City							  Customer City name
 
-Expiry Date           Customer account's expiry date. After that date, customer wouldn't be able to make new calls.
+  Province						  Customer Province name
 
-Valid Days            Valid days for customer account.                   
-                     
-Create SIP Device     By selecting check-box sip device is automatically created for that new user account.
+  Zip Code						  Customer Zip Code name
 
-Rate Group            Rate group is an essential field for billing. Without rate group customer wouldn't be able 
-                      to make any calls.
-                      You can create rate group by navigating to Tariff -> Rate group. 
-                     
-Billing Schedule      Billing schedule for invoice generation.
+  Country						  Customer Country
 
-                   
-Billing Day           If billing schedule is monthly then you will be able to define the day on which you want 
-                      customer invoice should be generated.  
-                       
-Currency              Customer account's currency.
-                      If customer currency is INR then all amounts will appear in INR in customer portal. 
-                     
-Account Type          Select customer account type. Prepaid OR Postpaid. 
-                      For prepaid customers, system will generate receipts as soon as any charges will be applied 
-                      to them. 
-                      For Postpaid, system will generate invoice on defined Billing Day.
+  Timezone						  Customer Timezone
 
-Credit Limit          Customer account's credit limit. Credit limit is only used for the postpaid account. 
+  Currency						  Customer account’s currency. If customer currency is INR then all amounts will appear in INR in customer portal.
+						
+================================  ===================================================================================================================
 
+================================  ===========================================================================================================================================================================================================================
+  
+  **Billing Settings**
 
-Tax                   Select applicable taxes
-                      You can create taxes from Configuration -> Taxes.
-                       
-Low Balance Alert     Define low balance amount on which you want to send notification to customer.
- 
+  Account Type					  Select customer account type. Prepaid OR Postpaid. For prepaid customers, system will generate receipts as soon as any charges will be applied to them. For Postpaid, system will generate invoice on defined Billing Day.
 
-Enable Email Alerts?  system will notify for Low credit if this option is set to Yes.
+  Credit Limit					  Customer account’s credit limit. Credit limit is only used for the postpaid account.
 
+  Rate Group					  Rate group is an essential field for billing. Without rate group customer wouldn’t be able to make any calls. You can create rate group by navigating to Tariff -> Rate group.
 
-Email Address          E-mail address to get Low credit notification.
+  NON-CLI Rate Group			  Rate Group selected based on the CLI Pool selected options.
 
+  CLI Pool						  To select the rate group or NON-CLI rate group based on caller id number. 
 
-====================  ================================================================================================
+  Billing Schedule				  Billing schedule for invoice generation.
 
+  Billing Day					  If billing schedule is monthly then you will be able to define the day on which you want customer invoice should be generated.
 
- 
-|image| `How to create customer
-<https://youtu.be/YgfcuybxlXg>`_ 
+  Tax Number					  Display the tax number in invoices.
 
-|image| `How to use customer and trunk number translation
-<https://youtu.be/KjO2sIqvCBY>`_ 
+  Generate Invoice				  Allow to generate invoices for zero amount. 
+
+  Invoice Note					  It will be display invoice note while generate the invoices.
+
+  Reference   					  To define the reference for the customer.
+
+================================  ===========================================================================================================================================================================================================================
 
 
 
-.. |image| image:: /Images/favicon.png  
                                       
 
 

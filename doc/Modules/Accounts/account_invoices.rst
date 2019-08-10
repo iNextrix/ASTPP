@@ -1,5 +1,5 @@
 ================
-Account Invoices
+Invoices
 ================
 
 Shows list of invoices generated for this account.
