@@ -256,7 +256,7 @@ class email_lib {
 	function send_notifications ($template_type, $details, $detail_type = '', $attachment = '', $resend = 0, $mass_mail = 0, $brodcast = 0) {
 		$this->send_notifications_email($template_type,$details,$detail_type,$attachment,$resend,$mass_mail,$brodcast);
 		$this->send_notifications_sms($template_type,$details,$detail_type,$attachment = '',$resend,$mass_mail,$brodcast,$history_id='');
-		$this->push_alert_notifications($template_type,$details,$detail_type,$attachment = '',$resend,$mass_mail,$brodcast,$history_id='');
+		//$this->push_alert_notifications($template_type,$details,$detail_type,$attachment = '',$resend,$mass_mail,$brodcast,$history_id='');
 		$this->update_mail_history ( $details ['history_id'] );
 	}
 
@@ -395,106 +395,8 @@ class email_lib {
 		}	
 	}
 	function push_alert_notifications($template_type, $details, $detail_type = '', $attachment = '', $resend = 0, $mass_mail = 0, $brodcast = 0 , $history_id) {
-		$this->push_alert_settings ();
-		if (!$this->alert_notications) {
-			$sip_user_name = $details ['sip_user_name'];
-			$callkit_token = $details ['callkit_token'];
-			$where = array ('username' => $sip_user_name , 'callkit_token' => $callkit_token);
-			$dialer_device_info = ( array ) $this->CI->db->get_where( "dialer_device_info", $where )->first_row();
-			if (!$this->alert_notications) {
-				$this->send_notification_mobile ($dialer_device_info,$details);
-			}
-		}
+		return true;
+		
 	}
-	function send_notification_mobile($dialer_device_info='',$details='') {
-
-
-	if (array_key_exists('mobile_type', $dialer_device_info)) {
-
-		if ($dialer_device_info ['mobile_type'] != '') {
-
-			if ($dialer_device_info ['mobile_type'] == 'Android') {
-
-				$GOOGLE_API_KEY_ANDROID = 
-				'AAAAW1cvspA:APA91bHunJKY2-4AqWmudm356ljx-AeICDREbZJkZ5wxuWYD1mSw2bvJ3DN5nDRbFI5iiF-BsCx8ZXK_K78wFJhEAdj6tgsc80E_QsZdvUhDwAO12oVGYgS6gOm5pv-pD0qelNnKztgb';
-
-				$registration_id = $details ['callkit_token'];
-
-				$message_body = array(
-							"message" => $details['push_message_body'],
-							"registration_ids" => array($registration_id),
-							"title" => $details ['subject'],
-							"status" => $details ['status_code']
-						);
-
-				$fields = array(
-					'to'   => $registration_id,
-					'data' => $message_body,
-				);
-				$url = 'https://fcm.googleapis.com/fcm/send';
-				$headers = array(
-					'Authorization: key=' . $GOOGLE_API_KEY_ANDROID,
-					'Content-Type: application/json'
-				);
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_POST, true);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields ,JSON_FORCE_OBJECT));
-				$result = curl_exec($ch);
-				if($result === FALSE){
-					die('Curl failed: ' . curl_error($ch));
-				}
-			 	curl_close($ch);
-			}
-
-			if ($dialer_device_info ['mobile_type'] == 'ios') {
-
-				$details ['subject'] = str_replace('<p>', '', $details ['subject']);
-				$details ['subject'] = str_replace('</p>', '', $details ['subject']);
-				$details ['subject'] = str_replace('&nbsp;', '', $details ['subject']);
-
-
-				$details['push_message_body'] = str_replace('<p>', '', $details['push_message_body']);
-				$details['push_message_body'] = str_replace('</p>', '', $details['push_message_body']);
-				$details['push_message_body'] = str_replace('&nbsp;', '', $details['push_message_body']);
-
-					$file_path = getcwd()."/".APPPATH . 'controllers/api/certificate/';
-
-				if (Common_model::$global_config ['system_config'] ['ios_push_notification_mode'] == 0) {
-					$file_path .= 'live.pem';
-					$link = "gateway.push.apple.com";
-				}  
-				else {
-					$file_path .= 'sandbox.pem';
-					$link = "gateway.sandbox.push.apple.com";
-				}
-				$body ['aps'] = array (
-						"alert" => array (
-								"status" => $details ['status_code'],
-								"title"  => $details ['subject'],
-								"body"   => trim($details['push_message_body']),
-						),
-						"badge" => 1 ,
-						"sound"  => "default" 
-				);
-				$ctx = stream_context_create ();
-				stream_context_set_option ( $ctx, 'ssl', 'local_cert', $file_path );
-				stream_context_set_option ( $ctx, 'ssl', 'passphrase', Common_model::$global_config ['system_config'] ['ios_push_notification_passphrase'] );
-				$fp = stream_socket_client ( 'ssl://' . $link . ':2195', $err, $errstr, 60, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $ctx );
-					
-				if ($fp) {
-						$apple_expiry     = time () + (90 * 24 * 60 * 60);
-						$apple_identifier = 1;
-						$payload          = json_encode ( $body );
-						$msg              = chr ( 0 ) . pack ( 'n', 32 ) . pack ( 'H*', $details ['callkit_token'] ) . pack ( 'n', strlen ( $payload ) ) . $payload;
-						$result           = fwrite ( $fp, $msg, strlen ( $msg ) );
-						fclose ( $fp );
-					}
-				}
-			}
-		}
-	}
+	
 }
