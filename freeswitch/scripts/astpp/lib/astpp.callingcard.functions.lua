@@ -561,18 +561,6 @@ function process_destination(userinfo)
 	-----------------------------------------------------------------------------------------
 
 	Logger.info("[CHECK_destination] Dialed destination number :" .. destination)
-
-
-	-- Call barring to identify if destination number or caller id is blocked or white listed.
-	call_barring_status = check_call_barring(destination,session:getVariable("caller_id_number"),call_direction)	
-	Logger.debug("Call Barring Status : ".. call_barring_status );
-
-	-- If call_barring_status = -1 then nothing blocked. If 0 then CID is blocked. If 1 then Destination is blocked
-	if (tonumber(call_barring_status)>=0) then
-		error_xml_without_cdr(destination,"DESTINATION_BLOCKED","ASTPP-CALLINGCARD",config['playback_audio_notification'],userinfo['id'])
-		return 0
-	end
-
 	local callerid_array = {}
 	callerid_array['original_cid_number'] = session:getVariable("caller_id_number")
 	callerid_array['cid_number'] = session:getVariable("caller_id_number")
@@ -586,13 +574,6 @@ function process_destination(userinfo)
 		end
 	end
 	-- -------------------------------------------------------
-
-
-	local routing_prefix_rategroup = get_pricelist_by_routing_prefix(destination,userinfo)
-    if (routing_prefix_rategroup ~= nil) then
-        destination = do_number_translation(routing_info['routing_prefix'].."/*",destination)
-    end
-
     -- @TODO : Need to confirm with Rushika for fraud feature
 	--Added for fraud detection checking
 	-- if fraud_check then fraud=fraud_check(accountcode,destination_number,calltype,config,userinfo)
