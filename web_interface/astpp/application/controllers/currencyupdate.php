@@ -27,9 +27,13 @@ class Currencyupdate extends CI_Controller {
 		$this->load->library ( "astpp/common" );
 	}
 	function update_currency() {
-		$url = "http://data.fixer.io/api/latest?access_key=".Common_model::$global_config ['system_config'] ['fixer_api_key']."&base=".Common_model::$global_config ['system_config'] ['base_currency'];
+		$url = "http://data.fixer.io/api/latest?access_key=".Common_model::$global_config ['system_config'] ['currency_conv_api_key']."&base=".Common_model::$global_config ['system_config'] ['base_currency'];
 		$currencyData = $this->curl_response ( $url );
 		$currencyData = json_decode($currencyData);
+		if($currencyData->success != 1){
+			$this->session->set_flashdata ( "astpp_notification","Currency exchange rates not updated successfully for this reason ".$currencyData->error->type." please check from fixer side." );
+			redirect ( base_url () . "systems/currency_list/" );
+		}
 		$base_currency = $currencyData->base;
 		$last_updated = date("Y-m-d H:i:s",$currencyData->timestamp);
 		$currency_rates = (array)$currencyData->rates;	
@@ -41,7 +45,7 @@ class Currencyupdate extends CI_Controller {
 		$updatebasecurrency = "UPDATE currency SET currencyrate = '1.000',last_updated = '" .$last_updated."' WHERE currency = '" . Common_model::$global_config ['system_config'] ['base_currency'] . "'";
 		$this->db->query ( $updatebasecurrency );
 		$this->session->set_flashdata ( "astpp_errormsg", "Currency exchange rates successfully updated." );
-		redirect ( base_url () . "/systems/currency_list/" );
+		redirect ( base_url () . "systems/currency_list/" );
 	}
 	function curl_response($url) {
 		$ch = curl_init ();
