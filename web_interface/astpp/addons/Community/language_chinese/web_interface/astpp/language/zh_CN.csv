@@ -1,0 +1,1777 @@
+English,Chinese
+Access Number,访问号码
+Access Numbers,访问号码
+Account,帐户
+Account Type,帐户类型
+Account Valid Days,帐户有效天数
+Account Verification By,帐户验证
+Accounts,帐号
+Accounts Report,账目报告
+ACD,ACD
+Action,行动
+Action Type,行动类型
+Add,加
+Add Country,添加国家
+Add Currency,添加货币
+Add Destination,添加目的地
+Add Ratedeck,添加Ratedeck
+Address1,地址1
+Administrator,管理员
+Administrator Admin,管理员管理员
+Admins,管理员
+After Balance,平衡之后
+Alarm,报警
+Alert Status,警报状态
+Allow integration with Fraud detection,允许与欺诈检测集成
+Allow IP Management,允许IP管理
+Allow Local Call,允许本地通话
+Allow Local Calls,允许本地通话
+Allow Loss Less Routing,允许减少丢失路由
+Allow Max Retries,允许最大重试次数
+Allow Recording,允许录制
+Amount,量
+Amount INR,金额INR
+Answered Calls,已回答的电话
+Applicable For,适用于
+Apply on existing accounts,适用于现有帐户
+Archive,档案
+ASR,ASR
+Attachement,Attachement
+Attempted Calls,试图打电话
+Audit,审计
+Audit Log,审核日志
+Audit Logs Older Than Days,审核日志早于天
+Authorize.net,Authorize.net
+Automatically,自动
+Balance,平衡
+Balance Announcement,余额公告
+Balance Below,以下平衡
+Base Currency,基础货币
+Basic,基本
+Basic Information,基本信息
+Batch Update,批量更新
+Before Balance INR,在平衡之前INR
+Begins With,开始于
+Beta,Beta版
+Billable,计费
+Billing,开票
+Billing Cycle,结算周期
+Billing Days,结算日
+Billing Information,账单信息
+Billing Type,账单类型
+Body,身体
+Buy Cost,购买成本
+Call Barring,呼叫限制
+Call Date,通话日期
+Call Detail Reports,致电详情报告
+Call Max Length,呼叫最大长度
+Call State,呼叫状态
+Call Summary Reports,致电摘要报告
+Call Timeout,呼叫超时
+Call Type,通话类型
+Call Types,通话类型
+Called Number,叫号码
+Caller ID,来电显示
+Caller IDs,来电显示
+Caller IP,来电IP
+Caller Name,来电者姓名
+Caller Number,来电号码
+Caller-Id-In-Form,呼叫者ID-状态正佳
+Calling Card,电话卡
+Calls,呼叫
+Calls Breakdown,呼叫故障
+Calltype Information,Calltype信息
+Can be purchased?,可以买？
+Capital,首都
+Capture Server,捕获服务器
+Card Input Timeout,卡输入超时
+Card Length,卡长
+Card Retries,卡重试
+Carriers,运营商
+Category,类别
+CC,CC
+CDRs Older Than Days,CDR比天还多
+Charge Type,收费类型
+Charges Breakdown,收费细分
+Charges History,收费历史
+CID,CID
+City,市
+Clear,明确
+Client IP,客户端IP
+Client User Agent,客户端用户代理
+Code,码
+Codecs,编解码器
+Commission,佣金
+Commission Rate,佣金率
+Commission Reports,委员会报告
+Company,公司
+Company Profiles,公司简介
+Company Tax number,公司税号
+Completed Calls,完成通话
+Concurrent Calls,并发呼叫
+Configuration ,组态
+Confirmed,确认
+Connection Cost,连接成本
+Contains,包含
+Cost,成本
+Cost/Min,成本/分
+Countries,国家
+Country,国家
+Country Code,国家代码
+Country List,国家清单
+Country Reports,国家报告
+Coupon Information,优惠券信息
+Coupon Number,优惠券号码
+CPS,CPS
+Create,创建
+Create Admin,创建管理员
+Create calltype,创建calltype
+Create Company Profile ,创建公司简介
+Create Customer,创造客户
+Create Origination Rate,创建起始率
+Create Product ,创建产品
+Create Provider,创建提供者
+Create Rate Group,创建费率组
+Create Refill Coupon,创建补充优惠券
+Create SIP Device,创建SIP设备
+Create Tax,创建税
+Created Date,创建日期
+Creation Date,创立日期
+Credit,信用
+Credit Limit,信用额度
+Crons,Crons
+Currency,货币
+Currency Conversion Loss Percentage,货币转换损失百分比
+Currency List,货币清单
+Customer,顾客
+Customer CDRs Report ,客户CDR报告
+Customer Summary,客户摘要
+Customer Summary Report ,客户总结报告
+Customers,顾客
+Dashboard,仪表板
+Database,数据库
+Date,日期
+Debit,借方
+Debug,调试
+Decimal Points,小数点
+Default Increment ,默认增量
+Default Invoice Mode,默认发票模式
+Default Tax,默认税
+Delete,删除
+Deleted Accounts After Days,天后删除帐户
+Description,描述
+Destination,目的地
+Dial Input Timeout,拨号输入超时
+DID,DID
+DIDs,的DID
+Direction,方向
+Disable,禁用
+Display records in,显示记录
+Disposition,性格
+Documentation,文档
+Doesnt Contain,不包含
+Domain,域
+Draft,草案
+Due Date,截止日期
+Duplicate,重复
+Duration,持续时间
+Email,电子邮件
+Email Alerts ?,电子邮件提醒？
+Email History,电邮历史
+Email History List ,电邮历史列表
+Email Notification,电子邮件通知
+Email Notifications,邮件通知
+Email Status,电邮状态
+Email Template,电邮模板
+Emails Older Than Days,电子邮件比天还旧
+En,恩
+Enable,启用
+Enable Signup,启用注册
+Ends With,以。。结束
+Enterprise,企业
+Entity Type,实体类型
+Environment,环境
+Ewallet Payment Gateway,Ewallet支付网关
+Expired Accounts After Days,过期后的账户过期
+Expiry Date,到期日
+Export,出口
+Failover  GW Name #1,故障转移GW名称＃1
+Failover GW Name #2,故障转移GW名称＃2
+Favicon,网站图标
+Fax,传真
+Fee,费用
+File Path,文件路径
+Filter,过滤
+First Name,名字
+First Used,首次使用
+Fixer Key,固定键
+FMAddon,FMAddon
+Footer,页脚
+Fraud Detection,欺诈识别
+Free Minutes,免费分钟
+FreeSwitch Servers,FreeSwitch服务器
+From,从
+From Date,从日期
+From Timestamp,来自时间戳
+Gateway Name,网关名称
+Gateways,网关
+General,一般
+General Input Timeout,一般输入超时
+Generate Invoice,生成发票
+Generate Pin,生成Pin
+Generates Alarm From System,从系统生成警报
+Generates Local Number system,生成本地号码系统
+Generates ticket of issues from system,从系统生成问题单
+Generates Various Alarms From System,从系统生成各种警报
+Generates Various Country Reports From System,从系统生成各种国家报告
+Generates various reports from system,从系统生成各种报告
+Get Addons,获取插件
+Get App,获取应用程序
+Global,全球
+Grace Time,格雷斯时间
+Grand Total,累计
+Group By,通过...分组
+Group By #1,分组＃1
+Group By #2,分组＃2
+Group By #3,分组＃3
+Group By #Time,按#Time分组
+Header,头
+Homer,荷马
+Host,主办
+Import,进口
+Import Customers,导入客户
+Import with field map,使用字段映射导入
+Inbound,入站
+Inbound Fax,入站传真
+Included Seconds,包括秒
+Increment,增量
+Initial Balance,初始余额
+Initial Increment,初始增量
+Inovices Older Than Days,比天更老的Inovices
+Install,安装
+Installed,安装
+Interval,间隔
+Interval Type,区间类型
+Invoice Configuration ,发票配置
+Invoice Date,发票日期
+Invoice Due Days,发票到期日
+Invoice Due Notification,发票到期通知
+Invoice Notification,发票通知
+Invoice Number,发票编号
+Invoice Prefix,发票前缀
+Invoice Start Form,发票开始表格
+Invoices,发票
+IP,IP
+IP Settings,IP设置
+Is Equal To,等于
+Is Not Equal To,不等于
+Is Purchased?,购买了吗？
+Iso,异
+Iso3,ISO3
+IVR Count,IVR计数
+Languages,语言
+Last Execution Date,上次执行日期
+Last Modified Date,上次修改日期
+Last Name,姓
+Last Paid Date,上次付款日期
+Latest Orders,最新订单
+LC Charge / Min,LC充电/分钟
+LC Charge/Min,LC充电/分钟
+Live,生活
+Live Call Report,直播电话报告
+Live Id,Live Id
+Live Key,Live Key
+Live Url,实时网址
+Local Call Timeout,本地通话超时
+Local Number,本地号码
+Local Numbers,本地号码
+Locale code,区域代码
+Localization,本土化
+Localization Type,本地化类型
+Localizations,本地化
+Log out,登出
+Log Path,日志路径
+Logo,商标
+Low balance Alert?,低平衡警报？
+Mail Log,邮件日志
+Manually,手动
+Markup,标记
+Mass Create,大众创造
+Mass Email,群发邮件
+Max Free Length,最大自由长度
+MCD,MCD
+Minimum Fund Transfer,最低资金转移
+Minutes,分钟
+Minutes Announcement,会议纪要
+Minutes Breakdown,分钟细分
+Moderate,中等
+Modified Date,修改日期
+Module,模
+Name,名称
+New Accounts,新账户
+Nexmo API Key,Nexmo API密钥
+Nexmo Secret Key,Nexmo密钥
+Next Execution Date,下一个执行日期
+Nickname,昵称
+No,没有
+No Records Found,没有找到记录
+Notes,笔记
+Notifications,通知
+Notify before due days,在截止日期前通知
+Number,数
+Number Type,数字类型
+of,的
+Opensips,Opensips
+Opensips DB Engine,Opensips数据库引擎
+Opensips DB Host,Opensips数据库主机
+Opensips DB Name,Opensips数据库名称
+Opensips DB Pass,Opensips DB Pass
+Opensips DB User,Opensips数据库用户
+Opensips Domain,Opensips域名
+Opensource,开源
+Order,订购
+Order Amount,订单金额
+Order Date,订购日期
+Order ID,订单ID
+Order Now,现在下单
+Orders,命令
+Org. Cost,组织。成本
+Org. Destination,组织。目的地
+Org. Pefix,组织。Pefix
+Origination Rates,起始价格
+Outbound Fax,出站传真
+Outstanding Amount INR,未结金额INR
+Page,页
+Password,密码
+Password Strength,密码强度
+Payment Method,付款方法
+Payment Methods,支付方式
+Payment Status,支付状态
+Paypal,贝宝
+Per Minute Cost,每分钟成本
+Phone,电话
+Pin Input Timeout,引脚输入超时
+Pin Length,针长
+Pin retries,引脚重试
+Pinless Authentication,无针认证
+Place Order ,下订单
+Playback Audio Notifications,播放音频通知
+Port,港口
+Portal personalization,门户个性化
+Powered by ASTPP,由ASTPP提供支持
+Prefix,字首
+Prepend,前置
+Preserve,保留
+Price,价钱
+Priority,优先
+Product Category,产品分类
+Product Details,产品详情
+Product Name,产品名称
+Products,制品
+Profile Action,档案动作
+Profit,利润
+Provider,提供商
+Provider CDRs Report ,提供者CDRs报告
+Provider Outbound,提供商出境
+Provider Outbound Report,提供商出站报告
+Provider Summary Report ,提供商摘要报告
+Province,省
+Province/State,省/州
+Proxy,代理
+Purge,清除
+Push Notifications,推送通知
+Quantity,数量
+Rate,率
+Rate Announcement,费率公告
+Rate Count,费率计数
+Rate Group,费率组
+Rate Groups,费率组
+Rate Information,费率信息
+Ratedeck,Ratedeck
+Ratedeck Information,评价信息
+Rates Count,价格计数
+Realtime Billing,实时结算
+Receiver Email,收件人电子邮件
+Recording Files Older Than Days,录制超过天数的文件
+Records,记录
+Referer Page,Referer Page
+Refill By,补充
+Refill Coupon Length,补充优惠券长度
+Refill Coupons,补充优惠券
+Refill Report,补充报告
+Refills,笔芯
+Register,寄存器
+Release if no balance,如果没有余额则释放
+Report a Bug,报告错误
+Reports,报告
+Request URI,请求URI
+Reseller,经销商
+Reseller can resell,经销商可以转售
+Reseller Summary,经销商摘要
+Reseller Summary Report ,经销商摘要报告
+Resellers,经销商
+Resellers CDRs Report ,经销商CDRs报告
+Resend Mail,重发邮件
+Role,角色
+Roles & Permission,角色和许可
+Roles & Permissions,角色和权限
+Routing Prefix,路由前缀
+Routing Type,路由类型
+Sandbox,砂箱
+Sandbox Id,沙箱ID
+Sandbox Key,沙箱密钥
+Sandbox Name,沙箱名称
+Sandbox Url,沙盒网址
+Save,保存
+Schedule Reports,安排报告
+Search,搜索
+Select File,选择文件
+Select Year,选择年份
+Services,服务
+Set Maximum Add card limit,设置最大添加卡限制
+Settings,设置
+Setup Fee,设置费
+Signup,注册
+SIP Devices,SIP设备
+SIP IP,SIP IP
+SIP Port,SIP端口
+SIP Profile,SIP简介
+SIP Profiles,SIP配置文件
+SMS,短信
+SMS Body,短信身体
+SMS Notifications,短信通知
+SMS Status,短信状态
+SMTP,SMTP
+SMTP Host,SMTP主机
+SMTP Pass,SMTP通行证
+SMTP Port,SMTP端口
+SMTP User,SMTP用户
+Start prefix,开始前缀
+Starting Digit,开始数字
+Status,状态
+Strip,跳闸
+Strong,强大
+Subject,学科
+Subscription,订阅
+Supportticket,Supportticket
+Switch,开关
+Tariff,关税
+Tax,税
+Tax Information,税务信息
+Telephone,电话
+Telephone as account number,电话作为帐号
+Templates,模板
+Term. Cost,术语。成本
+Term. Destination,术语。目的地
+Term. Prefix,术语。字首
+Term. Trunk,术语。树干
+Termination Rates,终止费率
+Third Party,第三方
+This Month,这个月
+This Week,本星期
+Timelimit Announcement,时限公告
+Timestamp,时间戳
+Timezone,时区
+To,至
+To Number,数字
+To Timestamp,到时间戳
+Today,今天
+Top 10 Accounts,十大账户
+Top 10 Destinations,十大目的地
+Total Calls ,总电话
+Total Charges,总费用
+Total Minutes,总分钟数
+Transaction ID,交易ID
+Translations,翻译
+Translations Language,翻译语言
+Trunk,树干
+Trunks,中继线
+Type,类型
+Unpaid,未付
+Update,更新
+Used,用过的
+Used Date,使用日期
+Username,用户名
+Version,版
+Version 4.0 Beta,版本4.0 Beta
+View All,查看全部
+Voicemail,语音信箱
+Panel Access,面板访问
+Profile,轮廓
+Billing Settings,结算设置
+Pin,销
+Account Settings,帐号设定
+Notification Email,通知电子邮件
+Address,地址
+NON-CLI Rate Group,非CLI率组
+Billing Schedule,结算时间表
+Billing Day,结算日
+Tax Number,税号
+Invoice Note,发票说明
+Reference,参考
+Cancel,取消
+Device Information,设备信息
+Voicemail Options,语音邮件选项
+Mail To,邮件到
+Attach File,附加文件
+Local After Email,本地电子邮件后
+Send all Message,发送所有消息
+Close,关
+IP map,IP地图
+Identificador de llamadas,Identificador de llamadas
+Add Caller ID,添加来电显示
+Create Reseller,创建经销商
+Role Name,角色名称
+Outstanding Amount,优秀金额
+To Date,至今
+Before Balance,平衡之前
+Commission Report,委员会报告
+MonthlyFee,月租费
+Grace Time (Sec.),宽限时间（秒）
+Import DIDs,导入DID
+File must be in the following format,文件必须采用以下格式
+DID Import Process,DID导入流程
+Get Sample file,获取示例文件
+Check Header,检查标题
+Select the file,选择文件
+Account Count,帐户数量
+Acc. Number Length,加。数字长度
+Valid Days,有效天数
+Create Access Number,创建访问号码
+Information,信息
+Import Access Numbers,导入访问号码
+Access Numbers Import Process,访问号码导入过程
+DIDs Bulk Assign,DID批量分配
+Bulk DID Purchase,批量DID购买
+Provience,Provience
+Assign Number,分配号码
+DID Destination,DID目的地
+DID Forward,DID转发
+Always,总是
+If Busy,如果忙
+If SIP Not Registered,如果SIP未注册
+If No Answer,如果没有答案
+New Rate Group Name,新的费率组名称
+Duplicate Rate Group Information,重复的费率组信息
+Import Origination Rates,进口原始价格
+Force Trunk,强制干线
+Please select atleast one record to dele,请选择至少一个记录删除
+Import Ratedeck,进口评分
+Optional Information,可选信息
+From- Domain,来自域名
+From User,来自用户
+Extension,延期
+Extension-In-Contact,拓在-联系
+Ping,平
+Contact Params,联系Params
+Retry-Seconds,重试秒
+Register-Proxy,注册代理
+Channel,渠道
+Failover GW Name,故障转移GW名称
+Create Trunk,创建中继线
+Import Termination Rates,进口终止费率
+Call Timeout (Sec.),呼叫超时（秒）
+Trunk List,中继列表
+Reset,重启
+Create SIP Profile,创建SIP配置文件
+Create Freeswitch Server,创建Freeswitch服务器
+Live Calls,直播电话
+Term Cost,期限成本
+Term Destination,学期目的地
+Term Prefix,术语前缀
+Localizaciones,Localizaciones
+Create Localization,创建本地化
+Origination,起源
+Termination,终止
+Inbound Callerid Translation,入站Callerid翻译
+Destination Number Translation,目的地号码翻译
+Outbound Callerid Translation,出境Callerid翻译
+Create Call Barring,创建呼叫限制
+Callbarring Settings,呼叫条设置
+Product Summary Report,产品摘要报告
+SIP User,SIP用户
+Product,产品
+Taxes,税
+Update Currencies,更新货币
+File Name,文件名
+Database Information,数据库信息
+Database Backup,数据库备份
+Command,命令
+Cron Settings,Cron设置
+Create Cron Settings,创建Cron设置
+Stripe,条纹
+Live Secret key,直播密钥
+Live Publishable key,Live Publishable键
+Set Percentage Charges,设置百分比费用
+Set Fix Charges,设置修复费用
+Stripe Mode,条纹模式
+Sandbox secret key,沙箱密钥
+Sandbox publishable key,沙盒可发布的密钥
+Version 4.0 Enterprise,版本4.0企业版
+Powered by,供电
+Import Customer Using Field Mapper,使用Field Mapper导入客户
+You must either select a field from your,您必须从中选择一个字段
+Records with duplicate account number an,记录有重复的帐号a
+Account Import Error,帐户导入错误
+Back to Customer List,返回客户列表
+Duplicate accounts with account number /,帐号为重复的帐户/
+Records imported successfully,记录导入成功
+Records not imported,记录未导入
+Error In CSV File,CSV文件中的错误
+Invoice Summary,发票摘要
+Customer Details,顾客信息
+Invoice Details,发票明细
+Account Number,帐号
+Invoice Amount,发票金额
+Invoice Item,发票项目
+Sub Total,小计
+Total Due,总到期
+Note,注意
+Add Setting,添加设置
+Edit SIP Profile,编辑SIP配置文件
+New,新
+Used?,用过的？
+View Email,查看邮箱
+Active,活性
+Inactive,待用
+Black List,黑名单
+White List,白名单
+Freeswitch Server Information,Freeswitch服务器信息
+Currencies,货币
+Edit Currency,编辑货币
+Is Distributor,是经销商
+Package created successfully!,包装成功创建！
+DID Removed Successfully.,DID已成功删除。
+DID not found.,找不到DID。
+Password changed Sucessfully....!!!,密码改变成功.... !!!
+New Password & Conformpassword not match,新密码和Conformpassword不匹配
+Invalid old passwword.,无效的旧密码。
+Permission Denied!,没有权限！
+Refill Coupon amount is added successful,补充优惠券金额成功添加
+PLease upload maximum file,PLease上传最大文件
+files added successfully!,文件添加成功！
+File Uploading Fail Please Try Again,文件上传失败请再试一次
+Please upload only image!,请只上传图片！
+Invoice config updated successfully!,发票配置已成功更新！
+Your Profile Updated Successfully!,您的个人资料已成功更新！
+Something wrong.Please contact to admini,有问题。请联系管理员
+DID Released Successfully!,DID成功发布！
+IP already exist in system.,IP已经存在于系统中。
+IP Added Sucessfully.,IP成功添加。
+IP Removed Sucessfully.,IP已成功删除。
+SIP Device Updated Successfully!,SIP设备已成功更新！
+SIP Device Added Successfully!,SIP设备成功添加！
+SIP Device Removed Sucessfully!,SIP设备成功删除！
+Caller ID Added Sucessfully!,来电显示已成功添加！
+Please Enter Caller ID value.,请输入来电显示值。
+Caller ID already Exists.,来电显示已存在。
+Caller ID removed sucessfully!,来电显示已成功删除！
+Alert Threshold Updated Successfully!,警报阈值已成功更新！
+Can not trnasfer fund to postpaid custom,无法将资金转移到后付费定制
+Access Denied! unable transfer fund to t,拒绝访问！无法将资金转移到t
+You can not transfer fund in same accoun,你不能在相同的账户中转账
+You can only transfer fund in same level,您只能在同一级别转移资金
+Please enter To account number.,请输入帐号。
+Please enter valid amount.,请输入有效金额。
+You have insufficient balance.,你的余额不足。
+Please enter valid account number.,请输入有效的帐号。
+Please enter amount greater then 0.,请输入大于0的金额。
+You need to enter minimum for fund trans,您需要输入资金转移的最低金额
+Please enter valid account number!,请输入有效的帐号！
+Insuffiecient amount !,数量不足！
+Transfer successfully!,转移成功！
+Account number not found.,找不到帐号。
+OpenSips updated successfully!,OpenSips成功更新！
+Duplicate Username Found.Username Must b,重复的用户名Found.Username必须b
+User name is required field.,用户名是必填字段。
+Opensips Device Removed Successfully!.,Opensips设备已成功删除！
+Speed-dial Number Added Successfully!,快速拨号号码成功添加！
+Can not delete blank speeddial number,无法删除空白的speeddial号码
+Speed-dial Number Removed Successfully!,快速拨号号码已成功删除！
+Pin Updated Successfully!,Pin已成功更新！
+DID Updated Successfully!,DID已成功更新！
+for fund transfer.,用于资金转移。
+You need to enter minimum,你需要输入最小值
+please enter recharge value,请输入充值
+New Password,新密码
+Old Password,旧密码
+Conform Password,符合密码
+Letters only please,信件只是请
+IP Mapping,IP映射
+The Coupon Number field must contain onl,优惠券号码字段必须包含onl
+The Coupon Number field have inactive re,优惠券号码字段具有非活动状态
+This Coupon Number is already in use.,此优惠券号码已在使用中。
+This Coupon Number is not found.,未找到此优惠券号码。
+The Coupon Number field is required.,优惠券号码字段是必填项。
+REFILL COUPON RECHARGE,重新填写COUPON RECHARGE
+You just recharged,你只是充电
+account with The new balance will be,帐户与新余额将是
+My Profile,我的简历
+My Account,我的帐户
+Alert Threshold,警报阈值
+The Caller ID field is required.,来电显示字段是必需的。
+Change Password,更改密码
+Bill Type,账单类型
+Bill Days,比尔日
+New Products,新产品
+Active Products,有源产品
+Outstanding,优秀
+Today's Calls,今天的电话
+Recent Calls,最近的电话
+The Available DIDs field is required.,可用DID字段是必需的。
+Please enter your password,请输入您的密码
+Please enter your first name,请输入您的名字
+Please enter your email,请输入您的电子邮件
+Please enter valid email,请输入有效的电子邮件
+This field is required.,这是必填栏。
+Email Setting,电邮设定
+SMTP Password,SMTP密码
+Are you sure want to remove logo?,您确定要删除徽标吗？
+The IP field must contain a unique value,IP字段必须包含唯一值
+The IP field have not valid IP.,IP字段没有有效的IP。
+The IP field is required.,IP字段是必需的。
+The Name field is required.,名字的字段是必需的。
+Please enter only alpha-numeric value,请仅输入字母数字值
+Are you sure want to delete speed dial r,您确定要删除快速拨号r
+Generated Date,生成日期
+My Products,我的产品
+Pinless CLI,无针CLI
+Refill Coupon,补充优惠券
+TopUp,储值
+Pay with Paypal,用Paypal付款
+Pay with Card,用卡支付
+Assign,分配
+Send Credit,发送信用
+To Account,帐户
+From Account,来自帐户
+Transfer,传递
+Telephone 1,电话1
+Telephone 2,电话2
+Address 2,地址2
+Zip/Postal Code,邮编/邮政编码
+User Profile,用户资料
+Low Balance Alert Level,低平衡警报级别
+Enable Email Alerts ?,启用电子邮件提醒？
+Low Balance Alert Email,低平衡警报电子邮件
+User name,用户名
+Something went to wrong !,出了点问题！
+Product Purchased successfully !,产品购买成功！
+Insufficent Balance to purchase product ,Insufficent Balance购买产品
+Product assigned successfully!,产品分配成功！
+Something went wrong !,有些不对劲 ！
+Product Not Found,找不到产品
+Transaction has been failed,交易失败了
+not inserted. Transaction has been faile,没有插入。交易一直很糟糕
+Select Customer.,选择客户。
+Product Information,产品信息
+Price+SetUp Fee,价格+设置费
+Use Voucher,使用优惠券
+Amount Without Tax,无税金额
+Total Tax,总税
+Amount With Tax,税金额
+Parent Products,母产品
+Edit Product,编辑产品
+Product updated successfully!,产品更新成功！
+Product added successfully!,产品添加成功！
+Product removed successfully!,产品已成功删除！
+Product optin successfully!,产品optin成功！
+Edit Info,编辑信息
+Product assign successfully,产品分配成功
+Insufficient balance to assign product!,分配产品的余额不足！
+Terminated Updated Successfully!,终止更新成功！
+Terminated,终止
+Setup Cost,设置成本
+Order New,订购新
+Caller ID updated successfully!,来电显示已成功更新！
+Caller ID added successfully!,来电显示成功添加！
+Caller ID removed successfully!,来电显示已成功删除！
+Name is not contain any space,名称不包含任何空格
+Name already exist in system.,名称已存在于系统中。
+Callbarring Settings Updated Successfull,呼叫条设置已更新成功
+allbarring Settings Added Successfully!,allbarring设置已成功添加！
+Call Barring Removed Successfully!,呼叫禁止成功删除！
+Calltype already exist in system.,Calltype已存在于系统中。
+Calltype Updated Successfully!,Calltype已成功更新！
+Calltype Added Successfully!,Calltype已成功添加！
+calltype removed successfully!,calltype已成功删除！
+File must be in the following format(.cs,文件必须采用以下格式（.cs
+Import Package Codes:,导入包裹代码：
+Records Imported Successfully:,记录导入成功：
+Records Not Imported :,未导入的记录：
+Download Errors,下载错误
+Back to Package Patterns List,返回包模式列表
+Add To List,添加到列表
+Routing Prefix already exist in system.,路由前缀已存在于系统中。
+Rate Group Updated Successfully!,费率组已成功更新！
+Rate Group Added Successfully!,费率组成功添加！
+Duplicate Rate Group Added Successfully!,重复率组成功添加！
+Routing Prefix (Enterprise),路由前缀（企业）
+Priority (Enterprise),优先级（企业）
+Percentage (WIP) (Enterprise),百分比（WIP）（企业）
+LCR,LCR
+Percentage,百分比
+Tax removed successfully!,税已成功取消！
+Tax added successfully!,增税成功！
+Tax updated successfully!,税务更新成功！
+Charges List,收费清单
+Trunk Updated Successfully!,Trunk成功更新！
+Trunk Added Successfully!,Trunk已成功添加！
+Trunk removed successfully!,Trunk已成功删除！
+setting updated successfully!,设置更新成功！
+Template Updated Successfully!,模板已成功更新！
+Template Added Successfully!,模板成功添加！
+Country Updated successfully!,国家更新成功！
+Country Added successfully!,国家已成功添加！
+Country removed successfully!,国家已成功删除！
+Currency Updated Successfully!,货币成功更新！
+My Rates,我的价格
+Cost / Min,成本/分钟
+Purchase,采购
+Available DIDs,可用的DID
+New IP,新IP
+Digits,数字
+Email Address,电子邮件地址
+Call Forward,呼叫前转
+If Busy:,如果忙碌：
+If SIP Not Registered:,如果SIP未注册：
+If No Answer:,如果没有答案：
+Pay Now,现在付款
+Pay with Account,用账户支付
+"Please wait, your order is being processed and you will be redirected to the paypal website.",请稍等，您的订单正在处理中，您将被重定向到paypal网站。
+Coupon Number:,优惠券号码：
+Add Voucher,添加优惠券
+Selected Plan,选定的计划
+My Product,我的产品
+Parent Product,母产品
+Edit Email Template,编辑邮件模板
+Details,细节
+KEY,键
+VALUE,值
+Records with duplicate account number and email will be ignored.,具有重复帐号和电子邮件的记录将被忽略。
+Account Details,帐户详细资料
+Mass Customer,大众客户
+Daily,日常
+Monthly,每月一次
+Prepaid,预付
+Postpaid,后付费
+Force Caller ID,强制来电显示
+Customer Profile,客户资料
+Caller Id Name,来电显示名称
+Caller Id Number,来电显示号码
+Blocked Codes,被阻止的代码
+Page will display only receipts and confirmed invoices.,页面将仅显示收据和已确认的发票。
+Accessnumber Updated Successfully!,Accessnumber已成功更新！
+Accessnumber Removed Successfully!,Accessnumber已成功删除！
+Invalid file format : Only CSV file allows to import records(Can't import empty file),文件格式无效：只有CSV文件允许导入记录（无法导入空文件）
+Please Select File.,请选择文件。
+ are required,是必要的
+ is Required,是必须的
+ is not Valid,不是有效的
+Duplicate accessnumber found from database,从数据库中找到重复的访问号码
+Duplicate accessnumber found from import file.,从导入文件中找到重复的访问号码。
+Total,总
+AccessNumber Imported Successfully!,AccessNumber导入成功！
+Records Not Imported:,未导入的记录：
+Back to AccessNumber List,返回AccessNumber列表
+Speed Dial Number Updated Successfully,快速拨号号码已成功更新
+Please insert only numeric value!,请只插入数值！
+Speed Dial Number Removed Successfully,快速拨号号码已成功删除
+Speed Dial Number is Empty,快速拨号号码为空
+Sip Device removed successfully!,Sip Device已成功删除！
+Sip updated successfully!,啜饮更新成功！
+Block Code Removed Sucessfully!,阻止代码删除成功！
+Your Account Limit has been reached.Please Change Your Prefix.,已达到您的帐户限制。请更改您的前缀。
+Please Enter Proper Account Length.,请输入正确的帐户长度。
+Bulk customer generate successfully!,批量客户成功生成！
+Recharge successfully!,充电成功！
+Post charge applied successfully.,邮寄费用已成功申请。
+Account callerID updated successfully!,帐户callerID已成功更新！
+Account callerID added successfully!,帐户callerID已成功添加！
+Reseller updated successfully!,经销商更新成功！
+Reseller added successfully!,经销商成功添加！
+Updated successfully!,更新成功！
+Added Successfully!,成功添加！
+Customer batch updated successfully!,客户批量更新成功！
+Reseller batch updated successfully!,经销商批量更新成功！
+Customer Removed Successfully!,客户成功删除！
+Reseller Removed Successfully!,经销商成功删除！
+Provider Removed Successfully!,提供商已成功删除！
+Admin Removed Successfully!,管理员已成功删除！
+Sub Admin Removed Successfully!,子管理员已成功删除！
+DID Added Successfully.,DID已成功添加。
+DID Already Removed Before.,DID之前已被删除。
+Account Tax Added Successfully!,帐户税增加成功！
+Account Tax Removed Successfully!,帐户税已成功删除！
+Product Removed Sucessfully.,产品已成功移除。
+Email Resend Successfully!,电子邮件重新发送成功！
+Email List Updated Successfully!,电子邮件列表已成功更新！
+Email List Added Successfully!,电子邮件列表已成功添加！
+Email Removed Successfully!,电子邮件已成功删除！
+Please Try Again!,请再试一次！
+Email BroadCast Successfully!,成功通过电子邮件发送BroadCast！
+No Record Found!,没有找到记录！
+Email Address Not Found!,找不到电子邮件地址！
+Edit Freeswitch SIP Devices,编辑Freeswitch SIP设备
+Create Freeswitch SIP Devices,创建Freeswitch SIP设备
+Gateway Updated Successfully!,网关已成功更新！
+Gateways already exist in system.,网关已经存在于系统中。
+Gateway name must not have any space.,网关名称不得包含任何空格。
+Gateway Added Successfully!,网关成功添加！
+Gateway Removed Successfully!,网关成功删除！
+Please enter All profile value!,请输入所有个人资料值！
+SIP Profile name must not have any space!,SIP配置文件名称不能有任何空间！
+Duplicate SIP IP OR Port found it must be unique!,重复的SIP IP或端口发现它必须是唯一的！
+SIP Profile Added Successfully!,SIP配置文件成功添加！
+Name must be unique!,名字必须是唯一的！
+SIP Profile Updated Successfully!,SIP配置文件已成功更新！
+SIP Setting Added Successfully!,SIP设置成功添加！
+SIP Setting Updated Successfully!,SIP设置已成功更新！
+SIP Setting Removed Successfully!,SIP设置已成功删除！
+SIP Profile Removed Successfully!,SIP配置文件已成功删除！
+Host Already Exist in System.,主机已存在于系统中。
+Freeswitch Server Updated Successfully!,Freeswitch Server成功更新！
+Freeswitch Server Added Successfully!,Freeswitch服务器成功添加！
+Freeswitch Server Removed Successfully!,Freeswitch服务器已成功删除！
+Invoice updated successfully!,发票已成功更新！
+Invoice payment done successfully!,发票付款成功完成！
+Account Not Found.,找不到帐户。
+Invoice payment amount should be higher then the invoice amount.,发票付款金额应高于发票金额。
+The Favicon file size shoud not exceed 1MB!,Favicon文件大小不应超过1MB！
+Please upload 250 * 60 size file,请上传250 * 60大小的文件
+Logo only allows file types of JPG and JPEG.,徽标仅允许JPG和JPEG的文件类型。
+"Favicon only allows file types of ICO, PNG, JPG and JPEG.",Favicon只允许ICO，PNG，JPG和JPEG等文件类型。
+Please upload 16 * 16 size of favicon.,请上传16 * 16尺寸的图标。
+Company profile updated sucessfully!,公司简介更新成功！
+Company profile added sucessfully!,公司简介成功增加！
+Permission Denied.,没有权限。
+is Deleted Sucessfully!,已成功删除！
+To date should not be greater than current date.,迄今为止不应大于当前日期。
+Invoice generation completed.,发票生成已完成。
+No data found,没有找到数据
+Invoices removed successfully,发票已成功删除
+The Prefix field must contain a unique value.,“前缀”字段必须包含唯一值。
+The IP field must contain a unique value.,IP字段必须包含唯一值。
+IP Map added successfully!,IP地图成功添加！
+IP Map removed successfully!,IP地图已成功删除！
+Localization Added Successfully!,本地化成功添加！
+Localization Updated Successfully!,本地化已成功更新！
+Localization Removed Successfully!,本地化已成功删除！
+Globalization is already exist in this system,全球化已存在于该系统中
+Dispatcher Updated Successfully!,调度程序已成功更新！
+Dispatcher Added Successfully!,调度程序成功添加！
+Dispatcher Removed Successfully!,Dispatcher成功删除！
+Code is already in system,代码已经在系统中
+Country is already in system,国家已经在系统中
+Ratedeck updated successfully!,Ratedeck已成功更新！
+Ratedeck added successfully!,Ratedeck成功添加！
+Ratedeck removed successfully!,Ratedeck已成功删除！
+Duplicate Ratedeck Number found from import file.,从导入文件中找到重复的Ratedeck编号。
+Ratedeck Imported Successfully!,Ratedeck成功导入！
+Ratedeck Import Error,Ratedeck导入错误
+Back to Ratedeck List,返回Ratedeck列表
+Origination Rate Imported Successfully!,原始进口成功率！
+Origination Rate Updated Successfully!,成功率已成功更新！
+Origination Rate Added Successfully!,成功增加了起始率！
+Termination Rates Batch Updated Successfully!,终止率批量更新成功！
+Map CSV to Termination Rates,将CSV映射到终止费率
+Data Example,数据示例
+Map to Field,映射到字段
+PREFIX/DEFAULT VALUE,PREFIX / DEFAULT VALUE
+ASTPP Field,ASTPP领域
+Created,创建
+Modified,改性
+You can not create,你无法创造
+Refill coupon with,补充优惠券
+You can create maximum,您可以创建最大值
+Refill coupon created successfully!,补充优惠券创建成功！
+Currency Added Successfully!,货币成功增加！
+Currency Removed Successfully!,货币成功删除！
+Backup Exported Successfully!,备份导出成功！
+An error occur when the system tried to backup of the database. Please check yours system settings for the backup section,系统尝试备份数据库时发生错误。请检查您的备份部分的系统设置
+Database Restore successfully.,数据库恢复成功。
+File not exists!,文件不存在！
+There is a some issue or invalid file format.,存在一些问题或无效的文件格式。
+Database backup deleted successfully.,数据库备份已成功删除
+Languages updated successfully!,语言已成功更新！
+Languages removed successfully!,语言已成功删除！
+Languages added successfully!,语言添加成功！
+Translation updated successfully!,翻译更新成功！
+Translation added successfully!,翻译成功添加！
+Update Languages,更新语言
+Speed Dial,快速拨号
+Payment,付款
+Method,方法
+"Once you confirm the invoice, you will no longer able to update it again.",确认发票后，您将无法再次更新。
+Payment Gateway Permission,支付网关许可
+Zip Code,邮政编码
+Yes,是
+Back,背部
+Edit Reseller,修改经销商
+Asignar DID a granel,Asignar DID是一个granel
+DIDs Search,DID搜索
+By Month,按月
+Create Gateway,创建网关
+Calling Card Language,电话卡语言
+Last,持续
+Pay Date,付款日期
+Purchase DID,购买DID
+Caller-ID-A-Form,主叫用户ID-A型
+Expire Seconds,过期秒数
+Termination Date,终止日期
+Registration Date,登记日期
+Payment By,付款方式
+Product Status,产品状态
+Minute,分钟
+Hour,小时
+Day,天
+Month,月
+Year,年
+List,名单
+Edit,编辑
+Not Avaialable any Subscription.,任何订阅都不是Avaialable。
+Not Avaialable any Package for this Country.,不适用于此国家/地区的任何套餐。
+You can only transfer fund in same level account.,您只能在同级账户中转账。
+You can not transfer fund in same account.,您不能在同一账户中转账。
+Monthly Fee,月租费
+Bulk DID Assign,批量DID分配
+Invoice Start From,发票开始
+Edit Gateway,编辑网关
+Number Of Default Rows,默认行数
+Mobile Dialer,移动拨号器
+Trunk Count,树干计数
+Welcome File,欢迎文件
+Local Call Timeout (Sec.),本地呼叫超时（秒）
+Rate check for DID,对DID进行费率检查
+DID Localization,DID本地化
+Voicemail Number,语音信箱号码
+OTP Expire Time(min),OTP过期时间（分钟）
+Edit Provider,编辑提供商
+Product Summary Reports,产品摘要报告
+Edit Origination Rate,编辑始发率
+Dialplan Variable,拨号方案变量
+Uninstall,卸载
+Call Stat,致电统计
+Failed Calls,电话失败
+Top 10 Countries,十大国家
+By Minutes,分钟
+By Calls,通过电话
+Telephone number is only numeric,电话号码只是数字
+Please enter valid Captcha code,请输入有效的验证码
+Please contact to administrator,请联系管理员
+Requested email is already exist,请求的电子邮件已存在
+Requested number is already exist,请求的号码已经存在
+Please enter correct words!,请输入正确的单词！
+THIS IS REQUIRED!,这是必需的！
+Your account has been deleted. Please contact administrator for more information.,您的帐户已被删除。请联系管理员了解更多信息。
+Your account is inactive. Please contact administrator for more information.,您的帐户无效。请联系管理员了解更多信息。
+Please enter proper Email.,请输入正确的电邮。
+Please enter proper Username.,请输入正确的用户名。
+This Username or Email is not valid.,此用户名或电子邮件无效。
+ASTPP - A Smart TelePhony Platform,ASTPP - 智能TelePhony平台
+Forgot Password,忘记密码
+ASTPP work best with JavaScript enabled,ASTPP在启用JavaScript时效果最佳
+Enter Your Password,输入您的密码
+Confirm Password,确认密码
+The Email field is Required,电子邮件字段是必填项
+The Account Number field is Required,“帐号”字段为必填项
+Set Default Language,设置默认语言
+Please Re-login to get Impact of selected language.,请重新登录以获得所选语言的影响力。
+Default Language,默认语言
+Signup now!,立即注册！
+Forgot Password?,忘记密码？
+Sign in,登入
+Username OR Email,用户名或电子邮件
+Username is Required,用户名是必需的
+Password is Required,密码是必需的
+"Please Check Your account is deleted or inactive from admin side, please contact to your administrator",请检查您的帐户是否已从管理员端删除或处于非活动状态，请与您的管理员联系
+Please do not use default or less secure password for your account!! You must change password from,请不要为您的帐户使用默认密码或不太安全的密码！您必须从中更改密码
+HERE,这里
+"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active",登录失败。请确保您输入了正确的用户名和密码，并确保您的帐户有效
+Please enter Username/email and Password.,请输入用户名/电子邮件和密码。
+Payment transaction invalid. Please contact Administrator.,付款交易无效。请联系管理员。
+Log In,登录
+Please Enter Password,请输入密码
+"Password must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit",密码必须至少为8个字符，且必须至少包含一个小写字母，一个大写字母和一个数字
+Please Enter Confirm Password,请输入确认密码
+Confirm Password is not match,确认密码不匹配
+We sent update password link.,我们发送了更新密码链接。
+Please check your Email!,请检查您的电子邮件！
+Login,登录
+OTP Verification,OTP验证
+OTP Number is Required,OTP号码是必需的
+Your account created successfully and account details sent to your registered email address,您的帐户已成功创建，帐户详细信息已发送到您的注册电子邮
+Your password change successfully and new password sent to your registered email address,您的密码更改成功，并将新密码发送到您注册的电子邮件地址
+OTP Number is Wrong Please try again Or OTP expire Please Resend,OTP号码错误请再试一次或OTP到期请重新发送
+OTP has been sent on your email or Telephone number,OTP已通过您的电子邮件或电话号码发送
+OTP,OTP
+Resend OTP,重新发送OTP
+OTP Sent time Out,OTP发送超时
+Not Get OTP ?,没有获得OTP？
+Note:,注意：
+Please make sure do not refresh the page or don't go back,请确保不刷新页面或不回去
+"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.",登录失败。请确保您输入了正确的用户名和密码，并确保您的帐户有效。
+Your account has been created successfully!,您的帐户已成功创建！
+Here is your login information,这是您的登录信息
+Link is Expire Please Try Again,链接已过期请再试一次
+"Sorry, we cannot process for singup at this time.",对不起，我们目前无法处理单身。
+Please contact administrator for more information,请联系管理员了解更多信息
+Successful!,成功了！
+Captcha is required,验证码是必需的
+First Name is Required,名字是必需的
+Telephone is Required,电话是必需的
+Email is Required,电子邮件是必填项
+Please enter a valid email address,请输入有效的电子邮件地址
+"Please make sure you entered the correct username and password, and that your account is active.",请确保您输入了正确的用户名和密码，并确保您的帐户有效。
+Company Name,公司名
+Enter above Captcha,输入上面的Captcha
+Sign up,注册
+Already Registered !,已经登记了 ！
+January,一月
+February,二月
+March,游行
+April,四月
+May,可以
+June,六月
+July,七月
+August,八月
+September,九月
+October,十月
+November,十一月
+December,十二月
+Doesn't Contain,不包含
+Greater Than,比...更棒
+Less Than,少于
+Greater Or Equal Than,大于或等于
+Less Or Equal Than,少于或等于
+Set To,调成
+Increase By,通过增加
+Decrease By,减少
+Community,社区
+You must either select a field from your file OR provide a default value for the following fields:,您必须从文件中选择一个字段，或者为以下字段提供默认值：
+Note : Records with duplicate account number and email will be ignored.,注意：具有重复帐号和电子邮件的记录将被忽略。
+Map CSV to Customers,将CSV映射到客户
+Account Information,帐户信息
+Select Account,选择帐户
+DEFAULT VALUE,默认值
+SIP Username,SIP用户名
+sip_username,sip_username
+SIP Password,SIP密码
+Same as Password,与密码相同
+Same as Account Number,与帐号相同
+Random,随机
+Import File Data.,导入文件数据。
+Process Records,流程记录
+Note : Duplicate accounts with account number / email are ignored.,注意：将忽略具有帐号/电子邮件的重复帐户。
+Remove,去掉
+Number of Account,账户数量
+Account Number Length,帐号长度
+"DID (CLI Match, If not matched then use random allocated DID)",DID（CLI匹配，如果不匹配则使用随机分配的DID）
+"Caller Id (CLI Match, If not matched then use random allocated Caller Id)",来电显示（CLI匹配，如果不匹配，则使用随机分配的来电显示）
+Use NON-CLI Rate Group (If CLI not match with DID),使用非CLI速率组（如果CLI与DID不匹配）
+Use NON-CLI Rate Group (If CLI not match with Caller ID),使用非CLI速率组（如果CLI与来电显示不匹配）
+Use NON-CLI Rate Group (If CLI not match with DID & Caller id),使用非CLI速率组（如果CLI与DID和来电显示不匹配）
+Reject Call (If CLI not match with DID),拒绝呼叫（如果CLI与DID不匹配）
+Reject Call (If CLI not match with Caller ID),拒绝呼叫（如果CLI与来电显示不匹配）
+Reject Call (If CLI not match with DID & Caller id),拒绝呼叫（如果CLI与DID和来电显示不匹配）
+--Select--,- 选择 -
+Test Mail,测试邮件
+Reset Password,重设密码
+AFGHANISTAN,阿富汗
+ALBANIA,阿尔巴尼亚
+ALGERIA,阿尔及利亚
+AMERICAN SAMOA,美国萨摩亚
+ANDORRA,安道尔
+ANGOLA,安哥拉
+ANGUILLA,安圭拉
+ANTIGUA & BARBUDA,ANTIGUA和BARBUDA
+ARGENTINA,阿根廷
+ARMENIA,亚美尼亚
+ARUBA,ARUBA
+AUSTRALIA,澳大利亚
+AUSTRIA,奥地利
+AZERBAIJAN,阿塞拜疆
+BAHAMAS,巴哈马
+BAHRAIN,巴林
+BANGLADESH,孟加拉国
+BARBADOS,巴巴多斯
+BELARUS,白俄罗斯
+BELGIUM,比利时
+BELIZE,伯利兹
+BENIN,贝宁
+BERMUDA,百慕大
+BHUTAN,不丹
+BOLIVIA,玻利维亚
+BOSNIA AND HERZEGOVINA,波斯尼亚和黑塞哥维那
+BOTSWANA,博茨瓦纳
+BRAZIL,巴西
+BRITISH VIRGIN ISLANDS,英属维尔京群岛
+BRUNEI,文莱
+BULGARIA,保加利亚
+BURKINA FASO,BURKINA FASO
+BURUNDI,布隆迪
+CAMBODIA,柬埔寨
+CAMEROON,喀麦隆
+CANADA,加拿大
+CAPE VERDE,CAPE VERDE
+CAYMAN ISLANDS,开曼群岛
+CENTRAL AFRICAN REPUBLIC,中非共和国
+CHAD,CHAD
+CHILE,智利
+CHINA,中国
+COLOMBIA,哥伦比亚
+COMOROS,科摩罗
+CONGO,刚果
+COSTA RICA,哥斯达黎加
+CROATIA,克罗地亚
+CUBA,CUBA
+CYPRUS,塞浦路斯
+CZECH REPUBLIC,捷克共和国
+DEMOCRATIC REPUBLIC,民主共和国
+DENMARK,丹麦
+DJIBOUTI,吉布提
+DOMINICA,DOMINICA
+DOMINICAN REPUBLIC,多明尼加共和国
+ECUADOR,厄瓜多尔
+EGYPT,埃及
+EL SALVADOR,萨尔瓦多
+EQUATORIAL GUINEA,赤道几内亚
+ERITREA,厄立特里亚
+ERITREA,厄立特里亚
+ETHIOPIA,埃塞俄比亚
+FAEROE ISLANDS,FAEROE ISLANDS
+FIJI ISLANDS,斐济群岛
+FINLAND,芬兰
+FRANCE,法国
+FRENCH GUIANA,法属圭亚那
+FRENCH POLYNESIA,法国波利尼西亚
+GABON,加蓬
+GAMBIA,冈比亚
+GEORGIA,GEORGIA
+GERMANY,德国
+GHANA,加纳
+GIBRALTAR,直布罗陀
+GREECE,希腊
+GRENADA,格林纳达
+GUADELOUPE,瓜德罗普
+GUAM,关岛
+GUATEMALA,危地马拉
+GUINEA,几内亚
+GUINEA BISSAU,几内亚比绍
+GUYANA,圭亚那
+HAITI,海地
+HONDURAS,洪都拉斯
+HONG KONG,香港
+HUNGARY,匈牙利
+ICELAND,冰岛
+INDIA,印度
+INDONESIA,印度尼西亚
+IRAN,伊朗
+IRAQ,伊拉克
+IRELAND,爱尔兰
+ISRAEL,以色列
+ITALY,意大利
+IVORY COAST,象牙海岸
+JAMAICA,牙买加
+JAPAN,日本
+JORDAN,约旦
+KAZAKHSTAN,哈萨克斯坦
+KENYA,肯尼亚
+KOSOVO,科索沃
+KUWAIT,科威特
+KYRGYZSTAN,吉尔吉斯斯坦
+LAOS,老挝
+LATVIA,拉脱维亚
+LEBANON,黎巴嫩
+LESOTHO,莱索托
+LIBERIA,利比里亚
+LIBYA,利比亚
+LIECHTENSTEIN,列支敦士登
+LITHUANIA,立陶宛
+LUXEMBOURG,卢森堡
+MACAU,澳门
+MACEDONIA,马其顿
+MADAGASCAR,马达加斯加
+MALAWI,马拉维
+MALAYSIA,马来西亚
+MALI,马里
+MALTA,马耳他
+MARSHALL ISLANDS,马绍尔群岛
+MARTINIQUE,马提尼克岛
+MAURITANIA,毛里塔尼亚
+MAURITIUS,毛里求斯
+MEXICO,墨西哥
+MICRONESIA,密克罗尼西亚
+MOLDOVA,摩尔多瓦
+MONACO,MONACO
+MONGOLIA,蒙古
+MONTENEGRO,黑山
+MONTSERRAT,MONTSERRAT
+MOROCCO,摩洛哥
+MOZAMBIQUE,莫桑比克
+MYANMAR,缅甸
+NAMIBIA,纳米比亚
+NEPAL,尼泊尔
+NETHERLANDS,荷兰
+NEW CALEDONIA,新CALEDONIA
+NEW ZEALAND,新西兰
+NICARAGUA,尼加拉瓜
+NIGER,尼日尔
+NIGERIA,尼日利亚
+NO. MARIANA ISLANDS,没有。玛丽安娜群岛
+NORTH KOREA,北朝鲜
+NORWAY,挪威
+OMAN,阿曼
+PAKISTAN,巴基斯坦
+PALAU,帛琉
+PANAMA,巴拿马
+PARAGUAY,巴拉圭
+PERU,秘鲁
+PHILIPPINES,菲律宾
+POLAND,波兰
+PORTUGAL,葡萄牙
+PUERTO RICO,PUERTO RICO
+QATAR,卡塔尔
+REUNION ISLAND,REUNION ISLAND
+ROMANIA,罗马尼亚
+RUSSIAN FEDERATION,俄罗斯联邦
+RWANDA,卢旺达
+SAN MARINO,圣马力诺
+SAUDI ARABIA,沙特阿拉伯
+SENEGAL,塞内加尔
+SERBIA,塞尔维亚
+SEYCHELLES ISLANDS,塞舌尔群岛
+SIERRA LEONE,塞拉利昂
+SINGAPORE,新加坡
+SLOVAKIA,斯洛伐克
+SLOVENIA,斯洛文尼亚
+SOMALIA,索马里
+SOUTH AFRICA,南非
+SOUTH KOREA,韩国
+SOUTH SUDAN,南苏丹
+SPAIN,西班牙
+SRI LANKA,斯里兰卡
+ST. KITTS,ST。圣基茨
+ST. LUCIA,ST。LUCIA
+ST. MARTIN,ST。MARTIN
+ST. PIERRE & MIQUELON,ST。PIERRE＆MIQUELON
+ST. VINCENT,ST。VINCENT
+SUDAN,苏丹
+SURINAME,苏里南
+SWAZILAND,斯威士兰
+SWEDEN,瑞典
+SWITZERLAND,瑞士
+SYRIA,叙利亚
+TAIWAN,台湾
+TAJIKISTAN,塔吉克斯坦
+TANZANIA,坦桑尼亚
+THAILAND,泰国
+TRINIDAD & TOBAGO,特立尼达和多巴哥
+TUNISIA,突尼斯
+TURKEY,火鸡
+TURKMENISTAN,土库曼斯坦
+TURKS & CAICOS ISLANDS,TURKS和CAICOS ISLANDS
+UGANDA,乌干达
+UKRAINE,乌克兰
+UNITED ARAB EMIRATES,阿拉伯联合酋长国
+UNITED KINGDOM,英国
+URUGUAY,乌拉圭
+US VIRGIN ISLANDS,美国维尔京群岛
+United States,美国
+UZBEKISTAN,乌兹别克斯坦
+VENEZUELA,委内瑞拉
+VIETNAM,越南
+YEMEN,也门
+ZAMBIA,赞比亚
+ZIMBABWE,津巴布韦
+ASCENSION,ASCENSION
+COOK ISLANDS,库克群岛
+EAST TIMOR,东帝汶
+FALKLAND ISLANDS,福克兰群岛
+GREENLAND,格陵兰
+KIRIBATI,基里巴斯
+MALDIVES,马尔代夫
+NAURU,瑙鲁
+Albanian Lek,阿尔巴尼亚列克
+Algerian Dinar,阿尔及利亚第纳尔
+Aluminium Ounces,铝盎司
+Argentine Peso,阿根廷比索
+Aruba Florin,阿鲁巴弗罗林
+Australian Dollar,澳元
+Bahamian Dollar,巴哈马元
+Bahraini Dinar,巴林第纳尔
+Bangladesh Taka,孟加拉国塔卡
+Barbados Dollar,巴巴多斯元
+Belarus Ruble,白俄罗斯卢布
+Belize Dollar,伯利兹元
+Bermuda Dollar,百慕大元
+Bhutan Ngultrum,不丹Ngultrum
+Bolivian Boliviano,玻利维亚玻利维亚诺
+Brazilian Real,巴西雷亚尔
+British Pound,英镑
+Brunei Dollar,文莱元
+Bulgarian Lev,保加利亚列弗
+Burundi Franc,布隆迪法郎
+Cambodia Riel,柬埔寨瑞尔
+Canadian Dollar,加元
+Cayman Islands Dollar,开曼群岛元
+CFA Franc (BCEAO),CFA法郎（BCEAO）
+CFA Franc (BEAC),CFA法郎（BEAC）
+Chilean Peso,智利比索
+Chinese Yuan,中国元
+Colombian Peso,哥伦比亚比索
+Comoros Franc,科摩罗法郎
+Copper Ounces,铜盎司
+Costa Rica Colon,哥斯达黎加科隆
+Croatian Kuna,克罗地亚库纳
+Cuban Peso,古巴比索
+Cyprus Pound,塞浦路斯镑
+Czech Koruna,捷克克朗
+Danish Krone,丹麦克朗
+Dijibouti Franc,Dijibouti Franc
+Dominican Peso,多米尼加比索
+East Caribbean Dollar,东加勒比元
+Ecuador Sucre,厄瓜多尔苏克雷
+Egyptian Pound,埃及镑
+El Salvador Colon,萨尔瓦多科隆
+Eritrea Nakfa,厄立特里亚纳克法
+Estonian Kroon,爱沙尼亚克朗
+Ethiopian Birr,埃塞俄比亚比尔
+Euro,欧元
+Falkland Islands Pound,福克兰群岛磅
+Gambian Dalasi,冈比亚达拉西
+Ghanian Cedi,Ghanian Cedi
+Gibraltar Pound,直布罗陀庞德
+Gold Ounces,金盎司
+Guatemala Quetzal,危地马拉格查尔
+Guinea Franc,几内亚法郎
+Haiti Gourde,海地古德
+Honduras Lempira,洪都拉斯伦皮拉
+Hong Kong Dollar,港币
+Hungarian ForINT,匈牙利福林
+Iceland Krona,冰岛克朗
+Indian Rupee,印度卢比
+Indonesian Rupiah,印尼盾
+Iran Rial,伊朗里亚尔
+Israeli Shekel,以色列谢克尔
+Jamaican Dollar,牙买加元
+Japanese Yen,日圆
+Jordanian Dinar,约旦第纳尔
+Kazakhstan Tenge,哈萨克斯坦坚戈
+Kenyan Shilling,肯尼亚先令
+Korean Won,韩元
+Kuwaiti Dinar,科威特第纳尔
+Lao Kip,老基普
+Latvian Lat,拉脱维亚拉特
+Lebanese Pound,黎巴嫩镑
+Lesotho Loti,莱索托洛蒂
+Libyan Dinar,利比亚第纳尔
+Lithuanian Lita,立陶宛丽塔
+Macau Pataca,澳门帕塔卡
+Macedonian Denar,马其顿Denar
+Malagasy Franc,马达加斯加法郎
+Malawi Kwacha,马拉维克瓦查
+Malaysian Ringgit,马来西亚林吉特
+Maldives Rufiyaa,马尔代夫Rufiyaa
+Maltese Lira,马耳他里拉
+Mauritania Ougulya,毛里塔尼亚Ougulya
+Mauritius Rupee,毛里求斯卢比
+Mexican Peso,墨西哥比索
+Moldovan Leu,摩尔多瓦列伊
+Mongolian Tugrik,蒙古图格里克
+Moroccan Dirham,摩洛哥迪拉姆
+Mozambique Metical,莫桑比克Metical
+Namibian Dollar,纳米比亚元
+Nepalese Rupee,尼泊尔卢比
+Neth Antilles Guilder,Neth Antilles Guilder
+New Turkish Lira,新土耳其里拉
+New Zealand Dollar,新西兰元
+Nicaragua Cordoba,尼加拉瓜科多巴
+Nigerian Naira,尼日利亚奈拉
+Norwegian Krone,挪威克朗
+Omani Rial,阿曼里亚尔
+Pacific Franc,太平洋法郎
+Pakistani Rupee,巴基斯坦卢比
+Palladium Ounces,钯盎司
+Panama Balboa,巴拿马巴尔博亚
+Papua New Guinea Kina,巴布亚新几内亚基纳
+Paraguayan Guarani,巴拉圭瓜拉尼
+Peruvian Nuevo Sol,秘鲁Nuevo Sol
+Philippine Peso,菲律宾比索
+Platinum Ounces,白金盎司
+Polish Zloty,波兰兹罗提
+Qatar Rial,卡塔尔里亚尔
+Romanian Leu,罗马尼亚列伊
+Romanian New Leu,罗马尼亚新列伊
+Russian Rouble,俄罗斯卢布
+Rwanda Franc,卢旺达法郎
+Samoa Tala,萨摩亚塔拉
+Sao Tome Dobra,圣多美多布拉
+Saudi Arabian Riyal,沙特阿拉伯里亚尔
+Seychelles Rupee,塞舌尔卢比
+Sierra Leone Leone,塞拉利昂利昂
+Silver Ounces,银盎司
+Singapore Dollar,新加坡元
+Slovak Koruna,斯洛伐克克朗
+Slovenian Tolar,斯洛文尼亚语Tolar
+Somali Shilling,索马里先令
+South African Rand,南非兰特
+Sri Lanka Rupee,斯里兰卡卢比
+St Helena Pound,圣赫勒拿磅
+Sudanese Dinar,苏丹第纳尔
+Surinam Guilder,苏里南盾
+Swaziland Lilageni,斯威士兰Lilageni
+Swedish Krona,瑞典克朗
+Swiss Franc,瑞士法郎
+Syrian Pound,叙利亚镑
+Taiwan Dollar,台币
+Tanzanian Shilling,坦桑尼亚先令
+Thai Baht,泰铢
+Tonga Paanga,汤加潘加
+Trinidad&Tobago Dollar,特立尼达和多巴哥元
+Tunisian Dinar,突尼斯第纳尔
+U.S. Dollar,美元
+UAE Dirham,阿联酋迪拉姆
+Ugandan Shilling,乌干达先令
+Ukraine Hryvnia,乌克兰格里夫纳
+Uruguayan New Peso,乌拉圭新比索
+Vanuatu Vatu,瓦努阿图瓦图
+Venezuelan Bolivar,委内瑞拉玻利瓦尔
+Vietnam Dong,越南董
+Yemen Riyal,也门里亚尔
+Zambian Kwacha,赞比亚克瓦查
+Zimbabwe Dollar,津巴布韦元
+Guyana Dollar,圭亚那元
+Aruban florin,阿鲁巴弗罗林
+Armenian dram,亚美尼亚德拉姆
+Azerbaijani manat,阿塞拜疆马纳特
+Barbadian dollar,巴巴多斯元
+Bosnian Convertible Marka,波斯尼亚可转换马卡
+Botswana pula,博茨瓦纳普拉
+Cape Verdean escudo,佛得角埃斯库多
+Congolese franc,刚果法郎
+Fijian Dollar,斐济元
+CFP franc,CFP法郎
+Georgian lari,格鲁吉亚拉里
+Iraqi dinar,伊拉克第纳尔
+Kyrgyzstani som,吉尔吉斯斯坦索姆
+Liberian dollar,利比里亚元
+Malagasy ariary,马达加斯加的ariary
+Burmese Kyat,缅甸缅元
+North Korean won,朝鲜获胜
+nuevo sol,新溶胶
+Serbian dinar,塞尔维亚第纳尔
+South Korean won,韩国人赢了
+South Sudanese pound,南苏丹镑
+Sudanese pound,苏丹镑
+Surinamese dollar,苏里南元
+Tajikistani samani,塔吉克斯坦萨马尼
+Turkish lira,土耳其里拉
+Turkmenistan manat,土库曼斯坦马纳特
+Pound sterling,英镑
+Uzbekistani soʻm,乌兹别克斯坦，所以
+Saint Helena pound,圣赫勒拿磅
+Indian Rupees,印度卢比
+CLI Pool,CLI池
+Download,下载
+TRUE,真正
+FALSE,假
+--Select Type--,- 选择类型 -
+One Time,一度
+Recurring,定期
+Recurring Monthly,每月重复一次
+Outbound,出站
+Default,默认
+Speed Dial Number Added Successfully,快速拨号已成功添加
+"Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.",您确定要确认此发票吗？一旦确认，就无法再次编辑发票。
+DIDs already purchased by someone.,已经由某人购买的DID。
+DIDs Assigned sucessfully!,DIDs分配成功！
+Something wrong.Please contact to administrator.,有问题。请联系管理员。
+Duplicate DID found from database,从数据库中找到重复的DID
+Account have not sufficient amount to purchase this DID.,帐户没有足够的金额购买此DID。
+Account not found or assign to invalid account,帐户未找到或分配给无效帐户
+Duplicate DID found from import file.,从导入文件中找到重复的DID。
+DIDs Imported Successfully!,DID导入成功！
+Insuffiecient fund to purchase this DID.,Insuffiecient基金购买这个DID。
+Balance Below Notification,平衡低于通知
+Edit SIP device,编辑SIP设备
+Note : Page will display only receipts and confirmed invoices.,注意：页面仅显示收据和已确认的发票。
+Termination Rate Updated Successfully!,终止费率已成功更新！
+Import Termination Rates Using Field Mapper,使用Field Mapper导入终止率
+Edit Roles & Permissions,编辑角色和权限
+Create Roles & Permissions,创建角色和权限
+Edit Admin,编辑管理员
+Pin Updated Successfully!.,Pin已成功更新！
+Create Termination Rate,创建终止费率
+Edit Company Profile,编辑公司资料
+Website,网站
+Generate Invoice for no usage,生成发票，不使用
+Commission Repots,委员会报告
+Top Up,充值
+Purchase DIDs,购买DID
+Package,包
+Setup,建立
+DID Purchased Successfully.,DID已成功购买。
+release,发布
+DID Batch Updated Successfully!,DID批量更新成功！
+DID forwading set sucessfully!,DID转发设置成功！
+Are you sure want to release DID?,你确定要发布DID吗？
+Please select atleast one record,请选择至少一条记录
+Account Balance,账户余额
+Next Bill Date,下一个比尔日期
+TOTAL AMOUNT,总金额
+Invoice,发票
+IP Address,IP地址
+Terminate,终止
+Seconds,秒
+Recording,记录
+Rates,价格
+Paid,付费
+No Records,没有记录
+Please select from date,请从日期中选择
+Please select to date,请选择日期
+Please select to date bigger than from date,请选择比日期更大的日期
+Confirm,确认
+Edit Country,编辑国家
+Skip Header,跳过标题
+Origination_rate_error,Origination_rate_error
+Termination_rate_error,Termination_rate_error
+Termination_Rates,Termination_Rates
+Origination_Rates,Origination_Rates
+refill_coupon,refill_coupon
+Edit Reseller,修改经销商
+Edit Calltype,编辑Calltype
+updated successfully!,更新成功！
+added successfully!,添加成功！
+Invoice generation completed .,发票生成已完成。
+NOTE,注意
+No data found.,没有找到数据。
+Added successfully!,添加成功！
+DID added successfully!,DID添加成功！
+DID updated successfully!,DID已成功更新！
+File must be in the following format(.csv):,文件必须采用以下格式（.csv）：
+Process,处理
+DID Import Error,DID导入错误
+Records Imported Successfully,记录导入成功
+Records Not Imported,记录未导入
+Back to DID List,返回DID列表
+DID Batch Updated Successfully!,DID批量更新成功！
+Accessnumber Added Successfully!,Accessnumber成功添加！
+Process,处理
+Accessnumber Import Error,访问编号导入错误
+DIDs Assigned sucessfully!,DIDs分配成功！
+Origination Rates Preview,起始率预览
+Origination Rates Import Error,起始率导入错误
+Back to Origination Rates List,回到起源价格表
+Origination Rates Batch Updated Successfully!,发票率批量更新成功！
+Import Ratedeck Preview,导入Ratedeck预览
+CALLTYPE,CALLTYPE
+Edit Calltype,编辑Calltype
+Outbound-Proxy,出站代理
+Edit Trunk,编辑中继线
+Termination Rate Added Successfully!,终止率成功增加！
+Edit Termination Rate,编辑终止率
+Termination Rates Import Error,终止率导入错误
+Termination Rates Imported Successfully!,终止价格成功进口！
+Back to Origination Rates List,回到起源价格表
+Select,选择
+pattern,图案
+comment,评论
+connectcost,connectcost
+includedseconds,includedseconds
+init_inc,init_inc
+inc,INC
+prepend,前置
+cost ,成本
+strip,跳闸
+DID added successfully!,DID添加成功！
+DID updated successfully!,DID已成功更新！
+Country Name,国家的名字
+PAID,支付
+PENDING,PENDING
+FAIL,失败
+ORDER,订购
+payment method,付款方法
+Terminate Order,终止订单
+Compose Email,写邮件
+Message,信息
+Send,发送
+SIP Port is Required.,SIP端口是必需的。
+Start,开始
+SIP Port is Required.,SIP端口是必需的。
+SIP IP is Required.,SIP IP是必需的。
+Name is Required.,名称是必需的。
+The SIP Port field is Required.,SIP端口字段是必需的。
+The SIP Port field must contain only numbers.,SIP端口字段必须仅包含数字。
+The SIP Port field can not exceed 5 characters in length.,SIP端口字段的长度不能超过5个字符。
+Value is Required.,价值是必需的。
+Value,值
+Update Setting,更新设置
+Add Setting,添加设置
+Edit Freeswitch Server,编辑Freeswitch服务器
+CUT,切
+ADD,加
+Edit Localization,编辑本地化
+Callbarring Settings Added Successfully!,Callbarring设置已成功添加！
+Edit Call Barring,编辑呼叫限制
+Callbarring Settings Updated Successfully!,Callbarring设置已成功更新！
+The Name field is required.,名字的字段是必需的。
+Please select file.,请选择文件。
+Database import allows only gzfile types of file.,数据库导入仅允许gzfile类型的文件。
+File must be in (.gz) format :,文件必须是（.gz）格式：
+The Coupon Number field must contain only numbers.,优惠券号码字段必须仅包含数字。
+The Coupon Number field have inactive refill coupon.,优惠券号码字段具有非活动的补充优惠券。
+This Coupon Number is already in use.,此优惠券号码已在使用中。
+This Coupon Number is not found.,未找到此优惠券号码。
+The Coupon Number field is required.,优惠券号码字段是必填项。
+Select Customer.,选择客户。
+Please enter your email,请输入您的电子邮件
+Please enter proper email,请输入正确的电邮
+The Caller ID field is required.,来电显示字段是必需的。
+Please enter your password,请输入您的密码
+Please enter your first name,请输入您的名字
+Please enter your email,请输入您的电子邮件
+This field is require,这个字段是必需的
+The IP field must contain a unique value.,IP字段必须包含唯一值。
+The Name field is required.,名字的字段是必需的。
+The IP field is required.,IP字段是必需的。
+Please Enter Valid Account Number,请输入有效帐号
+Main,主要
+--Select Disposition--,- 选择处置 -
+Group By #time,分组#time
+Active User,活跃用户
+Used Minutes,使用的分钟数
+Available Minutes,可用会议纪要
+Total Price,总价
+Total User,总用户数
+Resend Mail,重发邮件
+Restore,恢复
+View Details,查看详情
+Other,其他
+Edit Tax,编辑税
+Edit Country,编辑国家
+Download Database,下载数据库
+Import Database,导入数据库
+File must be in (.gz) format,文件必须是（.gz）格式
+ Please select file.,请选择文件。
+Please enter name and select file.,请输入名称并选择文件。
+Edit Cron Settings,编辑Cron设置
+Global Settings updated sucessfully!,全局设置成功更新！
+Alert Notifications,警报通知
+Fraud Configuration,欺诈配置
+Configuration add,配置添加
+Alarm Configuration,报警配置
+Please select atleast one pattern.,请选择至少一种模式。
+Problem In Add Patterns to account.,问题在添加模式帐户。
+Blocked Codes,被阻止的代码
+The IP field must contain a unique value.,IP字段必须包含唯一值。
+The IP field is required.,IP字段是必需的。
+Please Enter Switch command,请输入切换命令
+are you sure to delete?,你确定要删除吗？
+Are you sure want to confirm this invoice ? once you confirm it,您确定要确认此发票吗？一旦你确认它
+can not able to edit invoice again.,无法再次编辑发票。
+Maximum Logo upload size is 1MB,最大徽标上传大小为1MB
+Profit per day,每天利润
+Please enter number,请输入电话号码
+Import Customer,导入客户
+Processing,处理
+please wait,请耐心等待

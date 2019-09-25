@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>language_greek</tech_name>
+	<name>Greek Language</name>
+	<description></description>		
+	<icon>static/images/language_greek.png</icon>
+	<version>1.0.0</version>
+	<license>Community</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>language_chinese</tech_name>
+	<name>Chinese Language</name>
+	<description></description>		
+	<icon>static/images/language_chinese.png</icon>
+	<version>1.0.0</version>
+	<license>Community</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>
