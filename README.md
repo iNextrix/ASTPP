@@ -38,10 +38,10 @@ Community
 ---------
 
 - <a href="http://www.astppbilling.org/latest-news/">Latest News</a>
-- <a href="http://astpp.readthedocs.io">Documentation</a>
+- <a href="https://docs.astppbilling.org/display/itplmars/ASTPP">Documentation</a>
 - <a href="http://www.astppbilling.org/gallery/">Video Tutorials</a>
 - <a href="https://groups.google.com/forum/#!forum/astpp">Community Forums</a>
-- <a href="http://github.com/iNextrix/ASTPP/issues">Bug Tracker</a>
+- <a href="https://jira.astppbilling.org">Bug Tracker</a>
 - <a href="https://gitter.im/ASTPP-Official/Lobby">Community Chatter</a>
 - <a href="http://astpp.readthedocs.io/en/v4.0.1/Introduction/how_to_contribute.html">How to Contribute</a>
 - <a href="http://astpp.readthedocs.io/en/v4.0.1/Introduction/contribute_to_git.html">Guideline for Git Contribution</a>
