@@ -1,3 +1,8 @@
+========================
+We are moving documentation to Confluence. Please use below url for future use. 
+Latest Documenation: https://docs.astppbilling.org/display/itplmars/ASTPP
+========================
+
 ========================  
 ASTPP
 ========================
