@@ -44,7 +44,7 @@
 {
 	color:#fff;
 }
-.btn-file > input
+.btn-file > input[type=file]
 {
 top: 0px;
 right: 0px;
