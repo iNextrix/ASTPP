@@ -87,7 +87,7 @@ class Accessnumber extends CI_Controller
     {
         $accountinfo = $this->session->userdata('accountinfo');
         if ($accountinfo['type'] == - 1 || $accountinfo['type'] == 2) {
-            $data['page_title'] = gettext('Edit Accessnumber');
+            $data['page_title'] = gettext('Edit Access number');
             $where = array(
                 'id' => $edit_id
             );
@@ -109,7 +109,7 @@ class Accessnumber extends CI_Controller
         $add_array = $this->input->post();
         $data['form'] = $this->form->build_form($this->accessnumber_form->get_accessnumber_form_fields($add_array['id']), $add_array);
         if ($add_array['id'] != '') {
-            $data['page_title'] = gettext('Edit Accessnumber Rates');
+            $data['page_title'] = gettext('Edit Access number Rates');
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -117,12 +117,12 @@ class Accessnumber extends CI_Controller
             } else {
                 $this->accessnumber_model->edit_accessnumber($add_array, $add_array['id']);
                 echo json_encode(array(
-                    "SUCCESS" => $add_array["access_number"] . gettext(" Accessnumber Updated Successfully!")
+                    "SUCCESS" => $add_array["access_number"] . gettext("Access number Updated Successfully!")
                 ));
                 exit();
             }
         } else {
-            $data['page_title'] = gettext('Accessnumber Details');
+            $data['page_title'] = gettext('Access number Details');
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];
@@ -130,7 +130,7 @@ class Accessnumber extends CI_Controller
             } else {
                 $this->accessnumber_model->add_accessnumber($add_array);
                 echo json_encode(array(
-                    "SUCCESS" => $add_array["access_number"] . gettext("Accessnumber Added Successfully!")
+                    "SUCCESS" => $add_array["access_number"] . gettext("Access number Added Successfully!")
                 ));
                 exit();
             }
@@ -165,7 +165,7 @@ class Accessnumber extends CI_Controller
         $this->db->delete("accessnumber", array(
             "access_number" => $id
         ));
-        $this->session->set_flashdata('astpp_notification', gettext('Accessnumber Removed Successfully!'));
+        $this->session->set_flashdata('astpp_notification', gettext('Access number Removed Successfully!'));
         redirect(base_url() . 'accessnumber/accessnumber_list/');
     }
 
@@ -285,7 +285,7 @@ class Accessnumber extends CI_Controller
 
     function accessnumber_preview_file()
     {
-        $data['page_title'] = gettext('Import Accessnumber');
+        $data['page_title'] = gettext('Import Access number');
         $config_accessnumber_array = $this->config->item('Accessnumber-rates-field');
         $accountinfo = $this->session->userdata('accountinfo');
         foreach ($config_accessnumber_array as $key => $value) {
@@ -302,7 +302,7 @@ class Accessnumber extends CI_Controller
                     $full_path = $this->config->item('rates-file-path');
                     $actual_file_name = "ASTPP-Accessnumber" . date("Y-m-d H:i:s") . "." . $ext;
                     if (move_uploaded_file($uploadedFile, $full_path . $actual_file_name)) {
-                        $data['page_title'] = gettext('Import Accessnumber Preview');
+                        $data['page_title'] = gettext('Import Access number Preview');
                         $data['csv_tmp_data'] = $this->csvreader->parse_file($full_path . $actual_file_name, $accessnumber_fields_array, $check_header);
                         $data['check_header'] = $check_header;
                         $this->session->set_userdata('import_accessnumber_rate_csv', $actual_file_name);
@@ -429,11 +429,10 @@ class Accessnumber extends CI_Controller
             $data["error"] = $invalid_array;
             $data['import_record_count'] = count($new_final_arr);
             $data['failure_count'] = count($invalid_array) - 1;
-            $data['page_title'] = gettext('Accessnumber Import Error');
+            $data['page_title'] = gettext('Access number Import Error');
             $this->load->view('view_import_error', $data);
         } else {
-
-            $this->session->set_flashdata('astpp_errormsg', 'Total ' . count($new_final_arr) . ' AccessNumber Imported Successfully!');
+            $this->session->set_flashdata('astpp_errormsg', gettext('Total')." ". count($new_final_arr) ." ". gettext('Access Number Imported Successfully!'));
             redirect(base_url() . "accessnumber/accessnumber_list/");
         }
     }

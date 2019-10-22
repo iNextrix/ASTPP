@@ -272,21 +272,21 @@ class common {
 			if (isset ( $field_name [0] ) && $accountinfo ['type'] != 1) { 
 				if ($field_name [0]->accountid != 0 && $field_name [0]->parent_id == 0) { 
 					if($accountinfo['type'] == 0 || $accountinfo['type'] == 3 ){
-					$flag_status = "<a href='../user_list_release/" . $field_name [0]->id . "' title='Release' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Release(C)<span></a>";
+					$flag_status = "<a href='../user_list_release/" . $field_name [0]->id . "' title='".gettext('Release')."' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>".gettext('Release')."(C)<span></a>";
 					}else{
-					$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='Release' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Release(C)<span></a>";
+					$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='".gettext('Release')."' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>".gettext('Release')."(C)<span></a>";
 					}
 				}else if ($field_name [0]->parent_id != 0 && $field_name [0]->accountid != 0 ) {
 					if($accountinfo['type'] == 0 || $accountinfo['type'] == 3){
-						$flag_status = "<a href='../user_list_release/" . $field_name [0]->id . "' title='Release' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Release(C)<span></a>";
+						$flag_status = "<a href='../user_list_release/" . $field_name [0]->id . "' title='".gettext('Release')."' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>".gettext('Release')."(C)<span></a>";
 
 					}else{
-						$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='Release' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Release(C)<span></a>";
+						$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='".gettext('Release')."' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>".gettext('Release')."(C)<span></a>";
 					}
 				} else if ($field_name [0]->parent_id != 0) { 
-					$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='Release' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Release(R)</span></a>";
+					$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='".gettext('Release')."' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>".gettext('Release')."(R)</span></a>";
 				}else {
-					$flag_status = "<a href='../did_assgin_reseller/" . $field_name [0]->id . "' title='Assign Number' rel='facebox'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Assign Number</span></a>";
+					$flag_status = "<a href='../did_assgin_reseller/" . $field_name [0]->id . "' title='".gettext('Assign Number')."' rel='facebox'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>".gettext('Assign Number')."</span></a>";
 				}
 			} else {  
 
@@ -297,13 +297,13 @@ class common {
 				$field_name_re = $this->CI->db_model->getSelect ( "*", 'dids', $where );
 				$field_name_re = $field_name_re->result ();
 				if ($field_name_re[0]->accountid !='0' ) {
-					$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='Release' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Release(c)</span></a>";
+					$flag_status = "<a href='../did_list_release/" . $field_name [0]->id . "' title='".gettext('Release')."' onClick='return get_reliase_msg();'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>".gettext('Release')."(C)</span></a>";
 				} else {
-					$flag_status = "<a href='../did_assgin_reseller/" . $field_name [0]->id . "' title='Assign Number' rel='facebox'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>Assign Number</span></a>";
+					$flag_status = "<a href='../did_assgin_reseller/" . $field_name [0]->id . "' title='".gettext('Assign Number')."' rel='facebox'><span class=' label label-sm label-inverse_blue arrowed_blue-in' title='release'>".gettext('Assign Number')."</span></a>";
 				}
 			}
 		} else {  
-			$flag_status = "<span class='label label-sm label-inverse arrowed-in' title='Not in use'>Inactive </span>";
+			$flag_status = "<span class='label label-sm label-inverse arrowed-in' title='".gettext('Not in use')."'>".gettext('Inactive')."</span>";
 		}
 		return $flag_status;
 	}
@@ -457,7 +457,7 @@ class common {
 		$this->CI->db->where ( "status", 0 );
 		$did_localization_result = $this->CI->db->get ( "localization" )->result_array ();
 		$did_localization_dropdown = array ();
-		$did_localization_dropdown [0] = "--Select--";
+		$did_localization_dropdown [0] = gettext("--Select--");
 		foreach ( $did_localization_result as $result ) {
 			$did_localization_dropdown [$result ['id']] = $result ['name'];
 		}
@@ -615,7 +615,7 @@ class common {
 	}
 	function set_sip_config_default($option = "") {
 		$config_option = array (
-				"" => gettext ( "--SELECT--" ),
+				"" => gettext ( "--Select--" ),
 				"false" => gettext ( "False" ),
 				"true" => gettext ( "True" )
 		);
@@ -623,7 +623,7 @@ class common {
 	}
 	function set_sip_bind_params($option = "") {
 		$config_option = array (
-				"" => gettext ( "--SELECT--" ),
+				"" => gettext ( "--Select--" ),
 				"udp" => gettext ( "UDP" ),
 				"tcp" => gettext ( "TCP" )
 		);
@@ -801,16 +801,16 @@ class common {
 		$this->CI->db->where("deleted",0);
 		$account_res = ( array ) $this->CI->db->get_where ( "accounts", $where )->first_row ();
 		if ($account_res ['type'] == 0) {
-			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-success float-left mt-1" title="Customer">Customer</span>';
+			$return_value = " <span title='".gettext('Edit')."'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-success float-left mt-1" title="Customer">'.gettext('Customer').'</span>';
 		}
 		if ($account_res ['type'] == 3) {
-			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-primary float-left mt-1" title="Provider">Provider</span>';
+			$return_value = " <span title='".gettext('Edit')."'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-primary float-left mt-1" title="Provider">'.gettext('Provider').'</span>';
 		}
 		if ($account_res ['type'] == - 1 || $account_res ['type'] == 2) {
-			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-danger" title="Admin"></span>';
+			$return_value = " <span title='".gettext('Edit')."'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-danger" title="Admin"></span>';
 		}
 		if ($account_res ['type'] == 4) {
-			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-secondary" title="Subadmin">Subadmin</span>';
+			$return_value = " <span title='".gettext('Edit')."'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-secondary" title="Subadmin">'.gettext('Subadmin').'</span>';
 		}
 		return $return_value;
 	}
@@ -961,7 +961,7 @@ class common {
 	}
 	function set_despostion($dis = '') {
 		$status_array = array (
-				"" => "--Select Disposition--",
+				"" => gettext("--Select Disposition--"),
 				"ACCOUNT_INACTIVE_DELETED" => "ACCOUNT_INACTIVE_DELETED",
 				"ACCOUNT_EXPIRE" => "ACCOUNT_EXPIRE",
 				"ALLOTTED_TIMEOUT" => "ALLOTTED_TIMEOUT",
@@ -1116,11 +1116,11 @@ class common {
 	}
 	function build_delete_button_animap($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="javascript:void(0)" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg_destination(' . $linkid . ');"><i class="fa fa-trash fa-fw"></i></a>';
+		return '<a href="javascript:void(0)" class="btn btn-royelblue btn-sm" title="'.gettext(Delete).'" onClick="return get_alert_msg_destination(' . $linkid . ');"><i class="fa fa-trash fa-fw"></i></a>';
 	}
 	function build_edit_button_animap($button_params, $linkid) {
 		$link = base_url () . $button_params->url . "" . $linkid;
-		return '<a href="javascript:void(0);" id="destination_new" class="btn btn-royelblue btn-sm" onclick="return get_destination(' . $linkid . ');" title="Update"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+		return '<a href="javascript:void(0);" id="destination_new" class="btn btn-royelblue btn-sm" onclick="return get_destination(' . $linkid . ');" title="'.gettext('Update').'"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
 	}
 	function build_animap_button($button_params, $linkid) {
 		$link = base_url () . $button_params->url . "" . $linkid;
@@ -1131,11 +1131,11 @@ class common {
 
 		if ($button_params->mode == 'popup') {
 			$rel = (isset ( $button_params->layout ) && $button_params->layout != '') ? "facebox_" . $button_params->layout : "facebox";
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="' . $rel . '" title="Edit" ="small"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="' . $rel . '" title="'.gettext('Edit').'" ="small"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
 		} else if (strpos ( $link, 'customer_edit' ) !== false) {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Edit"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Edit').'"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
 		} else {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Edit"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Edit').'"><i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
 		}
 	}
 	function build_custome_edit_button($button_params, $field, $linkid) {
@@ -1144,24 +1144,24 @@ class common {
 
 		if (isset ( $button_params->layout )) {
 			if ($button_params->mode == 'popup') {
-				return '<a href="' . $link . '" style="color:#005298;" rel="facebox_medium" title="Update">' . $field . '</a>&nbsp;';
+				return '<a href="' . $link . '" style="color:#005298;" rel="facebox_medium" title="'.gettext('Update').'">' . $field . '</a>&nbsp;';
 			} else {
-				return '<a href="' . $link . '" style="color:#005298;" title="Edit">' . $field . '</a>&nbsp;';
+				return '<a href="' . $link . '" style="color:#005298;" title="'.gettext('Edit').'">' . $field . '</a>&nbsp;';
 			}
 		} else {
 			if ($button_params->mode == 'popup') {
-				return '<a href="' . $link . '" style="color:#005298;" rel="facebox" title="Update">' . $field . '</a>&nbsp;';
+				return '<a href="' . $link . '" style="color:#005298;" rel="facebox" title="'.gettext('Update').'">' . $field . '</a>&nbsp;';
 			} else {
-				return '<a href="' . $link . '" style="color:#005298;" title="Edit">' . $field . '</a>&nbsp;';
+				return '<a href="' . $link . '" style="color:#005298;" title="'.gettext('Edit').'">' . $field . '</a>&nbsp;';
 			}
 		}
 	}
 	function build_edit_button_restore($button_params, $linkid) {
 		$link = base_url () . $button_params->url . "" . $linkid;
 		if ($button_params->mode == 'popup') {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="Restore" onClick="return get_alert_msg();"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="'.gettext('Restore').'" onClick="return get_alert_msg();"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
 		} else {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Restore" onClick="return get_alert_msg_restore();"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Restore').'" onClick="return get_alert_msg_restore();"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
 		}
 	}
 	function build_delete_button($url, $linkid) {
@@ -1190,9 +1190,9 @@ class common {
 			$rategroup_cnt = $this->get_field_count ( 'id', 'routes', $where );
 			if ($rategroup_cnt > 0 || $customer_cnt > 0) {
 
-				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_message(' . $rategroup_cnt . ',' . $customer_cnt . ',' . $linkid . ',1);"><i class="fa fa-trash fa-fw"></i></a>';
+				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_message(' . $rategroup_cnt . ',' . $customer_cnt . ',' . $linkid . ',1);"><i class="fa fa-trash fa-fw"></i></a>';
 			} else {
-				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();"><i class="fa fa-trash fa-fw"></i></a>';
+				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_msg();"><i class="fa fa-trash fa-fw"></i></a>';
 			}
 		}
 		if ($flag == '2') {
@@ -1201,48 +1201,48 @@ class common {
 			);
 			$trunk_cnt = $this->get_field_count ( 'id', 'outbound_routes', $where );
 			if ($trunk_cnt > 0) {
-				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_message(' . $trunk_cnt . ',null,' . $linkid . ',2);"><i class="fa fa-trash fa-fw"></i></a>';
+				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_message(' . $trunk_cnt . ',null,' . $linkid . ',2);"><i class="fa fa-trash fa-fw"></i></a>';
 			} else {
-				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();"><i class="fa fa-trash fa-fw"></i></a>';
+				return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_msg();"><i class="fa fa-trash fa-fw"></i></a>';
 			}
 		}
 		if ($flag == '3') {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_message(0,null,' . $linkid . ',3);">
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_message(0,null,' . $linkid . ',3);">
 		<i class="fa fa-trash fa-fw"></i></a>';
 		}
 		if ($flag == '4') {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_message(0,null,' . $linkid . ',4);">
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_message(0,null,' . $linkid . ',4);">
 		<i class="fa fa-trash fa-fw"></i></a>';
 		}
 		if ($flag == '0' && $url . $linkid != 'accounts/admin_delete/1') {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();"><i class="fa fa-trash fa-fw"></i></a>';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_msg();"><i class="fa fa-trash fa-fw"></i></a>';
 		}
 	}
 	function build_view_button($button_params, $linkid) {
 		$link = base_url () . $button_params->url . "" . $linkid;
 		if ($button_params->mode == 'popup') {
 			$rel = (isset ( $button_params->layout ) && $button_params->layout != '') ? "facebox_" . $button_params->layout : "facebox";
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="' . $rel . '" title="View Details"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="' . $rel . '" title="'.gettext('View Details').'"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
 		} else {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="View Details"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('View Details').'"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
 		}
 	}
 	function build_add_taxes_button($button_params, $linkid) {
 		$link = base_url () . $button_params->url . "" . $linkid;
 		if ($button_params->mode == 'popup') {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="Add Account Taxes"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="'.gettext('Add Account Taxes').'"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
 		} else {
 			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Add Account Taxes"><i class="fa fa-reorder fa-fw"></i></a>&nbsp;';
 		}
 	}
 	function build_add_download_database_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" class="btn btn-royelblue btn-sm "  title="Download Database" ><i class="fa-fw fa fa-file-archive-o"></i></a>&nbsp;';
+		return '<a href="' . $link . '" class="btn btn-royelblue btn-sm "  title="'.gettext('Download Database').'" ><i class="fa-fw fa fa-file-archive-o"></i></a>&nbsp;';
 	}
 	function build_add_callerid_button($button_params, $linkid) {
 		$link = base_url () . $button_params->url . "" . $linkid;
 		if ($button_params->mode == 'popup') {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="Force Caller Id"><i class="fa fa-mobile-phone fa-fw"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="'.gettext('Force Caller Id').'"><i class="fa fa-mobile-phone fa-fw"></i></a>&nbsp;';
 		} else {
 			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="CallerID"><i class="fa fa-mobile-phone fa-fw"></i></a>&nbsp;';
 		}
@@ -1250,23 +1250,23 @@ class common {
 	function build_start_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
 
-		return '<a href="' . $link . '" class=""  title="Start" style="text-decoration:none;color: #428BCA;"><b>Start |</b></a>&nbsp;';
+		return '<a href="' . $link . '" class=""  title="'.gettext('Start').'" style="text-decoration:none;color: #428BCA;"><b>'.gettext('Start').' |</b></a>&nbsp;';
 	}
 	function build_stop_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" class=""  title="Stop" style="text-decoration:none;color: #428BCA;" ><b>Stop |</b></a>&nbsp;';
+		return '<a href="' . $link . '" class=""  title="'.gettext('Stop').'" style="text-decoration:none;color: #428BCA;" ><b>'.gettext('Stop').' |</b></a>&nbsp;';
 	}
 	function build_reload_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" class=""  title="reload" style="text-decoration:none;color: #428BCA;"><b>Reload |</b></a>&nbsp;';
+		return '<a href="' . $link . '" class=""  title="'.gettext('Reload').'" style="text-decoration:none;color: #428BCA;"><b>'.gettext('Reload').' |</b></a>&nbsp;';
 	}
 	function build_rescan_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" class=""  title="rescan" style="text-decoration:none;color: #428BCA;"><b>Rescan</b></a>&nbsp;';
+		return '<a href="' . $link . '" class=""  title="'.gettext('Rescan').'" style="text-decoration:none;color: #428BCA;"><b>'.gettext('Rescan').'</b></a>&nbsp;';
 	}
 	function build_add_payment_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" rel="facebox_medium" title="Refill">PAYMENT</a>&nbsp;';
+		return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" rel="facebox_medium" title="'.gettext('Refill').'">PAYMENT</a>&nbsp;';
 	}
 	function build_add_download_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
@@ -1275,9 +1275,9 @@ class common {
 	function build_edit_button_resend($button_params, $linkid) {
 		$link = base_url () . $button_params->url . "" . $linkid;
 		if ($button_params->mode == 'popup') {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="Resend Mail"><i class="fa fa-repeat"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="'.gettext('Resend Mail').'"><i class="fa fa-repeat"></i></a>&nbsp;';
 		} else {
-			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="Resend Mail"><i class="fa fa-repeat"></i></a>&nbsp;';
+			return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" title="'.gettext('Resend Mail').'"><i class="fa fa-repeat"></i></a>&nbsp;';
 		}
 	}
 	function get_only_numeric_val($select = "", $table = "", $string) {
@@ -1971,7 +1971,7 @@ class common {
 		$this->CI->db->where ( "reseller_id", 0 );
 		$pricelist_result = $this->CI->db->get ( "pricelists" )->result_array ();
 		$pricelist_arr = array ();
-		$pricelist_arr [0] = "--Select--";
+		$pricelist_arr [0] = gettext("--Select--");
 		foreach ( $pricelist_result as $result ) {
 			$pricelist_arr [$result ['id']] = $result ['name'];
 		}
@@ -2553,7 +2553,7 @@ class common {
 		$type = $type."_archive";
 	}
         $query = "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE() and table_name like '".$type."_%'";
-        $status_array = array("" => "--Select Type--",
+        $status_array = array("" => gettext("--Select Type--"),
                 "0" => "Main",
         );
         $result=$this->CI->db->query($query);
@@ -2678,9 +2678,9 @@ class common {
 		$this->CI->db->where ( "tax_type", 0 );
 		$tax_type_result = $this->CI->db->get ( "taxes" )->result_array ();
 		$tax_type_dropdown = array ();
-		$tax_type_dropdown [0] = "--Select--";
+		$tax_type_dropdown [0] = gettext("--Select--");
 		foreach ( $tax_type_result as $result ) {
-			$tax_type_dropdown [$result ['id']] = $result ['taxes_description'];
+			$tax_type_dropdown [$result ['id']] = gettext($result ['taxes_description']);
 		}
 		return $tax_type_dropdown;
 	}
@@ -2692,7 +2692,7 @@ class common {
 		return $status_array;
 	}
 	function get_tax_type($select = "", $table = "", $status) {
-		return ($status == 0) ? "Default" : "Other";
+		return ($status == 0) ? gettext("Default") : gettext("Other");
 	}
 	function set_tax_search_type($select = '') {
 		$status_array = array (
@@ -2938,12 +2938,12 @@ class common {
 			$link =  base_url () ."did/did_forward/" . $id;
 		}
 		
-		    return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="Did Forward"><i class="fa fa-mail-forward"></i></a>&nbsp;';
+		    return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="'.gettext('Did Forward').'"><i class="fa fa-mail-forward"></i></a>&nbsp;';
 
        }
 	function payment_status($status = '') {
 		$status_array = array (
-				''=>'--Select--',
+				''=>gettext('--Select--'),
 				'PAID' => gettext ( 'PAID' ),
 				'PENDING' => gettext ( 'PENDING' )
 		);
@@ -3125,13 +3125,13 @@ class common {
 
 		$transaction_type = json_decode($where,true);
 	        if($transaction_type ['payment_status'] == "PAID") {
-			$set_transaction_type = " <span title='Edit'>" . " </span>" . '<span class="badge badge-success" title="Admin">SUCESS</span>';
+			$set_transaction_type = " <span title='".gettext('Edit')."'>" . " </span>" . '<span class="badge badge-success" title="Admin">SUCESS</span>';
 		}
 		if($transaction_type ['payment_status'] == "PENDING") {
-			$set_transaction_type = " <span title='Edit'>" . " </span>" . '<span class="badge badge-warning" title="Admin">PENDING</span>';
+			$set_transaction_type = " <span title='".gettext('Edit')."'>" . " </span>" . '<span class="badge badge-warning" title="Admin">PENDING</span>';
 		}
 		if($transaction_type ['payment_status'] == "UNPAID") {
-			$set_transaction_type = " <span title='Edit'>" . " </span>" . '<span class="badge badge-danger" title="Admin">FAIL</span>';
+			$set_transaction_type = " <span title='".gettext('Edit')."'>" . " </span>" . '<span class="badge badge-danger" title="Admin">FAIL</span>';
 		}
 		return $set_transaction_type;
 	}
@@ -3295,13 +3295,13 @@ class common {
 		$account_res = ( array ) $this->CI->db->get_where ( "accounts", $where )->first_row ();
 		
 		if ($account_res ['type'] == 0) {
-			$return_value .= " <span title='Edit'> </span>" . '<div class="col-md-12 p-0"><span class="badge badge-success float-left mr-2 mt-1" title="Customer">Customer</span>';
+			$return_value .= " <span title='".gettext('Edit')."'> </span>" . '<div class="col-md-12 p-0"><span class="badge badge-success float-left mr-2 mt-1" title="Customer">'.gettext('Customer').'</span>';
 		}
 		if ($account_res ['type'] == 3) {
-			$return_value .= " <span title='Edit'> </span>" . '<div class="col-md-12 p-0"><span class="badge badge-primary float-left mr-2 mt-1" title="Provider">Provider</span>';
+			$return_value .= " <span title='".gettext('Edit')."'> </span>" . '<div class="col-md-12 p-0"><span class="badge badge-primary float-left mr-2 mt-1" title="Provider">'.gettext('Provider').'</span>';
 		}
 		if ($account_res ['posttoexternal'] == 0 || $account_res ['posttoexternal'] == 1) {
-			$return_value .= "<span class='badge badge-dark float-left ml-1 mt-1'>".$this->get_account_type ( "", "", $account_res ['posttoexternal'] ) ."</span></div>"; 
+			$return_value .= "<span class='badge badge-dark float-left ml-1 mt-1'>".gettext($this->get_account_type ( "", "", $account_res ['posttoexternal'] )) ."</span></div>"; 
 		}
 		return $return_value;
 	}

@@ -78,7 +78,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 					<div class="col-lg-6 col-md-6 col-sm-12 p-0">
 						<div class="card col-12 p-4 alert-secondary">
 							<div class="col-lg-10 col-9 float-left p-0">
-								<label class="text-secondary" for=""><?php echo gettext("payment method"); ?></label>
+								<label class="text-secondary" for=""><?php echo gettext("Payment Method"); ?></label>
 								<h2 class="h4"><?php echo $order_items['payment_gateway'];?></h2>
 							</div>
 							<div class="col-lg-2 col-3 float-left p-0">
@@ -145,7 +145,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 				<div class="col-lg-6 col-md-6 col-sm-12 p-4 card">
 					<label class="text-secondary" for=""><?php echo gettext("Payment Status"); ?></label>
 					<div>
-						<span class="badge badge-success"><?php echo $order_items['payment_status'] ?></span>
+						<span class="badge badge-success"><?php echo gettext($order_items['payment_status']) ?></span>
 					</div>
 				</div>
 
@@ -153,7 +153,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 			<?php if($order_items['is_terminated'] != 1 ){ ?>	
 			<a
 						href="<?php echo base_url().$order_terminate_url.$order_items['orderid'];?>"
-						rel='facebox'><span class="btn btn-block btn-line-sky">Terminate</span></a>
+						rel='facebox'><span class="btn btn-block btn-line-sky"><?=gettext('Terminate')?></span></a>
 			<?php } ?>
                     </div>
 
@@ -176,7 +176,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 							</dl>
 							<dl class="border p-3">
 								<dt><?php echo gettext("Billing Cycle"); ?></dt>
-								<dd><?php  echo $order_items['billing_type'] == 0 ?"One Time":"Recurring" ?></dd>
+								<dd><?php  echo $order_items['billing_type'] == 0 ?gettext("One Time"):gettext("Recurring")?></dd>
 							</dl>
 							<dl class="border p-3 ">
 								<dt><?php echo gettext("Setup Fee"); ?> <?php echo '('.$currency.')';?></dt>
@@ -245,7 +245,7 @@ $order_generate_by = $this->db_model->getSelect("first_name,number", "accounts",
 				<?php  } else {?>
 				<?php if(isset( $product_info['status'])){ ?>
                                 <dd>
-									<span class="badge badge-success"><?php echo $product_info['status'] == "0"?"Active" : "Inactive" ?></span>
+									<span class="badge badge-success"><?php echo $product_info['status'] == "0"?gettext("Active") : gettext("Inactive") ?></span>
 								</dd>
 				<?php } } ?>
                             </dl>

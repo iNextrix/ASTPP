@@ -1223,7 +1223,7 @@ class User extends MX_Controller
         }
 
         $json_data['rows'][$count_all]['cell'] = array(
-            '<b>Total</b>',
+            '<b>'.gettext('Total').'</b>',
             '-',
             '-',
             '-',

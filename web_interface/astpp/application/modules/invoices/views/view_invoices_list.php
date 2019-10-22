@@ -53,7 +53,7 @@
         });        
         $("#id_reset").click(function(){
             clear_search_request("invoices_grid","");
-            $("#accountid_search_drp").html("<option value='' selected='selected'>--Select--</option>");
+            $("#accountid_search_drp").html("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
         });
         $("#generate_search").click(function(){
 			$("#search_generate_bar").slideToggle("slow");
@@ -128,12 +128,12 @@
 						data:"reseller_id="+this.value, 
 						success: function(response) {
 							 $("#accountid_search_drp").html(response);
-							 $("#accountid_search_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $("#accountid_search_drp").prepend("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 							 $('.accountid_search_drp').selectpicker('refresh');
 						}
 					});
 				}else{
-						$("#accountid_search_drp").html("<option value='' selected='selected'>--Select--</option>");
+						$("#accountid_search_drp").html("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 						$('.accountid_search_drp').selectpicker('refresh');
 					}	
         });
@@ -242,7 +242,7 @@ if ((isset($permissioninfo['invoices']['invoice_list']['generate'])) && ($permis
 								</div>
 								<div class="col-md-12 text-right">
 									<input type="button" class="btn btn-success" name="invoice"
-										value="Generate invoice" id="invoice"
+										value="<?=gettext('Generate invoice');?>" id="invoice"
 										onClick="validateForm();">
 								</div>
 

@@ -201,7 +201,7 @@ class Internationalcredits extends MX_Controller {
 		$this->db->where('deleted',"0");
 		$account_arr = $reseller_arr = $final_array = array();
 		$dropdown_params= array("name" => "accountid" ,"id" => "accountid_search_drp", "class" => "col-md-12 form-control selectpicker form-control-lg accountid_search_drp col-md-3");
-		$final_array = array(""=>"--Select--");
+		$final_array = array(""=>gettext("--Select--"));
 		$account_result =$this->db->get_where('accounts',array("reseller_id"=>$reseller_id,"status"=>0));
 		if($account_result->num_rows () > 0)
 		{

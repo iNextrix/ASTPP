@@ -62,9 +62,9 @@ class Rates extends MX_Controller
     {
         $json_data = array();
         $count_all = $this->rates_model->get_termination_rates_list(false);
+//        print_r($count_all);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
-
         $query = $this->rates_model->get_termination_rates_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->rates_form->build_termination_rate_for_admin());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);

@@ -167,7 +167,7 @@ $(function() {
 									<div class="col-4 input-group">
 												<label class="search_label col-md-12 p-0">Priority</label>
 													<select name="priority" class="col-md-12 form-control form-control-lg selectpicker" data-live-search="true">
-														<option value="" selected="selected">--Select--</option>
+														<option value="" selected="selected"><?=gettext('--Select--');?></option>
 														<option value="0">High</option>
 														<option value="1">Normal</option>
 														<option value="2">Low</option>
@@ -192,7 +192,7 @@ $(function() {
 									<div class="col-4 input-group">
 												<label class="search_label col-md-12 p-0">Department</label>
 													<select id="department_search" name="department_id" class="form-control form-control-lg selectpicker" data-live-search="true">
-														<option value="" selected="selected">--Select--</option>
+														<option value="" selected="selected"><?=gettext('--Select--');?></option>
 														 <?php foreach($department_list_result as $key=>$val){?>
 															<option value=<?php echo $val['id'];?>><?php echo $val['name'];?></option>	  
 															  

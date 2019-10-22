@@ -40,7 +40,7 @@ echo gettext("File must be in the following format:<br />
 					<div class="col-md-12  no-padding">
 						<div class="col-md-6">
 							<div class="w-box">
-								<h3 class="padding-t-10 padding-l-16 padding-b-10"><?php echo gettext( "Import Accessnumber") ?></h3>
+								<h3 class="padding-t-10 padding-l-16 padding-b-10"><?php echo gettext("Import Access number") ?></h3>
 								<div class="col-md-12 no-padding">
 									<label class="col-md-3"> <?php echo gettext( "Trunk List: ") ?> </label>
 									<div>
@@ -56,7 +56,7 @@ $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name"
 										value="<?= $this->session->userdata('logintype') ?>" /> <input
 										type="hidden" name="username"
 										value="<?= $this->session->userdata('username') ?>" /> <label
-										class="col-md-3"><?php echo gettext( "Select the file: ") ?></label>
+										class="col-md-3"><?php echo gettext( "Select the file") ?>: </label>
 
 									<div class="col-md-5">
 										<span class="no-padding form-control"><input
@@ -76,8 +76,7 @@ $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name"
 									<div>
 										<a
 											href="href='<?= base_url(); ?>/accessnumber/accessnumber_list/'"
-											class="btn btn-success"><i class="fa fa-file-excel-o fa-lg"></i>&nbsp;Click
-											Here</a>
+											class="btn btn-success"><i class="fa fa-file-excel-o fa-lg"></i>&nbsp;<?=gettext('Click Here')?></a>
 									</div>
 								</div>
 
@@ -118,7 +117,7 @@ $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name"
 				</td>
 			</tr>
 			</span> <br />
-			<br /> <input type="hidden" name="mode" value="Import Accessnumbers" />
+			<br /> <input type="hidden" name="mode" value="Import Access numbers" />
 			<input type="hidden" name="logintype"
 				value="<?= $this->session->userdata('logintype') ?>" /> <input
 				type="hidden" name="username"

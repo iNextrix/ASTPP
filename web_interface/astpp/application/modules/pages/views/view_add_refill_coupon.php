@@ -121,7 +121,7 @@ $("#subsmit").click(function (e) {
                     <div class="col-md-12 form-group">
                         <label class="col-md-3 p-0 control-label"><?php echo gettext("Account"); ?></label>
                         <select name="accountid" id="accountid" class='col-md-12 form-control account form-control-lg' data-live-search='true' data-live-search-style="begins">
-                                <option value="">--Select--</option>
+                                <option value=""><?=gettext('--Select--')?></option>
                                     <?php
                                     $whr= array("reseller_id" => $accountid,"status" => "0", "deleted" => "0", "type" => "0");
                                                 $account = $this->db_model->getSelect("*", "accounts", $whr);

@@ -1,0 +1,2678 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Project-Id-Version: astpp\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"X-Generator: Poedit 2.0.8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "Access Number"
+msgstr "Номер доступа"
+
+msgid "Access Numbers"
+msgstr "Номера доступа"
+
+msgid "Account"
+msgstr "Аккаунт"
+
+msgid "Account Type"
+msgstr "Тип аккаунта"
+
+msgid "Account Valid Days"
+msgstr "Период действия аккаунта"
+
+msgid "Account Verification By"
+msgstr "Подтверждение аккаунта"
+
+msgid "Accounts"
+msgstr "Аккаунты"
+
+msgid "Accounts Report"
+msgstr "Отчет по аккаунтам"
+
+msgid "ACD"
+msgstr "ACD"
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Action Type"
+msgstr "Тип действия"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "Add Country"
+msgstr "Добавить страну"
+
+msgid "Add Currency"
+msgstr "Добавить Валюту"
+
+msgid "Add Destination"
+msgstr "Добавить направление"
+
+msgid "Add Ratedeck"
+msgstr "Добавить описание тарифа"
+
+msgid "Address1"
+msgstr "Адрес1"
+
+msgid "Administrator"
+msgstr "Администратор"
+
+msgid "Administrator Admin"
+msgstr "Администратор (admin)"
+
+msgid "Admins"
+msgstr "Администраторы"
+
+msgid "After Balance"
+msgstr "Баланс после"
+
+msgid "Alarm"
+msgstr "Оповещение"
+
+msgid "Alert Status"
+msgstr "Статус оповещения"
+
+msgid "Allow integration with Fraud detection"
+msgstr "Allow integration with Fraud detection"
+
+msgid "Allow IP Management"
+msgstr "Разрешить управление IP"
+
+msgid "Allow Local Call"
+msgstr "Разрешить локальный звонок"
+
+msgid "Allow Local Calls"
+msgstr "Разрешить локальные звонки"
+
+msgid "Allow Loss Less Routing"
+msgstr "Allow Loss Less Routing"
+
+msgid "Allow Max Retries"
+msgstr "Разрешить макс. кол-во попыток"
+
+msgid "Allow Recording"
+msgstr "Разрешить запись"
+
+msgid "Amount"
+msgstr "Сумма"
+
+msgid "Amount INR"
+msgstr "Кол-во INR"
+
+msgid "Answered Calls"
+msgstr "Отвеченные звонки"
+
+msgid "Applicable For"
+msgstr "Применимо для"
+
+msgid "Apply on existing accounts"
+msgstr "Применить для существующих аккаунтов"
+
+msgid "Archive"
+msgstr "Архив"
+
+msgid "ASR"
+msgstr "АСР"
+
+msgid "Attachement"
+msgstr "Вложение"
+
+msgid "Attempted Calls"
+msgstr "Попытки звонков"
+
+msgid "Audit"
+msgstr "Аудит"
+
+msgid "Audit Log"
+msgstr "Лог аудита"
+
+msgid "Audit Logs Older Than Days"
+msgstr "Вести логи (дней)"
+
+msgid "Authorize.net"
+msgstr "Authorize.net"
+
+msgid "Automatically"
+msgstr "Автоматически"
+
+msgid "Balance"
+msgstr "Баланс"
+
+msgid "Balance Announcement"
+msgstr "Оповещение о балансе"
+
+msgid "Balance Below"
+msgstr "Баланс после"
+
+msgid "Base Currency"
+msgstr "Валюта"
+
+msgid "Basic"
+msgstr "Основной"
+
+msgid "Basic Information"
+msgstr "Основная информация"
+
+msgid "Batch Update"
+msgstr "Пакетное обновление"
+
+msgid "Before Balance INR"
+msgstr "INR начальный баланс"
+
+msgid "Before Balance"
+msgstr "Начальный баланс"
+
+msgid "Begins With"
+msgstr "Начинать с"
+
+msgid "Beta"
+msgstr "Бета"
+
+msgid "Billable"
+msgstr "Оплачиваемый"
+
+msgid "Billing"
+msgstr "Биллинг"
+
+msgid "Billing Cycle"
+msgstr "Платежный период"
+
+msgid "Billing Days"
+msgstr "Дни оплаты"
+
+msgid "Billing Information"
+msgstr "Биллинговая информация"
+
+msgid "Billing Type"
+msgstr "Тип биллинга"
+
+msgid "Body"
+msgstr "Текст"
+
+msgid "Buy Cost"
+msgstr "Цена покупки"
+
+msgid "Call Barring"
+msgstr "Запрет вызовов"
+
+msgid "Call Date"
+msgstr "Дата звонка"
+
+msgid "Call Detail Reports"
+msgstr "Отчеты о вызовах"
+
+msgid "Call Max Length"
+msgstr "Макс. длительность звонка"
+
+msgid "Call State"
+msgstr "Статус звонка"
+
+msgid "Call Summary Reports"
+msgstr "Сводные отчеты о звонках"
+
+msgid "Call Timeout"
+msgstr "Длительность звонка"
+
+msgid "Call Type"
+msgstr "Тип звонка"
+
+msgid "Call Types"
+msgstr "Типы звонков"
+
+msgid "Called Number"
+msgstr "Набранный номер"
+
+msgid "Caller ID"
+msgstr "ID звонка"
+
+msgid "Caller IDs"
+msgstr "ID звонков"
+
+msgid "Caller IP"
+msgstr "IP звонка"
+
+msgid "Caller Name"
+msgstr "Имя звонка"
+
+msgid "Caller Number"
+msgstr "Номер звонка"
+
+msgid "Caller-Id-In-Form"
+msgstr "Caller-Id-In-Form"
+
+msgid "Calling Card"
+msgstr "Карта звонящего"
+
+msgid "Calls"
+msgstr "Звонки"
+
+msgid "Calls Breakdown"
+msgstr "Распределение звонков"
+
+msgid "Calltype Information"
+msgstr "Информация о типах звонков"
+
+msgid "Can be purchased?"
+msgstr "Можно купить?"
+
+msgid "Capital"
+msgstr "Столица"
+
+msgid "Capture Server"
+msgstr "Используемый сервер"
+
+msgid "Card Input Timeout"
+msgstr "Время ввода номера карты"
+
+msgid "Card Length"
+msgstr "Длина номера карты"
+
+msgid "Card Retries"
+msgstr "Кол-во повторов"
+
+msgid "Carriers"
+msgstr "Подключения"
+
+msgid "Category"
+msgstr "Категория"
+
+msgid "CC"
+msgstr "Копия"
+
+msgid "CDRs Older Than Days"
+msgstr "CDR страше (дней)"
+
+msgid "Charge Type"
+msgstr "Тип оплат"
+
+msgid "Charges Breakdown"
+msgstr "Распределение оплат"
+
+msgid "Charges History"
+msgstr "История оплат"
+
+msgid "CID"
+msgstr "CID"
+
+msgid "City"
+msgstr "Город"
+
+msgid "Clear"
+msgstr "Очистить"
+
+msgid "Client IP"
+msgstr "IP клиента"
+
+msgid "Client User Agent"
+msgstr "Браузер"
+
+msgid "Code"
+msgstr "Код"
+
+msgid "Codecs"
+msgstr "Кодеки"
+
+msgid "Commission"
+msgstr "Коммиссия"
+
+msgid "Commission Rate"
+msgstr "Ставка комиссии"
+
+msgid "Commission Reports"
+msgstr "Отчеты по комиссии"
+
+msgid "Commission Report"
+msgstr "Отчет по комиссии"
+
+msgid "Company"
+msgstr "Компания"
+
+msgid "Company Profiles"
+msgstr "Профили компаний"
+
+msgid "Company Tax number"
+msgstr "Ставка сбора компании"
+
+msgid "Completed Calls"
+msgstr "Завершенные звонки"
+
+msgid "Concurrent Calls"
+msgstr "Параллельные звонки"
+
+msgid "Configuration"
+msgstr "Конфигурация"
+
+msgid "Confirmed"
+msgstr "Подтвержденный"
+
+msgid "Connection Cost"
+msgstr "Цена подключения"
+
+msgid "Connection <br/>Cost"
+msgstr "Цена<br/>подключения"
+
+msgid "Contains"
+msgstr "Содержит"
+
+msgid "Cost"
+msgstr "Цена"
+
+msgid "Cost/Min"
+msgstr "Цена/Мин"
+
+msgid "Countries"
+msgstr "Страны"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Country Code"
+msgstr "Код страны"
+
+msgid "Country List"
+msgstr "Список стран"
+
+msgid "Country Reports"
+msgstr "Отчет по странам"
+
+msgid "Coupon Information"
+msgstr "Инф. по купону"
+
+msgid "Coupon Number"
+msgstr "Номер купона"
+
+msgid "CPS"
+msgstr "CPS"
+
+msgid "Create"
+msgstr "Создать"
+
+msgid "Create Admin"
+msgstr "Содать Админа"
+
+msgid "Create calltype"
+msgstr "Создать тип звонка"
+
+msgid "Create Company Profile "
+msgstr "Создать профиль компании "
+
+msgid "Create Customer"
+msgstr "Создать клиента"
+
+msgid "Create Origination Rate"
+msgstr "Создать тариф для входящих"
+
+msgid "Create Product"
+msgstr "Создать продукт"
+
+msgid "Create Provider"
+msgstr "Создать провайдера"
+
+msgid "Create Rate Group"
+msgstr "Создать тарифную группу"
+
+msgid "Create Refill Coupon"
+msgstr "Создать пополняемый купон"
+
+msgid "Create SIP Device"
+msgstr "Создать SIP уст-во"
+
+msgid "Create Tax"
+msgstr "Задать ставку"
+
+msgid "Created Date"
+msgstr "Дата создания"
+
+msgid "Created <br/>Date"
+msgstr "Дата<br/>создания"
+
+msgid "Creation Date"
+msgstr "Дата создания"
+
+msgid "Credit"
+msgstr "Кредит"
+
+msgid "Credit Limit"
+msgstr "Кредит"
+
+msgid "Crons"
+msgstr "Задания"
+
+msgid "Currency"
+msgstr "Валюта"
+
+msgid "Currency Conversion Loss Percentage"
+msgstr "Процент потери конвертации валюты"
+
+msgid "Currency List"
+msgstr "Список валют"
+
+msgid "Customer"
+msgstr "Контрагент"
+
+msgid "Customer CDRs Report "
+msgstr "Отчет по CDR пользователей "
+
+msgid "Customer Summary"
+msgstr "Клиенты"
+
+msgid "Customer Summary Report "
+msgstr "Отчет по клиентам "
+
+msgid "Customers"
+msgstr "Контрагенты"
+
+msgid "Dashboard"
+msgstr "Рабочая панель"
+
+msgid "Database"
+msgstr "База данных"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Debit"
+msgstr "Дебит"
+
+msgid "Debug"
+msgstr "Отладка"
+
+msgid "Decimal Points"
+msgstr "Десятичный разделитель"
+
+msgid "Default Increment "
+msgstr "Инкремент поумолчанию "
+
+msgid "Default Invoice Mode"
+msgstr "Режим счета по умолчанию"
+
+msgid "Default Tax"
+msgstr "Ставка поумолчанию"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Deleted Accounts After Days"
+msgstr "Удалить аккаунт после(дней)"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Destination"
+msgstr "Направление"
+
+msgid "Dial Input Timeout"
+msgstr "Время ввода"
+
+msgid "DID"
+msgstr "DID"
+
+msgid "DIDs"
+msgstr "DIDs"
+
+msgid "Direction"
+msgstr "Направление"
+
+msgid "Disable"
+msgstr "Заблокировать"
+
+msgid "Display records in"
+msgstr "Показать записи в"
+
+msgid "Disposition"
+msgstr "Код завершения"
+
+msgid "Documentation"
+msgstr "Документация"
+
+msgid "Doesnt Contain"
+msgstr "Не содержит"
+
+msgid "Domain"
+msgstr "Домен"
+
+msgid "Draft"
+msgstr "Черновик"
+
+msgid "Due Date"
+msgstr "Срок сдачи"
+
+msgid "Duplicate"
+msgstr "Дублировать"
+
+msgid "Duration"
+msgstr "Длительность"
+
+msgid "Email"
+msgstr "Почта"
+
+msgid "Email Alerts ?"
+msgstr "Уведомлять по почте?"
+
+msgid "Email History"
+msgstr "История писем"
+
+msgid "Email History List "
+msgstr "Список истории писем "
+
+msgid "Email Notification"
+msgstr "Уведомление по почте"
+
+msgid "Email Notifications"
+msgstr "Уведомления по почте"
+
+msgid "Email Status"
+msgstr "Статус почты"
+
+msgid "Email Template"
+msgstr "Почтовый шаблон"
+
+msgid "Emails Older Than Days"
+msgstr "Почта старше этих дней"
+
+msgid "En"
+msgstr "En"
+
+msgid "Enable"
+msgstr "Включить"
+
+msgid "Enable Signup"
+msgstr "Разрешить регистрацию"
+
+msgid "Ends With"
+msgstr "Заканчиваются на"
+
+msgid "Enterprise"
+msgstr "Предприятие"
+
+msgid "Entity Type"
+msgstr "Тип объекта"
+
+msgid "Environment"
+msgstr "Окружения"
+
+msgid "Ewallet Payment Gateway"
+msgstr "Платежный шлюз Ewallet"
+
+msgid "Expired Accounts After Days"
+msgstr "Аккаутн истекает после(дней)"
+
+msgid "Expiry Date"
+msgstr "Дата окончания"
+
+msgid "Export"
+msgstr "Экспорт"
+
+msgid "Failover  GW Name #1"
+msgstr "Запасной шлюз #1"
+
+msgid "Failover GW Name #2"
+msgstr "Запасной шлюз #2"
+
+msgid "Favicon"
+msgstr "Иконка"
+
+msgid "Fax"
+msgstr "Факс"
+
+msgid "Fee"
+msgstr "Плата"
+
+msgid "File Path"
+msgstr "Путь к файлу"
+
+msgid "Filter"
+msgstr "Фильтр"
+
+msgid "First Name"
+msgstr "Имя"
+
+msgid "First Used"
+msgstr "Использовать первым"
+
+msgid "Fixer Key"
+msgstr "Fixer Key"
+
+msgid "FMAddon"
+msgstr "FMAddon"
+
+msgid "Footer"
+msgstr "Футер"
+
+msgid "Fraud Detection"
+msgstr "Определение взлома"
+
+msgid "Free Minutes"
+msgstr "Бесплатные минуты"
+
+msgid "FreeSwitch Servers"
+msgstr "FreeSwitch сервера"
+
+msgid "From"
+msgstr "От"
+
+msgid "From Date"
+msgstr "С даты"
+
+msgid "From Timestamp"
+msgstr "От метки времени"
+
+msgid "Gateway Name"
+msgstr "Имя шлюза"
+
+msgid "Gateway<br/>Name"
+msgstr "Имя<br/>шлюза"
+
+msgid "Gateways"
+msgstr "Шлюзы"
+
+msgid "General"
+msgstr "Главный"
+
+msgid "General Input Timeout"
+msgstr "Основное время ввода"
+
+msgid "Generate Invoice"
+msgstr "Создать счет"
+
+msgid "Generate Pin"
+msgstr "Задать пин"
+
+msgid "Generates Alarm From System"
+msgstr "Вызывать уведомление от системы"
+
+msgid "Generates Local Number system"
+msgstr "Generates Local Number system"
+
+msgid "Generates ticket of issues from system"
+msgstr "Исполнять задания от системы"
+
+msgid "Generates Various Alarms From System"
+msgstr "Вызывать различные уведомления от системы"
+
+msgid "Generates Various Country Reports From System"
+msgstr "Вызывать создание отчетов по странам от системы"
+
+msgid "Generates various reports from system"
+msgstr "Вызывать создание отчетов от системы"
+
+msgid "Get Addons"
+msgstr "Расширения"
+
+msgid "Get App"
+msgstr "Приложения"
+
+msgid "Global"
+msgstr "Глобальный"
+
+msgid "Grace Time"
+msgstr "Бесплатное время"
+
+msgid "Grand Total"
+msgstr "Общая сумма"
+
+msgid "Group By"
+msgstr "Группировать"
+
+msgid "Group By #1"
+msgstr "Группировать по #1"
+
+msgid "Group By #2"
+msgstr "Группировать по #2"
+
+msgid "Group By #3"
+msgstr "Группировать по #3"
+
+msgid "Group By #Time"
+msgstr "Группировать по #Времени"
+
+msgid "Header"
+msgstr "Заголовок"
+
+msgid "Homer"
+msgstr "Домашний"
+
+msgid "Host"
+msgstr "Хост"
+
+msgid "Import"
+msgstr "Импорт"
+
+msgid "import"
+msgstr "Импорт"
+
+msgid "Import Customers"
+msgstr "Импортировать клиентов"
+
+msgid "Import with field map"
+msgstr "Импорт с сопоставлением полей"
+
+msgid "Inbound"
+msgstr "Входящие"
+
+msgid "Inbound Fax"
+msgstr "Входящий факс"
+
+msgid "Included Seconds"
+msgstr "Включенные секунды"
+
+msgid "Increment"
+msgstr "Увеличение"
+
+msgid "Initial Balance"
+msgstr "Начальный баланс"
+
+msgid "Initial Increment"
+msgstr "Начальное увеличение"
+
+msgid "Initial <br/>Increment"
+msgstr "Начальное<br/>увеличение"
+
+msgid "Inovices Older Than Days"
+msgstr "Входящие старше (дней)"
+
+msgid "Install"
+msgstr "Установить"
+
+msgid "Installed"
+msgstr "Установлено"
+
+msgid "Interval"
+msgstr "Интервал"
+
+msgid "Interval Type"
+msgstr "Тип интервала"
+
+msgid "Invoice Configuration"
+msgstr "Конфигурация счета"
+
+msgid "Invoice Date"
+msgstr "Дата счета"
+
+msgid "Invoice Due Days"
+msgstr "День оплаты счета"
+
+msgid "Invoice Due Notification"
+msgstr "Напоминание об оплате"
+
+msgid "Invoice Notification"
+msgstr "Напоминание о счете"
+
+msgid "Invoice Number"
+msgstr "Номер счета"
+
+msgid "Invoice Prefix"
+msgstr "Префикс счета"
+
+msgid "Invoice Start Form"
+msgstr "Счет начинается с"
+
+msgid "Invoices"
+msgstr "Счета"
+
+msgid "IP"
+msgstr "IP"
+
+msgid "IP Settings"
+msgstr "Настройки IP"
+
+msgid "Is Equal To"
+msgstr "Равно"
+
+msgid "Is Not Equal To"
+msgstr "Неравно"
+
+msgid "Is Purchased?"
+msgstr "Куплен?"
+
+msgid "Iso"
+msgstr "Сокр"
+
+msgid "Iso3"
+msgstr "Сокр3"
+
+msgid "IVR Count"
+msgstr "Повтор IVR"
+
+msgid "Languages"
+msgstr "Языки"
+
+msgid "Last Execution Date"
+msgstr "Дата последнего выполнения"
+
+msgid "Last Modified Date"
+msgstr "Дата последнего изменения"
+
+msgid "Last Name"
+msgstr "Фамилия"
+
+msgid "Last Paid Date"
+msgstr "Дата последней оплаты"
+
+msgid "Latest Orders"
+msgstr "Движение средств"
+
+msgid "LC Charge / Min"
+msgstr "LC Списание/Мин"
+
+msgid "LC Charge/Min"
+msgstr "LC Списание/Мин"
+
+msgid "Live"
+msgstr "Текуший"
+
+msgid "Live Call Report"
+msgstr "Отчет по текущим звонкам"
+
+msgid "Live Id"
+msgstr "Текущий Id"
+
+msgid "Live Key"
+msgstr "Текущий ключ"
+
+msgid "Live Url"
+msgstr "Текущий Url"
+
+msgid "Local Call Timeout"
+msgstr "Время ожидание локального звонка"
+
+msgid "Local Number"
+msgstr "Локальный номер"
+
+msgid "Local Numbers"
+msgstr "Локальные номера"
+
+msgid "Locale code"
+msgstr "Локальный код"
+
+msgid "Localization"
+msgstr "Локализация"
+
+msgid "Localization Type"
+msgstr "Тип локализации"
+
+msgid "Localizations"
+msgstr "Локализации"
+
+msgid "Log out"
+msgstr "Выход"
+
+msgid "Log Path"
+msgstr "Путь к логу"
+
+msgid "Logo"
+msgstr "Лого"
+
+msgid "Low balance Alert?"
+msgstr "Напоминать о снижении баланса?"
+
+msgid "Mail Log"
+msgstr "Лог почты"
+
+msgid "Manually"
+msgstr "Вручную"
+
+msgid "Markup"
+msgstr "Наценка"
+
+msgid "Mass Create"
+msgstr "Групповое создание"
+
+msgid "Mass Email"
+msgstr "Массовая рассылка"
+
+msgid "Max Free Length"
+msgstr "Макс. свободная длинна"
+
+msgid "MCD"
+msgstr "MCD"
+
+msgid "Minutes"
+msgstr "Минуты"
+
+msgid "Minutes Announcement"
+msgstr "Объявление минут"
+
+msgid "Minutes Breakdown"
+msgstr "Распределение минут"
+
+msgid "Moderate"
+msgstr "Moderate"
+
+msgid "Modified Date"
+msgstr "Дата изменения"
+
+msgid "Modified <br/>Date"
+msgstr "Дата<br/>изменения"
+
+msgid "Module"
+msgstr "Модуль"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Value"
+msgstr "Значение"
+
+msgid "Reset"
+msgstr "Сбросить"
+
+msgid "Add Setting"
+msgstr "Добавить"
+
+msgid "Update Setting"
+msgstr "Обновить"
+
+msgid "Start"
+msgstr "Запуск"
+
+msgid "Stop"
+msgstr "Остановить"
+
+msgid "Reload"
+msgstr "Перегрузка"
+
+msgid "Rescan"
+msgstr "Проверка"
+
+msgid "Edit SIP Profile"
+msgstr "Редактирование SIP профиля"
+
+msgid "Create SIP Profile"
+msgstr "Создание SIP профиля"
+
+msgid "New Accounts"
+msgstr "Новые аккаунты"
+
+msgid "Nexmo API Key"
+msgstr "Nexmo API Key"
+
+msgid "Nexmo Secret Key"
+msgstr "Nexmo Secret Key"
+
+msgid "Next Execution Date"
+msgstr "Дата след. выполнения"
+
+msgid "Nickname"
+msgstr "Ник"
+
+msgid "No"
+msgstr "Нет"
+
+msgid "No Records Found"
+msgstr "Записей не найдено"
+
+msgid "Notes"
+msgstr "Заметки"
+
+msgid "Notifications"
+msgstr "Уведомления"
+
+msgid "Notify before due days"
+msgstr "Уведомлять о дне оплаты (за дней)"
+
+msgid "Number"
+msgstr "Номер"
+
+msgid "Number Type"
+msgstr "Тип номера"
+
+msgid "of"
+msgstr "из"
+
+msgid "Opensips"
+msgstr "Opensips"
+
+msgid "Opensips DB Engine"
+msgstr "Opensips DB Engine"
+
+msgid "Opensips DB Host"
+msgstr "Opensips DB Host"
+
+msgid "Opensips DB Name"
+msgstr "Opensips DB Name"
+
+msgid "Opensips DB Pass"
+msgstr "Opensips DB Pass"
+
+msgid "Opensips DB User"
+msgstr "Opensips DB User"
+
+msgid "Opensips Domain"
+msgstr "Opensips Domain"
+
+msgid "Opensource"
+msgstr "Opensource"
+
+msgid "Order"
+msgstr "Заказ"
+
+msgid "Order Amount"
+msgstr "Сумма заказа"
+
+msgid "Order Date"
+msgstr "Дата заказа"
+
+msgid "Order ID"
+msgstr "ID заказа"
+
+msgid "Order Now"
+msgstr "Заказать сейчас"
+
+msgid "Orders"
+msgstr "Заказы"
+
+msgid "Org. Cost"
+msgstr "Исх. цена"
+
+msgid "Org. Destination"
+msgstr "Исх. направление"
+
+msgid "Org. Pefix"
+msgstr "Исх. префикс"
+
+msgid "Origination Rates"
+msgstr "Входящие тарифы"
+
+msgid "Outbound Fax"
+msgstr "Исходящий факс"
+
+msgid "Outstanding Amount INR"
+msgstr "Непогашенная сумма INR"
+
+msgid "Page"
+msgstr "Страница"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Password Strength"
+msgstr "Защищенность пароля"
+
+msgid "Payment <br>Method"
+msgstr "Метод оплаты"
+
+msgid "Payment Methods"
+msgstr "Методы оплат"
+
+msgid "Payment Method"
+msgstr "Метод оплаты"
+
+msgid "Payment Status"
+msgstr "Статус платежа"
+
+msgid "Paypal"
+msgstr "Paypal"
+
+msgid "Per Minute Cost"
+msgstr "Цена за минуту"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Pin Input Timeout"
+msgstr "Время ввода пинкода"
+
+msgid "Pin Length"
+msgstr "Длина пинкода"
+
+msgid "Pin retries"
+msgstr "Кол-во повторов ввода"
+
+msgid "Pinless Authentication"
+msgstr "Аутентификация без пинкода"
+
+msgid "Place Order"
+msgstr "Оформить заказ"
+
+msgid "Playback Audio Notifications"
+msgstr "Воспроизвести аудио уведомления"
+
+msgid "Port"
+msgstr "Порт"
+
+msgid "Portal personalization"
+msgstr "Персонализация портала"
+
+msgid "Powered by ASTPP"
+msgstr "Powered by ASTPP"
+
+msgid "Prefix"
+msgstr "Префикс"
+
+msgid "Prepend"
+msgstr "Префикс"
+
+msgid "Preserve"
+msgstr "Сохранить"
+
+msgid "Price"
+msgstr "Цена"
+
+msgid "Priority"
+msgstr "Приоретет"
+
+msgid "Product Category"
+msgstr "Категория продукта"
+
+msgid "Product Details"
+msgstr "Детали продукта"
+
+msgid "Product Name"
+msgstr "Название продукта"
+
+msgid "Products"
+msgstr "Продукты"
+
+msgid "Profile Action"
+msgstr "Действие профиля"
+
+msgid "Profit"
+msgstr "Прибыль"
+
+msgid "Provider"
+msgstr "Провайдер"
+
+msgid "Provider CDRs Report "
+msgstr "Отчет по звонкам провайдера "
+
+msgid "Provider Outbound"
+msgstr "Исх. провайдер"
+
+msgid "Provider Outbound Report"
+msgstr "Отчет по исх. провайдеру"
+
+msgid "Provider Summary Report "
+msgstr "Отчет по провайдерам "
+
+msgid "Province"
+msgstr "Регион"
+
+msgid "Province/State"
+msgstr "Регион/район"
+
+msgid "Proxy"
+msgstr "Прокси"
+
+msgid "Purge"
+msgstr "Хранение"
+
+msgid "Push Notifications"
+msgstr "Push уведомления"
+
+msgid "Quantity"
+msgstr "Кол-во"
+
+msgid "Rate"
+msgstr "Цена"
+
+msgid "Rate Count"
+msgstr "Rate Count"
+
+msgid "Rate Group"
+msgstr "Группа тарифа"
+
+msgid "Rate Groups"
+msgstr "Группы тарифов"
+
+msgid "Rate Information"
+msgstr "О тарифе"
+
+msgid "Ratedeck"
+msgstr "Детали тарифа"
+
+msgid "Ratedeck Information"
+msgstr "О тарифе"
+
+msgid "Rates Count"
+msgstr "Кол-во тарифов"
+
+msgid "Receiver Email"
+msgstr "Получатель письма"
+
+msgid "Recording Files Older Than Days"
+msgstr "Записывать файлы старше (дней)"
+
+msgid "Records"
+msgstr "Записи"
+
+msgid "Referer Page"
+msgstr "Реферальная страница"
+
+msgid "Refill By"
+msgstr "Пополнено"
+
+msgid "Refill Coupon Length"
+msgstr "Длина номера купона"
+
+msgid "Refill Coupons"
+msgstr "Купоны пополнения"
+
+msgid "Refill Report"
+msgstr "Отчет пополнения"
+
+msgid "Refills"
+msgstr "Плательщики"
+
+msgid "Register"
+msgstr "Зарегестрирован"
+
+msgid "Release if no balance"
+msgstr "Сбрасывать если нет баланса"
+
+msgid "Report a Bug"
+msgstr "Отчет о ошибках"
+
+msgid "Reports"
+msgstr "Отчеты"
+
+msgid "Request URI"
+msgstr "Запрашиваемый URI"
+
+msgid "Reseller"
+msgstr "Диллер"
+
+msgid "Reseller can resell"
+msgstr "Разрешить продавать"
+
+msgid "Reseller Summary"
+msgstr "Список диллеров"
+
+msgid "Reseller Summary Report "
+msgstr "Отчет по дилерам "
+
+msgid "Resellers"
+msgstr "Диллеры"
+
+msgid "Resellers CDRs Report "
+msgstr "Отчет по звонкам дилеров "
+
+msgid "Resend Mail"
+msgstr "Переслать письмо"
+
+msgid "Role"
+msgstr "Роль"
+
+msgid "Roles & Permission"
+msgstr "Роли & Разрешение"
+
+msgid "Roles & Permissions"
+msgstr "Роли & Разрешения"
+
+msgid "Routing Prefix"
+msgstr "Префикс направления"
+
+msgid "Routing <br/>Prefix"
+msgstr "Префикс<br/>направления"
+
+msgid "Routing Type"
+msgstr "Тип направления"
+
+msgid "Sandbox"
+msgstr "Sandbox"
+
+msgid "Sandbox Id"
+msgstr "Тестовый Id"
+
+msgid "Sandbox Key"
+msgstr "Тестовый ключ"
+
+msgid "Sandbox Name"
+msgstr "Тестовое имя"
+
+msgid "Sandbox Url"
+msgstr "Тестовый Url"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Schedule Reports"
+msgstr "Запланированные отчеты"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "Select File"
+msgstr "Выбрать файл"
+
+msgid "Select Year"
+msgstr "Выбрать год"
+
+msgid "Services"
+msgstr "Сервисы"
+
+msgid "Set Maximum Add card limit"
+msgstr "Макс. кол-во карт"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Setup Fee"
+msgstr "Настройка оплат"
+
+msgid "Signup"
+msgstr "Профиль поумолчанию"
+
+msgid "SIP Devices"
+msgstr "SIP уст-ва"
+
+msgid "SIP IP"
+msgstr "SIP IP"
+
+msgid "SIP Port"
+msgstr "SIP порт"
+
+msgid "SIP Profile"
+msgstr "SIP профиль"
+
+msgid "SIP Profiles"
+msgstr "SIP профили"
+
+msgid "SMS"
+msgstr "СМС"
+
+msgid "SMS Body"
+msgstr "Текст смс"
+
+msgid "SMS Notifications"
+msgstr "СМС уведомления"
+
+msgid "SMS Status"
+msgstr "СМС статус"
+
+msgid "SMTP"
+msgstr "SMTP"
+
+msgid "SMTP Host"
+msgstr "SMTP хост"
+
+msgid "SMTP Pass"
+msgstr "SMTP пароль"
+
+msgid "SMTP Port"
+msgstr "SMTP порт"
+
+msgid "SMTP User"
+msgstr "SMTP пользователь"
+
+msgid "Start prefix"
+msgstr "Нач. префикс"
+
+msgid "Starting Digit"
+msgstr "Начальная цифра"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Strip"
+msgstr "Выделить"
+
+msgid "Strong"
+msgstr "Сильный"
+
+msgid "Subject"
+msgstr "Тема"
+
+msgid "Subscription"
+msgstr "Подписка"
+
+msgid "Supportticket"
+msgstr "Билет поддержки"
+
+msgid "Switch"
+msgstr "Комутаторы"
+
+msgid "Tariff"
+msgstr "Тарифы"
+
+msgid "Tax"
+msgstr "Ставка"
+
+msgid "Tax Information"
+msgstr "Информация о ставке"
+
+msgid "Telephone"
+msgstr "Телефон"
+
+msgid "Telephone as account number"
+msgstr "Номер телефона в кач. аккаунта"
+
+msgid "Templates"
+msgstr "Шаблоны"
+
+msgid "Term. Cost"
+msgstr "Цена завершения"
+
+msgid "Term. Destination"
+msgstr "Направление"
+
+msgid "Term. Prefix"
+msgstr "Префикс"
+
+msgid "Term. Trunk"
+msgstr "Транк"
+
+msgid "Termination Rates"
+msgstr "Тарифы для завершения"
+
+msgid "Third Party"
+msgstr "Строронний"
+
+msgid "This Month"
+msgstr "Этот месяц"
+
+msgid "This Week"
+msgstr "Эта неделя"
+
+msgid "Timestamp"
+msgstr "Временная метка"
+
+msgid "Timezone"
+msgstr "Часовой пояс"
+
+msgid "To"
+msgstr "До"
+
+msgid "To Number"
+msgstr "До номера"
+
+msgid "To Timestamp"
+msgstr "До метки времени"
+
+msgid "Today"
+msgstr "Сегодня"
+
+msgid "Top 10 Accounts"
+msgstr "Топ 10 аккаунтов"
+
+msgid "Top 10 Destinations"
+msgstr "Топ 10 направлений"
+
+msgid "Total Calls"
+msgstr "Всего звонков"
+
+msgid "Total Charges"
+msgstr "Всего пополнений"
+
+msgid "Total Minutes"
+msgstr "Всего минут"
+
+msgid "Transaction ID"
+msgstr "ID транзакци"
+
+msgid "Translations"
+msgstr "Переводы"
+
+msgid "Translations Language"
+msgstr "Язык перевода"
+
+msgid "Trunk"
+msgstr "Транк"
+
+msgid "Trunks"
+msgstr "Транки"
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "Unpaid"
+msgstr "Неоплачено"
+
+msgid "Paid"
+msgstr "Оплачено"
+
+msgid "Update"
+msgstr "Обновить"
+
+msgid "Used?"
+msgstr "Использовано?"
+
+msgid "Used Date"
+msgstr "Дата использования"
+
+msgid "Username"
+msgstr "Пользователь"
+
+msgid "Version"
+msgstr "Версия"
+
+msgid "Version 4.0 Beta"
+msgstr "Версия 4.0 Beta"
+
+msgid "View All"
+msgstr "Отобразить все"
+
+msgid "Voicemail"
+msgstr "Голосовой ящик"
+
+msgid "By Month"
+msgstr "За месяц"
+
+msgid "Profit per day"
+msgstr "Прибыль за день"
+
+msgid "Failed Calls"
+msgstr "Неудачные звонки"
+
+msgid "Call Stat"
+msgstr "Статистика звонков"
+
+msgid "By Minutes"
+msgstr "По минутам"
+
+msgid "By Calls"
+msgstr "По звонкам"
+
+msgid "Top 10 Countries"
+msgstr "Топ 10 стран"
+
+msgid "Total"
+msgstr "Всего"
+
+msgid "PENDING"
+msgstr "В ожидании"
+
+msgid "PAID"
+msgstr "Оплачено"
+
+msgid "Account Balance"
+msgstr "Списание с баланса"
+
+msgid "Live Calls"
+msgstr "Текущие звонки"
+
+msgid "Quick From"
+msgstr "Быстрая форма"
+
+msgid "Taxes"
+msgstr "Сборы"
+
+msgid "Product Summary Reports"
+msgstr "Итоговые отчеты"
+
+msgid "Currencies"
+msgstr "Валюты"
+
+msgid "Database Backup"
+msgstr "Резервирование БД"
+
+msgid "Balance <br/>"
+msgstr "Баланс<br/>"
+
+msgid "Credit Limit <br/>"
+msgstr "Кредит<br/>"
+
+msgid "Doesn't Contain"
+msgstr "Не содержит"
+
+msgid "Greater Than"
+msgstr "Больше чем"
+
+msgid "Less Than"
+msgstr "Меньше чем"
+
+msgid "Greater Or Equal Than"
+msgstr "Больше либо равно"
+
+msgid "Less Or Equal Than"
+msgstr "Меньше либо равно"
+
+msgid "Increase By"
+msgstr "Увеличить на"
+
+msgid "Decrease By"
+msgstr "Уменьшить на"
+
+msgid "Set To"
+msgstr "Установить"
+
+msgid "Active"
+msgstr "Активный"
+
+msgid "Inactive"
+msgstr "Неактивный"
+
+msgid "--Select--"
+msgstr "--Выбрать--"
+
+msgid "--Select Type--"
+msgstr "--Выбрать тип--"
+
+msgid "--Select Disposition--"
+msgstr "--Выбрать расположение--"
+
+msgid "Balance Below Notification"
+msgstr "Уведомление о снижении баранса"
+
+msgid "Prepaid"
+msgstr "Предоплатная"
+
+msgid "Postpaid"
+msgstr "Постоплатная"
+
+msgid "Login As Customer"
+msgstr "Перезайти под пользователем"
+
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid "Refill"
+msgstr "Пополнить"
+
+msgid "Profile"
+msgstr "Профиль"
+
+msgid "Panel Access"
+msgstr "Настройки доступа"
+
+msgid "Billing Settings"
+msgstr "Настройки расчетов"
+
+msgid "Pin"
+msgstr "Пин"
+
+msgid "Yes"
+msgstr "Да"
+
+msgid "Payment Gateway Permission"
+msgstr "Разрешить платежный шлюз"
+
+msgid "Notification Email"
+msgstr "Уведомление по Email"
+
+msgid "Address 1"
+msgstr "Адрес 1"
+
+msgid "Address 2"
+msgstr "Адрес 2"
+
+msgid "Zip Code"
+msgstr "Индекс"
+
+msgid "Billing Schedule"
+msgstr "Запланированное списание"
+
+msgid "Billing Day"
+msgstr "День расчета"
+
+msgid "Tax Number"
+msgstr "Налоговый номер"
+
+msgid "Invoice Note"
+msgstr "Счет-фактура"
+
+msgid "Reference"
+msgstr "Реферал"
+
+msgid "Daily"
+msgstr "Ежедневно"
+
+msgid "Monthly"
+msgstr "Ежемесячно"
+
+msgid "Edit Provider"
+msgstr "Редактирование провайдера"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "No Records"
+msgstr "Нет записей"
+
+msgid "Processing, please wait ..."
+msgstr "Обработка, подождите ..."
+
+msgid "Account Settings"
+msgstr "Настройки аккаунта"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "​Refill Process"
+msgstr "Пополнение"
+
+msgid "Refill information"
+msgstr "Информация о пополнении"
+
+msgid "Note"
+msgstr "Заметка"
+
+msgid "Process"
+msgstr "Выполнить"
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Postcharge"
+msgstr "Постпополнение"
+
+msgid "Edit SIP Device"
+msgstr "Редактирование SIP уст-ва"
+
+msgid "Device Information"
+msgstr "Информация"
+
+msgid "Voicemail Options"
+msgstr "Настройки голосовой почты"
+
+msgid "Reset Password"
+msgstr "Сбросить пароль"
+
+msgid "Mail To"
+msgstr "Отправлять на адрес"
+
+msgid "Attach File"
+msgstr "Прикрепить файл"
+
+msgid "Local After Email"
+msgstr "Сохранять после отправки"
+
+msgid "Send all Message"
+msgstr "Отпправлять все сообщения"
+
+msgid "Edit IP Settings"
+msgstr "Редактирование натроек IP"
+
+msgid "Edit Caller ID"
+msgstr "Редактировать Caller ID"
+
+msgid "IP map"
+msgstr "Сопоставление IP"
+
+msgid "True"
+msgstr "Включено"
+
+msgid "False"
+msgstr "Выключено"
+
+msgid "Registration URL"
+msgstr "URL для регистрации"
+
+msgid "Is Distributor"
+msgstr "Является дистрибьютором"
+
+msgid "Low balance Alert Email"
+msgstr "Уведомлять о снижении баланса по Email"
+
+msgid "Invoice Date Interval"
+msgstr "Интервал даты выставления счета"
+
+msgid "Edit Reseller"
+msgstr "Редактирование реселлера"
+
+msgid "Account Status"
+msgstr "Статус аккаунта"
+
+msgid "Telephone 1"
+msgstr "Номер телефона 1"
+
+msgid "Telephone 2"
+msgstr "Номер телефона 2"
+
+msgid "Edit Admin"
+msgstr "Редактирование администратора"
+
+msgid "Edit Roles & Permissions"
+msgstr "Редактирование ролей и прав пользователей"
+
+msgid "Role Name"
+msgstr "Название роли"
+
+msgid "Enter Name"
+msgstr "Введите название"
+
+msgid "Enter Description"
+msgstr "Введите описание"
+
+msgid "Admin"
+msgstr "Администратор"
+
+msgid "Roles and permission for distributor login."
+msgstr "Роли и разрешения для логина дистрибьютора."
+
+msgid "List"
+msgstr "Список"
+
+msgid "Batch update"
+msgstr "Групповое обновление"
+
+msgid "Mass create"
+msgstr "Групповое создание"
+
+msgid "Payment"
+msgstr "Платеж"
+
+msgid "Callerid"
+msgstr "Callerid"
+
+msgid "Sip Devices"
+msgstr "Sip устройства"
+
+msgid "Available DIDs"
+msgstr "Доступные DID"
+
+msgid "My Rates"
+msgstr "Мои тарифы"
+
+msgid "Custom Rates"
+msgstr "Пользовательские тарифы"
+
+msgid "Parent Products"
+msgstr "Родительские продукты"
+
+msgid "TopUp"
+msgstr "Пополнение"
+
+msgid "Refill Coupon"
+msgstr "Купон пополнения"
+
+msgid "Download"
+msgstr "Скачивание"
+
+msgid "Generate"
+msgstr "Создание"
+
+msgid "Buy did"
+msgstr "Купить DID"
+
+msgid "Purchase"
+msgstr "Продажа"
+
+msgid "Available did"
+msgstr "Доступный DID"
+
+msgid "Forward"
+msgstr "Переадресация"
+
+msgid "Forwarding"
+msgstr "Переадресация"
+
+msgid "New"
+msgstr "Новый"
+
+msgid "Invoice<br/> Date"
+msgstr "Дата<br/>счет-фактуры"
+
+msgid "Outstanding Amount"
+msgstr "Задолженность"
+
+msgid "To Date"
+msgstr "По дату"
+
+msgid "Generated Date"
+msgstr "Дата создания"
+
+msgid "Generate invoice"
+msgstr "Создать счет-фактуры"
+
+msgid "Download Invoice"
+msgstr "Сохранить счет-фактуру"
+
+msgid "--All--"
+msgstr "--Все--"
+
+msgid "Did Forward"
+msgstr "Переадресованно"
+
+msgid "Release"
+msgstr "Освободить"
+
+msgid "Not in use"
+msgstr "Не используется"
+
+msgid "Assign Number"
+msgstr "Использовать"
+
+msgid "Edit Product"
+msgstr "Редактирование продукта"
+
+msgid "Monthly Fee"
+msgstr "Ежемесячная оплата"
+
+msgid "One Time"
+msgstr "Единоразово"
+
+msgid "Recurring"
+msgstr "Переодически"
+
+msgid "Are you sure want to release DID?"
+msgstr "Освободить этот номер?"
+
+msgid "DID Destination"
+msgstr "DID назначения"
+
+msgid "Edit Access number"
+msgstr "Редактировать номер доступа"
+
+msgid "Edit Access number Rates"
+msgstr "Редактировать тарифы для номера доступа"
+
+msgid "Access number Updated Successfully!"
+msgstr "Номер доступа успешно обновлен!"
+
+msgid "Access number Details"
+msgstr "Параметры номера доступа"
+
+msgid "Access number Added Successfully!"
+msgstr "Номер доступа добавлен!"
+
+msgid "Access number Removed Successfully!"
+msgstr "Номер доступа удален!"
+
+msgid "Import Access number"
+msgstr "Импорт номера доступа"
+
+msgid "Import Access numbers"
+msgstr "Импорт номеров доступа"
+
+msgid "Import Access number Preview"
+msgstr "Предпросмотр импортируемого номера доступа"
+
+msgid "Access number Import Error"
+msgstr "Ошибка импорта номера доступа"
+
+msgid "Access Number Imported Successfully!"
+msgstr "Номер доступа импортирован!"
+
+msgid "Import Access Numbers"
+msgstr "Импорт номеров доступа"
+
+msgid "Create Access Number"
+msgstr "Создать номер доступа"
+
+msgid "Access Numbers Import Process"
+msgstr "Процесс импорта номеров доступа"
+
+msgid "Select the file"
+msgstr "Выберите файл"
+
+msgid "Skip Header"
+msgstr "Игнорировать заголовок"
+
+msgid "For Download Sample File"
+msgstr "Для примера скачайте файл"
+
+msgid "Access Numbers,Country"
+msgstr "Номер доступа,Страна"
+
+msgid "File must be in the following format"
+msgstr "Файл должен быть формата"
+
+msgid "Get Sample file"
+msgstr "Файл примера"
+
+msgid "Click Here"
+msgstr "Нажмите"
+
+msgid "Account Details"
+msgstr "Параметры аккаунта"
+
+msgid "Account Count"
+msgstr "Кол-во аккаунтов"
+
+msgid "Start Prefix"
+msgstr "Начальный префикс"
+
+msgid "Acc. Number Length"
+msgstr "Длина номера аккаунта"
+
+msgid "Valid Days"
+msgstr "Действителен (дней)"
+
+msgid "Create Sip Device"
+msgstr "Создать SIP уст-во"
+
+msgid "Mass Customer"
+msgstr "Групповое создание клиентов"
+
+msgid "Information"
+msgstr "Информация"
+
+msgid "Add IP Settings"
+msgstr "Добавить IP адреса"
+
+msgid "Add Caller ID"
+msgstr "Добавить Caller ID"
+
+msgid "Create Reseller"
+msgstr "Создать диллера"
+
+msgid "Use same credential for Invoice Config"
+msgstr "Используйте те же учетные данные для конфгурации счета"
+
+msgid "Create Roles & Permissions"
+msgstr "Создание ролей и разрешений"
+
+msgid "Import Customer using field mapper"
+msgstr "Групповой импорт клиентов"
+
+msgid "You must either select a field from your file OR provide a default value for the following fields"
+msgstr "Вы должны либо выбрать поле из вашего файла, либо предоставить значение по умолчанию для следующих полей"
+
+msgid "Note : Records with duplicate account number and email will be ignored."
+msgstr "Примечание. Записи с повторяющимся номером счета и адресом электронной почты будут игнорироваться."
+
+msgid "Fraud Configuration"
+msgstr "Кофигурация противодействия мошенникам"
+
+msgid "Alarm Configuration"
+msgstr "Конфигурация уведомлений"
+
+msgid "Report"
+msgstr "Отчет"
+
+msgid "Product Summary Report"
+msgstr "Итоговый отчет о продукте"
+
+msgid "Profiles"
+msgstr "Профили"
+
+msgid "Configuration add"
+msgstr "Добавление конфигурации"
+
+msgid "Add white list"
+msgstr "Добавить белый список"
+
+msgid "Create admin"
+msgstr "Создать администартора"
+
+msgid "Check Header"
+msgstr "Проверить заголовок"
+
+msgid "Import DIDs"
+msgstr "Импортирование DID"
+
+msgid "Create Duplicate Rate Group"
+msgstr "Создать дубликат группы тарифов"
+
+msgid "Duplicate Rate Group Information"
+msgstr "Информация о группе тарифов"
+
+msgid "Force Trunk"
+msgstr "Принудительный транк"
+
+msgid "New Rate Group Name"
+msgstr "Новое имя группы тарифов"
+
+msgid "Import Origination Rates"
+msgstr "Импорт входящих тарифов"
+
+msgid "Import Ratedeck"
+msgstr "Импорт деталей тарифа"
+
+msgid "Create Calltype"
+msgstr "Создать тип звонка"
+
+msgid "Edit Gateway"
+msgstr "Редактирование шлюза"
+
+msgid "Optional Information"
+msgstr "Дополнительная информация"
+
+msgid "From- Domain"
+msgstr "Домен шлюза"
+
+msgid "From User"
+msgstr "Имя пользователя"
+
+msgid "Realm"
+msgstr "SIP домен"
+
+msgid "Extension-In-Contact"
+msgstr "Раширенные контакты"
+
+msgid "Extension"
+msgstr "Расширение"
+
+msgid "Expire Seconds"
+msgstr "Время регистрации"
+
+msgid "Reg-Transport"
+msgstr "Протокол регистрации"
+
+msgid "Contact Params"
+msgstr "Параметры контакта"
+
+msgid "Ping"
+msgstr "Пинг"
+
+msgid "Retry-Seconds"
+msgstr "Повтор через (сек)"
+
+msgid "Register-Proxy"
+msgstr "Прокси регистратор"
+
+msgid "Channel"
+msgstr "Канал"
+
+msgid "Dialplan Variable"
+msgstr "Переменные плана набора"
+
+msgid "Create Gateway"
+msgstr "Создать шлюз"
+
+msgid "Failover GW Name #1"
+msgstr "Запасной шлюз #1"
+
+msgid "Failover <br/> GW Name #1"
+msgstr "Запасной <br/>шлюз #1"
+
+msgid "Failover <br/> GW Name #2"
+msgstr "Запасной <br/>шлюз #2"
+
+msgid "Rate <br/>Count"
+msgstr "Число <br/>тарифов"
+
+msgid "Edit Trunk"
+msgstr "Редактировать транк"
+
+msgid "Create Trunk"
+msgstr "Создать транк"
+
+msgid "Edit Termination Rate"
+msgstr "Редактировать исх. тариф"
+
+msgid "Create Termination Rate"
+msgstr "Создать исх. тариф"
+
+msgid "Import Termination Rates"
+msgstr "Импортировать исх. тариф"
+
+msgid "Import Termination Rates using field mapper"
+msgstr "Импортировать исх. тариф с сопостотавлением"
+
+msgid "Trunk List"
+msgstr "Список транков"
+
+msgid "Outbound"
+msgstr "Исходящие"
+
+msgid "Both"
+msgstr "Оба"
+
+msgid "Country Name"
+msgstr "Название страны"
+
+msgid "DATE"
+msgstr "Дата"
+
+msgid "TOTAL AMOUNT"
+msgstr "Общая сумма"
+
+msgid "ORDER"
+msgstr "Заказ"
+
+msgid "Invoice"
+msgstr "Счет"
+
+msgid "IP Address"
+msgstr "IP адрес"
+
+msgid "Terminate"
+msgstr "Анулировать"
+
+msgid "Product"
+msgstr "Продукт"
+
+msgid "Registration Date"
+msgstr "Дата оформления"
+
+msgid "Next Bill Date"
+msgstr "Очередная дата оплаты"
+
+msgid "Product Status"
+msgstr "Статус продукта"
+
+msgid "Edit Freeswitch Server"
+msgstr "Редактирование Freeswitch сервера"
+
+msgid "Freeswitch Server Information"
+msgstr "Информация Freeswitch сервера"
+
+msgid "Create Freeswitch Server"
+msgstr "Создать Freeswitch сервер"
+
+msgid "Org.<br/>Pefix"
+msgstr "Вх.<br/>преф."
+
+msgid "Org.<br/>Destination"
+msgstr "Вх.<br/>напр."
+
+msgid "Org.<br/>Cost"
+msgstr "Вх.<br/>цена"
+
+msgid "Term.<br/>Trunk"
+msgstr "Исх.<br/>транк"
+
+msgid "Term.<br/>Prefix"
+msgstr "Исх.<br/>преф."
+
+msgid "Term.<br/>Destination"
+msgstr "Исх.<br/>напр."
+
+msgid "Term.<br/>Cost"
+msgstr "Исх.<br/>цена"
+
+msgid "Read/Write<br/>codecs"
+msgstr "Чтение/Запись<br/>кодеки"
+
+msgid "Create Localization"
+msgstr "Создать локализацию"
+
+msgid "Edit Localization"
+msgstr "Редактировать локализацию"
+
+msgid "Origination"
+msgstr "Входящие"
+
+msgid "Termination"
+msgstr "Исходящие"
+
+msgid "Destination Number Translation"
+msgstr "Преобразование исх. номера"
+
+msgid "Inbound Callerid Translation"
+msgstr "Преобразование вх. АОНа"
+
+msgid "Outbound Callerid Translation"
+msgstr "Преобразование исх. АОНа"
+
+msgid "CUT"
+msgstr "Отрезать"
+
+msgid "ADD"
+msgstr "Добавить"
+
+msgid "View Email"
+msgstr "Просмотр письма"
+
+msgid "View Details"
+msgstr "Подробнее"
+
+msgid "Resend Email"
+msgstr "Переотправить письмо"
+
+msgid "Send"
+msgstr "Отправить"
+
+msgid "Not Send"
+msgstr "Не отправлено"
+
+msgid "Are you sure want to delete?"
+msgstr "Удалить элемент?"
+
+msgid "SIP User"
+msgstr "SIP<br/>пользователь"
+
+msgid "Clear Search Filter"
+msgstr "Очистить фильтр поиска"
+
+msgid "Recording"
+msgstr "Запись"
+
+msgid "Customer CDRs Report"
+msgstr "Отчет по звонкам клиента"
+
+msgid "Resellers CDRs Report"
+msgstr "Отчет по звонкам диллера"
+
+msgid "Provider CDRs Report"
+msgstr "Отчет по звонкам провайдера"
+
+msgid "Customer Summary Report"
+msgstr "Сводный отчет по клиенту"
+
+msgid "Reseller Summary Report"
+msgstr "Сводный отчет по диллеру"
+
+msgid "Provider Summary Report"
+msgstr "Сводный отчет по провайдеру"
+
+msgid "Edit Company Profile"
+msgstr "Редактирование профиля компании"
+
+msgid "Website"
+msgstr "Вебсайт"
+
+msgid "Invoice Start From"
+msgstr "Начинать нумерацию счета-фактуры с"
+
+msgid "Generate Invoice for no usage"
+msgstr "Создавать счет-фактуры если не используется"
+
+msgid "Allowed Extentions"
+msgstr "Используемый формат"
+
+msgid "Not set"
+msgstr "Не задано"
+
+msgid "Logo only allows file types of"
+msgstr "Логотип д.б. формата"
+
+msgid "Please upload 250 * 60 size file."
+msgstr "Размер изображения д.б. 250 * 60."
+
+msgid "Please upload only image!"
+msgstr "Загрузите изображение!"
+
+msgid "Favicon only allows file types of"
+msgstr "Иконка д.б. формата"
+
+msgid "Please upload 16 * 16 size of favicon."
+msgstr "Размер иконки д.б. 16 * 16."
+
+msgid "Maximum Logo upload size is 1MB"
+msgstr "Картинка д.б. не более 1МБ"
+
+msgid "Maximum Favicon upload size is 1MB"
+msgstr "Иконка д.б. не более 1МБ"
+
+msgid "Delete logo"
+msgstr "Удалить лого"
+
+msgid "Delete Favicon"
+msgstr "Удалить иконку"
+
+msgid "Are you sure want to remove Logo?"
+msgstr "Удалить логотип?"
+
+msgid "Logo is Deleted Sucessfully!"
+msgstr "Логотип удален!"
+
+msgid "Favicon is Deleted Sucessfully!"
+msgstr "Иконка удалена!"
+
+msgid "To date should not be greater than current date."
+msgstr "Конечная дата не д.б. больше текущей даты."
+
+msgid "Invoice generation completed."
+msgstr "Создание счет-фактур завершено."
+
+msgid "No data found."
+msgstr "Ничего не найдено."
+
+msgid "Permission Denied."
+msgstr "Отказано в доступе."
+
+msgid "File Uploading Fail Please Try Again"
+msgstr "Ошибка загрузки файла, попробуйте еще раз"
+
+msgid "Company profile updated sucessfully!"
+msgstr "Профиль компании обновлен!"
+
+msgid "Company profile added sucessfully!"
+msgstr "Профиль компании добавлен!"
+
+msgid "Edit Email template"
+msgstr "Редактировать шаблон письма"
+
+msgid "Email Body"
+msgstr "Тело письма"
+
+msgid "Alert Body"
+msgstr "Тело уведомления"
+
+msgid "Details"
+msgstr "Подробнее"
+
+msgid "Edit Currency"
+msgstr "Редактирование валюты"
+
+msgid "Update Currencies"
+msgstr "Обновить курсы"
+
+msgid "Download Database"
+msgstr "Сохранить копию БД"
+
+msgid "Add Account Taxes"
+msgstr "Добавить аккаунт"
+
+msgid "Force Caller Id"
+msgstr "Назначить Caller Id"
+
+msgid "Restore"
+msgstr "Восстановить"
+
+msgid "Database Information"
+msgstr "Параметры БД"
+
+msgid "File Name"
+msgstr "Имя файла"
+
+msgid "Import Database"
+msgstr "Импорт БД"
+
+msgid "Upload"
+msgstr "Загрузить"
+
+msgid "Allowed file format is"
+msgstr "Разрешенные форматы"
+
+msgid "Are you sure want to restore this database?"
+msgstr "Восстановить из резервной копии?"
+
+msgid "Please select file."
+msgstr "Выберите файл."
+
+msgid "The Name field is required."
+msgstr "Имя фала обязательное поле."
+
+msgid "Create Cron Settings "
+msgstr "Создать задание "
+
+msgid "Edit Cron Settings"
+msgstr "Редактировать настройки задачи"
+
+msgid "Cron Settings"
+msgstr "Настройки задачи"
+
+msgid "Command"
+msgstr "Команда"
+
+msgid "Name already exist in system."
+msgstr "Имя уже существует."
+
+msgid "Minute"
+msgstr "Минута"
+
+msgid "Hour"
+msgstr "Час"
+
+msgid "Day"
+msgstr "День"
+
+msgid "Month"
+msgstr "Месяц"
+
+msgid "Year"
+msgstr "Год"
+
+msgid "Add Languages"
+msgstr "Добавить языки"
+
+msgid "Update Languages"
+msgstr "Обновить языки"
+
+msgid "Edit Languages"
+msgstr "Редактирования языка"
+
+msgid "Language"
+msgstr "Язык"
+
+msgid "Locale Code"
+msgstr "Название локали"
+
+msgid "Please be patient until the whole process is complete."
+msgstr "Пожалуйста, будьте терпеливы, пока весь процесс не будет завершен."
+
+msgid "Module Name"
+msgstr "Название модуля"
+
+msgid "Create Translation Languages"
+msgstr "Создать перевод"
+
+msgid "Number Of Default Rows"
+msgstr "Кол-во строк по умолчанию"
+
+msgid "Account Number Editable"
+msgstr "Редактировать номер аккаунта"
+
+msgid "Mobile Dialer"
+msgstr "Уведомление через мобильный звонок"
+
+msgid "Minimum Fund Transfer"
+msgstr "Минимальная сумма оплаты"
+
+msgid "Settings updated sucessfully!"
+msgstr "Настройки успешно обновлены!"
+
+msgid "Rate Announcement"
+msgstr "Уведомлять о цене"
+
+msgid "Welcome File"
+msgstr "Адио файл приветсвия"
+
+msgid "DID Localization"
+msgstr "Формат DID"
+
+msgid "Play Audio Notifications"
+msgstr "Воспроизводить аудио уведомления"
+
+msgid "Voicemail Number"
+msgstr "Голосовой ящик"
+
+msgid "Rate check for DID"
+msgstr "Проверять тариф для DID"
+
+msgid "Realtime Billing"
+msgstr "Биллинг реального времени"
+
+msgid "Local Call Timeout (Sec.)"
+msgstr "Время соединения (сек.)"
+
+msgid "Timelimit Announcement"
+msgstr "Уведомлять длительности"
+
+msgid "Account Notification"
+msgstr "Уведомление аккаунта"
+
+msgid "Both (Email & SMS)"
+msgstr "Оба (Почта и СМС)"
+
+msgid "OTP Expire Time(min)"
+msgstr "Время валидности одноразового пароля (мин.)"
+
+msgid "Alert Notifications"
+msgstr "Аварийные уведомления"
+
+msgid "Username OR Email"
+msgstr "Имя пользователя или Email"
+
+msgid "Forgot Password?"
+msgstr "Забыли пароль?"
+
+msgid "Password is Required"
+msgstr "Введите пароль"
+
+msgid "Username is Required"
+msgstr "Введите имя пользователя"
+
+msgid "Sign in"
+msgstr "Авторизоваться"
+
+msgid "Signup now!"
+msgstr "Регистрация"
+
+msgid "Log In"
+msgstr "Вход"
+
+msgid "Company Name"
+msgstr "Название компании"
+
+msgid "Already Registered !"
+msgstr "Уже зарегестрирован"
+
+msgid "Enter above Captcha"
+msgstr "Введите код с картинки"
+
+msgid "Captcha is required"
+msgstr "Введите код с картинки"
+
+msgid "First Name is Required"
+msgstr "Введите имя"
+
+msgid "Telephone is Required"
+msgstr "Введите телефон"
+
+msgid "Email is Required"
+msgstr "Введите почту"
+
+msgid "Please enter a valid email address"
+msgstr "Укажите правльный адрес почты"
+
+msgid "Please make sure you entered the correct username and password, and that your account is active."
+msgstr "Пожалуйста, убедитесь, что вы ввели правильное имя пользователя и пароль, и что ваша учетная запись активна."
+
+msgid "Sign up"
+msgstr "Зарегестрироваться"
+
+msgid "Account Number"
+msgstr "Аккаунт"
+
+msgid "Forgot Password"
+msgstr "Восстановить"
+
+msgid "Login"
+msgstr "Вход"
+
+msgid "The Account Number field is Required"
+msgstr "Введите аккаунт"
+
+msgid "The Email field is Required"
+msgstr "Ввведите адрес почты"
+
+msgid "Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active."
+msgstr "Войти не удалось. Пожалуйста, убедитесь, что вы ввели правильное имя пользователя и пароль, и что ваша учетная запись активна."
+
+msgid "We sent update password link. <br>Please check your Email!!"
+msgstr "Мы отправили ссылку для обновления пароля. <br>Пожалуйста, проверьте вашу электронную почту!!"
+
+msgid "This Username or Email is not valid."
+msgstr "Это имя пользователя или адрес электронной почты не действительны."
+
+msgid "Please enter proper Username."
+msgstr "Пожалуйста, введите правильное имя пользователя."
+
+msgid "Your account has been deleted. Please contact administrator for more information."
+msgstr "Ваш аккаунт был удален. Пожалуйста, свяжитесь с администратором для получения дополнительной информации."
+
+msgid "Your account is inactive. Please contact administrator for more information."
+msgstr "Ваш аккаунт неактивен. Пожалуйста, свяжитесь с администратором для получения дополнительной информации."
+
+msgid "Please enter proper Email."
+msgstr "Пожалуйста, введите правильный адрес электронной почты."
+
+msgid "Requested number is already exist"
+msgstr "Запрашиваемый номер уже существует"
+
+msgid "Requested email is already exist"
+msgstr "Запрашиваемая электронная почта уже существует"
+
+msgid "Please contact to administrator"
+msgstr "Пожалуйста, свяжитесь с администратором"
+
+msgid "Please enter valid Captcha code"
+msgstr "Пожалуйста, введите правильный код с картинки"
+
+msgid "Telephone number is only numeric"
+msgstr "Номер телефона должен содержать только цифры"

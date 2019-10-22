@@ -479,7 +479,7 @@ class Refill_coupon_form extends common
                 "center"
             ),
             array(
-                gettext("Amount <br/> ($currency)"),
+                gettext("Amount")." <br/>($currency)",
                 "100",
                 "amount",
                 "amount",

@@ -965,7 +965,7 @@ class System_form extends common
                 ''
             ),
             array(
-                gettext('ISO'),
+                gettext('Iso'),
                 'INPUT',
                 array(
                     'name' => 'iso[iso]',
@@ -984,7 +984,7 @@ class System_form extends common
                 ''
             ),
             array(
-                gettext('ISO3'),
+                gettext('Iso3'),
                 'INPUT',
                 array(
                     'name' => 'iso3[iso3]',
@@ -1733,7 +1733,7 @@ class System_form extends common
                 "center"
             ),
             array(
-                gettext("Locale code"),
+                gettext("Locale Code"),
                 "150",
                 "locale",
                 "",
@@ -1851,7 +1851,7 @@ class System_form extends common
                 ''
             ),
             array(
-                gettext('Locale code'),
+                gettext('Locale Code'),
                 'INPUT',
                 array(
                     'name' => 'locale[locale]',
@@ -1958,7 +1958,7 @@ class System_form extends common
                 'Please Enter country'
             ),
             array(
-                gettext('Locale code'),
+                gettext('Locale Code'),
                 'INPUT',
                 array(
                     'name' => 'locale',
@@ -2029,7 +2029,7 @@ class System_form extends common
                 'Please Enter country'
             ),
             array(
-                gettext('language'),
+                gettext('Language'),
                 'INPUT',
                 array(
                     'name' => 'code',
@@ -2042,7 +2042,7 @@ class System_form extends common
                 'Please Enter country'
             ),
             array(
-                gettext('locale code'),
+                gettext('Locale Code'),
                 'INPUT',
                 array(
                     'name' => 'locale',
@@ -2092,7 +2092,7 @@ class System_form extends common
                 "center"
             ),
             array(
-                gettext("Module"),
+                gettext("Module Name"),
                 "75",
                 "module_name",
                 "",
@@ -2154,7 +2154,7 @@ class System_form extends common
                 );
             } else if ($value == 'module_name') {
                 $fields[$key] = array(
-                    gettext($value),
+                    gettext("Module Name"),
                     "150",
                     $value,
                     "",
@@ -2244,7 +2244,7 @@ class System_form extends common
                 "get_only_numeric_val"
             ),
             array(
-                gettext("Module"),
+                gettext("Module Name"),
                 "75",
                 "module_name",
                 "",

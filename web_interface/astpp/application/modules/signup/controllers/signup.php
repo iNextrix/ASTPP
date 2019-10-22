@@ -79,7 +79,7 @@ class Signup extends MX_Controller
             $number = '';
             $insert_array = array();
             if (! is_numeric($add_array['telephone'])) {
-                $data['error']['telephone'] = "<span class='text-danger'>Telephone number is only numeric</span";
+                $data['error']['telephone'] = "<span class='text-danger'>".gettext('Telephone number is only numeric')."</span>";
             }
 
             $reseller_id = '0';
@@ -107,10 +107,10 @@ class Signup extends MX_Controller
                 $account_arr = (array) $this->db->get('accounts')->first_row();
             }
             if ($userCaptcha != $this->session->userdata('captchaWord')) {
-                $data['error']['captcha_err'] = "<span class='text-danger'>Please enter valid Captcha code</span>";
+                $data['error']['captcha_err'] = "<span class='text-danger'>".gettext('Please enter valid Captcha code')."</span>";
             } else {
                 if (isset($account_arr) && empty($account_arr)) {
-                    $data['error']['account_deleted'] = "<span class='text-danger'>Please contact to administrator</span>";
+                    $data['error']['account_deleted'] = "<span class='text-danger'>".gettext('Please contact to administrator')."</span>";
                 } else {
                     if ($account_generate == 0) {
                         $number = $country_code . $add_array['telephone'];
@@ -142,9 +142,9 @@ class Signup extends MX_Controller
                     }
                     if ($cnt_result['count'] > 0) {
                         if ($account_generate == 0) {
-                            $data['error']['account_number'] = "<span class='text-danger'>Requested number is already exist</span>";
+                            $data['error']['account_number'] = "<span class='text-danger'>".gettext('Requested number is already exist')."</span>";
                         } else {
-                            $data['error']['account_email'] = "<span class='text-danger'>Requested email is already exist</span>";
+                            $data['error']['account_email'] = "<span class='text-danger'>".gettext('Requested email is already exist')."</span>";
                         }
                     } else {
 
@@ -153,7 +153,7 @@ class Signup extends MX_Controller
                         if (! empty($new_account_details)) {
                             $last_id = $new_account_details['id'];
                             if ($new_account_details['retries'] == common_model::$global_config['system_config']['allow_retires']) {
-                                $data['error']['account_deleted'] = "<span class='text-danger'>Please contact to administrator</span>";
+                                $data['error']['account_deleted'] = "<span class='text-danger'>".gettext('Please contact to administrator')."</span>";
                             } else {
                                 $attemp = ($new_account_details['retries'] + 1);
                                 $this->db->where($where);
@@ -679,30 +679,30 @@ class Signup extends MX_Controller
                 $user_data = $acountdata->result_array();
                 $user_data = $user_data[0];
                 if ($user_data['deleted'] == 1) {
-                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Your account has been deleted. Please contact administrator for more information.</span></label>";
+                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext('Your account has been deleted. Please contact administrator for more information.')."</span></label>";
                     $this->load->view('view_forgotpassword', $data);
                     exit();
                 }
                 if ($user_data['status'] > 0) {
-                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Your account is inactive. Please contact administrator for more information.</span></label>";
+                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext('Your account is inactive. Please contact administrator for more information.')."</span></label>";
                     $this->load->view('view_forgotpassword', $data);
                     exit();
                 }
             }
             if ($acountdata->num_rows() == 0 && ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 if ((! filter_var($email, FILTER_VALIDATE_EMAIL)) && (! filter_var($number, FILTER_SANITIZE_NUMBER_INT))) {
-                    $data['error']['email'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Please enter proper Email.</span></label>";
+                    $data['error']['email'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext('Please enter proper Email.')."</span></label>";
 
-                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Please enter proper Username</span></label>";
+                    $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext('Please enter proper Username.')."</span></label>";
 
                     $this->load->view('view_forgotpassword', $data);
                 } else {
-                    $data['error']['email'] = "<label class='error_label'><span id='error_mail' class='text-danger'>This Username or Email is not valid.</span></label>";
+                    $data['error']['email'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext('This Username or Email is not valid.')."</span></label>";
 
                     $this->load->view('view_forgotpassword', $data);
                 }
             } else if ($acountdata->num_rows() == 0) {
-                $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>Please enter proper Username .</span></label>";
+                $data['error']['number'] = "<label class='error_label'><span id='error_mail' class='text-danger'>".gettext('Please enter proper Username.')."</span></label>";
                 $this->load->view('view_forgotpassword', $data);
             } else {
                 $acountdata = $acountdata->result_array();

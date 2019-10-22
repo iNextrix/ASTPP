@@ -665,15 +665,17 @@ function post_request_for_batch_delete(grid_id,destination,form_id){
 }
 
 function get_lang(value) {
-    // alert(value);
- $.ajax({
-        type:'GET',
-        cache:false,
-        url: base_url+"login/set_lang_global/"+value,
-        success: function(response) {
+//     alert(value);
+    if (value){
+        $.ajax({
+	    type:'GET',
+	    cache:false,
+	    url: base_url+"login/set_lang_global/"+value,
+	    success: function(response) {
 		location.reload(true);
-        },
-    });
+	    },
+	});
+    }
 }
 function gettext_custom(collumn_property)
 {

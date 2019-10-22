@@ -136,7 +136,7 @@ class rates_form extends common
         );
         $form[gettext('Billing Information')] = array(
             array(
-                gettext('Connection Cost (' . $currency . ')'),
+                gettext('Connection Cost').' ('. $currency . ')',
                 'INPUT',
                 array(
                     'name' => 'connectcost',
@@ -160,7 +160,7 @@ class rates_form extends common
                 ''
             ),
             array(
-                gettext('Cost/Min (' . $currency . ')'),
+                gettext('Cost/Min').' (' . $currency . ')',
                 'INPUT',
                 array(
                     'name' => 'cost',
@@ -494,7 +494,7 @@ class rates_form extends common
         );
         $form[gettext('Billing Information')] = array(
             array(
-                gettext('Connection Cost (' . $currency . ')'),
+                gettext('Connection Cost'). ' (' . $currency . ')',
                 'INPUT',
                 array(
                     'name' => 'connectcost',
@@ -518,7 +518,7 @@ class rates_form extends common
                 ''
             ),
             array(
-                gettext('Cost / Min (' . $currency . ')'),
+                gettext('Cost/Min').' (' . $currency . ')',
                 'INPUT',
                 array(
                     'name' => 'cost',
@@ -679,7 +679,7 @@ class rates_form extends common
                 ''
             ),
             array(
-                gettext('Cost / Min'),
+                gettext('Cost/Min'),
                 'INPUT',
                 array(
                     'name' => 'cost[cost]',
@@ -896,7 +896,7 @@ class rates_form extends common
                 ''
             ),
             array(
-                gettext('Cost / Min'),
+                gettext('Cost/Min'),
                 'INPUT',
                 array(
                     'name' => 'cost[cost]',
@@ -1092,7 +1092,7 @@ class rates_form extends common
                 ''
             ),
             array(
-                gettext('Cost / Min'),
+                gettext('Cost/Min'),
                 'INPUT',
                 array(
                     'name' => 'cost[cost]',
@@ -1190,7 +1190,7 @@ class rates_form extends common
                 "center"
             ),
             array(
-                gettext('Connection Cost(' . $currency . ')'),
+                gettext('Connection Cost').' (' . $currency . ')',
                 "210",
                 "connectcost",
                 "connectcost",
@@ -1212,7 +1212,7 @@ class rates_form extends common
                 "center"
             ),
             array(
-                gettext('Cost/Min (' . $currency . ')'),
+                gettext('Cost/Min').' (' . $currency . ')',
                 "180",
                 "cost",
                 "cost",
@@ -1521,7 +1521,7 @@ class rates_form extends common
                     ''
                 ),
                 array(
-                    gettext('Cost / Min'),
+                    gettext('Cost/Min'),
                     'INPUT',
                     array(
                         'name' => 'cost[cost]',
@@ -1751,7 +1751,7 @@ class rates_form extends common
                     ''
                 ),
                 array(
-                    gettext('Cost / Min'),
+                    gettext('Cost/Min'),
                     'INPUT',
                     array(
                         'name' => 'cost[cost]',
@@ -1931,7 +1931,7 @@ class rates_form extends common
                 "center"
             ),
             array(
-                gettext("Connection <br/> Cost ($currency)"),
+                gettext("Connection <br/>Cost"). ' ('.$currency.')',
                 "120",
                 "connectcost",
                 "connectcost",
@@ -1953,7 +1953,7 @@ class rates_form extends common
                 "center"
             ),
             array(
-                gettext("Cost / Min <br/>($currency)"),
+                gettext("Cost/Min")." <br/>(".$currency.")",
                 "90",
                 "cost",
                 "cost",
@@ -1964,7 +1964,7 @@ class rates_form extends common
                 "right"
             ),
             array(
-                gettext("Initial <br/> Increment"),
+                gettext("Initial <br/>Increment"),
                 "100",
                 "init_inc",
                 "",
@@ -2032,7 +2032,7 @@ class rates_form extends common
 		  
 				
 		array(
-                gettext("Created <br/> Date"),
+                gettext("Created <br/>Date"),
                 "80",
                 "creation_date",
                 "creation_date",
@@ -2043,7 +2043,7 @@ class rates_form extends common
                 "center"
             ),
             array(
-                gettext("Modified <br/> Date"),
+                gettext("Modified <br/>Date"),
                 "80",
                 "last_modified_date",
                 "last_modified_date",
@@ -2139,7 +2139,7 @@ class rates_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Connection <br/> Cost  ($currency)"),
+                    gettext("Connection <br/>Cost").' ('. $currency.')',
                     "100",
                     "connectcost",
                     "connectcost",
@@ -2161,7 +2161,7 @@ class rates_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Cost / Min <br> ($currency)"),
+                    gettext("Cost/Min").'<br> ('.$currency.')',
                     "100",
                     "cost",
                     "cost",
@@ -2172,7 +2172,7 @@ class rates_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Initial <br> Increment"),
+                    gettext("Initial <br/>Increment"),
                     "100",
                     "init_inc",
                     "",
@@ -2213,7 +2213,7 @@ class rates_form extends common
                     "reseller_select_value"
                 ),
                 array(
-                    gettext("Created <br> Date"),
+                    gettext("Created <br/>Date"),
                     "100",
                     "creation_date",
                     "creation_date",
@@ -2224,7 +2224,7 @@ class rates_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Modified <br> Date"),
+                    gettext("Modified <br/>Date"),
                     "100",
                     "last_modified_date",
                     "last_modified_date",
@@ -2312,7 +2312,7 @@ class rates_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Connection <br/> Cost  ($currency)"),
+                    gettext("Connection <br/>Cost").' ('.$currency.')',
                     "100",
                     "connectcost",
                     "connectcost",
@@ -2334,7 +2334,7 @@ class rates_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Cost / Min <br> ($currency)"),
+                    gettext("Cost/Min")."<br> (".$currency.")",
                     "100",
                     "cost",
                     "cost",
@@ -2345,7 +2345,7 @@ class rates_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Initial <br> Increment"),
+                    gettext("Initial <br/>Increment"),
                     "100",
                     "init_inc",
                     "",
@@ -2378,7 +2378,7 @@ class rates_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Created <br> Date"),
+                    gettext("Created <br/>Date"),
                     "100",
                     "creation_date",
                     "creation_date",
@@ -2389,7 +2389,7 @@ class rates_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Modified <br> Date"),
+                    gettext("Modified <br/>Date"),
                     "100",
                     "last_modified_date",
                     "last_modified_date",
@@ -2568,14 +2568,14 @@ class rates_form extends common
                 ""
             ),
             array(
-                gettext("Connect <br> Charge", "100"),
+                gettext("Connect <br>Charge", "100"),
                 "connectcost",
                 "connectcost",
                 "connectcost",
                 "convert_to_currency"
             ),
             array(
-                gettext("Included <br> Seconds"),
+                gettext("Included <br>Seconds"),
                 "100",
                 "includedseconds",
                 "",
@@ -2591,7 +2591,7 @@ class rates_form extends common
                 ""
             ),
             array(
-                gettext("Cost per <br> Minutes"),
+                gettext("Cost per <br>Minutes"),
                 "100",
                 "cost",
                 "cost",
@@ -2797,14 +2797,14 @@ class rates_form extends common
 
         if ($type_version != 'E') {
             $status_array = array(
-                "" => '--Select--',
+                "" => gettext('--Select--'),
                 '0' => 'Priority (Enterprise)',
                 '1' => 'Percentage (Enterprise)'
             );
             return $status_array;
         } else {
             $status_array = array(
-                "" => '--Select--',
+                "" => gettext('--Select--'),
                 '0' => 'Priority',
                 '1' => 'Percentage'
             );

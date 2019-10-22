@@ -39,7 +39,7 @@
 						data:"reseller_id="+reseller, 
 						success: function(response) {
 							 $("#accountid").html(response);
-							 $("#accountid").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $("#accountid").prepend("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 							
                              $('#accountid').val(accountid);
                              $('.selectpicker').selectpicker('refresh');
@@ -116,7 +116,7 @@
 										<select name="reseller_id" id='reseller_id'
 											class='col-md-12 form-control form-control-lg selectpicker reseller_id'
 											data-live-search='true'>
-											<option value=''>--Select--</option>
+											<option value=''><?=gettext('--Select--')?></option>
 											<option value='0'>Admin</option>
                                         <?php
 
@@ -153,7 +153,7 @@ if (! empty($resellerlist)) {
 										<select name="accountid" id='accountid'
 											class='col-md-12 form-control form-control-lg selectpicker'
 											data-live-search='true'>
-											<option value=''>--Select--</option>
+											<option value=''><?=gettext('--Select--')?></option>
                                         <?php
 
 if (! empty($accountlist)) {

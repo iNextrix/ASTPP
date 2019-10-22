@@ -10,8 +10,8 @@
         });        
         $("#id_reset").click(function(){
             clear_search_request("configuration_grid","");
-            $("#pricelist_id_search_drp").html("<option value='' selected='selected'>--Select--</option>");
-            $("#accountid_search_drp").html("<option value='' selected='selected'>--Select--</option>");
+            $("#pricelist_id_search_drp").html("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
+            $("#accountid_search_drp").html("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
         });
         
     });
@@ -53,7 +53,7 @@
 						data:"reseller_id="+this.value, 
 						success: function(response) {
 							 $("#pricelist_id_search_drp").html(response);
-							 $("#pricelist_id_search_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $("#pricelist_id_search_drp").prepend("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 							 $('.pricelist_id_search_drp').selectpicker('refresh');
 						}
 					});
@@ -63,7 +63,7 @@
 						data:"reseller_id="+this.value, 
 						success: function(response) {
 							 $("#accountid_search_drp").html(response);
-							 $("#accountid_search_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $("#accountid_search_drp").prepend("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 							 $('.accountid_search_drp').selectpicker('refresh');
 						}
 					});

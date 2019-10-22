@@ -216,7 +216,7 @@ class Accounts extends MX_Controller
 
                 $account_data = (array) $account->first_row();
                 $entity_name = strtolower($this->common->get_entity_type('', '', $account_data['type']));
-                $data['page_title'] = gettext(ucfirst($entity_name) . " Profile");
+                $data['page_title'] = ucfirst($entity_name)." ".gettext("Profile");
                 $data['invoice_date'] = $account_data['invoice_day'];
                 $data["account_data"] = $account_data;
                 $data['back_flag'] = true;
@@ -1736,8 +1736,8 @@ class Accounts extends MX_Controller
                 }
                 $data["account_data"]["0"] = $add_array;
                 $edit_id = $add_array["id"];
-                $this->load->module('charges/charges');
-                $data['charges_grid_field'] = $this->charges->charges_form->build_charges_list_for_customer($edit_id, "reseller");
+//                $this->load->module('charges/charges');
+//                $data['charges_grid_field'] = $this->charges->charges_form->build_charges_list_for_customer($edit_id, "reseller");
 
                 $data["sipiax_grid_field"] = json_decode($this->accounts_form->build_sipiax_list_for_customer());
 
@@ -2755,7 +2755,7 @@ class Accounts extends MX_Controller
                 echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . " ( " . $value['number'] . ") </option>";
             }
         } else {
-            echo '<select><option value="">--Select--</option></select>';
+            echo '<select><option value="">'.gettext('--Select--').'</option></select>';
         }
     }
 

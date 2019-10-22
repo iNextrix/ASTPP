@@ -23,10 +23,10 @@
             },
             messages:{
              fname:{
-              required : "The Name field is required."
+              required : "<?=gettext('The Name field is required.');?>"
              },
              userfile:{
-              required : "Please select file."
+              required : "<?=gettext('Please select file.');?>"
              }
             },
 				errorPlacement: function(error, element) {
@@ -95,24 +95,24 @@
 							
 										<li class="col-md-12">
 											<li class='col-md-12 form-group'>   
-												<label class="col-md-3 no-padding control-label"><?php echo gettext('Name *:') ?></label> 
+												<label class="col-md-3 no-padding control-label"><?php echo gettext('Name') ?> *:</label> 
 												<input type="text" name="fname" id='fname' class="col-md-12 form-control form-control-lg"/>    
 											</li>
 											<span class="ml-3" id="err" style="color:red;"></span>
 										</li>
 										 <li class="col-md-12 ">
 												<li class="col-sm-6">
-																<label class="col-md-2 control-label pl-0"><?php echo gettext('Select File:') ?></label>	 
+																<label class="col-md-2 control-label pl-0"><?php echo gettext('Select File') ?> :</label>	 
 																<span class="fileinput-filename"></span>
 																<span class="btn btn-primary btn-file w-50 float-right">
-																	<span class="fileinput-new">Select file</span>
+																	<span class="fileinput-new"><?=gettext('Select file');?></span>
 																		<input type="file" name="userfile" id="userfile">
 																</span>
 												</li>
 												<span class="ml-3" id="file_err" style="color:red;"></span>
 											</li>
 											<li class="col-md-12">   
-												<h5 style='font-weight:normal;color:#aa4940;margin-left:25%;text-transform:none !important;'><?php echo gettext('(Allowed file format is : .csv, .tar.gz, .sql)') ?></h5>
+												<h5 style='font-weight:normal;color:#aa4940;margin-left:25%;text-transform:none !important;'><?php echo '('.gettext('Allowed file format is').' : .csv, .tar.gz, .sql)' ?></h5>
 											</li>
 									</div>
 								</ul>	
@@ -120,7 +120,7 @@
 						</div> 
 						<div class="col-12 margin-t-20 margin-b-20">
 											<center>
-												<input type="submit" class="btn btn-line-parrot btn-lg" name="action" value="Upload" />
+												<input type="submit" class="btn btn-line-parrot btn-lg" name="action" value="<?=gettext('Upload');?>" />
 											</center>
 										</div>
 					</form>

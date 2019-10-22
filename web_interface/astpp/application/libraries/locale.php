@@ -35,71 +35,30 @@ class Locale {
 		$this->CI->load->driver ( 'cache' );
 		$this->set_lang ();
 	}
-/*	function set_lang($lang = FALSE) {
-		
-		$current_locale = $this->CI->session->userdata ( 'user_language' );		
-		if (empty ( $current_locale )) {
-			//$current_locale = 'en_US';
-			$current_locale = DEFAULT_LANGUAGE;
-		}
-		putenv ( "LANG=$current_locale" );
-		setlocale ( LC_ALL, $current_locale . ".UTF-8" );
-		setlocale ( LC_MESSAGES, $current_locale );
-		setlocale ( LC_TIME, $current_locale );
-		setlocale ( LC_CTYPE, $current_locale );
-		$domain = 'messages';
-		$uri_segment = '';
-		$uri_segment = $this->CI->uri->segments;
 
-
-// print_r(getcwd () . '/language/' . $current_locale . '/LC_MESSAGES/'. $current_locale='messages' .'.mo');die();
-		// if (isset ( $uri_segment [1] )) {
-			$filename = getcwd () . '/language/' . $current_locale . '/LC_MESSAGES/'. $current_locale='messages' .'.mo';
-			// bindtextdomain ( WEBSITE_DOMAIN, getcwd () . '/language/' );
-			bindtextdomain ( WEBSITE_DOMAIN, $filename);
-		// }
-		bind_textdomain_codeset ( WEBSITE_DOMAIN, 'UTF-8' );
-		textdomain ( WEBSITE_DOMAIN );
-
-// echo $current_locale;die();
-
- // setlocale(LC_ALL, $lang);
-        // bindtextdomain('amp', $amp_conf['AMPWEBROOT'] . '/admin/i18n');
-        // bind_textdomain_codeset('amp', 'utf8');
-        // textdomain('amp');
-
-
-		// echo gettext('Dashboard');
-		return true;
-	}*/
-// ekta
-function set_lang($lang = FALSE) {
+	function set_lang($lang = FALSE) {
 		$current_locale = $this->CI->session->userdata ( 'user_language' );
-//echo "<pre>"; print_r( $this->CI->session->userdata); exit;
+
 		if (empty ( $current_locale )) {
-			$current_locale = 'en_US';
+		    if (isset($_COOKIE["lang"])) {
+			$current_locale = $_COOKIE["lang"];
+		    } else {
+			$current_locale = 'en_EN';
+		    }
 		}
 
-		//$current_locale = 'fr_FR';
-		putenv ( "LANG=$current_locale" );
-		setlocale ( LC_ALL, $current_locale . ".UTF-8" );
-		setlocale ( LC_MESSAGES, $current_locale );
-		setlocale ( LC_TIME, $current_locale );
-		setlocale ( LC_CTYPE, $current_locale );
-		//$domain = 'messages';
-
-		$uri_segment = '';
-		$uri_segment = $this->CI->uri->segments;
-		//if (isset ( $uri_segment [1] )) {
-			//$filename = getcwd () . '/language/' . $lang . '/LC_MESSAGES/messages.mo';
-		  	//$filename = "/backup/html/ITPLATP_8017/ASTPP/web_interface/astpp/language/";
-
-			bindtextdomain ( WEBSITE_DOMAIN, getcwd () . '/language/' );
-
-			//bindtextdomain ( WEBSITE_DOMAIN, getcwd () . $filename );
-// 233		}
-		bind_textdomain_codeset ( WEBSITE_DOMAIN, 'UTF-8' );
+		putenv    ( "LANG=$current_locale.utf8" );
+//		setlocale ( LC_ALL,      $current_locale . ".UTF-8" );
+		setlocale ( LC_ALL,      $current_locale.".utf8" );
+		setlocale ( LC_MESSAGES, $current_locale.".utf8" );
+		setlocale ( LC_TIME,     $current_locale);
+		setlocale ( LC_CTYPE,    $current_locale);
+		setlocale ( LC_NUMERIC,  'en_US.utf8');
+		bindtextdomain ( WEBSITE_DOMAIN, getcwd () . '/language' );
+//		bind_textdomain_codeset ( WEBSITE_DOMAIN, 'UTF-8' );
+		bind_textdomain_codeset ( WEBSITE_DOMAIN, 'utf8' );
 		textdomain ( WEBSITE_DOMAIN );
+
 		return true;
 	}
 

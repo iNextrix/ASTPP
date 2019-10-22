@@ -124,7 +124,7 @@ function cancel(){
 					enctype="multipart/form-data" name='form1' id="myForm1">
 					<input type='hidden' name='id' value="<?=$id;?>" />
 					<div class="col-md-6 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('Name *')?></label>
+						<label class="col-md-12 p-0 control-label"><?php echo gettext('Name')?>*</label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?=$sip_name; ?>" id="sip_name" name="name" size="20"
 							type="text">
@@ -132,7 +132,7 @@ function cancel(){
 							style="display: block;"></div>
 					</div>
 					<div class="col-md-6 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP IP  *')?></label>
+						<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP IP')?>*</label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?=@$sip_ip; ?>" name="sip_ip" size="20" id="sip_ip"
 							type="text">
@@ -140,7 +140,7 @@ function cancel(){
 							style="display: block;"></div>
 					</div>
 					<div class="col-md-6 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP Port *')?></label>
+						<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP Port')?>*</label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?=@$sip_port; ?>" name="sip_port" size="20" id="sip_port"
 							type="text">
@@ -152,8 +152,8 @@ function cancel(){
 						<select name="sipstatus"
 							class="col-md-12 form-control form-control-lg selectpicker"
 							data-live-search='true'>
-							<option value="0" <?if ($status == 0)echo 'selected=selected;'?>>Active</option>
-							<option value="1" <?if ($status == 1)echo 'selected=selected;'?>>Inactive</option>
+							<option value="0" <?if ($status == 0)echo 'selected=selected;'?>><?php echo gettext('Active')?></option>
+							<option value="1" <?if ($status == 1)echo 'selected=selected;'?>><?php echo gettext('Inactive')?></option>
 						</select>
 					</div>
 					<div class="col-12 mt-4 text-center">
@@ -177,7 +177,7 @@ function cancel(){
 					<input type='hidden' name='id' value=<?=$id?> /> <input
 						type='hidden' name='type' value='save' />
 					<div class="col-md-12 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('Name *')?> </label>
+						<label class="col-md-12 p-0 control-label"><?php echo gettext('Name')?>*</label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?php echo isset($params_name)?$params_name:"";?>"
 							name="params_name" id='params_name' size="25" type="text">
@@ -185,7 +185,7 @@ function cancel(){
 							class="tooltips error_div float-left p-0" style="display: block;"></div>
 					</div>
 					<div class="col-md-12 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('Value *')?> </label>
+						<label class="col-md-12 p-0 control-label"><?php echo gettext('Value')?>*</label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?php echo isset($params_value)?$params_value:"";?>"
 							name="params_value" id='params_value' size="25" type="text">
@@ -203,7 +203,7 @@ function cancel(){
 						value='<?=$type?>' />
 					<div class='col-12 mt-2 text-center'>
 						<button class="btn btn-success" name="action" type="button"
-							onclick="validate_setting();"><?php echo $button_name;?></button>
+							onclick="validate_setting();"><?php echo gettext($button_name);?></button>
 						<button class="btn btn-secondary" name="action" value="Reset"
 							type="button" onclick="cancel();"><?php echo gettext('Reset')?></button>
 					</div>
@@ -215,18 +215,18 @@ function cancel(){
 		<div class="ml-auto">
 			<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/start/<?=$id?>"
-				class="" title="Start"
-				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Start |')?></b></a>
+				class="" title="<?php echo gettext('Start')?>"
+				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Start')?> |</b></a>
 			&nbsp;<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/stop/<?=$id?>"
-				class="" title="Stop" style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Stop |')?></b></a>
+				class="" title="<?php echo gettext('Stop')?>" style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Stop')?> |</b></a>
 			&nbsp;<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/reload/<?=$id?>"
-				class="" title="reload"
-				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Reload |')?></b></a>
+				class="" title="<?php echo gettext('Reload')?>"
+				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Reload')?> |</b></a>
 			&nbsp;<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/rescan/<?=$id?>"
-				class="" title="rescan"
+				class="" title="<?php echo gettext('Rescan')?>"
 				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Rescan')?></b></a>
 		</div>
 	</div>

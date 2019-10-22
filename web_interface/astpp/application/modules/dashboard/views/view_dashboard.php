@@ -96,9 +96,9 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             }
                         }, {
                             min: 0,
-                            opposite: true, 
+                            opposite: true,
                             title: {
-                                text: 'Profit per day'
+                                text: '<? echo gettext('Profit per day')?>'
                             }
                         }],
                     tooltip: {
@@ -110,14 +110,14 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 							var today_dropdown=$("#today_dropdown").val();
 							if(this.series.name == 'Total Calls'){
 								if(today_dropdown == 't_month'){
-										return '<b>Total : </b>'+ this.y
+										return '<b><? echo gettext('Total')?> : </b>'+ this.y
 										+'<br/><b>ACD : </b>'+ response_data.acd[this.x-1][1]
 										+'<br/><b>MCD : </b>'+ response_data.mcd[this.x-1][1]
 										+'<br/><b>ASR : </b>'+ response_data.asr[this.x-1][1];
 								}else{
 										var day_str = new Date(year+"-"+month+"-"+this.x);
 										var day_count = day_str.getDay();
-										return '<b>Total : </b>'+ this.y
+										return '<b><? echo gettext('Total')?> : </b>'+ this.y
 										+'<br/><b>ACD : </b>'+ response_data.acd[day_count-1][1]
 										+'<br/><b>MCD : </b>'+ response_data.mcd[day_count-1][1]
 										+'<br/><b>ASR : </b>'+ response_data.asr[day_count-1][1];
@@ -138,14 +138,14 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                     },
                     series: [
                         {
-                            name: 'Total Calls',
+                            name: '<? echo gettext('Total Calls')?>',
                             type: 'column',
                             color:'#6E8CD7  ',
-							yAxis:0,
+			    yAxis:0,
                             data: response_data.total
                         },
                         {
-                            name: 'Answered Calls',
+                            name: '<? echo gettext('Answered Calls')?>',
                             type: 'spline',
                             color:'#34D3EB',
                             yAxis:0,
@@ -156,7 +156,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             dashStyle: 'shortdot'
                         },
                         {
-                            name: 'Failed Calls',
+                            name: '<? echo gettext('Failed Calls')?>',
                             type: 'spline',
                             color:'#E94E02',
                             yAxis:0,
@@ -167,7 +167,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             dashStyle: 'shortdot'
                         },
                         {
-                            name: 'Profit',
+                            name: '<? echo gettext('Profit')?>',
                             type: 'spline',
                             yAxis:1,
                             color:'#008000',
@@ -259,9 +259,9 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
            // alert(response_data);
 				var radiobuttonvalue = $("input[name='calls_pie_chart']:checked").val();
 				if(radiobuttonvalue == 'count'){
-					var graphby = "By Calls";
+					var graphby = "<? echo gettext('By Calls')?>";
 				}else{
-					var graphby = "By Minutes";
+					var graphby = "<? echo gettext('By Minutes')?>";
 				}
 				$("#bygraph").val(graphby);
                 $("#call-count").hide();
@@ -269,7 +269,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                     $("div.call_count_data").hide();            
                     $("div.not_data").addClass("second");
                     $("div.not_data").show();
-                    $('div.not_data').html('<i class="fa fa-meh-o"></i> No Records Found');
+                    $('div.not_data').html('<i class="fa fa-meh-o"></i> <? echo gettext('No Records Found')?>');
                 }
                 else{
                     $("div.not_data").hide();
@@ -345,9 +345,9 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
             success: function(response_data) {
 				var radiobuttonvaluecountry = $("input[name='country_pie_chart']:checked").val(); 
 				if(radiobuttonvaluecountry == 'count'){
-					var graphby = "By Calls";
+					var graphby = "<? echo gettext('By Calls')?>";
 				}else{
-					var graphby = "By Minutes";
+					var graphby = "<? echo gettext('By Minutes')?>";
 				}
 				$("#bygraphcountry").val(graphby);
                 $("#country-count").hide();
@@ -355,7 +355,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                     $("div.country_count_data").hide();            
                     $("div.country_not_data").addClass("second");
                     $("div.country_not_data").show();
-                    $('div.country_not_data').html('<i class="fa fa-meh-o"></i> No Records Found');
+                    $('div.country_not_data').html('<i class="fa fa-meh-o"></i> <? echo gettext('No Records Found')?>');
                 }
                 else{
                     $("div.country_not_data").hide();
@@ -720,7 +720,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                                     <input type="radio" name="country_pie_chart" id="option22" value="count" class="ace" autocomplete="off"> <?php echo gettext("By Calls"); ?>
                                   </label>
                                   <label class="dropdown-item">
-                                    <input type="radio" name="country_pie_chart" id="option11" value="minutes" class="ace" autocomplete="off" checked><?php echo gettext(" By Minutes"); ?>
+                                    <input type="radio" name="country_pie_chart" id="option11" value="minutes" class="ace" autocomplete="off" checked><?php echo gettext("By Minutes"); ?>
                                   </label>
                                 </div>
                               </div>
@@ -782,14 +782,14 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 											                echo "<td>".$val['order_date']."</td>";
 											                echo "<th scope='row'>".$val['order_id']."</th>";
 											                echo "<td>".$val['accountid']."</td>";
-											                echo "<td>".$val['payment_gateway']."</td>";
+											                echo "<td>".gettext($val['payment_gateway'])."</td>";
 											                echo "<td>".$this->common_model->calculate_currency_customer($val['setup_fee'])."</td>";
 											                echo "<td>".$this->common_model->calculate_currency_customer($val['price'])."</td>";
 											             
 											                if($val['payment_status'] == "PAID"){
-						                          	echo "<td><span class='badge badge-success'>".$val['payment_status']."</span></td>";
+						                          	echo "<td><span class='badge badge-success'>".gettext($val['payment_status'])."</span></td>";
 						                          }else{
-						                          	echo "<td><span class='badge badge-danger'>".$val['payment_status']."</span></td>";
+						                          	echo "<td><span class='badge badge-danger'>".gettext($val['payment_status'])."</span></td>";
 						                          }
 											                echo "</tr>";
 																		}

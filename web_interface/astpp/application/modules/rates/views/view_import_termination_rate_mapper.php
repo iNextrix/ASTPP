@@ -63,7 +63,7 @@ if (! isset($csv_tmp_data)) {
     }
     ?>
 						 </span>
-							<h3 class="px-4"><?php echo gettext("You must either select a field from your file OR provide a default value for the following fields:"); ?></h3>
+							<h3 class="px-4"><?php echo gettext("You must either select a field from your file OR provide a default value for the following fields"); ?>:</h3>
 							<?php echo gettext("<p>Code,Destination,Connection Cost ($currency),Grace Time,Cost / Min ($currency),Initial Increment,Increment,Strip,Prepend.</p>");?>
 					  </div>
 					</div>
@@ -105,7 +105,7 @@ if (! isset($csv_tmp_data)) {
 									</div>
 									<div class="col-md-6 float-left align-self-center">
 										<span id="welcomeDiv" class="answer_list float-left d-none">
-											<button type="button" title="Cancel" class="btn btn-danger"><?php echo gettext("Remove"); ?></button>
+											<button type="button" title="<?php echo gettext("Cancel"); ?>" class="btn btn-danger"><?php echo gettext("Remove"); ?></button>
 										</span>
 									</div>
 								</div>
@@ -116,10 +116,10 @@ if (! isset($csv_tmp_data)) {
 				<div class="col-md-12">
 					<div class="text-center">
 						<button class="btn btn-success mt-4" id="import_terminationrate"
-							type="submit" name="action" value="Import">Import</button>
+							type="submit" name="action" value="Import"><?php echo gettext("Import"); ?></button>
 						<button class="btn btn-secondary ml-2 mt-4" id="ok" type="button"
 							name="action" value="Cancel"
-							onclick="return redirect_page('/rates/termination_rates_list/')">Cancel</button>
+							onclick="return redirect_page('/rates/termination_rates_list/')"><?php echo gettext("Cancel"); ?></button>
 					</div>
 				</div>
 			</div>

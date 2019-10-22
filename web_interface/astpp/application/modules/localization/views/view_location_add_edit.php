@@ -144,10 +144,10 @@
 											data-live-search="true">
 											<option value="0"
 												<?php if(isset($details) && ($details['status'] == 0)){?>
-												selected="select" <?php } ?>>Active</option>
+												selected="select" <?php } ?>><?=gettext('Active')?></option>
 											<option value="1"
 												<?php if(isset($details) && ($details['status'] == 1)){?>
-												selected="select" <?php } ?>>Inactive</option>
+												selected="select" <?php } ?>><?=gettext('Inactive')?></option>
 										</select>
 									</div>
 
@@ -160,7 +160,7 @@
 											name="country_id" id="country_error"
 											class="col-md-12 form-control selectpicker form-control-lg mr-4 country_id col-md-3"
 											data-live-search="true">
-											<option value="">Select</option>
+											<option value=""><?=gettext('--Select--')?></option>
 													<?php
             $selected = "";
             if (isset($country_drp) && $country_drp != "") {

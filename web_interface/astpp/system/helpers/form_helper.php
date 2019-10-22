@@ -1,6 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) {
 	exit('No direct script access allowed');
 }
+
 /**
  * CodeIgniter
  *
@@ -303,7 +304,7 @@ if ( ! function_exists('form_img_delete'))
 	{
 				//  echo '<pre>'; print_r($data); exit;
 			//$data["class"] = "col-md-5 form-control";
-			$data['value']='Delete';
+			$data['value']=gettext('Delete');
 		$defaults = array('type' => 'button', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => 'Delete');
 
 		return "<div class='col-md-12 p-0'><input "._parse_form_attributes($data, $defaults).$extra." /></div>";
@@ -484,13 +485,13 @@ if ( ! function_exists('form_dropdown'))
 
 			if (is_array($val) && ! empty($val))
 			{
-				$form .= '<optgroup label="'.$key.'">'."\n";
+				$form .= '<optgroup label="'.gettext($key).'">'."\n";
 
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.gettext((string)$optgroup_val)."</option>\n";
 				}
 
 				$form .= '</optgroup>'."\n";
@@ -498,12 +499,12 @@ if ( ! function_exists('form_dropdown'))
 			{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
-				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+				$form .= '<option value="'.$key.'"'.$sel.'>'.gettext((string) $val)."</option>\n";
 			}
 		}
 				if(isset($name['option_value']) && isset($name['option_text'])){
 		  $sel= isset($name['value']) && $name['value']==$name['option_value']?'selected ="selected"':'';
-		  $form .= '<option value="'.$name['option_value'].'"'.$sel.'>'.(string) $name['option_text']."</option>\n";
+		  $form .= '<option value="'.$name['option_value'].'"'.$sel.'>'.gettext((string) $name['option_text'])."</option>\n";
 				}
 		$form .= '</select>';
 //echo $form; exit;
@@ -546,20 +547,20 @@ if ( ! function_exists('form_dropdown_all'))
 					$form = '<select name="'.$name.'"' .$multiple." class='$class selectpicker' data-live-search='true' ".$onchange.">\n";
 				}
 
-		$form .= '<option value=""> --Select-- </option>';
+		$form .= '<option value=""> '.gettext('--Select--').' </option>';
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;
 
 			if (is_array($val) && ! empty($val))
 			{
-				$form .= '<optgroup label="'.$key.'">'."\n";
+				$form .= '<optgroup label="'.gettext($key).'">'."\n";
 
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.gettext((string)$optgroup_val)."</option>\n";
 				}
 
 				$form .= '</optgroup>'."\n";
@@ -567,12 +568,12 @@ if ( ! function_exists('form_dropdown_all'))
 			{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
-				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+				$form .= '<option value="'.$key.'"'.$sel.'>'.gettext((string) $val)."</option>\n";
 			}
 		}
 				if(isset($name['option_value']) && isset($name['option_text'])){
 		  $sel= isset($name['value']) && $name['value']==$name['option_value']?'selected ="selected"':'';
-		  $form .= '<option value="'.$name['option_value'].'"'.$sel.'>'.(string) $name['option_text']."</option>\n";
+		  $form .= '<option value="'.$name['option_value'].'"'.$sel.'>'.gettext((string) $name['option_text'])."</option>\n";
 				}
 		$form .= '</select>';
 
@@ -636,7 +637,7 @@ if ( ! function_exists('form_dropdown_all_search'))
 
 			if (is_array($val) && ! empty($val))
 			{
-				$form .= '<optgroup label="'.$key.'">'."\n";
+				$form .= '<optgroup label="'.gettext($key).'">'."\n";
 
 				foreach ($val as $optgroup_key => $optgroup_val)
 				{

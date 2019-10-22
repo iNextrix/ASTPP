@@ -15,11 +15,11 @@
     $invoiceconf = (array) $invoiceconf->first_row();
     if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
         ?>
-    Log In | <?php echo $invoiceconf['website_title']; ?>
+    <?=gettext('Log In')?> | <?php echo $invoiceconf['website_title']; ?>
     <?php
     } else {
         ?>
-    Log In | ASTPP - Open Source Voip Billing Solution
+    <?=gettext('Log In')?> | ASTPP - Open Source Voip Billing Solution
     <?php
     }
     ?>
@@ -89,10 +89,10 @@
                 },
                  messages: {
                      username: { 
-                         required: '<span class="text-danger">Username is Required</span>',
+                         required: '<span class="text-danger"><?=gettext('Username is Required');?></span>',
                      },
                      password: {
-                        required: '<span class="text-danger">Password is Required</span>',
+                        required: '<span class="text-danger"><?=gettext('Password is Required');?></span>',
                      },
                  },
                  errorClass: "error_label",

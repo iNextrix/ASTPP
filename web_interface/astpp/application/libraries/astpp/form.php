@@ -212,7 +212,7 @@ class Form {
 									'class' => 'col-md-3 p-0 control-label add_settings' 
 							) );
 						} else {
-							$form_contents .= form_label (  $fieldvalue [0] , "", array (
+							$form_contents .= form_label (  gettext($fieldvalue [0]) , "", array (
 									"class" => "col-md-3 p-0 control-label " ,
 									"for"   => $fieldvalue [0]
 							) );
@@ -604,8 +604,8 @@ class Form {
 						}
 						if ($fieldvalue [10] == 'set_status') {
 							$drp_array = array (
-									'0' => 'Active',
-									'1' => 'Inactive' 
+									'0' => gettext('Active'),
+									'1' => gettext('Inactive')
 							);
 						} 
 						else {
@@ -695,7 +695,8 @@ class Form {
 
 			$logintype = $this->CI->session->userdata('logintype');
 
-			$Actionkey = array_search ('Action',array_column ( $grid_fields, 0 ) );
+			$Actionkey = array_search (gettext('Action'),array_column ( $grid_fields, 0 ) );
+/*
 			if ($Actionkey == '') {
 				$Actionkey = array_search ('action',array_column ( $grid_fields, 0 ) );
 			}
@@ -705,6 +706,11 @@ class Form {
 			if ($Actionkey == '') {
 				$Actionkey = array_search ('Ação',array_column ( $grid_fields, 0 ) );
 			}
+			if ($Actionkey == '') {
+				$Actionkey = array_search (gettext ( "Action" ),array_column ( $grid_fields, 0 ) );
+			}
+*/
+
 			$ActionArr = $grid_fields [$Actionkey];
 
 			$current_button_url = '';
@@ -720,7 +726,7 @@ class Form {
 				$acctype = "";
 				if (isset ( $row ["type"] ) && ($row ["type"] == '0' || $row ["type"] == '1' || $row ["type"] == '3')) {
 
-					$acctype = (isset ( $row ["posttoexternal"] ) && $row ["posttoexternal"] != '') ? "<span class='badge badge-dark float-left ml-1 mt-1'>" . $this->CI->{$this->lib_class}->get_account_type ( "", "", $row ["posttoexternal"] ) . "</span>" : "";
+					$acctype = (isset ( $row ["posttoexternal"] ) && $row ["posttoexternal"] != '') ? "<span class='badge badge-dark float-left ml-1 mt-1'>" . gettext($this->CI->{$this->lib_class}->get_account_type ( "", "", $row ["posttoexternal"] )) . "</span>" : "";
 				}
 				$reseller_id = $default_reseller_id;
 				if($default_reseller_id  == 0){
@@ -763,15 +769,13 @@ class Form {
 									$current_button_html = $this->CI->{$this->lib_class}->get_action_buttons(array($button_name=>$ActionArr[5]->$button_name),$row['id']);
 									$jsn_tmp [$field_key] = str_replace($button_name, $row [$field_arr [2]],$current_button_html);					
 									}
-									
-						 
 						}else if(array_search("EDITABLE", $field_arr) && (isset($permissioninfo[$module_name][$sub_module_name]['edit']) && $permissioninfo[$module_name][$sub_module_name]['edit'] == 0 or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '3' or $permissioninfo['login_type'] == '0') ){
 									
 							$fieldstr = $this->CI->{$this->lib_class}->build_custome_edit_button ( $ActionArr [5]->EDIT, $row [$field_arr [2]], $row ["id"] );
 							$jsn_tmp [$field_key] = $acctype != '' ? $fieldstr . $acctype : $fieldstr;
 							$sub_login_arr = '';
 							if ($ActionArr [5]->EDIT->url == "accounts/customer_edit/") {
-								$sub_login_arr = "<a href='".base_url()."login/login_as_customer/".$row ['id']."' title='Login As Customer'><i class='fa fa-sign-in' aria-hidden='true'></i></a>";
+								$sub_login_arr = "<a href='".base_url()."login/login_as_customer/".$row ['id']."' title='".gettext('Login As Customer')."'><i class='fa fa-sign-in' aria-hidden='true'></i></a>";
 								$jsn_tmp [$field_key] = $fieldstr . $acctype . $sub_login_arr;
 							}
 
@@ -780,7 +784,11 @@ class Form {
 								$jsn_tmp [$field_key] = $fieldstr . $acctype . $sub_login_arr;
 							}
 						} else {
-							$jsn_tmp [$field_key] = $row [$field_arr [2]];
+							if ($field_arr [2] == 'payment_status'){
+							    $jsn_tmp [$field_key] = gettext($row [$field_arr [2]]);
+							} else {
+							    $jsn_tmp [$field_key] = $row [$field_arr [2]];
+							}
 						}
 					} else {
 						if ($field_arr [0] == gettext ( "Action" )) {
@@ -812,7 +820,7 @@ class Form {
 		foreach ( $query as $row ) {
 			foreach ( $grid_fields as $field_key => $field_arr ) {
 				$row_id = isset ( $row ['id'] ) ? $row ["id"] : '';
-				$Actionkey = array_search ( 'Action', $this->CI->{$this->lib_class}->array_column ( $grid_fields, 0 ) );
+				$Actionkey = array_search ( gettext('Action'), $this->CI->{$this->lib_class}->array_column ( $grid_fields, 0 ) );
 				
 				if ($field_arr [2] != "") {
 					if ($field_arr [3] != "") {
@@ -851,7 +859,7 @@ class Form {
 						$jsn_tmp [$field_key] = isset ( $row [$field_arr [2]] ) ? $row [$field_arr [2]] : "";
 					}
 				} else {
-					if ($field_arr [0] == "Action") {
+					if ($field_arr [0] == gettext("Action")) {
 						$jsn_tmp [$field_key] = $this->CI->{$this->lib_class}->get_action_buttons ( $field_arr [5], $row ["id"] );
 					} else {
 						$jsn_tmp [$field_key] = '<input type="checkbox" name="chkAll" id=' . $row ['id'] . ' class="ace chkRefNos" onclick="clickchkbox(' . $row ['id'] . ')" value=' . $row ['id'] . '><lable class="lbl"></lable>';
@@ -907,20 +915,20 @@ class Form {
 
 	                   $form_contents.=form_dropdown_all($fieldvalue[1], $drp_array,'' , '123');
 			   $account_dropdown="<select name='accountid' class='col-md-5 form-control' id='account_dropdown' style='margin-left:5px;'>
-<option value=''>-Select-</option></select>";
+<option value=''>".gettext('--Select--')."</option></select>";
                            $form_contents.=$account_dropdown;
 
 			}else if($fieldvalue[4] == 'Account Batch Download' && $accountinfo['type']=='-1'){
 
 	                   $form_contents.=form_dropdown_all($fieldvalue[1], $drp_array,'' , '123');
 			   $account_dropdown="<select name='accountid' class='col-md-5 form-control' id='account_dropdown_download' style='margin-left:5px;'>
-<option value=''>-Select-</option></select>";
+<option value=''>".gettext('--Select--')."</option></select>";
                            $form_contents.=$account_dropdown;
 
 			}else if($fieldvalue[4] == 'Rate Group Search' && $accountinfo['type']=='-1'){
 	                   $form_contents.=form_dropdown_all($fieldvalue[1], $drp_array,'' , '456');
 			   $account_dropdown="<select name='pricelist_id' class='col-md-5 form-control' id='account_dropdown_rategroup' style='margin-left:5px;'>
-<option value=''>-Select-</option></select>";
+<option value=''>".gettext('--Select--')."</option></select>";
                            $form_contents.=$account_dropdown;
 
 			} else{

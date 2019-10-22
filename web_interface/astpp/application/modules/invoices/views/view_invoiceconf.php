@@ -21,7 +21,7 @@ $(document).ready(function() {
                     if (fuData.files && fuData.files[0]) {
                         var size = fuData.files[0].size;
                         if(size > 1000000){
-                            alert("Maximum Logo upload size is 1MB");
+                            alert("<?=gettext('Maximum Logo upload size is 1MB');?>");
                             $("#uploadFile").val('');
                             $('#company_logo').attr('src', '');
                         }else{
@@ -31,7 +31,7 @@ $(document).ready(function() {
                     }
 
             }else {
-                alert("Logo only allows file types of JPG and JPEG. ");
+                alert("<?=gettext('Logo only allows file types of'). ' JPG, JPEG.'?>");
                 $("#uploadFav").val('');
                 $('#company_logo').attr('src', '');
             }
@@ -48,14 +48,14 @@ $(document).ready(function() {
                     if (fuData.files && fuData.files[0]) {
                         var size = fuData.files[0].size;
                         if(size > 1000000){
-                            alert("Maximum Favicon upload size is 1MB");
+                            alert("<?=gettext('Maximum Favicon upload size is 1MB');?>");
                             $("#uploadFav").val('');
                         }else{
                             readURL(this,'fav');
                         }
                     }
             }else {
-                 alert("Favicon only allows file types of ICO, PNG, JPG and JPEG. ");
+                 alert("<?=gettext('Favicon only allows file types of').' ICO, PNG, JPG, JPEG.'?>");
                 $("#uploadFav").val('');
                 $('#company_fav').attr('src', '');
             }
@@ -64,7 +64,7 @@ $(document).ready(function() {
     $("#logo_delete").click(function(){
         var id=$("input[type='hidden']").val();
         var image=$('#company_logo').prop('src');
-        var confirm_string = 'Are you sure want to remove Logo?';
+        var confirm_string = "<?=gettext('Are you sure want to remove Logo?');?>";
 	    var answer = confirm(confirm_string);
         if(answer)
         {

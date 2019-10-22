@@ -16,11 +16,11 @@ $invoiceconf = $this->db->get('invoice_conf');
 $invoiceconf = (array) $invoiceconf->first_row();
 if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
     ?>
-	Forgot Password | <?php echo $invoiceconf['website_title']; ?>
+	<?=gettext('Forgot Password');?> | <?php echo $invoiceconf['website_title']; ?>
 	<?php
 } else {
     ?>
-	Forgot Password | ASTPP - Open Source Voip Billing Solution
+	<?=gettext('Forgot Password');?> | ASTPP - Open Source Voip Billing Solution
 	<?php
 }
 ?>
@@ -250,7 +250,7 @@ body {
 			
 			if((email.value) == "")
 			{
-				document.getElementById("e_name").innerHTML = "The Email field is Required";				
+				document.getElementById("e_name").innerHTML = "<?=gettext('The Email field is Required');?>";				
 				return false;   
 			}else{
 				return true;
@@ -262,7 +262,7 @@ body {
 		{   
 			if((number.value) == "")
 			{
-				document.getElementById("n_number").innerHTML = "The Account Number field is Required";				
+				document.getElementById("n_number").innerHTML = "<?=gettext('The Account Number field is Required');?>";				
 				return false;   
 			}else{
 				return true;

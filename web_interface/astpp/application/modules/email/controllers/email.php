@@ -123,7 +123,7 @@ class Email extends MX_Controller
 
     function email_resend_edit_customer($edit_id = '')
     {
-        $data['page_title'] = gettext('Resent Email');
+        $data['page_title'] = gettext('Resend Email');
         $where = array(
             'id' => $edit_id
         );
@@ -232,9 +232,9 @@ class Email extends MX_Controller
                 $edit_data = $value;
             }
             if ($edit_data['status'] == 1) {
-                $edit_data['status'] = gettext('Not Sent');
+                $edit_data['status'] = gettext('Not Send');
             } else {
-                $edit_data['status'] = gettext('Sent');
+                $edit_data['status'] = gettext('Send');
             }
             $data['form'] = $this->form->build_form($this->email_form->get_form_fields_email_view(), $edit_data);
 
@@ -256,9 +256,9 @@ class Email extends MX_Controller
                 $edit_data = $value;
             }
             if ($edit_data['status'] == 1) {
-                $edit_data['status'] = gettext('Not Sent');
+                $edit_data['status'] = gettext('Not Send');
             } else {
-                $edit_data['status'] = gettext('Sent');
+                $edit_data['status'] = gettext('Send');
             }
             $data['form'] = $this->form->build_form($this->email_form->get_form_fields_email_view_cus(), $edit_data);
             $this->load->view('view_email_add_edit', $data);

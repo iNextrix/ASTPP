@@ -49,7 +49,7 @@ if (isset($next_execution_date) && $next_execution_date != "") {
 		<div>
 			<div>
 				<div class="col-md-12 p-0 card-header">
-					<h3 class="fw4 p-4 m-0"><? echo $page_title; ?></h3 class="text-light p-3 rounded-top">
+					<h3 class="fw4 p-4 m-0"><?=gettext($page_title)?></h3 class="text-light p-3 rounded-top">
 				</div>
 			</div>
 		</div>

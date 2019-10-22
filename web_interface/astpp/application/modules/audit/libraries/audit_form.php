@@ -88,7 +88,7 @@ class Audit_form
                 "right"
             ),
             array(
-                gettext("Referer Page "),
+                gettext("Referer Page"),
                 "285",
                 "referer_page",
                 "",

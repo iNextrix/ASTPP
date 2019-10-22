@@ -108,7 +108,7 @@ class invoices_form extends common
                 "center"
             ),
             array(
-                gettext("Amount <br/> ($currency)"),
+                gettext("Amount")." <br/> ($currency)",
                 "100",
                 "id",
                 "id",
@@ -120,7 +120,7 @@ class invoices_form extends common
             ),
 
             array(
-                gettext("Outstanding Amount <br/>($currency)"),
+                gettext("Outstanding Amount")." <br/>($currency)",
                 "140",
                 "",
                 "",
@@ -702,7 +702,7 @@ class invoices_form extends common
                 $del_button = 'HIDDEN';
             }
             $image_path = array(
-                '',
+                ' ',
                 'IMAGE',
                 array(
                     'type' => 'image',
@@ -740,7 +740,7 @@ class invoices_form extends common
                 $file_name_fav = "";
             }
             $image_fav = array(
-                '',
+                ' ',
                 'IMAGE',
                 array(
                     'type' => 'image',
@@ -777,7 +777,7 @@ class invoices_form extends common
             $file_name_fav = '';
             $accountid = 0;
             $image_path = array(
-                '',
+                ' ',
                 'IMAGE',
                 array(
                     'type' => 'image',
@@ -807,7 +807,7 @@ class invoices_form extends common
                 'Please Enter account number'
             );
             $image_fav = array(
-                '',
+                ' ',
                 'IMAGE',
                 array(
                     'type' => 'image',
@@ -893,7 +893,7 @@ class invoices_form extends common
                 ''
             );
         }
-        $form['Configuration '] = array(
+        $form['Configuration'] = array(
             array(
                 '',
                 'HIDDEN',
@@ -1024,7 +1024,7 @@ class invoices_form extends common
                 'Please Enter account number'
             ),
             array(
-                gettext('Email '),
+                gettext('Email'),
                 'INPUT',
                 array(
                     'name' => 'emailaddress',
@@ -1060,7 +1060,7 @@ class invoices_form extends common
                 'Please Enter account number'
             )
         );
-        $form['Invoice Configuration '] = array(
+        $form['Invoice Configuration'] = array(
             array(
                 '',
                 'HIDDEN',
@@ -1236,7 +1236,7 @@ class invoices_form extends common
             ),
 
             array(
-                gettext('Logo') . (' (250 * 60)') . (' (Allowed Extentions JPG, JPEG)'),
+                gettext('Logo').' (250 * 60)'.' ('.gettext('Allowed Extentions').' JPG, JPEG)',
                 'INPUT',
                 array(
                     'name' => 'file',
@@ -1256,7 +1256,7 @@ class invoices_form extends common
             $delete_logo,
             $image_path,
             array(
-                gettext('Favicon' . (' (16 * 16)')) . (' (Allowed Extentions ICO, PNG, JPG, JPEG)'),
+                gettext('Favicon').' (16 * 16)'.' ('.gettext('Allowed Extentions').' ICO, PNG, JPG, JPEG)',
                 'INPUT',
                 array(
                     'name' => 'file_fav',

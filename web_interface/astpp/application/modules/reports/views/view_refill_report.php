@@ -38,12 +38,12 @@
 						data:"reseller_id="+this.value, 
 						success: function(response) {
 							 $("#accountid_search_drp").html(response);
-							 $("#accountid_search_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $("#accountid_search_drp").prepend("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 							 $('.accountid_search_drp').selectpicker('refresh');
 						}
 					});
 				}else{
-						$("#accountid_search_drp").html("<option value='' selected='selected'>--Select--</option>");
+						$("#accountid_search_drp").html("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 						$('.accountid_search_drp').selectpicker('refresh');
 					}	
         });

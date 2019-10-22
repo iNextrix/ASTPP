@@ -27,6 +27,6 @@
 $(document).ready(function() {
     $("input[type='hidden']").parents('li.form-group').addClass("d-none");
 	$("input[name='locale']").parent('li.col-md-12.form-group').after("<Span class='col-md-12 error_int_credit_limit' style='font-size:11px;font-weight: 600;color:red;' id='credit_limit_err'></span>");
-	$("#credit_limit_err").text("Please be patient until the whole process is complete.");
+	$("#credit_limit_err").text("<?=gettext('Please be patient until the whole process is complete.');?>");
 });
 </script>

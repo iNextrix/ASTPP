@@ -29,7 +29,7 @@
 					success:function(response) {
 					var objJSON = JSON.parse(response);
 						$("#provience_id_search_drp").html(objJSON);
-						$("#provience_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+						$("#provience_id_search_drp").prepend("<option value='' selected><?=gettext('--Select--')?></option>"); 
 						$('#provience_id_search_drp').selectpicker('refresh');
 					}
 			});  
@@ -45,7 +45,7 @@
 				success:function(response) {
 				var objJSON = JSON.parse(response);
 				$("#city_id_search_drp").html(objJSON);
-				$("#city_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+				$("#city_id_search_drp").prepend("<option value='' selected><?=gettext('--Select--')?></option>"); 
 				$('#city_id_search_drp').selectpicker('refresh');
 			        }
                         });  

@@ -122,7 +122,7 @@ class Summary_form extends common
                 ''
             ),
             array(
-                gettext(' Code Destination '),
+                gettext('Code Destination'),
                 'INPUT',
                 array(
                     'name' => 'notes[notes]',
@@ -410,7 +410,7 @@ class Summary_form extends common
                 ''
             ),
             array(
-                gettext("Cost <br/>($currency)"),
+                gettext("Cost")."<br/>($currency)",
                 "117",
                 "cost",
                 '',
@@ -495,7 +495,7 @@ class Summary_form extends common
                 )
             ),
             array(
-                gettext('Code '),
+                gettext('Code'),
                 'INPUT',
                 array(
                     'name' => 'pattern[pattern]',
@@ -514,7 +514,7 @@ class Summary_form extends common
                 ''
             ),
             array(
-                gettext('Destination '),
+                gettext('Destination'),
                 'INPUT',
                 array(
                     'name' => 'notes[notes]',
@@ -656,7 +656,7 @@ class Summary_form extends common
                 "center"
             ),
             array(
-                gettext("Debit <br/>($currency)"),
+                gettext("Debit")."<br/>($currency)",
                 "80",
                 "cost",
                 '',
@@ -667,7 +667,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Cost <br/>($currency)"),
+                gettext("Cost")."<br/>($currency)",
                 "80",
                 "price",
                 '',
@@ -678,7 +678,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Profit <br/>($currency)"),
+                gettext("Profit")."<br/>($currency)",
                 "80",
                 "profit",
                 "",
@@ -767,7 +767,7 @@ class Summary_form extends common
                 )
             ),
             array(
-                gettext('Code '),
+                gettext('Code'),
                 'INPUT',
                 array(
                     'name' => 'pattern[pattern]',
@@ -786,7 +786,7 @@ class Summary_form extends common
                 ''
             ),
             array(
-                gettext('Code Destination '),
+                gettext('Code Destination'),
                 'INPUT',
                 array(
                     'name' => 'notes[notes]',
@@ -970,7 +970,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Debit <br/> ($currency)"),
+                gettext("Debit")."<br/>($currency)",
                 "87",
                 "cost",
                 "cost",
@@ -981,7 +981,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Cost <br/> ($currency)"),
+                gettext("Cost")."<br/>($currency)",
                 "85",
                 "price",
                 "price",
@@ -992,7 +992,7 @@ class Summary_form extends common
                 "right"
             ),
             array(
-                gettext("Profit <br/> ($currency)"),
+                gettext("Profit")."<br/>($currency)",
                 "93",
                 "profit",
                 "profit",

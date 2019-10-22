@@ -25,7 +25,7 @@ if (isset($error) && ! empty($error)) {
     }
     ?>
 						   </span>
-							<h3 class="px-4"><?php echo gettext('File must be in the following format(.csv):'); ?></h3>
+							<h3 class="px-4"><?php echo gettext('File must be in the following format'); ?>(.csv):</h3>
 							<p><?= $fields;?></p>
 						</div>
 					</div>
@@ -67,7 +67,7 @@ if (isset($error) && ! empty($error)) {
 								</div>
 							</div>
 							<div class="col-sm-4">
-								<label> <span class="mr-4 align-middle"><?php echo gettext('Skip Header:'); ?></span>
+								<label> <span class="mr-4 align-middle"><?php echo gettext('Skip Header'); ?>:</span>
 									<input type='checkbox' class="align-middle" name='check_header' />
 								</label>
 							</div>

@@ -224,7 +224,7 @@ class pricing_form extends common
             $form[gettext('Billing')] = array(
 
                 array(
-                    gettext('Markup(%)'),
+                    gettext('Markup').' (%)',
                     'INPUT',
                     array(
                         'name' => 'markup',
@@ -318,7 +318,7 @@ class pricing_form extends common
             $form[gettext('Billing')] = array(
 
                 array(
-                    gettext('Markup(%)'),
+                    gettext('Markup').' (%)',
                     'INPUT',
                     array(
                         'name' => 'markup',
@@ -729,7 +729,7 @@ class pricing_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Markup(%)"),
+                    gettext("Markup")." (%)",
                     "80",
                     "markup",
                     "",
@@ -829,7 +829,7 @@ class pricing_form extends common
                     "left"
                 ),
                 array(
-                    gettext("Routing <br/> Prefix"),
+                    gettext("Routing <br/>Prefix"),
                     "70",
                     "routing_prefix",
                     "",
@@ -848,7 +848,7 @@ class pricing_form extends common
                     "get_routetype"
                 ),
                 array(
-                    gettext("Initial <br/> Increment"),
+                    gettext("Initial <br/>Increment"),
                     "80",
                     "initially_increment",
                     "",
@@ -870,7 +870,7 @@ class pricing_form extends common
                     "right"
                 ),
                 array(
-                    gettext("Markup (%)"),
+                    gettext("Markup")." (%)",
                     "80",
                     "markup",
                     "",
@@ -900,7 +900,7 @@ class pricing_form extends common
                     "reseller_select_value"
                 ),
                 array(
-                    gettext("Created <br/> Date"),
+                    gettext("Created <br/>Date"),
                     "90",
                     "creation_date",
                     "creation_date",
@@ -911,7 +911,7 @@ class pricing_form extends common
                     "center"
                 ),
                 array(
-                    gettext("Modified <br/> Date"),
+                    gettext("Modified <br/>Date"),
                     "90",
                     "last_modified_date",
                     "last_modified_date",

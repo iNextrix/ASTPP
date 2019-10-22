@@ -160,16 +160,16 @@ $(document).ready(function() {
                       
                  },
                  messages: {
-		     userCaptcha: '<span class="text-danger">Captcha is required</span>',
+		     userCaptcha: '<span class="text-danger"><?=gettext('Captcha is required')?></span>',
                      first_name: { 
-                         required: '<span class="text-danger">First Name is Required</span>',
+                         required: '<span class="text-danger"><?=gettext('First Name is Required')?></span>',
                      },
 				     telephone: {
-						 required: '<span class="text-danger">Telephone is Required</span>',
+						 required: '<span class="text-danger"><?=gettext('Telephone is Required')?></span>',
 				     },
                      email: {
-						required: '<span class="text-danger">Email is Required</span>',
-						email:'<span class="text-danger">Please enter a valid email address</span>',
+						required: '<span class="text-danger"><?=gettext('Email is Required')?></span>',
+						email:'<span class="text-danger"><?=gettext('Please enter a valid email address')?></span>',
 					 },
 					 
                  },
@@ -303,7 +303,7 @@ if (isset($error['account_number']) && $error['account_number']) {
 					<?php echo $error['account_number'];?>
 				</label>
 		<?php }?>
-													<label for="telephone" class="control-label"><?php echo gettext('Telephone *')?></label>
+													<label for="telephone" class="control-label"><?php echo gettext('Telephone')?> *</label>
 
 				</div>
 				<div class="form-group">
@@ -317,7 +317,7 @@ if (isset($error['account_email']) && $error['account_email']) {
 					<?php echo $error['account_email'];?>
 				</label>
 		<?php }?>
-													<label for="email" class="control-label"><?php echo gettext('Email *')?></label>
+													<label for="email" class="control-label"><?php echo gettext('Email')?> *</label>
 
 				</div>
 				<div class="col-md-12">
@@ -326,7 +326,7 @@ if (isset($error['account_email']) && $error['account_email']) {
 							<input type="text" name="first_name"
 								value="<?php if (isset($first_name)) {echo $first_name;} else {'';}?>"
 								id="first_name" maxlength="40" class="form-control" /> <label
-								for="first_name" class="control-label"><?php echo gettext('First Name *')?></label>
+								for="first_name" class="control-label"><?php echo gettext('First Name')?> *</label>
 						</div>
 						<div class="form-group col-6 p-0">
 							<input type="text" name="last_name" id="last_name"
@@ -382,7 +382,7 @@ if (isset($error['captcha_err']) && $error['captcha_err']) {
 				</label>
 		<?php }?>
 
-												<label for="userCaptcha" class="control-label"><?php echo gettext('Enter above Captcha *')?></label>
+												<label for="userCaptcha" class="control-label"><?php echo gettext('Enter above Captcha')?> *</label>
 
 
 				</div>

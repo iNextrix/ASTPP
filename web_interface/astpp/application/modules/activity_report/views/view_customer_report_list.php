@@ -37,7 +37,7 @@
             post_request_for_search("configuration_grid","","activity_search");
         });        
         $("#id_reset").click(function(){
-           var drp_down = '<select><option>--Select--</option></select>';
+           var drp_down = '<select><option><?=gettext('--Select--')?></option></select>';
            $("#account_dropdown").html(drp_down);
            clear_search_request("configuration_grid","");
        });

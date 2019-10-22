@@ -30,9 +30,9 @@
       post_request_for_search("cdr_reseller_grid","","cdr_reseller_search");
     });        
     $("#id_reset").click(function(){
-     var drp_down = '<select><option>--Select--</option></select>';
+     var drp_down = '<select><option><?=gettext('--Select--')?></option></select>';
      $("#account_dropdown").html(drp_down);
-     var drp_down_rategroup = '<select><option>--Select--</option></select>';
+     var drp_down_rategroup = '<select><option><?=gettext('--Select--')?></option></select>';
      $("#account_dropdown_rategroup").html(drp_down); 
      clear_search_request("cdr_reseller_grid","");
    });

@@ -20,7 +20,7 @@
             post_request_for_search("providersummary_grid","","providersummary_search");
         });        
         $("#id_reset").click(function(){
-           var drp_down = '<select><option>--Select--</option></select>';
+           var drp_down = '<select><option><?=gettext('--Select--')?></option></select>';
            $("#account_dropdown").html(drp_down);
            clear_search_request("providersummary_grid","");
        });

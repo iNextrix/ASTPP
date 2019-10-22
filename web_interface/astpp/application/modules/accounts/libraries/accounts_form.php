@@ -1384,7 +1384,7 @@ class Accounts_form extends common
                 'name' => 'acccount_charges_form'
             )
         );
-        $form[gettext('​Refill information')] = array(
+        $form[gettext('Refill information')] = array(
             array(
                 '',
                 'HIDDEN',
@@ -2234,7 +2234,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                'Rate Group',
+                gettext('Rate Group'),
                 array(
                     'name' => 'pricelist_id',
                     'id' => 'pricelist_id'

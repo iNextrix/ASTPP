@@ -29,10 +29,11 @@ class locale_Menu {
 		$this->CI->load->library ( 'email' );
 		$this->CI->load->library ( 'session' );
 		$current_locale = $this->CI->session->userdata ( 'user_language' );
-		putenv ( "LC_ALL=$current_locale" );
-		setlocale ( LC_ALL, $current_locale );
+		putenv ( "LC_ALL=$current_locale.utf8" );
+		setlocale ( LC_ALL, $current_locale.".utf8" );
 		bindtextdomain ( WEBSITE_DOMAIN, FCPATH . '/application/modules/dashboard/language' );
-		bind_textdomain_codeset ( WEBSITE_DOMAIN, 'UTF-8' );
+#		bind_textdomain_codeset ( WEBSITE_DOMAIN, 'UTF-8' );
+		bind_textdomain_codeset ( WEBSITE_DOMAIN, 'utf8' );
 		textdomain ( WEBSITE_DOMAIN );
 	}
 }

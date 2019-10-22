@@ -887,7 +887,7 @@ class Product_form {
 				),
 
 				array (
-						gettext ( "Buy Cost<br>($currency)"  ),
+						gettext ("Buy Cost")."<br>($currency)",
 						"85",
 						"buy_cost",
 						"buy_cost",
@@ -898,7 +898,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Setup Fee<br>($currency)" ),
+						gettext ( "Setup Fee" )."<br>($currency)",
 						"85",
 						"setup_fee",
 						"setup_fee",
@@ -909,7 +909,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Price ($currency)" ),
+						gettext ( "Price" )." ($currency)",
 						"90",
 						"price",
 						"price",
@@ -1033,7 +1033,7 @@ class Product_form {
 				),
 
 				array (
-						gettext ( "Buy Cost<br>($currency)"  ),
+						gettext ( "Buy Cost" )."<br>($currency)",
 						"85",
 						"buy_cost",
 						"buy_cost",
@@ -1044,7 +1044,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Setup Fee<br>($currency)" ),
+						gettext ( "Setup Fee" )."<br>($currency)",
 						"85",
 						"setup_fee",
 						"setup_fee",
@@ -1055,7 +1055,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Price ($currency)" ),
+						gettext ( "Price" )."($currency)",
 						"90",
 						"price",
 						"price",
@@ -1066,7 +1066,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Commission (%)"),
+						gettext ( "Commission")." (%)",
 						"120",
 						"commission",
 						"",
@@ -1191,7 +1191,7 @@ class Product_form {
 				),
 
 				array (
-						gettext ( "Buy Cost<br>($currency)"  ),
+						gettext ( "Buy Cost"  )."<br>($currency)",
 						"85",
 						"buy_cost",
 						"buy_cost",
@@ -1202,7 +1202,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Setup Fee<br>($currency)" ),
+						gettext ( "Setup Fee" )."<br>($currency)",
 						"85",
 						"setup_fee",
 						"setup_fee",
@@ -1213,7 +1213,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Price ($currency)" ),
+						gettext ( "Price" )."<br/>($currency)",
 						"90",
 						"price",
 						"price",
@@ -1224,7 +1224,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Commission (%)"),
+						gettext ( "Commission")."(%)",
 						"120",
 						"commission",
 						"commission",
@@ -1321,7 +1321,7 @@ class Product_form {
 		$currency = $this->CI->common->get_field_name ( 'currency', 'currency', $currency_id );
 		if($account_info['reseller_id'] > 0 ){
 			$buy_cost =array (
-						gettext ( " Buy Cost ($currency)" ),
+						gettext ( "Buy Cost" )." ($currency)",
 						"85",
 						"buycost",
 						"buycost",
@@ -1335,7 +1335,7 @@ class Product_form {
 
 		}else if($this->CI->session->userdata ( 'logintype' ) == 1 && $account_info['reseller_id'] == 0 ){
 			$buy_cost =array (
-						gettext ( " Buy Cost ($currency)" ),
+						gettext ( "Buy Cost" )." ($currency)",
 						"85",
 						"buycst",
 						"buycst",
@@ -1347,7 +1347,7 @@ class Product_form {
 					);
 		}else{
 			$buy_cost =array (
-						gettext ( " Buy Cost ($currency)" ),
+						gettext ( "Buy Cost" )." ($currency)",
 						"85",
 						"buy_cost",
 						"buy_cost",
@@ -1409,7 +1409,7 @@ class Product_form {
 					),
 					$buy_cost,
 					array (
-							gettext ( "Setup Fee ($currency)" ),
+							gettext ( "Setup Fee" )." ($currency)",
 							"90",
 							"setup_fee",
 							"setup_fee",
@@ -1420,7 +1420,7 @@ class Product_form {
 							"right" 
 					),
 					array (
-							gettext ( "Price ($currency)" ),
+							gettext ( "Price" )." ($currency)",
 							"90",
 							"price",
 							"price",
@@ -1544,7 +1544,7 @@ class Product_form {
 				$buy_cost,
 				
 				array (
-						gettext ( "Setup Fee ($currency)" ),
+						gettext ( "Setup Fee" )." ($currency)",
 						"90",
 						"setup_fee",
 						"setup_fee",
@@ -1555,7 +1555,7 @@ class Product_form {
 						"right" 
 				),
 				array (
-						gettext ( "Price ($currency)" ),
+						gettext ( "Price" )." ($currency)",
 						"90",
 						"price",
 						"price",
@@ -1566,7 +1566,7 @@ class Product_form {
 						"right" 
 				),
 				 array (
-						gettext ( "Commission (%)"),
+						gettext ( "Commission")." (%)",
 						"120",
 						"commission",
 						"",
@@ -1692,7 +1692,7 @@ class Product_form {
 					$buy_cost,
 					
 					array (
-							gettext ( "Setup Fee ($currency)" ),
+							gettext ( "Setup Fee" )." ($currency)",
 							"90",
 							"setup_fee",
 							"setup_fee",
@@ -1703,7 +1703,7 @@ class Product_form {
 							"right" 
 					),
 					array (
-							gettext ( "Price ($currency)" ),
+							gettext ( "Price" )." ($currency)",
 							"90",
 							"price",
 							"price",

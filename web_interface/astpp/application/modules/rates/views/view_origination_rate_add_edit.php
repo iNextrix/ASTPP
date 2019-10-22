@@ -50,10 +50,10 @@ $(document).ready(function() {
 						success: function(response) {
 							if(response){
 								$("#pricelist_id_drp").html(response);
-								$("#pricelist_id_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+								$("#pricelist_id_drp").prepend("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 								$('.selectpicker').selectpicker('refresh'); 
 							}else{
-								$("#pricelist_id_drp").html("<option value='' selected='selected'>--Select--</option>");
+								$("#pricelist_id_drp").html("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 								$('.selectpicker').selectpicker('refresh'); 
 							}	 
 							

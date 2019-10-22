@@ -27,11 +27,11 @@
                    var objJSON = JSON.parse(response);
                    if(objJSON.state_list && objJSON.state_list!=""){
                       $("#provience_id_search_drp").html(objJSON.state_list);
-                      $("#provience_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+                      $("#provience_id_search_drp").prepend("<option value='' selected><?=gettext('--Select--');?></option>"); 
                       $('#provience_id_search_drp').selectpicker('refresh');
                   }else{
                       $("#provience_id_search_drp").html("");
-                      $("#provience_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+                      $("#provience_id_search_drp").prepend("<option value='' selected> <?=gettext('--Select--');?></option>"); 
                       $('#provience_id_search_drp').selectpicker('refresh');
                   }
                   if(objJSON.didlist && objJSON.didlist!=""){
@@ -62,11 +62,11 @@
 					var objJSON = JSON.parse(response);
 					if(objJSON.city_list && objJSON.city_list!=""){
 						$("#city_id_search_drp").html(objJSON.city_list);
-						$("#city_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+						$("#city_id_search_drp").prepend("<option value='' selected> <?=gettext('--Select--');?> </option>"); 
 						$('#city_id_search_drp').selectpicker('refresh');
 					}else{
 						$("#city_id_search_drp").html("");
-						$("#city_id_search_drp").prepend("<option value='' selected> --Select-- </option>"); 
+						$("#city_id_search_drp").prepend("<option value='' selected> <?=gettext('--Select--');?> </option>"); 
 						$('.#city_id_search_drp').selectpicker('refresh');
 					}
 					if(objJSON.didlist && objJSON.didlist!=""){

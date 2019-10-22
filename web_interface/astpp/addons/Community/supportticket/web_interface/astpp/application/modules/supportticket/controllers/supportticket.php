@@ -410,7 +410,7 @@ if($this->session->userdata['logintype'] == 2 || $this->session->userdata['login
     $this->load->view('view_supportticket_add', $data);
     }
     function set_priority_status($select = '') {
-        $status_array = array("" => "--Select--",
+        $status_array = array("" => gettext("--Select--"),
             "1" => "Normal",
             "0" => "High",
             "2" => "Low"
@@ -418,7 +418,7 @@ if($this->session->userdata['logintype'] == 2 || $this->session->userdata['login
         return $status_array;
 	}
 	function set_ticket_status($select = '') {
-        $status_array = array("" => "--All--",
+        $status_array = array("" => gettext("--All--"),
             "0" => "Open",
             "1" => "Answered",
             "2" => "Customer-Reply",

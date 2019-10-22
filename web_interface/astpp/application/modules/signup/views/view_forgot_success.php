@@ -15,11 +15,11 @@ $invoiceconf = $this->db->get('invoice_conf');
 $invoiceconf = (array) $invoiceconf->first_row();
 if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {
     ?>
-	Forgot Password | <?php echo $invoiceconf['website_title']; ?>
+	<?=gettext=('Forgot Password');?> | <?php echo $invoiceconf['website_title']; ?>
 	<?php
 } else {
     ?>
-	Forgot Password | ASTPP - Open Source Voip Billing Solution
+	<?=gettext=('Forgot Password');?> | ASTPP - Open Source Voip Billing Solution
 	<?php
 }
 ?>
@@ -115,12 +115,12 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 
 							</div>
 							<div class="margin-t-15 padding-r-32 padding-l-32"
-								style="color: #232222; text-align: left;"><?php echo "We sent update password link. <br>Please check your Email!!<br>"; ?></div>
+								style="color: #232222; text-align: left;"><?=gettext("We sent update password link. <br>Please check your Email!!"); ?><br></div>
 
 							<div class="margin-b-20 padding-r-32 padding-l-32">
 								<div class="col-md-12 no-padding">
 									<a href="<?php echo base_url(); ?>"> <input type="submit"
-										value="Go to Login Page" name="Login"
+										value="Go to Login Page" name="<?=gettext('Login')?>"
 										style="border-radius: 3px"
 										class="btn btn-success col-md-12 margin-t-10">
 									</a>

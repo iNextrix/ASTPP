@@ -115,11 +115,11 @@ function validateForm(){
 					<div class="col-md-12">
 						<div class="card">
 							<div class="pb-4" id="floating-label">
-								<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext('Product Category')?>Create SIP Profile</h3>
+								<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext('Create SIP Profile')?></h3>
 								<div class="col-md-12">
 									<div class="row">
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('Name*')?></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext('Name')?>*</label>
 											<input class="col-md-12 form-control form-control-lg"
 												id="sip_name" name="name" size="20" type="text"
 												value="<?php echo isset($details['name'])?$details['name']:"";?>">
@@ -139,7 +139,7 @@ function validateForm(){
 												style="display: block;"></div>
 										</div>
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP Port *')?></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP Port')?>*</label>
 											<input class="col-md-12 form-control form-control-lg"
 												id="sip_port" name="sip_port" size="20" type="text"
 												value="<?php echo isset($details['sip_port'])?$details['sip_port']:"";?>">
@@ -154,10 +154,10 @@ function validateForm(){
 												data-live-search='true'>
 												<option value="0"
 													<?php if(isset($details['sipstatus']) && $details['sipstatus'] == 0){?>
-													selected="select" <?php } ?>>Active</option>
+													selected="select" <?php } ?>><?=gettext('Active')?></option>
 												<option value="1"
 													<?php if(isset($details['sipstatus']) && $details['sipstatus'] == 1){?>
-													selected="select" <?php } ?>>Inactive</option>
+													selected="select" <?php } ?>><?=gettext('Inactive')?></option>
 											</select>
 										</div>
 									</div>

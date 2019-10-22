@@ -108,7 +108,7 @@ class Systems extends MX_Controller
         $data['username'] = $this->session->userdata('user_name');
         if ($group_title == 'payment_methods' || $group_title == 'ported_number') {
             $page_title = str_replace("_", " ", $group_title);
-            $data['page_title'] = ucwords($page_title);
+            $data['page_title'] = gettext(ucwords($page_title));
         } else {
             $data['page_title'] = gettext(ucfirst($group_title));
         }
@@ -133,7 +133,7 @@ class Systems extends MX_Controller
                 );
                 $this->system_model->edit_configuration($update_array, $key);
             }
-            $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s Settings updated sucessfully!', ucfirst($group_title))));
+            $this->session->set_flashdata('astpp_errormsg', gettext(ucfirst($group_title)).':'.gettext('Settings updated sucessfully!'));
 
             redirect(base_url() . 'systems/configuration/' . $group_title);
         } else {
@@ -1060,7 +1060,7 @@ class Systems extends MX_Controller
         $data['username'] = $this->session->userdata('user_name');
         if ($group_title == 'payment_methods') {
             $page_title = str_replace("_", " ", $group_title);
-            $data['page_title'] = ucwords($page_title);
+            $data['page_title'] = gettext(ucwords($page_title));
         } else {
             $data['page_title'] = gettext(ucfirst($group_title));
         }
@@ -1084,7 +1084,7 @@ class Systems extends MX_Controller
 
                 $this->system_model->edit_configuration($update_array, $key);
             }
-            $this->session->set_flashdata('astpp_errormsg', gettext(sprintf('%s  Settings updated sucessfully!', ucfirst($group_title))));
+            $this->session->set_flashdata('astpp_errormsg', gettext(ucfirst($group_title)).':'.gettext('Settings updated sucessfully!'));
 
             redirect(base_url() . 'systems/configuration/' . $group_title);
         } else {

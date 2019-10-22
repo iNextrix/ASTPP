@@ -26,7 +26,7 @@ if (strpos($url, 'customer_cdrs') != true) {
                   <div class="col-4 float-right pl-2 align-self-center">
                       <ul class="">
                           <li class="active float-right">
-                          <a data-ripple=" " class="btn text-light" href="/addons/addons_list/Community" style="position: relative;background: #D05935;"> <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Get Addons</a>
+                          <a data-ripple=" " class="btn text-light" href="/addons/addons_list/Community" style="position: relative;background: #D05935;"> <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> <? echo gettext('Get Addons');?></a>
                           </li>
                       </ul>       
                   </div>
@@ -35,7 +35,7 @@ if (strpos($url, 'customer_cdrs') != true) {
                   <div class="col-4 float-right pl-2 align-self-center">
 					  
 						<div class="float-right">
-						  <a class="btn btn-primary" href="<?php echo base_url().$back_url;?>"><i class="fa fa-fast-backward"></i> Back</a>
+						  <a class="btn btn-primary" href="<?php echo base_url().$back_url;?>"><i class="fa fa-fast-backward"></i> <?=gettext('Back');?></a>
 						</div>
 						
                       
@@ -81,7 +81,7 @@ if (strpos($url, 'customer_cdrs') != true) {
                 
 					<ul class="">
                 <li class="active float-right">
-				<a data-ripple class="btn btn-primary" href="<?= isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_URI']?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a>
+				<a data-ripple class="btn btn-primary" href="<?= isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_URI']?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> <?=gettext('Back');?></a>
 				</li></ul>
                 <?php } ?>
                 

@@ -100,19 +100,19 @@
 		<div class="row px-4">
                  
                   <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Connection Cost ('.$currency.')')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Connection Cost').'('.$currency.')'?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo $this->common->convert_to_currency ( '', '', $product_info['connectcost'] )  ?>" name="connectcost" size="16" type="text"/>
 		<div class="tooltips error_div pull-left no-padding" id="connectcost_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class=" popup_error error  no-padding" id="connectcost_error">  
  </span></div>	
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time (Sec.)')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time')?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo $product_info['includedseconds']?>" name="includedseconds" size="16" type="text"/>
 		      <div class="tooltips error_div pull-left no-padding" id="includedseconds_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="includedseconds_error">  
  </span></div>	
                   </div>
 		<div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Cost/Min ('.$currency.') ')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Cost/Min').'('.$currency.')'?></label>
 			<input class="col-md-12 form-control form-control-lg m-0" value = "<?php echo $this->common->convert_to_currency ( '', '', $product_info['cost'] );?>" name="cost" size="16" type="text"/>
 			  <div class="tooltips error_div pull-left no-padding" id="cost_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="cost_error">  
  </span></div>	
@@ -133,17 +133,17 @@
                   </div>
 
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee ('.$currency.')')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee').'('.$currency.')'?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $this->common->convert_to_currency ( '', '', $product_info['setup_fee'] )?>" name="setup_fee" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="setup_fee_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="setup_fee_error">   </span></div>	
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('MonthlyFee ('.$currency.')')?> *</label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Monthly Fee').'('.$currency.')'?> *</label>
                      <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  ( $product_info['price'] !='')?$this->common->convert_to_currency ( '', '', $product_info['price'] ):''?>" name="price" size="16" type="text"/>
 		     <div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="price_error">   </span></div>	
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout (Sec.)')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout')?></label>
                      <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $product_info['leg_timeout']?>" name="leg_timeout" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="leg_timeout_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="leg_timeout_error">   </span></div>
                   </div>
@@ -151,8 +151,8 @@
 		 <div class='col-md-6 form-group'>
                       <label class="col-md-12 no-padding control-label"><?php echo gettext('Billing Type'); ?></label>
                       <select  name="billing_type" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
-                       <option value="0" <?php if($product_info['billing_type'] == '0'){ ?> selected="selected" <?php } ?>>One Time</option>
-			<option value="1" <?php if($product_info['billing_type'] == '1'){ ?> selected="selected" <?php } ?>>Recurring</option>
+                       <option value="0" <?php if($product_info['billing_type'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('One Time'); ?></option>
+			<option value="1" <?php if($product_info['billing_type'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext('Recurring'); ?></option>
                       </select>
                   </div>
 		<div class='col-md-6 form-group'>
@@ -176,7 +176,7 @@
                 <div class="col-md-12 my-4">
                    
                     <div class="col-md-6 float-left">
-                      <button class="btn btn-success btn-block" name="add_product" value="Add Product" type="submit"> Save</button>
+                      <button class="btn btn-success btn-block" name="add_product" value="Add Product" type="submit"><?=gettext('Save')?></button>
                     </div>
                     <div class="col-md-6 float-left">
               <?

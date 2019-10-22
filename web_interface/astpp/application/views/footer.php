@@ -239,32 +239,24 @@ jQuery(function($) {
   
    <div class="col-md-4 py-2 px-2 text-md-right" id="floating-label">
      <select class="col-lg-3 col-md-6 form-control selectpicker language" data-live-search='false' data-live-search-style='begins' id="language_drp_sown" onchange="get_lang(this.value)">
-  <?php
-
-  
-foreach ($language_name_query as $key => $value) {
-$selected_locale = $this->session->userdata ( 'user_language');
-if (isset($selected_locale) && $value['locale'] == $selected_locale) {
-  $selected = 'selected="selected"';
-}else {
-  $selected='';
-}
-?>
-<option title="<?php echo $value['name']; ?>" id="close-image" name="<?php echo $value['locale']; ?>" value="<?php echo $value['locale']; ?>" <?= $selected ?>><?php echo $value['name']; ?></option>
-<?
-} ?> 
-        </select>
-
-
-
-<div class="col-md-12 float-right pt-3 pr-0 text-light text-md-right version_size"> Version  <?php echo common_model::$global_config['system_config']['version'] .' Community' ;?>
 <?php
+    $selected_locale = $this->session->userdata('user_language');
 
+    if (isset($_COOKIE["lang"])) {
+	$selected_locale = $_COOKIE["lang"];
+    }
+
+    foreach ($language_name_query as $key => $value) {
+        $selected = ( isset( $selected_locale ) && $value['locale'] == $selected_locale ? 'selected="selected"' : '' );
 ?>
-
-  	</div>
+	<option title="<?php echo $value['name']; ?>" id="close-image" name="<?php echo $value['locale']; ?>" value="<?php echo $value['locale']; ?>" <?= $selected ?>><?php echo $value['name']; ?></option>
+<?
+    }
+?>
+    </select>
+	<div class="col-md-12 float-right pt-3 pr-0 text-light text-md-right version_size"> Version  <?php echo common_model::$global_config['system_config']['version'] .' Community' ;?>
 	</div>
-	
+	</div>
    </div>
    </div>
 </footer>

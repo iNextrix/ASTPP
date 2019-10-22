@@ -1093,7 +1093,7 @@ class Reports extends MX_Controller
         }
         if ($this->session->userdata('logintype') == 1) {
             $json_data['rows'][$count_all]['cell'] = array(
-                '<b>Total</b>',
+                '<b>'.gettext('Total').'</b>',
                 '-',
                 '-',
                 '-',
@@ -1105,7 +1105,7 @@ class Reports extends MX_Controller
             );
         } else {
             $json_data['rows'][$count_all]['cell'] = array(
-                '<b>Total</b>',
+		'<b>'.gettext('Total').'</b>',
                 '-',
                 '-',
                 '-',
@@ -1222,7 +1222,7 @@ class Reports extends MX_Controller
         }
         if ($this->session->userdata('logintype') == 1) {
             $json_data['rows'][$count_all]['cell'] = array(
-                '<b>Total</b>',
+		'<b>'.gettext('Total').'</b>',
                 '-',
                 '-',
                 '-',
@@ -1234,7 +1234,7 @@ class Reports extends MX_Controller
             );
         } else {
             $json_data['rows'][$count_all]['cell'] = array(
-                '<b>Total</b>',
+		'<b>'.gettext('Total').'</b>',
                 '-',
                 '-',
                 '-',

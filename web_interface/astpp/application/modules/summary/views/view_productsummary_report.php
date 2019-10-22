@@ -73,7 +73,7 @@
 										</label> <select name="order_items#accountid"
 											class='col-md-12 form-control form-control-lg selectpicker'
 											data-live-search='true'>
-											<option value=''>--Select--</option>
+											<option value=''><?=gettext('--Select--')?></option>
 												<?php
             if (! empty($accountlist)) {
                 foreach ($accountlist as $key => $value) {
@@ -117,7 +117,7 @@
 										<select name="product_category"
 											class='col-md-12 form-control form-control-lg selectpicker'
 											style='margin-left: 5px;' data-live-search='true'>
-											<option value=''>--Select--</option>
+											<option value=''><?=gettext('--Select--')?></option>
                                         <?php
                                         if (! empty($categorylist)) {
                                             foreach ($categorylist as $key => $val) {

@@ -177,7 +177,7 @@ function myFunction() {
 	 		<label class="col-md-12 p-0 control-label" style="width:150px;">Switch Host : </label>
 	 		<!-- <div style="width:500px; " > -->
 	 		<select class="col-md-12 form-control form-control-lg selectpicker"  name="host_id" id="host_id" onchange="this.form.submit()">
-	 			<option value="0">--Select All--</option>
+	 			<option value="0"><?=gettext('--Select All--');?></option>
 	 			<?php
 	 			foreach($fs_data as $name) { ?>
 	 			<option value="<?= $name['id'] ?>"<?php if(isset($_POST['host_id']) && ($name['id'] == $_POST['host_id']))echo 'selected';?>><?= $name['freeswitch_host'] ?></option>

@@ -20,7 +20,7 @@ if (isset($error) && ! empty($error)) {
         echo "<span class='row alert alert-danger m-2'>" . $error . "</span>";
     }
     ?>
-								   <h3 class="px-4"><?php echo gettext("File must be in the following format(.csv):"); ?></h3>
+								   <h3 class="px-4"><?php echo gettext("File must be in the following format"); ?>(.csv):</h3>
 							<p><?php echo isset($fields)?$fields:'';?></p>
 						</div>
 					</div>
@@ -31,7 +31,7 @@ if (isset($error) && ! empty($error)) {
 								<a
 									href="<?= base_url(); ?>did/did_download_sample_file/did_sample"
 									class="btn btn-success btn-block text-light"><i
-									class="fa fa-download"></i> Download</a>
+									class="fa fa-download"></i><?php echo gettext("Download"); ?></a>
 							</div>
 						</div>
 					</div>
@@ -41,7 +41,7 @@ if (isset($error) && ! empty($error)) {
 						<div class="pb-4" id="floating-label">
 							<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Import DIDs"); ?></h3>
 							<div class="col-md-6 form-group">
-								<label class="col-md-6 p-0 control-label"><?php echo gettext("Provider:"); ?></label>
+								<label class="col-md-6 p-0 control-label"><?php echo gettext("Provider"); ?>:</label>
 								   <?
 
 $provider_id = form_dropdown('provider_id', $this->db_model->build_concat_select_dropdown("id,first_name,number", " accounts", "where_arr", array(
@@ -74,7 +74,7 @@ $provider_id = form_dropdown('provider_id', $this->db_model->build_concat_select
 								</div>
 							</div>
 							<div class="col-sm-12">
-								<label><span class="mr-4 align-middle"><?php echo gettext("Check Header:"); ?></span>
+								<label><span class="mr-4 align-middle"><?php echo gettext("Check Header"); ?>:</span>
 									<input type='checkbox' class="align-middle" name='check_header' /></label>
 							</div>
 						</div>

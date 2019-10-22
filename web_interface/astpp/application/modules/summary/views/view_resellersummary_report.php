@@ -77,7 +77,7 @@
 										<select name="accountid"
 											class='col-md-12 form-control form-control-lg selectpicker'
 											data-live-search='true'>
-											<option value=''>--Select--</option>
+											<option value=''><?=gettext('--Select--')?></option>
                                         <?php
 
                                         if (! empty($accountlist)) {

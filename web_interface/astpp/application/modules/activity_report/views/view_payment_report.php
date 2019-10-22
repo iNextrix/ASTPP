@@ -20,7 +20,7 @@
             post_request_for_search("payment_report_grid","<?php echo base_url(); ?>reports/customer_paymentreport_search/","cdr_payment_search");
         });        
         $("#id_reset").click(function(){
-           var drp_down = '<select><option>--Select--</option></select>';
+           var drp_down = '<select><option><?=gettext('--Select--')?></option></select>';
            $("#account_dropdown").html(drp_down);  
            clear_search_request("payment_report_grid","<?php echo base_url(); ?>reports/customer_paymentreport_clearsearchfilter/");
        });

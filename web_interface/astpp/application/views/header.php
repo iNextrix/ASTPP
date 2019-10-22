@@ -139,7 +139,8 @@
 
      <script src="<?php echo base_url(); ?>assets/js/jquery-1.12.4.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.bundle.min.js"></script>
-	 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-select.js"></script>  
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-select.js"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/i18n/defaults-<?=$_COOKIE["lang"]?>.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.datetimepicker.min.js"></script>
 
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/modernizr.custom.js"></script>
@@ -148,16 +149,14 @@
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
 
-
-
-
      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-browser/0.1.0/jquery.browser.js"></script>
- 	 <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  -->
+     <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
 
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
-     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
-     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
+     <!--script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script-->
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.php"></script>
+     <!--<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>-->
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.php"></script>
         
     <noscript>
       <div id="noscript-warning">
@@ -326,17 +325,17 @@ $(document).ready(function(){
 
 				if(common_model::$global_config['system_config']['opensips']==0 && $menu_key !='System Configuration'){
 				 ?>    
-				   <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#"><span><?=$sub_menu_key;?></span></a>
+				   <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#"><span><?=gettext($sub_menu_key);?></span></a>
 				<? } if(common_model::$global_config['system_config']['opensips']==1 && $sub_menu_key!="Customers") {
 
 					?>
-				    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#"><span><?=$sub_menu_key;?></span></a>
+				    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#"><span><?=gettext($sub_menu_key);?></span></a>
 				<?php }
 				if(common_model::$global_config['system_config']['opensips']==1 && $sub_menu_key=="Customers") {?>
-				    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="<?php echo base_url(); ?>accounts/customer_list/"><span><?=$sub_menu_key;?></span></a>
+				    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="<?php echo base_url(); ?>accounts/customer_list/"><span><?=gettext($sub_menu_key);?></span></a>
 				<?php }
 				if(($acc_info['type']==3 || $acc_info['type']== 0) && $acc_info['allow_ip_management']== 1 && strtolower($sub_menu_lables["menu_label"]) !='ip settings'){ ?>
-				    <li class="dropdown-submenu"><a class="nav-link dropdown-toggle dropdown-item" href="#"><span><?=$sub_menu_key;?></span></a>
+				    <li class="dropdown-submenu"><a class="nav-link dropdown-toggle dropdown-item" href="#"><span><?=gettext($sub_menu_key);?></span></a>
 					<? }
 				}else{ ?>
 					    <li class="dropdown-submenu"></a>
@@ -356,7 +355,7 @@ $(document).ready(function(){
 				      <li><a class="dropdown-item" href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?php echo gettext($sub_menu_lables["menu_label"]);?></a></li>
 				  <? }
 				  if(common_model::$global_config['system_config']['opensips']== 1 && $sub_menu_key !='opensips'){ ?>
-				      <li><a class="dropdown-item" href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?=$sub_menu_lables["menu_label"];?></a></li>
+				      <li><a class="dropdown-item" href="<?php echo base_url().$sub_menu_lables["module_url"];?>"><?=gettext($sub_menu_lables["menu_label"]);?></a></li>
 				  <? } 
 			  }
 				}
@@ -435,16 +434,16 @@ $(document).ready(function(){
 		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
 
 		    
-		    <li><a class="dropdown-item" href="http://astpp.readthedocs.io" target="_blank"><i class="fa fa-file-text"></i> &nbsp;Documentation</a></li>
+		    <li><a class="dropdown-item" href="http://astpp.readthedocs.io" target="_blank"><i class="fa fa-file-text"></i> &nbsp;<?php echo gettext('Documentation'); ?></a></li>
 
 <li><a class="dropdown-item" href="https://github.com/iNextrix/ASTPP/issues" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>
-<li><a class="dropdown-item" href="http://www.astppbilling.org/mobile-dialers/" target="_blank"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i> &nbsp;Get App</a></li>
+<li><a class="dropdown-item" href="http://www.astppbilling.org/mobile-dialers/" target="_blank"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i> &nbsp;<?php echo gettext('Get App'); ?></a></li>
 
 
 
-<li><a class="dropdown-item" href="/addons/addons_list/Community"><i class="fa fa-plus"></i> &nbsp;Get Addons</a></li>
+<li><a class="dropdown-item" href="/addons/addons_list/Community"><i class="fa fa-plus"></i> &nbsp;<?php echo gettext('Get Addons'); ?></a></li>
 <?}?>
-<li><a class="dropdown-item" href="<?php echo base_url();?>logout"><i class="fa fa-power-off"></i> &nbsp;Log out</a></li>
+<li><a class="dropdown-item" href="<?php echo base_url();?>logout"><i class="fa fa-power-off"></i> &nbsp;<?php echo gettext('Log out'); ?></a></li>
         </ul>
               </div>  
   </div>
@@ -457,23 +456,19 @@ $(document).ready(function(){
  
   <div id="q_menu">
 	  <ul class="d-flex flex-column-reverse">
-	    <li><a href="<?php echo base_url();?>accounts/customer_add/">Customers</a></li>
-	    <li><a href="<?php echo base_url();?>freeswitch/fssipdevices_add/"  rel="facebox">SIP Devices</a></li>
-	    <li><a href="<?php echo base_url();?>ipmap/ipmap_add/"  rel="facebox"> IP Settings</a></li>
-	    <li><a href="<?php echo base_url();?>animap/animap_add/"  rel="facebox"> Caller IDs</a></li>
-	    <li><a href="<?php echo base_url();?>products/products_did/">DIDs</a></li>
-	    <li><a href="<?php echo base_url();?>pricing/price_add/"  rel="facebox">Rate Groups</a></li>
-	    <li><a href="<?php echo base_url();?>rates/origination_rate_add/"  rel="facebox">Origination Rates</a></li>
-	    <li><a href="<?php echo base_url();?>freeswitch/fsgateway_add/" rel="facebox">Gateways</a></li>
-	    <li><a href="<?php echo base_url();?>trunk/trunk_add/"  rel="facebox">Trunks</a></li>
-	    
-
-		<li><a href="#" onclick=Termination_Rates();>Termination Rates</a></li>
-
-
-	    <li><a href="<?php echo base_url();?>products/products_add/">Products</a></li>
-	    <li><a href="<?php echo base_url();?>orders/orders_add/">Orders</a></li>
-	    <li><a href="<?php echo base_url();?>freeswitch/livecall_report/">Live Calls</a></li>
+	    <li><a href="<?php echo base_url();?>accounts/customer_add/"><?php echo gettext('Customers'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>freeswitch/fssipdevices_add/"  rel="facebox"><?php echo gettext('SIP Devices'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>ipmap/ipmap_add/"  rel="facebox"> <?php echo gettext('IP Settings'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>animap/animap_add/"  rel="facebox"> <?php echo gettext('Caller IDs'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>products/products_did/"><?php echo gettext('DIDs'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>pricing/price_add/"  rel="facebox"><?php echo gettext('Rate Groups'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>rates/origination_rate_add/"  rel="facebox"><?php echo gettext('Origination Rates'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>freeswitch/fsgateway_add/" rel="facebox"><?php echo gettext('Gateways'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>trunk/trunk_add/"  rel="facebox"><?php echo gettext('Trunks'); ?></a></li>
+	    <li><a href="#" onclick=Termination_Rates();><?php echo gettext('Termination Rates'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>products/products_add/"><?php echo gettext('Products'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>orders/orders_add/"><?php echo gettext('Orders'); ?></a></li>
+	    <li><a href="<?php echo base_url();?>freeswitch/livecall_report/"><?php echo gettext('Live Calls'); ?></a></li>
 	  </ul>
   </div>
  <?php }?> 
@@ -483,7 +478,7 @@ $(document).ready(function(){
   	<section class="slice m-0">
  <div class="w-section inverse p-0">
         <div class="col-md-12 p-0">
-	        <h3 class="text-dark fw4 px-4 pt-4 rounded-top">Quick From</h3>
+	        <h3 class="text-dark fw4 px-4 pt-4 rounded-top"><?php echo gettext('Quick From'); ?></h3>
 		</div>
    </div>    
 </section>
@@ -494,17 +489,17 @@ $(document).ready(function(){
 			  	<div class="col-12 p-0">
 					<ul class="card p-0">
 				  		<div class="pb-4" id="floating-label">
-				  		<h3 class="bg-secondary text-light p-3 rounded-top">General Details</h3>
+				  		<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext('General Details'); ?></h3>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Account<span style="color:black;"> *</span></label>
+								<label class="col-md-3 p-0 control-label"><?php echo gettext('Account'); ?><span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Name <span style="color:black;"> *</span></label>
+								<label class="col-md-3 p-0 control-label"><?php echo gettext('Name'); ?> <span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Amount<span style="color:black;"> *</span></label>
+								<label class="col-md-3 p-0 control-label"><?php echo gettext('Amount'); ?><span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 						</div>
@@ -514,7 +509,7 @@ $(document).ready(function(){
 		</div>
     </div>
 </section>
-       </div>      
+       </div>
 
 <span class="afer_row">
 <span id="content">

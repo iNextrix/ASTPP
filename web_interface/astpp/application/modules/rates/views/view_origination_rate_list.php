@@ -31,7 +31,7 @@ function check_btn(){
         $("#id_reset").click(function(){
     document.getElementById('origination_rate_batch_dlt').style.display = 'none';
             clear_search_request("origination_rate_grid","");
-            $("#pricelist_id_search_drp").html("<option value='' selected='selected'>--Select--</option>");
+            $("#pricelist_id_search_drp").html("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
         });
 
          $("#batch_update").click(function(){
@@ -81,7 +81,7 @@ function check_btn(){
 						data:"reseller_id="+this.value, 
 						success: function(response) {
 							 $("#pricelist_id_search_drp").html(response);
-							 $("#pricelist_id_search_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $("#pricelist_id_search_drp").prepend("<option value='' selected='selected'><?=gettext('--Select--')?></option>");
 							 $('.pricelist_id_search_drp').selectpicker('refresh');
 						}
 					});

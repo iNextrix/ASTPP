@@ -502,7 +502,7 @@ class Db_model extends CI_Model {
 		$drp_array = $drp_array->result ();
 
 		$drp_list = array ();
-		$drp_list [0] = "--Select--";
+		$drp_list [0] = gettext('--Select--');
 		foreach ( $drp_array as $drp_value ) {
 			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
@@ -582,7 +582,7 @@ class Db_model extends CI_Model {
 		$drp_array = $this->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
 		$drp_list = array ();
-		$drp_list[0]="--Select--";
+		$drp_list[0]=gettext('--Select--');
 		foreach ( $drp_array as $drp_value ) {
 			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]} ."(".$drp_value->{$select_params [2]}.")";
 		}
@@ -1164,7 +1164,7 @@ class Db_model extends CI_Model {
 		$drp_array = $this->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
 		$drp_list = array ();
-		$drp_list [0] = "--Select--";
+		$drp_list [0] = gettext('--Select--');
 		foreach ( $drp_array as $drp_value ) {
 			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
@@ -1266,7 +1266,7 @@ class Db_model extends CI_Model {
 		$this->db->where('deleted',"0");
 		$account_arr = $reseller_arr = $final_array = array();
 		$dropdown_params= array("name" => "accountid" ,"id" => "accountid_search_drp", "class" => "col-md-12 form-control selectpicker form-control-lg accountid_search_drp col-md-3");
-		$final_array = array(""=>"--Select--");
+		$final_array = array(""=>gettext('--Select--'));
 		$account_result =$this->db->get_where('accounts',array("reseller_id"=>$reseller_id,"status"=>0));
 		if($account_result->num_rows () > 0)
 		{

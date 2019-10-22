@@ -29,7 +29,7 @@ if (! isset($csv_tmp_data)) {
         echo "<span class='row alert alert-danger m-2'>" . $error . "</span>";
     }
     ?>
-								<h3 class="px-4"><?php echo gettext("You must either select a field from your file OR provide a default value for the following fields:");?></h3>
+								<h3 class="px-4"><?php echo gettext("You must either select a field from your file OR provide a default value for the following fields");?>:</h3>
 							<p><?php echo gettext("Account Number,Password,First Name,Last Name,Company,Phone,Mobile,Email,Address,city,Province/State,Zip/Postal Code,Number Translation,Out Callerid Translation,In Callerid Translation,Concurrent Calls,CPS,Balance,Credit Limit,SIP Username,SIP Password"); ?></p>
 							<i class="px-4"><?php echo gettext("Note : Records with duplicate account number and email will be ignored.");?></i>
 						</div>
@@ -111,7 +111,7 @@ if (! isset($csv_tmp_data)) {
 										</div>
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("LC Charge/Min "); ?></label>	 
+										<label class="col-md-12 p-0 control-label"><?php echo gettext("LC Charge/Min"); ?></label>	 
 											<?php echo $config_array['charge_per_min']; ?>
 										</div>
 

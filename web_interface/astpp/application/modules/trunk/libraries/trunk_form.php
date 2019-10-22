@@ -173,7 +173,7 @@ class trunk_form extends common
                 ''
             ),
             array(
-                gettext('Call Timeout (Sec.)'),
+                gettext('Call Timeout'),
                 'INPUT',
                 array(
                     'name' => 'leg_timeout',
@@ -383,7 +383,7 @@ class trunk_form extends common
                 "center"
             ),
             array(
-                gettext("Gateway<br/> Name"),
+                gettext("Gateway<br/>Name"),
                 "100",
                 "gateway_id",
                 "name",
@@ -449,7 +449,7 @@ class trunk_form extends common
                 "center"
             ),
             array(
-                gettext("Rate <br> Count"),
+                gettext("Rate <br/>Count"),
                 "60",
                 "id",
                 "trunk_id",
@@ -460,7 +460,7 @@ class trunk_form extends common
                 "right"
             ),
             array(
-                gettext("Created <br/> Date"),
+                gettext("Created <br/>Date"),
                 "100",
                 "creation_date",
                 "creation_date",
@@ -471,7 +471,7 @@ class trunk_form extends common
                 "center"
             ),
             array(
-                gettext("Modified <br/> Date"),
+                gettext("Modified <br/>Date"),
                 "100",
                 "last_modified_date",
                 "last_modified_date",

@@ -155,20 +155,20 @@ function isNumber(evt, element) {
 												</h4></th>
 										</tr>
 										<tr>
-											<td><font style="font-weight: bold;"><?php echo gettext('Account Number :')?> </font>
+											<td><font style="font-weight: bold;"><?php echo gettext('Account Number')?> :</font>
 												<font><span style="font-size: bold; color: green;"><?php echo $accountdata['number']; ?></span></font></font>
 
 											</td>
 										</tr>
 										<tr>
-											<td><font style="font-weight: bold;"><?php echo gettext('Name :')?> </font>
+											<td><font style="font-weight: bold;"><?php echo gettext('Name')?> :</font>
 												<font color="#a09d9d"><?php echo $accountdata['first_name']; ?> <?php echo $accountdata['last_name']; ?> </font></font>
 
 											</td>
 										</tr>
 
 										<tr>
-											<td><font style="font-weight: bold;"><?php echo gettext('Email :')?></font>
+											<td><font style="font-weight: bold;"><?php echo gettext('Email')?> :</font>
 												<font style="color: #a09d9d;">
 				<?php
     if ($accountdata['email'] != "") {

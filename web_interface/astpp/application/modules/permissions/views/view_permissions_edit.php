@@ -133,42 +133,42 @@ table {
 							<div id="floating-label" class="col-md-12 mb-4">
 								<div class="row">
 									<div class="col-md-3 form-group">
-										<label class="col-md-12 p-0 control-label"><?php echo gettext('Role Name :') ?><span
+										<label class="col-md-12 p-0 control-label"><?php echo gettext('Role Name') ?> :<span
 											class="text-dark"> *</span></label> <input type="hidden"
 											class="error col-md-12 form-control form-control-lg"
 											value="<?= $id ?>" name="id" id="id"> <input type="text"
 											class="error col-md-12 form-control form-control-lg"
-											placeholder="Enter Name" value="<?= $name ?>" name="name"
+											placeholder="<?=gettext('Enter Name')?>" value="<?= $name ?>" name="name"
 											id="name">
 										<div class="text-danger tooltips error_div float-left p-0"
 											id="name_err"></div>
 									</div>
 									<div class="col-md-3 form-group">
-										<label class="col-md-12 p-0 control-label"><?php echo gettext('Description :') ?><span
+										<label class="col-md-12 p-0 control-label"><?php echo gettext('Description') ?> :<span
 											class="text-dark"> *</span></label> <input type="text"
 											class="error form-control form-control-lg"
-											placeholder='Enter Description' value="<?= $description ?>"
+											placeholder="<?=gettext('Enter Description')?>" value="<?=gettext($description)?>"
 											name="description" id="description">
 										<div class="text-danger tooltips error_div float-left p-0"
 											id="description_err"></div>
 									</div>
 									<div class="col-md-3 form-group">
-										<label class="col-md-12 p-0 control-label"><?php echo gettext('Type :') ?><span
+										<label class="col-md-12 p-0 control-label"><?php echo gettext('Type') ?> :<span
 											class="text-dark"> *</span></label> <select name="login_type"
 											id="login_type"
 											class='col-md-12 form-control form-control-lg selectpicker'
 											data-live-search='true' disabled>
 											<option value='0'
-												<?php if (isset($login_type) && $login_type == 0) { echo "selected"; } ?>>Admin</option>
+												<?php if (isset($login_type) && $login_type == 0) { echo "selected"; } ?>><?=gettext('Admin')?></option>
 											<option value='1'
-												<?php if (isset($login_type) && $login_type == 1) { echo "selected"; } ?>>Reseller</option>
+												<?php if (isset($login_type) && $login_type == 1) { echo "selected"; } ?>><?=gettext('Reseller')?></option>
 										</select>
 									</div>
 									<div class="col-md-12 text-right">
 										<input id="save_button" class="save_button btn btn-success"
-											name="save_button" value="Save" type="button"
+											name="save_button" value="<?=gettext('Save')?>" type="button"
 											onclick="form_submit()"> <input name="action" type="button"
-											value="Cancel" class="btn btn-secondary ml-2"
+											value="<?=gettext('Cancel')?>" class="btn btn-secondary ml-2"
 											onclick="return redirect_page('/permissions/permissions_list/')">
 									</div>
 								</div>
@@ -184,7 +184,7 @@ foreach ($permission_main_array as $module_key => $module_value) {
 
 									<a class="btn"
 										onclick="open_menu('<?php echo $module_key; ?>');"><h3
-											class="text-left m-0"><?php echo ucwords(str_replace("_"," ",$module_key)); ?></h3></a>
+											class="text-left m-0"><?php echo gettext(ucwords(str_replace("_"," ",$module_key))); ?></h3></a>
 
 									<div id="<?php echo $div_function_name; ?>"
 										class="backgroundfff" style="display: none;">
@@ -212,7 +212,7 @@ foreach ($permission_main_array as $module_key => $module_value) {
 														class="btn btn-link"> <span
 														class="collaps-<?php echo $i; ?>"><i class='fa fa-plus'></i></span>
 				<?php
-            echo $display_name_array[$module_key][$first_sub_module_key][$sub_module_key];
+            echo gettext($display_name_array[$module_key][$first_sub_module_key][$sub_module_key]);
             ?>
 			</a>
 												</div></li>
@@ -244,7 +244,7 @@ foreach ($permission_main_array as $module_key => $module_value) {
 				<?php
                     $sub_module_value[$i] = ($sub_module_value[$i] == 'Delete')?"Delete Multiple":$sub_module_value[$i];
 				 ?>
-				<?php echo ucfirst(strtolower(str_replace("_"," ",$sub_module_value[$i]))); ?>
+				<?php echo gettext(ucfirst(strtolower(str_replace("_"," ",$sub_module_value[$i])))); ?>
 			</td>
 		<?php if(!isset($loop_value_explode[1])){ ?>
 			

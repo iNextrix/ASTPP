@@ -27,7 +27,7 @@ if (isset($error) && ! empty($error)) {
                     }
                     ?>
                  </span>
-							<h3 class="padding-t-10 padding-l-16"><?php echo gettext('File must be in the following format:'); ?><br />
+							<h3 class="padding-t-10 padding-l-16"><?php echo gettext('File must be in the following format'); ?>:<br />
 		<?php echo gettext('number,description,creation_date,last_modified_date'); ?>
                 
                 <br />
