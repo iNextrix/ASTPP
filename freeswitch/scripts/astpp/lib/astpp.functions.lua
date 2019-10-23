@@ -281,6 +281,18 @@ function do_number_translation(number_translation,destination_number)
       if(tmp_str[1] == '' or tmp_str[1] == nil)then
 	return destination_number
       end
+
+      if (string.sub(tmp_str[1],0,3) == 'LP:') then
+        tmp_str[1] = string.sub(tmp_str[1],4)
+        Logger.notice("[DONUMBERTRANSLATION] Before Localization CLI/DST : " .. destination_number)
+        Logger.notice("[DONUMBERTRANSLATION] lua pattern/template : " .. tmp_str[1] .. " | " .. tmp_str[2])
+
+        destination_number = string.gsub(destination_number, tmp_str[1], tmp_str[2])
+        Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. destination_number)
+
+        return destination_number
+      end
+
       local prefix = string.sub(destination_number,0,string.len(tmp_str[1]));
       if (prefix == tmp_str[1] or tmp_str[1] == '*') then
 	    Logger.notice("[DONUMBERTRANSLATION] Before Localization CLI/DST : " .. destination_number)
