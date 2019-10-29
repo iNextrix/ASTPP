@@ -149,7 +149,7 @@ table {
 											class="error col-md-12 form-control form-control-lg"
 											value="<?= $id ?>" name="id" id="id"> <input type="text"
 											class="error col-md-12 form-control form-control-lg"
-											placeholder="Enter Name" value="<?= $name ?>" name="name"
+											placeholder="<?=gettext('Enter Name')?>" value="<?= $name ?>" name="name"
 											id="name">
 										<div class="text-danger tooltips error_div float-left p-0"
 											id="name_err"></div>
@@ -158,7 +158,7 @@ table {
 										<label class="col-md-12 p-0 control-label"><?php echo gettext('Description') ?> :<span
 											class="text-dark"> *</span></label> <input type="text"
 											class="error form-control form-control-lg"
-											placeholder='Enter Description' value="<?= $description ?>"
+											placeholder='<?=gettext('Enter Description')?>' value="<?= $description ?>"
 											name="description" id="description">
 										<div class="text-danger tooltips error_div float-left p-0"
 											id="description_err"></div>

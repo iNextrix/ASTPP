@@ -383,7 +383,7 @@ class trunk_form extends common
                 "center"
             ),
             array(
-                gettext("Gateway")."<br/>".gettext("Name"),
+                gettext("Gateway Name"),
                 "100",
                 "gateway_id",
                 "name",
@@ -394,7 +394,7 @@ class trunk_form extends common
                 "center"
             ),
             array(
-                gettext("Failover")."<br/>".gettext("GW Name #1"),
+                gettext("Failover GW Name #1"),
                 "130",
                 "failover_gateway_id",
                 "name",
@@ -405,7 +405,7 @@ class trunk_form extends common
                 "center"
             ),
             array(
-                gettext("Failover")."<br/>".gettext("GW Name #2"),
+                gettext("Failover GW Name #2"),
                 "130",
                 "failover_gateway_id1",
                 "name",
@@ -449,7 +449,7 @@ class trunk_form extends common
                 "center"
             ),
             array(
-                gettext("Rate")." <br>".gettext("Count"),
+                gettext("Rate Count"),
                 "60",
                 "id",
                 "trunk_id",
@@ -460,7 +460,7 @@ class trunk_form extends common
                 "right"
             ),
             array(
-                gettext("Created")."<br/>".gettext("Date"),
+                gettext("Created Date"),
                 "100",
                 "creation_date",
                 "creation_date",
@@ -471,7 +471,7 @@ class trunk_form extends common
                 "center"
             ),
             array(
-                gettext("Modified")."<br/>".gettext("Date"),
+                gettext("Modified Date"),
                 "100",
                 "last_modified_date",
                 "last_modified_date",
@@ -519,7 +519,7 @@ class trunk_form extends common
     {
         $buttons_json = json_encode(array(
             array(
-                ("Create"),
+                gettext("Create"),
                 "btn btn-line-warning btn",
                 "fa fa-plus-circle fa-lg",
                 "button_action",

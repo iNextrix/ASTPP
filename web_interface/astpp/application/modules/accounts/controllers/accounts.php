@@ -1497,7 +1497,7 @@ class Accounts extends MX_Controller
             $customer_info = (array) $customer_info->first_row();
             $currency = $this->accounts_model->get_currency_by_id($customer_info['currency_id']);
             $data['username'] = $this->session->userdata('user_name');
-            $data['page_title'] = gettext('​Refill Process');
+            $data['page_title'] = gettext('Refill Process');
             $data['form'] = $this->form->build_form($this->accounts_form->get_customer_payment_fields($currency['currency'], $customer_info['number'], $currency['currency'], $id), '');
             $this->load->view('view_accounts_process_payment', $data);
         } else {

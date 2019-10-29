@@ -133,7 +133,7 @@ class Freeswitch_form extends common
                 'trim|required|xss_clean|chk_password_expression',
                 'tOOL TIP',
                 'Please Enter Password',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
             );
             $user_name = array(
                 gettext('Username'),
@@ -149,7 +149,7 @@ class Freeswitch_form extends common
                 'trim|required|is_unique[' . $val . ']|xss_clean',
                 'tOOL TIP',
                 'Please Enter account number',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
             );
         } else {
             $password_field = array(
@@ -165,7 +165,7 @@ class Freeswitch_form extends common
                 'trim|required|xss_clean|chk_password_expression',
                 'tOOL TIP',
                 'Please Enter Password',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
             );
             $user_name = array(
                 gettext('Username'),
@@ -180,7 +180,7 @@ class Freeswitch_form extends common
                 'trim|required|is_unique[' . $val . ']|xss_clean',
                 'tOOL TIP',
                 'Please Enter account number',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
             );
         }
         $form['forms'] = array(
@@ -273,7 +273,7 @@ class Freeswitch_form extends common
                 'trim|xss_clean',
                 'tOOL TIP',
                 'Please Enter Password',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_password align-self-end text-success fa fa-refresh"></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_password align-self-end text-success fa fa-refresh"></i>'
             ),
             array(
                 gettext('Mail To'),
@@ -2946,7 +2946,7 @@ class Freeswitch_form extends common
                 'trim|required|xss_clean|chk_password_expression',
                 'tOOL TIP',
                 'Please Enter Password',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
             );
             $user_name = array(
                 gettext('Username'),
@@ -2962,7 +2962,7 @@ class Freeswitch_form extends common
                 'trim|required|is_unique[' . $val . ']|xss_clean',
                 'tOOL TIP',
                 'Please Enter account number',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
             );
         } else {
             $password_field = array(
@@ -2978,7 +2978,7 @@ class Freeswitch_form extends common
                 'trim|required|xss_clean|chk_password_expression',
                 'tOOL TIP',
                 'Please Enter Password',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
             );
             $user_name = array(
                 gettext('Username'),
@@ -2993,7 +2993,7 @@ class Freeswitch_form extends common
                 'trim|required|is_unique[' . $val . ']|xss_clean',
                 'tOOL TIP',
                 'Please Enter account number',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
             );
         }
         if ($this->CI->session->userdata("logintype") == '0' || $this->CI->session->userdata("logintype") == '3') {
@@ -3098,7 +3098,7 @@ class Freeswitch_form extends common
                     'trim|xss_clean',
                     'tOOL TIP',
                     'Please Enter Password',
-                    '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_password align-self-end text-success fa fa-refresh"></i>'
+                    '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_password align-self-end text-success fa fa-refresh"></i>'
                 ),
                 array(
                     gettext('Mail To'),
@@ -3335,7 +3335,7 @@ class Freeswitch_form extends common
                     'trim|xss_clean',
                     'tOOL TIP',
                     'Please Enter Password',
-                    '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_password align-self-end text-success fa fa-refresh"></i>'
+                    '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_password align-self-end text-success fa fa-refresh"></i>'
                 ),
                 array(
                     gettext('Mail To'),

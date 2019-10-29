@@ -165,7 +165,7 @@ class Accounts_form extends common
                     'required|integer|greater_than[0]|is_unique[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             } else {
                 $account = array(
@@ -182,7 +182,7 @@ class Accounts_form extends common
                     'required|integer|greater_than[0]|is_unique[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             }
         } else {
@@ -200,7 +200,7 @@ class Accounts_form extends common
                     'required|integer|greater_than[0]|is_unique[' . $account_val . ']|is_match_number[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             } else {
                 $account = array(
@@ -217,7 +217,7 @@ class Accounts_form extends common
                     'required|integer|greater_than[0]|is_unique[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             }
         }
@@ -460,10 +460,10 @@ class Accounts_form extends common
                 'required|chk_password_expression',
                 'tOOL TIP',
                 '',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
             );
-            $change_password = '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" onmouseover="seetext(password)" onmouseout="hidepassword(password)" class="change_pass align-self-end text-success fa fa-refresh" ></i>';
-            $change_pin = '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Pin" class="change_pin align-self-end text-success fa fa-refresh" ></i>';
+            $change_password = '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" onmouseover="seetext(password)" onmouseout="hidepassword(password)" class="change_pass align-self-end text-success fa fa-refresh" ></i>';
+            $change_pin = '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Pin').'" class="change_pin align-self-end text-success fa fa-refresh" ></i>';
 
             $sip_device_arr = array(
                 'Create SIP Device',
@@ -1392,7 +1392,7 @@ class Accounts_form extends common
                 'name' => 'acccount_charges_form'
             )
         );
-        $form[gettext('​Refill information')] = array(
+        $form[gettext('Refill information')] = array(
             array(
                 '',
                 'HIDDEN',
@@ -1540,7 +1540,7 @@ class Accounts_form extends common
                     'required|integer|greater_than[0]|is_unique[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             } else {
                 $account = array(
@@ -1557,7 +1557,7 @@ class Accounts_form extends common
                     'required|integer|greater_than[0]|is_unique[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             }
         } else {
@@ -1575,7 +1575,7 @@ class Accounts_form extends common
                     'required|integer|greater_than[0]|is_unique[' . $account_val . ']|is_match_number[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             } else {
                 $account = array(
@@ -1592,7 +1592,7 @@ class Accounts_form extends common
                     'required|integer|greater_than[0]|is_unique[' . $account_val . ']|is_match_number[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    ' <i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             }
         }
@@ -1874,7 +1874,7 @@ class Accounts_form extends common
                 ''
             );
             $low_balance_alert_email = array(
-                gettext('Low balance Alert Email'),
+                gettext('Low Balance Alert Email'),
                 'notify_flag',
                 'SELECT',
                 '',
@@ -1916,7 +1916,7 @@ class Accounts_form extends common
                 'required|chk_password_expression',
                 'tOOL TIP',
                 '',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
             );
         }
         $form['forms'] = array(
@@ -2242,7 +2242,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                'Rate Group',
+                gettext('Rate Group'),
                 array(
                     'name' => 'pricelist_id',
                     'id' => 'pricelist_id'
@@ -2630,7 +2630,7 @@ class Accounts_form extends common
                 'required|chk_password_expression',
                 'tOOL TIP',
                 '',
-                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Reset Password" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
+                '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Reset Password').'" class="change_pass align-self-end text-success fa fa-refresh" ></i>'
             );
             if (isset(common_model::$global_config['system_config']['minimum_accountlength'])) {
                 $account = array(
@@ -2640,7 +2640,7 @@ class Accounts_form extends common
                     'required|is_unique[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             } else {
                 $account = array(
@@ -2650,7 +2650,7 @@ class Accounts_form extends common
                     'required|is_unique[' . $account_val . ']|is_match_number[' . $account_val . ']',
                     'tOOL TIP',
                     '',
-                    '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="Generate Account" class="change_number align-self-end text-success fa fa-refresh" ></i>'
+                    '<i style="cursor:pointer; font-size: 17px; position:absolute; right:20px; bottom: 7px;" title="'.gettext('Generate Account').'" class="change_number align-self-end text-success fa fa-refresh" ></i>'
                 );
             }
 
@@ -5517,7 +5517,7 @@ class Accounts_form extends common
     function set_block_pattern_action_buttons($id)
     {
         $ret_url = '';
-        $ret_url .= '<a href="/did/delete/' . $id . '/" class="icon delete_image" title="Delete" onClick="return get_alert_msg();">&nbsp;</a>';
+        $ret_url .= '<a href="/did/delete/' . $id . '/" class="icon delete_image" title="'.gettext('Delete').'" onClick="return get_alert_msg();">&nbsp;</a>';
         return $ret_url;
     }
 

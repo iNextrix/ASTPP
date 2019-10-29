@@ -1063,9 +1063,9 @@ class User extends MX_Controller
             $payment_last = ($payment_last_date) ? date("Y-m-d", strtotime($payment_last_date)) : '';
             $download = '<a href="' . base_url() . '/user/user_invoice_download/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  title="Download Invoice" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp';
             if ($value['is_paid'] == 1 && $outstanding > 0) {
-                $payment = ' <a style="padding: 0 8px;" href="' . base_url() . 'user/user_invoice_payment/' . $value['id'] . '" class="btn btn-warning"  title="Payment">Unpaid</a>';
+                $payment = ' <a style="padding: 0 8px;" href="' . base_url() . 'user/user_invoice_payment/' . $value['id'] . '" class="btn btn-warning"  title="'.gettext('Payment').'">'.gettext('Unpaid').'</a>';
             } else {
-                $payment = ' <button style="padding: 0 8px;" class="btn btn-success" type="button">Paid</button>';
+                $payment = ' <button style="padding: 0 8px;" class="btn btn-success" type="button">'.gettext('Paid').'</button>';
             }
 
             if ($value['generate_type'] == 1) {

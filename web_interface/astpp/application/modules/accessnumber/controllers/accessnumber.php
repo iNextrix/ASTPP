@@ -87,7 +87,7 @@ class Accessnumber extends CI_Controller
     {
         $accountinfo = $this->session->userdata('accountinfo');
         if ($accountinfo['type'] == - 1 || $accountinfo['type'] == 2) {
-            $data['page_title'] = gettext('Edit Accessnumber');
+            $data['page_title'] = gettext('Edit Access number');
             $where = array(
                 'id' => $edit_id
             );
@@ -109,7 +109,7 @@ class Accessnumber extends CI_Controller
         $add_array = $this->input->post();
         $data['form'] = $this->form->build_form($this->accessnumber_form->get_accessnumber_form_fields($add_array['id']), $add_array);
         if ($add_array['id'] != '') {
-            $data['page_title'] = gettext('Edit Accessnumber Rates');
+            $data['page_title'] = gettext('Edit Access number Rates');
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
                 echo $data['validation_errors'];

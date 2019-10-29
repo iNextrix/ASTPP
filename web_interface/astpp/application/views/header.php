@@ -141,6 +141,7 @@
      <script src="<?php echo base_url(); ?>assets/js/jquery-1.12.4.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.bundle.min.js"></script>
 	 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-select.js"></script>  
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/i18n/defaults-<?=$_COOKIE["lang"]?>.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.datetimepicker.min.js"></script>
 
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/modernizr.custom.js"></script>
@@ -157,8 +158,8 @@
   -->
 
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
-     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
-     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.php"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.php"></script>
         
     <noscript>
       <div id="noscript-warning">

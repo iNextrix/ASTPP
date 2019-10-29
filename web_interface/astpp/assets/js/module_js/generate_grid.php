@@ -1,3 +1,9 @@
+<?php
+    if ( isset( $_COOKIE["lang"] ) ) {
+        setlocale(LC_ALL, $_COOKIE["lang"].'.UTF-8');
+    }
+?>
+
 $(document).ready(function () {
 
     $("#show_search").click(function () {
@@ -162,11 +168,11 @@ function build_grid_reports(grid_id, destination, collumn_arr, buttons) {
         usepager: false,
         resizable: true,
         title: '',
-        pagetext: 'Page',
-        outof: 'of',
-        nomsg: 'No Records',
-        procmsg: 'Processing, please wait ...',
-        pagestat: 'Displaying {from} to {to} of {total} Records',
+        pagetext: '<?=gettext('Page')?>',
+        outof: '<?=gettext('of')?>',
+        nomsg: '<?=gettext('No Records')?>',
+        procmsg: '<?=gettext('Processing please wait ...')?>',
+        pagestat: '<?=gettext('Displaying')?> {from} to {to} <?=gettext('of')?> {total} <?=gettext('Records')?>',
         onSuccess: function (data) {
             $('a[rel*=facebox]').facebox({
                 loadingImage: '/assets/images/loading.gif',
@@ -211,11 +217,11 @@ function build_grid(grid_id, destination, collumn_arr, buttons) {
         sort: true,
         sortname: sort,
         sortorder: "desc",
-        pagetext: 'Page',
-        outof: 'of',
-        nomsg: 'No Records',
-        procmsg: 'Processing, please wait ...',
-        pagestat: '{from} - {to} of {total} Records',
+        pagetext: '<?=gettext('Page')?>',
+        outof: '<?=gettext('of')?>',
+        nomsg: '<?=gettext('No Records')?>',
+        procmsg: '<?=gettext('Processing, please wait ...')?>',
+        pagestat: '{from} - {to} <?=gettext('of')?> {total} <?=gettext('Records')?>',
         onSuccess: function (data) {
             $('a[rel*=facebox]').facebox({
                 loadingImage: '/assets/images/loading.gif',
@@ -249,12 +255,12 @@ function build_collumns(collumn_arr) {
             var col_str = col_field[i];
             if (col_str != 'null' && col_str != '') {
                 collumn_property = col_str.toString().split(',');
-                if (collumn_property[6] == 'false' && (collumn_property[0] == 'Action' || collumn_property[0] == 'Acción' || collumn_property[0] == 'action' || collumn_property[0] == 'действие' || collumn_property[0] == 'Açao')) {
+                if (collumn_property[6] == 'false' && (collumn_property[0] == 'Action' || collumn_property[0] == 'Acción' || collumn_property[0] == 'action' || collumn_property[0] == 'Действие' || collumn_property[0] == 'Açao')) {
                     continue;
                 }
                 // 	    alert("{display:"+collumn_property[0]+", name:"+collumn_property[0]+", width:"+collumn_property[1]+" , sortable: 'false', align: 'center'}");
                 // sandip add else if condition for account disable sorting
-                if (collumn_property[7] == 'false' || collumn_property[0] == 'Action' || collumn_property[0] == 'Acción' || collumn_property[0] == 'action' || collumn_property[0] == 'действие' || collumn_property[0] == 'Açao') {
+                if (collumn_property[7] == 'false' || collumn_property[0] == 'Action' || collumn_property[0] == 'Acción' || collumn_property[0] == 'action' || collumn_property[0] == 'Действие' || collumn_property[0] == 'Açao') {
                     searchflg = false;
                 } else if (collumn_property[0] == 'Account' && collumn_property[7] == 'build_concat_string' && collumn_property[9] == 'false') {
                     searchflg = false;
@@ -696,6 +702,9 @@ function get_lang(value) {
     });
 }
 function gettext_custom(collumn_property) {
+// Dummy stub. Resource already translated in frontend. Using gettext translation.
+
+    return collumn_property
 
     var collumn = '';
     //var url = 'http://65.111.177.99:9999/accounts/customer_global_grid_list/';
@@ -712,6 +721,7 @@ function gettext_custom(collumn_property) {
             collumn = response;
         }
     });
+
     return collumn;
 }
 

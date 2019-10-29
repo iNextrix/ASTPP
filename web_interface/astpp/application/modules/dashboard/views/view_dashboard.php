@@ -787,9 +787,9 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 											                echo "<td>".$this->common_model->calculate_currency_customer($val['price'])."</td>";
 											             
 											                if($val['payment_status'] == "PAID"){
-						                          	echo "<td><span class='badge badge-success'>".$val['payment_status']."</span></td>";
+						                          	echo "<td><span class='badge badge-success'>".gettext(ucfirst(strtolower($val['payment_status'])))."</span></td>";
 						                          }else{
-						                          	echo "<td><span class='badge badge-danger'>".$val['payment_status']."</span></td>";
+						                          	echo "<td><span class='badge badge-danger'>".gettext(ucfirst($val['payment_status']))."</span></td>";
 						                          }
 											                echo "</tr>";
 																		}

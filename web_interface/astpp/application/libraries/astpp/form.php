@@ -695,7 +695,8 @@ class Form {
 
 			$logintype = $this->CI->session->userdata('logintype');
 
-			$Actionkey = array_search ('Action',array_column ( $grid_fields, 0 ) );
+			$Actionkey = array_search (gettext('Action'),array_column ( $grid_fields, 0 ) );
+/*
 			if ($Actionkey == '') {
 				$Actionkey = array_search ('action',array_column ( $grid_fields, 0 ) );
 			}
@@ -706,11 +707,12 @@ class Form {
 				$Actionkey = array_search ('Ação',array_column ( $grid_fields, 0 ) );
 			}
 			if ($Actionkey == '') {
-				$Actionkey = array_search ('действие',array_column ( $grid_fields, 0 ) );
+				$Actionkey = array_search ('Действие',array_column ( $grid_fields, 0 ) );
 			}
 			if ($Actionkey == '') {
 				$Actionkey = array_search ('Açao',array_column ( $grid_fields, 0 ) );
 			}
+*/
 			$ActionArr = $grid_fields [$Actionkey];
 
 			$current_button_url = '';
@@ -726,7 +728,7 @@ class Form {
 				$acctype = "";
 				if (isset ( $row ["type"] ) && ($row ["type"] == '0' || $row ["type"] == '1' || $row ["type"] == '3')) {
 
-					$acctype = (isset ( $row ["posttoexternal"] ) && $row ["posttoexternal"] != '') ? "<span class='badge badge-dark float-left ml-1 mt-1'>" . $this->CI->{$this->lib_class}->get_account_type ( "", "", $row ["posttoexternal"] ) . "</span>" : "";
+					$acctype = (isset ( $row ["posttoexternal"] ) && $row ["posttoexternal"] != '') ? "<span class='badge badge-dark float-left ml-1 mt-1'>" . gettext($this->CI->{$this->lib_class}->get_account_type ( "", "", $row ["posttoexternal"] )) . "</span>" : "";
 				}
 				$reseller_id = $default_reseller_id;
 				if($default_reseller_id  == 0){
@@ -777,12 +779,12 @@ class Form {
 							$jsn_tmp [$field_key] = $acctype != '' ? $fieldstr . $acctype : $fieldstr;
 							$sub_login_arr = '';
 							if ($ActionArr [5]->EDIT->url == "accounts/customer_edit/") {
-								$sub_login_arr = "<a href='".base_url()."login/login_as_customer/".$row ['id']."' title='Login As Customer'><i class='fa fa-sign-in' aria-hidden='true'></i></a>";
+								$sub_login_arr = "<a href='".base_url()."login/login_as_customer/".$row ['id']."' title='".gettext('Login As Customer')."'><i class='fa fa-sign-in' aria-hidden='true'></i></a>";
 								$jsn_tmp [$field_key] = $fieldstr . $acctype . $sub_login_arr;
 							}
 
 							if ($ActionArr [5]->EDIT->url == "accounts/reseller_edit/") {
-								$sub_login_arr = "<a href='".base_url()."login/login_as_reseller/".$row ['id']."' title='Login As Reseller'><i class='fa fa-sign-in' aria-hidden='true'></i></a>";
+								$sub_login_arr = "<a href='".base_url()."login/login_as_reseller/".$row ['id']."' title='".gettext('Login As Reseller')."'><i class='fa fa-sign-in' aria-hidden='true'></i></a>";
 								$jsn_tmp [$field_key] = $fieldstr . $acctype . $sub_login_arr;
 							}
 						} else {

@@ -86,7 +86,7 @@ function validate_setting(){
 	 }
 	  if(document.getElementById('params_value').value.trim() == "")
       {
-		  document.getElementById('params_value_error').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'>Value is Required.</span>";
+		  document.getElementById('params_value_error').innerHTML = "<i style='color:#D95C5C; padding-right: 6px; padding-top: 10px;' class='fa fa-exclamation-triangle'></i><span class='popup_error error  p-0'><?php echo gettext('Value is Required.')?></span>";
 		  jQuery('#params_value').addClass('borderred');
 		  settingformflag = false;
       }
@@ -216,18 +216,18 @@ function cancel(){
 		<div class="ml-auto">
 			<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/start/<?=$id?>"
-				class="" title="Start"
+				class="" title="<?php echo gettext('Start')?>"
 				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Start')." |"; ?></b></a>
 			&nbsp;<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/stop/<?=$id?>"
-				class="" title="Stop" style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Stop')." |"; ?></b></a>
+				class="" title="<?php echo gettext('Stop')?>" style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Stop')." |"; ?></b></a>
 			&nbsp;<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/reload/<?=$id?>"
-				class="" title="reload"
+				class="" title="<?php echo gettext('Reload')?>"
 				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Reload')." |"; ?></b></a>
 			&nbsp;<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/rescan/<?=$id?>"
-				class="" title="rescan"
+				class="" title="<?php echo gettext('Rescan')?>"
 				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Rescan')?></b></a>
 		</div>
 	</div>

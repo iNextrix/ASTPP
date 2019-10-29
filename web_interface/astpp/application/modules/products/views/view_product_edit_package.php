@@ -300,7 +300,7 @@
                     </span>
                   </div>  
                   <div class='col-md-6 float-right'>
-                    <input type="text" name="left_panel_quick_search" id="left_panel_quick_search" class="form-control form-control-lg m-0" value="<?php echo $this->session->userdata('left_panel_search_package_patterns') ?>" placeholder="Search"/>
+                    <input type="text" name="left_panel_quick_search" id="left_panel_quick_search" class="form-control form-control-lg m-0" value="<?php echo $this->session->userdata('left_panel_search_package_patterns') ?>" placeholder="<?=gettext('Search')?>"/>
                   </div>
                 </div>
               </div>

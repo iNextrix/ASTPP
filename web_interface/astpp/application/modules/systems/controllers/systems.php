@@ -824,7 +824,7 @@ class Systems extends MX_Controller
             $where = "id IN ($ids)";
             $this->db->where($where);
             $result=$this->db->get("languages")->result_array();
-            $select_columns='';
+            $select_columns='en_En,';
             if(!empty($result)){
                 foreach ($result as $key => $value) {
                     $select_columns .= $value['locale'].',';

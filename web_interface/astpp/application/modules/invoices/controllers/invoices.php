@@ -100,22 +100,22 @@ class Invoices extends MX_Controller
                     "invoiceid" => $value['id']
                 ));
 
-                $download = "<a  href=" . $url . $value['id'] . " class='btn btn-royelblue btn-sm'  title='Download Invoice' ><i class='fa fa-cloud-download fa-fw'></i></a>&nbsp";
+                $download = "<a  href=" . $url . $value['id'] . " class='btn btn-royelblue btn-sm'  title='".gettext('Download Invoice')."' ><i class='fa fa-cloud-download fa-fw'></i></a>&nbsp";
                 if ($value['type'] == 'I') {
                     if ($value['confirm'] == 0) {
                         if ($value['generate_type'] == 1) {
-                            $payment = '<a href="' . base_url() . 'invoices/invoice_manually_edit/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  title="Edit"><i class="fa fa-pencil-square-o fa-fw"></i></a>';
+                            $payment = '<a href="' . base_url() . 'invoices/invoice_manually_edit/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  title="'.gettext('Edit').'"><i class="fa fa-pencil-square-o fa-fw"></i></a>';
                         } else {
-                            $payment = '<a href="' . base_url() . 'invoices/invoice_automatically_edit/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  title="Edit"><i class="fa fa-pencil-square-o fa-fw"></i></a>';
+                            $payment = '<a href="' . base_url() . 'invoices/invoice_automatically_edit/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  title="'.gettext('Edit').'"><i class="fa fa-pencil-square-o fa-fw"></i></a>';
                         }
                         $id = $value['id'];
-                        $delete_button = "<a onclick='invoice_delete($id)' class='btn btn-royelblue btn-sm'  title='Delete' ><i class='fa fa-trash fa-fw'></i></a>&nbsp";
+                        $delete_button = "<a onclick='invoice_delete($id)' class='btn btn-royelblue btn-sm'  title='".gettext('Delete')."' ><i class='fa fa-trash fa-fw'></i></a>&nbsp";
                     } else {
 
                         if ($value['is_paid'] == 1 && $outstanding > 0) {
-                            $payment = '<a style="padding: 0 8px;" href="' . base_url() . 'invoices/invoice_summary/' . $value['id'] . '" class="btn btn-warning"  title="Payment">Unpaid</i></a>';
+                            $payment = '<a style="padding: 0 8px;" href="' . base_url() . 'invoices/invoice_summary/' . $value['id'] . '" class="btn btn-warning"  title="'.gettext('Payment').'">'.gettext('Unpaid').'</i></a>';
                         } else {
-                            $payment = '<button style="padding: 0 17px;" type="button"  class="btn btn-success">Paid</button>';
+                            $payment = '<button style="padding: 0 17px;" type="button"  class="btn btn-success">'.gettext('Paid').'</button>';
                         }
                         $delete_button = "&nbsp";
                     }
@@ -1347,7 +1347,7 @@ class Invoices extends MX_Controller
 
     function invoice_conf()
     {
-        $data['page_title'] = 'Edit Company Profile';
+        $data['page_title'] = gettext('Edit Company Profile');
         $post_array = $this->input->post();
         $accountinfo = $this->session->userdata('accountinfo');
         $logintype = $this->session->userdata('logintype');
@@ -1424,7 +1424,7 @@ class Invoices extends MX_Controller
                 $data['form'] = $this->form->build_form($this->invoices_form->get_invoiceconf_form_fields($post_array, $post_array['id']), $post_array);
                 if ($this->form_validation->run() == FALSE || isset($error_fav) || isset($error_file)) {
                     if (isset($post_array['id']) && $post_array['id'] != '') {
-                        $data['page_title'] = 'Edit Company Profile';
+                        $data['page_title'] = gettext('Edit Company Profile');
                         $data_new = $this->invoices_model->get_invoiceconf($post_array['id']);
                         $invoices = $post_array;
                         $invoices['logo'] = $data_new['logo'];
@@ -1734,16 +1734,16 @@ class Invoices extends MX_Controller
                     $grand_credit = $this->common->currency_decimal($grandcredit) . ' ' . $currency_id;
                 }
 
-                $download = "<a href=" . $url . $value['id'] . " class='btn btn-royelblue btn-sm'  title='Download Invoice' ><i class='fa fa-cloud-download fa-fw'></i></a>&nbsp";
+                $download = "<a href=" . $url . $value['id'] . " class='btn btn-royelblue btn-sm'  title='".gettext('Download Invoice')."' ><i class='fa fa-cloud-download fa-fw'></i></a>&nbsp";
                 if ($value['type'] == 'R') {
                     $payment = '';
                     $payment_last = $invoice_date;
                     $outstanding = 0;
                 } else {
                     if ($outstanding > 0) {
-                        $payment = '<a style="padding: 0 8px;" href="' . base_url() . 'invoices/invoice_summary/' . $value['id'] . '" class="btn btn-warning"  title="Payment">Unpaid</i></a>';
+                        $payment = '<a style="padding: 0 8px;" href="' . base_url() . 'invoices/invoice_summary/' . $value['id'] . '" class="btn btn-warning"  title="'.gettext('Payment').'">'.gettext('Unpaid').'</i></a>';
                     } else {
-                        $payment = ' <button style="padding: 0 8px;" type="button"  class="btn btn-success">Paid</button>';
+                        $payment = ' <button style="padding: 0 8px;" type="button"  class="btn btn-success">'.gettext('Paid').'</button>';
                     }
                 }
 
@@ -1846,12 +1846,11 @@ class Invoices extends MX_Controller
                 $grandcredit = $grand_total - $grand_credit_total;
                 $grand_credit = $this->common->currency_decimal($grandcredit) . ' ' . $currency_id;
             }
-            $download = '<a href="' . base_url() . '/user/user_invoice_download/' . $value['id'] . '/00' . $value['invoice_prefix'] . $value['invoiceid'] . '" class="btn btn-royelblue btn-sm"  title="Download Invoice" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp';
+            $download = '<a href="' . base_url() . '/user/user_invoice_download/' . $value['id'] . '/00' . $value['invoice_prefix'] . $value['invoiceid'] . '" class="btn btn-royelblue btn-sm"  title="'.gettext('Download Invoice').'" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp';
             if ($outstanding > 0) {
-                $payment = ' <a style="padding: 0 8px;" href="' . base_url() . 'user/user_invoice_payment/' . $value['id'] . '" class="btn btn-warning"  title="Payment">Unpaid</a>';
+                $payment = ' <a style="padding: 0 8px;" href="' . base_url() . 'user/user_invoice_payment/' . $value['id'] . '" class="btn btn-warning"  title="'.gettext('Payment').'">'.gettext('Unpaid').'</a>';
             } else {
-
-                $payment = ' <button style="padding: 0 8px;" class="btn btn-success" type="button">Paid</button>';
+                $payment = ' <button style="padding: 0 8px;" class="btn btn-success" type="button">'.gettext('Paid').'</button>';
             }
             $account_arr = $this->db_model->getSelect('first_name,number,last_name', 'accounts', array(
                 'id' => $value['accountid']
@@ -2158,8 +2157,8 @@ class Invoices extends MX_Controller
             "invoiceid" => $invoiceid,
             "sort_order" => $sort_order,
             "value" => $sub_total,
-            "title" => "Sub Total",
-            "text" => "Sub Total",
+            "title" => gettext("Sub Total"),
+            "text" => gettext("Sub Total"),
             "class" => "1"
         );
         $this->db->insert("invoices_total", $invoice_total_arr);
@@ -2194,7 +2193,7 @@ class Invoices extends MX_Controller
                     $tax_total = (($sub_total * ($tax_value['taxes_rate'] / 100)) + $tax_value['taxes_amount']);
                     $tax_array = array(
                         "invoiceid" => $invoiceid,
-                        "title" => "TAX",
+                        "title" => gettext("TAX"),
                         "text" => $tax_value['taxes_description'],
                         "value" => $tax_total,
                         "class" => "2",
@@ -2220,8 +2219,8 @@ class Invoices extends MX_Controller
             "invoiceid" => $invoiceid,
             "sort_order" => $sort_order,
             "value" => $sub_total,
-            "title" => "Total",
-            "text" => "Total",
+            "title" => gettext("Total"),
+            "text" => getext("Total"),
             "class" => "9"
         );
         $this->db->insert("invoices_total", $invoice_total_arr);

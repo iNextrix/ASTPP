@@ -552,7 +552,7 @@ class Db_model extends CI_Model {
 
 		$drp_list = array ();
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
+			$drp_list [$drp_value->{$select_params [0]}] = gettext($drp_value->{$select_params [1]});
 		}
 		return $drp_list;
 	}
@@ -588,7 +588,7 @@ class Db_model extends CI_Model {
 		$drp_array = $this->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
 		$drp_list = array ();
-		$drp_list[0]="--Select--";
+		$drp_list[0]=gettext("--Select--");
 		foreach ( $drp_array as $drp_value ) {
 			if(isset($select_params [2]) && $select_params [2] != ""){
 				$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]} ."(".$drp_value->{$select_params [2]}.")";

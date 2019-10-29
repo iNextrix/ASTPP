@@ -67,7 +67,7 @@ if (isset($error) && ! empty($error)) {
 								</div>
 							</div>
 							<div class="col-sm-4">
-								<label> <span class="mr-4 align-middle"><?php echo gettext('Skip Header:'); ?></span>
+								<label> <span class="mr-4 align-middle"><?php echo gettext('Skip Header'); ?>:</span>
 									<input type='checkbox' class="align-middle" name='check_header' />
 								</label>
 							</div>

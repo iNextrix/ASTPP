@@ -50,8 +50,8 @@
   -->
 
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
-     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
-     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.php"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.php"></script>
         
     <noscript>
       <div id="noscript-warning">

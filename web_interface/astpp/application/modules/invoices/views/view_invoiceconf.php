@@ -31,7 +31,7 @@ $(document).ready(function() {
                     }
 
             }else {
-                alert("Logo only allows file types of JPG and JPEG. ");
+                alert("<?php echo gettext('Logo only allows file types of JPG and JPEG.'); ?>");
                 $("#uploadFav").val('');
                 $('#company_logo').attr('src', '');
             }
@@ -55,7 +55,7 @@ $(document).ready(function() {
                         }
                     }
             }else {
-                 alert("Favicon only allows file types of ICO, PNG, JPG and JPEG. ");
+                 alert("<?php echo gettext('Favicon only allows file types of ICO, PNG, JPG and JPEG.'); ?>");
                 $("#uploadFav").val('');
                 $('#company_fav').attr('src', '');
             }
@@ -64,7 +64,7 @@ $(document).ready(function() {
     $("#logo_delete").click(function(){
         var id=$("input[type='hidden']").val();
         var image=$('#company_logo').prop('src');
-        var confirm_string = 'Are you sure want to remove Logo?';
+        var confirm_string = '<?php echo gettext('Are you sure want to remove Logo?'); ?>';
 	    var answer = confirm(confirm_string);
         if(answer)
         {
@@ -89,7 +89,7 @@ $(document).ready(function() {
         var id=$("input[type='hidden']").val();
         var image=$('#company_fav').prop('src');
        
-       var confirm_string = 'Are you sure want to remove Favicon?';
+       var confirm_string = '<?php echo gettext('Are you sure want to remove Favicon?'); ?>';
 	    var answer = confirm(confirm_string);
         if(answer)
         {

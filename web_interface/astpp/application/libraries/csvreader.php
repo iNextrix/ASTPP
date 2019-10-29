@@ -103,7 +103,8 @@ class CSVReader {
 					$value = strip_slashes ( trim ( $value ) );
 					$value = preg_replace ( '#<script.*</script>#is', '', $value );
 					if (isset ( $field_key_value ) && ! empty ( $field_key_value ))
-						$content [$field_key_value] = strip_tags ( filter_var ( $value, FILTER_SANITIZE_STRING ) );
+//						$content [$field_key_value] = strip_tags ( filter_var ( $value, FILTER_SANITIZE_STRING ));
+						$content [$field_key_value] = $value;
 					$j ++;
 				}
 			}

@@ -43,7 +43,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 					<div class="col-lg-6 col-md-6 col-sm-12 p-0">
 						<div class="card col-12 p-4 alert-secondary">
 							<div class="col-lg-10 col-9 float-left p-0">
-								<label class="text-secondary" for=""><?php echo gettext("DATE"); ?></label>
+								<label class="text-secondary" for=""><?php echo gettext("Date"); ?></label>
 				   <?php $order_date = $this->common->convert_GMT_to($date= "",$date ="",$order_items['order_date'],$date = ""); ?>
                                    <h2 class="h4"><?php echo $date = date("Y-m-d",strtotime($order_date)) ; ?></h2>
 							</div>
@@ -78,7 +78,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 					<div class="col-lg-6 col-md-6 col-sm-12 p-0">
 						<div class="card col-12 p-4 alert-secondary">
 							<div class="col-lg-10 col-9 float-left p-0">
-								<label class="text-secondary" for=""><?php echo gettext("payment method"); ?></label>
+								<label class="text-secondary" for=""><?php echo gettext("Payment Method"); ?></label>
 								<h2 class="h4"><?php echo $order_items['payment_gateway'];?></h2>
 							</div>
 							<div class="col-lg-2 col-3 float-left p-0">
@@ -88,7 +88,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 					</div>
 
 					<div class="col-lg-6 col-md-6 col-sm-12 p-4 card">
-						<label class="text-secondary" for=""><?php echo gettext("ORDER");?> #</label>
+						<label class="text-secondary" for=""><?php echo gettext("Order");?> #</label>
 						<h2 class="h4"><?php echo $order_items['orderid']?></h2>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 p-0">
@@ -102,7 +102,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 								<div class="col-lg-2 col-3 float-left p-0">
 									<a
 										href="<?php echo $url.$invoice_data ['id']."/".$invoice_data ['prefix'] . $invoice_data ['number']?>"
-										class="" title='Download Invoice'><i
+										class="" title='<?=gettext('Download Invoice')?>'><i
 										class='fa fa-cloud-download fa-fw fa-2x'></i></a>
 								</div>
 			 <?php } ?>
@@ -119,7 +119,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 						<div class="col-lg-2 col-3 float-left p-0">
 									<a
 										href="<?php echo $url.$invoice_data ['id']."/".$invoice_data ['prefix'] . $invoice_data ['number']?>"
-										class="" title='Download Invoice'><i
+										class="" title='<?=gettext('Download Invoice')?>'><i
 										class='fa fa-cloud-download fa-fw fa-2x'></i></a>
 								</div>
 					
@@ -146,7 +146,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 				<div class="col-lg-6 col-md-6 col-sm-12 p-4 card">
 					<label class="text-secondary" for=""><?php echo gettext("Payment Status"); ?></label>
 					<div>
-						<span class="badge badge-success"><?php echo $order_items['payment_status'] ?></span>
+						<span class="badge badge-success"><?php echo gettext($order_items['payment_status']) ?></span>
 					</div>
 				</div>
 
@@ -167,7 +167,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 					<div class="row">
 						<div class="col-md-6">
 							<dl class="border p-3">
-							<dt><?php echo gettext("Account number"); ?></dt>
+							<dt><?php echo gettext("Account Number"); ?></dt>
 								<?php echo isset($account_info)? $account_info['number']:''?></dd>
 							</dl>
 							<dl class="border p-3">

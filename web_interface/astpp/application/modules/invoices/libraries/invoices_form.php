@@ -1248,7 +1248,7 @@ class invoices_form extends common
             ),
 
             array(
-                gettext('Logo') . (' (250 * 60)') . (' ('.gettext("Allowed Extentions JPG, PNG, JPEG").')'),
+                gettext('Logo') . ' (250 * 60)' . ' ('.gettext("Allowed Extentions").' JPG, PNG, JPEG)',
                 'INPUT',
                 array(
                     'name' => 'file',
@@ -1268,7 +1268,7 @@ class invoices_form extends common
             $delete_logo,
             $image_path,
             array(
-                gettext('Favicon' . (' (16 * 16)')) . (' ('.gettext("Allowed Extentions ICO, PNG, JPG, JPEG").')'),
+                gettext('Favicon') . ' (16 * 16)' . ' ('.gettext("Allowed Extentions").' ICO, PNG, JPG, JPEG)',
                 'INPUT',
                 array(
                     'name' => 'file_fav',

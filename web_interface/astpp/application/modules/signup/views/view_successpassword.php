@@ -38,7 +38,7 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 						<!-- -->
 
 						<script type="text/javascript"
-							src="<?php echo base_url(); ?>/assets/js/module_js/generate_grid.js"></script>
+							src="<?php echo base_url(); ?>/assets/js/module_js/generate_grid.php"></script>
 						<noscript>
 							<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
 						</noscript>

@@ -3,7 +3,7 @@
 <?php endblock() ?>
 
 <?php startblock('page-title') ?>
-    <?php echo ucfirst($group_title).' - '.$page_title?>
+    <?php echo gettext(ucfirst($group_title)).' - '.$page_title?>
 <?php endblock() ?>
 <?php startblock('content')?>
 <style>
@@ -60,7 +60,7 @@ function validateform(){
   <div id="content" class="container-fluid">
     <div class="row">
       <div class="col-md-12 color-three border_box">
-        <div class="col-md-8 float-left my-2"><h2 class="m-0 text-light"><?= $page_title; ?></h2></div>
+        <div class="col-md-8 float-left my-2"><h2 class="m-0 text-light"><?=$page_title; ?></h2></div>
         <div class="float-right my-2 lh19 pr-4">
           <nav aria-label="breadcrumb float-right">
             <ol class="breadcrumb m-0 p-0">
@@ -76,7 +76,7 @@ function validateform(){
 									echo "<div class='col-12 px-2'>";
 										echo "<ul class='card p-0'>";
 												echo "<div class='pb-4' id='floating-label'>";
-													echo "<h3 class='bg-secondary text-light p-3 rounded-top'>".$key1."</h3>";?>
+													echo "<h3 class='bg-secondary text-light p-3 rounded-top'>".gettext($key1)."</h3>";?>
 														<?php $currency = Common_model::$global_config['system_config']['base_currency'];?>
 														<?php 
 														$count=count($val1);
@@ -86,7 +86,7 @@ function validateform(){
 														foreach($val1 as $key=>$val){
                               ?>
 																<div class="col-md-4 col-sm-12 form-group">
-																	 <label title="<?php echo str_replace('smtp',"SMTP",$val['comment']);?>" data-toggle="tooltip" data-placement="top" data-html="true" class="col-sm-6 col-xs-4 p-0 control-label"><?php echo $val['display_name'];?> * </label>
+																	 <label title="<?php echo str_replace('smtp',"SMTP",$val['comment']);?>" data-toggle="tooltip" data-placement="top" data-html="true" class="col-sm-6 col-xs-4 p-0 control-label"><?php echo gettext($val['display_name']);?> * </label>
 																	 <?php 
 																			if($val['name']=='tax_type'){
 																					$select_array=array();

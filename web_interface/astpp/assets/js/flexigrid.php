@@ -1,3 +1,8 @@
+<?php
+    if ( isset( $_COOKIE["lang"] ) ) {
+	setlocale(LC_ALL, $_COOKIE["lang"].'.UTF-8');
+    }
+?>
 /*
  * Flexigrid for jQuery - New Wave Grid
  *
@@ -1026,7 +1031,7 @@ if(r.striped){
     x.pDiv.className="pDiv";
     x.pDiv.innerHTML='<div class="pDiv2"></div>';
     a(x.bDiv).after(x.pDiv);
-    a("div",x.pDiv).html('<div class="pGroup"> <div class="pFirst pButton"><span></span></div><div class="pPrev pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pcontrol">Page <input type="text" size="4" value="1" /> of <span> 1 </span></span></div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pNext pButton"><span></span></div><div class="pLast pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pReload pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pPageStat"></span></div>');
+    a("div",x.pDiv).html('<div class="pGroup"> <div class="pFirst pButton"><span></span></div><div class="pPrev pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pcontrol"><?=gettext('Page')?> <input type="text" size="4" value="1" /> <?=gettext('of')?> <span> 1 </span></span></div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pNext pButton"><span></span></div><div class="pLast pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"> <div class="pReload pButton"><span></span></div> </div> <div class="btnseparator"></div> <div class="pGroup"><span class="pPageStat"></span></div>');
     a(".pReload",x.pDiv).click(function(){
         x.populate()
         });

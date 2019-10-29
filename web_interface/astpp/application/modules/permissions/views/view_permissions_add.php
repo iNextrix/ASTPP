@@ -166,7 +166,7 @@ $(document).ready(function(){
 											class="error form-control " value="" name="id" id="id"> <input
 											type="text"
 											class="error col-md-12 form-control form-control-lg"
-											placeholder="Enter Name" name="name" id="name"
+											placeholder="<?=gettext('Enter Name')?>" name="name" id="name"
 											value="<?= $role_name ?>">
 										<div class="text-danger tooltips error_div float-left p-0"
 											id="name_err"></div>
@@ -175,7 +175,7 @@ $(document).ready(function(){
 										<label class="col-md-12 p-0 control-label"><?php echo gettext('Description').' :' ?><span
 											class="text-dark"> *</span></label> <input type="text"
 											class="error form-control form-control-lg"
-											placeholder='Enter Description' value="<?= $description ?>"
+											placeholder='<?=gettext('Enter Description')?>' value="<?= $description ?>"
 											name="description" id="description">
 										<div class="text-danger tooltips error_div float-left p-0"
 											id="description_err"></div>

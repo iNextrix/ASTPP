@@ -1,12 +1,12 @@
 <script type="text/javascript"
-	src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
+	src="<?php echo base_url(); ?>assets/js/flexigrid.php"></script>
 <link rel="stylesheet"
 	href="<?php echo base_url(); ?>assets/css/flexigrid.css"
 	type="text/css">
 <link href="<?php echo base_url(); ?>assets/css/facebox.css"
 	rel="stylesheet" media="all" />
 <script type="text/javascript"
-	src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
+	src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.php"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         build_grid("prefixes_grid","<?php echo base_url(); ?>package/package_patterns_add_json/<?= $packageid; ?>",<? echo $patters_grid_fields ?>,"");

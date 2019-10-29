@@ -490,7 +490,7 @@ if ( ! function_exists('form_dropdown'))
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.gettext((string)$optgroup_val)."</option>\n";
 				}
 
 				$form .= '</optgroup>'."\n";
@@ -498,7 +498,7 @@ if ( ! function_exists('form_dropdown'))
 			{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
-				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+				$form .= '<option value="'.$key.'"'.$sel.'>'.gettext((string) $val)."</option>\n";
 			}
 		}
 				if(isset($name['option_value']) && isset($name['option_text'])){
