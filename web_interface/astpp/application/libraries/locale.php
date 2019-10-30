@@ -106,6 +106,7 @@ function set_lang($lang = FALSE) {
 		setlocale ( LC_MESSAGES, $current_locale );
 		setlocale ( LC_TIME, $current_locale );
 		setlocale ( LC_CTYPE, $current_locale );
+                setlocale ( LC_NUMERIC,  'en_US.UTF-8');
 		//$domain = 'messages';
 
 		$uri_segment = '';
