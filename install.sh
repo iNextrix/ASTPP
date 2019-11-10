@@ -185,9 +185,9 @@ install_mysql ()
                 debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password ${MYSQL_ROOT_PASSWORD}"
                 debconf-set-selections <<< "mysql-community-server mysql-server/default-auth-override select Use Legacy Authentication Method (Retain MySQL 5.x Compatibility)"
                 DEBIAN_FRONTEND=noninteractive apt install -y mysql-server
-                wget https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.15-linux-debian9-x86-64bit.tar.gz
-                tar -xzvf  mysql-connector-odbc-8.0.15-linux-debian9-x86-64bit.tar.gz
-                cd /usr/src/mysql-connector-odbc-8.0.15-linux-debian9-x86-64bit/
+                wget https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.18-linux-debian9-x86-64bit.tar.gz
+                tar -xzvf  mysql-connector-odbc-8.0.18-linux-debian9-x86-64bit.tar.gz
+                cd /usr/src/mysql-connector-odbc-8.0.18-linux-debian9-x86-64bit/
                 cp -rf lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc/.
         else if [ "$DIST" = "CENTOS" ]; then
                 wget https://repo.mysql.com/mysql80-community-release-el7-1.noarch.rpm
