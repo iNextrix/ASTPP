@@ -782,7 +782,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 											                echo "<td>".$val['order_date']."</td>";
 											                echo "<th scope='row'>".$val['order_id']."</th>";
 											                echo "<td>".$val['accountid']."</td>";
-											                echo "<td>".$val['payment_gateway']."</td>";
+											                echo "<td>".gettext($val['payment_gateway'])."</td>";
 											                echo "<td>".$this->common_model->calculate_currency_customer($val['setup_fee'])."</td>";
 											                echo "<td>".$this->common_model->calculate_currency_customer($val['price'])."</td>";
 											             

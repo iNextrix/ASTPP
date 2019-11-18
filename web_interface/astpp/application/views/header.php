@@ -153,7 +153,7 @@
 
 
 
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-browser/0.1.0/jquery.browser.js"></script>
+     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.browser.js"></script>
  	 <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   -->
 
@@ -376,7 +376,7 @@ $(document).ready(function(){
 	$master_login_details=$this->session->userdata('master_login_details');
 	if(isset($master_login_details) && $master_login_details !=''){
 		$admin_id =$master_login_details['master_login_id'];
-		$sub_login_arr = "<a href='".base_url()."login/login_as_admin/".$admin_id."' title='Re-Login in Admin'><i class='fa fa-sign-in mr-2' aria-hidden='true'></i></a>";
+		$sub_login_arr = "<a href='".base_url()."login/login_as_admin/".$admin_id."' title='".gettext('Re-Login in Admin')."'><i class='fa fa-sign-in mr-2' aria-hidden='true'></i></a>";
 		echo $sub_login_arr;
 	}
 ?>
@@ -391,7 +391,7 @@ $(document).ready(function(){
 		<? }
 				if($this->session->userdata('logintype')!=2 && $this->session->userdata('logintype')!=4){
 					$result=(array)$this->db->get_where('accounts',array("id"=>$acc_info['id']),1)->first_row();
-			$variable =$result['posttoexternal']==1 ? 'Credit' : gettext('Bal');  
+			$variable =$result['posttoexternal']==1 ? gettext('Credit') : gettext('Bal');  
 			$amount=$result['posttoexternal']==1 ? $result['credit_limit']-$result['balance'] :$result['balance'];
 
 			

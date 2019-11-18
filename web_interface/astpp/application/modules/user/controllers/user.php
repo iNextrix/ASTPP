@@ -250,7 +250,7 @@ class User extends MX_Controller
     {
         if ($add_array['id'] != '') {
             $data['form'] = $this->form->build_form($this->accounts->accounts_form->get_user_form_fields($add_array['id']), $add_array);
-            $data['page_title'] = gettext('Edit ' . $entity_name);
+            $data['page_title'] = gettext('Edit').' '.$entity_name;
             if ($this->form_validation->run() == FALSE) {
                 $data['validation_errors'] = validation_errors();
             } else {
@@ -270,7 +270,7 @@ class User extends MX_Controller
             }
             $this->load->view('view_user_details', $data);
         } else {
-            $data['page_title'] = gettext('Edit ' . $entity_name);
+            $data['page_title'] = gettext('Edit').' '. $entity_name;
             $where = array(
                 'id' => $account_data["id"]
             );
@@ -1061,7 +1061,7 @@ class User extends MX_Controller
                 "invoiceid" => $value['id']
             ));
             $payment_last = ($payment_last_date) ? date("Y-m-d", strtotime($payment_last_date)) : '';
-            $download = '<a href="' . base_url() . '/user/user_invoice_download/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  title="Download Invoice" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp';
+            $download = '<a href="' . base_url() . '/user/user_invoice_download/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  title="'.gettext('Download Invoice').'" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp';
             if ($value['is_paid'] == 1 && $outstanding > 0) {
                 $payment = ' <a style="padding: 0 8px;" href="' . base_url() . 'user/user_invoice_payment/' . $value['id'] . '" class="btn btn-warning"  title="'.gettext('Payment').'">'.gettext('Unpaid').'</a>';
             } else {
@@ -1645,12 +1645,12 @@ class User extends MX_Controller
         foreach ($query as $key => $value) {
             $path_true = base_url() . '/assets/images/true.png';
             $path_false = base_url() . '/assets/images/false.png';
-            $voicemail_enabled = $value['voicemail_enabled'] == 'true' ? '<img src=' . $path_true . ' style="height:20px;width:20px;" title="Enable">' : '<img src=' . $path_false . ' style="height:20px;width:20px;" title="Disable">';
+            $voicemail_enabled = $value['voicemail_enabled'] == 'true' ? '<img src=' . $path_true . ' style="height:20px;width:20px;" title="'.gettext('Enable').'">' : '<img src=' . $path_false . ' style="height:20px;width:20px;" title="'.gettext('Disable').'">';
 		$this->load->module ( "freeswitch" );
             $json_data['rows'][] = array(
                 'cell' => array(
                     '<input type="checkbox" name="chkAll" id="' . $value['id'] . '" class="ace chkRefNos" onclick="clickchkbox(' . $value['id'] . ')" value=' . $value['id'] . '><lable class="lbl"></lable>',
-                    '<a href="' . base_url() . 'user/user_sipdevices_edit/' . $value['id'] . '/" style="cursor:pointer;color:#005298;" rel="facebox" title="Edit">' . $value['username'] . '</a>',
+                    '<a href="' . base_url() . 'user/user_sipdevices_edit/' . $value['id'] . '/" style="cursor:pointer;color:#005298;" rel="facebox" title="'.gettext('Edit').'">' . $value['username'] . '</a>',
                     $value['password'],
                     $value['effective_caller_id_name'],
                     $value['effective_caller_id_number'],
@@ -2902,15 +2902,15 @@ class User extends MX_Controller
         $json_data = $paging_data["json_paging"];
         $query = $this->orders_model->get_reseller_orders_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         foreach ($query->result_array() as $key => $value) {
-            $order_url = '<a href="' . base_url() . '/user/user_orders_complete/' . $value['order_id'] . '" style="color:#005298;"  title="Edit" >' . $this->common->get_order_id("order_id", "orders", $value['id']) . '</a>';
+            $order_url = '<a href="' . base_url() . '/user/user_orders_complete/' . $value['order_id'] . '" style="color:#005298;"  title="'.gettext('Edit').'" >' . $this->common->get_order_id("order_id", "orders", $value['id']) . '</a>';
             $json_data['rows'][] = array(
                 'cell' => array(
                     $value['order_date'],
                     $order_url,
-                    $value['payment_gateway'],
+                    gettext($value['payment_gateway']),
                     $value['setup_fee'],
                     $value['price'],
-                    $value['payment_status']
+                    gettext(ucwords(strtolower($value['payment_status'])))
                 )
             );
         }

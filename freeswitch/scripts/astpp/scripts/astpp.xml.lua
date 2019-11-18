@@ -213,7 +213,7 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 			local dialplan_variable_data = split(dialplan_variable_value,"=")  
 			Logger.debug("[GATEWAY VARIABLE ] : "..dialplan_variable_data[1] );
 			if( dialplan_variable_data[1] ~= nil and dialplan_variable_data[2] ~= nil) then
-				table.insert(xml, [[<action application="set" data="]]..dialplan_variable_value..[["/>]]);
+				table.insert(xml, [[<action application="export" data="]]..dialplan_variable_value..[["/>]]);
 			end
 		end             
 	end

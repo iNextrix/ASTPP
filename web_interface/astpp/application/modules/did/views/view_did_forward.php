@@ -23,7 +23,7 @@
 	 <input class="col-md-12 form-control form-control-lg" name='id'
                   value="<?php echo $id;  ?>" type="hidden" />
          <div class='col-md-12 form-group'>
-            <label class="col-md-3 p-0"><?php echo gettext("Call Type:"); ?></label>
+            <label class="col-md-3 p-0"><?php echo gettext("Call Type"); ?>:</label>
             <div class="col-md-4 p-0">
                <?php
                   $calltype = array(
@@ -58,7 +58,7 @@
                <div class="col-md-6 float-left">
                   <button class="btn btn-secondary btn-block mx-2" name="cancel"
                      onclick="return redirect_page('NULL')" value="Cancel"
-                     type="button"> <?php echo gettext(" Cancel"); ?> </button>
+                     type="button"> <?php echo gettext("Cancel"); ?> </button>
                </div>
             </div>
          </div>

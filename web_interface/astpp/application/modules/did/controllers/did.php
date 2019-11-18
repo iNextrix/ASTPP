@@ -563,7 +563,7 @@ class DID extends MX_Controller
             $id = $qry_result[0]['id'];
         }
         $did_forward = $this->did_model->did_forward($id);
-        $data['page_title'] = 'DID Destination (' . $did_forward[0]['number'] . ')';
+        $data['page_title'] = gettext('DID Destination').' (' . $did_forward[0]['number'] . ')';
         $data['id'] = $id;
         $data['call_type'] = $did_forward[0]['call_type'];
         $data['extensions'] = $did_forward[0]['extensions'];

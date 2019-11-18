@@ -151,7 +151,7 @@
                <input class="col-md-12 form-control form-control-lg m-0" name="product_name" value="<?php echo $product_info['name'] ?>" size="16" type="text" disabled/>
             </div>
             <div class='col-md-12 form-group'>
-               <label class="col-md-12 p-0 control-label"><?php echo gettext("(Price+SetUp Fee)"); ?></label>
+               <label class="col-md-12 p-0 control-label">(<?php echo gettext("Price+SetUp Fee"); ?>)</label>
                <input class="col-md-12 form-control form-control-lg m-0" name="product_price" value=" <?php echo isset($product_info['setup_price'])?$this->common->convert_to_currency ( '', '', $product_info['setup_price'] ):'' ?>" size="16" type="text" disabled/>
             </div>
 	    <?php if($product_info['product_category'] == 2) {?>

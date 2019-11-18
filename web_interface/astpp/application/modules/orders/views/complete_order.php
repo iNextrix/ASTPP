@@ -146,7 +146,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 				<div class="col-lg-6 col-md-6 col-sm-12 p-4 card">
 					<label class="text-secondary" for=""><?php echo gettext("Payment Status"); ?></label>
 					<div>
-						<span class="badge badge-success"><?php echo gettext($order_items['payment_status']) ?></span>
+						<span class="badge badge-success"><?php echo gettext(ucfirst(strtolower($order_items['payment_status']))) ?></span>
 					</div>
 				</div>
 
@@ -181,7 +181,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 							</dl>
 							 <dl class="border p-3">
                                 				<dt><?php echo gettext("Billing Cycle"); ?></dt>
-                              					<dd><?php  echo ($order_items['billing_type'] == 0) ? "One Time" : (( $order_items['billing_type'] == 1 ) ? "Recurring" : "Monthly Recurring"); ?></dd>
+                              					<dd><?php  echo ($order_items['billing_type'] == 0) ? gettext("One Time") : (( $order_items['billing_type'] == 1 ) ? gettext("Recurring") : gettext("Monthly Recurring")); ?></dd>
 
                            				 </dl>
 							<dl class="border p-3 ">

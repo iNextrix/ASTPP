@@ -769,7 +769,7 @@ class Form {
 									$button_name = strtoupper($field_arr[6][1]);
 									if(isset($ActionArr[5]->$button_name)){
 									$current_button_html = $this->CI->{$this->lib_class}->get_action_buttons(array($button_name=>$ActionArr[5]->$button_name),$row['id']);
-									$jsn_tmp [$field_key] = str_replace($button_name, $row [$field_arr [2]],$current_button_html);					
+									$jsn_tmp [$field_key] = str_replace(gettext(ucfirst(strtolower($button_name))), $row [$field_arr [2]],$current_button_html);					
 									}
 									
 						 
@@ -788,7 +788,7 @@ class Form {
 								$jsn_tmp [$field_key] = $fieldstr . $acctype . $sub_login_arr;
 							}
 						} else {
-							$jsn_tmp [$field_key] = $row [$field_arr [2]];
+							$jsn_tmp [$field_key] = gettext(ucwords(strtolower($row [$field_arr [2]])));
 						}
 					} else {
 						if ($field_arr [0] == gettext ( "Action" )) {

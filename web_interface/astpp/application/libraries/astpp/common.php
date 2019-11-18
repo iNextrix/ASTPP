@@ -2955,7 +2955,7 @@ class common {
 			$link =  base_url () ."did/did_forward/" . $id;
 		}
 		
-		    return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="'.gettext('Did Forward').'"><i class="fa fa-mail-forward"></i></a>&nbsp;';
+		    return '<a href="' . $link . '" class="btn btn-royelblue btn-sm" rel="facebox" title="'.gettext('DID Forward').'"><i class="fa fa-mail-forward"></i></a>&nbsp;';
 
        }
 	function payment_status($status = '') {

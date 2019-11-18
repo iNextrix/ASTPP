@@ -108,7 +108,7 @@ class Systems extends MX_Controller
         $data['username'] = $this->session->userdata('user_name');
         if ($group_title == 'payment_methods' || $group_title == 'ported_number') {
             $page_title = str_replace("_", " ", $group_title);
-            $data['page_title'] = ucwords($page_title);
+            $data['page_title'] = gettext(ucwords($page_title));
         } else {
             $data['page_title'] = gettext(ucfirst($group_title));
         }

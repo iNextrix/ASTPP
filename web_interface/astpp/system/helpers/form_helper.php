@@ -642,7 +642,7 @@ if ( ! function_exists('form_dropdown_all_search'))
 				{
 					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 
-					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.gettext(ucwords((string)$optgroup_val))."</option>\n";
 				}
 
 				$form .= '</optgroup>'."\n";
@@ -650,7 +650,7 @@ if ( ! function_exists('form_dropdown_all_search'))
 			{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
 
-				$form .= '<option value="'.$key.'"'.$sel.'>'.(string)$val."</option>\n";
+				$form .= '<option value="'.$key.'"'.$sel.'>'.gettext(ucwords(strtolower((string)$val)))."</option>\n";
 			}
 		}
 

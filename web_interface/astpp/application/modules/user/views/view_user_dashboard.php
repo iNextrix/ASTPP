@@ -101,7 +101,7 @@
                                 <div class="col-lg-8 col-7 float-left py-5">
                                     <div class="h1" id="balance">0</div>
                                     <?php
-										$variable =$accountinfo['posttoexternal']==1 ? 'Credit' : gettext('Balance');  
+										$variable =$accountinfo['posttoexternal']==1 ? gettext('Credit') : gettext('Balance');  
 									?>
                                     <h3><?php echo $variable." (".$currency.")";?></h3>
                                 </div>
@@ -202,9 +202,9 @@
 										                	echo "<td>".$this->common_model->calculate_currency_customer($val ['price'])."</td>";
 										                	echo "<td>".$this->common_model->calculate_currency_customer($val ['setup_fee'])."</td>";
 										                	if($val['billing_type'] == "0"){
-						                          	echo "<td><span class='badge badge-success'>One time</span></td>";
+						                          	echo "<td><span class='badge badge-success'>".gettext('One Time')."</span></td>";
 						                          }else{
-						                          	echo "<td><span class='badge badge-danger'>Recurring</span></td>";
+						                          	echo "<td><span class='badge badge-danger'>".gettext('Recurring')."</span></td>";
 						                          }
 						                          echo "<td>".$val['billing_days']."</td>";
 						                          echo "</tr>";

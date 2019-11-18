@@ -144,7 +144,7 @@ table {
 							<div id="floating-label" class="col-md-12 mb-4">
 								<div class="row">
 									<div class="col-md-3 form-group">
-										<label class="col-md-12 p-0 control-label"><?php echo gettext('Role Name :') ?><span
+										<label class="col-md-12 p-0 control-label"><?php echo gettext('Role Name') ?> :<span
 											class="text-dark"> *</span></label> <input type="hidden"
 											class="error col-md-12 form-control form-control-lg"
 											value="<?= $id ?>" name="id" id="id"> <input type="text"
@@ -255,7 +255,7 @@ foreach ($permission_main_array as $module_key => $module_value) {
 				<?php
                     $sub_module_value[$i] = ($sub_module_value[$i] == 'Delete')?"Delete Multiple":$sub_module_value[$i];
 				 ?>
-				<?php echo gettext(ucfirst(strtolower(str_replace("_"," ",$sub_module_value[$i])))); ?>
+				<?php echo gettext(ucwords(strtolower(str_replace("_"," ",$sub_module_value[$i])))); ?>
 			</td>
 		<?php if(!isset($loop_value_explode[1])){ ?>
 			

@@ -280,7 +280,7 @@ class Products extends MX_Controller {
 			$this->form_validation->set_rules('price', 'Price', 'numeric|required|greater_than[-1]|min_length[1]|max_length[15]|xss_clean');
 		}
 		if(isset($add_array['free_minutes'])){
-			$this->form_validation->set_rules('free_minutes', 'Free Minutes', 'numeric|required|is_natural|xss_clean');
+			$this->form_validation->set_rules('free_minutes', gettext('Free Minutes'), 'numeric|required|is_natural|xss_clean');
 		}
 		$this->form_validation->set_message('max_length', '%s field can not excced  numbers in length %s');
 		if(isset($add_array['id']) && $add_array['id'] != ''){ 

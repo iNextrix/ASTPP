@@ -1,1884 +1,3736 @@
--- --------------------------------------------------------
--- Хост:                         80.89.149.15
--- Версия сервера:               8.0.17 - MySQL Community Server - GPL
--- Операционная система:         Linux
--- HeidiSQL Версия:              9.5.0.5447
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Дамп структуры для таблица astpp.translations
-DROP TABLE IF EXISTS `translations`;
-CREATE TABLE IF NOT EXISTS `translations` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `module_name` varchar(255) NOT NULL,
-  `en_En` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `en_EN` (`en_En`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Дамп данных таблицы astpp.translations: ~1 848 rows (приблизительно)
-/*!40000 ALTER TABLE `translations` DISABLE KEYS */;
-INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES
-	(1, 'Access Number', 'Access Number'),
-	(2, 'Access Numbers', 'Access Numbers'),
-	(3, 'Account', 'Account'),
-	(4, 'Account Type', 'Account Type'),
-	(5, 'Account Valid Days', 'Account Valid Days'),
-	(6, 'Account Verification By', 'Account Verification By'),
-	(7, 'Accounts', 'Accounts'),
-	(8, 'Accounts Report', 'Accounts Report'),
-	(9, 'ACD', 'ACD'),
-	(10, 'Action', 'Action'),
-	(11, 'Action Type', 'Action Type'),
-	(12, 'Add', 'Add'),
-	(13, 'Add Country', 'Add Country'),
-	(14, 'Add Currency', 'Add Currency'),
-	(15, 'Add Destination', 'Add Destination'),
-	(16, 'Add Ratedeck', 'Add Ratedeck'),
-	(17, 'Address1', 'Address1'),
-	(18, 'Administrator', 'Administrator'),
-	(19, 'Administrator Admin', 'Administrator Admin'),
-	(20, 'Admins', 'Admins'),
-	(21, 'After Balance', 'After Balance'),
-	(22, 'Alarm', 'Alarm'),
-	(23, 'Alert Status', 'Alert Status'),
-	(24, 'Allow integration with Fraud detection', 'Allow integration with Fraud detection'),
-	(25, 'Allow IP Management', 'Allow IP Management'),
-	(26, 'Allow Local Call', 'Allow Local Call'),
-	(27, 'Allow Local Calls', 'Allow Local Calls'),
-	(28, 'Allow Loss Less Routing', 'Allow Loss Less Routing'),
-	(29, 'Allow Max Retries', 'Allow Max Retries'),
-	(30, 'Allow Recording', 'Allow Recording'),
-	(31, 'Amount', 'Amount'),
-	(32, 'Amount INR', 'Amount INR'),
-	(33, 'Answered Calls', 'Answered Calls'),
-	(34, 'Applicable For', 'Applicable For'),
-	(35, 'Apply on existing accounts', 'Apply on existing accounts'),
-	(36, 'Archive', 'Archive'),
-	(37, 'ASR', 'ASR'),
-	(38, 'Attachement', 'Attachement'),
-	(39, 'Attempted Calls', 'Attempted Calls'),
-	(40, 'Audit', 'Audit'),
-	(41, 'Audit Log', 'Audit Log'),
-	(42, 'Audit Logs Older Than Days', 'Audit Logs Older Than Days'),
-	(43, 'Authorize.net', 'Authorize.net'),
-	(44, 'Automatically', 'Automatically'),
-	(45, 'Balance', 'Balance'),
-	(46, 'Balance Announcement', 'Balance Announcement'),
-	(47, 'Balance Below', 'Balance Below'),
-	(48, 'Base Currency', 'Base Currency'),
-	(49, 'Basic', 'Basic'),
-	(50, 'Basic Information', 'Basic Information'),
-	(51, 'Batch Update', 'Batch Update'),
-	(52, 'Before Balance INR', 'Before Balance INR'),
-	(53, 'Begins With', 'Begins With'),
-	(54, 'Beta', 'Beta'),
-	(55, 'Billable', 'Billable'),
-	(56, 'Billing', 'Billing'),
-	(57, 'Billing Cycle', 'Billing Cycle'),
-	(58, 'Billing Days', 'Billing Days'),
-	(59, 'Billing Information', 'Billing Information'),
-	(60, 'Billing Type', 'Billing Type'),
-	(61, 'Body', 'Body'),
-	(62, 'Buy Cost', 'Buy Cost'),
-	(63, 'Call Barring', 'Call Barring'),
-	(64, 'Call Date', 'Call Date'),
-	(65, 'Call Detail Reports', 'Call Detail Reports'),
-	(66, 'Call Max Length', 'Call Max Length'),
-	(67, 'Call State', 'Call State'),
-	(68, 'Call Summary Reports', 'Call Summary Reports'),
-	(69, 'Call Timeout', 'Call Timeout'),
-	(70, 'Call Type', 'Call Type'),
-	(71, 'Call Types', 'Call Types'),
-	(72, 'Called Number', 'Called Number'),
-	(73, 'Caller ID', 'Caller ID'),
-	(74, 'Caller IDs', 'Caller IDs'),
-	(75, 'Caller IP', 'Caller IP'),
-	(76, 'Caller Name', 'Caller Name'),
-	(77, 'Caller Number', 'Caller Number'),
-	(78, 'Caller-Id-In-Form', 'Caller-Id-In-Form'),
-	(79, 'Calling Card', 'Calling Card'),
-	(80, 'Calls', 'Calls'),
-	(81, 'Calls Breakdown', 'Calls Breakdown'),
-	(82, 'Calltype Information', 'Calltype Information'),
-	(83, 'Can be purchased?', 'Can be purchased?'),
-	(84, 'Capital', 'Capital'),
-	(85, 'Capture Server', 'Capture Server'),
-	(86, 'Card Input Timeout', 'Card Input Timeout'),
-	(87, 'Card Length', 'Card Length'),
-	(88, 'Card Retries', 'Card Retries'),
-	(89, 'Carriers', 'Carriers'),
-	(90, 'Category', 'Category'),
-	(91, 'CC', 'CC'),
-	(92, 'CDRs Older Than Days', 'CDRs Older Than Days'),
-	(93, 'Charge Type', 'Charge Type'),
-	(94, 'Charges Breakdown', 'Charges Breakdown'),
-	(95, 'Charges History', 'Charges History'),
-	(96, 'CID', 'CID'),
-	(97, 'City', 'City'),
-	(98, 'Clear', 'Clear'),
-	(99, 'Client IP', 'Client IP'),
-	(100, 'Client User Agent', 'Client User Agent'),
-	(101, 'Code', 'Code'),
-	(102, 'Codecs', 'Codecs'),
-	(103, 'Commission', 'Commission'),
-	(104, 'Commission Rate', 'Commission Rate'),
-	(105, 'Commission Reports', 'Commission Reports'),
-	(106, 'Company', 'Company'),
-	(107, 'Company Profiles', 'Company Profiles'),
-	(108, 'Company Tax number', 'Company Tax number'),
-	(109, 'Completed Calls', 'Completed Calls'),
-	(110, 'Concurrent Calls', 'Concurrent Calls'),
-	(111, 'Configuration', 'Configuration'),
-	(112, 'Confirmed', 'Confirmed'),
-	(113, 'Connection Cost', 'Connection Cost'),
-	(114, 'Contains', 'Contains'),
-	(115, 'Cost', 'Cost'),
-	(116, 'Cost/Min', 'Cost/Min'),
-	(117, 'Countries', 'Countries'),
-	(118, 'Country', 'Country'),
-	(119, 'Country Code', 'Country Code'),
-	(120, 'Country List', 'Country List'),
-	(121, 'Country Reports', 'Country Reports'),
-	(122, 'Coupon Information', 'Coupon Information'),
-	(123, 'Coupon Number', 'Coupon Number'),
-	(124, 'CPS', 'CPS'),
-	(125, 'Create', 'Create'),
-	(126, 'Create Admin', 'Create Admin'),
-	(127, 'Create calltype', 'Create calltype'),
-	(128, 'Create Company Profile', 'Create Company Profile'),
-	(129, 'Create Customer', 'Create Customer'),
-	(130, 'Create Origination Rate', 'Create Origination Rate'),
-	(131, 'Create Product', 'Create Product'),
-	(132, 'Create Provider', 'Create Provider'),
-	(133, 'Create Rate Group', 'Create Rate Group'),
-	(134, 'Create Refill Coupon', 'Create Refill Coupon'),
-	(135, 'Create SIP Device', 'Create SIP Device'),
-	(136, 'Create Tax', 'Create Tax'),
-	(137, 'Created Date', 'Created Date'),
-	(138, 'Creation Date', 'Creation Date'),
-	(139, 'Credit', 'Credit'),
-	(140, 'Credit Limit', 'Credit Limit'),
-	(141, 'Crons', 'Crons'),
-	(142, 'Currency', 'Currency'),
-	(143, 'Currency Conversion Loss Percentage', 'Currency Conversion Loss Percentage'),
-	(144, 'Currency List', 'Currency List'),
-	(145, 'Customer', 'Customer'),
-	(146, 'Customer CDRs Report', 'Customer CDRs Report'),
-	(147, 'Customer Summary', 'Customer Summary'),
-	(148, 'Customer Summary Report', 'Customer Summary Report'),
-	(149, 'Customers', 'Customers'),
-	(150, 'Dashboard', 'Dashboard'),
-	(151, 'Database', 'Database'),
-	(152, 'Date', 'Date'),
-	(153, 'Debit', 'Debit'),
-	(154, 'Debug', 'Debug'),
-	(155, 'Decimal Points', 'Decimal Points'),
-	(156, 'Default Increment', 'Default Increment'),
-	(157, 'Default Invoice Mode', 'Default Invoice Mode'),
-	(158, 'Default Tax', 'Default Tax'),
-	(159, 'Delete', 'Delete'),
-	(160, 'Deleted Accounts After Days', 'Deleted Accounts After Days'),
-	(161, 'Description', 'Description'),
-	(162, 'Destination', 'Destination'),
-	(163, 'Dial Input Timeout', 'Dial Input Timeout'),
-	(164, 'DID', 'DID'),
-	(165, 'DIDs', 'DIDs'),
-	(166, 'Direction', 'Direction'),
-	(167, 'Disable', 'Disable'),
-	(168, 'Display records in', 'Display records in'),
-	(169, 'Disposition', 'Disposition'),
-	(170, 'Documentation', 'Documentation'),
-	(171, 'Doesnt Contain', 'Doesnt Contain'),
-	(172, 'Domain', 'Domain'),
-	(173, 'Draft', 'Draft'),
-	(174, 'Due Date', 'Due Date'),
-	(175, 'Duplicate', 'Duplicate'),
-	(176, 'Duration', 'Duration'),
-	(177, 'Email', 'Email'),
-	(178, 'Email Alerts ?', 'Email Alerts ?'),
-	(179, 'Email History', 'Email History'),
-	(180, 'Email History List', 'Email History List'),
-	(181, 'Email Notification', 'Email Notification'),
-	(182, 'Email Notifications', 'Email Notifications'),
-	(183, 'Email Status', 'Email Status'),
-	(184, 'Email Template', 'Email Template'),
-	(185, 'Emails Older Than Days', 'Emails Older Than Days'),
-	(186, 'En', 'En'),
-	(187, 'Enable', 'Enable'),
-	(188, 'Enable Signup', 'Enable Signup'),
-	(189, 'Ends With', 'Ends With'),
-	(190, 'Enterprise', 'Enterprise'),
-	(191, 'Entity Type', 'Entity Type'),
-	(192, 'Environment', 'Environment'),
-	(193, 'Ewallet Payment Gateway', 'Ewallet Payment Gateway'),
-	(194, 'Expired Accounts After Days', 'Expired Accounts After Days'),
-	(195, 'Expiry Date', 'Expiry Date'),
-	(196, 'Export', 'Export'),
-	(197, 'Failover  GW Name #1', 'Failover  GW Name #1'),
-	(198, 'Failover GW Name #2', 'Failover GW Name #2'),
-	(199, 'Favicon', 'Favicon'),
-	(200, 'Fax', 'Fax'),
-	(201, 'Fee', 'Fee'),
-	(202, 'File Path', 'File Path'),
-	(203, 'Filter', 'Filter'),
-	(204, 'First Name', 'First Name'),
-	(205, 'First Used', 'First Used'),
-	(206, 'Fixer Key', 'Fixer Key'),
-	(207, 'FMAddon', 'FMAddon'),
-	(208, 'Footer', 'Footer'),
-	(209, 'Fraud Detection', 'Fraud Detection'),
-	(210, 'Free Minutes', 'Free Minutes'),
-	(211, 'FreeSwitch Servers', 'FreeSwitch Servers'),
-	(212, 'From', 'From'),
-	(213, 'From Date', 'From Date'),
-	(214, 'From Timestamp', 'From Timestamp'),
-	(215, 'Gateway Name', 'Gateway Name'),
-	(216, 'Gateways', 'Gateways'),
-	(217, 'General', 'General'),
-	(218, 'General Input Timeout', 'General Input Timeout'),
-	(219, 'Generate Invoice', 'Generate Invoice'),
-	(220, 'Generate Pin', 'Generate Pin'),
-	(221, 'Generates Alarm From System', 'Generates Alarm From System'),
-	(222, 'Generates Local Number system', 'Generates Local Number system'),
-	(223, 'Generates ticket of issues from system', 'Generates ticket of issues from system'),
-	(224, 'Generates Various Alarms From System', 'Generates Various Alarms From System'),
-	(225, 'Generates Various Country Reports From System', 'Generates Various Country Reports From System'),
-	(226, 'Generates various reports from system', 'Generates various reports from system'),
-	(227, 'Get Addons', 'Get Addons'),
-	(228, 'Get App', 'Get App'),
-	(229, 'Global', 'Global'),
-	(230, 'Grace Time', 'Grace Time'),
-	(231, 'Grand Total', 'Grand Total'),
-	(232, 'Group By', 'Group By'),
-	(233, 'Group By #1', 'Group By #1'),
-	(234, 'Group By #2', 'Group By #2'),
-	(235, 'Group By #3', 'Group By #3'),
-	(236, 'Group By #Time', 'Group By #Time'),
-	(237, 'Header', 'Header'),
-	(238, 'Homer', 'Homer'),
-	(239, 'Host', 'Host'),
-	(240, 'Import', 'Import'),
-	(241, 'Import Customers', 'Import Customers'),
-	(242, 'Import with field map', 'Import with field map'),
-	(243, 'Inbound', 'Inbound'),
-	(244, 'Inbound Fax', 'Inbound Fax'),
-	(245, 'Included Seconds', 'Included Seconds'),
-	(246, 'Increment', 'Increment'),
-	(247, 'Initial Balance', 'Initial Balance'),
-	(248, 'Initial Increment', 'Initial Increment'),
-	(249, 'Inovices Older Than Days', 'Inovices Older Than Days'),
-	(250, 'Install', 'Install'),
-	(251, 'Installed', 'Installed'),
-	(252, 'Interval', 'Interval'),
-	(253, 'Interval Type', 'Interval Type'),
-	(254, 'Invoice Configuration', 'Invoice Configuration'),
-	(255, 'Invoice Date', 'Invoice Date'),
-	(256, 'Invoice Due Days', 'Invoice Due Days'),
-	(257, 'Invoice Due Notification', 'Invoice Due Notification'),
-	(258, 'Invoice Notification', 'Invoice Notification'),
-	(259, 'Invoice Number', 'Invoice Number'),
-	(260, 'Invoice Prefix', 'Invoice Prefix'),
-	(261, 'Invoice Start Form', 'Invoice Start Form'),
-	(262, 'Invoices', 'Invoices'),
-	(263, 'IP', 'IP'),
-	(264, 'IP Settings', 'IP Settings'),
-	(265, 'Is Equal To', 'Is Equal To'),
-	(266, 'Is Not Equal To', 'Is Not Equal To'),
-	(267, 'Is Purchased?', 'Is Purchased?'),
-	(268, 'Iso', 'Iso'),
-	(269, 'Iso3', 'Iso3'),
-	(270, 'IVR Count', 'IVR Count'),
-	(271, 'Languages', 'Languages'),
-	(272, 'Last Execution Date', 'Last Execution Date'),
-	(273, 'Last Modified Date', 'Last Modified Date'),
-	(274, 'Last Name', 'Last Name'),
-	(275, 'Last Paid Date', 'Last Paid Date'),
-	(276, 'Latest Orders', 'Latest Orders'),
-	(277, 'LC Charge / Min', 'LC Charge / Min'),
-	(278, 'LC Charge/Min', 'LC Charge/Min'),
-	(279, 'Live', 'Live'),
-	(280, 'Live Call Report', 'Live Call Report'),
-	(281, 'Live Id', 'Live Id'),
-	(282, 'Live Key', 'Live Key'),
-	(283, 'Live Url', 'Live Url'),
-	(284, 'Local Call Timeout', 'Local Call Timeout'),
-	(285, 'Local Number', 'Local Number'),
-	(286, 'Local Numbers', 'Local Numbers'),
-	(287, 'Locale code', 'Locale code'),
-	(288, 'Localization', 'Localization'),
-	(289, 'Localization Type', 'Localization Type'),
-	(290, 'Localizations', 'Localizations'),
-	(291, 'Log out', 'Log out'),
-	(292, 'Log Path', 'Log Path'),
-	(293, 'Logo', 'Logo'),
-	(294, 'Low balance Alert?', 'Low balance Alert?'),
-	(295, 'Mail Log', 'Mail Log'),
-	(296, 'Manually', 'Manually'),
-	(297, 'Markup', 'Markup'),
-	(298, 'Mass Create', 'Mass Create'),
-	(299, 'Mass Email', 'Mass Email'),
-	(300, 'Max Free Length', 'Max Free Length'),
-	(301, 'MCD', 'MCD'),
-	(302, 'Minimum Fund Transfer', 'Minimum Fund Transfer'),
-	(303, 'Minutes', 'Minutes'),
-	(304, 'Minutes Announcement', 'Minutes Announcement'),
-	(305, 'Minutes Breakdown', 'Minutes Breakdown'),
-	(306, 'Moderate', 'Moderate'),
-	(307, 'Modified Date', 'Modified Date'),
-	(308, 'Module', 'Module'),
-	(309, 'Name', 'Name'),
-	(310, 'New Accounts', 'New Accounts'),
-	(311, 'Nexmo API Key', 'Nexmo API Key'),
-	(312, 'Nexmo Secret Key', 'Nexmo Secret Key'),
-	(313, 'Next Execution Date', 'Next Execution Date'),
-	(314, 'Nickname', 'Nickname'),
-	(315, 'No', 'No'),
-	(316, 'No Records Found', 'No Records Found'),
-	(317, 'Notes', 'Notes'),
-	(318, 'Notifications', 'Notifications'),
-	(319, 'Notify before due days', 'Notify before due days'),
-	(320, 'Number', 'Number'),
-	(321, 'Number Type', 'Number Type'),
-	(322, 'of', 'of'),
-	(323, 'Opensips', 'Opensips'),
-	(324, 'Opensips DB Engine', 'Opensips DB Engine'),
-	(325, 'Opensips DB Host', 'Opensips DB Host'),
-	(326, 'Opensips DB Name', 'Opensips DB Name'),
-	(327, 'Opensips DB Pass', 'Opensips DB Pass'),
-	(328, 'Opensips DB User', 'Opensips DB User'),
-	(329, 'Opensips Domain', 'Opensips Domain'),
-	(330, 'Opensource', 'Opensource'),
-	(331, 'Order', 'Order'),
-	(332, 'Order Amount', 'Order Amount'),
-	(333, 'Order Date', 'Order Date'),
-	(334, 'Order ID', 'Order ID'),
-	(335, 'Order Now', 'Order Now'),
-	(336, 'Orders', 'Orders'),
-	(337, 'Org. Cost', 'Org. Cost'),
-	(338, 'Org. Destination', 'Org. Destination'),
-	(339, 'Org. Pefix', 'Org. Pefix'),
-	(340, 'Origination Rates', 'Origination Rates'),
-	(341, 'Outbound Fax', 'Outbound Fax'),
-	(342, 'Outstanding Amount INR', 'Outstanding Amount INR'),
-	(343, 'Page', 'Page'),
-	(344, 'Password', 'Password'),
-	(345, 'Password Strength', 'Password Strength'),
-	(346, 'Payment Method', 'Payment Method'),
-	(347, 'Payment Methods', 'Payment Methods'),
-	(348, 'Payment Status', 'Payment Status'),
-	(349, 'Paypal', 'Paypal'),
-	(350, 'Per Minute Cost', 'Per Minute Cost'),
-	(351, 'Phone', 'Phone'),
-	(352, 'Pin Input Timeout', 'Pin Input Timeout'),
-	(353, 'Pin Length', 'Pin Length'),
-	(354, 'Pin retries', 'Pin retries'),
-	(355, 'Pinless Authentication', 'Pinless Authentication'),
-	(356, 'Place Order', 'Place Order'),
-	(357, 'Playback Audio Notifications', 'Playback Audio Notifications'),
-	(358, 'Port', 'Port'),
-	(359, 'Portal personalization', 'Portal personalization'),
-	(360, 'Powered by ASTPP', 'Powered by ASTPP'),
-	(361, 'Prefix', 'Prefix'),
-	(362, 'Prepend', 'Prepend'),
-	(363, 'Preserve', 'Preserve'),
-	(364, 'Price', 'Price'),
-	(365, 'Priority', 'Priority'),
-	(366, 'Product Category', 'Product Category'),
-	(367, 'Product Details', 'Product Details'),
-	(368, 'Product Name', 'Product Name'),
-	(369, 'Products', 'Products'),
-	(370, 'Profile Action', 'Profile Action'),
-	(371, 'Profit', 'Profit'),
-	(372, 'Provider', 'Provider'),
-	(373, 'Provider CDRs Report', 'Provider CDRs Report'),
-	(374, 'Provider Outbound', 'Provider Outbound'),
-	(375, 'Provider Outbound Report', 'Provider Outbound Report'),
-	(376, 'Provider Summary Report', 'Provider Summary Report'),
-	(377, 'Province', 'Province'),
-	(378, 'Province/State', 'Province/State'),
-	(379, 'Proxy', 'Proxy'),
-	(380, 'Purge', 'Purge'),
-	(381, 'Push Notifications', 'Push Notifications'),
-	(382, 'Quantity', 'Quantity'),
-	(383, 'Rate', 'Rate'),
-	(384, 'Rate Announcement', 'Rate Announcement'),
-	(385, 'Rate Count', 'Rate Count'),
-	(386, 'Rate Group', 'Rate Group'),
-	(387, 'Rate Groups', 'Rate Groups'),
-	(388, 'Rate Information', 'Rate Information'),
-	(389, 'Ratedeck', 'Ratedeck'),
-	(390, 'Ratedeck Information', 'Ratedeck Information'),
-	(391, 'Rates Count', 'Rates Count'),
-	(392, 'Realtime Billing', 'Realtime Billing'),
-	(393, 'Receiver Email', 'Receiver Email'),
-	(394, 'Recording Files Older Than Days', 'Recording Files Older Than Days'),
-	(395, 'Records', 'Records'),
-	(396, 'Referer Page', 'Referer Page'),
-	(397, 'Refill By', 'Refill By'),
-	(398, 'Refill Coupon Length', 'Refill Coupon Length'),
-	(399, 'Refill Coupons', 'Refill Coupons'),
-	(400, 'Refill Report', 'Refill Report'),
-	(401, 'Refills', 'Refills'),
-	(402, 'Register', 'Register'),
-	(403, 'Release if no balance', 'Release if no balance'),
-	(404, 'Report a Bug', 'Report a Bug'),
-	(405, 'Reports', 'Reports'),
-	(406, 'Request URI', 'Request URI'),
-	(407, 'Reseller', 'Reseller'),
-	(408, 'Reseller can resell', 'Reseller can resell'),
-	(409, 'Reseller Summary', 'Reseller Summary'),
-	(410, 'Reseller Summary Report', 'Reseller Summary Report'),
-	(411, 'Resellers', 'Resellers'),
-	(412, 'Resellers CDRs Report', 'Resellers CDRs Report'),
-	(413, 'Resend Mail', 'Resend Mail'),
-	(414, 'Role', 'Role'),
-	(415, 'Roles & Permission', 'Roles & Permission'),
-	(416, 'Roles & Permissions', 'Roles & Permissions'),
-	(417, 'Routing Prefix', 'Routing Prefix'),
-	(418, 'Routing Type', 'Routing Type'),
-	(419, 'Sandbox', 'Sandbox'),
-	(420, 'Sandbox Id', 'Sandbox Id'),
-	(421, 'Sandbox Key', 'Sandbox Key'),
-	(422, 'Sandbox Name', 'Sandbox Name'),
-	(423, 'Sandbox Url', 'Sandbox Url'),
-	(424, 'Save', 'Save'),
-	(425, 'Schedule Reports', 'Schedule Reports'),
-	(426, 'Search', 'Search'),
-	(427, 'Select File', 'Select File'),
-	(428, 'Select Year', 'Select Year'),
-	(429, 'Services', 'Services'),
-	(430, 'Set Maximum Add card limit', 'Set Maximum Add card limit'),
-	(431, 'Settings', 'Settings'),
-	(432, 'Setup Fee', 'Setup Fee'),
-	(433, 'Signup', 'Signup'),
-	(434, 'SIP Devices', 'SIP Devices'),
-	(435, 'SIP IP', 'SIP IP'),
-	(436, 'SIP Port', 'SIP Port'),
-	(437, 'SIP Profile', 'SIP Profile'),
-	(438, 'SIP Profiles', 'SIP Profiles'),
-	(439, 'SMS', 'SMS'),
-	(440, 'SMS Body', 'SMS Body'),
-	(441, 'SMS Notifications', 'SMS Notifications'),
-	(442, 'SMS Status', 'SMS Status'),
-	(443, 'SMTP', 'SMTP'),
-	(444, 'SMTP Host', 'SMTP Host'),
-	(445, 'SMTP Pass', 'SMTP Pass'),
-	(446, 'SMTP Port', 'SMTP Port'),
-	(447, 'SMTP User', 'SMTP User'),
-	(448, 'Start prefix', 'Start prefix'),
-	(449, 'Starting Digit', 'Starting Digit'),
-	(450, 'Status', 'Status'),
-	(451, 'Strip', 'Strip'),
-	(452, 'Strong', 'Strong'),
-	(453, 'Subject', 'Subject'),
-	(454, 'Subscription', 'Subscription'),
-	(455, 'Supportticket', 'Supportticket'),
-	(456, 'Switch', 'Switch'),
-	(457, 'Tariff', 'Tariff'),
-	(458, 'Tax', 'Tax'),
-	(459, 'Tax Information', 'Tax Information'),
-	(460, 'Telephone', 'Telephone'),
-	(461, 'Telephone as account number', 'Telephone as account number'),
-	(462, 'Templates', 'Templates'),
-	(463, 'Term. Cost', 'Term. Cost'),
-	(464, 'Term. Destination', 'Term. Destination'),
-	(465, 'Term. Prefix', 'Term. Prefix'),
-	(466, 'Term. Trunk', 'Term. Trunk'),
-	(467, 'Termination Rates', 'Termination Rates'),
-	(468, 'Third Party', 'Third Party'),
-	(469, 'This Month', 'This Month'),
-	(470, 'This Week', 'This Week'),
-	(471, 'Timelimit Announcement', 'Timelimit Announcement'),
-	(472, 'Timestamp', 'Timestamp'),
-	(473, 'Timezone', 'Timezone'),
-	(474, 'To', 'To'),
-	(475, 'To Number', 'To Number'),
-	(476, 'To Timestamp', 'To Timestamp'),
-	(477, 'Today', 'Today'),
-	(478, 'Top 10 Accounts', 'Top 10 Accounts'),
-	(479, 'Top 10 Destinations', 'Top 10 Destinations'),
-	(480, 'Total Calls', 'Total Calls'),
-	(481, 'Total Charges', 'Total Charges'),
-	(482, 'Total Minutes', 'Total Minutes'),
-	(483, 'Transaction ID', 'Transaction ID'),
-	(484, 'Translations', 'Translations'),
-	(485, 'Translations Language', 'Translations Language'),
-	(486, 'Trunk', 'Trunk'),
-	(487, 'Trunks', 'Trunks'),
-	(488, 'Type', 'Type'),
-	(489, 'Unpaid', 'Unpaid'),
-	(490, 'Update', 'Update'),
-	(491, 'Used', 'Used'),
-	(492, 'Used Date', 'Used Date'),
-	(493, 'Username', 'Username'),
-	(494, 'Version', 'Version'),
-	(495, 'Version 4.0 Beta', 'Version 4.0 Beta'),
-	(496, 'View All', 'View All'),
-	(498, 'Voicemail', 'Voicemail'),
-	(500, 'Panel Access', 'Panel Access'),
-	(501, 'Profile', 'Profile'),
-	(502, 'Billing Settings', 'Billing Settings'),
-	(503, 'Pin', 'Pin'),
-	(504, 'Account Settings', 'Account Settings'),
-	(505, 'Notification Email', 'Notification Email'),
-	(506, 'Address', 'Address'),
-	(507, 'NON-CLI Rate Group', 'NON-CLI Rate Group'),
-	(508, 'Billing Schedule', 'Billing Schedule'),
-	(509, 'Billing Day', 'Billing Day'),
-	(510, 'Tax Number', 'Tax Number'),
-	(511, 'Invoice Note', 'Invoice Note'),
-	(512, 'Reference', 'Reference'),
-	(513, 'Cancel', 'Cancel'),
-	(514, 'Device Information', 'Device Information'),
-	(515, 'Voicemail Options', 'Voicemail Options'),
-	(516, 'Mail To', 'Mail To'),
-	(517, 'Attach File', 'Attach File'),
-	(518, 'Local After Email', 'Local After Email'),
-	(519, 'Send all Message', 'Send all Message'),
-	(520, 'Close', 'Close'),
-	(521, 'IP map', 'IP map'),
-	(522, 'Identificador de llamadas', 'Identificador de llamadas'),
-	(523, 'Add Caller ID', 'Add Caller ID'),
-	(524, 'Create Reseller', 'Create Reseller'),
-	(525, 'Role Name', 'Role Name'),
-	(526, 'Outstanding Amount', 'Outstanding Amount'),
-	(527, 'To Date', 'To Date'),
-	(528, 'Before Balance', 'Before Balance'),
-	(529, 'Commission Report', 'Commission Report'),
-	(530, 'MonthlyFee', 'MonthlyFee'),
-	(531, 'Grace Time (Sec.)', 'Grace Time (Sec.)'),
-	(532, 'Import DIDs', 'Import DIDs'),
-	(533, 'File must be in the following format', 'File must be in the following format'),
-	(534, 'DID Import Process', 'DID Import Process'),
-	(535, 'Get Sample file', 'Get Sample file'),
-	(536, 'Check Header', 'Check Header'),
-	(537, 'Select the file', 'Select the file'),
-	(538, 'Account Count', 'Account Count'),
-	(539, 'Acc. Number Length', 'Acc. Number Length'),
-	(540, 'Valid Days', 'Valid Days'),
-	(541, 'Create Access Number', 'Create Access Number'),
-	(542, 'Information', 'Information'),
-	(543, 'Import Access Numbers', 'Import Access Numbers'),
-	(544, 'Access Numbers Import Process', 'Access Numbers Import Process'),
-	(545, 'DIDs Bulk Assign', 'DIDs Bulk Assign'),
-	(546, 'Bulk DID Purchase', 'Bulk DID Purchase'),
-	(547, 'Provience', 'Provience'),
-	(548, 'Assign Number', 'Assign Number'),
-	(549, 'DID Destination', 'DID Destination'),
-	(550, 'DID Forward', 'DID Forward'),
-	(551, 'Always', 'Always'),
-	(552, 'If Busy', 'If Busy'),
-	(553, 'If SIP Not Registered', 'If SIP Not Registered'),
-	(554, 'If No Answer', 'If No Answer'),
-	(555, 'New Rate Group Name', 'New Rate Group Name'),
-	(556, 'Duplicate Rate Group Information', 'Duplicate Rate Group Information'),
-	(557, 'Import Origination Rates', 'Import Origination Rates'),
-	(558, 'Force Trunk', 'Force Trunk'),
-	(559, 'Please select atleast one record to dele', 'Please select atleast one record to dele'),
-	(560, 'Import Ratedeck', 'Import Ratedeck'),
-	(561, 'Optional Information', 'Optional Information'),
-	(562, 'From- Domain', 'From- Domain'),
-	(563, 'From User', 'From User'),
-	(564, 'Extension', 'Extension'),
-	(565, 'Extension-In-Contact', 'Extension-In-Contact'),
-	(566, 'Ping', 'Ping'),
-	(567, 'Contact Params', 'Contact Params'),
-	(568, 'Retry-Seconds', 'Retry-Seconds'),
-	(569, 'Register-Proxy', 'Register-Proxy'),
-	(570, 'Channel', 'Channel'),
-	(571, 'Failover GW Name', 'Failover GW Name'),
-	(572, 'Create Trunk', 'Create Trunk'),
-	(573, 'Import Termination Rates', 'Import Termination Rates'),
-	(574, 'Call Timeout (Sec.)', 'Call Timeout (Sec.)'),
-	(575, 'Trunk List', 'Trunk List'),
-	(576, 'Reset', 'Reset'),
-	(577, 'Create SIP Profile', 'Create SIP Profile'),
-	(578, 'Create Freeswitch Server', 'Create Freeswitch Server'),
-	(579, 'Live Calls', 'Live Calls'),
-	(580, 'Term Cost', 'Term Cost'),
-	(581, 'Term Destination', 'Term Destination'),
-	(582, 'Term Prefix', 'Term Prefix'),
-	(583, 'Localizaciones', 'Localizaciones'),
-	(584, 'Create Localization', 'Create Localization'),
-	(585, 'Origination', 'Origination'),
-	(586, 'Termination', 'Termination'),
-	(587, 'Inbound Callerid Translation', 'Inbound Callerid Translation'),
-	(588, 'Destination Number Translation', 'Destination Number Translation'),
-	(589, 'Outbound Callerid Translation', 'Outbound Callerid Translation'),
-	(590, 'Create Call Barring', 'Create Call Barring'),
-	(591, 'Callbarring Settings', 'Callbarring Settings'),
-	(592, 'Product Summary Report', 'Product Summary Report'),
-	(593, 'SIP User', 'SIP User'),
-	(594, 'Product', 'Product'),
-	(595, 'Taxes', 'Taxes'),
-	(596, 'Update Currencies', 'Update Currencies'),
-	(597, 'File Name', 'File Name'),
-	(598, 'Database Information', 'Database Information'),
-	(599, 'Database Backup', 'Database Backup'),
-	(600, 'Command', 'Command'),
-	(601, 'Cron Settings', 'Cron Settings'),
-	(602, 'Create Cron Settings', 'Create Cron Settings'),
-	(603, 'Stripe', 'Stripe'),
-	(604, 'Live Secret key', 'Live Secret key'),
-	(605, 'Live Publishable key', 'Live Publishable key'),
-	(606, 'Set Percentage Charges', 'Set Percentage Charges'),
-	(607, 'Set Fix Charges', 'Set Fix Charges'),
-	(608, 'Stripe Mode', 'Stripe Mode'),
-	(609, 'Sandbox secret key', 'Sandbox secret key'),
-	(610, 'Sandbox publishable key', 'Sandbox publishable key'),
-	(611, 'Version 4.0 Enterprise', 'Version 4.0 Enterprise'),
-	(612, 'Powered by', 'Powered by'),
-	(613, 'Import Customer Using Field Mapper', 'Import Customer Using Field Mapper'),
-	(614, 'You must either select a field from your', 'You must either select a field from your'),
-	(615, 'Records with duplicate account number an', 'Records with duplicate account number an'),
-	(616, 'Account Import Error', 'Account Import Error'),
-	(617, 'Back to Customer List', 'Back to Customer List'),
-	(618, 'Duplicate accounts with account number /', 'Duplicate accounts with account number /'),
-	(619, 'Records imported successfully', 'Records imported successfully'),
-	(620, 'Records not imported', 'Records not imported'),
-	(621, 'Error In CSV File', 'Error In CSV File'),
-	(622, 'Invoice Summary', 'Invoice Summary'),
-	(623, 'Customer Details', 'Customer Details'),
-	(624, 'Invoice Details', 'Invoice Details'),
-	(625, 'Account Number', 'Account Number'),
-	(626, 'Invoice Amount', 'Invoice Amount'),
-	(627, 'Invoice Item', 'Invoice Item'),
-	(628, 'Sub Total', 'Sub Total'),
-	(629, 'Total Due', 'Total Due'),
-	(630, 'Once you confirm the invoice, you will n', 'Once you confirm the invoice, you will n'),
-	(631, 'Note', 'Note'),
-	(632, 'Add Setting', 'Add Setting'),
-	(633, 'Edit SIP Profile', 'Edit SIP Profile'),
-	(634, 'New', 'New'),
-	(635, 'Used?', 'Used?'),
-	(636, 'View Email', 'View Email'),
-	(637, 'Active', 'Active'),
-	(638, 'Inactive', 'Inactive'),
-	(639, 'Black List', 'Black List'),
-	(640, 'White List', 'White List'),
-	(641, 'Freeswitch Server Information', 'Freeswitch Server Information'),
-	(642, 'Currencies', 'Currencies'),
-	(643, 'Edit Currency', 'Edit Currency'),
-	(644, 'Is Distributor', 'Is Distributor'),
-	(645, 'Package created successfully!', 'Package created successfully!'),
-	(646, 'DID Removed Successfully.', 'DID Removed Successfully.'),
-	(647, 'DID not found.', 'DID not found.'),
-	(648, 'Password changed Sucessfully....!!!', 'Password changed Sucessfully....!!!'),
-	(649, 'New Password & Conformpassword not match', 'New Password & Conformpassword not match'),
-	(650, 'Invalid old passwword.', 'Invalid old passwword.'),
-	(651, 'Permission Denied!', 'Permission Denied!'),
-	(652, 'Refill Coupon amount is added successful', 'Refill Coupon amount is added successful'),
-	(653, 'PLease upload maximum file', 'PLease upload maximum file'),
-	(654, 'files added successfully!', 'files added successfully!'),
-	(655, 'File Uploading Fail Please Try Again', 'File Uploading Fail Please Try Again'),
-	(656, 'Please upload only image!', 'Please upload only image!'),
-	(657, 'Invoice config updated successfully!', 'Invoice config updated successfully!'),
-	(658, 'Your Profile Updated Successfully!', 'Your Profile Updated Successfully!'),
-	(659, 'Something wrong.Please contact to admini', 'Something wrong.Please contact to admini'),
-	(660, 'DID Released Successfully!', 'DID Released Successfully!'),
-	(661, 'IP already exist in system.', 'IP already exist in system.'),
-	(662, 'IP Added Sucessfully.', 'IP Added Sucessfully.'),
-	(663, 'IP Removed Sucessfully.', 'IP Removed Sucessfully.'),
-	(664, 'SIP Device Updated Successfully!', 'SIP Device Updated Successfully!'),
-	(665, 'SIP Device Added Successfully!', 'SIP Device Added Successfully!'),
-	(666, 'SIP Device Removed Sucessfully!', 'SIP Device Removed Sucessfully!'),
-	(667, 'Caller ID Added Sucessfully!', 'Caller ID Added Sucessfully!'),
-	(668, 'Please Enter Caller ID value.', 'Please Enter Caller ID value.'),
-	(669, 'Caller ID already Exists.', 'Caller ID already Exists.'),
-	(670, 'Caller ID removed sucessfully!', 'Caller ID removed sucessfully!'),
-	(671, 'Alert Threshold Updated Successfully!', 'Alert Threshold Updated Successfully!'),
-	(672, 'Can not trnasfer fund to postpaid custom', 'Can not trnasfer fund to postpaid custom'),
-	(673, 'Access Denied! unable transfer fund to t', 'Access Denied! unable transfer fund to t'),
-	(674, 'You can not transfer fund in same accoun', 'You can not transfer fund in same account'),
-	(675, 'You can only transfer fund in same level', 'You can only transfer fund in same level'),
-	(676, 'Please enter To account number.', 'Please enter To account number.'),
-	(677, 'Please enter valid amount.', 'Please enter valid amount.'),
-	(678, 'You have insufficient balance.', 'You have insufficient balance.'),
-	(679, 'Please enter valid account number.', 'Please enter valid account number.'),
-	(680, 'Please enter amount greater then 0.', 'Please enter amount greater then 0.'),
-	(681, 'You need to enter minimum for fund trans', 'You need to enter minimum for fund trans'),
-	(682, 'Please enter valid account number!', 'Please enter valid account number!'),
-	(683, 'Insuffiecient amount !', 'Insuffiecient amount !'),
-	(684, 'Transfer successfully!', 'Transfer successfully!'),
-	(685, 'Account number not found.', 'Account number not found.'),
-	(686, 'OpenSips updated successfully!', 'OpenSips updated successfully!'),
-	(687, 'Duplicate Username Found.Username Must b', 'Duplicate Username Found.Username Must b'),
-	(688, 'User name is required field.', 'User name is required field.'),
-	(689, 'Opensips Device Removed Successfully!.', 'Opensips Device Removed Successfully!.'),
-	(690, 'Speed-dial Number Added Successfully!', 'Speed-dial Number Added Successfully!'),
-	(691, 'Can not delete blank speeddial number', 'Can not delete blank speeddial number'),
-	(692, 'Speed-dial Number Removed Successfully!', 'Speed-dial Number Removed Successfully!'),
-	(693, 'Pin Updated Successfully!', 'Pin Updated Successfully!'),
-	(694, 'DID Updated Successfully!', 'DID Updated Successfully!'),
-	(695, 'for fund transfer.', 'for fund transfer.'),
-	(696, 'You need to enter minimum', 'You need to enter minimum'),
-	(697, 'please enter recharge value', 'please enter recharge value'),
-	(698, 'New Password', 'New Password'),
-	(699, 'Old Password', 'Old Password'),
-	(700, 'Conform Password', 'Conform Password'),
-	(701, 'Letters only please', 'Letters only please'),
-	(702, 'IP Mapping', 'IP Mapping'),
-	(703, 'The Coupon Number field must contain onl', 'The Coupon Number field must contain onl'),
-	(704, 'The Coupon Number field have inactive re', 'The Coupon Number field have inactive re'),
-	(705, 'This Coupon Number is already in use.', 'This Coupon Number is already in use.'),
-	(706, 'This Coupon Number is not found.', 'This Coupon Number is not found.'),
-	(707, 'The Coupon Number field is required.', 'The Coupon Number field is required.'),
-	(708, 'REFILL COUPON RECHARGE', 'REFILL COUPON RECHARGE'),
-	(709, 'You just recharged', 'You just recharged'),
-	(710, 'account with The new balance will be', 'account with The new balance will be'),
-	(711, 'My Profile', 'My Profile'),
-	(712, 'My Account', 'My Account'),
-	(713, 'Alert Threshold', 'Alert Threshold'),
-	(714, 'The Caller ID field is required.', 'The Caller ID field is required.'),
-	(715, 'Change Password', 'Change Password'),
-	(716, 'Bill Type', 'Bill Type'),
-	(717, 'Bill Days', 'Bill Days'),
-	(718, 'New Products', 'New Products'),
-	(719, 'Active Products', 'Active Products'),
-	(720, 'Outstanding', 'Outstanding'),
-	(721, 'Today\'s Calls', 'Today\'s Calls'),
-	(722, 'Recent Calls', 'Recent Calls'),
-	(723, 'The Available DIDs field is required.', 'The Available DIDs field is required.'),
-	(724, 'Please enter your password', 'Please enter your password'),
-	(725, 'Please enter your first name', 'Please enter your first name'),
-	(726, 'Please enter your email', 'Please enter your email'),
-	(727, 'Please enter valid email', 'Please enter valid email'),
-	(728, 'This field is required.', 'This field is required.'),
-	(729, 'Email Setting', 'Email Setting'),
-	(730, 'SMTP Password', 'SMTP Password'),
-	(731, 'Are you sure want to remove logo?', 'Are you sure want to remove logo?'),
-	(732, 'The IP field must contain a unique value', 'The IP field must contain a unique value'),
-	(733, 'The IP field have not valid IP.', 'The IP field have not valid IP.'),
-	(734, 'The IP field is required.', 'The IP field is required.'),
-	(735, 'The Name field is required.', 'The Name field is required.'),
-	(736, 'Please enter only alpha-numeric value', 'Please enter only alpha-numeric value'),
-	(737, 'Are you sure want to delete speed dial r', 'Are you sure want to delete speed dial r'),
-	(738, 'Generated Date', 'Generated Date'),
-	(739, 'My Products', 'My Products'),
-	(740, 'Pinless CLI', 'Pinless CLI'),
-	(741, 'Refill Coupon', 'Refill Coupon'),
-	(742, 'TopUp', 'TopUp'),
-	(743, 'Pay with Paypal', 'Pay with Paypal'),
-	(744, 'Pay with Card', 'Pay with Card'),
-	(745, 'Assign', 'Assign'),
-	(746, 'Send Credit', 'Send Credit'),
-	(747, 'To Account', 'To Account'),
-	(748, 'From Account', 'From Account'),
-	(749, 'Transfer', 'Transfer'),
-	(750, 'Telephone 1', 'Telephone 1'),
-	(751, 'Telephone 2', 'Telephone 2'),
-	(752, 'Address 2', 'Address 2'),
-	(753, 'Zip/Postal Code', 'Zip/Postal Code'),
-	(754, 'User Profile', 'User Profile'),
-	(755, 'Low Balance Alert Level', 'Low Balance Alert Level'),
-	(756, 'Enable Email Alerts ?', 'Enable Email Alerts ?'),
-	(757, 'Low Balance Alert Email', 'Low Balance Alert Email'),
-	(758, 'User name', 'User name'),
-	(759, 'Something went to wrong !', 'Something went to wrong !'),
-	(760, 'Product Purchased successfully !', 'Product Purchased successfully !'),
-	(761, 'Insufficent Balance to purchase product', 'Insufficent Balance to purchase product'),
-	(762, 'Product assigned successfully!', 'Product assigned successfully!'),
-	(763, 'Something went wrong !', 'Something went wrong !'),
-	(764, 'Product Not Found', 'Product Not Found'),
-	(765, 'Transaction has been failed', 'Transaction has been failed'),
-	(766, 'not inserted. Transaction has been faile', 'not inserted. Transaction has been faile'),
-	(767, 'Select Customer.', 'Select Customer.'),
-	(768, 'Product Information', 'Product Information'),
-	(769, 'Price+SetUp Fee', 'Price+SetUp Fee'),
-	(770, 'Use Voucher', 'Use Voucher'),
-	(771, 'Amount Without Tax', 'Amount Without Tax'),
-	(772, 'Total Tax', 'Total Tax'),
-	(773, 'Amount With Tax', 'Amount With Tax'),
-	(774, 'Parent Products', 'Parent Products'),
-	(775, 'Edit Product', 'Edit Product'),
-	(776, 'Product updated successfully!', 'Product updated successfully!'),
-	(777, 'Product added successfully!', 'Product added successfully!'),
-	(778, 'Product removed successfully!', 'Product removed successfully!'),
-	(779, 'Product optin successfully!', 'Product optin successfully!'),
-	(780, 'Edit Info', 'Edit Info'),
-	(781, 'Product assign successfully', 'Product assign successfully'),
-	(782, 'Insufficient balance to assign product!', 'Insufficient balance to assign product!'),
-	(783, 'Terminated Updated Successfully!', 'Terminated Updated Successfully!'),
-	(784, 'Terminated', 'Terminated'),
-	(785, 'Setup Cost', 'Setup Cost'),
-	(786, 'Order New', 'Order New'),
-	(787, 'Caller ID updated successfully!', 'Caller ID updated successfully!'),
-	(788, 'Caller ID added successfully!', 'Caller ID added successfully!'),
-	(789, 'Caller ID removed successfully!', 'Caller ID removed successfully!'),
-	(790, 'Name is not contain any space', 'Name is not contain any space'),
-	(791, 'Name already exist in system.', 'Name already exist in system.'),
-	(792, 'Callbarring Settings Updated Successfull', 'Callbarring Settings Updated Successfull'),
-	(793, 'allbarring Settings Added Successfully!', 'allbarring Settings Added Successfully!'),
-	(794, 'Call Barring Removed Successfully!', 'Call Barring Removed Successfully!'),
-	(795, 'Calltype already exist in system.', 'Calltype already exist in system.'),
-	(796, 'Calltype Updated Successfully!', 'Calltype Updated Successfully!'),
-	(797, 'Calltype Added Successfully!', 'Calltype Added Successfully!'),
-	(798, 'calltype removed successfully!', 'calltype removed successfully!'),
-	(799, 'File must be in the following format(.cs', 'File must be in the following format(.cs'),
-	(800, 'Import Package Codes:', 'Import Package Codes:'),
-	(801, 'Code, Destination.', 'Code, Destination.'),
-	(802, 'Records Imported Successfully:', 'Records Imported Successfully:'),
-	(803, 'Records Not Imported :', 'Records Not Imported :'),
-	(804, 'Download Errors', 'Download Errors'),
-	(805, 'Back to Package Patterns List', 'Back to Package Patterns List'),
-	(806, 'Add To List', 'Add To List'),
-	(807, 'Routing Prefix already exist in system.', 'Routing Prefix already exist in system.'),
-	(808, 'Rate Group Updated Successfully!', 'Rate Group Updated Successfully!'),
-	(809, 'Rate Group Added Successfully!', 'Rate Group Added Successfully!'),
-	(810, 'Duplicate Rate Group Added Successfully!', 'Duplicate Rate Group Added Successfully!'),
-	(811, 'Routing Prefix (Enterprise)', 'Routing Prefix (Enterprise)'),
-	(812, 'Priority (Enterprise)', 'Priority (Enterprise)'),
-	(813, 'Percentage (WIP) (Enterprise)', 'Percentage (WIP) (Enterprise)'),
-	(814, 'LCR', 'LCR'),
-	(815, 'Percentage', 'Percentage'),
-	(816, 'Tax removed successfully!', 'Tax removed successfully!'),
-	(817, 'Tax added successfully!', 'Tax added successfully!'),
-	(818, 'Tax updated successfully!', 'Tax updated successfully!'),
-	(819, 'Charges List', 'Charges List'),
-	(820, 'Trunk Updated Successfully!', 'Trunk Updated Successfully!'),
-	(821, 'Trunk Added Successfully!', 'Trunk Added Successfully!'),
-	(822, 'Trunk removed successfully!', 'Trunk removed successfully!'),
-	(823, 'setting updated successfully!', 'setting updated successfully!'),
-	(824, 'Template Updated Successfully!', 'Template Updated Successfully!'),
-	(825, 'Template Added Successfully!', 'Template Added Successfully!'),
-	(826, 'Country Updated successfully!', 'Country Updated successfully!'),
-	(827, 'Country Added successfully!', 'Country Added successfully!'),
-	(828, 'Country removed successfully!', 'Country removed successfully!'),
-	(829, 'Currency Updated Successfully!', 'Currency Updated Successfully!'),
-	(830, 'My Rates', 'My Rates'),
-	(831, 'Cost / Min', 'Cost / Min'),
-	(832, 'Purchase', 'Purchase'),
-	(833, 'Available DIDs', 'Available DIDs'),
-	(834, 'New IP', 'New IP'),
-	(835, 'Digits', 'Digits'),
-	(836, 'Email Address', 'Email Address'),
-	(837, 'Call Forward', 'Call Forward'),
-	(838, 'If Busy:', 'If Busy:'),
-	(839, 'If SIP Not Registered:', 'If SIP Not Registered:'),
-	(840, 'If No Answer:', 'If No Answer:'),
-	(841, 'Pay Now', 'Pay Now'),
-	(842, 'Pay with Account', 'Pay with Account'),
-	(843, 'Please wait, your order is being processed and you will be redirected to the paypal website.', 'Please wait, your order is being processed and you will be redirected to the paypal website.'),
-	(844, 'Coupon Number:', 'Coupon Number:'),
-	(845, 'Add Voucher', 'Add Voucher'),
-	(846, 'Selected Plan', 'Selected Plan'),
-	(847, 'My Product', 'My Product'),
-	(848, 'Parent Product', 'Parent Product'),
-	(849, 'Edit Email Template', 'Edit Email Template'),
-	(850, 'Details', 'Details'),
-	(851, 'KEY', 'KEY'),
-	(852, 'VALUE', 'VALUE'),
-	(853, 'Records with duplicate account number and email will be ignored.', 'Records with duplicate account number and email will be ignored.'),
-	(854, 'Account Details', 'Account Details'),
-	(855, 'Mass Customer', 'Mass Customer'),
-	(856, 'Daily', 'Daily'),
-	(857, 'Monthly', 'Monthly'),
-	(858, 'Prepaid', 'Prepaid'),
-	(859, 'Postpaid', 'Postpaid'),
-	(860, 'Force Caller ID', 'Force Caller ID'),
-	(861, 'Customer Profile', 'Customer Profile'),
-	(862, 'Caller Id Name', 'Caller Id Name'),
-	(863, 'Caller Id Number', 'Caller Id Number'),
-	(864, 'Blocked Codes', 'Blocked Codes'),
-	(865, 'Page will display only receipts and confirmed invoices.', 'Page will display only receipts and confirmed invoices.'),
-	(866, 'Accessnumber Updated Successfully!', 'Accessnumber Updated Successfully!'),
-	(867, 'Accessnumber Removed Successfully!', 'Accessnumber Removed Successfully!'),
-	(868, 'Invalid file format : Only CSV file allows to import records(Can\'t import empty file)', 'Invalid file format : Only CSV file allows to import records(Can\'t import empty file)'),
-	(869, 'Access Number,Country', 'Access Number,Country'),
-	(870, 'Please Select File.', 'Please Select File.'),
-	(871, 'are required', 'are required'),
-	(872, 'is Required', 'is Required'),
-	(873, 'is not Valid', 'is not Valid'),
-	(874, 'Duplicate accessnumber found from database', 'Duplicate accessnumber found from database'),
-	(875, 'Duplicate accessnumber found from import file.', 'Duplicate accessnumber found from import file.'),
-	(876, 'Total', 'Total'),
-	(877, 'AccessNumber Imported Successfully!', 'AccessNumber Imported Successfully!'),
-	(878, 'Records Not Imported:', 'Records Not Imported:'),
-	(879, 'Back to AccessNumber List', 'Back to AccessNumber List'),
-	(880, 'Speed Dial Number Updated Successfully', 'Speed Dial Number Updated Successfully'),
-	(881, 'Please insert only numeric value!', 'Please insert only numeric value!'),
-	(882, 'Speed Dial Number Removed Successfully', 'Speed Dial Number Removed Successfully'),
-	(883, 'Speed Dial Number is Empty', 'Speed Dial Number is Empty'),
-	(884, 'Sip Device removed successfully!', 'Sip Device removed successfully!'),
-	(885, 'Sip updated successfully!', 'Sip updated successfully!'),
-	(886, 'Block Code Removed Sucessfully!', 'Block Code Removed Sucessfully!'),
-	(887, 'Your Account Limit has been reached.Please Change Your Prefix.', 'Your Account Limit has been reached.Please Change Your Prefix.'),
-	(888, 'Please Enter Proper Account Length.', 'Please Enter Proper Account Length.'),
-	(889, 'Bulk customer generate successfully!', 'Bulk customer generate successfully!'),
-	(890, 'Recharge successfully!', 'Recharge successfully!'),
-	(891, 'Post charge applied successfully.', 'Post charge applied successfully.'),
-	(892, 'Account callerID updated successfully!', 'Account callerID updated successfully!'),
-	(893, 'Account callerID added successfully!', 'Account callerID added successfully!'),
-	(894, 'Reseller updated successfully!', 'Reseller updated successfully!'),
-	(895, 'Reseller added successfully!', 'Reseller added successfully!'),
-	(896, 'Updated successfully!', 'Updated successfully!'),
-	(897, 'Added Successfully!', 'Added Successfully!'),
-	(898, 'Customer batch updated successfully!', 'Customer batch updated successfully!'),
-	(899, 'Reseller batch updated successfully!', 'Reseller batch updated successfully!'),
-	(900, 'Customer Removed Successfully!', 'Customer Removed Successfully!'),
-	(901, 'Reseller Removed Successfully!', 'Reseller Removed Successfully!'),
-	(902, 'Provider Removed Successfully!', 'Provider Removed Successfully!'),
-	(903, 'Admin Removed Successfully!', 'Admin Removed Successfully!'),
-	(904, 'Sub Admin Removed Successfully!', 'Sub Admin Removed Successfully!'),
-	(905, 'DID Added Successfully.', 'DID Added Successfully.'),
-	(906, 'DID Already Removed Before.', 'DID Already Removed Before.'),
-	(907, 'Account Tax Added Successfully!', 'Account Tax Added Successfully!'),
-	(908, 'Account Tax Removed Successfully!', 'Account Tax Removed Successfully!'),
-	(909, 'Product Removed Sucessfully.', 'Product Removed Sucessfully.'),
-	(910, 'Email Resend Successfully!', 'Email Resend Successfully!'),
-	(911, 'Email List Updated Successfully!', 'Email List Updated Successfully!'),
-	(912, 'Email List Added Successfully!', 'Email List Added Successfully!'),
-	(913, 'Email Removed Successfully!', 'Email Removed Successfully!'),
-	(914, 'Please Try Again!', 'Please Try Again!'),
-	(915, 'Email BroadCast Successfully!', 'Email BroadCast Successfully!'),
-	(916, 'No Record Found!', 'No Record Found!'),
-	(917, 'Email Address Not Found!', 'Email Address Not Found!'),
-	(918, 'Edit Freeswitch SIP Devices', 'Edit Freeswitch SIP Devices'),
-	(919, 'Create Freeswitch SIP Devices', 'Create Freeswitch SIP Devices'),
-	(920, 'Gateway Updated Successfully!', 'Gateway Updated Successfully!'),
-	(921, 'Gateways already exist in system.', 'Gateways already exist in system.'),
-	(922, 'Gateway name must not have any space.', 'Gateway name must not have any space.'),
-	(923, 'Gateway Added Successfully!', 'Gateway Added Successfully!'),
-	(924, 'Gateway Removed Successfully!', 'Gateway Removed Successfully!'),
-	(925, 'Please enter All profile value!', 'Please enter All profile value!'),
-	(926, 'SIP Profile name must not have any space!', 'SIP Profile name must not have any space!'),
-	(927, 'Duplicate SIP IP OR Port found it must be unique!', 'Duplicate SIP IP OR Port found it must be unique!'),
-	(928, 'SIP Profile Added Successfully!', 'SIP Profile Added Successfully!'),
-	(929, 'Name must be unique!', 'Name must be unique!'),
-	(930, 'SIP Profile Updated Successfully!', 'SIP Profile Updated Successfully!'),
-	(931, 'SIP Setting Added Successfully!', 'SIP Setting Added Successfully!'),
-	(932, 'SIP Setting Updated Successfully!', 'SIP Setting Updated Successfully!'),
-	(933, 'SIP Setting Removed Successfully!', 'SIP Setting Removed Successfully!'),
-	(934, 'SIP Profile Removed Successfully!', 'SIP Profile Removed Successfully!'),
-	(935, 'Host Already Exist in System.', 'Host Already Exist in System.'),
-	(936, 'Freeswitch Server Updated Successfully!', 'Freeswitch Server Updated Successfully!'),
-	(937, 'Freeswitch Server Added Successfully!', 'Freeswitch Server Added Successfully!'),
-	(938, 'Freeswitch Server Removed Successfully!', 'Freeswitch Server Removed Successfully!'),
-	(939, 'Invoice updated successfully!', 'Invoice updated successfully!'),
-	(940, 'Invoice payment done successfully!', 'Invoice payment done successfully!'),
-	(941, 'Account Not Found.', 'Account Not Found.'),
-	(942, 'Invoice payment amount should be higher then the invoice amount.', 'Invoice payment amount should be higher then the invoice amount.'),
-	(943, 'The Favicon file size shoud not exceed 1MB!', 'The Favicon file size shoud not exceed 1MB!'),
-	(944, 'Please upload 250 * 60 size file', 'Please upload 250 * 60 size file'),
-	(945, 'Logo only allows file types of JPG and JPEG.', 'Logo only allows file types of JPG and JPEG.'),
-	(946, 'Favicon only allows file types of ICO, PNG, JPG and JPEG.', 'Favicon only allows file types of ICO, PNG, JPG and JPEG.'),
-	(947, 'Please upload 16 * 16 size of favicon.', 'Please upload 16 * 16 size of favicon.'),
-	(948, 'Company profile updated sucessfully!', 'Company profile updated sucessfully!'),
-	(949, 'Company profile added sucessfully!', 'Company profile added sucessfully!'),
-	(950, 'Permission Denied.', 'Permission Denied.'),
-	(951, 'is Deleted Sucessfully!', 'is Deleted Sucessfully!'),
-	(952, 'To date should not be greater than current date.', 'To date should not be greater than current date.'),
-	(953, 'Invoice generation completed.', 'Invoice generation completed.'),
-	(954, 'No data found', 'No data found'),
-	(955, 'Invoices removed successfully', 'Invoices removed successfully'),
-	(956, 'The Prefix field must contain a unique value.', 'The Prefix field must contain a unique value.'),
-	(957, 'The IP field must contain a unique value.', 'The IP field must contain a unique value.'),
-	(958, 'IP Map added successfully!', 'IP Map added successfully!'),
-	(959, 'IP Map removed successfully!', 'IP Map removed successfully!'),
-	(960, 'Localization Added Successfully!', 'Localization Added Successfully!'),
-	(961, 'Localization Updated Successfully!', 'Localization Updated Successfully!'),
-	(962, 'Localization Removed Successfully!', 'Localization Removed Successfully!'),
-	(963, 'Globalization is already exist in this system', 'Globalization is already exist in this system'),
-	(964, 'Dispatcher Updated Successfully!', 'Dispatcher Updated Successfully!'),
-	(965, 'Dispatcher Added Successfully!', 'Dispatcher Added Successfully!'),
-	(966, 'Dispatcher Removed Successfully!', 'Dispatcher Removed Successfully!'),
-	(967, 'Code is already in system', 'Code is already in system'),
-	(968, 'Country is already in system', 'Country is already in system'),
-	(969, 'Ratedeck updated successfully!', 'Ratedeck updated successfully!'),
-	(970, 'Ratedeck added successfully!', 'Ratedeck added successfully!'),
-	(971, 'Ratedeck removed successfully!', 'Ratedeck removed successfully!'),
-	(972, 'Code,Destination,Province/State,City,Status', 'Code,Destination,Province/State,City,Status'),
-	(973, 'Duplicate Ratedeck Number found from import file.', 'Duplicate Ratedeck Number found from import file.'),
-	(974, 'Ratedeck Imported Successfully!', 'Ratedeck Imported Successfully!'),
-	(975, 'Ratedeck Import Error', 'Ratedeck Import Error'),
-	(976, 'Back to Ratedeck List', 'Back to Ratedeck List'),
-	(977, 'Origination Rate Imported Successfully!', 'Origination Rate Imported Successfully!'),
-	(978, 'Origination Rate Updated Successfully!', 'Origination Rate Updated Successfully!'),
-	(979, 'Origination Rate Added Successfully!', 'Origination Rate Added Successfully!'),
-	(980, 'Termination Rates Batch Updated Successfully!', 'Termination Rates Batch Updated Successfully!'),
-	(981, 'Map CSV to Termination Rates', 'Map CSV to Termination Rates'),
-	(982, 'Data Example', 'Data Example'),
-	(983, 'Map to Field', 'Map to Field'),
-	(984, 'PREFIX/DEFAULT VALUE', 'PREFIX/DEFAULT VALUE'),
-	(985, 'ASTPP Field', 'ASTPP Field'),
-	(986, 'Created', 'Created'),
-	(987, 'Modified', 'Modified'),
-	(988, 'You can not create', 'You can not create'),
-	(989, 'Refill coupon with', 'Refill coupon with'),
-	(990, 'You can create maximum', 'You can create maximum'),
-	(991, 'Refill coupon created successfully!', 'Refill coupon created successfully!'),
-	(992, 'Currency Added Successfully!', 'Currency Added Successfully!'),
-	(993, 'Currency Removed Successfully!', 'Currency Removed Successfully!'),
-	(994, 'Backup Exported Successfully!', 'Backup Exported Successfully!'),
-	(995, 'An error occur when the system tried to backup of the database. Please check yours system settings for the backup section', 'An error occur when the system tried to backup of the database. Please check yours system settings for the backup section'),
-	(996, 'Database Restore successfully.', 'Database Restore successfully.'),
-	(997, 'File not exists!', 'File not exists!'),
-	(998, 'There is a some issue or invalid file format.', 'There is a some issue or invalid file format.'),
-	(999, 'Database backup deleted successfully.', 'Database backup deleted successfully.'),
-	(1000, 'Languages updated successfully!', 'Languages updated successfully!'),
-	(1001, 'Languages removed successfully!', 'Languages removed successfully!'),
-	(1002, 'Languages added successfully!', 'Languages added successfully!'),
-	(1003, 'Translation updated successfully!', 'Translation updated successfully!'),
-	(1004, 'Translation added successfully!', 'Translation added successfully!'),
-	(1005, 'Update Languages', 'Update Languages'),
-	(1006, 'Speed Dial', 'Speed Dial'),
-	(1007, 'Payment', 'Payment'),
-	(1008, 'Method', 'Method'),
-	(1009, 'Once you confirm the invoice, you will no longer able to update it again.', 'Once you confirm the invoice, you will no longer able to update it again.'),
-	(1010, 'Payment Gateway Permission', 'Payment Gateway Permission'),
-	(1011, 'Zip Code', 'Zip Code'),
-	(1012, 'Yes', 'Yes'),
-	(1013, 'Back', 'Back'),
-	(1014, 'Edit Reseller', 'Edit Reseller'),
-	(1015, 'Asignar DID a granel', 'Asignar DID a granel'),
-	(1016, 'DIDs Search', 'DIDs Search'),
-	(1017, 'By Month', 'By Month'),
-	(1018, 'Create Gateway', 'Create Gateway'),
-	(1019, 'Calling Card Language', 'Calling Card Language'),
-	(1020, 'Last', 'Last'),
-	(1021, 'Pay Date', 'Pay Date'),
-	(1022, 'Purchase DID', 'Purchase DID'),
-	(1023, 'Caller-ID-A-Form', 'Caller-ID-A-Form'),
-	(1024, 'Expire Seconds', 'Expire Seconds'),
-	(1025, 'Termination Date', 'Termination Date'),
-	(1026, 'Registration Date', 'Registration Date'),
-	(1027, 'Payment By', 'Payment By'),
-	(1028, 'Product Status', 'Product Status'),
-	(1029, 'Minute', 'Minute'),
-	(1030, 'Hour', 'Hour'),
-	(1031, 'Day', 'Day'),
-	(1032, 'Month', 'Month'),
-	(1033, 'Year', 'Year'),
-	(1034, 'List', 'List'),
-	(1035, 'Edit', 'Edit'),
-	(1036, 'Not Avaialable any Subscription.', 'Not Avaialable any Subscription.'),
-	(1037, 'Not Avaialable any Package for this Country.', 'Not Avaialable any Package for this Country.'),
-	(1038, 'You can only transfer fund in same level account.', 'You can only transfer fund in same level account.'),
-	(1039, 'You can not transfer fund in same account.', 'You can not transfer fund in same account.'),
-	(1040, 'Monthly Fee', 'Monthly Fee'),
-	(1041, 'Bulk DID Assign', 'Bulk DID Assign'),
-	(1042, 'Invoice Start From', 'Invoice Start From'),
-	(1043, 'Edit Gateway', 'Edit Gateway'),
-	(1044, 'Number Of Default Rows', 'Number Of Default Rows'),
-	(1045, 'Mobile Dialer', 'Mobile Dialer'),
-	(1046, 'Trunk Count', 'Trunk Count'),
-	(1047, 'Welcome File', 'Welcome File'),
-	(1048, 'Local Call Timeout (Sec.)', 'Local Call Timeout (Sec.)'),
-	(1049, 'Rate check for DID', 'Rate check for DID'),
-	(1050, 'DID Localization', 'DID Localization'),
-	(1051, 'Voicemail Number', 'Voicemail Number'),
-	(1052, 'OTP Expire Time(min)', 'OTP Expire Time(min)'),
-	(1053, 'Edit Provider', 'Edit Provider'),
-	(1054, 'Product Summary Reports', 'Product Summary Reports'),
-	(1055, 'Edit Origination Rate', 'Edit Origination Rate'),
-	(1056, 'Dialplan Variable', 'Dialplan Variable'),
-	(1057, 'Uninstall', 'Uninstall'),
-	(1058, 'Call Stat', 'Call Stat'),
-	(1059, 'Failed Calls', 'Failed Calls'),
-	(1060, 'Top 10 Countries', 'Top 10 Countries'),
-	(1061, 'By Minutes', 'By Minutes'),
-	(1062, 'By Calls', 'By Calls'),
-	(1063, 'Profit per day', 'Profit per day'),
-	(1064, 'January', 'January'),
-	(1065, 'February', 'February'),
-	(1066, 'March', 'March'),
-	(1067, 'April', 'April'),
-	(1068, 'May', 'May'),
-	(1069, 'June', 'June'),
-	(1070, 'July', 'July'),
-	(1071, 'August', 'August'),
-	(1072, 'September', 'September'),
-	(1073, 'October', 'October'),
-	(1074, 'November', 'November'),
-	(1075, 'December', 'December'),
-	(1076, 'Doesn\'t Contain', 'Doesn\'t Contain'),
-	(1077, 'Greater Than', 'Greater Than'),
-	(1078, 'Less Than', 'Less Than'),
-	(1079, 'Greater Or Equal Than', 'Greater Or Equal Than'),
-	(1080, 'Less Or Equal Than', 'Less Or Equal Than'),
-	(1081, 'Set To', 'Set To'),
-	(1082, 'Increase By', 'Increase By'),
-	(1083, 'Decrease By', 'Decrease By'),
-	(1084, 'Community', 'Community'),
-	(1085, 'You must either select a field from your file OR provide a default value for the following fields:', 'You must either select a field from your file OR provide a default value for the following fields:'),
-	(1086, 'Account Number,Password,First Name,Last Name,Company,Phone,Mobile,Email,Address,city,Province/State,Zip/Postal Code,Number Translation,Out Callerid Translation,In Callerid Translation,Concurrent Calls,CPS,Balance,Credit Limit,SIP Username,SIP Password', 'Account Number,Password,First Name,Last Name,Company,Phone,Mobile,Email,Address,city,Province/State,Zip/Postal Code,Number Translation,Out Callerid Translation,In Callerid Translation,Concurrent Calls,CPS,Balance,Credit Limit,SIP Username,SIP Password'),
-	(1087, 'Note : Records with duplicate account number and email will be ignored.', 'Note : Records with duplicate account number and email will be ignored.'),
-	(1088, 'Map CSV to Customers', 'Map CSV to Customers'),
-	(1089, 'Account Information', 'Account Information'),
-	(1090, 'Select Account', 'Select Account'),
-	(1091, 'DEFAULT VALUE', 'DEFAULT VALUE'),
-	(1092, 'SIP Username', 'SIP Username'),
-	(1093, 'sip_username', 'sip_username'),
-	(1094, 'SIP Password', 'SIP Password'),
-	(1095, 'Same as Password', 'Same as Password'),
-	(1096, 'Same as Account Number', 'Same as Account Number'),
-	(1097, 'Random', 'Random'),
-	(1098, 'Import File Data.', 'Import File Data.'),
-	(1099, 'Process Records', 'Process Records'),
-	(1100, 'Note : Duplicate accounts with account number / email are ignored.', 'Note : Duplicate accounts with account number / email are ignored.'),
-	(1101, 'Remove', 'Remove'),
-	(1102, 'Number of Account', 'Number of Account'),
-	(1103, 'Account Number Length', 'Account Number Length'),
-	(1104, 'DID (CLI Match, If not matched then use random allocated DID)', 'DID (CLI Match, If not matched then use random allocated DID)'),
-	(1105, 'Caller Id (CLI Match, If not matched then use random allocated Caller Id)', 'Caller Id (CLI Match, If not matched then use random allocated Caller Id)'),
-	(1106, 'Use NON-CLI Rate Group (If CLI not match with DID)', 'Use NON-CLI Rate Group (If CLI not match with DID)'),
-	(1107, 'Use NON-CLI Rate Group (If CLI not match with Caller ID)', 'Use NON-CLI Rate Group (If CLI not match with Caller ID)'),
-	(1108, 'Use NON-CLI Rate Group (If CLI not match with DID & Caller id)', 'Use NON-CLI Rate Group (If CLI not match with DID & Caller id)'),
-	(1109, 'Reject Call (If CLI not match with DID)', 'Reject Call (If CLI not match with DID)'),
-	(1110, 'Reject Call (If CLI not match with Caller ID)', 'Reject Call (If CLI not match with Caller ID)'),
-	(1111, 'Reject Call (If CLI not match with DID & Caller id)', 'Reject Call (If CLI not match with DID & Caller id)'),
-	(1112, '--Select--', '--Select--'),
-	(1113, 'Test Mail', 'Test Mail'),
-	(1114, 'Reset Password', 'Reset Password'),
-	(1115, 'country', 'AFGHANISTAN'),
-	(1116, 'country', 'ALBANIA'),
-	(1117, 'country', 'ALGERIA'),
-	(1118, 'country', 'AMERICAN SAMOA'),
-	(1119, 'country', 'ANDORRA'),
-	(1120, 'country', 'ANGOLA'),
-	(1121, 'country', 'ANGUILLA'),
-	(1122, 'country', 'ANTIGUA & BARBUDA'),
-	(1123, 'country', 'ARGENTINA'),
-	(1124, 'country', 'ARMENIA'),
-	(1125, 'country', 'ARUBA'),
-	(1126, 'country', 'AUSTRALIA'),
-	(1127, 'country', 'AUSTRIA'),
-	(1128, 'country', 'AZERBAIJAN'),
-	(1129, 'country', 'BAHAMAS'),
-	(1130, 'country', 'BAHRAIN'),
-	(1131, 'country', 'BANGLADESH'),
-	(1132, 'country', 'BARBADOS'),
-	(1133, 'country', 'BELARUS'),
-	(1134, 'country', 'BELGIUM'),
-	(1135, 'country', 'BELIZE'),
-	(1136, 'country', 'BENIN'),
-	(1137, 'country', 'BERMUDA'),
-	(1138, 'country', 'BHUTAN'),
-	(1139, 'country', 'BOLIVIA'),
-	(1140, 'country', 'BOSNIA AND HERZEGOVINA'),
-	(1141, 'country', 'BOTSWANA'),
-	(1142, 'country', 'BRAZIL'),
-	(1143, 'country', 'BRITISH VIRGIN ISLANDS'),
-	(1144, 'country', 'BRUNEI'),
-	(1145, 'country', 'BULGARIA'),
-	(1146, 'country', 'BURKINA FASO'),
-	(1147, 'country', 'BURUNDI'),
-	(1148, 'country', 'CAMBODIA'),
-	(1149, 'country', 'CAMEROON'),
-	(1150, 'country', 'CANADA'),
-	(1151, 'country', 'CAPE VERDE'),
-	(1152, 'country', 'CAYMAN ISLANDS'),
-	(1153, 'country', 'CENTRAL AFRICAN REPUBLIC'),
-	(1154, 'country', 'CHAD'),
-	(1155, 'country', 'CHILE'),
-	(1156, 'country', 'CHINA'),
-	(1157, 'country', 'COLOMBIA'),
-	(1158, 'country', 'COMOROS'),
-	(1159, 'country', 'CONGO'),
-	(1160, 'country', 'COSTA RICA'),
-	(1161, 'country', 'CROATIA'),
-	(1162, 'country', 'CUBA'),
-	(1163, 'country', 'CYPRUS'),
-	(1164, 'country', 'CZECH REPUBLIC'),
-	(1165, 'country', 'DEMOCRATIC REPUBLIC'),
-	(1166, 'country', 'DENMARK'),
-	(1167, 'country', 'DJIBOUTI'),
-	(1168, 'country', 'DOMINICA'),
-	(1169, 'country', 'DOMINICAN REPUBLIC'),
-	(1170, 'country', 'ECUADOR'),
-	(1171, 'country', 'EGYPT'),
-	(1172, 'country', 'EL SALVADOR'),
-	(1173, 'country', 'EQUATORIAL GUINEA'),
-	(1174, 'country', 'ERITREA'),
-	(1175, 'country', 'ETHIOPIA'),
-	(1176, 'country', 'FAEROE ISLANDS'),
-	(1177, 'country', 'FIJI ISLANDS'),
-	(1178, 'country', 'FINLAND'),
-	(1179, 'country', 'FRANCE'),
-	(1180, 'country', 'FRENCH GUIANA'),
-	(1181, 'country', 'FRENCH POLYNESIA'),
-	(1182, 'country', 'GABON'),
-	(1183, 'country', 'GAMBIA'),
-	(1184, 'country', 'GEORGIA'),
-	(1185, 'country', 'GERMANY'),
-	(1186, 'country', 'GHANA'),
-	(1187, 'country', 'GIBRALTAR'),
-	(1188, 'country', 'GREECE'),
-	(1189, 'country', 'GRENADA'),
-	(1190, 'country', 'GUADELOUPE'),
-	(1191, 'country', 'GUAM'),
-	(1192, 'country', 'GUATEMALA'),
-	(1193, 'country', 'GUINEA'),
-	(1194, 'country', 'GUINEA BISSAU'),
-	(1195, 'country', 'GUYANA'),
-	(1196, 'country', 'HAITI'),
-	(1197, 'country', 'HONDURAS'),
-	(1198, 'country', 'HONG KONG'),
-	(1199, 'country', 'HUNGARY'),
-	(1200, 'country', 'ICELAND'),
-	(1201, 'country', 'INDIA'),
-	(1202, 'country', 'INDONESIA'),
-	(1203, 'country', 'IRAN'),
-	(1204, 'country', 'IRAQ'),
-	(1205, 'country', 'IRELAND'),
-	(1206, 'country', 'ISRAEL'),
-	(1207, 'country', 'ITALY'),
-	(1208, 'country', 'IVORY COAST'),
-	(1209, 'country', 'JAMAICA'),
-	(1210, 'country', 'JAPAN'),
-	(1211, 'country', 'JORDAN'),
-	(1212, 'country', 'KAZAKHSTAN'),
-	(1213, 'country', 'KENYA'),
-	(1214, 'country', 'KOSOVO'),
-	(1215, 'country', 'KUWAIT'),
-	(1216, 'country', 'KYRGYZSTAN'),
-	(1217, 'country', 'LAOS'),
-	(1218, 'country', 'LATVIA'),
-	(1219, 'country', 'LEBANON'),
-	(1220, 'country', 'LESOTHO'),
-	(1221, 'country', 'LIBERIA'),
-	(1222, 'country', 'LIBYA'),
-	(1223, 'country', 'LIECHTENSTEIN'),
-	(1224, 'country', 'LITHUANIA'),
-	(1225, 'country', 'LUXEMBOURG'),
-	(1226, 'country', 'MACAU'),
-	(1227, 'country', 'MACEDONIA'),
-	(1228, 'country', 'MADAGASCAR'),
-	(1229, 'country', 'MALAWI'),
-	(1230, 'country', 'MALAYSIA'),
-	(1231, 'country', 'MALI'),
-	(1232, 'country', 'MALTA'),
-	(1233, 'country', 'MARSHALL ISLANDS'),
-	(1234, 'country', 'MARTINIQUE'),
-	(1235, 'country', 'MAURITANIA'),
-	(1236, 'country', 'MAURITIUS'),
-	(1237, 'country', 'MEXICO'),
-	(1238, 'country', 'MICRONESIA'),
-	(1239, 'country', 'MOLDOVA'),
-	(1240, 'country', 'MONACO'),
-	(1241, 'country', 'MONGOLIA'),
-	(1242, 'country', 'MONTENEGRO'),
-	(1243, 'country', 'MONTSERRAT'),
-	(1244, 'country', 'MOROCCO'),
-	(1245, 'country', 'MOZAMBIQUE'),
-	(1246, 'country', 'MYANMAR'),
-	(1247, 'country', 'NAMIBIA'),
-	(1248, 'country', 'NEPAL'),
-	(1249, 'country', 'NETHERLANDS'),
-	(1250, 'country', 'NEW CALEDONIA'),
-	(1251, 'country', 'NEW ZEALAND'),
-	(1252, 'country', 'NICARAGUA'),
-	(1253, 'country', 'NIGER'),
-	(1254, 'country', 'NIGERIA'),
-	(1255, 'country', 'NO. MARIANA ISLANDS'),
-	(1256, 'country', 'NORTH KOREA'),
-	(1257, 'country', 'NORWAY'),
-	(1258, 'country', 'OMAN'),
-	(1259, 'country', 'PAKISTAN'),
-	(1260, 'country', 'PALAU'),
-	(1261, 'country', 'PANAMA'),
-	(1262, 'country', 'PARAGUAY'),
-	(1263, 'country', 'PERU'),
-	(1264, 'country', 'PHILIPPINES'),
-	(1265, 'country', 'POLAND'),
-	(1266, 'country', 'PORTUGAL'),
-	(1267, 'country', 'PUERTO RICO'),
-	(1268, 'country', 'QATAR'),
-	(1269, 'country', 'REUNION ISLAND'),
-	(1270, 'country', 'ROMANIA'),
-	(1271, 'country', 'RUSSIAN FEDERATION'),
-	(1272, 'country', 'RWANDA'),
-	(1273, 'country', 'SAN MARINO'),
-	(1274, 'country', 'SAUDI ARABIA'),
-	(1275, 'country', 'SENEGAL'),
-	(1276, 'country', 'SERBIA'),
-	(1277, 'country', 'SEYCHELLES ISLANDS'),
-	(1278, 'country', 'SIERRA LEONE'),
-	(1279, 'country', 'SINGAPORE'),
-	(1280, 'country', 'SLOVAKIA'),
-	(1281, 'country', 'SLOVENIA'),
-	(1282, 'country', 'SOMALIA'),
-	(1283, 'country', 'SOUTH AFRICA'),
-	(1284, 'country', 'SOUTH KOREA'),
-	(1285, 'country', 'SOUTH SUDAN'),
-	(1286, 'country', 'SPAIN'),
-	(1287, 'country', 'SRI LANKA'),
-	(1288, 'country', 'ST. KITTS'),
-	(1289, 'country', 'ST. LUCIA'),
-	(1290, 'country', 'ST. MARTIN'),
-	(1291, 'country', 'ST. PIERRE & MIQUELON'),
-	(1292, 'country', 'ST. VINCENT'),
-	(1293, 'country', 'SUDAN'),
-	(1294, 'country', 'SURINAME'),
-	(1295, 'country', 'SWAZILAND'),
-	(1296, 'country', 'SWEDEN'),
-	(1297, 'country', 'SWITZERLAND'),
-	(1298, 'country', 'SYRIA'),
-	(1299, 'country', 'TAIWAN'),
-	(1300, 'country', 'TAJIKISTAN'),
-	(1301, 'country', 'TANZANIA'),
-	(1302, 'country', 'THAILAND'),
-	(1303, 'country', 'TRINIDAD & TOBAGO'),
-	(1304, 'country', 'TUNISIA'),
-	(1305, 'country', 'TURKEY'),
-	(1306, 'country', 'TURKMENISTAN'),
-	(1307, 'country', 'TURKS & CAICOS ISLANDS'),
-	(1308, 'country', 'UGANDA'),
-	(1309, 'country', 'UKRAINE'),
-	(1310, 'country', 'UNITED ARAB EMIRATES'),
-	(1311, 'country', 'UNITED KINGDOM'),
-	(1312, 'country', 'URUGUAY'),
-	(1313, 'country', 'US VIRGIN ISLANDS'),
-	(1314, 'country', 'United States'),
-	(1315, 'country', 'UZBEKISTAN'),
-	(1316, 'country', 'VENEZUELA'),
-	(1317, 'country', 'VIETNAM'),
-	(1318, 'country', 'YEMEN'),
-	(1319, 'country', 'ZAMBIA'),
-	(1320, 'country', 'ZIMBABWE'),
-	(1321, 'currency', 'ASCENSION'),
-	(1322, 'currency', 'COOK ISLANDS'),
-	(1323, 'currency', 'EAST TIMOR'),
-	(1324, 'currency', 'FALKLAND ISLANDS'),
-	(1325, 'currency', 'GREENLAND'),
-	(1326, 'currency', 'KIRIBATI'),
-	(1327, 'currency', 'MALDIVES'),
-	(1328, 'currency', 'NAURU'),
-	(1329, 'currency', 'Albanian Lek'),
-	(1330, 'currency', 'Algerian Dinar'),
-	(1331, 'currency', 'Aluminium Ounces'),
-	(1332, 'currency', 'Argentine Peso'),
-	(1333, 'currency', 'Aruba Florin'),
-	(1334, 'currency', 'Australian Dollar'),
-	(1335, 'currency', 'Bahamian Dollar'),
-	(1336, 'currency', 'Bahraini Dinar'),
-	(1337, 'currency', 'Bangladesh Taka'),
-	(1338, 'currency', 'Barbados Dollar'),
-	(1339, 'currency', 'Belarus Ruble'),
-	(1340, 'currency', 'Belize Dollar'),
-	(1341, 'currency', 'Bermuda Dollar'),
-	(1342, 'currency', 'Bhutan Ngultrum'),
-	(1343, 'currency', 'Bolivian Boliviano'),
-	(1344, 'currency', 'Brazilian Real'),
-	(1345, 'currency', 'British Pound'),
-	(1346, 'currency', 'Brunei Dollar'),
-	(1347, 'currency', 'Bulgarian Lev'),
-	(1348, 'currency', 'Burundi Franc'),
-	(1349, 'currency', 'Cambodia Riel'),
-	(1350, 'currency', 'Canadian Dollar'),
-	(1351, 'currency', 'Cayman Islands Dollar'),
-	(1352, 'currency', 'CFA Franc (BCEAO)'),
-	(1353, 'currency', 'CFA Franc (BEAC)'),
-	(1354, 'currency', 'Chilean Peso'),
-	(1355, 'currency', 'Chinese Yuan'),
-	(1356, 'currency', 'Colombian Peso'),
-	(1357, 'currency', 'Comoros Franc'),
-	(1358, 'currency', 'Copper Ounces'),
-	(1359, 'currency', 'Costa Rica Colon'),
-	(1360, 'currency', 'Croatian Kuna'),
-	(1361, 'currency', 'Cuban Peso'),
-	(1362, 'currency', 'Cyprus Pound'),
-	(1363, 'currency', 'Czech Koruna'),
-	(1364, 'currency', 'Danish Krone'),
-	(1365, 'currency', 'Dijibouti Franc'),
-	(1366, 'currency', 'Dominican Peso'),
-	(1367, 'currency', 'East Caribbean Dollar'),
-	(1368, 'currency', 'Ecuador Sucre'),
-	(1369, 'currency', 'Egyptian Pound'),
-	(1370, 'currency', 'El Salvador Colon'),
-	(1371, 'currency', 'Eritrea Nakfa'),
-	(1372, 'currency', 'Estonian Kroon'),
-	(1373, 'currency', 'Ethiopian Birr'),
-	(1374, 'currency', 'Euro'),
-	(1375, 'currency', 'Falkland Islands Pound'),
-	(1376, 'currency', 'Gambian Dalasi'),
-	(1377, 'currency', 'Ghanian Cedi'),
-	(1378, 'currency', 'Gibraltar Pound'),
-	(1379, 'currency', 'Gold Ounces'),
-	(1380, 'currency', 'Guatemala Quetzal'),
-	(1381, 'currency', 'Guinea Franc'),
-	(1382, 'currency', 'Haiti Gourde'),
-	(1383, 'currency', 'Honduras Lempira'),
-	(1384, 'currency', 'Hong Kong Dollar'),
-	(1385, 'currency', 'Hungarian ForINT'),
-	(1386, 'currency', 'Iceland Krona'),
-	(1387, 'currency', 'Indian Rupee'),
-	(1388, 'currency', 'Indonesian Rupiah'),
-	(1389, 'currency', 'Iran Rial'),
-	(1390, 'currency', 'Israeli Shekel'),
-	(1391, 'currency', 'Jamaican Dollar'),
-	(1392, 'currency', 'Japanese Yen'),
-	(1393, 'currency', 'Jordanian Dinar'),
-	(1394, 'currency', 'Kazakhstan Tenge'),
-	(1395, 'currency', 'Kenyan Shilling'),
-	(1396, 'currency', 'Korean Won'),
-	(1397, 'currency', 'Kuwaiti Dinar'),
-	(1398, 'currency', 'Lao Kip'),
-	(1399, 'currency', 'Latvian Lat'),
-	(1400, 'currency', 'Lebanese Pound'),
-	(1401, 'currency', 'Lesotho Loti'),
-	(1402, 'currency', 'Libyan Dinar'),
-	(1403, 'currency', 'Lithuanian Lita'),
-	(1404, 'currency', 'Macau Pataca'),
-	(1405, 'currency', 'Macedonian Denar'),
-	(1406, 'currency', 'Malagasy Franc'),
-	(1407, 'currency', 'Malawi Kwacha'),
-	(1408, 'currency', 'Malaysian Ringgit'),
-	(1409, 'currency', 'Maldives Rufiyaa'),
-	(1410, 'currency', 'Maltese Lira'),
-	(1411, 'currency', 'Mauritania Ougulya'),
-	(1412, 'currency', 'Mauritius Rupee'),
-	(1413, 'currency', 'Mexican Peso'),
-	(1414, 'currency', 'Moldovan Leu'),
-	(1415, 'currency', 'Mongolian Tugrik'),
-	(1416, 'currency', 'Moroccan Dirham'),
-	(1417, 'currency', 'Mozambique Metical'),
-	(1418, 'currency', 'Namibian Dollar'),
-	(1419, 'currency', 'Nepalese Rupee'),
-	(1420, 'currency', 'Neth Antilles Guilder'),
-	(1421, 'currency', 'New Turkish Lira'),
-	(1422, 'currency', 'New Zealand Dollar'),
-	(1423, 'currency', 'Nicaragua Cordoba'),
-	(1424, 'currency', 'Nigerian Naira'),
-	(1425, 'currency', 'Norwegian Krone'),
-	(1426, 'currency', 'Omani Rial'),
-	(1427, 'currency', 'Pacific Franc'),
-	(1428, 'currency', 'Pakistani Rupee'),
-	(1429, 'currency', 'Palladium Ounces'),
-	(1430, 'currency', 'Panama Balboa'),
-	(1431, 'currency', 'Papua New Guinea Kina'),
-	(1432, 'currency', 'Paraguayan Guarani'),
-	(1433, 'currency', 'Peruvian Nuevo Sol'),
-	(1434, 'currency', 'Philippine Peso'),
-	(1435, 'currency', 'Platinum Ounces'),
-	(1436, 'currency', 'Polish Zloty'),
-	(1437, 'currency', 'Qatar Rial'),
-	(1438, 'currency', 'Romanian Leu'),
-	(1439, 'currency', 'Romanian New Leu'),
-	(1440, 'currency', 'Russian Rouble'),
-	(1441, 'currency', 'Rwanda Franc'),
-	(1442, 'currency', 'Samoa Tala'),
-	(1443, 'currency', 'Sao Tome Dobra'),
-	(1444, 'currency', 'Saudi Arabian Riyal'),
-	(1445, 'currency', 'Seychelles Rupee'),
-	(1446, 'currency', 'Sierra Leone Leone'),
-	(1447, 'currency', 'Silver Ounces'),
-	(1448, 'currency', 'Singapore Dollar'),
-	(1449, 'currency', 'Slovak Koruna'),
-	(1450, 'currency', 'Slovenian Tolar'),
-	(1451, 'currency', 'Somali Shilling'),
-	(1452, 'currency', 'South African Rand'),
-	(1453, 'currency', 'Sri Lanka Rupee'),
-	(1454, 'currency', 'St Helena Pound'),
-	(1455, 'currency', 'Sudanese Dinar'),
-	(1456, 'currency', 'Surinam Guilder'),
-	(1457, 'currency', 'Swaziland Lilageni'),
-	(1458, 'currency', 'Swedish Krona'),
-	(1459, 'currency', 'Swiss Franc'),
-	(1460, 'currency', 'Syrian Pound'),
-	(1461, 'currency', 'Taiwan Dollar'),
-	(1462, 'currency', 'Tanzanian Shilling'),
-	(1463, 'currency', 'Thai Baht'),
-	(1464, 'currency', 'Tonga Paanga'),
-	(1465, 'currency', 'Trinidad&Tobago Dollar'),
-	(1466, 'currency', 'Tunisian Dinar'),
-	(1467, 'currency', 'U.S. Dollar'),
-	(1468, 'currency', 'UAE Dirham'),
-	(1469, 'currency', 'Ugandan Shilling'),
-	(1470, 'currency', 'Ukraine Hryvnia'),
-	(1471, 'currency', 'Uruguayan New Peso'),
-	(1472, 'currency', 'Vanuatu Vatu'),
-	(1473, 'currency', 'Venezuelan Bolivar'),
-	(1474, 'currency', 'Vietnam Dong'),
-	(1475, 'currency', 'Yemen Riyal'),
-	(1476, 'currency', 'Zambian Kwacha'),
-	(1477, 'currency', 'Zimbabwe Dollar'),
-	(1478, 'currency', 'Guyana Dollar'),
-	(1479, 'currency', 'Aruban florin'),
-	(1480, 'currency', 'Armenian dram'),
-	(1481, 'currency', 'Azerbaijani manat'),
-	(1482, 'currency', 'Barbadian dollar'),
-	(1483, 'currency', 'Bosnian Convertible Marka'),
-	(1484, 'currency', 'Botswana pula'),
-	(1485, 'currency', 'Cape Verdean escudo'),
-	(1486, 'currency', 'Congolese franc'),
-	(1487, 'currency', 'Fijian Dollar'),
-	(1488, 'currency', 'CFP franc'),
-	(1489, 'currency', 'Georgian lari'),
-	(1490, 'currency', 'Iraqi dinar'),
-	(1491, 'currency', 'Kyrgyzstani som'),
-	(1492, 'currency', 'Liberian dollar'),
-	(1493, 'currency', 'Malagasy ariary'),
-	(1494, 'currency', 'Burmese Kyat'),
-	(1495, 'currency', 'North Korean won'),
-	(1496, 'currency', 'nuevo sol'),
-	(1497, 'currency', 'Serbian dinar'),
-	(1498, 'currency', 'South Korean won'),
-	(1499, 'currency', 'South Sudanese pound'),
-	(1500, 'currency', 'Sudanese pound'),
-	(1501, 'currency', 'Surinamese dollar'),
-	(1502, 'currency', 'Tajikistani samani'),
-	(1503, 'currency', 'Turkish lira'),
-	(1504, 'currency', 'Turkmenistan manat'),
-	(1505, 'currency', 'Pound sterling'),
-	(1506, 'currency', 'Uzbekistani soʻm'),
-	(1507, 'currency', 'Saint Helena pound'),
-	(1508, 'currency', 'Indian Rupees'),
-	(1509, 'login and signup', 'Telephone number is only numeric'),
-	(1510, 'login and signup', 'Please enter valid Captcha code'),
-	(1511, 'login and signup', 'Please contact to administrator'),
-	(1512, 'login and signup', 'Requested email is already exist'),
-	(1513, 'login and signup', 'Requested number is already exist'),
-	(1514, 'login and signup', 'Please enter correct words!'),
-	(1515, 'login and signup', 'THIS IS REQUIRED!'),
-	(1516, 'login and signup', 'Your account has been deleted. Please contact administrator for more information.'),
-	(1517, 'login and signup', 'Your account is inactive. Please contact administrator for more information.'),
-	(1518, 'login and signup', 'Please enter proper Email.'),
-	(1519, 'login and signup', 'Please enter proper Username.'),
-	(1520, 'login and signup', 'This Username or Email is not valid.'),
-	(1521, 'login and signup', 'ASTPP - A Smart TelePhony Platform'),
-	(1522, 'login and signup', 'Forgot Password'),
-	(1523, 'login and signup', 'ASTPP work best with JavaScript enabled'),
-	(1524, 'login and signup', 'Enter Your Password'),
-	(1525, 'login and signup', 'Confirm Password'),
-	(1526, 'login and signup', 'The Email field is Required'),
-	(1527, 'login and signup', 'The Account Number field is Required'),
-	(1528, 'login and signup', 'Set Default Language'),
-	(1529, 'login and signup', 'Please Re-login to get Impact of selected language.'),
-	(1530, 'login and signup', 'Default Language'),
-	(1531, 'login and signup', 'Signup now!'),
-	(1532, 'login and signup', 'Forgot Password?'),
-	(1533, 'login and signup', 'Sign in'),
-	(1534, 'login and signup', 'Username OR Email'),
-	(1535, 'login and signup', 'Username is Required'),
-	(1536, 'login and signup', 'Password is Required'),
-	(1537, 'login and signup', 'Please Check Your account is deleted or inactive from admin side, please contact to your administrator'),
-	(1538, 'login and signup', 'Please do not use default or less secure password for your account!! You must change password from'),
-	(1539, 'login and signup', 'HERE'),
-	(1540, 'login and signup', 'Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active'),
-	(1541, 'login and signup', 'Please enter Username/email and Password.'),
-	(1542, 'login and signup', 'Payment transaction invalid. Please contact Administrator.'),
-	(1543, 'login and signup', 'Log In'),
-	(1544, 'login and signup', 'Please Enter Password'),
-	(1545, 'login and signup', 'Password must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit'),
-	(1546, 'login and signup', 'Please Enter Confirm Password'),
-	(1547, 'login and signup', 'Confirm Password is not match'),
-	(1548, 'login and signup', 'We sent update password link.'),
-	(1549, 'login and signup', 'Please check your Email!'),
-	(1550, 'login and signup', 'Login'),
-	(1551, 'login and signup', 'OTP Verification'),
-	(1552, 'login and signup', 'OTP Number is Required'),
-	(1553, 'login and signup', 'Your account created successfully and account details sent to your registered email address'),
-	(1554, 'login and signup', 'Your password change successfully and new password sent to your registered email address'),
-	(1555, 'login and signup', 'OTP Number is Wrong Please try again Or OTP expire Please Resend'),
-	(1556, 'login and signup', 'OTP has been sent on your email or Telephone number'),
-	(1557, 'login and signup', 'OTP'),
-	(1558, 'login and signup', 'Resend OTP'),
-	(1559, 'login and signup', 'OTP Sent time Out'),
-	(1560, 'login and signup', 'Not Get OTP ?'),
-	(1561, 'login and signup', 'Note:'),
-	(1562, 'login and signup', 'Please make sure do not refresh the page or don\'t go back'),
-	(1563, 'login and signup', 'Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.'),
-	(1564, 'login and signup', 'Your account has been created successfully!'),
-	(1565, 'login and signup', 'Here is your login information'),
-	(1566, 'login and signup', 'Link is Expire Please Try Again'),
-	(1567, 'login and signup', 'Sorry, we cannot process for singup at this time.'),
-	(1568, 'login and signup', 'Please contact administrator for more information'),
-	(1569, 'login and signup', 'Successful!'),
-	(1570, 'login and signup', 'Captcha is required'),
-	(1571, 'login and signup', 'First Name is Required'),
-	(1572, 'login and signup', 'Telephone is Required'),
-	(1573, 'login and signup', 'Email is Required'),
-	(1574, 'login and signup', 'Please enter a valid email address'),
-	(1575, 'login and signup', 'Please make sure you entered the correct username and password, and that your account is active.'),
-	(1576, 'login and signup', 'Company Name'),
-	(1577, 'login and signup', 'Enter above Captcha'),
-	(1578, 'login and signup', 'Sign up'),
-	(1579, 'login and signup', 'Already Registered !'),
-	(1580, 'CLI Pool', 'CLI Pool'),
-	(1581, 'Download', 'Download'),
-	(1582, 'True', 'True'),
-	(1583, 'False', 'False'),
-	(1584, '--Select Type--', '--Select Type--'),
-	(1585, 'One Time', 'One Time'),
-	(1586, 'Recurring', 'Recurring'),
-	(1587, 'Recurring Monthly', 'Recurring Monthly'),
-	(1588, 'Outbound', 'Outbound'),
-	(1589, 'Default', 'Default'),
-	(1590, 'Speed Dial Number Added Successfully', 'Speed Dial Number Added Successfully'),
-	(1591, 'Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.', 'Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.'),
-	(1592, 'DIDs already purchased by someone.', 'DIDs already purchased by someone.'),
-	(1593, 'DIDs Assigned sucessfully!', 'DIDs Assigned sucessfully!'),
-	(1594, 'Something wrong.Please contact to administrator.', 'Something wrong.Please contact to administrator.'),
-	(1595, 'Duplicate DID found from database', 'Duplicate DID found from database'),
-	(1596, 'Account have not sufficient amount to purchase this DID.', 'Account have not sufficient amount to purchase this DID.'),
-	(1597, 'Account not found or assign to invalid account', 'Account not found or assign to invalid account'),
-	(1598, 'Duplicate DID found from import file.', 'Duplicate DID found from import file.'),
-	(1599, 'DIDs Imported Successfully!', 'DIDs Imported Successfully!'),
-	(1600, 'Insuffiecient fund to purchase this DID.', 'Insuffiecient fund to purchase this DID.'),
-	(1601, 'Balance Below Notification', 'Balance Below Notification'),
-	(1602, 'Edit SIP device', 'Edit SIP device'),
-	(1603, 'Note : Page will display only receipts and confirmed invoices.', 'Note : Page will display only receipts and confirmed invoices.'),
-	(1604, 'Termination Rate Updated Successfully!', 'Termination Rate Updated Successfully!'),
-	(1605, 'Import Termination Rates Using Field Mapper', 'Import Termination Rates Using Field Mapper'),
-	(1606, 'Edit Roles & Permissions', 'Edit Roles & Permissions'),
-	(1607, 'Create Roles & Permissions', 'Create Roles & Permissions'),
-	(1608, 'Edit Admin', 'Edit Admin'),
-	(1609, 'Pin Updated Successfully!.', 'Pin Updated Successfully!.'),
-	(1610, 'Create Termination Rate', 'Create Termination Rate'),
-	(1611, 'Edit Company Profile', 'Edit Company Profile'),
-	(1612, 'Website', 'Website'),
-	(1613, 'Generate Invoice for no usage', 'Generate Invoice for no usage'),
-	(1614, 'Commission Repots', 'Commission Repots'),
-	(1615, 'Top Up', 'Top Up'),
-	(1616, 'Purchase DIDs', 'Purchase DIDs'),
-	(1617, 'Package', 'Package'),
-	(1618, 'Setup', 'Setup'),
-	(1619, 'DID Purchased Successfully.', 'DID Purchased Successfully.'),
-	(1620, 'release', 'release'),
-	(1621, 'DID Batch Updated Successfully!', 'DID Batch Updated Successfully!'),
-	(1622, 'DID forwading set sucessfully!', 'DID forwading set sucessfully!'),
-	(1623, 'Are you sure want to release DID?', 'Are you sure want to release DID?'),
-	(1624, 'Please select atleast one record', 'Please select atleast one record'),
-	(1625, 'Account Balance', 'Account Balance'),
-	(1626, 'Next Bill Date', 'Next Bill Date'),
-	(1627, 'TOTAL AMOUNT', 'TOTAL AMOUNT'),
-	(1628, 'Invoice', 'Invoice'),
-	(1629, 'IP Address', 'IP Address'),
-	(1630, 'Terminate', 'Terminate'),
-	(1631, 'Seconds', 'Seconds'),
-	(1632, 'Recording', 'Recording'),
-	(1633, 'Rates', 'Rates'),
-	(1634, 'Paid', 'Paid'),
-	(1635, 'No Records', 'No Records'),
-	(1636, 'Please select from date', 'Please select from date'),
-	(1637, 'Please select to date', 'Please select to date'),
-	(1638, 'Please select to date bigger than from date', 'Please select to date bigger than from date'),
-	(1639, 'Confirm', 'Confirm'),
-	(1640, 'Edit Country', 'Edit Country'),
-	(1641, 'Skip Header', 'Skip Header'),
-	(1642, 'Origination_rate_error', 'Origination_rate_error'),
-	(1643, 'Termination_rate_error', 'Termination_rate_error'),
-	(1644, 'Termination_Rates', 'Termination_Rates'),
-	(1645, 'Origination_Rates', 'Origination_Rates'),
-	(1646, 'refill_coupon', 'refill_coupon'),
-	(1647, 'Edit Calltype', 'Edit Calltype'),
-	(1648, 'Invoice generation completed .', 'Invoice generation completed .'),
-	(1649, 'No data found.', 'No data found.'),
-	(1650, 'DID added successfully!', 'DID added successfully!'),
-	(1651, 'File must be in the following format(.csv):', 'File must be in the following format(.csv):'),
-	(1652, 'Process', 'Process'),
-	(1653, 'DID Import Error', 'DID Import Error'),
-	(1654, 'Back to DID List', 'Back to DID List'),
-	(1655, 'Accessnumber Added Successfully!', 'Accessnumber Added Successfully!'),
-	(1656, 'Accessnumber Import Error', 'Accessnumber Import Error'),
-	(1657, 'Origination Rates Preview', 'Origination Rates Preview'),
-	(1658, 'Origination Rates Import Error', 'Origination Rates Import Error'),
-	(1659, 'Back to Origination Rates List', 'Back to Origination Rates List'),
-	(1660, 'Origination Rates Batch Updated Successfully!', 'Origination Rates Batch Updated Successfully!'),
-	(1661, 'Import Ratedeck Preview', 'Import Ratedeck Preview'),
-	(1662, 'CALLTYPE', 'CALLTYPE'),
-	(1663, 'Outbound-Proxy', 'Outbound-Proxy'),
-	(1664, 'Edit Trunk', 'Edit Trunk'),
-	(1665, 'Termination Rate Added Successfully!', 'Termination Rate Added Successfully!'),
-	(1666, 'Edit Termination Rate', 'Edit Termination Rate'),
-	(1667, 'Termination Rates Import Error', 'Termination Rates Import Error'),
-	(1668, 'Termination Rates Imported Successfully!', 'Termination Rates Imported Successfully!'),
-	(1669, 'Select', 'Select'),
-	(1670, 'pattern', 'pattern'),
-	(1671, 'comment', 'comment'),
-	(1672, 'connectcost', 'connectcost'),
-	(1673, 'includedseconds', 'includedseconds'),
-	(1674, 'init_inc', 'init_inc'),
-	(1675, 'inc', 'inc'),
-	(1676, 'Country Name', 'Country Name'),
-	(1677, 'PENDING', 'PENDING'),
-	(1678, 'FAIL', 'FAIL'),
-	(1679, 'Terminate Order', 'Terminate Order'),
-	(1680, 'Compose Email', 'Compose Email'),
-	(1681, 'Message', 'Message'),
-	(1682, 'Send', 'Send'),
-	(1683, 'Start', 'Start'),
-	(1684, 'SIP Port is Required.', 'SIP Port is Required.'),
-	(1685, 'SIP IP is Required.', 'SIP IP is Required.'),
-	(1686, 'Name is Required.', 'Name is Required.'),
-	(1687, 'The SIP Port field is Required.', 'The SIP Port field is Required.'),
-	(1688, 'The SIP Port field must contain only numbers.', 'The SIP Port field must contain only numbers.'),
-	(1689, 'The SIP Port field can not exceed 5 characters in length.', 'The SIP Port field can not exceed 5 characters in length.'),
-	(1690, 'Value is Required.', 'Value is Required.'),
-	(1691, 'Update Setting', 'Update Setting'),
-	(1692, 'Edit Freeswitch Server', 'Edit Freeswitch Server'),
-	(1693, 'CUT', 'CUT'),
-	(1694, 'Edit Localization', 'Edit Localization'),
-	(1695, 'Callbarring Settings Added Successfully!', 'Callbarring Settings Added Successfully!'),
-	(1696, 'Edit Call Barring', 'Edit Call Barring'),
-	(1697, 'Callbarring Settings Updated Successfully!', 'Callbarring Settings Updated Successfully!'),
-	(1698, 'Database import allows only gzfile types of file.', 'Database import allows only gzfile types of file.'),
-	(1699, 'File must be in (.gz) format :', 'File must be in (.gz) format :'),
-	(1700, 'The Coupon Number field must contain only numbers.', 'The Coupon Number field must contain only numbers.'),
-	(1701, 'The Coupon Number field have inactive refill coupon.', 'The Coupon Number field have inactive refill coupon.'),
-	(1702, 'Please enter proper email', 'Please enter proper email'),
-	(1703, 'This field is require', 'This field is require'),
-	(1704, 'Please Enter Valid Account Number', 'Please Enter Valid Account Number'),
-	(1705, 'Main', 'Main'),
-	(1706, '--Select Disposition--', '--Select Disposition--'),
-	(1707, 'Active User', 'Active User'),
-	(1708, 'Used Minutes', 'Used Minutes'),
-	(1709, 'Available Minutes', 'Available Minutes'),
-	(1710, 'Total Price', 'Total Price'),
-	(1711, 'Total User', 'Total User'),
-	(1712, 'Restore', 'Restore'),
-	(1713, 'View Details', 'View Details'),
-	(1714, 'Other', 'Other'),
-	(1715, 'Edit Tax', 'Edit Tax'),
-	(1716, 'Download Database', 'Download Database'),
-	(1717, 'Import Database', 'Import Database'),
-	(1718, 'File must be in (.gz) format', 'File must be in (.gz) format'),
-	(1719, 'Please enter name and select file.', 'Please enter name and select file.'),
-	(1720, 'Edit Cron Settings', 'Edit Cron Settings'),
-	(1721, 'Global Settings updated sucessfully!', 'Global Settings updated sucessfully!'),
-	(1722, 'Alert Notifications', 'Alert Notifications'),
-	(1723, 'Fraud Configuration', 'Fraud Configuration'),
-	(1724, 'Configuration add', 'Configuration add'),
-	(1725, 'Alarm Configuration', 'Alarm Configuration'),
-	(1726, 'Please select atleast one pattern.', 'Please select atleast one pattern.'),
-	(1727, 'Problem In Add Patterns to account.', 'Problem In Add Patterns to account.'),
-	(1728, 'Please Enter Switch command', 'Please Enter Switch command'),
-	(1729, 'are you sure to delete?', 'are you sure to delete?'),
-	(1730, 'Are you sure want to confirm this invoice ? once you confirm it', 'Are you sure want to confirm this invoice ? once you confirm it'),
-	(1731, 'can not able to edit invoice again.', 'can not able to edit invoice again.'),
-	(1732, 'Maximum Logo upload size is 1MB', 'Maximum Logo upload size is 1MB'),
-	(1733, 'Please enter number', 'Please enter number'),
-	(1734, 'Import Customer', 'Import Customer'),
-	(1735, 'Processing', 'Processing'),
-	(1736, 'please wait', 'please wait'),
-	(1737, 'Refill information', 'Refill information'),
-	(1739, ' Please select file.', ' Please select file.'),
-	(1740, ' are required', ' are required'),
-	(1741, ' is Required', ' is Required'),
-	(1742, ' is not Valid', ' is not Valid'),
-	(1760, '--All--', '--All--'),
-	(1788, 'Access Number Imported Successfully!', 'Access Number Imported Successfully!'),
-	(1791, 'Access Numbers,Country', 'Access Numbers,Country'),
-	(1792, 'Access number Added Successfully!', 'Access number Added Successfully!'),
-	(1793, 'Access number Details', 'Access number Details'),
-	(1794, 'Access number Import Error', 'Access number Import Error'),
-	(1795, 'Access number Removed Successfully!', 'Access number Removed Successfully!'),
-	(1796, 'Access number Updated Successfully!', 'Access number Updated Successfully!'),
-	(1809, 'Account Notification', 'Account Notification'),
-	(1811, 'Account Number Editable', 'Account Number Editable'),
-	(1814, 'Account Status', 'Account Status'),
-	(1833, 'Add Account Taxes', 'Add Account Taxes'),
-	(1838, 'Add IP Settings', 'Add IP Settings'),
-	(1839, 'Add Languages', 'Add Languages'),
-	(1844, 'Add white list', 'Add white list'),
-	(1848, 'Address 1', 'Address 1'),
-	(1851, 'Admin', 'Admin'),
-	(1860, 'Alert Body', 'Alert Body'),
-	(1873, 'Allowed Extentions', 'Allowed Extentions'),
-	(1874, 'Allowed file format is', 'Allowed file format is'),
-	(1890, 'Are you sure want to delete?', 'Are you sure want to delete?'),
-	(1894, 'Are you sure want to restore this database?', 'Are you sure want to restore this database?'),
-	(1910, 'Authorize dot net', 'Authorize dot net'),
-	(1915, 'Available did', 'Available did'),
-	(1947, 'Balance <br/>', 'Balance <br/>'),
-	(1984, 'Both', 'Both'),
-	(1985, 'Both (Email & SMS)', 'Both (Email & SMS)'),
-	(1997, 'Buy did', 'Buy did'),
-	(2062, 'Callerid', 'Callerid'),
-	(2098, 'Clear Search Filter', 'Clear Search Filter'),
-	(2099, 'Click Here', 'Click Here'),
-	(2132, 'Connection <br/>Cost', 'Connection <br/>Cost'),
-	(2164, 'Create Duplicate Rate Group', 'Create Duplicate Rate Group'),
-	(2181, 'Create Translation Languages', 'Create Translation Languages'),
-	(2186, 'Created <br/>Date', 'Created <br/>Date'),
-	(2191, 'Credit Limit <br/>', 'Credit Limit <br/>'),
-	(2203, 'Custom Rates', 'Custom Rates'),
-	(2271, 'Delete Favicon', 'Delete Favicon'),
-	(2272, 'Delete logo', 'Delete logo'),
-	(2299, 'Download Invoice', 'Download Invoice'),
-	(2324, 'Edit Access number', 'Edit Access number'),
-	(2325, 'Edit Access number Rates', 'Edit Access number Rates'),
-	(2328, 'Edit Caller ID', 'Edit Caller ID'),
-	(2339, 'Edit IP Settings', 'Edit IP Settings'),
-	(2341, 'Edit Languages', 'Edit Languages'),
-	(2360, 'Email Body', 'Email Body'),
-	(2381, 'English', 'English'),
-	(2382, 'Enter Description', 'Enter Description'),
-	(2383, 'Enter Name', 'Enter Name'),
-	(2413, 'Failover <br/> GW Name #1', 'Failover <br/> GW Name #1'),
-	(2414, 'Failover <br/> GW Name #2', 'Failover <br/> GW Name #2'),
-	(2416, 'Failover GW Name #1', 'Failover GW Name #1'),
-	(2421, 'Favicon is Deleted Sucessfully!', 'Favicon is Deleted Sucessfully!'),
-	(2422, 'Favicon only allows file types of', 'Favicon only allows file types of'),
-	(2442, 'For Download Sample File', 'For Download Sample File'),
-	(2448, 'Forward', 'Forward'),
-	(2449, 'Forwarding', 'Forwarding'),
-	(2485, 'Gateway<br/>Name', 'Gateway<br/>Name'),
-	(2490, 'Generate', 'Generate'),
-	(2499, 'Generates Various Country Reports From S', 'Generates Various Country Reports From S'),
-	(2572, 'Import Access number', 'Import Access number'),
-	(2573, 'Import Access number Preview', 'Import Access number Preview'),
-	(2601, 'Initial <br/>Increment', 'Initial <br/>Increment'),
-	(2619, 'Invoice Date Interval', 'Invoice Date Interval'),
-	(2637, 'Invoice<br/> Date', 'Invoice<br/> Date'),
-	(2682, 'Language', 'Language'),
-	(2731, 'Login As Customer', 'Login As Customer'),
-	(2734, 'Logo is Deleted Sucessfully!', 'Logo is Deleted Sucessfully!'),
-	(2735, 'Logo only allows file types of', 'Logo only allows file types of'),
-	(2788, 'Maximum Favicon upload size is 1MB', 'Maximum Favicon upload size is 1MB'),
-	(2802, 'Modified <br/>Date', 'Modified <br/>Date'),
-	(2805, 'Module Name', 'Module Name'),
-	(2868, 'Not Send', 'Not Send'),
-	(2869, 'Not in use', 'Not in use'),
-	(2870, 'Not set', 'Not set'),
-	(2919, 'Org.<br/>Cost', 'Org.<br/>Cost'),
-	(2920, 'Org.<br/>Destination', 'Org.<br/>Destination'),
-	(2921, 'Org.<br/>Pefix', 'Org.<br/>Pefix'),
-	(2977, 'Payment <br>Method', 'Payment <br>Method'),
-	(3004, 'Play Audio Notifications', 'Play Audio Notifications'),
-	(3015, 'Please be patient until the whole process is complete.', 'Please be patient until the whole process is complete.'),
-	(3052, 'Please upload 250 * 60 size file.', 'Please upload 250 * 60 size file.'),
-	(3058, 'Postcharge', 'Postcharge'),
-	(3075, 'Processing, please wait ...', 'Processing, please wait ...'),
-	(3096, 'Profiles', 'Profiles'),
-	(3119, 'Quick From', 'Quick From'),
-	(3127, 'Rate <br/>Count', 'Rate <br/>Count'),
-	(3145, 'Read/Write<br/>codecs', 'Read/Write<br/>codecs'),
-	(3146, 'Realm', 'Realm'),
-	(3167, 'Refill', 'Refill'),
-	(3178, 'Reg-Transport', 'Reg-Transport'),
-	(3182, 'Registration URL', 'Registration URL'),
-	(3188, 'Reload', 'Reload'),
-	(3190, 'Report', 'Report'),
-	(3196, 'Rescan', 'Rescan'),
-	(3209, 'Resend Email', 'Resend Email'),
-	(3220, 'Roles and permission for distributor login.', 'Roles and permission for distributor login.'),
-	(3223, 'Routing <br/>Prefix', 'Routing <br/>Prefix'),
-	(3322, 'Settings updated sucessfully!', 'Settings updated sucessfully!'),
-	(3362, 'Stop', 'Stop'),
-	(3421, 'Term.<br/>Cost', 'Term.<br/>Cost'),
-	(3422, 'Term.<br/>Destination', 'Term.<br/>Destination'),
-	(3423, 'Term.<br/>Prefix', 'Term.<br/>Prefix'),
-	(3424, 'Term.<br/>Trunk', 'Term.<br/>Trunk'),
-	(3534, 'Upload', 'Upload'),
-	(3540, 'Use same credential for Invoice Config', 'Use same credential for Invoice Config'),
-	(3571, 'We sent update password link. <br>Please check your Email!!', 'We sent update password link. <br>Please check your Email!!'),
-	(3588, 'You must either select a field from your file OR provide a default value for the following fields', 'You must either select a field from your file OR provide a default value for the following fields'),
-	(3635, 'Refill Process', 'Refill Process'),
-	(3636, 'Minimum Account Number', 'Minimum Account Number'),
-	(3637, 'Minimum account number length set', 'Minimum account number length set'),
-	(3638, 'Maximum Account Number', 'Maximum Account Number'),
-	(3639, 'Maximum account number length set', 'Maximum account number length set'),
-	(3640, 'Create Account Range', 'Create Account Range');
-/*!40000 ALTER TABLE `translations` ENABLE KEYS */;
-
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+DELETE FROM `translations` WHERE `id`=1;
+INSERT INTO `translations` VALUES ('Access Number', 'Access Number');
+DELETE FROM `translations` WHERE `id`=2;
+INSERT INTO `translations` VALUES ('Access Numbers', 'Access Numbers');
+DELETE FROM `translations` WHERE `id`=3;
+INSERT INTO `translations` VALUES ('Account', 'Account');
+DELETE FROM `translations` WHERE `id`=4;
+INSERT INTO `translations` VALUES ('Account Type', 'Account Type');
+DELETE FROM `translations` WHERE `id`=5;
+INSERT INTO `translations` VALUES ('Account Valid Days', 'Account Valid Days');
+DELETE FROM `translations` WHERE `id`=6;
+INSERT INTO `translations` VALUES ('Account Verification By', 'Account Verification By');
+DELETE FROM `translations` WHERE `id`=7;
+INSERT INTO `translations` VALUES ('Accounts', 'Accounts');
+DELETE FROM `translations` WHERE `id`=8;
+INSERT INTO `translations` VALUES ('Accounts Report', 'Accounts Report');
+DELETE FROM `translations` WHERE `id`=9;
+INSERT INTO `translations` VALUES ('ACD', 'ACD');
+DELETE FROM `translations` WHERE `id`=10;
+INSERT INTO `translations` VALUES ('Action', 'Action');
+DELETE FROM `translations` WHERE `id`=11;
+INSERT INTO `translations` VALUES ('Action Type', 'Action Type');
+DELETE FROM `translations` WHERE `id`=12;
+INSERT INTO `translations` VALUES ('Add', 'Add');
+DELETE FROM `translations` WHERE `id`=13;
+INSERT INTO `translations` VALUES ('Add Country', 'Add Country');
+DELETE FROM `translations` WHERE `id`=14;
+INSERT INTO `translations` VALUES ('Add Currency', 'Add Currency');
+DELETE FROM `translations` WHERE `id`=15;
+INSERT INTO `translations` VALUES ('Add Destination', 'Add Destination');
+DELETE FROM `translations` WHERE `id`=16;
+INSERT INTO `translations` VALUES ('Add Ratedeck', 'Add Ratedeck');
+DELETE FROM `translations` WHERE `id`=17;
+INSERT INTO `translations` VALUES ('Address1', 'Address1');
+DELETE FROM `translations` WHERE `id`=18;
+INSERT INTO `translations` VALUES ('Administrator', 'Administrator');
+DELETE FROM `translations` WHERE `id`=19;
+INSERT INTO `translations` VALUES ('Administrator Admin', 'Administrator Admin');
+DELETE FROM `translations` WHERE `id`=20;
+INSERT INTO `translations` VALUES ('Admins', 'Admins');
+DELETE FROM `translations` WHERE `id`=21;
+INSERT INTO `translations` VALUES ('After Balance', 'After Balance');
+DELETE FROM `translations` WHERE `id`=22;
+INSERT INTO `translations` VALUES ('Alarm', 'Alarm');
+DELETE FROM `translations` WHERE `id`=23;
+INSERT INTO `translations` VALUES ('Alert Status', 'Alert Status');
+DELETE FROM `translations` WHERE `id`=24;
+INSERT INTO `translations` VALUES ('Allow integration with Fraud detection', 'Allow integration with Fraud detection');
+DELETE FROM `translations` WHERE `id`=25;
+INSERT INTO `translations` VALUES ('Allow IP Management', 'Allow IP Management');
+DELETE FROM `translations` WHERE `id`=26;
+INSERT INTO `translations` VALUES ('Allow Local Call', 'Allow Local Call');
+DELETE FROM `translations` WHERE `id`=27;
+INSERT INTO `translations` VALUES ('Allow Local Calls', 'Allow Local Calls');
+DELETE FROM `translations` WHERE `id`=28;
+INSERT INTO `translations` VALUES ('Allow Loss Less Routing', 'Allow Loss Less Routing');
+DELETE FROM `translations` WHERE `id`=29;
+INSERT INTO `translations` VALUES ('Allow Max Retries', 'Allow Max Retries');
+DELETE FROM `translations` WHERE `id`=30;
+INSERT INTO `translations` VALUES ('Allow Recording', 'Allow Recording');
+DELETE FROM `translations` WHERE `id`=31;
+INSERT INTO `translations` VALUES ('Amount', 'Amount');
+DELETE FROM `translations` WHERE `id`=32;
+INSERT INTO `translations` VALUES ('Amount INR', 'Amount INR');
+DELETE FROM `translations` WHERE `id`=33;
+INSERT INTO `translations` VALUES ('Answered Calls', 'Answered Calls');
+DELETE FROM `translations` WHERE `id`=34;
+INSERT INTO `translations` VALUES ('Applicable For', 'Applicable For');
+DELETE FROM `translations` WHERE `id`=35;
+INSERT INTO `translations` VALUES ('Apply on existing accounts', 'Apply on existing accounts');
+DELETE FROM `translations` WHERE `id`=36;
+INSERT INTO `translations` VALUES ('Archive', 'Archive');
+DELETE FROM `translations` WHERE `id`=37;
+INSERT INTO `translations` VALUES ('ASR', 'ASR');
+DELETE FROM `translations` WHERE `id`=38;
+INSERT INTO `translations` VALUES ('Attachement', 'Attachement');
+DELETE FROM `translations` WHERE `id`=39;
+INSERT INTO `translations` VALUES ('Attempted Calls', 'Attempted Calls');
+DELETE FROM `translations` WHERE `id`=40;
+INSERT INTO `translations` VALUES ('Audit', 'Audit');
+DELETE FROM `translations` WHERE `id`=41;
+INSERT INTO `translations` VALUES ('Audit Log', 'Audit Log');
+DELETE FROM `translations` WHERE `id`=42;
+INSERT INTO `translations` VALUES ('Audit Logs Older Than Days', 'Audit Logs Older Than Days');
+DELETE FROM `translations` WHERE `id`=43;
+INSERT INTO `translations` VALUES ('Authorize.net', 'Authorize.net');
+DELETE FROM `translations` WHERE `id`=44;
+INSERT INTO `translations` VALUES ('Automatically', 'Automatically');
+DELETE FROM `translations` WHERE `id`=45;
+INSERT INTO `translations` VALUES ('Balance', 'Balance');
+DELETE FROM `translations` WHERE `id`=46;
+INSERT INTO `translations` VALUES ('Balance Announcement', 'Balance Announcement');
+DELETE FROM `translations` WHERE `id`=47;
+INSERT INTO `translations` VALUES ('Balance Below', 'Balance Below');
+DELETE FROM `translations` WHERE `id`=48;
+INSERT INTO `translations` VALUES ('Base Currency', 'Base Currency');
+DELETE FROM `translations` WHERE `id`=49;
+INSERT INTO `translations` VALUES ('Basic', 'Basic');
+DELETE FROM `translations` WHERE `id`=50;
+INSERT INTO `translations` VALUES ('Basic Information', 'Basic Information');
+DELETE FROM `translations` WHERE `id`=51;
+INSERT INTO `translations` VALUES ('Batch Update', 'Batch Update');
+DELETE FROM `translations` WHERE `id`=52;
+INSERT INTO `translations` VALUES ('Before Balance INR', 'Before Balance INR');
+DELETE FROM `translations` WHERE `id`=53;
+INSERT INTO `translations` VALUES ('Begins With', 'Begins With');
+DELETE FROM `translations` WHERE `id`=54;
+INSERT INTO `translations` VALUES ('Beta', 'Beta');
+DELETE FROM `translations` WHERE `id`=55;
+INSERT INTO `translations` VALUES ('Billable', 'Billable');
+DELETE FROM `translations` WHERE `id`=56;
+INSERT INTO `translations` VALUES ('Billing', 'Billing');
+DELETE FROM `translations` WHERE `id`=57;
+INSERT INTO `translations` VALUES ('Billing Cycle', 'Billing Cycle');
+DELETE FROM `translations` WHERE `id`=58;
+INSERT INTO `translations` VALUES ('Billing Days', 'Billing Days');
+DELETE FROM `translations` WHERE `id`=59;
+INSERT INTO `translations` VALUES ('Billing Information', 'Billing Information');
+DELETE FROM `translations` WHERE `id`=60;
+INSERT INTO `translations` VALUES ('Billing Type', 'Billing Type');
+DELETE FROM `translations` WHERE `id`=61;
+INSERT INTO `translations` VALUES ('Body', 'Body');
+DELETE FROM `translations` WHERE `id`=62;
+INSERT INTO `translations` VALUES ('Buy Cost', 'Buy Cost');
+DELETE FROM `translations` WHERE `id`=63;
+INSERT INTO `translations` VALUES ('Call Barring', 'Call Barring');
+DELETE FROM `translations` WHERE `id`=64;
+INSERT INTO `translations` VALUES ('Call Date', 'Call Date');
+DELETE FROM `translations` WHERE `id`=65;
+INSERT INTO `translations` VALUES ('Call Detail Reports', 'Call Detail Reports');
+DELETE FROM `translations` WHERE `id`=66;
+INSERT INTO `translations` VALUES ('Call Max Length', 'Call Max Length');
+DELETE FROM `translations` WHERE `id`=67;
+INSERT INTO `translations` VALUES ('Call State', 'Call State');
+DELETE FROM `translations` WHERE `id`=68;
+INSERT INTO `translations` VALUES ('Call Summary Reports', 'Call Summary Reports');
+DELETE FROM `translations` WHERE `id`=69;
+INSERT INTO `translations` VALUES ('Call Timeout', 'Call Timeout');
+DELETE FROM `translations` WHERE `id`=70;
+INSERT INTO `translations` VALUES ('Call Type', 'Call Type');
+DELETE FROM `translations` WHERE `id`=71;
+INSERT INTO `translations` VALUES ('Call Types', 'Call Types');
+DELETE FROM `translations` WHERE `id`=72;
+INSERT INTO `translations` VALUES ('Called Number', 'Called Number');
+DELETE FROM `translations` WHERE `id`=73;
+INSERT INTO `translations` VALUES ('Caller ID', 'Caller ID');
+DELETE FROM `translations` WHERE `id`=74;
+INSERT INTO `translations` VALUES ('Caller IDs', 'Caller IDs');
+DELETE FROM `translations` WHERE `id`=75;
+INSERT INTO `translations` VALUES ('Caller IP', 'Caller IP');
+DELETE FROM `translations` WHERE `id`=76;
+INSERT INTO `translations` VALUES ('Caller Name', 'Caller Name');
+DELETE FROM `translations` WHERE `id`=77;
+INSERT INTO `translations` VALUES ('Caller Number', 'Caller Number');
+DELETE FROM `translations` WHERE `id`=78;
+INSERT INTO `translations` VALUES ('Caller-Id-In-Form', 'Caller-Id-In-Form');
+DELETE FROM `translations` WHERE `id`=79;
+INSERT INTO `translations` VALUES ('Calling Card', 'Calling Card');
+DELETE FROM `translations` WHERE `id`=80;
+INSERT INTO `translations` VALUES ('Calls', 'Calls');
+DELETE FROM `translations` WHERE `id`=81;
+INSERT INTO `translations` VALUES ('Calls Breakdown', 'Calls Breakdown');
+DELETE FROM `translations` WHERE `id`=82;
+INSERT INTO `translations` VALUES ('Calltype Information', 'Calltype Information');
+DELETE FROM `translations` WHERE `id`=83;
+INSERT INTO `translations` VALUES ('Can be purchased?', 'Can be purchased?');
+DELETE FROM `translations` WHERE `id`=84;
+INSERT INTO `translations` VALUES ('Capital', 'Capital');
+DELETE FROM `translations` WHERE `id`=85;
+INSERT INTO `translations` VALUES ('Capture Server', 'Capture Server');
+DELETE FROM `translations` WHERE `id`=86;
+INSERT INTO `translations` VALUES ('Card Input Timeout', 'Card Input Timeout');
+DELETE FROM `translations` WHERE `id`=87;
+INSERT INTO `translations` VALUES ('Card Length', 'Card Length');
+DELETE FROM `translations` WHERE `id`=88;
+INSERT INTO `translations` VALUES ('Card Retries', 'Card Retries');
+DELETE FROM `translations` WHERE `id`=89;
+INSERT INTO `translations` VALUES ('Carriers', 'Carriers');
+DELETE FROM `translations` WHERE `id`=90;
+INSERT INTO `translations` VALUES ('Category', 'Category');
+DELETE FROM `translations` WHERE `id`=91;
+INSERT INTO `translations` VALUES ('CC', 'CC');
+DELETE FROM `translations` WHERE `id`=92;
+INSERT INTO `translations` VALUES ('CDRs Older Than Days', 'CDRs Older Than Days');
+DELETE FROM `translations` WHERE `id`=93;
+INSERT INTO `translations` VALUES ('Charge Type', 'Charge Type');
+DELETE FROM `translations` WHERE `id`=94;
+INSERT INTO `translations` VALUES ('Charges Breakdown', 'Charges Breakdown');
+DELETE FROM `translations` WHERE `id`=95;
+INSERT INTO `translations` VALUES ('Charges History', 'Charges History');
+DELETE FROM `translations` WHERE `id`=96;
+INSERT INTO `translations` VALUES ('CID', 'CID');
+DELETE FROM `translations` WHERE `id`=97;
+INSERT INTO `translations` VALUES ('City', 'City');
+DELETE FROM `translations` WHERE `id`=98;
+INSERT INTO `translations` VALUES ('Clear', 'Clear');
+DELETE FROM `translations` WHERE `id`=99;
+INSERT INTO `translations` VALUES ('Client IP', 'Client IP');
+DELETE FROM `translations` WHERE `id`=100;
+INSERT INTO `translations` VALUES ('Client User Agent', 'Client User Agent');
+DELETE FROM `translations` WHERE `id`=101;
+INSERT INTO `translations` VALUES ('Code', 'Code');
+DELETE FROM `translations` WHERE `id`=102;
+INSERT INTO `translations` VALUES ('Codecs', 'Codecs');
+DELETE FROM `translations` WHERE `id`=103;
+INSERT INTO `translations` VALUES ('Commission', 'Commission');
+DELETE FROM `translations` WHERE `id`=104;
+INSERT INTO `translations` VALUES ('Commission Rate', 'Commission Rate');
+DELETE FROM `translations` WHERE `id`=105;
+INSERT INTO `translations` VALUES ('Commission Reports', 'Commission Reports');
+DELETE FROM `translations` WHERE `id`=106;
+INSERT INTO `translations` VALUES ('Company', 'Company');
+DELETE FROM `translations` WHERE `id`=107;
+INSERT INTO `translations` VALUES ('Company Profiles', 'Company Profiles');
+DELETE FROM `translations` WHERE `id`=108;
+INSERT INTO `translations` VALUES ('Company Tax number', 'Company Tax number');
+DELETE FROM `translations` WHERE `id`=109;
+INSERT INTO `translations` VALUES ('Completed Calls', 'Completed Calls');
+DELETE FROM `translations` WHERE `id`=110;
+INSERT INTO `translations` VALUES ('Concurrent Calls', 'Concurrent Calls');
+DELETE FROM `translations` WHERE `id`=111;
+INSERT INTO `translations` VALUES ('Configuration', 'Configuration');
+DELETE FROM `translations` WHERE `id`=112;
+INSERT INTO `translations` VALUES ('Confirmed', 'Confirmed');
+DELETE FROM `translations` WHERE `id`=113;
+INSERT INTO `translations` VALUES ('Connection Cost', 'Connection Cost');
+DELETE FROM `translations` WHERE `id`=114;
+INSERT INTO `translations` VALUES ('Contains', 'Contains');
+DELETE FROM `translations` WHERE `id`=115;
+INSERT INTO `translations` VALUES ('Cost', 'Cost');
+DELETE FROM `translations` WHERE `id`=116;
+INSERT INTO `translations` VALUES ('Cost/Min', 'Cost/Min');
+DELETE FROM `translations` WHERE `id`=117;
+INSERT INTO `translations` VALUES ('Countries', 'Countries');
+DELETE FROM `translations` WHERE `id`=118;
+INSERT INTO `translations` VALUES ('Country', 'Country');
+DELETE FROM `translations` WHERE `id`=119;
+INSERT INTO `translations` VALUES ('Country Code', 'Country Code');
+DELETE FROM `translations` WHERE `id`=120;
+INSERT INTO `translations` VALUES ('Country List', 'Country List');
+DELETE FROM `translations` WHERE `id`=121;
+INSERT INTO `translations` VALUES ('Country Reports', 'Country Reports');
+DELETE FROM `translations` WHERE `id`=122;
+INSERT INTO `translations` VALUES ('Coupon Information', 'Coupon Information');
+DELETE FROM `translations` WHERE `id`=123;
+INSERT INTO `translations` VALUES ('Coupon Number', 'Coupon Number');
+DELETE FROM `translations` WHERE `id`=124;
+INSERT INTO `translations` VALUES ('CPS', 'CPS');
+DELETE FROM `translations` WHERE `id`=125;
+INSERT INTO `translations` VALUES ('Create', 'Create');
+DELETE FROM `translations` WHERE `id`=126;
+INSERT INTO `translations` VALUES ('Create Admin', 'Create Admin');
+DELETE FROM `translations` WHERE `id`=127;
+INSERT INTO `translations` VALUES ('Create calltype', 'Create calltype');
+DELETE FROM `translations` WHERE `id`=128;
+INSERT INTO `translations` VALUES ('Create Company Profile', 'Create Company Profile');
+DELETE FROM `translations` WHERE `id`=129;
+INSERT INTO `translations` VALUES ('Create Customer', 'Create Customer');
+DELETE FROM `translations` WHERE `id`=130;
+INSERT INTO `translations` VALUES ('Create Origination Rate', 'Create Origination Rate');
+DELETE FROM `translations` WHERE `id`=131;
+INSERT INTO `translations` VALUES ('Create Product', 'Create Product');
+DELETE FROM `translations` WHERE `id`=132;
+INSERT INTO `translations` VALUES ('Create Provider', 'Create Provider');
+DELETE FROM `translations` WHERE `id`=133;
+INSERT INTO `translations` VALUES ('Create Rate Group', 'Create Rate Group');
+DELETE FROM `translations` WHERE `id`=134;
+INSERT INTO `translations` VALUES ('Create Refill Coupon', 'Create Refill Coupon');
+DELETE FROM `translations` WHERE `id`=135;
+INSERT INTO `translations` VALUES ('Create SIP Device', 'Create SIP Device');
+DELETE FROM `translations` WHERE `id`=136;
+INSERT INTO `translations` VALUES ('Create Tax', 'Create Tax');
+DELETE FROM `translations` WHERE `id`=137;
+INSERT INTO `translations` VALUES ('Created Date', 'Created Date');
+DELETE FROM `translations` WHERE `id`=138;
+INSERT INTO `translations` VALUES ('Creation Date', 'Creation Date');
+DELETE FROM `translations` WHERE `id`=139;
+INSERT INTO `translations` VALUES ('Credit', 'Credit');
+DELETE FROM `translations` WHERE `id`=140;
+INSERT INTO `translations` VALUES ('Credit Limit', 'Credit Limit');
+DELETE FROM `translations` WHERE `id`=141;
+INSERT INTO `translations` VALUES ('Crons', 'Crons');
+DELETE FROM `translations` WHERE `id`=142;
+INSERT INTO `translations` VALUES ('Currency', 'Currency');
+DELETE FROM `translations` WHERE `id`=143;
+INSERT INTO `translations` VALUES ('Currency Conversion Loss Percentage', 'Currency Conversion Loss Percentage');
+DELETE FROM `translations` WHERE `id`=144;
+INSERT INTO `translations` VALUES ('Currency List', 'Currency List');
+DELETE FROM `translations` WHERE `id`=145;
+INSERT INTO `translations` VALUES ('Customer', 'Customer');
+DELETE FROM `translations` WHERE `id`=146;
+INSERT INTO `translations` VALUES ('Customer CDRs Report', 'Customer CDRs Report');
+DELETE FROM `translations` WHERE `id`=147;
+INSERT INTO `translations` VALUES ('Customer Summary', 'Customer Summary');
+DELETE FROM `translations` WHERE `id`=148;
+INSERT INTO `translations` VALUES ('Customer Summary Report', 'Customer Summary Report');
+DELETE FROM `translations` WHERE `id`=149;
+INSERT INTO `translations` VALUES ('Customers', 'Customers');
+DELETE FROM `translations` WHERE `id`=150;
+INSERT INTO `translations` VALUES ('Dashboard', 'Dashboard');
+DELETE FROM `translations` WHERE `id`=151;
+INSERT INTO `translations` VALUES ('Database', 'Database');
+DELETE FROM `translations` WHERE `id`=152;
+INSERT INTO `translations` VALUES ('Date', 'Date');
+DELETE FROM `translations` WHERE `id`=153;
+INSERT INTO `translations` VALUES ('Debit', 'Debit');
+DELETE FROM `translations` WHERE `id`=154;
+INSERT INTO `translations` VALUES ('Debug', 'Debug');
+DELETE FROM `translations` WHERE `id`=155;
+INSERT INTO `translations` VALUES ('Decimal Points', 'Decimal Points');
+DELETE FROM `translations` WHERE `id`=156;
+INSERT INTO `translations` VALUES ('Default Increment', 'Default Increment');
+DELETE FROM `translations` WHERE `id`=157;
+INSERT INTO `translations` VALUES ('Default Invoice Mode', 'Default Invoice Mode');
+DELETE FROM `translations` WHERE `id`=158;
+INSERT INTO `translations` VALUES ('Default Tax', 'Default Tax');
+DELETE FROM `translations` WHERE `id`=159;
+INSERT INTO `translations` VALUES ('Delete', 'Delete');
+DELETE FROM `translations` WHERE `id`=160;
+INSERT INTO `translations` VALUES ('Deleted Accounts After Days', 'Deleted Accounts After Days');
+DELETE FROM `translations` WHERE `id`=161;
+INSERT INTO `translations` VALUES ('Description', 'Description');
+DELETE FROM `translations` WHERE `id`=162;
+INSERT INTO `translations` VALUES ('Destination', 'Destination');
+DELETE FROM `translations` WHERE `id`=163;
+INSERT INTO `translations` VALUES ('Dial Input Timeout', 'Dial Input Timeout');
+DELETE FROM `translations` WHERE `id`=164;
+INSERT INTO `translations` VALUES ('DID', 'DID');
+DELETE FROM `translations` WHERE `id`=165;
+INSERT INTO `translations` VALUES ('DIDs', 'DIDs');
+DELETE FROM `translations` WHERE `id`=166;
+INSERT INTO `translations` VALUES ('Direction', 'Direction');
+DELETE FROM `translations` WHERE `id`=167;
+INSERT INTO `translations` VALUES ('Disable', 'Disable');
+DELETE FROM `translations` WHERE `id`=168;
+INSERT INTO `translations` VALUES ('Display records in', 'Display records in');
+DELETE FROM `translations` WHERE `id`=169;
+INSERT INTO `translations` VALUES ('Disposition', 'Disposition');
+DELETE FROM `translations` WHERE `id`=170;
+INSERT INTO `translations` VALUES ('Documentation', 'Documentation');
+DELETE FROM `translations` WHERE `id`=171;
+INSERT INTO `translations` VALUES ('Doesnt Contain', 'Doesnt Contain');
+DELETE FROM `translations` WHERE `id`=172;
+INSERT INTO `translations` VALUES ('Domain', 'Domain');
+DELETE FROM `translations` WHERE `id`=173;
+INSERT INTO `translations` VALUES ('Draft', 'Draft');
+DELETE FROM `translations` WHERE `id`=174;
+INSERT INTO `translations` VALUES ('Due Date', 'Due Date');
+DELETE FROM `translations` WHERE `id`=175;
+INSERT INTO `translations` VALUES ('Duplicate', 'Duplicate');
+DELETE FROM `translations` WHERE `id`=176;
+INSERT INTO `translations` VALUES ('Duration', 'Duration');
+DELETE FROM `translations` WHERE `id`=177;
+INSERT INTO `translations` VALUES ('Email', 'Email');
+DELETE FROM `translations` WHERE `id`=178;
+INSERT INTO `translations` VALUES ('Email Alerts ?', 'Email Alerts ?');
+DELETE FROM `translations` WHERE `id`=179;
+INSERT INTO `translations` VALUES ('Email History', 'Email History');
+DELETE FROM `translations` WHERE `id`=180;
+INSERT INTO `translations` VALUES ('Email History List', 'Email History List');
+DELETE FROM `translations` WHERE `id`=181;
+INSERT INTO `translations` VALUES ('Email Notification', 'Email Notification');
+DELETE FROM `translations` WHERE `id`=182;
+INSERT INTO `translations` VALUES ('Email Notifications', 'Email Notifications');
+DELETE FROM `translations` WHERE `id`=183;
+INSERT INTO `translations` VALUES ('Email Status', 'Email Status');
+DELETE FROM `translations` WHERE `id`=184;
+INSERT INTO `translations` VALUES ('Email Template', 'Email Template');
+DELETE FROM `translations` WHERE `id`=185;
+INSERT INTO `translations` VALUES ('Emails Older Than Days', 'Emails Older Than Days');
+DELETE FROM `translations` WHERE `id`=186;
+INSERT INTO `translations` VALUES ('En', 'En');
+DELETE FROM `translations` WHERE `id`=187;
+INSERT INTO `translations` VALUES ('Enable', 'Enable');
+DELETE FROM `translations` WHERE `id`=188;
+INSERT INTO `translations` VALUES ('Enable Signup', 'Enable Signup');
+DELETE FROM `translations` WHERE `id`=189;
+INSERT INTO `translations` VALUES ('Ends With', 'Ends With');
+DELETE FROM `translations` WHERE `id`=190;
+INSERT INTO `translations` VALUES ('Enterprise', 'Enterprise');
+DELETE FROM `translations` WHERE `id`=191;
+INSERT INTO `translations` VALUES ('Entity Type', 'Entity Type');
+DELETE FROM `translations` WHERE `id`=192;
+INSERT INTO `translations` VALUES ('Environment', 'Environment');
+DELETE FROM `translations` WHERE `id`=193;
+INSERT INTO `translations` VALUES ('Ewallet Payment Gateway', 'Ewallet Payment Gateway');
+DELETE FROM `translations` WHERE `id`=194;
+INSERT INTO `translations` VALUES ('Expired Accounts After Days', 'Expired Accounts After Days');
+DELETE FROM `translations` WHERE `id`=195;
+INSERT INTO `translations` VALUES ('Expiry Date', 'Expiry Date');
+DELETE FROM `translations` WHERE `id`=196;
+INSERT INTO `translations` VALUES ('Export', 'Export');
+DELETE FROM `translations` WHERE `id`=197;
+INSERT INTO `translations` VALUES ('Failover  GW Name #1', 'Failover  GW Name #1');
+DELETE FROM `translations` WHERE `id`=198;
+INSERT INTO `translations` VALUES ('Failover GW Name #2', 'Failover GW Name #2');
+DELETE FROM `translations` WHERE `id`=199;
+INSERT INTO `translations` VALUES ('Favicon', 'Favicon');
+DELETE FROM `translations` WHERE `id`=200;
+INSERT INTO `translations` VALUES ('Fax', 'Fax');
+DELETE FROM `translations` WHERE `id`=201;
+INSERT INTO `translations` VALUES ('Fee', 'Fee');
+DELETE FROM `translations` WHERE `id`=202;
+INSERT INTO `translations` VALUES ('File Path', 'File Path');
+DELETE FROM `translations` WHERE `id`=203;
+INSERT INTO `translations` VALUES ('Filter', 'Filter');
+DELETE FROM `translations` WHERE `id`=204;
+INSERT INTO `translations` VALUES ('First Name', 'First Name');
+DELETE FROM `translations` WHERE `id`=205;
+INSERT INTO `translations` VALUES ('First Used', 'First Used');
+DELETE FROM `translations` WHERE `id`=206;
+INSERT INTO `translations` VALUES ('Fixer Key', 'Fixer Key');
+DELETE FROM `translations` WHERE `id`=207;
+INSERT INTO `translations` VALUES ('FMAddon', 'FMAddon');
+DELETE FROM `translations` WHERE `id`=208;
+INSERT INTO `translations` VALUES ('Footer', 'Footer');
+DELETE FROM `translations` WHERE `id`=209;
+INSERT INTO `translations` VALUES ('Fraud Detection', 'Fraud Detection');
+DELETE FROM `translations` WHERE `id`=210;
+INSERT INTO `translations` VALUES ('Free Minutes', 'Free Minutes');
+DELETE FROM `translations` WHERE `id`=211;
+INSERT INTO `translations` VALUES ('FreeSwitch Servers', 'FreeSwitch Servers');
+DELETE FROM `translations` WHERE `id`=212;
+INSERT INTO `translations` VALUES ('From', 'From');
+DELETE FROM `translations` WHERE `id`=213;
+INSERT INTO `translations` VALUES ('From Date', 'From Date');
+DELETE FROM `translations` WHERE `id`=214;
+INSERT INTO `translations` VALUES ('From Timestamp', 'From Timestamp');
+DELETE FROM `translations` WHERE `id`=215;
+INSERT INTO `translations` VALUES ('Gateway Name', 'Gateway Name');
+DELETE FROM `translations` WHERE `id`=216;
+INSERT INTO `translations` VALUES ('Gateways', 'Gateways');
+DELETE FROM `translations` WHERE `id`=217;
+INSERT INTO `translations` VALUES ('General', 'General');
+DELETE FROM `translations` WHERE `id`=218;
+INSERT INTO `translations` VALUES ('General Input Timeout', 'General Input Timeout');
+DELETE FROM `translations` WHERE `id`=219;
+INSERT INTO `translations` VALUES ('Generate Invoice', 'Generate Invoice');
+DELETE FROM `translations` WHERE `id`=220;
+INSERT INTO `translations` VALUES ('Generate Pin', 'Generate Pin');
+DELETE FROM `translations` WHERE `id`=221;
+INSERT INTO `translations` VALUES ('Generates Alarm From System', 'Generates Alarm From System');
+DELETE FROM `translations` WHERE `id`=222;
+INSERT INTO `translations` VALUES ('Generates Local Number system', 'Generates Local Number system');
+DELETE FROM `translations` WHERE `id`=223;
+INSERT INTO `translations` VALUES ('Generates ticket of issues from system', 'Generates ticket of issues from system');
+DELETE FROM `translations` WHERE `id`=224;
+INSERT INTO `translations` VALUES ('Generates Various Alarms From System', 'Generates Various Alarms From System');
+DELETE FROM `translations` WHERE `id`=225;
+INSERT INTO `translations` VALUES ('Generates Various Country Reports From System', 'Generates Various Country Reports From System');
+DELETE FROM `translations` WHERE `id`=226;
+INSERT INTO `translations` VALUES ('Generates various reports from system', 'Generates various reports from system');
+DELETE FROM `translations` WHERE `id`=227;
+INSERT INTO `translations` VALUES ('Get Addons', 'Get Addons');
+DELETE FROM `translations` WHERE `id`=228;
+INSERT INTO `translations` VALUES ('Get App', 'Get App');
+DELETE FROM `translations` WHERE `id`=229;
+INSERT INTO `translations` VALUES ('Global', 'Global');
+DELETE FROM `translations` WHERE `id`=230;
+INSERT INTO `translations` VALUES ('Grace Time', 'Grace Time');
+DELETE FROM `translations` WHERE `id`=231;
+INSERT INTO `translations` VALUES ('Grand Total', 'Grand Total');
+DELETE FROM `translations` WHERE `id`=232;
+INSERT INTO `translations` VALUES ('Group By', 'Group By');
+DELETE FROM `translations` WHERE `id`=233;
+INSERT INTO `translations` VALUES ('Group By #1', 'Group By #1');
+DELETE FROM `translations` WHERE `id`=234;
+INSERT INTO `translations` VALUES ('Group By #2', 'Group By #2');
+DELETE FROM `translations` WHERE `id`=235;
+INSERT INTO `translations` VALUES ('Group By #3', 'Group By #3');
+DELETE FROM `translations` WHERE `id`=236;
+INSERT INTO `translations` VALUES ('Group By #Time', 'Group By #Time');
+DELETE FROM `translations` WHERE `id`=237;
+INSERT INTO `translations` VALUES ('Header', 'Header');
+DELETE FROM `translations` WHERE `id`=238;
+INSERT INTO `translations` VALUES ('Homer', 'Homer');
+DELETE FROM `translations` WHERE `id`=239;
+INSERT INTO `translations` VALUES ('Host', 'Host');
+DELETE FROM `translations` WHERE `id`=240;
+INSERT INTO `translations` VALUES ('Import', 'Import');
+DELETE FROM `translations` WHERE `id`=241;
+INSERT INTO `translations` VALUES ('Import Customers', 'Import Customers');
+DELETE FROM `translations` WHERE `id`=242;
+INSERT INTO `translations` VALUES ('Import with field map', 'Import with field map');
+DELETE FROM `translations` WHERE `id`=243;
+INSERT INTO `translations` VALUES ('Inbound', 'Inbound');
+DELETE FROM `translations` WHERE `id`=244;
+INSERT INTO `translations` VALUES ('Inbound Fax', 'Inbound Fax');
+DELETE FROM `translations` WHERE `id`=245;
+INSERT INTO `translations` VALUES ('Included Seconds', 'Included Seconds');
+DELETE FROM `translations` WHERE `id`=246;
+INSERT INTO `translations` VALUES ('Increment', 'Increment');
+DELETE FROM `translations` WHERE `id`=247;
+INSERT INTO `translations` VALUES ('Initial Balance', 'Initial Balance');
+DELETE FROM `translations` WHERE `id`=248;
+INSERT INTO `translations` VALUES ('Initial Increment', 'Initial Increment');
+DELETE FROM `translations` WHERE `id`=249;
+INSERT INTO `translations` VALUES ('Inovices Older Than Days', 'Inovices Older Than Days');
+DELETE FROM `translations` WHERE `id`=250;
+INSERT INTO `translations` VALUES ('Install', 'Install');
+DELETE FROM `translations` WHERE `id`=251;
+INSERT INTO `translations` VALUES ('Installed', 'Installed');
+DELETE FROM `translations` WHERE `id`=252;
+INSERT INTO `translations` VALUES ('Interval', 'Interval');
+DELETE FROM `translations` WHERE `id`=253;
+INSERT INTO `translations` VALUES ('Interval Type', 'Interval Type');
+DELETE FROM `translations` WHERE `id`=254;
+INSERT INTO `translations` VALUES ('Invoice Configuration', 'Invoice Configuration');
+DELETE FROM `translations` WHERE `id`=255;
+INSERT INTO `translations` VALUES ('Invoice Date', 'Invoice Date');
+DELETE FROM `translations` WHERE `id`=256;
+INSERT INTO `translations` VALUES ('Invoice Due Days', 'Invoice Due Days');
+DELETE FROM `translations` WHERE `id`=257;
+INSERT INTO `translations` VALUES ('Invoice Due Notification', 'Invoice Due Notification');
+DELETE FROM `translations` WHERE `id`=258;
+INSERT INTO `translations` VALUES ('Invoice Notification', 'Invoice Notification');
+DELETE FROM `translations` WHERE `id`=259;
+INSERT INTO `translations` VALUES ('Invoice Number', 'Invoice Number');
+DELETE FROM `translations` WHERE `id`=260;
+INSERT INTO `translations` VALUES ('Invoice Prefix', 'Invoice Prefix');
+DELETE FROM `translations` WHERE `id`=261;
+INSERT INTO `translations` VALUES ('Invoice Start Form', 'Invoice Start Form');
+DELETE FROM `translations` WHERE `id`=262;
+INSERT INTO `translations` VALUES ('Invoices', 'Invoices');
+DELETE FROM `translations` WHERE `id`=263;
+INSERT INTO `translations` VALUES ('IP', 'IP');
+DELETE FROM `translations` WHERE `id`=264;
+INSERT INTO `translations` VALUES ('IP Settings', 'IP Settings');
+DELETE FROM `translations` WHERE `id`=265;
+INSERT INTO `translations` VALUES ('Is Equal To', 'Is Equal To');
+DELETE FROM `translations` WHERE `id`=266;
+INSERT INTO `translations` VALUES ('Is Not Equal To', 'Is Not Equal To');
+DELETE FROM `translations` WHERE `id`=267;
+INSERT INTO `translations` VALUES ('Is Purchased?', 'Is Purchased?');
+DELETE FROM `translations` WHERE `id`=268;
+INSERT INTO `translations` VALUES ('Iso', 'Iso');
+DELETE FROM `translations` WHERE `id`=269;
+INSERT INTO `translations` VALUES ('Iso3', 'Iso3');
+DELETE FROM `translations` WHERE `id`=270;
+INSERT INTO `translations` VALUES ('IVR Count', 'IVR Count');
+DELETE FROM `translations` WHERE `id`=271;
+INSERT INTO `translations` VALUES ('Languages', 'Languages');
+DELETE FROM `translations` WHERE `id`=272;
+INSERT INTO `translations` VALUES ('Last Execution Date', 'Last Execution Date');
+DELETE FROM `translations` WHERE `id`=273;
+INSERT INTO `translations` VALUES ('Last Modified Date', 'Last Modified Date');
+DELETE FROM `translations` WHERE `id`=274;
+INSERT INTO `translations` VALUES ('Last Name', 'Last Name');
+DELETE FROM `translations` WHERE `id`=275;
+INSERT INTO `translations` VALUES ('Last Paid Date', 'Last Paid Date');
+DELETE FROM `translations` WHERE `id`=276;
+INSERT INTO `translations` VALUES ('Latest Orders', 'Latest Orders');
+DELETE FROM `translations` WHERE `id`=277;
+INSERT INTO `translations` VALUES ('LC Charge / Min', 'LC Charge / Min');
+DELETE FROM `translations` WHERE `id`=278;
+INSERT INTO `translations` VALUES ('LC Charge/Min', 'LC Charge/Min');
+DELETE FROM `translations` WHERE `id`=279;
+INSERT INTO `translations` VALUES ('Live', 'Live');
+DELETE FROM `translations` WHERE `id`=280;
+INSERT INTO `translations` VALUES ('Live Call Report', 'Live Call Report');
+DELETE FROM `translations` WHERE `id`=281;
+INSERT INTO `translations` VALUES ('Live Id', 'Live Id');
+DELETE FROM `translations` WHERE `id`=282;
+INSERT INTO `translations` VALUES ('Live Key', 'Live Key');
+DELETE FROM `translations` WHERE `id`=283;
+INSERT INTO `translations` VALUES ('Live Url', 'Live Url');
+DELETE FROM `translations` WHERE `id`=284;
+INSERT INTO `translations` VALUES ('Local Call Timeout', 'Local Call Timeout');
+DELETE FROM `translations` WHERE `id`=285;
+INSERT INTO `translations` VALUES ('Local Number', 'Local Number');
+DELETE FROM `translations` WHERE `id`=286;
+INSERT INTO `translations` VALUES ('Local Numbers', 'Local Numbers');
+DELETE FROM `translations` WHERE `id`=287;
+INSERT INTO `translations` VALUES ('Locale code', 'Locale code');
+DELETE FROM `translations` WHERE `id`=288;
+INSERT INTO `translations` VALUES ('Localization', 'Localization');
+DELETE FROM `translations` WHERE `id`=289;
+INSERT INTO `translations` VALUES ('Localization Type', 'Localization Type');
+DELETE FROM `translations` WHERE `id`=290;
+INSERT INTO `translations` VALUES ('Localizations', 'Localizations');
+DELETE FROM `translations` WHERE `id`=291;
+INSERT INTO `translations` VALUES ('Log out', 'Log out');
+DELETE FROM `translations` WHERE `id`=292;
+INSERT INTO `translations` VALUES ('Log Path', 'Log Path');
+DELETE FROM `translations` WHERE `id`=293;
+INSERT INTO `translations` VALUES ('Logo', 'Logo');
+DELETE FROM `translations` WHERE `id`=294;
+INSERT INTO `translations` VALUES ('Low balance Alert?', 'Low balance Alert?');
+DELETE FROM `translations` WHERE `id`=295;
+INSERT INTO `translations` VALUES ('Mail Log', 'Mail Log');
+DELETE FROM `translations` WHERE `id`=296;
+INSERT INTO `translations` VALUES ('Manually', 'Manually');
+DELETE FROM `translations` WHERE `id`=297;
+INSERT INTO `translations` VALUES ('Markup', 'Markup');
+DELETE FROM `translations` WHERE `id`=298;
+INSERT INTO `translations` VALUES ('Mass Create', 'Mass Create');
+DELETE FROM `translations` WHERE `id`=299;
+INSERT INTO `translations` VALUES ('Mass Email', 'Mass Email');
+DELETE FROM `translations` WHERE `id`=300;
+INSERT INTO `translations` VALUES ('Max Free Length', 'Max Free Length');
+DELETE FROM `translations` WHERE `id`=301;
+INSERT INTO `translations` VALUES ('MCD', 'MCD');
+DELETE FROM `translations` WHERE `id`=302;
+INSERT INTO `translations` VALUES ('Minimum Fund Transfer', 'Minimum Fund Transfer');
+DELETE FROM `translations` WHERE `id`=303;
+INSERT INTO `translations` VALUES ('Minutes', 'Minutes');
+DELETE FROM `translations` WHERE `id`=304;
+INSERT INTO `translations` VALUES ('Minutes Announcement', 'Minutes Announcement');
+DELETE FROM `translations` WHERE `id`=305;
+INSERT INTO `translations` VALUES ('Minutes Breakdown', 'Minutes Breakdown');
+DELETE FROM `translations` WHERE `id`=306;
+INSERT INTO `translations` VALUES ('Moderate', 'Moderate');
+DELETE FROM `translations` WHERE `id`=307;
+INSERT INTO `translations` VALUES ('Modified Date', 'Modified Date');
+DELETE FROM `translations` WHERE `id`=308;
+INSERT INTO `translations` VALUES ('Module', 'Module');
+DELETE FROM `translations` WHERE `id`=309;
+INSERT INTO `translations` VALUES ('Name', 'Name');
+DELETE FROM `translations` WHERE `id`=310;
+INSERT INTO `translations` VALUES ('New Accounts', 'New Accounts');
+DELETE FROM `translations` WHERE `id`=311;
+INSERT INTO `translations` VALUES ('Nexmo API Key', 'Nexmo API Key');
+DELETE FROM `translations` WHERE `id`=312;
+INSERT INTO `translations` VALUES ('Nexmo Secret Key', 'Nexmo Secret Key');
+DELETE FROM `translations` WHERE `id`=313;
+INSERT INTO `translations` VALUES ('Next Execution Date', 'Next Execution Date');
+DELETE FROM `translations` WHERE `id`=314;
+INSERT INTO `translations` VALUES ('Nickname', 'Nickname');
+DELETE FROM `translations` WHERE `id`=315;
+INSERT INTO `translations` VALUES ('No', 'No');
+DELETE FROM `translations` WHERE `id`=316;
+INSERT INTO `translations` VALUES ('No Records Found', 'No Records Found');
+DELETE FROM `translations` WHERE `id`=317;
+INSERT INTO `translations` VALUES ('Notes', 'Notes');
+DELETE FROM `translations` WHERE `id`=318;
+INSERT INTO `translations` VALUES ('Notifications', 'Notifications');
+DELETE FROM `translations` WHERE `id`=319;
+INSERT INTO `translations` VALUES ('Notify before due days', 'Notify before due days');
+DELETE FROM `translations` WHERE `id`=320;
+INSERT INTO `translations` VALUES ('Number', 'Number');
+DELETE FROM `translations` WHERE `id`=321;
+INSERT INTO `translations` VALUES ('Number Type', 'Number Type');
+DELETE FROM `translations` WHERE `id`=322;
+INSERT INTO `translations` VALUES ('of', 'of');
+DELETE FROM `translations` WHERE `id`=323;
+INSERT INTO `translations` VALUES ('Opensips', 'Opensips');
+DELETE FROM `translations` WHERE `id`=324;
+INSERT INTO `translations` VALUES ('Opensips DB Engine', 'Opensips DB Engine');
+DELETE FROM `translations` WHERE `id`=325;
+INSERT INTO `translations` VALUES ('Opensips DB Host', 'Opensips DB Host');
+DELETE FROM `translations` WHERE `id`=326;
+INSERT INTO `translations` VALUES ('Opensips DB Name', 'Opensips DB Name');
+DELETE FROM `translations` WHERE `id`=327;
+INSERT INTO `translations` VALUES ('Opensips DB Pass', 'Opensips DB Pass');
+DELETE FROM `translations` WHERE `id`=328;
+INSERT INTO `translations` VALUES ('Opensips DB User', 'Opensips DB User');
+DELETE FROM `translations` WHERE `id`=329;
+INSERT INTO `translations` VALUES ('Opensips Domain', 'Opensips Domain');
+DELETE FROM `translations` WHERE `id`=330;
+INSERT INTO `translations` VALUES ('Opensource', 'Opensource');
+DELETE FROM `translations` WHERE `id`=331;
+INSERT INTO `translations` VALUES ('Order', 'Order');
+DELETE FROM `translations` WHERE `id`=332;
+INSERT INTO `translations` VALUES ('Order Amount', 'Order Amount');
+DELETE FROM `translations` WHERE `id`=333;
+INSERT INTO `translations` VALUES ('Order Date', 'Order Date');
+DELETE FROM `translations` WHERE `id`=334;
+INSERT INTO `translations` VALUES ('Order ID', 'Order ID');
+DELETE FROM `translations` WHERE `id`=335;
+INSERT INTO `translations` VALUES ('Order Now', 'Order Now');
+DELETE FROM `translations` WHERE `id`=336;
+INSERT INTO `translations` VALUES ('Orders', 'Orders');
+DELETE FROM `translations` WHERE `id`=337;
+INSERT INTO `translations` VALUES ('Org. Cost', 'Org. Cost');
+DELETE FROM `translations` WHERE `id`=338;
+INSERT INTO `translations` VALUES ('Org. Destination', 'Org. Destination');
+DELETE FROM `translations` WHERE `id`=339;
+INSERT INTO `translations` VALUES ('Org. Pefix', 'Org. Pefix');
+DELETE FROM `translations` WHERE `id`=340;
+INSERT INTO `translations` VALUES ('Origination Rates', 'Origination Rates');
+DELETE FROM `translations` WHERE `id`=341;
+INSERT INTO `translations` VALUES ('Outbound Fax', 'Outbound Fax');
+DELETE FROM `translations` WHERE `id`=342;
+INSERT INTO `translations` VALUES ('Outstanding Amount INR', 'Outstanding Amount INR');
+DELETE FROM `translations` WHERE `id`=343;
+INSERT INTO `translations` VALUES ('Page', 'Page');
+DELETE FROM `translations` WHERE `id`=344;
+INSERT INTO `translations` VALUES ('Password', 'Password');
+DELETE FROM `translations` WHERE `id`=345;
+INSERT INTO `translations` VALUES ('Password Strength', 'Password Strength');
+DELETE FROM `translations` WHERE `id`=346;
+INSERT INTO `translations` VALUES ('Payment Method', 'Payment Method');
+DELETE FROM `translations` WHERE `id`=347;
+INSERT INTO `translations` VALUES ('Payment Methods', 'Payment Methods');
+DELETE FROM `translations` WHERE `id`=348;
+INSERT INTO `translations` VALUES ('Payment Status', 'Payment Status');
+DELETE FROM `translations` WHERE `id`=349;
+INSERT INTO `translations` VALUES ('Paypal', 'Paypal');
+DELETE FROM `translations` WHERE `id`=350;
+INSERT INTO `translations` VALUES ('Per Minute Cost', 'Per Minute Cost');
+DELETE FROM `translations` WHERE `id`=351;
+INSERT INTO `translations` VALUES ('Phone', 'Phone');
+DELETE FROM `translations` WHERE `id`=352;
+INSERT INTO `translations` VALUES ('Pin Input Timeout', 'Pin Input Timeout');
+DELETE FROM `translations` WHERE `id`=353;
+INSERT INTO `translations` VALUES ('Pin Length', 'Pin Length');
+DELETE FROM `translations` WHERE `id`=354;
+INSERT INTO `translations` VALUES ('Pin retries', 'Pin retries');
+DELETE FROM `translations` WHERE `id`=355;
+INSERT INTO `translations` VALUES ('Pinless Authentication', 'Pinless Authentication');
+DELETE FROM `translations` WHERE `id`=356;
+INSERT INTO `translations` VALUES ('Place Order', 'Place Order');
+DELETE FROM `translations` WHERE `id`=357;
+INSERT INTO `translations` VALUES ('Playback Audio Notifications', 'Playback Audio Notifications');
+DELETE FROM `translations` WHERE `id`=358;
+INSERT INTO `translations` VALUES ('Port', 'Port');
+DELETE FROM `translations` WHERE `id`=359;
+INSERT INTO `translations` VALUES ('Portal personalization', 'Portal personalization');
+DELETE FROM `translations` WHERE `id`=360;
+INSERT INTO `translations` VALUES ('Powered by ASTPP', 'Powered by ASTPP');
+DELETE FROM `translations` WHERE `id`=361;
+INSERT INTO `translations` VALUES ('Prefix', 'Prefix');
+DELETE FROM `translations` WHERE `id`=362;
+INSERT INTO `translations` VALUES ('Prepend', 'Prepend');
+DELETE FROM `translations` WHERE `id`=363;
+INSERT INTO `translations` VALUES ('Preserve', 'Preserve');
+DELETE FROM `translations` WHERE `id`=364;
+INSERT INTO `translations` VALUES ('Price', 'Price');
+DELETE FROM `translations` WHERE `id`=365;
+INSERT INTO `translations` VALUES ('Priority', 'Priority');
+DELETE FROM `translations` WHERE `id`=366;
+INSERT INTO `translations` VALUES ('Product Category', 'Product Category');
+DELETE FROM `translations` WHERE `id`=367;
+INSERT INTO `translations` VALUES ('Product Details', 'Product Details');
+DELETE FROM `translations` WHERE `id`=368;
+INSERT INTO `translations` VALUES ('Product Name', 'Product Name');
+DELETE FROM `translations` WHERE `id`=369;
+INSERT INTO `translations` VALUES ('Products', 'Products');
+DELETE FROM `translations` WHERE `id`=370;
+INSERT INTO `translations` VALUES ('Profile Action', 'Profile Action');
+DELETE FROM `translations` WHERE `id`=371;
+INSERT INTO `translations` VALUES ('Profit', 'Profit');
+DELETE FROM `translations` WHERE `id`=372;
+INSERT INTO `translations` VALUES ('Provider', 'Provider');
+DELETE FROM `translations` WHERE `id`=373;
+INSERT INTO `translations` VALUES ('Provider CDRs Report', 'Provider CDRs Report');
+DELETE FROM `translations` WHERE `id`=374;
+INSERT INTO `translations` VALUES ('Provider Outbound', 'Provider Outbound');
+DELETE FROM `translations` WHERE `id`=375;
+INSERT INTO `translations` VALUES ('Provider Outbound Report', 'Provider Outbound Report');
+DELETE FROM `translations` WHERE `id`=376;
+INSERT INTO `translations` VALUES ('Provider Summary Report', 'Provider Summary Report');
+DELETE FROM `translations` WHERE `id`=377;
+INSERT INTO `translations` VALUES ('Province', 'Province');
+DELETE FROM `translations` WHERE `id`=378;
+INSERT INTO `translations` VALUES ('Province/State', 'Province/State');
+DELETE FROM `translations` WHERE `id`=379;
+INSERT INTO `translations` VALUES ('Proxy', 'Proxy');
+DELETE FROM `translations` WHERE `id`=380;
+INSERT INTO `translations` VALUES ('Purge', 'Purge');
+DELETE FROM `translations` WHERE `id`=381;
+INSERT INTO `translations` VALUES ('Push Notifications', 'Push Notifications');
+DELETE FROM `translations` WHERE `id`=382;
+INSERT INTO `translations` VALUES ('Quantity', 'Quantity');
+DELETE FROM `translations` WHERE `id`=383;
+INSERT INTO `translations` VALUES ('Rate', 'Rate');
+DELETE FROM `translations` WHERE `id`=384;
+INSERT INTO `translations` VALUES ('Rate Announcement', 'Rate Announcement');
+DELETE FROM `translations` WHERE `id`=385;
+INSERT INTO `translations` VALUES ('Rate Count', 'Rate Count');
+DELETE FROM `translations` WHERE `id`=386;
+INSERT INTO `translations` VALUES ('Rate Group', 'Rate Group');
+DELETE FROM `translations` WHERE `id`=387;
+INSERT INTO `translations` VALUES ('Rate Groups', 'Rate Groups');
+DELETE FROM `translations` WHERE `id`=388;
+INSERT INTO `translations` VALUES ('Rate Information', 'Rate Information');
+DELETE FROM `translations` WHERE `id`=389;
+INSERT INTO `translations` VALUES ('Ratedeck', 'Ratedeck');
+DELETE FROM `translations` WHERE `id`=390;
+INSERT INTO `translations` VALUES ('Ratedeck Information', 'Ratedeck Information');
+DELETE FROM `translations` WHERE `id`=391;
+INSERT INTO `translations` VALUES ('Rates Count', 'Rates Count');
+DELETE FROM `translations` WHERE `id`=392;
+INSERT INTO `translations` VALUES ('Realtime Billing', 'Realtime Billing');
+DELETE FROM `translations` WHERE `id`=393;
+INSERT INTO `translations` VALUES ('Receiver Email', 'Receiver Email');
+DELETE FROM `translations` WHERE `id`=394;
+INSERT INTO `translations` VALUES ('Recording Files Older Than Days', 'Recording Files Older Than Days');
+DELETE FROM `translations` WHERE `id`=395;
+INSERT INTO `translations` VALUES ('Records', 'Records');
+DELETE FROM `translations` WHERE `id`=396;
+INSERT INTO `translations` VALUES ('Referer Page', 'Referer Page');
+DELETE FROM `translations` WHERE `id`=397;
+INSERT INTO `translations` VALUES ('Refill By', 'Refill By');
+DELETE FROM `translations` WHERE `id`=398;
+INSERT INTO `translations` VALUES ('Refill Coupon Length', 'Refill Coupon Length');
+DELETE FROM `translations` WHERE `id`=399;
+INSERT INTO `translations` VALUES ('Refill Coupons', 'Refill Coupons');
+DELETE FROM `translations` WHERE `id`=400;
+INSERT INTO `translations` VALUES ('Refill Report', 'Refill Report');
+DELETE FROM `translations` WHERE `id`=401;
+INSERT INTO `translations` VALUES ('Refills', 'Refills');
+DELETE FROM `translations` WHERE `id`=402;
+INSERT INTO `translations` VALUES ('Register', 'Register');
+DELETE FROM `translations` WHERE `id`=403;
+INSERT INTO `translations` VALUES ('Release if no balance', 'Release if no balance');
+DELETE FROM `translations` WHERE `id`=404;
+INSERT INTO `translations` VALUES ('Report a Bug', 'Report a Bug');
+DELETE FROM `translations` WHERE `id`=405;
+INSERT INTO `translations` VALUES ('Reports', 'Reports');
+DELETE FROM `translations` WHERE `id`=406;
+INSERT INTO `translations` VALUES ('Request URI', 'Request URI');
+DELETE FROM `translations` WHERE `id`=407;
+INSERT INTO `translations` VALUES ('Reseller', 'Reseller');
+DELETE FROM `translations` WHERE `id`=408;
+INSERT INTO `translations` VALUES ('Reseller can resell', 'Reseller can resell');
+DELETE FROM `translations` WHERE `id`=409;
+INSERT INTO `translations` VALUES ('Reseller Summary', 'Reseller Summary');
+DELETE FROM `translations` WHERE `id`=410;
+INSERT INTO `translations` VALUES ('Reseller Summary Report', 'Reseller Summary Report');
+DELETE FROM `translations` WHERE `id`=411;
+INSERT INTO `translations` VALUES ('Resellers', 'Resellers');
+DELETE FROM `translations` WHERE `id`=412;
+INSERT INTO `translations` VALUES ('Resellers CDRs Report', 'Resellers CDRs Report');
+DELETE FROM `translations` WHERE `id`=413;
+INSERT INTO `translations` VALUES ('Resend Mail', 'Resend Mail');
+DELETE FROM `translations` WHERE `id`=414;
+INSERT INTO `translations` VALUES ('Role', 'Role');
+DELETE FROM `translations` WHERE `id`=415;
+INSERT INTO `translations` VALUES ('Roles & Permission', 'Roles & Permission');
+DELETE FROM `translations` WHERE `id`=416;
+INSERT INTO `translations` VALUES ('Roles & Permissions', 'Roles & Permissions');
+DELETE FROM `translations` WHERE `id`=417;
+INSERT INTO `translations` VALUES ('Routing Prefix', 'Routing Prefix');
+DELETE FROM `translations` WHERE `id`=418;
+INSERT INTO `translations` VALUES ('Routing Type', 'Routing Type');
+DELETE FROM `translations` WHERE `id`=419;
+INSERT INTO `translations` VALUES ('Sandbox', 'Sandbox');
+DELETE FROM `translations` WHERE `id`=420;
+INSERT INTO `translations` VALUES ('Sandbox Id', 'Sandbox Id');
+DELETE FROM `translations` WHERE `id`=421;
+INSERT INTO `translations` VALUES ('Sandbox Key', 'Sandbox Key');
+DELETE FROM `translations` WHERE `id`=422;
+INSERT INTO `translations` VALUES ('Sandbox Name', 'Sandbox Name');
+DELETE FROM `translations` WHERE `id`=423;
+INSERT INTO `translations` VALUES ('Sandbox Url', 'Sandbox Url');
+DELETE FROM `translations` WHERE `id`=424;
+INSERT INTO `translations` VALUES ('Save', 'Save');
+DELETE FROM `translations` WHERE `id`=425;
+INSERT INTO `translations` VALUES ('Schedule Reports', 'Schedule Reports');
+DELETE FROM `translations` WHERE `id`=426;
+INSERT INTO `translations` VALUES ('Search', 'Search');
+DELETE FROM `translations` WHERE `id`=427;
+INSERT INTO `translations` VALUES ('Select File', 'Select File');
+DELETE FROM `translations` WHERE `id`=428;
+INSERT INTO `translations` VALUES ('Select Year', 'Select Year');
+DELETE FROM `translations` WHERE `id`=429;
+INSERT INTO `translations` VALUES ('Services', 'Services');
+DELETE FROM `translations` WHERE `id`=430;
+INSERT INTO `translations` VALUES ('Set Maximum Add card limit', 'Set Maximum Add card limit');
+DELETE FROM `translations` WHERE `id`=431;
+INSERT INTO `translations` VALUES ('Settings', 'Settings');
+DELETE FROM `translations` WHERE `id`=432;
+INSERT INTO `translations` VALUES ('Setup Fee', 'Setup Fee');
+DELETE FROM `translations` WHERE `id`=433;
+INSERT INTO `translations` VALUES ('Signup', 'Signup');
+DELETE FROM `translations` WHERE `id`=434;
+INSERT INTO `translations` VALUES ('SIP Devices', 'SIP Devices');
+DELETE FROM `translations` WHERE `id`=435;
+INSERT INTO `translations` VALUES ('SIP IP', 'SIP IP');
+DELETE FROM `translations` WHERE `id`=436;
+INSERT INTO `translations` VALUES ('SIP Port', 'SIP Port');
+DELETE FROM `translations` WHERE `id`=437;
+INSERT INTO `translations` VALUES ('SIP Profile', 'SIP Profile');
+DELETE FROM `translations` WHERE `id`=438;
+INSERT INTO `translations` VALUES ('SIP Profiles', 'SIP Profiles');
+DELETE FROM `translations` WHERE `id`=439;
+INSERT INTO `translations` VALUES ('SMS', 'SMS');
+DELETE FROM `translations` WHERE `id`=440;
+INSERT INTO `translations` VALUES ('SMS Body', 'SMS Body');
+DELETE FROM `translations` WHERE `id`=441;
+INSERT INTO `translations` VALUES ('SMS Notifications', 'SMS Notifications');
+DELETE FROM `translations` WHERE `id`=442;
+INSERT INTO `translations` VALUES ('SMS Status', 'SMS Status');
+DELETE FROM `translations` WHERE `id`=443;
+INSERT INTO `translations` VALUES ('SMTP', 'SMTP');
+DELETE FROM `translations` WHERE `id`=444;
+INSERT INTO `translations` VALUES ('SMTP Host', 'SMTP Host');
+DELETE FROM `translations` WHERE `id`=445;
+INSERT INTO `translations` VALUES ('SMTP Pass', 'SMTP Pass');
+DELETE FROM `translations` WHERE `id`=446;
+INSERT INTO `translations` VALUES ('SMTP Port', 'SMTP Port');
+DELETE FROM `translations` WHERE `id`=447;
+INSERT INTO `translations` VALUES ('SMTP User', 'SMTP User');
+DELETE FROM `translations` WHERE `id`=448;
+INSERT INTO `translations` VALUES ('Start prefix', 'Start prefix');
+DELETE FROM `translations` WHERE `id`=449;
+INSERT INTO `translations` VALUES ('Starting Digit', 'Starting Digit');
+DELETE FROM `translations` WHERE `id`=450;
+INSERT INTO `translations` VALUES ('Status', 'Status');
+DELETE FROM `translations` WHERE `id`=451;
+INSERT INTO `translations` VALUES ('Strip', 'Strip');
+DELETE FROM `translations` WHERE `id`=452;
+INSERT INTO `translations` VALUES ('Strong', 'Strong');
+DELETE FROM `translations` WHERE `id`=453;
+INSERT INTO `translations` VALUES ('Subject', 'Subject');
+DELETE FROM `translations` WHERE `id`=454;
+INSERT INTO `translations` VALUES ('Subscription', 'Subscription');
+DELETE FROM `translations` WHERE `id`=455;
+INSERT INTO `translations` VALUES ('Supportticket', 'Supportticket');
+DELETE FROM `translations` WHERE `id`=456;
+INSERT INTO `translations` VALUES ('Switch', 'Switch');
+DELETE FROM `translations` WHERE `id`=457;
+INSERT INTO `translations` VALUES ('Tariff', 'Tariff');
+DELETE FROM `translations` WHERE `id`=458;
+INSERT INTO `translations` VALUES ('Tax', 'Tax');
+DELETE FROM `translations` WHERE `id`=459;
+INSERT INTO `translations` VALUES ('Tax Information', 'Tax Information');
+DELETE FROM `translations` WHERE `id`=460;
+INSERT INTO `translations` VALUES ('Telephone', 'Telephone');
+DELETE FROM `translations` WHERE `id`=461;
+INSERT INTO `translations` VALUES ('Telephone as account number', 'Telephone as account number');
+DELETE FROM `translations` WHERE `id`=462;
+INSERT INTO `translations` VALUES ('Templates', 'Templates');
+DELETE FROM `translations` WHERE `id`=463;
+INSERT INTO `translations` VALUES ('Term. Cost', 'Term. Cost');
+DELETE FROM `translations` WHERE `id`=464;
+INSERT INTO `translations` VALUES ('Term. Destination', 'Term. Destination');
+DELETE FROM `translations` WHERE `id`=465;
+INSERT INTO `translations` VALUES ('Term. Prefix', 'Term. Prefix');
+DELETE FROM `translations` WHERE `id`=466;
+INSERT INTO `translations` VALUES ('Term. Trunk', 'Term. Trunk');
+DELETE FROM `translations` WHERE `id`=467;
+INSERT INTO `translations` VALUES ('Termination Rates', 'Termination Rates');
+DELETE FROM `translations` WHERE `id`=468;
+INSERT INTO `translations` VALUES ('Third Party', 'Third Party');
+DELETE FROM `translations` WHERE `id`=469;
+INSERT INTO `translations` VALUES ('This Month', 'This Month');
+DELETE FROM `translations` WHERE `id`=470;
+INSERT INTO `translations` VALUES ('This Week', 'This Week');
+DELETE FROM `translations` WHERE `id`=471;
+INSERT INTO `translations` VALUES ('Timelimit Announcement', 'Timelimit Announcement');
+DELETE FROM `translations` WHERE `id`=472;
+INSERT INTO `translations` VALUES ('Timestamp', 'Timestamp');
+DELETE FROM `translations` WHERE `id`=473;
+INSERT INTO `translations` VALUES ('Timezone', 'Timezone');
+DELETE FROM `translations` WHERE `id`=474;
+INSERT INTO `translations` VALUES ('To', 'To');
+DELETE FROM `translations` WHERE `id`=475;
+INSERT INTO `translations` VALUES ('To Number', 'To Number');
+DELETE FROM `translations` WHERE `id`=476;
+INSERT INTO `translations` VALUES ('To Timestamp', 'To Timestamp');
+DELETE FROM `translations` WHERE `id`=477;
+INSERT INTO `translations` VALUES ('Today', 'Today');
+DELETE FROM `translations` WHERE `id`=478;
+INSERT INTO `translations` VALUES ('Top 10 Accounts', 'Top 10 Accounts');
+DELETE FROM `translations` WHERE `id`=479;
+INSERT INTO `translations` VALUES ('Top 10 Destinations', 'Top 10 Destinations');
+DELETE FROM `translations` WHERE `id`=480;
+INSERT INTO `translations` VALUES ('Total Calls', 'Total Calls');
+DELETE FROM `translations` WHERE `id`=481;
+INSERT INTO `translations` VALUES ('Total Charges', 'Total Charges');
+DELETE FROM `translations` WHERE `id`=482;
+INSERT INTO `translations` VALUES ('Total Minutes', 'Total Minutes');
+DELETE FROM `translations` WHERE `id`=483;
+INSERT INTO `translations` VALUES ('Transaction ID', 'Transaction ID');
+DELETE FROM `translations` WHERE `id`=484;
+INSERT INTO `translations` VALUES ('Translations', 'Translations');
+DELETE FROM `translations` WHERE `id`=485;
+INSERT INTO `translations` VALUES ('Translations Language', 'Translations Language');
+DELETE FROM `translations` WHERE `id`=486;
+INSERT INTO `translations` VALUES ('Trunk', 'Trunk');
+DELETE FROM `translations` WHERE `id`=487;
+INSERT INTO `translations` VALUES ('Trunks', 'Trunks');
+DELETE FROM `translations` WHERE `id`=488;
+INSERT INTO `translations` VALUES ('Type', 'Type');
+DELETE FROM `translations` WHERE `id`=489;
+INSERT INTO `translations` VALUES ('Unpaid', 'Unpaid');
+DELETE FROM `translations` WHERE `id`=490;
+INSERT INTO `translations` VALUES ('Update', 'Update');
+DELETE FROM `translations` WHERE `id`=491;
+INSERT INTO `translations` VALUES ('Used', 'Used');
+DELETE FROM `translations` WHERE `id`=492;
+INSERT INTO `translations` VALUES ('Used Date', 'Used Date');
+DELETE FROM `translations` WHERE `id`=493;
+INSERT INTO `translations` VALUES ('Username', 'Username');
+DELETE FROM `translations` WHERE `id`=494;
+INSERT INTO `translations` VALUES ('Version', 'Version');
+DELETE FROM `translations` WHERE `id`=495;
+INSERT INTO `translations` VALUES ('Version 4.0 Beta', 'Version 4.0 Beta');
+DELETE FROM `translations` WHERE `id`=496;
+INSERT INTO `translations` VALUES ('View All', 'View All');
+DELETE FROM `translations` WHERE `id`=498;
+INSERT INTO `translations` VALUES ('Voicemail', 'Voicemail');
+DELETE FROM `translations` WHERE `id`=500;
+INSERT INTO `translations` VALUES ('Panel Access', 'Panel Access');
+DELETE FROM `translations` WHERE `id`=501;
+INSERT INTO `translations` VALUES ('Profile', 'Profile');
+DELETE FROM `translations` WHERE `id`=502;
+INSERT INTO `translations` VALUES ('Billing Settings', 'Billing Settings');
+DELETE FROM `translations` WHERE `id`=503;
+INSERT INTO `translations` VALUES ('Pin', 'Pin');
+DELETE FROM `translations` WHERE `id`=504;
+INSERT INTO `translations` VALUES ('Account Settings', 'Account Settings');
+DELETE FROM `translations` WHERE `id`=505;
+INSERT INTO `translations` VALUES ('Notification Email', 'Notification Email');
+DELETE FROM `translations` WHERE `id`=506;
+INSERT INTO `translations` VALUES ('Address', 'Address');
+DELETE FROM `translations` WHERE `id`=507;
+INSERT INTO `translations` VALUES ('NON-CLI Rate Group', 'NON-CLI Rate Group');
+DELETE FROM `translations` WHERE `id`=508;
+INSERT INTO `translations` VALUES ('Billing Schedule', 'Billing Schedule');
+DELETE FROM `translations` WHERE `id`=509;
+INSERT INTO `translations` VALUES ('Billing Day', 'Billing Day');
+DELETE FROM `translations` WHERE `id`=510;
+INSERT INTO `translations` VALUES ('Tax Number', 'Tax Number');
+DELETE FROM `translations` WHERE `id`=511;
+INSERT INTO `translations` VALUES ('Invoice Note', 'Invoice Note');
+DELETE FROM `translations` WHERE `id`=512;
+INSERT INTO `translations` VALUES ('Reference', 'Reference');
+DELETE FROM `translations` WHERE `id`=513;
+INSERT INTO `translations` VALUES ('Cancel', 'Cancel');
+DELETE FROM `translations` WHERE `id`=514;
+INSERT INTO `translations` VALUES ('Device Information', 'Device Information');
+DELETE FROM `translations` WHERE `id`=515;
+INSERT INTO `translations` VALUES ('Voicemail Options', 'Voicemail Options');
+DELETE FROM `translations` WHERE `id`=516;
+INSERT INTO `translations` VALUES ('Mail To', 'Mail To');
+DELETE FROM `translations` WHERE `id`=517;
+INSERT INTO `translations` VALUES ('Attach File', 'Attach File');
+DELETE FROM `translations` WHERE `id`=518;
+INSERT INTO `translations` VALUES ('Local After Email', 'Local After Email');
+DELETE FROM `translations` WHERE `id`=519;
+INSERT INTO `translations` VALUES ('Send all Message', 'Send all Message');
+DELETE FROM `translations` WHERE `id`=520;
+INSERT INTO `translations` VALUES ('Close', 'Close');
+DELETE FROM `translations` WHERE `id`=521;
+INSERT INTO `translations` VALUES ('IP map', 'IP map');
+DELETE FROM `translations` WHERE `id`=522;
+INSERT INTO `translations` VALUES ('Identificador de llamadas', 'Identificador de llamadas');
+DELETE FROM `translations` WHERE `id`=523;
+INSERT INTO `translations` VALUES ('Add Caller ID', 'Add Caller ID');
+DELETE FROM `translations` WHERE `id`=524;
+INSERT INTO `translations` VALUES ('Create Reseller', 'Create Reseller');
+DELETE FROM `translations` WHERE `id`=525;
+INSERT INTO `translations` VALUES ('Role Name', 'Role Name');
+DELETE FROM `translations` WHERE `id`=526;
+INSERT INTO `translations` VALUES ('Outstanding Amount', 'Outstanding Amount');
+DELETE FROM `translations` WHERE `id`=527;
+INSERT INTO `translations` VALUES ('To Date', 'To Date');
+DELETE FROM `translations` WHERE `id`=528;
+INSERT INTO `translations` VALUES ('Before Balance', 'Before Balance');
+DELETE FROM `translations` WHERE `id`=529;
+INSERT INTO `translations` VALUES ('Commission Report', 'Commission Report');
+DELETE FROM `translations` WHERE `id`=530;
+INSERT INTO `translations` VALUES ('MonthlyFee', 'MonthlyFee');
+DELETE FROM `translations` WHERE `id`=531;
+INSERT INTO `translations` VALUES ('Grace Time (Sec.)', 'Grace Time (Sec.)');
+DELETE FROM `translations` WHERE `id`=532;
+INSERT INTO `translations` VALUES ('Import DIDs', 'Import DIDs');
+DELETE FROM `translations` WHERE `id`=533;
+INSERT INTO `translations` VALUES ('File must be in the following format', 'File must be in the following format');
+DELETE FROM `translations` WHERE `id`=534;
+INSERT INTO `translations` VALUES ('DID Import Process', 'DID Import Process');
+DELETE FROM `translations` WHERE `id`=535;
+INSERT INTO `translations` VALUES ('Get Sample file', 'Get Sample file');
+DELETE FROM `translations` WHERE `id`=536;
+INSERT INTO `translations` VALUES ('Check Header', 'Check Header');
+DELETE FROM `translations` WHERE `id`=537;
+INSERT INTO `translations` VALUES ('Select the file', 'Select the file');
+DELETE FROM `translations` WHERE `id`=538;
+INSERT INTO `translations` VALUES ('Account Count', 'Account Count');
+DELETE FROM `translations` WHERE `id`=539;
+INSERT INTO `translations` VALUES ('Acc. Number Length', 'Acc. Number Length');
+DELETE FROM `translations` WHERE `id`=540;
+INSERT INTO `translations` VALUES ('Valid Days', 'Valid Days');
+DELETE FROM `translations` WHERE `id`=541;
+INSERT INTO `translations` VALUES ('Create Access Number', 'Create Access Number');
+DELETE FROM `translations` WHERE `id`=542;
+INSERT INTO `translations` VALUES ('Information', 'Information');
+DELETE FROM `translations` WHERE `id`=543;
+INSERT INTO `translations` VALUES ('Import Access Numbers', 'Import Access Numbers');
+DELETE FROM `translations` WHERE `id`=544;
+INSERT INTO `translations` VALUES ('Access Numbers Import Process', 'Access Numbers Import Process');
+DELETE FROM `translations` WHERE `id`=545;
+INSERT INTO `translations` VALUES ('DIDs Bulk Assign', 'DIDs Bulk Assign');
+DELETE FROM `translations` WHERE `id`=546;
+INSERT INTO `translations` VALUES ('Bulk DID Purchase', 'Bulk DID Purchase');
+DELETE FROM `translations` WHERE `id`=547;
+INSERT INTO `translations` VALUES ('Provience', 'Provience');
+DELETE FROM `translations` WHERE `id`=548;
+INSERT INTO `translations` VALUES ('Assign Number', 'Assign Number');
+DELETE FROM `translations` WHERE `id`=549;
+INSERT INTO `translations` VALUES ('DID Destination', 'DID Destination');
+DELETE FROM `translations` WHERE `id`=550;
+INSERT INTO `translations` VALUES ('DID Forward', 'DID Forward');
+DELETE FROM `translations` WHERE `id`=551;
+INSERT INTO `translations` VALUES ('Always', 'Always');
+DELETE FROM `translations` WHERE `id`=552;
+INSERT INTO `translations` VALUES ('If Busy', 'If Busy');
+DELETE FROM `translations` WHERE `id`=553;
+INSERT INTO `translations` VALUES ('If SIP Not Registered', 'If SIP Not Registered');
+DELETE FROM `translations` WHERE `id`=554;
+INSERT INTO `translations` VALUES ('If No Answer', 'If No Answer');
+DELETE FROM `translations` WHERE `id`=555;
+INSERT INTO `translations` VALUES ('New Rate Group Name', 'New Rate Group Name');
+DELETE FROM `translations` WHERE `id`=556;
+INSERT INTO `translations` VALUES ('Duplicate Rate Group Information', 'Duplicate Rate Group Information');
+DELETE FROM `translations` WHERE `id`=557;
+INSERT INTO `translations` VALUES ('Import Origination Rates', 'Import Origination Rates');
+DELETE FROM `translations` WHERE `id`=558;
+INSERT INTO `translations` VALUES ('Force Trunk', 'Force Trunk');
+DELETE FROM `translations` WHERE `id`=559;
+INSERT INTO `translations` VALUES ('Please select atleast one record to dele', 'Please select atleast one record to dele');
+DELETE FROM `translations` WHERE `id`=560;
+INSERT INTO `translations` VALUES ('Import Ratedeck', 'Import Ratedeck');
+DELETE FROM `translations` WHERE `id`=561;
+INSERT INTO `translations` VALUES ('Optional Information', 'Optional Information');
+DELETE FROM `translations` WHERE `id`=562;
+INSERT INTO `translations` VALUES ('From- Domain', 'From- Domain');
+DELETE FROM `translations` WHERE `id`=563;
+INSERT INTO `translations` VALUES ('From User', 'From User');
+DELETE FROM `translations` WHERE `id`=564;
+INSERT INTO `translations` VALUES ('Extension', 'Extension');
+DELETE FROM `translations` WHERE `id`=565;
+INSERT INTO `translations` VALUES ('Extension-In-Contact', 'Extension-In-Contact');
+DELETE FROM `translations` WHERE `id`=566;
+INSERT INTO `translations` VALUES ('Ping', 'Ping');
+DELETE FROM `translations` WHERE `id`=567;
+INSERT INTO `translations` VALUES ('Contact Params', 'Contact Params');
+DELETE FROM `translations` WHERE `id`=568;
+INSERT INTO `translations` VALUES ('Retry-Seconds', 'Retry-Seconds');
+DELETE FROM `translations` WHERE `id`=569;
+INSERT INTO `translations` VALUES ('Register-Proxy', 'Register-Proxy');
+DELETE FROM `translations` WHERE `id`=570;
+INSERT INTO `translations` VALUES ('Channel', 'Channel');
+DELETE FROM `translations` WHERE `id`=571;
+INSERT INTO `translations` VALUES ('Failover GW Name', 'Failover GW Name');
+DELETE FROM `translations` WHERE `id`=572;
+INSERT INTO `translations` VALUES ('Create Trunk', 'Create Trunk');
+DELETE FROM `translations` WHERE `id`=573;
+INSERT INTO `translations` VALUES ('Import Termination Rates', 'Import Termination Rates');
+DELETE FROM `translations` WHERE `id`=574;
+INSERT INTO `translations` VALUES ('Call Timeout (Sec.)', 'Call Timeout (Sec.)');
+DELETE FROM `translations` WHERE `id`=575;
+INSERT INTO `translations` VALUES ('Trunk List', 'Trunk List');
+DELETE FROM `translations` WHERE `id`=576;
+INSERT INTO `translations` VALUES ('Reset', 'Reset');
+DELETE FROM `translations` WHERE `id`=577;
+INSERT INTO `translations` VALUES ('Create SIP Profile', 'Create SIP Profile');
+DELETE FROM `translations` WHERE `id`=578;
+INSERT INTO `translations` VALUES ('Create Freeswitch Server', 'Create Freeswitch Server');
+DELETE FROM `translations` WHERE `id`=579;
+INSERT INTO `translations` VALUES ('Live Calls', 'Live Calls');
+DELETE FROM `translations` WHERE `id`=580;
+INSERT INTO `translations` VALUES ('Term Cost', 'Term Cost');
+DELETE FROM `translations` WHERE `id`=581;
+INSERT INTO `translations` VALUES ('Term Destination', 'Term Destination');
+DELETE FROM `translations` WHERE `id`=582;
+INSERT INTO `translations` VALUES ('Term Prefix', 'Term Prefix');
+DELETE FROM `translations` WHERE `id`=583;
+INSERT INTO `translations` VALUES ('Localizaciones', 'Localizaciones');
+DELETE FROM `translations` WHERE `id`=584;
+INSERT INTO `translations` VALUES ('Create Localization', 'Create Localization');
+DELETE FROM `translations` WHERE `id`=585;
+INSERT INTO `translations` VALUES ('Origination', 'Origination');
+DELETE FROM `translations` WHERE `id`=586;
+INSERT INTO `translations` VALUES ('Termination', 'Termination');
+DELETE FROM `translations` WHERE `id`=587;
+INSERT INTO `translations` VALUES ('Inbound Callerid Translation', 'Inbound Callerid Translation');
+DELETE FROM `translations` WHERE `id`=588;
+INSERT INTO `translations` VALUES ('Destination Number Translation', 'Destination Number Translation');
+DELETE FROM `translations` WHERE `id`=589;
+INSERT INTO `translations` VALUES ('Outbound Callerid Translation', 'Outbound Callerid Translation');
+DELETE FROM `translations` WHERE `id`=590;
+INSERT INTO `translations` VALUES ('Create Call Barring', 'Create Call Barring');
+DELETE FROM `translations` WHERE `id`=591;
+INSERT INTO `translations` VALUES ('Callbarring Settings', 'Callbarring Settings');
+DELETE FROM `translations` WHERE `id`=592;
+INSERT INTO `translations` VALUES ('Product Summary Report', 'Product Summary Report');
+DELETE FROM `translations` WHERE `id`=593;
+INSERT INTO `translations` VALUES ('SIP User', 'SIP User');
+DELETE FROM `translations` WHERE `id`=594;
+INSERT INTO `translations` VALUES ('Product', 'Product');
+DELETE FROM `translations` WHERE `id`=595;
+INSERT INTO `translations` VALUES ('Taxes', 'Taxes');
+DELETE FROM `translations` WHERE `id`=596;
+INSERT INTO `translations` VALUES ('Update Currencies', 'Update Currencies');
+DELETE FROM `translations` WHERE `id`=597;
+INSERT INTO `translations` VALUES ('File Name', 'File Name');
+DELETE FROM `translations` WHERE `id`=598;
+INSERT INTO `translations` VALUES ('Database Information', 'Database Information');
+DELETE FROM `translations` WHERE `id`=599;
+INSERT INTO `translations` VALUES ('Database Backup', 'Database Backup');
+DELETE FROM `translations` WHERE `id`=600;
+INSERT INTO `translations` VALUES ('Command', 'Command');
+DELETE FROM `translations` WHERE `id`=601;
+INSERT INTO `translations` VALUES ('Cron Settings', 'Cron Settings');
+DELETE FROM `translations` WHERE `id`=602;
+INSERT INTO `translations` VALUES ('Create Cron Settings', 'Create Cron Settings');
+DELETE FROM `translations` WHERE `id`=603;
+INSERT INTO `translations` VALUES ('Stripe', 'Stripe');
+DELETE FROM `translations` WHERE `id`=604;
+INSERT INTO `translations` VALUES ('Live Secret key', 'Live Secret key');
+DELETE FROM `translations` WHERE `id`=605;
+INSERT INTO `translations` VALUES ('Live Publishable key', 'Live Publishable key');
+DELETE FROM `translations` WHERE `id`=606;
+INSERT INTO `translations` VALUES ('Set Percentage Charges', 'Set Percentage Charges');
+DELETE FROM `translations` WHERE `id`=607;
+INSERT INTO `translations` VALUES ('Set Fix Charges', 'Set Fix Charges');
+DELETE FROM `translations` WHERE `id`=608;
+INSERT INTO `translations` VALUES ('Stripe Mode', 'Stripe Mode');
+DELETE FROM `translations` WHERE `id`=609;
+INSERT INTO `translations` VALUES ('Sandbox secret key', 'Sandbox secret key');
+DELETE FROM `translations` WHERE `id`=610;
+INSERT INTO `translations` VALUES ('Sandbox publishable key', 'Sandbox publishable key');
+DELETE FROM `translations` WHERE `id`=611;
+INSERT INTO `translations` VALUES ('Version 4.0 Enterprise', 'Version 4.0 Enterprise');
+DELETE FROM `translations` WHERE `id`=612;
+INSERT INTO `translations` VALUES ('Powered by', 'Powered by');
+DELETE FROM `translations` WHERE `id`=613;
+INSERT INTO `translations` VALUES ('Import Customer Using Field Mapper', 'Import Customer Using Field Mapper');
+DELETE FROM `translations` WHERE `id`=614;
+INSERT INTO `translations` VALUES ('You must either select a field from your', 'You must either select a field from your');
+DELETE FROM `translations` WHERE `id`=615;
+INSERT INTO `translations` VALUES ('Records with duplicate account number an', 'Records with duplicate account number an');
+DELETE FROM `translations` WHERE `id`=616;
+INSERT INTO `translations` VALUES ('Account Import Error', 'Account Import Error');
+DELETE FROM `translations` WHERE `id`=617;
+INSERT INTO `translations` VALUES ('Back to Customer List', 'Back to Customer List');
+DELETE FROM `translations` WHERE `id`=618;
+INSERT INTO `translations` VALUES ('Duplicate accounts with account number /', 'Duplicate accounts with account number /');
+DELETE FROM `translations` WHERE `id`=619;
+INSERT INTO `translations` VALUES ('Records imported successfully', 'Records imported successfully');
+DELETE FROM `translations` WHERE `id`=620;
+INSERT INTO `translations` VALUES ('Records not imported', 'Records not imported');
+DELETE FROM `translations` WHERE `id`=621;
+INSERT INTO `translations` VALUES ('Error In CSV File', 'Error In CSV File');
+DELETE FROM `translations` WHERE `id`=622;
+INSERT INTO `translations` VALUES ('Invoice Summary', 'Invoice Summary');
+DELETE FROM `translations` WHERE `id`=623;
+INSERT INTO `translations` VALUES ('Customer Details', 'Customer Details');
+DELETE FROM `translations` WHERE `id`=624;
+INSERT INTO `translations` VALUES ('Invoice Details', 'Invoice Details');
+DELETE FROM `translations` WHERE `id`=625;
+INSERT INTO `translations` VALUES ('Account Number', 'Account Number');
+DELETE FROM `translations` WHERE `id`=626;
+INSERT INTO `translations` VALUES ('Invoice Amount', 'Invoice Amount');
+DELETE FROM `translations` WHERE `id`=627;
+INSERT INTO `translations` VALUES ('Invoice Item', 'Invoice Item');
+DELETE FROM `translations` WHERE `id`=628;
+INSERT INTO `translations` VALUES ('Sub Total', 'Sub Total');
+DELETE FROM `translations` WHERE `id`=629;
+INSERT INTO `translations` VALUES ('Total Due', 'Total Due');
+DELETE FROM `translations` WHERE `id`=630;
+INSERT INTO `translations` VALUES ('Once you confirm the invoice, you will n', 'Once you confirm the invoice, you will n');
+DELETE FROM `translations` WHERE `id`=631;
+INSERT INTO `translations` VALUES ('Note', 'Note');
+DELETE FROM `translations` WHERE `id`=632;
+INSERT INTO `translations` VALUES ('Add Setting', 'Add Setting');
+DELETE FROM `translations` WHERE `id`=633;
+INSERT INTO `translations` VALUES ('Edit SIP Profile', 'Edit SIP Profile');
+DELETE FROM `translations` WHERE `id`=634;
+INSERT INTO `translations` VALUES ('New', 'New');
+DELETE FROM `translations` WHERE `id`=635;
+INSERT INTO `translations` VALUES ('Used?', 'Used?');
+DELETE FROM `translations` WHERE `id`=636;
+INSERT INTO `translations` VALUES ('View Email', 'View Email');
+DELETE FROM `translations` WHERE `id`=637;
+INSERT INTO `translations` VALUES ('Active', 'Active');
+DELETE FROM `translations` WHERE `id`=638;
+INSERT INTO `translations` VALUES ('Inactive', 'Inactive');
+DELETE FROM `translations` WHERE `id`=639;
+INSERT INTO `translations` VALUES ('Black List', 'Black List');
+DELETE FROM `translations` WHERE `id`=640;
+INSERT INTO `translations` VALUES ('White List', 'White List');
+DELETE FROM `translations` WHERE `id`=641;
+INSERT INTO `translations` VALUES ('Freeswitch Server Information', 'Freeswitch Server Information');
+DELETE FROM `translations` WHERE `id`=642;
+INSERT INTO `translations` VALUES ('Currencies', 'Currencies');
+DELETE FROM `translations` WHERE `id`=643;
+INSERT INTO `translations` VALUES ('Edit Currency', 'Edit Currency');
+DELETE FROM `translations` WHERE `id`=644;
+INSERT INTO `translations` VALUES ('Is Distributor', 'Is Distributor');
+DELETE FROM `translations` WHERE `id`=645;
+INSERT INTO `translations` VALUES ('Package created successfully!', 'Package created successfully!');
+DELETE FROM `translations` WHERE `id`=646;
+INSERT INTO `translations` VALUES ('DID Removed Successfully.', 'DID Removed Successfully.');
+DELETE FROM `translations` WHERE `id`=647;
+INSERT INTO `translations` VALUES ('DID not found.', 'DID not found.');
+DELETE FROM `translations` WHERE `id`=648;
+INSERT INTO `translations` VALUES ('Password changed Sucessfully....!!!', 'Password changed Sucessfully....!!!');
+DELETE FROM `translations` WHERE `id`=649;
+INSERT INTO `translations` VALUES ('New Password & Conformpassword not match', 'New Password & Conformpassword not match');
+DELETE FROM `translations` WHERE `id`=650;
+INSERT INTO `translations` VALUES ('Invalid old passwword.', 'Invalid old passwword.');
+DELETE FROM `translations` WHERE `id`=651;
+INSERT INTO `translations` VALUES ('Permission Denied!', 'Permission Denied!');
+DELETE FROM `translations` WHERE `id`=652;
+INSERT INTO `translations` VALUES ('Refill Coupon amount is added successful', 'Refill Coupon amount is added successful');
+DELETE FROM `translations` WHERE `id`=653;
+INSERT INTO `translations` VALUES ('PLease upload maximum file', 'PLease upload maximum file');
+DELETE FROM `translations` WHERE `id`=654;
+INSERT INTO `translations` VALUES ('files added successfully!', 'files added successfully!');
+DELETE FROM `translations` WHERE `id`=655;
+INSERT INTO `translations` VALUES ('File Uploading Fail Please Try Again', 'File Uploading Fail Please Try Again');
+DELETE FROM `translations` WHERE `id`=656;
+INSERT INTO `translations` VALUES ('Please upload only image!', 'Please upload only image!');
+DELETE FROM `translations` WHERE `id`=657;
+INSERT INTO `translations` VALUES ('Invoice config updated successfully!', 'Invoice config updated successfully!');
+DELETE FROM `translations` WHERE `id`=658;
+INSERT INTO `translations` VALUES ('Your Profile Updated Successfully!', 'Your Profile Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=659;
+INSERT INTO `translations` VALUES ('Something wrong.Please contact to admini', 'Something wrong.Please contact to admini');
+DELETE FROM `translations` WHERE `id`=660;
+INSERT INTO `translations` VALUES ('DID Released Successfully!', 'DID Released Successfully!');
+DELETE FROM `translations` WHERE `id`=661;
+INSERT INTO `translations` VALUES ('IP already exist in system.', 'IP already exist in system.');
+DELETE FROM `translations` WHERE `id`=662;
+INSERT INTO `translations` VALUES ('IP Added Sucessfully.', 'IP Added Sucessfully.');
+DELETE FROM `translations` WHERE `id`=663;
+INSERT INTO `translations` VALUES ('IP Removed Sucessfully.', 'IP Removed Sucessfully.');
+DELETE FROM `translations` WHERE `id`=664;
+INSERT INTO `translations` VALUES ('SIP Device Updated Successfully!', 'SIP Device Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=665;
+INSERT INTO `translations` VALUES ('SIP Device Added Successfully!', 'SIP Device Added Successfully!');
+DELETE FROM `translations` WHERE `id`=666;
+INSERT INTO `translations` VALUES ('SIP Device Removed Sucessfully!', 'SIP Device Removed Sucessfully!');
+DELETE FROM `translations` WHERE `id`=667;
+INSERT INTO `translations` VALUES ('Caller ID Added Sucessfully!', 'Caller ID Added Sucessfully!');
+DELETE FROM `translations` WHERE `id`=668;
+INSERT INTO `translations` VALUES ('Please Enter Caller ID value.', 'Please Enter Caller ID value.');
+DELETE FROM `translations` WHERE `id`=669;
+INSERT INTO `translations` VALUES ('Caller ID already Exists.', 'Caller ID already Exists.');
+DELETE FROM `translations` WHERE `id`=670;
+INSERT INTO `translations` VALUES ('Caller ID removed sucessfully!', 'Caller ID removed sucessfully!');
+DELETE FROM `translations` WHERE `id`=671;
+INSERT INTO `translations` VALUES ('Alert Threshold Updated Successfully!', 'Alert Threshold Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=672;
+INSERT INTO `translations` VALUES ('Can not trnasfer fund to postpaid custom', 'Can not trnasfer fund to postpaid custom');
+DELETE FROM `translations` WHERE `id`=673;
+INSERT INTO `translations` VALUES ('Access Denied! unable transfer fund to t', 'Access Denied! unable transfer fund to t');
+DELETE FROM `translations` WHERE `id`=674;
+INSERT INTO `translations` VALUES ('You can not transfer fund in same accoun', 'You can not transfer fund in same account');
+DELETE FROM `translations` WHERE `id`=675;
+INSERT INTO `translations` VALUES ('You can only transfer fund in same level', 'You can only transfer fund in same level');
+DELETE FROM `translations` WHERE `id`=676;
+INSERT INTO `translations` VALUES ('Please enter To account number.', 'Please enter To account number.');
+DELETE FROM `translations` WHERE `id`=677;
+INSERT INTO `translations` VALUES ('Please enter valid amount.', 'Please enter valid amount.');
+DELETE FROM `translations` WHERE `id`=678;
+INSERT INTO `translations` VALUES ('You have insufficient balance.', 'You have insufficient balance.');
+DELETE FROM `translations` WHERE `id`=679;
+INSERT INTO `translations` VALUES ('Please enter valid account number.', 'Please enter valid account number.');
+DELETE FROM `translations` WHERE `id`=680;
+INSERT INTO `translations` VALUES ('Please enter amount greater then 0.', 'Please enter amount greater then 0.');
+DELETE FROM `translations` WHERE `id`=681;
+INSERT INTO `translations` VALUES ('You need to enter minimum for fund trans', 'You need to enter minimum for fund trans');
+DELETE FROM `translations` WHERE `id`=682;
+INSERT INTO `translations` VALUES ('Please enter valid account number!', 'Please enter valid account number!');
+DELETE FROM `translations` WHERE `id`=683;
+INSERT INTO `translations` VALUES ('Insuffiecient amount !', 'Insuffiecient amount !');
+DELETE FROM `translations` WHERE `id`=684;
+INSERT INTO `translations` VALUES ('Transfer successfully!', 'Transfer successfully!');
+DELETE FROM `translations` WHERE `id`=685;
+INSERT INTO `translations` VALUES ('Account number not found.', 'Account number not found.');
+DELETE FROM `translations` WHERE `id`=686;
+INSERT INTO `translations` VALUES ('OpenSips updated successfully!', 'OpenSips updated successfully!');
+DELETE FROM `translations` WHERE `id`=687;
+INSERT INTO `translations` VALUES ('Duplicate Username Found.Username Must b', 'Duplicate Username Found.Username Must b');
+DELETE FROM `translations` WHERE `id`=688;
+INSERT INTO `translations` VALUES ('User name is required field.', 'User name is required field.');
+DELETE FROM `translations` WHERE `id`=689;
+INSERT INTO `translations` VALUES ('Opensips Device Removed Successfully!.', 'Opensips Device Removed Successfully!.');
+DELETE FROM `translations` WHERE `id`=690;
+INSERT INTO `translations` VALUES ('Speed-dial Number Added Successfully!', 'Speed-dial Number Added Successfully!');
+DELETE FROM `translations` WHERE `id`=691;
+INSERT INTO `translations` VALUES ('Can not delete blank speeddial number', 'Can not delete blank speeddial number');
+DELETE FROM `translations` WHERE `id`=692;
+INSERT INTO `translations` VALUES ('Speed-dial Number Removed Successfully!', 'Speed-dial Number Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=693;
+INSERT INTO `translations` VALUES ('Pin Updated Successfully!', 'Pin Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=694;
+INSERT INTO `translations` VALUES ('DID Updated Successfully!', 'DID Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=695;
+INSERT INTO `translations` VALUES ('for fund transfer.', 'for fund transfer.');
+DELETE FROM `translations` WHERE `id`=696;
+INSERT INTO `translations` VALUES ('You need to enter minimum', 'You need to enter minimum');
+DELETE FROM `translations` WHERE `id`=697;
+INSERT INTO `translations` VALUES ('please enter recharge value', 'please enter recharge value');
+DELETE FROM `translations` WHERE `id`=698;
+INSERT INTO `translations` VALUES ('New Password', 'New Password');
+DELETE FROM `translations` WHERE `id`=699;
+INSERT INTO `translations` VALUES ('Old Password', 'Old Password');
+DELETE FROM `translations` WHERE `id`=700;
+INSERT INTO `translations` VALUES ('Conform Password', 'Conform Password');
+DELETE FROM `translations` WHERE `id`=701;
+INSERT INTO `translations` VALUES ('Letters only please', 'Letters only please');
+DELETE FROM `translations` WHERE `id`=702;
+INSERT INTO `translations` VALUES ('IP Mapping', 'IP Mapping');
+DELETE FROM `translations` WHERE `id`=703;
+INSERT INTO `translations` VALUES ('The Coupon Number field must contain onl', 'The Coupon Number field must contain onl');
+DELETE FROM `translations` WHERE `id`=704;
+INSERT INTO `translations` VALUES ('The Coupon Number field have inactive re', 'The Coupon Number field have inactive re');
+DELETE FROM `translations` WHERE `id`=705;
+INSERT INTO `translations` VALUES ('This Coupon Number is already in use.', 'This Coupon Number is already in use.');
+DELETE FROM `translations` WHERE `id`=706;
+INSERT INTO `translations` VALUES ('This Coupon Number is not found.', 'This Coupon Number is not found.');
+DELETE FROM `translations` WHERE `id`=707;
+INSERT INTO `translations` VALUES ('The Coupon Number field is required.', 'The Coupon Number field is required.');
+DELETE FROM `translations` WHERE `id`=708;
+INSERT INTO `translations` VALUES ('REFILL COUPON RECHARGE', 'REFILL COUPON RECHARGE');
+DELETE FROM `translations` WHERE `id`=709;
+INSERT INTO `translations` VALUES ('You just recharged', 'You just recharged');
+DELETE FROM `translations` WHERE `id`=710;
+INSERT INTO `translations` VALUES ('account with The new balance will be', 'account with The new balance will be');
+DELETE FROM `translations` WHERE `id`=711;
+INSERT INTO `translations` VALUES ('My Profile', 'My Profile');
+DELETE FROM `translations` WHERE `id`=712;
+INSERT INTO `translations` VALUES ('My Account', 'My Account');
+DELETE FROM `translations` WHERE `id`=713;
+INSERT INTO `translations` VALUES ('Alert Threshold', 'Alert Threshold');
+DELETE FROM `translations` WHERE `id`=714;
+INSERT INTO `translations` VALUES ('The Caller ID field is required.', 'The Caller ID field is required.');
+DELETE FROM `translations` WHERE `id`=715;
+INSERT INTO `translations` VALUES ('Change Password', 'Change Password');
+DELETE FROM `translations` WHERE `id`=716;
+INSERT INTO `translations` VALUES ('Bill Type', 'Bill Type');
+DELETE FROM `translations` WHERE `id`=717;
+INSERT INTO `translations` VALUES ('Bill Days', 'Bill Days');
+DELETE FROM `translations` WHERE `id`=718;
+INSERT INTO `translations` VALUES ('New Products', 'New Products');
+DELETE FROM `translations` WHERE `id`=719;
+INSERT INTO `translations` VALUES ('Active Products', 'Active Products');
+DELETE FROM `translations` WHERE `id`=720;
+INSERT INTO `translations` VALUES ('Outstanding', 'Outstanding');
+DELETE FROM `translations` WHERE `id`=721;
+INSERT INTO `translations` VALUES ('Today\'s Calls', 'Today\'s Calls');
+DELETE FROM `translations` WHERE `id`=722;
+INSERT INTO `translations` VALUES ('Recent Calls', 'Recent Calls');
+DELETE FROM `translations` WHERE `id`=723;
+INSERT INTO `translations` VALUES ('The Available DIDs field is required.', 'The Available DIDs field is required.');
+DELETE FROM `translations` WHERE `id`=724;
+INSERT INTO `translations` VALUES ('Please enter your password', 'Please enter your password');
+DELETE FROM `translations` WHERE `id`=725;
+INSERT INTO `translations` VALUES ('Please enter your first name', 'Please enter your first name');
+DELETE FROM `translations` WHERE `id`=726;
+INSERT INTO `translations` VALUES ('Please enter your email', 'Please enter your email');
+DELETE FROM `translations` WHERE `id`=727;
+INSERT INTO `translations` VALUES ('Please enter valid email', 'Please enter valid email');
+DELETE FROM `translations` WHERE `id`=728;
+INSERT INTO `translations` VALUES ('This field is required.', 'This field is required.');
+DELETE FROM `translations` WHERE `id`=729;
+INSERT INTO `translations` VALUES ('Email Setting', 'Email Setting');
+DELETE FROM `translations` WHERE `id`=730;
+INSERT INTO `translations` VALUES ('SMTP Password', 'SMTP Password');
+DELETE FROM `translations` WHERE `id`=731;
+INSERT INTO `translations` VALUES ('Are you sure want to remove logo?', 'Are you sure want to remove logo?');
+DELETE FROM `translations` WHERE `id`=732;
+INSERT INTO `translations` VALUES ('The IP field must contain a unique value', 'The IP field must contain a unique value');
+DELETE FROM `translations` WHERE `id`=733;
+INSERT INTO `translations` VALUES ('The IP field have not valid IP.', 'The IP field have not valid IP.');
+DELETE FROM `translations` WHERE `id`=734;
+INSERT INTO `translations` VALUES ('The IP field is required.', 'The IP field is required.');
+DELETE FROM `translations` WHERE `id`=735;
+INSERT INTO `translations` VALUES ('The Name field is required.', 'The Name field is required.');
+DELETE FROM `translations` WHERE `id`=736;
+INSERT INTO `translations` VALUES ('Please enter only alpha-numeric value', 'Please enter only alpha-numeric value');
+DELETE FROM `translations` WHERE `id`=737;
+INSERT INTO `translations` VALUES ('Are you sure want to delete speed dial r', 'Are you sure want to delete speed dial r');
+DELETE FROM `translations` WHERE `id`=738;
+INSERT INTO `translations` VALUES ('Generated Date', 'Generated Date');
+DELETE FROM `translations` WHERE `id`=739;
+INSERT INTO `translations` VALUES ('My Products', 'My Products');
+DELETE FROM `translations` WHERE `id`=740;
+INSERT INTO `translations` VALUES ('Pinless CLI', 'Pinless CLI');
+DELETE FROM `translations` WHERE `id`=741;
+INSERT INTO `translations` VALUES ('Refill Coupon', 'Refill Coupon');
+DELETE FROM `translations` WHERE `id`=742;
+INSERT INTO `translations` VALUES ('TopUp', 'TopUp');
+DELETE FROM `translations` WHERE `id`=743;
+INSERT INTO `translations` VALUES ('Pay with Paypal', 'Pay with Paypal');
+DELETE FROM `translations` WHERE `id`=744;
+INSERT INTO `translations` VALUES ('Pay with Card', 'Pay with Card');
+DELETE FROM `translations` WHERE `id`=745;
+INSERT INTO `translations` VALUES ('Assign', 'Assign');
+DELETE FROM `translations` WHERE `id`=746;
+INSERT INTO `translations` VALUES ('Send Credit', 'Send Credit');
+DELETE FROM `translations` WHERE `id`=747;
+INSERT INTO `translations` VALUES ('To Account', 'To Account');
+DELETE FROM `translations` WHERE `id`=748;
+INSERT INTO `translations` VALUES ('From Account', 'From Account');
+DELETE FROM `translations` WHERE `id`=749;
+INSERT INTO `translations` VALUES ('Transfer', 'Transfer');
+DELETE FROM `translations` WHERE `id`=750;
+INSERT INTO `translations` VALUES ('Telephone 1', 'Telephone 1');
+DELETE FROM `translations` WHERE `id`=751;
+INSERT INTO `translations` VALUES ('Telephone 2', 'Telephone 2');
+DELETE FROM `translations` WHERE `id`=752;
+INSERT INTO `translations` VALUES ('Address 2', 'Address 2');
+DELETE FROM `translations` WHERE `id`=753;
+INSERT INTO `translations` VALUES ('Zip/Postal Code', 'Zip/Postal Code');
+DELETE FROM `translations` WHERE `id`=754;
+INSERT INTO `translations` VALUES ('User Profile', 'User Profile');
+DELETE FROM `translations` WHERE `id`=755;
+INSERT INTO `translations` VALUES ('Low Balance Alert Level', 'Low Balance Alert Level');
+DELETE FROM `translations` WHERE `id`=756;
+INSERT INTO `translations` VALUES ('Enable Email Alerts ?', 'Enable Email Alerts ?');
+DELETE FROM `translations` WHERE `id`=757;
+INSERT INTO `translations` VALUES ('Low Balance Alert Email', 'Low Balance Alert Email');
+DELETE FROM `translations` WHERE `id`=758;
+INSERT INTO `translations` VALUES ('User Name', 'User Name');
+DELETE FROM `translations` WHERE `id`=759;
+INSERT INTO `translations` VALUES ('Something went to wrong !', 'Something went to wrong !');
+DELETE FROM `translations` WHERE `id`=760;
+INSERT INTO `translations` VALUES ('Product Purchased successfully !', 'Product Purchased successfully !');
+DELETE FROM `translations` WHERE `id`=761;
+INSERT INTO `translations` VALUES ('Insufficent Balance to purchase product', 'Insufficent Balance to purchase product');
+DELETE FROM `translations` WHERE `id`=762;
+INSERT INTO `translations` VALUES ('Product assigned successfully!', 'Product assigned successfully!');
+DELETE FROM `translations` WHERE `id`=763;
+INSERT INTO `translations` VALUES ('Something went wrong !', 'Something went wrong !');
+DELETE FROM `translations` WHERE `id`=764;
+INSERT INTO `translations` VALUES ('Product Not Found', 'Product Not Found');
+DELETE FROM `translations` WHERE `id`=765;
+INSERT INTO `translations` VALUES ('Transaction has been failed', 'Transaction has been failed');
+DELETE FROM `translations` WHERE `id`=766;
+INSERT INTO `translations` VALUES ('not inserted. Transaction has been faile', 'not inserted. Transaction has been faile');
+DELETE FROM `translations` WHERE `id`=767;
+INSERT INTO `translations` VALUES ('Select Customer.', 'Select Customer.');
+DELETE FROM `translations` WHERE `id`=768;
+INSERT INTO `translations` VALUES ('Product Information', 'Product Information');
+DELETE FROM `translations` WHERE `id`=769;
+INSERT INTO `translations` VALUES ('Price+SetUp Fee', 'Price+SetUp Fee');
+DELETE FROM `translations` WHERE `id`=770;
+INSERT INTO `translations` VALUES ('Use Voucher', 'Use Voucher');
+DELETE FROM `translations` WHERE `id`=771;
+INSERT INTO `translations` VALUES ('Amount Without Tax', 'Amount Without Tax');
+DELETE FROM `translations` WHERE `id`=772;
+INSERT INTO `translations` VALUES ('Total Tax', 'Total Tax');
+DELETE FROM `translations` WHERE `id`=773;
+INSERT INTO `translations` VALUES ('Amount With Tax', 'Amount With Tax');
+DELETE FROM `translations` WHERE `id`=774;
+INSERT INTO `translations` VALUES ('Parent Products', 'Parent Products');
+DELETE FROM `translations` WHERE `id`=775;
+INSERT INTO `translations` VALUES ('Edit Product', 'Edit Product');
+DELETE FROM `translations` WHERE `id`=776;
+INSERT INTO `translations` VALUES ('Product updated successfully!', 'Product updated successfully!');
+DELETE FROM `translations` WHERE `id`=777;
+INSERT INTO `translations` VALUES ('Product added successfully!', 'Product added successfully!');
+DELETE FROM `translations` WHERE `id`=778;
+INSERT INTO `translations` VALUES ('Product removed successfully!', 'Product removed successfully!');
+DELETE FROM `translations` WHERE `id`=779;
+INSERT INTO `translations` VALUES ('Product optin successfully!', 'Product optin successfully!');
+DELETE FROM `translations` WHERE `id`=780;
+INSERT INTO `translations` VALUES ('Edit Info', 'Edit Info');
+DELETE FROM `translations` WHERE `id`=781;
+INSERT INTO `translations` VALUES ('Product assign successfully', 'Product assign successfully');
+DELETE FROM `translations` WHERE `id`=782;
+INSERT INTO `translations` VALUES ('Insufficient balance to assign product!', 'Insufficient balance to assign product!');
+DELETE FROM `translations` WHERE `id`=783;
+INSERT INTO `translations` VALUES ('Terminated Updated Successfully!', 'Terminated Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=784;
+INSERT INTO `translations` VALUES ('Terminated', 'Terminated');
+DELETE FROM `translations` WHERE `id`=785;
+INSERT INTO `translations` VALUES ('Setup Cost', 'Setup Cost');
+DELETE FROM `translations` WHERE `id`=786;
+INSERT INTO `translations` VALUES ('Order New', 'Order New');
+DELETE FROM `translations` WHERE `id`=787;
+INSERT INTO `translations` VALUES ('Caller ID updated successfully!', 'Caller ID updated successfully!');
+DELETE FROM `translations` WHERE `id`=788;
+INSERT INTO `translations` VALUES ('Caller ID added successfully!', 'Caller ID added successfully!');
+DELETE FROM `translations` WHERE `id`=789;
+INSERT INTO `translations` VALUES ('Caller ID removed successfully!', 'Caller ID removed successfully!');
+DELETE FROM `translations` WHERE `id`=790;
+INSERT INTO `translations` VALUES ('Name is not contain any space', 'Name is not contain any space');
+DELETE FROM `translations` WHERE `id`=791;
+INSERT INTO `translations` VALUES ('Name already exist in system.', 'Name already exist in system.');
+DELETE FROM `translations` WHERE `id`=792;
+INSERT INTO `translations` VALUES ('Callbarring Settings Updated Successfull', 'Callbarring Settings Updated Successfull');
+DELETE FROM `translations` WHERE `id`=793;
+INSERT INTO `translations` VALUES ('allbarring Settings Added Successfully!', 'allbarring Settings Added Successfully!');
+DELETE FROM `translations` WHERE `id`=794;
+INSERT INTO `translations` VALUES ('Call Barring Removed Successfully!', 'Call Barring Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=795;
+INSERT INTO `translations` VALUES ('Calltype already exist in system.', 'Calltype already exist in system.');
+DELETE FROM `translations` WHERE `id`=796;
+INSERT INTO `translations` VALUES ('Calltype Updated Successfully!', 'Calltype Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=797;
+INSERT INTO `translations` VALUES ('Calltype Added Successfully!', 'Calltype Added Successfully!');
+DELETE FROM `translations` WHERE `id`=798;
+INSERT INTO `translations` VALUES ('calltype removed successfully!', 'calltype removed successfully!');
+DELETE FROM `translations` WHERE `id`=799;
+INSERT INTO `translations` VALUES ('File must be in the following format(.cs', 'File must be in the following format(.cs');
+DELETE FROM `translations` WHERE `id`=800;
+INSERT INTO `translations` VALUES ('Import Package Codes:', 'Import Package Codes:');
+DELETE FROM `translations` WHERE `id`=801;
+INSERT INTO `translations` VALUES ('Code, Destination.', 'Code, Destination.');
+DELETE FROM `translations` WHERE `id`=802;
+INSERT INTO `translations` VALUES ('Records Imported Successfully:', 'Records Imported Successfully:');
+DELETE FROM `translations` WHERE `id`=803;
+INSERT INTO `translations` VALUES ('Records Not Imported :', 'Records Not Imported :');
+DELETE FROM `translations` WHERE `id`=804;
+INSERT INTO `translations` VALUES ('Download Errors', 'Download Errors');
+DELETE FROM `translations` WHERE `id`=805;
+INSERT INTO `translations` VALUES ('Back to Package Patterns List', 'Back to Package Patterns List');
+DELETE FROM `translations` WHERE `id`=806;
+INSERT INTO `translations` VALUES ('Add To List', 'Add To List');
+DELETE FROM `translations` WHERE `id`=807;
+INSERT INTO `translations` VALUES ('Routing Prefix already exist in system.', 'Routing Prefix already exist in system.');
+DELETE FROM `translations` WHERE `id`=808;
+INSERT INTO `translations` VALUES ('Rate Group Updated Successfully!', 'Rate Group Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=809;
+INSERT INTO `translations` VALUES ('Rate Group Added Successfully!', 'Rate Group Added Successfully!');
+DELETE FROM `translations` WHERE `id`=810;
+INSERT INTO `translations` VALUES ('Duplicate Rate Group Added Successfully!', 'Duplicate Rate Group Added Successfully!');
+DELETE FROM `translations` WHERE `id`=811;
+INSERT INTO `translations` VALUES ('Routing Prefix (Enterprise)', 'Routing Prefix (Enterprise)');
+DELETE FROM `translations` WHERE `id`=812;
+INSERT INTO `translations` VALUES ('Priority (Enterprise)', 'Priority (Enterprise)');
+DELETE FROM `translations` WHERE `id`=813;
+INSERT INTO `translations` VALUES ('Percentage (WIP) (Enterprise)', 'Percentage (WIP) (Enterprise)');
+DELETE FROM `translations` WHERE `id`=814;
+INSERT INTO `translations` VALUES ('LCR', 'LCR');
+DELETE FROM `translations` WHERE `id`=815;
+INSERT INTO `translations` VALUES ('Percentage', 'Percentage');
+DELETE FROM `translations` WHERE `id`=816;
+INSERT INTO `translations` VALUES ('Tax removed successfully!', 'Tax removed successfully!');
+DELETE FROM `translations` WHERE `id`=817;
+INSERT INTO `translations` VALUES ('Tax added successfully!', 'Tax added successfully!');
+DELETE FROM `translations` WHERE `id`=818;
+INSERT INTO `translations` VALUES ('Tax updated successfully!', 'Tax updated successfully!');
+DELETE FROM `translations` WHERE `id`=819;
+INSERT INTO `translations` VALUES ('Charges List', 'Charges List');
+DELETE FROM `translations` WHERE `id`=820;
+INSERT INTO `translations` VALUES ('Trunk Updated Successfully!', 'Trunk Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=821;
+INSERT INTO `translations` VALUES ('Trunk Added Successfully!', 'Trunk Added Successfully!');
+DELETE FROM `translations` WHERE `id`=822;
+INSERT INTO `translations` VALUES ('Trunk removed successfully!', 'Trunk removed successfully!');
+DELETE FROM `translations` WHERE `id`=823;
+INSERT INTO `translations` VALUES ('setting updated successfully!', 'setting updated successfully!');
+DELETE FROM `translations` WHERE `id`=824;
+INSERT INTO `translations` VALUES ('Template Updated Successfully!', 'Template Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=825;
+INSERT INTO `translations` VALUES ('Template Added Successfully!', 'Template Added Successfully!');
+DELETE FROM `translations` WHERE `id`=826;
+INSERT INTO `translations` VALUES ('Country Updated successfully!', 'Country Updated successfully!');
+DELETE FROM `translations` WHERE `id`=827;
+INSERT INTO `translations` VALUES ('Country Added successfully!', 'Country Added successfully!');
+DELETE FROM `translations` WHERE `id`=828;
+INSERT INTO `translations` VALUES ('Country removed successfully!', 'Country removed successfully!');
+DELETE FROM `translations` WHERE `id`=829;
+INSERT INTO `translations` VALUES ('Currency Updated Successfully!', 'Currency Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=830;
+INSERT INTO `translations` VALUES ('My Rates', 'My Rates');
+DELETE FROM `translations` WHERE `id`=831;
+INSERT INTO `translations` VALUES ('Cost / Min', 'Cost / Min');
+DELETE FROM `translations` WHERE `id`=832;
+INSERT INTO `translations` VALUES ('Purchase', 'Purchase');
+DELETE FROM `translations` WHERE `id`=833;
+INSERT INTO `translations` VALUES ('Available DIDs', 'Available DIDs');
+DELETE FROM `translations` WHERE `id`=834;
+INSERT INTO `translations` VALUES ('New IP', 'New IP');
+DELETE FROM `translations` WHERE `id`=835;
+INSERT INTO `translations` VALUES ('Digits', 'Digits');
+DELETE FROM `translations` WHERE `id`=836;
+INSERT INTO `translations` VALUES ('Email Address', 'Email Address');
+DELETE FROM `translations` WHERE `id`=837;
+INSERT INTO `translations` VALUES ('Call Forward', 'Call Forward');
+DELETE FROM `translations` WHERE `id`=838;
+INSERT INTO `translations` VALUES ('If Busy:', 'If Busy:');
+DELETE FROM `translations` WHERE `id`=839;
+INSERT INTO `translations` VALUES ('If SIP Not Registered:', 'If SIP Not Registered:');
+DELETE FROM `translations` WHERE `id`=840;
+INSERT INTO `translations` VALUES ('If No Answer:', 'If No Answer:');
+DELETE FROM `translations` WHERE `id`=841;
+INSERT INTO `translations` VALUES ('Pay Now', 'Pay Now');
+DELETE FROM `translations` WHERE `id`=842;
+INSERT INTO `translations` VALUES ('Pay with Account', 'Pay with Account');
+DELETE FROM `translations` WHERE `id`=843;
+INSERT INTO `translations` VALUES ('Please wait, your order is being processed and you will be redirected to the paypal website.', 'Please wait, your order is being processed and you will be redirected to the paypal website.');
+DELETE FROM `translations` WHERE `id`=844;
+INSERT INTO `translations` VALUES ('Coupon Number:', 'Coupon Number:');
+DELETE FROM `translations` WHERE `id`=845;
+INSERT INTO `translations` VALUES ('Add Voucher', 'Add Voucher');
+DELETE FROM `translations` WHERE `id`=846;
+INSERT INTO `translations` VALUES ('Selected Plan', 'Selected Plan');
+DELETE FROM `translations` WHERE `id`=847;
+INSERT INTO `translations` VALUES ('My Product', 'My Product');
+DELETE FROM `translations` WHERE `id`=848;
+INSERT INTO `translations` VALUES ('Parent Product', 'Parent Product');
+DELETE FROM `translations` WHERE `id`=849;
+INSERT INTO `translations` VALUES ('Edit Email Template', 'Edit Email Template');
+DELETE FROM `translations` WHERE `id`=850;
+INSERT INTO `translations` VALUES ('Details', 'Details');
+DELETE FROM `translations` WHERE `id`=851;
+INSERT INTO `translations` VALUES ('KEY', 'KEY');
+DELETE FROM `translations` WHERE `id`=852;
+INSERT INTO `translations` VALUES ('VALUE', 'VALUE');
+DELETE FROM `translations` WHERE `id`=853;
+INSERT INTO `translations` VALUES ('Records with duplicate account number and email will be ignored.', 'Records with duplicate account number and email will be ignored.');
+DELETE FROM `translations` WHERE `id`=854;
+INSERT INTO `translations` VALUES ('Account Details', 'Account Details');
+DELETE FROM `translations` WHERE `id`=855;
+INSERT INTO `translations` VALUES ('Mass Customer', 'Mass Customer');
+DELETE FROM `translations` WHERE `id`=856;
+INSERT INTO `translations` VALUES ('Daily', 'Daily');
+DELETE FROM `translations` WHERE `id`=857;
+INSERT INTO `translations` VALUES ('Monthly', 'Monthly');
+DELETE FROM `translations` WHERE `id`=858;
+INSERT INTO `translations` VALUES ('Prepaid', 'Prepaid');
+DELETE FROM `translations` WHERE `id`=859;
+INSERT INTO `translations` VALUES ('Postpaid', 'Postpaid');
+DELETE FROM `translations` WHERE `id`=860;
+INSERT INTO `translations` VALUES ('Force Caller ID', 'Force Caller ID');
+DELETE FROM `translations` WHERE `id`=861;
+INSERT INTO `translations` VALUES ('Customer Profile', 'Customer Profile');
+DELETE FROM `translations` WHERE `id`=862;
+INSERT INTO `translations` VALUES ('Caller Id Name', 'Caller Id Name');
+DELETE FROM `translations` WHERE `id`=863;
+INSERT INTO `translations` VALUES ('Caller Id Number', 'Caller Id Number');
+DELETE FROM `translations` WHERE `id`=864;
+INSERT INTO `translations` VALUES ('Blocked Codes', 'Blocked Codes');
+DELETE FROM `translations` WHERE `id`=865;
+INSERT INTO `translations` VALUES ('Page will display only receipts and confirmed invoices.', 'Page will display only receipts and confirmed invoices.');
+DELETE FROM `translations` WHERE `id`=866;
+INSERT INTO `translations` VALUES ('Accessnumber Updated Successfully!', 'Accessnumber Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=867;
+INSERT INTO `translations` VALUES ('Accessnumber Removed Successfully!', 'Accessnumber Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=868;
+INSERT INTO `translations` VALUES ('Invalid file format : Only CSV file allows to import records(Can\'t import empty file)', 'Invalid file format : Only CSV file allows to import records(Can\'t import empty file)');
+DELETE FROM `translations` WHERE `id`=869;
+INSERT INTO `translations` VALUES ('Access Number,Country', 'Access Number,Country');
+DELETE FROM `translations` WHERE `id`=870;
+INSERT INTO `translations` VALUES ('Please Select File.', 'Please Select File.');
+DELETE FROM `translations` WHERE `id`=871;
+INSERT INTO `translations` VALUES ('are required', 'are required');
+DELETE FROM `translations` WHERE `id`=872;
+INSERT INTO `translations` VALUES ('is Required', 'is Required');
+DELETE FROM `translations` WHERE `id`=873;
+INSERT INTO `translations` VALUES ('is not Valid', 'is not Valid');
+DELETE FROM `translations` WHERE `id`=874;
+INSERT INTO `translations` VALUES ('Duplicate accessnumber found from database', 'Duplicate accessnumber found from database');
+DELETE FROM `translations` WHERE `id`=875;
+INSERT INTO `translations` VALUES ('Duplicate accessnumber found from import file.', 'Duplicate accessnumber found from import file.');
+DELETE FROM `translations` WHERE `id`=876;
+INSERT INTO `translations` VALUES ('Total', 'Total');
+DELETE FROM `translations` WHERE `id`=877;
+INSERT INTO `translations` VALUES ('AccessNumber Imported Successfully!', 'AccessNumber Imported Successfully!');
+DELETE FROM `translations` WHERE `id`=878;
+INSERT INTO `translations` VALUES ('Records Not Imported:', 'Records Not Imported:');
+DELETE FROM `translations` WHERE `id`=879;
+INSERT INTO `translations` VALUES ('Back to AccessNumber List', 'Back to AccessNumber List');
+DELETE FROM `translations` WHERE `id`=880;
+INSERT INTO `translations` VALUES ('Speed Dial Number Updated Successfully', 'Speed Dial Number Updated Successfully');
+DELETE FROM `translations` WHERE `id`=881;
+INSERT INTO `translations` VALUES ('Please insert only numeric value!', 'Please insert only numeric value!');
+DELETE FROM `translations` WHERE `id`=882;
+INSERT INTO `translations` VALUES ('Speed Dial Number Removed Successfully', 'Speed Dial Number Removed Successfully');
+DELETE FROM `translations` WHERE `id`=883;
+INSERT INTO `translations` VALUES ('Speed Dial Number is Empty', 'Speed Dial Number is Empty');
+DELETE FROM `translations` WHERE `id`=884;
+INSERT INTO `translations` VALUES ('Sip Device removed successfully!', 'Sip Device removed successfully!');
+DELETE FROM `translations` WHERE `id`=885;
+INSERT INTO `translations` VALUES ('Sip updated successfully!', 'Sip updated successfully!');
+DELETE FROM `translations` WHERE `id`=886;
+INSERT INTO `translations` VALUES ('Block Code Removed Sucessfully!', 'Block Code Removed Sucessfully!');
+DELETE FROM `translations` WHERE `id`=887;
+INSERT INTO `translations` VALUES ('Your Account Limit has been reached.Please Change Your Prefix.', 'Your Account Limit has been reached.Please Change Your Prefix.');
+DELETE FROM `translations` WHERE `id`=888;
+INSERT INTO `translations` VALUES ('Please Enter Proper Account Length.', 'Please Enter Proper Account Length.');
+DELETE FROM `translations` WHERE `id`=889;
+INSERT INTO `translations` VALUES ('Bulk customer generate successfully!', 'Bulk customer generate successfully!');
+DELETE FROM `translations` WHERE `id`=890;
+INSERT INTO `translations` VALUES ('Recharge successfully!', 'Recharge successfully!');
+DELETE FROM `translations` WHERE `id`=891;
+INSERT INTO `translations` VALUES ('Post charge applied successfully.', 'Post charge applied successfully.');
+DELETE FROM `translations` WHERE `id`=892;
+INSERT INTO `translations` VALUES ('Account callerID updated successfully!', 'Account callerID updated successfully!');
+DELETE FROM `translations` WHERE `id`=893;
+INSERT INTO `translations` VALUES ('Account callerID added successfully!', 'Account callerID added successfully!');
+DELETE FROM `translations` WHERE `id`=894;
+INSERT INTO `translations` VALUES ('Reseller updated successfully!', 'Reseller updated successfully!');
+DELETE FROM `translations` WHERE `id`=895;
+INSERT INTO `translations` VALUES ('Reseller added successfully!', 'Reseller added successfully!');
+DELETE FROM `translations` WHERE `id`=896;
+INSERT INTO `translations` VALUES ('Updated successfully!', 'Updated successfully!');
+DELETE FROM `translations` WHERE `id`=897;
+INSERT INTO `translations` VALUES ('Added Successfully!', 'Added Successfully!');
+DELETE FROM `translations` WHERE `id`=898;
+INSERT INTO `translations` VALUES ('Customer batch updated successfully!', 'Customer batch updated successfully!');
+DELETE FROM `translations` WHERE `id`=899;
+INSERT INTO `translations` VALUES ('Reseller batch updated successfully!', 'Reseller batch updated successfully!');
+DELETE FROM `translations` WHERE `id`=900;
+INSERT INTO `translations` VALUES ('Customer Removed Successfully!', 'Customer Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=901;
+INSERT INTO `translations` VALUES ('Reseller Removed Successfully!', 'Reseller Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=902;
+INSERT INTO `translations` VALUES ('Provider Removed Successfully!', 'Provider Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=903;
+INSERT INTO `translations` VALUES ('Admin Removed Successfully!', 'Admin Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=904;
+INSERT INTO `translations` VALUES ('Sub Admin Removed Successfully!', 'Sub Admin Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=905;
+INSERT INTO `translations` VALUES ('DID Added Successfully.', 'DID Added Successfully.');
+DELETE FROM `translations` WHERE `id`=906;
+INSERT INTO `translations` VALUES ('DID Already Removed Before.', 'DID Already Removed Before.');
+DELETE FROM `translations` WHERE `id`=907;
+INSERT INTO `translations` VALUES ('Account Tax Added Successfully!', 'Account Tax Added Successfully!');
+DELETE FROM `translations` WHERE `id`=908;
+INSERT INTO `translations` VALUES ('Account Tax Removed Successfully!', 'Account Tax Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=909;
+INSERT INTO `translations` VALUES ('Product Removed Sucessfully.', 'Product Removed Sucessfully.');
+DELETE FROM `translations` WHERE `id`=910;
+INSERT INTO `translations` VALUES ('Email Resend Successfully!', 'Email Resend Successfully!');
+DELETE FROM `translations` WHERE `id`=911;
+INSERT INTO `translations` VALUES ('Email List Updated Successfully!', 'Email List Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=912;
+INSERT INTO `translations` VALUES ('Email List Added Successfully!', 'Email List Added Successfully!');
+DELETE FROM `translations` WHERE `id`=913;
+INSERT INTO `translations` VALUES ('Email Removed Successfully!', 'Email Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=914;
+INSERT INTO `translations` VALUES ('Please Try Again!', 'Please Try Again!');
+DELETE FROM `translations` WHERE `id`=915;
+INSERT INTO `translations` VALUES ('Email BroadCast Successfully!', 'Email BroadCast Successfully!');
+DELETE FROM `translations` WHERE `id`=916;
+INSERT INTO `translations` VALUES ('No Record Found!', 'No Record Found!');
+DELETE FROM `translations` WHERE `id`=917;
+INSERT INTO `translations` VALUES ('Email Address Not Found!', 'Email Address Not Found!');
+DELETE FROM `translations` WHERE `id`=918;
+INSERT INTO `translations` VALUES ('Edit Freeswitch SIP Devices', 'Edit Freeswitch SIP Devices');
+DELETE FROM `translations` WHERE `id`=919;
+INSERT INTO `translations` VALUES ('Create Freeswitch SIP Devices', 'Create Freeswitch SIP Devices');
+DELETE FROM `translations` WHERE `id`=920;
+INSERT INTO `translations` VALUES ('Gateway Updated Successfully!', 'Gateway Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=921;
+INSERT INTO `translations` VALUES ('Gateways already exist in system.', 'Gateways already exist in system.');
+DELETE FROM `translations` WHERE `id`=922;
+INSERT INTO `translations` VALUES ('Gateway name must not have any space.', 'Gateway name must not have any space.');
+DELETE FROM `translations` WHERE `id`=923;
+INSERT INTO `translations` VALUES ('Gateway Added Successfully!', 'Gateway Added Successfully!');
+DELETE FROM `translations` WHERE `id`=924;
+INSERT INTO `translations` VALUES ('Gateway Removed Successfully!', 'Gateway Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=925;
+INSERT INTO `translations` VALUES ('Please enter All profile value!', 'Please enter All profile value!');
+DELETE FROM `translations` WHERE `id`=926;
+INSERT INTO `translations` VALUES ('SIP Profile name must not have any space!', 'SIP Profile name must not have any space!');
+DELETE FROM `translations` WHERE `id`=927;
+INSERT INTO `translations` VALUES ('Duplicate SIP IP OR Port found it must be unique!', 'Duplicate SIP IP OR Port found it must be unique!');
+DELETE FROM `translations` WHERE `id`=928;
+INSERT INTO `translations` VALUES ('SIP Profile Added Successfully!', 'SIP Profile Added Successfully!');
+DELETE FROM `translations` WHERE `id`=929;
+INSERT INTO `translations` VALUES ('Name must be unique!', 'Name must be unique!');
+DELETE FROM `translations` WHERE `id`=930;
+INSERT INTO `translations` VALUES ('SIP Profile Updated Successfully!', 'SIP Profile Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=931;
+INSERT INTO `translations` VALUES ('SIP Setting Added Successfully!', 'SIP Setting Added Successfully!');
+DELETE FROM `translations` WHERE `id`=932;
+INSERT INTO `translations` VALUES ('SIP Setting Updated Successfully!', 'SIP Setting Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=933;
+INSERT INTO `translations` VALUES ('SIP Setting Removed Successfully!', 'SIP Setting Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=934;
+INSERT INTO `translations` VALUES ('SIP Profile Removed Successfully!', 'SIP Profile Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=935;
+INSERT INTO `translations` VALUES ('Host Already Exist in System.', 'Host Already Exist in System.');
+DELETE FROM `translations` WHERE `id`=936;
+INSERT INTO `translations` VALUES ('Freeswitch Server Updated Successfully!', 'Freeswitch Server Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=937;
+INSERT INTO `translations` VALUES ('Freeswitch Server Added Successfully!', 'Freeswitch Server Added Successfully!');
+DELETE FROM `translations` WHERE `id`=938;
+INSERT INTO `translations` VALUES ('Freeswitch Server Removed Successfully!', 'Freeswitch Server Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=939;
+INSERT INTO `translations` VALUES ('Invoice updated successfully!', 'Invoice updated successfully!');
+DELETE FROM `translations` WHERE `id`=940;
+INSERT INTO `translations` VALUES ('Invoice payment done successfully!', 'Invoice payment done successfully!');
+DELETE FROM `translations` WHERE `id`=941;
+INSERT INTO `translations` VALUES ('Account Not Found.', 'Account Not Found.');
+DELETE FROM `translations` WHERE `id`=942;
+INSERT INTO `translations` VALUES ('Invoice payment amount should be higher then the invoice amount.', 'Invoice payment amount should be higher then the invoice amount.');
+DELETE FROM `translations` WHERE `id`=943;
+INSERT INTO `translations` VALUES ('The Favicon file size shoud not exceed 1MB!', 'The Favicon file size shoud not exceed 1MB!');
+DELETE FROM `translations` WHERE `id`=944;
+INSERT INTO `translations` VALUES ('Please upload 250 * 60 size file', 'Please upload 250 * 60 size file');
+DELETE FROM `translations` WHERE `id`=945;
+INSERT INTO `translations` VALUES ('Logo only allows file types of JPG and JPEG.', 'Logo only allows file types of JPG and JPEG.');
+DELETE FROM `translations` WHERE `id`=946;
+INSERT INTO `translations` VALUES ('Favicon only allows file types of ICO, PNG, JPG and JPEG.', 'Favicon only allows file types of ICO, PNG, JPG and JPEG.');
+DELETE FROM `translations` WHERE `id`=947;
+INSERT INTO `translations` VALUES ('Please upload 16 * 16 size of favicon.', 'Please upload 16 * 16 size of favicon.');
+DELETE FROM `translations` WHERE `id`=948;
+INSERT INTO `translations` VALUES ('Company profile updated sucessfully!', 'Company profile updated sucessfully!');
+DELETE FROM `translations` WHERE `id`=949;
+INSERT INTO `translations` VALUES ('Company profile added sucessfully!', 'Company profile added sucessfully!');
+DELETE FROM `translations` WHERE `id`=950;
+INSERT INTO `translations` VALUES ('Permission Denied.', 'Permission Denied.');
+DELETE FROM `translations` WHERE `id`=951;
+INSERT INTO `translations` VALUES ('is Deleted Sucessfully!', 'is Deleted Sucessfully!');
+DELETE FROM `translations` WHERE `id`=952;
+INSERT INTO `translations` VALUES ('To date should not be greater than current date.', 'To date should not be greater than current date.');
+DELETE FROM `translations` WHERE `id`=953;
+INSERT INTO `translations` VALUES ('Invoice generation completed.', 'Invoice generation completed.');
+DELETE FROM `translations` WHERE `id`=954;
+INSERT INTO `translations` VALUES ('No data found', 'No data found');
+DELETE FROM `translations` WHERE `id`=955;
+INSERT INTO `translations` VALUES ('Invoices removed successfully', 'Invoices removed successfully');
+DELETE FROM `translations` WHERE `id`=956;
+INSERT INTO `translations` VALUES ('The Prefix field must contain a unique value.', 'The Prefix field must contain a unique value.');
+DELETE FROM `translations` WHERE `id`=957;
+INSERT INTO `translations` VALUES ('The IP field must contain a unique value.', 'The IP field must contain a unique value.');
+DELETE FROM `translations` WHERE `id`=958;
+INSERT INTO `translations` VALUES ('IP Map added successfully!', 'IP Map added successfully!');
+DELETE FROM `translations` WHERE `id`=959;
+INSERT INTO `translations` VALUES ('IP Map removed successfully!', 'IP Map removed successfully!');
+DELETE FROM `translations` WHERE `id`=960;
+INSERT INTO `translations` VALUES ('Localization Added Successfully!', 'Localization Added Successfully!');
+DELETE FROM `translations` WHERE `id`=961;
+INSERT INTO `translations` VALUES ('Localization Updated Successfully!', 'Localization Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=962;
+INSERT INTO `translations` VALUES ('Localization Removed Successfully!', 'Localization Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=963;
+INSERT INTO `translations` VALUES ('Globalization is already exist in this system', 'Globalization is already exist in this system');
+DELETE FROM `translations` WHERE `id`=964;
+INSERT INTO `translations` VALUES ('Dispatcher Updated Successfully!', 'Dispatcher Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=965;
+INSERT INTO `translations` VALUES ('Dispatcher Added Successfully!', 'Dispatcher Added Successfully!');
+DELETE FROM `translations` WHERE `id`=966;
+INSERT INTO `translations` VALUES ('Dispatcher Removed Successfully!', 'Dispatcher Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=967;
+INSERT INTO `translations` VALUES ('Code is already in system', 'Code is already in system');
+DELETE FROM `translations` WHERE `id`=968;
+INSERT INTO `translations` VALUES ('Country is already in system', 'Country is already in system');
+DELETE FROM `translations` WHERE `id`=969;
+INSERT INTO `translations` VALUES ('Ratedeck updated successfully!', 'Ratedeck updated successfully!');
+DELETE FROM `translations` WHERE `id`=970;
+INSERT INTO `translations` VALUES ('Ratedeck added successfully!', 'Ratedeck added successfully!');
+DELETE FROM `translations` WHERE `id`=971;
+INSERT INTO `translations` VALUES ('Ratedeck removed successfully!', 'Ratedeck removed successfully!');
+DELETE FROM `translations` WHERE `id`=972;
+INSERT INTO `translations` VALUES ('Code,Destination,Province/State,City,Status', 'Code,Destination,Province/State,City,Status');
+DELETE FROM `translations` WHERE `id`=973;
+INSERT INTO `translations` VALUES ('Duplicate Ratedeck Number found from import file.', 'Duplicate Ratedeck Number found from import file.');
+DELETE FROM `translations` WHERE `id`=974;
+INSERT INTO `translations` VALUES ('Ratedeck Imported Successfully!', 'Ratedeck Imported Successfully!');
+DELETE FROM `translations` WHERE `id`=975;
+INSERT INTO `translations` VALUES ('Ratedeck Import Error', 'Ratedeck Import Error');
+DELETE FROM `translations` WHERE `id`=976;
+INSERT INTO `translations` VALUES ('Back to Ratedeck List', 'Back to Ratedeck List');
+DELETE FROM `translations` WHERE `id`=977;
+INSERT INTO `translations` VALUES ('Origination Rate Imported Successfully!', 'Origination Rate Imported Successfully!');
+DELETE FROM `translations` WHERE `id`=978;
+INSERT INTO `translations` VALUES ('Origination Rate Updated Successfully!', 'Origination Rate Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=979;
+INSERT INTO `translations` VALUES ('Origination Rate Added Successfully!', 'Origination Rate Added Successfully!');
+DELETE FROM `translations` WHERE `id`=980;
+INSERT INTO `translations` VALUES ('Termination Rates Batch Updated Successfully!', 'Termination Rates Batch Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=981;
+INSERT INTO `translations` VALUES ('Map CSV to Termination Rates', 'Map CSV to Termination Rates');
+DELETE FROM `translations` WHERE `id`=982;
+INSERT INTO `translations` VALUES ('Data Example', 'Data Example');
+DELETE FROM `translations` WHERE `id`=983;
+INSERT INTO `translations` VALUES ('Map to Field', 'Map to Field');
+DELETE FROM `translations` WHERE `id`=984;
+INSERT INTO `translations` VALUES ('PREFIX/DEFAULT VALUE', 'PREFIX/DEFAULT VALUE');
+DELETE FROM `translations` WHERE `id`=985;
+INSERT INTO `translations` VALUES ('ASTPP Field', 'ASTPP Field');
+DELETE FROM `translations` WHERE `id`=986;
+INSERT INTO `translations` VALUES ('Created', 'Created');
+DELETE FROM `translations` WHERE `id`=987;
+INSERT INTO `translations` VALUES ('Modified', 'Modified');
+DELETE FROM `translations` WHERE `id`=988;
+INSERT INTO `translations` VALUES ('You can not create', 'You can not create');
+DELETE FROM `translations` WHERE `id`=989;
+INSERT INTO `translations` VALUES ('Refill coupon with', 'Refill coupon with');
+DELETE FROM `translations` WHERE `id`=990;
+INSERT INTO `translations` VALUES ('You can create maximum', 'You can create maximum');
+DELETE FROM `translations` WHERE `id`=991;
+INSERT INTO `translations` VALUES ('Refill coupon created successfully!', 'Refill coupon created successfully!');
+DELETE FROM `translations` WHERE `id`=992;
+INSERT INTO `translations` VALUES ('Currency Added Successfully!', 'Currency Added Successfully!');
+DELETE FROM `translations` WHERE `id`=993;
+INSERT INTO `translations` VALUES ('Currency Removed Successfully!', 'Currency Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=994;
+INSERT INTO `translations` VALUES ('Backup Exported Successfully!', 'Backup Exported Successfully!');
+DELETE FROM `translations` WHERE `id`=995;
+INSERT INTO `translations` VALUES ('An error occur when the system tried to backup of the database. Please check yours system settings for the backup section', 'An error occur when the system tried to backup of the database. Please check yours system settings for the backup section');
+DELETE FROM `translations` WHERE `id`=996;
+INSERT INTO `translations` VALUES ('Database Restore successfully.', 'Database Restore successfully.');
+DELETE FROM `translations` WHERE `id`=997;
+INSERT INTO `translations` VALUES ('File not exists!', 'File not exists!');
+DELETE FROM `translations` WHERE `id`=998;
+INSERT INTO `translations` VALUES ('There is a some issue or invalid file format.', 'There is a some issue or invalid file format.');
+DELETE FROM `translations` WHERE `id`=999;
+INSERT INTO `translations` VALUES ('Database backup deleted successfully.', 'Database backup deleted successfully.');
+DELETE FROM `translations` WHERE `id`=1000;
+INSERT INTO `translations` VALUES ('Languages updated successfully!', 'Languages updated successfully!');
+DELETE FROM `translations` WHERE `id`=1001;
+INSERT INTO `translations` VALUES ('Languages removed successfully!', 'Languages removed successfully!');
+DELETE FROM `translations` WHERE `id`=1002;
+INSERT INTO `translations` VALUES ('Languages added successfully!', 'Languages added successfully!');
+DELETE FROM `translations` WHERE `id`=1003;
+INSERT INTO `translations` VALUES ('Translation updated successfully!', 'Translation updated successfully!');
+DELETE FROM `translations` WHERE `id`=1004;
+INSERT INTO `translations` VALUES ('Translation added successfully!', 'Translation added successfully!');
+DELETE FROM `translations` WHERE `id`=1005;
+INSERT INTO `translations` VALUES ('Update Languages', 'Update Languages');
+DELETE FROM `translations` WHERE `id`=1006;
+INSERT INTO `translations` VALUES ('Speed Dial', 'Speed Dial');
+DELETE FROM `translations` WHERE `id`=1007;
+INSERT INTO `translations` VALUES ('Payment', 'Payment');
+DELETE FROM `translations` WHERE `id`=1008;
+INSERT INTO `translations` VALUES ('Method', 'Method');
+DELETE FROM `translations` WHERE `id`=1009;
+INSERT INTO `translations` VALUES ('Once you confirm the invoice, you will no longer able to update it again.', 'Once you confirm the invoice, you will no longer able to update it again.');
+DELETE FROM `translations` WHERE `id`=1010;
+INSERT INTO `translations` VALUES ('Payment Gateway Permission', 'Payment Gateway Permission');
+DELETE FROM `translations` WHERE `id`=1011;
+INSERT INTO `translations` VALUES ('Zip Code', 'Zip Code');
+DELETE FROM `translations` WHERE `id`=1012;
+INSERT INTO `translations` VALUES ('Yes', 'Yes');
+DELETE FROM `translations` WHERE `id`=1013;
+INSERT INTO `translations` VALUES ('Back', 'Back');
+DELETE FROM `translations` WHERE `id`=1014;
+INSERT INTO `translations` VALUES ('Edit Reseller', 'Edit Reseller');
+DELETE FROM `translations` WHERE `id`=1015;
+INSERT INTO `translations` VALUES ('Asignar DID a granel', 'Asignar DID a granel');
+DELETE FROM `translations` WHERE `id`=1016;
+INSERT INTO `translations` VALUES ('DIDs Search', 'DIDs Search');
+DELETE FROM `translations` WHERE `id`=1017;
+INSERT INTO `translations` VALUES ('By Month', 'By Month');
+DELETE FROM `translations` WHERE `id`=1018;
+INSERT INTO `translations` VALUES ('Create Gateway', 'Create Gateway');
+DELETE FROM `translations` WHERE `id`=1019;
+INSERT INTO `translations` VALUES ('Calling Card Language', 'Calling Card Language');
+DELETE FROM `translations` WHERE `id`=1020;
+INSERT INTO `translations` VALUES ('Last', 'Last');
+DELETE FROM `translations` WHERE `id`=1021;
+INSERT INTO `translations` VALUES ('Pay Date', 'Pay Date');
+DELETE FROM `translations` WHERE `id`=1022;
+INSERT INTO `translations` VALUES ('Purchase DID', 'Purchase DID');
+DELETE FROM `translations` WHERE `id`=1023;
+INSERT INTO `translations` VALUES ('Caller-ID-A-Form', 'Caller-ID-A-Form');
+DELETE FROM `translations` WHERE `id`=1024;
+INSERT INTO `translations` VALUES ('Expire Seconds', 'Expire Seconds');
+DELETE FROM `translations` WHERE `id`=1025;
+INSERT INTO `translations` VALUES ('Termination Date', 'Termination Date');
+DELETE FROM `translations` WHERE `id`=1026;
+INSERT INTO `translations` VALUES ('Registration Date', 'Registration Date');
+DELETE FROM `translations` WHERE `id`=1027;
+INSERT INTO `translations` VALUES ('Payment By', 'Payment By');
+DELETE FROM `translations` WHERE `id`=1028;
+INSERT INTO `translations` VALUES ('Product Status', 'Product Status');
+DELETE FROM `translations` WHERE `id`=1029;
+INSERT INTO `translations` VALUES ('Minute', 'Minute');
+DELETE FROM `translations` WHERE `id`=1030;
+INSERT INTO `translations` VALUES ('Hour', 'Hour');
+DELETE FROM `translations` WHERE `id`=1031;
+INSERT INTO `translations` VALUES ('Day', 'Day');
+DELETE FROM `translations` WHERE `id`=1032;
+INSERT INTO `translations` VALUES ('Month', 'Month');
+DELETE FROM `translations` WHERE `id`=1033;
+INSERT INTO `translations` VALUES ('Year', 'Year');
+DELETE FROM `translations` WHERE `id`=1034;
+INSERT INTO `translations` VALUES ('List', 'List');
+DELETE FROM `translations` WHERE `id`=1035;
+INSERT INTO `translations` VALUES ('Edit', 'Edit');
+DELETE FROM `translations` WHERE `id`=1036;
+INSERT INTO `translations` VALUES ('Not Avaialable any Subscription.', 'Not Avaialable any Subscription.');
+DELETE FROM `translations` WHERE `id`=1037;
+INSERT INTO `translations` VALUES ('Not Avaialable any Package for this Country.', 'Not Avaialable any Package for this Country.');
+DELETE FROM `translations` WHERE `id`=1038;
+INSERT INTO `translations` VALUES ('You can only transfer fund in same level account.', 'You can only transfer fund in same level account.');
+DELETE FROM `translations` WHERE `id`=1039;
+INSERT INTO `translations` VALUES ('You can not transfer fund in same account.', 'You can not transfer fund in same account.');
+DELETE FROM `translations` WHERE `id`=1040;
+INSERT INTO `translations` VALUES ('Monthly Fee', 'Monthly Fee');
+DELETE FROM `translations` WHERE `id`=1041;
+INSERT INTO `translations` VALUES ('Bulk DID Assign', 'Bulk DID Assign');
+DELETE FROM `translations` WHERE `id`=1042;
+INSERT INTO `translations` VALUES ('Invoice Start From', 'Invoice Start From');
+DELETE FROM `translations` WHERE `id`=1043;
+INSERT INTO `translations` VALUES ('Edit Gateway', 'Edit Gateway');
+DELETE FROM `translations` WHERE `id`=1044;
+INSERT INTO `translations` VALUES ('Number Of Default Rows', 'Number Of Default Rows');
+DELETE FROM `translations` WHERE `id`=1045;
+INSERT INTO `translations` VALUES ('Mobile Dialer', 'Mobile Dialer');
+DELETE FROM `translations` WHERE `id`=1046;
+INSERT INTO `translations` VALUES ('Trunk Count', 'Trunk Count');
+DELETE FROM `translations` WHERE `id`=1047;
+INSERT INTO `translations` VALUES ('Welcome File', 'Welcome File');
+DELETE FROM `translations` WHERE `id`=1048;
+INSERT INTO `translations` VALUES ('Local Call Timeout (Sec.)', 'Local Call Timeout (Sec.)');
+DELETE FROM `translations` WHERE `id`=1049;
+INSERT INTO `translations` VALUES ('Rate check for DID', 'Rate check for DID');
+DELETE FROM `translations` WHERE `id`=1050;
+INSERT INTO `translations` VALUES ('DID Localization', 'DID Localization');
+DELETE FROM `translations` WHERE `id`=1051;
+INSERT INTO `translations` VALUES ('Voicemail Number', 'Voicemail Number');
+DELETE FROM `translations` WHERE `id`=1052;
+INSERT INTO `translations` VALUES ('OTP Expire Time(min)', 'OTP Expire Time(min)');
+DELETE FROM `translations` WHERE `id`=1053;
+INSERT INTO `translations` VALUES ('Edit Provider', 'Edit Provider');
+DELETE FROM `translations` WHERE `id`=1054;
+INSERT INTO `translations` VALUES ('Product Summary Reports', 'Product Summary Reports');
+DELETE FROM `translations` WHERE `id`=1055;
+INSERT INTO `translations` VALUES ('Edit Origination Rate', 'Edit Origination Rate');
+DELETE FROM `translations` WHERE `id`=1056;
+INSERT INTO `translations` VALUES ('Dialplan Variable', 'Dialplan Variable');
+DELETE FROM `translations` WHERE `id`=1057;
+INSERT INTO `translations` VALUES ('Uninstall', 'Uninstall');
+DELETE FROM `translations` WHERE `id`=1058;
+INSERT INTO `translations` VALUES ('Call Stat', 'Call Stat');
+DELETE FROM `translations` WHERE `id`=1059;
+INSERT INTO `translations` VALUES ('Failed Calls', 'Failed Calls');
+DELETE FROM `translations` WHERE `id`=1060;
+INSERT INTO `translations` VALUES ('Top 10 Countries', 'Top 10 Countries');
+DELETE FROM `translations` WHERE `id`=1061;
+INSERT INTO `translations` VALUES ('By Minutes', 'By Minutes');
+DELETE FROM `translations` WHERE `id`=1062;
+INSERT INTO `translations` VALUES ('By Calls', 'By Calls');
+DELETE FROM `translations` WHERE `id`=1063;
+INSERT INTO `translations` VALUES ('Profit per day', 'Profit per day');
+DELETE FROM `translations` WHERE `id`=1064;
+INSERT INTO `translations` VALUES ('January', 'January');
+DELETE FROM `translations` WHERE `id`=1065;
+INSERT INTO `translations` VALUES ('February', 'February');
+DELETE FROM `translations` WHERE `id`=1066;
+INSERT INTO `translations` VALUES ('March', 'March');
+DELETE FROM `translations` WHERE `id`=1067;
+INSERT INTO `translations` VALUES ('April', 'April');
+DELETE FROM `translations` WHERE `id`=1068;
+INSERT INTO `translations` VALUES ('May', 'May');
+DELETE FROM `translations` WHERE `id`=1069;
+INSERT INTO `translations` VALUES ('June', 'June');
+DELETE FROM `translations` WHERE `id`=1070;
+INSERT INTO `translations` VALUES ('July', 'July');
+DELETE FROM `translations` WHERE `id`=1071;
+INSERT INTO `translations` VALUES ('August', 'August');
+DELETE FROM `translations` WHERE `id`=1072;
+INSERT INTO `translations` VALUES ('September', 'September');
+DELETE FROM `translations` WHERE `id`=1073;
+INSERT INTO `translations` VALUES ('October', 'October');
+DELETE FROM `translations` WHERE `id`=1074;
+INSERT INTO `translations` VALUES ('November', 'November');
+DELETE FROM `translations` WHERE `id`=1075;
+INSERT INTO `translations` VALUES ('December', 'December');
+DELETE FROM `translations` WHERE `id`=1076;
+INSERT INTO `translations` VALUES ('Doesn\'t Contain', 'Doesn\'t Contain');
+DELETE FROM `translations` WHERE `id`=1077;
+INSERT INTO `translations` VALUES ('Greater Than', 'Greater Than');
+DELETE FROM `translations` WHERE `id`=1078;
+INSERT INTO `translations` VALUES ('Less Than', 'Less Than');
+DELETE FROM `translations` WHERE `id`=1079;
+INSERT INTO `translations` VALUES ('Greater Or Equal Than', 'Greater Or Equal Than');
+DELETE FROM `translations` WHERE `id`=1080;
+INSERT INTO `translations` VALUES ('Less Or Equal Than', 'Less Or Equal Than');
+DELETE FROM `translations` WHERE `id`=1081;
+INSERT INTO `translations` VALUES ('Set To', 'Set To');
+DELETE FROM `translations` WHERE `id`=1082;
+INSERT INTO `translations` VALUES ('Increase By', 'Increase By');
+DELETE FROM `translations` WHERE `id`=1083;
+INSERT INTO `translations` VALUES ('Decrease By', 'Decrease By');
+DELETE FROM `translations` WHERE `id`=1084;
+INSERT INTO `translations` VALUES ('Community', 'Community');
+DELETE FROM `translations` WHERE `id`=1085;
+INSERT INTO `translations` VALUES ('You must either select a field from your file OR provide a default value for the following fields:', 'You must either select a field from your file OR provide a default value for the following fields:');
+DELETE FROM `translations` WHERE `id`=1086;
+INSERT INTO `translations` VALUES ('Account Number,Password,First Name,Last Name,Company,Phone,Mobile,Email,Address,city,Province/State,Zip/Postal Code,Number Translation,Out Callerid Translation,In Callerid Translation,Concurrent Calls,CPS,Balance,Credit Limit,SIP Username,SIP Password', 'Account Number,Password,First Name,Last Name,Company,Phone,Mobile,Email,Address,city,Province/State,Zip/Postal Code,Number Translation,Out Callerid Translation,In Callerid Translation,Concurrent Calls,CPS,Balance,Credit Limit,SIP Username,SIP Password');
+DELETE FROM `translations` WHERE `id`=1087;
+INSERT INTO `translations` VALUES ('Note : Records with duplicate account number and email will be ignored.', 'Note : Records with duplicate account number and email will be ignored.');
+DELETE FROM `translations` WHERE `id`=1088;
+INSERT INTO `translations` VALUES ('Map CSV to Customers', 'Map CSV to Customers');
+DELETE FROM `translations` WHERE `id`=1089;
+INSERT INTO `translations` VALUES ('Account Information', 'Account Information');
+DELETE FROM `translations` WHERE `id`=1090;
+INSERT INTO `translations` VALUES ('Select Account', 'Select Account');
+DELETE FROM `translations` WHERE `id`=1091;
+INSERT INTO `translations` VALUES ('DEFAULT VALUE', 'DEFAULT VALUE');
+DELETE FROM `translations` WHERE `id`=1092;
+INSERT INTO `translations` VALUES ('SIP Username', 'SIP Username');
+DELETE FROM `translations` WHERE `id`=1093;
+INSERT INTO `translations` VALUES ('sip_username', 'sip_username');
+DELETE FROM `translations` WHERE `id`=1094;
+INSERT INTO `translations` VALUES ('SIP Password', 'SIP Password');
+DELETE FROM `translations` WHERE `id`=1095;
+INSERT INTO `translations` VALUES ('Same as Password', 'Same as Password');
+DELETE FROM `translations` WHERE `id`=1096;
+INSERT INTO `translations` VALUES ('Same as Account Number', 'Same as Account Number');
+DELETE FROM `translations` WHERE `id`=1097;
+INSERT INTO `translations` VALUES ('Random', 'Random');
+DELETE FROM `translations` WHERE `id`=1098;
+INSERT INTO `translations` VALUES ('Import File Data.', 'Import File Data.');
+DELETE FROM `translations` WHERE `id`=1099;
+INSERT INTO `translations` VALUES ('Process Records', 'Process Records');
+DELETE FROM `translations` WHERE `id`=1100;
+INSERT INTO `translations` VALUES ('Note : Duplicate accounts with account number / email are ignored.', 'Note : Duplicate accounts with account number / email are ignored.');
+DELETE FROM `translations` WHERE `id`=1101;
+INSERT INTO `translations` VALUES ('Remove', 'Remove');
+DELETE FROM `translations` WHERE `id`=1102;
+INSERT INTO `translations` VALUES ('Number of Account', 'Number of Account');
+DELETE FROM `translations` WHERE `id`=1103;
+INSERT INTO `translations` VALUES ('Account Number Length', 'Account Number Length');
+DELETE FROM `translations` WHERE `id`=1104;
+INSERT INTO `translations` VALUES ('DID (CLI Match, If not matched then use random allocated DID)', 'DID (CLI Match, If not matched then use random allocated DID)');
+DELETE FROM `translations` WHERE `id`=1105;
+INSERT INTO `translations` VALUES ('Caller Id (CLI Match, If not matched then use random allocated Caller Id)', 'Caller Id (CLI Match, If not matched then use random allocated Caller Id)');
+DELETE FROM `translations` WHERE `id`=1106;
+INSERT INTO `translations` VALUES ('Use NON-CLI Rate Group (If CLI not match with DID)', 'Use NON-CLI Rate Group (If CLI not match with DID)');
+DELETE FROM `translations` WHERE `id`=1107;
+INSERT INTO `translations` VALUES ('Use NON-CLI Rate Group (If CLI not match with Caller ID)', 'Use NON-CLI Rate Group (If CLI not match with Caller ID)');
+DELETE FROM `translations` WHERE `id`=1108;
+INSERT INTO `translations` VALUES ('Use NON-CLI Rate Group (If CLI not match with DID & Caller id)', 'Use NON-CLI Rate Group (If CLI not match with DID & Caller id)');
+DELETE FROM `translations` WHERE `id`=1109;
+INSERT INTO `translations` VALUES ('Reject Call (If CLI not match with DID)', 'Reject Call (If CLI not match with DID)');
+DELETE FROM `translations` WHERE `id`=1110;
+INSERT INTO `translations` VALUES ('Reject Call (If CLI not match with Caller ID)', 'Reject Call (If CLI not match with Caller ID)');
+DELETE FROM `translations` WHERE `id`=1111;
+INSERT INTO `translations` VALUES ('Reject Call (If CLI not match with DID & Caller id)', 'Reject Call (If CLI not match with DID & Caller id)');
+DELETE FROM `translations` WHERE `id`=1112;
+INSERT INTO `translations` VALUES ('--Select--', '--Select--');
+DELETE FROM `translations` WHERE `id`=1113;
+INSERT INTO `translations` VALUES ('Test Mail', 'Test Mail');
+DELETE FROM `translations` WHERE `id`=1114;
+INSERT INTO `translations` VALUES ('Reset Password', 'Reset Password');
+DELETE FROM `translations` WHERE `id`=1115;
+INSERT INTO `translations` VALUES ('country', 'AFGHANISTAN');
+DELETE FROM `translations` WHERE `id`=1116;
+INSERT INTO `translations` VALUES ('country', 'ALBANIA');
+DELETE FROM `translations` WHERE `id`=1117;
+INSERT INTO `translations` VALUES ('country', 'ALGERIA');
+DELETE FROM `translations` WHERE `id`=1118;
+INSERT INTO `translations` VALUES ('country', 'AMERICAN SAMOA');
+DELETE FROM `translations` WHERE `id`=1119;
+INSERT INTO `translations` VALUES ('country', 'ANDORRA');
+DELETE FROM `translations` WHERE `id`=1120;
+INSERT INTO `translations` VALUES ('country', 'ANGOLA');
+DELETE FROM `translations` WHERE `id`=1121;
+INSERT INTO `translations` VALUES ('country', 'ANGUILLA');
+DELETE FROM `translations` WHERE `id`=1122;
+INSERT INTO `translations` VALUES ('country', 'ANTIGUA & BARBUDA');
+DELETE FROM `translations` WHERE `id`=1123;
+INSERT INTO `translations` VALUES ('country', 'ARGENTINA');
+DELETE FROM `translations` WHERE `id`=1124;
+INSERT INTO `translations` VALUES ('country', 'ARMENIA');
+DELETE FROM `translations` WHERE `id`=1125;
+INSERT INTO `translations` VALUES ('country', 'ARUBA');
+DELETE FROM `translations` WHERE `id`=1126;
+INSERT INTO `translations` VALUES ('country', 'AUSTRALIA');
+DELETE FROM `translations` WHERE `id`=1127;
+INSERT INTO `translations` VALUES ('country', 'AUSTRIA');
+DELETE FROM `translations` WHERE `id`=1128;
+INSERT INTO `translations` VALUES ('country', 'AZERBAIJAN');
+DELETE FROM `translations` WHERE `id`=1129;
+INSERT INTO `translations` VALUES ('country', 'BAHAMAS');
+DELETE FROM `translations` WHERE `id`=1130;
+INSERT INTO `translations` VALUES ('country', 'BAHRAIN');
+DELETE FROM `translations` WHERE `id`=1131;
+INSERT INTO `translations` VALUES ('country', 'BANGLADESH');
+DELETE FROM `translations` WHERE `id`=1132;
+INSERT INTO `translations` VALUES ('country', 'BARBADOS');
+DELETE FROM `translations` WHERE `id`=1133;
+INSERT INTO `translations` VALUES ('country', 'BELARUS');
+DELETE FROM `translations` WHERE `id`=1134;
+INSERT INTO `translations` VALUES ('country', 'BELGIUM');
+DELETE FROM `translations` WHERE `id`=1135;
+INSERT INTO `translations` VALUES ('country', 'BELIZE');
+DELETE FROM `translations` WHERE `id`=1136;
+INSERT INTO `translations` VALUES ('country', 'BENIN');
+DELETE FROM `translations` WHERE `id`=1137;
+INSERT INTO `translations` VALUES ('country', 'BERMUDA');
+DELETE FROM `translations` WHERE `id`=1138;
+INSERT INTO `translations` VALUES ('country', 'BHUTAN');
+DELETE FROM `translations` WHERE `id`=1139;
+INSERT INTO `translations` VALUES ('country', 'BOLIVIA');
+DELETE FROM `translations` WHERE `id`=1140;
+INSERT INTO `translations` VALUES ('country', 'BOSNIA AND HERZEGOVINA');
+DELETE FROM `translations` WHERE `id`=1141;
+INSERT INTO `translations` VALUES ('country', 'BOTSWANA');
+DELETE FROM `translations` WHERE `id`=1142;
+INSERT INTO `translations` VALUES ('country', 'BRAZIL');
+DELETE FROM `translations` WHERE `id`=1143;
+INSERT INTO `translations` VALUES ('country', 'BRITISH VIRGIN ISLANDS');
+DELETE FROM `translations` WHERE `id`=1144;
+INSERT INTO `translations` VALUES ('country', 'BRUNEI');
+DELETE FROM `translations` WHERE `id`=1145;
+INSERT INTO `translations` VALUES ('country', 'BULGARIA');
+DELETE FROM `translations` WHERE `id`=1146;
+INSERT INTO `translations` VALUES ('country', 'BURKINA FASO');
+DELETE FROM `translations` WHERE `id`=1147;
+INSERT INTO `translations` VALUES ('country', 'BURUNDI');
+DELETE FROM `translations` WHERE `id`=1148;
+INSERT INTO `translations` VALUES ('country', 'CAMBODIA');
+DELETE FROM `translations` WHERE `id`=1149;
+INSERT INTO `translations` VALUES ('country', 'CAMEROON');
+DELETE FROM `translations` WHERE `id`=1150;
+INSERT INTO `translations` VALUES ('country', 'CANADA');
+DELETE FROM `translations` WHERE `id`=1151;
+INSERT INTO `translations` VALUES ('country', 'CAPE VERDE');
+DELETE FROM `translations` WHERE `id`=1152;
+INSERT INTO `translations` VALUES ('country', 'CAYMAN ISLANDS');
+DELETE FROM `translations` WHERE `id`=1153;
+INSERT INTO `translations` VALUES ('country', 'CENTRAL AFRICAN REPUBLIC');
+DELETE FROM `translations` WHERE `id`=1154;
+INSERT INTO `translations` VALUES ('country', 'CHAD');
+DELETE FROM `translations` WHERE `id`=1155;
+INSERT INTO `translations` VALUES ('country', 'CHILE');
+DELETE FROM `translations` WHERE `id`=1156;
+INSERT INTO `translations` VALUES ('country', 'CHINA');
+DELETE FROM `translations` WHERE `id`=1157;
+INSERT INTO `translations` VALUES ('country', 'COLOMBIA');
+DELETE FROM `translations` WHERE `id`=1158;
+INSERT INTO `translations` VALUES ('country', 'COMOROS');
+DELETE FROM `translations` WHERE `id`=1159;
+INSERT INTO `translations` VALUES ('country', 'CONGO');
+DELETE FROM `translations` WHERE `id`=1160;
+INSERT INTO `translations` VALUES ('country', 'COSTA RICA');
+DELETE FROM `translations` WHERE `id`=1161;
+INSERT INTO `translations` VALUES ('country', 'CROATIA');
+DELETE FROM `translations` WHERE `id`=1162;
+INSERT INTO `translations` VALUES ('country', 'CUBA');
+DELETE FROM `translations` WHERE `id`=1163;
+INSERT INTO `translations` VALUES ('country', 'CYPRUS');
+DELETE FROM `translations` WHERE `id`=1164;
+INSERT INTO `translations` VALUES ('country', 'CZECH REPUBLIC');
+DELETE FROM `translations` WHERE `id`=1165;
+INSERT INTO `translations` VALUES ('country', 'DEMOCRATIC REPUBLIC');
+DELETE FROM `translations` WHERE `id`=1166;
+INSERT INTO `translations` VALUES ('country', 'DENMARK');
+DELETE FROM `translations` WHERE `id`=1167;
+INSERT INTO `translations` VALUES ('country', 'DJIBOUTI');
+DELETE FROM `translations` WHERE `id`=1168;
+INSERT INTO `translations` VALUES ('country', 'DOMINICA');
+DELETE FROM `translations` WHERE `id`=1169;
+INSERT INTO `translations` VALUES ('country', 'DOMINICAN REPUBLIC');
+DELETE FROM `translations` WHERE `id`=1170;
+INSERT INTO `translations` VALUES ('country', 'ECUADOR');
+DELETE FROM `translations` WHERE `id`=1171;
+INSERT INTO `translations` VALUES ('country', 'EGYPT');
+DELETE FROM `translations` WHERE `id`=1172;
+INSERT INTO `translations` VALUES ('country', 'EL SALVADOR');
+DELETE FROM `translations` WHERE `id`=1173;
+INSERT INTO `translations` VALUES ('country', 'EQUATORIAL GUINEA');
+DELETE FROM `translations` WHERE `id`=1174;
+INSERT INTO `translations` VALUES ('country', 'ERITREA');
+DELETE FROM `translations` WHERE `id`=1175;
+INSERT INTO `translations` VALUES ('country', 'ETHIOPIA');
+DELETE FROM `translations` WHERE `id`=1176;
+INSERT INTO `translations` VALUES ('country', 'FAEROE ISLANDS');
+DELETE FROM `translations` WHERE `id`=1177;
+INSERT INTO `translations` VALUES ('country', 'FIJI ISLANDS');
+DELETE FROM `translations` WHERE `id`=1178;
+INSERT INTO `translations` VALUES ('country', 'FINLAND');
+DELETE FROM `translations` WHERE `id`=1179;
+INSERT INTO `translations` VALUES ('country', 'FRANCE');
+DELETE FROM `translations` WHERE `id`=1180;
+INSERT INTO `translations` VALUES ('country', 'FRENCH GUIANA');
+DELETE FROM `translations` WHERE `id`=1181;
+INSERT INTO `translations` VALUES ('country', 'FRENCH POLYNESIA');
+DELETE FROM `translations` WHERE `id`=1182;
+INSERT INTO `translations` VALUES ('country', 'GABON');
+DELETE FROM `translations` WHERE `id`=1183;
+INSERT INTO `translations` VALUES ('country', 'GAMBIA');
+DELETE FROM `translations` WHERE `id`=1184;
+INSERT INTO `translations` VALUES ('country', 'GEORGIA');
+DELETE FROM `translations` WHERE `id`=1185;
+INSERT INTO `translations` VALUES ('country', 'GERMANY');
+DELETE FROM `translations` WHERE `id`=1186;
+INSERT INTO `translations` VALUES ('country', 'GHANA');
+DELETE FROM `translations` WHERE `id`=1187;
+INSERT INTO `translations` VALUES ('country', 'GIBRALTAR');
+DELETE FROM `translations` WHERE `id`=1188;
+INSERT INTO `translations` VALUES ('country', 'GREECE');
+DELETE FROM `translations` WHERE `id`=1189;
+INSERT INTO `translations` VALUES ('country', 'GRENADA');
+DELETE FROM `translations` WHERE `id`=1190;
+INSERT INTO `translations` VALUES ('country', 'GUADELOUPE');
+DELETE FROM `translations` WHERE `id`=1191;
+INSERT INTO `translations` VALUES ('country', 'GUAM');
+DELETE FROM `translations` WHERE `id`=1192;
+INSERT INTO `translations` VALUES ('country', 'GUATEMALA');
+DELETE FROM `translations` WHERE `id`=1193;
+INSERT INTO `translations` VALUES ('country', 'GUINEA');
+DELETE FROM `translations` WHERE `id`=1194;
+INSERT INTO `translations` VALUES ('country', 'GUINEA BISSAU');
+DELETE FROM `translations` WHERE `id`=1195;
+INSERT INTO `translations` VALUES ('country', 'GUYANA');
+DELETE FROM `translations` WHERE `id`=1196;
+INSERT INTO `translations` VALUES ('country', 'HAITI');
+DELETE FROM `translations` WHERE `id`=1197;
+INSERT INTO `translations` VALUES ('country', 'HONDURAS');
+DELETE FROM `translations` WHERE `id`=1198;
+INSERT INTO `translations` VALUES ('country', 'HONG KONG');
+DELETE FROM `translations` WHERE `id`=1199;
+INSERT INTO `translations` VALUES ('country', 'HUNGARY');
+DELETE FROM `translations` WHERE `id`=1200;
+INSERT INTO `translations` VALUES ('country', 'ICELAND');
+DELETE FROM `translations` WHERE `id`=1201;
+INSERT INTO `translations` VALUES ('country', 'INDIA');
+DELETE FROM `translations` WHERE `id`=1202;
+INSERT INTO `translations` VALUES ('country', 'INDONESIA');
+DELETE FROM `translations` WHERE `id`=1203;
+INSERT INTO `translations` VALUES ('country', 'IRAN');
+DELETE FROM `translations` WHERE `id`=1204;
+INSERT INTO `translations` VALUES ('country', 'IRAQ');
+DELETE FROM `translations` WHERE `id`=1205;
+INSERT INTO `translations` VALUES ('country', 'IRELAND');
+DELETE FROM `translations` WHERE `id`=1206;
+INSERT INTO `translations` VALUES ('country', 'ISRAEL');
+DELETE FROM `translations` WHERE `id`=1207;
+INSERT INTO `translations` VALUES ('country', 'ITALY');
+DELETE FROM `translations` WHERE `id`=1208;
+INSERT INTO `translations` VALUES ('country', 'IVORY COAST');
+DELETE FROM `translations` WHERE `id`=1209;
+INSERT INTO `translations` VALUES ('country', 'JAMAICA');
+DELETE FROM `translations` WHERE `id`=1210;
+INSERT INTO `translations` VALUES ('country', 'JAPAN');
+DELETE FROM `translations` WHERE `id`=1211;
+INSERT INTO `translations` VALUES ('country', 'JORDAN');
+DELETE FROM `translations` WHERE `id`=1212;
+INSERT INTO `translations` VALUES ('country', 'KAZAKHSTAN');
+DELETE FROM `translations` WHERE `id`=1213;
+INSERT INTO `translations` VALUES ('country', 'KENYA');
+DELETE FROM `translations` WHERE `id`=1214;
+INSERT INTO `translations` VALUES ('country', 'KOSOVO');
+DELETE FROM `translations` WHERE `id`=1215;
+INSERT INTO `translations` VALUES ('country', 'KUWAIT');
+DELETE FROM `translations` WHERE `id`=1216;
+INSERT INTO `translations` VALUES ('country', 'KYRGYZSTAN');
+DELETE FROM `translations` WHERE `id`=1217;
+INSERT INTO `translations` VALUES ('country', 'LAOS');
+DELETE FROM `translations` WHERE `id`=1218;
+INSERT INTO `translations` VALUES ('country', 'LATVIA');
+DELETE FROM `translations` WHERE `id`=1219;
+INSERT INTO `translations` VALUES ('country', 'LEBANON');
+DELETE FROM `translations` WHERE `id`=1220;
+INSERT INTO `translations` VALUES ('country', 'LESOTHO');
+DELETE FROM `translations` WHERE `id`=1221;
+INSERT INTO `translations` VALUES ('country', 'LIBERIA');
+DELETE FROM `translations` WHERE `id`=1222;
+INSERT INTO `translations` VALUES ('country', 'LIBYA');
+DELETE FROM `translations` WHERE `id`=1223;
+INSERT INTO `translations` VALUES ('country', 'LIECHTENSTEIN');
+DELETE FROM `translations` WHERE `id`=1224;
+INSERT INTO `translations` VALUES ('country', 'LITHUANIA');
+DELETE FROM `translations` WHERE `id`=1225;
+INSERT INTO `translations` VALUES ('country', 'LUXEMBOURG');
+DELETE FROM `translations` WHERE `id`=1226;
+INSERT INTO `translations` VALUES ('country', 'MACAU');
+DELETE FROM `translations` WHERE `id`=1227;
+INSERT INTO `translations` VALUES ('country', 'MACEDONIA');
+DELETE FROM `translations` WHERE `id`=1228;
+INSERT INTO `translations` VALUES ('country', 'MADAGASCAR');
+DELETE FROM `translations` WHERE `id`=1229;
+INSERT INTO `translations` VALUES ('country', 'MALAWI');
+DELETE FROM `translations` WHERE `id`=1230;
+INSERT INTO `translations` VALUES ('country', 'MALAYSIA');
+DELETE FROM `translations` WHERE `id`=1231;
+INSERT INTO `translations` VALUES ('country', 'MALI');
+DELETE FROM `translations` WHERE `id`=1232;
+INSERT INTO `translations` VALUES ('country', 'MALTA');
+DELETE FROM `translations` WHERE `id`=1233;
+INSERT INTO `translations` VALUES ('country', 'MARSHALL ISLANDS');
+DELETE FROM `translations` WHERE `id`=1234;
+INSERT INTO `translations` VALUES ('country', 'MARTINIQUE');
+DELETE FROM `translations` WHERE `id`=1235;
+INSERT INTO `translations` VALUES ('country', 'MAURITANIA');
+DELETE FROM `translations` WHERE `id`=1236;
+INSERT INTO `translations` VALUES ('country', 'MAURITIUS');
+DELETE FROM `translations` WHERE `id`=1237;
+INSERT INTO `translations` VALUES ('country', 'MEXICO');
+DELETE FROM `translations` WHERE `id`=1238;
+INSERT INTO `translations` VALUES ('country', 'MICRONESIA');
+DELETE FROM `translations` WHERE `id`=1239;
+INSERT INTO `translations` VALUES ('country', 'MOLDOVA');
+DELETE FROM `translations` WHERE `id`=1240;
+INSERT INTO `translations` VALUES ('country', 'MONACO');
+DELETE FROM `translations` WHERE `id`=1241;
+INSERT INTO `translations` VALUES ('country', 'MONGOLIA');
+DELETE FROM `translations` WHERE `id`=1242;
+INSERT INTO `translations` VALUES ('country', 'MONTENEGRO');
+DELETE FROM `translations` WHERE `id`=1243;
+INSERT INTO `translations` VALUES ('country', 'MONTSERRAT');
+DELETE FROM `translations` WHERE `id`=1244;
+INSERT INTO `translations` VALUES ('country', 'MOROCCO');
+DELETE FROM `translations` WHERE `id`=1245;
+INSERT INTO `translations` VALUES ('country', 'MOZAMBIQUE');
+DELETE FROM `translations` WHERE `id`=1246;
+INSERT INTO `translations` VALUES ('country', 'MYANMAR');
+DELETE FROM `translations` WHERE `id`=1247;
+INSERT INTO `translations` VALUES ('country', 'NAMIBIA');
+DELETE FROM `translations` WHERE `id`=1248;
+INSERT INTO `translations` VALUES ('country', 'NEPAL');
+DELETE FROM `translations` WHERE `id`=1249;
+INSERT INTO `translations` VALUES ('country', 'NETHERLANDS');
+DELETE FROM `translations` WHERE `id`=1250;
+INSERT INTO `translations` VALUES ('country', 'NEW CALEDONIA');
+DELETE FROM `translations` WHERE `id`=1251;
+INSERT INTO `translations` VALUES ('country', 'NEW ZEALAND');
+DELETE FROM `translations` WHERE `id`=1252;
+INSERT INTO `translations` VALUES ('country', 'NICARAGUA');
+DELETE FROM `translations` WHERE `id`=1253;
+INSERT INTO `translations` VALUES ('country', 'NIGER');
+DELETE FROM `translations` WHERE `id`=1254;
+INSERT INTO `translations` VALUES ('country', 'NIGERIA');
+DELETE FROM `translations` WHERE `id`=1255;
+INSERT INTO `translations` VALUES ('country', 'NO. MARIANA ISLANDS');
+DELETE FROM `translations` WHERE `id`=1256;
+INSERT INTO `translations` VALUES ('country', 'NORTH KOREA');
+DELETE FROM `translations` WHERE `id`=1257;
+INSERT INTO `translations` VALUES ('country', 'NORWAY');
+DELETE FROM `translations` WHERE `id`=1258;
+INSERT INTO `translations` VALUES ('country', 'OMAN');
+DELETE FROM `translations` WHERE `id`=1259;
+INSERT INTO `translations` VALUES ('country', 'PAKISTAN');
+DELETE FROM `translations` WHERE `id`=1260;
+INSERT INTO `translations` VALUES ('country', 'PALAU');
+DELETE FROM `translations` WHERE `id`=1261;
+INSERT INTO `translations` VALUES ('country', 'PANAMA');
+DELETE FROM `translations` WHERE `id`=1262;
+INSERT INTO `translations` VALUES ('country', 'PARAGUAY');
+DELETE FROM `translations` WHERE `id`=1263;
+INSERT INTO `translations` VALUES ('country', 'PERU');
+DELETE FROM `translations` WHERE `id`=1264;
+INSERT INTO `translations` VALUES ('country', 'PHILIPPINES');
+DELETE FROM `translations` WHERE `id`=1265;
+INSERT INTO `translations` VALUES ('country', 'POLAND');
+DELETE FROM `translations` WHERE `id`=1266;
+INSERT INTO `translations` VALUES ('country', 'PORTUGAL');
+DELETE FROM `translations` WHERE `id`=1267;
+INSERT INTO `translations` VALUES ('country', 'PUERTO RICO');
+DELETE FROM `translations` WHERE `id`=1268;
+INSERT INTO `translations` VALUES ('country', 'QATAR');
+DELETE FROM `translations` WHERE `id`=1269;
+INSERT INTO `translations` VALUES ('country', 'REUNION ISLAND');
+DELETE FROM `translations` WHERE `id`=1270;
+INSERT INTO `translations` VALUES ('country', 'ROMANIA');
+DELETE FROM `translations` WHERE `id`=1271;
+INSERT INTO `translations` VALUES ('country', 'RUSSIAN FEDERATION');
+DELETE FROM `translations` WHERE `id`=1272;
+INSERT INTO `translations` VALUES ('country', 'RWANDA');
+DELETE FROM `translations` WHERE `id`=1273;
+INSERT INTO `translations` VALUES ('country', 'SAN MARINO');
+DELETE FROM `translations` WHERE `id`=1274;
+INSERT INTO `translations` VALUES ('country', 'SAUDI ARABIA');
+DELETE FROM `translations` WHERE `id`=1275;
+INSERT INTO `translations` VALUES ('country', 'SENEGAL');
+DELETE FROM `translations` WHERE `id`=1276;
+INSERT INTO `translations` VALUES ('country', 'SERBIA');
+DELETE FROM `translations` WHERE `id`=1277;
+INSERT INTO `translations` VALUES ('country', 'SEYCHELLES ISLANDS');
+DELETE FROM `translations` WHERE `id`=1278;
+INSERT INTO `translations` VALUES ('country', 'SIERRA LEONE');
+DELETE FROM `translations` WHERE `id`=1279;
+INSERT INTO `translations` VALUES ('country', 'SINGAPORE');
+DELETE FROM `translations` WHERE `id`=1280;
+INSERT INTO `translations` VALUES ('country', 'SLOVAKIA');
+DELETE FROM `translations` WHERE `id`=1281;
+INSERT INTO `translations` VALUES ('country', 'SLOVENIA');
+DELETE FROM `translations` WHERE `id`=1282;
+INSERT INTO `translations` VALUES ('country', 'SOMALIA');
+DELETE FROM `translations` WHERE `id`=1283;
+INSERT INTO `translations` VALUES ('country', 'SOUTH AFRICA');
+DELETE FROM `translations` WHERE `id`=1284;
+INSERT INTO `translations` VALUES ('country', 'SOUTH KOREA');
+DELETE FROM `translations` WHERE `id`=1285;
+INSERT INTO `translations` VALUES ('country', 'SOUTH SUDAN');
+DELETE FROM `translations` WHERE `id`=1286;
+INSERT INTO `translations` VALUES ('country', 'SPAIN');
+DELETE FROM `translations` WHERE `id`=1287;
+INSERT INTO `translations` VALUES ('country', 'SRI LANKA');
+DELETE FROM `translations` WHERE `id`=1288;
+INSERT INTO `translations` VALUES ('country', 'ST. KITTS');
+DELETE FROM `translations` WHERE `id`=1289;
+INSERT INTO `translations` VALUES ('country', 'ST. LUCIA');
+DELETE FROM `translations` WHERE `id`=1290;
+INSERT INTO `translations` VALUES ('country', 'ST. MARTIN');
+DELETE FROM `translations` WHERE `id`=1291;
+INSERT INTO `translations` VALUES ('country', 'ST. PIERRE & MIQUELON');
+DELETE FROM `translations` WHERE `id`=1292;
+INSERT INTO `translations` VALUES ('country', 'ST. VINCENT');
+DELETE FROM `translations` WHERE `id`=1293;
+INSERT INTO `translations` VALUES ('country', 'SUDAN');
+DELETE FROM `translations` WHERE `id`=1294;
+INSERT INTO `translations` VALUES ('country', 'SURINAME');
+DELETE FROM `translations` WHERE `id`=1295;
+INSERT INTO `translations` VALUES ('country', 'SWAZILAND');
+DELETE FROM `translations` WHERE `id`=1296;
+INSERT INTO `translations` VALUES ('country', 'SWEDEN');
+DELETE FROM `translations` WHERE `id`=1297;
+INSERT INTO `translations` VALUES ('country', 'SWITZERLAND');
+DELETE FROM `translations` WHERE `id`=1298;
+INSERT INTO `translations` VALUES ('country', 'SYRIA');
+DELETE FROM `translations` WHERE `id`=1299;
+INSERT INTO `translations` VALUES ('country', 'TAIWAN');
+DELETE FROM `translations` WHERE `id`=1300;
+INSERT INTO `translations` VALUES ('country', 'TAJIKISTAN');
+DELETE FROM `translations` WHERE `id`=1301;
+INSERT INTO `translations` VALUES ('country', 'TANZANIA');
+DELETE FROM `translations` WHERE `id`=1302;
+INSERT INTO `translations` VALUES ('country', 'THAILAND');
+DELETE FROM `translations` WHERE `id`=1303;
+INSERT INTO `translations` VALUES ('country', 'TRINIDAD & TOBAGO');
+DELETE FROM `translations` WHERE `id`=1304;
+INSERT INTO `translations` VALUES ('country', 'TUNISIA');
+DELETE FROM `translations` WHERE `id`=1305;
+INSERT INTO `translations` VALUES ('country', 'TURKEY');
+DELETE FROM `translations` WHERE `id`=1306;
+INSERT INTO `translations` VALUES ('country', 'TURKMENISTAN');
+DELETE FROM `translations` WHERE `id`=1307;
+INSERT INTO `translations` VALUES ('country', 'TURKS & CAICOS ISLANDS');
+DELETE FROM `translations` WHERE `id`=1308;
+INSERT INTO `translations` VALUES ('country', 'UGANDA');
+DELETE FROM `translations` WHERE `id`=1309;
+INSERT INTO `translations` VALUES ('country', 'UKRAINE');
+DELETE FROM `translations` WHERE `id`=1310;
+INSERT INTO `translations` VALUES ('country', 'UNITED ARAB EMIRATES');
+DELETE FROM `translations` WHERE `id`=1311;
+INSERT INTO `translations` VALUES ('country', 'UNITED KINGDOM');
+DELETE FROM `translations` WHERE `id`=1312;
+INSERT INTO `translations` VALUES ('country', 'URUGUAY');
+DELETE FROM `translations` WHERE `id`=1313;
+INSERT INTO `translations` VALUES ('country', 'US VIRGIN ISLANDS');
+DELETE FROM `translations` WHERE `id`=1314;
+INSERT INTO `translations` VALUES ('country', 'United States');
+DELETE FROM `translations` WHERE `id`=1315;
+INSERT INTO `translations` VALUES ('country', 'UZBEKISTAN');
+DELETE FROM `translations` WHERE `id`=1316;
+INSERT INTO `translations` VALUES ('country', 'VENEZUELA');
+DELETE FROM `translations` WHERE `id`=1317;
+INSERT INTO `translations` VALUES ('country', 'VIETNAM');
+DELETE FROM `translations` WHERE `id`=1318;
+INSERT INTO `translations` VALUES ('country', 'YEMEN');
+DELETE FROM `translations` WHERE `id`=1319;
+INSERT INTO `translations` VALUES ('country', 'ZAMBIA');
+DELETE FROM `translations` WHERE `id`=1320;
+INSERT INTO `translations` VALUES ('country', 'ZIMBABWE');
+DELETE FROM `translations` WHERE `id`=1321;
+INSERT INTO `translations` VALUES ('currency', 'ASCENSION');
+DELETE FROM `translations` WHERE `id`=1322;
+INSERT INTO `translations` VALUES ('currency', 'COOK ISLANDS');
+DELETE FROM `translations` WHERE `id`=1323;
+INSERT INTO `translations` VALUES ('currency', 'EAST TIMOR');
+DELETE FROM `translations` WHERE `id`=1324;
+INSERT INTO `translations` VALUES ('currency', 'FALKLAND ISLANDS');
+DELETE FROM `translations` WHERE `id`=1325;
+INSERT INTO `translations` VALUES ('currency', 'GREENLAND');
+DELETE FROM `translations` WHERE `id`=1326;
+INSERT INTO `translations` VALUES ('currency', 'KIRIBATI');
+DELETE FROM `translations` WHERE `id`=1327;
+INSERT INTO `translations` VALUES ('currency', 'MALDIVES');
+DELETE FROM `translations` WHERE `id`=1328;
+INSERT INTO `translations` VALUES ('currency', 'NAURU');
+DELETE FROM `translations` WHERE `id`=1329;
+INSERT INTO `translations` VALUES ('currency', 'Albanian Lek');
+DELETE FROM `translations` WHERE `id`=1330;
+INSERT INTO `translations` VALUES ('currency', 'Algerian Dinar');
+DELETE FROM `translations` WHERE `id`=1331;
+INSERT INTO `translations` VALUES ('currency', 'Aluminium Ounces');
+DELETE FROM `translations` WHERE `id`=1332;
+INSERT INTO `translations` VALUES ('currency', 'Argentine Peso');
+DELETE FROM `translations` WHERE `id`=1333;
+INSERT INTO `translations` VALUES ('currency', 'Aruba Florin');
+DELETE FROM `translations` WHERE `id`=1334;
+INSERT INTO `translations` VALUES ('currency', 'Australian Dollar');
+DELETE FROM `translations` WHERE `id`=1335;
+INSERT INTO `translations` VALUES ('currency', 'Bahamian Dollar');
+DELETE FROM `translations` WHERE `id`=1336;
+INSERT INTO `translations` VALUES ('currency', 'Bahraini Dinar');
+DELETE FROM `translations` WHERE `id`=1337;
+INSERT INTO `translations` VALUES ('currency', 'Bangladesh Taka');
+DELETE FROM `translations` WHERE `id`=1338;
+INSERT INTO `translations` VALUES ('currency', 'Barbados Dollar');
+DELETE FROM `translations` WHERE `id`=1339;
+INSERT INTO `translations` VALUES ('currency', 'Belarus Ruble');
+DELETE FROM `translations` WHERE `id`=1340;
+INSERT INTO `translations` VALUES ('currency', 'Belize Dollar');
+DELETE FROM `translations` WHERE `id`=1341;
+INSERT INTO `translations` VALUES ('currency', 'Bermuda Dollar');
+DELETE FROM `translations` WHERE `id`=1342;
+INSERT INTO `translations` VALUES ('currency', 'Bhutan Ngultrum');
+DELETE FROM `translations` WHERE `id`=1343;
+INSERT INTO `translations` VALUES ('currency', 'Bolivian Boliviano');
+DELETE FROM `translations` WHERE `id`=1344;
+INSERT INTO `translations` VALUES ('currency', 'Brazilian Real');
+DELETE FROM `translations` WHERE `id`=1345;
+INSERT INTO `translations` VALUES ('currency', 'British Pound');
+DELETE FROM `translations` WHERE `id`=1346;
+INSERT INTO `translations` VALUES ('currency', 'Brunei Dollar');
+DELETE FROM `translations` WHERE `id`=1347;
+INSERT INTO `translations` VALUES ('currency', 'Bulgarian Lev');
+DELETE FROM `translations` WHERE `id`=1348;
+INSERT INTO `translations` VALUES ('currency', 'Burundi Franc');
+DELETE FROM `translations` WHERE `id`=1349;
+INSERT INTO `translations` VALUES ('currency', 'Cambodia Riel');
+DELETE FROM `translations` WHERE `id`=1350;
+INSERT INTO `translations` VALUES ('currency', 'Canadian Dollar');
+DELETE FROM `translations` WHERE `id`=1351;
+INSERT INTO `translations` VALUES ('currency', 'Cayman Islands Dollar');
+DELETE FROM `translations` WHERE `id`=1352;
+INSERT INTO `translations` VALUES ('currency', 'CFA Franc (BCEAO)');
+DELETE FROM `translations` WHERE `id`=1353;
+INSERT INTO `translations` VALUES ('currency', 'CFA Franc (BEAC)');
+DELETE FROM `translations` WHERE `id`=1354;
+INSERT INTO `translations` VALUES ('currency', 'Chilean Peso');
+DELETE FROM `translations` WHERE `id`=1355;
+INSERT INTO `translations` VALUES ('currency', 'Chinese Yuan');
+DELETE FROM `translations` WHERE `id`=1356;
+INSERT INTO `translations` VALUES ('currency', 'Colombian Peso');
+DELETE FROM `translations` WHERE `id`=1357;
+INSERT INTO `translations` VALUES ('currency', 'Comoros Franc');
+DELETE FROM `translations` WHERE `id`=1358;
+INSERT INTO `translations` VALUES ('currency', 'Copper Ounces');
+DELETE FROM `translations` WHERE `id`=1359;
+INSERT INTO `translations` VALUES ('currency', 'Costa Rica Colon');
+DELETE FROM `translations` WHERE `id`=1360;
+INSERT INTO `translations` VALUES ('currency', 'Croatian Kuna');
+DELETE FROM `translations` WHERE `id`=1361;
+INSERT INTO `translations` VALUES ('currency', 'Cuban Peso');
+DELETE FROM `translations` WHERE `id`=1362;
+INSERT INTO `translations` VALUES ('currency', 'Cyprus Pound');
+DELETE FROM `translations` WHERE `id`=1363;
+INSERT INTO `translations` VALUES ('currency', 'Czech Koruna');
+DELETE FROM `translations` WHERE `id`=1364;
+INSERT INTO `translations` VALUES ('currency', 'Danish Krone');
+DELETE FROM `translations` WHERE `id`=1365;
+INSERT INTO `translations` VALUES ('currency', 'Dijibouti Franc');
+DELETE FROM `translations` WHERE `id`=1366;
+INSERT INTO `translations` VALUES ('currency', 'Dominican Peso');
+DELETE FROM `translations` WHERE `id`=1367;
+INSERT INTO `translations` VALUES ('currency', 'East Caribbean Dollar');
+DELETE FROM `translations` WHERE `id`=1368;
+INSERT INTO `translations` VALUES ('currency', 'Ecuador Sucre');
+DELETE FROM `translations` WHERE `id`=1369;
+INSERT INTO `translations` VALUES ('currency', 'Egyptian Pound');
+DELETE FROM `translations` WHERE `id`=1370;
+INSERT INTO `translations` VALUES ('currency', 'El Salvador Colon');
+DELETE FROM `translations` WHERE `id`=1371;
+INSERT INTO `translations` VALUES ('currency', 'Eritrea Nakfa');
+DELETE FROM `translations` WHERE `id`=1372;
+INSERT INTO `translations` VALUES ('currency', 'Estonian Kroon');
+DELETE FROM `translations` WHERE `id`=1373;
+INSERT INTO `translations` VALUES ('currency', 'Ethiopian Birr');
+DELETE FROM `translations` WHERE `id`=1374;
+INSERT INTO `translations` VALUES ('currency', 'Euro');
+DELETE FROM `translations` WHERE `id`=1375;
+INSERT INTO `translations` VALUES ('currency', 'Falkland Islands Pound');
+DELETE FROM `translations` WHERE `id`=1376;
+INSERT INTO `translations` VALUES ('currency', 'Gambian Dalasi');
+DELETE FROM `translations` WHERE `id`=1377;
+INSERT INTO `translations` VALUES ('currency', 'Ghanian Cedi');
+DELETE FROM `translations` WHERE `id`=1378;
+INSERT INTO `translations` VALUES ('currency', 'Gibraltar Pound');
+DELETE FROM `translations` WHERE `id`=1379;
+INSERT INTO `translations` VALUES ('currency', 'Gold Ounces');
+DELETE FROM `translations` WHERE `id`=1380;
+INSERT INTO `translations` VALUES ('currency', 'Guatemala Quetzal');
+DELETE FROM `translations` WHERE `id`=1381;
+INSERT INTO `translations` VALUES ('currency', 'Guinea Franc');
+DELETE FROM `translations` WHERE `id`=1382;
+INSERT INTO `translations` VALUES ('currency', 'Haiti Gourde');
+DELETE FROM `translations` WHERE `id`=1383;
+INSERT INTO `translations` VALUES ('currency', 'Honduras Lempira');
+DELETE FROM `translations` WHERE `id`=1384;
+INSERT INTO `translations` VALUES ('currency', 'Hong Kong Dollar');
+DELETE FROM `translations` WHERE `id`=1385;
+INSERT INTO `translations` VALUES ('currency', 'Hungarian ForINT');
+DELETE FROM `translations` WHERE `id`=1386;
+INSERT INTO `translations` VALUES ('currency', 'Iceland Krona');
+DELETE FROM `translations` WHERE `id`=1387;
+INSERT INTO `translations` VALUES ('currency', 'Indian Rupee');
+DELETE FROM `translations` WHERE `id`=1388;
+INSERT INTO `translations` VALUES ('currency', 'Indonesian Rupiah');
+DELETE FROM `translations` WHERE `id`=1389;
+INSERT INTO `translations` VALUES ('currency', 'Iran Rial');
+DELETE FROM `translations` WHERE `id`=1390;
+INSERT INTO `translations` VALUES ('currency', 'Israeli Shekel');
+DELETE FROM `translations` WHERE `id`=1391;
+INSERT INTO `translations` VALUES ('currency', 'Jamaican Dollar');
+DELETE FROM `translations` WHERE `id`=1392;
+INSERT INTO `translations` VALUES ('currency', 'Japanese Yen');
+DELETE FROM `translations` WHERE `id`=1393;
+INSERT INTO `translations` VALUES ('currency', 'Jordanian Dinar');
+DELETE FROM `translations` WHERE `id`=1394;
+INSERT INTO `translations` VALUES ('currency', 'Kazakhstan Tenge');
+DELETE FROM `translations` WHERE `id`=1395;
+INSERT INTO `translations` VALUES ('currency', 'Kenyan Shilling');
+DELETE FROM `translations` WHERE `id`=1396;
+INSERT INTO `translations` VALUES ('currency', 'Korean Won');
+DELETE FROM `translations` WHERE `id`=1397;
+INSERT INTO `translations` VALUES ('currency', 'Kuwaiti Dinar');
+DELETE FROM `translations` WHERE `id`=1398;
+INSERT INTO `translations` VALUES ('currency', 'Lao Kip');
+DELETE FROM `translations` WHERE `id`=1399;
+INSERT INTO `translations` VALUES ('currency', 'Latvian Lat');
+DELETE FROM `translations` WHERE `id`=1400;
+INSERT INTO `translations` VALUES ('currency', 'Lebanese Pound');
+DELETE FROM `translations` WHERE `id`=1401;
+INSERT INTO `translations` VALUES ('currency', 'Lesotho Loti');
+DELETE FROM `translations` WHERE `id`=1402;
+INSERT INTO `translations` VALUES ('currency', 'Libyan Dinar');
+DELETE FROM `translations` WHERE `id`=1403;
+INSERT INTO `translations` VALUES ('currency', 'Lithuanian Lita');
+DELETE FROM `translations` WHERE `id`=1404;
+INSERT INTO `translations` VALUES ('currency', 'Macau Pataca');
+DELETE FROM `translations` WHERE `id`=1405;
+INSERT INTO `translations` VALUES ('currency', 'Macedonian Denar');
+DELETE FROM `translations` WHERE `id`=1406;
+INSERT INTO `translations` VALUES ('currency', 'Malagasy Franc');
+DELETE FROM `translations` WHERE `id`=1407;
+INSERT INTO `translations` VALUES ('currency', 'Malawi Kwacha');
+DELETE FROM `translations` WHERE `id`=1408;
+INSERT INTO `translations` VALUES ('currency', 'Malaysian Ringgit');
+DELETE FROM `translations` WHERE `id`=1409;
+INSERT INTO `translations` VALUES ('currency', 'Maldives Rufiyaa');
+DELETE FROM `translations` WHERE `id`=1410;
+INSERT INTO `translations` VALUES ('currency', 'Maltese Lira');
+DELETE FROM `translations` WHERE `id`=1411;
+INSERT INTO `translations` VALUES ('currency', 'Mauritania Ougulya');
+DELETE FROM `translations` WHERE `id`=1412;
+INSERT INTO `translations` VALUES ('currency', 'Mauritius Rupee');
+DELETE FROM `translations` WHERE `id`=1413;
+INSERT INTO `translations` VALUES ('currency', 'Mexican Peso');
+DELETE FROM `translations` WHERE `id`=1414;
+INSERT INTO `translations` VALUES ('currency', 'Moldovan Leu');
+DELETE FROM `translations` WHERE `id`=1415;
+INSERT INTO `translations` VALUES ('currency', 'Mongolian Tugrik');
+DELETE FROM `translations` WHERE `id`=1416;
+INSERT INTO `translations` VALUES ('currency', 'Moroccan Dirham');
+DELETE FROM `translations` WHERE `id`=1417;
+INSERT INTO `translations` VALUES ('currency', 'Mozambique Metical');
+DELETE FROM `translations` WHERE `id`=1418;
+INSERT INTO `translations` VALUES ('currency', 'Namibian Dollar');
+DELETE FROM `translations` WHERE `id`=1419;
+INSERT INTO `translations` VALUES ('currency', 'Nepalese Rupee');
+DELETE FROM `translations` WHERE `id`=1420;
+INSERT INTO `translations` VALUES ('currency', 'Neth Antilles Guilder');
+DELETE FROM `translations` WHERE `id`=1421;
+INSERT INTO `translations` VALUES ('currency', 'New Turkish Lira');
+DELETE FROM `translations` WHERE `id`=1422;
+INSERT INTO `translations` VALUES ('currency', 'New Zealand Dollar');
+DELETE FROM `translations` WHERE `id`=1423;
+INSERT INTO `translations` VALUES ('currency', 'Nicaragua Cordoba');
+DELETE FROM `translations` WHERE `id`=1424;
+INSERT INTO `translations` VALUES ('currency', 'Nigerian Naira');
+DELETE FROM `translations` WHERE `id`=1425;
+INSERT INTO `translations` VALUES ('currency', 'Norwegian Krone');
+DELETE FROM `translations` WHERE `id`=1426;
+INSERT INTO `translations` VALUES ('currency', 'Omani Rial');
+DELETE FROM `translations` WHERE `id`=1427;
+INSERT INTO `translations` VALUES ('currency', 'Pacific Franc');
+DELETE FROM `translations` WHERE `id`=1428;
+INSERT INTO `translations` VALUES ('currency', 'Pakistani Rupee');
+DELETE FROM `translations` WHERE `id`=1429;
+INSERT INTO `translations` VALUES ('currency', 'Palladium Ounces');
+DELETE FROM `translations` WHERE `id`=1430;
+INSERT INTO `translations` VALUES ('currency', 'Panama Balboa');
+DELETE FROM `translations` WHERE `id`=1431;
+INSERT INTO `translations` VALUES ('currency', 'Papua New Guinea Kina');
+DELETE FROM `translations` WHERE `id`=1432;
+INSERT INTO `translations` VALUES ('currency', 'Paraguayan Guarani');
+DELETE FROM `translations` WHERE `id`=1433;
+INSERT INTO `translations` VALUES ('currency', 'Peruvian Nuevo Sol');
+DELETE FROM `translations` WHERE `id`=1434;
+INSERT INTO `translations` VALUES ('currency', 'Philippine Peso');
+DELETE FROM `translations` WHERE `id`=1435;
+INSERT INTO `translations` VALUES ('currency', 'Platinum Ounces');
+DELETE FROM `translations` WHERE `id`=1436;
+INSERT INTO `translations` VALUES ('currency', 'Polish Zloty');
+DELETE FROM `translations` WHERE `id`=1437;
+INSERT INTO `translations` VALUES ('currency', 'Qatar Rial');
+DELETE FROM `translations` WHERE `id`=1438;
+INSERT INTO `translations` VALUES ('currency', 'Romanian Leu');
+DELETE FROM `translations` WHERE `id`=1439;
+INSERT INTO `translations` VALUES ('currency', 'Romanian New Leu');
+DELETE FROM `translations` WHERE `id`=1440;
+INSERT INTO `translations` VALUES ('currency', 'Russian Rouble');
+DELETE FROM `translations` WHERE `id`=1441;
+INSERT INTO `translations` VALUES ('currency', 'Rwanda Franc');
+DELETE FROM `translations` WHERE `id`=1442;
+INSERT INTO `translations` VALUES ('currency', 'Samoa Tala');
+DELETE FROM `translations` WHERE `id`=1443;
+INSERT INTO `translations` VALUES ('currency', 'Sao Tome Dobra');
+DELETE FROM `translations` WHERE `id`=1444;
+INSERT INTO `translations` VALUES ('currency', 'Saudi Arabian Riyal');
+DELETE FROM `translations` WHERE `id`=1445;
+INSERT INTO `translations` VALUES ('currency', 'Seychelles Rupee');
+DELETE FROM `translations` WHERE `id`=1446;
+INSERT INTO `translations` VALUES ('currency', 'Sierra Leone Leone');
+DELETE FROM `translations` WHERE `id`=1447;
+INSERT INTO `translations` VALUES ('currency', 'Silver Ounces');
+DELETE FROM `translations` WHERE `id`=1448;
+INSERT INTO `translations` VALUES ('currency', 'Singapore Dollar');
+DELETE FROM `translations` WHERE `id`=1449;
+INSERT INTO `translations` VALUES ('currency', 'Slovak Koruna');
+DELETE FROM `translations` WHERE `id`=1450;
+INSERT INTO `translations` VALUES ('currency', 'Slovenian Tolar');
+DELETE FROM `translations` WHERE `id`=1451;
+INSERT INTO `translations` VALUES ('currency', 'Somali Shilling');
+DELETE FROM `translations` WHERE `id`=1452;
+INSERT INTO `translations` VALUES ('currency', 'South African Rand');
+DELETE FROM `translations` WHERE `id`=1453;
+INSERT INTO `translations` VALUES ('currency', 'Sri Lanka Rupee');
+DELETE FROM `translations` WHERE `id`=1454;
+INSERT INTO `translations` VALUES ('currency', 'St Helena Pound');
+DELETE FROM `translations` WHERE `id`=1455;
+INSERT INTO `translations` VALUES ('currency', 'Sudanese Dinar');
+DELETE FROM `translations` WHERE `id`=1456;
+INSERT INTO `translations` VALUES ('currency', 'Surinam Guilder');
+DELETE FROM `translations` WHERE `id`=1457;
+INSERT INTO `translations` VALUES ('currency', 'Swaziland Lilageni');
+DELETE FROM `translations` WHERE `id`=1458;
+INSERT INTO `translations` VALUES ('currency', 'Swedish Krona');
+DELETE FROM `translations` WHERE `id`=1459;
+INSERT INTO `translations` VALUES ('currency', 'Swiss Franc');
+DELETE FROM `translations` WHERE `id`=1460;
+INSERT INTO `translations` VALUES ('currency', 'Syrian Pound');
+DELETE FROM `translations` WHERE `id`=1461;
+INSERT INTO `translations` VALUES ('currency', 'Taiwan Dollar');
+DELETE FROM `translations` WHERE `id`=1462;
+INSERT INTO `translations` VALUES ('currency', 'Tanzanian Shilling');
+DELETE FROM `translations` WHERE `id`=1463;
+INSERT INTO `translations` VALUES ('currency', 'Thai Baht');
+DELETE FROM `translations` WHERE `id`=1464;
+INSERT INTO `translations` VALUES ('currency', 'Tonga Paanga');
+DELETE FROM `translations` WHERE `id`=1465;
+INSERT INTO `translations` VALUES ('currency', 'Trinidad&Tobago Dollar');
+DELETE FROM `translations` WHERE `id`=1466;
+INSERT INTO `translations` VALUES ('currency', 'Tunisian Dinar');
+DELETE FROM `translations` WHERE `id`=1467;
+INSERT INTO `translations` VALUES ('currency', 'U.S. Dollar');
+DELETE FROM `translations` WHERE `id`=1468;
+INSERT INTO `translations` VALUES ('currency', 'UAE Dirham');
+DELETE FROM `translations` WHERE `id`=1469;
+INSERT INTO `translations` VALUES ('currency', 'Ugandan Shilling');
+DELETE FROM `translations` WHERE `id`=1470;
+INSERT INTO `translations` VALUES ('currency', 'Ukraine Hryvnia');
+DELETE FROM `translations` WHERE `id`=1471;
+INSERT INTO `translations` VALUES ('currency', 'Uruguayan New Peso');
+DELETE FROM `translations` WHERE `id`=1472;
+INSERT INTO `translations` VALUES ('currency', 'Vanuatu Vatu');
+DELETE FROM `translations` WHERE `id`=1473;
+INSERT INTO `translations` VALUES ('currency', 'Venezuelan Bolivar');
+DELETE FROM `translations` WHERE `id`=1474;
+INSERT INTO `translations` VALUES ('currency', 'Vietnam Dong');
+DELETE FROM `translations` WHERE `id`=1475;
+INSERT INTO `translations` VALUES ('currency', 'Yemen Riyal');
+DELETE FROM `translations` WHERE `id`=1476;
+INSERT INTO `translations` VALUES ('currency', 'Zambian Kwacha');
+DELETE FROM `translations` WHERE `id`=1477;
+INSERT INTO `translations` VALUES ('currency', 'Zimbabwe Dollar');
+DELETE FROM `translations` WHERE `id`=1478;
+INSERT INTO `translations` VALUES ('currency', 'Guyana Dollar');
+DELETE FROM `translations` WHERE `id`=1479;
+INSERT INTO `translations` VALUES ('currency', 'Aruban florin');
+DELETE FROM `translations` WHERE `id`=1480;
+INSERT INTO `translations` VALUES ('currency', 'Armenian dram');
+DELETE FROM `translations` WHERE `id`=1481;
+INSERT INTO `translations` VALUES ('currency', 'Azerbaijani manat');
+DELETE FROM `translations` WHERE `id`=1482;
+INSERT INTO `translations` VALUES ('currency', 'Barbadian dollar');
+DELETE FROM `translations` WHERE `id`=1483;
+INSERT INTO `translations` VALUES ('currency', 'Bosnian Convertible Marka');
+DELETE FROM `translations` WHERE `id`=1484;
+INSERT INTO `translations` VALUES ('currency', 'Botswana pula');
+DELETE FROM `translations` WHERE `id`=1485;
+INSERT INTO `translations` VALUES ('currency', 'Cape Verdean escudo');
+DELETE FROM `translations` WHERE `id`=1486;
+INSERT INTO `translations` VALUES ('currency', 'Congolese franc');
+DELETE FROM `translations` WHERE `id`=1487;
+INSERT INTO `translations` VALUES ('currency', 'Fijian Dollar');
+DELETE FROM `translations` WHERE `id`=1488;
+INSERT INTO `translations` VALUES ('currency', 'CFP franc');
+DELETE FROM `translations` WHERE `id`=1489;
+INSERT INTO `translations` VALUES ('currency', 'Georgian lari');
+DELETE FROM `translations` WHERE `id`=1490;
+INSERT INTO `translations` VALUES ('currency', 'Iraqi dinar');
+DELETE FROM `translations` WHERE `id`=1491;
+INSERT INTO `translations` VALUES ('currency', 'Kyrgyzstani som');
+DELETE FROM `translations` WHERE `id`=1492;
+INSERT INTO `translations` VALUES ('currency', 'Liberian dollar');
+DELETE FROM `translations` WHERE `id`=1493;
+INSERT INTO `translations` VALUES ('currency', 'Malagasy ariary');
+DELETE FROM `translations` WHERE `id`=1494;
+INSERT INTO `translations` VALUES ('currency', 'Burmese Kyat');
+DELETE FROM `translations` WHERE `id`=1495;
+INSERT INTO `translations` VALUES ('currency', 'North Korean won');
+DELETE FROM `translations` WHERE `id`=1496;
+INSERT INTO `translations` VALUES ('currency', 'nuevo sol');
+DELETE FROM `translations` WHERE `id`=1497;
+INSERT INTO `translations` VALUES ('currency', 'Serbian dinar');
+DELETE FROM `translations` WHERE `id`=1498;
+INSERT INTO `translations` VALUES ('currency', 'South Korean won');
+DELETE FROM `translations` WHERE `id`=1499;
+INSERT INTO `translations` VALUES ('currency', 'South Sudanese pound');
+DELETE FROM `translations` WHERE `id`=1500;
+INSERT INTO `translations` VALUES ('currency', 'Sudanese pound');
+DELETE FROM `translations` WHERE `id`=1501;
+INSERT INTO `translations` VALUES ('currency', 'Surinamese dollar');
+DELETE FROM `translations` WHERE `id`=1502;
+INSERT INTO `translations` VALUES ('currency', 'Tajikistani samani');
+DELETE FROM `translations` WHERE `id`=1503;
+INSERT INTO `translations` VALUES ('currency', 'Turkish lira');
+DELETE FROM `translations` WHERE `id`=1504;
+INSERT INTO `translations` VALUES ('currency', 'Turkmenistan manat');
+DELETE FROM `translations` WHERE `id`=1505;
+INSERT INTO `translations` VALUES ('currency', 'Pound sterling');
+DELETE FROM `translations` WHERE `id`=1506;
+INSERT INTO `translations` VALUES ('currency', 'Uzbekistani soʻm');
+DELETE FROM `translations` WHERE `id`=1507;
+INSERT INTO `translations` VALUES ('currency', 'Saint Helena pound');
+DELETE FROM `translations` WHERE `id`=1508;
+INSERT INTO `translations` VALUES ('currency', 'Indian Rupees');
+DELETE FROM `translations` WHERE `id`=1509;
+INSERT INTO `translations` VALUES ('login and signup', 'Telephone number is only numeric');
+DELETE FROM `translations` WHERE `id`=1510;
+INSERT INTO `translations` VALUES ('login and signup', 'Please enter valid Captcha code');
+DELETE FROM `translations` WHERE `id`=1511;
+INSERT INTO `translations` VALUES ('login and signup', 'Please contact to administrator');
+DELETE FROM `translations` WHERE `id`=1512;
+INSERT INTO `translations` VALUES ('login and signup', 'Requested email is already exist');
+DELETE FROM `translations` WHERE `id`=1513;
+INSERT INTO `translations` VALUES ('login and signup', 'Requested number is already exist');
+DELETE FROM `translations` WHERE `id`=1514;
+INSERT INTO `translations` VALUES ('login and signup', 'Please enter correct words!');
+DELETE FROM `translations` WHERE `id`=1515;
+INSERT INTO `translations` VALUES ('login and signup', 'THIS IS REQUIRED!');
+DELETE FROM `translations` WHERE `id`=1516;
+INSERT INTO `translations` VALUES ('login and signup', 'Your account has been deleted. Please contact administrator for more information.');
+DELETE FROM `translations` WHERE `id`=1517;
+INSERT INTO `translations` VALUES ('login and signup', 'Your account is inactive. Please contact administrator for more information.');
+DELETE FROM `translations` WHERE `id`=1518;
+INSERT INTO `translations` VALUES ('login and signup', 'Please enter proper Email.');
+DELETE FROM `translations` WHERE `id`=1519;
+INSERT INTO `translations` VALUES ('login and signup', 'Please enter proper Username.');
+DELETE FROM `translations` WHERE `id`=1520;
+INSERT INTO `translations` VALUES ('login and signup', 'This Username or Email is not valid.');
+DELETE FROM `translations` WHERE `id`=1521;
+INSERT INTO `translations` VALUES ('login and signup', 'ASTPP - A Smart TelePhony Platform');
+DELETE FROM `translations` WHERE `id`=1522;
+INSERT INTO `translations` VALUES ('login and signup', 'Forgot Password');
+DELETE FROM `translations` WHERE `id`=1523;
+INSERT INTO `translations` VALUES ('login and signup', 'ASTPP work best with JavaScript enabled');
+DELETE FROM `translations` WHERE `id`=1524;
+INSERT INTO `translations` VALUES ('login and signup', 'Enter Your Password');
+DELETE FROM `translations` WHERE `id`=1525;
+INSERT INTO `translations` VALUES ('login and signup', 'Confirm Password');
+DELETE FROM `translations` WHERE `id`=1526;
+INSERT INTO `translations` VALUES ('login and signup', 'The Email field is Required');
+DELETE FROM `translations` WHERE `id`=1527;
+INSERT INTO `translations` VALUES ('login and signup', 'The Account Number field is Required');
+DELETE FROM `translations` WHERE `id`=1528;
+INSERT INTO `translations` VALUES ('login and signup', 'Set Default Language');
+DELETE FROM `translations` WHERE `id`=1529;
+INSERT INTO `translations` VALUES ('login and signup', 'Please Re-login to get Impact of selected language.');
+DELETE FROM `translations` WHERE `id`=1530;
+INSERT INTO `translations` VALUES ('login and signup', 'Default Language');
+DELETE FROM `translations` WHERE `id`=1531;
+INSERT INTO `translations` VALUES ('login and signup', 'Signup now!');
+DELETE FROM `translations` WHERE `id`=1532;
+INSERT INTO `translations` VALUES ('login and signup', 'Forgot Password?');
+DELETE FROM `translations` WHERE `id`=1533;
+INSERT INTO `translations` VALUES ('login and signup', 'Sign in');
+DELETE FROM `translations` WHERE `id`=1534;
+INSERT INTO `translations` VALUES ('login and signup', 'Username OR Email');
+DELETE FROM `translations` WHERE `id`=1535;
+INSERT INTO `translations` VALUES ('login and signup', 'Username is Required');
+DELETE FROM `translations` WHERE `id`=1536;
+INSERT INTO `translations` VALUES ('login and signup', 'Password is Required');
+DELETE FROM `translations` WHERE `id`=1537;
+INSERT INTO `translations` VALUES ('login and signup', 'Please Check Your account is deleted or inactive from admin side, please contact to your administrator');
+DELETE FROM `translations` WHERE `id`=1538;
+INSERT INTO `translations` VALUES ('login and signup', 'Please do not use default or less secure password for your account!! You must change password from');
+DELETE FROM `translations` WHERE `id`=1539;
+INSERT INTO `translations` VALUES ('login and signup', 'HERE');
+DELETE FROM `translations` WHERE `id`=1540;
+INSERT INTO `translations` VALUES ('login and signup', 'Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active');
+DELETE FROM `translations` WHERE `id`=1541;
+INSERT INTO `translations` VALUES ('login and signup', 'Please enter Username/email and Password.');
+DELETE FROM `translations` WHERE `id`=1542;
+INSERT INTO `translations` VALUES ('login and signup', 'Payment transaction invalid. Please contact Administrator.');
+DELETE FROM `translations` WHERE `id`=1543;
+INSERT INTO `translations` VALUES ('login and signup', 'Log In');
+DELETE FROM `translations` WHERE `id`=1544;
+INSERT INTO `translations` VALUES ('login and signup', 'Please Enter Password');
+DELETE FROM `translations` WHERE `id`=1545;
+INSERT INTO `translations` VALUES ('login and signup', 'Password must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit');
+DELETE FROM `translations` WHERE `id`=1546;
+INSERT INTO `translations` VALUES ('login and signup', 'Please Enter Confirm Password');
+DELETE FROM `translations` WHERE `id`=1547;
+INSERT INTO `translations` VALUES ('login and signup', 'Confirm Password is not match');
+DELETE FROM `translations` WHERE `id`=1548;
+INSERT INTO `translations` VALUES ('login and signup', 'We sent update password link.');
+DELETE FROM `translations` WHERE `id`=1549;
+INSERT INTO `translations` VALUES ('login and signup', 'Please check your Email!');
+DELETE FROM `translations` WHERE `id`=1550;
+INSERT INTO `translations` VALUES ('login and signup', 'Login');
+DELETE FROM `translations` WHERE `id`=1551;
+INSERT INTO `translations` VALUES ('login and signup', 'OTP Verification');
+DELETE FROM `translations` WHERE `id`=1552;
+INSERT INTO `translations` VALUES ('login and signup', 'OTP Number is Required');
+DELETE FROM `translations` WHERE `id`=1553;
+INSERT INTO `translations` VALUES ('login and signup', 'Your account created successfully and account details sent to your registered email address');
+DELETE FROM `translations` WHERE `id`=1554;
+INSERT INTO `translations` VALUES ('login and signup', 'Your password change successfully and new password sent to your registered email address');
+DELETE FROM `translations` WHERE `id`=1555;
+INSERT INTO `translations` VALUES ('login and signup', 'OTP Number is Wrong Please try again Or OTP expire Please Resend');
+DELETE FROM `translations` WHERE `id`=1556;
+INSERT INTO `translations` VALUES ('login and signup', 'OTP has been sent on your email or Telephone number');
+DELETE FROM `translations` WHERE `id`=1557;
+INSERT INTO `translations` VALUES ('login and signup', 'OTP');
+DELETE FROM `translations` WHERE `id`=1558;
+INSERT INTO `translations` VALUES ('login and signup', 'Resend OTP');
+DELETE FROM `translations` WHERE `id`=1559;
+INSERT INTO `translations` VALUES ('login and signup', 'OTP Sent time Out');
+DELETE FROM `translations` WHERE `id`=1560;
+INSERT INTO `translations` VALUES ('login and signup', 'Not Get OTP ?');
+DELETE FROM `translations` WHERE `id`=1561;
+INSERT INTO `translations` VALUES ('login and signup', 'Note:');
+DELETE FROM `translations` WHERE `id`=1562;
+INSERT INTO `translations` VALUES ('login and signup', 'Please make sure do not refresh the page or don\'t go back');
+DELETE FROM `translations` WHERE `id`=1563;
+INSERT INTO `translations` VALUES ('login and signup', 'Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.');
+DELETE FROM `translations` WHERE `id`=1564;
+INSERT INTO `translations` VALUES ('login and signup', 'Your account has been created successfully!');
+DELETE FROM `translations` WHERE `id`=1565;
+INSERT INTO `translations` VALUES ('login and signup', 'Here is your login information');
+DELETE FROM `translations` WHERE `id`=1566;
+INSERT INTO `translations` VALUES ('login and signup', 'Link is Expire Please Try Again');
+DELETE FROM `translations` WHERE `id`=1567;
+INSERT INTO `translations` VALUES ('login and signup', 'Sorry, we cannot process for singup at this time.');
+DELETE FROM `translations` WHERE `id`=1568;
+INSERT INTO `translations` VALUES ('login and signup', 'Please contact administrator for more information');
+DELETE FROM `translations` WHERE `id`=1569;
+INSERT INTO `translations` VALUES ('login and signup', 'Successful!');
+DELETE FROM `translations` WHERE `id`=1570;
+INSERT INTO `translations` VALUES ('login and signup', 'Captcha is required');
+DELETE FROM `translations` WHERE `id`=1571;
+INSERT INTO `translations` VALUES ('login and signup', 'First Name is Required');
+DELETE FROM `translations` WHERE `id`=1572;
+INSERT INTO `translations` VALUES ('login and signup', 'Telephone is Required');
+DELETE FROM `translations` WHERE `id`=1573;
+INSERT INTO `translations` VALUES ('login and signup', 'Email is Required');
+DELETE FROM `translations` WHERE `id`=1574;
+INSERT INTO `translations` VALUES ('login and signup', 'Please enter a valid email address');
+DELETE FROM `translations` WHERE `id`=1575;
+INSERT INTO `translations` VALUES ('login and signup', 'Please make sure you entered the correct username and password, and that your account is active.');
+DELETE FROM `translations` WHERE `id`=1576;
+INSERT INTO `translations` VALUES ('login and signup', 'Company Name');
+DELETE FROM `translations` WHERE `id`=1577;
+INSERT INTO `translations` VALUES ('login and signup', 'Enter above Captcha');
+DELETE FROM `translations` WHERE `id`=1578;
+INSERT INTO `translations` VALUES ('login and signup', 'Sign up');
+DELETE FROM `translations` WHERE `id`=1579;
+INSERT INTO `translations` VALUES ('login and signup', 'Already Registered !');
+DELETE FROM `translations` WHERE `id`=1580;
+INSERT INTO `translations` VALUES ('CLI Pool', 'CLI Pool');
+DELETE FROM `translations` WHERE `id`=1581;
+INSERT INTO `translations` VALUES ('Download', 'Download');
+DELETE FROM `translations` WHERE `id`=1582;
+INSERT INTO `translations` VALUES ('True', 'True');
+DELETE FROM `translations` WHERE `id`=1583;
+INSERT INTO `translations` VALUES ('False', 'False');
+DELETE FROM `translations` WHERE `id`=1584;
+INSERT INTO `translations` VALUES ('--Select Type--', '--Select Type--');
+DELETE FROM `translations` WHERE `id`=1585;
+INSERT INTO `translations` VALUES ('One Time', 'One Time');
+DELETE FROM `translations` WHERE `id`=1586;
+INSERT INTO `translations` VALUES ('Recurring', 'Recurring');
+DELETE FROM `translations` WHERE `id`=1587;
+INSERT INTO `translations` VALUES ('Recurring Monthly', 'Recurring Monthly');
+DELETE FROM `translations` WHERE `id`=1588;
+INSERT INTO `translations` VALUES ('Outbound', 'Outbound');
+DELETE FROM `translations` WHERE `id`=1589;
+INSERT INTO `translations` VALUES ('Default', 'Default');
+DELETE FROM `translations` WHERE `id`=1590;
+INSERT INTO `translations` VALUES ('Speed Dial Number Added Successfully', 'Speed Dial Number Added Successfully');
+DELETE FROM `translations` WHERE `id`=1591;
+INSERT INTO `translations` VALUES ('Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.', 'Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.');
+DELETE FROM `translations` WHERE `id`=1592;
+INSERT INTO `translations` VALUES ('DIDs already purchased by someone.', 'DIDs already purchased by someone.');
+DELETE FROM `translations` WHERE `id`=1593;
+INSERT INTO `translations` VALUES ('DIDs Assigned sucessfully!', 'DIDs Assigned sucessfully!');
+DELETE FROM `translations` WHERE `id`=1594;
+INSERT INTO `translations` VALUES ('Something wrong.Please contact to administrator.', 'Something wrong.Please contact to administrator.');
+DELETE FROM `translations` WHERE `id`=1595;
+INSERT INTO `translations` VALUES ('Duplicate DID found from database', 'Duplicate DID found from database');
+DELETE FROM `translations` WHERE `id`=1596;
+INSERT INTO `translations` VALUES ('Account have not sufficient amount to purchase this DID.', 'Account have not sufficient amount to purchase this DID.');
+DELETE FROM `translations` WHERE `id`=1597;
+INSERT INTO `translations` VALUES ('Account not found or assign to invalid account', 'Account not found or assign to invalid account');
+DELETE FROM `translations` WHERE `id`=1598;
+INSERT INTO `translations` VALUES ('Duplicate DID found from import file.', 'Duplicate DID found from import file.');
+DELETE FROM `translations` WHERE `id`=1599;
+INSERT INTO `translations` VALUES ('DIDs Imported Successfully!', 'DIDs Imported Successfully!');
+DELETE FROM `translations` WHERE `id`=1600;
+INSERT INTO `translations` VALUES ('Insuffiecient fund to purchase this DID.', 'Insuffiecient fund to purchase this DID.');
+DELETE FROM `translations` WHERE `id`=1601;
+INSERT INTO `translations` VALUES ('Balance Below Notification', 'Balance Below Notification');
+DELETE FROM `translations` WHERE `id`=1602;
+INSERT INTO `translations` VALUES ('Edit SIP Device', 'Edit SIP Device');
+DELETE FROM `translations` WHERE `id`=1603;
+INSERT INTO `translations` VALUES ('Note : Page will display only receipts and confirmed invoices.', 'Note : Page will display only receipts and confirmed invoices.');
+DELETE FROM `translations` WHERE `id`=1604;
+INSERT INTO `translations` VALUES ('Termination Rate Updated Successfully!', 'Termination Rate Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=1605;
+INSERT INTO `translations` VALUES ('Import Termination Rates Using Field Mapper', 'Import Termination Rates Using Field Mapper');
+DELETE FROM `translations` WHERE `id`=1606;
+INSERT INTO `translations` VALUES ('Edit Roles & Permissions', 'Edit Roles & Permissions');
+DELETE FROM `translations` WHERE `id`=1607;
+INSERT INTO `translations` VALUES ('Create Roles & Permissions', 'Create Roles & Permissions');
+DELETE FROM `translations` WHERE `id`=1608;
+INSERT INTO `translations` VALUES ('Edit Admin', 'Edit Admin');
+DELETE FROM `translations` WHERE `id`=1609;
+INSERT INTO `translations` VALUES ('Pin Updated Successfully!.', 'Pin Updated Successfully!.');
+DELETE FROM `translations` WHERE `id`=1610;
+INSERT INTO `translations` VALUES ('Create Termination Rate', 'Create Termination Rate');
+DELETE FROM `translations` WHERE `id`=1611;
+INSERT INTO `translations` VALUES ('Edit Company Profile', 'Edit Company Profile');
+DELETE FROM `translations` WHERE `id`=1612;
+INSERT INTO `translations` VALUES ('Website', 'Website');
+DELETE FROM `translations` WHERE `id`=1613;
+INSERT INTO `translations` VALUES ('Generate Invoice for no usage', 'Generate Invoice for no usage');
+DELETE FROM `translations` WHERE `id`=1614;
+INSERT INTO `translations` VALUES ('Commission Repots', 'Commission Repots');
+DELETE FROM `translations` WHERE `id`=1615;
+INSERT INTO `translations` VALUES ('Top Up', 'Top Up');
+DELETE FROM `translations` WHERE `id`=1616;
+INSERT INTO `translations` VALUES ('Purchase DIDs', 'Purchase DIDs');
+DELETE FROM `translations` WHERE `id`=1617;
+INSERT INTO `translations` VALUES ('Package', 'Package');
+DELETE FROM `translations` WHERE `id`=1618;
+INSERT INTO `translations` VALUES ('Setup', 'Setup');
+DELETE FROM `translations` WHERE `id`=1619;
+INSERT INTO `translations` VALUES ('DID Purchased Successfully.', 'DID Purchased Successfully.');
+DELETE FROM `translations` WHERE `id`=1620;
+INSERT INTO `translations` VALUES ('Release', 'Release');
+DELETE FROM `translations` WHERE `id`=1621;
+INSERT INTO `translations` VALUES ('DID Batch Updated Successfully!', 'DID Batch Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=1622;
+INSERT INTO `translations` VALUES ('DID forwading set sucessfully!', 'DID forwading set sucessfully!');
+DELETE FROM `translations` WHERE `id`=1623;
+INSERT INTO `translations` VALUES ('Are you sure want to release DID?', 'Are you sure want to release DID?');
+DELETE FROM `translations` WHERE `id`=1624;
+INSERT INTO `translations` VALUES ('Please select atleast one record', 'Please select atleast one record');
+DELETE FROM `translations` WHERE `id`=1625;
+INSERT INTO `translations` VALUES ('Account Balance', 'Account Balance');
+DELETE FROM `translations` WHERE `id`=1626;
+INSERT INTO `translations` VALUES ('Next Bill Date', 'Next Bill Date');
+DELETE FROM `translations` WHERE `id`=1627;
+INSERT INTO `translations` VALUES ('TOTAL AMOUNT', 'TOTAL AMOUNT');
+DELETE FROM `translations` WHERE `id`=1628;
+INSERT INTO `translations` VALUES ('Invoice', 'Invoice');
+DELETE FROM `translations` WHERE `id`=1629;
+INSERT INTO `translations` VALUES ('IP Address', 'IP Address');
+DELETE FROM `translations` WHERE `id`=1630;
+INSERT INTO `translations` VALUES ('Terminate', 'Terminate');
+DELETE FROM `translations` WHERE `id`=1631;
+INSERT INTO `translations` VALUES ('Seconds', 'Seconds');
+DELETE FROM `translations` WHERE `id`=1632;
+INSERT INTO `translations` VALUES ('Recording', 'Recording');
+DELETE FROM `translations` WHERE `id`=1633;
+INSERT INTO `translations` VALUES ('Rates', 'Rates');
+DELETE FROM `translations` WHERE `id`=1634;
+INSERT INTO `translations` VALUES ('Paid', 'Paid');
+DELETE FROM `translations` WHERE `id`=1635;
+INSERT INTO `translations` VALUES ('No Records', 'No Records');
+DELETE FROM `translations` WHERE `id`=1636;
+INSERT INTO `translations` VALUES ('Please select from date', 'Please select from date');
+DELETE FROM `translations` WHERE `id`=1637;
+INSERT INTO `translations` VALUES ('Please select to date', 'Please select to date');
+DELETE FROM `translations` WHERE `id`=1638;
+INSERT INTO `translations` VALUES ('Please select to date bigger than from date', 'Please select to date bigger than from date');
+DELETE FROM `translations` WHERE `id`=1639;
+INSERT INTO `translations` VALUES ('Confirm', 'Confirm');
+DELETE FROM `translations` WHERE `id`=1640;
+INSERT INTO `translations` VALUES ('Edit Country', 'Edit Country');
+DELETE FROM `translations` WHERE `id`=1641;
+INSERT INTO `translations` VALUES ('Skip Header', 'Skip Header');
+DELETE FROM `translations` WHERE `id`=1642;
+INSERT INTO `translations` VALUES ('Origination_rate_error', 'Origination_rate_error');
+DELETE FROM `translations` WHERE `id`=1643;
+INSERT INTO `translations` VALUES ('Termination_rate_error', 'Termination_rate_error');
+DELETE FROM `translations` WHERE `id`=1644;
+INSERT INTO `translations` VALUES ('Termination_Rates', 'Termination_Rates');
+DELETE FROM `translations` WHERE `id`=1645;
+INSERT INTO `translations` VALUES ('Origination_Rates', 'Origination_Rates');
+DELETE FROM `translations` WHERE `id`=1646;
+INSERT INTO `translations` VALUES ('refill_coupon', 'refill_coupon');
+DELETE FROM `translations` WHERE `id`=1647;
+INSERT INTO `translations` VALUES ('Edit Calltype', 'Edit Calltype');
+DELETE FROM `translations` WHERE `id`=1648;
+INSERT INTO `translations` VALUES ('Invoice generation completed .', 'Invoice generation completed .');
+DELETE FROM `translations` WHERE `id`=1649;
+INSERT INTO `translations` VALUES ('No data found.', 'No data found.');
+DELETE FROM `translations` WHERE `id`=1650;
+INSERT INTO `translations` VALUES ('DID added successfully!', 'DID added successfully!');
+DELETE FROM `translations` WHERE `id`=1651;
+INSERT INTO `translations` VALUES ('File must be in the following format(.csv):', 'File must be in the following format(.csv):');
+DELETE FROM `translations` WHERE `id`=1652;
+INSERT INTO `translations` VALUES ('Process', 'Process');
+DELETE FROM `translations` WHERE `id`=1653;
+INSERT INTO `translations` VALUES ('DID Import Error', 'DID Import Error');
+DELETE FROM `translations` WHERE `id`=1654;
+INSERT INTO `translations` VALUES ('Back to DID List', 'Back to DID List');
+DELETE FROM `translations` WHERE `id`=1655;
+INSERT INTO `translations` VALUES ('Accessnumber Added Successfully!', 'Accessnumber Added Successfully!');
+DELETE FROM `translations` WHERE `id`=1656;
+INSERT INTO `translations` VALUES ('Accessnumber Import Error', 'Accessnumber Import Error');
+DELETE FROM `translations` WHERE `id`=1657;
+INSERT INTO `translations` VALUES ('Origination Rates Preview', 'Origination Rates Preview');
+DELETE FROM `translations` WHERE `id`=1658;
+INSERT INTO `translations` VALUES ('Origination Rates Import Error', 'Origination Rates Import Error');
+DELETE FROM `translations` WHERE `id`=1659;
+INSERT INTO `translations` VALUES ('Back to Origination Rates List', 'Back to Origination Rates List');
+DELETE FROM `translations` WHERE `id`=1660;
+INSERT INTO `translations` VALUES ('Origination Rates Batch Updated Successfully!', 'Origination Rates Batch Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=1661;
+INSERT INTO `translations` VALUES ('Import Ratedeck Preview', 'Import Ratedeck Preview');
+DELETE FROM `translations` WHERE `id`=1662;
+INSERT INTO `translations` VALUES ('CALLTYPE', 'CALLTYPE');
+DELETE FROM `translations` WHERE `id`=1663;
+INSERT INTO `translations` VALUES ('Outbound-Proxy', 'Outbound-Proxy');
+DELETE FROM `translations` WHERE `id`=1664;
+INSERT INTO `translations` VALUES ('Edit Trunk', 'Edit Trunk');
+DELETE FROM `translations` WHERE `id`=1665;
+INSERT INTO `translations` VALUES ('Termination Rate Added Successfully!', 'Termination Rate Added Successfully!');
+DELETE FROM `translations` WHERE `id`=1666;
+INSERT INTO `translations` VALUES ('Edit Termination Rate', 'Edit Termination Rate');
+DELETE FROM `translations` WHERE `id`=1667;
+INSERT INTO `translations` VALUES ('Termination Rates Import Error', 'Termination Rates Import Error');
+DELETE FROM `translations` WHERE `id`=1668;
+INSERT INTO `translations` VALUES ('Termination Rates Imported Successfully!', 'Termination Rates Imported Successfully!');
+DELETE FROM `translations` WHERE `id`=1669;
+INSERT INTO `translations` VALUES ('Select', 'Select');
+DELETE FROM `translations` WHERE `id`=1670;
+INSERT INTO `translations` VALUES ('pattern', 'pattern');
+DELETE FROM `translations` WHERE `id`=1671;
+INSERT INTO `translations` VALUES ('comment', 'comment');
+DELETE FROM `translations` WHERE `id`=1672;
+INSERT INTO `translations` VALUES ('connectcost', 'connectcost');
+DELETE FROM `translations` WHERE `id`=1673;
+INSERT INTO `translations` VALUES ('includedseconds', 'includedseconds');
+DELETE FROM `translations` WHERE `id`=1674;
+INSERT INTO `translations` VALUES ('init_inc', 'init_inc');
+DELETE FROM `translations` WHERE `id`=1675;
+INSERT INTO `translations` VALUES ('inc', 'inc');
+DELETE FROM `translations` WHERE `id`=1676;
+INSERT INTO `translations` VALUES ('Country Name', 'Country Name');
+DELETE FROM `translations` WHERE `id`=1677;
+INSERT INTO `translations` VALUES ('PENDING', 'PENDING');
+DELETE FROM `translations` WHERE `id`=1678;
+INSERT INTO `translations` VALUES ('FAIL', 'FAIL');
+DELETE FROM `translations` WHERE `id`=1679;
+INSERT INTO `translations` VALUES ('Terminate Order', 'Terminate Order');
+DELETE FROM `translations` WHERE `id`=1680;
+INSERT INTO `translations` VALUES ('Compose Email', 'Compose Email');
+DELETE FROM `translations` WHERE `id`=1681;
+INSERT INTO `translations` VALUES ('Message', 'Message');
+DELETE FROM `translations` WHERE `id`=1682;
+INSERT INTO `translations` VALUES ('Send', 'Send');
+DELETE FROM `translations` WHERE `id`=1683;
+INSERT INTO `translations` VALUES ('Start', 'Start');
+DELETE FROM `translations` WHERE `id`=1684;
+INSERT INTO `translations` VALUES ('SIP Port is Required.', 'SIP Port is Required.');
+DELETE FROM `translations` WHERE `id`=1685;
+INSERT INTO `translations` VALUES ('SIP IP is Required.', 'SIP IP is Required.');
+DELETE FROM `translations` WHERE `id`=1686;
+INSERT INTO `translations` VALUES ('Name is Required.', 'Name is Required.');
+DELETE FROM `translations` WHERE `id`=1687;
+INSERT INTO `translations` VALUES ('The SIP Port field is Required.', 'The SIP Port field is Required.');
+DELETE FROM `translations` WHERE `id`=1688;
+INSERT INTO `translations` VALUES ('The SIP Port field must contain only numbers.', 'The SIP Port field must contain only numbers.');
+DELETE FROM `translations` WHERE `id`=1689;
+INSERT INTO `translations` VALUES ('The SIP Port field can not exceed 5 characters in length.', 'The SIP Port field can not exceed 5 characters in length.');
+DELETE FROM `translations` WHERE `id`=1690;
+INSERT INTO `translations` VALUES ('Value is Required.', 'Value is Required.');
+DELETE FROM `translations` WHERE `id`=1691;
+INSERT INTO `translations` VALUES ('Update Setting', 'Update Setting');
+DELETE FROM `translations` WHERE `id`=1692;
+INSERT INTO `translations` VALUES ('Edit Freeswitch Server', 'Edit Freeswitch Server');
+DELETE FROM `translations` WHERE `id`=1693;
+INSERT INTO `translations` VALUES ('CUT', 'CUT');
+DELETE FROM `translations` WHERE `id`=1694;
+INSERT INTO `translations` VALUES ('Edit Localization', 'Edit Localization');
+DELETE FROM `translations` WHERE `id`=1695;
+INSERT INTO `translations` VALUES ('Callbarring Settings Added Successfully!', 'Callbarring Settings Added Successfully!');
+DELETE FROM `translations` WHERE `id`=1696;
+INSERT INTO `translations` VALUES ('Edit Call Barring', 'Edit Call Barring');
+DELETE FROM `translations` WHERE `id`=1697;
+INSERT INTO `translations` VALUES ('Callbarring Settings Updated Successfully!', 'Callbarring Settings Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=1698;
+INSERT INTO `translations` VALUES ('Database import allows only gzfile types of file.', 'Database import allows only gzfile types of file.');
+DELETE FROM `translations` WHERE `id`=1699;
+INSERT INTO `translations` VALUES ('File must be in (.gz) format :', 'File must be in (.gz) format :');
+DELETE FROM `translations` WHERE `id`=1700;
+INSERT INTO `translations` VALUES ('The Coupon Number field must contain only numbers.', 'The Coupon Number field must contain only numbers.');
+DELETE FROM `translations` WHERE `id`=1701;
+INSERT INTO `translations` VALUES ('The Coupon Number field have inactive refill coupon.', 'The Coupon Number field have inactive refill coupon.');
+DELETE FROM `translations` WHERE `id`=1702;
+INSERT INTO `translations` VALUES ('Please enter proper email', 'Please enter proper email');
+DELETE FROM `translations` WHERE `id`=1703;
+INSERT INTO `translations` VALUES ('This field is require', 'This field is require');
+DELETE FROM `translations` WHERE `id`=1704;
+INSERT INTO `translations` VALUES ('Please Enter Valid Account Number', 'Please Enter Valid Account Number');
+DELETE FROM `translations` WHERE `id`=1705;
+INSERT INTO `translations` VALUES ('Main', 'Main');
+DELETE FROM `translations` WHERE `id`=1706;
+INSERT INTO `translations` VALUES ('--Select Disposition--', '--Select Disposition--');
+DELETE FROM `translations` WHERE `id`=1707;
+INSERT INTO `translations` VALUES ('Active User', 'Active User');
+DELETE FROM `translations` WHERE `id`=1708;
+INSERT INTO `translations` VALUES ('Used Minutes', 'Used Minutes');
+DELETE FROM `translations` WHERE `id`=1709;
+INSERT INTO `translations` VALUES ('Available Minutes', 'Available Minutes');
+DELETE FROM `translations` WHERE `id`=1710;
+INSERT INTO `translations` VALUES ('Total Price', 'Total Price');
+DELETE FROM `translations` WHERE `id`=1711;
+INSERT INTO `translations` VALUES ('Total User', 'Total User');
+DELETE FROM `translations` WHERE `id`=1712;
+INSERT INTO `translations` VALUES ('Restore', 'Restore');
+DELETE FROM `translations` WHERE `id`=1713;
+INSERT INTO `translations` VALUES ('View Details', 'View Details');
+DELETE FROM `translations` WHERE `id`=1714;
+INSERT INTO `translations` VALUES ('Other', 'Other');
+DELETE FROM `translations` WHERE `id`=1715;
+INSERT INTO `translations` VALUES ('Edit Tax', 'Edit Tax');
+DELETE FROM `translations` WHERE `id`=1716;
+INSERT INTO `translations` VALUES ('Download Database', 'Download Database');
+DELETE FROM `translations` WHERE `id`=1717;
+INSERT INTO `translations` VALUES ('Import Database', 'Import Database');
+DELETE FROM `translations` WHERE `id`=1718;
+INSERT INTO `translations` VALUES ('File must be in (.gz) format', 'File must be in (.gz) format');
+DELETE FROM `translations` WHERE `id`=1719;
+INSERT INTO `translations` VALUES ('Please enter name and select file.', 'Please enter name and select file.');
+DELETE FROM `translations` WHERE `id`=1720;
+INSERT INTO `translations` VALUES ('Edit Cron Settings', 'Edit Cron Settings');
+DELETE FROM `translations` WHERE `id`=1721;
+INSERT INTO `translations` VALUES ('Global Settings updated sucessfully!', 'Global Settings updated sucessfully!');
+DELETE FROM `translations` WHERE `id`=1722;
+INSERT INTO `translations` VALUES ('Alert Notifications', 'Alert Notifications');
+DELETE FROM `translations` WHERE `id`=1723;
+INSERT INTO `translations` VALUES ('Fraud Configuration', 'Fraud Configuration');
+DELETE FROM `translations` WHERE `id`=1724;
+INSERT INTO `translations` VALUES ('Configuration add', 'Configuration add');
+DELETE FROM `translations` WHERE `id`=1725;
+INSERT INTO `translations` VALUES ('Alarm Configuration', 'Alarm Configuration');
+DELETE FROM `translations` WHERE `id`=1726;
+INSERT INTO `translations` VALUES ('Please select atleast one pattern.', 'Please select atleast one pattern.');
+DELETE FROM `translations` WHERE `id`=1727;
+INSERT INTO `translations` VALUES ('Problem In Add Patterns to account.', 'Problem In Add Patterns to account.');
+DELETE FROM `translations` WHERE `id`=1728;
+INSERT INTO `translations` VALUES ('Please Enter Switch command', 'Please Enter Switch command');
+DELETE FROM `translations` WHERE `id`=1729;
+INSERT INTO `translations` VALUES ('are you sure to delete?', 'are you sure to delete?');
+DELETE FROM `translations` WHERE `id`=1730;
+INSERT INTO `translations` VALUES ('Are you sure want to confirm this invoice ? once you confirm it', 'Are you sure want to confirm this invoice ? once you confirm it');
+DELETE FROM `translations` WHERE `id`=1731;
+INSERT INTO `translations` VALUES ('can not able to edit invoice again.', 'can not able to edit invoice again.');
+DELETE FROM `translations` WHERE `id`=1732;
+INSERT INTO `translations` VALUES ('Maximum Logo upload size is 1MB', 'Maximum Logo upload size is 1MB');
+DELETE FROM `translations` WHERE `id`=1733;
+INSERT INTO `translations` VALUES ('Please enter number', 'Please enter number');
+DELETE FROM `translations` WHERE `id`=1734;
+INSERT INTO `translations` VALUES ('Import Customer', 'Import Customer');
+DELETE FROM `translations` WHERE `id`=1735;
+INSERT INTO `translations` VALUES ('Processing', 'Processing');
+DELETE FROM `translations` WHERE `id`=1736;
+INSERT INTO `translations` VALUES ('please wait', 'please wait');
+DELETE FROM `translations` WHERE `id`=1737;
+INSERT INTO `translations` VALUES ('Refill information', 'Refill information');
+DELETE FROM `translations` WHERE `id`=1739;
+INSERT INTO `translations` VALUES (' Please select file.', ' Please select file.');
+DELETE FROM `translations` WHERE `id`=1740;
+INSERT INTO `translations` VALUES (' are required', ' are required');
+DELETE FROM `translations` WHERE `id`=1741;
+INSERT INTO `translations` VALUES (' is Required', ' is Required');
+DELETE FROM `translations` WHERE `id`=1742;
+INSERT INTO `translations` VALUES (' is not Valid', ' is not Valid');
+DELETE FROM `translations` WHERE `id`=1760;
+INSERT INTO `translations` VALUES ('--All--', '--All--');
+DELETE FROM `translations` WHERE `id`=1788;
+INSERT INTO `translations` VALUES ('Access Number Imported Successfully!', 'Access Number Imported Successfully!');
+DELETE FROM `translations` WHERE `id`=1791;
+INSERT INTO `translations` VALUES ('Access Numbers,Country', 'Access Numbers,Country');
+DELETE FROM `translations` WHERE `id`=1792;
+INSERT INTO `translations` VALUES ('Access number Added Successfully!', 'Access number Added Successfully!');
+DELETE FROM `translations` WHERE `id`=1793;
+INSERT INTO `translations` VALUES ('Access number Details', 'Access number Details');
+DELETE FROM `translations` WHERE `id`=1794;
+INSERT INTO `translations` VALUES ('Access number Import Error', 'Access number Import Error');
+DELETE FROM `translations` WHERE `id`=1795;
+INSERT INTO `translations` VALUES ('Access number Removed Successfully!', 'Access number Removed Successfully!');
+DELETE FROM `translations` WHERE `id`=1796;
+INSERT INTO `translations` VALUES ('Access number Updated Successfully!', 'Access number Updated Successfully!');
+DELETE FROM `translations` WHERE `id`=1809;
+INSERT INTO `translations` VALUES ('Account Notification', 'Account Notification');
+DELETE FROM `translations` WHERE `id`=1811;
+INSERT INTO `translations` VALUES ('Account Number Editable', 'Account Number Editable');
+DELETE FROM `translations` WHERE `id`=1814;
+INSERT INTO `translations` VALUES ('Account Status', 'Account Status');
+DELETE FROM `translations` WHERE `id`=1833;
+INSERT INTO `translations` VALUES ('Add Account Taxes', 'Add Account Taxes');
+DELETE FROM `translations` WHERE `id`=1838;
+INSERT INTO `translations` VALUES ('Add IP Settings', 'Add IP Settings');
+DELETE FROM `translations` WHERE `id`=1839;
+INSERT INTO `translations` VALUES ('Add Languages', 'Add Languages');
+DELETE FROM `translations` WHERE `id`=1844;
+INSERT INTO `translations` VALUES ('Add white list', 'Add white list');
+DELETE FROM `translations` WHERE `id`=1848;
+INSERT INTO `translations` VALUES ('Address 1', 'Address 1');
+DELETE FROM `translations` WHERE `id`=1851;
+INSERT INTO `translations` VALUES ('Admin', 'Admin');
+DELETE FROM `translations` WHERE `id`=1860;
+INSERT INTO `translations` VALUES ('Alert Body', 'Alert Body');
+DELETE FROM `translations` WHERE `id`=1873;
+INSERT INTO `translations` VALUES ('Allowed Extentions', 'Allowed Extentions');
+DELETE FROM `translations` WHERE `id`=1874;
+INSERT INTO `translations` VALUES ('Allowed file format is', 'Allowed file format is');
+DELETE FROM `translations` WHERE `id`=1890;
+INSERT INTO `translations` VALUES ('Are you sure want to delete?', 'Are you sure want to delete?');
+DELETE FROM `translations` WHERE `id`=1894;
+INSERT INTO `translations` VALUES ('Are you sure want to restore this database?', 'Are you sure want to restore this database?');
+DELETE FROM `translations` WHERE `id`=1910;
+INSERT INTO `translations` VALUES ('Authorize dot net', 'Authorize dot net');
+DELETE FROM `translations` WHERE `id`=1915;
+INSERT INTO `translations` VALUES ('Available did', 'Available did');
+DELETE FROM `translations` WHERE `id`=1947;
+INSERT INTO `translations` VALUES ('Balance <br/>', 'Balance <br/>');
+DELETE FROM `translations` WHERE `id`=1984;
+INSERT INTO `translations` VALUES ('Both', 'Both');
+DELETE FROM `translations` WHERE `id`=1985;
+INSERT INTO `translations` VALUES ('Both (Email & SMS)', 'Both (Email & SMS)');
+DELETE FROM `translations` WHERE `id`=1997;
+INSERT INTO `translations` VALUES ('Buy did', 'Buy did');
+DELETE FROM `translations` WHERE `id`=2062;
+INSERT INTO `translations` VALUES ('Callerid', 'Callerid');
+DELETE FROM `translations` WHERE `id`=2098;
+INSERT INTO `translations` VALUES ('Clear Search Filter', 'Clear Search Filter');
+DELETE FROM `translations` WHERE `id`=2099;
+INSERT INTO `translations` VALUES ('Click Here', 'Click Here');
+DELETE FROM `translations` WHERE `id`=2132;
+INSERT INTO `translations` VALUES ('Connection <br/>Cost', 'Connection <br/>Cost');
+DELETE FROM `translations` WHERE `id`=2164;
+INSERT INTO `translations` VALUES ('Create Duplicate Rate Group', 'Create Duplicate Rate Group');
+DELETE FROM `translations` WHERE `id`=2181;
+INSERT INTO `translations` VALUES ('Create Translation Languages', 'Create Translation Languages');
+DELETE FROM `translations` WHERE `id`=2186;
+INSERT INTO `translations` VALUES ('Created <br/>Date', 'Created <br/>Date');
+DELETE FROM `translations` WHERE `id`=2191;
+INSERT INTO `translations` VALUES ('Credit Limit <br/>', 'Credit Limit <br/>');
+DELETE FROM `translations` WHERE `id`=2203;
+INSERT INTO `translations` VALUES ('Custom Rates', 'Custom Rates');
+DELETE FROM `translations` WHERE `id`=2271;
+INSERT INTO `translations` VALUES ('Delete Favicon', 'Delete Favicon');
+DELETE FROM `translations` WHERE `id`=2272;
+INSERT INTO `translations` VALUES ('Delete logo', 'Delete logo');
+DELETE FROM `translations` WHERE `id`=2299;
+INSERT INTO `translations` VALUES ('Download Invoice', 'Download Invoice');
+DELETE FROM `translations` WHERE `id`=2324;
+INSERT INTO `translations` VALUES ('Edit Access number', 'Edit Access number');
+DELETE FROM `translations` WHERE `id`=2325;
+INSERT INTO `translations` VALUES ('Edit Access number Rates', 'Edit Access number Rates');
+DELETE FROM `translations` WHERE `id`=2328;
+INSERT INTO `translations` VALUES ('Edit Caller ID', 'Edit Caller ID');
+DELETE FROM `translations` WHERE `id`=2339;
+INSERT INTO `translations` VALUES ('Edit IP Settings', 'Edit IP Settings');
+DELETE FROM `translations` WHERE `id`=2341;
+INSERT INTO `translations` VALUES ('Edit Languages', 'Edit Languages');
+DELETE FROM `translations` WHERE `id`=2360;
+INSERT INTO `translations` VALUES ('Email Body', 'Email Body');
+DELETE FROM `translations` WHERE `id`=2381;
+INSERT INTO `translations` VALUES ('English', 'English');
+DELETE FROM `translations` WHERE `id`=2382;
+INSERT INTO `translations` VALUES ('Enter Description', 'Enter Description');
+DELETE FROM `translations` WHERE `id`=2383;
+INSERT INTO `translations` VALUES ('Enter Name', 'Enter Name');
+DELETE FROM `translations` WHERE `id`=2413;
+INSERT INTO `translations` VALUES ('Failover <br/> GW Name #1', 'Failover <br/> GW Name #1');
+DELETE FROM `translations` WHERE `id`=2414;
+INSERT INTO `translations` VALUES ('Failover <br/> GW Name #2', 'Failover <br/> GW Name #2');
+DELETE FROM `translations` WHERE `id`=2416;
+INSERT INTO `translations` VALUES ('Failover GW Name #1', 'Failover GW Name #1');
+DELETE FROM `translations` WHERE `id`=2421;
+INSERT INTO `translations` VALUES ('Favicon is Deleted Sucessfully!', 'Favicon is Deleted Sucessfully!');
+DELETE FROM `translations` WHERE `id`=2422;
+INSERT INTO `translations` VALUES ('Favicon only allows file types of', 'Favicon only allows file types of');
+DELETE FROM `translations` WHERE `id`=2442;
+INSERT INTO `translations` VALUES ('For Download Sample File', 'For Download Sample File');
+DELETE FROM `translations` WHERE `id`=2448;
+INSERT INTO `translations` VALUES ('Forward', 'Forward');
+DELETE FROM `translations` WHERE `id`=2449;
+INSERT INTO `translations` VALUES ('Forwarding', 'Forwarding');
+DELETE FROM `translations` WHERE `id`=2485;
+INSERT INTO `translations` VALUES ('Gateway<br/>Name', 'Gateway<br/>Name');
+DELETE FROM `translations` WHERE `id`=2490;
+INSERT INTO `translations` VALUES ('Generate', 'Generate');
+DELETE FROM `translations` WHERE `id`=2499;
+INSERT INTO `translations` VALUES ('Generates Various Country Reports From S', 'Generates Various Country Reports From S');
+DELETE FROM `translations` WHERE `id`=2572;
+INSERT INTO `translations` VALUES ('Import Access number', 'Import Access number');
+DELETE FROM `translations` WHERE `id`=2573;
+INSERT INTO `translations` VALUES ('Import Access number Preview', 'Import Access number Preview');
+DELETE FROM `translations` WHERE `id`=2601;
+INSERT INTO `translations` VALUES ('Initial <br/>Increment', 'Initial <br/>Increment');
+DELETE FROM `translations` WHERE `id`=2619;
+INSERT INTO `translations` VALUES ('Invoice Date Interval', 'Invoice Date Interval');
+DELETE FROM `translations` WHERE `id`=2637;
+INSERT INTO `translations` VALUES ('Invoice<br/> Date', 'Invoice<br/> Date');
+DELETE FROM `translations` WHERE `id`=2682;
+INSERT INTO `translations` VALUES ('Language', 'Language');
+DELETE FROM `translations` WHERE `id`=2731;
+INSERT INTO `translations` VALUES ('Login As Customer', 'Login As Customer');
+DELETE FROM `translations` WHERE `id`=2734;
+INSERT INTO `translations` VALUES ('Logo is Deleted Sucessfully!', 'Logo is Deleted Sucessfully!');
+DELETE FROM `translations` WHERE `id`=2735;
+INSERT INTO `translations` VALUES ('Logo only allows file types of', 'Logo only allows file types of');
+DELETE FROM `translations` WHERE `id`=2788;
+INSERT INTO `translations` VALUES ('Maximum Favicon upload size is 1MB', 'Maximum Favicon upload size is 1MB');
+DELETE FROM `translations` WHERE `id`=2802;
+INSERT INTO `translations` VALUES ('Modified <br/>Date', 'Modified <br/>Date');
+DELETE FROM `translations` WHERE `id`=2805;
+INSERT INTO `translations` VALUES ('Module Name', 'Module Name');
+DELETE FROM `translations` WHERE `id`=2868;
+INSERT INTO `translations` VALUES ('Not Send', 'Not Send');
+DELETE FROM `translations` WHERE `id`=2869;
+INSERT INTO `translations` VALUES ('Not in use', 'Not in use');
+DELETE FROM `translations` WHERE `id`=2870;
+INSERT INTO `translations` VALUES ('Not set', 'Not set');
+DELETE FROM `translations` WHERE `id`=2919;
+INSERT INTO `translations` VALUES ('Org.<br/>Cost', 'Org.<br/>Cost');
+DELETE FROM `translations` WHERE `id`=2920;
+INSERT INTO `translations` VALUES ('Org.<br/>Destination', 'Org.<br/>Destination');
+DELETE FROM `translations` WHERE `id`=2921;
+INSERT INTO `translations` VALUES ('Org.<br/>Pefix', 'Org.<br/>Pefix');
+DELETE FROM `translations` WHERE `id`=2977;
+INSERT INTO `translations` VALUES ('Payment <br>Method', 'Payment <br>Method');
+DELETE FROM `translations` WHERE `id`=3004;
+INSERT INTO `translations` VALUES ('Play Audio Notifications', 'Play Audio Notifications');
+DELETE FROM `translations` WHERE `id`=3015;
+INSERT INTO `translations` VALUES ('Please be patient until the whole process is complete.', 'Please be patient until the whole process is complete.');
+DELETE FROM `translations` WHERE `id`=3052;
+INSERT INTO `translations` VALUES ('Please upload 250 * 60 size file.', 'Please upload 250 * 60 size file.');
+DELETE FROM `translations` WHERE `id`=3058;
+INSERT INTO `translations` VALUES ('Postcharge', 'Postcharge');
+DELETE FROM `translations` WHERE `id`=3075;
+INSERT INTO `translations` VALUES ('Processing, please wait ...', 'Processing, please wait ...');
+DELETE FROM `translations` WHERE `id`=3096;
+INSERT INTO `translations` VALUES ('Profiles', 'Profiles');
+DELETE FROM `translations` WHERE `id`=3119;
+INSERT INTO `translations` VALUES ('Quick From', 'Quick From');
+DELETE FROM `translations` WHERE `id`=3127;
+INSERT INTO `translations` VALUES ('Rate <br/>Count', 'Rate <br/>Count');
+DELETE FROM `translations` WHERE `id`=3145;
+INSERT INTO `translations` VALUES ('Read/Write<br/>codecs', 'Read/Write<br/>codecs');
+DELETE FROM `translations` WHERE `id`=3146;
+INSERT INTO `translations` VALUES ('Realm', 'Realm');
+DELETE FROM `translations` WHERE `id`=3167;
+INSERT INTO `translations` VALUES ('Refill', 'Refill');
+DELETE FROM `translations` WHERE `id`=3178;
+INSERT INTO `translations` VALUES ('Reg-Transport', 'Reg-Transport');
+DELETE FROM `translations` WHERE `id`=3182;
+INSERT INTO `translations` VALUES ('Registration URL', 'Registration URL');
+DELETE FROM `translations` WHERE `id`=3188;
+INSERT INTO `translations` VALUES ('Reload', 'Reload');
+DELETE FROM `translations` WHERE `id`=3190;
+INSERT INTO `translations` VALUES ('Report', 'Report');
+DELETE FROM `translations` WHERE `id`=3196;
+INSERT INTO `translations` VALUES ('Rescan', 'Rescan');
+DELETE FROM `translations` WHERE `id`=3209;
+INSERT INTO `translations` VALUES ('Resend Email', 'Resend Email');
+DELETE FROM `translations` WHERE `id`=3220;
+INSERT INTO `translations` VALUES ('Roles and permission for distributor login.', 'Roles and permission for distributor login.');
+DELETE FROM `translations` WHERE `id`=3223;
+INSERT INTO `translations` VALUES ('Routing <br/>Prefix', 'Routing <br/>Prefix');
+DELETE FROM `translations` WHERE `id`=3322;
+INSERT INTO `translations` VALUES ('Settings updated sucessfully!', 'Settings updated sucessfully!');
+DELETE FROM `translations` WHERE `id`=3362;
+INSERT INTO `translations` VALUES ('Stop', 'Stop');
+DELETE FROM `translations` WHERE `id`=3421;
+INSERT INTO `translations` VALUES ('Term.<br/>Cost', 'Term.<br/>Cost');
+DELETE FROM `translations` WHERE `id`=3422;
+INSERT INTO `translations` VALUES ('Term.<br/>Destination', 'Term.<br/>Destination');
+DELETE FROM `translations` WHERE `id`=3423;
+INSERT INTO `translations` VALUES ('Term.<br/>Prefix', 'Term.<br/>Prefix');
+DELETE FROM `translations` WHERE `id`=3424;
+INSERT INTO `translations` VALUES ('Term.<br/>Trunk', 'Term.<br/>Trunk');
+DELETE FROM `translations` WHERE `id`=3534;
+INSERT INTO `translations` VALUES ('Upload', 'Upload');
+DELETE FROM `translations` WHERE `id`=3540;
+INSERT INTO `translations` VALUES ('Use same credential for Invoice Config', 'Use same credential for Invoice Config');
+DELETE FROM `translations` WHERE `id`=3571;
+INSERT INTO `translations` VALUES ('We sent update password link. <br>Please check your Email!!', 'We sent update password link. <br>Please check your Email!!');
+DELETE FROM `translations` WHERE `id`=3588;
+INSERT INTO `translations` VALUES ('You must either select a field from your file OR provide a default value for the following fields', 'You must either select a field from your file OR provide a default value for the following fields');
+DELETE FROM `translations` WHERE `id`=3635;
+INSERT INTO `translations` VALUES ('Refill Process', 'Refill Process');
+DELETE FROM `translations` WHERE `id`=3636;
+INSERT INTO `translations` VALUES ('Minimum Account Number', 'Minimum Account Number');
+DELETE FROM `translations` WHERE `id`=3637;
+INSERT INTO `translations` VALUES ('Minimum account number length set', 'Minimum account number length set');
+DELETE FROM `translations` WHERE `id`=3638;
+INSERT INTO `translations` VALUES ('Maximum Account Number', 'Maximum Account Number');
+DELETE FROM `translations` WHERE `id`=3639;
+INSERT INTO `translations` VALUES ('Maximum account number length set', 'Maximum account number length set');
+DELETE FROM `translations` WHERE `id`=3640;
+INSERT INTO `translations` VALUES ('Create Account Range', 'Create Account Range');
+DELETE FROM `translations` WHERE `id`=3646;
+INSERT INTO `translations` VALUES ('min', 'min');
+DELETE FROM `translations` WHERE `id`=3647;
+INSERT INTO `translations` VALUES ('days', 'days');
+DELETE FROM `translations` WHERE `id`=3651;
+INSERT INTO `translations` VALUES ('Bal', 'Bal');
+DELETE FROM `translations` WHERE `id`=3652;
+INSERT INTO `translations` VALUES ('Please select atleast one record to delete.', 'Please select atleast one record to delete.');
+DELETE FROM `translations` WHERE `id`=3653;
+INSERT INTO `translations` VALUES ('Please select any recharge amount', 'Please select any recharge amount');
+DELETE FROM `translations` WHERE `id`=3654;
+INSERT INTO `translations` VALUES ('Language Translations sucessfull!', 'Language Translations sucessfull!');
+DELETE FROM `translations` WHERE `id`=3655;
+INSERT INTO `translations` VALUES ('Re-Login in Admin', 'Re-Login in Admin');
+DELETE FROM `translations` WHERE `id`=3656;
+INSERT INTO `translations` VALUES ('Buy DIDs', 'Buy DIDs');
+DELETE FROM `translations` WHERE `id`=3661;
+INSERT INTO `translations` VALUES ('Admin Rate Group', 'Admin Rate Group');
+DELETE FROM `translations` WHERE `id`=3662;
+INSERT INTO `translations` VALUES ('Copy From Rate Group', 'Copy From Rate Group');
+DELETE FROM `translations` WHERE `id`=3663;
+INSERT INTO `translations` VALUES ('Emails', 'Emails');
+DELETE FROM `translations` WHERE `id`=3664;
+INSERT INTO `translations` VALUES ('My Order', 'My Order');
+DELETE FROM `translations` WHERE `id`=3669;
+INSERT INTO `translations` VALUES ('Sent', 'Sent');
+DELETE FROM `translations` WHERE `id`=3675;
+INSERT INTO `translations` VALUES ('Set your paypal status here.', 'Set your paypal status here.');
+DELETE FROM `translations` WHERE `id`=3676;
+INSERT INTO `translations` VALUES ('Ticket Digits', 'Ticket Digits');

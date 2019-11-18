@@ -84,6 +84,7 @@ function validateform(){
 														echo "<div class='col-md-12'>";
 														echo "<div class='row'>";
 														foreach($val1 as $key=>$val){
+															$val['comment'] = gettext($val['comment']);
                               ?>
 																<div class="col-md-4 col-sm-12 form-group">
 																	 <label title="<?php echo str_replace('smtp',"SMTP",$val['comment']);?>" data-toggle="tooltip" data-placement="top" data-html="true" class="col-sm-6 col-xs-4 p-0 control-label"><?php echo gettext($val['display_name']);?> * </label>

@@ -205,7 +205,7 @@
 
 					<!--<?php if($did_info['product_category'] == 1){ ?>
 		<div class='col-md-12 form-group'> 
-                      <label class="col-md-3 p-0">Free Minutes</label>
+                      <label class="col-md-3 p-0"><?=gettext('Free Minutes')?></label>
                      <input class="col-md-12 form-control form-control-lg m-0" name="free_minutes" value="<?php echo (isset($did_info['free_minutes']))?$did_info['free_minutes']:'' ?>" type="text"/>
                 </div>
 		<?php } ?>-->

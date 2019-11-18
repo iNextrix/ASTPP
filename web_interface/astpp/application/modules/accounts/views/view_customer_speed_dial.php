@@ -139,11 +139,11 @@ label.error {
 								<div class="col-md-2 col-4 float-left">
 									<a class="btn text-danger ml-2 float-right"
 										onclick="remove_save_speed_dial('<?php echo $i; ?>')"
-										title="Delete" name="click0<?php echo $i; ?>"
+										title="<?=gettext('Delete')?>" name="click0<?php echo $i; ?>"
 										id="click0<?php echo $i; ?>"><i class="fa fa-trash"></i></a> <a
 										class="btn text-secondary float-right"
 										onclick="showdiv('key<?php echo $i; ?><?php echo $i + 1; ?>','key<?php echo $i; ?><?php echo $i + 2; ?>')"
-										title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+										title="<?=gettext('Edit')?>"><i class="fa fa-pencil-square-o"></i></a>
 								</div>
 							</div>
 
@@ -165,11 +165,11 @@ label.error {
 								<div class="col-md-2 col-4 float-left">
 
 									<a onclick="remove_save_speed_dial('<?php echo $i; ?>')"
-										class="btn text-danger float-right mx-2" title="Delete"
+										class="btn text-danger float-right mx-2" title="<?=gettext('Delete')?>"
 										name="click0<?php echo $i; ?>" id="click0<?php echo $i; ?>"><i
 										class="fa fa-trash"></i></a> <a
 										onclick="save_speed_dial('<?php echo $i; ?>')"
-										class="btn text-info float-right" title="Save"
+										class="btn text-info float-right" title="<?=gettext('Save')?>"
 										name="click<?php echo $i; ?>" id="click<?php echo $i; ?>"><i
 										class="fa fa-floppy-o"></i></a>
 								</div>

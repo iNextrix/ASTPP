@@ -317,9 +317,9 @@ class Freeswitch extends MX_Controller
             $path_true = base_url() . '/assets/images/true.png';
             $path_false = base_url() . '/assets/images/false.png';
             if ($value['voicemail_enabled'] == 'true') {
-                $voicemail_enabled = '<img src=' . $path_true . ' style="height:20px;width:20px;" title="Enable">';
+                $voicemail_enabled = '<img src=' . $path_true . ' style="height:20px;width:20px;" title="'.gettext('Enable').'">';
             } else {
-                $voicemail_enabled = '<img src=' . $path_false . ' style="height:20px;width:20px;" title="Disable">';
+                $voicemail_enabled = '<img src=' . $path_false . ' style="height:20px;width:20px;" title="'.gettext('Disable').'">';
             }
             $account_data = $this->session->userdata("accountinfo");
             $reseller_ids = $value['reseller_id'];
@@ -332,7 +332,7 @@ class Freeswitch extends MX_Controller
             }
             $current_row = array(
                 $checkbox,
-                "<a href='/freeswitch/fssipdevices_edit/" . $value['id'] . "' style='cursor:pointer;color:#005298;' rel='facebox_medium' title='username'>" . $value['username'] . "</a>",
+                "<a href='/freeswitch/fssipdevices_edit/" . $value['id'] . "' style='cursor:pointer;color:#005298;' rel='facebox_medium' title='".gettext('User Name')."'>" . $value['username'] . "</a>",
                 $value['password'],
                 $this->common->get_field_name('name', '`sip_profiles', array(
                     'id' => $value['sip_profile_id']
@@ -403,12 +403,12 @@ class Freeswitch extends MX_Controller
         foreach ($query as $key => $value) {
             $path_true = base_url() . '/assets/images/true.png';
             $path_false = base_url() . '/assets/images/false.png';
-            $voicemail_enabled = $value['voicemail_enabled'] == 'true' ? '<img src=' . $path_true . ' style="height:20px;width:20px;" title="Enable">' : '<img src=' . $path_false . ' style="height:20px;width:20px;" title="Disable">';
+            $voicemail_enabled = $value['voicemail_enabled'] == 'true' ? '<img src=' . $path_true . ' style="height:20px;width:20px;" title="'.gettext('Enable').'">' : '<img src=' . $path_false . ' style="height:20px;width:20px;" title="'.gettext('Disable').'">';
             $json_data['rows'][] = array(
                 'cell' => array(
 
                     '<input type="checkbox" name="chkAll" id="' . $value['id'] . '" class="ace chkRefNos" onclick="clickchkbox(' . $value['id'] . ')" value=' . $value['id'] . '><lable class="lbl"></lable>',
-                    '<a href="' . base_url() . 'accounts/' . $entity_type . '_fssipdevices_action/edit/' . $value['id'] . '/' . $accountid . '/" rel="facebox_medium" style="cursor:pointer;color:#005298;" title="Edit"><span title="Edit">' . $value['username'] . '</span></a>',
+                    '<a href="' . base_url() . 'accounts/' . $entity_type . '_fssipdevices_action/edit/' . $value['id'] . '/' . $accountid . '/" rel="facebox_medium" style="cursor:pointer;color:#005298;" title="'.gettext('Edit').'"><span title="'.gettext('Edit').'">' . $value['username'] . '</span></a>',
                     $value['password'],
                     $this->common->get_field_name('name', '`sip_profiles', array(
                         'id' => $value['sip_profile_id']
@@ -432,14 +432,14 @@ class Freeswitch extends MX_Controller
         $logintype = $this->session->userdata('logintype');
         $ret_url = '';
         if ($this->session->userdata("logintype") == '0' || $this->session->userdata("logintype") == '3') {
-            $ret_url = '<a href="' . base_url() . 'user/user_fssipdevices_action/edit/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
-            $ret_url .= '<a href="' . base_url() . 'user/user_fssipdevices_action/delete/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
+            $ret_url = '<a href="' . base_url() . 'user/user_fssipdevices_action/edit/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="'.gettext('Edit').'">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+            $ret_url .= '<a href="' . base_url() . 'user/user_fssipdevices_action/delete/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
         } else {
             if (isset($permissioninfo['freeswitch']['fssipdevices']['EDIT']) and $permissioninfo['freeswitch']['fssipdevices']['EDIT'] == 0 and ($permissioninfo['login_type'] == '1' or $permissioninfo['login_type'] == '2' or $permissioninfo['login_type'] == '4') or $permissioninfo['login_type'] == '-1') {
-                $ret_url = '<a href="' . base_url() . 'accounts/' . $entity_type . '_fssipdevices_action/edit/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+                $ret_url = '<a href="' . base_url() . 'accounts/' . $entity_type . '_fssipdevices_action/edit/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="'.gettext('Edit').'">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
             }
             if (isset($permissioninfo['freeswitch']['fssipdevices']['DELETE']) and $permissioninfo['freeswitch']['fssipdevices']['DELETE'] == 0 and ($permissioninfo['login_type'] == '1' or $permissioninfo['login_type'] == '2' or $permissioninfo['login_type'] == '4') or $permissioninfo['login_type'] == '-1') {
-                $ret_url .= '<a href="' . base_url() . 'accounts/' . $entity_type . '_fssipdevices_action/delete/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
+                $ret_url .= '<a href="' . base_url() . 'accounts/' . $entity_type . '_fssipdevices_action/delete/' . $id . '/' . $accountid . '/" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
             }
         }
         return $ret_url;
@@ -459,10 +459,10 @@ class Freeswitch extends MX_Controller
         $logintype = $this->session->userdata('logintype');
         $ret_url = '';
         if (isset($permissioninfo['freeswitch']['fssipdevices']['EDIT']) and $permissioninfo['freeswitch']['fssipdevices']['EDIT'] == 0 and ($permissioninfo['login_type'] == '1' or $permissioninfo['login_type'] == '2' or $permissioninfo['login_type'] == '4') or $permissioninfo['login_type'] == '-1') {
-            $ret_url = '<a href="' . base_url() . 'freeswitch/fssipdevices_edit/' . $id . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
+            $ret_url = '<a href="' . base_url() . 'freeswitch/fssipdevices_edit/' . $id . '/" class="btn btn-royelblue btn-sm"  rel="facebox_medium" title="'.gettext('Edit').'">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
         }
         if (isset($permissioninfo['freeswitch']['fssipdevices']['DELETE']) and $permissioninfo['freeswitch']['fssipdevices']['DELETE'] == 0 and ($permissioninfo['login_type'] == '1' or $permissioninfo['login_type'] == '2' or $permissioninfo['login_type'] == '4') or $permissioninfo['login_type'] == '-1') {
-            $ret_url .= '<a href="' . base_url() . 'freeswitch/fssipdevices_delete/' . $id . '/" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
+            $ret_url .= '<a href="' . base_url() . 'freeswitch/fssipdevices_delete/' . $id . '/" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
         }
         return $ret_url;
     }
@@ -936,7 +936,7 @@ class Freeswitch extends MX_Controller
                     $key,
                     $value,
                     array(
-                        '<a href="/freeswitch/fssipprofile_edit/' . $edited_id . '/edit/' . $key . '/" class="btn btn-royelblue btn-sm"  title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;<a href="/freeswitch/fssipprofile_delete_params/' . $edited_id . '/' . $key . '/" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>'
+                        '<a href="/freeswitch/fssipprofile_edit/' . $edited_id . '/edit/' . $key . '/" class="btn btn-royelblue btn-sm"  title="'.gettext('Edit').'">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;<a href="/freeswitch/fssipprofile_delete_params/' . $edited_id . '/' . $key . '/" class="btn btn-royelblue btn-sm" title="'.gettext('Delete').'" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>'
                     )
                 )
             );
