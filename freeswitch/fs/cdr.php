@@ -65,7 +65,7 @@ if (isset ( $_SERVER ["CONTENT_TYPE"] ) && $_SERVER ["CONTENT_TYPE"] == "applica
 	$db->run ( "SET NAMES utf8" );
 	//$data = json_decode ( file_get_contents ( "php://input" ), true );
 	$data = file_get_contents("php://input");
-    $data = utf8_encode($data);
+//    $data = utf8_encode($data);
 	$data = json_decode($data,true);
 
 	// error_log(print_r($data,true));

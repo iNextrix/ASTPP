@@ -117,7 +117,7 @@ class Fsmonitor extends CI_Controller {
             	if(array_key_exists("0",$response_final_arr["registration"])){
                     foreach($response_final_arr as $device_val){
                    	foreach($device_val as $response_value) {
-				if ($account_info ['id'] == '1'){
+				if ($account_info ['type'] == '-1'){
 					$json_data['rows'][] = array('cell'=>array(
 						$response_value["sip-auth-user"],
 						htmlentities($response_value['contact']),
