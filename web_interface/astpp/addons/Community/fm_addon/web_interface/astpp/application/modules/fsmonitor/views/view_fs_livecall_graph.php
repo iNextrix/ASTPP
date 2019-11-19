@@ -78,7 +78,7 @@ $(document).ready(function(){
 					async: false,
 					dataType: 'JSON',
 					success: function(response_data) {
-					$("#count").html("Call Count : "+response_data[0]);
+					$("#count").html("<?=gettext('Call Count')?>: "+response_data[0]);
 					  x = (new Date()).getTime();
 					  y = response_data[0];
 					}
@@ -89,7 +89,7 @@ $(document).ready(function(){
 			}
 		    },
 		    title: {
-			text: 'Live Call data'
+			text: '<?=gettext('Live Call data')?>'
 		    },
 		    xAxis: {
 			type: 'datetime',
@@ -98,7 +98,7 @@ $(document).ready(function(){
 		    yAxis: {
 			allowDecimals: false,
 			title: {
-			    text: 'Value'
+			    text: '<?=gettext('Calls')?>'
 			},
 			plotLines: [{
 			    value: 0,
@@ -120,7 +120,7 @@ $(document).ready(function(){
 			enabled: false
 		    },
 		    series: [{
-			name: 'Total Calls',
+			name: '<?=gettext('Total Calls')?>',
 			data: (function() {
 			    var data = [];
 			      $.ajax({
@@ -128,7 +128,7 @@ $(document).ready(function(){
 				  async: false,
 				  dataType: 'JSON',
 				  success: function(response_data) {
-				  $("#count").html("Call Count : "+response_data[0]);
+				  $("#count").html("<?=gettext('Call Count')?> : "+response_data[0]);
  				    for (i = 0; i <= 10; i++) {
  				    time = (new Date()).getTime(),i;
  				      data.push({
@@ -174,10 +174,10 @@ function myFunction() {
           
 	  
 	 	<div class="col-md-6 form-group">
-	 		<label class="col-md-12 p-0 control-label" style="width:150px;">Switch Host : </label>
+	 		<label class="col-md-12 p-0 control-label" style="width:150px;"><?=gettext('Switch Host')?> : </label>
 	 		<!-- <div style="width:500px; " > -->
 	 		<select class="col-md-12 form-control form-control-lg selectpicker"  name="host_id" id="host_id" onchange="this.form.submit()">
-	 			<option value="0">--Select All--</option>
+	 			<option value="0"><?=gettext('--Select All--')?></option>
 	 			<?php
 	 			foreach($fs_data as $name) { ?>
 	 			<option value="<?= $name['id'] ?>"<?php if(isset($_POST['host_id']) && ($name['id'] == $_POST['host_id']))echo 'selected';?>><?= $name['freeswitch_host'] ?></option>

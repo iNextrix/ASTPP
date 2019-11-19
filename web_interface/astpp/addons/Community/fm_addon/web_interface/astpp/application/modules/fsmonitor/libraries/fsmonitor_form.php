@@ -8,7 +8,7 @@ class Fsmonitor_form {
         $this->CI = & get_instance();
     }
     function fsmonitor_details_button() {
-        $buttons_json = json_encode(array(array("Create", "btn btn-line-warning btn" ,"fa fa-plus-circle fa-lg", "button_action", "/fsmonitor/fsmonitor_gateway_popup/", "popup"),
+        $buttons_json = json_encode(array(array(gettext("Create"), "btn btn-line-warning btn" ,"fa fa-plus-circle fa-lg", "button_action", "/fsmonitor/fsmonitor_gateway_popup/", "popup"),
             ));
         return $buttons_json;
     }

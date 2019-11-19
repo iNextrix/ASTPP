@@ -87,12 +87,12 @@ $(document).ready(function(){
     method: 'GET',
     dataType: 'json',
 	colModel : [
-		{display: 'User', name: 'User', width: 200, sortable: false, align: 'center'},
-		{display: 'Contact', name: 'Contact', width: 200, sortable: false, align: 'center'},
-		{display: 'Client-IP', name: 'network-ip', width: 190, sortable: false, align: 'center'},
-		{display: 'Client Port', name: 'network-port', width: 220, sortable: false, align: 'center'},
-                {display: 'Status', name: 'status', width: 400, sortable: false, align: 'center'},
-		{display: 'User Agent', name: 'agent', width: 195, sortable: false, align: 'center'},
+		{display: '<?=gettext('User')?>', name: 'User', width: 200, sortable: false, align: 'center'},
+		{display: '<?=gettext('Contact')?>', name: 'Contact', width: 200, sortable: false, align: 'center'},
+		{display: '<?=gettext('Client-IP')?>', name: 'network-ip', width: 190, sortable: false, align: 'center'},
+		{display: '<?=gettext('Client Port')?>', name: 'network-port', width: 220, sortable: false, align: 'center'},
+                {display: '<?=gettext('Status')?>', name: 'status', width: 400, sortable: false, align: 'center'},
+		{display: '<?=gettext('User Agent')?>', name: 'agent', width: 195, sortable: false, align: 'center'},
 		],
 	nowrap: false,
 	showToggleBtn: false,
@@ -105,12 +105,12 @@ $(document).ready(function(){
 	showTableToggleBtn: false,
 	width: "auto",
 	height: "auto",
-	pagetext: 'Page',
-	outof: 'of',
+	pagetext: '<?=gettext('Page')?>',
+	outof: '<?=gettext('of')?>',
 	page:'1',
-	nomsg: 'No items',
-	procmsg: 'Processing, please wait ...',
-	pagestat: 'Displaying {from} to {to} of {total} items',
+	nomsg: '<?=gettext('No items')?>',
+	procmsg: '<?=gettext('Processing, please wait ...')?>',
+	pagestat: '<?=gettext('Displaying')?> {from} <?=gettext('to')?> {to} <?=gettext('of')?> {total} <?=gettext('items')?>',
 	onSuccess: function(data){
 	  $('a[rel*=facebox]').facebox({
 		    loadingImage : '<?php echo base_url();?>/images/loading.gif',
@@ -118,7 +118,7 @@ $(document).ready(function(){
 	    });
 	},
 	onError: function(){
-	    alert('Sorry, we are unable to connect to freeswitch!!!');
+	    alert('<?=gettext('Sorry, we are unable to connect to freeswitch!!!')?>');
 	}
 });
   $("#host_id").change(function(){
@@ -142,12 +142,12 @@ function myFunction() {
 <section class="slice color-three">
 	<div class="w-section inverse p-0">
 		<div id="floating-label" class="card col-md-12 px-0 pb-4">
-			<h3 class="bg-secondary text-light p-2 rounded-top"> Sip Devices</h3>
+			<h3 class="bg-secondary text-light p-2 rounded-top"><?=gettext('SIP Devices')?></h3>
 			<form method="POST" action="" enctype="multipart/form-data" id="ListForm1" name="extension">
 				<div class="col-md-6 form-group">
-				<label class="col-md-12 p-0 control-label">Switch Host : </label>
+				<label class="col-md-12 p-0 control-label"><?=gettext('Switch Host')?> : </label>
 					<select class="col-md-12 form-control form-control-lg selectpicker"  name="host_id" id="host_id" onchange="this.form.submit()">
-						<option value="0">--All--</option>
+						<option value="0"><?=gettext('--All--')?></option>
 						<?php
 						foreach($fs_data as $name) { ?>
 						<option value="<?= $name['id'] ?>"<?php if(isset($_POST['host_id']) && ($name['id'] == $_POST['host_id']))echo 'selected';?>><?= $name['freeswitch_host'] ?></option>
@@ -156,17 +156,17 @@ function myFunction() {
 					</select>
 				</div>
 			<div class="col-md-5 float-right text-right">
-				<label class="search_label col-md-5 text-right">Refresh Time:</label>
+				<label class="search_label col-md-5 text-right"><?=gettext('Refresh Time')?>:</label>
 				<select class="col-md-6 form-control form-control-lg selectpicker"  name="second_reload" id="second_reload" onchange="this.form.submit()" >
 					<?php
     		//for($i=5;$i<=300;$i+=5) {
 					if($_POST['second_reload'] == ''){
 						?>
-						<option value="15" <?php if(isset($result['value']) && (15 == $result['value']))echo 'selected';?>>15 Second</option>
-						<option value="30" <?php if(isset($result['value']) && (30 == $result['value']))echo 'selected';?>>30 Second</option>
-						<option value="60" <?php if(isset($result['value']) && (60 == $result['value']))echo 'selected';?>>1 minute</option>
-						<option value="120" <?php if(isset($result['value']) && (120 == $result['value']))echo 'selected';?>>2 Minute</option>
-						<option value="180" <?php if(isset($result['value']) && (180 == $result['value']))echo 'selected';?>>3 Minute</option>
+						<option value="15" <?php if(isset($result['value']) && (15 == $result['value']))echo 'selected';?>>15 <?=gettext('Sec.')?></option>
+						<option value="30" <?php if(isset($result['value']) && (30 == $result['value']))echo 'selected';?>>30 <?=gettext('Sec.')?></option>
+						<option value="60" <?php if(isset($result['value']) && (60 == $result['value']))echo 'selected';?>>1 <?=gettext('Min.')?></option>
+						<option value="120" <?php if(isset($result['value']) && (120 == $result['value']))echo 'selected';?>>2 <?=gettext('Min.')?></option>
+						<option value="180" <?php if(isset($result['value']) && (180 == $result['value']))echo 'selected';?>>3 <?=gettext('Min.')?></option>
 						<!-- <option value="<?php echo $i; ?>"<?php if(isset($result['value']) && ($i == $result['value']))echo 'selected';?>><?php echo $i; ?> Second</option> -->
 						<?php
 					}
@@ -205,4 +205,3 @@ function myFunction() {
  <? endblock() ?>
 	        
 <? end_extend() ?>  
-

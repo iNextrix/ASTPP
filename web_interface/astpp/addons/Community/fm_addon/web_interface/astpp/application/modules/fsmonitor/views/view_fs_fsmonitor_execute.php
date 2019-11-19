@@ -81,12 +81,12 @@ function validateForm(){
        <div class="row">
         <div class="col-md-12 color-three"><!-- Purchase DIDs -->
         <div class="card col-md-12 px-0 pb-4" id="floating-label">
-        <h3 class="bg-secondary text-light p-2 rounded-top">Freeswitch CLI</h3>
+        <h3 class="bg-secondary text-light p-2 rounded-top"><?=gettext('Freeswitch CLI')?></h3>
          <form method="POST" id="form" name="form" action="<?php echo base_url(); ?>fsmonitor/fs_cli_command/" enctype="multipart/form-data">  
           <div class="col-md-12">
           <div class="row">
             <div class="col-md-5 form-group">
-             <label class="col-md-12 control-label p-0">Switch Host:</label>
+             <label class="col-md-12 control-label p-0"><?=gettext('Switch Host')?>:</label>
              
                <select class="col-md-12 form-control form-control-lg selectpicker"  name="host_id" id="host_id">
                 <?php
@@ -97,12 +97,12 @@ function validateForm(){
             </select>
              </div>
                   <div class="col-md-5 form-group h-auto">
-                   <label class="col-md-12 p-0 control-label">Command </label>
-                       <input type="text" class="col-md-12 form-control form-control-lg" value="<?php echo $command_show; ?>" id="freeswitch_command" name="freeswitch_command" placeholder="command" >
+                   <label class="col-md-12 p-0 control-label"><?=gettext('Command')?></label>
+                       <input type="text" class="col-md-12 form-control form-control-lg" value="<?php echo $command_show; ?>" id="freeswitch_command" name="freeswitch_command" placeholder="<?=gettext('Command')?>" >
                        <div class="text-danger tooltips error_div float-left p-0" id="error_field_command"></div>
                  </div>
                   <div class="align-self-center col-md-2 text-center">
-                      <button name="action" type="submit" value="save" class="btn btn-success" >Submit</button>
+                      <button name="action" type="submit" value="save" class="btn btn-success" ><?=gettext('Submit')?></button>
                  </div>
           </div>
 
@@ -114,7 +114,7 @@ function validateForm(){
    </div>
     <div class="col-md-12 p-0 mt-4">
       <?php if($command != ''){ ?>
-      <div class="col-md-12"><h4 class="alert-dark p-2">Command <font color="blue"><?php echo $command_show; ?></font></h4>
+      <div class="col-md-12"><h4 class="alert-dark p-2"><?=gettext('Command')?> <font color="blue"><?php echo $command_show; ?></font></h4>
 
       
 
