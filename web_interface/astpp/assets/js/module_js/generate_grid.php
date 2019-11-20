@@ -52,44 +52,44 @@ function get_alert_message(first_cnt, second_cnt, id, flag) {
     var str = '';
     if (flag == '1') {
         if (first_cnt != '' && second_cnt != '') {
-            str += 'This rate group is using by ' + second_cnt + ' accounts and ' + first_cnt + ' origination rates \n';
+            str += '<?=gettext('This rate group is using by')?> ' + second_cnt + ' <?=gettext('accounts and')?> ' + first_cnt + ' <?=gettext('Origination Rates')?> \n';
         }
         else if (first_cnt != '' || second_cnt != '') {
-            var field_name = 'origination rates';
+            var field_name = '<?=gettext('Origination Rates')?>';
             if (second_cnt != '') {
-                field_name = 'customers';
+                field_name = '<?=gettext('Customers')?>';
             }
-            str += 'This rate group is using by ' + second_cnt + field_name + '.\n';
+            str += '<?=gettext('This rate group is using by')?> ' + second_cnt + field_name + '.\n';
         }
-        var answer = confirm(str + 'Are you sure you want to delete ?');
+        var answer = confirm(str + '<?=gettext('are you sure to delete?')?>');
         return answer;
     }
     if (flag == '2') {
-        var answer = confirm('This trunk is using by ' + first_cnt + ' outbound rates. Are you sure you want to delete ?');
+        var answer = confirm('<?=gettext('This trunk is using by')?> ' + first_cnt + ' <?=gettext('Outbound rates')?>. <?=gettext('are you sure to delete?')?>');
         return answer;
     }
     if (flag == '3') {
-        var answer = confirm("Are you sure want to delete? This action will delete all other data which belongs to this account(s).");
+        var answer = confirm("<?=gettext('Are you sure want to delete? This action will delete all other data which belongs to this account(s).')?>");
         return answer;
     }
     if (flag == '4') {
-        var answer = confirm("Are you sure want to delete? This action will delete all other data which belongs to this account(s).");
+        var answer = confirm("<?=gettext('Are you sure want to delete? This action will delete all other data which belongs to this account(s).')?>");
         return answer;
     }
 }
 function get_alert_msg(id) {
     //confirm_string = 'are you sure to delete?';
-    confirm_string = 'Are you sure want to delete?';
+    confirm_string = '<?=gettext('Are you sure want to delete? This action will delete all other data which belongs to this account(s).')?>';
     var answer = confirm(confirm_string);
     return answer; // answer is a boolean
 }
 function get_reliase_msg(id) {
-    confirm_string = 'Are you sure want to release DID?';
+    confirm_string = '<?=gettext('Are you sure want to release DID?')?>';
     var answer = confirm(confirm_string);
     return answer; // answer is a boolean
 }
 function get_alert_msg_restore(id) {
-    confirm_string = 'Are you sure want to restore this database?';
+    confirm_string = '<?=gettext('Are you sure want to restore this database?')?>';
     var answer = confirm(confirm_string);
     return answer; // answer is a boolean
 }
@@ -255,12 +255,12 @@ function build_collumns(collumn_arr) {
             var col_str = col_field[i];
             if (col_str != 'null' && col_str != '') {
                 collumn_property = col_str.toString().split(',');
-                if (collumn_property[6] == 'false' && (collumn_property[0] == 'Action' || collumn_property[0] == 'Acción' || collumn_property[0] == 'action' || collumn_property[0] == 'Действие' || collumn_property[0] == 'Açao')) {
+                if (collumn_property[6] == 'false' && collumn_property[0] == '<?=gettext('Action')?>') {
                     continue;
                 }
                 // 	    alert("{display:"+collumn_property[0]+", name:"+collumn_property[0]+", width:"+collumn_property[1]+" , sortable: 'false', align: 'center'}");
                 // sandip add else if condition for account disable sorting
-                if (collumn_property[7] == 'false' || collumn_property[0] == 'Action' || collumn_property[0] == 'Acción' || collumn_property[0] == 'action' || collumn_property[0] == 'Действие' || collumn_property[0] == 'Açao') {
+                if (collumn_property[7] == 'false' || collumn_property[0] == '<?=gettext('Action')?>') {
                     searchflg = false;
                 } else if (collumn_property[0] == 'Account' && collumn_property[7] == 'build_concat_string' && collumn_property[9] == 'false') {
                     searchflg = false;
@@ -562,10 +562,10 @@ function button_action(t) {
             flag='3';
         }
     }
-    if (t.name == 'Refresh') {
+    if (t.name == '<?=gettext('Refresh')?>') {
         $('.flex_grid').flexReload();
     }
-    else if (t.name == "DELETE" || t.name == "Delete" || t.name == "Effacer" || t.name == "Borrar") {
+    else if ( t.name == "<?=gettext('Delete')?>") {
         if (flag == '1') {
             delete_multiple_selected(newURL);
         }
@@ -575,7 +575,7 @@ function button_action(t) {
         else {
             delete_multiple(newURL);
         }
-    }else if ((t.name.toLowerCase() == 'export' || t.name.toLowerCase() == "экспорт" || t.name == "Exportar" || t.name == "Exportation" || t.name == "Exportar") && flag == '3') {
+    }else if (t.name == '<?=gettext('Export')?>' && flag == '3') {
         export_multiple(newURL);
     } else {
         window.location = newURL;
@@ -591,7 +591,7 @@ function button_action_popup(t, grid) {
     if (t.name == 'Refresh') {
         $('.flex_grid').flexReload();
     }
-    else if (t.name == "DELETE" || t.name == "Delete" || t.name == "Effacer" || t.name == "Borrar") {
+    else if (t.name == "<?=gettext('Delete')?>") {
         delete_multiple(t.btn_url);
     } else {
         jQuery.facebox({
@@ -705,7 +705,7 @@ function gettext_custom(collumn_property) {
 // Dummy stub. Resource already translated in frontend. Using gettext translation.
 
     return collumn_property
-
+/*
     var collumn = '';
     //var url = 'http://65.111.177.99:9999/accounts/customer_global_grid_list/';
     var url = base_url + "login/get_language_text/";
@@ -723,6 +723,7 @@ function gettext_custom(collumn_property) {
     });
 
     return collumn;
+*/
 }
 
 
