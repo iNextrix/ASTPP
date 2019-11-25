@@ -961,7 +961,7 @@ class common {
 	}
 	function set_despostion($dis = '') {
 		$status_array = array (
-				"" => "--Select Disposition--",
+				"" => gettext("--Select Disposition--"),
 				"ACCOUNT_INACTIVE_DELETED" => "ACCOUNT_INACTIVE_DELETED",
 				"ACCOUNT_EXPIRE" => "ACCOUNT_EXPIRE",
 				"ALLOTTED_TIMEOUT" => "ALLOTTED_TIMEOUT",
@@ -2570,8 +2570,8 @@ class common {
 		$type = $type."_archive";
 	}
         $query = "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE() and table_name like '".$type."_%'";
-        $status_array = array("" => "--Select Type--",
-                "0" => "Main",
+        $status_array = array("" => gettext("--Select Type--"),
+                "0" => gettext("Main"),
         );
         $result=$this->CI->db->query($query);
         $result=$result->result_array();

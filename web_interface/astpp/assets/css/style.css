@@ -579,11 +579,11 @@ input.ace[type="checkbox"] + .lbl, input.ace[type="radio"] + .lbl{
 }
 
 /* Rounded sliders */
-.switch .slider.round {
+.switch .slider.round, .switch .slider.Round {
   border-radius: 34px;
 }
 
-.switch .slider.round:before {
+.switch .slider.round:before, .switch .slider.Round:before {
   border-radius: 50%;
 }
 #month_total_info .col-md-12{

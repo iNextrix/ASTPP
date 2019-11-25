@@ -242,7 +242,22 @@ class Form {
 									$fieldvalue [12] 
 							) );
 							
-							if ($fieldset_key == gettext ( 'System Configuration Information' ) || ($fieldset_key == 'Rate Information' && $fieldvalue [0] == 'Force Trunk') || ($fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Force Trunk') || ($fieldset_key == 'Card Information' && $fieldvalue [0] == 'Rate Group') || ($fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Account')|| ($fieldset_key == 'Rate Information' && ($fieldvalue [0] == 'Country' || $fieldvalue [0] == 'Call Type'))|| ($fieldset_key == 'Ratedeck Information' && ($fieldvalue [0] == 'Call Type')) || $fieldset_key == 'Freeswitch Devices' && $fieldvalue [0] == 'Rate Group' || ($fieldset_key == 'Origination Rate Add/Edit' && $fieldvalue [0] == 'Trunks') || $fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Rate Group' || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Failover GW Name #1') || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Failover GW Name #2') || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Rate Group') || ($fieldset_key == 'Sip Devices' && $fieldvalue [0] == 'Sip Profile') || ($fieldset_key == 'Sip Devices' && $fieldvalue [0] == 'Account') || ($fieldset_key == 'Account Settings' && $fieldvalue [0] == 'Localization')) {
+							if (    $fieldset_key == gettext('System Configuration Information')
+							    || ($fieldset_key == gettext('Rate Information') && $fieldvalue [0] == gettext('Force Trunk'))
+							    || ($fieldset_key == gettext('Billing Information') && $fieldvalue [0] == gettext('Force Trunk'))
+							    || ($fieldset_key == gettext('Card Information') && $fieldvalue [0] == gettext('Rate Group'))
+							    || ($fieldset_key == gettext('Billing Information') && $fieldvalue [0] == gettext('Account'))
+							    || ($fieldset_key == gettext('Rate Information') && ($fieldvalue [0] == gettext('Country') || $fieldvalue [0] == gettext('Call Type')))
+							    || ($fieldset_key == gettext('Ratedeck Information') && ($fieldvalue [0] == gettext('Call Type')))
+							    || ($fieldset_key == gettext('Freeswitch Devices') && $fieldvalue [0] == gettext('Rate Group'))
+							    || ($fieldset_key == gettext('Origination Rate Add/Edit') && $fieldvalue [0] == gettext('Trunks'))
+							    || ($fieldset_key == gettext('Billing Information') && $fieldvalue [0] == gettext('Rate Group'))
+							    || ($fieldset_key == gettext('Information') && $fieldvalue [0] == gettext('Failover GW Name #1'))
+							    || ($fieldset_key == gettext('Information') && $fieldvalue [0] == gettext('Failover GW Name #2'))
+							    || ($fieldset_key == gettext('Information') && $fieldvalue [0] == gettext('Rate Group'))
+							    || ($fieldset_key == gettext('Sip Devices') && $fieldvalue [0] == gettext('Sip Profile'))
+							    || ($fieldset_key == gettext('Sip Devices') && $fieldvalue [0] == gettext('Account'))
+							    || ($fieldset_key == gettext('Account Settings') && $fieldvalue [0] == gettext('Localization'))) {
 								$form_contents .= form_dropdown_all ( $fieldvalue [1], $drp_array, $fieldvalue ['value'], $extra );
 							} else {
 								$form_contents .= form_dropdown ( $fieldvalue [1], $drp_array, $fieldvalue ['value'], $extra );
