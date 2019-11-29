@@ -803,7 +803,11 @@ class Form {
 								$jsn_tmp [$field_key] = $fieldstr . $acctype . $sub_login_arr;
 							}
 						} else {
-							$jsn_tmp [$field_key] = gettext(ucwords(strtolower($row [$field_arr [2]])));
+							if ( strrchr($row [$field_arr [2]], '<') ){
+								$jsn_tmp [$field_key] = $row [$field_arr [2]];
+							} else {
+								$jsn_tmp [$field_key] = gettext(ucwords(strtolower($row [$field_arr [2]])));
+							}
 						}
 					} else {
 						if ($field_arr [0] == gettext ( "Action" )) {
