@@ -160,10 +160,8 @@ class Common_model extends CI_Model {
 			$from_currency = $this->common->get_field_name ( 'currency', 'currency', $from_currency1 );
 		}
 		$to_currency = ($to_currency == '') ? self::$global_config ['system_config'] ['base_currency'] : $to_currency;
-		if (self::$global_config ['currency_list'] [$from_currency] > 0) { 
-
+		if (self::$global_config ['currency_list'] [$from_currency] > 0 && self::$global_config ['currency_list'] [$to_currency]) { 
 			$cal_amount = ($amount * self::$global_config ['currency_list'] [$to_currency]) / self::$global_config ['currency_list'] [$from_currency];
-
 		} else { 
 			$cal_amount = $amount;
 		}
