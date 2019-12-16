@@ -667,6 +667,42 @@ class Accounts_form extends common
                 ''
             ),
             array(
+                gettext('Company description'),
+                'INPUT',
+                array(
+                    'name' => 'company_desc',
+                    'size' => '15',
+                    'class' => 'text field medium'
+                ),
+                'trim|xss_clean',
+                'tOOL TIP',
+                ''
+            ),
+            array(
+                gettext('Company short description'),
+                'INPUT',
+                array(
+                    'name' => 'company_shortdesc',
+                    'size' => '15',
+                    'class' => 'text field medium'
+                ),
+                'trim|xss_clean',
+                'tOOL TIP',
+                ''
+            ),
+            array(
+                gettext('Company manager'),
+                'INPUT',
+                array(
+                    'name' => 'company_manager',
+                    'size' => '15',
+                    'class' => 'text field medium'
+                ),
+                'trim|xss_clean',
+                'tOOL TIP',
+                ''
+            ),
+            array(
                 gettext('Phone'),
                 'INPUT',
                 array(
@@ -972,6 +1008,82 @@ class Accounts_form extends common
                 ''
             )
         );
+
+        $form[gettext('Invoice Configuration')] = array(
+            array(
+                gettext('INN'),
+                'INPUT',
+                array(
+                    'name' => 'inn',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Bank name'),
+                'INPUT',
+                array(
+                    'name' => 'bank_name',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('KPP'),
+                'INPUT',
+                array(
+                    'name' => 'bank_kpp',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Bank RS'),
+                'INPUT',
+                array(
+                    'name' => 'bank_rs',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Bank KS'),
+                'INPUT',
+                array(
+                    'name' => 'bank_ks',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Bank BIK'),
+                'INPUT',
+                array(
+                    'name' => 'bank_bik',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+	);
+
         $form['button_save'] = array(
             'name' => 'action',
             'content' => gettext('Save'),

@@ -27,7 +27,7 @@ class GenerateInvoice extends MX_Controller {
 		parent::__construct ();
 		$this->load->model ( "db_model" );
 		$this->load->library ( "astpp/common" );
-		$this->load->library ( 'html2pdf' );
+//		$this->load->library ( 'html2pdf' );
 		ini_set ( "memory_limit", "2048M" );
 		ini_set ( "max_execution_time", "259200" );
 		$this->get_system_config ();

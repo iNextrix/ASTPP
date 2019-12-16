@@ -106,13 +106,13 @@
  </span></div>	
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time')?> (Sec.)</label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time').' ('.gettext('Sec.').')'?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo $product_info['includedseconds']?>" name="includedseconds" size="16" type="text"/>
 		      <div class="tooltips error_div pull-left no-padding" id="includedseconds_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="includedseconds_error">  
  </span></div>	
                   </div>
 		<div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Cost/Min ('.$currency.') ')?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Cost/Min').' ('.gettext($currency).')' ?></label>
 			<input class="col-md-12 form-control form-control-lg m-0" value = "<?php echo $this->common->convert_to_currency ( '', '', $product_info['cost'] );?>" name="cost" size="16" type="text"/>
 			  <div class="tooltips error_div pull-left no-padding" id="cost_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="cost_error">  
  </span></div>	
@@ -143,7 +143,7 @@
 		     <div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="price_error">   </span></div>	
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout')?> (Sec.)</label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout').' ('.gettext('Sec.').')'?></label>
                      <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $product_info['leg_timeout']?>" name="leg_timeout" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="leg_timeout_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="leg_timeout_error">   </span></div>
                   </div>

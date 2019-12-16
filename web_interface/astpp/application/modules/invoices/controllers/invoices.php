@@ -37,8 +37,8 @@ class Invoices extends MX_Controller
         $this->load->model('Astpp_common');
         $this->load->model('common_model');
         $this->load->library("astpp/email_lib");
-        $this->load->library('fpdf');
-        $this->load->library('pdf');
+//        $this->load->library('fpdf');
+//        $this->load->library('pdf');
         $this->load->library('ASTPP_Sms');
         if ($this->session->userdata('user_login') == FALSE)
             redirect(base_url() . '/astpp/login');
@@ -275,6 +275,20 @@ class Invoices extends MX_Controller
                 $data['address_1'] = $accountsdata->address_1;
                 $data['address_2'] = $accountsdata->address_2;
 
+                $data['telephone_1'] = $accountsdata->telephone_1;
+                $data['telephone_2'] = $accountsdata->telephone_2;
+
+		$data['inn'] = $accountsdata->inn;
+		$data['company_desc'] = $accountsdata->company_desc;
+		$data['company_shortdesc'] = $accountsdata->company_shortdesc;
+		$data['company_manager'] = $accountsdata->company_manager;
+		$data['bank_kpp'] = $accountsdata->bank_kpp;
+		$data['bank_rs'] = $accountsdata->bank_rs;
+		$data['bank_ks'] = $accountsdata->bank_ks;
+		$data['bank_name'] = $accountsdata->bank_name;
+		$data['bank_bik'] = $accountsdata->bank_bik;
+		$data['zip'] = $accountsdata->bank_bik;
+
                 if ($accountsdata->city != '' && $accountsdata->postal_code != '') {
                     $data['city_postalcode'] = $accountsdata->city . ' - ' . $accountsdata->postal_code;
                 }
@@ -329,7 +343,7 @@ class Invoices extends MX_Controller
                     'accountid' => $accountid_invoice
                 ));
                 $company_data = $query->first_row();
-
+/*
 		$logo = explode (".",$company_data->logo);
 		if((!isset($logo[2])) && ($logo[1] == "png")){
 			$sourceFile = FCPATH.'upload/'.$company_data->logo;
@@ -339,15 +353,26 @@ class Invoices extends MX_Controller
 			$convert_png_file = system($convert_png, $retval);
 			$company_data->logo = $logo[0].'.jpg';
 		}
+*/
+		$data['cmp_inn'] = $company_data->inn;
+		$data['cmp_company_desc'] = $company_data->company_desc;
+		$data['cmp_company_shortdesc'] = $company_data->company_shortdesc;
+		$data['cmp_company_manager'] = $company_data->company_manager;
+		$data['cmp_bank_kpp'] = $company_data->bank_kpp;
+		$data['cmp_bank_rs'] = $company_data->bank_rs;
+		$data['cmp_bank_ks'] = $company_data->bank_ks;
+		$data['cmp_bank_name'] = $company_data->bank_name;
+		$data['cmp_bank_bik'] = $company_data->bank_bik;
 
                 $data['cmp_name'] = $company_data->company_name;
                 $data['cmp_address'] = $company_data->address;
-                $data['cmp_city_zipcode'] = $company_data->city . ' - ' . $company_data->zipcode;
+                $data['cmp_emailaddress'] = $company_data->emailaddress;
+                $data['cmp_city_zipcode'] = $company_data->zipcode;
                 $data['cmp_province_country'] = $company_data->province . ' , ' . $company_data->country;
                 $data['cmp_telephone'] = $company_data->telephone;
                 $data['cmp_tax'] = $company_data->invoice_taxes_number;
-                $data['cmp_invoice_note'] = $company_data->invoice_note;
-                $data['invoice_date'] = $invoicedata->generate_date;
+                $data['cmp_invoice_note'] = strftime("%e %B %Y",strtotime($company_data->invoice_note));
+                $data['invoice_date'] = strftime("%e %B %Y",strtotime($invoicedata->generate_date));
                 $data['invoice_due_date'] = $invoicedata->due_date;
                 $data['account_number'] = $accountsdata->number;
                 $data['invoice_notes'] = $accountsdata->invoice_note;
@@ -386,6 +411,10 @@ class Invoices extends MX_Controller
                 $data['invoice_details_data'] = $invoice_details_data;
             }
 
+#	    print_r($data);
+#	    exit();
+
+/*
             ob_start();
             $this->load->library('/html2pdf/html2pdf');
             $this->html2pdf = new HTML2PDF('P', 'A4', 'en');
@@ -397,6 +426,15 @@ class Invoices extends MX_Controller
             $this->html2pdf->pdf->SetDisplayMode('fullpage');
             $this->html2pdf->writeHTML($content);
             $this->html2pdf->Output($data['invoicenumber'].'.pdf', "D");
+*/
+
+	    require_once BASEPATH.'../'.APPPATH.'libraries'."/vendor/autoload.php";
+	    $this->html2pdf = new \Mpdf\Mpdf(['tempDir' => BASEPATH.'../'.APPPATH.'logs']);
+            $content = $this->load->view('view_invoice_template', $data, 'TRUE');
+	    $this->html2pdf->WriteHTML($content);
+
+	    echo $this->html2pdf->Output($data['invoicenumber'].'.pdf', 'D');
+
             exit();
         }
     }

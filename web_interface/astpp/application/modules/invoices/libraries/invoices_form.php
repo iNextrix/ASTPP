@@ -930,6 +930,42 @@ class invoices_form extends common
                 'Please Enter account number'
             ),
             array(
+                gettext('Company description'),
+                'INPUT',
+                array(
+                    'name' => 'company_desc',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Company short description'),
+                'INPUT',
+                array(
+                    'name' => 'company_shortdesc',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Company manager'),
+                'INPUT',
+                array(
+                    'name' => 'company_manager',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
                 gettext('Address')."1",
                 'INPUT',
                 array(
@@ -1169,6 +1205,78 @@ class invoices_form extends common
                 '',
                 '',
                 'set_allow_invoice'
+            ),
+            array(
+                gettext('INN'),
+                'INPUT',
+                array(
+                    'name' => 'inn',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Bank name'),
+                'INPUT',
+                array(
+                    'name' => 'bank_name',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('KPP'),
+                'INPUT',
+                array(
+                    'name' => 'bank_kpp',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Bank RS'),
+                'INPUT',
+                array(
+                    'name' => 'bank_rs',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Bank KS'),
+                'INPUT',
+                array(
+                    'name' => 'bank_ks',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            array(
+                gettext('Bank BIK'),
+                'INPUT',
+                array(
+                    'name' => 'bank_bik',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
             ),
             array(
                 gettext('Invoice Note'),
