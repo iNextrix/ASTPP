@@ -279,10 +279,6 @@ function do_number_translation(number_translation,destination_number)
     for tmp_key,tmp_value in pairs(tmp) do
       tmp_str = split(tmp_value,"/")
       if(tmp_str[1] ~= '' and tmp_str[1] ~= nil and tmp_str[2] ~= '' and tmp_str[2] ~= nil)then
-        if (string.sub(tmp_str[1],0,3) == 'LP:') then -- for compat need del 
-            tmp_str[1] = string.sub(tmp_str[1],4)
-        end
-
         Logger.notice("[DONUMBERTRANSLATION] Check num -> pattern | template : " .. destination_number .. " -> " .. tmp_str[1] .. " | " .. tmp_str[2])
         start_pos, end_pos = string.find(destination_number, tmp_str[1])
         if(start_pos ~= nil and end_pos ~= nil)then
@@ -301,6 +297,7 @@ function do_number_translation(number_translation,destination_number)
       Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. res .. " (match len = " .. len .. ", rule = " .. rule .. ")" )
       return res
     else
+      Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. destination_number )
       return destination_number
     end
 end
