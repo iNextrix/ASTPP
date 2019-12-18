@@ -268,56 +268,44 @@ function get_localization (id,type)
     return localization
 end
 
-
-
 -- Do number translation 
 function do_number_translation(number_translation,destination_number)
     local tmp
+    local start_pos, end_pos, len, clen, rule, template
+    Logger.notice("[DONUMBERTRANSLATION] Before Localization CLI/DST (num | rules): " .. destination_number .. " | " .. number_translation)
 
-    tmp = split(number_translation,",")
+    len = 0
+    tmp = split(string.gsub(number_translation, "\"", ""),",")
     for tmp_key,tmp_value in pairs(tmp) do
-      tmp_value = string.gsub(tmp_value, "\"", "")
-      tmp_str = split(tmp_value,"/")      
-      if(tmp_str[1] == '' or tmp_str[1] == nil)then
-	return destination_number
-      end
+      tmp_str = split(tmp_value,"/")
+      if(tmp_str[1] ~= '' and tmp_str[1] ~= nil and tmp_str[2] ~= '' and tmp_str[2] ~= nil)then
+        if (string.sub(tmp_str[1],0,3) == 'LP:') then -- for compat need del 
+            tmp_str[1] = string.sub(tmp_str[1],4)
+        end
 
-      if (string.sub(tmp_str[1],0,3) == 'LP:') then
-        tmp_str[1] = string.sub(tmp_str[1],4)
-        Logger.notice("[DONUMBERTRANSLATION] Before Localization CLI/DST : " .. destination_number)
-        Logger.notice("[DONUMBERTRANSLATION] lua pattern/template : " .. tmp_str[1] .. " | " .. tmp_str[2])
-
-        destination_number = string.gsub(destination_number, tmp_str[1], tmp_str[2])
-        Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. destination_number)
-
-        return destination_number
-      end
-
-      local prefix = string.sub(destination_number,0,string.len(tmp_str[1]));
-      if (prefix == tmp_str[1] or tmp_str[1] == '*') then
-	    Logger.notice("[DONUMBERTRANSLATION] Before Localization CLI/DST : " .. destination_number)
-		if(tmp_str[2] ~= nil) then
-            if (tmp_str[2] == '*') then
-    			destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
-            else
-                if (tmp_str[1] == '*') then
-        			destination_number = tmp_str[2] .. destination_number
-                else
-        			destination_number = tmp_str[2] .. string.sub(destination_number,(string.len(tmp_str[1])+1))
-                end
-            end
-		else
-		    destination_number = string.sub(destination_number,(string.len(tmp_str[1])+1))
-		end
-	    Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. destination_number)
+        Logger.notice("[DONUMBERTRANSLATION] Check num -> pattern | template : " .. destination_number .. " -> " .. tmp_str[1] .. " | " .. tmp_str[2])
+        start_pos, end_pos = string.find(destination_number, tmp_str[1])
+        if(start_pos ~= nil and end_pos ~= nil)then
+          clen = end_pos - start_pos + 1
+          if(clen > len)then
+            rule = tmp_str[1]
+            template = tmp_str[2]
+            len = clen
+          end
+        end
       end
     end
-    return destination_number
+
+    if(len > 0)then
+      local res = string.gsub(destination_number, rule, template)
+      Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. res .. " (match len = " .. len .. ", rule = " .. rule .. ")" )
+      return res
+    else
+      return destination_number
+    end
 end
 
-
 -- Find Max length
-
 function get_call_maxlength(userinfo,destination_number,call_direction,number_loop,config,didinfo)     
     local maxlength = 0
     local rates
