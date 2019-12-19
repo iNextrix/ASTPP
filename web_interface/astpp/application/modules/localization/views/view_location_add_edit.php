@@ -197,7 +197,7 @@
 												<b><?php echo gettext('CUT')?></b>
 											</div>
 											<div class="col-md-5 float-left text-center ml-4">
-												<b><?php echo gettext('Add')?></b>
+												<b><?php echo gettext('Template(regexp)')?></b>
 											</div>
 										</div>
 										<div id="numbertranslation">
@@ -285,7 +285,7 @@
 												<b><?php echo gettext('CUT')?></b>
 											</div>
 											<div class="col-md-5 float-left text-center ml-4">
-												<b><?php echo gettext('Add')?></b>
+												<b><?php echo gettext('Template(regexp)')?></b>
 											</div>
 										</div>
 										<div id="terminate_number_ranslation">
