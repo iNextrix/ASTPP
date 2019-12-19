@@ -86,7 +86,7 @@ class Getstatus extends MX_Controller {
 				echo TRUE;
 			}
 			else{
-				$this->session->set_flashdata ( 'astpp_notification','Permission Denied!');
+				$this->session->set_flashdata ( 'astpp_notification',gettext('Permission Denied!'));
 				redirect ( base_url () . 'dashboard/' );
 			}
 		}else{

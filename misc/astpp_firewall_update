@@ -1,0 +1,3 @@
+# Check new updates for ASTPP 
+
+*/2 *     * * *     root   /usr/bin/php /opt/ASTPP/misc/firewall_update.php

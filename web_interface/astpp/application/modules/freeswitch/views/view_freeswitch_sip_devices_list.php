@@ -33,7 +33,6 @@
         
         $(".reseller_id_search_drp").change();   
     });
-
 </script>
 
 
@@ -62,7 +61,7 @@ $permissioninfo = $this->session->userdata('permissioninfo');
 		<div class="card p-4">
 			<div class="col-12">
 				<div class="col-12 mb-4" style="z-index: 9;">
-		<?php
+<?php
 if ((isset($permissioninfo['freeswitch']['fssipdevices']['create']) && $permissioninfo['freeswitch']['fssipdevices']['create'] == 0 or ($permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3'))) {
     ?>
 
@@ -88,8 +87,9 @@ if ((isset($permissioninfo['freeswitch']['fssipdevices']['delete'])) && ($permis
                             <?php echo gettext('Delete')?>
                         </span>
 					</div>
-				</div>
-                <?php } ?>
+<?php } ?>
+	    </div>
+	</div>
 </div>
 			<table id="fs_sip_devices_grid" align="left" style="display: none;"></table>
 

@@ -29,7 +29,7 @@ class IPMAP extends MX_Controller
         parent::__construct();
         $this->load->helper('template_inheritance');
         $this->load->library('session');
-        $this->load->library("ipmap_form");
+        $this->load->library('ipmap_form');
         $this->load->library('astpp/form', 'ipmap_form');
         $this->load->library('astpp/permission');
         $this->load->library('ASTPP_Sms');

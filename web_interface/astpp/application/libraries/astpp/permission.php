@@ -73,13 +73,12 @@ class Permission {
 			return true;
 		}
 	}
+
 	private function _check_record_permission($table_name,$where_condition=array(),$select_field= 'id'){
 		$this->CI->db->select($select_field);
 		return (array)$this->CI->db->get_where($table_name,$where_condition)->first_row();
 	}
-	
 
-	
 	function check_web_record_permission($id,$table_name,$redirect_url,$check_function_access=false,$dependencies=array()){
 		$accountinfo = $this->CI->session->userdata('accountinfo') ;
 		$reseller_id = $accountinfo['type'] == 1 || $accountinfo['type'] == 5 ? $accountinfo['id'] : 0 ;
@@ -97,11 +96,12 @@ class Permission {
 				$this->permission_redirect_url($redirect_url);
 		}	
 	}
-	
+
 	function permission_redirect_url($redirect_url){
-		$this->CI->session->set_flashdata ( 'astpp_notification','Permission Denied!');
+		$this->CI->session->set_flashdata ( 'astpp_notification', gettext('Permission Denied!'));
 		redirect(base_url().$redirect_url);
 	}
+
 	function customer_web_record_permission($id,$table,$redirect_url){
 		$accountinfo = $this->CI->session->userdata('accountinfo');
 		$query_result = $this->_check_record_permission($table,array("accountid"=>$accountinfo['id'],"id"=>$id));

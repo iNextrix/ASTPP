@@ -2032,7 +2032,7 @@ class User extends MX_Controller
             $this->load->view('view_user_fund_transfer', $data);
         } else {
 
-            $this->session->set_flashdata('astpp_danger_alert', 'Permission Denied!');
+            $this->session->set_flashdata('astpp_danger_alert', gettext('Permission Denied!'));
             redirect(base_url() . 'user/user/');
         }
     }
