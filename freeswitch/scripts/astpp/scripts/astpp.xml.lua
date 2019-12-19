@@ -164,14 +164,17 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	local temp_destination_number = destination_number
 	local tr_localization=nil
 	tr_localization = get_localization(outbound_info['provider_id'],'T')
-
+	local tmp_callerid_array = {}
+    for k,v in pairs(callerid_array) do
+        tmp_callerid_array[k] = v
+    end
 	
 	if (tr_localization ~= nil) then
 		tr_localization['out_caller_id_terminate'] = tr_localization['out_caller_id_terminate']:gsub(" ", "")
 		-------------- Caller Id translation ---------	 
-		callerid_array['cid_name'] = do_number_translation(tr_localization['out_caller_id_terminate'],callerid_array['cid_name'])
-		callerid_array['cid_number'] = do_number_translation(tr_localization['out_caller_id_terminate'],callerid_array['cid_number'])    
-		xml = freeswitch_xml_callerid(xml,callerid_array)	    	   	    
+		tmp_callerid_array['cid_name'] = do_number_translation(tr_localization['out_caller_id_terminate'],callerid_array['cid_name'])
+		tmp_callerid_array['cid_number'] = do_number_translation(tr_localization['out_caller_id_terminate'],callerid_array['cid_number'])    
+		xml = freeswitch_xml_callerid(xml,tmp_callerid_array)	    	   	    
     	----------------------------------------------------------------------
 
     	-------------- Destination number translation ---------
