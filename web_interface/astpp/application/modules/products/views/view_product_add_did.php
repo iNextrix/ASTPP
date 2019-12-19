@@ -90,7 +90,7 @@
  </span></div>	
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time')." (Sec.)"; ?> </label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time')." (".gettext('Sec.').")"; ?> </label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="includedseconds" value="<?php echo (isset($add_array['includedseconds']))?$add_array['includedseconds']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="includedseconds_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="includedseconds_error">  
  </span></div>	
@@ -127,7 +127,7 @@
 			<div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="price_error">   </span></div>
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout')?> (Sec.)</label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout').' ('.gettext('Sec.').')'?></label>
                      <input class="col-md-12 form-control form-control-lg m-0" name="leg_timeout" value="<?php echo (isset($add_array['leg_timeout']))?$add_array['leg_timeout']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="leg_timeout_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="leg_timeout_error">  
  </span></div>		
@@ -169,7 +169,7 @@
                     </div>
 		   <div class="col-md-6 float-left">
                       <?if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == "".base_url()."did/did_list/") { ?>
-                      		<button class="btn btn-secondary mx-2 btn-block" name="cancel" onclick="return redirect_page('/did/did_list/')" value="Cancel" type="button"><?php echo gettext(' Cancel') ?> </button>
+                      		<button class="btn btn-secondary mx-2 btn-block" name="cancel" onclick="return redirect_page('/did/did_list/')" value="Cancel" type="button"><?php echo gettext('Cancel') ?> </button>
 			<?} else{ ?>
 				<button class="btn btn-secondary mx-2 btn-block" name="cancel" onclick="return redirect_page('/products/products_list/')" value="Cancel" type="button"> <?php echo gettext('Cancel') ?> </button>
 
