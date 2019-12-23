@@ -84,11 +84,14 @@ class Usertracking
     }
 
     //check for the configuration file
-    /*if ( ! $this->CI->config->load('usertracking_config') OR $this->CI->config->item('usertracking') === FALSE)
+    //    if ( ! $this->CI->config->load('usertracking_config') OR $this->CI->config->item('usertracking') === FALSE)
+    $this->CI->config->load('usertracking_config');
+
+    if ($this->CI->config->item('usertracking') === FALSE)
     {
       show_error("Missing the configuration for UserTracking.  Ensure you have installed UserTracking correctly.");
       return FALSE;
-    }*/
+    }
 
     //Load the configuration
     $this->configuration = $this->CI->config->item('usertracking');
@@ -120,7 +123,7 @@ class Usertracking
   public function auto_track()
   {
     //check the conditions
-    //if ($this->configuration['auto_track'] == TRUE)
+    if ($this->configuration['auto_track'] == TRUE)
     {
       $proceed = $this->check_filters();
 
