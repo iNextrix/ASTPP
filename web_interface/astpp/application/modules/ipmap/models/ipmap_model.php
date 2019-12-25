@@ -92,6 +92,8 @@ class IPMAP_model extends CI_Model
             'accountid' => $add_array['accountid'],
             'reseller_id' => $reseller_id,
             'status' => $add_array['status'],
+            'acl_rule' => $add_array['acl_rule'],
+            'fw_rule' => $add_array['fw_rule'],
             'context' => 'default'
         );
         $this->db->insert("ip_map", $data);
@@ -111,6 +113,8 @@ class IPMAP_model extends CI_Model
             'prefix' => $add_array['prefix'],
             'accountid' => $add_array['accountid'],
             'status' => $add_array['status'],
+            'acl_rule' => $add_array['acl_rule'],
+            'fw_rule' => $add_array['fw_rule'],
             'context' => 'default'
         );
         $this->db->where("id", $id);

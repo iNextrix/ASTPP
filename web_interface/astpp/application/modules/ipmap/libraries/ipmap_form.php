@@ -183,6 +183,32 @@ class Ipmap_form extends common
                     '',
                     '',
                     'set_status'
+                ),
+                array(
+                    gettext('ACL Rule'),
+                    'acl_rule',
+                    'SELECT',
+                    '',
+                    '',
+                    'tOOL TIP',
+                    'Please Select Type',
+                    '',
+                    '',
+                    '',
+                    'custom_status'
+                ),
+                array(
+                    gettext('FW Rule'),
+                    'fw_rule',
+                    'SELECT',
+                    '',
+                    '',
+                    'tOOL TIP',
+                    'Please Select Type',
+                    '',
+                    '',
+                    '',
+                    'custom_status'
                 )
             );
         } else {

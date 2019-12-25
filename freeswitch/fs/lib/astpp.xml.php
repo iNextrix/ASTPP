@@ -45,7 +45,7 @@ function load_acl($logger, $db, $config) {
 	$xml .= "       <list name=\"default\" default=\"deny\">\n";
 	
 	// For customer and provider ips
-	$query = "SELECT ip FROM ip_map,accounts WHERE ip_map.accountid=accounts.id AND ip_map.status=0 AND accounts.status=0 AND accounts.deleted=0";
+	$query = "SELECT ip FROM ip_map,accounts WHERE ip_map.accountid=accounts.id AND ip_map.status=0 AND ip_map.acl_rule=0 AND accounts.status=0 AND accounts.deleted=0";
 	$logger->log ( "ACL Query : " . $query );
 	$res_acl = $db->run ( $query );
 	$logger->log ( $res_acl );

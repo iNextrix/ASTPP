@@ -148,7 +148,7 @@ end
 
 -- Do IP base authentication 
 function ipauthentication(destination_number,from_ip)
-	local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE INET_ATON(\"" .. from_ip.. "\") BETWEEN(INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) & 0xffffffff ^((0x1 <<(32 -  SUBSTRING_INDEX(`ip`, '/', -1))) -1 )) AND(INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) |((0x100000000 >> SUBSTRING_INDEX(`ip`,'/', -1)) -1))  AND \"" .. destination_number .. "\"  LIKE CONCAT(prefix,'%') ORDER BY LENGTH(prefix) DESC LIMIT 1"
+	local query = "SELECT "..TBL_IP_MAP..".*, (SELECT number FROM "..TBL_USERS.." where id=accountid AND status=0 AND deleted=0) AS account_code FROM "..TBL_IP_MAP.." WHERE acl_rule=0 and status=0 and INET_ATON(\"" .. from_ip.. "\") BETWEEN(INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) & 0xffffffff ^((0x1 <<(32 -  SUBSTRING_INDEX(`ip`, '/', -1))) -1 )) AND(INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) |((0x100000000 >> SUBSTRING_INDEX(`ip`,'/', -1)) -1))  AND \"" .. destination_number .. "\"  LIKE CONCAT(prefix,'%') ORDER BY LENGTH(prefix) DESC LIMIT 1"
 	Logger.debug("[IPAUTHENTICATION] Query :" .. query)
 	local ipinfo;
 	assert (dbh:query(query, function(u)

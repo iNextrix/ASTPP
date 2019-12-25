@@ -17,7 +17,7 @@
     if ( ! $dbh->connect_errno ) {
         $dbh->set_charset('utf8');
 
-        if ($q = $dbh->query('SELECT UNIX_TIMESTAMP(STR_TO_DATE(MAX(last_modified_date), "%Y-%m-%d %H:%i:%s")) AS last_update FROM ip_map')) {
+        if ($q = $dbh->query('SELECT UNIX_TIMESTAMP(STR_TO_DATE(MAX(last_modified_date), "%Y-%m-%d %H:%i:%s")) AS last_update FROM ip_map where fw_rule=0')) {
             $o = $q->fetch_object();
             $db_last_update = intval( $o->last_update );
             $fl_last_update = 0;
@@ -37,7 +37,7 @@
                 if ($fl_last_update == 0 || $fl_last_update != $db_last_update) {
                     $fw_content = $fw_content."# Timestamp:$db_last_update\n\n";
 
-                    if ($q = $dbh->query('SELECT name, ip FROM ip_map WHERE STATUS=0')) {
+                    if ($q = $dbh->query('SELECT name, ip FROM ip_map WHERE STATUS=0 and fw_rule=0')) {
                         while ($o = $q->fetch_object()){
                             $fw_content = $fw_content."# ".$o->name."\n".$o->ip."\n\n";
                         }
