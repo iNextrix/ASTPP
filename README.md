@@ -28,10 +28,10 @@ and many more
 
 Getting started with ASTPP
 --------------------------
-For a standard installation please follow the <a href="https://docs.astppbilling.org/display/itplmars/Community">Setup instructions</a>
+For a standard installation please follow the <a href="https://docs.astppbilling.org/display/itplmars/Installation">Setup instructions</a>
 from the documentation.
 
-Then follow <a href="https://docs.astppbilling.org/display/itplmars/Installation">quick setup guide</a>
+Then follow the <a href="https://docs.astppbilling.org/display/itplmars/Getting+started">Getting Started guide</a>.
 
 
 Community
