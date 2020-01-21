@@ -257,6 +257,28 @@ if (! empty($cdrs_year)) {
                                         ?>
                                     </select>
 									</div>
+                                    <div class="col-3 input-group">
+                                        <label class="search_label col-md-12 p-0"><?php echo gettext("Trunk"); ?></label>
+                                        <select name="trunk_id"
+                                            class='col-md-12 form-control form-control-lg selectpicker'
+                                            data-live-search='true'>
+                                            <option value=''><?php echo gettext("--Select--"); ?></option>
+                                        <?php
+                                        if (! empty($trunklist)) {
+                                            foreach ($trunklist as $key => $value) {
+                                                $selected = null;
+                                                if (isset($session_info['trunk_id']) && $session_info['trunk_id'] > 0 && $key == $session_info['trunk_id']) {
+                                                    $selected = "selected";
+                                                }
+                                                ?>
+                                                <option
+                                                value='<?php echo $key; ?>' <?php echo $selected; ?>><?php echo $value ?></option>
+                                            <?
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                    </div>
 									<div class="col-3 input-group">
 										<input type="hidden" name="ajax_search" value="1" />
 									</div>
@@ -366,11 +388,11 @@ if (! empty($cdrs_year)) {
 								<button name="action" type="button"
 									id="customersummary_search_btn" value="save"
 									class="btn btn-success float-right"><?php echo gettext("Search"); ?></button>
-								<div class="col-md-5 float-right">
-									<!--<div class="col-md-3"></div> -->
-									<label class="search_label col-md-6 text-right"><?php echo gettext("Display records in"); ?> </label>
+								<div class="col-md-6 float-left p-0">
+									<label class="search_label col-md-6 text-left p-0"><?php echo gettext("Display records in"); ?></label>
+<br/>
 									<select name="search_in"
-										class='col-md-5 form-control form-control-lg selectpicker'
+										class='col-md-6 form-control form-control-lg selectpicker p-0'
 										data-live-search='true'>
 <?php
 if (! empty($search_report)) {
@@ -381,7 +403,7 @@ if (! empty($search_report)) {
         }
         ?>
                                                 <option
-											value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value ?></option>
+											value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo gettext($value) ?></option>
     <?php
 
 }

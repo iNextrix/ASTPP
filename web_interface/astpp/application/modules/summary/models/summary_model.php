@@ -133,7 +133,6 @@ class Summary_model extends CI_Model
         $this->db_model->build_search('summary_customer_search');
         $accountinfo = $this->session->userdata('accountinfo');
         $reseller_id = $this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5 ? $this->session->userdata['accountinfo']['id'] : 0;
-
         $table_name = 'cdrs';
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             if ($this->session->userdata('advance_search') != 1) {

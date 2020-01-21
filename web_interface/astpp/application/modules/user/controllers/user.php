@@ -1881,7 +1881,7 @@ class User extends MX_Controller
             $duration = ($show_seconds == 'minutes') ? ($count_all['billseconds'] > 0) ? floor($count_all['billseconds'] / 60) . ":" . sprintf("%02d", $count_all['billseconds'] % 60) : "00:00" : $count_all['billseconds'];
             $json_data['rows'][] = array(
                 "cell" => array(
-                    "<b>Grand Total</b>",
+                    "<b>".gettext('Grand Total')."</b>",
                     "",
                     "",
                     "",
@@ -2553,7 +2553,7 @@ class User extends MX_Controller
             }
             $duration = ($show_seconds == 'minutes') ? ($count_all['billseconds'] > 0) ? floor($count_all['billseconds'] / 60) . ":" . sprintf("%02d", $count_all['billseconds'] % 60) : "00:00" : $count_all['billseconds'];
             $customer_array[] = array(
-                "Grand Total",
+                gettext("Grand Total"),
                 "",
                 "",
                 "",

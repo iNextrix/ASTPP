@@ -53,6 +53,7 @@ class Summary extends MX_Controller
             "type" => "GLOBAL"
         ));
         $data['cdrs_year'] = $this->common->set_year_dropdown('cdrs');
+        $data['trunklist'] = $this->db_model->build_dropdown('id,name', 'trunks', '', array());
         $data['accountlist'] = $accountlist;
         $data['session_info'] = $session_info;
         $data['cdrs_year_val'] = $this->session->userdata('customer_cdrs_year');
@@ -60,7 +61,7 @@ class Summary extends MX_Controller
         $data['search_report'] = $this->common->search_report_in();
         $new_column_arr = $this->summary_column_arr('customer');
         $data['grid_fields'] = $this->summary_form->build_customersummary($new_column_arr);
-        $data["grid_buttons"] = $this->summary_form->build_grid_buttons_customersummary();
+        $data['grid_buttons'] = $this->summary_form->build_grid_buttons_customersummary();
         $data['groupby_field'] = $this->common->set_summarycustomer_groupby();
         $data['groupby_time'] = $this->common->group_by_time();
         $data['accountinfo'] = $accountinfo;
@@ -566,7 +567,7 @@ class Summary extends MX_Controller
             );
         }
         if ($purpose == 'export') {
-            $search_arr['custom_total_array'][0] = "Grand Total";
+            $search_arr['custom_total_array'][0] = gettext("Grand Total");
         }
         $new_export_array = array();
         foreach ($last_array as $key => $value) {
@@ -807,7 +808,7 @@ class Summary extends MX_Controller
         }
  
         array_pop($custom_total_array);
-        array_unshift($custom_total_array, '<b>Grand Total</b>');
+        array_unshift($custom_total_array, '<b>'.gettext('Grand Total').'</b>');
         $new_arr['export_str'] = $export_select_str;
         $new_arr['select_str'] = $select_str;
         $new_arr['order_str'] = $order_str;
@@ -1587,7 +1588,7 @@ class Summary extends MX_Controller
 		}
 	}
         if ($purpose == 'export') {
-            $search_arr['custom_total_array'][0] = "Grand Total";
+            $search_arr['custom_total_array'][0] = gettext("Grand Total");
         }
         $new_export_array = array();
         foreach ($last_array as $key => $value) {

@@ -109,7 +109,7 @@
 										<select name="trunk_id"
 											class='col-md-12 form-control form-control-lg selectpicker'
 											data-live-search='true'>
-											<option value=''>--Select--</option>
+											<option value=''><?php echo gettext("--Select--"); ?></option>
                                         <?php
                                         if (! empty($trunklist)) {
                                             foreach ($trunklist as $key => $value) {

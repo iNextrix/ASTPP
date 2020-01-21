@@ -851,7 +851,21 @@ class Accounts_form extends common
                 'build_concat_dropdown',
                 '',
                 array()
-            )
+            ),
+            array(
+                gettext('Notes'),
+                'TEXTAREA',
+                array(
+                    'name' => 'notes',
+                    'size' => '20',
+                    'cols' => '50',
+                    'rows' => '3',
+                    'class' => "form-control form-control-lg mit-20 text col-md-12 field medium"
+                ),
+                '',
+                'tOOL TIP',
+                ''
+            ),
         );
 
         $form[gettext('Billing Settings')] = array(
@@ -2319,6 +2333,20 @@ class Accounts_form extends common
                 'build_concat_dropdown',
                 '',
                 array()
+            ),
+            array(
+                gettext('Notes'),
+                'TEXTAREA',
+                array(
+                    'name' => 'notes',
+                    'size' => '20',
+                    'cols' => '50',
+                    'rows' => '3',
+                    'class' => "form-control form-control-lg mit-20 text col-md-12 field medium"
+                ),
+                '',
+                'tOOL TIP',
+                ''
             ),
             $invoice_config
         );
