@@ -253,6 +253,12 @@ function check_blocked_prefix(userinfo,destination_number,number_loop)
     return flag
 end
 
+function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
 function get_localization (id,type)
 	local localization = nil
 	local query 
@@ -293,8 +299,16 @@ function do_number_translation(number_translation,destination_number)
     end
 
     if(len > 0)then
-      local res = string.gsub(destination_number, rule, template)
-      Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. res .. " (match len = " .. len .. ", rule = " .. rule .. ")" )
+      local res = ''
+      local s = string.match(template, "^%[(.+)%]$")
+      if(s)then
+        Logger.notice("[DONUMBERTRANSLATION] USE RND TEMPLATE from list: " .. s)
+        tmp = split(s,";")
+        template = tmp[math.random(1,tablelength(tmp))]
+      end
+
+      res = string.gsub(destination_number, rule, template)
+      Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. res .. " (match len = " .. len .. ", rule = " .. rule .. ", template = " .. template .. ")" )
       return res
     else
       Logger.notice("[DONUMBERTRANSLATION] After Localization CLI/DST : " .. destination_number )
