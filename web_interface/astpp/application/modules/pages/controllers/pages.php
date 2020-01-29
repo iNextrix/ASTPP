@@ -230,7 +230,7 @@ function services($category= '') {
 	
 	function refill_auto_form($oreder_req_result,$product_info,$accountid){ 
 		echo '<html>' . "\n";
-		echo '<head><title>Processing Payment...</title></head>' . "\n";
+		echo '<head><title>'.gettext('Processing Payment...').'</title></head>' . "\n";
 		echo '<body class="col-md-12" style="text-align:center;" onLoad="document.forms[\'paypal_auto_form\'].submit();">' . "\n";
 		
 		
@@ -390,7 +390,7 @@ function services($category= '') {
 					$orderarr['charge_type'] = $this->common->get_field_name("code","category",array("id"=>$orderarr['product_category']));
 
 					if($orderarr['parent_order_id'] > 0){
-						$temp_arr['description'] = "Payment has been received from customer ".$account_info['first_name']." ( ".$account_info['number']." )";
+						$temp_arr['description'] = gettext("Payment has been received from customer").' '.$account_info['first_name']." ( ".$account_info['number']." )";
 						$temp_arr['payment_by'] = "Paypal";
 						$temp_arr['transaction_id'] = $response_arr['txn_id'];
 						$temp_arr['name'] = $product_name;

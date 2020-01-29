@@ -68,8 +68,10 @@ class Permission {
                         }
 
 			}
+
 			$this->CI->session->set_userdata ( 'permited_modules', serialize ( $permited_modules ) );
 			$this->CI->session->set_userdata ( 'menuinfo', serialize ( $menu_list ) );
+
 			return true;
 		}
 	}

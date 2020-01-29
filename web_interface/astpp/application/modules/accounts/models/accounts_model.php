@@ -223,6 +223,7 @@ class Accounts_model extends CI_Model
     function account_process_payment($data, $update_balance_flag = 'true')
     {
         $data['accountid'] = $data['id'];
+        $invoiceid = 0;
         $accountdata = (array) $this->db->get_where('accounts', array(
             "id" => $data['accountid']
         ))->first_row();
@@ -243,10 +244,15 @@ class Accounts_model extends CI_Model
                 "payment_method" => "Manual",
                 "order_item_id" => 0,
                 "charge_type" => $payment_type,
-                "description" => "Account has been " . $payment_type . " by " . $accountinfo['first_name'] . " '(' " . $accountinfo['number'] . " ')' ",
                 "invoice_type" => $data['payment_mode'] == 1 ? "debit" : "credit",
                 "is_apply_tax" => "false"
             );
+
+            if (isset($data['description'])) {
+                $payment_array['description'] = $data['description'];
+            } else {
+                $payment_array['description'] = "Account has been " . $payment_type . " by " . $accountinfo['first_name'] . " '(' " . $accountinfo['number'] . " ')' ";
+            }
 
             $where = array(
                 'id' => $accountinfo['currency_id']
@@ -255,6 +261,8 @@ class Accounts_model extends CI_Model
             $invoiceid = $this->payment->add_payments_transcation($payment_array, $accountdata, $currency_info);
             $current_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : '0';
         }
+
+        return $invoiceid;
     }
 
     function get_admin_Account_list($flag, $start = 0, $limit = 0, $reseller_id = 0)
