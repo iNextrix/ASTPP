@@ -28,10 +28,10 @@ and many more
 
 Getting started with ASTPP
 --------------------------
-For a standard installation please follow the <a href="http://astpp.readthedocs.io/en/v4.0.1/Installation/installation.html">Setup instructions</a>
+For a standard installation please follow the <a href="https://docs.astppbilling.org/display/itplmars/Installation">Setup instructions</a>
 from the documentation.
 
-Then follow <a href="http://astpp.readthedocs.io/en/v4.0.1/Installation/quick_start.html">quick setup guide</a>
+Then follow the <a href="https://docs.astppbilling.org/display/itplmars/Getting+started">Getting Started guide</a>.
 
 
 Community
@@ -43,7 +43,7 @@ Community
 - <a href="https://groups.google.com/forum/#!forum/astpp">Community Forums</a>
 - <a href="https://jira.astppbilling.org">Bug Tracker</a>
 - <a href="https://gitter.im/ASTPP-Official/Lobby">Community Chatter</a>
-- <a href="http://astpp.readthedocs.io/en/v4.0.1/Introduction/how_to_contribute.html">How to Contribute</a>
-- <a href="http://astpp.readthedocs.io/en/v4.0.1/Introduction/contribute_to_git.html">Guideline for Git Contribution</a>
+- <a href="https://docs.astppbilling.org/display/itplmars/How+to+Contribute">How to Contribute</a>
+- <a href="https://docs.astppbilling.org/display/itplmars/Contribute+to+Git">Guideline for Git Contribution</a>
 
 Report security issues to our Security email address security@inextrix.com.
