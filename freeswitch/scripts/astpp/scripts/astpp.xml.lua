@@ -198,6 +198,9 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	end
     
 	xml_termiantion_rates= "ID:"..outbound_info['outbound_route_id'].."|CODE:"..outbound_info['pattern'].."|DESTINATION:"..outbound_info['comment'].."|CONNECTIONCOST:"..outbound_info['connectcost'].."|INCLUDEDSECONDS:"..outbound_info['includedseconds'].."|COST:"..outbound_info['cost'].."|INC:"..outbound_info['inc'].."|INITIALBLOCK:"..outbound_info['init_inc'].."|TRUNK:"..outbound_info['trunk_id'].."|PROVIDER:"..outbound_info['provider_id'];
+    if (outbound_info['change_calltype'] ~= '') then
+        xml_termiantion_rates= xml_termiantion_rates.."|CHANGECT:"..outbound_info['change_calltype'];
+    end
 
     table.insert(xml, [[<action application="set" data="calltype=STANDARD"/>]]);        
 	table.insert(xml, [[<action application="set" data="termination_rates=]]..xml_termiantion_rates..[["/>]]);        

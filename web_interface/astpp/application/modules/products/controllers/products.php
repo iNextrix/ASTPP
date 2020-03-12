@@ -156,6 +156,7 @@ class Products extends MX_Controller {
 			$data['product_info']=$product_info;
 			$data['edit_id']=$edit_id;
 			$data['country_id']=$product_info['country_id'];
+			$data['applicable_calltype']=$product_info['applicable_calltype'];
 			$category = $this->common->get_field_name("name","category",array("id"=>$product_info['product_category']));
 
 			if($accountinfo ['type'] == 1){
@@ -804,19 +805,24 @@ class Products extends MX_Controller {
 	}
 	function customer_products_list($accountid, $accounttype) { 
 		$json_data = array ();
-		$select = "products.id as id,order_items.id as id1,products.name,order_items.price,order_items.free_minutes,order_items.setup_fee,order_items.billing_type,order_items.billing_days";
+		$select = "products.id as id,order_items.id as id1,products.name,order_items.price,order_items.free_minutes,order_items.setup_fee,order_items.billing_type,order_items.billing_days,(order_items.free_minutes-IFNULL(FLOOR(counters.used_seconds/60), order_items.free_minutes - order_items.free_minutes )) as used_seconds";
 		$table = "products";
 		$jionTable = array (
 				'order_items',
-				'accounts' 
+				'accounts',
+                'counters', 
+
 		);
 		$jionCondition = array (
 				'products.id = order_items.product_id',
-				'accounts.id = order_items.accountid' 
+				'accounts.id = order_items.accountid', 
+				'products.id = counters.product_id and counters.accountid = accounts.id and counters.package_id = order_items.id',
 		);
 		$type = array (
 				'left',
-				'inner' 
+				'inner',
+				'left', 
+
 		);
 		$categoryinfo = $this->db_model->getSelect("GROUP_CONCAT('''',id,'''') as id","category","code NOT IN ('REFILL','DID')");
 		if($categoryinfo->num_rows > 0 ){ 

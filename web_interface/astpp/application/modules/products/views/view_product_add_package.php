@@ -200,6 +200,15 @@
 				<?php } ?>
                       </select>	      
                   </div>
+
+            <div class='col-md-6 form-group'>
+                <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Type'); ?></label>
+                <?php
+                    $calltype_arr = array("id" => "applicable_calltype", "name" => "applicable_calltype", "class" => "applicable_calltype");
+                    echo form_dropdown_all($calltype_arr, $this->db_model->build_dropdown("id,call_type", "calltype", "", ""), "");
+                ?>
+            </div>
+
 		<div class='col-md-12'>
 			<?php if(isset($add_array['email_notify']) && $add_array['email_notify'] == 1){?>
                     <label><input type="checkbox" name="email_notify" value = 1 checked> <span><?php echo gettext('Email Notification'); ?></span></label>

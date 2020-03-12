@@ -163,7 +163,7 @@
                       <select  name="applicable_for" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
                         <option value="0" <?php if($product_info['applicable_for'] == '0'){ ?> selected="selected" <?php }  ?>><?php echo gettext('Inbound'); ?></option>
                         <option value="1" <?php if($product_info['applicable_for'] == '1'){ ?> selected="selected" <?php }  ?>><?php echo gettext('Outbound'); ?></option>
-			<option value="2" <?php if($product_info['applicable_for'] == '2'){ ?> selected="selected" <?php }  ?>>Both</option>
+                        <option value="2" <?php if($product_info['applicable_for'] == '2'){ ?> selected="selected" <?php }  ?>><?php echo gettext('Both'); ?></option>
                       </select>
                   </div>
 		  
@@ -175,6 +175,13 @@
                       </select>
                   </div>
 
+		    <div class='col-md-6 form-group'>
+                <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Type'); ?></label>
+                <?php
+					$calltype_arr = array("id" => "applicable_calltype", "name" => "applicable_calltype", "class" => "applicable_calltype");
+					echo form_dropdown_all($calltype_arr, $this->db_model->build_dropdown("id,call_type", "calltype", "", ""), isset($applicable_calltype)?$applicable_calltype:"");
+				?>
+            </div>
                  
 		<div class="col-md-12 my-4">
                     <div class="col-md-4 float-left">

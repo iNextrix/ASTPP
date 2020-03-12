@@ -151,7 +151,12 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	}
 
 //check custom end
-$logger->log("*********************** Harsh_trunk in package_id: **".$dataVariable ['package_id']."***********");	
+    $dataVariable['change_calltype'] = $termination_rate['CHANGECT'];
+	if (!empty($dataVariable['change_calltype'])) {
+        $logger->log ( "*************************************** NEW CALLTYPE2 " . $dataVariable['change_calltype'] );
+	}
+
+    $logger->log("*********************** Harsh_trunk in package_id: **".$dataVariable ['package_id']."***********");	
 	// Check if cusotmer have any package seconds left to use
 	if ($actual_duration > 0 && isset($dataVariable ['package_id']) && $dataVariable ['package_id'] > 0 ) {
 		$package_array = package_calculation ( $dataVariable ['effective_destination_number'], $dataVariable ['package_id'], $actual_duration, $dataVariable ['call_direction'], $accountid,$dataVariable, $db, $logger );
@@ -163,7 +168,11 @@ $logger->log("*********************** Harsh_trunk in package_id: **".$dataVariab
 	}
 	
 	// Calculate debit of customer call
-	$debit = calc_cost ( $dataVariable, $origination_rate [$accountid], $logger, $decimal_points );
+	if ($dataVariable ['calltype'] != "FREE") {
+    	$debit = calc_cost ( $dataVariable, $origination_rate [$accountid], $logger, $decimal_points );
+    } else {
+        $debit = 0;
+    }
 	
 	// Calculate cost for customer call for provider
 	$provider_cost = calc_cost ( $dataVariable, $termination_rate, $logger, $decimal_points );
@@ -471,6 +480,10 @@ function calc_cost($dataVariable, $rates, $logger, $decimal_points) {
 		$duration -= $rates ['INCLUDEDSECONDS'];
 	}
 
+//	if (!empty($rates['CHANGECT'])) {
+//        $logger->log ( "*************************************** NEW CALLTYPE " . $rates['CHANGECT'] );
+//	}
+
 	// If there is any duration left, we need to bill for that.
 	if ($duration > 0) {
 		
@@ -505,10 +518,13 @@ function package_calculation($destination_number, $package_id, $duration, $call_
 	$package_info_arr = $db->run ( $query );
 	if (!empty($package_info_arr)) {
 		foreach($package_info_arr as $package_info){
-	$logger->log ( "applicable_for  : " . $package_info ['applicable_for']."=====call_direction:".$call_direction."===0:Inbound,1:Outbound,2:Both" );
-	//HP: change type according to GUI changes.
+            $change_calltype = $dataVariable['change_calltype'];
+	        $logger->log ( "applicable_for: " . $package_info ['applicable_for']." ===== call_direction: ".$call_direction."===0:Inbound,1:Outbound,2:Both" );
+	        $logger->log ( "applicable_calltype: ".$package_info ['applicable_calltype']." ===== change_calltype: ".$dataVariable ['change_calltype'] );
+
+	        //HP: change type according to GUI changes.
 //			$package_info = $package_info [0];
-			if (($package_info ['applicable_for'] == "0" && $call_direction == "inbound") || ($package_info ['applicable_for'] == "1" && $call_direction == "outbound") || ($package_info ['applicable_for'] == "2")) {					
+			if ((($package_info ['applicable_for'] == "0" && $call_direction == "inbound") || ($package_info ['applicable_for'] == "1" && $call_direction == "outbound") || ($package_info ['applicable_for'] == "2"))&&(empty($package_info ['applicable_calltype'])||($package_info ['applicable_calltype'] == $dataVariable ['change_calltype']))) {
 
 				$counter_info = get_counters ( $accountid, $package_info ['package_id'], $db, $logger );
 			
@@ -528,7 +544,7 @@ function package_calculation($destination_number, $package_id, $duration, $call_
 					$free_seconds = ($available_seconds >= $duration) ? $duration : $available_seconds;
 	//				$duration = ($available_seconds >= $duration) ? $duration : $available_seconds;
 					$final_min = $counter_info ['used_seconds'] + $free_seconds;
-					$final_min =  ceil($final_min/60)*60;
+					$final_min =  ceil($final_min/60)*60; // IL 20200210 why always per minute tarifucation?
 					//$freeminutes ['free_minutes'] = ceil($freeminutes ['free_minutes']/60)*60;
 					$update_query = "UPDATE counters SET used_seconds = " . ($final_min) . " WHERE id = " . $counter_info ['id'];
 					$logger->log ( "Update Counters  : " . $update_query );

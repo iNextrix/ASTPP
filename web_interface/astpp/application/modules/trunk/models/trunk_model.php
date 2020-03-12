@@ -48,6 +48,7 @@ class trunk_model extends CI_Model
         unset($add_array["action"]);
         $add_array['creation_date'] = gmdate('Y-m-d H:i:s');
         $add_array['last_modified_date'] = gmdate('Y-m-d H:i:s');
+        $data['change_calltype'] = intval($data['change_calltype'])>0?$data['change_calltype']:NULL;
         $this->db->insert("trunks", $add_array);
         return true;
     }
@@ -56,6 +57,7 @@ class trunk_model extends CI_Model
     {
         unset($data["action"]);
         $data['last_modified_date'] = gmdate('Y-m-d H:i:s');
+        $data['change_calltype'] = intval($data['change_calltype'])>0?$data['change_calltype']:NULL;
         $this->db->where("id", $id);
         $this->db->update("trunks", $data);
     }

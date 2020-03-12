@@ -1961,7 +1961,7 @@ class Product_form {
 				),
 				array (
 						gettext ( "Free Minutes" ),
-						"150",
+						"75",
 						"free_minutes",
 						"",
 						"",
@@ -1970,7 +1970,17 @@ class Product_form {
 						"true",
 						"center" 
 				),
-
+                array (
+                        gettext ("Remain Minutes"),
+                        "75",
+                        "used_seconds",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "true",
+                        "center"
+                ),
 				array (
 						gettext ( "Action" ),
 						"126",

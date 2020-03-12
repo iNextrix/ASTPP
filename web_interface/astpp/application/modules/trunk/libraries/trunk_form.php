@@ -197,6 +197,23 @@ class trunk_form extends common
                 ''
             ),
             array(
+                gettext('Call Type'),
+                'change_calltype',
+                'SELECT',
+                '',
+                'trim|required|xss_clean',
+                'tOOL TIP',
+                'Please select gateway first',
+                'id',
+                'call_type',
+                'calltype',
+                'build_dropdown',
+                'where_arr',
+                array(
+                    "status" => "0"
+                )
+            ),
+            array(
                 gettext('Status'),
                 'status',
                 'SELECT',

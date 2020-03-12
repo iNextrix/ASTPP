@@ -41,5 +41,6 @@ TBL_COUNTERS="counters"
 TBL_RESELLER_PRICING="reseller_pricing"
 TBL_LOCALIZATION="localization"
 TBL_CALL_BARRING="call_barring"
+TBL_CALLTYPE="calltype"
 
 
