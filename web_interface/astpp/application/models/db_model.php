@@ -552,7 +552,7 @@ class Db_model extends CI_Model {
 
 		$drp_list = array ();
 
-        if ($table == 'calltype'){
+        if ($table == 'calltype' && $this->uri->segment_array()[1] == 'trunk'){
             $drp_list[0]=gettext("--Select--");
         }
 

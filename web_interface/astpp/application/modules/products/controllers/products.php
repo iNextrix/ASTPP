@@ -347,7 +347,8 @@ class Products extends MX_Controller {
 				
 				$data ['page_title'] = gettext ( 'Create Product' );
 				$data ['validation_errors'] = validation_errors ();
-//echo "<pre>"; print_r($data); exit;
+                $category = $this->common->get_field_name("name","category",array("id"=>$add_array['product_category']));
+//echo "<pre>"; print_r($category); exit;
 				$this->load->view ( 'view_product_add_'.strtolower($category), $data);	
 	       	     }else{  
 			if(isset($add_array) && !empty($add_array)){
