@@ -4088,7 +4088,7 @@ class User_form extends common
             ),
             array(
                 gettext("Order"),
-                "240",
+                "165",
                 "id",
                 "order_id",
                 "orders",
@@ -4120,7 +4120,28 @@ class User_form extends common
                 "true",
                 "center"
             ),
-
+            array (
+                gettext ( "Free Minutes" ),
+                "90",
+                "free_minutes",
+                "",
+                "",
+                "",
+                "",
+                "true",
+                "center"
+            ),
+            array (
+                gettext ("Remain Minutes"),
+                "75",
+                "used_seconds",
+                "",
+                "",
+                "",
+                "",
+                "true",
+                "center"
+            ),
             array(
                 gettext("Price")." ($currency)",
                 "150",
