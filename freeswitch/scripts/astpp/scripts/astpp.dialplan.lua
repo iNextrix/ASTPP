@@ -163,13 +163,38 @@ userinfo = doauthorization("number",accountcode,call_direction,destination_numbe
 --end
 -----------------------------------------------------------------------------------------
 
+
 -- @TODO : Need to confirm with Rushika for fraud feature
 --Added for fraud detection checking
 --if fraud_check then fraud_check(accountcode,destination_number) end
 
+-- Code for Prefix based routing to select rate group
+original_destination_number = destination_number
+
+-- Number translation
+if(userinfo ~= nil) then
+    -- Get localization
+    if (tonumber(userinfo['localization_id']) > 0) then
+    	or_localization = get_localization(userinfo['localization_id'],'O')
+    end
+
+	-- If call is pstn and dialed modify defined then do number translation
+	if (call_direction == 'outbound' and tonumber(userinfo['localization_id']) > 0 and or_localization and or_localization['number_originate'] ~= nil) then	
+		or_localization['number_originate'] = or_localization['number_originate']:gsub(" ", "")			
+		destination_number = do_number_translation(or_localization['number_originate'],destination_number)
+	end
+
+    -- If call is pstn and caller id translation defined then do caller id translation
+	if (or_localization and tonumber(userinfo['localization_id']) > 0 and or_localization['out_caller_id_originate'] ~= nil) then        
+		or_localization['out_caller_id_originate'] = or_localization['out_caller_id_originate']:gsub(" ", "")			 
+		callerid_array['cid_name'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_name'])
+		callerid_array['cid_number'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_number'])        
+	end
+end
+
 is_did_check = is_did(destination_number,config);
 if (is_did_check ~= nil and is_did_check['id']) then
-    Logger.info("[Dialplan] New Call direction HEREE : ".. call_direction)
+    Logger.info("[Dialplan] New Call direction HERE : ".. call_direction)
 	error_xml_without_cdr(destination_number,"NO_ROUTE_DESTINATION",calltype,config['playback_audio_notification'],userinfo['id'])
 	return 0
 end	
@@ -184,6 +209,7 @@ if(userinfo ~= nil) then
 		error_xml_without_cdr(destination_number,"DESTINATION_BLOCKED",calltype,config['playback_audio_notification'],userinfo['id'])
 		return 0
 	end
+
     -- Get package information of customer	
 	package_array = package_calculation (destination_number,userinfo,call_direction)
 
@@ -203,10 +229,6 @@ if(userinfo ~= nil) then
 		return 0
     end
 
-	-- Code for Prefix based routing to select rate group
-	original_destination_number = destination_number	
-
-
     -- Get package information of customer	
 -- Due to balance issue set this line before check balance	package_array = package_calculation (destination_number,userinfo,call_direction)
 		
@@ -225,8 +247,8 @@ if(userinfo ~= nil) then
 	end
 
 end
---Check Ported number
 
+--Check Ported number
 if(call_direction == 'outbound')then
 	if(addon_list  and addon_list['portednumber'] ~= '')then
 		if get_ported_number then destination_number = get_ported_number(destination_number); end
@@ -252,23 +274,6 @@ if (userinfo ~= nil) then
 	Logger.info("Ratecard id : "..userinfo['pricelist_id'])  
 	Logger.info("========================================================")    
     
-    if (tonumber(userinfo['localization_id']) > 0) then
-    	or_localization = get_localization(userinfo['localization_id'],'O')
-    end
-
-	-- If call is pstn and dialed modify defined then do number translation
-	if (call_direction == 'outbound' and tonumber(userinfo['localization_id']) > 0 and or_localization and or_localization['number_originate'] ~= nil) then	
-		or_localization['number_originate'] = or_localization['number_originate']:gsub(" ", "")			
-		destination_number = do_number_translation(or_localization['number_originate'],destination_number)
-	end
-	
-    -- If call is pstn and caller id translation defined then do caller id translation
-	if (or_localization and tonumber(userinfo['localization_id']) > 0 and or_localization['out_caller_id_originate'] ~= nil) then        
-		or_localization['out_caller_id_originate'] = or_localization['out_caller_id_originate']:gsub(" ", "")			 
-		callerid_array['cid_name'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_name'])
-		callerid_array['cid_number'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_number'])        
-	end
-
 	if(call_direction == 'inbound' and config['did_global_translation'] ~= nil and config['did_global_translation'] ~= '' and tonumber(config['did_global_translation']) > 0) then
 		-- @TODO: Implement localization for DID global translation
 		--destination_number = do_number_translation(config['did_global_translation'],destination_number)
