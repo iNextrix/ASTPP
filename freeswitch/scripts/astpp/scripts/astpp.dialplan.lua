@@ -269,11 +269,12 @@ if (userinfo ~= nil) then
 		callerid_array['cid_number'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_number'])        
 	end
 
-	if(call_direction == 'inbound' and config['did_global_translation'] ~= nil and config['did_global_translation'] ~= '' and tonumber(config['did_global_translation']) > 0) then
-		-- @TODO: Implement localization for DID global translation
-		--destination_number = do_number_translation(config['did_global_translation'],destination_number)
-		destination_number = didinfo['did_number']
-	end     
+	if(call_direction == 'inbound' and config['did_global_translation'] ~= nil and config['did_global_translation'] ~= '' and tonumber(config['did_global_translation']) > 0) then		
+		local did_localization = get_localization(config['did_global_translation'], 'O')
+		if (did_localization and did_localization['number_originate'] ~= nil and did_localization['number_originate'] ~= '') then
+			destination_number = do_number_translation(did_localization['number_originate'], destination_number)
+		end
+	end  
 
   	number_loop_str = number_loop(destination_number)
 
