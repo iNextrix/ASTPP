@@ -1,0 +1,3 @@
+# Yandex.Money check order status
+
+*/2 *     * * *     root   /usr/bin/php /opt/ASTPP/web_interface/astpp/index.php payments ym_check_payments
