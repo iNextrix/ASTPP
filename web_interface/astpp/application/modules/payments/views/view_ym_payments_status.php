@@ -42,7 +42,7 @@
                     <div class="p-5 form-center" id="floating-label">
                         <?php
                             if ($status == 'success'){
-                                print('<label class="col-md-12 p-5 msg-success"><i class="fa fa-2x fa-check-circle-o" aria-hidden="true"></i>'.gettext('Payment successful aplied.').'</label>');
+                                print('<label class="col-md-12 p-5 msg-success"><i class="fa fa-2x fa-check-circle-o" aria-hidden="true"></i>'.gettext('Payment successfully applied.').'</label>');
                                 print('<label class="col-md-12 msg-success">'.gettext('Your balance will soon update. Wait couple minutes please.').'</label>');
                             } else {
                                 print('<label class="col-md-12 p-5 msg-fail"><i class="fa fa-2x fa-times-circle-o" aria-hidden="true"></i>'.gettext('Payment refused, try once more.').'</label>');

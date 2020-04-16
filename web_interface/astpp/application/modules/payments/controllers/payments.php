@@ -13,7 +13,10 @@ class Payments extends MX_Controller {
         $this->load->model('payments_model');
         $this->load->model('accounts/accounts_model');
 
-        if ($this->session->userdata('user_login') == FALSE)
+        if (
+            $this->session->userdata('user_login') == FALSE
+            && $this->router->fetch_method() !== 'ym_check_payments'
+        )
             redirect(base_url() . '/astpp/login');
     }
 
@@ -66,5 +69,69 @@ class Payments extends MX_Controller {
 
         header('Content-Type: application/json');
         echo json_encode($json_data);
+    }
+
+/* Yandex.Money  */
+
+    function ympay () {
+        $get_vars = $this->input->get();
+        $user_data = $this->session->all_userdata();
+        $data['page_title'] = gettext('Yandex.Money payments');
+        $data['uid'] = $user_data['accountinfo']['id'];
+
+        if (isset($get_vars['ym_status'])){
+            $data['status'] = $get_vars['ym_status'];
+            $this->load->view('view_ym_payments_status', $data);
+        } else {
+            $this->load->view('view_ym_payments', $data);
+        }
+    }
+    
+    function ym_replace_order () {
+        $this->load->library('ym_pgateway');
+
+        $base_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/payments/ympay';
+
+        $this->ym_pgateway->setCBUrl(array(
+            'urlSuccess' => $base_url.'?ym_status=success',
+            'urlFail'    => $base_url.'?ym_status=fail',
+        ));
+
+        $post_vars = $this->input->post();
+        $json_data = array();
+
+        if (
+               isset($post_vars['u']) && intval($post_vars['u']) > 0
+            && isset($post_vars['s']) && intval($post_vars['s']) > 0
+        ){
+            if ($this->ym_pgateway->ready()){
+                $json_data['rurl'] = $this->ym_pgateway->placeOrder(
+                    $post_vars['u'],
+                    $post_vars['s'],
+                    ''
+                );
+            }
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($json_data);
+    }
+
+    function ym_check_payments () {
+        $this->load->library('ym_pgateway');
+
+        $pay_list = $this->ym_pgateway->getConfirmedPayments();
+
+        foreach ($pay_list as $k => $v) {
+            $pay_attrs = array(
+                'id'           => $v['uid'],
+                'payment_type' => 0,
+                'credit'       => $v['psum'],
+                'description'  => 'YM-'.$v['oid'].' '.$v['pmsg'],
+                'date'         => $v['pdate'],
+                    );
+
+            $this->accounts_model->account_process_payment($pay_attrs);
+        }
     }
 }

@@ -176,6 +176,30 @@ class Ym_pgateway extends CI_Model {
         return $this->db->insert('ym_orders', $order_params);
     }
 
+    private function db_getPaymentsInProgress () {
+        $pay_list = $this->db_model->getSelect(
+                    'oid, uid, pdate, psum, pmsg, ym_instance, ym_request, ym_status',
+                    'ym_orders',
+                    "ym_status in('ext_auth_required', 'in_progress')"
+                );
+
+        if ($pay_list->num_rows > 0) {
+            $pay_list = $pay_list->result_array();
+        } else {
+            $pay_list = null;
+        }
+
+        return $pay_list;
+    }
+
+    private function db_updateOrderStatus ($oid, $status) {
+        return $this->db->update(
+                    'ym_orders',
+                    array('ym_status' => $status),
+                    array('oid' => $oid)
+                );
+    }
+
     private function prepareRedirectURL($base, $params) {
         $url = $base.'?';
 
@@ -198,7 +222,6 @@ class Ym_pgateway extends CI_Model {
                     $redirectUrl = $this->prepareRedirectURL($req_pep->acs_uri, $req_pep->acs_params);
                 }
             }
-        } else {
         }
 
         return $redirectUrl;
@@ -215,8 +238,39 @@ class Ym_pgateway extends CI_Model {
         return true;
     }
 
-    public function test () {
-        $this->Addtolog('Test on Air.');
+    public function getConfirmedPayments () {
+        $confirmed_pay_list = array();
+
+        $this->setCBUrl(array(
+            'urlSuccess' => 'www.dummysuccess.org',
+            'urlFail'    => 'www.dummyfail.org',
+        ));
+
+        $pay_list = $this->db_getPaymentsInProgress();
+
+        foreach ($pay_list as $k => $v){
+            if (isset($v['ym_instance']) && isset($v['ym_request'])){
+                $this->TRANSACTION_INSTANCE = $v['ym_instance'];
+                $req_pep = $this->processExternalPayment($v['ym_request']);
+                if (
+                     !property_exists($req_pep, 'error')
+                   && property_exists($req_pep, 'status')
+                   && $req_pep->status != $v['ym_status']){
+
+                    $this->db_updateOrderStatus($v['oid'], $req_pep->status);
+
+                    if ($req_pep->status == 'success'){
+                        array_push($confirmed_pay_list, $v);
+                    }
+                };
+
+                if (property_exists($req_pep, 'error') && property_exists($req_pep, 'status')) {
+                    $this->db_updateOrderStatus($v['oid'], $req_pep->status);
+                }
+            }
+        }
+
+        return $confirmed_pay_list;
     }
 }
 ?>

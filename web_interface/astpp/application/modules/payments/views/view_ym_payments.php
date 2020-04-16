@@ -99,11 +99,8 @@
                     </div>
                     </div>
                 </div>
-                <form method="post" action="" enctype="multipart/form-data" id="bpay_transaction">
-                    <table id="" align="left" style=""></table>
-                </form>
              </div>
         </div>
     </section>
 <? endblock() ?>	
-<? end_extend() ?>  
+<? end_extend() ?>

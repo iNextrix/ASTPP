@@ -74,6 +74,7 @@
 	
         <div class="col-12 text-center mt-4">
             <button type="button" id= "btn_submit" class="btn btn-success"><?php echo gettext("Pay with Paypal"); ?></button>
+            <button type="button" id= "btn_ympay" class="btn btn-success"><?php echo gettext("Pay with Creditcard"); ?></button>
         </div>
 </div>
 </section>
@@ -83,6 +84,9 @@
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script type="text/javascript">
 
+  $('#btn_ympay').on("click",function() {
+    window.location.href = "<?php echo base_url().'payments/ympay'; ?>";
+  });
 
 
 		
