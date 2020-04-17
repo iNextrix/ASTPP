@@ -290,8 +290,8 @@ class Products extends MX_Controller {
 			$product_info = $this->db_model->getSelect ( "*", "products", array ('id' => $add_array['id']));
 			$product_info = ( array ) $product_info->first_row ();
 			$did_acc_id = $this->common->get_field_name("accountid","dids",array("product_id"=>$add_array['id']));
-			$category = $this->common->get_field_name("name","category",array("id"=>$product_info['product_category']));
-
+//			$category = $this->common->get_field_name("name","category",array("id"=>$product_info['product_category']));
+            $category = $this->db_model->getCurrent('category', 'name', array("id"=>$product_info['product_category']));
 			  if ($this->form_validation->run() == FALSE){ 	
 				$data ['page_title'] = gettext ( 'Edit Product' );
 				$data['product_info'] = $add_array ;
@@ -338,8 +338,8 @@ class Products extends MX_Controller {
 		  }
 		}
 		}else{
-			$category =$data['product_category'][$add_array['product_category']];
-		 	$data['add_array'] = $add_array['product_category'];
+   			$category =$this->db_model->getCurrent('category', 'name', array("id"=>$add_array['product_category']));
+    	 	$data['add_array'] = $add_array['product_category'];
 			$where_arr['where'] = $this->db->where(array("reseller_id"=>$reseller_id));
 			$data['product_rate_group'] = $this->db_model->build_dropdown("id,name", "pricelists", "", $where_arr);
 		      if ($this->form_validation->run() == FALSE){  
@@ -347,8 +347,6 @@ class Products extends MX_Controller {
 				
 				$data ['page_title'] = gettext ( 'Create Product' );
 				$data ['validation_errors'] = validation_errors ();
-                $category = $this->common->get_field_name("name","category",array("id"=>$add_array['product_category']));
-//echo "<pre>"; print_r($category); exit;
 				$this->load->view ( 'view_product_add_'.strtolower($category), $data);	
 	       	     }else{  
 			if(isset($add_array) && !empty($add_array)){
