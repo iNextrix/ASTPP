@@ -774,8 +774,10 @@ class Form {
 								) );
 							}
 							$row [$field_arr [2]] = $jsn_tmp [$field_key];
-							
-							
+
+                            if ($field_arr[2] == 'country_id'){
+                                $row [$field_arr [2]] = gettext($row [$field_arr [2]]);
+                            }
 						}
 						
 						if(isset($field_arr[6]) && !empty($field_arr[6]) && is_array($field_arr[6]) && $field_arr[6][0]== 'EDITABLE' && ((isset($permissioninfo[$module_name][$sub_module_name][$field_arr[6][1]]) && $permissioninfo[$module_name][$sub_module_name][$field_arr[6][1]] == 0 and $permissioninfo['login_type'] != '-1' and $permissioninfo['login_type'] != '3')  or ($permissioninfo['login_type'] == '-1' ) or ($permissioninfo['login_type'] == '3'))){
