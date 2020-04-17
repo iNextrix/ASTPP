@@ -252,11 +252,7 @@ class Reports_form extends common
                 ),
                 array(
                     gettext('Account'),
-                    array(
-                        'name' => 'accountid',
-                        'id' => 'accountid_search_drp',
-                        'class' => 'accountid_search_drp'
-                    ),
+                    'accountid',
                     'SELECT',
                     '',
                     '',
@@ -268,8 +264,8 @@ class Reports_form extends common
                     'build_dropdown_deleted',
                     'where_arr',
                     array(
-                        "reseller_id" => "0",
-                        "type" => "GLOBAL"
+                        'reseller_id' => 0,
+                        'type' => '0'
                     )
                 ),
                 array(
@@ -577,8 +573,8 @@ class Reports_form extends common
                     'build_dropdown_deleted',
                     'where_arr',
                     array(
-                        "reseller_id" => "0",
-                        "type" => "GLOBAL"
+                        'reseller_id' => 0,
+                        'type' => 0
                     )
                 ),
 
