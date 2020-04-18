@@ -2,22 +2,51 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-        build_grid("cdrs_grid","<?php echo base_url()."accounts/customer_details_json/cdrs/$edit_id/"; ?>",<? echo $grid_fields ?>,"");
+        $("#cusotmer_cdr_search_btn").click(function(){
+            post_request_for_search("cdrs_grid","<?php echo base_url()."reports/customerReport_search"; ?>","cdr_customer_search");
+        });
+
+        $("#id_reset").click(function(){
+            clear_search_request("cdrs_grid","reports/customerReport_clearsearchfilter");
+        });
+
         $("#left_panel_quick_search").keyup(function(){
             quick_search("accounts/customer_details_search/"+'<?php echo $accounttype?>'+"_cdrs/");
         });
+
+        $('.rm-col-md-12').addClass('float-right');
+        $(".rm-col-md-12").removeClass("col-md-12");
+        var currentdate = new Date();
+        var from_date = currentdate.getFullYear() + "-"
+            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-"
+                + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
+
+        var to_date = currentdate.getFullYear() + "-"
+           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-"
+            +("0" + currentdate.getDate()).slice(-2) + " 23:59:59"
+        $("#customer_cdr_from_date").datetimepicker({
+             value:from_date,
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            modal:true,
+            format: 'yyyy-mm-dd HH:MM:ss',
+            footer:true
+         });
+         $("#customer_cdr_to_date").datetimepicker({
+             value:to_date,
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            modal:true,
+            format: 'yyyy-mm-dd HH:MM:ss',
+            footer:true
+         });
+
+        build_grid("cdrs_grid","<?php echo base_url()."reports/customerReport_json"; ?>",<? echo $grid_fields ?>,"");
+
+        $('.page-wrap').addClass('addon_wrap');
+        $(".breadcrumb li a").removeAttr("data-ripple",""); 
     });
 
-</script>
-<script type="text/javascript">
-  $(document).ready(function(){
-      $('.page-wrap').addClass('addon_wrap');
-  });
-</script>
-<script type="text/javascript">
-  $(document).ready(function(){
-      $(".breadcrumb li a").removeAttr("data-ripple",""); 
-  });
 </script>
 <? endblock() ?>
 <? startblock('page-title') ?>
@@ -49,6 +78,9 @@
 						href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>">
 						<i class="fa fa-fast-backward" aria-hidden="true"></i><?php echo gettext('Back');?></a>
 				</div>
+                <div id="show_search" class="float-right btn btn-warning m-2 py-1" data-ripple=" " style="position: relative;">
+                    <i class="fa fa-search"></i>
+                </div>
 			</div>
 			<div class="p-4 col-md-12">
 				<div class="col-md-12 p-0">
@@ -60,8 +92,13 @@
 							placeholder=<?php echo gettext("Search"); ?> />
 					</div>
 				</div>
+                <div class="col-md-12 color-three slice float-left content_border mt-1 p-0">
+                    <div class="portlet-content mb-0" id="search_bar" style="display: none">
+                        <?php echo $form_search; ?>
+                    </div>
+                </div>
 				<div
-					class="col-md-12 color-three slice float-left content_border mt-4 p-0">
+					class="col-md-12 color-three slice float-left content_border mt-0 p-0">
 					<div class="card col-md-12 pb-4">
 						<table id="cdrs_grid" align="left" style="display: none;"></table>
 					</div>

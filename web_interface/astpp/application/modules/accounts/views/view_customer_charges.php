@@ -15,6 +15,7 @@
       $(".breadcrumb li a").removeAttr("data-ripple",""); 
   });
 </script>
+
 <? endblock() ?>
 <? startblock('page-title') ?>
 <?= $page_title ?>

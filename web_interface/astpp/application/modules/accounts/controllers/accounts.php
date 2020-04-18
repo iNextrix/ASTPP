@@ -1133,6 +1133,11 @@ class Accounts extends MX_Controller
         $data['page_title'] = gettext("CDRs");
         $accountinfo = $this->session->userdata('accountinfo');
         $reseller_id = ($accountinfo['type'] == 1 || $accountinfo['type'] == 5) ? $accountinfo['id'] : 0;
+
+        $data['search_flag'] = true;
+        $this->session->set_userdata('advance_search', 0);
+        $this->session->set_userdata('advance_search_date', 1);
+
         if ($accountinfo['type'] == - 1) {
             $where = array(
                 'id' => $edit_id
@@ -1149,6 +1154,7 @@ class Accounts extends MX_Controller
             $accounttype = strtolower($this->common->get_entity_type('', '', $account_data['type']));
             $this->load->module('reports/reports');
             $data['grid_fields'] = $this->reports->reports_form->build_report_list_for_user($accounttype);
+            $data['form_search'] = $this->form->build_serach_form($this->reports_form->get_customer_lite_cdr_form());
             $data['edit_id'] = $edit_id;
             $data['accounttype'] = $accounttype;
             $this->load->view('view_customer_cdrs_list', $data);
