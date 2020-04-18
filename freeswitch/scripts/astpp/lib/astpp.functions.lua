@@ -224,7 +224,7 @@ function get_balance(userinfo,rates,config)
 	local tmp_prefix=''
 	if get_international_balance_prefix then tmp_prefix = get_international_balance_prefix(userinfo) end 	
 
-    balance = tonumber(userinfo['posttoexternal']) == 1 and tonumber(userinfo[tmp_prefix..'credit_limit'])+(tonumber(userinfo[tmp_prefix..'balance'])*(-1)) or tonumber(userinfo[tmp_prefix..'balance'])
+    balance = tonumber(userinfo['posttoexternal']) == 1 and tonumber(userinfo[tmp_prefix..'credit_limit'])+(tonumber(userinfo[tmp_prefix..'balance'])) or tonumber(userinfo[tmp_prefix..'balance'])
     -- Override balance if call is DID / inbound and coming from provider to avoid provider balance checking upon DID call. 
     if (userinfo['type'] == '3' and call_direction == 'inbound') then
             balance = 10000
