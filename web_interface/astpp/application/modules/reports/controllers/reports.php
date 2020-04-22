@@ -46,6 +46,7 @@ class Reports extends MX_Controller
         $data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $this->session->set_userdata('advance_search_date', 1);
+        $this->session->set_userdata('customer_cdr_id', 0);
         $data['grid_fields'] = $this->reports_form->build_report_list_for_customer();
         $data["grid_buttons"] = $this->reports_form->build_grid_customer();
         $data['form_search'] = $this->form->build_serach_form($this->reports_form->get_customer_cdr_form());

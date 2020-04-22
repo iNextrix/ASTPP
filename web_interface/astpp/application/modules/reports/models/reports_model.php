@@ -38,9 +38,13 @@ class Reports_model extends CI_Model
             $where['reseller_id'] = $account_data['type'] == 1 ? $account_data['id'] : 0;
         }
 
+        $types = array();
+
         if (intval($this->session->userdata('customer_cdr_id'))> 0) {
             $where['accountid'] = $this->session->userdata('customer_cdr_id');
-            $where['type'] = 0;
+            $types = ['0'];
+        } else {
+            $types = ['0', '3'];
         }
 
         $table_name = 'cdrs';
@@ -53,10 +57,6 @@ class Reports_model extends CI_Model
             }
         }
 
-        $types = array(
-            '0',
-            '3'
-        );
         $this->db->where_in('type', $types);
         if (isset($where) && $where != "") {
             $this->db->where($where);
