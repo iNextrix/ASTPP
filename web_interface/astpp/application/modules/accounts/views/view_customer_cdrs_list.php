@@ -78,7 +78,7 @@
 						href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>">
 						<i class="fa fa-fast-backward" aria-hidden="true"></i><?php echo gettext('Back');?></a>
 				</div>
-                <div id="show_search" class="float-right btn btn-warning m-2 py-1" data-ripple=" " style="position: relative;">
+                <div id="show_search" class="float-right btn btn-warning m-2 py-1" data-ripple=" " style="position: relative; min-width: 50px;">
                     <i class="fa fa-search"></i>
                 </div>
 			</div>

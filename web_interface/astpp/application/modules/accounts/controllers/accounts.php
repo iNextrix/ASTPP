@@ -1153,7 +1153,8 @@ class Accounts extends MX_Controller
             $account_data = (array) $account_res->first_row();
             $accounttype = strtolower($this->common->get_entity_type('', '', $account_data['type']));
             $this->load->module('reports/reports');
-            $data['grid_fields'] = $this->reports->reports_form->build_report_list_for_user($accounttype);
+//            $data['grid_fields'] = $this->reports->reports_form->build_report_list_for_user($accounttype);
+            $data['grid_fields'] = $this->reports_form->build_report_list_for_customer();
             $data['form_search'] = $this->form->build_serach_form($this->reports_form->get_customer_lite_cdr_form());
             $data['edit_id'] = $edit_id;
             $data['accounttype'] = $accounttype;
