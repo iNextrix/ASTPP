@@ -40,7 +40,7 @@ class Reports_model extends CI_Model
 
         if (intval($this->session->userdata('customer_cdr_id'))> 0) {
             $where['accountid'] = $this->session->userdata('customer_cdr_id');
-            $this->session->set_userdata('customer_cdr_id', '');
+            $where['type'] = 0;
         }
 
         $table_name = 'cdrs';
