@@ -33,9 +33,16 @@ class Reports_model extends CI_Model
     {
         $this->db_model->build_search('customer_cdr_list_search');
         $account_data = $this->session->userdata("accountinfo");
+
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $where['reseller_id'] = $account_data['type'] == 1 ? $account_data['id'] : 0;
         }
+
+        if (intval($this->session->userdata('customer_cdr_id'))> 0) {
+            $where['accountid'] = $this->session->userdata('customer_cdr_id');
+            $this->session->set_userdata('customer_cdr_id', '');
+        }
+
         $table_name = 'cdrs';
         if ($this->session->userdata('advance_search_date') == 1) {
             $where['callstart >= '] = date("Y-m-d") . " 00:00:00";

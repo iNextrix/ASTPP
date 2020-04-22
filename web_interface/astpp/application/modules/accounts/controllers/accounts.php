@@ -1137,6 +1137,7 @@ class Accounts extends MX_Controller
         $data['search_flag'] = true;
         $this->session->set_userdata('advance_search', 0);
         $this->session->set_userdata('advance_search_date', 1);
+        $this->session->set_userdata('customer_cdr_id', $edit_id);
 
         if ($accountinfo['type'] == - 1) {
             $where = array(
