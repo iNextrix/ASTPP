@@ -38,3 +38,4 @@ $lang['password_check_old'] = "New Password and old password should not be same"
 $lang['did_account_checking'] = "This %s have not sufficient amount to purchase this DID";
 $lang['phn_number']	= "The %s field is Invalid.";
 $lang['check_priority_total']	= "All percentage field total should be 100.";
+$lang['numeric_with_spacial_characters']= "The %s field must contain only numeric and spacial characters(*,#).";
