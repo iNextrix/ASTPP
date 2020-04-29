@@ -181,15 +181,11 @@ jQuery(function($) {
 	}
   	if($footer != '' && ($this->session->userdata['logintype'] == 2 || $this->session->userdata['logintype'] ==-1)){ ?>
 			 <div  class="pull-left col-3">
-			<span><?php echo gettext("Managed & Maintained by")?> </span>
-			<a href="https://inextrix.com/" target="_blank">
-				<span style="color: #216397;text-shadow: 0px 1px 1px #FFF;">
-					<strong>iNextrix Technologies Pvt. Ltd.</strong>
-				</span>
-			</a>
+			<span>SmartSip</span>
+			
 	    </div>
 		
-		<div class="col py-2">
+		<!-- <div class="col py-2">
   	   		 <label class="text-light" style="margin-top:3px;"><i> <?php echo gettext('Follow us on:')?> </i></label>
   	   		 <div class="social-media">
   	   		  <a target="_blank" href="https://www.facebook.com/astppbilling" title="Facebook"> <i class="facebook fa fa-facebook"></i></a>
@@ -197,7 +193,7 @@ jQuery(function($) {
   	   		  <a target="_blank" href="https://twitter.com/astppbilling" title="Twitter"> <i class="twitter fa fa-twitter "></i></a>
   	   		 
   	   		</div>
-		 </div>
+		 </div> -->
 
 	<span class="pull-right pr-4 pl-3"> <?php echo gettext('Version')?>  <?php echo common_model::$global_config['system_config']['version']; ?>  &nbsp; 
 

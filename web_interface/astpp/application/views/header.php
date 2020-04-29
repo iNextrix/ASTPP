@@ -12,7 +12,7 @@
 		<? start_block_marker('page-title') ?><? end_block_marker() ?> | <?php echo $user_header; ?>
 	<?php
 	} else { ?>
-		<? start_block_marker('page-title') ?><? end_block_marker() ?> | ASTPP - Open Source Voip Billing Solution
+		<? start_block_marker('page-title') ?><? end_block_marker() ?> | SmartSip
 	<?php
 	}
 	?>
