@@ -28,6 +28,12 @@ class lib {
 		$res_conf = $db->run ( $query );
 		foreach ( $res_conf as $res_conf_key => $res_conf_value )
 			$this->config [$res_conf_value ['name']] = $res_conf_value ['value'];
+
+// Add keys&value from config file		
+        $config_file = parse_ini_file ( "/var/lib/astpp/astpp-config.conf" );
+
+		foreach ( $config_file as $conf_key => $conf_value )
+			$this->config [$conf_key] = $conf_value;
 		
 		return $this->config;
 	}

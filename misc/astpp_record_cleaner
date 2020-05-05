@@ -1,0 +1,3 @@
+# Record files cleaner
+
+59 23     * * *     root   /usr/bin/php /opt/ASTPP/freeswitch/fs/record_cleaner.php

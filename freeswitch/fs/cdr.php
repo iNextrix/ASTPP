@@ -82,6 +82,8 @@ if (isset ( $_SERVER ["CONTENT_TYPE"] ) && $_SERVER ["CONTENT_TYPE"] == "applica
 	if(function_exists('custom_start_hook'))
 		custom_start_hook($data, $db, $logger, $decimal_points,$config);
 
+    $data ['variables'] ['fs_node'] = isset($config['fs_node'])?$config['fs_node']:NULL;
+
 	if ($data ['variables'] ['calltype'] == "CALLINGCARD") {
 		if (isset ( $data ['variables'] ['originating_leg_uuid'] )) {
 			$process_data=process_cdr ( $data, $db, $logger, $decimal_points,$config );

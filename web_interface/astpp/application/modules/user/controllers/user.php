@@ -1900,8 +1900,19 @@ class User extends MX_Controller
     function user_report_recording_download($file_name)
     {
         $file_name = $this->config->item('recordings_path') . $file_name;
+
+        if ( !file_exists($file_name) ){
+            $uniqueid = pathinfo($file_name, PATHINFO_FILENAME);
+
+            $fs_host = "SELECT f.freeswitch_webapi FROM cdrs c, freeswich_servers f WHERE c.uniqueid='$uniqueid' AND c.fs_node=f.id";
+            $fs_host = (array) $this->db->query($fs_host)->first_row();
+
+            file_put_contents($file_name, fopen($fs_host['freeswitch_webapi'].'/index.php?section=record&uid='.$uniqueid, 'r'));
+        }
+
         header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
+//        header('Content-Type: application/octet-stream');
+        header('Content-Type: audio/mpeg');
         header('Content-Disposition: attachment; filename=' . basename($file_name));
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');

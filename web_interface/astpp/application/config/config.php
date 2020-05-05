@@ -449,5 +449,6 @@ $config ['local_number-rates-field'] = array (
 );
 
 
-$config['recordings_path'] = FCPATH."playlist/example/media/recordings/";
+// $config['recordings_path'] = FCPATH."playlist/example/media/recordings/";
+$config['recordings_path'] = FCPATH."media_cache/";
 

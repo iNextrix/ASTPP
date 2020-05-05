@@ -130,11 +130,12 @@ function freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call
     end   
 
 	if(tonumber(customer_userinfo['is_recording']) == 0) then 
-		table.insert(xml, [[<action application="export" data="is_recording=1"/>]]);
+--		table.insert(xml, [[<action application="export" data="is_recording=1"/>]]);
+		table.insert(xml, [[<action application="export" data="is_recording=0"/>]]);
 		table.insert(xml, [[<action application="export" data="media_bug_answer_req=true"/>]]);
 		table.insert(xml, [[<action application="export" data="RECORD_STEREO=true"/>]]);
 		table.insert(xml, [[<action application="export" data="record_sample_rate=8000"/>]]);
-		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${recordings_dir}/${uuid}.wav"/>]]);
+		table.insert(xml, [[<action application="export" data="execute_on_answer=record_session $${recordings_dir}/${uuid}.mp3"/>]]);
 	end
 	return xml
 end

@@ -2667,6 +2667,18 @@ class Freeswitch_form extends common
                 'trim|required|numeric|integer|max_length[5]|greater_than[-1]|less_than[65535]',
                 'tOOL TIP',
                 'Please Enter account number'
+            ),
+            array(
+                gettext('Web API'),
+                'INPUT',
+                array(
+                    'name' => 'freeswitch_webapi',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'trim',
+                'tOOL TIP',
+                'Please Enter account number'
             )
         );
 

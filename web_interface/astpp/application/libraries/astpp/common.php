@@ -1878,6 +1878,16 @@ class common {
 		);
 		return $status_array;
 	}
+	function custom_record_periods($status='') {
+		$status_array = array (
+				'0' => gettext ( 'No store'     ),
+				'1' => gettext ( 'One month'    ),
+				'2' => gettext ( 'Two months'   ),
+				'3' => gettext ( 'Three months' ),
+				'4' => gettext ( 'Four months'  )
+		);
+		return $status_array;
+	}
 	function custom_status_active($status) {
 		$status_array = array (
 				'0' => gettext ( 'Active' ),
@@ -3199,7 +3209,7 @@ class common {
 	function check_recording_exist($select = "", $table = "" ,$uid){
 		$accountinfo = $this->CI->session->userdata ( 'accountinfo' );
 
-		$cdrs_result = $this->CI->db_model->getSelect ( 'calltype,call_direction,billseconds', "cdrs", array("uniqueid"=>$uid) );
+		$cdrs_result = $this->CI->db_model->getSelect ( 'calltype,call_direction,billseconds,is_recording', "cdrs", array("uniqueid"=>$uid) );
 		$cdrs_result = (array)$cdrs_result->first_row ();
 		$calltype = $cdrs_result['calltype'];
 		$call_direction = $cdrs_result['call_direction'];
@@ -3208,7 +3218,8 @@ class common {
 		{
 			$uid=rtrim($uid,'LOCAL_'.$accountinfo['id']);
 		}
-		if(file_exists($this->CI->config->item('recordings_path').$uid.".wav") && $calltype != 'FAX'){	
+//		if(file_exists($this->CI->config->item('recordings_path').$uid.".wav") && $calltype != 'FAX'){	
+		if($cdrs_result['is_recording'] == 0 && $calltype != 'FAX'){	
 			$url =base_url()."user/user_report_recording_download/".$uid.".wav";
 			$play_img_url =base_url()."assets/images/play_file.png";
 			$pause_img_url =base_url()."assets/images/pause.png";
