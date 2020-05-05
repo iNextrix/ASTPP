@@ -22,7 +22,7 @@
 // ##############################################################################
 
 // Error handling
-define ( 'ENVIRONMENT', 'development' );
+define ( 'ENVIRONMENT', 'production' );
 
 if (defined ( 'ENVIRONMENT' )) {
 	switch (ENVIRONMENT) {
