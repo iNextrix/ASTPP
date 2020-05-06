@@ -9,7 +9,7 @@ $config = $lib->get_configurations($db);
 $logger = new logger($lib);
 
 if (isset($config['fs_node']) && intval($config['fs_node'])>0 && isset($config['fs_rec_dir'])){
-    $expired_record_files = $db->run('SELECT c.uniqueid, a.id FROM accounts a, cdrs c WHERE a.record_store_period IS NOT null AND a.id = c.accountid AND c.fs_node = '.intval($config['fs_node']).' AND c.is_recording = 0 AND c.callstart<=DATE_SUB(curdate(), INTERVAL a.record_store_period MONTH)');
+    $expired_record_files = $db->run('SELECT c.uniqueid, a.id FROM accounts a, cdrs c WHERE a.record_store_period IS NOT null AND a.id = c.accountid AND c.fs_node = '.intval($config['fs_node']).' AND c.is_recording = 0 AND c.callstart<=DATE_SUB(curdate(), INTERVAL a.record_store_period DAY)');
 
     if (!empty($expired_record_files)) {
         $logger->log('-----------------Start inspect expired record files------------------');

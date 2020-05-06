@@ -47,6 +47,32 @@
         $(".breadcrumb li a").removeAttr("data-ripple",""); 
     });
 
+var lastClicked = '';
+function playAudio(val,time_pause) {
+    if(lastClicked != '' && lastClicked != val){
+        var y = document.getElementById("myAudio_"+lastClicked);
+        $("#play_"+lastClicked).css("display","block");
+        $("#pause_"+lastClicked).css("display","none");
+        y.pause();
+        y.currentTime = 0;
+    }
+    var x = document.getElementById("myAudio_"+val);
+    $("#play_"+val).css("display","none");
+    $("#pause_"+val).css("display","block");
+    x.play();
+    lastClicked= val;
+    setTimeout(function(){
+            $("#play_"+val).css("display","block");
+            $("#pause_"+val).css("display","none");
+        }, time_pause*1000
+    );
+}
+function pauseAudio(val) {
+    var x = document.getElementById("myAudio_"+val);
+    $("#play_"+val).css("display","block");
+    $("#pause_"+val).css("display","none");
+    x.pause();
+}
 </script>
 <? endblock() ?>
 <? startblock('page-title') ?>

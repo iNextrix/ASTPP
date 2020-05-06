@@ -104,14 +104,14 @@ class Reports extends MX_Controller
                 if (($value['calltype'] == 'LOCAL' || $value['calltype'] == 'STANDARD') && $value['call_direction'] == 'inbound') {
                     $uid = rtrim($uid, $value['calltype'] . '_' . $value['accountid']);
                 }
-                $file_name = $this->config->item('recordings_path') . $uid . ".wav";
+                $file_name = $this->config->item('recordings_path') . $uid . ".mp3";
 //                if (file_exists($file_name) && $value['calltype'] != 'FAX') {
                 if ($value['is_recording'] == 0 && $value['calltype'] != 'FAX') {
                     $billseconds = $value['billseconds'];
-                    $url = base_url() . "reports/customerReport_recording_download/" . $uid . ".wav";
+                    $url = base_url() . "reports/customerReport_recording_download/" . $uid . ".mp3";
                     $play_img_url = base_url() . "assets/images/play_file.png";
                     $pause_img_url = base_url() . "assets/images/pause.png";
-                    $action = '<audio id="myAudio_' . $uid . '">
+                    $action = '<audio id="myAudio_' . $uid . '" preload="none">
 					<source src="' . $url . '" type="audio/mpeg">
 					Your browser does not support the audio element.
 					</audio>';

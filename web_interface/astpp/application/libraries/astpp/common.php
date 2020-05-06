@@ -1880,11 +1880,12 @@ class common {
 	}
 	function custom_record_periods($status='') {
 		$status_array = array (
-				'0' => gettext ( 'No store'     ),
-				'1' => gettext ( 'One month'    ),
-				'2' => gettext ( 'Two months'   ),
-				'3' => gettext ( 'Three months' ),
-				'4' => gettext ( 'Four months'  )
+				'0'  =>       gettext ( 'No store' ),
+				'7'  =>  '7 '.gettext ( 'days' ),
+				'14' => '14 '.gettext ( 'days' ),
+				'30' => '30 '.gettext ( 'days' ),
+				'60' => '60 '.gettext ( 'days' ),
+				'90' => '90 '.gettext ( 'days' )
 		);
 		return $status_array;
 	}
@@ -3220,10 +3221,10 @@ class common {
 		}
 //		if(file_exists($this->CI->config->item('recordings_path').$uid.".wav") && $calltype != 'FAX'){	
 		if($cdrs_result['is_recording'] == 0 && $calltype != 'FAX'){	
-			$url =base_url()."user/user_report_recording_download/".$uid.".wav";
+			$url =base_url()."user/user_report_recording_download/".$uid.".mp3";
 			$play_img_url =base_url()."assets/images/play_file.png";
 			$pause_img_url =base_url()."assets/images/pause.png";
-			$action = '<audio id="myAudio_'.$uid.'">
+			$action = '<audio id="myAudio_'.$uid.'" preload="none">
 			<source src="'.$url.'" type="audio/mpeg">
 			Your browser does not support the audio element.
 			</audio>';
