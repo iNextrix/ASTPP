@@ -102,7 +102,7 @@
 		
                   <div class='col-md-6 form-group'> 
                       <label class="col-md-12 p-0 control-label"><?php echo gettext('Commission'); ?> (%)</label>
-                     <input class="col-md-12 form-control form-control-lg m-0" name="commission" value="<?php echo (isset($product_info['commission']))?$product_info['commission']:'' ?>" size="16" type="text"/>
+                     <input class="col-md-12 form-control form-control-lg m-0" name="commission" value="<?php echo (isset($product_info['commission']))?round(floatval($product_info['commission']),2):'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="commission_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="commission_error">   </span></div>	
                   </div>
 			<div class='col-md-6 form-group'> 

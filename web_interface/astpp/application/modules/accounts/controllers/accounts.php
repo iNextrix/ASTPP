@@ -2834,7 +2834,11 @@ class Accounts extends MX_Controller
             $product_info = $this->db_model->getSelect("*", "products", array(
                 "id" => $product_id
             ));
+
             $data['product_info'] = (array) $product_info->first_row();
+            $data['product_info']['price'] = round(floatval($data['product_info']['price']), 2);
+            $data['product_info']['setup_fee'] = round(floatval($data['product_info']['setup_fee']), 2);
+
             $this->load->view("view_customer_orders_assign", $data);
         }
 
