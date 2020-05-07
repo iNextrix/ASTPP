@@ -2692,6 +2692,22 @@ class User_form extends common
                 "right"
             );
         }
+
+        $recording = array();
+        if ($account_info['is_records_visible']==0) {
+            $recording = array(
+                gettext("Recording"),
+                "127",
+                "uid",
+                "uid",
+                "uid",
+                "check_recording_exist",
+                "",
+                "false",
+                "center"
+            );
+        }
+
         $grid_field_arr = json_encode(array(
             array(
                 gettext("Date"),
@@ -2782,18 +2798,7 @@ class User_form extends common
                 "true",
                 "center"
             ),
-
-            array(
-                gettext("Recording"),
-                "127",
-                "uid",
-                "uid",
-                "uid",
-                "check_recording_exist",
-                "",
-                "false",
-                "center"
-            )
+            $recording
         ));
         return $grid_field_arr;
     }

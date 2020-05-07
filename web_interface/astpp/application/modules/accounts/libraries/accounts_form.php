@@ -417,6 +417,19 @@ class Accounts_form extends common
                 '',
                 'custom_status_recording'
             );
+            $display_recording = array(
+                gettext('Display recording'),
+                'is_records_visible',
+                'SELECT',
+                '',
+                '',
+                'tOOL TIP',
+                'Please Enter account number',
+                '',
+                '',
+                '',
+                'custom_status_recording'
+            );
             $record_store_reiod = array(
                 gettext('Record store period'),
                 'record_store_period',
@@ -605,6 +618,7 @@ class Accounts_form extends common
             $allow_local_calls,
             $allow_lc_charge,
             $allow_recording,
+            $display_recording,
             $record_store_reiod,
             $allow_ip_management,
             array(
