@@ -99,30 +99,38 @@ class Reports extends MX_Controller
             foreach ($query as $value) {
                 $duration = ($show_seconds == 'minutes') ? ($value['billseconds'] > 0) ? sprintf('%02d', $value['billseconds'] / 60) . ":" . sprintf('%02d', $value['billseconds'] % 60) : "00:00" : $value['billseconds'];
                 $account = isset($account_arr[$value['accountid']]) ? $account_arr[$value['accountid']] : 'Anonymous';
+//                $is_recording = isset($account_is_recording[$value['accountid']]) ? $account_is_recording[$value['accountid']] : '1';
+                $is_recording = 1;
+                if (
+                    isset($account_is_recording[$value['accountid']])
+                 && isset($value['is_recording'])
+                 && intval($value['billseconds'])>0
+                 && intval($account_is_recording[$value['accountid']]) == 0
+                 && intval($value['is_recording']) == 0
+                ){
+                    $is_recording = 0;
+                }
+
                 $is_recording = isset($account_is_recording[$value['accountid']]) ? $account_is_recording[$value['accountid']] : '1';
                 $uid = $value['uniqueid'];
                 if (($value['calltype'] == 'LOCAL' || $value['calltype'] == 'STANDARD') && $value['call_direction'] == 'inbound') {
                     $uid = rtrim($uid, $value['calltype'] . '_' . $value['accountid']);
                 }
                 $file_name = $this->config->item('recordings_path') . $uid . ".mp3";
-//                if (file_exists($file_name) && $value['calltype'] != 'FAX') {
-                if ($value['is_recording'] == 0 && $value['calltype'] != 'FAX') {
+                if ($is_recording == 0 && $value['calltype'] != 'FAX') {
                     $billseconds = $value['billseconds'];
                     $url = base_url() . "reports/customerReport_recording_download/" . $uid . ".mp3";
                     $play_img_url = base_url() . "assets/images/play_file.png";
                     $pause_img_url = base_url() . "assets/images/pause.png";
-                    $action = '<audio id="myAudio_' . $uid . '" preload="none">
-					<source src="' . $url . '" type="audio/mpeg">
-					Your browser does not support the audio element.
-					</audio>';
-                    $action .= "<button onclick='playAudio(\"$uid\",\"$billseconds\")' type='button' class='btnplay'  id='play_" . $uid . "'  style='display:block;margin:0px 0 0 25px;border:0px !important; float:left; padding:0px'><img src=" . $play_img_url . " height='25px' width='25px' style='cursor: pointer;'/></button>";
 
+                    $action  = '<audio id="myAudio_' . $uid . '" preload="none"><source src="' . $url . '" type="audio/mpeg">Your browser does not support the audio element.</audio>';
+                    $action .= "<button onclick='playAudio(\"$uid\",\"$billseconds\")' type='button' class='btnplay'  id='play_" . $uid . "'  style='display:block;margin:0px 0 0 25px;border:0px !important; float:left; padding:0px'><img src=" . $play_img_url . " height='25px' width='25px' style='cursor: pointer;'/></button>";
                     $action .= "<button onclick='pauseAudio(\"$uid\")' type='button'  class='btnplay' id='pause_" . $uid . "' style='display: none;margin:0px 0 0 25px;border:0px !important; float:left;padding:0px'><img src=" . $pause_img_url . " height='25px' width='25px' style='cursor: pointer;'/></button>";
-                    $recording = ($is_recording == 0) ? '<a title="'.gettext('Recording file').'" href="' . $url . '"><img src="' . base_url() . 'assets/images/download.png" height="20px" width="20px"/></a>' : '<img src="' . base_url() . 'assets/images/false.png" height="20px" alt="file not found" width="20px"/>';
+
+                    $recording = '<a title="'.gettext('Recording file').'" href="' . $url . '"><img src="' . base_url() . 'assets/images/download.png" height="20px" width="20px"/></a>';
                 } else {
                     $recording = '<img src="' . base_url() . 'assets/images/false.png" height="20px" title="'.gettext('Record file is not available').'" width="20px"/>';
                     $action = '<img src="' . base_url() . 'assets/images/false.png" height="20px" title="'.$file_name.'" width="20px"/>';
-//                    $action = '<img src="' . base_url() . 'assets/images/false.png" height="20px" title="Play file is not available" width="20px"/>';
                 }
                 if ($accountinfo['type'] == 1) {
                     $json_data['rows'][] = array(

@@ -3219,21 +3219,28 @@ class common {
 		{
 			$uid=rtrim($uid,'LOCAL_'.$accountinfo['id']);
 		}
-//		if(file_exists($this->CI->config->item('recordings_path').$uid.".wav") && $calltype != 'FAX'){	
-		if($cdrs_result['is_recording'] == 0 && $calltype != 'FAX'){	
+
+        $is_recording = 1;
+        if (
+             isset($accountinfo['is_recording'])
+          && isset($cdrs_result['is_recording'])
+          && intval($cdrs_result['billseconds'])>0
+          && intval($accountinfo['is_recording']) == 0
+          && intval($cdrs_result['is_recording']) == 0
+          ){
+              $is_recording = 0;
+        }
+
+		if($is_recording == 0 && $calltype != 'FAX'){	
 			$url =base_url()."user/user_report_recording_download/".$uid.".mp3";
 			$play_img_url =base_url()."assets/images/play_file.png";
 			$pause_img_url =base_url()."assets/images/pause.png";
-			$action = '<audio id="myAudio_'.$uid.'" preload="none">
-			<source src="'.$url.'" type="audio/mpeg">
-			Your browser does not support the audio element.
-			</audio>';
-			$action .= "<button onclick='playAudio(\"$uid\",\"$billseconds\")' type='button' class='btnplay'  id='play_".$uid."'  style='display:block;margin:0px 0 0 25px;border:0px !important; float:left; padding:0px'><img src=".$play_img_url." height='25px' width='25px' style='cursor: pointer;'/></button>";
 
+			$action = '<audio id="myAudio_'.$uid.'" preload="none"><source src="'.$url.'" type="audio/mpeg">Your browser does not support the audio element.</audio>';
+			$action .= "<button onclick='playAudio(\"$uid\",\"$billseconds\")' type='button' class='btnplay'  id='play_".$uid."'  style='display:block;margin:0px 0 0 25px;border:0px !important; float:left; padding:0px'><img src=".$play_img_url." height='25px' width='25px' style='cursor: pointer;'/></button>";
 			$action .= "<button onclick='pauseAudio(\"$uid\")' type='button'  class='btnplay' id='pause_".$uid."' style='display: none;margin:0px 0 0 25px;border:0px !important; float:left;padding:0px'><img src=".$pause_img_url." height='25px' width='25px' style='cursor: pointer;'/></button>";
 
-			$recording = ($accountinfo['is_recording'] == 0) ? '<a title="'.gettext('Recording file').'" href="'.$url.'"><img src="' . base_url() . 'assets/images/download.png" height="20px" width="20px"/></a>' : '<img src="' . base_url() . 'assets/images/false.png" height="20px" alt="file not found" width="20px"/>';
-					
+			$recording = '<a title="'.gettext('Recording file').'" href="'.$url.'"><img src="' . base_url() . 'assets/images/download.png" height="20px" width="20px"/></a>';
 		}else{
 			$recording='<img src="' . base_url() . 'assets/images/false.png" height="20px" title="'.gettext('Record file is not available').'" width="20px"/>';
 			$action = '<img src="' . base_url() . 'assets/images/false.png" height="20px" title="'.gettext('Play file is not available').'" width="20px"/>';
