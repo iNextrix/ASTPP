@@ -82,17 +82,18 @@ class Ratedeck extends MX_Controller
                     exit();
                 } else {
                     $code = $add_array['pattern'];
-                    $code = "^" . $code . ".*";
+//                    $code = "^" . $code . ".*";
                     $where = array(
                         "pattern" => $code,
+                        "zlength" => $add_array['zlength'],
                         "country_id" => $add_array['country_id']
                     );
                     $query = $this->ratedeck_model->check_unique_ratedeck_for_edit($where);
                     $result = $query->result_array();
-                    if ($result[0]['id'] != $add_array['id'] && $result[0]['pattern'] == $add_array['pattern'] && $result[0]['country_id'] == $add_array['country_id']) {
+                    if ($result[0]['id'] != $add_array['id'] && $result[0]['pattern'] == $add_array['pattern'] && $result[0]['country_id'] == $add_array['country_id'] && $result[0]['zlength'] == $add_array['zlength']) {
                         echo json_encode(array(
                             "pattern_error" => gettext("Code is already in system"),
-                            "country_id_error" => gettext("Country is already in system")
+                            "country_id_error" => gettext("Country is already in system"),
                         ));
                         exit();
                     } else {
@@ -111,9 +112,10 @@ class Ratedeck extends MX_Controller
                     exit();
                 } else {
                     $code = $add_array['pattern'];
-                    $code = "^" . $code . ".*";
+//                    $code = "^" . $code . ".*";
                     $where = array(
                         "pattern" => $code,
+                        "zlength" => $add_array['zlength'],
                         "country_id" => $add_array['country_id']
                     );
                     $query = $this->ratedeck_model->check_unique_ratedeck($where);
@@ -435,7 +437,30 @@ class Ratedeck extends MX_Controller
         force_download("ratedeck_sample.csv", $file);
         ob_clean();
     }
+
+    function ratedeck_import_zones() {
+        $answer = '{"status":"ok","code":"0"}';
+        $file_location = $this->config->item('rates-file-path').$_FILES['file']['name'];
+
+        if ( move_uploaded_file($_FILES['file']['tmp_name'], $file_location) ){
+            if ( $csv_flh = fopen($file_location, 'r') ){
+                $this->db->db_debug = FALSE;
+                while(FALSE !== ($data = fgetcsv($csv_flh, 255, ';')) ) {
+                    if (intval($data[0])>0){
+                            $this->db->query("insert into ratedeck (pattern, zlength, destination, country_id) values(7".$data[0].$data[1].",".$data[3].",'".$data[5]."(".$data[4].")', 159)", false);
+                            if ($this->db->insert_id() === 0){
+                                $answer = '{"status":"error","code":"2"}';
+                                break;
+                            }
+                    }
+                }
+                fclose($csv_flh);
+            }
+        } else {
+            $answer = '{"status":"error","code":"1"}';
+        }
+
+        print($answer);
+    }
 }
 ?>
- 
-

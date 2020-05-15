@@ -795,52 +795,27 @@ class Db_model extends CI_Model {
 		if ($search_array != '') {
 			switch ($value) {
 				case "1" :
-					$str1 = $field . " LIKE '%$search_array%'";
-					$this->db->where ( $str1 );
+					$this->db->where ( "convert($field, char) LIKE '%$search_array%'" );
 					break;
 				case "2" :
-					$str1 = $field . " NOT LIKE '%$search_array%'";
-					$this->db->where ( $str1 );
+					$this->db->where ( "convert($field, char) NOT LIKE '%$search_array%'" );
 					break;
 				case "3" :
-                                         if ($field == "pattern") {
-                                                $str1 = $field . " = '^" . $search_array . ".*'";
-                                                $this->db->where ( $str1 );
-                                        }else{
-                                                $this->db->where ( $field, $search_array );
-                                        }
-                                        break;
-                                case "4" :
-                                        if ($field == "pattern") {
-                                                $str1 = $field . " <> '^" . $search_array . ".*'";
-                                                $this->db->where ( $str1 );
-                                        }else{
-                                                 $this->db->where ( $field . ' <>', $search_array );
-                                        }
-                                        break;
+                    $this->db->where ( $field, $search_array );
+                    break;
+                case "4" :
+                   $this->db->where ( $field . ' <>', $search_array );
+                    break;
 				case "5" :
-					if ($field == "pattern") {
-						$str1 = $field . " LIKE '^" . $search_array . "%'";
-						$this->db->where ( $str1 );
-					} else {
-						$str1 = $field . " LIKE '" . $search_array . "%'";
-						$this->db->where ( $str1 );
-					}
-
+					$this->db->where ( "convert($field, char) LIKE '$search_array%'" );
 					break;
 				case "6" :
-					if ($field == "pattern") {
-						$str1 = $field . " LIKE '%" . $search_array . ".*'";
-						$this->db->where ( $str1 );
-					} else {
-						$str1 = $field . " LIKE '%" . $search_array . "'";
-						$this->db->where ( $str1 );
-					}
-
+					$this->db->where ( "convert($field, char) LIKE '%$search_array'" );
 					break;
 			}
 		}
 	}
+
 	function build_search_string($accounts_list_search) {
 		$where = null;
 		$search = $this->session->userdata ( $accounts_list_search );

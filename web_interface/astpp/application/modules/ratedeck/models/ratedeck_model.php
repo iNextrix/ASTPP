@@ -39,7 +39,7 @@ class Ratedeck_model extends CI_Model
             );
         }
         if ($flag) {
-            $query = $export == true ? $this->db_model->select("*", "ratedeck", $where, "id", "ASC", $limit, $start) : $this->db_model->select("*", "ratedeck", $where, "id", "ASC");
+            $query = $export == true ? $this->db_model->select("id, destination, country_id, pattern, (pattern+zlength) as zlength, call_type, status, reseller_id", "ratedeck", $where, "id", "ASC", $limit, $start) : $this->db_model->select("id, destination, country_id, pattern, (pattern+zlength) as zlength, call_type, status, reseller_id", "ratedeck", $where, "id", "ASC");
         } else {
             $query = $this->db_model->countQuery("*", "ratedeck", $where);
         }
@@ -50,7 +50,7 @@ class Ratedeck_model extends CI_Model
     {
         unset($data["action"]);
         $data["creation_date"] = date("Y-m-d H:i:s");
-        $data['pattern'] = "^" . $data['pattern'] . ".*";
+//        $data['pattern'] = "^" . $data['pattern'] . ".*";
         if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
             $data['reseller_id'] = $this->session->userdata["accountinfo"]['id'];
         } else {
@@ -61,7 +61,7 @@ class Ratedeck_model extends CI_Model
 
     function edit_ratedeck($data, $id)
     {
-        $data['pattern'] = "^" . $data['pattern'] . ".*";
+//        $data['pattern'] = "^" . $data['pattern'] . ".*";
         unset($data["action"]);
         $data["last_modified_date"] = date("Y-m-d H:i:s");
         $this->db->where("id", $id);

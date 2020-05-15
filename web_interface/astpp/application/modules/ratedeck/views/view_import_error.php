@@ -20,9 +20,9 @@
 			<div class="col-md-12">
 				<div class="card">
 					<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext('Error In CSV File'); ?></h3>
-					<div class="col-md-12 p-4"><?php echo gettext('Records Imported Successfully:'); ?>
+					<div class="col-md-12 p-4"><?php echo gettext('Records Imported Successfully').':'; ?>
 									  <?= $import_record_count; ?>
-									<br /><?php echo gettext('Records Not Imported:'); ?>
+									<br /><?php echo gettext('Records Not Imported').':'; ?>
 									 <?= $failure_count?>
 							</div>
 				</div>

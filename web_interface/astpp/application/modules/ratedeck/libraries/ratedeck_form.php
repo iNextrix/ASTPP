@@ -54,10 +54,23 @@ class Ratedeck_form extends common
                 ''
             ),
             array(
-                gettext('Code'),
+                gettext('Begin zone'),
                 'INPUT',
                 array(
                     'name' => 'pattern',
+                    'size' => '20',
+                    'maxlength' => '39',
+                    'class' => "text field medium"
+                ),
+                'trim|required|numeric|xss_clean',
+                'tOOL TIP',
+                ''
+            ),
+            array(
+                gettext('End zone'),
+                'INPUT',
+                array(
+                    'name' => 'zlength',
                     'size' => '20',
                     'maxlength' => '39',
                     'class' => "text field medium"
@@ -150,7 +163,7 @@ class Ratedeck_form extends common
         );
         $form[gettext('Search')] = array(
             array(
-                gettext('Code'),
+                gettext('Begin zone'),
                 'INPUT',
                 array(
                     'name' => 'pattern[pattern]',
@@ -272,7 +285,7 @@ class Ratedeck_form extends common
                 "center"
             ),
             array(
-                gettext("Code"),
+                gettext("Begin zone"),
                 "150",
                 "pattern",
                 "pattern",
@@ -281,6 +294,17 @@ class Ratedeck_form extends common
                 "EDITABLE",
                 "true",
                 "left"
+            ),
+            array(
+                gettext("End zone"),
+                "150",
+                "zlength",
+                "",
+                "",
+                "",
+                "",
+                "true",
+                "center"
             ),
             array(
                 gettext("Destination"),

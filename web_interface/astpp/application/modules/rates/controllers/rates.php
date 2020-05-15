@@ -373,7 +373,7 @@ class Rates extends MX_Controller
         }
         $this->load->view('view_import_origination_rate', $data);
     }
-
+/*
     function get_ratedeck_details_for_prefix($prefix)
     {
         $where = "(pattern='-1'";
@@ -385,7 +385,7 @@ class Rates extends MX_Controller
         $where .= ")";
         return $this->db_model->getSelectWithOrderAndLimit("*", "ratedeck", $where, 'desc', "length(pattern)", 1);
     }
-
+*/
     function origination_rate_import_file($pricelistID, $trunkid, $check_header = false)
     {
         $new_final_arr = array();
@@ -432,7 +432,7 @@ class Rates extends MX_Controller
                             $prefix = $this->common->get_only_numeric_val("", "", $csv_data['pattern']);
                             $value = '';
                             $pattern = '';
-
+/*
                             $query = $this->get_ratedeck_details_for_prefix($prefix);
                             if ($query->num_rows() > 0) {
                                 $result = $query->result_array();
@@ -447,6 +447,7 @@ class Rates extends MX_Controller
                                     $csv_data['call_type'] = $result['call_type'];
                                 }
                             }
+*/
                         }
                     }
                     $new_final_arr[$i] = $csv_data;
@@ -609,6 +610,7 @@ class Rates extends MX_Controller
                     $string = $add_array['pattern'];
                     $value = '';
                     $pattern = '';
+/*
                     $query = $this->get_ratedeck_details_for_prefix($add_array['pattern']);
                     if ($query->num_rows() > 0) {
                         $result = $query->result_array();
@@ -622,6 +624,7 @@ class Rates extends MX_Controller
                             $add_array['call_type'] = $result[0]['call_type'];
                         }
                     }
+*/
                 }
             }
             $data['trunk_count'] = Common_model::$global_config['system_config']['trunk_count'];

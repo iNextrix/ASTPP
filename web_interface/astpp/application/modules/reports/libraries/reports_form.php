@@ -1493,7 +1493,7 @@ class Reports_form extends common
                 array(
                     gettext("Destination"),
                     "90",
-                    "notes",
+                    "did",
                     "",
                     "",
                     "",
@@ -1663,7 +1663,7 @@ class Reports_form extends common
                 array(
                     gettext("Destination"),
                     "80",
-                    "notes",
+                    "did",
                     "",
                     "",
                     "",

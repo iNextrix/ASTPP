@@ -2756,10 +2756,10 @@ class User_form extends common
             array(
                 gettext("Destination"),
                 "160",
-                "notes",
+                "did",
                 "",
                 "",
-                "",
+                "get_did_name",
                 "",
                 "true",
                 "center"
