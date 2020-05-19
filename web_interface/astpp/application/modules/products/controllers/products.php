@@ -116,7 +116,7 @@ class Products extends MX_Controller {
 		$accountinfo = $this->session->userdata ( 'accountinfo' );
 		if(isset($_POST['product_category']) && $_POST['product_category'] != ''){
 			$data['product_name'] = isset($_POST['product_name'])?$_POST['product_name']:'';
-			$category =$data['product_category'][$_POST['product_category']];
+            $category = $this->db_model->getCurrent('category', 'code', array("id"=>intval($_POST['product_category'])));
 			$data['add_array'] = $_POST;
 			$this->load->view ( 'view_product_add_'.strtolower($category), $data);
 		}else{
@@ -124,7 +124,6 @@ class Products extends MX_Controller {
 				$this->load->view ( 'view_product_add_subscription', $data);
 			}else{
 				$this->load->view ( 'view_product_add_package', $data);
-				
 			}
 		}
 	

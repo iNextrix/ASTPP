@@ -718,6 +718,25 @@ class Reports_form extends common
                     'end_date[end_date-date]'
                 ),
                 array(
+                    gettext('Called Number'),
+                    'INPUT',
+                    array(
+                        'name' => 'callednum[callednum]',
+                        'value' => '',
+                        'size' => '20',
+                        'class' => "text field "
+                    ),
+                    '',
+                    'Tool tips info',
+                    '1',
+                    'callednum[callednum-string]',
+                    '',
+                    '',
+                    '',
+                    'search_string_type',
+                    ''
+                ),
+                array(
                     '',
                     'HIDDEN',
                     'cdrs_year',
