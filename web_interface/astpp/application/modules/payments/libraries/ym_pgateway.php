@@ -13,7 +13,7 @@ class Ym_pgateway extends CI_Model {
     private $BASE_URL    = '';
     private $CLIENT_ID   = '';
     private $LOG_FN      = '';
-    private $TRANSACTION_INSTANCE = null;
+    private $TRANSACTION_INSTANCE = NULL;
     private $YM_WALLET   = '';
     private $URL_SUCCESS = '';
     private $URL_FAIL    = '';
@@ -26,7 +26,8 @@ class Ym_pgateway extends CI_Model {
 
         $this->read_config();
 
-        $this->getInstance();
+        if (strlen($this->TRANSACTION_INSTANCE)==0)
+            $this->getInstance();
     }
 
 /*
@@ -57,6 +58,9 @@ class Ym_pgateway extends CI_Model {
                 }
                 if ( $v['name'] == 'wallet_id' ){
                     $this->YM_WALLET = $v['value'];
+                }
+                if ( $v['name'] == 'instance_id' ){
+                    $this->TRANSACTION_INSTANCE = $v['value'];
                 }
             }
         }
@@ -107,6 +111,11 @@ class Ym_pgateway extends CI_Model {
             if ($answer->status == 'success') {
                 $this->TRANSACTION_INSTANCE = $answer->instance_id;
                 $fun_result = true;
+                $this->db->update(
+                    'ym_config',
+                    array('value' => $this->TRANSACTION_INSTANCE),
+                    array('name' => 'instance_id')
+                );
             } else {
                 $this->Addtolog('API method instance-id return error: '.$answer->error);
             }
