@@ -1,3 +1,6 @@
+# !!! NOTE !!! 
+# For access to record dir, add web user to group freeswitch:
+# #> usermod -G freeswitch www-data 
 <?php
     if (isset($_REQUEST['uid'])){
         $call_params = ($db->run("SELECT accountid FROM cdrs WHERE fs_node = ".$config['fs_node']." AND is_recording = 0 AND uniqueid = '".$_REQUEST['uid']."'"))[0];

@@ -195,7 +195,7 @@ class Ipmap_form extends common
                     '',
                     '',
                     '',
-                    'custom_status'
+                    'custom_status_recording'
                 ),
                 array(
                     gettext('FW Rule'),
