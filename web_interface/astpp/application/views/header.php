@@ -337,8 +337,8 @@ $(document).ready(function(){
 				if(common_model::$global_config['system_config']['opensips']==1 && $sub_menu_key=="Customers") {?>
 				    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="<?php echo base_url(); ?>accounts/customer_list/"><span><?= gettext($sub_menu_key);?></span></a>
 				<?php }
-				if(($acc_info['type']==3 || $acc_info['type']== 0) && $acc_info['allow_ip_management']== 1 && strtolower($sub_menu_lables["menu_label"]) !='ip settings'){ ?>
-				    <li class="dropdown-submenu"><a class="nav-link dropdown-toggle dropdown-item" href="#"><span><?= gettext($sub_menu_key);?></span></a>
+				if(($acc_info['type']==3 || $acc_info['type']== 0) && $acc_info['allow_ip_management']== 1 && strtolower($sub_menu_lables["menu_label"]) !='ip settings' && $sub_menu_values[0]['menu_type']!='service'){?>
+				    <li class="dropdown-submenu"><a class="nav-link dropdown-toggle dropdown-item" href="#"><span><?=gettext($sub_menu_key)?></span></a>
 					<? }
 				}else{ ?>
 					    <li class="dropdown-submenu"></a>

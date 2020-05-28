@@ -1,0 +1,3 @@
+# Package Analytics. Reports generator.
+
+*/5 *     * * *     root   /usr/bin/php /opt/ASTPP/web_interface/astpp/index.php analytics genReports

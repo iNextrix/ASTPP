@@ -70,7 +70,9 @@
                       <?php echo gettext("Setup Cost"); ?> : <span class=""><b><?php echo isset($value['setup_fee'])?$this->common->convert_to_currency ( '', '', $value['setup_fee'] ):'' ?></b></span>
                       </div>
                       <div class="badge p-0 fw-n float-right">
-                      <?php echo gettext("Free Minutes"); ?> : <span class=""><b><?php echo isset($value['free_minutes'])?$value['free_minutes']:'' ?><?php echo gettext("min"); ?></b></span>
+                      <?php if (isset($value['free_minutes']) && intval($value['free_minutes'])>0){ ?>
+                      <?php echo gettext("Free Minutes"); ?> : <span class=""><b><?php echo $value['free_minutes'].gettext("min");?></b></span>
+                      <?php }?>
                       </div>
                     </div>
                   </div>

@@ -22,7 +22,8 @@
 
 function db_connect()
 	-- DB connection 
-	dbh = freeswitch.Dbh("odbc://"..ODBC_DSN..":"..DB_USERNAME..":"..DB_PASSWD.."");
+	--dbh = freeswitch.Dbh("odbc://"..ODBC_DSN..":"..DB_USERNAME..":"..DB_PASSWD.."");
+	dbh = freeswitch.Dbh("mariadb://Server="..DB_HOST..";Database="..DB_NAME..";Uid="..DB_USERNAME..";Pwd="..DB_PASSWD.."");
 	--Logger.error ("odbc://"..ODBC_DSN..":"..DB_USERNAME..":"..DB_PASSWD.."")
 	-- Check if DB connected or not
 	if dbh:connected() == false then

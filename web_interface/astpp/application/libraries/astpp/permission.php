@@ -26,6 +26,7 @@ class Permission {
 	function __construct($library_name = '') {
 		$this->CI = & get_instance ();
 		$this->CI->load->model ( "db_model" );
+        $this->CI->load->model ('analytics/analytics_model');
 		$this->CI->load->library ( 'session' );
 	}
 	function get_module_access($user_type) {
@@ -57,20 +58,22 @@ class Permission {
 							"menu_image" => trim ( $menu_value ["menu_image"] ) 
 					);
 				}
-			$permissioninfo = $this->CI->session->userdata('permissioninfo');
-                        $module_url_explode=explode("/",$menu_value["module_url"]);
-                        $main_module=$module_url_explode[0];
-                        $sub_main_module=$module_url_explode[1];
-			$sub_url_explode=explode('_',$sub_main_module);
-                        $logintype = $this->CI->session->userdata('logintype');
-                        if((isset($permissioninfo[$main_module][$sub_main_module]['list']) && $permissioninfo[$main_module][$sub_main_module]['list'] == 0 or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3') or ($permissioninfo['login_type'] == '1' and $sub_main_module='resellersrates_list') or (isset($permissioninfo[$main_module][$sub_main_module]['list']) && $permissioninfo[$main_module][$sub_main_module]['list'] == 0 and $permissioninfo['login_type'] == '2')){
-                                $permited_modules[] = trim($sub_url_explode[0]);
-                        }
 
+			    $permissioninfo = $this->CI->session->userdata('permissioninfo');
+                $module_url_explode=explode("/",$menu_value["module_url"]);
+                $main_module=$module_url_explode[0];
+                $sub_main_module=$module_url_explode[1];
+       			$sub_url_explode=explode('_',$sub_main_module);
+                $logintype = $this->CI->session->userdata('logintype');
+
+                if((isset($permissioninfo[$main_module][$sub_main_module]['list']) && $permissioninfo[$main_module][$sub_main_module]['list'] == 0 or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3') or ($permissioninfo['login_type'] == '1' and $sub_main_module='resellersrates_list') or (isset($permissioninfo[$main_module][$sub_main_module]['list']) && $permissioninfo[$main_module][$sub_main_module]['list'] == 0 and $permissioninfo['login_type'] == '2')){
+                    $permited_modules[] = trim($sub_url_explode[0]);
+                }
 			}
 
 			$this->CI->session->set_userdata ( 'permited_modules', serialize ( $permited_modules ) );
 			$this->CI->session->set_userdata ( 'menuinfo', serialize ( $menu_list ) );
+            $this->CI->analytics_model->getMenuItems();
 
 			return true;
 		}

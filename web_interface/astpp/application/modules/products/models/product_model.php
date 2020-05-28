@@ -156,6 +156,7 @@ buycost,reseller_products.price,reseller_products.billing_type,reseller_products
 				"release_no_balance"=>isset($add_array['release_no_balance'])?$add_array['release_no_balance']:"0",
 				"created_by"=>$add_array['accountid'],
 				"reseller_id"=>isset($add_array['reseller_id'])?$add_array['reseller_id']:0,
+                "attr"=>isset($add_array['resources'])?implode(',', $add_array['resources']):NULL,
 				"creation_date"=>gmdate("Y-m-d H:i:s"),
 				"last_modified_date"=>gmdate("Y-m-d H:i:s")
 		);
@@ -305,6 +306,7 @@ buycost,reseller_products.price,reseller_products.billing_type,reseller_products
 				"destination_countries"=>isset($editpatternSearchArr['destination_countries'])?implode(",",$editpatternSearchArr['destination_countries']):"",
 				"destination_calltypes"=>isset($editpatternSearchArr['destination_calltypes'])?implode(",",$editpatternSearchArr['destination_calltypes']):"",
 				"release_no_balance"=>isset($add_array['release_no_balance'])?$add_array['release_no_balance']:"0",
+                "attr"=>isset($add_array['resources'])?implode(',', $add_array['resources']):NULL,
 				"created_by"=>$add_array['accountid'],
 				"creation_date"=>gmdate("Y-m-d H:i:s"),
 				"last_modified_date"=>gmdate("Y-m-d H:i:s")
