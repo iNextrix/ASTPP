@@ -22,6 +22,9 @@ startblock('content');
                                 <thead>
                                     <tr>
                                       <th scope="col"><?=gettext('Date create')?></th>
+                                      <?php if($login_type == -1) {?>
+                                      <th scope="col"><?=gettext('Account')?></th>
+                                      <?php }?>
                                       <th scope="col"><?=gettext('Begin date')?></th>
                                       <th scope="col"><?=gettext('End date')?></th>
                                       <th scope="col"><?=gettext('Status')?></th>
@@ -39,6 +42,12 @@ startblock('content');
                 <div class="card p-4 px-0 border">
                     <h3 class="bg-secondary text-light p-2 rounded-top"><?php echo gettext('Request new report'); ?></h3>
                     <div class="row px-4">
+                        <?php if ($login_type == -1) { ?>
+                        <div class='col-md-12 form-group'>
+                            <label class="col-md-12 p-0 control-label"><?php echo gettext('Account')?></label>
+                            <?=form_dropdown_all('accountid', $acc_list, '');?>
+                        </div>
+                        <?php }?>
                         <div class='col-md-12 form-group'>
                             <label class="col-md-12 p-0 control-label"><?php echo gettext('Begin date')?></label>
                             <input type="text" class="form-control" id="r_begin_data"/>
@@ -78,7 +87,7 @@ function show_toast(toast_type, toast_message) {
 $("#report_new").click(function(){
     $.post(
         location.pathname+'/addreport',
-        {bd:$("#r_begin_data").val(), ed:$("#r_end_data").val()},
+        {bd:$("#r_begin_data").val(), ed:$("#r_end_data").val() <?php if($login_type == -1 ) echo ",aid:$(\"select[name='accountid']\").val()"?>},
         function(a){
             if (a.hasOwnProperty('error')){
                 if (parseInt(a.error) === 0){
@@ -109,7 +118,7 @@ function loadReportsList(){
 
             if (list.length > 0){
                 $(list).each(function(i,o){
-                    $(tbody).append("<tr><td>"+o.cdate+"</td><td>"+o.bdate+"</td><td>"+o.edate+"</td><td>"+o.pstatus+"</td><td>"+o.hsum+"</td></tr>");
+                    $(tbody).append("<tr><td>"+o.cdate+"</td><?php if($login_type == -1)echo '<td>"+o.uname+"</td>' ?><td>"+o.bdate+"</td><td>"+o.edate+"</td><td>"+o.pstatus+"</td><td>"+o.hsum+"</td></tr>");
                 });
             } else {
                 $(tbody).append("<tr><td colspan=5 class='text-center p-4'><?=gettext('Empty')?></td></tr>");

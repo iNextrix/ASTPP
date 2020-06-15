@@ -8,7 +8,7 @@ class Analytics extends MX_Controller {
 
         if ($this->router->fetch_method() != 'genReports'){
             if ($this->session->userdata('user_login') == FALSE){
-                redirect(base_url() . '/astpp/login');
+                redirect(base_url() . 'astpp/login');
                 exit();
             }
 
@@ -19,7 +19,7 @@ class Analytics extends MX_Controller {
         }
     }
 
-    private function addReport($bd, $ed) {
+    private function addReport($bd, $ed, $aid) {
         $ans = array(
                 'error'  => 0,
                 'status' => 'ok'
@@ -31,7 +31,7 @@ class Analytics extends MX_Controller {
 
         if ( $bdi <= $edi ) {
             if ( $days <= 31 ) {
-                $this->analytics_model->addReport($bd, $ed);
+                $this->analytics_model->addReport($bd, $ed, $aid);
             } else {
                 $ans['error']  = 1;
                 $ans['status'] = gettext('Too much days in period');
@@ -68,14 +68,16 @@ class Analytics extends MX_Controller {
 
         if ($act === NULL){
             $data['page_title'] = $this->analytics_model->getRATTR($this->router->fetch_method(), 'description');
-            $data['action'] = $act;
+            $data['action']     = $act;
+            $data['acc_list']   = $this->db_model->build_dropdown("id,first_name", "accounts", "where_arr", array("type" => "3", "type" => "0"));
+            $data['login_type'] = ($this->session->userdata('accountinfo'))['type'];
 
             $this->load->view('view_rep_direction', $data);
         };
 
         if ($act === 'addreport'){
             $this->output->set_content_type('application/json');
-            echo $this->addReport($params['bd'], $params['ed']);
+            echo $this->addReport($params['bd'], $params['ed'], $params['aid']);
         };
 
         if ($act === 'getlist'){
@@ -107,7 +109,7 @@ class Analytics extends MX_Controller {
             foreach($task_list as $titem){
                 if ($this->analytics_model->checkTaskStatus($titem['rid'], 'O')){
                     $this->analytics_model->setTaskStatus($titem['hsum'], 'P');
-                    $report_data['data']   = $this->analytics_model->getReportData($titem['aid'], $titem['bdate'], $titem['edate']);
+                    $report_data['data']   = $this->analytics_model->getReportData($titem['raid'], $titem['bdate'], $titem['edate']);
                     $report_data['bdate']  = $titem['bdate'];
                     $report_data['edate']  = $titem['edate'];
                     $report_data['cdate']  = $titem['cdate'];

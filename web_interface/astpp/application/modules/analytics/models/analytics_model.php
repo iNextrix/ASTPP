@@ -44,15 +44,16 @@ class Analytics_model extends CI_Model {
         $acc_info  = $this->session->userdata('accountinfo');
         $menu_list = unserialize($this->session->userdata('menuinfo'));
         $permited  = array();
-        $category_name = '';
 
-        $query_permited = $this->db->query("SELECT p.attr, c.name FROM order_items o, products p, category c WHERE o.is_terminated = 0 and o.accountid = ".$acc_info['id']." and o.product_id = p.id and o.product_category = p.product_category AND p.status = 0 AND p.product_category = c.id AND c.code = '".self::CATEGORY_CODE."' AND c.status = 0");
+        $query_permited = $this->db->query("SELECT p.attr FROM order_items o, products p WHERE o.is_terminated = 0 and o.accountid = ".$acc_info['id']." and o.product_id = p.id and o.product_category = p.product_category AND p.status = 0");
+        $query_catname  = $this->db->query("SELECT name FROM category WHERE code = '".self::CATEGORY_CODE."' AND status = 0");
+        $ds_catname     = $query_catname->result_array();
+        $category_name  = $ds_catname[0]['name'];
 
         if ($query_permited->num_rows() > 0) {
             $ds_permited = $query_permited->result_array();
             foreach ($ds_permited as $list) {
                 $permited = array_merge(explode(',', $list['attr']), $permited);
-                $category_name = $list['name'];
             }
             foreach (self::RESOURCES as $r_item){
                 if (in_array($r_item[id], $permited)){
@@ -65,9 +66,19 @@ class Analytics_model extends CI_Model {
                     );
                 }
             }
-
-            $this->session->set_userdata ( 'menuinfo', serialize ( $menu_list ) );
+        } elseif ($acc_info['type'] == -1) {
+            foreach (self::RESOURCES as $r_item){
+                $menu_list['Reports'][$category_name][] = array (
+                    'menu_label' => $r_item['description'],
+                    'menu_type'  => 'service',
+                    'module_url' => $r_item['resource_url'],
+                    'module'     => strtolower($category_name),
+                    'menu_image' => ''
+                );
+            }
         }
+
+        $this->session->set_userdata ( 'menuinfo', serialize ( $menu_list ) );
 
         return true;
     }
@@ -88,22 +99,26 @@ class Analytics_model extends CI_Model {
             $res = in_array($rid, $permited);
         }
 
-        return $res;
+        return $acc_info['type'] == -1 ? true : $res;
     }
 
-    function addReport($bd, $ed) {
-        $hsum     = md5($bd.$ed);
-        $acc_info = $this->session->userdata('accountinfo');
+    function addReport($bd, $ed, $aid) {
+        $login_type = ($this->session->userdata('accountinfo'))['type'];
+        $accid      = ($this->session->userdata('accountinfo'))['id'];
+        $raid       = $login_type == -1 ? $aid : $accid;
+        $raid       = $raid ? $raid : 'null';
+        $hsum       = md5($bd.$ed.$raid);
 
         $report_params = array(
-                'aid'    => $acc_info['id'],
+                'aid'    => $accid,
+                'raid'   => $raid == 'null'? null: $raid,
                 'bdate'  => $bd,
                 'edate'  => $ed,
                 'hsum'   => $hsum,
                 'locale' => $this->session->userdata('user_language')
             );
 
-        $query_exist = $this->db->query("select pstatus, fname from ar_directions where aid=".$acc_info['id']." and hsum='$hsum'");
+        $query_exist = $this->db->query("select pstatus, fname from ar_directions where aid=$accid and hsum='$hsum' and raid=$raid");
 
         if ($query_exist->num_rows() > 0) {
             $ds_exist = ($query_exist->result_array())[0];
@@ -143,14 +158,15 @@ class Analytics_model extends CI_Model {
     function getReportsList() {
         $rep_list   = array();
         $acc_info   = $this->session->userdata('accountinfo');
-        $query_list = $this->db->query("select bdate, edate, DATE_FORMAT(cdate, '%Y-%m-%d') as cdate, pstatus, if(length(fname)>0, hsum, '') as hsum from ar_directions where aid=".$acc_info['id']);
+        $query_list = $this->db->query("SELECT if(raid IS NULL,'All', (SELECT first_name FROM accounts WHERE id=raid)) AS uname , bdate, edate, DATE_FORMAT(cdate, '%Y-%m-%d') as cdate, pstatus, if(length(fname)>0, hsum, '') as hsum from ar_directions where aid=".$acc_info['id']);
 
         if ($query_list->num_rows() > 0) {
             $rep_list = $query_list->result_array();
 
             foreach ($rep_list as $key => $val){
                 $rep_list[$key]['pstatus'] = $this->getPStatusText($val['pstatus']);
-                $rep_list[$key]['hsum']   = $this->getDownloadLink($val['hsum']);
+                $rep_list[$key]['hsum']    = $this->getDownloadLink($val['hsum']);
+                $rep_list[$key]['uname']   = gettext($val['uname']);
             }
         }
 
@@ -178,6 +194,7 @@ class Analytics_model extends CI_Model {
     }
 
     function getReportData($aid, $bd, $ed) {
+        $where_acc = intval($aid) > 0 ? "AND c.accountid=$aid" : "";
         $directions_count = array();
         $query_dircount = $this->db->query("SELECT 
                                             b.did, r.destination,
@@ -187,7 +204,7 @@ class Analytics_model extends CI_Model {
                                                 FROM cdrs c
                                                 WHERE     c.end_stamp >= STR_TO_DATE('$bd','%Y-%m-%d')
                                                       AND c.end_stamp <= STR_TO_DATE('$ed','%Y-%m-%d')
-                                                      AND c.did <> 0 AND c.accountid=$aid
+                                                      AND c.did <> 0 $where_acc
                                             ) b, ratedeck r
                                             WHERE b.did=r.id ORDER BY cnt DESC");
 
@@ -206,7 +223,7 @@ class Analytics_model extends CI_Model {
 
     function getTaskList() {
         $tlist       = array();
-        $query_tlist = $this->db->query("select rid, aid, bdate, edate, DATE_FORMAT(cdate, '%Y-%m-%d') as cdate, hsum, locale from ar_directions where pstatus='O'");
+        $query_tlist = $this->db->query("select rid, raid, bdate, edate, DATE_FORMAT(cdate, '%Y-%m-%d') as cdate, hsum, locale from ar_directions where pstatus='O'");
 
         if ($query_tlist->num_rows() > 0) {
             $tlist = $query_tlist->result_array();
