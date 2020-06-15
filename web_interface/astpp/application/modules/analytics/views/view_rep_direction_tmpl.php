@@ -67,7 +67,7 @@
             $p = round(($i/$t)*100);
         }
 
-        return $p>=1 ? $p : '< 1';
+        return $p>=1 ? $p : '> 1';
     }
 
     $total_cnt = 0;
