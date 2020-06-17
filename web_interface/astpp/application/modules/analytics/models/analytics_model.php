@@ -194,20 +194,12 @@ class Analytics_model extends CI_Model {
     }
 
     function getReportData($aid, $bd, $ed) {
-        $where_acc1 = intval($aid) > 0 ? "AND c.accountid=$aid" : "";
-        $where_acc2 = intval($aid) > 0 ? "AND d.accountid=$aid" : "";
+        $where_acc = intval($aid) > 0 ? "AND c.accountid=$aid" : "";
         $directions_count = array();
-        $query_dircount = $this->db->query("SELECT 
-                                            b.did, r.destination,
-                                            (SELECT COUNT(*) FROM cdrs d WHERE d.end_stamp >= STR_TO_DATE('$bd','%Y-%m-%d') AND d.end_stamp <= STR_TO_DATE('$ed','%Y-%m-%d') $where_acc2 AND d.did = b.did) AS cnt
-                                            FROM (
-                                                SELECT distinct c.did
-                                                FROM cdrs c
-                                                WHERE     c.end_stamp >= STR_TO_DATE('$bd','%Y-%m-%d')
-                                                      AND c.end_stamp <= STR_TO_DATE('$ed','%Y-%m-%d')
-                                                      AND c.did <> 0 $where_acc1
-                                            ) b, ratedeck r
-                                            WHERE b.did=r.id ORDER BY cnt DESC");
+        $query_dircount = $this->db->query("SELECT c.did, r.destination, COUNT(*) AS cnt
+                                            FROM cdrs c, ratedeck r
+                                            WHERE c.did=r.id AND c.end_stamp BETWEEN STR_TO_DATE('$bd','%Y-%m-%d') AND STR_TO_DATE('$ed','%Y-%m-%d') AND c.did <> 0 $where_acc
+                                            GROUP BY c.did, r.destination ORDER BY cnt DESC");
 
         if ($query_dircount->num_rows() > 0) {
             $directions_count = $query_dircount->result_array();
