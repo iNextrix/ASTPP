@@ -312,7 +312,7 @@ class order {
 					"billing_date"=>gmdate("Y-m-d 00:00:01"),
 					"next_billing_date"=>($product_info->billing_days == 0)?gmdate('Y-m-d 23:59:59', strtotime('+10 years')):gmdate("Y-m-d 23:59:59",strtotime("+".($product_info->billing_days-1)." days")),
 					"is_terminated"=>0,
-					"termination_date"=>"",
+					//"termination_date"=>"",
 					"from_currency"=>$from_currency,
 					"exchange_rate"=>$account_currency_info['currencyrate'],
 					"to_currency"=>$account_currency_info['currency']

@@ -475,7 +475,26 @@ class Products extends MX_Controller {
 	     }
 	
          }
-	function analytics_product($add_array){ 
+
+    function vpbx_product($add_array){
+        $SearchArr = '';
+        if(!empty($this->session->userdata('product_package_pattern_search'))){
+            $SearchArr = $this->session->userdata('product_package_pattern_search');
+        }
+        if(isset($add_array['id']) && $add_array['id']!= ''){
+            $this->product_model->edit_product($add_array,$add_array['id'],$SearchArr);
+        }else{
+            $last_id =$this->product_model->add_product($add_array,$SearchArr);
+
+            if($add_array['apply_on_existing_account'] == 0){
+                $this->assign_product_to_exiting_account($add_array,$last_id);
+            }
+            $this->session->set_flashdata ( 'astpp_errormsg', gettext('Package created successfully!'));
+            redirect ( base_url () . 'products/products_edit/'.$last_id.' ' );
+        }
+    }
+
+	function analytics_product($add_array){
 		$SearchArr = '';
 		if(!empty($this->session->userdata('product_package_pattern_search'))){ 
 			$SearchArr = $this->session->userdata('product_package_pattern_search');

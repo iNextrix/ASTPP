@@ -1326,7 +1326,7 @@ class common {
 
 		$sip_user_name     = isset($accountinfo ['sip_user_name']) && $accountinfo ['sip_user_name'] != "" ? $accountinfo ['sip_user_name'] : '';
 		$callkit_token     = isset($accountinfo ['callkit_token']) && $accountinfo ['callkit_token'] != "" ? $accountinfo ['callkit_token'] : '';
-		$status_code      = isset($accountinfo ['status_code']) && $accountinfo ['status_code'] != "" ? $accountinfo ['status_code'] : '';
+		$status_code      = isset($accountinfo ['status_code']) && $accountinfo ['status_code'] != "" ? $accountinfo ['status_code'] : '0';
 	switch ($type) {
 	    case 'product_renewed':
 
@@ -1567,7 +1567,7 @@ class common {
 
     }
 
-    function emailFunction($from, $to, $subject, $message,$alert_template="",$usermobile="",$sms_message, $company_name = "", $attachment = "", $account_id, $reseller_id,$sip_user_name='',$callkit_token='',$status_code='') {
+    function emailFunction($from, $to, $subject, $message,$alert_template="",$usermobile="",$sms_message, $company_name = "", $attachment = "", $account_id, $reseller_id,$sip_user_name='',$callkit_token='',$status_code=0) {
 
     				$sms_message = '';
 					$alert_template = '';
@@ -1576,7 +1576,7 @@ class common {
 					$sip_user_name = '';
 					$alert_template = '';
 					$callkit_token = '';
-					$status_code = '';
+					//$status_code = '';
 
 
 					$subject = str_replace('<p>', '', $subject);

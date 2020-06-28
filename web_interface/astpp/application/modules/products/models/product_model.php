@@ -133,7 +133,7 @@ buycost,reseller_products.price,reseller_products.billing_type,reseller_products
 		unset ( $add_array ["email_notify"] );
 		$insert_array = array(
 				"name"=>($add_array['product_category'] == 4 || $add_array['product_category'] == "DID" )?$add_array['number']:$add_array['product_name'],
-				"country_id"=>(isset($add_array['country_id']) && $add_array['country_id'] > 0) ? $add_array['country_id'] : "",
+				"country_id"=>(isset($add_array['country_id']) && $add_array['country_id'] > 0) ? $add_array['country_id'] : "0",
 				"description"=>isset($add_array['product_description'])?$add_array['product_description']:"",
 				"product_category"=>$add_array['product_category'],
 				"buy_cost"=>isset($add_array['product_buy_cost'])?$this->common_model->add_calculate_currency ($add_array['product_buy_cost'], "", '', false, false ):"0.00",
@@ -145,7 +145,7 @@ buycost,reseller_products.price,reseller_products.billing_type,reseller_products
 				"commission"=>isset($add_array['commission'])?$add_array['commission']:"0",
 				"billing_type"=>isset($add_array['billing_type'])?$add_array['billing_type']:"",
 				"billing_days"=>isset($add_array['billing_days'])?$add_array['billing_days']:"",
-				"free_minutes"=>isset($add_array['free_minutes'])?$add_array['free_minutes']:"",
+				"free_minutes"=>isset($add_array['free_minutes'])?$add_array['free_minutes']:"0",
 				"apply_on_rategroups"=>isset($add_array['product_rate_group'])?implode(",",$add_array['product_rate_group']):"",
 				"destination_rategroups"=>isset($patternSearchArr['destination_rategroups'])?implode(",",$patternSearchArr['destination_rategroups']):"",
 				"destination_countries"=>isset($patternSearchArr['destination_countries'])?implode(",",$patternSearchArr['destination_countries']):"",
