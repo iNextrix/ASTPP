@@ -8,6 +8,10 @@ class Router {
           require_once(BASEPATH.'database/DB.php');
           $db = DB(); // getting hold of a DAO instance
           $db->select("domain");
+	
+	  $db_conn = $db->conn_id;
+	  $_SERVER['HTTP_HOST'] = mysqli_real_escape_string($db_conn,$_SERVER['HTTP_HOST']);
+ 	
           $db->like("domain",$_SERVER["HTTP_HOST"]);
           $res = $db->get("invoice_conf");
           $domain = $res->result();
