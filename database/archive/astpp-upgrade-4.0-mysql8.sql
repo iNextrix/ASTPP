@@ -1424,7 +1424,7 @@ INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES
 (382, 'Gateways', 'Gateways'),
 (385, 'Proxy', 'Proxy'),
 (386, 'Register', 'Register'),
-(387, 'Caller-Id-In-Form', 'Caller-Id-In-Form'),
+(387, 'Caller-Id-In-From', 'Caller-Id-In-From'),
 (388, 'Trunks', 'Trunks'),
 (390, 'Gateway Name', 'Gateway Name'),
 (391, 'Failover  GW Name #1', 'Failover  GW Name #1'),

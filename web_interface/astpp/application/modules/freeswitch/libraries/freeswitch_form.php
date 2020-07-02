@@ -1478,7 +1478,7 @@ class Freeswitch_form extends common
                 'set_sip_config_option'
             ),
             array(
-                gettext('Caller-Id-In-Form'),
+                gettext('Caller-Id-In-From'),
                 array(
                     'name' => 'caller-id-in-from',
                     'class' => 'add_settings'
@@ -1761,7 +1761,7 @@ class Freeswitch_form extends common
                 "center"
             ),
             array(
-                gettext("Caller-Id-In-Form"),
+                gettext("Caller-Id-In-From"),
                 "100",
                 "caller-id-in-from",
                 "caller-id-in-from",

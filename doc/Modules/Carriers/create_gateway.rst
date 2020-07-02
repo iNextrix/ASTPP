@@ -23,7 +23,7 @@ Create Gateway
   
  Register	          	    True / False
   
- Caller-Id-In-Form	        True / False
+ Caller-Id-In-From	        True / False
              
  Status          		    Active / Inactive 
               

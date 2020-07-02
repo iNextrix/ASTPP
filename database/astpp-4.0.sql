@@ -2579,7 +2579,7 @@ INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES
 (75, 'Caller IP', 'Caller IP'),
 (76, 'Caller Name', 'Caller Name'),
 (77, 'Caller Number', 'Caller Number'),
-(78, 'Caller-Id-In-Form', 'Caller-Id-In-Form'),
+(78, 'Caller-Id-In-From', 'Caller-Id-In-From'),
 (79, 'Calling Card', 'Calling Card'),
 (80, 'Calls', 'Calls'),
 (81, 'Calls Breakdown', 'Calls Breakdown'),
