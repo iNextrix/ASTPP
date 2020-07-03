@@ -2798,6 +2798,17 @@ class User_form extends common
                 "true",
                 "center"
             ),
+            array(
+                gettext("Trunk"),
+                "150",
+                "trunk_id",
+                "trunk_id",
+                "trunk_id",
+                "get_trunk_name",
+                "",
+                "true",
+                "center"
+            ),
             $recording
         ));
         return $grid_field_arr;
@@ -3011,6 +3022,19 @@ class User_form extends common
                 '',
                 'cdrs',
                 'direction_search_type'
+            ),
+            array(
+                gettext('Trunk'),
+                'trunk_id',
+                'SELECT',
+                '',
+                '',
+                'tOOL TIP',
+                'Please Enter account number',
+                'id',
+                'name',
+                'trunks',
+                'build_dropdown',
             ),
             array(
                 gettext('SIP User'),
