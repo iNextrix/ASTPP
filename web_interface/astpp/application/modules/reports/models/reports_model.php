@@ -69,7 +69,7 @@ class Reports_model extends CI_Model
         if ($flag) {
             if (! $export)
                 $this->db->limit($limit, $start);
-            $this->db->select('callstart,is_recording,sip_user,call_direction,callerid,callednum,pattern,notes,billseconds,disposition,debit,cost,accountid,pricelist_id,calltype,trunk_id,uniqueid,(select destination from ratedeck where id=did) as did');
+            $this->db->select('callstart,is_recording,sip_user,call_direction,callerid,callednum,pattern,notes,billseconds,disposition,debit,cost,accountid,pricelist_id,calltype,trunk_id,uniqueid,(select destination from ratedeck where id=did) as did,answersec');
         } else {
             $this->db->select('count(*) as count,sum(billseconds) as billseconds,sum(debit) as total_debit,SUM(CASE WHEN calltype = "FREE" THEN debit ELSE 0 END) AS free_debit,sum(cost) as total_cost,group_concat(distinct(pricelist_id)) as pricelist_ids,group_concat(distinct(trunk_id)) as trunk_ids,group_concat(distinct(accountid)) as accounts_ids');
         }

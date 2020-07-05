@@ -2765,6 +2765,17 @@ class User_form extends common
                 "center"
             ),
             array(
+                gettext("Answer duration"),
+                "100",
+                "answersec",
+                "answersec",
+                "answersec",
+                "convert_to_show_in",
+                "",
+                "true",
+                "center"
+            ),
+            array(
                 gettext("Duration"),
                 "100",
                 "billseconds",

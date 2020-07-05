@@ -98,6 +98,7 @@ class Reports extends MX_Controller
             $currency_info = $this->common->get_currency_info();
             foreach ($query as $value) {
                 $duration = ($show_seconds == 'minutes') ? ($value['billseconds'] > 0) ? sprintf('%02d', $value['billseconds'] / 60) . ":" . sprintf('%02d', $value['billseconds'] % 60) : "00:00" : $value['billseconds'];
+                $answersec = ($show_seconds == 'minutes') ? ($value['answersec'] > 0) ? sprintf('%02d', $value['answersec'] / 60) . ":" . sprintf('%02d', $value['answersec'] % 60) : "00:00" : $value['answersec'];
                 $account = isset($account_arr[$value['accountid']]) ? $account_arr[$value['accountid']] : 'Anonymous';
 //                $is_recording = isset($account_is_recording[$value['accountid']]) ? $account_is_recording[$value['accountid']] : '1';
                 $is_recording = 1;
@@ -141,6 +142,7 @@ class Reports extends MX_Controller
                             $value['sip_user'],
                             filter_var($value['pattern'], FILTER_SANITIZE_NUMBER_INT),
                             $value['did'],
+                            $answersec,
                             $duration,
                             $this->common->calculate_currency_manually($currency_info, $value['debit'], false),
                             $this->common->calculate_currency_manually($currency_info, $value['cost'], false),
@@ -160,6 +162,7 @@ class Reports extends MX_Controller
                             $value['sip_user'],
                             filter_var($value['pattern'], FILTER_SANITIZE_NUMBER_INT),
                             $value['did'],
+                            $answersec,
                             $duration,
                             $this->common->calculate_currency_manually($currency_info, $value['debit'], false),
                             $this->common->calculate_currency_manually($currency_info, $value['cost'], false),
@@ -183,6 +186,7 @@ class Reports extends MX_Controller
                     "",
                     "",
                     "",
+                    "",
                     "<b>$duration</b>",
                     "<b>" . $this->common->calculate_currency_manually($currency_info, $count_all['total_debit'] - $count_all['free_debit'], false) . "</b>",
                     "<b>" . $this->common->calculate_currency_manually($currency_info, $count_all['total_cost'], false) . "</b>",
@@ -192,7 +196,6 @@ class Reports extends MX_Controller
                     "",
                     "",
                     "",
-
                     ""
                 )
             );

@@ -1521,6 +1521,17 @@ class Reports_form extends common
                     "center"
                 ),
                 array(
+                    gettext("Answer duration"),
+                    "90",
+                    "answersec",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "true",
+                    "center"
+                ),
+                array(
                     gettext("Duration"),
                     "80",
                     "billseconds",
@@ -1683,6 +1694,17 @@ class Reports_form extends common
                     gettext("Destination"),
                     "80",
                     "did",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "true",
+                    "center"
+                ),
+                array(
+                    gettext("Answer duration"),
+                    "90",
+                    "answersec",
                     "",
                     "",
                     "",
