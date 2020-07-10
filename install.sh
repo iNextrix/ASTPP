@@ -328,6 +328,7 @@ normalize_astpp ()
 		crontab $CRONPATH
         touch /var/log/astpp/astpp.log
         touch /var/log/astpp/astpp_email.log
+	chmod -Rf 755 $ASTPP_SOURCE_DIR
         chmod 777 /var/log/astpp/astpp.log
         chmod 777 /var/log/astpp/astpp_email.log
         sed -i "s#dbpass = <PASSSWORD>#dbpass = ${ASTPPUSER_MYSQL_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
