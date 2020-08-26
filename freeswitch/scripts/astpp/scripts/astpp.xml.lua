@@ -214,28 +214,27 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 
 	-- Check if is there any gateway configuration params available for it.
 	if (outbound_info['dialplan_variable'] ~= '') then 
-		Logger.info(" ".. outbound_info['dialplan_variable']);
+		-- Logger.info(" ".. outbound_info['dialplan_variable']);
 		local dialplan_variable = split(outbound_info['dialplan_variable'],",")      
 		for dialplan_variable_key,dialplan_variable_value in pairs(dialplan_variable) do
 			local dialplan_variable_data = split(dialplan_variable_value,"=")  
 			Logger.debug("[GATEWAY VARIABLE ] : "..dialplan_variable_data[1] );
 			if( dialplan_variable_data[1] ~= nil and dialplan_variable_data[2] ~= nil) then
                 if (dialplan_variable_data[1] == '%%diversion') then
-                    local params = split(table.concat(dialplan_variable_data,'=',2),"|");
-                    -- Logger.info(" %%diversion = " .. table.concat(dialplan_variable_data,'=',2));
-                    -- Logger.info("Account code : "..userinfo['number'])
+                    local num_src = callerid_array['original_cid_number']
+                    local vd = table.concat(dialplan_variable_data,'=',2)
+                    Logger.info("Macro %%diversion: " .. num_src .. " | " .. vd);
+                    local params = split(vd,"|");
 			        if( params[1] ~= nil and params[2] ~= nil) then
                         local template = params[1];
                         local loc_id = params[2];
-                        -- Logger.info(" %%diversion = " .. template .. " |||| " .. loc_id);
                         local tr_div = get_localization(loc_id,'O')
                         if (tr_div ~= nil) then
-                            num_div = do_number_translation(tr_div['number_originate'],userinfo['number'])
-                            if (num_div ~= '' and userinfo['number'] ~= num_di) then
-                                -- Logger.info(" %%diversion " .. userinfo['number'] .. " => " .. num_div);
+                            local num_div = do_number_translation(tr_div['number_originate'],num_src)
+                            if (num_div ~= '' and num_src ~= num_div) then
                                 local value = template:gsub( "%%%%diversion", num_div)
-                                -- sip_h_Diversion=<sip:3832300362@${local_ip_v4}>;user=phone
 				                table.insert(xml, [[<action application="export" data="]].."sip_h_Diversion=" .. value ..[["/>]]);
+                                Logger.info("Add diversion header: " .. value .. " || Number translate: " .. num_src .. " => " .. num_div);
                             end
                         end
                     end
