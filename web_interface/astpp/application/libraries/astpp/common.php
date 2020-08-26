@@ -3201,6 +3201,9 @@ class common {
 		);
 		return $direction_array;
 	}
+    function get_trunk_name($select = "", $table = "", $trunk_id){
+        return $this->get_field_name("name","trunks",array("id"=>$trunk_id));
+    }
 	function get_price_orders($select = "", $table = "", $orderid){
 		$price = $this->get_field_name("price","order_items",array("order_id"=>$orderid));
 		$setup_fee = $this->get_field_name("setup_fee","order_items",array("order_id"=>$orderid));

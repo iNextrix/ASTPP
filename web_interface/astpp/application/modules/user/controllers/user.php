@@ -1886,8 +1886,10 @@ class User extends MX_Controller
                     "",
                     "",
                     "",
+                    "",
                     "<b>" . $duration . "</b>",
                     "<b>" . $this->common_model->calculate_currency($count_all[$variable] - $count_all['free_debit'], "", "", true, false) . "</b>",
+                    "",
                     "",
                     "",
                     ""

@@ -2765,6 +2765,17 @@ class User_form extends common
                 "center"
             ),
             array(
+                gettext("Answer duration"),
+                "100",
+                "answersec",
+                "answersec",
+                "answersec",
+                "convert_to_show_in",
+                "",
+                "true",
+                "center"
+            ),
+            array(
                 gettext("Duration"),
                 "100",
                 "billseconds",
@@ -2794,6 +2805,17 @@ class User_form extends common
                 "",
                 "",
                 "",
+                "",
+                "true",
+                "center"
+            ),
+            array(
+                gettext("Trunk"),
+                "150",
+                "trunk_id",
+                "trunk_id",
+                "trunk_id",
+                "get_trunk_name",
                 "",
                 "true",
                 "center"
@@ -3011,6 +3033,19 @@ class User_form extends common
                 '',
                 'cdrs',
                 'direction_search_type'
+            ),
+            array(
+                gettext('Trunk'),
+                'trunk_id',
+                'SELECT',
+                '',
+                '',
+                'tOOL TIP',
+                'Please Enter account number',
+                'id',
+                'name',
+                'trunks',
+                'build_dropdown',
             ),
             array(
                 gettext('SIP User'),

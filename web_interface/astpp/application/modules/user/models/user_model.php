@@ -401,7 +401,7 @@ class user_model extends CI_Model
             if (! $export)
                 $this->db->order_by("callstart desc");
                 $this->db->limit($limit, $start);
-                $this->db->select('callstart,sip_user,callerid,call_direction,callednum,pattern,notes,billseconds,disposition,debit,cost,accountid,pricelist_id,calltype,is_recording,trunk_id,uniqueid,uniqueid as uid');
+                $this->db->select('callstart,sip_user,callerid,call_direction,callednum,pattern,notes,billseconds,disposition,debit,cost,accountid,pricelist_id,calltype,is_recording,trunk_id,uniqueid,uniqueid as uid, answersec');
         } else {
             $this->db->select('count(*) as count,sum(billseconds) as billseconds,sum(debit) as total_debit,sum(cost) as total_cost,SUM(CASE WHEN calltype = "FREE" THEN debit ELSE 0 END) AS free_debit,group_concat(distinct(pricelist_id)) as pricelist_ids,group_concat(distinct(trunk_id)) as trunk_ids');
         }
