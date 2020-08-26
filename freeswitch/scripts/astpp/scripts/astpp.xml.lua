@@ -220,7 +220,28 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 			local dialplan_variable_data = split(dialplan_variable_value,"=")  
 			Logger.debug("[GATEWAY VARIABLE ] : "..dialplan_variable_data[1] );
 			if( dialplan_variable_data[1] ~= nil and dialplan_variable_data[2] ~= nil) then
-				table.insert(xml, [[<action application="export" data="]]..dialplan_variable_value..[["/>]]);
+                if (dialplan_variable_data[1] == '%%diversion') then
+                    local params = split(table.concat(dialplan_variable_data,'=',2),"|");
+                    -- Logger.info(" %%diversion = " .. table.concat(dialplan_variable_data,'=',2));
+                    -- Logger.info("Account code : "..userinfo['number'])
+			        if( params[1] ~= nil and params[2] ~= nil) then
+                        local template = params[1];
+                        local loc_id = params[2];
+                        -- Logger.info(" %%diversion = " .. template .. " |||| " .. loc_id);
+                        local tr_div = get_localization(loc_id,'O')
+                        if (tr_div ~= nil) then
+                            num_div = do_number_translation(tr_div['number_originate'],userinfo['number'])
+                            if (num_div ~= '' and userinfo['number'] ~= num_di) then
+                                -- Logger.info(" %%diversion " .. userinfo['number'] .. " => " .. num_div);
+                                local value = template:gsub( "%%%%diversion", num_div)
+                                -- sip_h_Diversion=<sip:3832300362@${local_ip_v4}>;user=phone
+				                table.insert(xml, [[<action application="export" data="]].."sip_h_Diversion=" .. value ..[["/>]]);
+                            end
+                        end
+                    end
+                else
+				    table.insert(xml, [[<action application="export" data="]]..dialplan_variable_value..[["/>]]);
+                end
 			end
 		end             
 	end
