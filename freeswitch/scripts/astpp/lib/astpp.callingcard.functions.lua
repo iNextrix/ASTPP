@@ -64,7 +64,7 @@ function auth_callingcard()
 				cardnum = session:playAndGetDigits(1, 15, 1, config['calling_cards_number_input_timeout'], "#", "astpp-accountnum.wav", "", "^[0-9]+$")
 				Logger.debug("Got DTMF digits: ".. cardnum )
 			     if (cardnum ~= "") then		    
-		        		cardinfo = get_account(cardnum);       
+		        		cardinfo = get_account_by_number(cardnum);       
 		    	     end
 			     if(cardinfo == nil) then
 					session:streamFile("astpp-badaccount.wav")      
@@ -118,6 +118,20 @@ function auth_callingcard()
 	return cardinfo;
 end
 
+ -- To get account by number
+function get_account_by_number(accountcode)
+local query = "SELECT *,(select currencyrate from currency where id=currency_id) as currencyrate FROM "..TBL_USERS.." WHERE number = \""..accountcode.."\" AND status=0 AND deleted=0 limit 1";
+
+	Logger.debug("[get_account_by_number] Query :" .. query)
+
+	local userinfo;
+	assert (dbh:query(query, function(u)
+		userinfo = u;	
+	end))
+	return userinfo;
+
+
+end
 
 -- To save caller id for pinless authentication
 function save_ani(cardinfo)
@@ -145,14 +159,16 @@ end
 
 
 
--- Check DID info 
+-- Check ani info 
 function get_ani(ani_number)
-    
-    local query = "SELECT * FROM ani_map WHERE number = ".. ani_number
-    Logger.debug("[CHECK_DID] Query :" .. query)  
-    assert (dbh:query(query, function(u)
-	ani = u;
-    end))
+    local ani
+    if(ani_number ~= nil and ani_number ~= '') then
+	local query = "SELECT * FROM ani_map WHERE number = ".. ani_number
+    	Logger.debug("[get_ani] Query :" .. query)  
+    	assert (dbh:query(query, function(u)
+		ani = u;
+    	end))
+    end
     return ani;
 end
 
@@ -245,7 +261,7 @@ function playback_ivr(userinfo)
 			process_destination(userinfo);  
 	     elseif (tonumber(result) == 2) then
             config['calling_cards_balance_announce'] = '0';
-			local play_balance = get_balance(userinfo,'',config);
+            local play_balance = get_balance(userinfo,'',config);
 			userinfo['balance']=play_balance
 			say_balance(userinfo); 
 			retries = retries - 1   
@@ -265,9 +281,11 @@ function say_balance(cardinfo)
 			-- Doing currency conversion to play audio file in customer currency
 			customer_balance = (balance * cardinfo['currencyrate'])
 			play_amount(customer_balance)
+			---------------------------------	
+			--session:execute("say", "en currency pronounced " ..  customer_balance);
 		end	
 	end
-	return balance
+    return balance
 end
 
 -- Play amount audio file 
@@ -347,7 +365,7 @@ end
 function dialout( original_destination_number, destination_number, maxlength, userinfo, user_rates, origination_dp_string ,number_loop_str,parentinfo,livecall_reseller)
 	if ( session:ready() ) then
 
-		termination_rates = get_carrier_rates (destination_number,number_loop_str,parentinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'])
+		termination_rates = get_carrier_rates (destination_number,number_loop_str,parentinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'],0)
 		if (termination_rates ~= nil) then
 		    local i = 1
 		    local termination_rates_array = {}
@@ -505,7 +523,7 @@ function dialout( original_destination_number, destination_number, maxlength, us
                     if ( session:ready() ) then
 					xml_termination_rates= "ID:"..termination_rate_arr_value['outbound_route_id'].."|CODE:"..termination_rate_arr_value['pattern'].."|DESTINATION:"..termination_rate_arr_value['comment'].."|CONNECTIONCOST:"..termination_rate_arr_value['connectcost'].."|INCLUDEDSECONDS:"..termination_rate_arr_value['includedseconds'].."|COST:"..termination_rate_arr_value['cost'].."|INC:"..termination_rate_arr_value['inc'].."|TRUNK:"..termination_rate_arr_value['trunk_id'].."|PROVIDER:"..termination_rate_arr_value['provider_id'];
 					session:execute("export","termination_rates="..xml_termination_rates);
-        				--//Pass package id in dialplan
+    			--//HP: Pass package id in dialplan
 					if (package_id and tonumber(package_id) > 0) then
 					    	Logger.notice("::::::::::: package_id!!!"..package_id);
 						session:execute("export","package_id="..package_id.."");
@@ -546,7 +564,7 @@ end
 
 -- Get destination number and findout origination rates related logic inside this function
 function process_destination(userinfo)
-	call_direction = 'outbound' 	  
+	call_direction = 'outbound' 
 	local origination_dp_string
 
 	local destination = session:playAndGetDigits(1, 35, 3, config['calling_cards_dial_input_timeout'], "#", "astpp-phonenum.wav", "astpp-badphone.wav", '^[0-9]+$')
@@ -561,6 +579,18 @@ function process_destination(userinfo)
 	-----------------------------------------------------------------------------------------
 
 	Logger.info("[CHECK_destination] Dialed destination number :" .. destination)
+
+
+	-- Call barring to identify if destination number or caller id is blocked or white listed.
+	call_barring_status = check_call_barring(destination,session:getVariable("caller_id_number"),call_direction)	
+	Logger.debug("Call Barring Status : ".. call_barring_status );
+
+	-- If call_barring_status = -1 then nothing blocked. If 0 then CID is blocked. If 1 then Destination is blocked
+	if (tonumber(call_barring_status)>=0) then
+		error_xml_without_cdr(destination,"DESTINATION_BLOCKED","ASTPP-CALLINGCARD",config['playback_audio_notification'],userinfo['id'])
+		return 0
+	end
+
 	local callerid_array = {}
 	callerid_array['original_cid_number'] = session:getVariable("caller_id_number")
 	callerid_array['cid_number'] = session:getVariable("caller_id_number")
@@ -574,6 +604,13 @@ function process_destination(userinfo)
 		end
 	end
 	-- -------------------------------------------------------
+
+
+	local routing_prefix_rategroup = get_pricelist_by_routing_prefix(destination,userinfo)
+    if (routing_prefix_rategroup ~= nil) then
+        destination = do_number_translation(routing_info['routing_prefix'].."/*",destination)
+    end
+
     -- @TODO : Need to confirm with Rushika for fraud feature
 	--Added for fraud detection checking
 	-- if fraud_check then fraud=fraud_check(accountcode,destination_number,calltype,config,userinfo)
@@ -638,6 +675,11 @@ function process_destination(userinfo)
 		session:streamFile( "astpp-goodbye.wav" );
 		session:hangup();
 	end
+	if(userinfo['ACCOUNT_ERROR'] == 'NO_SUFFICIENT_FUND') then
+		error_xml_without_cdr(destination,"NO_SUFFICIENT_FUND",calltype,config['playback_audio_notification'],userinfo['id'])
+		return 0
+	end
+
 	-- Fine max length of call based on origination rates.
   	local tmp_array = get_call_maxlength(userinfo,destination,"",number_loop_str,config)
 	    
