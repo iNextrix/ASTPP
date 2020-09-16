@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', function(){
 			  <input type="hidden" readonly name="no_shipping" value="1">
 			  <input type="hidden" readonly name="PHPSESSID" value="<?=session_id(); ?>">
 	
-			<input type="hidden" readonly name="currency_code" value="USD">
+			<input type="hidden" readonly name="currency_code" value="GBP">
 			  <input type="hidden" readonly name="notify_url" value="<?php echo (isset($notify_url) && $notify_url !='')?$notify_url: base_url().'pages/paypal_response/'; ?>"> 
 			  <input type="hidden" readonly name="return" value="<?php echo (isset($return) && $return !='')? $return:base_url().'pages/paypal_response/';?>">
 			  <input type="hidden" readonly name="cancel_return" value="<?php echo(isset($cancel_return) && $cancel_return !='')?$cancel_return:base_url().'/pages/'; ?>">
