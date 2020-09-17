@@ -1414,6 +1414,7 @@ class User extends MX_Controller
         $did_info = (array) $this->db->get_where("dids", $where)->result_array()[0];
         $this->load->module('did/did');
         $this->did_model->did_number_release($did_info, $accountinfo, 'release');
+        $did_info['product_name'] = $did_info['number'];
         $final_array = array_merge($did_info, $accountinfo);
         $this->did_lib->did_release($final_array);
         $this->session->set_flashdata('astpp_errormsg', gettext('DID Released Successfully!'));
