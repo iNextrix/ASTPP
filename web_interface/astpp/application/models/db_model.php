@@ -1191,7 +1191,7 @@ class Db_model extends CI_Model {
 	function build_concat_dropdown_reseller($select, $table, $id_where = '', $id_value = '') {
         $account_data = $this->session->userdata("accountinfo");
 		$where=array();
-		if($account_data['type'] == -1){
+		if($account_data['type'] == -1 || $account_data['type'] == 2){
 			$where = array('type' =>'1','status'=>'0','deleted'=>'0');
 		}
         $select_params = explode(',', $select);
@@ -1212,7 +1212,7 @@ class Db_model extends CI_Model {
         $drp_array = $this->getSelect($select, $table, $where);
         $drp_array = $drp_array->result();
         $drp_list = array();
-	if($account_data['type'] == -1){
+	if($account_data['type'] == -1 || $account_data['type'] == 2){
 	$drp_list[0]='Admin';
 	}
         foreach ($drp_array as $drp_value) {
