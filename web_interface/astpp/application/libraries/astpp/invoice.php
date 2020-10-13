@@ -70,7 +70,7 @@ class invoice {
 		} else {
 			$last_invoiceid = $invoice_conf ['invoice_start_from'];
 		}
-		$last_invoiceid = str_pad ( $last_invoiceid, 6 , '0', STR_PAD_LEFT );
+		$last_invoiceid = str_pad ( $last_invoiceid, 0 , '0', STR_PAD_LEFT );
 
 		$invoice_prefix = $invoice_conf ['invoice_prefix'];
 		$due_date = $invoice_conf ['interval']  > 0 ? date ( "Y-m-d H:i:s", strtotime ( gmdate ( "Y-m-d H:i:s" ) . " +" . $invoice_conf ['interval'] . " days" ) ) : gmdate ( "Y-m-d H:i:s" );
