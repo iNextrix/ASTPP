@@ -1475,10 +1475,11 @@ class common {
             break;
 
             case 'product_release';
+				$current_date = gmdate('Y-m-d H:i:s');
 				$subject = str_replace('#PRODUCT_NAME#', $accountinfo['product_name'], $subject);
                 $subject = str_replace('#NUMBER#', $accountinfo['number'], $subject);
 				$message=str_replace('#RECEIVER_ACCOUNT_NUMBER#', $accountinfo['number'], $message);
-				$message=str_replace('#NEXT_BILL_DATE#', $accountinfo['next_billing_date'], $message);
+				$message=str_replace('#NEXT_BILL_DATE#', $current_date, $message);
 				$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
                 $message = str_replace('#PRODUCT_NAME#', $accountinfo['product_name'], $message);
             break;
