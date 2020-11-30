@@ -251,10 +251,8 @@ function services($category= '') {
 		$system_config = common_model::$global_config ['system_config'];
 		$reseller_id = ($accountinfo['reseller_id'] > 0) ? $accountinfo['reseller_id']: 0;
 		$paypal_info= $this->db_model->getSelect("*","system",array("sub_group"=>'Paypal',"reseller_id"=>$reseller_id));
-
-		if($reseller_id > 0 ){ 	 
+		if($reseller_id > 0 ){
 			if($paypal_info->num_rows > 0){
-					
 					$paypal_mode =  $this->common->get_field_name("value","system",array("sub_group"=>'Paypal',"reseller_id"=>$reseller_id,"name"=>"paypal_mode"));	
 					if ($paypal_mode == 0) {
 						$paypal_url = $this->common->get_field_name("value","system",array("sub_group"=>'Paypal',"reseller_id"=>$reseller_id,"name"=>"paypal_id"));
@@ -267,15 +265,16 @@ function services($category= '') {
 			}else{
 				
 				if ($system_config ["paypal_mode"] == 0) {
+					
 					$data ["paypal_url"] = $system_config ["paypal_url"];
 					$data ["paypal_email_id"] = $system_config ["paypal_id"];
 				} else {
+					
 					$data ["paypal_url"] = $system_config ["paypal_sandbox_url"];
 					$data ["paypal_email_id"] = $system_config ["paypal_sandbox_id"];
 				}	
 			}
 		}else{
-			
 			if ($system_config ["paypal_mode"] == 0) {
 				$data ["paypal_url"] = $system_config ["paypal_url"];
 				$data ["paypal_email_id"] = $system_config ["paypal_id"];
@@ -286,8 +285,8 @@ function services($category= '') {
 			
 		}
 		$data ["from_currency"] = $this->common->get_field_name ( 'currency', 'currency', $accountinfo ["currency_id"] );
-		$data ["paypal_tax"] = $system_config ["paypal_tax"];
 		$data ["to_currency"] = Common_model::$global_config ['system_config'] ['base_currency'];
+		$data ["paypal_tax"] = Common_model::$global_config ['system_config'] ['paypal_tax'];
 		$data['order_id'] = base64_encode($oreder_req_result);
 		$data['account_id'] = $accountid;
 		$data['product_info'] = $product_info;
@@ -295,7 +294,9 @@ function services($category= '') {
 		$data['amt'] = ($data['amt'] * $data['product_info']['quantity']);
 		$amount_with_tax = $this->common_model->calculate_taxes($accountinfo,$data['amt']);
 		$data['total_amt']   = ($amount_with_tax != '')?$amount_with_tax['amount_with_tax']:$data['amt'];
-       		$this->load->view( 'paypal_redirect',$data);
+		$data['total_paypal_amt'] = ($data['total_amt'] * $data['paypal_tax']) / 100 ;
+		$data['total_amt'] = $data['total_amt'] + $data['total_paypal_amt'];
+   		$this->load->view( 'paypal_redirect',$data);
 	
        
     }
