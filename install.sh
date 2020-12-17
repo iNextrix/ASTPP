@@ -52,20 +52,20 @@ ASTPP_DB_USER="astppuser"
 #Generate random password
 genpasswd() 
 {
-	length=$1
-	digits=({1..9})
-	lower=({a..z})
-	upper=({A..Z})
-	CharArray=(${digits[*]} ${lower[*]} ${upper[*]})
-	ArrayLength=${#CharArray[*]}
-	password=""
-	for i in `seq 1 $length`
-	do
-	        index=$(($RANDOM%$ArrayLength))
-	        char=${CharArray[$index]}
-	        password=${password}${char}
-	done
-	echo $password
+        length=$1
+        digits=({1..9})
+        lower=({a..z})
+        upper=({A..Z})
+        CharArray=(${digits[*]} ${lower[*]} ${upper[*]})
+        ArrayLength=${#CharArray[*]}
+        password=""
+        for i in `seq 1 $length`
+        do
+                index=$(($RANDOM%$ArrayLength))
+                char=${CharArray[$index]}
+                password=${password}${char}
+        done
+        echo $password
 }
 
 MYSQL_ROOT_PASSWORD=`echo "$(genpasswd 20)" | sed s/./*/5`
@@ -93,7 +93,7 @@ install_prerequisties ()
         if [ $DIST = "CENTOS" ]; then
                 systemctl stop httpd
                 systemctl disable httpd
-                yum update
+                yum update -y
                 yum install -y wget curl git bind-utils ntpdate systemd net-tools whois sendmail sendmail-cf mlocate vim
         else if [ $DIST = "DEBIAN" ]; then
                 systemctl stop apache2
@@ -287,7 +287,7 @@ normalize_astpp ()
                 chown -Rf www-data.www-data ${ASTPPLOGDIR}
                 chown -Rf root.root ${ASTPPEXECDIR}
                 chown -Rf www-data.www-data ${WWWDIR}/astpp
-		chown -Rf www-data.www-data ${ASTPP_SOURCE_DIR}/web_interface/astpp
+                chown -Rf www-data.www-data ${ASTPP_SOURCE_DIR}/web_interface/astpp
                 chmod -Rf 755 ${WWWDIR}/astpp     
                 sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php/7.3/fpm/pool.d/www.conf
                 sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php/7.3/fpm/php.ini
@@ -297,7 +297,7 @@ normalize_astpp ()
                 sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php/7.3/fpm/php.ini
                 sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php/7.3/fpm/php.ini
                 systemctl restart php7.3-fpm
-		CRONPATH='/var/spool/cron/crontabs/astpp'
+                CRONPATH='/var/spool/cron/crontabs/astpp'
         elif  [ ${DIST} = "CENTOS" ]; then
                 cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_astpp.conf /etc/nginx/conf.d/astpp.conf
                 setenforce 0
@@ -309,7 +309,7 @@ normalize_astpp ()
                 chown -Rf apache.apache ${ASTPPLOGDIR}
                 chown -Rf root.root ${ASTPPEXECDIR}
                 chown -Rf apache.apache ${WWWDIR}/astpp
-		chown -Rf apache.apache ${ASTPP_SOURCE_DIR}/web_interface/astpp
+                chown -Rf apache.apache ${ASTPP_SOURCE_DIR}/web_interface/astpp
                 chmod -Rf 755 ${WWWDIR}/astpp
                 sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 300/" /etc/php-fpm.d/www.conf
                 sed -i "s#short_open_tag = Off#short_open_tag = On#g" /etc/php.ini
@@ -318,17 +318,17 @@ normalize_astpp ()
                 sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/" /etc/php.ini
                 sed -i "s/post_max_size = 8M/post_max_size = 20M/" /etc/php.ini
                 sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php.ini
-		systemctl restart php-fpm
-		CRONPATH='/var/spool/cron/astpp'
+                systemctl restart php-fpm
+                CRONPATH='/var/spool/cron/astpp'
         fi
-	echo "# To call all crons   
-		* * * * * cd ${ASTPP_SOURCE_DIR}/web_interface/astpp/cron/ && php cron.php crons
-		" > $CRONPATH
-		chmod 600 $CRONPATH
-		crontab $CRONPATH
+        echo "# To call all crons   
+                * * * * * cd ${ASTPP_SOURCE_DIR}/web_interface/astpp/cron/ && php cron.php crons
+                " > $CRONPATH
+                chmod 600 $CRONPATH
+                crontab $CRONPATH
         touch /var/log/astpp/astpp.log
         touch /var/log/astpp/astpp_email.log
-	chmod -Rf 755 $ASTPP_SOURCE_DIR
+        chmod -Rf 755 $ASTPP_SOURCE_DIR
         chmod 777 /var/log/astpp/astpp.log
         chmod 777 /var/log/astpp/astpp_email.log
         sed -i "s#dbpass = <PASSSWORD>#dbpass = ${ASTPPUSER_MYSQL_PASSWORD}#g" ${ASTPPDIR}astpp-config.conf
@@ -418,9 +418,9 @@ configure_firewall ()
                 systemctl start firewalld
                 systemctl enable firewalld
                 firewall-cmd --permanent --zone=public --add-service=https
-				firewall-cmd --permanent --zone=public --add-service=http
+                                firewall-cmd --permanent --zone=public --add-service=http
                 firewall-cmd --permanent --zone=public --add-port=5060/udp
-				firewall-cmd --permanent --zone=public --add-port=5060/tcp
+                                firewall-cmd --permanent --zone=public --add-port=5060/tcp
                 firewall-cmd --permanent --zone=public --add-port=16384-32767/udp
                 firewall-cmd --reload
         elif  [ ${DIST} = "CENTOS" ]; then
@@ -428,15 +428,16 @@ configure_firewall ()
                 systemctl start firewalld
                 systemctl enable firewalld
                 firewall-cmd --permanent --zone=public --add-service=https
-				firewall-cmd --permanent --zone=public --add-service=http
+                                firewall-cmd --permanent --zone=public --add-service=http
                 firewall-cmd --permanent --zone=public --add-port=5060/udp
-				firewall-cmd --permanent --zone=public --add-port=5060/tcp
+                                firewall-cmd --permanent --zone=public --add-port=5060/tcp
                 firewall-cmd --permanent --zone=public --add-port=16384-32767/udp
                 firewall-cmd --reload
         fi
 }
 
 #Install Fail2ban for security
+
 install_fail2ban()
 {
                 read -n 1 -p "Do you want to install and configure Fail2ban ? (y/n) "
@@ -450,104 +451,15 @@ install_fail2ban()
                             echo ""
                             read -p "Enter sender email address: ${NOTISENDEREMAIL}"
                             NOTISENDEREMAIL=${REPLY}
-                            cd /usr/src
-                            wget --no-check-certificate --max-redirect=0 https://latest.astppbilling.org/fail2ban_Deb.tar.gz
-                            tar xzvf fail2ban_Deb.tar.gz
-                            rm -rf /etc/fail2ban
-                            cp -rf /usr/src/fail2ban /etc/fail2ban
-                                echo '[DEFAULT]
-# Ban hosts for one hour:
-bantime = -1
-ignoreip = 127.0.0.0/8 
-# Override /etc/fail2ban/jail.d/00-firewalld.conf:
-banaction = iptables-multiport
+                            cd /opt/ASTPP/misc/
+                            tar -xzvf deb_files.tar.gz
+                            mv /etc/fail2ban /tmp/
+                            cp -rf /opt/ASTPP/misc/deb_files/fail2ban /etc/fail2ban
 
-[ssh]
-enabled  = true
-action   = iptables-allports[name=sshd, protocol=all]
-           sendmail-whois[name=Fail2ban-SSH-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 5
-findtime = 7200
-bantime  = 86400
-[ssh-ddos]
-enabled = true
-maxretry = 3
-bantime = 10000000
-action   = iptables-multiport[name=ssh-ddos, port="ssh", protocol=tcp]
-          sendmail-whois[name=Fail2ban-SSH-DDOS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-[freeswitch-udp]
-enabled  = true
-port     = 5060
-protocol = all
-filter   = freeswitch
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-udp, port="%(port)s", protocol=udp]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 5
-findtime = 600
-bantime  = 3600
-#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
-sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-[freeswitch-tcp]
-enabled  = true
-port     = 5060
-protocol = all
-filter   = freeswitch
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-tcp, port="%(port)s", protocol=tcp]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 5
-findtime = 600
-bantime  = 3600
-#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
-
-[freeswitch-ip-tcp]
-enabled  = false
-port     = 5060
-protocol = all
-filter   = freeswitch-ip
-logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-tcp, port="%(port)s", protocol=tcp]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 1
-findtime = 30
-bantime  = 86400
-
-[freeswitch-ip-udp]
-enabled  = false
-port     = 5060
-protocol = all
-filter   = freeswitch-ip
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-udp, port="%(port)s", protocol=udp]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 1
-findtime = 30
-bantime  = 86400
-
-[sip-auth-failure]
-enabled  = true
-port     = 5060
-protocol = all
-filter   = sip-auth-failure
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=sip-auth-failure, port="%(port)s", protocol=all]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 3
-findtime = 30
-bantime  = 7200
-
-[sip-auth-challenge]
-enabled  = true
-port     = 5060
-protocol = all
-filter   = sip-auth-challenge
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=sip-auth-challenge, port="%(port)s", protocol=all]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender=fail2ban@astpptelephony.com ,dest="'${NOTIEMAIL}'"]
-maxretry = 50
-findtime = 30
-bantime  = 7200' >> /etc/fail2ban/jail.local
+                            sed -i -e "s/{INTF}/${INTF}/g" /etc/fail2ban/jail.local
+                            sed -i -e "s/{NOTISENDEREMAIL}/${NOTISENDEREMAIL}/g" /etc/fail2ban/jail.local
+                            sed -i -e "s/{NOTIEMAIL}/${NOTIEMAIL}/g" /etc/fail2ban/jail.local
+                                
                         elif [ -f /etc/redhat-release ] ; then
                                 DIST="CENTOS"
                                 yum install -y fail2ban
@@ -557,104 +469,15 @@ bantime  = 7200' >> /etc/fail2ban/jail.local
                             echo ""
                             read -p "Enter sender email address: ${NOTISENDEREMAIL}"
                             NOTISENDEREMAIL=${REPLY}
-                            cd /usr/src
-                                                        wget --no-check-certificate --max-redirect=0 https://latest.astppbilling.org/fail2ban_Cent.tar.gz
-                            tar xzvf fail2ban_Cent.tar.gz
-                            rm -rf /etc/fail2ban
-                            cp -rf /usr/src/fail2ban /etc/fail2ban
-                                echo '[DEFAULT]
-# Ban hosts for one hour:
-bantime = -1
-ignoreip = 127.0.0.0/8 
-# Override /etc/fail2ban/jail.d/00-firewalld.conf:
-banaction = iptables-multiport
+                            cd /opt/ASTPP/misc/
+                            tar -xzvf cent_files.tar.gz
+                            mv /etc/fail2ban /tmp/
+                            cp -rf /opt/ASTPP/misc/cent_files/fail2ban /etc/fail2ban
 
-[sshd]
-enabled  = true
-action   = iptables-allports[name=sshd, protocol=all]
-           sendmail-whois[name=Fail2ban-SSHD-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 5
-findtime = 7200
-bantime  = 86400
-[sshd-ddos]
-enabled = true
-maxretry = 3
-bantime = 10000000
-action   = iptables-multiport[name=sshd-ddos, port="ssh", protocol=tcp]
-          sendmail-whois[name=Fail2ban-SSHD-DDOS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-[freeswitch-udp]
-enabled  = true
-port     = 5060
-protocol = all
-filter   = freeswitch
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-udp, port="%(port)s", protocol=udp]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 5
-findtime = 600
-bantime  = 3600
-#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
-sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-[freeswitch-tcp]
-enabled  = true
-port     = 5060
-protocol = all
-filter   = freeswitch
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-tcp, port="%(port)s", protocol=tcp]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 5
-findtime = 600
-bantime  = 3600
-#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
-
-[freeswitch-ip-tcp]
-enabled  = false
-port     = 5060
-protocol = all
-filter   = freeswitch-ip
-logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-tcp, port="%(port)s", protocol=tcp]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 1
-findtime = 30
-bantime  = 86400
-
-[freeswitch-ip-udp]
-enabled  = false
-port     = 5060
-protocol = all
-filter   = freeswitch-ip
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-udp, port="%(port)s", protocol=udp]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 1
-findtime = 30
-bantime  = 86400
-
-[sip-auth-failure]
-enabled  = true
-port     = 5060
-protocol = all
-filter   = sip-auth-failure
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=sip-auth-failure, port="%(port)s", protocol=all]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender='${NOTISENDEREMAIL}' ,dest="'${NOTIEMAIL}'"]
-maxretry = 3
-findtime = 30
-bantime  = 7200
-
-[sip-auth-challenge]
-enabled  = true
-port     = 5060
-protocol = all
-filter   = sip-auth-challenge
-logpath = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=sip-auth-challenge, port="%(port)s", protocol=all]
-           sendmail-whois[name=Fail2ban-FS-'${INTF}',sender=fail2ban@astpptelephony.com ,dest="'${NOTIEMAIL}'"]
-maxretry = 50
-findtime = 30
-bantime  = 7200' >> /etc/fail2ban/jail.local
+                            sed -i -e "s/{INTF}/${INTF}/g" /etc/fail2ban/jail.local
+                            sed -i -e "s/{NOTISENDEREMAIL}/${NOTISENDEREMAIL}/g" /etc/fail2ban/jail.local
+                            sed -i -e "s/{NOTIEMAIL}/${NOTIEMAIL}/g" /etc/fail2ban/jail.local
+                                
                         fi
                         ################################# JAIL.CONF FILE READY ######################
                         echo "################################################################"
@@ -669,6 +492,7 @@ bantime  = 7200' >> /etc/fail2ban/jail.local
                         echo "Fail2ban installation is aborted !"
                 fi   
 }
+
 
 #Install Monit for service monitoring
 install_monit ()
