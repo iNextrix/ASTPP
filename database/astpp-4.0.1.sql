@@ -1951,4 +1951,6 @@ INSERT INTO `translations` (`module_name`, `en_En`) VALUES
 
 UPDATE `system` SET `value` = '4.0.1' WHERE `system`.`name` = 'version';
 
+-- -----------Configuration - Purge - "Invoices" spelling is wrong displayed query. Date of change : 160920 change_by : Bhargav 
 
+UPDATE `system` SET `display_name` = 'Invoices Older Than Days' WHERE `system`.`name` = "purge_invoices"; 
