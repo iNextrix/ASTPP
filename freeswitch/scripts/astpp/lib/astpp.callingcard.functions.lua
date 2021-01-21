@@ -385,7 +385,6 @@ function dialout( original_destination_number, destination_number, maxlength, us
 			end
 	   	    end
 	   	    
-	   	    Logger.notice("[Dialplan] Loss less routing flag ::> "..userinfo['loss_less_routing']); 
 			if (tonumber(userinfo['loss_less_routing']) == 0 and j > 1) then  
 				loss_less_table = {}
 				for loss_less_carrier_arr_key in pairs(loss_less_carrier_array) do 
@@ -565,15 +564,6 @@ function process_destination(userinfo)
 	callerid_array['original_cid_number'] = session:getVariable("caller_id_number")
 	callerid_array['cid_number'] = session:getVariable("caller_id_number")
 
-	-- Code to check CID Pool to take action
-	if(tonumber(userinfo['cli_pool']) > 0) then		
-		local callerid_status = check_cli_pool(callerid_array,userinfo)
-		if(callerid_status == false) then
-			error_xml_without_cdr(destination,"DESTINATION_BLOCKED","ASTPP-CALLINGCARD",config['playback_audio_notification'],userinfo['id'])
-			return 0 
-		end
-	end
-	-- -------------------------------------------------------
     -- @TODO : Need to confirm with Rushika for fraud feature
 	--Added for fraud detection checking
 	-- if fraud_check then fraud=fraud_check(accountcode,destination_number,calltype,config,userinfo)
@@ -589,7 +579,6 @@ function process_destination(userinfo)
 	Logger.info("Balance : "..get_balance(userinfo,'',config))  
 	Logger.info("Type : "..userinfo['posttoexternal'].." [0:prepaid,1:postpaid]")  
 	Logger.info("Ratecard id : "..userinfo['pricelist_id'])  
-	Logger.info("CID Pool : "..userinfo['cli_pool'])
 	Logger.info("========================================================")    
 
 	local original_destination_number = destination	
