@@ -29,95 +29,70 @@ class supportticket_model extends CI_Model {
 
 	function getsupportticket_list($flag, $start = 0, $limit = 0) {
 		$this->db_model->build_search('supportticket_list_search');
-		$account_data = $this->session->userdata("accountinfo");
-		
-		if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-			$reseller = $account_data['id'];
-			$where = array( "status " => "0");
-			$sub_res_id= $this->common->get_subreseller_info($reseller);
-			$or_res_id= $sub_res_id.",";
-			$or_res_id= str_replace(",,","",$or_res_id);
-			//$where_in = "accountid IN ($or_res_id)";
-			$where = "close_ticket_display_flag LIKE '%$reseller%' AND  status ='0' ";
-			// echo $where_in; exit;
-			// $this->db->where($where);
-			// $this->db->where($where_in);
-			// echo $where_in; exit;
-			// $this->db->where($where_in);
-			//echo $or_res_id.'---'; exit;
-		}else if($this->session->userdata('logintype') == 0){
-			$accountid = $account_data['id'];
-			if($this->session->userdata('advance_search') != 1){
-  	 	 	 //$where = array("accountid" => $accountid, "status " => "0",'close_ticket_display_flag'=>0);	
-			// add
-				 //$where = array("accountid" => $accountid, "status " => "0");
-	//			 $where = "close_ticket_display_flag LIKE '%$accountid%' AND  status ='0' AND accountid='$accountid' and ticket_type != 5";	
-				 $where = "close_ticket_display_flag LIKE '%$accountid%' AND  status ='0' AND accountid='$accountid'";	
-			// $this->db->where($where);
-			// end
-			}else{
-  	 	 	 $where = array("accountid" => $accountid, "status " => "0");	
+		$accountinfo = $this->session->userdata("accountinfo");
+		$accountid = $accountinfo['id'];
+		$department_arr =array();
+		if ($accountinfo['type'] == 1 || $accountinfo['type'] == 5) {
+			$this->db->where('reseller_id',$accountinfo['id']);
+		}else if($accountinfo['type'] == 0 || $accountinfo['type'] == '3'){
+			$where = array(
+				"accountid"=>$accountinfo['id'],
+				"status"=>"0"
+			);
+			$this->db->where($where);
+		}else if($accountinfo['type'] == 2) {
+			$admin_where = "FIND_IN_SET ('".$accountinfo['id']."',admin_id_list)";
+			$this->db->where($admin_where);
+			$department_result = $this->db->get("department");
+			if($department_result->num_rows () > 0){
+				$department_result = $department_result->result_array();
+				foreach($department_result as $key=>$value){
+					$department_arr[$value['id']]= $value['id'];
+				}
+				if(!empty($department_arr)){
+					$this->db->where_in('department_id',$department_arr);
+				}else{
+					$this->db->where('department_id',"-1");
+				}
 			}
-		}else if($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == 2) {
-			  $accountid = $account_data['id'];
-				if($this->session->userdata('advance_search') != 1){
-						//$where = array("status " => "0",'close_ticket_display_flag'=>0);
-						// add
-						$where = "close_ticket_display_flag LIKE '%$accountid%' and status ='0' ";	
-						// end
-			}else{
- 	  	  	  $accountid = $account_data['id'];
-  		  	  $where = array("status " => "0");
-			}
-		} else if($this->session->userdata('logintype') == '3'){
-			 $accountid = $account_data['id'];
-  		  	 $where = array("accountid" => $accountid, "status " => "0");	
 		}
-
-		if($this->session->userdata('advance_search') != 1 && $this->session->userdata('logintype') == 0){
-/*harsh_03_04		$or_where="`ticket_type` IN (0,1,2,3,4,5)";
-			$this->db->where($or_where);
-*/
+		if($this->session->userdata('advance_search') != 1){
+			//$where = "close_ticket_display_flag LIKE '%$accountid%'";
+			//$this->db->where($where);
+			//$this->db->where_in("ticket_type",array("0","1","2"));
 		}
-		
-
 		if ($flag) {
-			$query = $this->db_model->Select("*", "support_ticket", $where, "last_modified_date", "DESC", $limit, $start);
+			$query = $this->db_model->Select("*", "support_ticket","", "last_modified_date", "DESC", $limit, $start);
 		} else {
-			$query = $this->db_model->countQuery("*", "support_ticket", $where, "last_modified_date", "DESC", $limit, $start);
+			$query = $this->db_model->countQuery("*", "support_ticket","", "last_modified_date", "DESC", $limit, $start);
 		}
-   // echo $this->db->last_query(); exit;
+		//echo $this->db->last_query();exit;
 		return $query;
 	}
-    function add_supportticket($data) {
-	//echo "<pre>"; print_r($data); exit;
-	$account_data = $this->session->userdata("accountinfo");
-	// add 
+	function add_supportticket($data) {
+		$account_data = $this->session->userdata("accountinfo");
+		// add 
 		$account_id=$account_data['id'];
-//harsh_supportticket_18_08
+		//harsh_supportticket_18_08
 		if($account_data['type'] == '-1' || $account_data['type'] == 2 && isset($data['account_id'])){
 			$account_id=$data['account_id'];
 		}
 		$parent_info = $this->common->get_parent_info($account_id,0);
-
 		if(strcmp($parent_info,"1,") == 0) {
 			$str_close_flag = rtrim($parent_info,",");
 		} else {
 			$str_close_flag = $parent_info. "1";
 		}
-	// end
-	
-
-	if ($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == 2) {
-		if($data['account_id'] != 0){		
-			$account_data=(array)$this->db->get_where('accounts',array("id"=>$data['account_id']))->first_row();
+		if ($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == 2) {
+			if($data['account_id'] != 0){		
+				$account_data=(array)$this->db->get_where('accounts',array("id"=>$data['account_id']))->first_row();
+			}
 		}
-	}
-	if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-		$reseller_id = $account_data['id'];
-	} else {
-		$reseller_id = "0";
-	}
+		if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+			$reseller_id = $account_data['id'];
+		} else {
+			$reseller_id = "0";
+		}
 //~ change by bansi faldu
 //~ issue:#81
 //~ for ticket length	
@@ -185,9 +160,9 @@ class supportticket_model extends CI_Model {
 		}
 	}
 	$to_email_address_array=array_merge($email_arr,$admin_email_arr,$sub_admin_email_arr,$additional_email_arr);
- //~ echo '<pre>';
-//~ print_r($to_email_address_array);
-//~ exit; 
+/*echo '<pre>';
+print_r($to_email_address_array);
+ exit;*/ 
 
 	foreach($to_email_address_array as $val){
                 $val =trim($val);
@@ -216,7 +191,7 @@ class supportticket_model extends CI_Model {
 			
 
 			$message = str_replace("#REPLY_TYPE#", $this->get_ticket_type_message('','',$data['ticket_type']), $message);
-			$message = str_replace("#CLIENT_NAME#", $this->get_field_name_coma_new('first_name,last_name,number','accounts',$account_data['id']),$message);
+			$message = str_replace("#NAME#", $this->get_field_name_coma_new('first_name,last_name,number','accounts',$account_data['id']),$message);
 			$message = str_replace("#MESSAGE#", $data['template'], $message);
 			$subject = str_replace("#TICKET_ID#", sprintf('%0'.$ticket.'d', $support_ticket_number), $subject);
 			$subject = str_replace("#TICKET_SUBJECT#", $data['subject'],$subject);
@@ -230,14 +205,12 @@ class supportticket_model extends CI_Model {
 			//$email_footer=file_get_contents($email_template_path."views/email_template_footer.php");
                 //$email_footer = str_replace ( "<LOGO>", base_url().'assets/images/footer_img.png', $email_footer );
                // $message = str_replace ( "#FOOTER#", $email_footer, $message);
-			
+			//echo "<pre>"; print_r($data); exit;
 			if($data['departmentid']== 8){
 			        $cc = $account_data['billing_email'];
 			}else{
 			        $cc = $account_data['support_email'];
 			}
-
-
 			$cc_email_arr = explode(",",$cc);
                         $cc_email_str = null;
                         foreach($cc_email_arr as $key=>$value){
@@ -246,6 +219,8 @@ class supportticket_model extends CI_Model {
                         $cc_email_str = rtrim($cc_email_str,",");
              //~ echo"<pre>";print_r($val);  
                        // $department_data['email_id']= "support@vovoTelco.com";
+			$subject 		= strip_tags ($subject);
+			$message 		= strip_tags ($message);
 			$mail_details_array= array(
 						   'accountid'=>isset($data['accountid'])?$data['accountid']:$account_data['id'],
 						   'date'=>gmdate("Y-m-d H:i:s"),
@@ -286,7 +261,7 @@ class supportticket_model extends CI_Model {
 	$auto_message = str_replace("#TICKET_ID#", sprintf('%0'.$ticket.'d', $support_ticket_number), $auto_message);
 	$auto_message = str_replace("#REPLY_TYPE#", $this->get_ticket_type_message('','',$data['ticket_type']), $auto_message);
 
-	$auto_message = str_replace("#CLIENT_NAME#", $this->get_field_name_coma_new('first_name,last_name,number','accounts',$account_data['id']),$auto_message);
+	$auto_message = str_replace("#NAME#", $this->get_field_name_coma_new('first_name,last_name,number','accounts',$account_data['id']),$auto_message);
 	$auto_message = str_replace("#DEPARTMENT#",$department_data['name']." (".$department_data['email_id'].")" ,$auto_message);	
 	
 
@@ -298,9 +273,10 @@ class supportticket_model extends CI_Model {
 		$priorty="Low";
 	}
 	$invoice_templates_info=(array)$this->db->get_where('invoice_conf',array("id"=>'1'))->first_row();
+	//echo "<pre>"; print_r($data); exit;
 	$auto_message = str_replace("#PRIORITY#",$priorty ,$auto_message);	
 	$auto_message = str_replace("#TICKET_SUBJECT#",$data['subject'] ,$auto_message);
-	$auto_message = str_replace("#MESSAGE#",$data['template1'] ,$auto_message);	
+	$auto_message = str_replace("#MESSAGE#",$data['template'] ,$auto_message);	
 	$auto_message = str_replace("#COMPANY_NAME#",$invoice_templates_info['company_name'] ,$auto_message);	
 	$auto_subject = str_replace("#TICKET_ID#",sprintf('%0'.$ticket.'d', $support_ticket_number),$auto_subject);
 	$auto_subject = str_replace("#TICKET_SUBJECT#", $data['subject'],$auto_subject);
@@ -330,11 +306,13 @@ class supportticket_model extends CI_Model {
 				'reseller_id'=>$account_data['reseller_id'],
 			    );
 	  //~ echo "<pre>"; print_r($mail_details_array); exit;
+	//Auto-Update is not required while we are creating 
 	$this->db->insert("mail_details", $mail_details_array);
+		
 	$account_data['ticket']=$ticket;
 	$account_data['ticket_id']=$support_ticket_number;
 	$account_data['ticket_subject']=$data['subject'];
-	//~ $this->supportticket_form->notification_to_user('auto_reply_mail_support',$account_data);
+	//$this->supportticket_form->notification_to_user('auto_reply_mail_support',$account_data);
 
 	return true;
     }
@@ -375,17 +353,15 @@ function get_ticket_type_message($select = "", $table = "", $call_type) {
 		
 		$message = str_replace("#TICKET_ID#",sprintf('%0'.$ticket.'d', $support_ticket_number), $message);
 		$message = str_replace("#REPLY_TYPE#", $this->get_ticket_type_message('','',$data['ticket_type']), $message);
-		$message = str_replace("#CLIENT_NAME#", $this->get_field_name_coma_new('first_name,last_name,number','accounts',$account_data['id']),$message);
+		$message = str_replace("#NAME#", $this->get_field_name_coma_new('first_name,last_name,number','accounts',$account_data['id']),$message);
 		$message = str_replace("#MESSAGE#", $data['template1'], $message);
 		$subject = str_replace("#TICKET_ID#", sprintf('%0'.$ticket.'d', $support_ticket_number),$subject);
 		$subject = str_replace("#TICKET_SUBJECT#", $data['subject'],$subject);
 		
 		$email_template_path=$this->config->item( 'email_templates' );
-				$email_header=file_get_contents($email_template_path."views/email_template_header.php");
-				
- 
-				
-				$email_header=str_replace ( base_url(),base_url(),$email_header);
+		$email_header=file_get_contents($email_template_path."views/email_template_header.php");
+
+		$email_header=str_replace ( base_url(),base_url(),$email_header);
                 $message = str_replace ( "#HEADER#",$email_header,$message);
 				
                 $email_footer=file_get_contents($email_template_path."views/email_template_footer.php");
@@ -425,7 +401,8 @@ function get_ticket_type_message($select = "", $table = "", $call_type) {
                         }
                         $cc_email_str = rtrim($cc_email_str,",");
 		}
-		
+		$subject 		= strip_tags ($subject);
+		$message 		= strip_tags ($message);
 		$mail_details_array= array(
 					   'accountid'=>isset($data['accountid'])?$data['accountid']:$account_data['id'],
 					   'date'=>gmdate("Y-m-d H:i:s"),

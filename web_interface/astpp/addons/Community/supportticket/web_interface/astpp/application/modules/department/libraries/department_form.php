@@ -39,7 +39,18 @@ class Department_form {
 	    array(gettext("SMTP Port"), "120", "smtp_port", "", "", "","","true","center"),
 	    array(gettext("SMTP User"), "181", "smtp_user", "", "", "","","true","center"),
 	   // array(gettext("SMTP Password"), "150", "smtp_password", "", "", "","","true","center"),
-	    array(gettext("Status"), "80", "status", "status", "department", "get_status","","true","center"),
+	array(
+                    gettext("Status"),
+                    "80",
+                    "status",
+                    "id",
+                    "department",
+                    "get_status",
+                    "",
+                    "true",
+                    "center"
+        ),
+	    //array(gettext("Status"), "80", "status", "id", "department", "get_status","","true","center"),
                array(gettext("Action"), "90", "", "", "", array("EDIT" => array("url" => "$action", "mode" => "$mode"),
                     "DELETE" => array("url" => "$action_remove", "mode" => "single")
                 ),"false")
@@ -74,18 +85,18 @@ class Department_form {
         $form['Department List'] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('Name', 'INPUT', array('name' => 'name', 'size' => '20','maxlength' => '40',  'class' => "text field medium"), 'trim|required|xss_clean|is_unique[' . $account_val . ']', 'tOOL TIP', 'Please Enter country'),
-	    array('Email Address', 'INPUT', array('name' => 'email_id', 'size' => '50',  'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', ''),
+	   // array('Email Address', 'INPUT', array('name' => 'email_id', 'size' => '50',  'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', ''),
           //  array('Password', 'INPUT', array('name' => 'password', 'size' => '50',  'class' => "text field medium"), 'required', 'tOOL TIP', ''),
             //~ array('Password', 'PASSWORD', array('name' => 'password', 'id' => 'password_show', 'onmouseover' => 'seetext(password_show)', 'onmouseout' => 'hidepassword(password_show)', 'size' => '50', 'class' => "text field medium"), 'required', 'tOOL TIP', ''),
   	   array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
         );
 //harsh_16_01
-        $form['Department User'] = array(
-	    array(gettext('Admin'), 'admin_user_id', 'SELECT', '','', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("status" => "0", "deleted" => 0,'type'=>2),'multi'),
+        $form[gettext('Department User')] = array(
+	    array(gettext('Admin'), 'admin_user_id', 'SELECT', '','', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("status" => "0", "deleted" => 0,'type'=>2,"id !="=>1),'multi'),
 	    array(gettext('Sub Admin'), 'sub_admin_user_id', 'SELECT', '','', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("status" => "0", "deleted" => 0,"Type"=>4),'multi'),
         );
 //harsh_10_01
-        $form['SMTP Details'] = array(
+        $form[gettext('SMTP Details')] = array(
             array('SMTP Host', 'INPUT', array('name' => 'smtp_host', 'size' => '20','maxlength' => '40',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter country'),
             array('SMTP Port', 'INPUT', array('name' => 'smtp_port', 'size' => '20','maxlength' => '40',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter country'),
             array('SMTP User', 'INPUT', array('name' => 'smtp_user', 'size' => '20','maxlength' => '40',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter country'),
@@ -93,7 +104,7 @@ class Department_form {
             array('SMTP Password', 'PASSWORD', array('name' => 'smtp_password', 'id' => 'smtp_password_show', 'onmouseover' => 'seetext(smtp_password_show)', 'onmouseout' => 'hidepassword(smtp_password_show)', 'size' => '20','maxlength' => '40', 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', ''),
         );
 //harsh_16_01
-        $form['Department Additional Email Address'] = array( 
+        $form[gettext('Department Additional Email Address')] = array( 
         	    array('Email 1', 'INPUT', array('name' => 'email_id_new1', 'size' => '50',  'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
         	    array('Email 2', 'INPUT', array('name' => 'email_id_new2', 'size' => '50',  'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
         	    array('Email 3', 'INPUT', array('name' => 'email_id_new3', 'size' => '50',  'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
@@ -115,21 +126,21 @@ class Department_form {
       
         
         $form['forms'] = array(base_url() . 'department/department_save/', array('id' => 'department_form', 'method' => 'POST', 'name' => 'department_form'));
-        $form['Department List'] = array(
+        $form[gettext('Department List')] = array(
             array('', 'HIDDEN', array('name' => 'id'), '', '', '', ''),
             array('Name', 'INPUT', array('name' => 'name', 'size' => '20','maxlength' => '40',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter country'),
-	    array('Email Address', 'INPUT', array('name' => 'email_id', 'size' => '50',  'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', ''),
+	    //array('Email Address', 'INPUT', array('name' => 'email_id', 'size' => '50',  'class' => "text field medium"), 'required|valid_email', 'tOOL TIP', ''),
           //  array('Password', 'INPUT', array('name' => 'password', 'size' => '50',  'class' => "text field medium"), 'required', 'tOOL TIP', ''),
             //~ array('Password', 'PASSWORD', array('name' => 'password', 'id' => 'password_show', 'onmouseover' => 'seetext(password_show)', 'onmouseout' => 'hidepassword(password_show)', 'size' => '50', 'class' => "text field medium"), 'required', 'tOOL TIP', ''),
   	   array('Status', 'status', 'SELECT', '', '', 'tOOL TIP', 'Please Enter account number', '', '', '', 'set_status'),
         );
 //harsh_16_01
-        $form['Department User'] = array(
+        $form[gettext('Department User')] = array(
 	    array(gettext('Admin'), 'admin_user_id', 'SELECT', '','', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("status" => "0", "deleted" => 0,'type'=>2),'multi'),
-	    array(gettext('Sub Admin'), 'sub_admin_user_id', 'SELECT', '','', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("status" => "0", "deleted" => 0,"Type"=>4),'multi'),
+	   // array(gettext('Sub Admin'), 'sub_admin_user_id', 'SELECT', '','', 'tOOL TIP', 'Please Enter account number', 'id', 'first_name,last_name,number', 'accounts', 'build_concat_dropdown', 'where_arr', array("status" => "0", "deleted" => 0,"Type"=>4),'multi'),
         );
 //harsh_10_01
-        $form['SMTP Details'] = array(
+        $form[gettext('SMTP Details')] = array(
             array('SMTP Host', 'INPUT', array('name' => 'smtp_host', 'size' => '20','maxlength' => '40',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter country'),
             array('SMTP Port', 'INPUT', array('name' => 'smtp_port', 'size' => '20','maxlength' => '40',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter country'),
             array('SMTP User', 'INPUT', array('name' => 'smtp_user', 'size' => '20','maxlength' => '40',  'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', 'Please Enter country'),
@@ -137,7 +148,7 @@ class Department_form {
             array('SMTP Password', 'PASSWORD', array('name' => 'smtp_password', 'id' => 'smtp_password_show', 'onmouseover' => 'seetext(smtp_password_show)', 'onmouseout' => 'hidepassword(smtp_password_show)', 'size' => '20','maxlength' => '40', 'class' => "text field medium"), 'trim|required|xss_clean', 'tOOL TIP', ''),
         );
 //harsh_16_01
-        $form['Department Additional Email Address'] = array( 
+        $form[gettext('Department Additional Email Address')] = array( 
         	    array('Email 1', 'INPUT', array('name' => 'email_id_new1', 'size' => '50',  'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
         	    array('Email 2', 'INPUT', array('name' => 'email_id_new2', 'size' => '50',  'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),
         	    array('Email 3', 'INPUT', array('name' => 'email_id_new3', 'size' => '50',  'class' => "text field medium"), 'valid_email', 'tOOL TIP', ''),

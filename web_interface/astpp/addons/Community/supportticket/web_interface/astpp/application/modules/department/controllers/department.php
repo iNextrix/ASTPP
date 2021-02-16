@@ -97,185 +97,101 @@ class Department extends CI_Controller {
         $data['flag'] = 'create';
         $data['page_title'] = gettext('Add Department');
         $data['drp_down'] =  $this->department_model->drp_downlist();
-        $data['drp_downlist_subadmin'] =  $this->department_model->drp_downlist_subadmin();
          //~ $data['form'] = $this->form->build_form($this->department_form->get_department_form_fields(), '');
         $this->load->view('view_department_add', $data);
     }
 
-    function department_list_edit($edit_id = '') {
- 	
-        $where = array('id' => $edit_id);
-        $account = $this->db_model->getSelect("*", "department", $where);
-        foreach ($account->result_array() as $key => $value) {
-            $department_array= $value;
-        }
-        
-       
+	function department_list_edit($edit_id = '') {
+		$where = array('id' => $edit_id);
+		$department_array = (array)$this->db->get_where("department",$where)->first_row();
 		$data['department_array_result']=$department_array;
-        $data['drp_down'] =  $this->department_model->drp_downlist();
-        $data['drp_downlist_subadmin'] =  $this->department_model->drp_downlist_subadmin();
+		$data['drp_down'] =  $this->department_model->drp_downlist();
 		$admin_id=explode(',',$department_array['admin_id_list']);
 		$subadmin_id=explode(',',$department_array['sub_admin_id_list']);
 		$data['admin_user_id']= explode(',',$department_array['admin_id_list']);
-		$data['sub_admin_user_id']= explode(',',$department_array['sub_admin_id_list']);
 		$data['additional_email_address']=$data['department_array_result']['additional_email_address'];
-		
 		foreach($admin_id as $key=>$val){
 			$data['admin_user_id_data'][$val]=$val;
 		}
-		
-		
-		foreach($subadmin_id as $key=>$val){
-			$data['subadmin_user_id_data'][$val]=$val;
-		}
-		 
-		 
-		
 		if(isset($data['additional_email_address']) && $data['additional_email_address'] != '' && $data['additional_email_address'] != ',,,,'){
 			$data['email_id_new']= explode(',',$data['additional_email_address']);
 			$additional_count= count($data['email_id_new']);
-//echo $additional_count; exit;
 			for($i=0 ; $i < $additional_count ; $i++){
 				$data['email_id_new'][$i]= $data['email_id_new'][$i];
 			}
 		}
-		
 		$data['edit_id']=$edit_id;
-		//$data['password'] = $this->common->decode($data['password']);
 		$data['department_array_result']['smtp_password'] = $this->common->decode($department_array['smtp_password']);
-        $data['page_title'] = gettext('Edit Department');
-        $this->load->view('view_department_edit', $data);
-    }
+		$data['page_title'] = gettext('Edit Department');
+		$this->load->view('view_department_edit', $data);
+    	}
     
 
-    function department_save() {
-	
-	//echo "<pre>";print_r($add_array);
-//~ change by bansi faldu
-//~ issue: #42	
-		
+	function department_save() {
 		$add_array = $this->input->post();
-		
-		
-
 		if(isset($add_array['admin_user_id']) && $add_array['admin_user_id'] !=""){
 			$admin_id=$add_array['admin_user_id'];
 		}else{
 			$admin_id= array();
 		}
-		if(isset($add_array['sub_admin_user_id']) && $add_array['sub_admin_user_id'] !=""){
-			$subadmin_id=$add_array['sub_admin_user_id'];
-		}else{
-			$subadmin_id= array();
-		}
-
 		if(isset($add_array['admin_user_id']) && !empty($add_array['admin_user_id'])){
 			$add_array['admin_id_list'] = implode(',',$add_array['admin_user_id']);
 			unset($add_array['admin_user_id']);
 		}
-		
-		if(isset($add_array['sub_admin_user_id']) && !empty($add_array['sub_admin_user_id'])){
-			$add_array['sub_admin_id_list'] = implode(',',$add_array['sub_admin_user_id']);
-			unset($add_array['sub_admin_user_id']);
-		}
-	
-	
 		foreach($admin_id as $key=>$val){
 			$data['admin_user_id_data'][$val]=$val;
-		}
-		
-		
-		foreach($subadmin_id as $key=>$val){
-			$data['subadmin_user_id_data'][$val]=$val;
-		}
-		 
-	
-	
-	$add_array['email_id_new'][]=$add_array['email_id_new1'];
-	$add_array['email_id_new'][]=$add_array['email_id_new2'];
-	$add_array['email_id_new'][]=$add_array['email_id_new3'];
-	$add_array['email_id_new'][]=$add_array['email_id_new4'];
-	$add_array['email_id_new'][]=$add_array['email_id_new5'];
-	unset($add_array['email_id_new1']);
-	unset($add_array['email_id_new2']);
-	unset($add_array['email_id_new3']);
-	unset($add_array['email_id_new4']);
-	unset($add_array['email_id_new5']);
-	 
-	
-	
-	
-	 
-	/*if(isset($add_array['email_id_new']) && !empty($add_array['email_id_new'])){
-		$add_array['additional_email_address'] = implode(',',$add_array['email_id_new']);
-		
-		unset($add_array['email_id_new']);
-	}*/
-	
-	$email_address=array();
-	if(isset($add_array['email_id_new']) && count($add_array['email_id_new'])>0){
-		foreach($add_array['email_id_new'] as $key=>$val){
-			$email_address[]=$val;	
-			//$add_array['additional_email_address'][]=$email_address;	
-		}
-	}
-	
-	unset($add_array['email_id_new']);
-	$add_array['additional_email_address']=implode(',', $email_address);
-	
-	
-	
-	
-	
+		}		
+		$add_array['additional_email_address']=$add_array['email_id_new1'].",".$add_array['email_id_new2'].",".$add_array['email_id_new3'].",".$add_array['email_id_new4'].",".$add_array['email_id_new5'];
+		unset($add_array['email_id_new1']);
+		unset($add_array['email_id_new2']);
+		unset($add_array['email_id_new3']);
+		unset($add_array['email_id_new4']);
+		unset($add_array['email_id_new5']);
 	   //$this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean');
        
-        if (isset($add_array['id']) && $add_array['id'] != '' && $add_array['id']>0) {
+		if (isset($add_array['id']) && $add_array['id'] != '' && $add_array['id']>0) {
 			 $data['form'] = $this->form->build_form($this->department_form->get_department_form_fields_edit(), $add_array);
-            $data['page_title'] = gettext('Edit Department');
-            if ($this->form_validation->run() == FALSE) {
+			$data['page_title'] = gettext('Edit Department');
+            		if ($this->form_validation->run() == FALSE) {
 				$data['department_array_result']=$add_array;
 				$data['values']= $this->input->post();
 				$data['flag'] = 'create';
 				$data['page_title'] = gettext('Edit Department');
 				$data['drp_down'] =  $this->department_model->drp_downlist();
-				$data['drp_downlist_subadmin'] =  $this->department_model->drp_downlist_subadmin();
-					$data['validation_errors'] = validation_errors();
-            } else {
-                $add_array['password'] = $this->common->encode($add_array['password']);
-                $add_array['smtp_password'] = $this->common->encode($add_array['smtp_password']);
-                
-                $this->department_model->edit_department($add_array, $add_array['id']);
+				$data['validation_errors'] = validation_errors();
+            		} else {
+                		$add_array['password'] = $this->common->encode($add_array['password']);
+                		$add_array['smtp_password'] = $this->common->encode($add_array['smtp_password']);
+		                $this->department_model->edit_department($add_array, $add_array['id']);
 				$this->session->set_flashdata('astpp_errormsg', 'Department updated successfully');
 				redirect(base_url() . 'department/department_list/');
 				exit;
-            }
-	        $this->load->view('view_department_edit', $data);
-        } else {
+            		}
+	        	$this->load->view('view_department_edit', $data);
+		} else {
 			 $data['form'] = $this->form->build_form($this->department_form->get_department_form_fields(), $add_array);
-            $data['page_title'] = gettext('Create Department');
-            if ($this->form_validation->run() == FALSE) {
+			$data['page_title'] = gettext('Create Department');
+			if ($this->form_validation->run() == FALSE) {
 				$data['values']= $this->input->post();
 				$data['flag'] = 'create';
 				$data['page_title'] = gettext('Add Department');
 				$data['drp_down'] =  $this->department_model->drp_downlist();
-				$data['drp_downlist_subadmin'] =  $this->department_model->drp_downlist_subadmin();
 				$data['validation_errors'] = validation_errors();
-            } else {
-                $add_array['password'] = $this->common->encode($add_array['password']);
-                $add_array['smtp_password'] = $this->common->encode($add_array['smtp_password']);
-                 
-                $response = $this->department_model->add_department($add_array);
-		$this->session->set_flashdata('astpp_errormsg', 'Department added successfully!');
-	        redirect(base_url() . 'department/department_list/');
-		exit;
-            }
-	        $this->load->view('view_department_add', $data);
-        }
-    }
+            		} else {
+                		$add_array['password'] = $this->common->encode($add_array['password']);
+                		$add_array['smtp_password'] = $this->common->encode($add_array['smtp_password']); 
+                		$response = $this->department_model->add_department($add_array);
+				$this->session->set_flashdata('astpp_errormsg', gettext('Department added successfully!'));
+	        		redirect(base_url() . 'department/department_list/');
+				exit;
+            		}
+		        $this->load->view('view_department_add', $data);
+        	}
+	}
     
      function department_remove($id) {
         $this->department_model->remove_department($id);
-        $this->session->set_flashdata('astpp_notification','Department removed successfully!');
+        $this->session->set_flashdata('astpp_notification',gettext('Department removed successfully!'));
         redirect(base_url() . 'department/department_list/');
     }
 

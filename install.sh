@@ -157,7 +157,7 @@ install_php ()
                 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
                 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
                 apt-get update
-                apt install -y php7.3 php7.3-fpm php7.3-mysql php7.3-cli php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-gd php7.3-json php7.3-mbstring php7.3-mysql php7.3-opcache
+                apt install -y php7.3 php7.3-fpm php7.3-mysql php7.3-cli php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-gd php7.3-json php7.3-mbstring php7.3-mysql php7.3-opcache php7.3-imap
                 systemctl stop apache2
                 systemctl disable apache2
         else if [ "$DIST" = "CENTOS" ]; then
@@ -165,7 +165,7 @@ install_php ()
                 yum -y install epel-release yum-utils
                 yum-config-manager --disable remi-php54
                 yum-config-manager --enable remi-php73
-                yum install -y php php-fpm php-mysql php-cli php-json php-readline php-xml php-curl php-gd php-json php-mbstring php-mysql php-opcache
+                yum install -y php php-fpm php-mysql php-cli php-json php-readline php-xml php-curl php-gd php-json php-mbstring php-mysql php-opcache php-imap
                 systemctl stop httpd
                 systemctl disable httpd
         fi

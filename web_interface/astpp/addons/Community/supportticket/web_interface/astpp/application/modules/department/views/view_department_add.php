@@ -27,33 +27,24 @@
 						<div class="card-columns">
 							<div class="card">
 								<div class="pb-4 col-12" id="floating-label">
-								  <h3 class="bg-secondary text-light p-3 rounded-top">Department List</h3>
+								  <h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Department List"); ?></h3>
 									<div class="col-md-12">
 									  <div class="row p-0">
 
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Name<span style='color:red;'> *</span></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("Name"); ?><span style='color:red;'> *</span></label>
 											<input type="text" name="name" value="<?php echo isset($values['name'])?$values['name']:"";?>" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="name_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
 												<span class="popup_error error  no-padding" id="name_error"></span>
 											</div>
 										</div>
+										
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Email Address
-												<span style='color:red;'> *</span>
-											</label>
-											<input type="text" name="email_id" value="<?php echo isset($values['email_id'])?$values['email_id']:"";?>" size="50" class="col-md-12 form-control form-control-lg""  />
-											<div class="tooltips error_div pull-left no-padding display_none" id="email_id_error_div" >
-												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
-												<span class="popup_error error  no-padding" id="email_id_error"></span>
-											</div>
-										</div>
-										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Status</label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("Status"); ?></label>
 											<select  id="select2_1"  name="status" data-live-search="true" class='col-md-12 form-control form-control-lg selectpicker' >
-												<option value="0">Active</option>
-												<option value="1">Inactive</option>
+												<option value="0"><?php echo gettext("Active"); ?></option>
+												<option value="1"><?php echo gettext("Inactive"); ?></option>
 											</select>
 											<div class="tooltips error_div pull-left no-padding display_none" id="status_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -67,11 +58,11 @@
 						
 							<div class="card">
 								<div class="pb-4 col-12" id="floating-label">
-								  <h3 class="bg-secondary text-light p-3 rounded-top">Department User</h3>
+								  <h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Department User"); ?></h3>
 									<div class="col-md-12">
 									  <div class="row p-0">
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Admin</label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("Admin"); ?></label>
 												<select name="admin_user_id[]" multiple='multiple' class='select field multiselectable col-md-12 form-control form-control-lg selectpicker'>
 												<?php foreach($drp_down as $key=>$val){  
 														if(isset($admin_user_id_data) && isset($admin_user_id_data[$val['id']])){
@@ -88,24 +79,6 @@
 														<span class="popup_error error  no-padding" id="admin_user_id_error"></span>
 												</div>
 										</div>
-										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Sub Admin</label>
-												<select name="sub_admin_user_id[]" multiple='multiple' class='select field multiselectable col-md-12 form-control form-control-lg selectpicker'>
-												<?php foreach($drp_downlist_subadmin as $val){  
-														if(isset($subadmin_user_id_data) && isset($subadmin_user_id_data[$val['id']])){
-															echo $selected="selected";
-														}else{
-															echo $selected="";
-														}
-												?> 
-													<option value="<?php echo  $val['id']; ?>" <?php  echo $selected; ?> ><?php echo  $val['first_name']."&nbsp;".$val['last_name']."(".$val['number'].")";  ?> </option>
-												<?php }  ?>
-												</select>
-												<div class="tooltips error_div pull-left no-padding display_none" id="sub_admin_user_id_error_div" >
-													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
-													<span class="popup_error error  no-padding" id="sub_admin_user_id_error"></span>
-												</div>
-										</div>
 									</div>
 								  </div>
 								</div>	
@@ -113,11 +86,11 @@
 						
 							<div class="card">
 								<div class="pb-4 col-12" id="floating-label">
-								  <h3 class="bg-secondary text-light p-3 rounded-top">SMTP Details</h3>
+								  <h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("SMTP Details"); ?></h3>
 									<div class="col-md-12">
 									  <div class="row p-0">
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">SMTP Host<span style='color:red;'> *</span></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("SMTP Host"); ?><span style='color:red;'> *</span></label>
 											<input type="text" name="smtp_host" value="<?php echo isset($values['smtp_host'])?$values['smtp_host']:"";?>" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="smtp_host_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -125,7 +98,7 @@
 											</div>
 										</div>
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">SMTP Port<span style='color:red;'> *</span></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("SMTP Port"); ?><span style='color:red;'> *</span></label>
 											<input type="text" name="smtp_port" value="<?php echo isset($values['smtp_port'])?$values['smtp_port']:"";?>" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="smtp_port_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -133,7 +106,7 @@
 											</div>
 										</div>
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">SMTP User<span style='color:red;'> *</span></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("SMTP User"); ?><span style='color:red;'> *</span></label>
 											<input type="text" name="smtp_user" value="<?php echo isset($values['smtp_user'])?$values['smtp_user']:"";?>" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="smtp_user_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -141,7 +114,7 @@
 											</div>
 										</div>
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">SMTP Password <span style='color:red;'> *</span></label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("SMTP Password"); ?> <span style='color:red;'> *</span></label>
 											<input type="password" name="smtp_password" value="<?php echo isset($values['smtp_password'])?$values['smtp_password']:"";?>" id="smtp_password_show" onmouseover="seetext(smtp_password_show)" onmouseout="hidepassword(smtp_password_show)" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="smtp_password_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -155,11 +128,11 @@
 						
 							<div class="card">
 								<div class="pb-4 col-12" id="floating-label">
-								  <h3 class="bg-secondary text-light p-3 rounded-top">Department Additional Email Address</h3>
+								  <h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Department Additional Email Address"); ?></h3>
 									<div class="col-md-12">
 									  <div class="row p-0">
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Email 1</label>										
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 1</label>										
 											<input type="text" name="email_id_new1" value="<?php echo isset($values['email_id_new1'])?$values['email_id_new1']:"";?>" size="50" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new1_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -167,7 +140,7 @@
 											</div>
 										</div>
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Email 2</label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 2</label>
 											<input type="text" name="email_id_new2" value="<?php echo isset($values['email_id_new2'])?$values['email_id_new2']:"";?>" size="50" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new2_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -175,7 +148,7 @@
 											</div>
 										</div>
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Email 3</label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 3</label>
 											<input type="text" name="email_id_new3" value="<?php echo isset($values['email_id_new3'])?$values['email_id_new3']:"";?>" size="50" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new3_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -183,7 +156,7 @@
 											</div>
 										</div>
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Email 4</label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 4</label>
 											<input type="text" name="email_id_new4" value="<?php echo isset($values['email_id_new4'])?$values['email_id_new4']:"";?>" size="50" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new4_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fafa-exclamation-triangle"></i>
@@ -191,7 +164,7 @@
 											</div>
 										</div>
 										<div class="form-group col-md-12">
-											<label class="col-md-12 p-0 control-label">Email 5</label>
+											<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 5</label>
 											<input type="text" name="email_id_new5" value="<?php echo isset($values['email_id_new5'])?$values['email_id_new5']:"";?>" size="50" class="col-md-12 form-control form-control-lg"  />
 											<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new5_error_div" >
 												<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -213,8 +186,8 @@
 							</script>
 						<? } ?>
 								<div class="col-12 my-4 text-center"> 
-								<button name="action" type="submit" value="save" id="submit" class="btn btn-success" >Save</button>
-								<button name="action" type="button" value="cancel" class="btn btn-secondary mx-2" onclick="return redirect_page('/department/department_list/')" >Close</button> 
+								<button name="action" type="submit" value="save" id="submit" class="btn btn-success" ><?php echo gettext("Save"); ?></button>
+								<button name="action" type="button" value="cancel" class="btn btn-secondary mx-2" onclick="return redirect_page('/department/department_list/')" ><?php echo gettext("Close"); ?></button> 
 								</div>
 					</form>	   
 					</div>

@@ -20,7 +20,8 @@
       
         build_grid("support_ticket_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+	    $('.chkRefNos').prop('checked', $(this).prop('checked'));
+	    //if you want to select/deselect checkboxes use this
         });
         $("#supportticket_search_btn").click(function(){
 		 
@@ -30,10 +31,9 @@
             clear_search_request("support_ticket_grid","");
         });
         $("#close_btn").click(function(){
-			
-			$("#search_bar").slideToggle("");
-			$("#left_panel_search_form").slideToggle("slow");
-		}); 
+		$("#search_bar").slideToggle("");
+		$("#left_panel_search_form").slideToggle("slow");
+	}); 
        
     });
 </script>
@@ -147,50 +147,50 @@ $(function() {
 					  <div class="col-md-12 p-0" id="floating-label">
 					   <div class="float-right panel_close text-light p-3" id="close_btn" style="cursor:pointer;"><i class="fa fa-remove"></i></div>
 					  
-					  <h3 class="bg-secondary text-light p-3 rounded-top">Search</h3>
+					  <h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Search"); ?></h3>
 								<div class="col-md-12">
 								<div class="row">
 									
 									<div class="col-4 input-group">
-										<label class="search_label col-md-12 p-0">Ticket No</label>
+										<label class="search_label col-md-12 p-0"><?php echo gettext("Ticket No"); ?></label>
 											<input name="support_ticket_number[support_ticket_number]" value="" 0='' size="20" class="col-md-12 form-control form-control-lg" type="text">
 												<select name="support_ticket_number[support_ticket_number-string]" class="col-md-12 form-control form-control-lg selectpicker" data-live-search="true">
-													<option value="5">Begins With</option>
-													<option value="1">Contains</option>
-													<option value="2">Doesnt Contain</option>
-													<option value="3">Is Equal To</option>
-													<option value="4">Is Not Equal To</option>
-													<option value="6">Ends With</option>
+													<option value="5"><?php echo gettext("Begins With"); ?></option>
+													<option value="1"><?php echo gettext("Contains"); ?></option>
+													<option value="2"><?php echo gettext("Doesnt Contain"); ?></option>
+													<option value="3"><?php echo gettext("Is Equal To"); ?></option>
+													<option value="4"><?php echo gettext("Is Not Equal To"); ?></option>
+													<option value="6"><?php echo gettext("Ends With"); ?></option>
 												</select>	
 									</div>
 									
 									<div class="col-4 input-group">
-												<label class="search_label col-md-12 p-0">Priority</label>
+												<label class="search_label col-md-12 p-0"><?php echo gettext("Priority"); ?></label>
 													<select name="priority" class="col-md-12 form-control form-control-lg selectpicker" data-live-search="true">
 														<option value="" selected="selected">--Select--</option>
-														<option value="0">High</option>
-														<option value="1">Normal</option>
-														<option value="2">Low</option>
+														<option value="0"><?php echo gettext("High"); ?></option>
+														<option value="1"><?php echo gettext("Normal"); ?></option>
+														<option value="2"><?php echo gettext("Low"); ?></option>
 													</select>
 									</div> 
 									
 									<div class="col-4 input-group">
-											<label class="search_label col-md-12 p-0">Subject</label>
+											<label class="search_label col-md-12 p-0"><?php echo gettext("Subject"); ?></label>
 													<input name="subject[subject]" value="" 0='' size="20" class="col-md-12 form-control form-control-lg" type="text">
 														<select name="subject[subject-string]" class="col-md-12 form-control form-control-lg selectpicker" data-live-search="true">
-															<option value="5">Begins With</option>
-															<option value="1">Contains</option>
-															<option value="2">Doesnt Contain</option>
-															<option value="3">Is Equal To</option>
-															<option value="4">Is Not Equal To</option>
-															<option value="6">Ends With</option>
+															<option value="5"><?php echo gettext("Begins With"); ?></option>
+															<option value="1"><?php echo gettext("Contains"); ?></option>
+															<option value="2"><?php echo gettext("Doesnt Contain");?></option>
+															<option value="3"><?php echo gettext("Is Equal To"); ?></option>
+															<option value="4"><?php echo gettext("Is Not Equal To"); ?></option>
+															<option value="6"><?php echo gettext("Ends With"); ?></option>
 														</select>
 									</div>
 							 
 									
 									
 									<div class="col-4 input-group">
-												<label class="search_label col-md-12 p-0">Department</label>
+												<label class="search_label col-md-12 p-0"><?php echo gettext("Department"); ?></label>
 													<select id="department_search" name="department_id" class="form-control form-control-lg selectpicker" data-live-search="true">
 														<option value="" selected="selected">--Select--</option>
 														 <?php foreach($department_list_result as $key=>$val){?>
@@ -208,15 +208,15 @@ $(function() {
 									
 									
 									<div class="col-4 input-group">
-										<label class="search_label col-md-12 p-0">Status</label>
+										<label class="search_label col-md-12 p-0"><?php echo gettext("Status"); ?></label>
 										<select id="ticket_type" name="ticket_type" class="form-control form-control-lg selectpicker" data-live-search="true">
 											<option value="" selected="selected">--All--</option>
-											<option value="0">Open</option>
-											<option value="1">Answered</option>
-											<option value="2">Customer-Reply</option>
-											<option value="3">On-hold</option>
-											<option value="4">Progress</option>
-											<option value="5">Close</option>
+											<option value="0"><?php echo gettext("Open"); ?></option>
+											<option value="1"><?php echo gettext("Answered"); ?></option>
+											<option value="2"><?php echo gettext("Customer-Reply"); ?></option>
+											<option value="3"><?php echo gettext("On-hold"); ?></option>
+											<option value="4"><?php echo gettext("Progress"); ?></option>
+											<option value="5"><?php echo gettext("Close"); ?></option>
 										</select>
 									</div>
 								</div>
@@ -255,7 +255,7 @@ $(function() {
 
           	if((isset($permissioninfo['supportticket']['supportticket_list']['close'])) && ($permissioninfo['supportticket']['supportticket_list']['close'] == 0) && ($permissioninfo['login_type'] == '2' or $permissioninfo['login_type'] == '1') or $permissioninfo['login_type'] == '-1'){?>
             	<span class="btn btn-info">
-								<i class="fa fa-times-circle fa-lg"></i> Close Support Ticket
+								<i class="fa fa-times-circle fa-lg"></i> <?php echo gettext("Close Support Ticket"); ?>
 							</span>
 						<?php
 						}

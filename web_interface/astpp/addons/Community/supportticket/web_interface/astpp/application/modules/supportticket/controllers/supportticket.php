@@ -56,7 +56,7 @@ class Supportticket extends CI_Controller {
 		$this->db->where($where);
 		$support_ticket_query = $this->db->get('support_ticket');
 		$support_ticket_result = (array)$support_ticket_query->first_row();
-
+		if(isset($support_ticket_result) && !empty($support_ticket_result)){
 	        $account_data = $this->session->userdata("accountinfo");
 		// $support_ticket_type=$this->common->get_field_name('ticket_type','support_ticket', $edit_id);
 		$support_ticket_type = $support_ticket_result['ticket_type'];
@@ -91,6 +91,7 @@ exit;*/
 		$this->db->order_by('id','DESC');
 		$support_ticket_details = $this->db_model->getSelect("*", "support_ticket_details", array('support_ticket_id'=>$edit_id));
 		$data['details_arr'] = $support_ticket_details->result_array();
+		
 		if($account_data['id'] == $edit_data['accountid']){
 			$data['ticket_lable']= "Customer-Reply";
 			$data['ticket_type']= "2";
@@ -98,17 +99,25 @@ exit;*/
 			$data['ticket_lable']= "Answer";
 			$data['ticket_type']= "1";
 		}
+		//echo "<pre>";print_r($data);exit;
 //harsh_16_02
 		if(count($data['details_arr']) == 1 && $this->session->userdata('logintype') != 0 && $this->session->userdata('logintype') != 1){
 			$data['ticket_lable']= "Answered";
 		}else{
 			$data['ticket_lable']= "Customer-Reply";
 		}
-		if($account_data['type'] == '-1'){
+		if($account_data['type'] == '-1' || $account_data['type'] == '2' || $account_data['type'] == '1'){
 			$data['ticket_lable']= "Answered";
+			if($data['support_ticket']['ticket_type'] == 2){
+				$data['support_ticket']['ticket_type'] = "1";
+			}
+			//$data['support_ticket']['ticket_type'] = "1"; // AD : Hotfix to resolve issue:4137
 		}
- //~ echo '<pre>'; print_r($data); exit; 
+ // echo '<pre>'; print_r($data); exit; 
 		$this->load->view('view_supportticket_edit', $data);
+		}else{
+			redirect(base_url() . 'supportticket/supportticket_list/');
+		}
 	}
 	function supportticket_list_search() {
 		$ajax_search = $this->input->post('ajax_search', 0);
@@ -149,76 +158,59 @@ exit;*/
 	 * Listing of Accounts table data through php function json_encode
 	 */
 	function supportticket_list_json() {
-		  
-		//~ $_GET['rp'] =10;
-		//~ $_GET['page'] = 1;
-		$count_res = $this->supportticket_model->getsupportticket_list ( false, "", "" );
 		$json_data = array();
 		$count_all = $this->supportticket_model->getsupportticket_list(false);
 		$paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
 		$json_data = $paging_data["json_paging"];
 		$query = $this->supportticket_model->getsupportticket_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
 		$className ="";
-if($this->session->userdata['logintype'] == 2 || $this->session->userdata['logintype'] == 1){ 
 		if ($query->num_rows () > 0) {
 			$query = $query->result_array ();
     //~ echo "<pre>";    print_r($query); exit;
-			foreach ( $query as $value ) {
-				$json_data ['rows'] [] = array (
-							'cell' => array (
-									'<input type="checkbox" name="chkAll" id=' . $value ['id'] . ' class="ace chkRefNos' . $className . '" onclick="clickchkbox(' . $value ['id'] . ')" value=' . $value ['id'] . '><lable class="lbl"></lable>',
-									'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['support_ticket_number'].'</a>&nbsp',
-									'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['subject'].'</a>&nbsp',
-									$this->common->get_field_name('number','accounts',$value ['accountid']),
-									$this->get_priority_type($value ['priority']),
-									$this->common->get_field_name('name','department',$value ['department_id']),
-									$this->get_ticket_type($value ['ticket_type']),
-									$value['last_modified_date'],
-									$this->get_action_buttons_supportticket($value ['id']),
-									));
+			if($this->session->userdata['logintype'] == 2 || $this->session->userdata['logintype'] == 1){ 
+				foreach ( $query as $value ) {
+					$json_data ['rows'] [] = array (
+						'cell' => array (
+						'<input type="checkbox" name="chkAll" id=' . $value ['id'] . ' class="ace chkRefNos' . $className . '" onclick="clickchkbox(' . $value ['id'] . ')" value=' . $value ['id'] . '><lable class="lbl"></lable>',
+						'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['support_ticket_number'].'</a>&nbsp',
+						'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['subject'].'</a>&nbsp',
+						$this->common->get_field_name('number','accounts',$value ['accountid']),
+						$this->get_priority_type($value ['priority']),
+						$this->common->get_field_name('name','department',$value ['department_id']),
+						$this->get_ticket_type($value ['ticket_type']),
+						$this->common->convert_GMT_to('', '', $value['last_modified_date']),
+					//$value['last_modified_date'],
+						$this->get_action_buttons_supportticket($value ['id']),
+					));
+				}
+			}else{
+				foreach ( $query as $value ) {
+					$json_data ['rows'] [] = array (
+						'cell' => array (
+							'<input type="checkbox" name="chkAll" id=' . $value ['id'] . ' class="custom-control-input ace chkRefNos' . $className . '" onclick="clickchkbox(' . $value ['id'] . ')" value=' . $value ['id'] . '><lable class="lbl"></lable>',
+							'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['support_ticket_number'].'</a>&nbsp',
+							'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['subject'].'</a>&nbsp',		 
+							$this->get_priority_type($value ['priority']),
+							$this->common->get_field_name('name','department',$value ['department_id']),
+							$this->get_ticket_type($value ['ticket_type']),
+							$this->common->convert_GMT_to('', '', $value['last_modified_date']),
+					//$value['last_modified_date'],
+							$this->get_action_buttons_supportticket($value ['id']),
+						)
+					);
+				}
 			}
 		}
-	}else{
-		if ($query->num_rows () > 0) {
-			$query = $query->result_array ();
-    //~ echo "<pre>";    print_r($query); exit;
-			foreach ( $query as $value ) {
-				$json_data ['rows'] [] = array (
-							'cell' => array (
-									'<input type="checkbox" name="chkAll" id=' . $value ['id'] . ' class="custom-control-input ace chkRefNos' . $className . '" onclick="clickchkbox(' . $value ['id'] . ')" value=' . $value ['id'] . '><lable class="lbl"></lable>',
-									'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['support_ticket_number'].'</a>&nbsp',
-									'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['subject'].'</a>&nbsp',
-									 
-									$this->get_priority_type($value ['priority']),
-									$this->common->get_field_name('name','department',$value ['department_id']),
-									$this->get_ticket_type($value ['ticket_type']),
-									$value['last_modified_date'],
-									$this->get_action_buttons_supportticket($value ['id']),
-									));
-			}
-		}
-	}
-		
-		//~ $json_data ['page'] = 1;
-		//~ $json_data ['total'] = $count_res;
-		
-					//~ echo "<pre>";    print_r($json_data); exit;
-
-
 		echo json_encode($json_data);
 	}
 	
 	function get_action_buttons_supportticket($id) {
-        $ret_url = '';
-       
-        $ret_url = '<a class="btn btn-royelblue btn-sm" href="'. base_url() .'supportticket/supportticket_edit/' . $id . '/" "  title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
-       
+        	$ret_url = '<a class="btn btn-royelblue btn-sm" href="'. base_url() .'supportticket/supportticket_edit/' . $id . '/" "  title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;';
 		if($this->session->userdata['logintype'] == 2){
 			$ret_url .= '<a class="btn btn-royelblue btn-sm" href="'. base_url() .'supportticket/supportticket_delete/' . $id . '/"  title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
 		}
-       
-        return $ret_url;
-    }
+		return $ret_url;
+	}
 	
 	
 	function last_reply_time($date){
@@ -228,18 +220,23 @@ if($this->session->userdata['logintype'] == 2 || $this->session->userdata['login
 		$minutes = floor(($seconds - ($days * 86400) - ($hours * 3600))/60);
 		$seconds = floor(($seconds - ($days * 86400) - ($hours * 3600) - ($minutes*60)));
 		return $days.' Day '.$hours.' Hour '.$minutes .' Min '.$seconds.' Sec' ;
-    }
+    	}
 	
 	function get_ticket_type($call_type) {
         $call_type_array = array('0' => '<span class="badge " style="line-height: 1.0; font-size: 81%;background:#f7331d !important;">Open</span>', "1"=>'<span class="badge " style="line-height: 1.0; font-size: 81%; background:#ed652f !important;">Answered</span>', '2' =>  '<span class="badge " style="line-height: 1.0; font-size: 81%;background:#E6A800 !important;">Customer-Reply</span>', '3' => '<span class="badge " style="line-height: 1.0; font-size: 81%;background:#0e4da0 !important;">On-hold</span>', '4'=>'<span class="badge " style="line-height: 1.0; font-size: 81%;background:#22961c !important;">Progress</span>','5'=>'<span class="badge " style="line-height: 1.0; font-size: 81%;background:#7a6c6c !important;">Close</span>');
         return $call_type_array[$call_type];
     }
 
-	function get_priority_type($call_type) {
+	/*function get_priority_type($call_type) {
         $call_type_array = array('0' => '<span class="badge " style="line-height: 1.0; font-size: 81%; background:#f7331d !important;">High</span>', "1"=>'<span  style="line-height: 1.0; font-size: 81%;background:#E6A800 !important;" class="badge ">Normal</span>', '2' => '<span style="line-height: 1.0; font-size: 81%;background:#22961c !important;" class="badge " >Low</span>');
         return $call_type_array[$call_type];
-    }
-
+    }*/
+	function get_priority_type($priority) {
+		$priority_array = array('0' => '<span class = "btn badge-danger p-2" style="line-height: 1.0; font-size: 81%;"> High </span>',
+					 "1" => '<span class = "btn badge-warning p-2" style="line-height: 1.0; font-size: 81%;"> Normal </span>',
+					 '2' => '<span class = "btn badge-success p-2" style="line-height: 1.0; font-size: 81%;"> Low </span>');
+        return $priority_array[$priority];
+	}
 	function supportticket_delete($support_id) {
 		$where = array("id" => $support_id);
 		$this->db_model->update("support_ticket", array("status" => "1"), $where);
@@ -247,15 +244,13 @@ if($this->session->userdata['logintype'] == 2 || $this->session->userdata['login
 		$where_details = array("support_ticket_id" => $support_id);
 		$this->db_model->update("support_ticket_details", array("status" => "1"), $where_details);
 
-		$this->session->set_flashdata('astpp_notification', 'Support ticket removed successfully!');
+		$this->session->set_flashdata('astpp_notification', gettext('Support ticket removed successfully!'));
 		redirect(base_url() . 'supportticket/supportticket_list/');
 	}
-
-    function supportticket_details_save()
-      {
+	function supportticket_details_save(){
 	       $files=$_FILES;
 	       $add_array = $this->input->post();
-//echo "<pre>"; print_r($add_array); exit;
+//echo "<pre>"; print_r($files); exit;
 	       $add_array['page_title'] = gettext('Support Ticket');
 	       $nooffile= $files['file']['name'];
 	       $count=count($nooffile);
@@ -266,18 +261,19 @@ if($this->session->userdata['logintype'] == 2 || $this->session->userdata['login
 		       if($files['file']['error'][$i]==0){
 			       $cur_name = $files['file']['name'][$i];
 			       $parts = explode(".", $cur_name);
-			       $add_array['attachment'].=date('ymdhis').$i.'.'.$parts[1].',';
-			       $add_array['file'].=date('ymdhis').$i.'.'.$parts[1].',';
+			       $reverse_array = array_reverse($parts);
+			       $extension = $reverse_array[0];
+			       $add_array['attachment'].=date('ymdhis').$i.'.'.$extension.',';
+			       $add_array['file'].=date('ymdhis').$i.'.'.$extension.',';
 		     	       $uploadedFile1 = $files['file']['tmp_name'][$i];
-			       $user_name='inextrix';
-			       $actual_file_name=date('ymdhis').$i.'.'.$parts[1];
+			       $actual_file_name=date('ymdhis').$i.'.'.$extension;
 			       $dir_path=  getcwd()."/attachments/";
 			       $path =$dir_path.$actual_file_name;
 			       if (move_uploaded_file($uploadedFile1,$path)) {
-				   $this->session->set_flashdata('astpp_errormsg', 'files added successfully!');
+				   $this->session->set_flashdata('astpp_errormsg', gettext('Files added successfully!'));
 			       }
 			       else{
-				    $this->session->set_flashdata('astpp_errormsg', 'Please try again !');
+				    $this->session->set_flashdata('astpp_errormsg', gettext('Please try again!'));
 			       }
 		       }
 	       }
@@ -290,13 +286,12 @@ if($this->session->userdata['logintype'] == 2 || $this->session->userdata['login
 	       if(isset($add_array['id']) && $add_array['id'] != ''){
 			  
 			$support_ticket_info=(array)$this->db->get_where('support_ticket',array("id"=>$add_array['id']))->first_row();	
-			$support_ticket_id = $support_ticket_info['accountid'];   		
+			$support_ticket_accountid = $support_ticket_info['accountid'];   		
 			$support_ticket_type=$support_ticket_info['ticket_type'];
 						
 			$close_ticket_display_flag = $support_ticket_info['close_ticket_display_flag'];
 			 
 			if($support_ticket_type == 5 && $add_array['template1']){
-				
 				$add_array['ticket_type']=2;
 				$parent_info = $this->common->get_parent_info($account_id,0);
 				if(strcmp($parent_info,"1,") == 0) {
@@ -304,40 +299,55 @@ if($this->session->userdata['logintype'] == 2 || $this->session->userdata['login
 				} else {
 					$str_close_flag = $parent_info. "1";
 				}
+				$this->db->select('id');
+				$admin_result = $this->db->get_where('accounts',array("type"=>2,"deleted"=>0));
+				$admin_str='';
+				if($admin_result->num_rows() > 0 ){
+					$admin_result = $admin_result->result_array();
+					foreach($admin_result as $key=>$value){
+						$admin_str= $value['id'].",";
+					}
+					$admin_str= rtrim($admin_str,",");
+				}
+				$str_close_flag = $str_close_flag.",".$admin_str;
 			}
-			
 			if($add_array['ticket_type'] != 5){
 				
-				$account_data = $this->session->userdata("accountinfo");
 				// add 
 				$account_id=$support_ticket_info['accountid'];
 				$parent_info = $this->common->get_parent_info($account_id,0);
+				
 				if(strcmp($parent_info,"1,") == 0) {
 					$str_close_flag = rtrim($parent_info,",");
 				} else {
 					$str_close_flag = $parent_info. "1";
 				}
-			
+				$this->db->select('id');
+				$admin_result = $this->db->get_where('accounts',array("type"=>2,"deleted"=>0));
+				$admin_str='';
+				if($admin_result->num_rows() > 0 ){
+					$admin_result = $admin_result->result_array();
+					foreach($admin_result as $key=>$value){
+						$admin_str= $value['id'].",";
+					}
+					$admin_str= rtrim($admin_str,",");
+				}
+				$str_close_flag = $str_close_flag.",".$admin_str;
 
 				$this->db->where('id',$add_array['id']);
-				$this->db->update("support_ticket", array('close_ticket_display_flag'=>$str_close_flag));	
-
+				$this->db->update("support_ticket", array('close_ticket_display_flag'=>$str_close_flag));
 			}
-			
-			
-			
-			$act_info=(array)$this->db->get_where('accounts',array("id"=>$support_ticket_id))->first_row();	
+			$act_info=(array)$this->db->get_where('accounts',array("id"=>$support_ticket_accountid))->first_row();	
 				
 			$act_type = $act_info['type'];   		
 			$act_email = $act_info['email'];   		
 			$add_array['email']=$act_email;
 			
 			$add_array['departmentid']=$support_ticket_info['department_id'];
-			//~ echo "<pre>"; print_r($add_array['departmentid']);exit;
-	        $this->supportticket_model->edit_supportticket($add_array);	
+	        	$this->supportticket_model->edit_supportticket($add_array);	
 	       }else{
 	       //echo "<pre>"; print_r($add_array); exit;
-	        $this->supportticket_model->add_supportticket($add_array);	
+	        	$this->supportticket_model->add_supportticket($add_array);	
 	        
 	       }
              /*  $screen_path = getcwd()."/cron";
@@ -346,21 +356,17 @@ if($this->session->userdata['logintype'] == 2 || $this->session->userdata['login
           //    echo $command;exit;
                exec($command);*/
 
-               $this->session->set_flashdata('astpp_errormsg', 'Support ticket generated successfully!');
+               $this->session->set_flashdata('astpp_errormsg', gettext('Support ticket generated successfully!'));
                redirect(base_url() . 'supportticket/supportticket_list/');
                exit; 
         }
 	function supportticket_delete_multiple() {
 		$add_array = $this->input->post ();
-	    //~ $add_array = $this->input->post("selected_ids", true);
-		  //~ echo "<pre> "; print_r($add_array);  exit;
- 
-		$where = 'IN ('.$add_array['selected_ids'].')';
+ 		$where = 'IN ('.$add_array['selected_ids'].')';
 		$this->db->where('id '.$where);
-		$this->db->update("support_ticket", array("status" => "1",'last_modified_date'=>gmdate("Y-m-d H:i:s")));
-
+		$this->db->delete("support_ticket");
 		$this->db->where('support_ticket_id '.$where);
-		$this->db->update("support_ticket_details", array("status" => "1",'last_modified_date'=>gmdate("Y-m-d H:i:s")));
+		$this->db->delete("support_ticket_details");
 		echo TRUE;
 	}
     function supportticket_close_multiple() {
