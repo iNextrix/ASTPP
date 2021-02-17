@@ -76,6 +76,7 @@ $ (document).ready(function(){
 	function getfilename(cnt){
 		var file = document.getElementById('file['+cnt+']').files[0].name;
 		$('#label_'+cnt).html(file);
+		uploadfile(cnt);
 	}
 	
 
@@ -92,7 +93,6 @@ $(function() {
 <script type="text/javascript">
   jQuery(document).ready(function(){
     jQuery('#myform').submit(function(){
-    alert("sdgfd");
    jQuery("input[type=file]").bind(function(){
      jQuery(this).rules("add", {
        size: '10000',
@@ -171,12 +171,11 @@ $('.fileupload').each(function() {
 	
 	var ext=this.files[0].name.split(".");
 	ext=ext[ext.length-1].toLowerCase();
-	var arrayExtensions = ["jpg" , "jpeg", "png", "pdg" , "xlsx" , "doc" , "img"];
+	var arrayExtensions = ["jpg" , "jpeg", "png", "pdf" , "xlsx" , "doc", "docx", "img",  "txt"];
  
     if (arrayExtensions.lastIndexOf(ext) == -1) {
         
-       var attach_file="Wrong extension type.";
-        
+       var attach_file="Only allows file types of jpg, jpeg, png, pdf, xlsx, txt, docx and doc format.";
         if(cnt==undefined){
 			$("#attach_file").show();
 			document.getElementById("attach_file").innerHTML = attach_file;
@@ -253,7 +252,7 @@ if(file_size > 20)
 
 function regvalidate(){   
 	if((document.myform.departmentid.value=="")){
-	  document.getElementById('department_error').innerHTML = '<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding"> Please select at last one department</span>';
+	  document.getElementById('department_error').innerHTML = '<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding"> Please select department</span>';
 	  myform.departmentid.focus();
 	  document.getElementById("department_error").style.display = "block"; 
 	  return(false);
@@ -371,7 +370,7 @@ overflow: hidden; }
 							<form method="post" action="<?= base_url()?>supportticket/supportticket_details_save/" enctype="multipart/form-data" name="myform" id="myform" onsubmit="return(regvalidate())">
 								<div class="card" id="floating-label">
 									
-										<h3 class="bg-secondary text-light p-3 rounded-top">Open New Ticket</h3>
+										<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Open New Ticket"); ?></h3>
 										<div class="col-md-12 col-sm-6">
 											<div class="row">
 <!--
@@ -385,7 +384,7 @@ overflow: hidden; }
 										if ($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == '2') {
 									?>
 											<div class="col-md-6 form-group">
-												<label class="col-md-3 control-label p-0">To * </label>
+												<label class="col-md-3 control-label p-0"><?php echo gettext("To"); ?> * </label>
 												
 													<?
 													 $this->db->where('type <>','-1');
@@ -399,7 +398,7 @@ overflow: hidden; }
 											</div> 
 									<?php }?>
 											<div class="col-md-6 form-group">
-												<label class="col-md-3 control-label p-0">Department * </label>
+												<label class="col-md-3 control-label p-0"><?php echo gettext("Department"); ?> * </label>
 											
 												<?php $reseller_id = ($account_data['type'] == '-1' || $account_data['type'] == 2)?0:$account_data['id']; ?>
 												<?php echo "$drop";  ?>
@@ -411,12 +410,12 @@ overflow: hidden; }
 											<div class="col-md-3 col-sm-12"> </div>
 										</div>
 										<div class="col-md-6 form-group">
-												<label class="col-md-3 control-label p-0">Priority * </label>
+												<label class="col-md-3 control-label p-0"><?php echo gettext("Priority"); ?> * </label>
 											
 												<select class='col-md-12 form-control form-control-lg selectpicker' data-live-search="true" name="priority">
-													<option value="0">High</option>
-													<option value="1" >Normal</option>
-													<option value="2">Low</option>
+													<option value="0"><?php echo gettext("High"); ?></option>
+													<option value="1" ><?php echo gettext("Normal"); ?></option>
+													<option value="2"><?php echo gettext("Low"); ?></option>
 												</select>
 											
 										</div>
@@ -432,14 +431,14 @@ overflow: hidden; }
 										if ($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == '2') {
 										?>
 											<div class="col-md-6 form-group">
-												<label class="col-md-3 control-label p-0">Status </label>
+												<label class="col-md-3 control-label p-0"><?php echo gettext("Status"); ?> </label>
 													<select class='col-md-12 form-control form-control-lg selectpicker' data-live-search="true" name="ticket_type">
-														<option value="0" selected="selected">Open</option>
-														<option value="1">Answerd</option>
-														<option value="2">Customer-Reply</option>
-														<option value="3" >On-hold</option>
-														<option value="4">Progress</option>
-														<option value="5">Close</option>
+														<option value="0" selected="selected"><?php echo gettext("Open"); ?></option>
+														<option value="1"><?php echo gettext("Answerd"); ?></option>
+														<option value="2"><?php echo gettext("Customer-Reply"); ?></option>
+														<option value="3" ><?php echo gettext("On-hold"); ?></option>
+														<option value="4"><?php echo gettext("Progress"); ?></option>
+														<option value="5"><?php echo gettext("Close"); ?></option>
 													</select>
 											</div>
 											<div class="col-md-12 no-padding error_div"> 
@@ -449,7 +448,7 @@ overflow: hidden; }
 											<input type="hidden" name="ticket_type" value="0">
 									<?php } ?>
 										<div class="col-md-12 form-group">
-												<label class="col-md-3 control-label p-0">Subject * </label>
+												<label class="col-md-3 control-label p-0"><?php echo gettext("Subject"); ?> * </label>
 												<input type="text" name="subject"  id="subject" size="80" value="" maxlength="200"class="col-md-12 form-control form-control-lg"/>
 												<div class="tooltips error_div pull-left no-padding display_none text-danger" id="une"></div>
 										</div>
@@ -474,7 +473,7 @@ overflow: hidden; }
 
 										
 											<div class="col-md-12 form-group h-auto">
-												<label class="col-md-3 control-label p-0">Reply </label>
+												<label class="col-md-3 control-label p-0"><?php echo gettext("Reply"); ?> </label>
 												<div class="col-12 p-0">
 													<textarea name="template" id ="template" size ="0" class="Emailtemplate">
 														<?php 
@@ -544,7 +543,7 @@ overflow: hidden; }
 													 
 													 <div class="col-md-6 float-left py-2 px-2">
 														<span id="welcomeDiv"  style="display:none;" class="answer_list" onclick="here_hide();">
-															<button type="reset" title="Remove" onClick="return reset_file()" class="btn btn-danger " style="cursor: pointer;">Remove</button>
+															<button type="button" title="Remove" onClick="return reset_file()" class="btn btn-danger " style="cursor: pointer;"><?php echo gettext("Remove"); ?></button>
 														</span>
 													 </div>
 													 <div class="col-md-12">		
@@ -556,14 +555,14 @@ overflow: hidden; }
 											</tbody>
 										</table>
 										<div>
-											<span onclick="addFile()" style="cursor:pointer;" class='btn alert-success my-2'><i class="fa fa-plus"></i> Attach more files</span> 
+											<span onclick="addFile()" style="cursor:pointer;" class='btn alert-success my-2'><i class="fa fa-plus"></i> <?php echo gettext("Attach more files"); ?></span> 
 										</div>
 									</div> 
 
 									<div class="col-sm-12 pb-4">
 											<center>								
-												<a href='".base_url()."email/email_client_get/'><input type='submit' class='btn btn-success'  value='Submit'/></a>
-												<a href='/supportticket/supportticket_list/'><input type='button' class='btn btn-secondary ml-2'  value='Cancel'/></a>
+												<a href='".base_url()."email/email_client_get/'><input type='submit' class='btn btn-success'  value=<?php echo gettext("Submit"); ?>></a>
+												<a href='/supportticket/supportticket_list/'><input type='button' class='btn btn-secondary ml-2'  value=<?php echo gettext("Cancel"); ?>></a>
 											</center>
 										</div>
 									

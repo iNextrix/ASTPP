@@ -38,13 +38,15 @@ class Department_model extends CI_Model {
         return $query;
     }
 
-    function add_department($add_array) {
-        unset($add_array["action"]);
-        $this->db->insert("department", $add_array);
+    function add_department($data) {
+        unset($data["action"]);
+	$data['email_id'] = $data['smtp_user'];
+        $this->db->insert("department", $data);
         return true;
     }
 
      function edit_department($data, $id) {
+	$data['email_id'] = $data['smtp_user'];
         unset($data["action"]);
         $this->db->where("id", $id);
         $this->db->update("department", $data);
@@ -56,7 +58,7 @@ class Department_model extends CI_Model {
         return true;
     }
     
-      function get_area_code($flag, $start = 0, $limit = 0, $export = true) {
+    function get_area_code($flag, $start = 0, $limit = 0, $export = true) {
         $this->db_model->build_search('department_list_search');
         $this->db->from('department');
         if ($flag) {
@@ -69,33 +71,16 @@ class Department_model extends CI_Model {
         return $result;
     }
     
-    function bulk_insert_area_code($inserted_array) {
-        $this->db->insert_batch('department', $inserted_array);
-        $affected_row = $this->db->affected_rows();
-        return $affected_row;
-    }
-    function drp_downlist(){
-		$this->db->where('type =', '-1');
-		$this->db->or_where('type =', '2');
+	function bulk_insert_area_code($inserted_array) {
+	        $this->db->insert_batch('department', $inserted_array);
+	        $affected_row = $this->db->affected_rows();
+	        return $affected_row;
+	}
+	function drp_downlist(){
+		$this->db->where('type', '2');
+		$this->db->or_where('type', '-1');
 		$where = array(); 
-		 
 		$query = $this->db_model->Select("id,number,first_name,last_name", "accounts",$where, "", "","", "");
-		$query = $query->result_array ();
-		 $query = $query ; 
-		 //~ echo "<pre>"; print_r($query);exit;
-		return $query;
-		
+		return $query->result_array ();
 	}
-	function drp_downlist_subadmin(){
-		$where= array("type" =>  '4' );
-		 
-		$query = $this->db_model->Select("id,number,first_name,last_name", "accounts",$where, "", "","", "");
-		$query = $query->result_array ();
-		 $query = $query ; 
-		return $query;
-		
-	}
-
-    
-    
 }

@@ -47,7 +47,7 @@ if ($this->CI->session->userdata('logintype') == 0 || $this->CI->session->userda
 
 		$grid_field_arr = json_encode(array(array("<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>", "30", "", "", "", "","","false","center"),
 
-		array(gettext("Ticket <br>Number"), "90", "support_ticket_number", "support_ticket_number", "support_ticket_number", "set_support_ticket_id","EDITABLE","true","center"),
+		array(gettext("Ticket Number"), "90", "support_ticket_number", "support_ticket_number", "support_ticket_number", "set_support_ticket_id","EDITABLE","true","center"),
         	array(gettext("Subject"), "210", "subject", "", "", "","EDITABLE","true","center"),
 		array(gettext("Account"), "100", "accountid", "first_name,last_name,number", "accounts", "get_field_name_coma_new","","true","center"),
 		array(gettext("Priority"), "90", "priority", "priority", "priority", "get_priority_type","","true","center"),
@@ -85,106 +85,105 @@ if ($this->CI->session->userdata('logintype') == 0 || $this->CI->session->userda
 		return $buttons_json;
 	}
 	
-	//~ function notification_to_user($type, $accountinfo){
+	/* function notification_to_user($type, $accountinfo){
 		 	
-		//~ $where = array (
-				//~ 'name' => $type 
-		//~ );
-		//~ $query = $this->CI->db_model->getSelect ( "*", "default_notification_templates", $where );
- 		 //~ if($query->num_rows () > 0){
-				//~ $query = $query->result ();
-				//~ $query =$query[0];
-				//~ if($query->status_code != '0'){
-					//~ if (isset ( $accountinfo ['refill_amount'] ) && $accountinfo ['refill_amount'] != "") {
-						//~ $refillamount = $accountinfo ['refill_amount'];
-					//~ } else {
-						//~ $refillamount = "0";
-					//~ }
-					  //~ echo "<pre>";print_r($accountinfo);exit;
-					//~ $subject=$query->subject;
-					//~ switch ($type) {
-						//~ case 'email_add_user' :
-							//~ $subject = $subject." number:".$accountinfo ['number']." password:".$accountinfo ['password'];
-							//~ break;
-						//~ case 'add_sip_device' :
-							//~ $subject = $subject." number:".$accountinfo ['number']." password:".$accountinfo ['password'];
-							//~ break;
+		 $where = array (
+				 'name' => $type 
+		 );
+		 $query = $this->CI->db_model->getSelect ( "*", "default_notification_templates", $where );
+ 		  if($query->num_rows () > 0){
+				 $query = $query->result ();
+				 $query =$query[0];
+				 if($query->status_code != '0'){
+					 if (isset ( $accountinfo ['refill_amount'] ) && $accountinfo ['refill_amount'] != "") {
+						 $refillamount = $accountinfo ['refill_amount'];
+					 } else {
+						 $refillamount = "0";
+					 }
+					//   echo "<pre>";print_r($accountinfo);exit;
+					 $subject=$query->subject;
+					 switch ($type) {
+						 case 'email_add_user' :
+							 $subject = $subject." number:".$accountinfo ['number']." password:".$accountinfo ['password'];
+							 break;
+						 case 'add_sip_device' :
+							 $subject = $subject." number:".$accountinfo ['number']." password:".$accountinfo ['password'];
+							 break;
 					
-						//~ case 'email_add_did' :
-							//~ $subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
-							//~ $subject = str_replace ( "#DIDNUMBER#", $accountinfo ['did_number'], $subject );
-							//~ break;
+						 case 'email_add_did' :
+							 $subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
+							 $subject = str_replace ( "#DIDNUMBER#", $accountinfo ['did_number'], $subject );
+							 break;
 					
-						//~ case 'email_remove_did' :
-							//~ $subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
-							//~ $subject = str_replace ( "#DIDNUMBER#", $accountinfo ['did_number'], $subject );
-							//~ break;
+						 case 'email_remove_did' :
+							 $subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
+							 $subject = str_replace ( "#DIDNUMBER#", $accountinfo ['did_number'], $subject );
+							 break;
 					
-						//~ case 'auto_reply_mail_support' :
-							//~ $subject = str_replace("#TICKET_ID#", sprintf('%0'.$accountinfo['ticket'].'d', $accountinfo['ticket_id']), $subject);
-							//~ $subject = str_replace("#TICKET_SUBJECT#", $accountinfo['ticket_subject'],$subject);
-							//~ $subject = $subject." Ticket created successfully.";
-							//~ break;
-						//~ case 'email_sent_support_ticket' :
-							//~ $subject = str_replace("#TICKET_ID#", sprintf('%0'.$accountinfo['ticket'].'d', $accountinfo['ticket_id']), $subject);
-							//~ $subject = str_replace("#TICKET_SUBJECT#", $accountinfo['ticket_subject'],$subject);
-							//~ $subject = $subject." ".$type;
+						 case 'auto_reply_mail_support' :
+							 $subject = str_replace("#TICKET_ID#", sprintf('%0'.$accountinfo['ticket'].'d', $accountinfo['ticket_id']), $subject);
+							 $subject = str_replace("#TICKET_SUBJECT#", $accountinfo['ticket_subject'],$subject);
+							 $subject = $subject." Ticket created successfully.";
+							 break;
+						 case 'email_sent_support_ticket' :
+							 $subject = str_replace("#TICKET_ID#", sprintf('%0'.$accountinfo['ticket'].'d', $accountinfo['ticket_id']), $subject);
+							 $subject = str_replace("#TICKET_SUBJECT#", $accountinfo['ticket_subject'],$subject);
+							 $subject = $subject." ".$type;
 
-							//~ break;
-						//~ case 'email_signup_confirmation' :
-							//~ $accountinfo ['id']= $accountinfo ['last_inserted_id'];
-							//~ break;
-						//~ case 'email_forgot_confirmation' :
-							//~ $accountinfo ['id']= $accountinfo ['last_inserted_id'];
-							//~ break;
-						//~ case 'email_low_balance' :							 
-							//~ $subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
-							//~ break;
-						//~ case 'email_new_invoice' :							 
-							//~ $subject = str_replace ( "#INVOICE_NUMBER#", $accountinfo ['invoice_prefix'] . $accountinfo ['invoiceid'], $subject );
-							//~ $subject= "Account number:".$accountinfo ['number']." Invoice created successfully. Invoice number:". $accountinfo ['invoice_prefix'] . $accountinfo ['invoiceid'];
-							//~ break;
-						//~ case 'add_subscription' :							 
-							//~ $subject = str_replace ( "#NAME#",  $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
-							//~ break;
-						//~ case 'remove_subscription' :							 
-							//~ $subject = str_replace ( "#NAME#", $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
-							//~ break;
-						//~ case 'add_package' :							 
-							//~ $subject = str_replace ( "#NUMBER#",  $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
-							//~ break;
-						//~ case 'remove_package' :							 
-							//~ $subject = str_replace ( "#NUMBER#", $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
-							//~ break;
-						//~ case 'group_create' :
+							 break;
+						 case 'email_signup_confirmation' :
+							 $accountinfo ['id']= $accountinfo ['last_inserted_id'];
+							 break;
+						 case 'email_forgot_confirmation' :
+							 $accountinfo ['id']= $accountinfo ['last_inserted_id'];
+							 break;
+						 case 'email_low_balance' :							 
+							 $subject = str_replace ( "#NUMBER#", $accountinfo ['number'], $subject );
+							 break;
+						 case 'email_new_invoice' :							 
+							 $subject = str_replace ( "#INVOICE_NUMBER#", $accountinfo ['invoice_prefix'] . $accountinfo ['invoiceid'], $subject );
+							 $subject= "Account number:".$accountinfo ['number']." Invoice created successfully. Invoice number:". $accountinfo ['invoice_prefix'] . $accountinfo ['invoiceid'];
+							 break;
+						 case 'add_subscription' :							 
+							 $subject = str_replace ( "#NAME#",  $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
+							 break;
+						 case 'remove_subscription' :							 
+							 $subject = str_replace ( "#NAME#", $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
+							 break;
+						 case 'add_package' :							 
+							 $subject = str_replace ( "#NUMBER#",  $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
+							 break;
+						 case 'remove_package' :							 
+							 $subject = str_replace ( "#NUMBER#", $accountinfo ['first_name'] . " " . $accountinfo ['last_name'], $subject );
+							 break;
+						 case 'group_create' :
 							
-							//~ $subject =$subject.". Account Number: ".$accountinfo ['number'];
-							//~ break;
-						//~ case 'group_edit' :
+							 $subject =$subject.". Account Number: ".$accountinfo ['number'];
+							 break;
+						 case 'group_edit' :
 							
-							//~ $subject =$subject.". Account Number: ".$accountinfo ['number'];
-							//~ break;	 
+							 $subject =$subject.". Account Number: ".$accountinfo ['number'];
+							 break;	 
 					  
-					 //~ }
+					  }
 					 
-					//~ $notification_array = array (
-							//~ 'accountid' => $accountinfo ['id'],
-							//~ 'message' => $subject,
-							//~ 'from' => 'calmex',
-							//~ 'to' => (isset($accountinfo['telephone_1']) )? $accountinfo ['telephone_1'] : "0",
-							//~ 'status' => "1",
-							//~ 'status_code' => $query->status_code
-					//~ );
+					 $notification_array = array (
+							 'accountid' => $accountinfo ['id'],
+							 'message' => $subject,
+							 'from' => 'calmex',
+							 'to' => (isset($accountinfo['telephone_1']) )? $accountinfo ['telephone_1'] : "0",
+							 'status' => "1",
+							 'status_code' => $query->status_code
+					 );
 										 
 
- 					 //~ $this->CI->db->insert ( 'notification_details', $notification_array );
-				//~ }
-		//~ }
- 		//~ return true;
+ 					  $this->CI->db->insert ( 'notification_details', $notification_array );
+				 }
+		 }
+ 		 return true;
 		 
 		
-	//~ }
-
+	 }*/
 }
 
 ?>

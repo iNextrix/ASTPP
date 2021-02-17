@@ -19,17 +19,17 @@
                         echo $error;
                     }?>
                    </span>            	
-                   <h3 class="padding-t-10 padding-l-16">File must be in the following format(.csv):</h3>
-                   <p>Area Code,Area Name.</p>
+                   <h3 class="padding-t-10 padding-l-16"><?php echo gettext("File must be in the following format(.csv):"); ?></h3>
+                   <p><?php echo gettext("Area Code,Area Name."); ?></p>
                  </div>
                 
                </div>
                <div class="col-md-12  no-padding">
                	  <div class="col-md-6">
                      <div class="w-box">
-                       <h3 class="padding-t-10 padding-l-16 padding-b-10">Import Area Code:</h3>
+                       <h3 class="padding-t-10 padding-l-16 padding-b-10"><?php echo gettext("Import Area Code"); ?>:</h3>
                           <div class="col-md-12 no-padding">
-                               <label class="col-md-3">Rate Group:</label>
+                               <label class="col-md-3"><?php echo gettext("Rate Group"); ?>:</label>
                                <div>
                                <? $country_list = form_dropdown('country_code', $this->db_model->build_dropdown("id,country", "countrycode","where_arr", ''), '');
 									echo $country_list;
@@ -55,7 +55,7 @@
                             <input type="hidden" name="username" value="<?= $this->session->userdata('username') ?>" />
                             
                            
-                               <label class="col-md-3">Select the file:</label>
+                               <label class="col-md-3"><?php echo gettext("Select the file"); ?>:</label>
 								   
 								   <div class="col-md-5 no-padding">
                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
@@ -64,30 +64,30 @@
 		                                <span class="fileinput-filename"></span>
 		                            </div>
 	                               <span class="input-group-addon btn btn-primary btn-file" style="display: table-cell;">
-	                               <span class="fileinput-new">Select file</span>
+	                               <span class="fileinput-new"><?php echo gettext("Select file"); ?></span>
 	                               <input style="height:33px;" name="area_code_import"   id="area_code_import" type="file"></span>
                                </div>
                                </div>
 								   
 								   
                            </div>
-                           <label class="col-md-3">Check Header:</label>
+                           <label class="col-md-3"><?php echo gettext("Check Header"); ?>:</label>
                                <div class="col-md-1"><input type='checkbox' name='check_header' style="margin-left:-15px;"/></div>
                            </div>
                      </div>
                     <div class="col-md-6">
                      <div class="w-box padding-b-10">
                        <div class="col-md-12 padding-t-20">
-                               <label class="col-md-4" style="font-size:14px;text-transform:none !important;">Download sample file:</label>
-                               <div><a href="<?= base_url(); ?>areacode/areacode_download_sample_file/areacode_sample" class="btn btn-success">Click Here</a></div>
+                               <label class="col-md-4" style="font-size:14px;text-transform:none !important;"><?php echo gettext("Download sample file"); ?>:</label>
+                               <div><a href="<?= base_url(); ?>areacode/areacode_download_sample_file/areacode_sample" class="btn btn-success"><?php echo gettext("Click Here"); ?></a></div>
                            </div>
                    </div>                    
                    </div>
                </div>
                <div class="col-md-12 padding-b-10">
                    <div class="pull-right">
-                     <input class="btn btn-line-parrot" id="import_area_code" type="submit" name="action" value="Import" />
-					<a href="<?= base_url().'areacode/areacode_list/'?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Cancel"/> </a>
+                     <input class="btn btn-line-parrot" id="import_area_code" type="submit" name="action" value=<?php echo gettext("Import"); ?> >
+					<a href="<?= base_url().'areacode/areacode_list/'?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value=<?php echo gettext("Cancel"); ?>> </a>
 
                    </div>
                </div>
