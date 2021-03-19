@@ -1957,6 +1957,8 @@ UPDATE `system` SET `value` = '4.0.1' WHERE `system`.`name` = 'version';
 
 UPDATE `translations` SET `module_name`='Invoices Older Than Days',`en_En`='Invoices Older Than Days' WHERE `module_name`='Inovices Older Than Days';
 
-DELETE from `system` where `name` = 'paypal_mode' limit 1;
+DELETE from `system` where `name` = 'paypal_mode';
 
 UPDATE `system` SET `display_name` = 'Invoices Older Than Days' WHERE `system`.`name` = "purge_invoices"; 
+
+INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `is_display`, `group_title`, `sub_group`, `field_rules`) VALUES (NULL, 'paypal_mode', 'Environment', '1', 'paypal_mode', 'Set paypal mode. Sandbox for testing', '2019-04-01 00:00:00.000000', '0', '0', 'payment_methods', 'Paypal', '');
