@@ -31,8 +31,8 @@
         	<div class="row">
                 <div class="col-md-12">      
           
-		    Records Imported Successfully: <?= $impoted_count?><br/>
-                    Records Not Imported : <?= $failure_count?>
+		    <?php echo gettext("Records Imported Successfully"); ?>: <?= $impoted_count?><br/>
+            <?php echo gettext("Records Not Imported"); ?> : <?= $failure_count?>
 		</div>  
             </div>
         </div>
@@ -46,9 +46,9 @@
 		<?php if(isset($id) && $id != ""){ ?>
 		<div class="col-md-12 padding-b-10">
                    <div class="pull-right">
-                        <a href="<?= base_url().'areacode/areacode_list/'?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value="Back to Area Code List" /> </a>
+                        <a href="<?= base_url().'areacode/areacode_list/'?>"><input class="btn btn-line-sky margin-x-10" id="ok" type="button" name="action" value=<?php echo gettext("Back to Area Code List"); ?> > </a>
 
-                        <a href="<?= base_url().'areacode/area_code_error_download/'?>"><input class="btn btn-line-parrot" id="ok" type="button" name="action" value="Download Errors" /> </a>
+                        <a href="<?= base_url().'areacode/area_code_error_download/'?>"><input class="btn btn-line-parrot" id="ok" type="button" name="action" value=<?php echo gettext("Download Errors"); ?> > </a>
              </div></div>       <?}?>    
 
                     

@@ -1951,9 +1951,12 @@ INSERT INTO `translations` (`module_name`, `en_En`) VALUES
 
 UPDATE `system` SET `value` = '4.0.1' WHERE `system`.`name` = 'version';
 
+-- -----------Configuration - Purge - "Invoices" spelling is wrong displayed query. Date of change : 160920 change_by : Bhargav 
 
 -- ------------------------------- 26-11-20
 
 UPDATE `translations` SET `module_name`='Invoices Older Than Days',`en_En`='Invoices Older Than Days' WHERE `module_name`='Inovices Older Than Days';
 
 DELETE from `system` where `name` = 'paypal_mode' limit 1;
+
+UPDATE `system` SET `display_name` = 'Invoices Older Than Days' WHERE `system`.`name` = "purge_invoices"; 

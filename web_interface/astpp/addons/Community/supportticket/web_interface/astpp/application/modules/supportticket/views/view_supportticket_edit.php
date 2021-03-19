@@ -71,6 +71,7 @@ $ (document).ready(function(){
 	function getfilename(cnt){
 		var file = document.getElementById('file['+cnt+']').files[0].name;
 		$('#label_'+cnt).html(file);
+		uploadfile(cnt);
 	}
 	
 
@@ -167,11 +168,11 @@ $('.fileupload').each(function() {
 	
 	var ext=this.files[0].name.split(".");
 	ext=ext[ext.length-1].toLowerCase();
-	var arrayExtensions = ["jpg" , "jpeg", "png", "pdg" , "xlsx" , "doc" , "img"];
+	var arrayExtensions = ["jpg" , "jpeg", "png", "pdg" , "xlsx" , "doc", "docx", "img", "txt"];
  
     if (arrayExtensions.lastIndexOf(ext) == -1) {
         
-       var attach_file="Wrong extension type.";
+       var attach_file="Only allows file types of jpg, jpeg, png, pdf, xlsx, txt, docx and doc format.";
         
         if(cnt==undefined){
 			$("#attach_file").show();
@@ -379,7 +380,7 @@ p {
 											<div class="row pt-4">
 												<div class="col-md-4 h-100">
 													<div class="row">
-														<div class="col-2 float-left"><label class="control-label">Subject:&nbsp;</label></h5></div>
+														<div class="col-2 float-left"><label class="control-label"><?php echo gettext("Subject"); ?>:&nbsp;</label></h5></div>
 														<div class="col p-0 float-left"><span><?php echo $support_ticket['subject']; ?></span></div>
 													</div>
 												</div> 
@@ -396,19 +397,19 @@ p {
 													<div class="col-md-4 h-100">				
 
 
-														<h5 class="float-right">  <?php if($support_ticket['priority'] ==0){echo '<span class="btn badge-success p-2">High</span>';}elseif($support_ticket['priority'] ==1){echo '<spanclass="btn badge-warning">Normal</span>';}else{ echo '<span class="btn badge-danger" >Low</span>';} ?> </h5> 
+														<h5 class="float-right">  <?php if($support_ticket['priority'] ==0){echo '<span class="btn badge-danger p-2">'.gettext("High").'</span>';}elseif($support_ticket['priority'] ==1){echo '<span class="btn badge-warning">'.gettext("Normal").'</span>';}else{ echo '<span class="btn badge-success p-2" >'.gettext("Low").'</span>';} ?> </h5> 
 
 													</div>
 
 													<div class="col-md-4 h-100">
 													<select class='selectpicker form-control form-control-lg' data-live-search="true" name="ticket_type">
 
-															<option value="0" <?php if($support_ticket['ticket_type'] == 0){ echo "selected='selected'" ; }?>>Open</option>
-															<option value="1" <?php if($support_ticket['ticket_type'] == 1){ echo "selected" ;} ?>>Answerd</option>
-															<option value="2" <?php if($support_ticket['ticket_type'] == 2){ echo "selected" ; }?>>Customer-Reply</option>
-															<option value="3" <?php if($support_ticket['ticket_type'] == 3){ echo "selected" ; }?>>On-hold</option>
-															<option value="4" <?php if($support_ticket['ticket_type'] == 4){ echo "selected" ; }?>>Progress</option>
-															<option value="5" <?php if($support_ticket['ticket_type'] == 5){ echo "selected='selected'" ; }?>>Close</option>
+															<option value="0" <?php if($support_ticket['ticket_type'] == 0){ echo "selected='selected'" ; }?>><?php echo gettext("Open"); ?></option>
+															<option value="1" <?php if($support_ticket['ticket_type'] == 1){ echo "selected" ;} ?>><?php echo gettext("Answerd"); ?></option>
+															<option value="2" <?php if($support_ticket['ticket_type'] == 2){ echo "selected" ; }?>><?php echo gettext("Customer-Reply"); ?></option>
+															<option value="3" <?php if($support_ticket['ticket_type'] == 3){ echo "selected" ; }?>><?php echo gettext("On-hold"); ?></option>
+															<option value="4" <?php if($support_ticket['ticket_type'] == 4){ echo "selected" ; }?>><?php echo gettext("Progress"); ?></option>
+															<option value="5" <?php if($support_ticket['ticket_type'] == 5){ echo "selected='selected'" ; }?>><?php echo gettext("Close"); ?></option>
 
 														</select>
 
@@ -425,7 +426,7 @@ p {
 													
 
 													<div class="col-md-12 form-group h-auto">
-														<label class="col-md-12 control-label p-0">Reply</label>
+														<label class="col-md-12 control-label p-0"><?php echo gettext("Reply"); ?></label>
 
 														<div class="col-12 p-0">
 															<textarea input name='template1' id='template1' size = 0 class = "Emailtemplate ckeditor" value="" ></textarea>
@@ -469,7 +470,7 @@ p {
 																 
 																 <div class="col-md-6 float-left py-2 px-2">
 																	<span id="welcomeDiv"  style="display:none;" class="answer_list" onclick="here_hide();">
-																		<button type="reset" title="Remove" onClick="document.getElementsById('file').value=''" class="btn btn-danger " style="cursor: pointer;">Remove</button>
+																		<button type="button" title="Remove" onClick="document.getElementsById('file').value=''" class="btn btn-danger " style="cursor: pointer;"><?php echo gettext("Remove"); ?></button>
 																	</span>
 																 </div>
 																 <div class="col-md-12">		
@@ -482,7 +483,7 @@ p {
 														</tbody>
 													</table>
 													<div>
-														<span onclick="addFile()" style="cursor:pointer;" class='btn alert-success my-2'><i class="fa fa-plus"></i> Attach more files</span> 
+														<span onclick="addFile()" style="cursor:pointer;" class='btn alert-success my-2'><i class="fa fa-plus"></i> <?php echo gettext("Attach more files"); ?></span> 
 													</div>
 												</div>  
 
@@ -514,8 +515,8 @@ p {
 
 	<div class="col-sm-12 pb-4">
 		<center>
-			<a href='".base_url()."email/email_client_get/'><input type='submit' class='btn btn-success'  value='Submit'/></a>
-			<a href='/supportticket/supportticket_list/'><input type='button' class='btn btn-secondary ml-2'  value='Cancel'/></a>
+			<a href='".base_url()."email/email_client_get/'><input type='submit' class='btn btn-success'  value=<?php echo gettext('Submit'); ?>></a>
+			<a href='/supportticket/supportticket_list/'><input type='button' class='btn btn-secondary ml-2'  value=<?php echo gettext("Cancel"); ?>></a>
 		</center>
 	</div>
 
@@ -563,11 +564,11 @@ p {
 									<p style="margin-top: -0x;color: black;"><b><?php echo $this->common->get_field_name_coma_new('first_name,last_name,number','accounts',$value['generate_account_id']); ?></b></p>
 									<p style="padding-right: 10px;color: black;" >	<?php 
 										if($login_type == 1){
-											echo "Reseller";
+											echo gettext("Reseller");
 										}else if($login_type == 0){
-											echo "Customer";
+											echo gettext("Customer");
 										}else{
-											echo "Admin";
+											echo gettext("Admin");
 										}
 										?>	
 										</p>
@@ -582,7 +583,7 @@ p {
 											foreach($explode as $exp_val){
 												echo " ".$i.".";
 												$url=base_url()."supportticket/supportticket_list_attachment/".$exp_val;
-												$downlaod_url= "<a style='color:#0000FF;' href='$url'><b>Download Here</b></a>";
+												$downlaod_url= "<a style='color:#0000FF;' href='$url'><b>".gettext('Download Here'). "</b></a>";
 												echo $exp_val." ".$downlaod_url." ";
 												$i++;
 											}
