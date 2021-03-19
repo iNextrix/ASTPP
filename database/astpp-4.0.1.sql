@@ -1955,3 +1955,5 @@ UPDATE `system` SET `value` = '4.0.1' WHERE `system`.`name` = 'version';
 -- ------------------------------- 26-11-20
 
 UPDATE `translations` SET `module_name`='Invoices Older Than Days',`en_En`='Invoices Older Than Days' WHERE `module_name`='Inovices Older Than Days';
+
+DELETE from `system` where `name` = 'paypal_mode' limit 1;
