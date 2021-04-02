@@ -436,9 +436,9 @@ $(document).ready(function(){
 		    <? if($this->session->userdata('userlevel_logintype') == '-1'){?>
 
 		    
-		    <li><a class="dropdown-item" href="http://astpp.readthedocs.io" target="_blank"><i class="fa fa-file-text"></i> &nbsp;<?php echo gettext('Documentation'); ?></a></li>
+		    <li><a class="dropdown-item" href="https://docs.astppbilling.org/display/itplmars" target="_blank"><i class="fa fa-file-text"></i> &nbsp;<?php echo gettext('Documentation'); ?></a></li>
 
-<li><a class="dropdown-item" href="https://github.com/iNextrix/ASTPP/issues" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>
+<li><a class="dropdown-item" href="https://jira.astppbilling.org/projects/ASTPPCOM/" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>
 <li><a class="dropdown-item" href="http://www.astppbilling.org/mobile-dialers/" target="_blank"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i> &nbsp;<?php echo gettext('Get App'); ?></a></li>
 
 
