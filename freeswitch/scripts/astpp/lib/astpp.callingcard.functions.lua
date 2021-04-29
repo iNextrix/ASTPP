@@ -503,7 +503,7 @@ function dialout( original_destination_number, destination_number, maxlength, us
 			session:execute("export", "media_bug_answer_req=true");
 			session:execute("export", "record_sample_rate=8000");
 			session:execute("export", "execute_on_answer=record_session $${recordings_dir}/${uuid}.wav");
-		nd
+		end
 
 
 					if(termination_rate_arr_value['prepend'] ~= '' or termination_rate_arr_value['strip'] ~= '') then
