@@ -496,7 +496,15 @@ function dialout( original_destination_number, destination_number, maxlength, us
 					-- if (termination_rate_arr_value['dialed_modify'] ~= '') then 
 					-- 	destination_number = do_number_translation(termination_rate_arr_value['dialed_modify'],destination_number)
 					-- end
-				    
+				   
+		if(tonumber(userinfo['is_recording']) == 0)then
+		    	session:execute("export", "is_recording=1");
+			session:execute("export", "media_bug_answer_req=true");
+			session:execute("export", "record_sample_rate=8000");
+			session:execute("export", "execute_on_answer=record_session $${recordings_dir}/${uuid}.wav");
+		end
+
+
 					if(termination_rate_arr_value['prepend'] ~= '' or termination_rate_arr_value['strip'] ~= '') then
 						destination_number = do_number_translation(termination_rate_arr_value['strip'].."/"..termination_rate_arr_value['prepend'],destination_number)
 					end
