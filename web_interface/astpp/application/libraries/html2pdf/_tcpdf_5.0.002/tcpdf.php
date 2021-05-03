@@ -5403,7 +5403,7 @@ if (!class_exists('TCPDF', false)) {
 				$info = false;
 				if ((method_exists($this, $mtd)) AND (!($resize AND function_exists($gdfunction)))) {
 					// TCPDF image functions
-					$info = $this->$mtd($file);
+					//$info = $this->{$mtd($file)};
 					if ($info == 'pngalpha') {
 						return $this->ImagePngAlpha($file, $x, $y, $w, $h, 'PNG', $link, $align, $resize, $dpi, $palign);
 					}
@@ -6245,8 +6245,8 @@ if (!class_exists('TCPDF', false)) {
 					AND ($val != 'signature_max_length')
 					AND ($val != 'byterange_string')
 					)) {
-					if ((!$preserve_objcopy OR ($val != 'objcopy')) AND isset($this->$val)) {
-						unset($this->$val);
+					if ((!$preserve_objcopy OR ($val != 'objcopy')) AND isset($this->{$val})) {
+						unset($this->{$val});
 					}
 				}
 			}
@@ -7212,7 +7212,7 @@ if (!class_exists('TCPDF', false)) {
 					if (!method_exists($this, $mtd)) {
 						$this->Error('Unsupported font type: '.$type);
 					}
-					$obj_id = $this->$mtd($font);
+					$obj_id = $this->{$mtd($font)};
 				}
 				// store object ID for current font
 				$this->font_obj_ids[$k] = $obj_id;
@@ -16045,7 +16045,7 @@ if (!class_exists('TCPDF', false)) {
 									$params = unserialize(urldecode($tag['attribute']['params']));
 									call_user_func_array(array($this, $tcpdf_method), $params);
 								} else {
-									$this->$tcpdf_method();
+									$this->{$tcpdf_method()};
 								}
 								$this->newline = true;
 							}
@@ -17841,7 +17841,7 @@ if (!class_exists('TCPDF', false)) {
 				if ($self) {
 					$objvars = get_object_vars($this->objcopy);
 					foreach ($objvars as $key => $value) {
-						$this->$key = $value;
+						$this->{$key} = $value;
 					}
 				}
 				return $this->objcopy;

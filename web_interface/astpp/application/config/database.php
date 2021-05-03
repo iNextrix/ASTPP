@@ -48,11 +48,12 @@ if (! defined ( 'BASEPATH' )) {
  * | The $active_record variables lets you determine whether or not to load
  * | the active record class
  */
+
 $astpp_config = parse_ini_file ( "/var/lib/astpp/astpp-config.conf" );
 
 $active_group = 'default';
 $active_record = TRUE;
-$astpp_config ['astpp_dbengine'] = "MySql";
+$astpp_config ['astpp_dbengine'] = "MySqli";
 $db ['default'] ['hostname'] = $astpp_config ['dbhost'];
 $db ['default'] ['username'] = $astpp_config ['dbuser'];
 $db ['default'] ['password'] = $astpp_config ['dbpass'];

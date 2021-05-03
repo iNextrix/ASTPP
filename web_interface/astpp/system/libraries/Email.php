@@ -112,16 +112,16 @@ class CI_Email {
 	{
 		foreach ($config as $key => $val)
 		{
-			if (isset($this->$key))
+			if (isset($this->{$key}))
 			{
 				$method = 'set_'.$key;
 
 				if (method_exists($this, $method))
 				{
-					$this->$method($val);
+					$this->{$method}($val);
 				} else
 				{
-					$this->$key = $val;
+					$this->{$key} = $val;
 				}
 			}
 		}
@@ -1953,33 +1953,34 @@ class CI_Email {
 		$msg .= "<pre>".$this->_header_str."\n".htmlspecialchars($this->_subject)."\n".htmlspecialchars($this->_finalbody).'</pre>';
 		return $msg;
 	}
-	public function print_debugger_email($data = '',$log_path)
-	{
-	
+	public function print_debugger_email($data = '',$log_path) {
 		$msg = '';
-		$msg .= "Date : ".date("F j, Y, g:i a")."\n From :".$data['from']."\n To :".$data['to']."\n Subject :".$data['subject']."\n Attachment :".implode(',',$data['attachment'])."\n";
+		if (array_key_exists("attachment",$data)) {
+			$attachment = implode(',',$data['attachment']);
+		} else {
+			$attachment = '';
+		}
+		$msg .= "Date : ".date("F j, Y, g:i a")."\n From :".$data['from']."\n To :".$data['to']."\n Subject :".$data['subject']."\n Attachment :".$attachment."\n";
 		$msg .= "Error : \n" ;
-                if($this->_get_protocol() == "smtp"){
-			if (count($this->_debug_msg) > 0)
-		        {
+        if($this->_get_protocol() == "smtp") {
+			if (count($this->_debug_msg) > 0) {
 			        foreach ($this->_debug_msg as $key=>$val)
 			        {
 				        if(in_array($key,array(1,2,3,4,5,6,7,8,9,10,11,12,15,16,17,18))){
 				                $msg .= $val;
 				        }
 			        }
-		        }       
-                }else{
-                        if (count($this->_debug_msg) > 0)
-		        {
-			        foreach ($this->_debug_msg as $key=>$val)
-			        {
+			}
+		} else {
+        	if (count($this->_debug_msg) > 0) {
+			        foreach ($this->_debug_msg as $key=>$val) {
 				        $msg .= $val;
 			        }
-		        }
-
-                }
-		$fp = fopen($log_path."astpp_email.log", "a+");
+		    }
+        }
+		$shared_file_permission = "chmod -Rf 777  ".$log_path.'astpp_email.log';
+		$shared_file_permission = system($shared_file_permission, $retval);
+		$fp                     = fopen($log_path."astpp_email.log", "a+");
 		fwrite($fp,$msg);
 		fclose($fp);
 		return $msg;

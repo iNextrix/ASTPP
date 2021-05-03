@@ -3,30 +3,36 @@
         submit_form("fsserver_form");
     })
 </script>
-<section class="slice gray no-margin">
- <div class="w-section inverse no-padding">
-   <div>
-     <div>
-        <div class="col-md-12 no-padding margin-t-15 margin-b-10">
-	        <div class="col-md-10"><b><? echo $page_title; ?></b></div>
-	  </div>
-     </div>
-    </div>
-  </div>    
+<section class="slice m-0">
+	<div class="w-section inverse p-0">
+		<div>
+			<div>
+				<div class="col-md-12 p-0 card-header">
+					<h3 class="fw4 p-4 m-0"><? echo $page_title; ?></h3 class="text-light p-3 rounded-top">
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
-
 <div>
-  <div>
-    <section class="slice color-three no-margin">
-	<div class="w-section inverse no-padding">
-            <div style="color:red;margin-left: 60px;">
-                <?php if (isset($validation_errors)) {
-	echo $validation_errors;
-}
-?> 
+	<div>
+		<section class="slice m-0">
+			<div class="w-section inverse p-4">
+				<div style="">
+                <?php
+
+if (isset($validation_errors)) {
+                    echo $validation_errors;
+                }
+                ?>
             </div>
             <?php echo $form; ?>
-        </div>      
-    </section>
-  </div>
+        </div>
+		</section>
+	</div>
 </div>
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+    $("input[type='hidden']").parents('li.form-group').addClass("d-none");
+});
+</script>

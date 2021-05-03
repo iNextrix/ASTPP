@@ -23,12 +23,14 @@
 class logger {
 	var $fp;
 	var $config;
-	function logger($lib) {
+	function __construct($lib) {
 		$this->config = $lib->config;
-		// $this->config['log_path'] = "/var/log/astpp/";
+//HP: Remove static set value		$this->config ['debug'] = 0;
+		 //~ $this->config['log_path'] = "/backup/html/astpp/";
 		if ($this->config ['debug'] == '0') {
 			// $this->fp = fopen($this->config['log_path'] . 'astpp_' . date('Y-m-d') . '.txt', 'a+');
 			$this->fp = fopen ( $this->config ['log_path'] . 'astpp.log', 'a+' );
+			//$this->fp = fopen ( $this->config ['log_path'], 'a+' );
 		}
 	}
 	function log($log) {

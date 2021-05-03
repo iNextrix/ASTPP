@@ -4,7 +4,7 @@
     <!--
     ASTPP Call scripts execution for dialplan.
     -->
-    <param name="xml-handler-script" value="/usr/local/freeswitch/scripts/astpp/astpp.lua"/>
+    <param name="xml-handler-script" value="/usr/share/freeswitch/scripts/astpp/astpp.lua"/>
     <param name="xml-handler-bindings" value="dialplan"/> 
 
     <!-- 

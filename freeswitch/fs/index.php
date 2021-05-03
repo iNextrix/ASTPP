@@ -56,8 +56,6 @@ $config = $lib->get_configurations ( $db );
 // echo "<pre>";print_r($config);exit;
 // Define logger object
 $logger = new logger ( $lib );
-// set_error_handler('xml_not_found');
-
 // Define file name
 $file = "astpp." . $_REQUEST ['section'] . ".php";
 

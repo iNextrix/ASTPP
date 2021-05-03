@@ -1,5 +1,4 @@
 <? extend('left_panel_master.php') ?>
-<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 <style>
     label.error {
@@ -10,32 +9,43 @@
         width:1500% !important;
     }
 </style>
-
+<script type="text/javascript">
+  $(document).ready(function(){
+      $(".breadcrumb li a").removeAttr("data-ripple",""); 
+  });
+</script>
 <?php endblock() ?>
 <? startblock('page-title') ?>
 <?= $page_title ?>
 <? endblock() ?>
 
 <? startblock('content') ?>   
-<div id="main-wrapper" class="tabcontents">
-    <div id="content">   
+<div id="main-wrapper">
+    <div id="content" class="container-fluid">   
         <div class="row"> 
-            <div class="col-md-12 no-padding color-three border_box"> 
-                <div class="pull-left">
-                    <ul class="breadcrumb">
-                        <li><a href="<?= base_url()."user/user_myprofile/"; ?>"> My Profile </a></li>
-                        <li class="active"><a href="<?= base_url()."user/user_change_password/"; ?>"> Change Password </a></li>
-                    </ul>
+            <div class="col-md-12 color-three border_box"> 
+                <div class="float-left m-2 lh19">
+                    <nav aria-label="breadcrumb">
+						<ol class="breadcrumb m-0 p-0">
+						<?php $accountinfo=$this->session->userdata('accountinfo');
+						  if($accountinfo['type']==1){ ?>
+							<li class="breadcrumb-item"><a href="<?= base_url() . "user/user_myprofile/"; ?>"><?php echo gettext('My Profile'); ?></a></li>
+                          <?php } 
+                          else{ ?>
+								<li class="breadcrumb-item"><a href="#"><?php echo gettext('My Account')?></a></li>
+                         <?php } ?>	
+							
+                       
+                        <li class="breadcrumb-item active" aria-current="page"><a href="<?= base_url()."user/user_change_password/"; ?>"> <?php echo gettext('Change Password'); ?> </a></li>
+                        </ol>
+                    </nav>
                 </div>
-                <div class="pull-right">
-                    <ul class="breadcrumb">
-		      <li class="active pull-right">
-		      <a href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
-                    </ul>
+                <div class="m-2 float-right">
+						<a class="btn btn-light btn-hight" href="<?= base_url()."user/user_myprofile/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i><?php echo gettext('Back'); ?></a>
                 </div>
             </div>
-            <div class="padding-15 col-md-12">
-                <div class="slice color-three pull-left col-md-12 content_border no-padding">
+            <div class="p-4 col-md-12">
+                <div class="col-md-12">
                     <?php echo $form; ?>
                     <?php if (isset($validation_errors) && $validation_errors != '') { ?>
                         <script>
@@ -50,3 +60,8 @@
 </div>
 <? endblock() ?>
 <? end_extend() ?>  
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('.page-wrap').addClass('addon_wrap');
+  });
+</script>

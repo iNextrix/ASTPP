@@ -7,7 +7,7 @@
       
         build_grid("price_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
-            $('.chkRefNos').attr('checked', this.checked); //if you want to select/deselect checkboxes use this
+           $('.chkRefNos').prop('checked', $(this).prop('checked')); 
         });
         $("#price_search_btn").click(function(){
             post_request_for_search("price_grid","","price_search");
@@ -24,32 +24,26 @@
 <?= $page_title ?>
 <? endblock() ?>
 
-<? startblock('content') ?>       
+<? startblock('content') ?>
+
 <section class="slice color-three">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-   	    <div class="row">
-            	<div class="portlet-content"  id="search_bar" style="cursor:pointer; display:none">
-                    	<?php echo $form_search; ?>
-    	        </div>
-            </div>
-        </div>
-    </div>
+	<div class="w-section inverse p-0">
+		<div class="col-12">
+			<div class="portlet-content mb-4" id="search_bar"
+				style="display: none">
+                        <?php echo $form_search; ?>
+                </div>
+		</div>
+	</div>
 </section>
 
-<section class="slice color-three padding-b-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-                <div class="col-md-12">      
-                        <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-                            <table id="price_grid" align="left" style="display:none;"></table>
-                        </form>
-                </div>  
-            </div>
-        </div>
-    </div>
-</section> 
+<section class="slice color-three pb-4">
+	<div class="w-section inverse p-0">
+		<div class="card col-md-12 pb-4">
+			<table id="price_grid" align="left" style="display: none;"></table>
+		</div>
+	</div>
+</section>
 
 <? endblock() ?>	
 

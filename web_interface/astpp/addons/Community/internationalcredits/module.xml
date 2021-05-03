@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>internationalcredits</tech_name>
+	<name>International Credits</name>
+	<description>Add an advanced level of control in making international calls by allocating designated balance to customers</description>		
+	<icon>static/images/internationalcredits_icon.png</icon>
+	<version>1.0.0</version>
+	<license>AGPL-3</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

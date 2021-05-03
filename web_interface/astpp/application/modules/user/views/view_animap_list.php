@@ -51,7 +51,7 @@ function validateForm(){
                 <div class="col-md-12" >
 
            <form method="POST" action="<?= base_url() ?>user/user_animap_action/add/" enctype="multipart/form-data" name="ani_form" id="myform1" >
-                <div style="padding-top:25px;"><label class="col-md-1 margin-l-20" >Caller ID:</label><input class="col-md-2 form-control" name="ANI" id="ANI_ID" size="20" type="text" maxlength="20">
+                <div style="padding-top:25px;"><label class="col-md-1 margin-l-20" ><?php echo gettext('Caller ID:') ?></label><input class="col-md-2 form-control" name="ANI" id="ANI_ID" size="20" type="text" maxlength="20">
 		    <input class="margin-l-20 btn btn-success" name="action" value="Caller ID" type="button" onclick="validateForm();"></div>
             </form>  
 			

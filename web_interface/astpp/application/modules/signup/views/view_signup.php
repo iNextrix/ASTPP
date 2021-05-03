@@ -1,359 +1,422 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">    
-<title>
-	<?php       
-        $this->db->where('domain',$_SERVER['HTTP_HOST']);
-        $this->db->select('*');
-        $this->db->order_by('accountid', 'desc');
-        $this->db->limit(1);
-        $invoiceconf = $this->db->get('invoice_conf');
-        $invoiceconf = (array)$invoiceconf->first_row();
-	if(isset($invoiceconf['website_title']) && $invoiceconf['website_title']!='') {
-	?>
-	Signup | <?php echo $invoiceconf['website_title']; ?>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+			<title>
 	<?php
-		}else{ 
-	?>
-	Signup | ASTPP - Open Source Voip Billing Solution
-	<?php
-	}
-	?>
+$this->db->where('domain', $_SERVER['HTTP_HOST']);
+$this->db->select('*');
+$this->db->order_by('accountid', 'desc');
+$this->db->limit(1);
+$invoiceconf = $this->db->get('invoice_conf');
+$invoiceconf = (array) $invoiceconf->first_row();
+if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '') {    
+	echo gettext("Signup")." | "; echo $invoiceconf['website_title']; 
+} else {
+	echo gettext("Signup")." | ".gettext("ASTPP - A Smart TelePhony Platform");
+}
+?>
 </title>
-<link rel="icon" href="<?php echo base_url(); ?>/assets/images/favicon.ico">
+<?php
 
-<link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-<link href="<?= base_url() ?>assets/fonts/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet">
-<link href="<?php echo base_url(); ?>/assets/css/global-style.css" rel="stylesheet" type="text/css">
-
-<style>
-.col-md-5
 {
-	width:100% !important;	
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+        $domain = "https://" . $_SERVER["HTTP_HOST"] . "/";
+    } else {
+        $domain = "http://" . $_SERVER["HTTP_HOST"] . "/";
+    }
+    $http_host = $_SERVER["HTTP_HOST"];
+    $this->db->select('favicon');
+    $this->db->where("domain LIKE '%$domain%'");
+    $this->db->or_where("domain LIKE '%$http_host%'");
+    $user_favicon = (array) $this->db->get_where("invoice_conf")->first_row();
+}
+?>
+<?php if(!empty($user_favicon['favicon'])) {  ?>
+        <link rel="icon"
+				href="<? echo base_url(); ?>upload/<? echo $user_favicon['favicon'] ?>" />
+<?php } else { ?>
+    <link rel="icon"
+				href="<? echo base_url(); ?>assets/images/favicon.ico" />
+<?php } ?>
+<link href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css"
+				rel="stylesheet">
+				<link
+					href="<?= base_url() ?>assets/fonts/font-awesome-4.7.0/css/font-awesome.css"
+					rel="stylesheet">
+					<link rel="stylesheet"
+						href="<?php echo base_url(); ?>assets/css/bootstrap-select.css" />
+					<link href="<?php echo base_url(); ?>assets/css/global-style.css"
+						rel="stylesheet" type="text/css">
+						<link href="<?php echo base_url(); ?>assets/css/style.css"
+							rel="stylesheet" type="text/css">
+							<link
+								href="<?php echo base_url(); ?>assets/css/custome_index.css"
+								rel="stylesheet" type="text/css">
+
+								<link
+									href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+									rel="stylesheet">
+
+									<script
+										src="<?php echo base_url(); ?>assets/js/jquery-1.12.4.js"></script>
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/bootstrap.bundle.min.js"></script>
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/status/dist/js/bootstrap-select.js"></script>
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/jquery.validate.min.js"></script>
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/fileinput.js"></script>
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/tabcontent.js"></script>
+									<!-- IE -->
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/respond.js"></script>
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
+									<!-- -->
+									<script type="text/javascript"
+										src="<?php echo base_url(); ?>assets/js/custome_index.js"></script>
+									<style>
+html, body {
+	height: 100%;
+}
+
+body {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #f5f5f5;
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	text-indent: 1px;
+	text-overflow: '';
 }
 </style>
-<!-- IE -->
-<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/respond.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/respond.src.js"></script>
-<!-- -->    
+									<script>
+$(document).ready(function() {
+    
+	$('input[type="text"]').keyup(function() {
+			if($(this).val() != '') {
+				$('#signup_submit').prop('disabled', false);
+			}
+		});
+ });
+</script>
+<script>
+      $(document).ready(function () {
+		$("#countrycode").attr('disabled',true);
+		$("#country_id").change(function () {		
+	 		var country = $('#country_id').val();
+			$("#countrycode").attr('disabled',true);	
+			$("#countrycode").val(country);
+		});
+	});
+</script>
 
-
-
-<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/module_js/generate_grid.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/jquery-1.7.1.js"></script>
-
-<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/validate.js"></script>
 <script type="text/javascript">
-         $(window).on('resize', function () {
+         $('document').ready(function() {
+			$("#signup_submit").click(function(){
+	 			$('#signup_submit').prop('disabled', true);
+				 if($('#customer_form').valid()){
+					$('#customer_form').submit();
+					return true;
+				 }else{
+					return false;
+				 }
+     		});
+			$("#customer_form").validate({
+                 rules: {
+		     userCaptcha: "required",
+                     first_name: {
+                         required: true,
+                     },
+					 telephone: {
+						 required: true,
+				     },
+	                 email: {
+							required: true,
+							email: true
+					 },
+                      
+                 },
+                 messages: {
+		     userCaptcha: '<span class="text-danger"><?php echo gettext("Captcha is required"); ?></span>',
+                     first_name: { 
+                         required: '<span class="text-danger"><?php echo gettext("First Name is Required"); ?></span>',
+                     },
+				     telephone: {
+						 required: '<span class="text-danger"><?php echo gettext("Telephone is Required"); ?></span>',
+				     },
+                     email: {
+						required: '<span class="text-danger"><?php echo gettext("Email is Required"); ?></span>',
+						email:'<span class="text-danger"><?php echo gettext("Please enter a valid email address"); ?></span>',
+					 },
+					 
+                 },
+                  errorClass: "error_label",
+                 submitHandler: function(form) {
+					
+                     form.submit();
+                 }
+             });
+	  
+         });
+function isNumberKey(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+      	    return true;
+    	}
+	
+ </script>
 
-                if ($(window).width() <500){
+									<noscript>
+										<div id="noscript-warning"><?php echo gettext("ASTPP work best with JavaScript enabled"); ?></div>
+									</noscript>
 
-                        $('img').css('width','153');
-                }else{
-                        $('img').css('width','253');    
-                }
-        });
-$('document').ready(function()
-{ 
-                        if ($(window).width() <500){
-			      $('img').css('width','153');
-		        }else{
-		              $('img').css('width','253');    
-		        }
-			$('.form-control').focus(function(){ 
-					$('#email_error').value = '';
+									</script>
+									<script src='https://www.google.com/recaptcha/api.js'></script>
+
+									<script>
+            function onSubmit(token) {
 				
-			})
-            $("#customer_form").validate({
-                rules: {
-                    userCaptcha: "required",
-                    email: {
-						required: true,
-						email: true,
-					},
-					first_name: {
-						required: true,
-						Alphaonly: true 
-					},
-					last_name: {
-						Alphaonly: true,
-					},
-					telephone_1: {
-                                            phn_number: true,
-                                         },
-                },
-                messages: {
-                    userCaptcha: "<div id= 'capcha_error' style='color: red; margin-right: 113px; margin-top: -8px; text-transform: none;'>Captcha is required</div>",
-                    email: {
-						required: '<div id= "email_error" style="color: red; margin-right: 132px; margin-top: -8px; text-transform: none;">Email is required</div>',
-						email: '<div id= "email_error" style="color: red; margin-right: 32px; margin-top: -8px; text-transform: none;">Please enter a valid email address</div>',
-					},
-					first_name: {
-						required: "<div id= 'first_name_error' style='color: red; margin-right: 100px; margin-top: -8px; text-transform: none;'>First name is required</div>",
-					},
-					telephone_1: {
-						phn_number: "<div id='telephone_1_error' style='color: red; margin-right: 70px; margin-top: -8px; text-transform: none;'>Phone number is not valid</div>",
-					},
-                },
-                submitHandler: function(form) {
-                    form.submit();
-                }
-            });  
-});
-</script>
-
-
-<noscript>
-<div id="noscript-warning">
-ASTPP work best with JavaScript enabled
-</div>
-</noscript>
-
-</script>
+                $("#customer_form").submit();
+                return true;
+            }
+			 
+        </script>
 
 </head>
 <? extend('master.php') ?>
-<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
-<body style="overflow-x:hidden; background: #343434;">
+<body style="background: url(<?= base_url() ?>assets/images/login_bg.jpg);background-size: cover;background-attachment: fixed;">
+					<?php if (isset($astpp_notification)){ ?>
+					<div class="col-md-12">
+		<div
+			class="container alert alert-danger alert-dismissible mt-5 fade show">
+			<strong><?php echo gettext('Login unsuccessful.')?></strong> <?php echo gettext('Please make sure you entered the correct username and password, and that your account is active.')?>
+							<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close" data-ripple=" ">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+	</div>
+					<?php
 
-
-<section class="slice">
-	<div class="w-section inverse">
-    	<div class="container">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">&nbsp;
-					<span class="login_error">
-                        <?php if (isset($astpp_notification)){ ?>
-                        Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.
-						<?php }else{
-						 echo "&nbsp;";
-						} ?>
-                    </span>
-                </div> 
-					<br/>
-                    <br/>
-                   
-                   <center><h1 style='color:yellow !important;'>Registration/SignUp</h1></center>
-            	<div class="col-md-8 col-md-offset-2">
-                    <div class="w-section inverse no-padding margin-t-20">                       
-                        <div class="w-box dark sign-in-wr box_shadow">
-							
-								<div class="">	
-											<!-- Header Start-->
-												<div class="col-md-12">
-													 <?php
-														if(isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != ""){
-															$logo = $this->session->userdata['user_logo'];
-														}else{
-															$logo = 'logo.png';
-														}
-														
-													if ($this->session->userdata('userlevel_logintype') != '0') {?>
-															<a class="col-md-10" style="padding:0px 0px 10px 0px" href="<?php echo base_url(); ?>">
-																<img style="height: 53px; width:216px;" id="logo" alt="dashboard" src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
-														<? } else {?> 
-																<a class="col-md-10" style="padding:0px 0px 20px 0px" href="<?php echo base_url(); ?>">
-																<img style="height: 44px; width:216px;" id="logo" title='ASTPP - Open Source Voip Billing Solution' alt='ASTPP - Open Source Voip Billing Solution' src="<?php echo base_url(); ?>upload/<?php echo$logo;?>">
-														<? }?>
-															</a>
-												<div class="col-md-2">
-													<a href="<?php echo base_url(); ?>">
-														<input type="submit" value="Login" name="Login" style="border-radius: 2px" class="btn btn-success col-md-12 margin-t-10">
-													</a>
-									  				</div>
+} else {
+        echo "&nbsp;";
+    }
+    ?>
+            	<div class="col-md-12 m-auto form_card">
+		<form class="card p-4 col-12 mb-5"
+			action="<?php echo base_url(); ?>signup/" method="post"
+			accept-charset="utf-8" id="customer_form" name="customer_form"
+			style="background: rgba(255, 255, 255, 0.8);">
+			<h2 class="text-center">
+								 <?php
+        if (isset($this->session->userdata['user_logo']) && $this->session->userdata['user_logo'] != "") {
+            $logo = $this->session->userdata['user_logo'];
+        } else {
+            $logo = 'logo.png';
+        }
+        if ($this->session->userdata('userlevel_logintype') != '0') {
+            ?>
+										<a class="logo_title" href="<?php echo base_url(); ?>"><img
+					class="mb-2 img-fluid" id="logo" alt="Signup"
+					src="<?php echo base_url(); ?>upload/<?php echo $logo;?>"></a>
+									<? } else {?> 
+										<a class="logo_title" href="<?php echo base_url(); ?>"><img
+					class="mb-2 img-fluid" id="logo"
+					title='ASTPP - Open Source Voip Billing Solution'
+					alt='ASTPP - Open Source Voip Billing Solution'
+					src="<?php echo base_url(); ?>upload/<?php echo $logo;?>"></a>
+									<? }?>
+							</h2>
+			<div class="card pt-5 px-4 pb-4">
+				<input type="hidden" name="key_unique"
+					value="<?php if (isset($key_unique)) {echo $key_unique;} else {'';}?>"
+					id="key_unique" size="15" maxlength="250" class="form-control" />
+				<div class="form-group pb-2">
+					<div id="floating-label">
+													<?
+            $js = 'id="country_id"';
+            $country = form_dropdown(array(
+                'id' => 'country_id',
+                'name' => 'country_id',
+                'class' => 'country_id'
+            ), $this->db_model->build_dropdown("id,country", "countrycode", "", ""), isset($country_id) ? $country_id : $country_id);
+            echo $country;
+            ?>
 												</div>
-		
-		<form class="col-md-12 no-padding" action="<?php echo base_url(); ?>signup/signup_save/" onsubmit="return validatepass();" method="post" accept-charset="utf-8" id="customer_form" name="customer_form">
-		
-		
-		<center>
-	
-		<div class="margin-t-15 padding-r-32 padding-l-32">
+					<label class="control-label"><?php echo gettext('Country')?></label>
+				</div>
+				<div class="form-group">
+					<input type="text" id="company_name" name="company_name"
+						value="<?php if (isset($company_name)) {echo $company_name;} else {'';}?>"
+						maxlength="40" size="15" class="form-control" /> <label
+						for="company_name" class="control-label"><?php echo gettext('Company Name')?></label>
+				</div>
+				<div class="form-group">
+					<select id="countrycode"
+						class="col-3 float-left form-control select2" style="width: 100%;">
+									    <?
 
-		<input type="hidden" name="key_unique"  value="<?php if (isset($key_unique)) {
-	echo $key_unique;
-} else {
-	'';
-}
-?>"
-		id="key_unique" size="15" maxlength="250" class="col-md-5 form-control"/>
-	<div class="col-md-12 no-padding">
+foreach ($countrycode_array as $key => $countrycode_info) :
+                $selected_value = '';
+                if ($country_id == $key) {
+                    $selected_value = "selected=selected";
+                }
+                ?>
+									     <option <?php echo $selected_value ?>
+							class="parent-element" value="<?php print_r($key); ?>"><?php print_r('+ '.$countrycode_info); ?></option>
+									     <?endforeach;?> 
+									    </select> <input type="text" id="telephone"
+						name="telephone"
+						value="<?php if (isset($telephone)) {echo $telephone;} else {'';}?>"
+						size="15" maxlength="20" class="col-9 float-left form-control"
+						onkeypress="return isNumberKey(event)" />
+		<?php
+if (isset($error['account_number']) && $error['account_number']) {
+    ?>
+				<label class="error_label">
+					<?php echo $error['account_number'];?>
+				</label>
+		<?php }?>
+													<label for="telephone" class="control-label"><?php echo gettext('Telephone')?> *</label>
 
-			<li class="col-md-6 no-padding">
-				<label class="col-md-3 no-padding" style="text-align: left;">First Name *</label>
-				<div class='col-md-9'>
-				<input type="text" name="first_name" value="<?php if (isset($value['first_name'])) {
-	echo $value['first_name'];
-} else {
-	'';
-}
-?>" id="first_name" size="15" maxlength="40" class="form-control"/>
-				<div style="width: 97.67%; float: left;text-align: left;">
-					<span id="f_name" style="color:red;"> </span>
 				</div>
-				</div>
-			</li>
-			<li class="col-md-6  no-padding">
-				<label class="col-md-3 no-padding" style="text-align: left;">Last Name</label>
-				<div class='col-md-9'>
-				<input type="text" name="last_name" id="last_name" value="<?php if (isset($value['last_name'])) {
-	echo $value['last_name'];
-} else {
-	'';
-}
-?>"  size="15" maxlength="40" class="form-control"/>
-				<div style="width: 97.67%; float: left;text-align: left;">
-					<span id="l_name" style="color:red;"> </span>
-				</div>
-				</div>
-			</li>
-			
-		</div>
-		<div class="col-md-12 no-padding">
+				<div class="form-group">
+					<input type="text" name="email" id="email"
+						value="<?php if (isset($email)) {echo $email;} else {'';}?>"
+						size="50" maxlength="80" class="form-control error_login" />
+		<?php
+if (isset($error['account_email']) && $error['account_email']) {
+    ?>
+				<label class="error_label">
+					<?php echo $error['account_email'];?>
+				</label>
+		<?php }?>
+													<label for="email" class="control-label"><?php echo gettext('Email')?> *</label>
 
-
-			<li class="col-md-6 no-padding">
-				<label class="col-md-3 no-padding" style="text-align: left;">Company&nbsp;Name&nbsp;</label>
-				<div class='col-md-9'>
-				<input type="text" id="company_name" name="company_name" value="<?php if (isset($value['company_name'])) {
-	echo $value['company_name'];
-} else {
-	'';
-}
-?>" maxlength="40" size="15" class="form-control"/>
 				</div>
-			</li>
-			<li class="col-md-6 no-padding">
-				<label class="col-md-3 no-padding" style="text-align: left;">Telephone</label>
-				<div class='col-md-9'>
-				<input type="text" id="telephone_1" name="telephone_1" value="<?php if (isset($value['telephone_1'])) {
-	echo $value['telephone_1'];
-} else {
-	'';
-}
-?>" size="15" maxlength="20" class="form-control"/>
-				<div style="width: 100%; float: left;text-align: left;">
-					<span id="phonenumber" style="color:red;"> </span>
-				</div>
-				</div>
-			</li>
-		
-		</div>
-		<div class="col-md-12 no-padding">
-
-
-			<li class="col-md-6 no-padding">	
-				<label class="col-md-3 no-padding" style="text-align: left;">Email *</label>
-				<div class='col-md-9'>
-				<input type="text" name="email" id="email" value="<?php if (isset($value['email'])) {
-	echo $value['email'];
-} else {
-	'';
-}
-?>" size="50" maxlength="80" class="form-control"/>
-				<span id="email_error" style="color:red;"> 
-				<div style="width: 100%; float: left;text-align: left;"><?php if (isset($error['email'])) {
-	echo $error['email'];
-}
-?></div></span>
-				</div>
-			</li>
-			<li class="col-md-6  no-padding">
-				<label for="Country" class="col-md-3 no-padding" style="text-align: left;">Country</label>
-				<div class='col-md-9'>
-				<?
-				$js = 'id="country_id"';
-				$country = form_dropdown(array('id'=>'country_id', 'name'=>'country_id'), $this->db_model->build_dropdown("id,country", "countrycode", "", ""), '', 'id="country_id"');
-				echo $country;
-				?>
-				</div>
-			</li>
-
-			</div>	
-			<div class="col-md-12 no-padding">
-
-
-			<li class="col-md-6  no-padding">
-				<label for="Timezone" class="col-md-3 no-padding add_settings" style="text-align: left;">Timezone</label>
-				<div class='col-md-9'>
-				<?
-				$timezone = form_dropdown(array('id'=>'timezone_id', 'name'=>'timezone_id'), $this->db_model->build_dropdown("id,gmtzone", "timezone", "", ""), '', 'id="timezone_id"');
-				echo $timezone;
-				?>
-				</div>
-			</li>
-			<li class="col-md-6 no-padding">
-				<label for="Currency" class="col-md-3  no-padding add_settings" style="text-align: left;">Currency</label>
-				<div class='col-md-9'>
-				<?
-				$currency = form_dropdown(array('id'=>'currency_id', 'name'=>'currency_id'), $this->db_model->build_dropdown("id,currencyname", "currency", "", ""), '', 'id="currency_id"');
-				echo $currency;
-				?>
-				</div>
-			</li>
-			</div>
-			<div class="col-md-12 no-padding">
-		  	<li class="col-md-6  no-padding">
-				<label class="col-md-3  no-padding" style="text-align: left;">Address</label>
-				<div class='col-md-9'>
-				<textarea id="address_1" name="address_1" value="" size="15" maxlength="200" class="form-control"> <?php if (isset($value['address_1'])) {
-	echo $value['address_1'];
-} else {
-	'';
-}
-?> </textarea>
-				</div>
-			</li>
-			<li class="col-md-6 no-padding">
-				<label for="captcha" class="col-md-3 no-padding" style="text-align: left;">Captcha *</label>
-				<div class='col-md-9'>
-				<div class="col-md-12 no-padding" style="text-align:left;">
-					<?php echo $captcha['image']; ?>
-				</div>
-				</div>
-				
-				<div class="col-md-3 no-padding"></div>
-				<div class='col-md-9 margin-t-10'>															
-				<input class='form-control posttoexternal' id="userCaptcha" name="userCaptcha" type="text" autocomplete="off" placeholder="Enter above text"/>
-				<div style="width: 100%; float: left;text-align: left;"><?php if (isset($error['userCaptcha'])) {
-	echo $error['userCaptcha'];
-}
-?></div>
-				</div>
-			</li>
-		</div>
-		<center>
-		<div class="col-md-12 margin-t-20 margin-b-10">
-		<button name="action" type="submit" value="Signup" class="btn btn-line-parrot" >Signup</button>
-		<button class="btn btn-line-sky" id="reset" type="button">Reset</button>
-		</div>
-		</center>
-		
-
-		</div>
-			
-		</center>
-	</form>
-								</div>
-							  
+				<div class="col-md-12">
+					<div class="row">
+						<div class="form-group col-6 pl-0">
+							<input type="text" name="first_name"
+								value="<?php if (isset($first_name)) {echo $first_name;} else {'';}?>"
+								id="first_name" maxlength="40" class="form-control" /> <label
+								for="first_name" class="control-label"><?php echo gettext('First Name')?> *</label>
+						</div>
+						<div class="form-group col-6 p-0">
+							<input type="text" name="last_name" id="last_name"
+								value="<?php if (isset($last_name)) {echo $last_name;} else {'';}?>"
+								maxlength="40" class="form-control" /> <label for="last_name"
+								class="control-label"><?php echo gettext('Last Name')?></label>
 						</div>
 					</div>
-				</div> 
-            </div>
-        </div>
-    </div>
-</section>
-	
-<script type="text/javascript">
+				</div>
+				<div class="col-md-12 mt-2">
+					<div class="row">
+						<div class="form-group col-6 pl-0">
+							<label class="control-label"><?php echo gettext('Currency')?></label>
+							<div id="floating-label">
+															<?
+            $currency = form_dropdown(array(
+                'id' => 'currency_id',
+                'name' => 'currency_id',
+                'class' => 'currency_id'
+            ), $this->db_model->build_dropdown("id,currencyname", "currency", "", ""), isset($currency_id) ? $currency_id : $currency_id);
+            echo $currency;
+            ?>
+														</div>
+						</div>
+						<div class="form-group col-6 p-0">
+							<label for="Timezone" class="control-label add_settings"><?php echo gettext('Timezone')?></label>
+							<div id="floating-label">
+															<?
+            $timezone = form_dropdown(array(
+                'id' => 'timezone_id',
+                'name' => 'timezone_id',
+                'class' => 'timezone_id selectpicker form-control '
+            ), $this->db_model->build_dropdown("id,gmtzone", "timezone", "", ""), isset($timezone_id) ? $timezone_id : $timezone_id);
+            echo $timezone;
+            ?>
+														</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-12 form-group p-0">
+				<?php echo $captcha['image']; ?>				
+			</div>
+				<div class="form-group">
+					<input
+						class='form-control form-control-lg col-md-12 posttoexternal m-0'
+						id="userCaptcha" name="userCaptcha" type="text" autocomplete="off" />
+		<?php
+if (isset($error['captcha_err']) && $error['captcha_err']) {
+    ?>
+				<label class="error_label">
+					<?php print_r($error['captcha_err']);?>
+				</label>
+		<?php }?>
+
+												<label for="userCaptcha" class="control-label"><?php echo gettext('Enter above Captcha')?> *</label>
+
+
+				</div>
+																									   			<?php
+                            if (isset($error['account_deleted']) && $error['account_deleted']) {
+                                ?>
+				<label class="error_label">
+					<?php echo $error['account_deleted'];?>
+				</label>
+		<?php }?>
+										<div class="col-md-12 p-0 mt-4">
+					<button name="action" type="submit" value="Signup"
+						id="signup_submit" class="btn btn-block text-uppercase border_box"><?php echo gettext('Sign up')?></button>
+				</div>
+			</div>
+			<div class="col-12 mt-4">
+				<p class="text-center px-4 m-0">
+					<a class="btn btn-outline-primary btn-block btn_index"
+						href="<?php echo base_url(); ?>"><?php echo gettext('Already Registered !')?></a>
+				</p>
+			</div>
+		</form>
+						<?php
+    if (isset($validation_errors) && $validation_errors != '') {
+        ?>
+						<script>
+							var ERR_STR = '<?php echo $validation_errors; ?>';
+							print_error(ERR_STR);
+						</script>
+					<? } ?>	
+				</div>
+
+	<script type="text/javascript">
 		$("#country_id").val(<?= $country_id ?>);
 		$("#timezone_id").val(<?= $timezone_id ?>);
 		$("#currency_id").val(<?= $currency_id ?>);
 </script>
-<script type="text/javascript">
+
+	<script type="text/javascript">
 	var country = $("#country_id").val();
 	var timezone = $("#timezone_id").val();
 	var currency = $("#currency_id").val();
@@ -374,4 +437,8 @@ ASTPP work best with JavaScript enabled
 		$("#telephone_1_error").hide("");
 	});
 </script>
-
+	<script>
+      $(document).ready(function () {
+		$("select").closest('.form-group').addClass('control-select');
+	});
+</script>

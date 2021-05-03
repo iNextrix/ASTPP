@@ -22,10 +22,6 @@
 // ##############################################################################
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-
-/**
- * Dynamically build forms for display
- */
 class locale_Menu {
 	function __construct($library_name = '') {
 		$this->CI = & get_instance ();

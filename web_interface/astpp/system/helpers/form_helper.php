@@ -66,8 +66,8 @@ if ( ! function_exists('form_open'))
 
 		$form .= '>';
 
-		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites	
-		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))	
+		// Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
+		if ($CI->config->item('csrf_protection') === TRUE AND ! (strpos($action, $CI->config->site_url()) === FALSE OR strpos($form, 'method="get"')))
 		{
 			$hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
 		}
@@ -116,6 +116,82 @@ if ( ! function_exists('form_open_multipart'))
 		}
 
 		return form_open($action, $attributes, $hidden);
+	}
+}
+//HP: PBX_ADDON -- Check in Opensource
+if ( ! function_exists('form_dropdown_mini'))
+{
+	function form_dropdown_mini($name = '', $options = array(), $selected = array(), $extra = '')
+	{
+		if ( ! is_array($selected))
+		{
+			$selected = array($selected);
+		}
+
+		// If no selected state was submitted we will attempt to set it automatically
+		if (count($selected) === 0)
+		{
+			// If the form name appears in the $_POST array we have a winner!
+			if (isset($_POST[$name]))
+			{
+				$selected = array($_POST[$name]);
+			}
+		}
+
+		if ($extra != '') $extra = ' '.$extra;
+		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+				if(is_array($name)){
+					 $str=null;
+					 foreach($name as $key=>$value){
+					  if($key !='class' && $key!='disabled')
+					  $str.=$key."='$value' ";
+					 }
+					 if(isset($name['disabled']) && $name['disabled']== 'disabled'){
+					  $str.='disabled = "disabled"';
+					 }
+					 $name['class'] = isset($name['class']) ? $name['class'] : '';
+					 $form = '<select '.$str." class='col-md-6 form-control selectpicker form-control-lg ".$name['class'].$extra."' data-live-search='true'>\n";
+				}else{
+					if(!empty($extra)){
+						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-6 form-control selectpicker form-control-lg ".$extra."' data-live-search='true'>\n";
+					}else{
+						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-6 form-control selectpicker form-control-lg' data-live-search='true'>\n";
+					}
+				}
+//                if($extra != '' ){
+//                    $form .= '<option value=""></option>';
+//                }
+//                 echo $form;exit;
+		foreach ($options as $key => $val)
+		{
+			$key = (string)$key;
+
+			if (is_array($val) && ! empty($val))
+			{
+				$form .= '<optgroup label="'.$key.'">'."\n";
+
+				foreach ($val as $optgroup_key => $optgroup_val)
+				{
+					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
+
+					$form .= '<option value="'.$optgroup_key.'"'.$sel.'>'.(string)$optgroup_val."</option>\n";
+				}
+
+				$form .= '</optgroup>'."\n";
+			} else
+			{
+				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
+
+				$form .= '<option value="'.$key.'"'.$sel.'>'.(string) $val."</option>\n";
+			}
+		}
+				if(isset($name['option_value']) && isset($name['option_text'])){
+		  $sel= isset($name['value']) && $name['value']==$name['option_value']?'selected ="selected"':'';
+		  $form .= '<option value="'.$name['option_value'].'"'.$sel.'>'.(string) $name['option_text']."</option>\n";
+				}
+		$form .= '</select>';
+//echo $form; exit;
+		return $form;
 	}
 }
 
@@ -183,13 +259,14 @@ if ( ! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
-			$data["class"] = "col-md-5 form-control";
-		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+	//	echo "<pre>";print_r($data);
+		$data["class"] = "col-md-12 form-control form-control-lg";
+		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value,'placeholder'=>(( ! is_array($data)) ? $data['placeholder'] : ''));
 
-		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+		return "<input data-ripple "._parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
-/* ASTPP  3.0 
+/* ASTPP  3.0
  * For Image upload
  */
 //  IMAGE VIEW  //
@@ -201,7 +278,7 @@ if ( ! function_exists('form_image'))
 		//$data["class"] = "col-md-5 form-control";
 		$defaults = array('type' => 'image', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 		if ($data['value'] != '') {
-			return	'<div class="col-md-5 no-padding">
+			return	'<div class="col-md-12 p-0">
                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 	                    <div class="form-control" data-trigger="fileinput">
 	                        <span class="fileinput-filename"></span>
@@ -213,9 +290,9 @@ if ( ! function_exists('form_image'))
                    </div>
                </div>';
 		}else{
-			return "<div class='col-md-5 no-padding'><image "._parse_form_attributes($data, $defaults).$extra." /></div>";
-		}	
-		
+			return "<div class='col-md-12 p-0'><image "._parse_form_attributes($data, $defaults).$extra." /></div>";
+		}
+
 	}
 }
 //  button tag delete image  //
@@ -229,7 +306,7 @@ if ( ! function_exists('form_img_delete'))
 			$data['value']='Delete';
 		$defaults = array('type' => 'button', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => 'Delete');
 
-		return "<div class='col-md-5 no-padding'><input "._parse_form_attributes($data, $defaults).$extra." /></div>";
+		return "<div class='col-md-12 p-0'><input "._parse_form_attributes($data, $defaults).$extra." /></div>";
 	}
 }
 // ------------------------------------------------------------------------
@@ -255,6 +332,7 @@ if ( ! function_exists('form_password'))
 		}
 
 		$data['type'] = 'password';
+		$data['autocomplete'] = "off";
 		return form_input($data, $value, $extra);
 	}
 }
@@ -301,7 +379,8 @@ if ( ! function_exists('form_textarea'))
 {
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '40', 'rows' => '10');
+		// $defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '40', 'rows' => '10');
+		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '40');
 
 		if ( ! is_array($data) OR ! isset($data['value']))
 		{
@@ -333,10 +412,10 @@ if ( ! function_exists('form_multiselect'))
 {
 	function form_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
 	{
-            
+
 			if ( ! strpos($extra, 'multiple'))
 		{
-                
+
 			$extra .= ' multiple="multiple"';
 		}
 
@@ -386,12 +465,13 @@ if ( ! function_exists('form_dropdown'))
 					 if(isset($name['disabled']) && $name['disabled']== 'disabled'){
 					  $str.='disabled = "disabled"';
 					 }
-							   $form = '<select '.$str." class='col-md-5 form-control selectpicker ".$name['class'].$extra."' data-live-search='true'>\n";
+					 $name['class'] = isset($name['class']) ? $name['class'] : '';
+					 $form = '<select '.$str." class='col-md-12 form-control selectpicker form-control-lg ".$name['class'].$extra."' data-live-search='true'>\n";
 				}else{
 					if(!empty($extra)){
-						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-5 form-control selectpicker ".$extra."' data-live-search='true'>\n";
+						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-12 form-control selectpicker form-control-lg ".$extra."' data-live-search='true'>\n";
 					}else{
-						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-5 form-control selectpicker' data-live-search='true'>\n";
+						$form = '<select  name="'.$name.'"' .$multiple." class='col-md-12 form-control selectpicker form-control-lg' data-live-search='true'>\n";
 					}
 				}
 //                if($extra != '' ){
@@ -432,6 +512,7 @@ if ( ! function_exists('form_dropdown'))
 }
 if ( ! function_exists('form_dropdown_all'))
 {
+//HP: PBX_ADDON
 	function form_dropdown_all($name = '', $options = array(), $selected = array(), $extra = '')
 	{
 		if ( ! is_array($selected))
@@ -442,25 +523,30 @@ if ( ! function_exists('form_dropdown_all'))
 		// If no selected state was submitted we will attempt to set it automatically
 		if (count($selected) === 0)
 		{
-			// If the form name appears in the $_POST array we have a winner!
-			if (isset($_POST[$name]))
-			{
-				$selected = array($_POST[$name]);
+
+			if (!empty($_POST)) {
+				if (isset($_POST[$name]) && $_POST[$name] !='') {
+					$selected = array($_POST[$name]);
+				}
 			}
 		}
+		$onchange = "";
+		if(isset($name['onchange']) && $name['onchange'] != ''){
+			$onchange = "onchange = ".$name['onchange'];
+		}
 		if ($extra != '') $extra = ' '.$extra;
-				$class= isset($name['class']) && !empty($name['class']) ? "col-md-5 form-control selectpicker $name[class]" :"col-md-5 form-control selectpicker";
+				$class= isset($name['class']) && !empty($name['class']) ? "col-md-12 form-control form-control-lg selectpicker $name[class]" :"col-md-12 form-control form-control-lg selectpicker";
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 		if(is_array($name) && !isset($name["id"])){
-					$form = '<select name="'.$name['name'].'"'." class='$class' data-live-search='true'>\n";
+					$form = '<select name="'.$name['name'].'"'." class='$class selectpicker' data-live-search='true' ".$onchange.">\n";
 				}else if(is_array($name) && isset($name["id"])){
-					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='$class' data-live-search='true'>\n";
+					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='$class selectpicker' data-live-search='true' ".$onchange.">\n";
 				}
 				else{
-					$form = '<select name="'.$name.'"' .$multiple." class='$class' data-live-search='true'>\n";
-				}   
+					$form = '<select name="'.$name.'"' .$multiple." class='$class selectpicker' data-live-search='true' ".$onchange.">\n";
+				}
 
-		$form .= '<option value=""> --Select-- </option>';
+		$form .= '<option value="">'. gettext("--Select--") .' </option>';
 		foreach ($options as $key => $val)
 		{
 			$key = (string) $key;
@@ -491,6 +577,7 @@ if ( ! function_exists('form_dropdown_all'))
 		$form .= '</select>';
 
 		return $form;
+
 	}
 }
 
@@ -520,7 +607,7 @@ if ( ! function_exists('form_dropdown_all_search'))
 		if ($extra != '' && !is_array($extra)) $extra = ' '.$extra;
 			/**********************************************************/
 
-		$class= isset($name['class']) && !empty($name['class']) ? "col-md-5 form-control selectpicker $name[class]" :"col-md-5 form-control selectpicker";
+		$class= isset($name['class']) && !empty($name['class']) ? "col-md-12 form-control selectpicker form-control-lg $name[class]" :"col-md-12 form-control form-control-lg selectpicker";
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 				/*
@@ -529,18 +616,18 @@ if ( ! function_exists('form_dropdown_all_search'))
 				if(empty($extra)){
 				/*********************************/
 		if(is_array($name) && !isset($name["id"])){
-					$form = '<select name="'.$name['name'].'"'." class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
+					$form = '<select name="'.$name['name'].'"'." class='col-md-12 form-control form-control-lg selectpicker $class' style='margin-left:5px;' data-live-search='true'>\n";
 				}else if(is_array($name) && isset($name["id"])){
-					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
+					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='col-md-12 form-control form-control-lg selectpicker $class' style='margin-left:5px;' data-live-search='true'>\n";
 				}else{
-					$form = '<select name="'.$name.'"' .$multiple." class='col-md-5 form-control $class' style='margin-left:5px;' data-live-search='true'>\n";
-				}   
+					$form = '<select name="'.$name.'"' .$multiple." class='col-md-12 form-control form-control-lg selectpicker $class' style='margin-left:5px;' data-live-search='true'>\n";
+				}
  /*
 		  ASTPP  3.0  For Search Display In
 		*/
 				}else{
 
-					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='".$extra['class']." $class' style='".$extra['style']."' data-live-search='true'>\n";
+					$form = '<select name="'.$name['name'].'" id="'.$name['id'].'"'."class='".$extra['class']." selectpicker $class' style='".$extra['style']."' data-live-search='true'>\n";
 				 }
 		//$form .= '<option value=""> --Select-- </option>';
 		foreach ($options as $key => $val)
@@ -598,8 +685,8 @@ if ( ! function_exists('form_dropdown_multiselect'))
 		}
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
-		$form = '<select name="'.$name.'"'." multiple='multiple' class='select field multiselectable col-md-5 form-control'>\n";
-                
+		$form = '<select name="'.$name.'"'." multiple='multiple' class='selectpicker select field multiselectable col-md-12 form-control form-control-lg' data-hide-disabled='true' data-actions-box='true'>\n";
+
 		foreach ($options as $key => $val)
 		{
 			$key = (string)$key;
@@ -641,8 +728,8 @@ if ( ! function_exists('form_dropdown_multiselect'))
  * @param	string
  * @return	string
  */
- 
- 
+
+
 /**
 ASTPP3.0
 Add button for checkbox
@@ -651,21 +738,21 @@ if ( ! function_exists('form_checkbox'))
 {
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
-		
+
 		if (isset($data) && $data != '') {
 			$name = "'".$data."'";
 		} else {
 			$name = '';
 		}
-		
+
 		/*if(isset($value) && $value != ''){
 			$value = "'".$value."'";
 		}else{
 			$value='0';
 		}*/
-		
+
 		$defaults = array('class'=>'onoffswitch-checkbox', 'type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
-		
+
 		if (is_array($data) AND array_key_exists('checked', $data))
 		{
 			$checked = $data['checked'];
@@ -705,7 +792,7 @@ if ( ! function_exists('form_checkbox'))
 		$class='onoffswitch-inner';
 	      }
 	      }
-	      
+
             /* if(isset($extra[1]) && $extra[1] == 'Disable'){
             $enable='onoffswitch-inner';
             }else{
@@ -716,13 +803,13 @@ if ( ! function_exists('form_checkbox'))
 		if ($class == "onoffswitch-inner_true") {
 				return '<div style="width: 49%; text-align: -moz-center; padding: 0;">
 				<input '._parse_form_attributes($data, $defaults).' type="checkbox" id="switch'.$name.'" name="onoffswitch" class="onoffswitch-checkbox" content="Yes">
-				<label class="onoffswitch-label" for="switch'.$name.'"><span class="'.$class.'"></span></label></div>';	
+				<label class="onoffswitch-label" for="switch'.$name.'"><span class="'.$class.'"></span></label></div>';
 		} else {
 				return '<div style="width: 41%; text-align: -moz-center; padding: 0;">
 				<input  type="checkbox" id="switch'.$name.'" name="onoffswitch"  class="onoffswitch-checkbox" content="Yes">
 				<label class="onoffswitch-label" for="switch'.$name.'"><span class="'.$class.'"></span></label></div>';
 		}
-				
+
 	}
 }
 /**********************************************************/
@@ -816,7 +903,7 @@ if ( ! function_exists('form_button'))
 			$content = $data['content'];
 			unset($data['content']); // content is not an attribute
 		}
-		
+
 		return "<button "._parse_form_attributes($data, $defaults).$extra.">".gettext($content)."</button>";
 		//return "<button "._parse_form_attributes($data, $defaults).$extra.">".$content."</button>";
 	}
@@ -852,8 +939,9 @@ if ( ! function_exists('form_label'))
 				$label .= ' '.$key.'="'.$val.'"';
 			}
 		}
-
-		$label .= ">$label_text</label>";
+		$label .= ">";
+		$label_text =str_replace('#Enterprise#', '<span id = "Enterprise" class="badge badge-warning Enterprise" onclick="myFunction()"> Enterprise</span> ', $label_text );
+		$label .= "$label_text</label>";
 
 		return $label;
 	}
@@ -876,7 +964,7 @@ if ( ! function_exists('form_fieldset'))
 	function form_fieldset($legend_text = '', $attributes = array())
 	{
 
-		$fieldset = "<fieldset";
+		$fieldset = "<h3 class='bg-secondary text-light p-3 rounded-top'";
 
 		$fieldset .= _attributes_to_string($attributes, FALSE);
 
@@ -884,7 +972,7 @@ if ( ! function_exists('form_fieldset'))
 
 		if ($legend_text != '')
 		{
-			$fieldset .= "<legend>$legend_text</legend>\n";
+			$fieldset .= "$legend_text</h3>\n";
 		}
 
 		return $fieldset;
@@ -1355,17 +1443,17 @@ if ( ! function_exists('_get_validation_object'))
 
 		// We set this as a variable since we're returning by reference.
 		$return = FALSE;
-		
+
 		if (FALSE !== ($object = $CI->load->is_loaded('form_validation')))
 		{
-			if ( ! isset($CI->$object) OR ! is_object($CI->$object))
+			if ( ! isset($CI->{$object}) OR ! is_object($CI->{$object}))
 			{
 				return $return;
 			}
-			
-			return $CI->$object;
+
+			return $CI->{$object};
 		}
-		
+
 		return $return;
 	}
 }
@@ -1394,7 +1482,7 @@ if ( ! function_exists('form_countries'))
 		}
 
 		$form .= ">";
-		
+
 		if ($form_name != "") {
 			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
 		}
@@ -1405,14 +1493,14 @@ if ( ! function_exists('form_countries'))
 
 			if (strtolower(trim($value)) == strtolower(trim($selected)))
 			{
-                            
+
 							$form .= ' selected="selected" >';
-                                
+
 			} else
 			{
 				$form .= '>';
 			}
-			
+
 			$form .= ucwords(strtolower($value)).'</option>';
 		}
 
@@ -1471,15 +1559,15 @@ if ( ! function_exists('form_select_default'))
 		}
 
 		$form .= ">";
-		
+
 		if ($form_name != "") {
 			$form .= "\n".'<option value="" selected="selected" >'.$form_name.'</option>';
 		}
-		
+
 		foreach ($data as $key => $value)
 		{
 			$form .= "\n".'<option value="'.$key.'"';
-			
+
 			if ($key == $selected)
 			{
 				$form .= ' selected>';
@@ -1494,9 +1582,9 @@ if ( ! function_exists('form_select_default'))
 		$form .= "\n</select>";
 
 		return $form;
-		
+
 	}
-}	
+}
 // ------------------------------------------------------------------------
 if ( ! function_exists('form_timezone'))
 {

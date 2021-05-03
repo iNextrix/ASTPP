@@ -75,13 +75,13 @@ var $PDFVersion; // PDF version number
 *                               Public methods                                 *
 *                                                                              *
 *******************************************************************************/
-function FPDF($props = array())
+function __construct($props = array())
 {
 	 if(count($props) == 3)
 	 {
 		 list($orientation,$unit,$format) = $props;
 		 $this->initialize($orientation,$unit,$format);
-	 }	
+	 }
 }
 
 function initialize($orientation='P',$unit='mm',$size='A4')
@@ -122,7 +122,7 @@ function initialize($orientation='P',$unit='mm',$size='A4')
 	elseif (is_dir(dirname(__FILE__).'/font'))
 		$this->fontpath = dirname(__FILE__).'/font/';
 	else
-		$this->fontpath = '';	
+		$this->fontpath = '';
 	// Core fonts
 	$this->CoreFonts = array('courier', 'helvetica', 'times', 'symbol', 'zapfdingbats');
 	// Scale factor
@@ -960,7 +960,7 @@ function Image($file, $x = null, $y = null, $w = 0, $h = 0, $type = '', $link = 
 		$mtd = '_parse'.$type;
 		if ( ! method_exists($this, $mtd))
 			$this->Error('Unsupported image type: '.$type);
-		$info = $this->$mtd($file);
+		$info = $this->{$mtd}($file);
 		$info['i'] = count($this->images) + 1;
 		$this->images[$file] = $info;
 	}
@@ -1685,7 +1685,7 @@ function _putfonts()
 			$mtd = '_put'.strtolower($type);
 			if ( ! method_exists($this, $mtd))
 				$this->Error('Unsupported font type: '.$type);
-			$this->$mtd($font);
+			$this->{$mtd}($font);
 		}
 	}
 }

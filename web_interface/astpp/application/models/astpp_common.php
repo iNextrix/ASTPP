@@ -21,27 +21,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
 class Astpp_common extends CI_Model {
-	// ------------------------------------------------------------------------
-	/**
-	 * initialises the class inheriting the methods of the class Model
-	 *
-	 * @return Usermodel
-	 */
-	function Astpp_common() {
+	public function __construct() {
 		parent::__construct ();
 	}
-	/**
-	 * -------Here we write code for model astpp_common_model functions list_applyable_charges------
-	 * Purpose: build array for applyable charge dropdown list.
-	 * 
-	 * @param        	
-	 *
-	 * @return return array of applyable chargelist.
-	 */
 	function list_applyable_charges($accountid = '') {
 		$accountinfo = $this->session->userdata ( 'accountinfo' );
 		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
-		$q = " SELECT * FROM `charges` where reseller_id =$reseller_id and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid) AND pricelist_id = '0'";
+		$q = " SELECT * FROM `invoice_details` where reseller_id =$reseller_id and id NOT IN(select charge_id from charge_to_account where accountid  =$accountid) AND pricelist_id = '0'";
 		$item_arr = array ();
 		$query = $this->db->query ( $q );
 		if ($query->num_rows () > 0) {
@@ -57,12 +43,6 @@ class Astpp_common extends CI_Model {
 	function quote($inp) {
 		return "'" . $this->db->escape_str ( $inp ) . "'";
 	}
-	
-	/**
-	 *
-	 * @param string $q        	
-	 * @param string $colname        	
-	 */
 	function db_get_item($q, $colname) {
 		$item_arr = array ();
 		$query = $this->db->query ( $q );
@@ -72,7 +52,6 @@ class Astpp_common extends CI_Model {
 		}
 		return '';
 	}
-	// Return the balance for a specific ASTPP account.
 	function accountbalance($account) {
 		$debit = 0;
 		$q = "SELECT SUM(debit) as val1 FROM cdrs WHERE accountid=" . $this->quote ( $account ) . " AND status NOT IN (1, 2)";
@@ -144,6 +123,53 @@ class Astpp_common extends CI_Model {
 	function count_origination($test = '') {
 		$tmp = "SELECT COUNT(*) as val1 FROM routes " . $test;
 		return $this->db_get_item ( $tmp, 'val1' );
+	}
+	function list_applyable_plans($accountid = '') {
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
+		$q = " SELECT * FROM `plans` where reseller_id =$reseller_id and id NOT IN(select plan_id from plans_to_account where accountid  =$accountid)";
+		$item_arr = array ();
+		$query = $this->db->query ( $q );
+		if ($query->num_rows () > 0) {
+			foreach ( $query->result_array () as $row ) {
+				$item_arr [$row ['id']] = $row ['name'];		
+			}
+		}
+		return $item_arr;
+	}
+	function list_applyable_products($accountid = '') {
+		$accountinfo = $this->session->userdata ( 'accountinfo' );
+		$reseller_id = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
+		$categoryinfo = $this->db_model->getSelect("GROUP_CONCAT('''',id,'''') as id","category","code NOT IN ('REFILL','DID')");
+		if($categoryinfo->num_rows > 0 ){ 
+				$categoryinfo = $categoryinfo->result_array()[0]['id']; 
+		}
+		$reseller_id = $this->common->get_field_name("reseller_id","accounts",array("id"=>$accountid));
+		if($accountinfo ['type'] == 1 ){
+			$where_arr = "(reseller_products.reseller_id= ".$accountinfo['id']." OR  reseller_products.account_id= ".$accountinfo['id'].")";
+			$wherearr = "(product_category IN ($categoryinfo))";	
+			$this->db->where($where_arr);
+			$this->db->where($wherearr);
+			$query = $this->db_model->getJionQuery('products', 'products.id,products.name,products.product_category,products.buy_cost,products.commission,reseller_products.setup_fee,reseller_products.price,reseller_products.billing_type,reseller_products.billing_days,reseller_products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id', array('reseller_products.status'=>0,'products.can_purchase'=>0,'products.is_deleted'=>0), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','desc','products.id');
+		}else if($reseller_id > 0){
+			$where_arr = "(reseller_products.reseller_id= ".$reseller_id." OR  reseller_products.account_id= ".$reseller_id.")";
+			$wherearr = "(product_category IN ($categoryinfo))";	
+			$this->db->where($where_arr);
+			$this->db->where($wherearr);
+			$query = $this->db_model->getJionQuery('products', 'products.id,products.name,products.product_category,products.buy_cost,products.commission,reseller_products.setup_fee,reseller_products.price,reseller_products.billing_type,reseller_products.billing_days,reseller_products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id', array('reseller_products.status'=>0,'products.can_purchase'=>0,'products.is_deleted'=>0), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','desc','products.id');
+		}else{
+			$q = " SELECT * FROM `products` where reseller_id =$reseller_id and product_category IN ($categoryinfo) and is_deleted='0'";
+			$query = $this->db->query ( $q );
+		}
+		$item_arr = array ();
+		if ($query->num_rows () > 0) {
+			foreach ( $query->result_array () as $row ) {
+
+				$code = $this->common->get_field_name("code","category",array("id"=>$row['product_category']));
+				$item_arr [$row ['id']] = $row ['name'].'('.$code .')';		
+			}
+		}
+		return $item_arr;
 	}
 }
 ?>

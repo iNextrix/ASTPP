@@ -170,7 +170,7 @@ class CI_Loader {
 	 * @param 	string	class being checked for
 	 * @return 	mixed	class object name on the CI SuperObject or FALSE
 	 */
-	public function is_loaded($class)
+	public function &is_loaded($class)
 	{
 		if (isset($this->_ci_classes[$class]))
 		{
@@ -269,7 +269,7 @@ class CI_Loader {
 		}
 
 		$CI = & get_instance();
-		if (isset($CI->$name))
+		if (isset($CI->{$name}))
 		{
 			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
 		}
@@ -302,7 +302,7 @@ class CI_Loader {
 
 			$model = ucfirst($model);
 
-			$CI->$name = new $model();
+			$CI->{$name} = new $model();
 
 			$this->_ci_models[] = $name;
 			return;
@@ -786,9 +786,9 @@ class CI_Loader {
 		$_ci_CI = & get_instance();
 		foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var)
 		{
-			if ( ! isset($this->$_ci_key))
+			if ( ! isset($this->{$_ci_key}))
 			{
-				$this->$_ci_key = & $_ci_CI->$_ci_key;
+				$this->{$_ci_key} = & $_ci_CI->{$_ci_key};
 			}
 		}
 
@@ -919,7 +919,7 @@ class CI_Loader {
 					if ( ! is_null($object_name))
 					{
 						$CI = & get_instance();
-						if ( ! isset($CI->$object_name))
+						if ( ! isset($CI->{$object_name}))
 						{
 							return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 						}
@@ -958,7 +958,7 @@ class CI_Loader {
 					if ( ! is_null($object_name))
 					{
 						$CI = & get_instance();
-						if ( ! isset($CI->$object_name))
+						if ( ! isset($CI->{$object_name}))
 						{
 							return $this->_ci_init_class($class, '', $params, $object_name);
 						}
@@ -1088,10 +1088,10 @@ class CI_Loader {
 		$CI = & get_instance();
 		if ($config !== NULL)
 		{
-			$CI->$classvar = new $name($config);
+			$CI->{$classvar} = new $name($config);
 		} else
 		{
-			$CI->$classvar = new $name;
+			$CI->{$classvar} = new $name;
 		}
 	}
 
@@ -1145,7 +1145,7 @@ class CI_Loader {
 		{
 			if (isset($autoload[$type]) AND count($autoload[$type]) > 0)
 			{
-				$this->$type($autoload[$type]);
+				$this->{$type}($autoload[$type]);
 			}
 		}
 
@@ -1207,7 +1207,7 @@ class CI_Loader {
 	protected function &_ci_get_component($component)
 	{
 		$CI = & get_instance();
-		return $CI->$component;
+		return $CI->{$component};
 	}
 
 	// --------------------------------------------------------------------

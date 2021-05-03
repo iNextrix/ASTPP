@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>recharge</tech_name>
+	<name>International Mobile Topup</name>
+	<description>Allow your customer to recharge airtime of any international mobile number from the system itself</description>		
+	<icon>static/images/recharge.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>development</status>
+</addon>

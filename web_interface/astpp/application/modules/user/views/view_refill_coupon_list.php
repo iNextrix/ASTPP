@@ -3,49 +3,51 @@
 <link href="<?= base_url() ?>assets/css/shop_popup.css" rel="stylesheet" type="text/css"/>
 <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" language="javascript">
-    $(document).ready(function() {
+$(document).ready(function() {
         build_grid("refill_coupon_grid","",<? echo $grid_fields; ?>,"");
-        $("#refill_coupon_recharge").click(function () {
+	$("#refill_coupon_recharge").click(function () {
 	  var refill_coupon_no = document.getElementById('refill_coupon_number').value; 
 	  if(refill_coupon_no !=''){
 	    if (!/^[0-9]+$/.test(refill_coupon_no)) {
-	      $("#refill_coupon_number_error").html('The Coupon Number field must contain only numbers.');
+	      $("#refill_coupon_number_error").html('<?php echo gettext("The Coupon Number field must contain only numbers."); ?>');
 	      document.getElementById('refill_coupon_number').focus();
 	    }
 	    else{
-	      $.ajax({
-		  type: "POST",
-		  url: "<?= base_url()?>user/user_refill_coupon_number/"+refill_coupon_no+"/",
-		  data:'',
-		  success:function(response) {
-		  var data = jQuery.parseJSON(response);
-		    if(response == 1){
-			$("#refill_coupon_number_error").html('The  Coupon Number field have inactive refill coupon.');
-		    }else if (response ==2){
-			$("#refill_coupon_number_error").html('This Coupon Number is already in use.');
-		    }else if (response ==3){
-			$("#refill_coupon_number_error").html('This Coupon Number is not found.');
-		    }
-		    else{
-			$("#amount_refill").html(data.amount);
-			$("#new_balance").html(data.new_balance);
-			$("#dialog").dialog({modal: true, height: 230, width: 400 });
-		    }
-		  }
-	      });
+			$.ajax({
+			type: "POST",
+			url: "<?= base_url()?>user/user_refill_coupon_number/"+refill_coupon_no+"/",
+			data:'',
+			success:function(response) {
+				var data = jQuery.parseJSON(response);
+					if(response == 1){
+						$("#refill_coupon_number_error").html('<?php echo gettext("The Coupon Number field have inactive refill coupon."); ?>');
+					}else if (response ==2){
+						$("#refill_coupon_number_error").html('<?php echo gettext("This Coupon Number is already in use."); ?>');
+					}else if (response ==3){
+						$("#refill_coupon_number_error").html('<?php echo gettext("This Coupon Number is not found."); ?>');
+					}
+					else{
+						$("#amount_refill").html(data.amount);
+						$("#new_balance").html(data.new_balance);
+						jQuery.facebox({div: '#dialog'});
+						
+					}
+				}
+			});
 	  }
 	  }else{
-	      $("#refill_coupon_number_error").html('The Coupon Number field is required.');
+	      $("#refill_coupon_number_error").html('<?php echo gettext("The Coupon Number field is required."); ?>');
 	      document.getElementById('refill_coupon_number').focus();
 	  }
 	});
 	
-	$("#submit_refill_coupon").click(function () {
-	    var refill_coupon_no = document.getElementById('refill_coupon_number').value;
-	    window.location = "<?= base_url()?>user/user_refill_coupon_action/"+refill_coupon_no+"/";
-	});
+
     });
-    
+    function test(){
+		var refill_coupon_no = document.getElementById('refill_coupon_number').value;
+	    window.location = "<?= base_url()?>user/user_refill_coupon_action/"+refill_coupon_no+"/";
+
+	}
 </script>
 <style>
     #err
@@ -67,61 +69,57 @@
 <?= $page_title ?>
 <? endblock() ?>
 
-<? startblock('content') ?>   
-<section class="slice color-three margin-b-20">
-    <div class="w-section inverse no-padding">
-        <div class="container">
-            <div class="row">
-                <div class="portlet-content">
-                    <form method="post" name="refill_coupon_add" id="refill_coupon_add" action="#" enctype="multipart/form-data" class="margin-t-20">
-			          <label class="col-md-2" ><?php echo gettext('Coupon Number:')?></label>
-						  <div class="col-md-2">
-				  	  	<input type="input" class="col-md-4 form-control" name="refill_coupon_number" id="refill_coupon_number" maxlength="20">
-				  	  </div>
-			       </form>
-			       <div class="col-md-2">
-				<a class="btn btn-line-parrot margin-l-10" id="refill_coupon_recharge"><?php echo gettext('Recharge')?></a>
-			       </div>
-			       <div class ='col-md-12 no-padding '  style="color:red;display:block;margin-left:17.8%;!important" id="refill_coupon_number_error" name='refill_coupon_number_error'></div>
-
-                </div>
+<? startblock('content') ?>
+<div class="p-0">   
+<section class="slice color-three">
+    <div class="w-section inverse p-0">
+        <div class="content">
+            <div class="col-md-12 p-0">
+                
             </div>
         </div>
     </div>
 </section>
-
-<section class="slice color-three padding-b-20 padding-t-20">
-	<div class="w-section inverse no-padding">
-    	<div class="container">
-        	<div class="row">
-				<div class="col-md-12 color-three padding-b-20 slice color-three pull-left ">
+</div>
+<section class="slice color-three pb-4">
+	<div class="w-section inverse p-0">
+    			<div class="card col-md-12 pb-4">
                     <table id="refill_coupon_grid" align="left" style="display:none;"></table>
                 </div>   				
-    		</div>
-    	</div>
 	</div>
 </section>
-<div id="dialog" style='display:none;' title="REFILL COUPON RECHARGE">
-	<center>
-    	<p>You just recharged  account </p>
-		<div>
-			<font size="4" color="red"><span id="popup_num" name="popup_num"></span></font> with <font size="4" color="red">
-			  <span id="amount_refill" name="amount_refill"></span></font>
+<div id="dialog" style="display:none;"  title="REFILL COUPON RECHARGE">
+<div class="p-0">   
+<section class="slice m-0">
+ <div class="w-section inverse p-0 card-header">
+       <div class="col-md-12 p-0 card-header">
+	        <h3 class="fw4 p-4 m-0"><?php echo gettext('REFILL COUPON RECHARGE')?></h3>
+	  </div>
+  </div>    
+</section>
+<section class="slice color-three">
+    <div class="w-section inverse p-0">
+        <div class="content">
+            <div class="col-md-12">
+                <div class="pop_md col-12 py-4">
+						<div class="col-12 px-12">
+							<ul class="p-0 m-0" id="floating-label">
+									<p class="text-center m-0"><b><?php echo gettext('You just recharged');?> <span id="amount_refill" name="amount_refill" style="color:red"></span></font>  <?php echo gettext('account with The new balance will be');?> <span id="new_balance" name="new_balance" style="color:red"></span></b></p>
+										
+										
+									<div class="col-md-12">
+										<div class="text-center">
+										<input type= "button" class="btn btn-success" id= "submit_refill_coupon"  value = "Continue" onclick="test()"/>
+										</div>
+									</div>	
+							</ul>
+						</div>             			
+				</div>
+			</div>
 		</div>
-		<div>
-			 The new balance will be 
-			  <font size="4" color="red">
-			      <span id="new_balance" name="new_balance"></span>
-			  </font>
-		<br/>
-		</div>
-		<br/>
-		<div>
-		    <input type= "button" class="btn btn-success" id= "submit_refill_coupon" style="color:white;background-color:#79aed5;" onclick="get_balance();" value = "Continue"/>
-		</div>
-	</center>
-</div>             
-                
+	</div>
+</section>	
+</div>			
 <? endblock() ?>	
 
 <? end_extend() ?>  

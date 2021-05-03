@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>pesapal</tech_name>
+	<name>Pesapal Payment Gateway</name>
+	<description></description>		
+	<icon>static/images/pesapal.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>development</status>
+</addon>

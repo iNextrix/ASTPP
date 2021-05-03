@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>acl_management</tech_name>
+	<name>ACL Management</name>
+	<description>Manage custom ACL for FreeSwitch </description>		
+	<icon>static/images/acl_management.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

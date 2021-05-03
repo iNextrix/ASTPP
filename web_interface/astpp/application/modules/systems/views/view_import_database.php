@@ -1,122 +1,128 @@
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/validate.js"></script>
+<? extend('master.php') ?>
+<? startblock('extra_head') ?>
+<? endblock() ?>
+<? startblock('page-title') ?>
+<?= $page_title; ?>
+<? endblock() ?>
+<? startblock('content') ?>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $.validator.addMethod('Extension_verify', function(value) {
-	    var extension_list = /(\.csv|\.tar.gz|\.sql)$/i;
-	    if(!extension_list.exec(value)){
-	      return false;
-	    }else{
-	      return true;
-	    }
-        }, 'Select File have not valid extension.');
-        $("#database_import").validate({
-            rules: {
-                fname:{
-                  required:true
-                },
-                userfile: {
-                    required: true,
-                    Extension_verify:true
-                }
-            },
-            messages:{
-             fname:{
-              required : "The Name field is required."
-             },
-             userfile:{
-              required : "Please select file."
-             }
-            },
-            errorPlacement: function(error, element) {
-	      var placement = $(element).data('error');
-	      if (placement) {
-		$(placement).append(error)
-	      } else {
-		error.insertAfter(element);
-	      }
-	     }
-        });
-    });
+	$(document).ready(function() {
+		 $("#import_database").submit(function(e) {
+				err='';
+				if($("#fname").val() == ''){
+					$("#err").html('<?php echo gettext("The Name field is required."); ?>');
+					$("#remove_div").css({"margin-bottom":"0rem"});
+					$("#err_div").css({"height":"10px"});
+					err='true';
+				}
+				if($("#userfile").val() == ''){
+					$("#userfile_err").html('<?php echo gettext("Please select file."); ?>');
+					$("#err_div").css({"margin-bottom":"0rem"});
+					$("#err_file_div").css({"height":"10px"});
+					err='true';
+				}
+				if(err == ''){
+					return true;
+				}else{
+					return false;
+				}
+		 });
+		$("#userfile").change(function(e) {
+			var fuData = document.getElementById('userfile');
+			var FileUploadPath = fuData.value;
+			if (FileUploadPath != '') {
+			    var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+			    if ( Extension != "gz") {
+				// alert("Database import allows only gzfile types of file.");
+				$("#userfile_err").html('<?php echo gettext("Database import allows only gzfile types of file."); ?>');
+				$("#err_div").css({"margin-bottom":"0rem"});
+				$("#err_file_div").css({"height":"10px"});
+				$("#userfile").val('');
+				$('.custom-file-label').html('');
+			    }else{
+				var fileName = e.target.files[0].name;
+				$('.custom-file-label').html(fileName);
+				$("#userfile_err").html('');
+				$("#err_div").css({"margin-bottom":"1rem"});
+			}
+			}
+
+		    });
+	});
 </script>
-<style>
-    #file_err,#fname_err
-    {
-         height:20px !important;width:100% !important;float:left;
-         text-transform:none !important;
-    }
-    label.error {
-        float: left; color: red;
-        padding-left: .3em; vertical-align: top;  
-        padding-left:0px;
-        margin-top:-10px;
-        width:100% !important;
-       
-    }
-    input[type=file] {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 150px;
-    }
-</style>
-<body style="width:500px;">
-<section class="slice gray no-margin">
- <div class="w-section inverse no-padding">
-   <div>
-     <div>
-        <div class="col-md-12 no-padding margin-t-15 margin-b-10">
-	        <div class="col-md-10"><b><? echo $page_title; ?></b></div>
-	  </div>
-     </div>
-    </div>
-  </div>    
+<section class="slice color-three">
+	<div class="w-section inverse p-0">
+		<form method="post"
+			action="<?= base_url()?>systems/database_import_file/"
+			enctype="multipart/form-data" id="import_database">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="col-md-12 clo-sm-12 float-left p-0">
+						<div class="w-box card py-3">
+							<span style="margin-left: 10px;">
+							<?
+								if (isset($error) && ! empty($error)) {
+										echo "<span class='row alert alert-danger m-2'>" . $error . "</span>";
+								}
+								?>
+						   </span>
+							<h3 class="px-4"><?php echo gettext("File must be in (.gz) format :"); ?></h3>
+						   
+						 </div>
+					</div>
+					
+				</div>
+				<div class="col-md-12">
+					<div class="card col-md-12 p-0 mb-4">
+						<div class="pb-4" id="floating-label">
+							<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Import Database"); ?></h3>
+							<div class="col-md-6 form-group float-left" id="remove_div">
+									<label class="col-md-4 p-0 control-label"><?php echo gettext("Name"); ?> </label>
+									<input type="text" name="fname" id="fname" value="" class="col-md-8 form-control pr-form-control form-control-lg" />
+									<div>
+								
+									</div>
+							</div>
+							<div class="col-md-12 form-group" id="err_div"  style="height: 0px; margin-top:0px;">
+									<span id="err" style="color:red;"></span>
+							</div>
+							<div class="col-md-12 form-group" id="file_div">
+								<label class="col-12 control-label mb-4"><?php echo gettext("Select the file"); ?></label>
+								<div class="col-12 mt-4 d-flex">
+									<div class="col-md-4 float-left" data-ripple="">
+										<input type="file" name="userfile"
+											id="userfile"
+											class="custom-file-input fileupload" /> <label
+											class="custom-file-label btn-primary btn-file text-left"
+											for="file"> </label>
+									</div>
+									</div>
+								</div>
+									<div class="col-md-12 form-group" id="err_file_div" style="height: 0px; margin-top:0px;">
+									<span id="userfile_err" style="color:red;"></span>
+								</div>
+									<div class="col-md-6 float-left align-self-center">
+										<span id="welcomeDiv" class="answer_list float-left d-none">
+											<button type="button" title="Cancel" class="btn btn-danger"><?php echo gettext("Remove"); ?></button>
+										</span>
+									
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="text-center">
+						<button class="btn btn-success" id="import_origination_rate"
+							type="submit" name="action" value="Import"><?php echo gettext("Import"); ?></button>
+						<button class="btn btn-secondary mx-2" id="ok" type="button"
+							name="action" value="Cancel"
+							onclick="return redirect_page('/systems/database_restore/')" /><?php echo gettext("Cancel"); ?></button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 </section>
-<div>
-  <div>
-    <section class="slice color-three no-margin">
-	<div class="w-section inverse no-padding">
-	<form id="database_import" name='database_import' action="<?= base_url()?>systems/database_import_file/" method="post"  enctype="multipart/form-data" >
-	<fieldset>
-            <legend>Import Database</legend>
-	  <ul class="padding-15">
-	    <li class="col-md-12">   
-		<label class="col-md-3 no-padding">Name *:</label> 
-		<input type="text" name="fname" id='fname' class="col-md-5 form-control" data-error="#fname_err" />    
-		<div class='col-md-12' style='margin:0px 0 0px 100px;'>
-		      <span id="fname_err"></span>
-		</div>
-	    </li>
-	    <li class="col-md-12">   
-		<label class="col-md-3 no-padding">Select File:</label>     
-		<div class="col-md-5 no-padding">
-		  <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-		    <div class="form-control" data-trigger="fileinput">
-			<span class="fileinput-filename"></span>
-		    </div>
-		    <span class="input-group-addon btn btn-primary btn-file" style="display: table-cell;">
-		      <span class="fileinput-new">Select file</span>
-		      <input style="height:33px;" name="userfile"   id="userfile" type="file"  data-error="#file_err"/>
-		    </span>
-		  </div>
-		</div>
-	    </li>
-	    <div class='col-md-12' style='margin:10px 0 0px 115px;'>
-		 <span id="file_err"></span>
-	    </div>  
-	    <li class="col-md-12" style='margin-top:0px;'>   
-		  <h5 style='font-weight:normal;color:#aa4940;margin-left:25%;text-transform:none !important;'>(Allowed file format is : .csv, .tar.gz, .sql)</h5>
-	    </li>	  
-	</ul>	
-	<div class="col-md-12">
-	  <center>
-		<input type="submit" class="btn btn-line-parrot" name="action" value="Upload" />
-	  </center>
-        </div>
-        </fieldset>
-      </form>
-      </div>      
-    </section>
-  </div>
-</div>
-
-
+<? endblock() ?>	
+<? end_extend() ?>  

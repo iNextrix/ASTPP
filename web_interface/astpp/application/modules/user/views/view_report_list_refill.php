@@ -3,10 +3,7 @@
 
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-/******
-ASTPP  3.0 
-Payment to refill
-******/
+
         build_grid("report_grid","",<? echo $grid_fields; ?>,"");
         $("#cusotmer_cdr_refill_search_btn").click(function(){
             post_request_for_search("report_grid","<?php echo base_url(); ?>reports/user_refillreport_search/","cdr_refill_search");
@@ -14,7 +11,7 @@ Payment to refill
         $("#id_reset").click(function(){
             clear_search_request("report_grid","<?php echo base_url(); ?>reports/user_refillreport_clearsearchfilter/");
         });
-/********************/
+
         $("#customer_cdr_from_date").datetimepicker();
         $("#customer_cdr_to_date").datetimepicker();
     });

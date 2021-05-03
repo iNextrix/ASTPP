@@ -140,9 +140,9 @@ class CI_Xmlrpc {
 		{
 			foreach ($config as $key => $val)
 			{
-				if (isset($this->$key))
+				if (isset($this->{$key}))
 				{
-					$this->$key = $val;
+					$this->{$key} = $val;
 				}
 			}
 		}

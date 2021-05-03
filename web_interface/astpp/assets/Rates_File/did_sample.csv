@@ -1,2 +1,3 @@
-535345345,Alaska,2096035512,1,2,3,4,5,PSTN,1001,Active
-65456456,Alaska,2096035512,6,7,8,9,10,PSTN,1002,Active
+DID,Country,Account,City,Province,Per Minute Cost,Initial Increment,Increment,Setup Fee,Monthly Fee,Call Type,Destination
+535345345,India,4727985745,Ahmedabad,Gujarat,1,2,3,4,5,PSTN,1001
+65456456,India,4727985745,Ahmedabad,Gujarat,6,7,8,9,10,PSTN,1002

@@ -13,14 +13,11 @@
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
      
      
-     <script src="<?php echo  base_url(); ?>assets/js/bootstrap-select.js"></script>
-     <script src="<?php echo base_url(); ?>/assets/js/jquery.datetimepicker.js"></script>
+     <script src="<?php echo  base_url(); ?>assets/js/bootstrap-select.min.js"></script>
+     <script src="<?php echo base_url(); ?>/assets/js/jquery.datetimepicker.min.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/tabcontent.js"></script>
-     <!-- IE -->
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/respond.src.js"></script>
-    <!-- -->    
-     
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/facebox.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/flexigrid.js"></script>
      <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/module_js/generate_grid.js"></script>

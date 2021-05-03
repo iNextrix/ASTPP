@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>mailchimp</tech_name>
+	<name>MailChimp</name>
+	<description>Sync system accounts email with Mailchimp marketing tool</description>		
+	<icon>static/images/mail_chimp.png</icon>
+	<version>1.0.0</version>
+	<license>Community</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

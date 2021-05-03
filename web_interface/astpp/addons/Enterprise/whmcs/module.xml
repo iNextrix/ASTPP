@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>whmcs</tech_name>
+	<name>WHMCS</name>
+	<description>Empower your business with WHMCS features integration.</description>
+	<icon>static/images/whmcs_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

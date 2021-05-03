@@ -34,7 +34,6 @@ class Timezone {
 		return $account_data ['timezone_id'];
 	}
 	function display_GMT($currDate, $fulldate = 1, $timezone_id = "") {
-		// Added condition
 		$number = ($timezone_id == "") ? $this->uset_timezone () : $timezone_id;
 		$SERVER_GMT = '0';
 		
@@ -63,14 +62,10 @@ class Timezone {
 		return $date;
 	}
 	function convert_to_GMT($currDate, $fulldate = 1, $timezone_id = '') {
-		
-		// Added condition
 		$number = ($timezone_id == "") ? $this->uset_timezone () : $timezone_id;
 		$SERVER_GMT = '0';
-		
 		$result = $this->CI->db->query ( "select gmtoffset from timezone where id =" . $number );
 		$timezone_offset = $result->result ();
-		
 		$USER_GMT = $timezone_offset ['0']->gmtoffset;
 		
 		$date_time_array = getdate ( strtotime ( $currDate ) );
@@ -81,8 +76,8 @@ class Timezone {
 		$day = $date_time_array ['mday'];
 		$year = $date_time_array ['year'];
 		$timestamp = mktime ( $hours, $minutes, $seconds, $month, $day, $year );
-		
 		$timestamp = $timestamp - ($SERVER_GMT - $USER_GMT);
+
 		if ($fulldate == 1) {
 			$date = date ( "Y-m-d H:i:s", $timestamp );
 		} else {

@@ -170,7 +170,7 @@ class UpdateBalance extends MX_Controller {
 							$parent_id = $reseller_dids ['parent_id'];
 						}
 					}
-					// else{
+					
 					$lastdate = $this->calculate_charges ( $AccountDATA, $itemArr, $did_value ["monthlycost"], $fromdate, $todate, "1" );
 					if ($lastdate)
 						$this->db->update ( "dids", array (
@@ -179,33 +179,22 @@ class UpdateBalance extends MX_Controller {
 								"id" => $did_value ["id"],
 								"accountid" => $AccountDATA ["id"] 
 						) );
-					// }
+					
 				}
 			}
 		}
 	}
-	
-	/**
-	 *
-	 * @param string $fromdate        	
-	 * @param string $todate        	
-	 */
 	function calculate_charges($AccountDATA, $itemArr, $charge, $fromdate, $todate, $pro_rate = "1") {
 		$lastdate = false;
 		$billing_cycle = ($AccountDATA ['sweep_id'] == "0") ? "1 day" : "1 month";
 		$last_invoice_date = $this->common->get_invoice_date ( "invoice_date", $AccountDATA ['id'], $AccountDATA ['reseller_id'] );
-		// Below variable gives date based on assign or creation or monthly user billing day
 		$last_invoice_date = ($last_invoice_date) ? $last_invoice_date : (($pro_rate == 0 && $AccountDATA ['original_sweep_id'] == 2 && ($AccountDATA ['invoice_day'] < gmdate ( "d", strtotime ( $itemArr ['assign_date'] ) ))) ? date ( "Y-m-" . $AccountDATA ['invoice_day'] . " 00:00:00" ) : (($pro_rate == 1 && $AccountDATA ['original_sweep_id'] == 0) ? date ( "Y-m-d 00:00:00", strtotime ( $itemArr ['assign_date'] ) ) : date ( "Y-m-d 00:00:00", strtotime ( $AccountDATA ['creation'] ) )));
 		$last_invoice_date = ($last_invoice_date <= $fromdate) ? $last_invoice_date : $fromdate;
 		$Charges_date_range = array ();
 		$prorate_array = array ();
 		$daylen = 60 * 60 * 24;
-		/*
-		 * Get assign day and billing day for postpaid monthly user.
-		 */
 		$assign_day = ($AccountDATA ['original_sweep_id'] == 2 && $AccountDATA ['posttoexternal'] == 1) ? gmdate ( "d", strtotime ( $itemArr ['assign_date'] ) ) : 0;
 		$billing_day = ($AccountDATA ['original_sweep_id'] == 2 && $AccountDATA ['posttoexternal'] == 1) ? $AccountDATA ['invoice_day'] : 0;
-		// Create an array if charge not applied yet and invoice day is greater than assign_day
 		if ($itemArr ['charge_upto'] == "0000-00-00 00:00:00" && ($billing_day > $assign_day) && $pro_rate == 0 && $itemArr ['cycle'] == 2 && $AccountDATA ['original_sweep_id'] == 2) {
 			$last_invoice_date = gmdate ( "Y-m-d H:i:s", strtotime ( "-1 second", strtotime ( date ( "Y-m-" . $AccountDATA ['invoice_day'] . " 00:00:00", strtotime ( $itemArr ["assign_date"] ) ) ) ) );
 			$prorate_array [] = array (
@@ -255,16 +244,12 @@ class UpdateBalance extends MX_Controller {
 				if (strtotime ( $ChargeVal ['start_date'] ) < strtotime ( $ChargeVal ['end_date'] )) {
 					$this->Manage_invoice_item ( $AccountDATA, $itemArr ['description'], $itemArr ['item_id'], $temp_charge, $itemArr ['type'], $start_date, $lastdate, $todate );
 				}
-				// echo "<br/> ORG CHARG : " . $charge . " Charges : " . $temp_charge . "<br/>";
+				
 			}
 		}
 		return $lastdate;
 	}
-	
-	/**
-	 *
-	 * @param string $todate        	
-	 */
+
 	function Manage_invoice_item($AccountData, $description, $item_id, $charge, $type, $fromdate, $todate, $invoicedate) {
 		$invoiceid = 0;
 		$Bal = "0.00";
@@ -313,15 +298,10 @@ class UpdateBalance extends MX_Controller {
 		);
 		$this->manage_invoice ( $invoice_item_arr );
 	}
-	
-	/**
-	 *
-	 * @param string $select        	
-	 * @param string $table        	
-	 */
+
 	function get_table_data($select, $table, $where) {
 		$query = $this->db_model->getSelect ( $select, $table, $where );
-		if ($query->num_rows > 0) {
+		if ($query->num_rows () > 0) {
 			$query_result = $query->result_array ();
 			return $query_result;
 		} else {

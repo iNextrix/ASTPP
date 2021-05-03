@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>pbx</tech_name>
+	<name>Multi Tenant IP PBX</name>
+	<description>Enable PBX Features like IVR, Queue, Ring group, Conference, Time conditions, Recordings, Follow me, DND, Call forwarding</description>		
+	<icon>static/images/pbx.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

@@ -1,4 +1,5 @@
 <?php
+
 // ##############################################################################
 // ASTPP - Open Source VoIP Billing Solution
 //
@@ -20,41 +21,53 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
-class trunk_model extends CI_Model {
-	function trunk_model() {
-		parent::__construct ();
-	}
-	function gettrunk_list($flag, $start = 0, $limit = 0) {
-		$this->db_model->build_search ( 'trunk_list_search' );
-		$where = array (
-				"status != " => "2" 
-		);
-		if ($flag) {
-			$query = $this->db_model->select ( "*", "trunks", $where, "id", "ASC", $limit, $start );
-		} else {
-			$query = $this->db_model->countQuery ( "*", "trunks", $where );
-		}
-		return $query;
-	}
-	function add_trunk($add_array) {
-		unset ( $add_array ["action"] );
-		$add_array ['creation_date'] = gmdate ( 'Y-m-d H:i:s' );
-		$this->db->insert ( "trunks", $add_array );
-		return true;
-	}
-	function edit_trunk($data, $id) {
-		unset ( $data ["action"] );
-		$data ['last_modified_date'] = gmdate ( 'Y-m-d H:i:s' );
-		$this->db->where ( "id", $id );
-		$this->db->update ( "trunks", $data );
-	}
-	function remove_trunk($id) {
-		$this->db->where ( "id", $id );
-		$this->db->update ( "trunks", array (
-				"status" => 2 
-		) );
-		$this->db->where ( 'trunk_id', $id );
-		$this->db->delete ( 'outbound_routes' );
-		return true;
-	}
+class trunk_model extends CI_Model
+{
+
+    function __construct()
+    {
+        parent::__construct();
+    }
+
+    function gettrunk_list($flag, $start = 0, $limit = 0)
+    {
+        $this->db_model->build_search('trunk_list_search');
+        $where = array(
+            "status != " => "2"
+        );
+        if ($flag) {
+            $query = $this->db_model->select("*", "trunks", $where, "id", "ASC", $limit, $start);
+        } else {
+            $query = $this->db_model->countQuery("*", "trunks", $where);
+        }
+        return $query;
+    }
+
+    function add_trunk($add_array)
+    {
+        unset($add_array["action"]);
+        $add_array['creation_date'] = gmdate('Y-m-d H:i:s');
+        $add_array['last_modified_date'] = gmdate('Y-m-d H:i:s');
+        $this->db->insert("trunks", $add_array);
+        return true;
+    }
+
+    function edit_trunk($data, $id)
+    {
+        unset($data["action"]);
+        $data['last_modified_date'] = gmdate('Y-m-d H:i:s');
+        $this->db->where("id", $id);
+        $this->db->update("trunks", $data);
+    }
+
+    function remove_trunk($id)
+    {
+        $this->db->where("id", $id);
+        $this->db->update("trunks", array(
+            "status" => 2
+        ));
+        $this->db->where('trunk_id', $id);
+        $this->db->delete('outbound_routes');
+        return true;
+    }
 }

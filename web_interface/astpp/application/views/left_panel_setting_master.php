@@ -1,25 +1,17 @@
 <? include('header.php'); ?>
-<!--
-ASTPP  3.0 
-Add classes 
--->
 <section class="slice color-one">
- <div class="w-section inverse no-padding border_box">
+ <div class="w-section inverse p-0 border_box">
    <div class="container">
      <div class="">
-<!--******************************************-->   
-
-<!--
-ASTPP  3.0 
-Remove hr 
--->
-<!--******************************************-->  
+  
 	  </div>
      </div>
     </div>
   </div>    
 </section>
 <section class="page-wrap">
+    <div class="container-fluid">
+        <div class="row">
 <div id="toast-container" class="toast-top-right col-md-6" style="display:none;" >
  <div class="toast fa-check toast-success1">
         <button class="toast-close-button">
@@ -66,27 +58,46 @@ Remove hr
 
 <?php
 $class = "active";
+$category_id='';
 ?>
- <button type="button" class="navbar-toggle nav_sidetoggle collapsed white_bar" data-toggle="collapse" data-target=".sidebar">    
-      	      <span class="sr-only">Toggle navigation</span>       
-	      <span class="icon-bar"></span> 
-	      <span class="icon-bar"></span> 
-	      <span class="icon-bar"></span>
-	</button> 
+ <button type="button" class="navbar-toggler bg-secondary text-light d-lg-none d-block btn-block rounded-0 py-2 collapsed btn" data-toggle="collapse" data-target=".sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle Side Navigation">    
+    <i class="fa fa-bars fa-2x"></i>
+ </button> 
+ <?php 
+	$uri_string= uri_string();
+	$uri_arr=explode("/",$uri_string);
+	if(isset($uri_arr[2]) && !empty($uri_arr[2])){
+		$category_id=$uri_arr[2];
+	}
+	
+ ?>
 <div class="sidebar collapse">
 	<ul class='sidemenu'>
-	<li class="<?php if ($group_title == 'global') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/global'>Global</a></li>
-	<li class="<?php if ($group_title == 'email') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/email'>Email</a></li>
-	<li class="<?php if ($group_title == 'callingcard') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/callingcard'>Callingcard</a></li>
-	<li class="<?php if ($group_title == 'opensips') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/opensips'>Opensips</a></li>
-	<li class="<?php if ($group_title == 'paypal') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/paypal'>Paypal</a></li>
-	<li class="<?php if ($group_title == 'signup') { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/signup'>Signup</a></li>
-               </ul>
-               
-</div>		
-
+		<?php 
+		if(isset($menu)){
+		foreach($menu as $key=>$val){ 
+			if($val=='payment_methods'){
+				$payment_methods=str_replace("_"," ",$val);
+				$payment_methods_replace_string=ucwords($payment_methods);	?>
+				<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo $payment_methods_replace_string;?></a></li>	
+					<?php }
+				  else if($val=='ported_number'){
+					$ported_number=str_replace("_"," ",$val);
+					$ported_number_replace_string=ucwords($ported_number);  ?>
+					<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo $ported_number_replace_string;?></a></li>  
+				  <?php }
+				  else{?>
+						<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo ucfirst($val);?></a></li>	
+					<?php }?>
+			<?php }
+		}
+		if(isset($product_category)){?>
+			<?php foreach($product_category as $category => $category_value){ ?>
+				<li class="<?php if ($category_id == $category_value['id']) { echo $class; } ?>"><a href="<?php echo base_url();?>pages/services/<?php echo $category_value['id']; ?>"><?php echo $category_value['name']; ?> </a></li>
+			<?php } ?>
+		<?php }
+		?>
+     </ul>
+</div>
 <? start_block_marker('content') ?><? end_block_marker() ?>	
-
-
 <?php include('footer.php'); ?>
-

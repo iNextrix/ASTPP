@@ -80,29 +80,24 @@ class Getbalance extends MX_Controller {
 				);
 				$balance = $this->db_model->getSelect ( 'balance,currency_id', 'accounts', $where );
 				if ($balance->num_rows () > 0) {
-					// get balance,currency using by user from account number.
 					$balance_arr = $balance->result_array ();
 					$balance = $balance_arr ['0'] ['balance'];
 					$currency = $balance_arr ['0'] ['currency_id'];
-					// Get Base Currency From System which is main currency of system.
 					$base_currency_arr = $this->db_model->getSelect ( 'value', 'system', array (
 							'name' => 'base_currency' 
 					) );
 					$base_currency_arr = $base_currency_arr->result_array ();
 					$base_currency = $base_currency_arr ['0'] ['value'];
-					// Get basse Currency rate from Currency Name.
 					$base_currency_info = $this->db_model->getSelect ( '*', 'currency', array (
 							'currency' => $base_currency 
 					) );
 					$base_currency_info = $base_currency_info->result_array ();
 					$base_currency_rate = $base_currency_info ['0'] ['currencyrate'];
 					$base_currency_name = $base_currency_info ['0'] ['currency'];
-					// Find Currency Rate of user Currency from its currency_id
 					$where = array (
 							'id' => $currency 
 					);
 					$user_currency_info = $this->db_model->getSelect ( "*", 'currency', $where );
-					// user Currency Is deleted or Not
 					if ($user_currency_info->num_rows () > 0) {
 						$user_currency_info = $user_currency_info->result_array ();
 						$user_currency = $user_currency_info ['0'] ['currencyrate'];
@@ -111,7 +106,6 @@ class Getbalance extends MX_Controller {
 						$user_currency = $base_currency_rate;
 						$user_currency_name = $base_currency_name;
 					}
-					// Convert Balance of user in user currency
 					$convert_balance = round ( ($balance * $user_currency) / $base_currency_rate, 2 );
 					$convert_balance = sprintf ( "%.2f", $convert_balance ) . ' ' . $user_currency_name;
 					echo "Balance : " . $convert_balance;

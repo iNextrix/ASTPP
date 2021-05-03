@@ -193,7 +193,7 @@ class CI_DB_odbc_result extends CI_DB_result {
 		if (odbc_fetch_into($odbc_result, $rs)) {
 			foreach ($rs as $k=>$v) {
 				$field_name = odbc_field_name($odbc_result, $k + 1);
-				$rs_obj->$field_name = $v;
+				$rs_obj->{$field_name} = $v;
 			}
 		}
 		return $rs_obj;

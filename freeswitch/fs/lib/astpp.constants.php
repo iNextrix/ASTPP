@@ -32,7 +32,7 @@ $CONST_USER_RATE = array (
 		'RIB' => 'initial_billing_block',
 		'RBB' => 'billing_block',
 		'UID' => 'user_id',
-		'RTI' => 'ratecard_id' 
+		'RTI' => 'ratecard_id'
 );
 
 // Define carrier rates array for parsing

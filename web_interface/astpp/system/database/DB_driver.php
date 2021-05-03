@@ -86,7 +86,7 @@ class CI_DB_driver {
 		{
 			foreach ($params as $key => $val)
 			{
-				$this->$key = $val;
+				$this->{$key} = $val;
 			}
 		}
 

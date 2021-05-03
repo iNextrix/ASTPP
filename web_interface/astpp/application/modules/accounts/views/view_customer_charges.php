@@ -1,5 +1,4 @@
 <? extend('left_panel_master.php') ?>
-<?php error_reporting(E_ERROR); ?>
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
@@ -11,50 +10,69 @@
     
 
 </script>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $(".breadcrumb li a").removeAttr("data-ripple",""); 
+  });
+</script>
 <? endblock() ?>
 <? startblock('page-title') ?>
 <?= $page_title ?>
 <? endblock() ?>
-<? startblock('content') ?>   
-<div id="main-wrapper" class="tabcontents"> 
-    <div id="content">   
-        <div class="row"> 
-            <div class="col-md-12 no-padding color-three border_box"> 
-                <div class="pull-left">
-                    <ul class="breadcrumb">
-                        <li><a href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= ucfirst($accounttype); ?>s </a></li>
-                        <li>
-                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> Profile </a>
-                        </li>
-                       <li class="active">
-                            <a href="<?= base_url()."accounts/".strtolower($accounttype)."_charges/".$edit_id."/"; ?>">
-                                Charges History
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="pull-right">
-                    <ul class="breadcrumb">
-		      <li class="active pull-right">
-		      <a href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <i class="fa fa-fast-backward" aria-hidden="true"></i> Back</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="padding-15 col-md-12">
-                <div class="col-md-12 no-padding">
-                    <div id="show_search" class="pull-right margin-t-10 col-md-4 no-padding">
-                        <input type="text" name="left_panel_quick_search" id="left_panel_quick_search" class="col-md-5 form-control pull-right" value="<?php echo $this->session->userdata('left_panel_search_'.$accounttype.'_charges')?>" placeholder="Search"/>
-                    </div>
-                </div> 
-                <div class="col-md-12 no-padding">
-                    <div class="col-md-12 color-three padding-b-20 slice color-three pull-left content_border">
-                        <table id="charges_grid" align="left" style="display:none;"></table>
-                    </div>   
-                </div>
-            </div>
-        </div>
+<? startblock('content') ?>
+<?php $permissioninfo = $this->session->userdata('permissioninfo');?>
+<div id="main-wrapper">
+	<div id="content" class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 color-three border_box">
+				<div class="float-left m-2 lh19">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb m-0 p-0">
+							<li class="breadcrumb-item"><a
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= gettext(ucfirst($accounttype)."s"); ?> </a></li>
+							<li class="breadcrumb-item"><a
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>"> <?php echo gettext('Profile');?> </a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page"><a
+								href="<?= base_url()."accounts/".strtolower($accounttype)."_charges/".$edit_id."/"; ?>">
+                                <?php echo gettext('Charges History');?>
+                            </a></li>
+						</ol>
+					</nav>
+				</div>
+				<div class="m-2 float-right">
+					<a class="btn btn-light btn-hight"
+						href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>">
+						<i class="fa fa-fast-backward" aria-hidden="true"></i> <?php echo gettext('Back');?></a>
+				</div>
+			</div>
+			<div class="p-4 col-md-12">
+				<div class="col-md-12">
+           <?php  if((isset($permissioninfo['reports']['refillreport']['search'])) && ($permissioninfo['reports']['refillreport']['search']==0) or ($permissioninfo['login_type'] == '-1')){ ?>
+            <div id="show_search" class="float-right col-md-4 p-0">
+						<input type="text" name="left_panel_quick_search"
+							id="left_panel_quick_search"
+							class="form-control form-control-lg m-0"
+							value="<?php echo $this->session->userdata('left_panel_search_'.$accounttype.'_charges')?>"
+							placeholder=<?php echo gettext("Search"); ?> />
+					</div>
+        <?php } ?>
     </div>
+				<div
+					class="col-md-12 color-three slice float-left content_border mt-4">
+					<div class="card col-md-12 pb-4">
+						<table id="charges_grid" align="left" style="display: none;"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <? endblock() ?>	
 
-<? end_extend() ?>  
+<? end_extend() ?>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('.page-wrap').addClass('addon_wrap');
+  });
+</script>

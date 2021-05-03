@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>schedule_report</tech_name>
+	<name>Schedule Reports</name>
+	<description>Auto generate various call reports and get it in email on defined time</description>		
+	<icon>static/images/schedule_report_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

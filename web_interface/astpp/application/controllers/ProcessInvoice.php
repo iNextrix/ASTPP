@@ -21,435 +21,630 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
-class ProcessInvoice extends MX_Controller {
-	public static $global_config;
-	public $Error_flag = false;
-	public $CurrentDate = "";
-	public $fp = "";
-	function __construct() {
-		parent::__construct ();
-		$this->load->model ( "db_model" );
-		$this->load->library ( "astpp/common" );
-		// $this->load->library('html2pdf');
-		ini_set ( "memory_limit", "2048M" );
-		ini_set ( "max_execution_time", "259200" );
-		$this->get_system_config ();
-		
-		$this->fp = fopen ( "/var/log/astpp/astpp-invoice.log", "a+" );
-		
-		// Set custom current date to generate invoice for specific date.
-		$this->CurrentDate = gmdate ( "Y-m-d H:i:s" );
-		// $this->CurrentDate = "2017-05-10 00:00:01";
-	}
-	/*
-	 * Function to get system configuration array.
-	 */
-	function get_system_config() {
-		$query = $this->db->get ( "system" );
-		$config = array ();
-		$result = $query->result_array ();
-		foreach ( $result as $row ) {
-			$config [$row ['name']] = $row ['value'];
-		}
-		self::$global_config ['system_config'] = $config;
-	}
-	/*
-	 * Get last invoice date so script will start Invoice generation from that date.
-	 */
-	function GetLastInvoiceDate($AccountData) {
-		$last_invoice_date = $this->common->get_invoice_date ( "to_date", $AccountData ["id"], $AccountData ['reseller_id'], "to_date" );
-		$last_invoice_date = ($last_invoice_date) ? $last_invoice_date : $AccountData ['creation'];
-		$last_invoice_date = date ( "Y-m-d 00:00:01", strtotime ( $last_invoice_date ) );
-		return $last_invoice_date;
-	}
-	/*
-	 * Method to process invoices for all type of cycles for postpaid customers.
-	 */
-	function GenerateInvoice() {
-		if ($this->Error_flag) {
-			$this->PrintLogger ( "::::: INVOICE PROCESS START ::::: \n" );
-			$this->PrintLogger ( ":::::" . gmdate ( "Y-m-d H:i:s" ) . ":::::\n" );
-		}
-		
-		$where = array (
-				"posttoexternal" => 1,
-				"deleted" => "0",
-				"status" => "0" 
-		);
-		$query = $this->db_model->getSelect ( "*", "accounts", $where );
-		if ($query->num_rows > 0) {
-			$account_data = $query->result_array ();
-			foreach ( $account_data as $data_key => $AccountData ) {
-				$StartDate = $this->GetLastInvoiceDate ( $AccountData );
-				$EndDate = gmdate ( "Y-m-d" ) . " 23:59:59";
-				
-				$AccountData ['sweep_id'] = ( int ) $AccountData ['sweep_id'];
-				
-				switch ($AccountData ['sweep_id']) {
-					/*
-					 * Invoice process for Daily customers.
-					 */
-					case 0 :
-						if (Strtotime ( $StartDate ) > strtotime ( $this->CurrentDate )) {
-							$StartDate = date ( "Y-m-d 00:00:01", strtotime ( $this->CurrentDate . " - 1 days" ) );
-						}
-						$EndDate = date ( "Y-m-d 23:59:59", strtotime ( $this->CurrentDate . " - 1 days" ) );
-						$this->Generate_Daily_Invoice ( $AccountData, $StartDate, $EndDate );
-						break;
-					/*
-					 * Invoice process for monthly customers.
-					 */
-					case 2 :
-						// $AccountData['invoice_day'] = "01";
-						if (gmdate ( "d", strtotime ( "-1 days" ) ) == $AccountData ['invoice_day']) {
-							$EndDate = date ( "Y-m-" . $AccountData ['invoice_day'] . " 23:59:59", strtotime ( $StartDate . " + 1 month" ) );
-							if (Strtotime ( $EndDate ) > strtotime ( $this->CurrentDate )) {
-								$EndDate = $this->CurrentDate;
-							}
-							$this->Generate_Monthly_Invoice ( $AccountData, $StartDate, $EndDate );
-						}
-						break;
-				}
+class ProcessInvoice extends MX_Controller
+{
+
+    public static $global_config;
+    public $Error_flag = false;
+
+    public $CurrentDate = "";
+    public $StartDate = "";
+    public $EndDate = "";
+    public $fp = "";
+
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model("db_model");
+        $this->load->library("astpp/common");
+        $this->load->library("astpp/order");
+	$this->load->model("common_model");
+
+
+	error_reporting("E_ALL");
+	ini_set("memory_limit", "2048M");
+	ini_set("max_execution_time", "259200");
+
+        $this->get_system_config();
+        
+        $this->fp = fopen("/var/log/astpp/astpp-invoice.log", "a+");
+        
+
+        $this->CurrentDate = gmdate("Y-m-d 00:00:01");
+	$this->custom_current_date = gmdate("Y-m-d 23:59:59");
+        // $this->CurrentDate = "2019-04-13 00:00:01";
+    }
+
+    function ManageServices(){
+
+        $this->PrintLogger($this->Error_flag,"::::: SERVICES & PRODUCT MANAGEMENT PROCESS START ::::: \n");
+        $this->PrintLogger($this->Error_flag,":::::" . gmdate("Y-m-d H:i:s") . ":::::\n");
+
+        $this->product_renewal_reminder();
+        $this->renew_product();
+    }
+
+   
+    function GenerateInvoice()
+    {
+        $this->PrintLogger($this->Error_flag,"::::: INVOICE PROCESS START ::::: \n");
+        $this->PrintLogger($this->Error_flag,":::::" . gmdate("Y-m-d H:i:s") . ":::::\n");
+
+	$this->db->where_in("type",array(0,1,3));
+	$accountsdata = $this->db_model->getSelect("*", "accounts", array("status" => "0","deleted"=>0,"posttoexternal"=>1));
+	if($accountsdata->num_rows > 0){
+		$accountsdata = $accountsdata->result_array();
+		foreach($accountsdata as $accountkey => $accountvalue){
+			if($accountvalue['generate_invoice'] == '0'){
+			        $this->generate_invoices($accountvalue);
 			}
-			/*
-			 * Send an email notification after invoice generation.
-			 */
-			$screen_path = getcwd () . "/cron";
-			$screen_filename = "Email_Broadcast_" . strtotime ( 'now' );
-			$command = "cd " . $screen_path . " && /usr/bin/screen -d -m -S  $screen_filename php cron.php BroadcastEmail";
-			// exec($command);
-		}
-		if ($this->Error_flag) {
-			$this->PrintLogger ( "INVOICE PROCESS END" );
-			$this->PrintLogger ( gmdate ( "Y-m-d H:i:s" ) );
-		}
-		exit ();
-	}
-	/*
-	 * Process daily invoices.
-	 */
-	function Generate_Daily_Invoice($AccountData, $StartDate, $EndDate) {
-		if ($this->Error_flag) {
-			// Print Start date and End Date
-			$this->PrintLogger ( "PROCESS DIALY INVOICE" );
-			$this->PrintLogger ( "START DATE : " . $StartDate . " ::::: END DATE" . $EndDate );
-		}
-		// Get invoice configuration for white lable invoice gneration.
-		$InvoiceConf = $this->common->Get_Invoice_configuration ( $AccountData );
-		
-		if ($this->Error_flag) {
-			// Print Invoice Configuration which we are going to use in invoice.
-			$this->PrintLogger ( "GET INVOICE CONFIGURATION" );
-		}
-		
-		// Get last generated invoice for admin or reseller
-		$last_invoice_ID = $this->common->get_invoice_date ( "invoiceid", "", $AccountData ['reseller_id'] );
-		if ($this->Error_flag) {
-			$this->PrintLogger ( "GET INVOICE DATE " . $last_invoice_ID );
-		}
-		
-		if ($last_invoice_ID && $last_invoice_ID > 0) {
-			$last_invoice_ID = ($last_invoice_ID + 1);
-		} else {
-			$last_invoice_ID = $InvoiceConf ['invoice_start_from'];
-		}
-		
-		// Generate one blank invoice
-		$InvocieID = $this->create_invoice ( $AccountData, $StartDate, $EndDate, $last_invoice_ID, $InvoiceConf );
-		// Process other charges and subscription.
-		$this->ProcessCharges ( $AccountData, $StartDate, $EndDate, $InvocieID, $this->CurrentDate );
-		
-		// Set invoice subtotal.
-		$SubTotal = $this->GetSubTotal ( $AccountData, $StartDate, $EndDate, $InvocieID );
-		if ($SubTotal) {
-			// Apply taxes on invoice amount.
-			$sort_order = $this->common_model->apply_invoice_taxes ( $InvocieID, $AccountData, $EndDate );
-		}
-		// set invoice total
-		$InvoiceTotal = $this->SetInvoiceTotal ( $AccountData, $InvocieID );
-		$this->download_invoice ( $InvocieID, $AccountData, $InvoiceConf );
-	}
-	/*
-	 * Process monthly invoices.
-	 */
-	function Generate_Monthly_Invoice($AccountData, $StartDate, $EndDate) {
-		if ($this->Error_flag) {
-			// Print Start date and End Date
-			$this->PrintLogger ( "PROCESS DIALY INVOICE" );
-			$this->PrintLogger ( "START DATE : " . $StartDate . " ::::: END DATE" . $EndDate );
-		}
-		// Get invoice configuration for white lable invoice gneration.
-		$InvoiceConf = $this->common->Get_Invoice_configuration ( $AccountData );
-		
-		if ($this->Error_flag) {
-			// Print Invoice Configuration which we are going to use in invoice.
-			$this->PrintLogger ( $InvoiceConf );
-		}
-		
-		// Get last generated invoice for admin or reseller
-		$last_invoice_ID = $this->common->get_invoice_date ( "invoiceid", "", $AccountData ['reseller_id'] );
-		if ($last_invoice_ID && $last_invoice_ID > 0) {
-			$last_invoice_ID = ($last_invoice_ID + 1);
-		} else {
-			$last_invoice_ID = $InvoiceConf ['invoice_start_from'];
-		}
-		
-		// Generate one blank invoice
-		$InvocieID = $this->create_invoice ( $AccountData, $StartDate, $EndDate, $last_invoice_ID, $InvoiceConf );
-		// Process other charges and subscription.
-		$this->ProcessCharges ( $AccountData, $StartDate, $EndDate, $InvocieID, $this->CurrentDate );
-		// Set invoice subtotal.
-		$SubTotal = $this->GetSubTotal ( $AccountData, $StartDate, $EndDate, $InvocieID );
-		if ($SubTotal) {
-			// Apply taxes on invoice amount.
-			$sort_order = $this->common_model->apply_invoice_taxes ( $InvocieID, $AccountData, $EndDate );
-		}
-		// set invoice total
-		$InvoiceTotal = $this->SetInvoiceTotal ( $AccountData, $InvocieID );
-		$this->download_invoice ( $InvocieID, $AccountData, $InvoiceConf );
-	}
-	/*
-	 * Create blank invoice at the starting of the process.
-	 */
-	function create_invoice($AccountData, $StartDate, $EndDate, $last_invoice_ID, $InvoiceConf) {
-		
-		// set due date
-		if ($InvoiceConf ['interval'] > 0) {
-			$DueDate = date ( "Y-m-d 23:59:59", strtotime ( $this->CurrentDate . " +" . $InvoiceConf ['interval'] . " days" ) );
-		} else {
-			$DueDate = date ( "Y-m-d 23:59:59", strtotime ( $this->CurrentDate . " +7 days" ) );
-		}
-		
-		$balance = ($AccountData ['credit_limit'] - $AccountData ['balance']);
-		$automatic_flag = self::$global_config ['system_config'] ['automatic_invoice'];
-		
-		// Automatic flag is use to manage the invoice generate with confirm mode or with out confirm mode.
-		if ($automatic_flag == 1) {
-			$InvoiceData = array (
-					"accountid" => $AccountData ['id'],
-					"invoice_prefix" => $InvoiceConf ['invoice_prefix'],
-					"invoiceid" => $last_invoice_ID,
-					"reseller_id" => $AccountData ['reseller_id'],
-					"invoice_date" => $this->CurrentDate,
-					"from_date" => $StartDate,
-					"to_date" => $EndDate,
-					"due_date" => $DueDate,
-					"status" => 1,
-					"amount" => "0.00",
-					"balance" => $balance 
-			);
-		} else {
-			$InvoiceData = array (
-					"accountid" => $AccountData ['id'],
-					"invoice_prefix" => $InvoiceConf ['invoice_prefix'],
-					"invoiceid" => $last_invoice_ID,
-					"reseller_id" => $AccountData ['reseller_id'],
-					"invoice_date" => $this->CurrentDate,
-					"from_date" => $StartDate,
-					"to_date" => $EndDate,
-					"due_date" => $DueDate,
-					"status" => 1,
-					"amount" => "0.00",
-					"balance" => $balance,
-					"confirm" => 1 
-			);
-		}
-		if ($this->Error_flag) {
-			$this->PrintLogger ( $InvoiceData );
-		}
-		// Generate insert entry for invoices.
-		$this->db->insert ( "invoices", $InvoiceData );
-		$invoiceid = $this->db->insert_id ();
-		// Return last inserted id of invoice as a invocieid.
-		return $invoiceid;
-	}
-	
-	/*
-	 * Process subscription and other charges like DIDs etc...
-	 */
-	function ProcessCharges($AccountData, $StartDate, $EndDate, $InvocieID, $NowDate) {
-		if ($this->Error_flag) {
-			$this->PrintLogger ( "CHARGES CALCULATION PROCESS START" );
-		}
-		
-		// Assign invoice id to the post entries which is already inserted from the GUI and
-		$inv_data_query = "update invoice_details SET invoiceid = '" . $InvocieID . "'";
-		$inv_data_query .= " where created_date >='" . $StartDate . "' AND created_date <= '" . $EndDate . "'  AND invoiceid=0 AND item_type !='PAYMENT'";
-		$this->db->query ( $inv_data_query );
-		
-		// Reset current date for subscription billing.
-		$NowDate = date ( "Y-m-d 23:59:59", strtotime ( $NowDate ) );
-		require_once (APPPATH . 'controllers/ProcessCharges.php');
-		$ProcessCharges = new ProcessCharges ();
-		
-		// Process subscription charges for postpaid customers.
-		$ProcessCharges->process_subscriptions ( $AccountData, $StartDate, $EndDate, $InvocieID, $NowDate );
-		// Process DID charges for postpaid customers.
-		$ProcessCharges->process_DID_charges ( $AccountData, $StartDate, $EndDate, $InvocieID, $NowDate );
-		
-		if ($this->Error_flag) {
-			$this->PrintLogger ( "CHARGES CALCULATION PROCESS END" );
-		}
-	}
-	/*
-	 * Generate entry in invoice details for CDRs usage and return subtotal of the invoice.
-	 */
-	function GetSubTotal($AccountData, $StartDate, $EndDate, $InvocieID) {
-		$SubTotal = "0.0000";
-		
-		// Generate CDRs entry for invoices in invoice detail table.
-		$CDRqr = "select calltype,sum(debit) as debit from cdrs where accountid = " . $AccountData ['id'] . " AND callstart >='" . $StartDate . "' AND callstart <= '" . $EndDate . "' AND invoiceid=0 group by calltype";
-		$CDRdata = $this->db->query ( $CDRqr );
-		if ($CDRdata->num_rows > 0) {
-			$CDRdata = $CDRdata->result_array ();
-			// echo '<pre>'; print_r($cdr_data); exit;
-			foreach ( $CDRdata as $CDRvalue ) {
-				$tempArr = array (
-						"accountid" => $AccountData ['id'],
-						"reseller_id" => $AccountData ['reseller_id'],
-						"item_id" => "0",
-						"description" => $CDRvalue ['calltype'] . " CALLS FOR PERIOD OF (" . $StartDate . " to " . $EndDate . ")",
-						"debit" => $CDRvalue ['debit'],
-						"item_type" => $CDRvalue ['calltype'],
-						"created_date" => $this->CurrentDate,
-						"invoiceid" => $InvocieID 
-				);
-				if ($this->Error_flag) {
-					$this->PrintLogger ( $tempArr );
-				}
-				$this->db->insert ( "invoice_details", $tempArr );
-			}
-		}
-		
-		// Get the subtotal.
-		$Invoicequery = "select count(id) as count,sum(debit) as debit,sum(credit) as credit from invoice_details where accountid=" . $AccountData ['id'] . " AND invoiceid =" . $InvocieID . " AND item_type != 'FREECALL'";
-		$Invoicequery = $this->db->query ( $Invoicequery );
-		if ($Invoicequery->num_rows > 0) {
-			$InvData = $Invoicequery->result_array ();
-			if ($this->Error_flag) {
-				$this->PrintLogger ( $InvData );
-			}
-			foreach ( $InvData as $totalvalue ) {
-				if ($totalvalue ['count'] > 0) {
-					$SubTotal = ($totalvalue ['debit'] - $totalvalue ['credit']);
-					return $SubTotal;
-				}
-			}
-		}
-		return $SubTotal;
-	}
-	/*
-	 * Set invoice total by excluding FreeCalls.
-	 */
-	function SetInvoiceTotal($AccountData, $InvocieID) {
-		$query = $this->db_model->getSelect ( "SUM(debit) as total", "invoice_details", array (
-				"invoiceid" => $InvocieID,
-				"item_type <>" => "FREECALL" 
-		) );
-		$query = $query->result_array ();
-		$TotalAmt = $query ["0"] ["total"];
-		
-		if ($this->Error_flag) {
-			$this->PrintLogger ( "Invoice Total :::::" . $TotalAmt );
-		}
-		
-		$updateArr = array (
-				"amount" => $TotalAmt 
-		);
-		$this->db->where ( array (
-				"id" => $InvocieID 
-		) );
-		$this->db->update ( "invoices", $updateArr );
-		
-		return true;
-	}
-	/*
-	 * Invoice Download code which generate invoice PDF.
-	 */
-	function download_invoice($InvocieID, $AccountData, $InvoiceConf) {
-		$InvoiceData = $this->db_model->getSelect ( "*", "invoices", array (
-				"id" => $InvocieID 
-		) );
-		$InvoiceData = $InvoiceData->result_array ();
-		$InvoiceData = $InvoiceData [0];
-		$FilePath = FCPATH . "invoices/" . $AccountData ["id"] . '/' . $InvoiceData ['invoice_prefix'] . "" . $InvoiceData ['invoiceid'] . "_invoice.pdf";
-		$Filenm = $InvoiceData ['invoice_prefix'] . "_" . $InvoiceData ['invoiceid'] . "_invoice.pdf";
-		
-		$this->common->get_invoice_template ( $InvoiceData, $AccountData, false, true );
-		if ($InvoiceConf ['invoice_notification']) {
-			$this->send_email_notification ( $FilePath, $Filenm, $AccountData, $InvoiceConf, $InvoiceData );
-		}
-	}
-	
-	/*
-	 * Send an email notification methid which log the invoice email notification in mail details table.
-	 */
-	function send_email_notification($FilePath, $Filenm, $AccountData, $invoice_conf, $invData) {
-		$TemplateData = array ();
-		$where = array (
-				'name' => 'email_new_invoice' 
-		);
-		$EmailTemplate = $this->db_model->getSelect ( "*", "default_templates", $where );
-		foreach ( $EmailTemplate->result_array () as $TemplateVal ) {
-			$TemplateData = $TemplateVal;
-			$TemplateData ['subject'] = str_replace ( '#NAME#', $AccountData ['first_name'] . " " . $AccountData ['last_name'], $TemplateData ['subject'] );
-			$TemplateData ['subject'] = str_replace ( '#INVOICE_NUMBER#', $invData ['invoice_prefix'] . $invData ['invoiceid'], $TemplateData ['subject'] );
-			$TemplateData ['template'] = str_replace ( '#NAME#', $AccountData ['first_name'] . " " . $AccountData ['last_name'], $TemplateData ['template'] );
-			$TemplateData ['template'] = str_replace ( '#INVOICE_NUMBER#', $invData ['invoice_prefix'] . $invData ['invoiceid'], $TemplateData ['template'] );
-			$TemplateData ['template'] = str_replace ( '#AMOUNT#', $invData ['amount'], $TemplateData ['template'] );
 			
-			$TemplateData ['template'] = str_replace ( "#COMPANY_EMAIL#", $invoice_conf ['emailaddress'], $TemplateData ['template'] );
-			$TemplateData ['template'] = str_replace ( "#COMPANY_NAME#", $invoice_conf ['company_name'], $TemplateData ['template'] );
-			$TemplateData ['template'] = str_replace ( "#COMPANY_WEBSITE#", $invoice_conf ['website'], $TemplateData ['template'] );
-			$TemplateData ['template'] = str_replace ( "#INVOICE_DATE#", $invData ['invoice_date'], $TemplateData ['template'] );
-			$TemplateData ['template'] = str_replace ( "#DUE_DATE#", $invData ['due_date'], $TemplateData ['template'] );
 		}
-		$dir_path = getcwd () . "/attachments/";
-		$path = $dir_path . $Filenm;
-		$command = "cp " . $FilePath . " " . $path;
-		exec ( $command );
-		$email_array = array (
-				'accountid' => $AccountData ['id'],
-				'subject' => $TemplateData ['subject'],
-				'body' => $TemplateData ['template'],
-				'from' => $invoice_conf ['emailaddress'],
-				'to' => $AccountData ['email'],
-				'status' => "1",
-				'attachment' => $Filenm,
-				'template' => '' 
-		);
-		// echo "<pre>"; print_r($TemplateData); exit;
-		$this->db->insert ( "mail_details", $email_array );
 	}
-	function PrintLogger($Message) {
-		if (is_array ( $Message )) {
-			foreach ( $Message as $MessageKey => $MessageValue ) {
-				if (is_array ( $MessageValue )) {
-					foreach ( $MessageValue as $LogKey => $LogValue ) {
-						fwrite ( $this->fp, "::::: " . $LogKey . " ::::: " . $LogValue . " :::::\n" );
-					}
-				} else {
-					fwrite ( $this->fp, "::::: " . $MessageKey . " ::::: " . $MessageValue . " :::::\n" );
+
+        exit();
+    }
+
+    function generate_invoices($accountinfo){
+	$this->StartDate = ($accountinfo['last_bill_date'] == '0000-00-00 00:00:00')?$accountinfo['creation']:$accountinfo['last_bill_date'];
+	$this->StartDate = date ( "Y-m-d 00:00:01", strtotime ( $this->StartDate ) );
+//	$this->StartDate = $accountinfo ['last_bill_date'];
+/*	$this->StartDate = gmdate("Y-m-01 00:00:01");
+	$this->EndDate = gmdate("Y-m-30 23:59:59");
+	$invoiceid = $this->create_invoice($accountinfo);
+	$this->bill_calls($accountinfo,$invoiceid);
+	$this->apply_taxes($accountinfo,$invoiceid);
+	return true;*/
+
+
+	switch ($accountinfo ['sweep_id']) {
+				
+		case 0 :
+			if (Strtotime ( $this->StartDate ) > strtotime ( $this->CurrentDate )) {
+				$this->StartDate = date ( "Y-m-d 00:00:01", strtotime ( $this->CurrentDate . " - 1 days" ) );
+			}
+			$this->EndDate = date ( "Y-m-d 23:59:59", strtotime ( $this->CurrentDate . " - 1 days" ) );
+
+			$invoiceid = $this->create_invoice($accountinfo);
+			$this->bill_calls($accountinfo,$invoiceid);
+			$this->apply_taxes($accountinfo,$invoiceid);
+
+			break;
+		case 2 :
+			if (gmdate ( "d", strtotime ( "-1 days" ) ) == $accountinfo ['invoice_day']) {
+				$this->EndDate = date ( "Y-m-" . $accountinfo ['invoice_day'] . " 23:59:59", strtotime ( $this->StartDate . " + 1 month" ) );
+				if (Strtotime ( $this->EndDate ) > strtotime ( $this->CurrentDate )) {
+					$this->EndDate = $this->CurrentDate;
 				}
+
+				$invoiceid = $this->create_invoice($accountinfo);
+				$this->bill_calls($accountinfo,$invoiceid);
+				$this->apply_taxes($accountinfo,$invoiceid);
 			}
-		} else {
-			if ($this->Error_flag) {
-				fwrite ( $this->fp, "::::: " . $Message . " :::::\n" );
+			break;
+	}
+ 		$this->db->where("id",$accountinfo['id']);
+		$this->db->update("accounts",array("last_bill_date" => $this->EndDate));
+
+
+
+    }
+
+    function create_invoice($accountinfo)
+    { 
+        $invoiceconf = $this->common->Get_Invoice_configuration($accountinfo);
+       	if($invoiceconf != ''){
+			if ($invoiceconf['interval'] > 0) {
+			    $DueDate = date("Y-m-d 23:59:59", strtotime($this->CurrentDate . " +" . $invoiceconf['interval'] . " days"));
+			} else {
+			    $DueDate = date("Y-m-d 23:59:59", strtotime($this->CurrentDate . " +7 days"));
 			}
+
+			$last_invoice_ID = $this->common->get_invoice_date("number", "", $accountinfo['reseller_id']);
+			
+			if ($last_invoice_ID && $last_invoice_ID > 0) {
+			    $last_invoice_ID = ($last_invoice_ID + 1);
+				
+			    if ($last_invoice_ID < $invoiceconf['invoice_start_from'])
+				$last_invoice_ID = $invoiceconf['invoice_start_from'];
+			} else {
+			    $last_invoice_ID = $invoiceconf['invoice_start_from'];
+			}
+			$last_invoice_ID = str_pad($last_invoice_ID, 6, '0', STR_PAD_LEFT);
+			$automatic_flag = self::$global_config['system_config']['automatic_invoice'];
+
+
+				   if($invoiceconf['no_usage_invoice'] == 0){
+
+					if ($automatic_flag == 0) {
+					    $InvoiceData = array(
+						"accountid" => $accountinfo['id'],
+						"prefix" => $invoiceconf['invoice_prefix'],
+						"number" => $last_invoice_ID,
+						"reseller_id" => $accountinfo['reseller_id'],
+						"generate_date" => $this->CurrentDate,
+						"from_date" => $this->StartDate,
+						"to_date" => $this->EndDate,
+						"due_date" => $DueDate,
+						"status" => 0,
+						"confirm" => 1,
+						"notes"=>$accountinfo['invoice_note'],
+						"is_deleted" =>0
+					    );
+					} else {
+					    $InvoiceData = array(
+						"accountid" => $accountinfo['id'],
+						"prefix" => $invoiceconf['invoice_prefix'],
+						"number" => $last_invoice_ID,
+						"reseller_id" => $accountinfo['reseller_id'],
+						"generate_date" => $this->CurrentDate,
+						"from_date" => $this->StartDate,
+						"to_date" => $this->EndDate,
+						"due_date" => $DueDate,
+						"status" => 0,
+						"confirm" => 0,
+						"notes"=>$accountinfo['invoice_note'],
+						"is_deleted"=>0
+					    );
+					}
+
+			$this->db->insert("invoices", $InvoiceData);
+			$invoiceid = $this->db->insert_id();
+
+			 $update_billable_item = "update invoice_details set invoiceid = ".$invoiceid." where accountid=" . $accountinfo['id'] . " AND created_date >='" .$this->StartDate. "' AND created_date <= '" .$this->EndDate. "' AND invoiceid = 0";
+			
+
+			
+			$this->db->query($update_billable_item);
+			$amount = $this->db_model->getSelect("debit,credit","invoice_details",array("invoiceid"=>$invoiceid));
+			if($amount->num_rows > 0){
+				$amount = $amount->result_array()[0];
+				$InvoiceData ['amount'] = ( $amount['credit'] - $amount['debit']);
+				$InvoiceData ['amount'] = ($InvoiceData ['amount'] < 0)?($InvoiceData ['amount']*-1):$InvoiceData ['amount'];
+				$InvoiceData['invoice_number']=$invoiceconf['invoice_prefix'].$last_invoice_ID;
+				$final_array = array_merge($accountinfo,$InvoiceData);
+				$this->common->mail_to_users("new_invoice",$final_array);
+			}
+			return $invoiceid;
 		}
 	}
+    }
+
+    function apply_taxes($accountinfo,$invoiceid){
+
+ 	$get_total_billable_item = "select count(id) as count,sum(debit) as debit,sum(credit) as credit from invoice_details where accountid=" . $accountinfo['id'] . " AND charge_type != 'REFILL' AND product_category != 3 AND created_date >='" .$this->StartDate. "' AND created_date <= '" .$this->EndDate. "' AND invoiceid = ".$invoiceid;
+        
+        
+        $get_total_billable_item = $this->db->query($get_total_billable_item);
+        if ($get_total_billable_item->num_rows() > 0) {
+            $total_billable_item = $get_total_billable_item->result_array()[0];
+
+
+	    $tax_calculation=$this->common_model->calculate_taxes($accountinfo,$total_billable_item["debit"]);
+
+	    if(isset($tax_calculation['tax']) && !empty($tax_calculation['tax'] && $total_billable_item["debit"] > 0)){
+
+		$base_currency = Common_model::$global_config ['system_config'] ['base_currency'];
+		$account_balance = $accountinfo ['posttoexternal'] == 1 ? $accountinfo ['credit_limit'] - ($accountinfo ['balance']) : $accountinfo ['balance'];
+		$debit = isset($tax_calculation['total_tax'])?$tax_calculation['total_tax']:"0.00";
+		$credit = "0.00";
+		$after_balance = $account_balance - $debit;
+
+		$account_currency_info = $this->db_model->getSelect("*","currency",array("id"=>$accountinfo['currency_id']));
+		if($account_currency_info->num_rows > 0){
+			$account_currency_info = $account_currency_info->result_array();
+			$account_currency_info = $account_currency_info[0];
+		}	
+
+		foreach($tax_calculation['tax'] as $tax_key => $tax){
+			$tax_insert_arr = array (
+					"accountid" => $accountinfo['id'],
+					"description" => $tax_key,
+					"created_date" => $this->EndDate,
+					"invoiceid" => $invoiceid,
+					"reseller_id" => $accountinfo['reseller_id'],
+					"is_tax"=>1,
+					"order_item_id" => 0,
+					"payment_id"=> 0,
+					'before_balance' =>$account_balance,
+					'product_category'=>'0',
+					'charge_type'=> "TAX",
+					'after_balance'=>$after_balance,
+					'base_currency'=>$base_currency,
+					'exchange_rate'=>$account_currency_info['currencyrate'],
+					'account_currency'=>$account_currency_info['currency'],
+					'debit'=>$tax,
+					'credit'=>0
+					
+			      );
+			$this->db->insert("invoice_details",$tax_insert_arr);
+			$this->invoice->update_balance($tax,$accountinfo['id'],"","debit");
+		}
+	    }
+        }
+    }
+
+	function bill_calls($accountinfo,$invoiceid){
+	   $billable_calls_qr = "select calltype,sum(debit) as debit,sum(billseconds) as duration from cdrs where accountid =" . $accountinfo['id'] . " AND callstart >='" .$this->StartDate. "' AND callstart <= '" .$this->EndDate. "' AND invoiceid=0 group by calltype"; 
+
+	$this->PrintLogger($this->Error_flag,$billable_calls_qr);
+
+        $billable_calls = $this->db->query($billable_calls_qr);
+
+        if ($billable_calls->num_rows() > 0) {
+            $billable_calls = $billable_calls->result_array();
+ 	    $base_currency = Common_model::$global_config ['system_config'] ['base_currency'];
+	    $deciamal_point = Common_model::$global_config ['system_config'] ['decimalpoints'];
+	    $account_currency_info = $this->db_model->getSelect("*","currency",array("id"=>$accountinfo['currency_id']));
+		if($account_currency_info->num_rows > 0){
+			$account_currency_info = $account_currency_info->result_array();
+			$account_currency_info = $account_currency_info[0];
+	    }	
+            foreach ($billable_calls as $calls) {
+
+
+		$seconds = $calls['duration'];
+		$minutes = floor($seconds/60);
+		$secondsleft = $seconds%60;
+		if($minutes<10)
+			$minutes = "0" . $minutes;
+		if($secondsleft<10)
+			$secondsleft = "0" . $secondsleft;
+
+
+
+                if ($calls['calltype'] == "FREE")
+                    $calls['debit'] = 0;
+                
+                $tempArr = array(
+                    "accountid" => $accountinfo['id'],
+                    "reseller_id" => $accountinfo['reseller_id'],
+                    "order_item_id" => "0",
+                    "description" => $calls['calltype']. "-" ."$minutes:$secondsleft. Minutes",
+                    "debit" => $calls['debit'],
+                    "charge_type" => $calls['calltype'],
+                    "created_date" => $this->EndDate,
+		    'base_currency'=>$base_currency,
+		    'exchange_rate'=>$account_currency_info['currencyrate'],
+		    'account_currency'=>$account_currency_info['currency'],
+                    "invoiceid" => $invoiceid,
+                );
+                if ($this->Error_flag) {
+                    $this->PrintLogger($tempArr);
+                }
+                $this->db->insert("invoice_details", $tempArr);
+            }
+        }
+    }
+     function renew_product(){ 
+	$is_apply_commission = "false";
+	$renewable_order = $this->db_model->getJionQuery('orders', 'orders.payment_status,order_items.id,order_items.order_id,order_items.product_category,order_items.product_id,
+order_items.quantity,order_items.billing_type,order_items.billing_days,order_items.free_minutes,
+order_items.billing_date,order_items.next_billing_date,order_items.is_terminated ,order_items.termination_date,
+order_items.termination_note,order_items.from_currency,order_items.exchange_rate,order_items.to_currency,
+order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.price',array("DATE_SUB(order_items.next_billing_date, INTERVAL 2 HOUR) >="=>gmdate("Y-m-d 21:58:00"),"order_items.next_billing_date <=" => $this->custom_current_date,"order_items.product_category <>"=>"3", "order_items.is_terminated" => "0","orders.payment_status <>"=>"FAIL"),'order_items','orders.id=order_items.order_id', 'inner', '' ,'','','');
+
+	if($renewable_order->num_rows > 0){
+
+		$renewable_order = $renewable_order->result_array();
+
+		foreach($renewable_order as $orderkey => $ordervalue){
+			$orderobjArr = array();
+			$parentdata = array();
+			$parent_array = array();
+			$parent_key_arr = array();
+			$productdata = array("product_id"=>$ordervalue['product_id']);
+		        $accountdata = $this->db_model->getSelect("*", "accounts", array("id"=>$ordervalue["accountid"],"status"=>0));
+			$accountdata = $accountdata->result_array()[0];
+			
+		    	$account_currency_info = $this->db_model->getSelect("*","currency",array("id"=>$accountdata['currency_id']));
+		      if($account_currency_info->num_rows > 0){
+				$account_currency_info = (array)$account_currency_info->result_array();
+				$account_currency_info = $account_currency_info[0];
+		      }
+			$user_product_info = $this->order->get_account_product_info($orderobjArr,(object)$accountdata,$productdata);
+		
+		        if (!empty($user_product_info)) {
+			    $is_process = true;
+
+				    $user_product_info->price= $ordervalue['price'];
+				    $user_product_info->quantity= $ordervalue['quantity'];
+				    $user_product_info->setup_fee= $ordervalue['setup_fee'];
+				    $user_product_info->billing_days= $ordervalue['billing_days'];
+				    $product_info = (array)$user_product_info;
+					$total_amt = ($ordervalue['price']*$ordervalue['quantity']);
+					$account_balance = $accountdata ['posttoexternal'] == 1 ? $accountdata ['credit_limit'] - ($accountdata ['balance']) : $accountdata ['balance'];
+					//$product_info['product_name']=$product_info['name'];
+			     		$final_array = array_merge($accountdata,$product_info);
+			     		$acc_id='';
+			     		$order_id='';
+
+			     		$acc_id=$this->common->get_field_name("id","accounts",array("number"=>$final_array['number']));
+			     		$order_id=$this->common->get_field_name("order_id","orders",array("id"=>$ordervalue['order_id']));
+			     		$final_array['order_id']=$order_id;
+			     		$final_array['next_billing_date']=$this->common->get_field_name("next_billing_date","order_items",array("order_id"=>$ordervalue['order_id']));
+						$update_order_arr = array("is_terminated"=>'1',
+							      "termination_date"=> $this->CurrentDate,
+							      "termination_note" => "Product has been terminated"
+							    );
+						$did_update_array  = array("accountid"=>0,"call_type"=>0,"extensions"=>"","always"=>0,"always_destination"=>"","user_busy"=>0,"user_busy_destination"
+=>"","user_not_registered"=>0,"user_not_registered_destination"=>"","no_answer"=>0,"no_answer_destination"=>"","call_type_vm_flag"=>1,
+"failover_call_type"=>1,"always_vm_flag"=>1,"user_busy_vm_flag"=>1,"user_not_registered_vm_flag"=>1,"no_answer_vm_flag"=>1,"failover_extensions"=>"");
+					if($product_info['status'] == 1 ||  $ordervalue['billing_type'] == 0){
+							$is_process = false;  
+							$this->db->update("order_items",$update_order_arr,array("id"=>$ordervalue['id']));
+						if($product_info['product_category'] == 4){ 
+							$this->db->update("dids",$did_update_array,array("product_id"=>$ordervalue['product_id']));
+						}
+						$final_array['next_billing_date'] = $update_order_arr['termination_date'];
+						$this->common->mail_to_users ( "product_release", $final_array );
+		
+					} if(($product_info['can_purchase'] == 1 ||$product_info['can_resell'] == 1) && ($product_info['reseller_id'] == $ordervalue['reseller_id'] && $ordervalue['reseller_id'] > 0)){   
+							$is_process = false;
+							$this->db->update("order_items",$update_order_arr,array("id"=>$ordervalue['id']));
+						if($product_info['product_category'] == 4){
+							$this->db->update("dids",$did_update_array,array("product_id"=>$ordervalue['product_id']));
+						}
+						$final_array['next_billing_date'] = $update_order_arr['termination_date'];
+						$this->common->mail_to_users ( "product_release", $final_array );
+				     } 
+
+					if($product_info['release_no_balance'] == 0){  
+					 	if($account_balance < $total_amt){
+							$is_process = false;  
+							$this->db->update("order_items",$update_order_arr,array("id"=>$ordervalue['id']));
+						if($product_info['product_category'] == 4){
+							$this->db->update("dids",$did_update_array,array("product_id"=>$ordervalue['product_id']));
+						}
+							$final_array['next_billing_date'] = $update_order_arr['termination_date'];
+							$this->common->mail_to_users ( "product_release", $final_array );
+						}
+					}
+				if($is_process == true){ 
+					$parentdata = $this->db_model->getSelect("*", "accounts", array("id"=>$ordervalue["reseller_id"]));
+					$parentdata = $parentdata->first_row();	
+			    		if((isset($parentdata->is_distributor) && $parentdata->is_distributor == 1 && $parentdata->type == 1 && $ordervalue["reseller_id"]>0)){
+						$parent_array[$parentdata->id] = $parentdata;
+						$parent_key_arr[] = $parentdata->id;
+						$parent_array[$parentdata->id]->currecny_info = $account_currency_info;
+						$parent_array[$parentdata->id]->product_info = $user_product_info;
+						$parent_array[$parentdata->id]->order_item_id= $ordervalue['id'];
+						$parent_array[$parentdata->id]->product_id= $user_product_info->product_id;
+						$parent_array[$parentdata->id]->description= "Product (".$user_product_info->name.") commission has been credited";
+						if($parentdata->reseller_id > 0){ 
+
+							$tempcomm = 0.00;
+							$parent_reseller = $this->common->get_parent_info($parentdata->id, 0);
+							$max_count = (count((explode(",",rtrim($parent_reseller,",")))));
+
+							$comm_rate = $product_info['commission'];
+							$product_amount = ($product_info['price']*$ordervalue['quantity']);
+
+							for($i=1; $i<=$max_count; $i++){
+								$tempcomm = (($product_amount*$comm_rate)/100);
+								$product_amount =  $tempcomm;
+							}
+							$parent_array[$parentdata->id]->commission = $tempcomm;
+							$parent_array[$parentdata->id]->reseller_id = 0;
+						}else{  
+							$parent_commission = (($product_info['price']*$ordervalue['quantity']*$product_info['commission'])/100);
+
+							$parent_array[$parentdata->id]->commission = $parent_commission;
+						}
+
+						$is_apply_commission = "true";
+					}
+		
+					/*if((isset($parentdata->is_distributor) && $parentdata->is_distributor == 0 && $parentdata->type == 1 && $ordervalue["reseller_id"]>0 && $user_product_info->is_optin == 0 )){
+					//$parentdata_order_data = $this->order->get_order_details($ordervalue['parent_order_id']);
+
+					$parentdata_order_data = $this->db_model->getJionQuery('orders', 'orders.id,orders.parent_order_id, order_items.product_category,order_items.id as order_item_id,order_items.product_id,
+order_items.price,order_items.setup_fee,order_items.accountid,order_items.reseller_id,
+order_items.billing_type,order_items.billing_days,order_items.free_minutes,order_items.billing_date,order_items.quantity', array('orders.id'=>$ordervalue['parent_order_id']),'order_items','orders.id=order_items.order_id','inner','', '','','');
+					if($parentdata_order_data->num_rows > 0 ){
+						$parentdata_order_data =  $parentdata_order_data->result_array()[0];
+
+
+					$orderobjArr = array();
+					//$prev_amount = $temp_orderdata['price'];
+					//$prev_amount = $temp_orderdata['price'];
+					$order_data['add_invoice_credit'] = "true";
+					$order_data['is_update_balance'] = "true";
+					$order_data['payment_by'] = "Manual";
+					$order_data['price'] = ($ordervalue['quantity'] > 1)?(($ordervalue['price']*$ordervalue['quantity'])-$parentdata_order_data):$ordervalue['price']-$parentdata_order_data['price'];
+//print_r($order_data['price']);
+					$order_data['invoice_type'] = "credit";
+					$order_data['order_item_id']= $ordervalue['id'];
+					//$order_data['invoiceid'] = 1;
+					$order_data['product_category'] = $product_info['product_category'];
+					$order_data['is_apply_tax'] = "false";
+					$order_data['description'] =  "Payment has been received from customer ".$accountdata['first_name']." ( ".$accountdata['number']." )";
+					$invoiceid =$this->payment->add_payments_transcation($order_data,(array)$parentdata,$account_currency_info);
+//echo $this->db->last_query(); 
+				  }
+				}*/
+
+				    $product_info['payment_status'] = "PAID";
+				    $product_info['payment_by'] = "Account Balance";
+			  	    $product_info['order_item_id']= $ordervalue['order_id'];
+				    $product_info['invoice_type'] = "debit";
+
+				    $product_info['is_apply_tax']= "false";
+				    $product_info['charge_type'] = $this->common->get_field_name("code","category",array("id"=>$product_info['product_category'])); 
+			   	 $product_info['description']= $product_info['charge_type']." (".$product_info['name'].") has been added."; 
+
+		    		$update_order_arr = array("billing_date"=>$this->CurrentDate,
+						      "next_billing_date"=>($ordervalue['billing_days'] == 0)?gmdate("Y-m-d 23:59:59",strtotime($ordervalue['next_billing_date']."+10 years")):gmdate("Y-m-d 23:59:59",strtotime($ordervalue['next_billing_date']." + ".($ordervalue['billing_days'])." days")));
+
+				$last_payment_id=$this->payment->add_payments_transcation($product_info,$accountdata,$account_currency_info);
+				$final_array = array_merge($accountdata,$product_info);
+				$final_array['next_billing_date'] = $update_order_arr['next_billing_date'];
+				if($last_payment_id != '') {
+
+						/*$where_sip_devices  = array('accountid'=>$final_array ['id']);
+						$dialer_device_info = ( array ) $this->db->get_where( "sip_devices", $where_sip_devices )->result_array();
+
+						if (!empty($dialer_device_info)) {
+
+							foreach ($dialer_device_info as $key => $value) {
+									$where_device_info = array('username' => $value ['username']);
+
+									$dialer_device_info = ( array ) $this->db->get_where( "dialer_device_info", $where_device_info )->result_array();
+
+												foreach ($dialer_device_info as $key => $value) {
+													$final_array ['sip_user_name'] = $value ['username'];
+													$final_array ['accountid']     = $value ['accountid'];
+													$final_array ['callkit_token'] = $value ['callkit_token'];
+													$final_array ['status_code']   = 301;
+													$this->common->mail_to_users ( "product_renewed", $final_array );
+												}
+							}
+						} else {*/
+							$this->common->mail_to_users ( "product_renewed", $final_array );
+						//}
+				}
+
+				
+					if($product_info['is_optin'] == '0' && $accountdata["reseller_id"] > 0 && $accountdata["is_distributor"] == 1  && $product_info['product_category'] != '4' && $is_apply_commission == "true"){ 
+
+					$parent_array[$accountdata['id']] = (object)$accountdata;
+					$parent_array[$accountdata['id']]->product_info->price = $product_info['price'];
+					$parent_key_arr[] = $accountdata['id'];	
+					$this->order->product_commission($parent_array,$parent_key_arr);
+						$product_info['amount'] = $parent_array[$parentdata->id]->commission;
+						$final_array = array_merge($accountdata,$product_info);
+						$this->common->mail_to_users ( "product_commission", $final_array );
+					
+
+				}
+				$this->db->update("counters",array("used_seconds"=>0),array("product_id"=>$ordervalue['product_id'],"accountid"=>$ordervalue['accountid']));
+				$this->db->update("order_items",$update_order_arr,array("id"=>$ordervalue['id']));
+							
+			   }
+			}else{
+				$update_order_arr = array("is_terminated"=>'1',
+						      "termination_date"=> $this->CurrentDate,
+						      "termination_note" => "Product has been terminated");
+				$this->db->update("order_items",$update_order_arr,array("id"=>$ordervalue['id']));
+				if($product_info['product_category'] == 4){
+					$this->db->update("dids",$did_update_array,array("product_id"=>$ordervalue['product_id']));
+				}
+				
+			}
+			
+		} 
+	}
+    }
+    function product_renewal_reminder(){ 
+	$renewable_order = "SELECT  order_items.*,notify_before_day from order_items inner join invoice_conf ON invoice_conf.accountid = IF(order_items.reseller_id=0,1,order_items.reseller_id) where order_items.is_terminated =0 and   order_items.next_billing_date <= DATE(DATE_ADD('".$this->CurrentDate."', INTERVAL invoice_conf.notify_before_day  DAY))";
+
+	$renewable_order =$this->db->query($renewable_order);
+
+
+	if($renewable_order->num_rows > 0){
+		$renewable_order = $renewable_order->result_array();
+		foreach($renewable_order as $orderkey => $ordervalue){
+
+			$product_info = $this->db_model->getSelect("name,status,price,can_purchase,billing_days,billing_type,can_resell","products",array("id"=>$ordervalue['product_id']));
+			if($product_info->num_rows > 0){
+				$product_info = $product_info->result_array()[0];
+				$reseller_id  = ($ordervalue['reseller_id'] > 0)?$ordervalue['reseller_id']:0;
+				$account_data = $this->db_model->getSelect("*","accounts",array("id"=>$ordervalue['accountid'],"reseller_id"=> $reseller_id,"status"=>0,"deleted"=>0));
+
+				if($account_data->num_rows > 0){ 
+					$account_info = $account_data->result_array()[0];
+					$final_array = array_merge($account_info,$product_info);
+
+					$final_array['billing_date'] = $final_array['next_billing_date'];
+					$final_array['next_billing_date'] =($product_info['billing_days'] == 0)?gmdate('Y-m-d 23:59:59', strtotime('+10 years')):gmdate("Y-m-d 23:59:59",strtotime("+".($product_info['billing_days']-1)." days"));
+					$final_array['product_name'] = $product_info['name'];
+					if($product_info['status'] == 1 ||   $product_info['billing_type'] == 0 ){ 
+						$final_array['next_billing_date'] = $ordervalue['termination_date'];
+						$this->common->mail_to_users ( "product_release", $final_array );
+					}else if(($product_info['can_purchase'] == 1 ||$product_info['can_resell'] == 1) && $product_info['reseller_id'] == $ordervalue['reseller_id'] && $ordervalue['reseller_id'] > 0){  
+
+					/*	$where_sip_devices  = array('accountid'=>$final_array ['id']);
+						$dialer_device_info = ( array ) $this->db->get_where( "sip_devices", $where_sip_devices )->result_array();
+
+						if (!empty($dialer_device_info)) {
+
+							foreach ($dialer_device_info as $key => $value) {
+									$where_device_info = array('username' => $value ['username']);
+
+									$dialer_device_info = ( array ) $this->db->get_where( "dialer_device_info", $where_device_info )->result_array();
+
+												foreach ($dialer_device_info as $key => $value) {
+
+													$final_array ['sip_user_name'] = $value ['username'];
+													$final_array ['accountid']     = $value ['accountid'];
+													$final_array ['callkit_token'] = $value ['callkit_token'];
+													$final_array ['status_code']   = 302;
+													$this->common->mail_to_users ( "product_renewal_notice", $final_array );
+												}
+							}
+						} else {*/
+							$this->common->mail_to_users ( "product_renewal_notice", $final_array );
+						//}
+					}else{  
+					/*$where_sip_devices  = array('accountid'=>$final_array ['id']);
+						$dialer_device_info = ( array ) $this->db->get_where( "sip_devices", $where_sip_devices )->result_array();
+
+						if (!empty($dialer_device_info)) {
+
+							foreach ($dialer_device_info as $key => $value) {
+									$where_device_info = array('username' => $value ['username']);
+
+									$dialer_device_info = ( array ) $this->db->get_where( "dialer_device_info", $where_device_info )->result_array();
+
+												foreach ($dialer_device_info as $key => $value) {
+
+													$final_array ['sip_user_name'] = $value ['username'];
+													$final_array ['accountid']     = $value ['accountid'];
+													$final_array ['callkit_token'] = $value ['callkit_token'];
+													$final_array ['status_code']   = 302;
+
+													$this->common->mail_to_users ( "product_renewal_notice", $final_array );
+												}
+							}
+						} else {*/
+							$this->common->mail_to_users ( "product_renewal_notice", $final_array );
+						//}	
+					}
+			     }
+		  }
+	   }  
+	}
+    }
+    function PrintLogger($Error_flag,$Message)
+    {
+	if ($Error_flag) {
+		if (is_array($Message)) {
+		    foreach ($Message as $MessageKey => $MessageValue) {
+		        if (is_array($MessageValue)) {
+		            foreach ($MessageValue as $LogKey => $LogValue) {
+		                fwrite($this->fp, "::::: " . $LogKey . " ::::: " . $LogValue . " :::::\n");
+		            }
+		        } else {
+		            fwrite($this->fp, "::::: " . $MessageKey . " ::::: " . $MessageValue . " :::::\n");
+		        }
+		    }
+		} else {
+		    if ($this->Error_flag) {
+		        fwrite($this->fp, "::::: " . $Message . " :::::\n");
+		    }
+		}
+	}
+    }
+    function get_system_config()
+    {
+        $query = $this->db->get("system");
+        $config = array();
+        $result = $query->result_array();
+        foreach ($result as $row) {
+            $config[$row['name']] = $row['value'];
+        }
+        self::$global_config['system_config'] = $config;
+    }
 }
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-

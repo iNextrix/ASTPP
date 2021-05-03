@@ -35,7 +35,7 @@
       <param name="disable-100-continue" value="false"/>
       <!-- If web posting failed, the CDR is written to a file. -->
       <!-- Error log dir ("json_cdr" is appended). Up to 20 may be specified. Default to log-dir if none is specified. -->
-      <param name="err-log-dir" value="/usr/local/freeswitch/log/xml_json"/>
+      <param name="err-log-dir" value="/usr/share/freeswitch/log/xml_json"/>
 
 
       <!-- SSL options -->

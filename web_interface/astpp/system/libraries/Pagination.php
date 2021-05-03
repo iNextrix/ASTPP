@@ -98,9 +98,9 @@ class CI_Pagination {
 		{
 			foreach ($params as $key => $val)
 			{
-				if (isset($this->$key))
+				if (isset($this->{$key}))
 				{
-					$this->$key = $val;
+					$this->{$key} = $val;
 				}
 			}
 		}

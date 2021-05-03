@@ -168,7 +168,8 @@ class CI_URI {
 		// If the URI contains only a slash we'll kill it
 		$this->uri_string = ($str == '/') ? '' : $str;
 }
-/*===============================*/	
+$this->uri_string = ($str == '/') ? '' : $str;
+/*===============================*/
 		}
 
 	// --------------------------------------------------------------------
@@ -441,7 +442,7 @@ class CI_URI {
 			return $this->keyval[$n];
 		}
 
-		if ($this->$total_segments() < $n)
+		if ($this->{$total_segments}() < $n)
 		{
 			if (count($default) == 0)
 			{
@@ -456,7 +457,7 @@ class CI_URI {
 			return $retval;
 		}
 
-		$segments = array_slice($this->$segment_array(), ($n - 1));
+		$segments = array_slice($this->{$segment_array}(), ($n - 1));
 
 		$i = 0;
 		$lastval = '';
@@ -568,7 +569,7 @@ class CI_URI {
 			$trailing = '';
 		}
 
-		return $leading.$this->$which($n).$trailing;
+		return $leading.$this->{$which}($n).$trailing;
 	}
 
 	// --------------------------------------------------------------------

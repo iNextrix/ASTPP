@@ -1,6 +1,6 @@
 <? include('header.php'); ?>
 <section class="slice color-one">
- <div class="w-section inverse no-padding border_box">
+ <div class="w-section inverse p-0 border_box">
    <div class="container">
      <div class="">
 	  </div>
@@ -9,6 +9,8 @@
   </div>    
 </section>
 <section class="page-wrap">
+    <div class="container-fluid">
+        <div class="row">
 <div id="toast-container" class="toast-top-right col-md-6" style="display:none;" >
  <div class="toast fa-check toast-success1">
         <button class="toast-close-button">
@@ -52,14 +54,36 @@
     display_astpp_message(validate_ERR,ERR_type);
 </script>
 <?php } ?>
- <button type="button" class="navbar-toggle nav_sidetoggle collapsed white_bar" data-toggle="collapse" data-target=".sidebar">    
-      	      <span class="sr-only">Toggle navigation</span>       
-	      <span class="icon-bar"></span> 
-	      <span class="icon-bar"></span> 
-	      <span class="icon-bar"></span>
-	</button> 
+<button class="navbar-toggler bg-secondary text-light d-lg-none d-block btn-block rounded-0 py-2 collapsed btn" type="button" data-toggle="collapse" data-target=".sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle Side Navigation">
+    <i class="fa fa-bars fa-2x"></i>
+  </button>
 <div class="sidebar collapse">
 	
+	<?php if(isset($addon_detail_flag) && $addon_detail_flag){?>
+	<ul class="sidemenu">
+		<?php 
+		if ($this->uri->segment(3) == 'Community'){
+		?>
+		<li class="active"><a href="<?php echo base_url();?>addons/addons_list/Community">Community</a></li>
+		<li><a href="<?php echo base_url();?>addons/addons_list/Enterprise">Enterprise</a></li>
+		<?php
+		} else {
+		?>
+	<li><a href="<?php echo base_url();?>addons/addons_list/Community">Community</a></li>
+	<li class="active"><a href="<?php echo base_url();?>addons/addons_list/Enterprise">Enterprise</a></li>
+		<?php
+		}
+		?>
+		</ul>
+	<?php } ?>
+
+
+	<?php if(isset($addon_flag) && $addon_flag){?>
+	  <ul class="sidemenu">
+		<li><a href="<?php echo base_url();?>addons/addons_list/Community">Community</a></li>
+	    <li><a href="<?php echo base_url();?>addons/addons_list/Enterprise">Enterprise</a></li>
+	  </ul>
+  	<?php } ?>
              <?php 
 			 $uri_string= uri_string();
 			 $uri_arr=explode("/",$uri_string);
@@ -71,11 +95,36 @@
              
 			 $accountinfo=$this->session->userdata('accountinfo');
 			 if($accountinfo['type'] != 0  && $accountinfo['type'] !=3){
-			  $menu_info= ($uri_arr[0]=="user"
+			  $menu_info_temp= ($uri_arr[0]=="user"
 							? unserialize(RESELLERPROFILE_ARRAY):($uri_arr[0]=="accounts"&& $entity_name =='customer'
 							? unserialize(CUSTOMEREDIT_ARRAY)   :($uri_arr[0]=="accounts"&& $entity_name =='provider'
 							? unserialize(PROVIDEREDIT_ARRAY)   :($uri_arr[0]=="accounts"&& $entity_name =='reseller' 
-							? unserialize(RESELLEREDIT_ARRAY) : ($uri_arr[0] =="package" ? unserialize(PACKAGEEDIT_ARRAY):false) ))));
+							? unserialize(RESELLEREDIT_ARRAY) :($uri_arr[0]=="plans"
+							? unserialize(RESELLEREDIT_ARRAY) : ($uri_arr[0] =="package" ? unserialize(PACKAGEEDIT_ARRAY):false) )))));
+				if($accountinfo['type'] == '-1'){
+					$menu_info = $menu_info_temp;
+				}else{
+					$menu_info = array();
+					$permission_edit_array = unserialize(PERMISSION_EDIT_ARRAY);
+					$permissioninfo=$this->session->userdata('permissioninfo');
+
+					foreach($menu_info_temp as $menu_key => $menu_value){
+						if(isset($permission_edit_array[$menu_key])){
+							$permission_check_array = explode('/',$permission_edit_array[$menu_key]);
+							if(isset($permissioninfo[$permission_check_array[0]][$permission_check_array[1]][$permission_check_array[2]])){
+							$check_permission_flag = $permissioninfo[$permission_check_array[0]][$permission_check_array[1]][$permission_check_array[2]];
+							if(isset($check_permission_flag) && $check_permission_flag == 0){
+								$menu_info[$menu_key] = $menu_value;
+							}
+						}else{
+							$menu_info[$menu_key] = $menu_value;
+						}
+					   }else{
+
+						$menu_info[$menu_key] = $menu_value;
+					  }
+					}
+				}
 			 }else{
 			   $menu_info=null;
 			   $current_menu_url=$uri_arr[0]."/".$uri_arr[1]."/";
@@ -96,16 +145,16 @@
 					}
 				}
 			 }
-			 if($accountinfo['type']==0 || $accountinfo['type']==3){
-		  if($uri_arr[0]=='user' && $uri_arr[1] =='user_myprofile' || $uri_arr[0]=='user' && $uri_arr[1]=='user_change_password'){
-		$menu_info=unserialize(CUSTOMERPROFILE_ARRAY);
-		  }
+			 if($accountinfo['type']==0 || $accountinfo['type']==3 || $accountinfo['type']==4){
+					$menu_info=unserialize(CUSTOMERPROFILE_ARRAY);
+				
 			 }
+			 
 			 if(!empty($menu_info)){
 				echo "<ul class='sidemenu'>";
 				$i=0;
 				foreach($menu_info as $key=>$value){ 
-				$url=($entity_name=='provider'||$entity_name =='customer' || $entity_name =='reseller' || $uri_arr[0] =="package") && isset($uri_arr[2]) && !empty($uri_arr[2])
+				$url=($entity_name=='provider'||$entity_name =='customer' || $entity_name =='reseller' || $uri_arr[0] =="package" || $uri_arr[0] =="plans") && isset($uri_arr[2]) && !empty($uri_arr[2])
 					?
 				base_url().$value.$uri_arr[2]."/" : 
 				base_url().$value;
@@ -114,7 +163,7 @@
 		  if($value == "user/user_ipmap/" && $acc_info['allow_ip_management'] == '1'){
 			$value_flag=false;
 		  }elseif(in_array('user/user_sipdevices/',$menu_info) && $value == "user/user_sipdevices/" && common_model::$global_config['system_config']['opensips']== 0){
-			$value_flag=false;
+			$value_flag=true;
 		  }else{
 			$value_flag=true;
 		  }
@@ -142,20 +191,47 @@
 			  }
 		  }
 				}
-
+				
+				$edit_permissioninfo=$this->session->userdata('edit_permissioninfo');
+				
 				if($value_flag){
 					$class = ($value == $uri_arr[0]."/".$uri_arr[1]."/" ) ? 'active' : '';
 					if($i==0)
 						$class=($uri_arr[1]== $entity_name."_save") ? 'active': $class;
-                    
-					echo "<li class='$class'><a href ='$url'>".gettext($key)."</a></li>";
+						$edit_permissioninfo=$this->session->userdata('edit_permissioninfo');
+						$url_current = $this->uri->uri_string;
+						$url_name = explode("/", $url_current);
+						$key_permission="";
+						if($entity_name=='customer' || $entity_name=='provider'){
+								$key_permission='customer_edit';
+						}else{
+							$key_permission='reseller_edit';
+						}
+					if($this->session->userdata('logintype') ==0 || $this->session->userdata('logintype')==3){
+						echo "<li class='$class'><a href ='$url'>".gettext($key)."</a></li>";
+					}else{
+							echo "<li class='$class'><a href ='$url'>".gettext($key)."</a></li>";
+
+					}
 				}
 				$i++;
 				}
 				echo "</ul>";
 				}
 			 ?>
-</div>		
+</div>	
+<?php
+
+function endsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+    if ($length == 0) {
+        return true;
+    }
+
+    return (substr($haystack, -$length) === $needle);
+}
+?>	
 <? start_block_marker('content') ?><? end_block_marker() ?>	
 
 

@@ -368,11 +368,11 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 				if ($this->object === FALSE)
 				{
 					$CI = & get_instance();
-					return $CI->$method_parts['1']($m);
+					return $CI->{$method_parts}['1']($m);
 				}
 				else
 				{
-					return $this->object->$method_parts['1']($m);
+					return $this->object->{$method_parts}['1']($m);
 					//return call_user_func(array(&$method_parts['0'],$method_parts['1']), $m);
 				}
 			}
@@ -382,7 +382,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			return call_user_func($this->methods[$methName]['function'], $m);
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -410,7 +410,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 		$v->addArray($output);
 		return new XML_RPC_Response($v);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -478,7 +478,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 			return new XML_RPC_Response(0, $this->xmlrpcerr['introspect_unknown'], $this->xmlrpcstr['introspect_unknown']);
 		}
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**

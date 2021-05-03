@@ -20,6 +20,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
+ini_set ( "date.timezone", "UTC" );
 define ( 'ENVIRONMENT', 'production' );
 if (defined ( 'ENVIRONMENT' )) {
 	switch (ENVIRONMENT) {
@@ -42,6 +43,8 @@ include ("lib/astpp.db.php");
 include ("lib/astpp.logger.php");
 include ("lib/astpp.lib.php");
 include ("lib/astpp.constants.php");
+//load custom file.
+include ("lib/astpp.custom.php");
 include ("lib/astpp.cdr.php");
 
 // Define db object
@@ -62,20 +65,38 @@ if (isset ( $_SERVER ["CONTENT_TYPE"] ) && $_SERVER ["CONTENT_TYPE"] == "applica
 	$db->run ( "SET NAMES utf8" );
 	//$data = json_decode ( file_get_contents ( "php://input" ), true );
 	$data = file_get_contents("php://input");
-        $data = utf8_encode($data);
+    $data = utf8_encode($data);
 	$data = json_decode($data,true);
 
 	// error_log(print_r($data,true));
 	$logger->log ( print_r ( $data, true ) );
-	// process_cdr($data,$db,$logger,$decimal_points);
+
+	if (isset($data ['variables']['module_name'])){
+		$logger->log("Looking for custom module file to include : " . "lib/addons/astpp.".$data ['variables']['module_name'].".php");
+		if (file_exists("lib/addons/astpp.".$data ['variables']['module_name'].".php")){
+			include_once("lib/addons/astpp.".$data ['variables']['module_name'].".php");			
+		}
+	}
+
+	//To run custom code
+	if(function_exists('custom_start_hook'))
+		custom_start_hook($data, $db, $logger, $decimal_points,$config);
+
 	if ($data ['variables'] ['calltype'] == "CALLINGCARD") {
 		if (isset ( $data ['variables'] ['originating_leg_uuid'] )) {
-			process_cdr ( $data, $db, $logger, $decimal_points );
+			$process_data=process_cdr ( $data, $db, $logger, $decimal_points,$config );
 		}
 	} else {
-		process_cdr ( $data, $db, $logger, $decimal_points );
+		$process_data=process_cdr ( $data, $db, $logger, $decimal_points,$config );
+	}
+
+	//To run custom code.
+	if(function_exists('custom_end_hook'))
+		custom_end_hook($data, $db, $logger, $decimal_points,$config,$process_data);
+		
+	if (file_exists("lib/addons/astpp.fraud_detection.php")){
+			include_once("lib/addons/astpp.fraud_detection.php");
+			if(function_exists('custom_fraud_hook')){custom_fraud_hook($data, $db, $logger, $decimal_points,$config,$process_data);}
 	}
 }
-
-// $db->cleanup();
 ?>

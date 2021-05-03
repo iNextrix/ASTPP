@@ -1,0 +1,42 @@
+<?php
+
+$lang['required']                           = " %s フィールドは必須です。";
+$lang['dropdown']                           = " %s を選択してください。";
+$lang['dropdown_required']                  = " %s を選択してください。";
+$lang['isset']                              = " %s フィールドには値が必要です。";
+$lang['valid_email']                        = " %s フィールドには有効なメールアドレスを含める必要があります。";
+$lang['valid_emails']                       = " %s フィールドには有効なメールアドレスをすべて含める必要があります。";
+$lang['valid_url']                          = " %s フィールドに有効なURLが含まれている必要があります。";
+$lang['valid_ip']                           = " %s フィールドに有効なIPが含まれている必要があります。";
+$lang['min_length']                         = " %s フィールドは、少なくとも %s 文字の長さでなければなりません。";
+$lang['max_length']                         = " %s フィールドの長さは %s 文字を超えることはできません。";
+$lang['exact_length']                       = " %s フィールドは、長さが正確に %s 文字でなければなりません。";
+$lang['alpha']                              = " %s フィールドには英字のみを含めることができます。";
+$lang['alpha_numeric']                      = " %s フィールドには英数字のみを含めることができます。";
+$lang['ctype_alnum']                        = " %s フィールドには英数字のみを含めることができます。";
+$lang['alpha_dash']                         = " %s フィールドには、英数字、アンダースコア、ダッシュのみを含めることができます。";
+$lang['numeric']                            = " %s フィールドには数字だけを含める必要があります。";
+$lang['is_numeric']                         = " %s フィールドには数字のみを含める必要があります。";
+$lang['integer']                            = " %s フィールドは整数を含まなければなりません。";
+$lang['regex_match']                        = " %s フィールドの形式が正しくありません。";
+$lang['matches']                            = " %s フィールドが %s フィールドと一致しません。";
+$lang['is_unique']                          = " %s フィールドには一意の値を含める必要があります。";
+$lang['is_match_number']                    = " %s フィールドはカードの長さより長くなければなりません。";
+$lang['is_natural']                         = " %s フィールドには正数のみを含める必要があります。";
+$lang['is_natural_no_zero']                 = " %s フィールドには、0より大きい数値を含める必要があります。";
+$lang['decimal']                            = " %s フィールドには10進数が含まれていなければなりません。";
+$lang['less_than']                          = " %s フィールドには、 %s 未満の数値を含める必要があります。";
+$lang['greater_than']                       = " %s フィールドには、 %s より大きい数値を含める必要があります。";
+$lang['alpha_dot']                          = " %s フィールドには、英数字、ダッシュ、およびドットのみを含めることができます。";
+$lang['numeric_dot']                        = " %s フィールドには、数字とドットだけを含めることができます。";
+$lang['valid_decimal']                      = " %s フィールドには、数値と10進数のみを含めることができます。";
+$lang['alpha_numeric_space']                = " %s フィールドには、文字、数字、およびスペースのみを含めることができます。";
+$lang['alpha_space']                        = " %s フィールドには、文字とスペースのみを含めることができます。";
+$lang['currency_decimal']                   = ' %s フィールドには、数値と小数EXのみを含めることができます（99999.99999）';
+$lang['password_check']                     = " %s フィールドが古いパスワードと一致しません。";
+$lang['password_check_old']                 = "新しいパスワードと古いパスワードは同じではいけません";
+$lang['did_account_checking']               = "この %s にはこのDIDを購入するのに十分な金額がありません";
+$lang['phn_number']                         = " %s フィールドは無効です。";
+$lang['check_priority_total']               = "すべてのパーセントフィールドの合計は100になります。";
+$lang['numeric_with_spacial_characters']    = " %s フィールドには、数字とスペース文字（*、＃）のみを含める必要があります。";
+

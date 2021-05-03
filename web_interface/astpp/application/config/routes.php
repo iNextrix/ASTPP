@@ -48,14 +48,12 @@ $route ['getbalance/(:any)'] = "getbalance/index/$1";
 
 $route ['settings/configuration'] = "systems/configuration/";
 $route ['settings/configuration_json'] = "systems/configuration_json/";
-/*
- * ASTPP 3.0
- * routes create status show on/off
- */
+
 $route ['get_status/(:any)'] = "getstatus/customer_list_status/$1";
-/**
- * ********************************************
- */
+
+$route ['email_status/(:any)'] = "getstatus/get_email_status/$1";
+$route ['sms_status/(:any)'] = "getstatus/get_sms_status/$1";
+$route ['alert_status/(:any)'] = "getstatus/get_alert_status/$1";
 
 $route ['forgotpassword'] = "signup/forgotpassword";
 $route ['confirmpassword'] = "signup/confirmpassword";
@@ -63,19 +61,36 @@ $route ['confirm_pass'] = "signup/confirm_pass";
 $route ['confirmpass'] = "signup/confirmpass";
 
 $route ['signup'] = "signup/index";
+$route ['otp_verification'] = "signup/otp_verification/";
 $route ['signup/(:any)'] = "signup/index/$1";
 
 $route ['signup/signup_save'] = "signup/signup_save";
 $route ['signup/signup_success'] = "signup/signup_success";
 $route ['signup/signup_confirm'] = "signup/signup_confirm";
 $route ['signup/signup_inactive'] = "signup/signup_inactive";
-
 $route ['logout'] = "login/logout/";
 
 
 
+$route ['signup/send_otp'] = "signup/send_otp";
+$route ['signup/check_otp'] = "signup/check_otp";
+$route ['signup/resend_otp'] = "signup/resend_otp";
 
-// $route['settings/configuration/(:any)'] = "systems/configuration/$1";
+$route ['relogin/(:any)/(:any)'] = "login/relogin/$1/$2";
+//Make menu dynamic
+$dir=getcwd()."/application/config/addons";
+$a = scandir($dir);
+
+foreach($a as $key=>$val){
+
+	if($val!=='.' || $val!='..'){
+		$function=str_replace(".php","",$val);
+		if(file_exists($dir."/".$val."/routes.php")){
+			include_once($dir."/".$val."/routes.php");
+		}
+	}
+}
+
 
 
 /* End of file routes.php */

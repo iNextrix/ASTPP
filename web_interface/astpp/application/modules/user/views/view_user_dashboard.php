@@ -23,272 +23,268 @@
  text-align:center;
  font-size:250%;
 }
+.active_product table td{
+	word-break:break-all;
+	}
+.new_products table td{
+	word-break:break-all;
+	}	
 </style>
 <script type="text/javascript">
-     function get_invoices_data(){
-            $.ajax({
-	      type:'POST',
-	      url: "<?php echo base_url(); ?>"+'user/user_dashboard_invoices_data/',
-	      cache    : false,
-	      async    : false,
-              success: function(response_data) {
-                     var custom_data=JSON.parse(response_data);
-                     
-                      if(custom_data !=''){
-			  $("div.invoices_not_data").hide();
-			  $("div.invoices_data").show();
-                          var str = "<table class='table table-bordered flexigrid'>";  
-                          var arrayLength = custom_data.length;
-                          for (var i = 0; i < arrayLength; i++) {
-			    str=str+"<tr>";
-			    if(i==0){
-			      str=str+"<th style='text-align:center;'>"+custom_data[i].type+"</th>";            
-			      str=str+"<th style='text-align:center;'>"+custom_data[i].id+"</th>";  
-			      str=str+"<th style='text-align:center;'>"+custom_data[i].from_date+"</th>";  
-			      str=str+"<th style='text-align:center;'>"+custom_data[i].invoice_date+"</th>";  
-			      str=str+"<th style='text-align:center;'>"+custom_data[i].amount+"</th>";  
-			    }else{
-			      str=str+"<td style='text-align:center;'>"+custom_data[i].type+"</td>";            
-			      str=str+"<td style='text-align:center;'>"+custom_data[i].id+"</td>";  
-			      str=str+"<td style='text-align:center;'>"+custom_data[i].from_date+"</td>";  
-			      str=str+"<td style='text-align:center;'>"+custom_data[i].invoice_date+"</td>";            
-			      str=str+"<td style='text-align:center;'>"+custom_data[i].amount+"</td>";
-			    }
-			    str=str+"</tr>";
-			  }   
-                          str+="</table>";
-                          document.getElementById("invoices_data").innerHTML = str;  
-                       }
-                       if(custom_data ==''){
-			  $("div.invoices_data").hide();       
-			  $("div.invoices_not_data").addClass("second");
-			  $("div.invoices_not_data").show();
-			  $('div.invoices_not_data').text('No Records Found');
-                       }
-                }
-            });
-      };
-       function get_payment_data(){
-            $.ajax({
-            type:'POST',
-            url: "<?php echo base_url(); ?>"+'user/user_dashboard_recent_payments/',
-            cache    : false,
-            async    : false,
-                success: function(response_data) {
-                     var custom_data=JSON.parse(response_data);
-                      if(custom_data !=''){
-			$("div.recharge_not_data").hide();
-                        $("div.recharge_data").show();
-                        var str = "<table class='table table-bordered flexigrid'>";  
-                        var arrayLength = custom_data.length;
-                        var currency_code = "<?php echo $currency ?>";
-                        str=str+"<tr><th style='text-align:center;'>Date</th><th style='text-align:center;'>Amount ("+currency_code +")</th><th style='text-align:center;'>Notes</th></tr>";
-                        for (var i = 0; i < arrayLength; i++) {
-                          str=str+"<tr>";
-                          if(i==0){
-                           str=str+"<td style='text-align:center;'>"+custom_data[i].payment_date+"</td>";
-                           str=str+"<td style='text-align:center;'>"+custom_data[i].credit+"</td>";
-                           str=str+"<td style='text-align:center;'>"+custom_data[i].notes+"</td>";
-                          }else{
-                           str=str+"<td style='text-align:center;'>"+custom_data[i].payment_date+"</td>";
-                           str=str+"<td style='text-align:center;'>"+custom_data[i].credit+"</td>";
-                           str=str+"<td style='text-align:center;'>"+custom_data[i].notes+"</td>";
-                          }
-                          str=str+"</tr>";
-                        }   
-                        str+="</table>";
-                        document.getElementById("recharge_data").innerHTML = str;  
-                      }
-                      if(custom_data ==''){
-			$("div.recharge_data").hide();       
-			$("div.recharge_not_data").addClass("second");
-			$("div.recharge_not_data").show();
-			$('div.recharge_not_data').text('No Records Found');
-                      }                    
-                }
-            });
-      };
-function get_package_data(){
-            $.ajax({
-            type:'POST',
-    url: "<?php echo base_url(); ?>"+'user/user_dashboard_package_data/',
-    cache    : false,
-    async    : false,
-                success: function(response_data) {
-                    if(response_data !=''){
-                     var custom_data=JSON.parse(response_data);
-                     var str="";
-                      if(custom_data !=''){
-                      $("div.package_not_data").hide();
-		      $("div.package_data").show();
-                      str=str+"<table class='table table-bordered flexigrid'>";
-                          var arrayLength = custom_data.length;
-                          for (var i = 0; i < arrayLength; i++) {
-			      str=str+"<tr>";
-			      if(i==0){
-				str=str+"<th style='text-align:center;'>"+custom_data[i].package_name+"</th>";
-				str=str+"<th style='text-align:center;'>"+custom_data[i].includedseconds+"</th>";
-				str=str+"<th style='text-align:center;'>"+custom_data[i].status+"</th>";
-			      }else{
-				str=str+"<td style='text-align:center;'>"+custom_data[i].package_name+"</td>";
-				str=str+"<td style='text-align:center;'>"+custom_data[i].includedseconds+"</td>";
-				str=str+"<td style='text-align:center;'>"+custom_data[i].status+"</td>";
-			      }
-			      str=str+"</tr>";
-			   }   
-			   str+="</table>";
-                           document.getElementById("package_data").innerHTML = str;  
-                        }
-                        if(custom_data ==''){
-			  $("div.package_data").hide();       
-			  $("div.package_not_data").addClass("second");
-			  $("div.package_not_data").show();
-			  $('div.package_not_data').text('No Records Found');
-                        }
-                    }
-                }
-            });
-      };
- function get_subscription_data(){
-            $.ajax({
-            type:'POST',
-    url: "<?php echo base_url(); ?>"+'user/user_dashboard_subscription_data/',
-    cache    : false,
-    async    : false,
-                success: function(response_data) {
-                  
-                     var custom_data=JSON.parse(response_data);
-                     var str="";
-                      if(custom_data !=''){
-                      $("div.not_data").hide();
-          $("div.subscription_data").show();
-                      str=str+"<table class='table table-bordered flexigrid'>";
-                          var arrayLength = custom_data.length;
-                          for (var i = 0; i < arrayLength; i++) {
-                         
-          str=str+"<tr>";
-          if(i==0){
-            str=str+"<th style='text-align:center;'>"+custom_data[i].charge_id+"</th>";
-            str=str+"<th style='text-align:center;'>"+custom_data[i].assign_date+"</th>";
-            str=str+"<th style='text-align:center;'>"+custom_data[i].sweep_id+"</th>";
-          }else{
-            str=str+"<td style='text-align:center;'>"+custom_data[i].charge_id+"</td>";
-            str=str+"<td style='text-align:center;'>"+custom_data[i].assign_date+"</td>";
-           str=str+"<td style='text-align:center;'>"+custom_data[i].sweep_id+"</td>";
-          }
-          str=str+"</tr>";
-        }   
-                          str+="</table>";
-                                document.getElementById("subscription_data").innerHTML = str;  
-                        }
-                        if(custom_data ==''){
-                        $("div.subscription_data").hide();        
-      $("div.subscription_not_data").addClass("second");
-      $("div.subscription_not_data").show();
-      $('div.subscription_not_data').text('No Records Found');
-                        }
-                    
-                }
-            });
-      };
-      $(document).ready(function() {
-      
-          get_subscription_data();
-          get_package_data();
-    get_payment_data();
-    get_invoices_data();
-    });
-    </script> 
+	function get_current_data(){
+		 $.ajax({
+				type:'POST',
+				url: "<?php echo base_url(); ?>"+'user/user_get_current_info/',
+				dataType: 'JSON',
+				cache    : false,
+				async    : false,
+        success: function(response_data) {
+        		
+        		$("#product_count").html(response_data.product_count);
+        		$("#call_count").html(response_data.call_count);
+        		$("#balance").html(response_data.balance);
+        		$("#invoice_amount").html(response_data.invoice_amount);
+        }
+    	});
+	}
+  $(document).ready(function() {
+			get_current_data();
+	});
+</script> 
 <? endblock() ?>
 <? startblock('content') ?>
 
 <section class="slice">
     <div class="w-section inverse no-padding">
-        <div class="container">
             <div class="row">
-                <div class="col-md-12 no-padding">        
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-				    <h3 class="panel-title col-md-10">
-                                          <div class='col-sm-6 no-padding'>
-                    					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-file-text-o fa-fw"></i><?php echo gettext('Invoice Information')?>
-                    					     </div>
-                                          </div>
-                                    </h3>
-				</div>
-				<div class="panel-body">
-				    <div id='invoices_data' class='col-md-12 invoices_data margin-t-10' style ='display:none'></div>
-				    <div id='invoices_not_data' class='col-md-12 invoices_not_data' style ='display:none'></div>
-				</div>    
-			    </div> 
-			    </div>
-			    
-			    <div class="col-lg-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-				    <h3 class="panel-title col-md-10">
-                                          <div class='col-sm-6 no-padding'>
-                    					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-usd fa-fw"></i><?php echo gettext('Refill Information')?>
-                    					     </div>
-                                          </div>
-                                    </h3>
-				</div>
-				<div class="panel-body">
-				    <div id='recharge_data' class='col-md-12 recharge_data margin-t-10' style ='display:none'></div>
-				    <div id='recharge_not_data' class='col-md-12 recharge_not_data' style ='display:none'></div>
-				</div>    
-			    </div> 
-			    </div>
+                <div class="col-md-12">        
+                    
+                     <div class="dashboard_values row mb-5">
+                     
+                     		<a href="<?php echo base_url(); ?>user/user_products_list/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                            <div class="bg-primary card col-12 text-light">
+                                <div class="col-lg-8 col-7 float-left py-5 px-4 ">
+                                    <div class="h1" id="product_count">0</div>
+                                    <h3><?php echo gettext('Products') ?></h3>
+                                </div>
+                                <div class="col-lg-4 col-5 float-left py-5 px-4 ">
+                                    <i class="fa fa-archive fa-4x float-left"></i>
+                                </div>
+                            </div>
+                        </a>
+                     
+                     		<a href="<?php echo base_url(); ?>user/user_cdrs_report/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                            <div class="bg-danger card col-12 text-light">
+                                <div class="col-lg-8 col-7 float-left py-5 px-4 ">
+                                    <div class="h1" id="call_count">0</div>
+                                    <h3><?php echo gettext("Today's Calls"); ?></h3>
+                                </div>
+                                <div class="col-lg-4 col-5 float-left py-5 px-4 ">
+                                    <i class="fa fa-phone fa-4x float-left"></i>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <a href="<?php echo base_url(); ?>user/user_invoices_list/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                            <div class="bg-success card col-12 text-light">
+                                <div class="col-lg-8 col-7 float-left py-5 px-4 ">
+                                   <div class="h1" id="invoice_amount">0</div>
+                                    <h3><?php echo gettext('Outstanding'); ?> (<?php echo $currency;?>)</h3>
+                                </div>
+                                <div class="col-lg-4 col-5 float-left py-5 px-4 ">
+                                    <i class="fa fa-wpforms fa-4x float-left"></i>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <div class="col-lg-3 col-md-6 col-sm-12 pt-2"><div class="bg-dark card col-12 text-light">
+                                <div class="col-lg-8 col-7 float-left py-5">
+                                    <div class="h1" id="balance">0</div>
+                                    <?php
+										$variable =$accountinfo['posttoexternal']==1 ? 'Credit' : gettext('Balance');  
+									?>
+                                    <h3><?php echo $variable." (".$currency.")";?></h3>
+                                </div>
+                                <div class="col-lg-4 col-5 py-4 float-left text-center">
+                                    <i class="fa fa-money fa-4x"></i>
+                                    <a href="<?php echo base_url();?>products/products_topuplist/" class="btn btn-success btn-sm p-1 mt-2 w-100"><?php echo gettext('Top Up'); ?></a>
+                                </div>
+                            </div>
+                        </div>      
+                    </div>
+
+                <div class="row mb-5">
+                 <div class="col-lg-6 d-flex">
+                    <div class="card w-100 active_product">
+                        <h3 class="text-dark p-3"><i class="fa fa-archive text-primary fa-fw"></i> <?php echo gettext('Active Products'); ?>
+                                <a href="<?php echo base_url();?>user/user_products_list/" class="float-right btn btn-secondary"><?php echo gettext('View All'); ?></a>
+                        </h3>
+                        <div class="card-body table-responsive">
+
+                            <table class="table table-hover">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th scope="col"><?php echo gettext('Name') ?></th>
+                                  <th scope="col"><?php echo gettext('Date'); ?></th>
+                                  <th scope="col"><?php echo gettext('Order');?></th>
+                                  <th scope="col"><?php echo gettext('Payment method'); ?></th>
+				  <th scope="col"><?php echo gettext('Quantity'); ?></th>
+                                  <th scope="col"><?php echo gettext('Setup Fee'); ?> [<?php echo $currency;?>]</th>
+                                  <th scope="col"><?php echo gettext('Price');?> [<?php echo $currency;?>]</th>
+                                  <th scope="col"><?php echo gettext('Status'); ?></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              	<?php
+                              		
+																	$account_data = $this->session->userdata ( "accountinfo" );
+																  $where_arr = array ("orders.accountid"=>$account_data['id'],"order_items.is_terminated"=>'0');
+																	$this->db->order_by("orders.order_date", "desc");
+																	
+																	
+
+																	
+																	$query = $this->db_model->getJionQuery('orders', 'orders.id,orders.order_date,orders.order_id as id1,orders.payment_gateway,orders.payment_status,order_items.order_id as orderid,order_items.price,order_items.quantity,order_items.setup_fee,order_items.product_id',$where_arr, 'order_items','orders.id=order_items.order_id', 'inner',10, 0,'','');
+																	
+
+																	//
+																	if($query->num_rows > 0){
+																		$result_array =  $query->result_array();
+																		foreach($result_array as $key=>$val){
+																			echo "<tr>";
+																			echo "<td>".$this->common->get_field_name('name',"products",array('id'=>$val['product_id']))."</td>";
+											                echo "<td>".$val['order_date']."</td>";
+											                echo "<td>".$val['id1']."</td>";
+											                echo "<td>".$val['payment_gateway']."</td>";
+
+     echo "<td>".$val['quantity']."</td>";
+											                echo "<td>".$this->common_model->calculate_currency_customer($val ['setup_fee'])."</td>";
+											                echo "<td>".$this->common_model->calculate_currency_customer($val ['price'])."</td>";
+											                echo "<td>".$val['payment_status']."</td>";
+											                echo "</tr>";
+																		}
+																	}
+                                ?> 
+                              </tbody>
+                            </table>
+                        
+                        </div>
+                    </div>
+                 </div>
+             
+                 <div class="col-lg-6 d-flex">
+                    <div class="card w-100 new_products">
+                        <h3 class="text-dark p-3"><i class="fa fa-archive text-primary fa-fw"></i> <?php echo gettext('New Products');?>
+                                
+                                <a href="<?php echo base_url();?>user/user_available_products/" class="float-right btn btn-secondary"><?php echo gettext('View All')?></a>
+                        </h3>
+                        <div class="card-body table-responsive">
+
+                            <table class="table table-hover">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th scope="col"><?php echo gettext('Name');?></th>
+                                  <th scope="col"><?php echo gettext('Category');?></th>
+                                  <th scope="col"><?php echo gettext('Price'); ?> [<?php echo $currency;?>]</th>
+                                  <th scope="col"><?php echo gettext('Setup Fee');?> [<?php echo $currency;?>]</th>
+                                  <th scope="col"><?php echo gettext('Bill Type');?></th>
+                                  <th scope="col"><?php echo gettext('Bill Days');?></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              	<?php
+                              	
+                              		if(isset($productdata) && !empty($productdata)){
+                              			foreach($productdata as $key=>$val){
+                              				echo "<tr>";
+										                	echo "<td>".$val['name']."</td>";
+										                	echo "<td>".$this->common->get_field_name("name","category",array("id"=>$val['product_category']))."</td>";
+										                	echo "<td>".$this->common_model->calculate_currency_customer($val ['price'])."</td>";
+										                	echo "<td>".$this->common_model->calculate_currency_customer($val ['setup_fee'])."</td>";
+										                	if($val['billing_type'] == "0"){
+						                          	echo "<td><span class='badge badge-success'>One time</span></td>";
+						                          }else{
+						                          	echo "<td><span class='badge badge-danger'>Recurring</span></td>";
+						                          }
+						                          echo "<td>".$val['billing_days']."</td>";
+						                          echo "</tr>";
+                              			}
+                              		}
+                              	?>
+                              </tbody>
+                            </table>
+                        
+                        </div>
+                    </div>
+                 </div>
+             </div>
+
+              <div class="row">
+                 <div class="col-lg-12">
+                    <div class="card">
+                        <h3 class="text-dark p-3"><i class="fa fa-phone text-primary fa-fw"></i> <?php echo gettext('Recent Calls'); ?>
+                                
+                                <a href="<?php echo base_url();?>user/user_cdrs_report/" class="float-right btn btn-secondary"><?php echo gettext('View All'); ?></a>
+                        </h3>
+                        <div class="card-body table-responsive">
+
+                            <table class="table table-hover">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th scope="col"><?php echo gettext('Date');?></th>
+                                  <th scope="col"><?php echo gettext('Caller ID');?></th>
+                                  <th scope="col"><?php echo gettext('Called Number');?></th>
+                                  <th scope="col"><?php echo gettext('Destination');?></th>
+                                  <th scope="col"><?php echo gettext('Duration');?></th>
+                                  <th scope="col"><?php echo gettext('Debit');?> [<?php echo $currency;?>]</th>
+                                  <th scope="col"><?php echo gettext('Disposition');?></th>
+                                  <th scope="col"><?php echo gettext('Call Type');?></th>
+                                  <th scope="col"><?php echo gettext("Direction");?></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              	<?php
+                              		
+                              		$accountinfo = $this->session->userdata ( 'accountinfo' );
+																	$where = array (
+																			"accountid" => $accountinfo['id']
+																	);
+            											$query_cdrs = $this->db_model->select ( "*", "cdrs", $where,"callstart","desc","10","0","");
+																	if($query_cdrs->num_rows > 0){
+																		$result_array =  $query_cdrs->result_array();
+																		foreach($result_array as $key=>$val){
+											                echo "<tr>";
+															echo "<td>".$this->common->convert_GMT_to ( '', '', $val ['callstart'] )."</td>";
+										                	echo "<td>".$val['callerid']."</td>";
+										                	echo "<td>".$val['callednum']."</td>";
+										                	echo "<td>".$val['notes']."</td>";
+										                	echo "<td>".$val['billseconds']."</td>";
+						                          if($accountinfo['type'] =='3'){
+						                          	echo "<td>".$this->common_model->calculate_currency_customer($val ['cost'])."</td>";
+						                          }else{
+						                          	echo "<td>".$this->common_model->calculate_currency_customer($val ['debit'])."</td>";
+						                          }
+						                          echo "<td>".$val['disposition']."</td>";
+						                          echo "<td>".$val['calltype']."</td>";
+						                          if($val['call_direction'] == "outbound"){
+						                          	echo "<td><span class='badge badge-success'>".$val['call_direction']."</span></td>";
+						                          }else{
+						                          	echo "<td><span class='badge badge-danger'>".$val['call_direction']."</span></td>";
+						                          }
+						                          echo "</tr>";
+																		}
+																	}
+                                ?>
+                               
+                              </tbody>
+                            </table>
+                        
+                        </div>
+                    </div>
+                 </div>
+             </div>    
 	    </div>
 	    </div>
-	    </div>
-	    <div class="row">
-                <div class="col-md-12 no-padding">        
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-				    <h3 class="panel-title col-md-10">
-                                          <div class='col-sm-6 no-padding'>
-                    					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-money fa-fw"></i><?php echo gettext('Subscription Information')?>
-                    					     </div>
-                                          </div>
-                                    </h3>
-				</div>
-				<div class="panel-body">
-				    <div id='subscription_data' class='col-md-12 subscription_data margin-t-10' style ='display:none'></div>
-				    <div id='subscription_not_data' class='col-md-12 subscription_not_data' style ='display:none'></div>
-				</div>    
-			    </div> 
-			    </div>
-			    
-			    <div class="col-lg-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-				    <h3 class="panel-title col-md-10">
-                                          <div class='col-sm-6 no-padding'>
-                    					     <div class="pull-left panel_padding">
-                    					        <i class="fa fa-dropbox fa-fw"></i><?php echo gettext('Package Information')?>
-                    					     </div>
-                                          </div>
-                                    </h3>
-				</div>
-				<div class="panel-body">
-				    <div id='package_data' class='col-md-12 package_data margin-t-10' style ='display:none'></div>
-				    <div id='package_not_data' class='col-md-12 package_not_data' style ='display:none'></div>
-				</div>    
-			    </div> 
-			    </div>
-	    </div>
-	    </div>
-	    </div>
-            </div>
-        </div>
     </div>
 </section>
 

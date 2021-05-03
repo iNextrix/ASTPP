@@ -23,12 +23,12 @@
 -- Authenticate calling card 
 function auth_callingcard()
 
-	  local ani_flag = 0
-	    local cardnum = -1
-	    local cardinfo
-	    local pin=""
-	    local carddata
-	    local aniinfo
+    local ani_flag = 0
+    local cardnum = -1
+    local cardinfo
+    local pin=""
+    local carddata
+    local aniinfo
 
 	if(config['cc_ani_auth'] == "0")  then 
 		local ani_number = session:getVariable("caller_id_number")
@@ -37,6 +37,10 @@ function auth_callingcard()
 
 		if(aniinfo ~= nil) then
 
+		  if(tonumber(aniinfo['status']) == 1) then
+			session:streamFile("astpp-callerid-blocked.wav")      
+			session:hangup();
+		  end
 		  cardinfo = get_account(aniinfo['accountid'])       
 		  cardnum = cardinfo['number'];		 
 
@@ -48,13 +52,14 @@ function auth_callingcard()
 		  ani_flag = 1
 		end 
 	end
-
+	
 	if (ani_flag == 0) then
 
 		if(cardnum == -1) then
 			local retries = "0"
-	        	local authenticated = 0
-			Logger.debug("ANI INFORMATION :" .. ani_flag)
+	        local authenticated = 0			
+			if(tonumber(config['card_retries'])) == 0 then config['card_retries'] =1 end
+			if(tonumber(config['pin_retries'])) == 0 then config['pin_retries'] =1 end
 			while (tonumber(authenticated) ~= 1 and tonumber(retries) < tonumber(config['card_retries'])) do
 				cardnum = session:playAndGetDigits(1, 15, 1, config['calling_cards_number_input_timeout'], "#", "astpp-accountnum.wav", "", "^[0-9]+$")
 				Logger.debug("Got DTMF digits: ".. cardnum )
@@ -110,14 +115,6 @@ function auth_callingcard()
          end
 	end 
 
-    -- Check if account have balance
-    balance = get_balance(cardinfo);
-	  if (tonumber(balance) <= 0) then
---        say_balance(cardinfo)
-	    error_xml_without_cdr('CALLINGCARD',"NO_SUFFICIENT_FUND","ASTPP-CALLINGCARD",config['playback_audio_notification']) 
-        session:hangup();
-	  end
-
 	return cardinfo;
 end
 
@@ -151,7 +148,7 @@ end
 -- Check DID info 
 function get_ani(ani_number)
     
-    local query = "SELECT * FROM ani_map WHERE number = ".. ani_number .." AND status=0"
+    local query = "SELECT * FROM ani_map WHERE number = ".. ani_number
     Logger.debug("[CHECK_DID] Query :" .. query)  
     assert (dbh:query(query, function(u)
 	ani = u;
@@ -224,14 +221,14 @@ function validate_card_usage(carddata)
 end	
 
 --Calculate balance 
-function get_balance(cardinfo)
-    if ( session:ready() ) then
-    	local balance = ((cardinfo['credit_limit'] * cardinfo['posttoexternal']) + cardinfo['balance'])
-    	return balance
-    else
-        return '0';
-    end
-end
+-- function get_balance1(cardinfo)
+--     if ( session:ready() ) then
+--     	local balance = ((cardinfo['credit_limit'] * cardinfo['posttoexternal']) + cardinfo['balance'])
+--     	return balance
+--     else
+--         return '0';
+--     end
+-- end
 
 --IVR playback and option selection
 function playback_ivr(userinfo)   
@@ -239,43 +236,38 @@ function playback_ivr(userinfo)
     
     config['ivr_count'] = 3;
 
-		while (tonumber(retries) < tonumber(config['ivr_count'])) do
-			result = session:playAndGetDigits(1, 1, 2, config['calling_cards_number_input_timeout'], "#", "astpp-callingcard-menu.wav", "", "^[1-3]+$")
-		    Logger.debug("Got DTMF digits: "..result .."retries:".. retries )
-		     retries = retries + 1
-		     if (tonumber(result) == 1) then
-	    		userinfo = get_account(userinfo['id']);     
-				process_destination(userinfo);  
-    	     elseif (tonumber(result) == 2) then
-                config['calling_cards_balance_announce'] = '0';
-				say_balance(userinfo); 
-				retries = retries - 1   
-		     elseif (tonumber(result) == 3) then
-				session:streamFile( "astpp-goodbye.wav" );
-	        	session:hangup();
-    	     end	    		     
-		end
+	while (tonumber(retries) < tonumber(config['ivr_count'])) do
+		result = session:playAndGetDigits(1, 1, 2, config['calling_cards_number_input_timeout'], "#", "astpp-callingcard-menu.wav", "", "^[1-3]+$")
+	    Logger.debug("Got DTMF digits: "..result .."retries:".. retries )
+	     retries = retries + 1
+	     if (tonumber(result) == 1) then
+    		userinfo = get_account(userinfo['id']);     
+			process_destination(userinfo);  
+	     elseif (tonumber(result) == 2) then
+            config['calling_cards_balance_announce'] = '0';
+			local play_balance = get_balance(userinfo,'',config);
+			userinfo['balance']=play_balance
+			say_balance(userinfo); 
+			retries = retries - 1   
+	     elseif (tonumber(result) == 3) then
+			session:streamFile( "astpp-goodbye.wav" );
+        	session:hangup();
+	     end	    		     
+	end
 end
 
 -- Play balance of account   --Calculate and say the card balance.
 function say_balance(cardinfo)
-    local balance = get_balance(cardinfo)  
-    if ( balance > 0 ) then
+	local balance = get_balance(cardinfo,'',config)  
+	if ( balance > 0 ) then
 		if (tonumber(config['calling_cards_balance_announce']) == tonumber('0')) then
-            session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
-	        -- Doing currency conversion to play audio file in customer currency
-		    customer_balance = (balance * cardinfo['currencyrate'])
-		    play_amount(customer_balance)
- 	        ---------------------------------	
-            --session:execute("say", "en currency pronounced " ..  customer_balance);
-        end	
-	else     
-		 session:streamFile( "astpp-card-is-empty.wav" )
-		 session:streamFile( "astpp-goodbye.wav" )
-	  	 session:hangup()
-	  	 return 1
+			session:streamFile( "astpp-this-card-has-a-balance-of.wav" )
+			-- Doing currency conversion to play audio file in customer currency
+			customer_balance = (balance * cardinfo['currencyrate'])
+			play_amount(customer_balance)
+		end	
 	end
-    return balance
+	return balance
 end
 
 -- Play amount audio file 
@@ -352,7 +344,7 @@ end
 
 
 -- To termination call to destination. Have all termination calculation inside this function.
-function dialout( original_destination_number, destination_number, maxlength, userinfo, user_rates , origination_dp_string ,number_loop_str,parentinfo)
+function dialout( original_destination_number, destination_number, maxlength, userinfo, user_rates, origination_dp_string ,number_loop_str,parentinfo,livecall_reseller)
 	if ( session:ready() ) then
 
 		termination_rates = get_carrier_rates (destination_number,number_loop_str,parentinfo['pricelist_id'],user_rates['trunk_id'],user_rates['routing_type'])
@@ -360,9 +352,16 @@ function dialout( original_destination_number, destination_number, maxlength, us
 		    local i = 1
 		    local termination_rates_array = {}
 		    local xml_termination_rates
+		    
+		    local j = 1
+            local loss_less_carrier_array = {}
+
+		    
 		    for termination_rate_key,termination_rate_value in pairs(termination_rates) do
 			if ( tonumber(termination_rate_value['cost']) > tonumber(user_rates['cost']) ) then		    
 			    Logger.notice(termination_rate_value['path']..": "..termination_rate_value['cost'] .." > "..user_rates['cost']..", skipping")  
+			    loss_less_carrier_array[tonumber(termination_rate_value['cost'])] = termination_rate_value
+                j = j+1
 			else
 			    Logger.info("=============== Termination Rates Information ===================")
 			    Logger.info("ID : "..termination_rate_value['outbound_route_id'])  
@@ -375,14 +374,31 @@ function dialout( original_destination_number, destination_number, maxlength, us
 			    Logger.info("Termination rate id : "..termination_rate_value['trunk_id'])  		      		    
 			    Logger.info("Gateway name : "..termination_rate_value['path'])      
 			    Logger.info("Failover gateway : "..termination_rate_value['path1'])      		    
-			    Logger.info("Vendor id : "..termination_rate_value['provider_id'])      		    		    
-			    Logger.info("Number Translation : "..termination_rate_value['dialed_modify'])      		    		    		    
-			    Logger.info("Max channels : "..termination_rate_value['maxchannels'])      		    		    		    		    
+			    Logger.info("Vendor id : "..termination_rate_value['provider_id'])      		    		    			    
+			    Logger.info("Max channels : "..termination_rate_value['maxchannels'])
+			    termination_rate_value['trunk_name'] = termination_rate_value['path'];
+				Logger.info("trunk_name : "..termination_rate_value['trunk_name'])			
+				termination_rate_value['intcall']=userinfo['international_call']
 			    Logger.info("=================================================================")
 			    termination_rates_array[i] = termination_rate_value
 			    i = i+1
 			end
 	   	    end
+	   	    
+			if (tonumber(userinfo['loss_less_routing']) == 0 and j > 1) then  
+				loss_less_table = {}
+				for loss_less_carrier_arr_key in pairs(loss_less_carrier_array) do 
+					table.insert(loss_less_table, loss_less_carrier_arr_key) 
+				end
+
+				table.sort(loss_less_table)
+
+				for loss_less_table_key,loss_less_table_value in ipairs(loss_less_table) do 
+					termination_rates_array[i]=loss_less_carrier_array[loss_less_table_value]
+					i = i+1
+				end
+			end
+
 		    -- If we get any valid termination rates then build dialplan for outbound call
 		    if (i > 1) then
 		        local callstart = os.date("!%Y-%m-%d %H:%M:%S")    
@@ -401,14 +417,13 @@ function dialout( original_destination_number, destination_number, maxlength, us
 				session:execute("export","calltype=CALLINGCARD");    
 				session:execute("export","origination_rates="..origination_dp_string);
 				session:execute("set", "execute_on_answer=sched_hangup +" .. (maxlength * 60 ) );
-                session:execute("set", "process_cdr=true" );
+                		session:execute("set", "process_cdr=true" );
 				session:execute("sched_hangup","+"..(maxlength * 60 ).. "" );
 	    		   		    		    		
-		    			    	calleridinfo = get_override_callerid(userinfo)
+		    	calleridinfo = get_override_callerid(userinfo)
                 callerid_array = {}			   
 		    	if (calleridinfo['cid_number'] ~= nil) then
-				    if (calleridinfo['cid_number'] ~= nil)  then	
-                        Logger.info("[DIALPLAN] Caller ID Translation Starts WHY"..calleridinfo['cid_name'])				   
+				    if (calleridinfo['cid_number'] ~= nil)  then	                        
 					    session:execute("export", "original_caller_id_name="..calleridinfo['cid_name']);
                         callerid_array['cid_name'] = calleridinfo['cid_name']
 				    else
@@ -429,29 +444,67 @@ function dialout( original_destination_number, destination_number, maxlength, us
 		    	end
 		        
                 -- If call is pstn and caller id translation defined then do caller id translation 
-	            if (userinfo['std_cid_translation'] ~= '') then
-                    Logger.info("[DIALPLAN] Caller ID Translation Starts")
-		            callerid_array['cid_name'] = do_number_translation(userinfo['std_cid_translation'],callerid_array['cid_name'])
-		            callerid_array['cid_number'] = do_number_translation(userinfo['std_cid_translation'],callerid_array['cid_number'])
-                    Logger.info("[DIALPLAN] Caller ID Translation Ends")
-	            end
+	            -- if (userinfo['std_cid_translation'] ~= '') then
+             --        Logger.info("[DIALPLAN] Caller ID Translation Starts")
+		           --  callerid_array['cid_name'] = do_number_translation(userinfo['std_cid_translation'],callerid_array['cid_name'])
+		           --  callerid_array['cid_number'] = do_number_translation(userinfo['std_cid_translation'],callerid_array['cid_number'])
+             --        Logger.info("[DIALPLAN] Caller ID Translation Ends")
+	            -- end
+
+	             if (tonumber(userinfo['localization_id']) > 0) then
+			    	or_localization = get_localization(userinfo['localization_id'],'O')
+			    end
+
+		       -- If call is pstn and caller id translation defined then do caller id translation 
+				if (or_localization and tonumber(userinfo['localization_id']) > 0 and or_localization['out_caller_id_originate'] ~= nil) then			       
+					callerid_array['cid_name'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_name'])
+					callerid_array['cid_number'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_number'])			        
+				end
 		          
 				for termination_rate_arr_key,termination_rate_arr_value in pairs(termination_rates_array) do
-	
-                    -------------- CID translation for OUTBOUND calls ---------
-                    Logger.warning("[FSCC] Caller ID Translation Starts")
-                    callerid_array['cid_name'] = do_number_translation(termination_rate_arr_value['cid_translation'],callerid_array['cid_name'])
-	                callerid_array['cid_number'] = do_number_translation(termination_rate_arr_value['cid_translation'],callerid_array['cid_number'])    
-	                session:execute("export", "origination_caller_id_name="..callerid_array['cid_name']);
-                    session:execute("export", "origination_caller_id_number="..callerid_array['cid_number']);
+			
+					livecall_data = livecall_reseller.."|||"..userinfo['first_name'].."("..userinfo['number']..")|||"..user_rates['pattern'].." // "..user_rates['comment'].." // "..user_rates['cost'].."|||"..termination_rate_arr_value['trunk_name'].." // "..termination_rate_arr_value['pattern'].." // "..termination_rate_arr_value['comment'].." // "..termination_rate_arr_value['cost']
+					session:execute("export","presence_data="..livecall_data.."|||CC");
 
-                    Logger.warning("[FSCC] Caller ID Translation Ends")
-                    ---------------------------------------------------------------------- 
+					local tr_localization=nil
+					tr_localization = get_localization(termination_rate_arr_value['provider_id'],'T')
 
-					if (termination_rate_arr_value['dialed_modify'] ~= '') then 
-						destination_number = do_number_translation(termination_rate_arr_value['dialed_modify'],destination_number)
+					
+					if (tr_localization ~= nil) then
+						-------------- Caller Id translation ---------					    
+					    callerid_array['cid_name'] = do_number_translation(tr_localization['out_caller_id_terminate'],callerid_array['cid_name'])
+						callerid_array['cid_number'] = do_number_translation(tr_localization['out_caller_id_terminate'],callerid_array['cid_number'])
+				    	----------------------------------------------------------------------
+
+				    	-------------- Destination number translation ---------
+						destination_number = do_number_translation(tr_localization['number_terminate'],destination_number)
+						-----------------------------------
+						
 					end
-				    
+
+				
+     --                -------------- CID translation for OUTBOUND calls ---------
+     --                Logger.warning("[FSCC] Caller ID Translation Starts")
+     --                callerid_array['cid_name'] = do_number_translation(termination_rate_arr_value['cid_translation'],callerid_array['cid_name'])
+	    --             callerid_array['cid_number'] = do_number_translation(termination_rate_arr_value['cid_translation'],callerid_array['cid_number'])    
+	    --             session:execute("export", "origination_caller_id_name="..callerid_array['cid_name']);
+     --                session:execute("export", "origination_caller_id_number="..callerid_array['cid_number']);
+
+     --                Logger.warning("[FSCC] Caller ID Translation Ends")
+     --                ---------------------------------------------------------------------- 
+
+					-- if (termination_rate_arr_value['dialed_modify'] ~= '') then 
+					-- 	destination_number = do_number_translation(termination_rate_arr_value['dialed_modify'],destination_number)
+					-- end
+				   
+		if(tonumber(userinfo['is_recording']) == 0)then
+		    	session:execute("export", "is_recording=1");
+			session:execute("export", "media_bug_answer_req=true");
+			session:execute("export", "record_sample_rate=8000");
+			session:execute("export", "execute_on_answer=record_session $${recordings_dir}/${uuid}.wav");
+		end
+
+
 					if(termination_rate_arr_value['prepend'] ~= '' or termination_rate_arr_value['strip'] ~= '') then
 						destination_number = do_number_translation(termination_rate_arr_value['strip'].."/"..termination_rate_arr_value['prepend'],destination_number)
 					end
@@ -459,10 +512,14 @@ function dialout( original_destination_number, destination_number, maxlength, us
                     if ( session:ready() ) then
 					xml_termination_rates= "ID:"..termination_rate_arr_value['outbound_route_id'].."|CODE:"..termination_rate_arr_value['pattern'].."|DESTINATION:"..termination_rate_arr_value['comment'].."|CONNECTIONCOST:"..termination_rate_arr_value['connectcost'].."|INCLUDEDSECONDS:"..termination_rate_arr_value['includedseconds'].."|COST:"..termination_rate_arr_value['cost'].."|INC:"..termination_rate_arr_value['inc'].."|TRUNK:"..termination_rate_arr_value['trunk_id'].."|PROVIDER:"..termination_rate_arr_value['provider_id'];
 					session:execute("export","termination_rates="..xml_termination_rates);
-    
+        				--//Pass package id in dialplan
+					if (package_id and tonumber(package_id) > 0) then
+					    	Logger.notice("::::::::::: package_id!!!"..package_id);
+						session:execute("export","package_id="..package_id.."");
+					end
 					session:execute("export","trunk_id="..termination_rate_arr_value['trunk_id']);        
 					session:execute("export","provider_id="..termination_rate_arr_value['provider_id']);
-
+					session:execute("set","hangup_after_bridge=false");
 					if (termination_rate_arr_value['codec'] ~= '') then 
 							session:execute("export","absolute_codec_string="..termination_rate_arr_value['codec']);
 					end
@@ -496,7 +553,7 @@ end
 
 -- Get destination number and findout origination rates related logic inside this function
 function process_destination(userinfo)
-	  
+	call_direction = 'outbound' 	  
 	local origination_dp_string
 
 	local destination = session:playAndGetDigits(1, 35, 3, config['calling_cards_dial_input_timeout'], "#", "astpp-phonenum.wav", "astpp-badphone.wav", '^[0-9]+$')
@@ -510,9 +567,45 @@ function process_destination(userinfo)
 
 	-----------------------------------------------------------------------------------------
 
-	Logger.debug("[CHECK_destination] Dialed destination number :" .. destination)
+	Logger.info("[CHECK_destination] Dialed destination number :" .. destination)
+	local callerid_array = {}
+	callerid_array['original_cid_number'] = session:getVariable("caller_id_number")
+	callerid_array['cid_number'] = session:getVariable("caller_id_number")
+
+    -- @TODO : Need to confirm with Rushika for fraud feature
+	--Added for fraud detection checking
+	-- if fraud_check then fraud=fraud_check(accountcode,destination_number,calltype,config,userinfo)
+	-- 	if fraud==0 then
+	-- 		return 0	
+	-- 	end
+	-- end    
+
+	-- print customer information 
+	Logger.info("=============== Account Information ===================")
+	Logger.info("User id : "..userinfo['id'])  
+	Logger.info("Account code : "..userinfo['number'])
+	Logger.info("Balance : "..get_balance(userinfo,'',config))  
+	Logger.info("Type : "..userinfo['posttoexternal'].." [0:prepaid,1:postpaid]")  
+	Logger.info("Ratecard id : "..userinfo['pricelist_id'])  
+	Logger.info("========================================================")    
 
 	local original_destination_number = destination	
+    
+    if (tonumber(userinfo['localization_id']) > 0) then
+    	or_localization = get_localization(userinfo['localization_id'],'O')
+    end
+
+	-- If call is pstn and dialed modify defined then do number translation
+	if (or_localization and tonumber(userinfo['localization_id']) > 0 and or_localization['number_originate'] ~= nil) then				
+		destination = do_number_translation(or_localization['number_originate'],destination)
+	end
+	
+    -- If call is pstn and caller id translation defined then do caller id translation 
+	-- if (tonumber(userinfo['localization_id']) > 0 and or_localization['out_caller_id_originate'] ~= nil) then
+ --       Logger.info("[DIALPLAN] Caller ID Translation Starts")		
+	-- 	callerid_array['cid_number'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_number'])
+ --        Logger.info("[DIALPLAN] Caller ID Translation Ends")
+	-- end	
 
  	--Check if destination blocked
     local number_loop_string = number_loop(destination,'blocked_patterns')
@@ -520,14 +613,28 @@ function process_destination(userinfo)
     if(block_prefix == "false") then
 	   		error_xml_without_cdr(destination,"DESTINATION_BLOCKED","ASTPP-CALLINGCARD",config['playback_audio_notification'],userinfo['id']) ;
 	        return 
-    end
-	
-	if(userinfo['dialed_modify'] ~= nil) then
-	      destination = do_number_translation(userinfo['dialed_modify'],destination)
-	end
+    end	
 
 	local  number_loop_str = number_loop(destination)
 
+	if (routing_prefix_rategroup ~= nil) then
+        userinfo['pricelist_id']=routing_prefix_rategroup['id']
+    end
+
+    -- Get package information of customer	
+	package_id = 0
+	package_array = package_calculation (destination,userinfo,'outbound')
+		
+	userinfo = package_array[1]
+	package_maxlength = package_array[2] or ""	
+    -------------------------------------------------
+    -- Check if account have balance
+	balance = get_balance(userinfo,'',config);
+	if (tonumber(balance) <= 0 and tonumber(package_id) == 0) then
+		error_xml_without_cdr('CALLINGCARD',"NO_SUFFICIENT_FUND","ASTPP-CALLINGCARD",config['playback_audio_notification']) 
+		session:streamFile( "astpp-goodbye.wav" );
+		session:hangup();
+	end
 	-- Fine max length of call based on origination rates.
   	local tmp_array = get_call_maxlength(userinfo,destination,"",number_loop_str,config)
 	    
@@ -535,7 +642,6 @@ function process_destination(userinfo)
 	    error_xml_without_cdr(destination,tmp_array,"ASTPP-CALLINGCARD",config['playback_audio_notification'],userinfo['id']) 
 	    return
 	end
-
 	
 	local  maxlength = tmp_array[1]
 	local  user_rates = tmp_array[2]
@@ -544,6 +650,11 @@ function process_destination(userinfo)
 	if (user_rates['id'] == "" or  user_rates['id'] == nil) then
 		return
 	end
+
+	-- If customer has free seconds then override max length variable with it. 
+	if(package_maxlength ~= "") then	
+		maxlength=package_maxlength
+	end   
 
 	local customer_origination_rates_info = user_rates; 
 	local customer_carddata = userinfo	
@@ -564,6 +675,7 @@ function process_destination(userinfo)
 
 	local reseller_ids = {}
 	local i = 1
+	livecall_reseller = "x"
 
 	while (tonumber(userinfo['reseller_id']) > 0 and tonumber(maxlength) > 0 ) do 
 
@@ -590,12 +702,14 @@ function process_destination(userinfo)
 
 	        number_loop_str = number_loop(destination)
 	        reseller_ids[i] = reseller_userinfo
-		        
+			
+			livecall_reseller = livecall_reseller.."//"..reseller_userinfo['id'] 
+			
 	        -- print reseller information 
 		    Logger.info("=============== Reseller Information ===================")
 		    Logger.info("User id : "..reseller_userinfo['id'])  
 		    Logger.info("Account code : "..reseller_userinfo['number'])
-		    Logger.info("Balance : "..get_balance(reseller_userinfo))  
+		    Logger.info("Balance : "..get_balance(reseller_userinfo,'',config))  
 		    Logger.info("Type : "..reseller_userinfo['posttoexternal'].." [0:prepaid,1:postpaid]")  
 		    Logger.info("Ratecard id : "..reseller_userinfo['pricelist_id'])  
 		    Logger.info("========================================================")  
@@ -617,7 +731,7 @@ function process_destination(userinfo)
 	    		maxlength = reseller_maxlength
 		    end
 		    
-		    if (tonumber(reseller_maxlength) < 1 or tonumber(reseller_rates['cost']) > tonumber(user_rates['cost'])) then
+		    if (userinfo['loss_less_routing'] == 1 and (tonumber(reseller_maxlength) < 1 or tonumber(reseller_rates['cost']) > tonumber(user_rates['cost']))) then
 			    error_xml_without_cdr(destination,"RESELLER_COST_CHEAP","ASTPP-CALLINGCARD",config['playback_audio_notification']); 
 		        Logger.info("Reseller cost : "..reseller_rates['cost'].." User cost : "..user_rates['cost'])
 		    	Logger.notice("Reseller call price is cheaper, so we cannot allow call to process!!")
@@ -640,6 +754,6 @@ function process_destination(userinfo)
     say_cost( customer_origination_rates_info,customer_carddata )
     say_timelimit(maxlength)
 
-        dialout( original_destination_number, destination, maxlength, customer_carddata, customer_origination_rates_info , origination_dp_string ,number_loop_str,userinfo);
+    dialout( original_destination_number, destination, maxlength, customer_carddata, customer_origination_rates_info , origination_dp_string ,number_loop_str,userinfo,livecall_reseller);
 
 end

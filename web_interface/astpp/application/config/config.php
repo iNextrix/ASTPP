@@ -1,7 +1,7 @@
 <?php
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-	
+
 	/*
  * |--------------------------------------------------------------------------
  * | Base Site URL
@@ -76,7 +76,7 @@ $config ['url_suffix'] = '';
  * | than english.
  * |
  */
-$config ['language'] = 'english';
+$config ['language'] = 'English';
 
 /*
  * |--------------------------------------------------------------------------
@@ -227,7 +227,7 @@ $config ['cache_path'] = '';
  * | MUST set private key with 32 characters.
  * |
  */
-$config ['private_key'] = '8YSDaBtDHAB3EQkxPAyTz2I5DttzA9uR';
+$config ['private_key'] = $astpp_config ['PRIVATE_KEY'];
 /*
  * |--------------------------------------------------------------------------
  * | Encryption Key
@@ -237,12 +237,12 @@ $config ['private_key'] = '8YSDaBtDHAB3EQkxPAyTz2I5DttzA9uR';
  * | MUST set an encryption key. See the user guide for info.
  * |
  */
-$config ['encryption_key'] = 'r)fddEw232f';
+$config ['encryption_key'] = $astpp_config ['ENCRYPTION_KEY'];
 
 /*
  * |--------------------------------------------------------------------------
  * | Session Variables
- * |--------------------------------------------------------------------------
+ * |------------------------------------------------------k--------------------
  * |
  * | 'sess_cookie_name' = the name you want for the cookie
  * | 'sess_expiration' = the number of SECONDS you want the session to last.
@@ -311,6 +311,7 @@ $config ['csrf_token_name'] = 'csrf_test_name';
 $config ['csrf_cookie_name'] = 'csrf_cookie_name';
 $config ['csrf_expire'] = 7200;
 
+
 /*
  * |--------------------------------------------------------------------------
  * | Output Compression
@@ -370,27 +371,28 @@ $config ['proxy_ips'] = '';
 $config ['Origination-rates-field'] = array (
 		'code' => 'pattern',
 		'destination' => 'comment',
-		'connect cost' => 'connectcost',
-		'included seconds' => 'includedseconds',
-		'per minute cost' => 'cost',
+		'connection cost (CURRENCY)' => 'connectcost',
+		'grace time' => 'includedseconds',
+		'cost / min (CURRENCY)' => 'cost',
 		'initial increment' => 'init_inc',
-		'increment' => 'inc' 
+		'increment' => 'inc'
 );
 $config ['Termination-rates-field'] = array (
 		'code' => 'pattern',
 		'destination' => 'comment',
-		'connect cost' => 'connectcost',
-		'included seconds' => 'includedseconds',
-		'per minute cost' => 'cost',
+		'connection cost (CURRENCY)' => 'connectcost',
+		'grace time' => 'includedseconds',
+		'cost / min (CURRENCY)' => 'cost',
 		'initial increment' => 'init_inc',
 		'increment' => 'inc',
-		'precedence' => 'precedence',
 		'strip' => "strip",
-		'prepend' => 'prepend' 
+		'prepend' => 'prepend'
 );
 $config ['DID-rates-field'] = array (
 		'DID' => 'number',
 		'Country' => 'country_id',
+		'City'=>'city',
+		'Province'=>'province',
 		'Account' => 'accountid',
 		'Per Minute Cost(CURRENCY)' => 'cost',
 		"Initial Increment" => "init_inc",
@@ -398,8 +400,7 @@ $config ['DID-rates-field'] = array (
 		'Setup Fee(CURRENCY)' => 'setup',
 		'Monthly Fee(CURRENCY)' => 'monthlycost',
 		'Call Type' => 'call_type',
-		'Destination' => 'extensions',
-		"Status" => 'status' 
+		'Destination' => 'extensions'
 );
 $config ['invoices_path'] = FCPATH . "invoices/";
 $config ['invoice_screen'] = FCPATH . APPPATH . "controllers/";
@@ -414,16 +415,37 @@ $config ['Origin-rates-field'] = array (
 		'per minute cost' => 'cost',
 		'increment' => 'inc',
 		'precedence' => 'precedence',
-		'strip' => "strip" 
+		'strip' => "strip"
 );
 $config ['package-code-field'] = array (
 		'code' => 'patterns',
-		'destination' => 'destination' 
+		'destination' => 'destination'
 );
 $config ['invoices_path'] = FCPATH . "invoices/";
 $config ['invoice_template'] = APPPATH . "views/";
 $config ['invoice_screen'] = APPPATH . "controllers/";
 $config ['gzip-path'] = "/bin/gzip";
 $config ['gunzip-path'] = "/bin/gunzip";
-/* End of file config.php */
-/* Location: ./application/config/config.php */
+$config['allow_menu_url'] = array('invoice_conf_list','resellersrates_list');
+$config['allow_module'] = array('tariff','configuration');
+
+/*Access Number*/
+$config ['Accessnumber-rates-field'] = array (
+		'Access number' => 'access_number',
+		'Country' => 'country_id'
+);
+/*Access Number*/
+
+
+/*local number */
+$config ['local_number-rates-field'] = array (
+		'Number' => 'number',
+		'Country' => 'country_id',
+		'Province/State' => 'province',
+		'City' => 'city',
+		"Status" => 'status'
+);
+
+
+$config['recordings_path'] = FCPATH."playlist/example/media/recordings/";
+

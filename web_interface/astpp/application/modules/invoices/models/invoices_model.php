@@ -1,4 +1,5 @@
 <?php
+
 // ##############################################################################
 // ASTPP - Open Source VoIP Billing Solution
 //
@@ -20,219 +21,167 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
-class Invoices_model extends CI_Model {
-	function Invoices_model() {
-		parent::__construct ();
-	}
-	function get_invoice_list($flag, $start = 100, $limit = 100) {
-		$where = array ();
-		
-		$accountinfo = $this->session->userdata ( 'accountinfo' );
-		$reseller_id = $accountinfo ['type'] == - 1 ? 0 : $accountinfo ['id'];
-		$this->db->where ( 'reseller_id', $reseller_id );
-		$this->db->select ( 'id' );
-		$result = $this->db->get ( 'accounts' );
-		
-		$this->db_model->build_search ( 'invoice_list_search' );
-		/**
-		 * **
-		 * Invoice manually
-		 * *
-		 */
-		
-		if ($this->session->userdata ( 'advance_search' ) != 1) {
-			if ($result->num_rows () > 0) {
-				$acc_arr = array ();
-				$result = $result->result_array ();
-				foreach ( $result as $data ) {
-					$acc_arr [] = $data ['id'];
-				}
-				$this->db->where_in ( 'accountid', $acc_arr );
-				$this->db->where ( 'deleted', 0 );
-				if ($flag) {
-					$this->db->select ( '*' );
-				} else {
-					$this->db->select ( 'count(id) as count' );
-				}
-				if ($flag) {					
-					$this->db->order_by ( 'invoice_date', 'desc' );
-					$this->db->limit ( $limit, $start );
-				}
-				$result = $this->db->get ( 'invoices' );
-				// echo $this->db->last_query();exit;
-				if ($flag) {
-					return $result;
-				} else {
-					$result = $result->result_array ();
-					return $result [0] ['count'];
-				}
-			} else {
-				if ($flag) {
-					$query = ( object ) array (
-							'num_rows' => 0 
-					);
-				} else {
-					$query = 0;
-				}
-				
-				return $query;
-			}
-		} else {
-			
-			if ($result->num_rows () > 0) {
-				/**
-				 * **
-				 * Invoice manually
-				 * *
-				 */
-				$acc_arr = array ();
-				$result = $result->result_array ();
-				foreach ( $result as $data ) {
-					$acc_arr [] = $data ['id'];
-				}
-				$this->db->where_in ( 'accountid', $acc_arr );
-			}
-			
-			if ($flag) {
-				$this->db->select ( '*' );
-			} else {
-				$this->db->select ( 'count(id) as count' );
-			}
-			if ($flag) {
-				$this->db->order_by ( 'invoice_date', 'desc' );
-				$this->db->limit ( $limit, $start );
-			}
-			$result = $this->db->get ( 'invoices' );
-			// echo $this->db->last_query();exit;
-			if ($result->num_rows () > 0) {
-				if ($flag) {
-					
-					return $result;
-				} else {
-					$result = $result->result_array ();
-					
-					return $result [0] ['count'];
-				}
-			} else {
-				if ($flag) {
-					
-					$query = ( object ) array (
-							'num_rows' => 0 
-					);
-					// echo '<pre>'; print_r($query);
-				} else {
-					$query = 0;
-				}
-				return $query;
-			}
-		}
-	}
-	function getCdrs_invoice($invoiceid) {
-		$this->db->where ( 'invoiceid', $invoiceid );
-		$this->db->from ( 'cdrs' );
-		$query = $this->db->get ();
-		return $query;
-	}
-	function get_account_including_closed($accountdata) {
-		$q = "SELECT * FROM accounts WHERE number = '" . $this->db->escape_str ( $accountdata ) . "'";
-		$query = $this->db->query ( $q );
-		if ($query->num_rows () > 0) {
-			$row = $query->row_array ();
-			return $row;
-		}
-		$q = "SELECT * FROM accounts WHERE accountid = '" . $this->db->escape_str ( $accountdata ) . "'";
-		$query = $this->db->query ( $q );
-		if ($query->num_rows () > 0) {
-			$row = $query->row_array ();
-			return $row;
-		}
-		
-		return NULL;
-	}
-	function get_user_invoice_list($flag, $start = 0, $limit = 0) {
-		$this->db_model->build_search ( 'invoice_list_search' );
-		$accountinfo = $this->session->userdata ( 'accountinfo' );
-		/**
-		 * **
-		 * Invoice manually
-		 * *
-		 */
-		$where = array (
-				"accountid" => $accountinfo ['id'],
-				'confirm' => 1 
-		);
-		if ($flag) {
-			$query = $this->db_model->select ( "*", "invoices", $where, "invoice_date", "desc", $limit, $start );
-		} else {
-			$query = $this->db_model->countQuery ( "*", "invoices", $where );
-		}
-		// echo $this->db->last_query();exit;
-		return $query;
-	}
-	// 22_1
-	function getinvoiceconf_list($flag, $start = 0, $limit = 0) {
-		$where = array ();
-		$logintype = $this->session->userdata ( 'logintype' );
-		
-		if ($logintype == 1 || $logintype == 5) {
-			
-			$where = array (
-					"accountid" => $this->session->userdata ["accountinfo"] ['id'] 
-			);
-		}
-		
-		if ($flag) {
-			$query = $this->db_model->select ( "*", "invoice_conf", $where, "id", "ASC", $limit, $start );
-		} else {
-			$query = $this->db_model->countQuery ( "*", "invoice_conf", $where );
-		}
-		// echo $this->db->last_query();
-		return $query;
-	}
-	function get_invoiceconf($accountid) {
-		$return_array = array ();
-		$logintype = $this->session->userdata ( 'logintype' );
-		if ($logintype == 1 || $logintype == 5) {
-			
-			$where = array (
-					"accountid" => $this->session->userdata ["accountinfo"] ['id'] 
-			);
-		} else {
-			if ($logintype == - 1 || $logintype == 2) {
-				$accountid = '1';
-			}
-			$where = array (
-					'id' => $accountid 
-			);
-		}
-		$query = $this->db_model->getSelect ( "*", "invoice_conf", $where );
-		foreach ( $query->result_array () as $key => $value ) {
-			$return_array = $value;
-		}
-		return $return_array;
-	}
-	function save_invoiceconf($post_array) {
-		$where_arr = array (
-				'id' => $post_array ['id'] 
-		);
-		unset ( $post_array ['action'] );
-		if ($post_array ['id'] != "") {
-			$this->db->where ( $where_arr );
-			unset ( $post_array ['accountid'] );
-			unset ( $post_array ['logo_main'] );
-			$this->db->update ( 'invoice_conf', $post_array );
-		} else {
-			unset ( $post_array ['logo_main'] );
-			$logintype = $this->session->userdata ( 'logintype' );
-			if ($logintype == 1 || $logintype == 5) {
-				$accountdata = $this->session->userdata ( 'accountinfo' );
-				$post_array ['accountid'] = $accountdata ['id'];
-			}
-			if ($post_array ['accountid'] == 0) {
-				$post_array ['accountid'] = 1;
-			}
-			$this->db->insert ( 'invoice_conf', $post_array );
-		}
-		return true;
-	}
+class Invoices_model extends CI_Model
+{
+
+    function __construct()
+    {
+        parent::__construct();
+    }
+
+    function get_invoice_list($flag, $start = 100, $limit = 100)
+    {
+        $account_data = $this->session->userdata("accountinfo");
+        $this->db_model->build_search('invoice_list_search');
+        $where = '';
+        if ($account_data['type'] == 1) {
+            $where = array(
+                "reseller_id" => $account_data['id']
+            );
+        }
+        if ($flag) {
+            $query = $this->db_model->select("*", "view_invoices", $where, "due_date", "DESC", $limit, $start);
+        } else {
+            $query = $this->db_model->countQuery("*", "view_invoices", $where);
+        }
+        return $query;
+    }
+
+    function getCdrs_invoice($invoiceid)
+    {
+        $this->db->where('invoiceid', $invoiceid);
+        $this->db->from('cdrs');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function get_account_including_closed($accountdata)
+    {
+        $q = "SELECT * FROM accounts WHERE number = '" . $this->db->escape_str($accountdata) . "'";
+        $query = $this->db->query($q);
+        if ($query->num_rows() > 0) {
+            $row = $query->row_array();
+            return $row;
+        }
+        $q = "SELECT * FROM accounts WHERE accountid = '" . $this->db->escape_str($accountdata) . "'";
+        $query = $this->db->query($q);
+        if ($query->num_rows() > 0) {
+            $row = $query->row_array();
+            return $row;
+        }
+
+        return NULL;
+    }
+
+    function get_user_invoice_list($flag, $start = 0, $limit = 0)
+    {
+        $this->db_model->build_search('invoice_list_search');
+        $accountinfo = $this->session->userdata('accountinfo');
+        $where = array(
+            "accountid" => $accountinfo['id'],
+            'confirm' => 1
+        );
+        if ($flag) {
+            $query = $this->db_model->select("*", "invoices", $where, "", "", $limit, $start);
+        } else {
+            $query = $this->db_model->countQuery("*", "invoices", $where);
+        }
+
+        return $query;
+    }
+
+    function getinvoiceconf_list($flag, $start = 0, $limit = 0)
+    {
+        $where = array();
+        $logintype = $this->session->userdata('logintype');
+
+        if ($logintype == 1 || $logintype == 5) {
+
+            $where = array(
+                "accountid" => $this->session->userdata["accountinfo"]['id']
+            );
+        }
+        $this->db_model->build_search('invoice_conf_search');
+        if ($flag) {
+            $query = $this->db_model->select("*", "invoice_conf", $where, "id", "ASC", $limit, $start);
+        } else {
+            $query = $this->db_model->countQuery("*", "invoice_conf", $where);
+        }
+        return $query;
+    }
+
+    function get_invoiceconf($edit_id)
+    {
+        $return_array = array();
+        $logintype = $this->session->userdata('logintype');
+        if ($logintype == 1 || $logintype == 5) {
+
+            $where = array(
+                "accountid" => $this->session->userdata["accountinfo"]['id']
+            );
+        } else {
+            if ($logintype == - 1 || $logintype == 2) {
+                $accountid = '1';
+            }
+            $where = array(
+                'id' => $edit_id
+            );
+        }
+        $query = $this->db_model->getSelect("*", "invoice_conf", $where);
+        foreach ($query->result_array() as $key => $value) {
+            $return_array = $value;
+        }
+        return $return_array;
+    }
+
+    function check_invoiceconf_exist($accountid)
+    {
+        $count = $this->db_model->countQuery("*", "invoice_conf", array(
+            "accountid" => $accountid
+        ));
+        return $count;
+    }
+
+    function save_invoiceconf($post_array)
+    {
+        $logintype = $this->session->userdata('logintype');
+        $where_arr = array(
+            'id' => $post_array['id']
+        );
+        unset($post_array['action']);
+        if ($post_array['id'] != "") {
+            $this->db->where($where_arr);
+            unset($post_array['logo_main']);
+            if ($logintype == 1) {
+                unset($post_array['accountid']);
+            }
+            $this->db->update('invoice_conf', $post_array);
+        } else {
+            unset($post_array['logo_main']);
+
+            $accountdata = $this->session->userdata('accountinfo');
+
+            $post_array['accountid'] = $post_array['reseller_id'];
+            $this->db->select('id');
+            $this->db->where_in('accountid', $post_array['accountid']);
+            $get_id = $this->db->get('invoice_conf')->row_array();
+            unset($post_array['reseller_id']);
+            $q = "SELECT reseller_id FROM accounts WHERE id = '" . $post_array['accountid'] . "'";
+            $query = (array) $this->db->query($q)->first_row();
+            $post_array['reseller_id'] = $query['reseller_id'] ? $query['reseller_id'] : 0;
+            if (isset($get_id['id']) && $get_id['id'] != '') {
+                unset($post_array['id']);
+                $where_arr = array(
+                    'id' => $get_id['id']
+                );
+                $this->db->where($where_arr);
+                $this->db->update('invoice_conf', $post_array);
+                return true;
+            } else {
+
+                $this->db->insert('invoice_conf', $post_array);
+                return true;
+            }
+        }
+    }
 }

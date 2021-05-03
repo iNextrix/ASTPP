@@ -24,9 +24,7 @@
 class Lowcreditlimit extends CI_Controller {
 	function __construct()
 	{
-	parent::__construct();
-	if(!defined( 'CRON' ) )  
-	  exit();
+		parent::__construct();
 		$this->load->model("db_model");
 		$this->load->library("astpp/common");
 	}

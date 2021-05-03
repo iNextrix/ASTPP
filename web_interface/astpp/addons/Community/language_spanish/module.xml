@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>language_spanish</tech_name>
+	<name>Spanish Localization</name>
+	<description>Add Spanish Language Support</description>	
+	<icon>static/images/language_spanish.png</icon>
+	<version>1.0.0</version>
+	<license>Community</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

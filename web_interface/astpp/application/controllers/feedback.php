@@ -35,7 +35,7 @@ class Feedback extends MX_Controller {
 			$account_info = array ();
 			$this->db->where ( "accountid", "1" );
 			$res = $this->db->get ( 'invoice_conf' );
-			if ($res->num_rows > 0) {
+			if ($res->num_rows () > 0) {
 				$masterdata = $res->result_array ();
 				$account_info = $masterdata ['0'];
 				
@@ -70,7 +70,7 @@ class Feedback extends MX_Controller {
 			$account_info = array ();
 			$this->db->where ( "type", "-1" );
 			$res = $this->db->get ( 'accounts' );
-			if ($res->num_rows > 0) {
+			if ($res->num_rows () > 0) {
 				$masterdata = $res->result_array ();
 				$account_info = $masterdata ['0'];
 				

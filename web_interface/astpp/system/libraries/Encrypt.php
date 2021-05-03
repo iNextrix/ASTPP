@@ -320,9 +320,10 @@ class CI_Encrypt {
 	 */
 	function mcrypt_encode($data, $key)
 	{
-		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
+		/*$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 		$init_vect = mcrypt_create_iv($init_size, MCRYPT_RAND);
-		return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);
+		return $this->_add_cipher_noise($init_vect.mcrypt_encrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), $key);*/
+		return $data;
 	}
 
 	// --------------------------------------------------------------------
@@ -339,7 +340,7 @@ class CI_Encrypt {
 	 */
 	function mcrypt_decode($data, $key)
 	{
-		$data = $this->_remove_cipher_noise($data, $key);
+		/*$data = $this->_remove_cipher_noise($data, $key);
 		$init_size = mcrypt_get_iv_size($this->_get_cipher(), $this->_get_mode());
 
 		if ($init_size > strlen($data))
@@ -349,7 +350,8 @@ class CI_Encrypt {
 
 		$init_vect = substr($data, 0, $init_size);
 		$data = substr($data, $init_size);
-		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");
+		return rtrim(mcrypt_decrypt($this->_get_cipher(), $key, $data, $this->_get_mode(), $init_vect), "\0");*/
+		return $data;
 	}
 
 	// --------------------------------------------------------------------
@@ -532,7 +534,7 @@ class CI_Encrypt {
 			if ( ! function_exists('mhash'))
 			{
 				require_once(BASEPATH.'libraries/Sha1.php');
-				$SH = new CI_SHA;
+				$SH = new CI_SHA1;
 				return $SH->generate($str);
 			} else
 			{

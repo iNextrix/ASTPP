@@ -1,0 +1,42 @@
+<?php
+
+$lang['required']                           = "Il campo %s è obbligatorio.";
+$lang['dropdown']                           = "Seleziona %s.";
+$lang['dropdown_required']                  = "Seleziona %s.";
+$lang['isset']                              = "Il campo %s deve avere un valore.";
+$lang['valid_email']                        = "Il campo %s deve contenere un indirizzo email valido.";
+$lang['valid_emails']                       = "Il campo %s deve contenere tutti gli indirizzi email validi.";
+$lang['valid_url']                          = "Il campo %s deve contenere un URL valido.";
+$lang['valid_ip']                           = "Il campo %s deve contenere un IP valido.";
+$lang['min_length']                         = "Il campo %s deve contenere almeno %s caratteri.";
+$lang['max_length']                         = "Il campo %s non può superare la lunghezza di %s caratteri.";
+$lang['exact_length']                       = "Il campo %s deve contenere esattamente %s caratteri di lunghezza.";
+$lang['alpha']                              = "Il campo %s può contenere solo caratteri alfabetici.";
+$lang['alpha_numeric']                      = "Il campo %s può contenere solo caratteri alfanumerici.";
+$lang['ctype_alnum']                        = "Il campo %s può contenere solo caratteri alfanumerici.";
+$lang['alpha_dash']                         = "Il campo %s può contenere solo caratteri alfanumerici, trattini bassi e trattini.";
+$lang['numeric']                            = "Il campo %s deve contenere solo numeri.";
+$lang['is_numeric']                         = "Il campo %s deve contenere solo caratteri numerici.";
+$lang['integer']                            = "Il campo %s deve contenere un numero intero.";
+$lang['regex_match']                        = "Il campo %s non è nel formato corretto.";
+$lang['matches']                            = "Il campo %s non corrisponde al campo %s.";
+$lang['is_unique']                          = "Il campo %s deve contenere un valore univoco.";
+$lang['is_match_number']                    = "Il campo %s deve avere una lunghezza maggiore della carta.";
+$lang['is_natural']                         = "Il campo %s deve contenere solo numeri positivi.";
+$lang['is_natural_no_zero']                 = "Il campo %s deve contenere un numero maggiore di zero.";
+$lang['decimal']                            = "Il campo %s deve contenere un numero decimale.";
+$lang['less_than']                          = "Il campo %s deve contenere un numero inferiore a %s.";
+$lang['greater_than']                       = "Il campo %s deve contenere un numero maggiore di %s.";
+$lang['alpha_dot']                          = "Il campo %s può contenere solo caratteri alfanumerici, trattini e punti.";
+$lang['numeric_dot']                        = "Il campo %s può contenere solo numeri e punti.";
+$lang['valid_decimal']                      = "Il campo %s può contenere solo numeri e decimali.";
+$lang['alpha_numeric_space']                = "Il campo %s può contenere solo caratteri, numeri e spazio.";
+$lang['alpha_space']                        = "Il campo %s può contenere solo caratteri e spazio.";
+$lang['currency_decimal']                   = 'Il campo %s può contenere solo numeri e decimali EX (99999.99999)';
+$lang['password_check']                     = "Il campo %s non corrisponde alla tua vecchia password.";
+$lang['password_check_old']                 = "La nuova password e la vecchia password non devono essere uguali";
+$lang['did_account_checking']               = "Questo %s non ha un importo sufficiente per acquistare questo DID";
+$lang['phn_number']                         = "Il campo %s non è valido.";
+$lang['check_priority_total']               = "Tutto il totale del campo percentuale dovrebbe essere 100.";
+$lang['numeric_with_spacial_characters']    = "Il campo %s deve contenere solo caratteri numerici e spaziali (*, #).";
+

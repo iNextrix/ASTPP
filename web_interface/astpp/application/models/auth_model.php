@@ -21,22 +21,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
 class Auth_model extends CI_Model {
-	function Auth_model() {
+	function __construct() {
 		parent::__construct ();
 	}
-	/**
-	 * -------Here we write code for model auth_model functions verify_login------
-	 * Purpose: Validate Login Name and Password.
-	 * 
-	 * @param
-	 *        	$username,$password.
-	 * @return integer login user name and password is valid then return true else return false.
-	 */
 	function verify_login($username, $password) {
-		$q = "SELECT COUNT(*) as cnt FROM accounts WHERE (number = '" . $this->db->escape_str ( $username ) . "'";
-		$q .= " OR email = '" . $this->db->escape_str ( $username ) . "')";
+		$q = "SELECT COUNT(*) as cnt FROM accounts WHERE (number = BINARY '" . $this->db->escape_str ( $username ) . "'";
+		$q .= " OR email = BINARY '" . $this->db->escape_str ( $username ) . "')";
 		$q .= " AND password = '" . $this->db->escape_str ( $password ) . "'";
-		$q .= " AND status = 0 AND type IN (1,2,3,4,5,0,-1) AND deleted = 0";
+		$q .= " AND type IN (1,2,3,4,5,0,-1) AND deleted = 0 AND status = 0";
 		$query = $this->db->query ( $q );
 		if ($query->num_rows () > 0) {
 			$row = $query->row ();
@@ -52,5 +44,4 @@ class Auth_model extends CI_Model {
 	}
 }
 
-// end class
 ?>

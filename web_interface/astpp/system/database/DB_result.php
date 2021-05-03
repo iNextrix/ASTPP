@@ -88,7 +88,7 @@ class CI_DB_result {
 
 			foreach ($row as $key => $value)
 			{
-				$object->$key = $value;
+				$object->{$key} = $value;
 			}
 
 			$result_object[] = $object;

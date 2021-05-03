@@ -16,11 +16,11 @@
 <? startblock('content') ?>        
 
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="searchbar">
-    <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer">Search</span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
+    <div class="portlet-header ui-widget-header" ><span id="show_search" style="cursor:pointer"><?php echo gettext("Search"); ?></span><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
 </div>
 
 <div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">                        
-    <div class="portlet-header ui-widget-header">Charges List<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
+    <div class="portlet-header ui-widget-header"><?php echo gettext("Charges List"); ?><span class="ui-icon ui-icon-circle-arrow-s"></span></div>
     <div class="portlet-content">         
         <form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
             <table id="charges_grid" align="left" style="display:none;"></table>

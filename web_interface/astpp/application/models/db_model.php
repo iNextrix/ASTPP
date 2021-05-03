@@ -21,25 +21,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // ##############################################################################
 class Db_model extends CI_Model {
-	function Db_model() {
-		// parent::Model();
+	public function __construct() {
 		parent::__construct ();
 		$this->db->query ( "SET time_zone='+0:00'" );
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getCriteria(Where=Condition in Array Format)
 	 * ********************************************************
 	 */
 	function getCriteria($condition = "", $tableName) {
-		// print_r($condition);
 		if ($condition != "") {
 			$this->db->where ( $condition );
 		}
 		return $this->db->get ( $tableName );
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function save() for addingthe record
@@ -53,7 +51,7 @@ class Db_model extends CI_Model {
 		else
 			return $rs;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function update() for editing the record
@@ -64,7 +62,7 @@ class Db_model extends CI_Model {
 		$rs = $this->db->query ( $str );
 		return $rs;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getSelect()n for displaying record
@@ -79,13 +77,13 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getSelectWithOrder()n for displaying record
 	 * ********************************************************
 	 */
-	function getSelectWithOrder($select, $tableName, $where, $order_type, $order_by) {
+	function getSelectWithOrder($select, $tableName, $where, $order_type, $order_by) { 
 		$this->db->select ( $select );
 		$this->db->from ( $tableName );
 		$this->db->where ( $where );
@@ -93,7 +91,7 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getSelectWithOrderAndLimit()n for displaying record
@@ -108,7 +106,7 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function delete() for deletingthe record
@@ -118,7 +116,7 @@ class Db_model extends CI_Model {
 		$this->db->where ( $where );
 		$this->db->delete ( $tableName );
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function excecute() take compelet query
@@ -128,7 +126,7 @@ class Db_model extends CI_Model {
 		$rs = $this->db->query ( $query );
 		return $rs;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function select() take full complete perms
@@ -140,7 +138,6 @@ class Db_model extends CI_Model {
 		if ($where != "") {
 			$this->db->where ( $where );
 		}
-		
 		if ($paging_limit)
 			$this->db->limit ( $paging_limit, $start_limit );
 		if (! empty ( $groupby ))
@@ -154,7 +151,7 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function select for In query () take full complete perms
@@ -173,13 +170,13 @@ class Db_model extends CI_Model {
 		if (! empty ( $groupby ))
 			$this->db->groupby ( $groupby );
 		$query = $this->db->get ();
-		
+
 		return $query;
 	}
-	
+
 	/*
 	 * ********************************************************
-	 * Function countQuery() take table name and select feild
+	 * Function countQuery() take table name and select field
 	 * ********************************************************
 	 */
 	function countQuery($select, $table, $where = "") {
@@ -191,10 +188,10 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query->num_rows ();
 	}
-	
+
 	/*
 	 * ********************************************************
-	 * Function countQuery for where in query() take table name and select feild
+	 * Function countQuery for where in query() take table name and select field
 	 * ********************************************************
 	 */
 	function countQuery_by_in($select, $table, $where = "", $key, $where_in) {
@@ -209,10 +206,10 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		return $query->num_rows ();
 	}
-	
+
 	/*
 	 * ********************************************************
-	 * Function maxQuery() take table name and select feild
+	 * Function maxQuery() take table name and select field
 	 * ********************************************************
 	 */
 	function maxQuery($table, $select, $where = "", $name) {
@@ -224,124 +221,139 @@ class Db_model extends CI_Model {
 		$query = $this->db->get ();
 		if ($query->num_rows () > 0) {
 			$rowP = $query->row ();
-			return $rowP->$name;
+			return $rowP->{$name};
 		} else {
 			return 0;
 		}
 	}
-	
+
 	/*
 	 * ********************************************************
-	 * Function getCurrent get current value of the feild
+	 * Function getCurrent get current value of the field
 	 * ********************************************************
 	 */
-	function getCurrent($table, $feild, $where) {
-		// echo "<pre>table====><br>".$table."field====><br>".$feild."where====><br>".print_r($where);
-		$this->db->select ( $feild );
+	function getCurrent($table, $field, $where) {
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->where ( $where );
 		$query = $this->db->get ();
 		if ($query->num_rows () > 0) {
-			
+
 			$rowP = $query->row ();
-			return $rowP->$feild;
+			return $rowP->{$field};
 		} else {
 			return false;
 		}
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getJionQuery get result set on criteria
 	 * ********************************************************
 	 */
-	function getJionQuery($table, $feild, $where = "", $jionTable, $jionCondition, $type = 'inner', $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
+	function getJionQuery($table, $field, $where = "", $jionTable, $jionCondition, $type = 'inner', $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
+
 		$start = ( int ) $start;
 		$end = ( int ) $end;
-		$this->db->select ( $feild );
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->join ( $jionTable, $jionCondition, $type );
 		if ($where != "") {
 			$this->db->where ( $where );
 		}
-		if (isset ( $_GET ['sortname'] ) && $_GET ['sortname'] != 'undefined') {
-			$this->db->order_by ( $_GET ['sortname'], ($_GET ['sortorder'] == 'undefined') ? 'desc' : $_GET ['sortorder'] );
+		// OLD CODE
+		/*if (isset ( $_GET ['sortname'] ) && $_GET ['sortname'] != 'undefined') {
+
 		} else {
 			if ($order_by)
 				$this->db->order_by ( $order_by, $order_type );
 		}
-		
-		if ($group_by != '') {
-			$this->db->group_by ( $group_by );
-		}
-		
-		$this->db->limit ( $start, $end );
-		
-		return $query = $this->db->get ();
-	}
-	function getJionQueryCount($table, $feild, $where = "", $jionTable, $jionCondition, $type = 'inner', $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
-		$start = ( int ) $start;
-		$end = ( int ) $end;
-		$this->db->select ( $feild );
-		$this->db->from ( $table );
-		$this->db->join ( $jionTable, $jionCondition, $type );
-		if ($where != "") {
-			$this->db->where ( $where );
-		}
-		
-		if ($order_type != '' && $order_by != '') {
-			$this->db->orderby ( $order_type, $order_by );
-		}
-		
-		if ($group_by != '') {
-			$this->db->group_by ( $group_by );
-		}
-		
-		$query = $this->db->get ();
-		return $query->num_rows ();
-	}
-	function getAllJionQuery($table, $feild, $where = "", $jionTable, $jionCondition, $type, $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
-		$start = ( int ) $start;
-		$end = ( int ) $end;
-		$this->db->select ( $feild );
-		$this->db->from ( $table );
-		$jion_table_count = count ( $jionTable );
-		for($i = 0; $i < $jion_table_count; $i ++) {
-			$this->db->join ( $jionTable [$i], $jionCondition [$i], $type [$i] );
-		}
-		
-		if ($where != "") {
-			$this->db->where ( $where );
-		}
-		if (isset ( $_GET ['sortname'] ) && $_GET ['sortname'] != 'undefined') {
-			$this->db->order_by ( $_GET ['sortname'], ($_GET ['sortorder'] == 'undefined') ? 'desc' : $_GET ['sortorder'] );
-		} else {
-			if ($order_by)
+		*/
+		// NEW CODE 
+		if ($order_by){
 				$this->db->order_by ( $order_by, $order_type );
 		}
-		
+
 		if ($group_by != '') {
 			$this->db->group_by ( $group_by );
 		}
-		
 		if ($start != '' && $end != '') {
 			$this->db->limit ( $start, $end );
 		}
-		
+
 		if ($start != '' && $end == '') {
 			$this->db->limit ( $start );
 		}
-		
-		return $query = $this->db->get ();
+
+		 return $query = $this->db->get ();
 	}
-	function getCountWithJion($table, $feild, $where = "", $jionTable, $jionCondition, $type, $group_by = '') {
-		$this->db->select ( $feild );
+	function getJionQueryCount($table, $field, $where = "", $jionTable, $jionCondition, $type = 'inner', $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
+		$start = ( int ) $start;
+		$end = ( int ) $end;
+		$this->db->select ( $field );
+		$this->db->from ( $table );
+		$this->db->join ( $jionTable, $jionCondition, $type );
+		if ($where != "") {
+			$this->db->where ( $where );
+		}
+
+		if ($order_type != '' && $order_by != '') {
+			$this->db->order_by ( $order_by, $order_type );
+		}
+
+		if ($group_by != '') {
+			$this->db->group_by ( $group_by );
+		}
+		if ($start != '' && $end != '') {
+			$this->db->limit ( $start, $end );
+		}
+		if ($start != '' && $end == '') {
+			$this->db->limit ( $start );
+		}
+		$query = $this->db->get ();
+		return $query->num_rows ();
+	}
+	function getAllJionQuery($table, $field, $where = "", $jionTable, $jionCondition, $type, $start = '', $end = '', $order_type = '', $order_by = '', $group_by = '') {
+		$start = ( int ) $start;
+		$end = ( int ) $end;
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$jion_table_count = count ( $jionTable );
 		for($i = 0; $i < $jion_table_count; $i ++) {
 			$this->db->join ( $jionTable [$i], $jionCondition [$i], $type [$i] );
 		}
-		
+		if ($where != "") {
+			$this->db->where ( $where );
+		}
+		if (isset ( $_GET ['sortname'] ) && $_GET ['sortname'] != 'undefined') {
+			$this->db->order_by ( $_GET ['sortname'], ($_GET ['sortorder'] == 'undefined') ? 'desc' : $_GET ['sortorder'] );
+		} else {
+			if ($order_by)
+				$this->db->order_by ( $order_by, $order_type );
+		}
+
+		if ($group_by != '') {
+			$this->db->group_by ( $group_by );
+		}
+
+		if ($start != '' && $end != '') {
+			$this->db->limit ( $start, $end );
+		}
+
+		if ($start != '' && $end == '') {
+			$this->db->limit ( $start );
+		}
+
+		return $query = $this->db->get ();
+	}
+	function getCountWithJion($table, $field, $where = "", $jionTable, $jionCondition, $type, $group_by = '') {
+		$this->db->select ( $field );
+		$this->db->from ( $table );
+		$jion_table_count = count ( $jionTable );
+		for($i = 0; $i < $jion_table_count; $i ++) {
+			$this->db->join ( $jionTable [$i], $jionCondition [$i], $type [$i] );
+		}
+
 		if ($where != "") {
 			$this->db->where ( $where );
 		}
@@ -355,14 +367,14 @@ class Db_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getCurrentWithOrder
 	 * ********************************************************
 	 */
-	function getCurrentWithOrder($table, $feild, $where, $order, $order_by, $limit, $option) {
-		$this->db->select ( $feild );
+	function getCurrentWithOrder($table, $field, $where, $order, $order_by, $limit, $option) {
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->where ( $where );
 		$this->db->order_by ( $order, $order_by );
@@ -373,7 +385,7 @@ class Db_model extends CI_Model {
 		if ($query->num_rows () > 0) {
 			$rowP = $query->row ();
 			if ($option == 'yes') {
-				return $rowP->$feild;
+				return $rowP->{$field};
 			} else {
 				return $query;
 			}
@@ -385,20 +397,20 @@ class Db_model extends CI_Model {
 			}
 		}
 	}
-	
+
 	/*
 	 * ********************************************************
 	 * Function getReferPatients
 	 * ********************************************************
 	 */
-	function getAllWithOrder($table, $feild, $where) {
-		$this->db->select ( $feild );
+	function getAllWithOrder($table, $field, $where) {
+		$this->db->select ( $field );
 		$this->db->from ( $table );
 		$this->db->where ( $where );
 		$query = $this->db->get ();
 		if ($query->num_rows () > 0) {
 			$rowP = $query->row ();
-			return $rowP->$feild;
+			return $rowP->{$field};
 		} else {
 			return false;
 		}
@@ -415,9 +427,9 @@ class Db_model extends CI_Model {
 			$string = '';
 			if ($query->num_rows () > 0) {
 				foreach ( $query->result () as $rows ) {
-					$string .= $rows->$select . ',';
+					$string .= $rows->{$select} . ',';
 				}
-				
+
 				return substr ( $string, '', - 1 );
 			} else {
 				if ($return_message == FALSE) {
@@ -451,19 +463,13 @@ class Db_model extends CI_Model {
 		$where = $id_value;
 		$drp_array = $this->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
-		
+
 		$drp_list = array ();
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->$select_params [0]] = $drp_value->$select_params [1];
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
 	}
-	/**
-	 * ****
-	 * ASTPP 3.0
-	 * Recording enable/disable dropdown
-	 * ***
-	 */
 	function build_concat_dropdown_refill_coupon($select, $table, $id_where = '', $id_value = '') {
 		$select_params = explode ( ',', $select );
 		$account_data = $this->session->userdata ( "accountinfo" );
@@ -484,15 +490,11 @@ class Db_model extends CI_Model {
 		$drp_array = $this->getSelect ( $select, $table, '' );
 		$drp_array = $drp_array->result ();
 		$drp_list = array ();
-		// $drp_list[0] = 'Admin';
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->$select_params [0]] = $drp_value->$select_params [1];
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
 	}
-	/**
-	 * ********************************
-	 */
 	function build_concat_select_dropdown($select, $table, $id_where = '', $id_value = '') {
 		$select_params = explode ( ',', $select );
 		if (isset ( $select_params [3] )) {
@@ -504,15 +506,58 @@ class Db_model extends CI_Model {
 		$where = $id_value;
 		$drp_array = $this->getSelect ( $select, $table, $id_value );
 		$drp_array = $drp_array->result ();
-		
+
 		$drp_list = array ();
 		$drp_list [0] = "--Select--";
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->$select_params [0]] = $drp_value->$select_params [1];
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
 	}
-	function build_dropdown($select, $table, $id_where = '', $id_value = '') {
+	function build_dropdown($select, $table, $id_where = '', $id_value = '') { 
+		$select_params = explode ( ',', $select );
+		$where = '';
+		if (isset ( $id_value ["type"] ) && $id_value ["type"] == "GLOBAL") {
+			$where = "type IN ('0','3')";
+			$this->db->where ( $where );
+			unset ( $id_value ["type"] );
+		}
+
+		if ($id_where != '' && $id_value != '') {   
+			if ($id_where == 'group_by') {  
+				$this->db->group_by ( $id_value );
+			} else if ($id_where == "where_arr") { 
+				$logintype = $this->session->userdata ( 'logintype' );
+				if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr' && $this->db->field_exists ( 'reseller_id', $table )) {
+					if($table != 'taxes'){
+						$id_value ['reseller_id'] = $this->session->userdata ["accountinfo"] ['id'];
+					}
+				}
+				$where = $id_value;
+
+			} else { 
+				$logintype = $this->session->userdata ( 'logintype' );
+				if (($logintype == 1 || $logintype == 5) && $id_where == 'reseller_id') {
+					$account_data = $this->session->userdata ( "accountinfo" );
+					$id_value = $account_data ['id'];
+				}
+				$where = array (
+						$id_where => $id_value
+				);
+			}
+		}
+
+		$drp_array = $this->getSelect ( $select, $table, $where );
+		$drp_array = $drp_array->result ();
+
+		$drp_list = array ();
+		foreach ( $drp_array as $drp_value ) {
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
+		}
+		return $drp_list;
+	}
+	
+	function build_dropdown_reseller($select, $table, $id_where = '', $id_value = '') {
 		$select_params = explode ( ',', $select );
 		$where = '';
 		if (isset ( $id_value ["type"] ) && $id_value ["type"] == "GLOBAL") {
@@ -526,7 +571,7 @@ class Db_model extends CI_Model {
 			} else if ($id_where == "where_arr") {
 				$logintype = $this->session->userdata ( 'logintype' );
 				if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr' && $this->db->field_exists ( 'reseller_id', $table )) {
-					$id_value ['reseller_id'] = $this->session->userdata ["accountinfo"] ['id'];
+						$id_value ['reseller_id'] = $this->session->userdata ["accountinfo"] ['reseller_id'] ;
 				}
 				$where = $id_value;
 			} else {
@@ -536,20 +581,24 @@ class Db_model extends CI_Model {
 					$id_value = $account_data ['id'];
 				}
 				$where = array (
-						$id_where => $id_value 
+						$id_where => $id_value
 				);
 			}
 		}
-		
 		$drp_array = $this->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
-		
 		$drp_list = array ();
+		$drp_list[0]="--Select--";
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->$select_params [0]] = $drp_value->$select_params [1];
+			if(isset($select_params [2]) && $select_params [2] != ""){
+				$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]} ."(".$drp_value->{$select_params [2]}.")";
+			}else{
+				$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
+			}
 		}
 		return $drp_list;
 	}
+	
 	function build_dropdown_deleted($select, $table, $id_where = '', $id_value = '') {
 		$select_params = explode ( ',', $select );
 		if (isset ( $id_value ["type"] )) {
@@ -575,68 +624,77 @@ class Db_model extends CI_Model {
 					$id_value = $account_data ['id'];
 				}
 				$where = array (
-						$id_where => $id_value 
+						$id_where => $id_value
 				);
 			}
 		}
-		
+
 		$drp_array = $this->getSelect ( $select, $table, $where );
-		
-		$drp_array = $drp_array->result ();
-		
-		$name = explode ( "as", $select );
-		if (isset ( $name [3] )) {
-			$name = trim ( $name [3] );
-		} else {
-			$name = trim ( $name [1] );
-		}
-		
-		$drp_list = array ();
-		$dele = array ();
-		foreach ( $drp_array as $drp_value ) {
-			$dele = explode ( "^", $drp_value->$name );
-			if (isset ( $dele [1] )) {
-				$drp_list ['Deleted'] [$drp_value->$select_params [0]] = str_replace ( "^", "", $drp_value->$name );
+
+                $drp_array = $drp_array->result_array();
+
+                $name = explode ( "as", $select );
+                 if (isset ( $name [3] ) && (!isset ( $name [4] ))  ) {
+                        $name = trim ( $name [3] );
+                }else if(isset ( $name [4] )){
+		 	 $name = trim ( $name [4] );
+		}else {
+                        $name = trim ( $name [1] );
+                }
+
+                $drp_list = array ();
+                $dele = array ();
+		$inavtive = array ();
+                foreach ( $drp_array as $drp_value ) {
+                        $dele = explode ( "^", $drp_value[$name]);
+			$inavtive = explode ( "*", $drp_value[$name]);
+                        if (isset ( $dele [1] )) {
+                                $drp_list ['Deleted'] [$drp_value[$select_params [0]]] = str_replace ( "^", "", $drp_value[$name] );
+                        }else if(isset( $inavtive [1])){
+			 	$drp_list ['Inactive'] [$drp_value[$select_params [0]]] = str_replace ( "*", "", $drp_value[$name] );
 			} else {
-				$drp_list ['Active'] [$drp_value->$select_params [0]] = $drp_value->$name;
-			}
-		}
+                                $drp_list ['Active'] [$drp_value[$select_params [0]]] = $drp_value[$name];
+                        }
+                }
 		ksort ( $drp_list );
 		return $drp_list;
 	}
-	function build_search($accounts_list_search) {
+	function build_search($accounts_list_search,$table_name='') { 
 		if ($this->session->userdata ( 'advance_search' ) == 1) {
 			$account_search = $this->session->userdata ( $accounts_list_search );
 			unset ( $account_search ["ajax_search"] );
 			unset ( $account_search ["advance_search"] );
-			/*
-			 * ASTPP 3.0
-			 * Display Records in
-			 */
+
 			unset ( $account_search ['search_in'], $account_search ['time'] );
+
 			if (! empty ( $account_search )) {
+
 				foreach ( $account_search as $key => $value ) {
 					if ($value != "") {
 						if (is_array ( $value )) {
 							if (array_key_exists ( $key . "-integer", $value )) {
-								$this->get_interger_array ( $key, $value [$key . "-integer"], $value [$key] );
+								if($key == 'debit_exchange_rate' || $key == 'credit_exchange_rate' ){
+									$this->get_interger_array_invoice_amount ( $table_name.$key, $value [$key . "-integer"], $value [$key]);
+								}else{
+								$this->get_interger_array ( $table_name.$key, $value [$key . "-integer"], $value [$key]);
+								}
 							}
 							if (array_key_exists ( $key . "-string", $value )) {
-								$this->get_string_array ( $key, $value [$key . "-string"], $value [$key] );
+								$this->get_string_array ( $table_name.$key, $value [$key . "-string"], $value [$key]);
 							}
-							
-							/**
-							 * ASTPP 3.0
-							 * first used,creation,expiry search date picker
-							 */
-							if ($key == 'callstart' || $key == 'date' || $key == 'payment_date' || $key == 'first_used' || $key == 'creation' || $key == 'from_date' || $key == 'invoice_date' || $key == 'expiry' || $key == 'created_date' || $key == 'to_date') {
-								/**
-								 * ********************************************
-								 */
-								$this->get_date_array ( $key, $value );
+							if ($key == 'callstart' || $key == 'date' || $key == 'order_date' || $key == 'timestamp' || $key == 'payment_date' || $key == 'first_used' || $key == 'creation' || $key == 'from_date' || $key == 'generate_date' || $key == 'expiry' || $key == 'created_date' || $key == 'to_date' || $key == 'triggered_date' || $key == 'last_triggered_date') {
+
+							$this->get_date_array ( $table_name.$key, $value );
 							}
 						} else {
-							$this->db->where ( $key, $value );
+							if($key == 'disposition'){
+                                                                $str1 = $table_name.$key . " LIKE '%$value%'";
+                                                                $this->db->where ( $str1 );
+                                                        }else{
+								if($key != 'cdrs_year'){											
+									$this->db->where ( $table_name.$key, $value );
+								}
+							}
 						}
 					}
 				}
@@ -645,16 +703,21 @@ class Db_model extends CI_Model {
 		}
 	}
 	function get_date_array($field, $value) {
+
 		if ($value != '') {
 			if (! empty ( $value [0] )) {
-				if ($field == 'invoice_date') {
+				if ($field == 'generate_date') {
 					$this->db->where ( $field . ' >= ', gmdate ( "Y-m-d", strtotime ( $value ['0'] ) ) . " 00:00:01" );
 					$this->db->where ( $field . ' <= ', gmdate ( "Y-m-d", strtotime ( $value ['0'] ) ) . " 23:59:59" );
-					// ITPLATP 22_05_2017
 				} else if ($field == 'to_date') {
 					$this->db->where ( $field . ' <= ', gmdate ( "Y-m-d", strtotime ( $value ['0'] ) ) . " 23:59:59" );
-					// end
-				} else {
+				}else if ($field == 'expiry'){
+					$this->db->where ( $field . ' >= ', gmdate ( "Y-m-d", strtotime ( $value ['0'] ) ) . " 00:00:01" );
+					$this->db->where ( $field . ' <= ', gmdate ( "Y-m-d", strtotime ( $value ['0'] ) ) . " 23:59:59" );
+				}else if ($field == 'creation'){
+					$this->db->where ( $field . ' >= ', gmdate ( "Y-m-d", strtotime ( $value ['0'] ) ) . " 00:00:01" );
+					$this->db->where ( $field . ' <= ', gmdate ( "Y-m-d", strtotime ( $value ['0'] ) ) . " 23:59:59" );
+				}else {
 					$this->db->where ( $field . ' >= ', gmdate ( 'Y-m-d H:i:s', strtotime ( $value [0] ) ) );
 				}
 			}
@@ -667,27 +730,63 @@ class Db_model extends CI_Model {
 		if ($search_array != '') {
 			switch ($value) {
 				case "1" :
-					$this->db->where ( $field, $search_array );
+					$this->db->where ( $field, $search_array,NULL,false );
 					break;
 				case "2" :
-					$this->db->where ( $field . ' <>', $search_array );
+					$this->db->where ( $field . ' <>', $search_array,false,false );
 					break;
 				case "3" :
-					$this->db->where ( $field . ' > ', $search_array );
+					$this->db->where ( $field . ' > ', $search_array,NULL,false );
 					break;
 				case "4" :
-					$this->db->where ( $field . ' < ', $search_array );
+					$this->db->where ( $field . ' < ', $search_array,NULL,false );
 					break;
 				case "5" :
-					$this->db->where ( $field . ' >= ', $search_array );
+					$this->db->where ( $field . ' >= ', $search_array,NULL,false );
 					break;
 				case "6" :
-					$this->db->where ( $field . ' <= ', $search_array );
+					$this->db->where ( $field . ' <= ', $search_array,NULL,false );
 					break;
 			}
 		}
 	}
+	function get_interger_array_invoice_amount($field, $value, $search_array) {
+		if ($search_array != '') {
+			switch ($value) {
+				case "1" :
+					$this->db->where ( "debit_exchange_rate", $search_array,NULL,false );
+					$this->db->or_where ("credit_exchange_rate", $search_array,NULL,false );
+					break;
+				case "2" :
+					$this->db->where ( "debit_exchange_rate" . ' <>', $search_array,false,false );
+					$this->db->where ( "credit_exchange_rate" . ' <>', $search_array,false,false );
+					break;
+				case "3" :
+					$this->db->where ( "debit_exchange_rate" . ' > ', $search_array,NULL,false );
+					$this->db->or_where ( "credit_exchange_rate" . ' > ', $search_array,NULL,false );
+					break;
+				case "4" :
+					$this->db->where ( "debit_exchange_rate" . ' < ', $search_array,NULL,false );
+					$this->db->where ( "credit_exchange_rate" . ' < ', $search_array,NULL,false );
+					break;
+				case "5" :
+					$this->db->where ( "debit_exchange_rate"  . ' >= ', $search_array,NULL,false );
+					$this->db->or_where ( "credit_exchange_rate"  . ' >= ', $search_array,NULL,false );
+					break;
+				case "6" :
+					$this->db->where ( "debit_exchange_rate" . ' <= ', $search_array,NULL,false );
+					$this->db->where ( "credit_exchange_rate" . ' <= ', $search_array,NULL,false );
+					break;
+			}
+		}
+	}
+
 	function get_string_array($field, $value, $search_array) {
+
+		if($field == 'reseller_products.name' ){
+			$field = 'products.name';
+
+		}
 		if ($search_array != '') {
 			switch ($value) {
 				case "1" :
@@ -699,11 +798,21 @@ class Db_model extends CI_Model {
 					$this->db->where ( $str1 );
 					break;
 				case "3" :
-					$this->db->where ( $field, $search_array );
-					break;
-				case "4" :
-					$this->db->where ( $field . ' <>', $search_array );
-					break;
+                                         if ($field == "pattern") {
+                                                $str1 = $field . " = '^" . $search_array . ".*'";
+                                                $this->db->where ( $str1 );
+                                        }else{
+                                                $this->db->where ( $field, $search_array );
+                                        }
+                                        break;
+                                case "4" :
+                                        if ($field == "pattern") {
+                                                $str1 = $field . " <> '^" . $search_array . ".*'";
+                                                $this->db->where ( $str1 );
+                                        }else{
+                                                 $this->db->where ( $field . ' <>', $search_array );
+                                        }
+                                        break;
 				case "5" :
 					if ($field == "pattern") {
 						$str1 = $field . " LIKE '^" . $search_array . "%'";
@@ -712,7 +821,7 @@ class Db_model extends CI_Model {
 						$str1 = $field . " LIKE '" . $search_array . "%'";
 						$this->db->where ( $str1 );
 					}
-					
+
 					break;
 				case "6" :
 					if ($field == "pattern") {
@@ -722,7 +831,7 @@ class Db_model extends CI_Model {
 						$str1 = $field . " LIKE '%" . $search_array . "'";
 						$this->db->where ( $str1 );
 					}
-					
+
 					break;
 			}
 		}
@@ -766,7 +875,6 @@ class Db_model extends CI_Model {
 		$where = rtrim ( $where, " AND " );
 		return $where;
 	}
-	// This function using by reports module don't delete it
 	function build_string_where($field, $value, $search_array) {
 		$where = null;
 		if ($search_array != '') {
@@ -778,11 +886,21 @@ class Db_model extends CI_Model {
 					$where = "$field NOT LIKE '%$search_array%'";
 					break;
 				case "3" :
-					$where = "$field = '$search_array'";
-					break;
-				case "4" :
-					$where = "$field <> '$search_array'";
-					break;
+                                        if ($field == "pattern" || $field == 'prefix') {
+                                        	$str1 = $field . " = '^" . $search_array . ".*'";
+                                        	$this->db->where ( $str1 );
+                                        }else{
+                                        	$this->db->where ( $field, $search_array );
+                                        }
+                                        break;
+                                case "4" :
+                                        if ($field == "pattern" || $field == 'prefix') {
+                                        	$str1 = $field . " <> '^" . $search_array . ".*'";
+                                        	$this->db->where ( $str1 );
+                                        }else{
+                                                 $this->db->where ( $field . ' <>', $search_array );
+                                        }
+                                        break;
 				case "5" :
 					if ($field == "pattern") {
 						$where = $field . " LIKE '^" . $search_array . "%'";
@@ -856,18 +974,18 @@ class Db_model extends CI_Model {
 	function get_available_bal($account_info) {
 		$available_bal = 0;
 		$available_bal = ($account_info ["posttoexternal"] == 1) ? ($account_info ["credit_limit"] - $account_info ["balance"]) : ($account_info ["balance"]);
-		
+
 		return $available_bal;
 	}
 	function update_balance($amount, $accountid, $payment_type) {
 		if ($payment_type == "debit" || $payment_type == "0") {
-			
+
 			$query = "update accounts set balance =  IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") where id ='" . $accountid . "'";
-			
+
 			return $this->db->query ( $query );
 		} else {
 			$query = "update accounts set balance =  IF(posttoexternal=1,balance-" . $amount . ",balance+" . $amount . ") where id ='" . $accountid . "'";
-			
+
 			return $this->db->query ( $query );
 		}
 	}
@@ -974,9 +1092,7 @@ class Db_model extends CI_Model {
 			}
 		}
 	}
-	/**
-	 * ******invoice changes ********
-	 */
+
 	function build_dropdown_invoices($select, $table, $id_where = '', $id_value = '') {
 		$select_params = explode ( ',', $select );
 		$select_params = explode ( ',', $select );
@@ -1007,6 +1123,195 @@ class Db_model extends CI_Model {
 		ksort ( $drp_list );
 		return $drp_list;
 	}
+	
+	function build_dropdown_for_alarm_module(){
+        $drp_list = array();
+        $trunkdata = $this->getSelect( 'id,name' ,'trunks',array("status"=>0));
+
+            if ($trunkdata->num_rows > 0) {
+                $trunk_table_data=$trunkdata->result_array();
+                foreach ($trunk_table_data as $value) {
+                    $drp_list['Trunk']['trunk_'.$value['id']] =  $value['name'];
+                }
+            }
+         return $drp_list; 
+    }
+    function build_dropdown_for_alarm_report_module(){
+        $drp_list = array();
+        $trunkdata = $this->getSelect( 'id,name' ,'trunks',"");
+
+            if ($trunkdata->num_rows > 0) {
+                $trunk_table_data=$trunkdata->result_array();
+                foreach ($trunk_table_data as $value) {
+                    $drp_list['Trunk']['trunk_'.$value['id']] =  $value['name'];
+                }
+            }
+         return $drp_list; 
+    }
+    function build_dropdown_origination_rate($select, $table, $id_where = '', $id_value = '') {
+		$select_params = explode ( ',', $select );
+		$where = '';
+		if (isset ( $id_value ["type"] ) && $id_value ["type"] == "GLOBAL") {
+			$where = "type IN ('0','3')";
+			$this->db->where ( $where );
+			unset ( $id_value ["type"] );
+		}
+		if ($id_where != '' && $id_value != '') {
+			if ($id_where == 'group_by') {
+				$this->db->group_by ( $id_value );
+			} else if ($id_where == "where_arr") {
+				$logintype = $this->session->userdata ( 'logintype' );
+				if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr' && $this->db->field_exists ( 'reseller_id', $table )) {
+					$id_value ['reseller_id'] = $this->session->userdata ["accountinfo"] ['id'];
+				}
+				$where = $id_value;
+			} else {
+				$logintype = $this->session->userdata ( 'logintype' );
+				if (($logintype == 1 || $logintype == 5) && $id_where == 'reseller_id') {
+					$account_data = $this->session->userdata ( "accountinfo" );
+					$id_value = $account_data ['id'];
+				}
+				$where = array (
+						$id_where => $id_value
+				);
+			}
+		}
+
+		$drp_array = $this->getSelect ( $select, $table, $where );
+		$drp_array = $drp_array->result ();
+		$drp_list = array ();
+		$drp_list [0] = "--Select--";
+		foreach ( $drp_array as $drp_value ) {
+			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
+		}
+		return $drp_list;
+	}
+
+
+	function build_concat_dropdown_reseller($select, $table, $id_where = '', $id_value = '') {
+        $account_data = $this->session->userdata("accountinfo");
+		$where=array();
+		if($account_data['type'] == -1 || $account_data['type'] == 2){
+			$where = array('type' =>'1','status'=>'0','deleted'=>'0');
+		}
+        $select_params = explode(',', $select);
+        $select_params = explode(',', $select);
+        if (isset($select_params[3])) {
+            $cnt_str = " $select_params[1],' ',$select_params[2],' ','(',$select_params[3],')' ";
+        } else {
+            $cnt_str = " $select_params[1],' (',$select_params[2],')' ";
+        }
+        $select = $select_params[0] . ", concat($cnt_str) as $select_params[1] ";
+        $logintype = $this->session->userdata('logintype');
+        if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr') {
+		
+            $id_value = $account_data['id'];
+			$where = array('reseller_id'=>$id_value,'type' =>'1','status'=>'0','deleted'=>'0');
+		
+        }
+        $drp_array = $this->getSelect($select, $table, $where);
+        $drp_array = $drp_array->result();
+        $drp_list = array();
+	if($account_data['type'] == -1 || $account_data['type'] == 2){
+	$drp_list[0]='Admin';
+	}
+        foreach ($drp_array as $drp_value) {
+            $drp_list[$drp_value->{$select_params [0]}] = $drp_value->{$select_params[1]};
+        }
+        return $drp_list;
+	}
+	function build_concat_dropdown_only_reseller($select, $table, $id_where = '', $id_value = '') {
+        $account_data = $this->session->userdata("accountinfo");
+		$where=array();
+		if($account_data['type'] == -1){
+			$where = array('type' =>'1','status'=>'0','deleted'=>'0','reseller_id'=>'0');
+		}
+        $select_params = explode(',', $select);
+        $select_params = explode(',', $select);
+        if (isset($select_params[3])) {
+            $cnt_str = " $select_params[1],' ',$select_params[2],' ','(',$select_params[3],')' ";
+        } else {
+            $cnt_str = " $select_params[1],' (',$select_params[2],')' ";
+        }
+        $select = $select_params[0] . ", concat($cnt_str) as $select_params[1] ";
+        $logintype = $this->session->userdata('logintype');
+	
+        if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr') {
+		
+			$where = array('reseller_id'=>'0','type' =>'1','status'=>'0','deleted'=>'0');
+		
+        }
+        
+        $drp_array = $this->getSelect($select, $table, $where);
+        $drp_array = $drp_array->result();
+        $drp_list = array();
+	if($account_data['type'] == -1){
+	$drp_list[0]='Admin';
+	}
+        foreach ($drp_array as $drp_value) {
+            $drp_list[$drp_value->{$select_params [0]}] = $drp_value->{$select_params[1]};
+        }
+        return $drp_list;
+    }
+
+    function build_concat_dropdown_reseller_order($select, $table, $id_where = '', $id_value = '') {
+
+        $account_data = $this->session->userdata("accountinfo");
+	$select_params = explode(',', $select);
+        $logintype = $this->session->userdata('logintype');
+	$where=array();
+        if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr') {
+		
+            $id_value = $account_data['id'];
+			 $where ="(accountid = ".$id_value." OR reseller_id =".$id_value.")";
+        }
+
+        $drp_array = $this->getSelect($select, $table, $where);
+        $drp_array = $drp_array->result();
+        $drp_list = array();
+
+        foreach ($drp_array as $drp_value) {
+            $drp_list[$drp_value->{$select_params [0]}] = $drp_value->{$select_params[1]};
+        }
+        return $drp_list;
+    }
+	function build_concat_dropdown_cutomer_reseller($select, $table, $id_where = '', $id_value = '') {
+		$accountinfo = $this->session->userdata ( "accountinfo" );
+		$reseller_id=$accountinfo['id'];
+		$this->db->where_in('type',array("0","1"));
+		$this->db->where('deleted',"0");
+		$account_arr = $reseller_arr = $final_array = array();
+		$dropdown_params= array("name" => "accountid" ,"id" => "accountid_search_drp", "class" => "col-md-12 form-control selectpicker form-control-lg accountid_search_drp col-md-3");
+		$final_array = array(""=>"--Select--");
+		$account_result =$this->db->get_where('accounts',array("reseller_id"=>$reseller_id,"status"=>0));
+		if($account_result->num_rows () > 0)
+		{
+			$final_array = array();
+			$account_result = $account_result -> result_array();
+			foreach ($account_result as $key=>$value) {
+					if($value['type'] ==1){
+						$reseller_arr[$value['id']] =  $value['first_name']." ".$value['last_name']."( ".$value['number']." )";
+					}else{
+						$account_arr[$value['id']] =  $value['first_name']." ".$value['last_name']."( ".$value['number']." )";
+					}
+			}
+			if(!empty($reseller_arr))
+				$final_array['Reseller'] = $reseller_arr;
+			if(!empty($account_arr))
+				$final_array['Customer'] = $account_arr; 
+		}
+		return $final_array;
+	}
+	function build_dropdown_languages($select, $table, $id_where = '', $id_value = '') {
+		$drp_array = $this->getSelect('name', 'languages', '');
+		$drp_array = $drp_array->result();
+		$drp_list = array();	
+		foreach ($drp_array as $drp_value) {
+	   		$drp_list[$drp_value->name] = $drp_value->name;
+		}
+		return $drp_list;
+	}
+
 }
 
 ?>

@@ -20,7 +20,7 @@
             novstripe:false,
             minwidth:30,
             minheight:80,
-            resizable:true,
+            resizable:false,
             url:false,
             method:"POST",
             dataType:"xml",
@@ -28,11 +28,12 @@
             usepager:false,
 //            nowrap:true,
             nowrap:false,
+            colResize:false,
             page:1,
             total:1,
             useRp:true,
-            rp:10,
-            rpOptions:[10,25,50,100,200,500],
+            rp:num_default_grid_rows,
+            rpOptions:[10,25,50,100,200,250,500], 
             title:false,
             pagestat:"Displaying {from} to {to} of {total} items",
             procmsg:"Processing, please wait ...",
@@ -40,7 +41,7 @@
             qtype:"",
             nomsg:"No Records",
             minColToggle:1,
-            showToggleBtn:true,
+            showToggleBtn:false,
             hideOnSubmit:true,
             autoload:true,
             blockOpacity:0.5,
@@ -123,7 +124,7 @@
                         n:D
                     };
                     
-                    a("body").css("cursor","col-resize")
+                    a("body").css("cursor","col-resize");
                     }else{
                     if(t=="vresize"){
                         i=false;
@@ -450,11 +451,11 @@ changeSort:function(g){
     if(r.sortname==a(g).attr("id")){
         if(r.sortorder=="asc"){
             r.sortorder="desc"
-   	}else{
-            r.sortorder="asc"
-	}
     }else{
-	$('#'+a(g).attr("id")).removeClass("abbr");
+            r.sortorder="asc"
+    }
+    }else{
+    $('#'+a(g).attr("id")).removeClass("abbr");
     }
 $('#'+r.sortname).addClass("abbr");
 a(g).addClass("sorted").siblings().removeClass("sorted");
@@ -464,9 +465,9 @@ r.sortname=a(g).attr("id");
 
 //alert(r.sortname);
     if(r.onChangeSort){ 
-    	r.onChangeSort(r.sortname,r.sortorder)
+        r.onChangeSort(r.sortname,r.sortorder)
     }else{
-    	this.populate()
+        this.populate()
     }
 },
 buildpager:function(){
@@ -474,7 +475,8 @@ buildpager:function(){
     a(".pcontrol input",this.pDiv).val(r.page);
     a(".pcontrol span",this.pDiv).html(r.pages);
     i=(r.page-1)*r.rp+1;
-    g=i+r.rp-1;
+    //g=i+r.rp-1;
+    g=(parseInt(i)+parseInt(r.rp-1))
     if(r.total<g){
         g=r.total
         }
@@ -632,7 +634,8 @@ addCellProp:function(){
         a(p).css("white-space","normal")
         }
         if(this.innerHTML==""){
-        this.innerHTML="&nbsp;"
+        //this.innerHTML="&nbsp;"
+        this.innerHTML="--"
         }
         p.innerHTML=this.innerHTML;
     i=a(this).parent()[0];
@@ -721,7 +724,7 @@ if(r.colModel){
         if(l.name&&l.sortable){
 //            a(h).attr("id",l.name)
             a(h).attr("id",l.sortname)
-	    a(h).addClass("abbr");
+        a(h).addClass("abbr");
             }
             a(h).attr("axis","col"+v);
         if(l.align){
@@ -790,14 +793,14 @@ if(r.buttons){
             }
             w.onpress=k.onpress;
             w.name=k.name;
-	    w.clayout = k.clayout;
+        w.clayout = k.clayout;
             if(k.onpress){
 
                 a(w).click(function(){
                 this.onpress({
                        name:this.name,
                        btn_url:this.btn_url,
-		       Clayout: this.clayout
+               Clayout: this.clayout
                 },x.gDiv)
 //                    this.onpress(this.name,x.gDiv)
                     })
@@ -1062,7 +1065,7 @@ if(a.browser.msie&&a.browser.version<7){
             d+="<option value='"+r.rpOptions[B]+"' "+u+" >"+r.rpOptions[B]+"&nbsp;&nbsp;</option>"
         }
         a(".pDiv2",x.pDiv).append("<div class='pGroup'><select name='rp' class ='form-control'>"+d+"</select></div> <div class='btnseparator'></div>");
-a(".pDiv2",x.pDiv).append("<div class='btnseparator'></div><div class='pGroup'><span class='pPageStat'></span></div>");        
+//a(".pDiv2",x.pDiv).append("<div class='btnseparator'></div><div class='pGroup'><span class='pPageStat'></span></div>");        
     a("select",x.pDiv).change(function(){
         if(r.onRpChange){
             r.onRpChange(+this.value)
@@ -1072,6 +1075,7 @@ a(".pDiv2",x.pDiv).append("<div class='btnseparator'></div><div class='pGroup'><
             x.populate()
             }
         })
+    a("select",x.pDiv).change()    
 }
 if(r.searchitems){
     a(".pDiv2",x.pDiv).prepend("<div class='pGroup'> <div class='pSearch pButton'><span></span></div> </div>  <div class='btnseparator'></div>");
