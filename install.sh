@@ -322,7 +322,7 @@ normalize_astpp ()
                 CRONPATH='/var/spool/cron/astpp'
         fi
         echo "# To call all crons   
-                * * * * * cd ${ASTPP_SOURCE_DIR}/web_interface/astpp/cron/ && php cron.php crons
+                * * * * * cd ${ASTPP_SOURCE_DIR}/web_interface/astpp/cron/ && php cron.php crons > /dev/null 2>&1
                 " > $CRONPATH
                 chmod 600 $CRONPATH
                 crontab $CRONPATH
