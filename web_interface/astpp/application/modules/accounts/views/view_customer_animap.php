@@ -103,7 +103,7 @@ label.error {
     ?>	
       <div class="p-4 col-md-12">
 				<div class="col-md-12 p-0">
-         <?php  if((isset($permissioninfo['animap']['animap_detail']['Add'])) && ($permissioninfo['animap']['animap_detail']['Add']==0)  && ($permissioninfo['login_type'] == '2' or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3' or $permissioninfo['login_type'] == '1') or ($permissioninfo['login_type'] == '-1')){ ?>
+         <?php  if((isset($permissioninfo['animap']['animap_detail']['create'])) && ($permissioninfo['animap']['animap_detail']['create']==0)  && ($permissioninfo['login_type'] == '2' or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3' or $permissioninfo['login_type'] == '1') or ($permissioninfo['login_type'] == '-1')){ ?>
           <div class="float-left" id="left_panel_add">
 						<span class="btn btn-line-warning"> <i
 							class="fa fa-plus-circle fa-lg"></i><?php echo gettext('Add');?></span>
@@ -126,7 +126,7 @@ label.error {
 							id="left_panel_quick_search"
 							class="form-control form-control-lg m-0"
 							value="<?php echo $this->session->userdata('left_panel_search_'.$accounttype.'_animap')?>"
-							placeholder="Search" />
+							placeholder=<?php echo gettext("Search")?> />
 					</div>
         <?php } ?>
       </div>

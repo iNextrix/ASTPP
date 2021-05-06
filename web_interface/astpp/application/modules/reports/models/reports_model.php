@@ -120,9 +120,9 @@ class Reports_model extends CI_Model
         if ($flag) {
             if (! $export)
                 $this->db->limit($limit, $start);
-            $this->db->select('callstart,call_direction,callerid,callednum,pattern,notes,billseconds,disposition,debit,cost,accountid,pricelist_id,calltype');
+            $this->db->select('callstart,call_direction,callerid,country_id,callednum,pattern,notes,billseconds,disposition,debit,cost,accountid,pricelist_id,calltype,trunk_id');
         } else {
-            $this->db->select('count(*) as count,sum(billseconds) as billseconds,sum(debit) as total_debit,SUM(CASE WHEN calltype = "FREE" THEN debit ELSE 0 END) AS free_debit,sum(cost) as total_cost,group_concat(distinct(pricelist_id)) as pricelist_ids');
+            $this->db->select('count(*) as count,sum(billseconds) as billseconds,sum(debit) as total_debit,SUM(CASE WHEN calltype = "FREE" THEN debit ELSE 0 END) AS free_debit,sum(cost) as total_cost,group_concat(distinct(pricelist_id)) as pricelist_ids,group_concat(distinct(trunk_id)) as trunk_ids');
         }
         $result = $this->db->get($table_name);
         return $result;
@@ -265,42 +265,6 @@ payment_transaction.transaction_id,invoice_details.charge_type,invoice_details.d
         return $query;
     }
 
-    function getcharges_list($flag, $start = 0, $limit = 0)
-    {
-        $accountinfo = $this->session->userdata('accountinfo');
-        $reseller_id = $accountinfo['id'];
-        if ($accountinfo['type'] == 1) {
-            $where['reseller_id'] = $reseller_id;
-        }
-        if ($this->session->userdata('advance_search') != 1) {
-            $where['created_date >='] = gmdate("Y-m-01 00:00:01");
-            $where['created_date <='] = gmdate("Y-m-d 23:59:59");
-        }
-        $this->db_model->build_search('charges_list_search');
-        (! empty($where)) ? $this->db->where($where) : "";
-        if ($flag) {
-            $query = $this->db_model->select('*', "invoice_details", "", "id", "DESC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "invoice_details", "");
-        }
-        return $query;
-    }
-
-    function get_customer_charge_list($flag, $accountid, $start = 0, $limit = 0)
-    {
-        $this->db_model->build_search('charges_list_search');
-        $accountinfo = $this->session->userdata('accountinfo');
-        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
-        $where['reseller_id'] = $reseller_id;
-        $where['accountid'] = $accountid;
-		$this->db->where($where);
-        if ($flag) {
-            $query = $this->db_model->select('*', "invoice_details", "", "id", "DESC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "invoice_details", "");
-        }
-        return $query;
-    }
 
     function get_customer_refillreport($flag, $accountid, $start = 0, $limit = 0)
     {

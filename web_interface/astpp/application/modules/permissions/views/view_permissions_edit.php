@@ -255,7 +255,7 @@ foreach ($permission_main_array as $module_key => $module_value) {
 				<?php
                     $sub_module_value[$i] = ($sub_module_value[$i] == 'Delete')?"Delete Multiple":$sub_module_value[$i];
 				 ?>
-				<?php echo gettext(ucfirst(strtolower(str_replace("_"," ",$sub_module_value[$i])))); ?>
+				<?php echo gettext(ucwords(strtolower(str_replace("_"," ",$sub_module_value[$i])))); ?>
 			</td>
 		<?php if(!isset($loop_value_explode[1])){ ?>
 			

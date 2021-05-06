@@ -81,7 +81,7 @@ class rates_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                'trim|required|alpha_numeric|xss_clean',
+                'trim|required|numeric_with_plus_sign|xss_clean|is_unique_multiple[outbound_routes.pattern,trunk_id]',
                 'tOOL TIP',
                 ''
             ),
@@ -385,7 +385,7 @@ class rates_form extends common
 					'id',
 					'name',
 					'trunks',
-					'build_dropdown',
+					'build_dropdown_reseller',
 					'where_arr',
 					array (
 							"status" => "0" 
@@ -443,7 +443,7 @@ class rates_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                'trim|required|alpha_numeric|xss_clean',
+               'trim|required|numeric_with_plus_sign|xss_clean|is_unique_multiple[routes.pattern,pricelist_id,trunk_id]',
                 'tOOL TIP',
                 ''
             ),
@@ -469,7 +469,7 @@ class rates_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),
@@ -955,6 +955,28 @@ class rates_form extends common
                 '1',
                 array(
                     'name' => 'precedence[operator]',
+                    'class' => 'update_drp'
+                ),
+                '',
+                '',
+                '',
+                'update_drp_type',
+                ''
+            ),
+            array(
+                gettext('Strip'),
+                'INPUT',
+                array(
+                    'name' => 'strip[strip]',
+                    'id' => 'strip',
+                    'size' => '20',
+                    'class' => "text field "
+                ),
+                '',
+                'tOOL TIP',
+                '1',
+                array(
+                    'name' => 'strip[operator]',
                     'class' => 'update_drp'
                 ),
                 '',
@@ -1478,7 +1500,7 @@ class rates_form extends common
                     'id',
                     'country',
                     'countrycode',
-                    'build_dropdown',
+                    'build_dropdown_country_camel',
                     '',
                     ''
                 ),
@@ -1708,7 +1730,7 @@ class rates_form extends common
                     'id',
                     'country',
                     'countrycode',
-                    'build_dropdown',
+                    'build_dropdown_country_camel',
                     '',
                     ''
                 ),
@@ -2208,7 +2230,7 @@ class rates_form extends common
                     "Reseller",
                     "130",
                     "reseller_id",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "reseller_select_value"
                 ),

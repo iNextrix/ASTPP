@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 // ##############################################################################
 // ASTPP - Open Source VoIP Billing Solution
@@ -450,59 +450,6 @@ class Accounts extends MX_Controller
     function provider_ipmap($edit_id)
     {
         $this->customer_ipmap($edit_id);
-    }
-
-    function customer_ipmap($edit_id)
-    {
-        $data['page_title'] = gettext("IP Settings");
-        $data['add_form'] = true;
-        $accountinfo = $this->session->userdata('accountinfo');
-        $reseller_id = ($accountinfo['type'] == 1 || $accountinfo['type'] == 5) ? $accountinfo['id'] : 0;
-        if ($accountinfo['type'] == - 1) {
-            $where = array(
-                'id' => $edit_id
-            );
-        } else {
-            $where = array(
-                'id' => $edit_id,
-                "reseller_id" => $reseller_id
-            );
-        }
-        $account_res = $this->db_model->getSelect("type", "accounts", $where);
-        if ($account_res->num_rows() > 0) {
-            $account_data = (array) $account_res->first_row();
-            $accounttype = strtolower($this->common->get_entity_type('', '', $account_data['type']));
-            $data["grid_fields"] = $this->accounts_form->build_ip_list_for_customer($edit_id, $accounttype);
-            $data['edit_id'] = $edit_id;
-            $data['accounttype'] = $accounttype;
-            $this->load->view('view_customer_ipmap', $data);
-        } else {
-            $this->session->set_flashdata('astpp_notification', gettext('Permission Denied!'));
-            redirect(base_url() . 'accounts/customer_list/');
-            exit();
-        }
-    }
-
-    function customer_ipmap_json($accountid, $accounttype)
-    {
-        $json_data = array();
-        $where = array(
-            "accountid" => $accountid
-        );
-        $instant_search = $this->session->userdata('left_panel_search_' . $accounttype . '_ipmap');
-        $like_str = ! empty($instant_search) ? "(name like '%$instant_search%'  OR ip like '%$instant_search%' OR prefix like '%$instant_search%' OR created_date like '%$instant_search%' )" : null;
-        if (! empty($like_str))
-            $this->db->where($like_str);
-        $count_all = $this->db_model->countQuery("*", "ip_map", $where);
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
-        $json_data = $paging_data["json_paging"];
-        if (! empty($like_str))
-            $this->db->where($like_str);
-        $query = $this->db_model->select("*", "ip_map", $where, "id", "ASC", $paging_data["paging"]["page_no"], $paging_data["paging"]["start"]);
-        $grid_fields = json_decode($this->accounts_form->build_ip_list_for_customer($accountid, $accounttype));
-        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
-
-        echo json_encode($json_data);
     }
 
     function provider_ipmap_action($action, $accountid, $accounttype, $ipmapid = "")
@@ -1561,68 +1508,68 @@ class Accounts extends MX_Controller
         return false;
     }
 
-    function customer_add_callerid($id)
-    {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = gettext('​Force Caller ID');
-        $account_num = $this->accounts_model->get_account_number($id);
-        $result = $this->accounts_model->get_callerid($id);
-        if ($result->num_rows() > 0) {
-            foreach ($result->result_array() as $values) {
-                $data['accountid'] = $values['accountid'];
-                $data['callerid_name'] = $values['callerid_name'];
-                $data['callerid_number'] = $values['callerid_number'];
-                $data['status'] = $values['status'];
-                $data['flag'] = '1';
-            }
-        } else {
-            $data['accountid'] = $id;
-            $data['callerid_name'] = '';
-            $data['callerid_number'] = '';
-            $data['status'] = '1';
-            $data['flag'] = '0';
-        }
-        $data['accountid'] = $account_num['number'];
-        $post_array = $this->input->post();
-        if(isset($post_array) && !empty($post_array)){
-				if(isset($post_array['status']) && $post_array['status']!=""){
-					$data['status']=$post_array['status'];
-				}
-				if(isset($post_array['callerid_name']) && $post_array['callerid_name']!=""){
-					$data['callerid_name']=$post_array['callerid_name'];
-				}
-				if(isset($post_array['callerid_number']) && $post_array['callerid_number']!=""){
-					$data['callerid_number']=$post_array['callerid_number'];
-				}	
-		}
-        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_callerid_fields($id,$post_array), $data);
-        $post_array['accountid'] = $this->uri->segment('3');
-        $id = $this->uri->segment('3');
+  //   function customer_add_callerid($id)
+  //   {
+  //       $data['username'] = $this->session->userdata('user_name');
+  //       $data['page_title'] = gettext('​Force Caller ID');
+  //       $account_num = $this->accounts_model->get_account_number($id);
+  //       $result = $this->accounts_model->get_callerid($id);
+  //       if ($result->num_rows() > 0) {
+  //           foreach ($result->result_array() as $values) {
+  //               $data['accountid'] = $values['accountid'];
+  //               $data['callerid_name'] = $values['callerid_name'];
+  //               $data['callerid_number'] = $values['callerid_number'];
+  //               $data['status'] = $values['status'];
+  //               $data['flag'] = '1';
+  //           }
+  //       } else {
+  //           $data['accountid'] = $id;
+  //           $data['callerid_name'] = '';
+  //           $data['callerid_number'] = '';
+  //           $data['status'] = '1';
+  //           $data['flag'] = '0';
+  //       }
+  //       $data['accountid'] = $account_num['number'];
+  //       $post_array = $this->input->post();
+  //       if(isset($post_array) && !empty($post_array)){
+		// 		if(isset($post_array['status']) && $post_array['status']!=""){
+		// 			$data['status']=$post_array['status'];
+		// 		}
+		// 		if(isset($post_array['callerid_name']) && $post_array['callerid_name']!=""){
+		// 			$data['callerid_name']=$post_array['callerid_name'];
+		// 		}
+		// 		if(isset($post_array['callerid_number']) && $post_array['callerid_number']!=""){
+		// 			$data['callerid_number']=$post_array['callerid_number'];
+		// 		}	
+		// }
+  //       $data['form'] = $this->form->build_form($this->accounts_form->get_customer_callerid_fields($id,$post_array), $data);
+  //       $post_array['accountid'] = $this->uri->segment('3');
+  //       $id = $this->uri->segment('3');
 
-        if (! empty($post_array)) {
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-            } else {
-                $post_array['callerid_name'] = trim($post_array['callerid_name']);
-                $post_array['callerid_number'] = trim($post_array['callerid_number']);
-                if ($post_array['flag'] == '1') {
-                    $this->accounts_model->edit_callerid($post_array);
-                    $entity_type = 'customer';
-                    $this->session->set_flashdata('astpp_errormsg', gettext('Account callerID updated successfully!'));
-                    redirect(base_url() . 'accounts/' . $entity_type . '_add_callerid/' . $id . "/");
-                    exit();
-                } else {
-                    $this->accounts_model->add_callerid($post_array);
-                    $entity_type = 'customer';
-                    $this->session->set_flashdata('astpp_errormsg', gettext('Account callerID added successfully!'));
-                    redirect(base_url() . 'accounts/' . $entity_type . '_add_callerid/' . $id . "/");
-                }
-            }
-        }
-        $data['edit_id'] = $id;
-        $data['accounttype'] = 'customer';
-        $this->load->view('view_accounts_add_callerid', $data);
-    }
+  //       if (! empty($post_array)) {
+  //           if ($this->form_validation->run() == FALSE) {
+  //               $data['validation_errors'] = validation_errors();
+  //           } else {
+  //               $post_array['callerid_name'] = trim($post_array['callerid_name']);
+  //               $post_array['callerid_number'] = trim($post_array['callerid_number']);
+  //               if ($post_array['flag'] == '1') {
+  //                   $this->accounts_model->edit_callerid($post_array);
+  //                   $entity_type = 'customer';
+  //                   $this->session->set_flashdata('astpp_errormsg', gettext('Account callerID updated successfully!'));
+  //                   redirect(base_url() . 'accounts/' . $entity_type . '_add_callerid/' . $id . "/");
+  //                   exit();
+  //               } else {
+  //                   $this->accounts_model->add_callerid($post_array);
+  //                   $entity_type = 'customer';
+  //                   $this->session->set_flashdata('astpp_errormsg', gettext('Account callerID added successfully!'));
+  //                   redirect(base_url() . 'accounts/' . $entity_type . '_add_callerid/' . $id . "/");
+  //               }
+  //           }
+  //       }
+  //       $data['edit_id'] = $id;
+  //       $data['accounttype'] = 'customer';
+  //       $this->load->view('view_accounts_add_callerid', $data);
+  //   }
 
     function reseller_add($type = "1")
     {
@@ -2766,7 +2713,11 @@ class Accounts extends MX_Controller
         if ($accounts->num_rows > 0) {
             $accounts_data = $accounts->result_array();
             foreach ($accounts_data as $value) {
-                echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . " ( " . $value['number'] . ") </option>";
+                if(isset($value['company_name']) && $value['company_name'] != ''){
+                    echo "<option value=" . $value['id'] . ">" . $value['company_name'] . "(" . $value['number'] . ")</option>";
+                }else{
+                    echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                }
             }
         } else {
             echo '<select><option value="">--Select--</option></select>';
@@ -2978,7 +2929,11 @@ class Accounts extends MX_Controller
         if ($pricelist_result->num_rows() > 0) {
             $pricelist_result_array = $pricelist_result->result_array();
             foreach ($pricelist_result_array as $key => $value) {
-                echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "( " . $value['number'] . " )" . "</option>";
+                if(isset($value['company_name']) && $value['company_name'] != ''){
+                    echo "<option value=" . $value['id'] . ">" . $value['company_name'] . "(" . $value['number'] . ")</option>";
+                }else{
+                    echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                }
             }
         } else {
             echo '';
@@ -2992,17 +2947,28 @@ class Accounts extends MX_Controller
         $add_array = $this->input->post();
         $reseller_id = $add_array['reseller_id'];
         $accountinfo = $this->session->userdata("accountinfo");
-        $reseller_id = $accountinfo['type'] == 1 || $accountinfo['type'] == 5 ? $accountinfo['id'] : $reseller_id;
+        if(!isset($reseller_id) && $reseller_id == ''){
+            $reseller_id = $accountinfo['type'] == 1 || $accountinfo['type'] == 5 ? $accountinfo['id'] : $reseller_id;
+        }
+        if($accountinfo['type'] == 1){
+            $type = array('type' => 1,0);
+            $this->db->where_in('type', $type);
+        }else{
+            $type = array('type' => 1);
+        }
         $pricelist_result = $this->db->get_where('accounts', array(
             "reseller_id" => $reseller_id,
-            "status" => 0,
-            "type" => 1
+            "status" => 0
         ));
         if ($pricelist_result->num_rows() > 0) {
             $pricelist_result_array = $pricelist_result->result_array();
 
             foreach ($pricelist_result_array as $key => $value) {
-                echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "( " . $value['number'] . " )" . "</option>";
+                if(isset($value['company_name']) && $value['company_name'] != ''){
+                    echo "<option value=" . $value['id'] . ">" . $value['company_name'] . "(" . $value['number'] . ")</option>";
+                }else{
+                    echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                }
             }
         } else {
             echo '';
@@ -3026,7 +2992,11 @@ class Accounts extends MX_Controller
             $pricelist_result_array = $pricelist_result->result_array();
 
             foreach ($pricelist_result_array as $key => $value) {
-                echo "<option value=" . $value['id'] . ">" . $value['number'] . "</option>";
+                if(isset($value['company_name']) && $value['company_name'] != ''){
+                    echo "<option value=" . $value['id'] . ">" . $value['company_name'] . "(" . $value['number'] . ")</option>";
+                }else{
+                    echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                }
             }
         } else {
             echo '';

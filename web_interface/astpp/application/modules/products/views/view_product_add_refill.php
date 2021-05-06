@@ -37,7 +37,7 @@
 			</div>
                   </div>
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Name *'); ?></label>
+                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Name'); ?>*</label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo (isset($add_array['product_name']))?$add_array['product_name']:'' ?>" name="product_name" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="product_name_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="product_name_error"></span></div>
                   </div>

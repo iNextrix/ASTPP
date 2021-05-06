@@ -61,7 +61,7 @@
                       <label class="col-md-12 p-0 control-label"><?php echo gettext('Country')?></label>
                       <?php
 								$country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
-								$country = form_dropdown($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""), $product_info['country_id']);
+								$country = form_dropdown($country_arr, $this->db_model->build_dropdown_country_camel("id,country", "countrycode", "", ""), $product_info['country_id']);
 								echo $country;
 								?>
 			
@@ -151,8 +151,8 @@
 		 <div class='col-md-6 form-group'>
                       <label class="col-md-12 no-padding control-label"><?php echo gettext('Billing Type'); ?></label>
                       <select  name="billing_type" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
-                       <option value="0" <?php if($product_info['billing_type'] == '0'){ ?> selected="selected" <?php } ?>>One Time</option>
-			<option value="1" <?php if($product_info['billing_type'] == '1'){ ?> selected="selected" <?php } ?>>Recurring</option>
+                       <option value="0" <?php if($product_info['billing_type'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext("One Time")?></option>
+			<option value="1" <?php if($product_info['billing_type'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext("Recurring")?></option>
                       </select>
                   </div>
 		<div class='col-md-6 form-group'>

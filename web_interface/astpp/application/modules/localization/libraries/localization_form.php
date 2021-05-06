@@ -189,7 +189,7 @@ class Localization_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),

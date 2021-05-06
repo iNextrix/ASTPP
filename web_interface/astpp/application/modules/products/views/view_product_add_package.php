@@ -45,7 +45,7 @@
                       <label class="col-md-12 p-0 control-label"><?php echo gettext('Country')?></label>
                       <?php
 								$country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
-								$country = form_dropdown_all($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""),isset($add_array['country_id'])?$add_array['country_id']:''); 
+								$country = form_dropdown_all($country_arr, $this->db_model->build_dropdown_country_camel("id,country", "countrycode", "", ""),isset($add_array['country_id'])?$add_array['country_id']:''); 
 								echo $country;
 								?>
 			
@@ -157,19 +157,19 @@
 		    </div>
                   </div>
                   <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Apply on existing accounts *'); ?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Apply on existing accounts'); ?>*</label>
                       <select  name="apply_on_existing_account" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['apply_on_existing_account'])){ ?>
                         	<option value="1" <?php if($add_array['apply_on_existing_account'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext('No');?></option>
 		                <option value="0" <?php if($add_array['apply_on_existing_account'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('Yes');?></option>
 			<?php } else { ?>
 				<option value="1"><?php echo gettext('No'); ?></option>
-		                <option value="0"><?php echo gettext('yes'); ?></option>
+		                <option value="0"><?php echo gettext('Yes'); ?></option>
 			<?php } ?>
                       </select>
                   </div>
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Free Minutes *'); ?></label>
+                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Free Minutes'); ?>*</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="free_minutes" value="<?php echo (isset($add_array['free_minutes']))?$add_array['free_minutes']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="free_minutes_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="free_minutes_error">   </span></div>	
                   </div>
@@ -196,7 +196,7 @@
 
 				<?php } else { ?>
 		                	<option value="1"><?php echo gettext('No'); ?></option>
-		               		<option value="0"><?php echo gettext('yes'); ?></option>
+		               		<option value="0"><?php echo gettext('Yes'); ?></option>
 				<?php } ?>
                       </select>	      
                   </div>
@@ -229,7 +229,9 @@ add_package_destination();" type="button"> <i class="fa fa-plus-square-o"></i> <
                       <button class="btn btn-secondary mx-2 btn-block" name="cancel" onclick="return redirect_page('/products/products_list/')" value="Cancel" type="button"> <?php echo gettext('Cancel'); ?> </button>
                     </div>                        
                   </div>
-              
+              <!-- Dhaval issue 145([BUG] Billing and Transfer Money to another account.) -->
+					    <h4 class="col-md-12 pl-0 mt-2 alert" style="color:red;"><?php echo gettext("Please check your customers calls are running or not. if running then may be customer balance goes in nagative!"); ?></h4>
+					    <!-- END -->
     </div>
 	
 

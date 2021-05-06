@@ -65,6 +65,7 @@ $(document).ready(function() {
 		  formflag = false;
       }
       if(formflag){
+      	alert('Request to reload the sip profile to reflect the applied changes in Freeswitch.');
 		$('#myForm1').submit();
 	  }
 }
@@ -109,6 +110,12 @@ function cancel(){
       document.getElementById('params_value_error').innerHTML ="";
       jQuery('#params_name').removeClass('borderred');
       jQuery('#params_value').removeClass('borderred');
+}
+function reload_port(h){
+	var sip_port = confirm("Are you sure about the applied config changed? This will affect how the calls will be accepted and handled by Freeswitch. Please note: If the switch is currently having live calls, the reload will not reflect the applied changes in Freeswitch.");
+		if(sip_port == true){
+			window.location.href = h;
+		}
 }
 </script>
 <?php endblock() ?>
@@ -186,7 +193,7 @@ function cancel(){
 							class="tooltips error_div float-left p-0" style="display: block;"></div>
 					</div>
 					<div class="col-md-12 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('Value')?> * </label>
+						<label class="col-md-12 p-0 control-label"><?php echo gettext('VALUE')?> * </label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?php echo isset($params_value)?$params_value:"";?>"
 							name="params_value" id='params_value' size="25" type="text">
@@ -221,10 +228,13 @@ function cancel(){
 			&nbsp;<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/stop/<?=$id?>"
 				class="" title="Stop" style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Stop')." |"; ?></b></a>
-			&nbsp;<a
-				href="<?= base_url()?>/freeswitch/fssipprofile_action/reload/<?=$id?>"
+			<?php 
+					$url = "/freeswitch/fssipprofile_action/reload/".$id;
+					$link = base_url () . $url;
+				?>
+			&nbsp;<a onclick="reload_port('<?=$link?>')"
 				class="" title="reload"
-				style="text-decoration: none; color: #428BCA;"><b><?php echo gettext('Reload')." |"; ?></b></a>
+				style="text-decoration: none; color: #428BCA; cursor:pointer;"><b><?php echo gettext('Reload')." |"; ?></b></a>
 			&nbsp;<a
 				href="<?= base_url()?>/freeswitch/fssipprofile_action/rescan/<?=$id?>"
 				class="" title="rescan"

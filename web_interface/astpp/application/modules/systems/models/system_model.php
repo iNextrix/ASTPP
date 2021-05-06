@@ -422,4 +422,42 @@ class System_model extends CI_Model
         $this->db->delete("translations");
         return true;
     }
+
+    function gettimezone_list($flag, $start = 0, $limit = 0)
+    {
+        $this->db_model->build_search('timezone_list_search');
+
+        $where = array(
+            'timezone_name <>' => Common_model::$global_config['system_config']['default_timezone']
+        );
+        if (isset($_GET['sortname']) && $_GET['sortname'] == 'id') {
+            $_GET['sortname'] = "timezone_name";
+            $_GET['sortorder'] = 'ASC';
+        }
+
+        if ($flag) {
+            $query = $this->db_model->select("*", "timezone", $where, "id", "ASC", $limit, $start);
+        } else {
+            $query = $this->db_model->countQuery("*", "timezone", $where);
+        }
+        return $query;
+    }
+    function edit_timezone($data, $id)
+    {
+        unset($data["action"]);
+        $this->db->where("id", $id);
+        $this->db->update("timezone", $data);
+    }
+    function remove_timezone($id)
+    {
+        $this->db->where("id", $id);
+        $this->db->delete("timezone");
+        return true;
+    }
+    function add_timezone($add_array)
+    {
+        unset($add_array["action"], $add_array["id"]);
+        $this->db->insert("timezone", $add_array);
+        return true;
+    }
 }

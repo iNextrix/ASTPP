@@ -768,7 +768,7 @@ class Accounts_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),
@@ -788,9 +788,9 @@ class Accounts_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'gmtzone',
+                'timezone_name,gmtoffset',
                 'timezone',
-                'build_dropdown',
+                'build_concat_dropdown_timezone',
                 '',
                 ''
             ),
@@ -812,7 +812,7 @@ class Accounts_form extends common
                 'id',
                 'currencyname,currency',
                 'currency',
-                'build_concat_dropdown',
+                'build_concat_dropdown_currency',
                 '',
                 array()
             )
@@ -876,9 +876,6 @@ class Accounts_form extends common
                 )
             ),
             $smsrategroup_array,
-            // AD :end
-            
-
             array(
                 gettext('Billing Schedule'),
                 array(
@@ -1081,7 +1078,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                gettext('Start Prefix'),
+                gettext('Start prefix'),
                 'INPUT',
                 array(
                     'name' => 'prefix',
@@ -1153,7 +1150,7 @@ class Accounts_form extends common
                 'id',
                 'currencyname,currency',
                 'currency',
-                'build_concat_dropdown',
+                'build_concat_dropdown_currency',
                 '',
                 array()
             ),
@@ -1175,7 +1172,7 @@ class Accounts_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),
@@ -1195,9 +1192,9 @@ class Accounts_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'gmtzone',
+                'timezone_name',
                 'timezone',
-                'build_dropdown',
+                'build_concat_dropdown_timezone',
                 '',
                 ''
             )
@@ -1301,84 +1298,6 @@ class Accounts_form extends common
             'class' => 'btn btn-secondary mx-2',
             'onclick' => 'return redirect_page(\'NULL\')'
         );
-        return $form;
-    }
-
-    function get_customer_callerid_fields($id,$post_array)
-    {
-		$required='';
-		$callerid_name='';
-		$callerid_number='';
-		if(isset($post_array) && !empty($post_array)){
-				if(isset($post_array['status']) && $post_array['status']==0){
-					$required='|required';
-				}		
-		}
-        $form['forms'] = array(
-            base_url() . 'accounts/customer_add_callerid/' . $id . '',
-            array(
-                "id" => "callerid_form"
-            )
-        );
-        $form[gettext('Information')] = array(
-            array(
-                '',
-                'HIDDEN',
-                array(
-                    'name' => 'flag'
-                ),
-                '',
-                '',
-                '',
-                ''
-            ),
-            array(
-                gettext('Enable'),
-                'status',
-                'SELECT',
-                '',
-                '',
-                'tOOL TIP',
-                'Please Enter account number',
-                '',
-                '',
-                '',
-                'custom_status_recording'
-            ),
-            array(
-                gettext('Caller Id Name'),
-                'INPUT',
-                array(
-                    'name' => 'callerid_name',
-                    'size' => '20',
-                    'class' => "text field medium"
-                ),
-                ''.$required.'|trim',
-                'tOOL TIP',
-                ''
-            ),
-            array(
-                gettext('Caller Id Number'),
-                'INPUT',
-                array(
-                    'name' => 'callerid_number',
-                    'size' => '20',
-                    'class' => "text field medium"
-                ),
-                ''.$required.'|trim',
-                'tOOL TIP',
-                ''
-            )
-        );
-        $form['button_save'] = array(
-            'name' => 'action',
-            'content' => gettext('Save'),
-            'value' => 'save',
-            "id" => "button",
-            'type' => 'submit',
-            'class' => 'btn btn-success'
-        );
-
         return $form;
     }
 
@@ -1637,7 +1556,7 @@ class Accounts_form extends common
                 'get_reseller_info'
             );
             $is_distributor = array(
-                gettext('Is Distributor'),
+                gettext('Reseller Type'),
                 array(
                     "name" => 'is_distributor',
                     "id" => 'is_distributor',
@@ -1651,7 +1570,7 @@ class Accounts_form extends common
                 '',
                 '',
                 '',
-                'set_prorate'
+                'reseller_type_dropdown'
             );
         }
 
@@ -1874,7 +1793,7 @@ class Accounts_form extends common
                 ''
             );
             $low_balance_alert_email = array(
-                gettext('Low balance Alert Email'),
+                gettext('Low Balance Alert Email'),
                 'notify_flag',
                 'SELECT',
                 '',
@@ -2159,7 +2078,7 @@ class Accounts_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),
@@ -2179,13 +2098,12 @@ class Accounts_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'gmtzone',
+                'timezone_name,gmtoffset',
                 'timezone',
-                'build_dropdown',
+                'build_concat_dropdown_timezone',
                 '',
                 ''
             ),
-
             array(
                 gettext('Currency'),
                 array(
@@ -2204,7 +2122,7 @@ class Accounts_form extends common
                 'id',
                 'currencyname,currency',
                 'currency',
-                'build_concat_dropdown',
+                'build_concat_dropdown_currency',
                 '',
                 array()
             ),
@@ -2242,7 +2160,7 @@ class Accounts_form extends common
                 ''
             ),
             array(
-                'Rate Group',
+                gettext('Rate Group'),
                 array(
                     'name' => 'pricelist_id',
                     'id' => 'pricelist_id'
@@ -2288,7 +2206,8 @@ class Accounts_form extends common
                 gettext('Billing Day'),
                 array(
                     "name" => 'invoice_day',
-                    "class" => "invoice_day"
+                    "class" => "invoice_day",
+                    'id' => "invoice_day"
                 ),
                 'SELECT',
                 '',
@@ -2555,12 +2474,11 @@ class Accounts_form extends common
                     'id',
                     'country',
                     'countrycode',
-                    'build_dropdown',
+                    'build_dropdown_country_camel',
                     '',
                     ''
                 );
-
-                $Timezone = array(
+                 $Timezone = array(
                     gettext('Timezone'),
                     array(
                         'name' => 'timezone_id',
@@ -2572,13 +2490,12 @@ class Accounts_form extends common
                     'tOOL TIP',
                     'Please Enter account number',
                     'id',
-                    'gmtzone',
+                    'timezone_name,gmtoffset',
                     'timezone',
-                    'build_dropdown',
+                    'build_concat_dropdown_timezone',
                     '',
                     ''
                 );
-
                 $Currency = array(
                     gettext('Currency'),
                     array(
@@ -2593,7 +2510,7 @@ class Accounts_form extends common
                     'id',
                     'currencyname,currency',
                     'currency',
-                    'build_concat_dropdown',
+                    'build_concat_dropdown_currency',
                     '',
                     array()
                 );
@@ -4420,7 +4337,7 @@ class Accounts_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),
@@ -4801,10 +4718,10 @@ class Accounts_form extends common
                             "url" => "accounts/customer_payment_process_add/",
                             "mode" => "single"
                         ),
-                        "CALLERID" => array(
-                            "url" => "accounts/customer_add_callerid/",
-                            "mode" => "popup"
-                        ),
+                        // "CALLERID" => array(
+                        //     "url" => "accounts/customer_add_callerid/",
+                        //     "mode" => "popup"
+                        // ),
                         "EDIT" => array(
                             "url" => "accounts/customer_edit/",
                             "mode" => "single"
@@ -4984,10 +4901,10 @@ class Accounts_form extends common
                             "url" => "accounts/customer_payment_process_add/",
                             "mode" => "single"
                         ),
-                        "CALLERID" => array(
-                            "url" => "accounts/customer_add_callerid/",
-                            "mode" => "popup"
-                        ),
+                        // "CALLERID" => array(
+                        //     "url" => "accounts/customer_add_callerid/",
+                        //     "mode" => "popup"
+                        // ),
                         "EDIT" => array(
                             "url" => "accounts/customer_edit/",
                             "mode" => "single"
@@ -5124,7 +5041,7 @@ class Accounts_form extends common
                 gettext("Reseller"),
                 "85",
                 "reseller_id",
-                "first_name,last_name,number",
+                "first_name,last_name,number,company_name",
                 "accounts",
                 "reseller_select_value",
                 "",
@@ -5175,10 +5092,10 @@ class Accounts_form extends common
                         "url" => "accounts/customer_payment_process_add/",
                         "mode" => "single"
                     ),
-                    "CALLERID" => array(
-                        "url" => "accounts/customer_add_callerid/",
-                        "mode" => 'popup'
-                    ),
+                    // "CALLERID" => array(
+                    //     "url" => "accounts/customer_add_callerid/",
+                    //     "mode" => 'popup'
+                    // ),
                     "EDIT" => array(
                         "url" => "accounts/reseller_edit/",
                         "mode" => "single"
@@ -5279,7 +5196,7 @@ class Accounts_form extends common
                 "/accounts/admin_add/",
                 "single",
                 "medium",
-                "create"
+                "create_admin"
             ),
             array(
                 gettext("Delete"),
@@ -5330,79 +5247,6 @@ class Accounts_form extends common
             )
         ));
         return $buttons_json;
-    }
-
-    function build_ip_list_for_customer($accountid, $accountype)
-    {
-        $grid_field_arr = json_encode(array(
-            array(
-                "<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>",
-                "30",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "false",
-                "center"
-            ),
-            array(
-                gettext('Name'),
-                "150",
-                "name",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext('IP'),
-                "300",
-                "ip",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext('Prefix'),
-                "80",
-                "prefix",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext('Created Date'),
-                "174",
-                "created_date",
-                "created_date",
-                "created_date",
-                "convert_GMT_to",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext('Modified Date'),
-                "160",
-                "last_modified_date",
-                "last_modified_date",
-                "last_modified_date",
-                "convert_GMT_to",
-                "",
-                "true",
-                "center"
-            )
-        ));
-        return $grid_field_arr;
     }
 
     function build_animap_list_for_customer($accountid, $accounttype)

@@ -395,7 +395,7 @@ class Taxes_form extends common
             ),
 
             array(
-                gettext("status"),
+                gettext("Status"),
                 "60",
                 "status",
                 "status",

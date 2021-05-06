@@ -19,7 +19,7 @@
 # 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-###############################################################################
+############################################################################### 
 class Supportticket extends CI_Controller {
 
 	function __construct() {
@@ -60,7 +60,6 @@ class Supportticket extends CI_Controller {
 	        $account_data = $this->session->userdata("accountinfo");
 		// $support_ticket_type=$this->common->get_field_name('ticket_type','support_ticket', $edit_id);
 		$support_ticket_type = $support_ticket_result['ticket_type'];
-//harsh_supportticket_18_08
 		if($support_ticket_type == 5){
 			$explode_display_flag = explode(',',$support_ticket_result['close_ticket_display_flag']);
 			foreach($explode_display_flag as $key =>$value){
@@ -72,7 +71,6 @@ class Supportticket extends CI_Controller {
 			$this->db->where('id',$edit_id);
 			$this->db->update("support_ticket", array('close_ticket_display_flag'=>$implode_display_flag));
 		}
-		// end
 //		}
 		$account_data = $this->session->userdata("accountinfo");
 		
@@ -82,9 +80,6 @@ class Supportticket extends CI_Controller {
 			$edit_data = $value;
 		}
 		$data['support_ticket']	=$edit_data;
-		/*echo '<pre>';
-print_r($data);
-exit;*/
 		$support_department=$this->common->get_field_name('name','department',array('id'=>$edit_data['department_id']));
 		$support_id=$edit_data['support_ticket_number'];
 		$data['page_title'] = gettext('Edit Support Ticket:&nbsp; #'.$support_id. '('.$support_department .')');
@@ -99,8 +94,6 @@ exit;*/
 			$data['ticket_lable']= "Answer";
 			$data['ticket_type']= "1";
 		}
-		//echo "<pre>";print_r($data);exit;
-//harsh_16_02
 		if(count($data['details_arr']) == 1 && $this->session->userdata('logintype') != 0 && $this->session->userdata('logintype') != 1){
 			$data['ticket_lable']= "Answered";
 		}else{
@@ -113,7 +106,6 @@ exit;*/
 			}
 			//$data['support_ticket']['ticket_type'] = "1"; // AD : Hotfix to resolve issue:4137
 		}
- // echo '<pre>'; print_r($data); exit; 
 		$this->load->view('view_supportticket_edit', $data);
 		}else{
 			redirect(base_url() . 'supportticket/supportticket_list/');
@@ -140,7 +132,6 @@ exit;*/
 	}
 
 	function supportticket_list() {
-		 //~ echo "<pre>";    print_r($this->session->userdata['logintype']); exit;
 		$data['username'] = $this->session->userdata('user_name');
 		$data['page_title'] = gettext('Support Tickets');
 		$data['search_flag'] = true;
@@ -150,6 +141,8 @@ exit;*/
 		//~ $data['form_search'] = $this->form->build_serach_form($this->supportticket_form->get_supportticket_search_form());
 		$department_list_array=$this->db_model->getSelect("*", "department",array());
 		$data['department_list_result']=$department_list_array->result_array();
+		$accounts_data = $this->db_model->getSelect("*", "accounts",array("type" => "0" , "status" => "0" , "deleted" => 0));
+		$data['accounts_data']=$accounts_data->result_array();
 		$this->load->view('view_supportticket_list', $data);
 	 
 }
@@ -166,7 +159,6 @@ exit;*/
 		$className ="";
 		if ($query->num_rows () > 0) {
 			$query = $query->result_array ();
-    //~ echo "<pre>";    print_r($query); exit;
 			if($this->session->userdata['logintype'] == 2 || $this->session->userdata['logintype'] == 1){ 
 				foreach ( $query as $value ) {
 					$json_data ['rows'] [] = array (
@@ -174,12 +166,11 @@ exit;*/
 						'<input type="checkbox" name="chkAll" id=' . $value ['id'] . ' class="ace chkRefNos' . $className . '" onclick="clickchkbox(' . $value ['id'] . ')" value=' . $value ['id'] . '><lable class="lbl"></lable>',
 						'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['support_ticket_number'].'</a>&nbsp',
 						'<a href="'. base_url() .'supportticket/supportticket_edit/' . $value ['id'] . '/" class="" title="Edit">'.$value ['subject'].'</a>&nbsp',
-						$this->common->get_field_name('number','accounts',$value ['accountid']),
+						$this->common->get_field_name_coma_new('first_name,last_name,number','accounts',$value ['accountid']),
 						$this->get_priority_type($value ['priority']),
 						$this->common->get_field_name('name','department',$value ['department_id']),
 						$this->get_ticket_type($value ['ticket_type']),
 						$this->common->convert_GMT_to('', '', $value['last_modified_date']),
-					//$value['last_modified_date'],
 						$this->get_action_buttons_supportticket($value ['id']),
 					));
 				}
@@ -194,7 +185,6 @@ exit;*/
 							$this->common->get_field_name('name','department',$value ['department_id']),
 							$this->get_ticket_type($value ['ticket_type']),
 							$this->common->convert_GMT_to('', '', $value['last_modified_date']),
-					//$value['last_modified_date'],
 							$this->get_action_buttons_supportticket($value ['id']),
 						)
 					);
@@ -250,7 +240,6 @@ exit;*/
 	function supportticket_details_save(){
 	       $files=$_FILES;
 	       $add_array = $this->input->post();
-//echo "<pre>"; print_r($files); exit;
 	       $add_array['page_title'] = gettext('Support Ticket');
 	       $nooffile= $files['file']['name'];
 	       $count=count($nooffile);
@@ -344,12 +333,22 @@ exit;*/
 			$add_array['email']=$act_email;
 			
 			$add_array['departmentid']=$support_ticket_info['department_id'];
-	        	$this->supportticket_model->edit_supportticket($add_array);	
-	       }else{
-	       //echo "<pre>"; print_r($add_array); exit;
-	        	$this->supportticket_model->add_supportticket($add_array);	
-	        
-	       }
+			$this->supportticket_model->edit_supportticket($add_array);	
+			if($account_data['type'] == '-1'){
+				$this->session->set_flashdata('astpp_errormsg', gettext('Support ticket replied successfully!'));
+				redirect(base_url() . 'supportticket/supportticket_list/');
+				exit; 
+				}else{
+					$this->session->set_flashdata('astpp_errormsg', gettext('Support ticket edited successfully!'));
+					redirect(base_url() . 'supportticket/supportticket_list/');
+					exit; 
+				}	
+			}else{
+					$this->supportticket_model->add_supportticket($add_array);	
+					$this->session->set_flashdata('astpp_errormsg', gettext('Support ticket added successfully!'));
+						redirect(base_url() . 'supportticket/supportticket_list/');
+				
+			}
              /*  $screen_path = getcwd()."/cron";
                $screen_filename = "Email_Broadcast_".strtotime('now');
                $command = "cd ".$screen_path." && /usr/bin/screen -d -m -S  $screen_filename php cron.php BroadcastEmail";
@@ -370,26 +369,28 @@ exit;*/
 		echo TRUE;
 	}
     function supportticket_close_multiple() {
-	 
-		 $add_array = $this->input->post ();
-	 
-		 $data=$add_array['selected_ids'];
-		 
-	 //~ print_r($data);exit;
-			 
+		
+		$add_array = $this->input->post ();
+		$data=$add_array['selected_ids'];
 		if($add_array['selected_ids'] != ''){
 			$where = 'IN ('.$add_array['selected_ids'].')';
-			$abc=$this->db->where('id '.$where);
-			 
+			$this->db->where('id '.$where);
+				
 			echo $this->db->update("support_ticket", array("ticket_type" => "5",'last_modified_date'=>gmdate("Y-m-d H:i:s")));
-		}
-		 
-		 
+			$ticket_numbers = $this->db_model->getSelect('*','support_ticket','id '.$where)->result_array();
+			$accountinfo = $this->session->userdata('accountinfo');
+			
+			foreach ($ticket_numbers as $key => $value) {
+				$accountinfo['cc_email_ids'] = strtolower($this->common->get_field_name("additional_email_address","department",array("id" => $value['department_id'])));
+				//$accountinfo['ticket_message'] = $this->common->get_field_name("message","support_ticket_details",array("support_ticket_id" => $value['id']));
+				$accountinfo['ticket_number'] = $value['support_ticket_number'];
+				$accountinfo['ticket_subject'] = $value['subject'];
+				$accountinfo['customer_account_id'] = $value['accountid'];
+				$this->common->mail_to_users('email_sent_support_ticket',$accountinfo);
+			}			
+		} 
 	}
 	 
-	
-	
-	
 	function supportticket_list_attachment($file_name) {
 	if(file_exists(getcwd().'/attachments/'.$file_name)){
 		header('Content-Type: application/octet-stream');
@@ -410,7 +411,6 @@ exit;*/
 		   $this->load->model('supportticket_model');
    
     $department_id = form_dropdown('departmentid', $this->supportticket_model->build_concat_dropdown_departmnet("id,name,email_id", " department", "where_arr", array("status"=>"0")), '');
-	//echo $department_id;
 																	   
 		$data['department_id'] = $department_id;
     $this->load->view('view_supportticket_add', $data);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>two_factor_authentication</tech_name>
+	<name>Two Factor Authentication</name>
+	<description>Add an extra layer of security and receive one time password over email</description>		
+	<icon>static/images/two_factor_authentication_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

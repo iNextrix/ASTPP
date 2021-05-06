@@ -23,8 +23,8 @@
 				<?php if (isset($trunkid) && $trunkid != "") { ?>
 								<div class="float-right">
 										<?php
-        $profile_url = explode("/", $_SERVER['REQUEST_URI']);
-        if ($profile_url[1] == 'termination_rate_rates_mapper_import') {
+		$profile_url = explode("/", $_SERVER['REQUEST_URI']);
+        if ($profile_url[2] == 'termination_rate_rates_import') {
             ?>
 												<button class="btn btn-success" id="ok" type="button"
 					name="action" value="Download Errors"

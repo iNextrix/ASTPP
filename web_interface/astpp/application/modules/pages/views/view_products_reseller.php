@@ -59,6 +59,7 @@
                   <br>
                   <?php echo gettext("Amount Without Tax"); ?><h1 id="amount_without_tax_label"></h1>
                   <?php echo gettext("Total Tax"); ?><h1 id="total_tax_label"></h1>
+                  <span id="paypal_status"><?php echo gettext("Paypal Tax"); ?><span class="paypal_tax"></span><h1 id="paypal_tax_label"></h1></span>
                   <?php echo gettext("Amount With Tax"); ?> <h1 id="amount_with_tax_label"></h1>
 	
 			<input type="hidden" id="stripeToken" name="stripeToken" />
@@ -73,7 +74,9 @@
         </div>
 	
         <div class="col-12 text-center mt-4">
+          <?php if( (Common_model::$global_config['system_config']['paypal_status'] == '0')){ ?>
             <button type="button" id= "btn_submit" class="btn btn-success"><?php echo gettext("Pay with Paypal"); ?></button>
+          <?php } ?>
         </div>
 </div>
 </section>
@@ -83,7 +86,9 @@
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script type="text/javascript">
 
-
+$(document).ready(function(){
+  $('#paypal_status').hide();
+});
 
 		
   var id1 ='';
@@ -109,12 +114,20 @@
         },
         success: function(result) {
           var objJSON = JSON.parse(result);
+          if(objJSON.paypal_taxes > 0){
+            $('#paypal_status').show();
+          }
           document.getElementById('amount_with_tax').val = objJSON.amount_with_tax;
           document.getElementById('amount_without_tax').val = objJSON.amount_without_tax;
           document.getElementById('total_tax').val = objJSON.total_tax;
 	            document.getElementById('amount_with_tax_label').innerHTML = objJSON.amount_with_tax;
           document.getElementById('amount_without_tax_label').innerHTML = objJSON.amount_without_tax;
           document.getElementById('total_tax_label').innerHTML = objJSON.total_tax;
+          var paypal_tax = parseInt(objJSON.amount_with_tax) * objJSON.paypal_taxes / 100;
+          $('.paypal_tax').html('('+objJSON.paypal_taxes+'%'+')');
+          $('#paypal_tax_label').html(paypal_tax);
+          var total_tax = parseInt(objJSON.amount_with_tax) + paypal_tax
+          $('#amount_with_tax_label').html(total_tax);
         },
         error: function(result) {
           alert('error');

@@ -13,7 +13,7 @@
 	<div class="w-section inverse p-0">
 		<form method="post"
 			action="<?= base_url()?>rates/termination_rate_preview_file/"
-			enctype="multipart/form-data" id="termination_rate">
+			enctype="multipart/form-data" id="termination_rate" name="import_termination_rate">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="col-md-10 clo-sm-12 float-left p-0">
@@ -119,15 +119,17 @@ if (isset($csv_tmp_data) && ! empty($csv_tmp_data)) {
 							class="table table-bordered details_table">
                 <?
 
-$cnt = 10;
+// $cnt = 10;
+    $cnt = 1;
     foreach ($csv_tmp_data as $csv_key => $csv_value) {
         if ($csv_key < 15) {
             echo "<tr class='thead-light'>";
             foreach ($csv_value as $field_name => $field_val) {
                 if ($csv_key == 0) {
-                    echo "<th>" . ucwords($field_name) . "</th>";
+                    echo "<th>" . ucwords($field_val) . "</th>";
                 } else {
                     echo "<td>" . $field_val . "</td>";
+                    	$cnt ++;
                 }
             }
             echo "</tr>";

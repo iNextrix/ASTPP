@@ -404,12 +404,16 @@ p {
 													<div class="col-md-4 h-100">
 													<select class='selectpicker form-control form-control-lg' data-live-search="true" name="ticket_type">
 
-															<option value="0" <?php if($support_ticket['ticket_type'] == 0){ echo "selected='selected'" ; }?>><?php echo gettext("Open"); ?></option>
-															<option value="1" <?php if($support_ticket['ticket_type'] == 1){ echo "selected" ;} ?>><?php echo gettext("Answerd"); ?></option>
-															<option value="2" <?php if($support_ticket['ticket_type'] == 2){ echo "selected" ; }?>><?php echo gettext("Customer-Reply"); ?></option>
-															<option value="3" <?php if($support_ticket['ticket_type'] == 3){ echo "selected" ; }?>><?php echo gettext("On-hold"); ?></option>
-															<option value="4" <?php if($support_ticket['ticket_type'] == 4){ echo "selected" ; }?>><?php echo gettext("Progress"); ?></option>
-															<option value="5" <?php if($support_ticket['ticket_type'] == 5){ echo "selected='selected'" ; }?>><?php echo gettext("Close"); ?></option>
+															<!-- Manish Issue 694 -->
+															<?php if($support_ticket['ticket_type'] == 0 || $support_ticket['ticket_type'] == 1 || $support_ticket['ticket_type'] == 2 || $support_ticket['ticket_type'] == 3 || $support_ticket['ticket_type'] == 4 || $support_ticket['ticket_type'] == 5){?>
+																	<option value="1" <?php if($support_ticket['ticket_type'] == 1){ echo "selected" ;} ?>><?php echo gettext("Answerd"); ?></option>
+															<?php }?>
+															<option value="0"><?php echo gettext("Open"); ?></option>
+															<option value="2"><?php echo gettext("Customer-Reply"); ?></option>
+															<option value="3"><?php echo gettext("On-hold"); ?></option>
+															<option value="4"><?php echo gettext("Progress"); ?></option>
+															<option value="5"><?php echo gettext("Close"); ?></option>
+															<!-- End -->
 
 														</select>
 

@@ -221,7 +221,16 @@ class IPMAP extends MX_Controller
         $json_data = $paging_data["json_paging"];
         $query = $this->ipmap_model->ipmap_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $query = $query->result_array();
+        $permissioninfo = $this->session->userdata("permissioninfo");
         foreach ($query as $key => $value) {
+             $edit_permission = $value['name'];
+             if($account_data['type'] == -1){
+                $edit_permission = "<a href='/ipmap/ipmap_edit/" . $value['id'] . "' style='cursor:pointer;color:#005298;' rel='facebox_medium' title='Edit'><span class='col-md-12 p-0'>" . $value['name'] . "</span>" . $this->common->ipsettigs_account_number_icon("", "", $number) . "</a>";
+             }else{
+                if ((isset($permissioninfo['ipmap']['ipmap_detail']['edit']) && $permissioninfo['ipmap']['ipmap_detail']['edit'] == 0)) {
+                    $edit_permission = "<a href='/ipmap/ipmap_edit/" . $value['id'] . "' style='cursor:pointer;color:#005298;' rel='facebox_medium' title='Edit'><span class='col-md-12 p-0'>" . $value['name'] . "</span>" . $this->common->ipsettigs_account_number_icon("", "", $number) . "</a>";
+                }
+             }
             $number = $this->common->get_field_name("number", "accounts", $value['accountid']);
             $ipmap_checkbox = '<input type="checkbox" name="chkAll" id="' . $value['id'] . '" class="ace chkRefNos" onclick="clickchkbox(' . $value['id'] . ')" value=' . $value['id'] . '><lable class="lbl"></lable>';
             if ($account_data['type'] == '0') {
@@ -243,7 +252,7 @@ class IPMAP extends MX_Controller
                 );
             } else if ($account_data['type'] == '1') {
                 $ret_url = '<a href="' . base_url() . 'ipmap/ipmap_edit/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  rel="facebox" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;<a href="' . base_url() . 'ipmap/ipmap_delete/' . $value['id'] . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
-                $account_name = $this->common->build_concat_string("first_name,last_name,number", "accounts", $value['accountid']);
+                $account_name = $this->common->build_concat_string("first_name,last_name,number,company_name", "accounts", $value['accountid']);
 
                 $json_data['rows'][] = array(
                     'cell' => array(
@@ -261,19 +270,20 @@ class IPMAP extends MX_Controller
             } else {
 
                 $ret_url = '<a href="' . base_url() . 'ipmap/ipmap_edit/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  rel="facebox" title="Edit">&nbsp;<i class="fa fa-pencil-square-o fa-fw"></i></a>&nbsp;<a href="' . base_url() . 'ipmap/ipmap_delete/' . $value['id'] . '" class="btn btn-royelblue btn-sm" title="Delete" onClick="return get_alert_msg();">&nbsp;<i class="fa fa-trash fa-fw"></i></a>';
-                $account_name = $this->common->build_concat_string("first_name,last_name,number", "accounts", $value['accountid']);
+                $account_name = $this->common->build_concat_string("first_name,last_name,number,company_name", "accounts", $value['accountid']);
 
                 $reseller_id = $this->common->get_field_name("id", "accounts", $value['reseller_id']);
                 if ($reseller_id == 0) {
                     $reseller_name = "Admin";
                 } else {
-                    $reseller_name = $this->common->build_concat_string("first_name,last_name,number", "accounts", $reseller_id);
+                    $reseller_name = $this->common->build_concat_string("first_name,last_name,number,company_name", "accounts", $reseller_id);
                 }
 
                 $json_data['rows'][] = array(
                     'cell' => array(
                         $ipmap_checkbox,
-                        "<a href='/ipmap/ipmap_edit/" . $value['id'] . "' style='cursor:pointer;color:#005298;' rel='facebox_medium' title='Edit'><span class='col-md-12 p-0'>" . $value['name'] . "</span>" . $this->common->ipsettigs_account_number_icon("", "", $number) . "</a>",
+                        // "<a href='/ipmap/ipmap_edit/" . $value['id'] . "' style='cursor:pointer;color:#005298;' rel='facebox_medium' title='Edit'><span class='col-md-12 p-0'>" . $value['name'] . "</span>" . $this->common->ipsettigs_account_number_icon("", "", $number) . "</a>",
+                        $edit_permission,
                         $value['ip'],
                         $value['prefix'],
                         $account_name,

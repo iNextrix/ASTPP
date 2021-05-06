@@ -65,7 +65,9 @@ if ($categoryinfo->num_rows > 0) {
                   </div>
 
 							<div class='col-md-12 form-group'>
-								<label class="col-md-12 p-0 control-label"><?php echo gettext("Accounts"); ?></label>
+								<!-- Added static tooltip in label -->
+								<label class="col-md-12 p-0 control-label" data-toggle="tooltip" data-html="true" data-original-title= "Listing of accounts here." data-placement="top"><?php echo gettext("Accounts"); ?></label>
+								<!-- End -->
 								<div
 									class="col-md-12 form-control selectpicker form-control-lg p-0">
 			  <?php
@@ -303,7 +305,9 @@ if ($categoryinfo->num_rows > 0) {
 
 					</div>
 					<div></div>
-		
+					<!-- Dhaval issue 145([BUG] Billing and Transfer Money to another account.) -->
+					<h4 class="col-md-12 pl-0 mt-2 alert" style="color:red;"><?php echo gettext("Please check your customers calls are running or not. if running then may be customer balance goes in nagative!"); ?></h4>
+					<!-- END -->
 		</form>
 					<?php
     if (isset($validation_errors) && $validation_errors != '') {

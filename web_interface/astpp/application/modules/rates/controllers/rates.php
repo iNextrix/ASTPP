@@ -135,11 +135,20 @@ class Rates extends MX_Controller
                         } else {
                             if ($error == 0) {
                                 $uploadedFile = $_FILES["termination_rate_import"]["tmp_name"];
-                                $csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header));
+
+                                $file_data = $this->csv_to_array($uploadedFile);
+
+                                $field_select = (array_keys($file_data[0]));
+
+                                $data['file_data'] = $field_select;
+
+                                $csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $field_select, $check_header));
+                                // $csv_data = $this->utf8_converter($this->csvreader->parse_file($uploadedFile, $new_final_arr_key, $check_header));
                                 if (! empty($csv_data)) {
                                     $full_path = $this->config->item('rates-file-path');
                                     $actual_file_name = "ASTPP-TERMINATION-RATES-" . date("Y-m-d H:i:s") . "." . $ext;
                                     if (move_uploaded_file($uploadedFile, $full_path . $actual_file_name)) {
+                                        $data['field_select'] = serialize($field_select);
                                         $data['csv_tmp_data'] = $csv_data;
                                         $data['trunkid'] = $_POST['trunk_id'];
                                         $data['check_header'] = $check_header;
@@ -195,6 +204,8 @@ class Rates extends MX_Controller
         foreach ($csv_tmp_data as $key => $csv_data) {
             if (isset($csv_data['pattern']) && $csv_data['pattern'] != '' && $i != 0) {
                 $str = null;
+                $csv_data['strip']=str_replace("”",'',str_replace("“",'', $csv_data['strip']));
+                $csv_data['prepend']=str_replace("”",'',str_replace("“",'', $csv_data['prepend']));
                 $csv_data['prepend'] = isset($csv_data['prepend']) ? $csv_data['prepend'] : '';
                 $csv_data['comment'] = isset($csv_data['comment']) ? $csv_data['comment'] : '';
                 $csv_data['connectcost'] = isset($csv_data['connectcost']) && is_numeric($csv_data['connectcost']) && ($csv_data['connectcost'] != "") ? $this->common_model->add_calculate_currency($csv_data['connectcost'], '', '', false, false) : $csv_data['connectcost'];
@@ -498,14 +509,17 @@ class Rates extends MX_Controller
         $str .= $csvdata['pattern'] != '' ? null : 'Code,';
         $str = rtrim($str, ',');
         if (! $str) {
-            $str .= preg_match("/^([a-z0-9])+$/i", $csvdata['pattern']) ? null : 'Code,';
-            $str .= ! empty($csvdata['connectcost']) && is_numeric($csvdata['connectcost']) && ($csvdata['connectcost'] > 0) ? null : (empty($csvdata['connectcost']) ? null : 'Connection Cost,');
+           
+            $str .= preg_match("/^([\d+0-9])+$/i", $csvdata['pattern']) ? null : 'Code,';
+
+            $str .= ! empty($csvdata['connectcost']) && is_numeric($csvdata['connectcost']) && ($csvdata['connectcost'] >= 0) ? null : (empty($csvdata['connectcost']) ? null : 'Connection Cost,');
             $str .= ! empty($csvdata['includedseconds']) && is_numeric($csvdata['includedseconds']) ? null : (empty($csvdata['includedseconds']) ? null : 'Grace Time,');
             $str .= ! empty($csvdata['cost']) && is_numeric($csvdata['cost']) && ($csvdata['cost'] >= 0) ? null : (empty($csvdata['cost']) ? null : 'Cost / Min,');
             $str .= ! empty($csvdata['init_inc']) && is_numeric($csvdata['init_inc']) && filter_var($csvdata['init_inc'], FILTER_VALIDATE_INT) && ($csvdata['init_inc'] >= 0) ? null : (empty($csvdata['init_inc']) ? null : 'Initial Increment,');
             $str .= ! empty($csvdata['inc']) && is_numeric($csvdata['inc']) && filter_var($csvdata['inc'], FILTER_VALIDATE_INT) && ($csvdata['inc'] >= 0) ? null : (empty($csvdata['inc']) ? null : 'Increment,');
-            $str .= ! empty($csvdata['strip']) && is_numeric($csvdata['strip']) && filter_var($csvdata['strip'], FILTER_VALIDATE_INT) && ($csvdata['strip'] >= 0) ? null : (empty($csvdata['strip']) ? null : 'Strip,');
-            $str .= ! empty($csvdata['prepend']) && is_numeric($csvdata['prepend']) && filter_var($csvdata['prepend'], FILTER_VALIDATE_INT) && ($csvdata['prepend'] >= 0) ? null : (empty($csvdata['prepend']) ? null : 'Prepend');
+            $str .= ! empty($csvdata['strip']) && is_numeric($csvdata['strip']) && ($csvdata['strip'] >= -1) ? null : (empty($csvdata['strip']) ? null : 'Strip,');
+            $str .= ! empty($csvdata['prepend']) && is_numeric($csvdata['prepend']) && ($csvdata['prepend'] >= -1) ? null : (empty($csvdata['prepend']) ? null : 'Prepend');
+
 
             if ($str) {
                 $str = rtrim($str, ',');
@@ -582,7 +596,7 @@ class Rates extends MX_Controller
 
             $edit_data['connectcost'] = $this->common_model->to_calculate_currency($edit_data['connectcost'], '', '', true, false);
             $edit_data['cost'] = $this->common_model->to_calculate_currency($edit_data['cost'], '', '', true, false);
-            $edit_data['pattern'] = preg_replace('/[^a-zA-Z0-9]/', '', $edit_data['pattern']);
+            $edit_data['pattern'] = preg_replace('/[^\d+0-9]/', '', $edit_data['pattern']);
             $edit_data['trunk_id'] = explode(",", $edit_data['trunk_id']);
             $edit_data['percentage'] = explode(",", $edit_data['percentage']);
             $data['trunk_count'] = Common_model::$global_config['system_config']['trunk_count'];
@@ -792,8 +806,7 @@ class Rates extends MX_Controller
         }
         $edit_data['connectcost'] = $this->common_model->to_calculate_currency($edit_data['connectcost'], '', '', false, false);
         $edit_data['cost'] = $this->common_model->to_calculate_currency($edit_data['cost'], '', '', false, false);
-
-        $edit_data['pattern'] = preg_replace('/[^a-zA-Z0-9]/', '', $edit_data['pattern']);
+        $edit_data['pattern'] = preg_replace('/[^\d+0-9]/', '', $edit_data['pattern']);
         $data['form'] = $this->form->build_form($this->rates_form->get_termination_rate_form_fields(), $edit_data);
         $this->load->view('view_termination_rate_add_edit', $data);
     }
@@ -1634,11 +1647,16 @@ class Rates extends MX_Controller
 
                 $csv_data['inc'] = ($this->input->post("inc-prefix")) ? $this->input->post("inc-prefix") : (! empty($csv_data[$this->input->post("inc-select")]) ? $csv_data[$this->input->post("inc-select")] : (isset($csv_data['Increment']) ? $csv_data['Increment'] : ''));
 
-                $csv_data['prepend'] = ($this->input->post("prepend-prefix")) ? $this->input->post("prepend-prefix") : (! empty($csv_data[$this->input->post("prepend-select")]) ? $csv_data[$this->input->post("prepend-select")] : (isset($csv_data['Prepend']) ? $csv_data['Prepend'] : ''));
+                $strip =  str_replace("”",'',str_replace("“",'',$csv_data[$this->input->post("strip-select")]));
+                $prepend =  str_replace("”",'',str_replace("“",'',$csv_data[$this->input->post("prepend-select")]));
+                $csv_data['Strip']=str_replace("”",'',str_replace("“",'', $csv_data['Strip']));
+                $csv_data['Prepend']=str_replace("”",'',str_replace("“",'', $csv_data['Prepend']));
+
+                $csv_data['prepend'] = ($this->input->post("prepend-prefix")) ? $this->input->post("prepend-prefix") : (! empty($prepend) ? $prepend : (isset($csv_data['Prepend']) ? $csv_data['Prepend'] : ''));
 
                 $csv_data['precedence'] = ($this->input->post("precedence-prefix")) ? $this->input->post("precedence-prefix") : (! empty($csv_data[$this->input->post("precedence-select")]) ? $csv_data[$this->input->post("precedence-select")] : (isset($csv_data['Priority']) ? $csv_data['Priority'] : ''));
 
-                $csv_data['strip'] = ($this->input->post("strip-prefix")) ? $this->input->post("strip-prefix") : (! empty($csv_data[$this->input->post("strip-select")]) ? $csv_data[$this->input->post("strip-select")] : (isset($csv_data['Strip']) ? $csv_data['Strip'] : ''));
+                $csv_data['strip'] = ($this->input->post("strip-prefix")) ? $this->input->post("strip-prefix") : (! empty($strip) ? $strip : (isset($csv_data['Strip']) ? $csv_data['Strip'] : ''));
 
                 $csv_data['last_modified_date'] = gmdate("Y-m-d H:i:s");
                 $csv_data['creation_date'] = gmdate("Y-m-d H:i:s");

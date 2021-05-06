@@ -204,9 +204,18 @@ $(function() {
 														  <?php }?>
 													</select>
 									</div>
-									 
-									
-									
+									<!-- Manish Issue no 694 -->
+									<div class="col-4 input-group">
+												<label class="search_label col-md-12 p-0"><?php echo gettext("Account"); ?></label>
+													<select id="accountdata_search" name="accountid" class="form-control form-control-lg selectpicker" data-live-search="true">
+														<option value="" selected="selected">--Select--</option>
+														 <?php foreach($accounts_data as $key=>$value){?>
+															<option value="<?php echo $value['id']; ?>"><?php echo $value['first_name'].' '.$value['last_name'] .'('.$value['number'].')'; ?></option>
+
+														  <?php }?>
+													</select>
+									</div>
+									<!-- END --> 
 									<div class="col-4 input-group">
 										<label class="search_label col-md-12 p-0"><?php echo gettext("Status"); ?></label>
 										<select id="ticket_type" name="ticket_type" class="form-control form-control-lg selectpicker" data-live-search="true">
@@ -246,8 +255,10 @@ $(function() {
 	<div class="w-section inverse p-0">
     	<div class="card col-md-12 pb-4">
 			<form method="POST" action="del/0/" enctype="multipart/form-data" id="ListForm">
-				<div href="" class="mt-4" onClick="deleteItem()" style="position:relative;z-index:2;"> 
-					<span>
+				<div href="" class="mt-4" style="position:relative;z-index:2;"> 
+					<!-- Manish issue 694 -added deleteItem() in span -->
+					<span onClick="deleteItem()">
+					<!-- End -->
 					<?php
 //harsh_27_06
 				    $permissioninfo = $this->session->userdata('permissioninfo');

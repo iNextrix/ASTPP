@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon>
 	<tech_name>language_russian</tech_name>
-	<name>Russian Localization</name>
+	<name>Russian Language</name>
 	<description>Add Russian Language Support</description>		
 	<icon>static/images/language_russian.png</icon>
 	<version>1.0.0</version>

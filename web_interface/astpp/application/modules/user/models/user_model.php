@@ -144,25 +144,6 @@ class user_model extends CI_Model
         }
     }
 
-    function get_user_charge_history($flag, $start = 0, $limit = 0)
-    {
-        $this->db_model->build_search('user_charge_history_search');
-        $accountinfo = $this->session->userdata('accountinfo');
-        $where['invoice_details.accountid'] = $accountinfo['id'];
-        if ($this->session->userdata('advance_search') != 1) {
-            $where['invoice_details.created_date >='] = gmdate("Y-m-1 00:00:00");
-            $where['invoice_details.created_date <='] = gmdate("Y-m-d 23:59:59");
-        }
-
-        if ($flag) {
-
-            $query = $this->db_model->select("*", "invoice_details", $where, "id", "DESC", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "invoice_details", $where);
-        }
-
-        return $query;
-    }
 
     function get_user_refill_list($flag, $start = '', $limit = '')
     {
@@ -320,6 +301,7 @@ class user_model extends CI_Model
 
         $new_array = array(
             'creation_date' => gmdate('Y-m-d H:i:s'),
+            'last_modified_date' => gmdate('Y-m-d H:i:s'),
             'username' => $add_array['fs_username'],
             'accountid' => $account_data['id'],
             'status' => $add_array['status'],

@@ -55,8 +55,8 @@
 						type="hidden" />
 					<div class='col-md-12 p-4'>
 						<div class="col-md-3 float-left text-center"></div>
-						<div class="col-md-4 float-left text-center font-weight-bold"><?php echo gettext("BUY COST"); ?></div>
-						<div class="col-md-5 float-left text-center font-weight-bold"><?php echo gettext("SELL COST"); ?></div>
+						<div class="col-md-4 float-left text-center font-weight-bold"><?php echo gettext("Buy Cost"); ?></div>
+						<div class="col-md-5 float-left text-center font-weight-bold"><?php echo gettext("Sell Cost"); ?></div>
 					</div>
 
 					<div class='col-md-12 form-group'>

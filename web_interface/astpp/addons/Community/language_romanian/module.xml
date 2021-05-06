@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon>
 	<tech_name>language_romanian</tech_name>
-	<name>Romanian Localization</name>
+	<name>Romanian Language</name>
 	<description>Add Romanian Language Support</description>		
 	<icon>static/images/language_romanian.png</icon>
 	<version>1.0.0</version>

@@ -176,8 +176,10 @@ class did_lib extends MX_Controller {
 			$final_array['category_name'] ="DID";
 			$final_array['payment_by'] ="Account Balance";
 			$final_array['quantity']=1;
-			$final_array['total_price']=($final_array['setup_fee']+$final_array['price'])*($final_array['quantity']);
+			$final_array['total_price_amount']=($final_array['setup_fee']+$final_array['price'])*($final_array['quantity']);
 			$final_array['price']=($final_array['setup_fee']+$final_array['price']);
+			$final_array['id'] = $accountinfo['id'];
+			$final_array['number'] = $accountinfo['number'];
 			$this->common->mail_to_users ( 'product_purchase',$final_array);			
 			return array("SUCCESS","DID Purchased Successfully.");
 		}else{			

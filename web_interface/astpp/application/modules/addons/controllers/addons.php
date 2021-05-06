@@ -115,7 +115,6 @@ class Addons extends MX_Controller
                 }
             }
         }
-        // echo "<pre>"; print_r($data); exit;
         $query = "select * from addons";
         $result = $this->db->query($query);
         $installed_addon_list = $result->result_array();
@@ -130,12 +129,10 @@ class Addons extends MX_Controller
 
     public function addons_install($type = '', $module = '', $action = '', $version = "", $current_version = "")
     {
-        // ~ echo FCPATH; exit;
         $addons_path = $this->config->item('addons_path');
         $astpp_path = FCPATH;
         $fs_path = $this->config->item('fs_path');
         $fs_usr_path = $this->config->item('fs_usr_path');
-        // ~ echo $astpp_path; exit;
         $paths_of_file = array();
 
         if ($module != "" && $action != "") {
@@ -162,11 +159,9 @@ class Addons extends MX_Controller
                     $add_path = $astpp_path;
                     $path = $addons_path . $type . "/" . $module . "/web_interface/astpp/";
                     $scans = scandir($path);
-                    // print_r($scans);die();
                     $result_array = $this->recursiveFiles($path, $astpp_path, $remove_path);
                     $files_array = $this->flatten_array($result_array, $remove_path, $add_path);
                     $merge_array = array_unique(array_merge($file_list['web_interface'], $files_array));
-                    // ~ echo "<pre>"; print_r($merge_array); exit;
                     $decoded = $merge_array;
                     $paths_of_decoded_files['web_interface'] = $merge_array;
                     $paths_of_file['web_interface'] = $merge_array;
@@ -274,7 +269,6 @@ class Addons extends MX_Controller
                     }
                 }
                 // ============================ FREESWITCH COPY END ======================
-                // ~ echo "<pre>";print_r( $paths_of_file); exit;
                 $paths_of_file = json_encode($paths_of_file);
 
                 // Import sql file
@@ -494,12 +488,9 @@ class Addons extends MX_Controller
     public function addons_details($type, $package_name, $old_version)
     {
         $addons_path = $this->config->item('addons_path');
-        // print_r($package_name); die;
         $data_array['page_title'] = ucwords(str_replace('_', ' ', $package_name));
-        // ~ echo $type; exit;
         $val = '';
         $module_xml = glob($addons_path . $type . "/" . $package_name . $val . "/*.xml");
-        // ~ print_r($module_xml); exit;
         if (isset($module_xml) && ! empty($module_xml)) {
             $module_xml = $module_xml[0];
             $xml = file_get_contents($module_xml);
@@ -507,7 +498,10 @@ class Addons extends MX_Controller
             $data = $module_array;
             // $i++;
         }
-        // ~ echo "<pre>"; print_r($data); exit;
+            if(empty($data)){
+                $this->session->set_flashdata('astpp_notification', gettext('Permission Denied!'));
+                redirect(base_url() . '/dashboard/');
+             }
         $data_array['author'] = $data->author;
         $data_array['description'] = $data->description;
         $data_array['new_version'] = $data->version;

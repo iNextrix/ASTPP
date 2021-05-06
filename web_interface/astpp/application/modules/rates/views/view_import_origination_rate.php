@@ -34,7 +34,7 @@
 	<div class="w-section inverse p-0">
 		<form method="post"
 			action="<?= base_url()?>rates/origination_rate_preview_file/"
-			enctype="multipart/form-data" id="origination_rate">
+			enctype="multipart/form-data" id="origination_rate" name="import_origination_rate">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="col-md-10 clo-sm-12 float-left p-0">

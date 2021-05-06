@@ -43,7 +43,7 @@
                       <?php
 								$accountinfo = $this->session->userdata ( "accountinfo" );
 								$country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
-								$country = form_dropdown($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""), isset($add_array['country_id'])?$add_array['country_id']:$accountinfo['country_id']);
+								$country = form_dropdown($country_arr, $this->db_model->build_dropdown_country_camel("id,country", "countrycode", "", ""), isset($add_array['country_id'])?$add_array['country_id']:$accountinfo['country_id']);
 								echo $country;
 								?>
 			
@@ -169,7 +169,7 @@
                     </div>
 		   <div class="col-md-6 float-left">
                       <?if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == "".base_url()."did/did_list/") { ?>
-                      		<button class="btn btn-secondary mx-2 btn-block" name="cancel" onclick="return redirect_page('/did/did_list/')" value="Cancel" type="button"><?php echo gettext(' Cancel') ?> </button>
+                      		<button class="btn btn-secondary mx-2 btn-block" name="cancel" onclick="return redirect_page('/did/did_list/')" value="Cancel" type="button"><?php echo gettext('Cancel') ?> </button>
 			<?} else{ ?>
 				<button class="btn btn-secondary mx-2 btn-block" name="cancel" onclick="return redirect_page('/products/products_list/')" value="Cancel" type="button"> <?php echo gettext('Cancel') ?> </button>
 

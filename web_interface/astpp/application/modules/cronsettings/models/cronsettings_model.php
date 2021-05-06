@@ -85,7 +85,7 @@ class Cronsettings_model extends CI_Model
 
     function edit_cron($add_array, $id)
     {
-	$add_array['next_execution_date'] = $this->common->convert_GMT($add_array['next_execution_date']);
+    $add_array['next_execution_date'] = $this->common->convert_GMT_new($add_array['next_execution_date']);
 	$add_array["last_modified_date"] = gmdate('Y-m-d H:i:s');
         unset($add_array["action"]);
         $this->db->where("id", $id);

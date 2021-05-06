@@ -200,13 +200,13 @@ label.error {
                 "name" => "country_id",
                 "class" => "country_id"
             );
-            $country = form_dropdown($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""), $country_id);
+            $country = form_dropdown($country_arr, $this->db_model->build_dropdown_country_camel("id,country", "countrycode", "", ""), $country_id);
             echo $country;
             ?>
         </div>
 							<div class='form-group col-md-3'>
 								<label class="col-md-12 control-label p-0" id="provience"
-									name="provience_didlist_command"><?php echo gettext('Province:')?> </label>
+									name="provience_didlist_command"><?php echo gettext('Province')?>: </label>
 								<select name="provience" id="provience_id_search_drp"
 									class="col-md-12 form-control form-control-lg selectpicker provience_id_search_drp selectpicker"
 									data-live-search="true" tabindex="-98">
@@ -216,7 +216,7 @@ label.error {
 							</div>
 							<div class='form-group col-md-3'>
 								<label class="col-md-12 control-label p-0" id="city"
-									name="city_didlist_command"><?php echo gettext('City:')?> </label>
+									name="city_didlist_command"><?php echo gettext('City')?>: </label>
 								<select name="city" id="city_id_search_drp"
 									class="col-md-12 form-control form-control-lg selectpicker city_id_search_drp selectpicker"
 									data-live-search="true" tabindex="-98">

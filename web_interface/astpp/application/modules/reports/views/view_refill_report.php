@@ -9,22 +9,25 @@
         $("#id_reset").click(function(){ 
             clear_search_request("refill_report_grid","");
         });
-        var currentdate = new Date(); 
-        var datetime = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";  
-        var datetime1 = currentdate.getFullYear() + "-"
-           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            + ("0" + currentdate.getDate()).slice(-2) + " 23:59:59";
+        // var currentdate = new Date(); 
+        // var datetime = currentdate.getFullYear() + "-"
+        //     + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
+        //         + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";  
+        // var datetime1 = currentdate.getFullYear() + "-"
+        //    +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
+        //     + ("0" + currentdate.getDate()).slice(-2) + " 23:59:59";
+
+            var from_date = date + " 00:00:00";
+            var to_date = date + " 23:59:59";
             jQuery("#refill_from_date").datetimepicker({uiLibrary: 'bootstrap4',
-            value:datetime,
+            value:from_date,
             iconsLibrary: 'fontawesome',
             modal:true,
             format: 'yyyy-mm-dd HH:MM:ss',
             footer:true});
             		
 			jQuery("#refill_to_date").datetimepicker({uiLibrary: 'bootstrap4',
-            value:datetime1,
+            value:to_date,
             iconsLibrary: 'fontawesome',
             modal:true,
             format: 'yyyy-mm-dd HH:MM:ss',

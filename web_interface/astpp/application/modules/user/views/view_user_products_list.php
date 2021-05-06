@@ -13,30 +13,25 @@
         $("#id_reset").click(function(){
             clear_search_request("orders_grid","user_products_list_search");
         });
-	var currentdate = new Date(); 
-        var datetime = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-"
-			+ ("0" + currentdate.getDate()).slice(-2) ;
-            
-        var datetime1 = currentdate.getFullYear() + "-"
-           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            + ("0" + currentdate.getDate()).slice(-2);
-	$("#billing_date_from_date").datepicker({
-	   value:datetime,
-            uiLibrary: 'bootstrap4',
-            iconsLibrary: 'fontawesome',
-            modal:true,
-            format: 'yyyy-mm-dd',
-            footer:true
-         });
-         $("#billing_date_to_date").datepicker({
-	    value:datetime1,
-            uiLibrary: 'bootstrap4',
-            iconsLibrary: 'fontawesome',
-            modal:true,
-            format: 'yyyy-mm-dd',
-            footer:true
-         });  
+        
+        var datetime = date + " 00:00:00";
+        var datetime1 = date + " 23:59:59";
+    	$("#billing_date_from_date").datepicker({
+    	   value:datetime,
+                uiLibrary: 'bootstrap4',
+                iconsLibrary: 'fontawesome',
+                modal:true,
+                format: 'yyyy-mm-dd',
+                footer:true
+             });
+             $("#billing_date_to_date").datepicker({
+    	    value:datetime1,
+                uiLibrary: 'bootstrap4',
+                iconsLibrary: 'fontawesome',
+                modal:true,
+                format: 'yyyy-mm-dd',
+                footer:true
+             });  
         
     });
 </script>

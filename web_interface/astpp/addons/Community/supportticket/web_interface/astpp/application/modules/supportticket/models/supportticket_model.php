@@ -230,7 +230,8 @@ print_r($to_email_address_array);
 						   'to'=>$val,
 						   'cc'=> trim($cc_email_str),
 						   'attachment'=>(isset($data['file']))?$data['file']:0,
-						   'status'=>1,						   
+						   'status'=>1,
+						   'template' => 'email_sent_support_ticket',
 						   'reseller_id'=>$reseller_id,
 
 						);
@@ -281,18 +282,18 @@ print_r($to_email_address_array);
 	$auto_subject = str_replace("#TICKET_ID#",sprintf('%0'.$ticket.'d', $support_ticket_number),$auto_subject);
 	$auto_subject = str_replace("#TICKET_SUBJECT#", $data['subject'],$auto_subject);
 
-				$email_template_path=$this->config->item( 'email_templates' );
-				$email_header=file_get_contents($email_template_path."views/email_template_header.php");
-				
- 
-				
-				$email_header=str_replace ( base_url(),base_url(),$email_header);
-                $auto_message = str_replace ( "#HEADER#",$email_header,$auto_message);
-				
-                $email_footer=file_get_contents($email_template_path."views/email_template_footer.php");
-                //$email_footer = str_replace ( "<LOGO>", base_url().'assets/images/footer_img.png', $email_footer );
-                $auto_message = str_replace ( "#FOOTER#", $email_footer, $auto_message);
+	$email_template_path=$this->config->item( 'email_templates' );
+	$email_header=file_get_contents($email_template_path."views/email_template_header.php");
+	
 
+	
+	$email_header=str_replace ( base_url(),base_url(),$email_header);
+	$auto_message = str_replace ( "#HEADER#",$email_header,$auto_message);
+	
+	$email_footer=file_get_contents($email_template_path."views/email_template_footer.php");
+	//$email_footer = str_replace ( "<LOGO>", base_url().'assets/images/footer_img.png', $email_footer );
+	$auto_message = str_replace ( "#FOOTER#", $email_footer, $auto_message);
+	$auto_message = strip_tags($auto_message, "<strong>");
 	$mail_details_array= array(
 				'accountid'=>$account_data['id'],
 				'date'=>gmdate("Y-m-d H:i:s"),
@@ -303,9 +304,10 @@ print_r($to_email_address_array);
 				'cc'=>trim($cc_email_str),
 				'attachment'=>'',
 				'status'=>1,
+				'template' => 'auto_reply_mail_support',
 				'reseller_id'=>$account_data['reseller_id'],
-			    );
-	  //~ echo "<pre>"; print_r($mail_details_array); exit;
+				);
+	//~ echo "<pre>"; print_r($mail_details_array); exit;
 	//Auto-Update is not required while we are creating 
 	$this->db->insert("mail_details", $mail_details_array);
 		
@@ -315,7 +317,7 @@ print_r($to_email_address_array);
 	//$this->supportticket_form->notification_to_user('auto_reply_mail_support',$account_data);
 
 	return true;
-    }
+	}
 function get_ticket_type_message($select = "", $table = "", $call_type) {
 		 
         $call_type_array = array('0' => "Open", "1"=>"Answered", '2' =>  "Customer-Reply", '3' => "On-hold", '4'=>"Progress",'5'=>"Close");
@@ -411,6 +413,7 @@ function get_ticket_type_message($select = "", $table = "", $call_type) {
 					   'from'=>$this->common->get_field_name('email_id','department',array('id'=>$support_data['department_id'])),
 					   'to'=>trim($val),
 					   'cc'=> trim($cc_email_str),
+					   'template' => 'email_sent_support_ticket',
 					   'attachment'=>$data['file'],
 					   'status'=>1,						   
 					   'reseller_id'=>$reseller_id,

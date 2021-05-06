@@ -167,7 +167,7 @@ if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logi
 if (isset($permissioninfo['did']['did_list']['buy_did']) and $permissioninfo['did']['did_list']['buy_did'] == 0 and ($permissioninfo['login_type'] == '1' or $permissioninfo['login_type'] == '2' or $permissioninfo['login_type'] == '4')) {
         ?>
 				<input type="submit" class="btn btn-info mb-4" name="purchase_did"
-				value="Buy DIDs" id="buy_did">    
+				value=<?php echo gettext("Buy DIDs")?> id="buy_did">    
 				<?php } ?>
 				</form>
 		<div class="card col-md-12 pb-4">

@@ -36,7 +36,7 @@ Applicable For,适用于
 Apply on existing accounts,适用于现有帐户
 Archive,档案
 ASR,ASR
-Attachement,Attachement
+Attachement,附件
 Attempted Calls,试图打电话
 Audit,审计
 Audit Log,审核日志
@@ -234,7 +234,7 @@ Group By,通过...分组
 Group By #1,分组＃1
 Group By #2,分组＃2
 Group By #3,分组＃3
-Group By #Time,按#Time分组
+Group By #Time,按＃時間分組
 Header,头
 Homer,荷马
 Host,主办
@@ -279,7 +279,7 @@ LC Charge / Min,LC充电/分钟
 LC Charge/Min,LC充电/分钟
 Live,生活
 Live Call Report,直播电话报告
-Live Id,Live Id
+Live Id,即時編號
 Live Key,Live Key
 Live Url,实时网址
 Local Call Timeout,本地通话超时
@@ -320,7 +320,7 @@ Notifications,通知
 Notify before due days,在截止日期前通知
 Number,数
 Number Type,数字类型
-of,的
+ of , 的 
 Opensips,Opensips
 Opensips DB Engine,Opensips数据库引擎
 Opensips DB Host,Opensips数据库主机
@@ -341,7 +341,7 @@ Org. Pefix,组织。Pefix
 Origination Rates,起始价格
 Outbound Fax,出站传真
 Outstanding Amount INR,未结金额INR
-Page,页
+Page ,页 
 Password,密码
 Password Strength,密码强度
 Payment Method,付款方法
@@ -387,14 +387,14 @@ Rate Count,费率计数
 Rate Group,费率组
 Rate Groups,费率组
 Rate Information,费率信息
-Ratedeck,Ratedeck
+Ratedeck,拉德特克
 Ratedeck Information,评价信息
 Rates Count,价格计数
 Realtime Billing,实时结算
 Receiver Email,收件人电子邮件
 Recording Files Older Than Days,录制超过天数的文件
-Records,记录
-Referer Page,Referer Page
+ Records, 记录
+Referer Page,推薦人頁面
 Refill By,补充
 Refill Coupon Length,补充优惠券长度
 Refill Coupons,补充优惠券
@@ -563,7 +563,7 @@ From User,来自用户
 Extension,延期
 Extension-In-Contact,拓在-联系
 Ping,平
-Contact Params,联系Params
+Contact Params,聯繫參數
 Retry-Seconds,重试秒
 Register-Proxy,注册代理
 Channel,渠道
@@ -716,7 +716,7 @@ Bill Days,比尔日
 New Products,新产品
 Active Products,有源产品
 Outstanding,优秀
-Today's Calls,今天的电话
+Todays Calls,今天的电话
 Recent Calls,最近的电话
 The Available DIDs field is required.,可用DID字段是必需的。
 Please enter your password,请输入您的密码
@@ -1687,7 +1687,7 @@ DID added successfully!,DID添加成功！
 DID updated successfully!,DID已成功更新！
 Country Name,国家的名字
 PAID,支付
-PENDING,PENDING
+PENDING,待辦的
 FAIL,失败
 ORDER,订购
 payment method,付款方法
@@ -1737,7 +1737,7 @@ The IP field is required.,IP字段是必需的。
 Please Enter Valid Account Number,请输入有效帐号
 Main,主要
 --Select Disposition--,- 选择处置 -
-Group By #time,分组#time
+Group By #time,按＃時間分組
 Active User,活跃用户
 Used Minutes,使用的分钟数
 Available Minutes,可用会议纪要
@@ -1758,7 +1758,7 @@ Edit Cron Settings,编辑Cron设置
 Global Settings updated sucessfully!,全局设置成功更新！
 Alert Notifications,警报通知
 Fraud Configuration,欺诈配置
-Configuration add,配置添加
+Configuration Add,配置添加
 Alarm Configuration,报警配置
 Please select atleast one pattern.,请选择至少一种模式。
 Problem In Add Patterns to account.,问题在添加模式帐户。
@@ -1775,3 +1775,571 @@ Please enter number,请输入电话号码
 Import Customer,导入客户
 Processing,处理
 please wait,请耐心等待
+Low Balance,低餘額
+Trunk Statistics,中繼線統計
+Current Balance,當前餘額
+Europe/Andorra,歐洲/安道爾
+Asia/Dubai,亞洲/迪拜
+Asia/Kabul,亞洲/喀布爾
+America/Antigua,美國/安提瓜
+America/Anguilla,美國/安圭拉
+Europe/Tirane,歐洲/地拉那
+Asia/Yerevan,亞洲/埃里溫
+Africa/Luanda,非洲/羅安達
+Antarctica/Casey,南極洲/凱西
+Antarctica/Davis,南極洲/戴維斯
+Antarctica/DumontDUrville,南極洲/杜蒙特
+Antarctica/Mawson,南極洲/莫森
+Antarctica/McMurdo,南極洲/麥克默多
+Antarctica/Palmer,南極洲/帕爾默
+Antarctica/Rothera,南極洲/羅瑟拉
+Antarctica/Syowa,南極洲/昭和
+Antarctica/Troll,南極/巨魔
+Antarctica/Vostok,南極洲/沃斯托克
+America/Argentina/Buenos_Aires,美國/阿根廷/布宜諾斯艾利斯
+America/Argentina/Catamarca,美國/阿根廷/卡塔馬卡
+America/Argentina/Cordoba,美國/阿根廷/科爾多瓦
+America/Argentina/Jujuy,美國/阿根廷/胡胡伊
+America/Argentina/La_Rioja,美國/阿根廷/拉里奧哈
+America/Argentina/Mendoza,美國/阿根廷/門多薩
+America/Argentina/Rio_Gallegos,美國/阿根廷/里約熱內盧
+America/Argentina/Salta,美國/阿根廷/薩爾塔
+America/Argentina/San_Juan,美國/阿根廷/聖胡安
+America/Argentina/San_Luis,美國/阿根廷/聖路易斯
+America/Argentina/Tucuman,美國/阿根廷/土庫曼
+America/Argentina/Ushuaia,美國/阿根廷/烏斯懷亞
+Pacific/Pago_Pago,太平洋/ Pago_Pago
+Europe/Vienna,歐洲/維也納
+Antarctica/Macquarie,南極/麥格理
+Australia/Adelaide,澳大利亞/阿德萊德
+Australia/Brisbane,澳大利亞/布里斯班
+Australia/Broken_Hill,澳大利亞/斷山
+Australia/Currie,澳大利亞/科里
+Australia/Darwin,澳大利亞/達爾文
+Australia/Eucla,澳大利亞/尤克拉
+Australia/Hobart,澳大利亞/霍巴特
+Australia/Lindeman,澳大利亞/林德曼
+Australia/Lord_Howe,澳大利亞/豪勳爵
+Australia/Melbourne,澳大利亞/墨爾本
+Australia/Perth,澳大利亞/珀斯
+Australia/Sydney,澳大利亞/悉尼
+America/Aruba,美國/阿魯巴
+Europe/Mariehamn,歐洲/瑪麗港
+Asia/Baku,亞洲/巴庫
+Europe/Sarajevo,歐洲/薩拉熱窩
+America/Barbados,美國/巴巴多斯
+Asia/Dhaka,亞洲/達卡
+Europe/Brussels,歐洲/布魯塞爾
+Africa/Ouagadougou,非洲/瓦加杜古
+Europe/Sofia,歐洲/索非亞
+Asia/Bahrain,亞洲/巴林
+Africa/Bujumbura,非洲/布瓊布拉
+Africa/Porto-Novo,非洲/波多諾伏
+America/St_Barthelemy,美國/聖巴托洛繆島
+Atlantic/Bermuda,大西洋/百慕大
+Asia/Brunei,亞洲/文萊
+America/La_Paz,美洲/拉巴斯
+America/Kralendijk,美國/克拉倫代克
+America/Araguaina,美洲/阿拉瓜那
+America/Bahia,美國/巴伊亞州
+America/Belem,美國/貝倫
+America/Boa_Vista,美國/ Boa_Vista
+America/Campo_Grande,美國/ Campo_Grande
+America/Cuiaba,美國/庫亞巴
+America/Eirunepe,美國/埃魯尼佩
+America/Fortaleza,美國/福塔雷薩
+America/Maceio,美國/馬塞約
+America/Manaus,美國/馬瑙斯
+America/Noronha,美國/諾羅尼亞
+America/Porto_Velho,美國/ Porto_Velho
+America/Recife,美國/累西腓
+America/Rio_Branco,美國/里約布蘭科
+America/Santarem,美國/聖塔倫
+America/Sao_Paulo,美國/聖保羅
+America/Nassau,美國/拿騷
+Asia/Thimphu,亞洲/廷布
+Africa/Gaborone,非洲/加博隆
+Europe/Minsk,歐洲/明斯克
+America/Belize,美國/伯利茲
+America/Atikokan,美國/ Atikokan
+America/Blanc-Sablon,美國/布蘭-薩布隆
+America/Cambridge_Bay,美國/劍橋灣
+America/Creston,美國/克雷斯頓
+America/Dawson,美國/道森
+America/Dawson_Creek,美國/道森克里克
+America/Edmonton,美國/埃德蒙頓
+America/Fort_Nelson,美國/納爾遜堡
+America/Glace_Bay,美國/ Glace_Bay
+America/Goose_Bay,美國/鵝灣
+America/Halifax,美國/哈利法克斯
+America/Inuvik,美國/ Inuvik
+America/Iqaluit,美國/伊卡盧特
+America/Moncton,美國/蒙克頓
+America/Nipigon,美國/尼皮貢
+America/Pangnirtung,美國/龐尼城
+America/Rainy_River,美國/多雨河
+America/Rankin_Inlet,美國/ Rankin_Inlet
+America/Regina,美國/里賈納
+America/Resolute,美國/堅決
+America/St_Johns,美國/聖約翰斯
+America/Swift_Current,America / Swift_Current
+America/Thunder_Bay,美國/雷霆灣
+America/Toronto,美國/多倫多
+America/Vancouver,美國/溫哥華
+America/Whitehorse,美國/懷特霍斯
+America/Winnipeg,美國/溫尼伯
+America/Yellowknife,美國/黃刀
+Indian/Cocos,印度/可可
+Africa/Kinshasa,非洲/金沙薩
+Africa/Lubumbashi,非洲/盧本巴希
+Africa/Bangui,非洲/班吉
+Africa/Brazzaville,非洲/布拉柴維爾
+Europe/Zurich,歐洲/蘇黎世
+Africa/Abidjan,非洲/阿比讓
+Pacific/Rarotonga,太平洋/拉羅通加
+America/Punta_Arenas,美國/蓬塔阿雷納斯
+America/Santiago,美國/聖地亞哥
+Pacific/Easter,太平洋/復活節
+Africa/Douala,非洲/杜阿拉
+Asia/Shanghai,亞洲/上海
+Asia/Urumqi,亞洲/烏魯木齊
+America/Bogota,美國/波哥大
+America/Costa_Rica,美國/哥斯達黎加
+America/Havana,美國/哈瓦那
+Atlantic/Cape_Verde,大西洋/佛得角
+America/Curacao,美國/庫拉索島
+Indian/Christmas,印度/聖誕節
+Asia/Famagusta,亞洲/法馬古斯塔
+Asia/Nicosia,亞洲/尼科西亞
+Europe/Prague,歐洲/布拉格
+Europe/Berlin,歐洲/柏林
+Europe/Busingen,歐洲/布辛根
+Africa/Djibouti,非洲/吉布提
+Europe/Copenhagen,歐洲/哥本哈根
+America/Dominica,美國/多米尼加
+America/Santo_Domingo,美國/聖多明各
+Africa/Algiers,非洲/阿爾及爾
+America/Guayaquil,美國/瓜亞基爾
+Pacific/Galapagos,太平洋/加拉帕戈斯
+Europe/Tallinn,歐洲/塔林
+Africa/Cairo,非洲/開羅
+Africa/El_Aaiun,非洲/ El_Aaiun
+Africa/Asmara,非洲/阿斯馬拉
+Africa/Ceuta,非洲/休達
+Atlantic/Canary,大西洋/金絲雀
+Europe/Madrid,歐洲/馬德里
+Africa/Addis_Ababa,非洲/亞的斯亞貝巴
+Europe/Helsinki,歐洲/赫爾辛基
+Pacific/Fiji,太平洋/斐濟
+Atlantic/Stanley,大西洋/史丹利
+Pacific/Chuuk,太平洋/楚克
+Pacific/Kosrae,太平洋/科斯雷
+Pacific/Pohnpei,太平洋/龐貝
+Atlantic/Faroe,大西洋/法羅
+Europe/Paris,歐洲/巴黎
+Africa/Libreville,非洲/利伯維爾
+Europe/London,歐洲/倫敦
+America/Grenada,美國/格林納達
+Asia/Tbilisi,亞洲/第比利斯
+America/Cayenne,美國/卡宴
+Europe/Guernsey,歐洲/根西島
+Africa/Accra,非洲/阿克拉
+Europe/Gibraltar,歐洲/直布羅陀
+America/Danmarkshavn,美國/丹麥
+America/Nuuk,美國/努克
+America/Scoresbysund,美國/斯科比斯松
+America/Thule,美國/圖勒
+Africa/Banjul,非洲/班珠爾
+Africa/Conakry,非洲/科納克里
+America/Guadeloupe,美國/瓜德羅普島
+Africa/Malabo,非洲/馬拉博
+Europe/Athens,歐洲/雅典
+Atlantic/South_Georgia,大西洋/南喬治亞
+America/Guatemala,美國/危地馬拉
+Pacific/Guam,太平洋/關島
+Africa/Bissau,非洲/比紹
+America/Guyana,美國/圭亞那
+Asia/Hong_Kong,亞洲/香港
+America/Tegucigalpa,美國/特古西加爾巴
+Europe/Zagreb,歐洲/薩格勒布
+America/Port-au-Prince,美國/太子港
+Europe/Budapest,歐洲/布達佩斯
+Asia/Jakarta,亞洲/雅加達
+Asia/Jayapura,亞洲/賈亞普拉
+Asia/Makassar,亞洲/馬卡薩爾
+Asia/Pontianak,亞洲/蓬塔納克
+Europe/Dublin,歐洲/都柏林
+Asia/Jerusalem,亞洲/耶路撒冷
+Europe/Isle_of_Man,歐洲/馬恩島
+Asia/Kolkata,亞洲/加爾各答
+Indian/Chagos,印度/查戈斯
+Asia/Baghdad,亞洲/巴格達
+Asia/Tehran,亞洲/德黑蘭
+Atlantic/Reykjavik,大西洋/雷克雅未克
+Europe/Rome,歐洲/羅馬
+Europe/Jersey,歐洲/澤西島
+America/Jamaica,美國/牙買加
+Asia/Amman,亞洲/安曼
+Asia/Tokyo,亞洲/東京
+Africa/Nairobi,非洲/內羅畢
+Asia/Bishkek,亞洲/比什凱克
+Asia/Phnom_Penh,亞洲/金邊
+Pacific/Enderbury,太平洋/恩德伯里
+Pacific/Kiritimati,太平洋/基里蒂馬蒂
+Pacific/Tarawa,太平洋/塔拉瓦
+Indian/Comoro,印度/科摩羅
+America/St_Kitts,美國/聖基茨
+Asia/Pyongyang,亞洲/平壤
+Asia/Seoul,亞洲/首爾
+Asia/Kuwait,亞洲/科威特
+America/Cayman,美國/開曼
+Asia/Almaty,亞洲/阿拉木圖
+Asia/Aqtau,亞洲/阿克套
+Asia/Aqtobe,亞洲/阿克托比
+Asia/Atyrau,亞洲/阿特勞
+Asia/Oral,亞洲/口頭
+Asia/Qostanay,亞洲/ Qostanay
+Asia/Qyzylorda,亞洲/齊齊洛達
+Asia/Vientiane,亞洲/萬象
+Asia/Beirut,亞洲/貝魯特
+America/St_Lucia,美國/聖盧西亞
+Europe/Vaduz,歐洲/瓦杜茲
+Asia/Colombo,亞洲/科倫坡
+Africa/Monrovia,非洲/蒙羅維亞
+Africa/Maseru,非洲/馬塞魯
+Europe/Vilnius,歐洲/維爾紐斯
+Europe/Luxembourg,歐洲/盧森堡
+Europe/Riga,歐洲/裡加
+Africa/Tripoli,非洲/的黎波里
+Africa/Casablanca,非洲/卡薩布蘭卡
+Europe/Monaco,歐洲/摩納哥
+Europe/Chisinau,歐洲/基希訥烏
+Europe/Podgorica,歐洲/波德戈里察
+America/Marigot,美國/馬里戈特
+Indian/Antananarivo,印度/塔那那利佛
+Pacific/Kwajalein,太平洋/誇賈林
+Pacific/Majuro,太平洋/馬朱羅
+Europe/Skopje,歐洲/斯科普里
+Africa/Bamako,非洲/巴馬科
+Asia/Yangon,亞洲/仰光
+Asia/Choibalsan,亞洲/喬瓦山
+Asia/Hovd,亞洲/香港
+Asia/Ulaanbaatar,亞洲/烏蘭巴托
+Asia/Macau,亞洲/澳門
+Pacific/Saipan,太平洋/塞班島
+America/Martinique,美國/馬提尼克島
+Africa/Nouakchott,非洲/努瓦克肖特
+America/Montserrat,美國/蒙特塞拉特
+Europe/Malta,歐洲/馬耳他
+Indian/Mauritius,印度/毛里求斯
+Indian/Maldives,印度/馬爾代夫
+Africa/Blantyre,非洲/布蘭太爾
+America/Bahia_Banderas,美國/巴伊亞州（Bahia_Banderas）
+America/Cancun,美國/坎昆
+America/Chihuahua,美國/奇瓦瓦州
+America/Hermosillo,美國/埃莫西約
+America/Matamoros,美國/馬塔莫羅斯
+America/Mazatlan,美洲/馬薩特蘭
+America/Merida,美國/梅里達
+America/Mexico_City,美國/墨西哥城
+America/Monterrey,美國/蒙特雷
+America/Ojinaga,美國/沖繩
+America/Tijuana,美國/蒂華納
+Asia/Kuala_Lumpur,亞洲/吉隆坡
+Asia/Kuching,亞洲/古晉
+Africa/Maputo,非洲/馬普托
+Africa/Windhoek,非洲/溫得和克
+Pacific/Noumea,太平洋/努美阿
+Africa/Niamey,非洲/尼亞美
+Pacific/Norfolk,太平洋/諾福克
+Africa/Lagos,非洲/拉各斯
+America/Managua,美國/馬那瓜
+Europe/Amsterdam,歐洲/阿姆斯特丹
+Europe/Oslo,歐洲/奧斯陸
+Asia/Kathmandu,亞洲/加德滿都
+Pacific/Nauru,太平洋/瑙魯
+Pacific/Niue,太平洋/紐埃
+Pacific/Auckland,太平洋/奧克蘭
+Pacific/Chatham,太平洋/查塔姆
+Asia/Muscat,亞洲/馬斯喀特
+America/Panama,美國/巴拿馬
+America/Lima,美國/利馬
+Pacific/Gambier,太平洋/甘比爾
+Pacific/Marquesas,太平洋/馬克薩斯
+Pacific/Tahiti,太平洋/大溪地
+Pacific/Bougainville,太平洋/九重葛
+Pacific/Port_Moresby,太平洋/莫爾斯比港
+Asia/Manila,亞洲/馬尼拉
+Asia/Karachi,亞洲/卡拉奇
+Europe/Warsaw,歐洲/華沙
+America/Miquelon,美國/密克隆
+Pacific/Pitcairn,太平洋/皮特凱恩
+America/Puerto_Rico,美國/波多黎各
+Asia/Gaza,亞洲/加沙
+Asia/Hebron,亞洲/希伯倫
+Atlantic/Azores,大西洋/亞速爾群島
+Atlantic/Madeira,大西洋/馬德拉
+Europe/Lisbon,歐洲/里斯本
+Pacific/Palau,太平洋/帕勞
+America/Asuncion,美國/亞松森
+Asia/Qatar,亞洲/卡塔爾
+Indian/Reunion,印度/留尼旺
+Europe/Bucharest,歐洲/布加勒斯特
+Europe/Belgrade,歐洲/貝爾格萊德
+Asia/Anadyr,亞洲/ Anadyr
+Asia/Barnaul,亞洲/巴爾瑙爾
+Asia/Chita,亞洲/赤塔
+Asia/Irkutsk,亞洲/伊爾庫茨克
+Asia/Kamchatka,亞洲/堪察加半島
+Asia/Khandyga,亞洲/坎迪加
+Asia/Krasnoyarsk,亞洲/克拉斯諾亞爾斯克
+Asia/Magadan,亞洲/馬達加丹
+Asia/Novokuznetsk,亞洲/新庫茲涅茨克
+Asia/Novosibirsk,亞洲/新西伯利亞
+Asia/Omsk,亞洲/鄂木斯克
+Asia/Sakhalin,亞洲/薩哈林島
+Asia/Srednekolymsk,亞洲/斯雷德涅科林斯克
+Asia/Tomsk,亞洲/托木斯克
+Asia/Ust-Nera,亞洲/烏斯特-尼拉
+Asia/Vladivostok,亞洲/符拉迪沃斯托克（海參div）
+Asia/Yakutsk,亞洲/雅庫茨克
+Asia/Yekaterinburg,亞洲/葉卡捷琳堡
+Europe/Astrakhan,歐洲/阿斯特拉罕
+Europe/Kaliningrad,歐洲/加里寧格勒
+Europe/Kirov,歐洲/基洛夫
+Europe/Moscow,歐洲/莫斯科
+Europe/Samara,歐洲/薩馬拉
+Europe/Saratov,歐洲/薩拉托夫
+Europe/Ulyanovsk,歐洲/烏利亞諾夫斯克
+Europe/Volgograd,歐洲/伏爾加格勒
+Africa/Kigali,非洲/基加利
+Asia/Riyadh,亞洲/利雅得
+Pacific/Guadalcanal,太平洋/瓜達爾卡納爾島
+Indian/Mahe,印度/馬赫
+Africa/Khartoum,非洲/喀土穆
+Europe/Stockholm,歐洲/斯德哥爾摩
+Asia/Singapore,亞洲/新加坡
+Atlantic/St_Helena,大西洋/聖海倫娜
+Europe/Ljubljana,歐洲/盧布爾雅那
+Arctic/Longyearbyen,北極/朗伊爾城
+Europe/Bratislava,歐洲/布拉迪斯拉發
+Africa/Freetown,非洲/弗里敦
+Europe/San_Marino,歐洲/聖馬力諾
+Africa/Dakar,非洲/達喀爾
+Africa/Mogadishu,非洲/摩加迪沙
+America/Paramaribo,美國/巴拉馬里博
+Africa/Juba,非洲/朱巴
+Africa/Sao_Tome,非洲/聖保羅
+America/El_Salvador,美國/薩爾瓦多
+America/Lower_Princes,美國/下王子
+Asia/Damascus,亞洲/大馬士革
+Africa/Mbabane,非洲/姆巴巴內
+America/Grand_Turk,美國/大突厥
+Africa/Ndjamena,非洲/恩賈梅納
+Indian/Kerguelen,印度/克格倫
+Africa/Lome,非洲/洛美
+Asia/Bangkok,亞洲/曼谷
+Asia/Dushanbe,亞洲/杜尚別
+Pacific/Fakaofo,太平洋/法考福
+Asia/Dili,亞洲/帝力
+Asia/Ashgabat,亞洲/阿什哈巴德
+Africa/Tunis,非洲/突尼斯
+Pacific/Tongatapu,太平洋/湯加塔普
+Europe/Istanbul,歐洲/伊斯坦布爾
+America/Port_of_Spain,美國/西班牙港
+Pacific/Funafuti,太平洋/富納富提
+Asia/Taipei,亞洲/台北
+Africa/Dar_es_Salaam,非洲/達累斯薩拉姆
+Europe/Kiev,歐洲/基輔
+Europe/Simferopol,歐洲/辛菲羅波爾
+Europe/Uzhgorod,歐洲/烏日哥羅德
+Europe/Zaporozhye,歐洲/扎波羅熱
+Africa/Kampala,非洲/坎帕拉
+Pacific/Midway,太平洋/中途島
+Pacific/Wake,太平洋/甦醒
+America/Adak,美國/阿達克
+America/Anchorage,美國/安克雷奇
+America/Boise,美國/博伊西
+America/Chicago,美國/芝加哥
+America/Denver,美國/丹佛
+America/Detroit,美國/底特律
+America/Indiana/Indianapolis,美國/印第安納州/印第安納波利斯
+America/Indiana/Knox,美國/印第安納州/諾克斯
+America/Indiana/Marengo,美洲/印第安納州/馬倫戈
+America/Indiana/Petersburg,美國/印第安納州/彼得斯堡
+America/Indiana/Tell_City,美洲/印第安納州/特拉城
+America/Indiana/Vevay,美洲/印第安納州/韋韋
+America/Indiana/Vincennes,美國/印第安納州/文森斯
+America/Indiana/Winamac,美洲/印第安納州/威納馬克
+America/Juneau,美國/朱諾
+America/Kentucky/Louisville,美國/肯塔基州/路易斯維爾
+America/Kentucky/Monticello,美國/肯塔基州/蒙蒂塞洛
+America/Los_Angeles,美國/洛杉磯
+America/Menominee,美國/密胺
+America/Metlakatla,美國/梅特拉卡特拉
+America/New_York,美國/紐約
+America/Nome,美國/ Nome
+America/North_Dakota/Beulah,美國/北達科他州/比拉
+America/North_Dakota/Center,美國/北達科他州/中心
+America/North_Dakota/New_Salem,美洲/北達科他州/新薩勒姆
+America/Phoenix,美國/鳳凰城
+America/Sitka,美國/錫特卡
+America/Yakutat,美國/雅庫特
+Pacific/Honolulu,太平洋/檀香山
+America/Montevideo,美國/蒙得維的亞
+Asia/Samarkand,亞洲/撒馬爾罕
+Asia/Tashkent,亞洲/塔什幹
+Europe/Vatican,歐洲/梵蒂岡
+America/St_Vincent,美國/聖文森特
+America/Caracas,美國/加拉加斯
+America/Tortola,美國/托托拉
+America/St_Thomas,美國/聖托馬斯
+Asia/Ho_Chi_Minh,亞洲/胡志明市
+Pacific/Efate,太平洋/命運
+Pacific/Wallis,太平洋/沃利斯
+Pacific/Apia,太平洋/阿皮亞
+Asia/Aden,亞洲/亞丁
+Indian/Mayotte,印度/馬約特島
+Africa/Johannesburg,非洲/約翰內斯堡
+Africa/Lusaka,非洲/盧薩卡
+Africa/Harare,非洲/哈拉雷
+Emails,電郵
+Add IP Settings,添加IP設置
+Edit IP Settings,編輯IP設定
+Edit Caller ID,編輯來電顯示
+Invoice Date Interval,發票日期間隔
+Use same credential for Invoice Config,對發票配置使用相同的憑據
+Registration URL,註冊網址
+Account Status,帳戶狀態
+Admin,行政
+Sub Admin,副管理員
+Edit Accessnumber,編輯訪問號碼
+Edit Rate Group,修改費率組
+Percentage (Enterprise),百分比（企業）
+Edit Ratedeck,編輯評分
+Realm,領域
+Reg-Transport,註冊運輸
+Failover,故障轉移
+GW Name #1,GW名稱1
+GW Name #2,GW名稱＃2
+Gateway,閘道
+Count,數數
+Both,兩個都
+Stop,停止
+Reload,重裝
+Rescan,重新掃描
+Org.,單位
+Read,讀
+Write,寫
+STANDARD,標準
+DID,做過
+CALLINGCARD,電話卡
+FREE,自由
+LOCAL,當地的
+ACCOUNT_INACTIVE_DELETED,帳戶無效，已刪除
+ACCOUNT_EXPIRE,帳戶到期
+ALLOTTED_TIMEOUT,分配超時
+AUTHENTICATION_FAIL,認證失敗
+BEARERCAPABILITY_NOTAUTH,承載能力聲明
+BEARERCAPABILITY_NOTAVAIL,承載能力聲明
+BEARERCAPABILITY_NOTIMPL,承載能力通知
+CALL_REJECTED,拒絕來電
+CHAN_NOT_IMPLEMENTED,CHAN未執行
+CHANNEL_UNACCEPTABLE,頻道無法接受
+DESTINATION_OUT_OF_ORDER,訂購地點
+DESTINATION_BLOCKED,目的地被封鎖
+DID_DESTINATION_NOT_FOUND,未找到目的地
+FACILITY_REJECTED,設施被拒絕
+FACILITY_NOT_SUBSCRIBED,未訂閱的設施
+FACILITY_NOT_IMPLEMENTED,設施未實施
+FRAUD_CALL_PER_ACCOUNT,每個帳戶的欺詐電話
+FRAUD_CALL_PER_DESTINATION,每個目的地的欺詐呼叫
+FRAUD_COST_PER_ACCOUNT,每個帳戶的欺詐成本
+FRAUD_COST_PER_DESTINATION,每個目的地的欺詐成本
+INVALID_NUMBER_FORMAT,無效的數字格式
+INCOMPATIBLE_DESTINATION,目的地不相容
+MANAGER_REQUEST,經理要求
+MEDIA_TIMEOUT,媒體超時
+NO_ROUTE_DESTINATION,沒有路線目的地
+NORMAL_CLEARING,正常清除
+NETWORK_OUT_OF_ORDER,網絡亂序
+NORMAL_UNSPECIFIED,正常的
+NORMAL_CIRCUIT_CONGESTION,正常電路擁塞
+NORMAL_TEMPORARY_FAILURE,正常臨時故障
+NO_SUFFICIENT_FUND,沒有足夠的資金
+NO_USER_RESPONSE,沒有用戶回應
+NO_ANSWER,沒有答案
+NUMBER_CHANGED,號碼已更改
+ORIGINATOR_CANCEL,原廠取消
+ORIGNATION_RATE_NOT_FOUND,未找到定位率
+OUTGOING_CALL_BARRED,撥出電話
+PROGRESS_TIMEOUT,進度超時
+RECOVERY_ON_TIMER_EXPIRE,計時器到期後恢復
+RESELLER_COST_CHEAP,經銷商費用便宜
+SERVICE_NOT_IMPLEMENTED,服務未實施
+SERVICE_UNAVAILABLE,暫停服務
+SUCCESS,成功
+SWITCH_CONGESTION,開關擁塞
+TERMINATION_RATE_NOT_FOUND,未找到終止率
+UNSPECIFIED,未審查
+UNALLOCATED_NUMBER,未分配的號碼
+USER_BUSY,用戶忙
+USER_NOT_REGISTERED,用戶未註冊
+REQUESTED_CHAN_UNAVAIL,要求CHAN無效
+Resend Email,重發電子郵件
+Resent Email,重新發送電子郵件
+Sent,發送
+Account Number Editable,帳號可編輯
+Play Audio Notifications,播放音頻通知
+Invoices Older Than Days,發票比天數大
+Half Year,半年
+Last Pay Date,最後付款日期
+Buy DIDs,購買DID
+Purchased DID,購買的DID
+DID Information,DID信息
+Sell Cost,銷售成本
+Admin Rate Group,管理員費率組
+Search My Rates,搜索我的房價
+Optin,選擇參加
+Bal,巴爾
+Managed & Maintained by,由...管理和維護
+iNextrix Technologies Pvt. Ltd.,iNextrix技術列兵。 有限公司
+All Rights Reserved.,版權所有。
+module_name,模塊名稱
+English,英語
+Chinese,中國人
+French,法語
+German,德語
+Greek,希臘語
+Italian,義大利文
+Spanish,西班牙語
+Russian,俄語
+Japanese,日本人
+Portuguese,葡萄牙語
+Romanian,羅馬尼亞語
+Create Translation Languages,創建翻譯語言
+Module Name,模塊名稱
+Edit Translation Language,編輯翻譯語言
+Distributor,發行人
+Commission Based,基於佣金
+Reseller Type,轉銷商類型
+Callerid,來電顯示
+Opensips Dispatcher,Opensips分派器
+Generate,產生
+Forward,向前
+Add White List,添加白名單
+Report,報告
+Profiles,個人資料
+Create Duplicate Rate Group,創建重複費率組
+Add Timezone,添加時區
+Timezone List,時區清單
+GMT Offset,GMT偏移
+Edit Timezone,編輯時區
+Account Notification,帳戶通知
+Both (Email & SMS),兩者（電子郵件和短信）
+Terms & Condition,條款與協議
+Term And Condition,規則與條例
+Url,網址
+Text,文本
+Custom Rates,自訂價格
+(Price+SetUp Fee),（價格+安裝費）

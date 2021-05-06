@@ -51,7 +51,7 @@ if (! isset($csv_tmp_data)) {
 	<div class="w-section inverse p-0">
 		<form method="post"
 			action="<?php echo base_url() ?>rates/termination_rate_mapper_preview_file/"
-			enctype="multipart/form-data" id="termination_rate">
+			enctype="multipart/form-data" id="termination_rate" name="import_termination_rate_mapper">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="col-md-12 clo-sm-12 float-left p-0">

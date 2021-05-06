@@ -263,7 +263,7 @@ class Reports_form extends common
                     'tOOL TIP',
                     'Please Enter account number',
                     'id',
-                    'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number',
+                    'IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number',
                     'accounts',
                     'build_dropdown_deleted',
                     'where_arr',
@@ -572,7 +572,7 @@ class Reports_form extends common
                     'tOOL TIP',
                     'Please Enter account number',
                     'id',
-                    'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number',
+                    'IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number',
                     'accounts',
                     'build_dropdown_deleted',
                     'where_arr',
@@ -877,7 +877,7 @@ class Reports_form extends common
                 'id',
                 'first_name,last_name,number',
                 'accounts',
-                'build_concat_dropdown_only_reseller',
+                'build_concat_dropdown_reseller',
                 'where_arr',
                 array(
                     "reseller_id" => "0",
@@ -898,7 +898,7 @@ class Reports_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number',
+                'IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number',
                 'accounts',
                 'build_dropdown_deleted',
                 'where_arr',
@@ -922,6 +922,23 @@ class Reports_form extends common
                 'where_arr',
                 array(
                     "reseller_id" => "0"
+                )
+            ),
+            array(
+                gettext('Trunk'),
+                'trunk_id',
+                'SELECT',
+                '',
+                '',
+                'tOOL TIP',
+                'Please Enter account number',
+                'id',
+                'IF(`status`=2, concat(name,"","^"),name) as name',
+                'trunks',
+                'build_dropdown_deleted',
+                '',
+                array(
+                    "status" => "1"
                 )
             ),
             array(
@@ -1225,7 +1242,7 @@ class Reports_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number',
+                'IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number',
                 'accounts',
                 'build_dropdown_deleted',
                 'where_arr',
@@ -1457,7 +1474,7 @@ class Reports_form extends common
                     gettext("Account"),
                     "100",
                     "accountid",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "build_concat_string",
                     "",
@@ -1627,7 +1644,7 @@ class Reports_form extends common
                     gettext("Account"),
                     "110",
                     "accountid",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "build_concat_string",
                     "",
@@ -1775,7 +1792,7 @@ class Reports_form extends common
                     gettext("Account"),
                     "110",
                     "accountid",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "build_concat_string",
                     "",
@@ -1788,6 +1805,17 @@ class Reports_form extends common
                     "pricelist_id",
                     "name",
                     "pricelists",
+                    "get_field_name",
+                    "",
+                    "true",
+                    "center"
+                ),
+                array(
+                    gettext("Trunks"),
+                    "100",
+                    "trunk_id",
+                    "name",
+                    "trunks",
                     "get_field_name",
                     "",
                     "true",
@@ -1921,7 +1949,7 @@ class Reports_form extends common
                     gettext("Account"),
                     "110",
                     "accountid",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "build_concat_string",
                     "",
@@ -2065,7 +2093,7 @@ class Reports_form extends common
                 gettext("Account"),
                 "120",
                 "provider_id",
-                "first_name,last_name,number",
+                "first_name,last_name,number,company_name",
                 "accounts",
                 "build_concat_string",
                 "",
@@ -2437,9 +2465,9 @@ class Reports_form extends common
             'tOOL TIP',
             'Please Enter account number',
             'id',
-            'number',
+            'first_name,last_name,number',
             'accounts',
-            'build_dropdown',
+            'build_concat_dropdown',
             'where_arr',
             array(
                 "reseller_id" => $reseller_id,
@@ -2876,7 +2904,7 @@ class Reports_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number',
+                'IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number',
                 'accounts',
                 'build_dropdown_deleted',
                 'where_arr',
@@ -3111,7 +3139,7 @@ class Reports_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number',
+                'IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number',
                 'accounts',
                 'build_dropdown_deleted',
                 'where_arr',
@@ -3362,7 +3390,7 @@ class Reports_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number',
+                'IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number',
                 'accounts',
                 'build_dropdown_deleted',
                 'where_arr',
@@ -3567,592 +3595,6 @@ class Reports_form extends common
         return $buttons_json;
     }
 
-    function build_charge_list_for_admin()
-    {
-        $account_info = $accountinfo = $this->CI->session->userdata('accountinfo');
-        $currency_id = $account_info['currency_id'];
-        $currency = $this->CI->common->get_field_name('currency', 'currency', $currency_id);
-        if ($this->CI->session->userdata("logintype") == '1') {
-            $grid_field_arr = json_encode(array(
-                array(
-                    gettext("Created Date"),
-                    "125",
-                    "created_date",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "left"
-                ),
-                array(
-                    gettext("Invoice Number"),
-                    "110",
-                    "invoiceid",
-                    "prefix,number",
-                    "invoices",
-                    "build_concat_string",
-                    "",
-                    "true",
-                    "center"
-                ),
-                array(
-                    gettext("Account"),
-                    "110",
-                    "accountid",
-                    "first_name,last_name,number",
-                    "accounts",
-                    "build_concat_string",
-                    "",
-                    "true",
-                    "center"
-                ),
-                array(
-                    gettext("Charge Type"),
-                    "110",
-                    "charge_type",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "center"
-                ),
-                array(
-                    gettext("Description"),
-                    "150",
-                    "description",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "center"
-                ),
-                array(
-                    gettext("Before Balance")."<br/>($currency)",
-                    "110",
-                    "before_balance",
-                    "before_balance",
-                    "before_balance",
-                    "convert_to_currency_account",
-                    "",
-                    "true",
-                    "right"
-                ),
-                array(
-                    gettext("Debit")." (-)<br/>($currency)",
-                    "110",
-                    "debit",
-                    "debit",
-                    "debit",
-                    "convert_to_currency_account",
-                    "",
-                    "true",
-                    "right"
-                ),
-                array(
-                    gettext("Credit")." (+)<br/>($currency)",
-                    "110",
-                    "credit",
-                    "credit",
-                    "credit",
-                    "convert_to_currency_account",
-                    "",
-                    "true",
-                    "right"
-                ),
-                array(
-                    gettext("After Balance")." <br/>($currency)",
-                    "110",
-                    "after_balance",
-                    "after_balance",
-                    "after_balance",
-                    "convert_to_currency_accounts",
-                    "",
-                    "true",
-                    "right"
-                )
-            ));
-        } else {
-            $grid_field_arr = json_encode(array(
-                array(
-                    gettext("Created Date"),
-                    "125",
-                    "created_date",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "left"
-                ),
-                array(
-                    gettext("Invoice Number"),
-                    "110",
-                    "invoiceid",
-                    "prefix,number",
-                    "invoices",
-                    "build_concat_string",
-                    "",
-                    "true",
-                    "center"
-                ),
-                array(
-                    gettext("Account"),
-                    "110",
-                    "accountid",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "center"
-                ),
-                array(
-                    gettext("Charge Type"),
-                    "110",
-                    "charge_type",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "center"
-                ),
-                array(
-                    gettext("Description"),
-                    "150",
-                    "description",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "center"
-                ),
-                array(
-                    "Reseller",
-                    "120",
-                    "reseller_id",
-                    "first_name,last_name,number",
-                    "accounts",
-                    "reseller_select_value"
-                ),
-                array(
-                    gettext("Before Balance")." <br/>($currency)",
-                    "110",
-                    "before_balance",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "right"
-                ),
-                array(
-                    gettext("Debit")." (-)<br/>($currency)",
-                    "110",
-                    "debit",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "right"
-                ),
-                array(
-                    gettext("Credit")." (+)<br/>($currency)",
-                    "110",
-                    "credit",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "right"
-                ),
-                array(
-                    gettext("After Balance")."<br/>($currency)",
-                    "110",
-                    "after_balance",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "true",
-                    "right"
-                )
-            ));
-        }
-        return $grid_field_arr;
-    }
-
-    function get_charges_search_form()
-    {
-        $accountinfo = $this->CI->session->userdata('accountinfo');
-        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
-        $form['forms'] = array(
-            "",
-            array(
-                'id' => "charges_search"
-            )
-        );
-        if ($accountinfo['type'] == - 1 || $accountinfo['type'] == 2) {
-            $form[gettext('Search')] = array(
-                array(
-                    gettext('From Date'),
-                    'INPUT',
-                    array(
-                        'name' => 'created_date[]',
-                        'id' => 'charge_from_date',
-                        'size' => '20',
-                        'class' => "text field "
-                    ),
-                    '',
-                    'tOOL TIP',
-                    '',
-                    'start_date[start_date-date]'
-                ),
-                array(
-                    gettext('To Date'),
-                    'INPUT',
-                    array(
-                        'name' => 'created_date[]',
-                        'id' => 'charge_to_date',
-                        'size' => '20',
-                        'class' => "text field "
-                    ),
-                    '',
-                    'tOOL TIP',
-                    '',
-                    'end_date[end_date-date]'
-                ),
-                array(
-                    gettext('Reseller'),
-                    array(
-                        'name' => 'reseller_id',
-                        'class' => 'reseller_id_search_drp'
-                    ),
-                    'SELECT',
-                    '',
-                    '',
-                    'tOOL TIP',
-                    'Please Enter account number',
-                    'id',
-                    'first_name,last_name,number',
-                    'accounts',
-                    'build_concat_dropdown_reseller',
-                    '',
-                    ''
-                ),
-                array(
-                    gettext('Account'),
-                    array(
-                        'name' => 'accountid',
-                        'id' => 'accountid_search_drp',
-                        'class' => 'accountid_search_drp'
-                    ),
-                    'SELECT',
-                    '',
-                    '',
-                    'tOOL TIP',
-                    'Please Enter account number',
-                    'id',
-                    'number',
-                    'accounts',
-                    'build_dropdown',
-                    'where_arr',
-                    array(
-                        "reseller_id" => $reseller_id,
-                        "type" => "GLOBAL",
-                        "status" => 0
-                    )
-                ),
-                array(
-                    gettext('Debit'),
-                    'INPUT',
-                    array(
-                        'name' => 'debit[debit]',
-                        'value' => '',
-                        'size' => '20',
-                        'class' => "text field "
-                    ),
-                    '',
-                    'Tool tips info',
-                    '1',
-                    'debit[debit-integer]',
-                    '',
-                    '',
-                    '',
-                    'search_int_type',
-                    ''
-                ),
-                array(
-                    gettext('Credit'),
-                    'INPUT',
-                    array(
-                        'name' => 'credit[credit]',
-                        'value' => '',
-                        'size' => '20',
-                        'class' => "text field "
-                    ),
-                    '',
-                    'Tool tips info',
-                    '1',
-                    'credit[credit-integer]',
-                    '',
-                    '',
-                    '',
-                    'search_int_type',
-                    ''
-                ),
-                array(
-                    '',
-                    'HIDDEN',
-                    'ajax_search',
-                    '1',
-                    '',
-                    '',
-                    ''
-                ),
-                array(
-                    '',
-                    'HIDDEN',
-                    'advance_search',
-                    '1',
-                    '',
-                    '',
-                    ''
-                )
-            );
-        } else {
-            $form[gettext('Search')] = array(
-                array(
-                    gettext('From Date'),
-                    'INPUT',
-                    array(
-                        'name' => 'created_date[]',
-                        'id' => 'charge_from_date',
-                        'size' => '20',
-                        'class' => "text field "
-                    ),
-                    '',
-                    'tOOL TIP',
-                    '',
-                    'start_date[start_date-date]'
-                ),
-                array(
-                    gettext('To Date'),
-                    'INPUT',
-                    array(
-                        'name' => 'created_date[]',
-                        'id' => 'charge_to_date',
-                        'size' => '20',
-                        'class' => "text field "
-                    ),
-                    '',
-                    'tOOL TIP',
-                    '',
-                    'end_date[end_date-date]'
-                ),
-                array(
-                    gettext('Account'),
-                    'accountid',
-                    'SELECT',
-                    '',
-                    '',
-                    'tOOL TIP',
-                    'Please Enter account number',
-                    'id',
-                    'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number',
-                    'accounts',
-                    'build_dropdown_deleted',
-                    'where_arr',
-                    array(
-                        "reseller_id" => $reseller_id,
-                        "type" => "GLOBAL",
-                        "status" => 0
-                    )
-                ),
-                array(
-                    gettext('Debit'),
-                    'INPUT',
-                    array(
-                        'name' => 'debit[debit]',
-                        'value' => '',
-                        'size' => '20',
-                        'class' => "text field "
-                    ),
-                    '',
-                    'Tool tips info',
-                    '1',
-                    'debit[debit-integer]',
-                    '',
-                    '',
-                    '',
-                    'search_int_type',
-                    ''
-                ),
-                array(
-                    gettext('Credit'),
-                    'INPUT',
-                    array(
-                        'name' => 'credit[credit]',
-                        'value' => '',
-                        'size' => '20',
-                        'class' => "text field "
-                    ),
-                    '',
-                    'Tool tips info',
-                    '1',
-                    'credit[credit-integer]',
-                    '',
-                    '',
-                    '',
-                    'search_int_type',
-                    ''
-                ),
-                array(
-                    '',
-                    'HIDDEN',
-                    'ajax_search',
-                    '1',
-                    '',
-                    '',
-                    ''
-                ),
-                array(
-                    '',
-                    'HIDDEN',
-                    'advance_search',
-                    '1',
-                    '',
-                    '',
-                    ''
-                )
-            );
-        }
-        $form['button_search'] = array(
-            'name' => 'action',
-            'id' => "charges_search_btn",
-            'content' => gettext('Search'),
-            'value' => 'save',
-            'type' => 'button',
-            'class' => 'btn btn-success float-right'
-        );
-        $form['button_reset'] = array(
-            'name' => 'action',
-            'id' => "id_reset",
-            'content' => gettext('Clear'),
-            'value' => 'cancel',
-            'type' => 'reset',
-            'class' => 'btn btn-secondary float-right ml-2'
-        );
-
-        return $form;
-    }
-
-    function build_charge_list_for_customer()
-    {
-        $account_info = $accountinfo = $this->CI->session->userdata('accountinfo');
-        $currency_id = $account_info['currency_id'];
-        $currency = $this->CI->common->get_field_name('currency', 'currency', $currency_id);
-
-        $grid_field_arr = json_encode(array(
-            array(
-                gettext("Invoice Number"),
-                "110",
-                "invoiceid",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Charge Type"),
-                "100",
-                "charge_type",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Description"),
-                "270",
-                "description",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Before Balance")."<br/>($currency)",
-                "120",
-                "before_balance",
-                "before_balance",
-                "before_balance",
-                "convert_to_currency",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("Debit")." (-)<br/>($currency)",
-                "110",
-                "debit",
-                "debit",
-                "debit",
-                "convert_to_currency",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("Credit")." (+)<br/>($currency)",
-                "110",
-                "credit",
-                "credit",
-                "credit",
-                "convert_to_currency",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("After Balance")."<br/>($currency)",
-                "120",
-                "after_balance",
-                "after_balance",
-                "after_balance",
-                "convert_to_currency",
-                "",
-                "true",
-                "right"
-            ),
-
-            array(
-                gettext("Created Date"),
-                "100",
-                "created_date",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            )
-        ));
-        return $grid_field_arr;
-    }
-
     function build_refillreport_for_customer()
     {
         $account_info = $accountinfo = $this->CI->session->userdata('accountinfo');
@@ -4252,7 +3694,7 @@ class Reports_form extends common
                     gettext("Account"),
                     "100",
                     "accountid",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "build_concat_string",
                     "",
@@ -4367,7 +3809,7 @@ class Reports_form extends common
                     gettext("Reseller"),
                     "80",
                     "reseller_id",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "build_concat_string",
                     "",
@@ -4378,7 +3820,7 @@ class Reports_form extends common
                     gettext("Account"),
                     "100",
                     "accountid",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "build_concat_string",
                     "",

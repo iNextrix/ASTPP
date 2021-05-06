@@ -87,6 +87,7 @@ function optinproduct(id) {
 	<div class="w-section inverse p-0">
     	<div class="card col-md-12 pb-4">
         	       <table id="product_cus_grid" align="left" style="display:none;"></table>
+        	       <i><?php echo gettext("Note : You cannot delete a product that is in use. To delete the product, you need to release that product from the customers account who are using this product or need to terminate the order of the product for customers.");?></i>
         </div>
     </div>
 </section>

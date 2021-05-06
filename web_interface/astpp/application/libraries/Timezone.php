@@ -61,6 +61,29 @@ class Timezone {
 		
 		return $date;
 	}
+	function convert_to_GMT_new($currDate, $fulldate = 1, $timezone_id = '') {
+		$number = ($timezone_id == "") ? $this->uset_timezone () : $timezone_id;
+		$SERVER_GMT = '0';
+		$result = $this->CI->db->query ( "select gmtoffset,timezone_name from timezone where id =" . $number );
+		$timezone_offset = $result->result ();
+		$USER_GMT = $timezone_offset ['0']->gmtoffset;
+		$date_time_array = getdate ( strtotime ( $currDate ) );
+		$hours = $date_time_array ['hours'];
+		$minutes = $date_time_array ['minutes'];
+		$seconds = $date_time_array ['seconds'];
+		$month = $date_time_array ['mon'];
+		$day = $date_time_array ['mday'];
+		$year = $date_time_array ['year'];
+		$timestamp = mktime ( $hours, $minutes, $seconds, $month, $day, $year );
+		$timestamp = $timestamp - ($USER_GMT);
+		if($fulldate == 1) {
+			$date = date ( "Y-m-d H:i:s", $timestamp );
+		} else {
+			$date = date ( "Y-m-d", $timestamp );
+		}
+		return $date;
+	}
+	
 	function convert_to_GMT($currDate, $fulldate = 1, $timezone_id = '') {
 		$number = ($timezone_id == "") ? $this->uset_timezone () : $timezone_id;
 		$SERVER_GMT = '0';
@@ -85,5 +108,12 @@ class Timezone {
 		}
 		return $date;
 	}
+	function get_login_type_timezone(){
+		$accountinfo = $this->CI->session->userdata('accountinfo');
+        $timezone_name = $this->CI->common->get_field_name('timezone_name','timezone',array("id" =>$accountinfo['timezone_id']));
+        $date = new DateTime("now", new DateTimeZone($timezone_name));
+        return $date->format('Y-m-d');
+	}
+
 }
 ?>

@@ -2,7 +2,29 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
   $(document).ready(function() {
-   $('.is_distributor').prop("disabled", true);
+  $("#resend_password").click(function(){
+    var link = "<?php echo base_url()?>"+this.getAttribute('link');
+    
+     $.ajax({
+            type: "POST",
+            url: link,
+            beforeSend: function(){
+          $("#resend_password").attr("disabled", true);
+        },
+            success: function(result) {
+         var validate_ERR = 'Password reset successfully.';
+         var ERR_type     = 'error';
+         display_astpp_message(validate_ERR,ERR_type);
+         setTimeout(function(){
+          window.location.reload(1);
+         }, 2000);
+            },
+            error: function(result) {
+                  alert('Sorry,Password not reset');
+            }
+        });
+  });
+  $('.is_distributor').prop("disabled", true);
   $(".sweep_id").change(function(){
     var sweep_id =$('.sweep_id option:selected').val();
     if(sweep_id != 0){
@@ -13,7 +35,7 @@
         success: function(response) {
           $('.invoice_day').parents('li.form-group').removeClass("d-none");               
           $('.invoice_day').selectpicker('show');
-          $('.invoice_day').html(response);
+          $('#invoice_day').html(response);
           $('.selectpicker').selectpicker('refresh');
         }
       });
@@ -37,7 +59,8 @@
         $('#number').val(data.trim());
       }
     });
-  })
+  });
+  $(".sweep_id").change();
 });
          
 
@@ -57,18 +80,19 @@
 </script>
 <script type="text/javascript">
   $(document).ready(function(){
-    $(".breadcrumb li a").removeAttr("data-ripple",""); 
+    $(".breadcrumb li a").removeAttr("data-ripple","");
+  $(".reset_password").parents("li").removeClass('form-group').addClass('mt-4'); 
   });
 </script>
 <style>
 label.error {
-	float: left;
-	color: red;
-	padding-left: .3em;
-	vertical-align: top;
-	padding-left: 40px;
-	margin-top: 20px;
-	width: 1500% !important;
+  float: left;
+  color: red;
+  padding-left: .3em;
+  vertical-align: top;
+  padding-left: 40px;
+  margin-top: 20px;
+  width: 1500% !important;
 }
 </style>
 <? endblock() ?>
@@ -80,8 +104,8 @@ label.error {
 <? startblock('content') ?>
 
 <div class="p-0">
-	<section class="slice color-three">
-		<div class="w-section inverse p-0">
+  <section class="slice color-three">
+    <div class="w-section inverse p-0">
     <?php echo $form; ?>
     <?php
     if (isset($validation_errors) && $validation_errors != '') {
@@ -94,9 +118,9 @@ label.error {
 
 
   </div>
-	</section>
+  </section>
 </div>
-<? endblock() ?>	
+<? endblock() ?>  
 <? startblock('sidebar') ?>
 Filter by
 <? endblock() ?>
@@ -104,7 +128,7 @@ Filter by
 <script type="text/javascript" language="javascript">
 
 $(document).ready(function() {
-  $("textarea").parents('li.form-group').addClass("h-auto");	
+  $("textarea").parents('li.form-group').addClass("h-auto");  
 });
 
 </script>

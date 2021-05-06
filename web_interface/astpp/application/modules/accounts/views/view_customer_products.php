@@ -107,7 +107,7 @@ label.error {
 							id="left_panel_quick_search"
 							class="form-control form-control-lg m-0"
 							value="<?php echo $this->session->userdata('left_panel_search_'.$accounttype.'_products')?>"
-							placeholder="Search" />
+							placeholder=<?php echo gettext("Search")?> />
 					</div>
         <?php } ?>   
     </div>

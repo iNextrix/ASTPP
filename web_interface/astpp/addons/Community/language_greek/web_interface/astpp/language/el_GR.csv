@@ -1,1777 +1,2345 @@
-English,Greek
-Access Number,Αριθμός πρόσβασης
-Access Numbers,Αριθμοί πρόσβασης
-Account,λογαριασμός
-Account Type,Τύπος Λογαριασμού
-Account Valid Days,Ημέρες έγκυρων λογαριασμών
-Account Verification By,Επαλήθευση λογαριασμού από
-Accounts,Λογαριασμοί
-Accounts Report,Έκθεση λογαριασμών
-ACD,ACD
-Action,Δράση
-Action Type,Τύπος ενέργειας
-Add,Προσθέτω
-Add Country,Προσθήκη χώρας
-Add Currency,Προσθήκη νομίσματος
-Add Destination,Προσθήκη προορισμού
-Add Ratedeck,Προσθέστε Ratedeck
-Address1,Διεύθυνση 1
-Administrator,Διαχειριστής
-Administrator Admin,Διαχειριστής διαχειριστή
-Admins,Διαχειριστές
-After Balance,Μετά την ισορροπία
-Alarm,Τρομάζω
-Alert Status,Κατάσταση προειδοποίησης
-Allow integration with Fraud detection,Επιτρέψτε την ενσωμάτωση με την ανίχνευση Fraud
-Allow IP Management,Να επιτρέπεται η διαχείριση IP
-Allow Local Call,Επιτρέψτε την τοπική κλήση
-Allow Local Calls,Επιτρέψτε τις τοπικές κλήσεις
-Allow Loss Less Routing,Επιτρέψτε τη λιγότερη δρομολόγηση απώλειας
-Allow Max Retries,Επιτρέψτε στο Max Retries
-Allow Recording,Επιτρέψτε την εγγραφή
-Amount,Ποσό
-Amount INR,Ποσό INR
-Answered Calls,Απαντημένες κλήσεις
-Applicable For,Ισχύει για
-Apply on existing accounts,Εφαρμόστε στους υπάρχοντες λογαριασμούς
-Archive,Αρχείο
-ASR,ASR
-Attachement,Συνημμένο
-Attempted Calls,Προσπάθεια για κλήσεις
-Audit,Ελεγχος
-Audit Log,Αρχείο ελέγχου
-Audit Logs Older Than Days,Αρχεία ελέγχου παλαιότερα από τις ημέρες
-Authorize.net,Authorize.net
-Automatically,Αυτομάτως
-Balance,Ισορροπία
-Balance Announcement,Ανακοίνωση ισοζυγίου
-Balance Below,Ισορροπία κάτω
-Base Currency,Νόμισμα βάσης
-Basic,Βασικός
-Basic Information,Βασικές πληροφορίες
-Batch Update,Ενημέρωση παρτίδας
-Before Balance INR,Πριν από την ισορροπία INR
-Begins With,Ξεκινάει με
-Beta,Βήτα
-Billable,Χρεώσιμο
-Billing,Χρέωση
-Billing Cycle,Κύκλος χρέωσης
-Billing Days,Ημέρες χρέωσης
-Billing Information,Πληροφορίες χρέωσης
-Billing Type,Τύπος χρέωσης
-Body,Σώμα
-Buy Cost,Αγοράστε το κόστος
-Call Barring,Φραγή κλήσεων
-Call Date,Ημερομηνία κλήσης
-Call Detail Reports,Αναφορές λεπτομερειών κλήσεων
-Call Max Length,Καλέστε το μέγιστο μήκος
-Call State,Κατάσταση κλήσης
-Call Summary Reports,Αναφορές συνοπτικών κλήσεων
-Call Timeout,Χρονικό όριο κλήσεων
-Call Type,Τύπος κλήσης
-Call Types,Τύποι κλήσεων
-Called Number,Ονομασμένος αριθμός
-Caller ID,Αναγνώριση καλούντος
-Caller IDs,Αναγνωριστικά καλούντος
-Caller IP,IP καλούντος
-Caller Name,Όνομα καλούντος
-Caller Number,Αριθμός κλήσης
-Caller-Id-In-From,Caller-Id-In-From
-Calling Card,Τηλεφωνική κάρτα
-Calls,Κλήσεις
-Calls Breakdown,Αναλυτική κλήση
-Calltype Information,Πληροφορίες για τύπος κλήσης
-Can be purchased?,Μπορεί να αγοραστεί;
-Capital,Κεφάλαιο
-Capture Server,Σύλληψη διακομιστή
-Card Input Timeout,Χρονικό όριο εισόδου κάρτας
-Card Length,Μήκος κάρτας
-Card Retries,Επαναλήψεις καρτών
-Carriers,Φορείς
-Category,Κατηγορία
-CC,CC
-CDRs Older Than Days,CDRs παλαιότερες από τις ημέρες
-Charge Type,Τύπος χρέωσης
-Charges Breakdown,Κατανομή των χρεώσεων
-Charges History,Ιστορικό χρεώσεων
-CID,CID
-City,Πόλη
-Clear,Σαφή
-Client IP,IP πελάτη
-Client User Agent,Client Agent πελάτη
-Code,Κώδικας
-Codecs,Κωδικοποιητές
-Commission,Επιτροπή
-Commission Rate,Τιμή της Επιτροπής
-Commission Reports,Εκθέσεις της Επιτροπής
-Company,Εταιρία
-Company Profiles,Εταιρικά προφίλ
-Company Tax number,Αριθμός Φορέα Εταιρείας
-Completed Calls,Ολοκληρωμένες κλήσεις
-Concurrent Calls,Συγχρονισμένες κλήσεις
-Configuration ,Διαμόρφωση
-Confirmed,Επιβεβαιωμένος
-Connection Cost,Κόστος σύνδεσης
-Contains,Περιέχει
-Cost,Κόστος
-Cost/Min,Κόστος / Ελάχιστο
-Countries,Χώρες
-Country,Χώρα
-Country Code,Κωδικός χώρας
-Country List,Κατάλογος χωρών
-Country Reports,Αναφορές χωρών
-Coupon Information,Πληροφορίες κουπονιού
-Coupon Number,Αριθμός κουπονιού
-CPS,CPS
-Create,Δημιουργώ
-Create Admin,Δημιουργία διαχειριστή
-Create calltype,Δημιουργία τύπου κλήσης
-Create Company Profile ,Δημιουργία προφίλ εταιρείας
-Create Customer,Δημιουργία πελάτη
-Create Origination Rate,Δημιουργήστε το ποσοστό αρχής
-Create Product ,Δημιουργία προϊόντος
-Create Provider,Δημιουργία παροχέα
-Create Rate Group,Δημιουργία ομάδας ποσοστών
-Create Refill Coupon,Δημιουργία Κουπονιού Αναπλήρωσης
-Create SIP Device,Δημιουργία συσκευής SIP
-Create Tax,Δημιουργήστε φόρο
-Created Date,Ημερομηνία δημιουργίας
-Creation Date,Ημερομηνία δημιουργίας
-Credit,Πίστωση
-Credit Limit,Πιστωτικό όριο
-Crons,Crons
-Currency,Νόμισμα
-Currency Conversion Loss Percentage,Ποσοστό Απώλειας Μετατροπής Νομίσματος
-Currency List,Λίστα νομισμάτων
-Customer,Πελάτης
-Customer CDRs Report ,Έκθεση CDR πελατών
-Customer Summary,Περίληψη Πελατών
-Customer Summary Report ,Συνοπτική έκθεση πελατών
-Customers,Οι πελάτες
-Dashboard,Ταμπλό
-Database,Βάση δεδομένων
-Date,Ημερομηνία
-Debit,Χρέωση
-Debug,Debug
-Decimal Points,Δεκαδικά σημεία
-Default Increment ,Προεπιλεγμένη αύξηση
-Default Invoice Mode,Προεπιλεγμένη λειτουργία τιμολογίου
-Default Tax,Προεπιλογή Φόρου
-Delete,Διαγράφω
-Deleted Accounts After Days,Διαγραμμένοι λογαριασμοί μετά από ημέρες
-Description,Περιγραφή
-Destination,Προορισμός
-Dial Input Timeout,Ορίστε το Timeout εισόδου κλήσης
-DID,DID
-DIDs,DIDs
-Direction,Κατεύθυνση
-Disable,Καθιστώ ανίκανο
-Display records in,Προβολή εγγραφών στο
-Disposition,Διάθεση
-Documentation,Απόδειξη με έγγραφα
-Doesnt Contain,Δεν περιέχει
-Domain,Τομέα
-Draft,Προσχέδιο
-Due Date,Ημερομηνία λήξης
-Duplicate,Αντίγραφο
-Duration,Διάρκεια
-Email,ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ
-Email Alerts ?,Ειδοποιήσεις ηλεκτρονικού ταχυδρομείου;
-Email History,Ιστορικό ηλεκτρονικού ταχυδρομείου
-Email History List ,Λίστα ιστορικού ηλεκτρονικού ταχυδρομείου
-Email Notification,Ειδοποίηση ηλεκτρονικού ταχυδρομείου
-Email Notifications,ειδοποιήσεις ηλεκτρονικού ταχυδρομείου
-Email Status,Κατάσταση ηλεκτρονικού ταχυδρομείου
-Email Template,Πρότυπο ηλεκτρονικού ταχυδρομείου
-Emails Older Than Days,Τα μηνύματα ηλεκτρονικού ταχυδρομείου παλαιότερα από τις ημέρες
-En,En
-Enable,επιτρέπω
-Enable Signup,Ενεργοποίηση εγγραφής
-Ends With,Τελειώνει με
-Enterprise,Επιχείρηση
-Entity Type,Τύπος Οντότητας
-Environment,περιβάλλον
-Ewallet Payment Gateway,Πύλη πληρωμής Ewallet
-Expired Accounts After Days,Λήξη λογαριασμών μετά από ημέρες
-Expiry Date,Ημερομηνία λήξης
-Export,Εξαγωγή
-Failover  GW Name #1,Επαλήθευση του ονόματος αποτυχίας GW # 1
-Failover GW Name #2,FWover Name GW # 2
-Favicon,Favicon
-Fax,Φαξ
-Fee,Τέλη
-File Path,Διαδρομή αρχείου
-Filter,Φίλτρο
-First Name,Ονομα
-First Used,Πρώτα χρησιμοποιούνται
-Fixer Key,Κλειδί σταθεροποίησης
-FMAddon,FMAddon
-Footer,Υποσέλιδο
-Fraud Detection,Ανίχνευση απάτης
-Free Minutes,Δωρεάν λεπτά
-FreeSwitch Servers,Διακομιστές FreeSwitch
-From,Από
-From Date,Από την ημερομηνία
-From Timestamp,Από το Timestamp
-Gateway Name,Όνομα πύλης
-Gateways,Πύλες
-General,Γενικός
-General Input Timeout,Γενικό χρονικό όριο εισαγωγής
-Generate Invoice,Δημιουργία τιμολογίου
-Generate Pin,Δημιουργία ακίδων
-Generates Alarm From System,Δημιουργεί συναγερμό από το σύστημα
-Generates Local Number system,Δημιουργεί σύστημα τοπικού αριθμού
-Generates ticket of issues from system,Δημιουργεί εισιτήριο για θέματα από το σύστημα
-Generates Various Alarms From System,Δημιουργεί διάφορους συναγερμούς από το σύστημα
-Generates Various Country Reports From System,Δημιουργεί διάφορες αναφορές χωρών από το σύστημα
-Generates various reports from system,Δημιουργεί διάφορες αναφορές από το σύστημα
-Get Addons,Αποκτήστε πρόσθετα
-Get App,Λάβε την εφαρμογή
-Global,Παγκόσμια
-Grace Time,Χρόνος χάριτος
-Grand Total,Σύνολο
-Group By,Ομάδα με
-Group By #1,Ομάδα με # 1
-Group By #2,Ομάδα με # 2
-Group By #3,Ομάδα με # 3
-Group By #Time,Ομαδοποίηση κατά #Time
-Header,Επί κεφαλής
-Homer,Όμηρος
-Host,Πλήθος
-Import,Εισαγωγή
-Import Customers,Εισαγωγή πελατών
-Import with field map,Εισαγωγή με χάρτη πεδίου
-Inbound,Εισερχόμενος
-Inbound Fax,Εισερχόμενα φαξ
-Included Seconds,Συμπεριλαμβάνονται δευτερόλεπτα
-Increment,Αύξηση
-Initial Balance,Αρχική ισορροπία
-Initial Increment,Αρχική αύξηση
-Inovices Older Than Days,Οι καινοτομίες παλαιότερες από τις ημέρες
-Install,Εγκαθιστώ
-Installed,Εγκαταστήθηκε
-Interval,Διάστημα
-Interval Type,Τύπος διαστήματος
-Invoice Configuration ,Διαμόρφωση τιμολογίου
-Invoice Date,Την ημερομηνία του τιμολογίου
-Invoice Due Days,Τιμές λόγω τιμολογίου
-Invoice Due Notification,Ειδοποίηση σχετικά με τιμολόγια
-Invoice Notification,Ειδοποίηση τιμολογίου
-Invoice Number,Αριθμός τιμολογίου
-Invoice Prefix,Πρόθεμα τιμολογίου
-Invoice Start Form,Φόρμα έναρξης τιμολογίου
-Invoices,Τιμολόγια
-IP,IP
-IP Settings,Ρυθμίσεις IP
-Is Equal To,Είναι ίσο με
-Is Not Equal To,Δεν είναι ίσο με
-Is Purchased?,Αγοράζεται;
-Iso,Iso
-Iso3,Iso3
-IVR Count,IVR Count
-Languages,Γλώσσες
-Last Execution Date,Τελευταία ημερομηνία εκτέλεσης
-Last Modified Date,Τελευταία τροποποιημένη ημερομηνία
-Last Name,Επίθετο
-Last Paid Date,Τελευταία ημερομηνία πληρωμής
-Latest Orders,Τελευταίες παραγγελίες
-LC Charge / Min,LC Charge / Min
-LC Charge/Min,LC Charge / Min
-Live,Ζω
-Live Call Report,Έκθεση ζωντανής κλήσης
-Live Id,Ζωντανό αναγνωριστικό
-Live Key,Ζωντανό κλειδί
-Live Url,Ζωντανή διεύθυνση URL
-Local Call Timeout,Χρονικό όριο κλήσεων τοπικών κλήσεων
-Local Number,Τοπικός αριθμός
-Local Numbers,Τοπικοί Αριθμοί
-Locale code,Κωδικός περιοχής
-Localization,Εντοπισμός
-Localization Type,Τύπος τοπικής ρύθμισης
-Localizations,Τοποθεσίες
-Log out,Αποσυνδέση
-Log Path,Διαδρομή καταγραφής
-Logo,Λογότυπο
-Low balance Alert?,Ειδοποίηση χαμηλού υπολοίπου;
-Mail Log,Μητρώο ηλεκτρονικού ταχυδρομείου
-Manually,Μη αυτόματα
-Markup,Μαρκάρισμα
-Mass Create,Δημιουργία μάζας
-Mass Email,Μαζικό ηλεκτρονικό ταχυδρομείο
-Max Free Length,Μέγιστο ελεύθερο μήκος
-MCD,MCD
-Minimum Fund Transfer,Ελάχιστη μεταφορά κεφαλαίων
-Minutes,Λεπτά
-Minutes Announcement,Ανακοίνωση λεπτών
-Minutes Breakdown,Λεξικό κατανομής
-Moderate,Μέτριος
-Modified Date,Τροποποιημένη ημερομηνία
-Module,Μονάδα μέτρησης
-Name,Ονομα
-New Accounts,Νέοι λογαριασμοί
-Nexmo API Key,Κλειδί API Nexmo
-Nexmo Secret Key,Κλειδί Nexmo Secret
-Next Execution Date,Επόμενη Ημερομηνία Εκτέλεσης
-Nickname,Παρατσούκλι
-No,Οχι
-No Records Found,Δεν βρέθηκαν καταγραφές
-Notes,Σημειώσεις
-Notifications,Ειδοποιήσεις
-Notify before due days,Ειδοποιήστε πριν από τις ημέρες
-Number,Αριθμός
-Number Type,Τύπος αριθμού
-of,του
-Opensips,Opensips
-Opensips DB Engine,Μηχανή DB Opensips DB
-Opensips DB Host,Ο κεντρικός υπολογιστής Opensips DB
-Opensips DB Name,Όνομα DB Opensips DB
-Opensips DB Pass,Opensips DB Pass
-Opensips DB User,Opensips DB χρήστη
-Opensips Domain,Ονόματος Opensips
-Opensource,Ανοιχτή πηγή
-Order,Σειρά
-Order Amount,Ποσό παραγγελίας
-Order Date,Ημερομηνία παραγγελίας
-Order ID,Αριθμός Παραγγελίας
-Order Now,Παράγγειλε τώρα
-Orders,Παραγγελίες
-Org. Cost,Org. Κόστος
-Org. Destination,Org. Προορισμός
-Org. Pefix,Org. Pefix
-Origination Rates,Τιμές Προέλευσης
-Outbound Fax,Έξοδος φαξ
-Outstanding Amount INR,Εκκρεμή Ποσό INR
-Page,Σελίδα
-Password,Κωδικός πρόσβασης
-Password Strength,Ισχύς Κωδικού Πρόσβασης
-Payment Method,Μέθοδος πληρωμής
-Payment Methods,μέθοδοι πληρωμής
-Payment Status,Κατάσταση πληρωμής
-Paypal,Paypal
-Per Minute Cost,Ανά λεπτό κόστος
-Phone,Τηλέφωνο
-Pin Input Timeout,Χρονικό όριο εισόδου Pin
-Pin Length,Μήκος ακίδων
-Pin retries,Επανασυνδέσεις
-Pinless Authentication,Άδεια επαλήθευσης
-Place Order ,Παραγγέλνω
-Playback Audio Notifications,Ειδοποιήσεις ήχου αναπαραγωγής
-Port,Λιμάνι
-Portal personalization,Εξατομίκευση πύλης
-Powered by ASTPP,Powered by ASTPP
-Prefix,Πρόθεμα
-Prepend,Προεπιλογή
-Preserve,Διατηρώ
-Price,Τιμή
-Priority,Προτεραιότητα
-Product Category,κατηγορία προιόντος
-Product Details,λεπτομέρειες προιόντος
-Product Name,όνομα προϊόντος
-Products,Προϊόντα
-Profile Action,Προφίλ δράσης
-Profit,Κέρδος
-Provider,Προμηθευτής
-Provider CDRs Report ,Αναφορά CDR του παρόχου
-Provider Outbound,Παροχέας Εξερχόμενη
-Provider Outbound Report,Αναφορά εξερχόμενου παρόχου
-Provider Summary Report ,Συνοπτική Αναφορά Παροχής Υπηρεσιών
-Province,Επαρχία
-Province/State,ΕΠΑΡΧΙΑ
-Proxy,Πληρεξούσιο
-Purge,Καθαρίζω
-Push Notifications,Push Ειδοποιήσεις
-Quantity,Ποσότητα
-Rate,Τιμή
-Rate Announcement,Αναφορά Αναφοράς
-Rate Count,Καταμέτρηση ποσοστών
-Rate Group,Ομάδα ποσοστών
-Rate Groups,Βαθμολογήστε ομάδες
-Rate Information,Αξιολογήστε τις πληροφορίες
-Ratedeck,Ταχύτητα
-Ratedeck Information,Πληροφορίες σχετικά με το συντελεστή στάθμισης
-Rates Count,Μετρήσεις τιμών
-Realtime Billing,Χρέωση σε πραγματικό χρόνο
-Receiver Email,Email αποστολέα
-Recording Files Older Than Days,Εγγραφή αρχείων παλαιότερα από τις ημέρες
-Records,Εγγραφές
-Referer Page,Σελίδα αναφοράς
-Refill By,Επαναπληρώστε με
-Refill Coupon Length,Επαναπληρώστε το Μήκος Κουπονιού
-Refill Coupons,Επαναπληρώστε τα κουπόνια
-Refill Report,Αναφορά ανανέωσης
-Refills,Ανταλλακτικά
-Register,Κανω ΕΓΓΡΑΦΗ
-Release if no balance,Απελευθερώστε εάν δεν υπάρχει ισορροπία
-Report a Bug,Αναφέρετε ένα σφάλμα
-Reports,Αναφορές
-Request URI,Αίτηση URI
-Reseller,Μεταπωλητής
-Reseller can resell,Ο μεταπωλητής μπορεί να μεταπωλήσει
-Reseller Summary,Περίληψη μεταπωλητών
-Reseller Summary Report ,Συνοπτική αναφορά μεταπωλητών
-Resellers,Μεταπωλητές
-Resellers CDRs Report ,Έκθεση CDRs μεταπωλητών
-Resend Mail,Επαναλάβατε το ταχυδρομείο
-Role,Ρόλος
-Roles & Permission,Ρόλοι & Άδεια
-Roles & Permissions,Ρόλοι & Δικαιώματα
-Routing Prefix,Πρόθεμα δρομολόγησης
-Routing Type,Τύπος δρομολόγησης
-Sandbox,Sandbox
-Sandbox Id,ID του Sandbox
-Sandbox Key,Κλειδί Sandbox
-Sandbox Name,Όνομα Sandbox
-Sandbox Url,Sandbox Url
-Save,Αποθηκεύσετε
-Schedule Reports,Προγραμματισμός αναφορών
-Search,Ψάξιμο
-Select File,Επιλέξτε Αρχείο
-Select Year,Επιλέξτε Έτος
-Services,Υπηρεσίες
-Set Maximum Add card limit,Ορίστε το μέγιστο όριο Προσθήκη καρτών
-Settings,Ρυθμίσεις
-Setup Fee,Παράβολο έναρξης
-Signup,Εγγραφείτε
-SIP Devices,Συσκευές SIP
-SIP IP,SIP IP
-SIP Port,Θύρα SIP
-SIP Profile,Προφίλ SIP
-SIP Profiles,SIP Προφίλ
-SMS,γραπτό μήνυμα
-SMS Body,Σώμα SMS
-SMS Notifications,Ειδοποιήσεις SMS
-SMS Status,Κατάσταση SMS
-SMTP,SMTP
-SMTP Host,Host SMTP
-SMTP Pass,Μετάβαση SMTP
-SMTP Port,Θύρα SMTP
-SMTP User,Χρήστης SMTP
-Start prefix,Ξεκινήστε το πρόθεμα
-Starting Digit,Ξεκινώντας Digit
-Status,Κατάσταση
-Strip,Λωρίδα
-Strong,Ισχυρός
-Subject,Θέμα
-Subscription,Συνδρομή
-Supportticket,Supportticket
-Switch,Διακόπτης
-Tariff,Δασμολόγιο
-Tax,Φόρος
-Tax Information,Φορολογικές πληροφορίες
-Telephone,Τηλέφωνο
-Telephone as account number,Τηλέφωνο ως αριθμός λογαριασμού
-Templates,Πρότυπα
-Term. Cost,Ορος. Κόστος
-Term. Destination,Ορος. Προορισμός
-Term. Prefix,Ορος. Πρόθεμα
-Term. Trunk,Ορος. Κορμός
-Termination Rates,Τιμές τερματισμού
-Third Party,Τρίτο μέρος
-This Month,Αυτο το μηνα
-This Week,Αυτή την εβδομάδα
-Timelimit Announcement,Αναγγελία Timelimit
-Timestamp,Χρονόμετρο
-Timezone,Ζώνη ώρας
-To,Προς το
-To Number,Αριθ
-To Timestamp,Στο χρονικό σημάδι
-Today,Σήμερα
-Top 10 Accounts,Top 10 Λογαριασμοί
-Top 10 Destinations,Top 10 προορισμούς
-Total Calls ,Συνολικές κλήσεις
-Total Charges,Συνολικές χρεώσεις
-Total Minutes,Συνολικά λεπτά
-Transaction ID,Ταυτότητα συναλλαγής
-Translations,Μεταφράσεις
-Translations Language,Γλώσσα μεταφράσεων
-Trunk,Κορμός
-Trunks,Κοντό πανταλόνι αθλητών
-Type,Τύπος
-Unpaid,Απλήρωτος
-Update,Εκσυγχρονίζω
-Used,Μεταχειρισμένος
-Used Date,Ημερομηνία χρήσης
-Username,Όνομα χρήστη
-Version,Εκδοχή
-Version 4.0 Beta,Έκδοση 4.0 Beta
-View All,Προβολή όλων
-Voicemail,Φωνητικό ταχυδρομείο
-Panel Access,Πρόσβαση σε πίνακες
-Profile,Προφίλ
-Billing Settings,Ρυθμίσεις χρέωσης
-Pin,Καρφίτσα
-Account Settings,Ρυθμίσεις λογαριασμού
-Notification Email,Ειδοποίηση ηλεκτρονικού ταχυδρομείου
-Address,Διεύθυνση
-NON-CLI Rate Group,Ομάδα ποσοστού μη CLI
-Billing Schedule,Χρονοδιάγραμμα χρέωσης
-Billing Day,Ημέρα χρέωσης
-Tax Number,Αριθμό φορολογικού μητρώου
-Invoice Note,Τιμολόγιο Σημείωση
-Reference,Αναφορά
-Cancel,Ματαίωση
-Device Information,Πληροφορίες συσκευής
-Voicemail Options,Επιλογές φωνητικού ταχυδρομείου
-Mail To,Mail To
-Attach File,Επισυνάψετε το αρχείο
-Local After Email,Τοπικό μετά το ηλεκτρονικό ταχυδρομείο
-Send all Message,Αποστολή όλων των μηνυμάτων
-Close,Κοντά
-IP map,IP χάρτη
-Identificador de llamadas,Identificador de llamadas
-Add Caller ID,Προσθέστε αναγνωριστικό καλούντος
-Create Reseller,Δημιουργία μεταπωλητή
-Role Name,Όνομα ρόλου
-Outstanding Amount,Εξωπραγματική ποσότητα
-To Date,Μέχρι σήμερα
-Before Balance,Πριν από την ισορροπία
-Commission Report,Έκθεση της Επιτροπής
-MonthlyFee,Μηνιαία χρέωση
-Grace Time (Sec.),Χρόνος χάριτος (σετ)
-Import DIDs,Εισαγωγή DID
-File must be in the following format,Το αρχείο πρέπει να έχει την ακόλουθη μορφή
-DID Import Process,DID Διαδικασία εισαγωγής
-Get Sample file,Πάρτε δείγμα αρχείου
-Check Header,Ελέγξτε την επικεφαλίδα
-Select the file,Επιλέξτε το αρχείο
-Account Count,Καταμέτρηση λογαριασμού
-Acc. Number Length,Acc. Αριθμός Μήκος
-Valid Days,Ισχύουσες ημέρες
-Create Access Number,Δημιουργία αριθμού πρόσβασης
-Information,Πληροφορίες
-Import Access Numbers,Εισαγωγή αριθμών πρόσβασης
-Access Numbers Import Process,Διαδικασία εισαγωγής αριθμών πρόσβασης
-DIDs Bulk Assign,DIDs Μαζική εκχώρηση
-Bulk DID Purchase,Μαζική αγορά DID
-Provience,Πρόβλεψη
-Assign Number,Εκχώρηση αριθμού
-DID Destination,Προορισμός DID
-DID Forward,DID Προώθηση
-Always,Πάντα
-If Busy,Αν Απασχολημένος
-If SIP Not Registered,Εάν το SIP δεν είναι καταχωρημένο
-If No Answer,Εάν δεν υπάρχει απάντηση
-New Rate Group Name,Νέο όνομα ομάδας τιμών
-Duplicate Rate Group Information,Διπλές πληροφορίες για την ομάδα ποσοστών
-Import Origination Rates,Τιμές Εισοδήματος Εισαγωγής
-Force Trunk,Δύναμη κορμού
-Please select atleast one record to dele,Επιλέξτε τουλάχιστον μία εγγραφή για διαγραφή
-Import Ratedeck,Εισαγωγή συντελεστή
-Optional Information,προαιρετική πληροφορία
-From- Domain,Από-Domain
-From User,Από τον χρήστη
-Extension,Επέκταση
-Extension-In-Contact,Επέκταση σε επαφή
-Ping,Ping
-Contact Params,Επαφή Params
-Retry-Seconds,Επανάληψη-Δευτερόλεπτα
-Register-Proxy,Εγγραφή-διακομιστή μεσολάβησης
-Channel,Κανάλι
-Failover GW Name,Όνομα αποτυχίας GW
-Create Trunk,Δημιουργία κορμού
-Import Termination Rates,Τιμές τερματισμού εισαγωγής
-Call Timeout (Sec.),Χρονικό όριο κλήσεων (σελ.)
-Trunk List,Λίστα κορμών
-Reset,Επαναφορά
-Create SIP Profile,Δημιουργία προφίλ SIP
-Create Freeswitch Server,Δημιουργία διακομιστή Freeswitch
-Live Calls,Ζωντανές κλήσεις
-Term Cost,Κόστος χρόνου
-Term Destination,Ορισμός προορισμού
-Term Prefix,Πρόθεμα διάρκειας
-Localizaciones,Localizaciones
-Create Localization,Δημιουργία εντοπισμού
-Origination,Προέλευση
-Termination,Λήξη
-Inbound Callerid Translation,Εισερχόμενη μετάφραση Callerid
-Destination Number Translation,Μετάφραση αριθμού προορισμού
-Outbound Callerid Translation,Εξερχόμενη μετάφραση Callerid
-Create Call Barring,Δημιουργία φραγής κλήσεων
-Callbarring Settings,Ρυθμίσεις γραμμής κλήσεων
-Product Summary Report,Συνοπτική αναφορά προϊόντων
-SIP User,Χρήστης SIP
-Product,Προϊόν
-Taxes,Φόροι
-Update Currencies,Ενημέρωση νομισμάτων
-File Name,Ονομα αρχείου
-Database Information,Πληροφορίες βάσης δεδομένων
-Database Backup,Δημιουργία αντιγράφων ασφαλείας βάσεων δεδομένων
-Command,Εντολή
-Cron Settings,Ρυθμίσεις Cron
-Create Cron Settings,Δημιουργία ρυθμίσεων Cron
-Stripe,Ταινία
-Live Secret key,Ζωντανό μυστικό κλειδί
-Live Publishable key,Ζωντανό κλειδί για δημοσίευση
-Set Percentage Charges,Ορίστε τις χρεώσεις επί τοις εκατό
-Set Fix Charges,Ρύθμιση χρεώσεων επιδιόρθωσης
-Stripe Mode,Λειτουργία λωρίδας
-Sandbox secret key,Μυστικό κλειδί Sandbox
-Sandbox publishable key,Κλειδί δημοσίευσης Sandbox
-Version 4.0 Enterprise,Έκδοση 4.0 Enterprise
-Powered by,Powered by
-Import Customer Using Field Mapper,Εισαγωγή πελάτη με χρήση του χαρτογράφου πεδίων
-You must either select a field from your,Πρέπει είτε να επιλέξετε ένα πεδίο από το δικό σας
-Records with duplicate account number an,Εγγραφές με διπλό αριθμό λογαριασμού an
-Account Import Error,Σφάλμα εισαγωγής λογαριασμού
-Back to Customer List,Επιστροφή στη λίστα πελατών
-Duplicate accounts with account number /,Διπλότυποι λογαριασμοί με αριθμό λογαριασμού /
-Records imported successfully,Οι εγγραφές έχουν εισαχθεί με επιτυχία
-Records not imported,Δεν έχουν εισαχθεί εγγραφές
-Error In CSV File,Σφάλμα στο αρχείο CSV
-Invoice Summary,Συνοπτική τιμολόγηση
-Customer Details,Πληροφορίες Πελάτη
-Invoice Details,Λεπτομέρειες τιμολογίου
-Account Number,Αριθμός λογαριασμού
-Invoice Amount,Ποσό τιμολογίου
-Invoice Item,Στοιχείο Τιμολογίου
-Sub Total,ΜΕΡΙΚΟ ΣΥΝΟΛΟ
-Total Due,Σύνολο οφειλών
-Note,Σημείωση
-Add Setting,Προσθήκη ρύθμισης
-Edit SIP Profile,Επεξεργασία προφίλ SIP
-New,Νέος
-Used?,Μεταχειρισμένος?
-View Email,Προβολή ηλεκτρονικού ταχυδρομείου
-Active,Ενεργός
-Inactive,Αδρανής
-Black List,Μαύρη λίστα
-White List,Λευκή λίστα
-Freeswitch Server Information,Πληροφορίες διακομιστή freeswitch
-Currencies,Νομίσματα
-Edit Currency,Επεξεργασία νομίσματος
-Is Distributor,Είναι Διανομέας
-Package created successfully!,Το πακέτο δημιουργήθηκε με επιτυχία!
-DID Removed Successfully.,Το DID αφαιρέθηκε με επιτυχία.
-DID not found.,Δεν βρέθηκε.
-Password changed Sucessfully....!!!,Ο κωδικός πρόσβασης άλλαξε επιτυχώς .... !!!
-New Password & Conformpassword not match,Ο νέος κωδικός πρόσβασης και ο κωδικός πρόσβασης δεν ταιριάζουν
-Invalid old passwword.,Μη έγκυρο παλιό μήνυμα.
-Permission Denied!,Άδεια αρνήθηκε!
-Refill Coupon amount is added successful,Το ποσό του κουπονιού επαναφοράς προστίθεται με επιτυχία
-PLease upload maximum file,PLease upload maximum file
-files added successfully!,τα αρχεία προστέθηκαν με επιτυχία!
-File Uploading Fail Please Try Again,Αποτυχία φόρτωσης αρχείου Δοκιμάστε ξανά
-Please upload only image!,Ανεβάστε μόνο την εικόνα!
-Invoice config updated successfully!,Ο λογαριασμός τιμολογίου ενημερώθηκε με επιτυχία!
-Your Profile Updated Successfully!,Το προφίλ σας ενημερώθηκε με επιτυχία!
-Something wrong.Please contact to admini,Κάτι λάθος. Παρακαλώ επικοινωνήστε με admini
-DID Released Successfully!,Το DID κυκλοφόρησε με επιτυχία!
-IP already exist in system.,Η IP υπάρχει ήδη στο σύστημα.
-IP Added Sucessfully.,IP Προστέθηκε επιτυχώς.
-IP Removed Sucessfully.,IP Κατάργηση επιτυχώς.
-SIP Device Updated Successfully!,Η συσκευή SIP ενημερώθηκε με επιτυχία!
-SIP Device Added Successfully!,Η συσκευή SIP προστέθηκε με επιτυχία!
-SIP Device Removed Sucessfully!,Η συσκευή SIP απομακρύνθηκε επιτυχώς!
-Caller ID Added Sucessfully!,Το αναγνωριστικό καλούντος προστέθηκε επιτυχώς!
-Please Enter Caller ID value.,Πληκτρολογήστε την τιμή αναγνώρισης καλούντος.
-Caller ID already Exists.,Το αναγνωριστικό καλούντος υπάρχει ήδη.
-Caller ID removed sucessfully!,Το αναγνωριστικό καλούντος αφαιρέθηκε με επιτυχία!
-Alert Threshold Updated Successfully!,Το όριο ειδοποίησης ενημερώθηκε με επιτυχία!
-Can not trnasfer fund to postpaid custom,Δεν είναι δυνατή η μεταφορά χρημάτων σε μεταπληρωμένο έθιμο
-Access Denied! unable transfer fund to t,Δεν επιτρέπεται η πρόσβαση! αδυναμία μεταφοράς κεφαλαίων σε t
-You can not transfer fund in same accoun,Δεν μπορείτε να μεταφέρετε ταμείο στο ίδιο λογαριασμό
-You can only transfer fund in same level,Μπορείτε να μεταφέρετε ταμείο μόνο στο ίδιο επίπεδο
-Please enter To account number.,Πληκτρολογήστε τον αριθμό λογαριασμού.
-Please enter valid amount.,Εισαγάγετε έγκυρο ποσό.
-You have insufficient balance.,Δεν έχετε επαρκή ισορροπία.
-Please enter valid account number.,Εισαγάγετε τον έγκυρο αριθμό λογαριασμού.
-Please enter amount greater then 0.,Παρακαλούμε εισάγετε ποσό μεγαλύτερο από 0.
-You need to enter minimum for fund trans,Πρέπει να εισαγάγετε ελάχιστο όριο για τη μετάβαση από το ταμείο
-Please enter valid account number!,Εισαγάγετε τον έγκυρο αριθμό λογαριασμού!
-Insuffiecient amount !,Απαράδεκτο ποσό!
-Transfer successfully!,Μεταφέρετε με επιτυχία!
-Account number not found.,Ο αριθμός λογαριασμού δεν βρέθηκε.
-OpenSips updated successfully!,Το OpenSips ενημερώθηκε με επιτυχία!
-Duplicate Username Found.Username Must b,Διπλασιάστε το όνομα χρήστη που έχει βρεθεί.Το όνομα πρέπει να β
-User name is required field.,Το όνομα χρήστη είναι υποχρεωτικό πεδίο.
-Opensips Device Removed Successfully!.,Η συσκευή Opensips αφαιρέθηκε με επιτυχία !.
-Speed-dial Number Added Successfully!,Ο αριθμός ταχείας κλήσης προστέθηκε με επιτυχία!
-Can not delete blank speeddial number,Δεν είναι δυνατή η διαγραφή του αριθμού τυχαίων αριθμών
-Speed-dial Number Removed Successfully!,Ο αριθμός ταχείας κλήσης αφαιρέθηκε με επιτυχία!
-Pin Updated Successfully!,Η καρφίτσα ενημερώθηκε με επιτυχία!
-DID Updated Successfully!,DID Ενημερώθηκε με επιτυχία!
-for fund transfer.,για τη μεταφορά κεφαλαίων.
-You need to enter minimum,Πρέπει να εισάγετε ελάχιστο όριο
-please enter recharge value,εισάγετε την τιμή επαναφόρτισης
-New Password,νέος κωδικός πρόσβασης
-Old Password,ΠΑΛΙΟΣ ΚΩΔΙΚΟΣ
-Conform Password,Συμπληρώστε τον κωδικό πρόσβασης
-Letters only please,Γράμματα παρακαλώ μόνο
-IP Mapping,IP Mapping
-The Coupon Number field must contain onl,Το πεδίο Αριθμός κουπονιού πρέπει να περιέχει onl
-The Coupon Number field have inactive re,Το πεδίο Αριθμός κουπονιού έχει ανενεργό
-This Coupon Number is already in use.,Αυτός ο αριθμός κουπονιού χρησιμοποιείται ήδη.
-This Coupon Number is not found.,Αυτός ο αριθμός κουπονιού δεν βρέθηκε.
-The Coupon Number field is required.,Το πεδίο Αριθμός κουπονιού είναι υποχρεωτικό.
-REFILL COUPON RECHARGE,ΑΝΤΑΠΟΚΡΙΝΕΤΕ ΤΗΝ ΑΝΑΚΑΜΨΗ ΤΟΥ COUPON
-You just recharged,Μόλις επαναφορτώσατε
-account with The new balance will be,account with Το νέο υπόλοιπο θα είναι
-My Profile,Το ΠΡΟΦΙΛ μου
-My Account,Ο λογαριασμός μου
-Alert Threshold,Όριο ειδοποίησης
-The Caller ID field is required.,Απαιτείται το πεδίο Caller ID.
-Change Password,Άλλαξε κωδικό
-Bill Type,Τύπος λογαριασμού
-Bill Days,Ημέρες Bill
-New Products,Νέα Προϊόντα
-Active Products,Ενεργά προϊόντα
-Outstanding,Εξαιρετική
-Today's Calls,Οι σημερινές κλήσεις
-Recent Calls,Πρόσφατες κλήσεις
-The Available DIDs field is required.,Το πεδίο Διαθέσιμα DIDs απαιτείται.
-Please enter your password,Παρακαλώ εισάγετε τον κωδικό σας
-Please enter your first name,Παρακαλώ εισάγετε το ονομα σας
-Please enter your email,Εισαγάγετε το email σας
-Please enter valid email,Εισαγάγετε έγκυρο email
-This field is required.,Αυτό το πεδίο απαιτείται.
-Email Setting,Ρύθμιση ηλεκτρονικού ταχυδρομείου
-SMTP Password,Κωδικός πρόσβασης SMTP
-Are you sure want to remove logo?,Είστε βέβαιοι ότι θέλετε να καταργήσετε το λογότυπο;
-The IP field must contain a unique value,Το πεδίο IP πρέπει να περιέχει μια μοναδική τιμή
-The IP field have not valid IP.,Το πεδίο IP δεν έχει έγκυρη διεύθυνση IP.
-The IP field is required.,Το πεδίο IP απαιτείται.
-The Name field is required.,Το πεδίο όνομα είναι απαραίτητο.
-Please enter only alpha-numeric value,Πληκτρολογήστε μόνο αλφαριθμητική τιμή
-Are you sure want to delete speed dial r,Είστε βέβαιοι ότι θέλετε να διαγράψετε τον αριθμό ταχείας κλήσης r
-Generated Date,Ημερομηνία δημιουργίας
-My Products,Τα προϊόντα μου
-Pinless CLI,Ασύρματο CLI
-Refill Coupon,Επαναπληρώστε το κουπόνι
-TopUp,TopUp
-Pay with Paypal,Πληρώστε με Paypal
-Pay with Card,Πληρώστε με την Κάρτα
-Assign,Αναθέτω
-Send Credit,Αποστολή πίστωσης
-To Account,Στο λογαριασμό
-From Account,Από λογαριασμό
-Transfer,ΜΕΤΑΦΟΡΑ
-Telephone 1,Τηλέφωνο 1
-Telephone 2,Τηλέφωνο 2
-Address 2,Διεύθυνση 2
-Zip/Postal Code,Ταχυδρομικός κώδικας
-User Profile,Προφίλ χρήστη
-Low Balance Alert Level,Επίπεδο ειδοποίησης χαμηλής ισορροπίας
-Enable Email Alerts ?,Ενεργοποίηση ειδοποιήσεων ηλεκτρονικού ταχυδρομείου;
-Low Balance Alert Email,Χαμηλό ισοζύγιο συναγερμού ισορροπίας
-User name,Ονομα χρήστη
-Something went to wrong !,Κάτι πήγε σε λάθος!
-Product Purchased successfully !,Προϊόν Αγοράθηκε με επιτυχία!
-Insufficent Balance to purchase product ,Ανεπαρκής ισορροπία για την αγορά προϊόντος
-Product assigned successfully!,Το προϊόν έχει ανατεθεί με επιτυχία!
-Something went wrong !,Κάτι πήγε στραβά !
-Product Not Found,Το προϊόν δεν βρέθηκε
-Transaction has been failed,Η συναλλαγή απέτυχε
-not inserted. Transaction has been faile,δεν έχει εισαχθεί. Η συναλλαγή έχει αποτύχει
-Select Customer.,Επιλέξτε Πελάτη.
-Product Information,Πληροφορίες Προϊόντος
-Price+SetUp Fee,Τιμή + Αμοιβή SetUp
-Use Voucher,Χρησιμοποιήστε το κουπόνι
-Amount Without Tax,Ποσό χωρίς Φόρο
-Total Tax,Συνολικός Φόρος
-Amount With Tax,Ποσό με Φόρο
-Parent Products,Μητρικά προϊόντα
-Edit Product,Επεξεργασία προϊόντος
-Product updated successfully!,Το προϊόν ενημερώθηκε με επιτυχία!
-Product added successfully!,Το προϊόν προστέθηκε με επιτυχία!
-Product removed successfully!,Το προϊόν καταργήθηκε με επιτυχία!
-Product optin successfully!,Προϊόν optin με επιτυχία!
-Edit Info,Επεξεργασία πληροφοριών
-Product assign successfully,Το προϊόν αντιστοιχεί με επιτυχία
-Insufficient balance to assign product!,Ανεπαρκής ισορροπία για την εκχώρηση προϊόντος!
-Terminated Updated Successfully!,Ολοκληρώθηκε με επιτυχία!
-Terminated,Τερματίστηκε
-Setup Cost,Κόστος εγκατάστασης
-Order New,Παραγγελία νέου
-Caller ID updated successfully!,Το αναγνωριστικό καλούντος ενημερώθηκε με επιτυχία!
-Caller ID added successfully!,Το αναγνωριστικό καλούντος προστέθηκε με επιτυχία!
-Caller ID removed successfully!,Το αναγνωριστικό καλούντος αφαιρέθηκε με επιτυχία!
-Name is not contain any space,Το όνομα δεν περιέχει κανένα κενό
-Name already exist in system.,Το όνομα υπάρχει ήδη στο σύστημα.
-Callbarring Settings Updated Successfull,Οι Ρυθμίσεις της Γραμμής Κλήσεων Ενημερώθηκαν με επιτυχία
-allbarring Settings Added Successfully!,allbarring Ρυθμίσεις προστέθηκαν με επιτυχία!
-Call Barring Removed Successfully!,Η φραγή κλήσεων αφαιρέθηκε με επιτυχία!
-Calltype already exist in system.,Ο τύπος κλήσης υπάρχει ήδη στο σύστημα.
-Calltype Updated Successfully!,Ο τύπος κλήσης ενημερώθηκε με επιτυχία!
-Calltype Added Successfully!,Ο τύπος κλήσης προστέθηκε με επιτυχία!
-calltype removed successfully!,κλήση εξαφανίστηκε με επιτυχία!
-File must be in the following format(.cs,Το αρχείο πρέπει να έχει την ακόλουθη μορφή (.cs
-Import Package Codes:,Κωδικοί συσκευασίας εισαγωγής:
-Records Imported Successfully:,Τα αρχεία που εισήχθησαν με επιτυχία:
-Records Not Imported :,Αρχεία που δεν έχουν εισαχθεί:
-Download Errors,Λήψη σφαλμάτων
-Back to Package Patterns List,Επιστροφή στη λίστα μοτίβων πακέτων
-Add To List,Πρόσθεσε στη λίστα
-Routing Prefix already exist in system.,Το πρόθεμα δρομολόγησης υπάρχει ήδη στο σύστημα.
-Rate Group Updated Successfully!,Η ομάδα βαθμολόγησης ενημερώθηκε με επιτυχία!
-Rate Group Added Successfully!,Προστέθηκε με επιτυχία η ομάδα βαθμολόγησης!
-Duplicate Rate Group Added Successfully!,Διπλή ομάδα ποσοστών προστέθηκε με επιτυχία!
-Routing Prefix (Enterprise),Πρόθεμα δρομολόγησης (Enterprise)
-Priority (Enterprise),Προτεραιότητα (Επιχειρήσεις)
-Percentage (WIP) (Enterprise),Ποσοστό (WIP) (Επιχειρήσεις)
-LCR,LCR
-Percentage,Ποσοστό
-Tax removed successfully!,Ο φόρος αφαιρέθηκε με επιτυχία!
-Tax added successfully!,Ο φόρος προστέθηκε με επιτυχία!
-Tax updated successfully!,Ο φόρος ενημερώθηκε με επιτυχία!
-Charges List,Λίστα χρεώσεων
-Trunk Updated Successfully!,Ο κορμός ενημερώθηκε με επιτυχία!
-Trunk Added Successfully!,Ο κορμός προστέθηκε με επιτυχία!
-Trunk removed successfully!,Ο κορμός αφαιρέθηκε με επιτυχία!
-setting updated successfully!,η ρύθμιση ενημερώθηκε με επιτυχία!
-Template Updated Successfully!,Το πρότυπο ενημερώθηκε με επιτυχία!
-Template Added Successfully!,Το πρότυπο προστέθηκε με επιτυχία!
-Country Updated successfully!,Η χώρα ενημερώθηκε με επιτυχία!
-Country Added successfully!,Χώρα Προστέθηκε με επιτυχία!
-Country removed successfully!,Η χώρα αφαιρέθηκε με επιτυχία!
-Currency Updated Successfully!,Το νόμισμα ενημερώθηκε με επιτυχία!
-My Rates,Τιμές μου
-Cost / Min,Κόστος / Ελάχιστο
-Purchase,Αγορά
-Available DIDs,Διαθέσιμα DID
-New IP,Νέα διεύθυνση IP
-Digits,Ψηφία
-Email Address,Διεύθυνση ηλεκτρονικού ταχυδρομείου
-Call Forward,Προώθηση κλήσης
-If Busy:,Εάν είναι απασχολημένος:
-If SIP Not Registered:,Εάν το SIP δεν είναι εγγεγραμμένο:
-If No Answer:,Εάν δεν υπάρχει απάντηση:
-Pay Now,Πλήρωσε τώρα
-Pay with Account,Πληρωμή με Λογαριασμό
-"Please wait, your order is being processed and you will be redirected to the paypal website.","Παρακαλώ περιμένετε, η παραγγελία σας υποβάλλονται σε επεξεργασία και θα μεταφερθείτε στον ιστότοπο paypal."
-Coupon Number:,Αριθμός κουπονιού:
-Add Voucher,Προσθήκη κουπονιού
-Selected Plan,Επιλεγμένο σχέδιο
-My Product,Το προϊόν μου
-Parent Product,Γονικό προϊόν
-Edit Email Template,Επεξεργασία προτύπου ηλεκτρονικού ταχυδρομείου
-Details,Λεπτομέριες
-KEY,ΚΛΕΙΔΙ
-VALUE,ΑΞΙΑ
-Records with duplicate account number and email will be ignored.,Οι εγγραφές με διπλό αριθμό λογαριασμού και ηλεκτρονικό ταχυδρομείο θα αγνοηθούν.
-Account Details,λεπτομέρειες λογαριασμού
-Mass Customer,Μαζικός Πελάτης
-Daily,Καθημερινά
-Monthly,Μηνιαίος
-Prepaid,Προπληρωμένος
-Postpaid,Μεταγενέστερη πληρωμή
-Force Caller ID,Αναγκάστε το αναγνωριστικό καλούντος
-Customer Profile,ΠΡΟΦΙΛ ΤΟΥ πελάτη
-Caller Id Name,Όνομα αναγνωριστικού καλούντος
-Caller Id Number,Αριθμός αναγνωριστικού καλούντος
-Blocked Codes,Αποκλεισμένοι κωδικοί
-Page will display only receipts and confirmed invoices.,Η σελίδα θα εμφανίσει μόνο τις αποδείξεις και τα επιβεβαιωμένα τιμολόγια.
-Accessnumber Updated Successfully!,Accessnumber ενημερώθηκε με επιτυχία!
-Accessnumber Removed Successfully!,Το Accessnumber αφαιρέθηκε με επιτυχία!
-Invalid file format : Only CSV file allows to import records(Can't import empty file),Μη έγκυρη μορφή αρχείου: Μόνο το αρχείο CSV επιτρέπει την εισαγωγή αρχείων (Δεν είναι δυνατή η εισαγωγή κενών αρχείων)
-Please Select File.,Επιλέξτε Αρχείο.
- are required,απαιτούνται
- is Required,απαιτείται
- is not Valid,δεν είναι έγκυρη
-Duplicate accessnumber found from database,Διπλότυπος αριθμός πρόσβασης που βρέθηκε από τη βάση δεδομένων
-Duplicate accessnumber found from import file.,Διπλότυπος αριθμός πρόσβασης που βρέθηκε από το αρχείο εισαγωγής.
-Total,Σύνολο
-AccessNumber Imported Successfully!,Το AccessNumber εισήχθη με επιτυχία!
-Records Not Imported:,Αρχεία που δεν έχουν εισαχθεί:
-Back to AccessNumber List,Επιστροφή στη λίστα AccessNumber
-Speed Dial Number Updated Successfully,Ο αριθμός ταχείας κλήσης ενημερώθηκε με επιτυχία
-Please insert only numeric value!,Εισαγάγετε μόνο αριθμητική τιμή!
-Speed Dial Number Removed Successfully,Ο αριθμός ταχείας κλήσης αφαιρέθηκε με επιτυχία
-Speed Dial Number is Empty,Ο αριθμός ταχείας κλήσης είναι κενός
-Sip Device removed successfully!,Το Sip Device αφαιρέθηκε με επιτυχία!
-Sip updated successfully!,Η Sip ενημερώθηκε με επιτυχία!
-Block Code Removed Sucessfully!,Αποκλεισμός κώδικα αποκλεισμού επιτυχώς!
-Your Account Limit has been reached.Please Change Your Prefix.,Το όριο του λογαριασμού σας έχει επιτευχθεί.Παρακαλώ αλλάξτε το πρόθεμά σας.
-Please Enter Proper Account Length.,Εισαγάγετε το σωστό μήκος λογαριασμού.
-Bulk customer generate successfully!,Ο μαζικός πελάτης δημιουργεί με επιτυχία!
-Recharge successfully!,Επαναφορτίστε με επιτυχία!
-Post charge applied successfully.,Η χρέωση μετάδοσης εφαρμόστηκε με επιτυχία.
-Account callerID updated successfully!,Ο λογαριασμός χρήστη του λογαριασμού ενημερώθηκε με επιτυχία!
-Account callerID added successfully!,Ο αριθμός κλήσης του λογαριασμού προστέθηκε με επιτυχία!
-Reseller updated successfully!,Ο μεταπωλητής ενημερώθηκε με επιτυχία!
-Reseller added successfully!,Ο μεταπωλητής προστέθηκε με επιτυχία!
-Updated successfully!,Ενημερώθηκε με επιτυχία
-Added Successfully!,Προστέθηκε με επιτυχία!
-Customer batch updated successfully!,Η παρτίδα του πελάτη ενημερώθηκε με επιτυχία!
-Reseller batch updated successfully!,Η παρτίδα μεταπωλητών ενημερώθηκε με επιτυχία!
-Customer Removed Successfully!,Ο Πελάτης αφαιρέθηκε με επιτυχία!
-Reseller Removed Successfully!,Ο μεταπωλητής αφαιρέθηκε με επιτυχία!
-Provider Removed Successfully!,Ο πάροχος αφαιρέθηκε με επιτυχία!
-Admin Removed Successfully!,Ο διαχειριστής αφαιρέθηκε με επιτυχία!
-Sub Admin Removed Successfully!,Το Sub Admin διαγράφηκε με επιτυχία!
-DID Added Successfully.,Το DID προστέθηκε με επιτυχία.
-DID Already Removed Before.,Έχει ήδη καταργηθεί πριν.
-Account Tax Added Successfully!,Ο φόρος λογαριασμού προστέθηκε με επιτυχία!
-Account Tax Removed Successfully!,Ο φόρος λογαριασμού αφαιρέθηκε με επιτυχία!
-Product Removed Sucessfully.,Το προϊόν καταργήθηκε επιτυχώς.
-Email Resend Successfully!,Επαναλάβετε την αποστολή ηλεκτρονικού ταχυδρομείου με επιτυχία!
-Email List Updated Successfully!,Η λίστα ηλεκτρονικού ταχυδρομείου ενημερώθηκε με επιτυχία!
-Email List Added Successfully!,Η λίστα ηλεκτρονικού ταχυδρομείου προστέθηκε με επιτυχία!
-Email Removed Successfully!,Το e-mail αφαιρέθηκε με επιτυχία!
-Please Try Again!,ΠΑΡΑΚΑΛΩ προσπαθησε ξανα!
-Email BroadCast Successfully!,Email Broadcast με επιτυχία!
-No Record Found!,Δεν Βρέθηκε Αρχείο!
-Email Address Not Found!,Η διεύθυνση ηλεκτρονικού ταχυδρομείου δεν βρέθηκε!
-Edit Freeswitch SIP Devices,Επεξεργασία Συσκευών SIP Freeswitch SIP
-Create Freeswitch SIP Devices,Δημιουργήστε συσκευές SIP Freeswitch
-Gateway Updated Successfully!,Η πύλη ενημερώθηκε με επιτυχία!
-Gateways already exist in system.,Οι πύλες υπάρχουν ήδη στο σύστημα.
-Gateway name must not have any space.,Το όνομα της πύλης δεν πρέπει να έχει χώρο.
-Gateway Added Successfully!,Η πύλη προστέθηκε με επιτυχία!
-Gateway Removed Successfully!,Η πύλη αφαιρέθηκε με επιτυχία!
-Please enter All profile value!,Εισαγάγετε την τιμή του προφίλ όλων!
-SIP Profile name must not have any space!,Το όνομα του προφίλ SIP δεν πρέπει να έχει χώρο!
-Duplicate SIP IP OR Port found it must be unique!,Διπλότυπο SIP IP ή Θύρα βρήκε ότι πρέπει να είναι μοναδικό!
-SIP Profile Added Successfully!,Το προφίλ SIP προστέθηκε με επιτυχία!
-Name must be unique!,Το όνομα πρέπει να είναι μοναδικό!
-SIP Profile Updated Successfully!,Το προφίλ SIP ενημερώθηκε με επιτυχία!
-SIP Setting Added Successfully!,Η ρύθμιση SIP προστέθηκε με επιτυχία!
-SIP Setting Updated Successfully!,Η ρύθμιση SIP ενημερώθηκε με επιτυχία!
-SIP Setting Removed Successfully!,Η ρύθμιση SIP αφαιρέθηκε με επιτυχία!
-SIP Profile Removed Successfully!,Το προφίλ του SIP αφαιρέθηκε με επιτυχία!
-Host Already Exist in System.,Ο οικοδεσπότης υπάρχει ήδη στο σύστημα.
-Freeswitch Server Updated Successfully!,Ο διακομιστής Freeswitch ενημερώθηκε με επιτυχία!
-Freeswitch Server Added Successfully!,Freeswitch Server προστέθηκε με επιτυχία!
-Freeswitch Server Removed Successfully!,Ο διακομιστής freeswitch αφαιρέθηκε με επιτυχία!
-Invoice updated successfully!,Το τιμολόγιο ενημερώθηκε με επιτυχία!
-Invoice payment done successfully!,Η πληρωμή των τιμολογίων έγινε με επιτυχία!
-Account Not Found.,Ο λογαριασμός δεν βρέθηκε.
-Invoice payment amount should be higher then the invoice amount.,Το ποσό της πληρωμής του τιμολογίου θα πρέπει να είναι υψηλότερο από το ποσό του τιμολογίου.
-The Favicon file size shoud not exceed 1MB!,Το μέγεθος αρχείου Favicon δεν πρέπει να υπερβαίνει το 1MB!
-Please upload 250 * 60 size file,Ανεβάστε το αρχείο μεγέθους 250 * 60
-Logo only allows file types of JPG and JPEG.,Το λογότυπο επιτρέπει μόνο τους τύπους αρχείων JPG και JPEG.
-"Favicon only allows file types of ICO, PNG, JPG and JPEG.","Το Favicon επιτρέπει μόνο τους τύπους αρχείων ICO, PNG, JPG και JPEG."
-Please upload 16 * 16 size of favicon.,Παρακαλούμε φορτώστε το μέγεθος 16 * 16 του favicon.
-Company profile updated sucessfully!,Το προφίλ της εταιρείας ενημερώθηκε με επιτυχία!
-Company profile added sucessfully!,Το εταιρικό προφίλ προστέθηκε με επιτυχία!
-Permission Denied.,Η άδεια αρνήθηκε.
-is Deleted Sucessfully!,Διαγράφεται επιτυχώς!
-To date should not be greater than current date.,Μέχρι σήμερα δεν πρέπει να είναι μεγαλύτερη από την τρέχουσα ημερομηνία.
-Invoice generation completed.,Η παραγωγή των τιμολογίων ολοκληρώθηκε.
-No data found,Δε βρέθηκαν δεδομένα
-Invoices removed successfully,Τα τιμολόγια αφαιρέθηκαν με επιτυχία
-The Prefix field must contain a unique value.,Το πεδίο Πρόθεμα πρέπει να περιέχει μια μοναδική τιμή.
-The IP field must contain a unique value.,Το πεδίο IP πρέπει να περιέχει μια μοναδική τιμή.
-IP Map added successfully!,IP Map προστέθηκε με επιτυχία!
-IP Map removed successfully!,Ο Χάρτης IP αφαιρέθηκε με επιτυχία!
-Localization Added Successfully!,Ο εντοπισμός προστέθηκε με επιτυχία!
-Localization Updated Successfully!,Ο εντοπισμός ενημερώθηκε με επιτυχία!
-Localization Removed Successfully!,Ο εντοπισμός αφαιρέθηκε με επιτυχία!
-Globalization is already exist in this system,Η παγκοσμιοποίηση υπάρχει ήδη σε αυτό το σύστημα
-Dispatcher Updated Successfully!,Ο αποστολέας ενημερώθηκε με επιτυχία!
-Dispatcher Added Successfully!,Ο αποστολέας προστέθηκε με επιτυχία!
-Dispatcher Removed Successfully!,Ο αποστολέας αφαιρέθηκε με επιτυχία!
-Code is already in system,Ο κωδικός υπάρχει ήδη στο σύστημα
-Country is already in system,Η χώρα βρίσκεται ήδη στο σύστημα
-Ratedeck updated successfully!,Η βαθμολογία ενημερώθηκε με επιτυχία!
-Ratedeck added successfully!,Η βαθμολογία προστέθηκε με επιτυχία!
-Ratedeck removed successfully!,Η τιμή του επιτοκίου αφαιρέθηκε με επιτυχία!
-Duplicate Ratedeck Number found from import file.,Διπλασιασμός του αριθμού συντεταγμένων που βρέθηκε από το αρχείο εισαγωγής.
-Ratedeck Imported Successfully!,Ταχύτητα που εισάγεται με επιτυχία!
-Ratedeck Import Error,Σφάλμα εισαγωγής σφάλματος
-Back to Ratedeck List,Επιστροφή στη λίστα τιμών
-Origination Rate Imported Successfully!,Ο συντελεστής έναρξης εισάγεται με επιτυχία!
-Origination Rate Updated Successfully!,Ο ρυθμός έναρξης ενημερώθηκε με επιτυχία!
-Origination Rate Added Successfully!,Ο συντελεστής έναρξης προστέθηκε με επιτυχία!
-Termination Rates Batch Updated Successfully!,Τιμές τερματισμού Η παρτίδα ενημερώθηκε με επιτυχία!
-Map CSV to Termination Rates,Χάρτης CSV σε τιμές τερματισμού
-Data Example,Παράδειγμα δεδομένων
-Map to Field,Χάρτης στο πεδίο
-PREFIX/DEFAULT VALUE,PREFIX / ΠΡΟΑΙΡΕΤΙΚΗ ΑΞΙΑ
-ASTPP Field,Πεδίο ASTPP
-Created,Δημιουργήθηκε
-Modified,Τροποποιήθηκε
-You can not create,Δεν μπορείτε να δημιουργήσετε
-Refill coupon with,Επαναπληρώστε το κουπόνι με
-You can create maximum,Μπορείτε να δημιουργήσετε το μέγιστο
-Refill coupon created successfully!,Το κουπόνι επαναφοράς δημιουργήθηκε με επιτυχία!
-Currency Added Successfully!,Το νόμισμα προστέθηκε με επιτυχία!
-Currency Removed Successfully!,Το νόμισμα αφαιρέθηκε με επιτυχία!
-Backup Exported Successfully!,Το αντίγραφο ασφαλείας εξάγεται με επιτυχία!
-An error occur when the system tried to backup of the database. Please check yours system settings for the backup section,Παρουσιάζεται σφάλμα όταν το σύστημα προσπάθησε να δημιουργήσει αντίγραφα ασφαλείας της βάσης δεδομένων.Ελέγξτε τις ρυθμίσεις του συστήματός σας για το τμήμα δημιουργίας αντιγράφων ασφαλείας
-Database Restore successfully.,Επαναφορά βάσης δεδομένων με επιτυχία.
-File not exists!,Το αρχείο δεν υπάρχει!
-There is a some issue or invalid file format.,Υπάρχει κάποιο ζήτημα ή μη έγκυρη μορφή αρχείου.
-Database backup deleted successfully.,Το αντίγραφο ασφαλείας της βάσης δεδομένων διαγράφηκε επιτυχώς
-Languages updated successfully!,Οι γλώσσες ενημερώθηκαν με επιτυχία!
-Languages removed successfully!,Οι γλώσσες αφαιρέθηκαν με επιτυχία!
-Languages added successfully!,Οι γλώσσες προστέθηκαν με επιτυχία!
-Translation updated successfully!,Η μετάφραση ενημερώθηκε με επιτυχία!
-Translation added successfully!,Η μετάφραση προστέθηκε με επιτυχία!
-Update Languages,Ενημέρωση γλωσσών
-Speed Dial,Ταχείας κλήσης
-Payment,Πληρωμή
-Method,Μέθοδος
-"Once you confirm the invoice, you will no longer able to update it again.","Μόλις επιβεβαιώσετε το τιμολόγιο, δεν θα μπορείτε πλέον να το ενημερώσετε ξανά."
-Payment Gateway Permission,Άδεια πύλης πληρωμής
-Zip Code,Ταχυδρομικός κώδικας
-Yes,Ναί
-Back,Πίσω
-Edit Reseller,Επεξεργασία μεταπωλητή
-Asignar DID a granel,Asignar DID ένα κόκκο
-DIDs Search,Αναζήτηση DID
-By Month,Με το μήνα
-Create Gateway,Δημιουργία πύλης
-Calling Card Language,Γλώσσα κλήσης κάρτας
-Last,τελευταίος
-Pay Date,Ημερομηνία πληρωμής
-Purchase DID,Αγορά DID
-Caller-ID-A-Form,Φόρμα ταυτότητας καλούντος-Α
-Expire Seconds,Λήξη δευτερολέπτων
-Termination Date,Ημερομηνία λήξης
-Registration Date,Ημερομηνία Εγγραφής
-Payment By,Πληρωμή από
-Product Status,Κατάσταση προϊόντος
-Minute,Λεπτό
-Hour,Ωρα
-Day,Ημέρα
-Month,Μήνας
-Year,Ετος
-List,Λίστα
-Edit,Επεξεργασία
-Not Avaialable any Subscription.,Δεν υπάρχει δυνατότητα συνδρομής.
-Not Avaialable any Package for this Country.,Δεν διατίθεται κανένα Πακέτο για αυτή τη Χώρα.
-You can only transfer fund in same level account.,Μπορείτε να μεταφέρετε ταμείο μόνο στον ίδιο λογαριασμό.
-You can not transfer fund in same account.,Δεν μπορείτε να μεταφέρετε κεφάλαιο στον ίδιο λογαριασμό.
-Monthly Fee,Μηνιαία χρέωση
-Bulk DID Assign,Μαζική ανάθεση DID
-Invoice Start From,Τιμολόγιο Έναρξη Από
-Edit Gateway,Επεξεργασία πύλης
-Number Of Default Rows,Αριθμός προκαθορισμένων σειρών
-Mobile Dialer,Κινητό τηλεφωνικό κέντρο
-Trunk Count,Αριθμός κορμών
-Welcome File,Αρχείο καλωσορίσματος
-Local Call Timeout (Sec.),Χρονικό όριο τοπικής κλήσης (Τεύχος)
-Rate check for DID,Έλεγχος τιμής για DID
-DID Localization,DID Εντοπισμός
-Voicemail Number,Αριθμός τηλεφωνητή
-OTP Expire Time(min),Χρόνος λήξης OTP (λεπτά)
-Edit Provider,Επεξεργασία παροχέα
-Product Summary Reports,Συνοπτικές αναφορές προϊόντων
-Edit Origination Rate,Επεξεργασία ρυθμού αρχής
-Dialplan Variable,Μεταβλητή Dialplan
-Uninstall,Καταργήστε την εγκατάσταση
-Call Stat,Καλέστε Stat
-Failed Calls,Αποτυχημένες κλήσεις
-Top 10 Countries,Top 10 χώρες
-By Minutes,Με Λεπτά
-By Calls,Με κλήσεις
-Telephone number is only numeric,Ο αριθμός τηλεφώνου είναι μόνο αριθμητικός
-Please enter valid Captcha code,Εισαγάγετε τον έγκυρο κωδικό Captcha
-Please contact to administrator,Επικοινωνήστε με τον διαχειριστή
-Requested email is already exist,Το μήνυμα ηλεκτρονικού ταχυδρομείου που ζητήσατε ήδη υπάρχει
-Requested number is already exist,Ο αριθμός που ζητήσατε υπάρχει ήδη
-Please enter correct words!,Παρακαλώ εισάγετε τις σωστές λέξεις!
-THIS IS REQUIRED!,ΑΠΑΙΤΕΙΤΑΙ!
-Your account has been deleted. Please contact administrator for more information.,Ο λογαριασμός σας έχει διαγραφεί.Επικοινωνήστε με τον διαχειριστή για περισσότερες πληροφορίες.
-Your account is inactive. Please contact administrator for more information.,Ο λογαριασμός σας είναι ανενεργός.Επικοινωνήστε με τον διαχειριστή για περισσότερες πληροφορίες.
-Please enter proper Email.,Πληκτρολογήστε το σωστό μήνυμα ηλεκτρονικού ταχυδρομείου
-Please enter proper Username.,Εισαγάγετε το σωστό όνομα χρήστη.
-This Username or Email is not valid.,Αυτό το όνομα χρήστη ή μήνυμα ηλεκτρονικού ταχυδρομείου δεν είναι έγκυρο.
-ASTPP - A Smart TelePhony Platform,ASTPP - Πλατφόρμα Smart TelePhony
-Forgot Password,Ξεχάσατε τον κωδικό
-ASTPP work best with JavaScript enabled,Το ASTPP λειτουργεί καλύτερα με ενεργοποιημένο το JavaScript
-Enter Your Password,Εισάγετε τον κωδικό σας
-Confirm Password,Επιβεβαίωση Κωδικού
-The Email field is Required,Το πεδίο Ηλεκτρονικό ταχυδρομείο είναι Απαιτείται
-The Account Number field is Required,Το πεδίο Αριθμός λογαριασμού είναι Απαιτείται
-Set Default Language,Ορισμός προεπιλεγμένης γλώσσας
-Please Re-login to get Impact of selected language.,Παρακαλούμε ξανασυνδεθείτε για να πάρετε την επίδραση της επιλεγμένης γλώσσας.
-Default Language,Προεπιλεγμένη γλώσσα
-Signup now!,Εγγραφείτε τώρα!
-Forgot Password?,Ξεχάσατε τον κωδικό;
-Sign in,Συνδεθείτε
-Username OR Email,Ονομα χρήστη ή διεύθυνση ηλεκτρονικού ταχυδρομίου
-Username is Required,Το όνομα χρήστη απαιτείται
-Password is Required,Απαιτείται κωδικός
-"Please Check Your account is deleted or inactive from admin side, please contact to your administrator","Παρακαλώ Ελέγξτε ότι ο λογαριασμός σας έχει διαγραφεί ή ανενεργός από την πλευρά του διαχειριστή, επικοινωνήστε με τον διαχειριστή σας"
-Please do not use default or less secure password for your account!! You must change password from,Μην χρησιμοποιείτε προεπιλεγμένο ή λιγότερο ασφαλές password για το λογαριασμό σας !!Πρέπει να αλλάξετε τον κωδικό πρόσβασης από
-HERE,ΕΔΩ
-"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active",Η είσοδος δεν ήταν επιτυχής. Βεβαιωθείτε ότι έχετε εισαγάγει το σωστό όνομα χρήστη και κωδικό πρόσβασης και ότι ο λογαριασμός σας είναι ενεργός
-Please enter Username/email and Password.,Εισαγάγετε το όνομα χρήστη / email και τον κωδικό πρόσβασης.
-Payment transaction invalid. Please contact Administrator.,Η συναλλαγή πληρωμής είναι άκυρη. Επικοινωνήστε με τον Διαχειριστή.
-Log In,Σύνδεση
-Please Enter Password,Παρακαλούμε εισάγετε τον κωδικό πρόσβασης
-"Password must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit","Ο κωδικός πρόσβασης πρέπει να είναι τουλάχιστον 8 χαρακτήρες και πρέπει να περιέχει τουλάχιστον ένα μικρό γράμμα, ένα κεφαλαίο γράμμα και ένα ψηφίο"
-Please Enter Confirm Password,Παρακαλώ Εισάγετε Επιβεβαίωση κωδικού πρόσβασης
-Confirm Password is not match,Επιβεβαιώστε ότι ο κωδικός πρόσβασης δεν ταιριάζει
-We sent update password link.,Στείλαμε σύνδεσμο κωδικού πρόσβασης ενημέρωσης.
-Please check your Email!,Παρακαλούμε ελέγξτε το email σας!
-Login,Σύνδεση
-OTP Verification,Επαλήθευση OTP
-OTP Number is Required,Απαιτείται αριθμός OTP
-Your account created successfully and account details sent to your registered email address,Ο λογαριασμός σας δημιουργήθηκε με επιτυχία και τα στοιχεία του λογαριασμού στάλθηκαν στη διεύθυνση ηλεκτρονικού ταχυδρομείου που έχετε δηλώσει
-Your password change successfully and new password sent to your registered email address,Ο κωδικός πρόσβασης αλλάζει επιτυχώς και ο νέος κωδικός πρόσβασης αποστέλλεται στην καταχωρημένη διεύθυνση ηλεκτρονικού ταχυδρομείου σας
-OTP Number is Wrong Please try again Or OTP expire Please Resend,Ο αριθμός OTP δεν είναι σωστός Δοκιμάστε ξανά Ή ΟΤΡ λήγει Επαναλάβετε
-OTP has been sent on your email or Telephone number,Το OTP έχει σταλεί στο email ή στον αριθμό τηλεφώνου σας
-OTP,OTP
-Resend OTP,Απεστάλη ξανά το OTP
-OTP Sent time Out,Το OTP έστειλε χρόνο εκτός
-Not Get OTP ?,Δεν λαμβάνετε OTP;
-Note:,Σημείωση:
-Please make sure do not refresh the page or don't go back,Βεβαιωθείτε ότι δεν ανανεώσετε τη σελίδα ή μην γυρίσετε πίσω
-"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.",Η είσοδος δεν ήταν επιτυχής. Βεβαιωθείτε ότι έχετε εισαγάγει το σωστό όνομα χρήστη και κωδικό πρόσβασης και ότι ο λογαριασμός σας είναι ενεργός.
-Your account has been created successfully!,Ο λογαριασμός σας δημιουργήθηκε με επιτυχία!
-Here is your login information,Εδώ είναι τα στοιχεία σύνδεσής σας
-Link is Expire Please Try Again,Ο σύνδεσμος λήγει Δοκιμάστε ξανά
-"Sorry, we cannot process for singup at this time.","Λυπούμαστε, δεν μπορούμε να επεξεργαστούμε για singup αυτή τη στιγμή."
-Please contact administrator for more information,Επικοινωνήστε με τον διαχειριστή για περισσότερες πληροφορίες
-Successful!,Επιτυχής!
-Captcha is required,Απαιτείται Captcha
-First Name is Required,Το όνομα είναι υποχρεωτικό
-Telephone is Required,Απαιτείται τηλέφωνο
-Email is Required,Το ηλεκτρονικό ταχυδρομείο είναι υποχρεωτικό
-Please enter a valid email address,Παρακαλώ εισάγετε μια έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου
-"Please make sure you entered the correct username and password, and that your account is active.",Βεβαιωθείτε ότι έχετε εισαγάγει το σωστό όνομα χρήστη και κωδικό πρόσβασης και ότι ο λογαριασμός σας είναι ενεργός.
-Company Name,Όνομα εταιρείας
-Enter above Captcha,Εισάγετε παραπάνω Captcha
-Sign up,Εγγραφείτε
-Already Registered !,Εχουν ήδη καταχωρηθεί !
-January,Ιανουάριος
-February,Φεβρουάριος
-March,Μάρτιος
-April,Απρίλιος
-May,Ενδέχεται
-June,Ιούνιος
-July,Ιούλιος
-August,Αύγουστος
-September,Σεπτέμβριος
-October,Οκτώβριος
-November,Νοέμβριος
-December,Δεκέμβριος
-Doesn't Contain,Δεν περιέχει
-Greater Than,Μεγαλύτερος από
-Less Than,Λιγότερο από
-Greater Or Equal Than,Μεγαλύτερο ή ίσο από το
-Less Or Equal Than,Λιγότερο ή ίσο από
-Set To,Οριστεί σε
-Increase By,Αύξηση κατά
-Decrease By,Μείωση κατά
-Community,Κοινότητα
-You must either select a field from your file OR provide a default value for the following fields:,Πρέπει είτε να επιλέξετε ένα πεδίο από το αρχείο σας είτε να δώσετε μια προεπιλεγμένη τιμή για τα ακόλουθα πεδία:
-Note : Records with duplicate account number and email will be ignored.,Σημείωση: Οι εγγραφές με διπλό αριθμό λογαριασμού και email θα αγνοηθούν.
-Map CSV to Customers,Χάρτης CSV σε πελάτες
-Account Information,Πληροφορίες λογαριασμού
-Select Account,Επιλέξτε Λογαριασμός
-DEFAULT VALUE,ΠΡΟΕΠΙΛΕΓΜΕΝΗ ΤΙΜΗ
-SIP Username,SIP Όνομα Χρήστη
-sip_username,sip_username
-SIP Password,Κωδικός SIP
-Same as Password,Ίδιος με τον κωδικό πρόσβασης
-Same as Account Number,Ίδιος με τον αριθμό λογαριασμού
-Random,Τυχαίος
-Import File Data.,Εισαγωγή δεδομένων αρχείου.
-Process Records,Εγγραφές διεργασίας
-Note : Duplicate accounts with account number / email are ignored.,Σημείωση: Οι διπλοί λογαριασμοί με αριθμό λογαριασμού / ηλεκτρονικού ταχυδρομείου αγνοούνται.
-Remove,Αφαιρώ
-Number of Account,Αριθμός λογαριασμού
-Account Number Length,Αριθμός λογαριασμού Μήκος
-"DID (CLI Match, If not matched then use random allocated DID)","DID (CLI Match, Αν δεν ταιριάζει τότε χρησιμοποιήστε τυχαία DID)"
-"Caller Id (CLI Match, If not matched then use random allocated Caller Id)","Αναγνωριστικό καλούντος (CLI Match, Αν δεν αντιστοιχιστεί, χρησιμοποιήστε τυχαία αναγνωρισμένο αναγνωριστικό καλούντος)"
-Use NON-CLI Rate Group (If CLI not match with DID),Χρήση ομάδας ποσοστού NON-CLI (Εάν το CLI δεν ταιριάζει με το DID)
-Use NON-CLI Rate Group (If CLI not match with Caller ID),Χρήση ομάδας ποσοστού NON-CLI (Εάν το CLI δεν ταιριάζει με το αναγνωριστικό καλούντος)
-Use NON-CLI Rate Group (If CLI not match with DID & Caller id),Χρήση ομάδας ποσοστού NON-CLI (Εάν το CLI δεν ταιριάζει με το αναγνωριστικό DID & Caller)
-Reject Call (If CLI not match with DID),Απόρριψη κλήσης (Εάν το CLI δεν ταιριάζει με το DID)
-Reject Call (If CLI not match with Caller ID),Απόρριψη κλήσης (Εάν το CLI δεν ταιριάζει με το αναγνωριστικό καλούντος)
-Reject Call (If CLI not match with DID & Caller id),Απόρριψη κλήσης (Εάν το CLI δεν ταιριάζει με το αναγνωριστικό DID & Caller)
---Select--,--Επιλέγω--
-Test Mail,Δοκιμάστε το ταχυδρομείο
-Reset Password,Επαναφέρετε τον κωδικό πρόσβασης
-AFGHANISTAN,ΑΦΓΑΝΙΣΤΑΝ
-ALBANIA,ΑΛΒΑΝΙΑ
-ALGERIA,ΑΛΓΕΡΙΑ
-AMERICAN SAMOA,ΑΜΕΡΙΚΑΝΙΚΗ ΣΑΜΟΑ
-ANDORRA,ΑΝΔΟΡΡΑ
-ANGOLA,ΑΓΓΟΛΑ
-ANGUILLA,ANGUILLA
-ANTIGUA & BARBUDA,ANTIGUA & BARBUDA
-ARGENTINA,ΑΡΓΕΝΤΙΝΗ
-ARMENIA,ΑΡΜΕΝΙΑ
-ARUBA,ARUBA
-AUSTRALIA,ΑΥΣΤΡΑΛΙΑ
-AUSTRIA,ΑΥΣΤΡΙΑ
-AZERBAIJAN,AZERBAIJAN
-BAHAMAS,ΜΠΑΧΑΜΑΣ
-BAHRAIN,BAHRAIN
-BANGLADESH,ΜΠΑΝΓΛΑΔΕΣΗ
-BARBADOS,BARBADOS
-BELARUS,ΛΕΥΚΟΡΩΣΙΑ
-BELGIUM,ΒΕΛΓΙΟ
-BELIZE,BELIZE
-BENIN,BENIN
-BERMUDA,ΒΕΡΜΟΥΔΑ
-BHUTAN,BHUTAN
-BOLIVIA,ΒΟΛΙΒΙΑ
-BOSNIA AND HERZEGOVINA,ΒΟΣΝΙΑ ΚΑΙ ΕΡΖΕΓΟΒΙΝΗ
-BOTSWANA,BOTSWANA
-BRAZIL,ΒΡΑΖΙΛΙΑ
-BRITISH VIRGIN ISLANDS,ΝΗΣΙΑ ΒΡΕΤΑΝΙΚΗΣ ΠΑΡΟΥΣΙΑΣΗΣ
-BRUNEI,BRUNEI
-BULGARIA,ΒΟΥΛΓΑΡΙΑ
-BURKINA FASO,BURKINA FASO
-BURUNDI,BURUNDI
-CAMBODIA,ΚΑΜΠΟΔΙΑ
-CAMEROON,CAMEROON
-CANADA,ΚΑΝΑΔΑΣ
-CAPE VERDE,CAPE VERDE
-CAYMAN ISLANDS,ΝΗΣΙΑ ΚΑΥΜΑΝ
-CENTRAL AFRICAN REPUBLIC,ΔΗΜΟΚΡΑΤΙΑ ΚΕΝΤΡΙΚΗΣ ΑΦΡΙΚΗΣ
-CHAD,ΤΣΑΔ
-CHILE,ΧΙΛΗ
-CHINA,ΚΙΝΑ
-COLOMBIA,ΚΟΛΟΜΒΙΑ
-COMOROS,COMOROS
-CONGO,ΚΟΓΚΟ
-COSTA RICA,ΚΟΣΤΑ ΡΙΚΑ
-CROATIA,ΚΡΟΑΤΙΑ
-CUBA,ΚΟΥΒΑ
-CYPRUS,ΚΥΠΡΟΣ
-CZECH REPUBLIC,ΤΣΕΧΙΚΗ ΔΗΜΟΚΡΑΤΙΑ
-DEMOCRATIC REPUBLIC,ΔΗΜΟΚΡΑΤΙΑ
-DENMARK,ΔΑΝΙΑ
-DJIBOUTI,DJIBOUTI
-DOMINICA,DOMINICA
-DOMINICAN REPUBLIC,DOMINICAN REPUBLIC
-ECUADOR,ΕΚΟΥΑΔΟΡ
-EGYPT,ΑΙΓΥΠΤΟΣ
-EL SALVADOR,ΕΛ ΣΑΛΒΑΔΟΡ
-EQUATORIAL GUINEA,ΙΣΗΜΕΡΙΝΗ ΓΟΥΙΝΕΑ
-ERITREA,ERITREA
-ERITREA,ERITREA
-ETHIOPIA,ΑΙΘΙΟΠΙΑ
-FAEROE ISLANDS,ΦΑΡΟΣ ΝΗΣΙΑ
-FIJI ISLANDS,ΝΗΣΙΑ FIJI
-FINLAND,ΦΙΝΛΑΝΔΙΑ
-FRANCE,ΓΑΛΛΙΑ
-FRENCH GUIANA,ΓΑΛΛΙΑ GUIANA
-FRENCH POLYNESIA,ΓΑΛΛΙΚΗ ΠΟΛΥΝΗΣΙΑ
-GABON,GABON
-GAMBIA,GAMBIA
-GEORGIA,ΓΕΩΡΓΙΑ
-GERMANY,ΓΕΡΜΑΝΙΑ
-GHANA,ΓΚΑΝΑ
-GIBRALTAR,ΓΙΒΡΑΛΤΑΡ
-GREECE,ΕΛΛΑΔΑ
-GRENADA,GRENADA
-GUADELOUPE,GUADELOUPE
-GUAM,GUAM
-GUATEMALA,ΓΟΥΑΤΕΜΑΛΑ
-GUINEA,ΓΚΙΝΕΑ
-GUINEA BISSAU,GUINEA BISSAU
-GUYANA,GUYANA
-HAITI,ΑΪΤΗ
-HONDURAS,ΧΟΝΤΟΥΡΑΣ
-HONG KONG,ΧΟΝΓΚ ΚΟΝΓΚ
-HUNGARY,ΟΥΓΓΑΡΙΑ
-ICELAND,ΙΣΛΑΝΔΙΑ
-INDIA,ΙΝΔΙΑ
-INDONESIA,ΙΝΔΟΝΗΣΙΑ
-IRAN,ΙΡΑΝ
-IRAQ,ΙΡΑΚ
-IRELAND,ΙΡΛΑΝΔΙΑ
-ISRAEL,ΙΣΡΑΗΛ
-ITALY,ΙΤΑΛΙΑ
-IVORY COAST,ΑΚΤΗ ΕΛΕΦΑΝΤΟΣΤΟΥ
-JAMAICA,ΙΑΜΑΪΚΗ
-JAPAN,ΙΑΠΩΝΙΑ
-JORDAN,ΙΟΡΔΑΝΙΑ
-KAZAKHSTAN,ΚΑΖΑΚΣΤΑΝ
-KENYA,ΚΕΝΥΑ
-KOSOVO,ΚΟΣΣΥΦΟΠΕΔΙΟ
-KUWAIT,KUWAIT
-KYRGYZSTAN,KYRGYZSTAN
-LAOS,LAOS
-LATVIA,ΛΑΤΒΙΑ
-LEBANON,ΛΙΒΑΝΟΣ
-LESOTHO,LESOTHO
-LIBERIA,ΛΙΒΕΡΙΑ
-LIBYA,ΛΙΒΥΗ
-LIECHTENSTEIN,ΛΙΧΤΕΝΣΤΑΪΝ
-LITHUANIA,ΛΙΘΟΥΑΝΙΑ
-LUXEMBOURG,ΛΟΥΞΕΜΒΟΥΡΓΟ
-MACAU,MACAU
-MACEDONIA,ΜΑΚΕΔΟΝΙΑ
-MADAGASCAR,ΜΑΔΑΓΑΣΚΑΡ
-MALAWI,MALAWI
-MALAYSIA,ΜΑΛΑΙΣΙΑ
-MALI,ΜΑΛΙ
-MALTA,ΜΑΛΤΑ
-MARSHALL ISLANDS,ΝΗΣΟΙ ΜΑΡΣΑΛ
-MARTINIQUE,MARTINIQUE
-MAURITANIA,ΜΑΥΡΙΤΑΝΙΑ
-MAURITIUS,MAURITIUS
-MEXICO,ΜΕΞΙΚΟ
-MICRONESIA,ΜΙΚΡΟΝΗΣΙΑ
-MOLDOVA,ΜΟΛΔΑΒΑ
-MONACO,ΜΟΝΑΚΟ
-MONGOLIA,ΜΟΓΓΟΛΙΑ
-MONTENEGRO,ΜΑΥΡΟΒΟΥΝΙΟ
-MONTSERRAT,MONTSERRAT
-MOROCCO,ΜΑΡΟΚΟ
-MOZAMBIQUE,ΜΟΖΑΜΒΙΚΗ
-MYANMAR,ΜΥΑΝΜΑΡ
-NAMIBIA,NAMIBIA
-NEPAL,NEPAL
-NETHERLANDS,ΟΛΛΑΝΔΙΑ
-NEW CALEDONIA,ΝΕΑ ΚΑΛΗΔΟΝΙΑ
-NEW ZEALAND,ΝΕΑ ΖΗΛΑΝΔΙΑ
-NICARAGUA,ΝΙΚΑΡΑΓΟΥΑ
-NIGER,NIGER
-NIGERIA,ΝΙΓΗΡΙΑ
-NO. MARIANA ISLANDS,ΟΧΙ. ΝΗΣΙΑ ΜΑΡΙΑΝΑ
-NORTH KOREA,ΒΟΡΕΙΑ ΚΟΡΕΑ
-NORWAY,ΝΟΡΒΗΓΙΑ
-OMAN,OMAN
-PAKISTAN,ΠΑΚΙΣΤΑΝ
-PALAU,PALAU
-PANAMA,ΠΑΝΑΜΑΣ
-PARAGUAY,ΠΑΡΑΓΟΥΑΗ
-PERU,ΠΕΡΟΥ
-PHILIPPINES,ΦΙΛΙΠΠΙΝΕΣ
-POLAND,ΠΟΛΩΝΙΑ
-PORTUGAL,ΠΟΡΤΟΓΑΛΙΑ
-PUERTO RICO,ΠΟΥΕΡΤΟ ΡΙΚΟ
-QATAR,QATAR
-REUNION ISLAND,ΡΕΝΙΙΟΝ ΝΗΣΙ
-ROMANIA,ΡΟΥΜΑΝΙΑ
-RUSSIAN FEDERATION,ΡΩΣΙΚΗ ΟΜΟΣΠΟΝΔΙΑ
-RWANDA,RWANDA
-SAN MARINO,ΣΑΝ ΜΑΡΙΝΟ
-SAUDI ARABIA,ΣΑΟΥΔΙΚΗ ΑΡΑΒΙΑ
-SENEGAL,ΣΕΝΕΓΑΛΗ
-SERBIA,ΣΕΡΒΙΑ
-SEYCHELLES ISLANDS,ΝΗΣΙΑ ΣΕΥΧΕΛΕΣ
-SIERRA LEONE,ΣΙΕΡΡΑ ΛΕΟΝΕ
-SINGAPORE,ΣΙΓΚΑΠΟΥΡ
-SLOVAKIA,ΣΛΟΒΑΚΙΑ
-SLOVENIA,ΣΛΟΒΕΝΙΑ
-SOMALIA,ΣΩΜΑΛΙΑ
-SOUTH AFRICA,ΝΟΤΙΑ ΑΦΡΙΚΗ
-SOUTH KOREA,ΝΟΤΙΑ ΚΟΡΕΑ
-SOUTH SUDAN,ΝΟΤΙΟ ΣΟΥΔΑΝ
-SPAIN,ΙΣΠΑΝΙΑ
-SRI LANKA,ΣΡΙ ΛΑΝΚΑ
-ST. KITTS,ST. KITTS
-ST. LUCIA,ST. LUCIA
-ST. MARTIN,ST. ΧΕΛΙΔΟΝΙ
-ST. PIERRE & MIQUELON,ST. PIERRE & MIQUELON
-ST. VINCENT,ST. ΒΙΚΕΝΤΙΟΣ
-SUDAN,ΣΟΥΔΑΝ
-SURINAME,SURINAME
-SWAZILAND,SWAZILAND
-SWEDEN,ΣΟΥΗΔΙΑ
-SWITZERLAND,ΕΛΒΕΤΙΑ
-SYRIA,ΣΥΡΙΑ
-TAIWAN,ΤΑΪΒΑΝ
-TAJIKISTAN,ΤΑΤΖΙΚΙΣΤΑΝ
-TANZANIA,ΤΑΝΖΑΝΙΑ
-THAILAND,ΤΑΪΛΑΝΔΗ
-TRINIDAD & TOBAGO,TRINIDAD & TOBAGO
-TUNISIA,ΤΥΝΗΣΙΑ
-TURKEY,ΤΟΥΡΚΙΑ
-TURKMENISTAN,ΤΟΥΡΚΜΝΙΣΤΑΝ
-TURKS & CAICOS ISLANDS,ΤΟΥΡΚΙΑ & ΚΑΪΚΟΣ ΝΗΣΙΑ
-UGANDA,UGANDA
-UKRAINE,ΟΥΚΡΑΝΙΑ
-UNITED ARAB EMIRATES,ΗΝΩΜΕΝΑ ΑΡΑΒΙΚΑ ΕΜΙΡΑΤΑ
-UNITED KINGDOM,ΗΝΩΜΕΝΟ ΒΑΣΙΛΕΙΟ
-URUGUAY,ΟΥΡΟΥΓΟΥΑΗ
-US VIRGIN ISLANDS,ΝΗΣΙΑ ΠΑΡΚΙΝΓΚ
-United States,Ηνωμένες Πολιτείες
-UZBEKISTAN,UZBEKISTAN
-VENEZUELA,ΒΕΝΕΖΟΥΕΛΑ
-VIETNAM,VIETNAM
-YEMEN,ΓΕΜΕΝΗ
-ZAMBIA,ΖΑΜΠΙΑ
-ZIMBABWE,ZIMBABWE
-ASCENSION,ΑΝΑΛΗΨΗ
-COOK ISLANDS,ΝΟΤΙΑ ΤΟΥ COOK
-EAST TIMOR,ΑΝΑΤΟΛΙΚΟ ΤΙΜΟΡ
-FALKLAND ISLANDS,ΝΗΣΙΑ FALKLAND
-GREENLAND,ΓΡΟΙΛΑΝΔΙΑ
-KIRIBATI,KIRIBATI
-MALDIVES,ΜΑΛΔΙΒΙ
-NAURU,NAURU
-Albanian Lek,Αλβανικό Λεκ
-Algerian Dinar,Αλγερινό Δηνάριο
-Aluminium Ounces,Ουγγιές Αλουμινίου
-Argentine Peso,Αργεντινό πέσο
-Aruba Florin,Αρούμπα Φλόριν
-Australian Dollar,Δολάριο αυστραλίας
-Bahamian Dollar,Μπαχάμας Δολάριο
-Bahraini Dinar,Το Δηνάριο Μπαχρέιν
-Bangladesh Taka,Μπαγκλαντές Τάκα
-Barbados Dollar,Δολάριο Μπαρμπάντος
-Belarus Ruble,Λευκό ρούβλι
-Belize Dollar,Δολάριο Μπελίζ
-Bermuda Dollar,Δολάριο Βερμούδων
-Bhutan Ngultrum,Μπουτάν Ngultrum
-Bolivian Boliviano,Βολιβιανό Μπολιβιανό
-Brazilian Real,Ρεάλ Βραζιλίας
-British Pound,Βρετανική λίρα
-Brunei Dollar,Δολάριο Μπρουνέι
-Bulgarian Lev,Βουλγαρικό Λεβ
-Burundi Franc,Φράγκο Μπουρούντι
-Cambodia Riel,Καμπότζη Ρίελ
-Canadian Dollar,Καναδικό δολάριο
-Cayman Islands Dollar,Δολάριο των Νήσων Καίυμαν
-CFA Franc (BCEAO),CFA Franc (BCEAO)
-CFA Franc (BEAC),CFA Franc (BEAC)
-Chilean Peso,Χιλιανό πέσο
-Chinese Yuan,Κινέζικα γιουάν
-Colombian Peso,Κολομβιανό πέσο
-Comoros Franc,Φράγκα των Κομορών
-Copper Ounces,Ουγγιές χαλκού
-Costa Rica Colon,Κόστα Ρίκα Colon
-Croatian Kuna,Κούρα της Κροατίας
-Cuban Peso,Κουβανικό πέσο
-Cyprus Pound,Λίρα Κύπρου
-Czech Koruna,Τσεχικό κορόνα
-Danish Krone,Δανική Krone
-Dijibouti Franc,Φράγκο Ντιζιμπούτι
-Dominican Peso,Δομινικανό πέσο
-East Caribbean Dollar,Δολάριο της Ανατολικής Καραϊβικής
-Ecuador Sucre,Εκουαδόρ Sucre
-Egyptian Pound,Αιγυπτιακή Λίρα
-El Salvador Colon,Ελ Σαλβαδόρ Colon
-Eritrea Nakfa,Ερυθραία Νάφα
-Estonian Kroon,Κροόν της Εσθονίας
-Ethiopian Birr,Αιθιοπίας Birr
-Euro,Ευρώ
-Falkland Islands Pound,Λίρα των Νήσων Φώκλαντ
-Gambian Dalasi,Γκάμπια Νταλάσι
-Ghanian Cedi,Γκάνιαν Κέντι
-Gibraltar Pound,Γιβραλτάρ Λίρα
-Gold Ounces,Χρυσές ουγγιές
-Guatemala Quetzal,Γουατεμάλα Κέτζαλ
-Guinea Franc,Φραγκο της Γουινέας
-Haiti Gourde,Αϊτή Gourde
-Honduras Lempira,Ονδούρα Λεμπίρα
-Hong Kong Dollar,Δολάριο Χονγκ Κονγκ
-Hungarian ForINT,Hungarian ForINT
-Iceland Krona,Ισλανδία Κρόνα
-Indian Rupee,Ινδική ρουπία
-Indonesian Rupiah,Ινδονησιακή ρουπία
-Iran Rial,Ιράν Ρίαλ
-Israeli Shekel,Ισραηλινό Σέκελ
-Jamaican Dollar,Τζαμαϊκανικό δολάριο
-Japanese Yen,Ιαπωνικό γεν
-Jordanian Dinar,Ιορδανικό Δηνάριο
-Kazakhstan Tenge,Καζακστάν Tenge
-Kenyan Shilling,Κένυαν Σίλινγκ
-Korean Won,Κορέας κέρδισε
-Kuwaiti Dinar,Κουρουνέζικο Δηνάριο
-Lao Kip,Λάο Κίπ
-Latvian Lat,Λετονική Lat
-Lebanese Pound,Λιβανέζικη λίβρα
-Lesotho Loti,Lesotho Loti
-Libyan Dinar,Λιβυκό Δηνάριο
-Lithuanian Lita,Λιθουανική Lita
-Macau Pataca,Μακάο Πατάκα
-Macedonian Denar,Μακεδονικό denar
-Malagasy Franc,Γαλλικό φράγκο
-Malawi Kwacha,Μαλάουι Κούτσα
-Malaysian Ringgit,Μαλαισιανό Ringgit
-Maldives Rufiyaa,Μαλδίβες Rufiyaa
-Maltese Lira,Μάλτα λιρέ
-Mauritania Ougulya,Μαυριτανία Ougulya
-Mauritius Rupee,Μαυρίκιος Ρουπία
-Mexican Peso,Μεξικάνικο πέσο
-Moldovan Leu,Μολδαβικός Λεύκος
-Mongolian Tugrik,Μογγολική Tugrik
-Moroccan Dirham,Μαροκινός Ντιρχάμ
-Mozambique Metical,Μοζαμβίκη Metical
-Namibian Dollar,Ναμίμπιο δολάριο
-Nepalese Rupee,Νεπάλ ρουπία
-Neth Antilles Guilder,Neth Antilles Gulder
-New Turkish Lira,Νέα τουρκική λιρέτα
-New Zealand Dollar,Δολάριο Νέας Ζηλανδίας
-Nicaragua Cordoba,Νικαράγουα Κόρδοβα
-Nigerian Naira,Νιγηριανή Ναΐρα
-Norwegian Krone,Νορβηγική κορώνη
-Omani Rial,Ομάν Ριάλ
-Pacific Franc,Φράγκο Ειρηνικού
-Pakistani Rupee,Πακιστανική ρουπία
-Palladium Ounces,Ουγγιές παλλαδίου
-Panama Balboa,Παναμάς Μπάλμποα
-Papua New Guinea Kina,Κουβέιτ Παπούα Νέα Γουινέα
-Paraguayan Guarani,Παραγουάη Γκουαρανί
-Peruvian Nuevo Sol,Περουβιανό Nuevo Sol
-Philippine Peso,Φιλιππινέζικο πέσο
-Platinum Ounces,Ουγγιές πλατίνα
-Polish Zloty,Πολωνικό Ζλότυ
-Qatar Rial,Κατάρ Ριάλ
-Romanian Leu,Ρουμάνος Λεύκος
-Romanian New Leu,Ρουμάνικα Νέο Λεύκο
-Russian Rouble,Ρωσικό ρούβλι
-Rwanda Franc,Φράγκα της Ρουάντα
-Samoa Tala,Σαμόα Τάλα
-Sao Tome Dobra,Σάο Τομέ Dobra
-Saudi Arabian Riyal,Σαουδική Αραβική Riyal
-Seychelles Rupee,Ρουπία των Σεϋχελλών
-Sierra Leone Leone,Σιέρα Λεόνε Λεόνε
-Silver Ounces,Ασημένιες ουγγιές
-Singapore Dollar,Σιγκαπούρη Δολάριο
-Slovak Koruna,Σλοβάκικο Κρόνο
-Slovenian Tolar,Σλοβενικά Tolar
-Somali Shilling,Σομαλικός Σιλίνγκ
-South African Rand,Ραντ Νότιας Αφρικής
-Sri Lanka Rupee,Ρουπία της Σρι Λάνκα
-St Helena Pound,Η Λίμνη της Αγίας Ελένης
-Sudanese Dinar,Σουδανέζικο Δηνάριο
-Surinam Guilder,Σουρινάμ Γκιουλντερ
-Swaziland Lilageni,Σουαζιλάνδη Λιλάγκεν
-Swedish Krona,Σουηδική κορόνα
-Swiss Franc,Ελβετικό φράγκο
-Syrian Pound,Συριακή Λίρα
-Taiwan Dollar,Δολάριο της Ταϊβάν
-Tanzanian Shilling,Τανζανία Σίλινγκ
-Thai Baht,Ταϊλανδικό μπατ
-Tonga Paanga,Tonga Paanga
-Trinidad&Tobago Dollar,Δολάριο Τρινιντάντ και Τομπάγκο
-Tunisian Dinar,Τυνησιακό Δηνάριο
-U.S. Dollar,Αμερικάνικο δολλάριο
-UAE Dirham,Ηνωμένα Αραβικά Εμιράτα
-Ugandan Shilling,Ουγκάντα ​​Σίλινγκ
-Ukraine Hryvnia,Ουκρανία Γρίβνα
-Uruguayan New Peso,Νέο πέσο της Ουρουγουάης
-Vanuatu Vatu,Vanuatu Vatu
-Venezuelan Bolivar,Βενεζουέλας Bolivar
-Vietnam Dong,Vietnam Dong
-Yemen Riyal,Υεμένη Riyal
-Zambian Kwacha,Zambian Kwacha
-Zimbabwe Dollar,Δολάριο Ζιμπάμπουε
-Guyana Dollar,Δολάριο της Γουιάνας
-Aruban florin,Aruban florin
-Armenian dram,Αρμενικό δράμα
-Azerbaijani manat,Αζερμπαϊτζάν manat
-Barbadian dollar,Δολάριο Μπαρμπάντος
-Bosnian Convertible Marka,Βόσνιο μετατρέψιμο Marka
-Botswana pula,Μποτσουάνα πούλα
-Cape Verdean escudo,Πράσινο escudo του Πράσινου Ακρωτηρίου
-Congolese franc,Φράγκο του Κονγκό
-Fijian Dollar,Δολάριο Φίτζι
-CFP franc,CFP φράγκο
-Georgian lari,Γεωργιανού λαρί
-Iraqi dinar,Ιρανικό δηνάριο
-Kyrgyzstani som,Κιργιζιστάν
-Liberian dollar,Δολάριο Λιβερίας
-Malagasy ariary,Μαραγκάσκι
-Burmese Kyat,Βιρμανική Κιάτ
-North Korean won,Βόρεια Κορέα κέρδισε
-nuevo sol,nuevo sol
-Serbian dinar,Σερβικό δηνάριο
-South Korean won,Νότια Κορέα κέρδισε
-South Sudanese pound,Νότια σουδανέζικη λίρα
-Sudanese pound,Σουδανική λίβρα
-Surinamese dollar,Σουρινάμ δολάριο
-Tajikistani samani,Τατζικιστάν σιμάνι
-Turkish lira,Τουρκική λίρα
-Turkmenistan manat,Τουρκμενιστάν manat
-Pound sterling,Λίρα στερλίνα
-Uzbekistani soʻm,Ουζμπεκιστάν έτσι
-Saint Helena pound,Η λίμνη της Αγίας Ελένης
-Indian Rupees,Ινδικές ρουπίες
-CLI Pool,CLI Pool
-Download,Κατεβάστε
-TRUE,ΑΛΗΘΗΣ
-FALSE,ΨΕΥΔΗΣ
---Select Type--,--Επιλέξτε τύπο--
-One Time,Μια φορά
-Recurring,Επαναλαμβανόμενη
-Recurring Monthly,Επαναλαμβανόμενο Μηνιαίο
-Outbound,Εξερχόμενος
-Default,Προκαθορισμένο
-Speed Dial Number Added Successfully,Ο αριθμός ταχείας κλήσης προστέθηκε με επιτυχία
-"Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.","Είστε βέβαιοι ότι θέλετε να επιβεβαιώσετε αυτό το τιμολόγιο; αφού το επιβεβαιώσετε, δεν μπορείτε να επεξεργαστείτε ξανά το τιμολόγιο."
-DIDs already purchased by someone.,DID που έχουν ήδη αγοραστεί από κάποιον.
-DIDs Assigned sucessfully!,DIDs Assigned με επιτυχία!
-Something wrong.Please contact to administrator.,Κάτι λάθος. Παρακαλούμε επικοινωνήστε με τον διαχειριστή.
-Duplicate DID found from database,Διπλότυπο DID βρέθηκε από τη βάση δεδομένων
-Account have not sufficient amount to purchase this DID.,Ο λογαριασμός δεν έχει επαρκές ποσό για να αγοράσει αυτό το DID.
-Account not found or assign to invalid account,Ο λογαριασμός δεν βρέθηκε ή εκχωρήθηκε σε άκυρο λογαριασμό
-Duplicate DID found from import file.,Διπλότυπο DID βρέθηκε από το αρχείο εισαγωγής.
-DIDs Imported Successfully!,Οι DID εισήχθησαν με επιτυχία!
-Insuffiecient fund to purchase this DID.,Ακατάλληλο ταμείο για την αγορά αυτού του DID.
-Balance Below Notification,Ισορροπία κάτω από την ειδοποίηση
-Edit SIP device,Επεξεργασία συσκευής SIP
-Note : Page will display only receipts and confirmed invoices.,Σημείωση: Η σελίδα θα εμφανίζει μόνο αποδείξεις και επιβεβαιωμένα τιμολόγια.
-Termination Rate Updated Successfully!,Το τερματισμό ανανεώθηκε με επιτυχία!
-Import Termination Rates Using Field Mapper,Τιμές τερματισμού εισαγωγής με χρήση του χαρτογράφου πεδίων
-Edit Roles & Permissions,Επεξεργασία ρόλων & αδειών
-Create Roles & Permissions,Δημιουργία ρόλων & δικαιωμάτων
-Edit Admin,Επεξεργασία διαχειριστή
-Pin Updated Successfully!.,Η καρφίτσα ενημερώθηκε με επιτυχία !.
-Create Termination Rate,Δημιουργία τέλους τερματισμού
-Edit Company Profile,Επεξεργασία προφίλ εταιρείας
-Website,Δικτυακός τόπος
-Generate Invoice for no usage,Δημιουργία τιμολογίου για μη χρήση
-Commission Repots,Αποστολές της Επιτροπής
-Top Up,Ξεχειλίζω
-Purchase DIDs,Αγοράστε DID
-Package,Πακέτο
-Setup,Ρύθμιση
-DID Purchased Successfully.,DID αγοράστηκε με επιτυχία.
-release,ελευθέρωση
-DID Batch Updated Successfully!,Η παρτίδα DID ενημερώθηκε με επιτυχία!
-DID forwading set sucessfully!,DID forwading σύνολο επιτυχώς!
-Are you sure want to release DID?,Είστε σίγουροι ότι θέλετε να απελευθερώσετε DID;
-Please select atleast one record,Επιλέξτε τουλάχιστον μία εγγραφή
-Account Balance,Υπόλοιπο λογαριασμού
-Next Bill Date,Επόμενη ημερομηνία λογαριασμού
-TOTAL AMOUNT,ΣΥΝΟΛΙΚΟ ΠΟΣΟ
-Invoice,Τιμολόγιο
-IP Address,Διεύθυνση IP
-Terminate,Περατώ
-Seconds,Δευτερόλεπτα
-Recording,Εγγραφή
-Rates,Τιμές
-Paid,επί πληρωμή
-No Records,Δεν υπάρχουν αρχεία
-Please select from date,Επιλέξτε από την ημερομηνία
-Please select to date,Επιλέξτε μέχρι σήμερα
-Please select to date bigger than from date,Παρακαλούμε επιλέξτε μέχρι σήμερα μεγαλύτερο από την ημερομηνία
-Confirm,Επιβεβαιώνω
-Edit Country,Επεξεργασία χώρας
-Skip Header,Παράλειψη κεφαλίδας
-Origination_rate_error,Origination_rate_error
-Termination_rate_error,Termination_rate_error
-Termination_Rates,Termination_Rates
-Origination_Rates,Ποσοστά προέλευσης
-refill_coupon,refill_coupon
-Edit Reseller,Επεξεργασία μεταπωλητή
-Edit Calltype,Επεξεργασία τύπου κλήσης
-updated successfully!,ενημερώθηκε με επιτυχία!
-added successfully!,προστέθηκε με επιτυχία!
-Invoice generation completed .,Η παραγωγή των τιμολογίων ολοκληρώθηκε.
-NOTE,ΣΗΜΕΙΩΣΗ
-No data found.,Δε βρέθηκαν δεδομένα.
-Added successfully!,Προστέθηκε με επιτυχία!
-DID added successfully!,DID προστέθηκε με επιτυχία!
-DID updated successfully!,Το DID ενημερώθηκε με επιτυχία!
-File must be in the following format(.csv):,Το αρχείο πρέπει να έχει την ακόλουθη μορφή (.csv):
-Process,"Επεξεργάζομαι, διαδικασία"
-DID Import Error,Σφάλμα εισαγωγής DID
-Records Imported Successfully,Τα αρχεία που εισήχθησαν με επιτυχία
-Records Not Imported,Μη εισαγόμενα αρχεία
-Back to DID List,Επιστροφή στη λίστα DID
-DID Batch Updated Successfully!,Η παρτίδα DID ενημερώθηκε με επιτυχία!
-Accessnumber Added Successfully!,Accessnumber προστέθηκε με επιτυχία!
-Process,"Επεξεργάζομαι, διαδικασία"
-Accessnumber Import Error,AccessNumber Σφάλμα εισαγωγής
-DIDs Assigned sucessfully!,DIDs Assigned με επιτυχία!
-Origination Rates Preview,Προβλέψεις Τιμών Προέλευσης
-Origination Rates Import Error,Σφάλματα Εισαγωγής Τιμών Προέλευσης
-Back to Origination Rates List,Επιστροφή στη λίστα τιμοκαταλόγων
-Origination Rates Batch Updated Successfully!,Τα ποσοστά προέλευσης της παρτίδας ενημερώθηκαν με επιτυχία!
-Import Ratedeck Preview,Εισαγωγή ποσοστού εισαγωγής
-CALLTYPE,CALLTYPE
-Edit Calltype,Επεξεργασία τύπου κλήσης
-Outbound-Proxy,Έξοδος-Proxy
-Edit Trunk,Επεξεργασία κορμού
-Termination Rate Added Successfully!,Ο συντελεστής τερματισμού προστέθηκε με επιτυχία!
-Edit Termination Rate,Επεξεργασία ποσοστού τερματισμού
-Termination Rates Import Error,Σφάλμα εισαγωγής τιμών τερματισμού
-Termination Rates Imported Successfully!,Τα ποσοστά τερματισμού που εισήχθησαν με επιτυχία!
-Back to Origination Rates List,Επιστροφή στη λίστα τιμοκαταλόγων
-Select,Επιλέγω
-pattern,πρότυπο
-comment,σχόλιο
-connectcost,connectcost
-includedseconds,περιλαμβάνονται δευτερόλεπτα
-init_inc,init_inc
-inc,inc
-prepend,Προεπιλογή
-cost ,κόστος
-strip,λωρίδα
-DID added successfully!,DID προστέθηκε με επιτυχία!
-DID updated successfully!,Το DID ενημερώθηκε με επιτυχία!
-Country Name,Ονομα χώρας
-PAID,ΕΠΙ ΠΛΗΡΩΜΗ
-PENDING,ΕΚΚΡΕΜΗΣ
-FAIL,ΑΠΟΤΥΓΧΑΝΩ
-ORDER,ΣΕΙΡΑ
-payment method,μέθοδος πληρωμής
-Terminate Order,Τερματισμός εντολής
-Compose Email,Σύνταξη μηνυμάτων ηλεκτρονικού ταχυδρομείου
-Message,Μήνυμα
-Send,Στείλετε
-SIP Port is Required.,Απαιτείται θύρα SIP.
-Start,Αρχή
-SIP Port is Required.,Απαιτείται θύρα SIP.
-SIP IP is Required.,Το SIP IP απαιτείται.
-Name is Required.,Το όνομα απαιτείται.
-The SIP Port field is Required.,Το πεδίο SIP Port είναι Απαιτείται.
-The SIP Port field must contain only numbers.,Το πεδίο θύρας SIP πρέπει να περιέχει μόνο αριθμούς.
-The SIP Port field can not exceed 5 characters in length.,Το πεδίο θύρας SIP δεν μπορεί να υπερβαίνει τους 5 χαρακτήρες.
-Value is Required.,Αξία απαιτείται.
-Value,αξία
-Update Setting,Ρύθμιση ενημέρωσης
-Add Setting,Προσθήκη ρύθμισης
-Edit Freeswitch Server,Επεξεργασία διακομιστή Freeswitch
-CUT,ΤΟΜΗ
-ADD,ΠΡΟΣΘΕΤΩ
-Edit Localization,Επεξεργασία εντοπισμού
-Callbarring Settings Added Successfully!,Οι ρυθμίσεις καμπάνιας κλήσης προστέθηκαν με επιτυχία!
-Edit Call Barring,Επεξεργασία φραγής κλήσεων
-Callbarring Settings Updated Successfully!,Οι ρυθμίσεις γραμμών κλήσεων ενημερώθηκαν με επιτυχία!
-The Name field is required.,Το πεδίο όνομα είναι απαραίτητο.
-Please select file.,Επιλέξτε αρχείο.
-Database import allows only gzfile types of file.,Η εισαγωγή βάσεων δεδομένων επιτρέπει μόνο τους τύπους αρχείων gzfile.
-File must be in (.gz) format :,Το αρχείο πρέπει να είναι σε μορφή (.gz):
-The Coupon Number field must contain only numbers.,Το πεδίο Αριθμός κουπονιού πρέπει να περιέχει μόνο αριθμούς.
-The Coupon Number field have inactive refill coupon.,Το πεδίο Αριθμός κουπονιού έχει ανενεργό κουπόνι επαναπλήρωσης.
-This Coupon Number is already in use.,Αυτός ο αριθμός κουπονιού χρησιμοποιείται ήδη.
-This Coupon Number is not found.,Αυτός ο αριθμός κουπονιού δεν βρέθηκε.
-The Coupon Number field is required.,Το πεδίο Αριθμός κουπονιού είναι υποχρεωτικό.
-Select Customer.,Επιλέξτε Πελάτη.
-Please enter your email,Εισαγάγετε το email σας
-Please enter proper email,Εισαγάγετε το σωστό email
-The Caller ID field is required.,Απαιτείται το πεδίο Caller ID.
-Please enter your password,Παρακαλώ εισάγετε τον κωδικό σας
-Please enter your first name,Παρακαλώ εισάγετε το ονομα σας
-Please enter your email,Εισαγάγετε το email σας
-This field is require,Αυτό το πεδίο απαιτείται
-The IP field must contain a unique value.,Το πεδίο IP πρέπει να περιέχει μια μοναδική τιμή.
-The Name field is required.,Το πεδίο όνομα είναι απαραίτητο.
-The IP field is required.,Το πεδίο IP απαιτείται.
-Please Enter Valid Account Number,Εισαγάγετε τον έγκυρο αριθμό λογαριασμού
-Main,Κύριος
---Select Disposition--,--Επιλογή διάθεσης--
-Group By #time,Ομάδα κατά #time
-Active User,Ενεργός χρήστης
-Used Minutes,Χρησιμοποιημένα πρακτικά
-Available Minutes,Διαθέσιμα πρακτικά
-Total Price,Συνολικό ποσό
-Total User,Συνολικός χρήστης
-Resend Mail,Επαναλάβατε το ταχυδρομείο
-Restore,Επαναφέρω
-View Details,Δείτε λεπτομέρειες
-Other,Αλλα
-Edit Tax,Επεξεργασία φόρου
-Edit Country,Επεξεργασία χώρας
-Download Database,Λήψη βάσης δεδομένων
-Import Database,Εισαγωγή βάσης δεδομένων
-File must be in (.gz) format,Το αρχείο πρέπει να είναι σε μορφή (.gz)
- Please select file.,Επιλέξτε αρχείο.
-Please enter name and select file.,Πληκτρολογήστε το όνομα και επιλέξτε το αρχείο.
-Edit Cron Settings,Επεξεργαστείτε τις ρυθμίσεις Cron
-Global Settings updated sucessfully!,Οι γενικές ρυθμίσεις ενημερώθηκαν με επιτυχία!
-Alert Notifications,Ειδοποιήσεις ειδοποίησης
-Fraud Configuration,Διαμόρφωση παραβάσεων
-Configuration add,Προσθήκη διαμόρφωσης
-Alarm Configuration,Διαμόρφωση συναγερμού
-Please select atleast one pattern.,Επιλέξτε τουλάχιστον ένα μοτίβο.
-Problem In Add Patterns to account.,Πρόβλημα στο Προσθήκη μοτίβων στο λογαριασμό.
-Blocked Codes,Αποκλεισμένοι κωδικοί
-The IP field must contain a unique value.,Το πεδίο IP πρέπει να περιέχει μια μοναδική τιμή.
-The IP field is required.,Το πεδίο IP απαιτείται.
-Please Enter Switch command,Παρακαλούμε εισάγετε την εντολή Switch
-are you sure to delete?,είστε βέβαιοι να διαγράψετε;
-Are you sure want to confirm this invoice ? once you confirm it,Είστε βέβαιοι ότι θέλετε να επιβεβαιώσετε αυτό το τιμολόγιο; Μόλις το επιβεβαιώσετε
-can not able to edit invoice again.,δεν είναι σε θέση να επεξεργαστεί ξανά το τιμολόγιο.
-Maximum Logo upload size is 1MB,Το μέγιστο μέγεθος μεταφόρτωσης λογοτύπου είναι 1MB
-Profit per day,Κέρδος ανά ημέρα
-Please enter number,Πληκτρολογήστε τον αριθμό
-Import Customer,Εισαγωγή πελάτη
-Processing,Επεξεργασία
-please wait,Παρακαλώ περιμένετε
+English,Greek,,
+Access Number,Αριθμός πρόσβασης,,
+Access Numbers,Πρόσβαση αριθμών,,
+Account,λογαριασμός,,
+Account Type,Τύπος Λογαριασμού,,
+Account Valid Days,Έγκυρες ημέρες λογαριασμού,,
+Account Verification By,Επαλήθευση λογαριασμού από,,
+Accounts,Λογαριασμοί,,
+Accounts Report,Αναφορά λογαριασμών,,
+ACD,ACD,,
+Action,Δράση,,
+Action Type,Τύπος δράσης,,
+Add,Προσθήκη,,
+Add Country,Προσθήκη χώρας,,
+Add Currency,Προσθήκη νομίσματος,,
+Add Destination,Προσθήκη προορισμού,,
+Add Ratedeck,Προσθήκη Ratedeck,,
+Address1,Διεύθυνση 1,,
+Administrator,Διαχειριστής,,
+Administrator Admin,Διαχειριστής διαχειριστή,,
+Admins,Διαχειριστές,,
+After Balance,Μετά το υπόλοιπο,,
+Alarm,Τρομάζω,,
+Alert Status,Κατάσταση ειδοποίησης,,
+Allow integration with Fraud detection,Επιτρέψτε την ενοποίηση με τον εντοπισμό απάτης,,
+Allow IP Management,Να επιτρέπεται η διαχείριση IP,,
+Allow Local Call,Να επιτρέπεται η τοπική κλήση,,
+Allow Local Calls,Να επιτρέπονται τοπικές κλήσεις,,
+Allow Loss Less Routing,Να επιτρέπεται η απώλεια λιγότερης δρομολόγησης,,
+Allow Max Retries,Να επιτρέπεται η μέγιστη επανάληψη,,
+Allow Recording,Να επιτρέπεται η εγγραφή,,
+Amount,Ποσό,,
+Amount INR,Ποσό INR,,
+Answered Calls,Απαντημένες κλήσεις,,
+Applicable For,Ισχύει για,,
+Apply on existing accounts,Εφαρμογή σε υπάρχοντες λογαριασμούς,,
+Archive,Αρχείο,,
+ASR,ASR,,
+Attachement,Συνημμένο,,
+Attempted Calls,Προσπάθησαν κλήσεις,,
+Audit,Ελεγχος,,
+Audit Log,Αρχείο καταγραφής ελέγχου,,
+Audit Logs Older Than Days,Αρχεία ελέγχου παλαιότερα από ημέρες,,
+Authorize.net,Authorize.net,,
+Automatically,Αυτομάτως,,
+Balance,Ισορροπία,,
+Balance Announcement,Ανακοίνωση υπολοίπου,,
+Balance Below,Υπόλοιπο παρακάτω,,
+Base Currency,Βασικό νόμισμα,,
+Basic,Βασικός,,
+Basic Information,Βασικές πληροφορίες,,
+Batch Update,Μαζική ενημέρωση,,
+Before Balance INR,Πριν το υπόλοιπο INR,,
+Begins With,Ξεκινάει με,,
+Beta,Βήτα,,
+Billable,Χρεώσιμος,,
+Billing,Χρέωση,,
+Billing Cycle,Κύκλος χρέωσης,,
+Billing Days,Ημέρες χρέωσης,,
+Billing Information,Πληροφορίες χρέωσης,,
+Billing Type,Τύπος χρέωσης,,
+Body,Σώμα,,
+Buy Cost,Αγορά κόστους,,
+Call Barring,Φραγή κλήσεων,,
+Call Date,Ημερομηνία κλήσης,,
+Call Detail Reports,Αναφορές λεπτομερειών κλήσης,,
+Call Max Length,Μέγιστο μήκος κλήσης,,
+Call State,Κατάσταση κλήσης,,
+Call Summary Reports,Αναφορές περίληψης κλήσεων,,
+Call Timeout,Λήξη χρόνου κλήσης,,
+Call Type,Τύπος κλήσης,,
+Call Types,Τύποι κλήσεων,,
+Called Number,Ονομαζόμενος αριθμός,,
+Caller ID,Αναγνωριστικό καλούντος,,
+Caller IDs,Αναγνωριστικά καλούντος,,
+Caller IP,IP καλούντος,,
+Caller Name,Όνομα καλούντος,,
+Caller Number,Αριθμός καλούντος,,
+Caller-Id-In-From,Caller-Id-In-From,,
+Calling Card,Τηλεφωνική κάρτα,,
+Calls,Κλήσεις,,
+Calls Breakdown,Ανάλυση κλήσεων,,
+Calltype Information,Πληροφορίες τύπου κλήσης,,
+Can be purchased?,Μπορεί να αγοραστεί,,
+Capital,Κεφάλαιο,,
+Capture Server,Λήψη διακομιστή,,
+Card Input Timeout,Χρονικό όριο εισαγωγής κάρτας,,
+Card Length,Μήκος κάρτας,,
+Card Retries,Επανάληψη κάρτας,,
+Carriers,Μεταφορείς,,
+Category,Κατηγορία,,
+CC,CC,,
+CDRs Older Than Days,CDR Παλαιότερα από Ημέρες,,
+Charge Type,Τύπος φόρτισης,,
+Charges Breakdown,Ανάλυση χρεώσεων,,
+Charges History,Ιστορικό χρεώσεων,,
+CID,CID,,
+City,Πόλη,,
+Clear,Σαφή,,
+Client IP,IP πελάτη,,
+Client User Agent,Αντιπρόσωπος χρήστη πελάτη,,
+Code,Κώδικας,,
+Codecs,Κωδικοποιητές,,
+Commission,Επιτροπή,,
+Commission Rate,Ποσοστό προμήθειας,,
+Commission Reports,Εκθέσεις της Επιτροπής,,
+Company,Εταιρία,,
+Company Profiles,Εταιρικά προφίλ,,
+Company Tax number,Αριθμός φόρου εταιρείας,,
+Completed Calls,Ολοκληρωμένες κλήσεις,,
+Concurrent Calls,Ταυτόχρονες κλήσεις,,
+Configuration,Διαμόρφωση,,
+Confirmed,Επιβεβαιωμένος,,
+Connection Cost,Κόστος σύνδεσης,,
+Contains,Περιέχει,,
+Cost,Κόστος,,
+Cost/Min,Κόστος / Ελάχ,,
+Countries,Χώρες,,
+Country,Χώρα,,
+Country Code,Κωδικός χώρας,,
+Country List,Λίστα χωρών,,
+Country Reports,Αναφορές χώρας,,
+Coupon Information,Πληροφορίες κουπονιού,,
+Coupon Number,Αριθμός κουπονιού,,
+CPS,CPS,,
+Create,Δημιουργώ,,
+Create Admin,Δημιουργία διαχειριστή,,
+Create calltype,Δημιουργήστε τύπο κλήσης,,
+Create Company Profile,Δημιουργία εταιρικού προφίλ,,
+Create Customer,Δημιουργία πελάτη,,
+Create Origination Rate,Δημιουργία ποσοστού προέλευσης,,
+Create Product,Δημιουργία προϊόντος,,
+Create Provider,Δημιουργία παρόχου,,
+Create Rate Group,Δημιουργία ομάδας τιμών,,
+Create Refill Coupon,Δημιουργήστε κουπόνι επαναπλήρωσης,,
+Create SIP Device,Δημιουργία συσκευής SIP,,
+Create Tax,Δημιουργήστε φόρο,,
+Created Date,Ημερομηνία δημιουργίας,,
+Creation Date,Ημερομηνία δημιουργίας,,
+Credit,Πίστωση,,
+Credit Limit,Πιστωτικό όριο,,
+Crons,Crons,,
+Currency,Νόμισμα,,
+Currency Conversion Loss Percentage,Ποσοστό απώλειας μετατροπής νομίσματος,,
+Currency List,Λίστα νομισμάτων,,
+Customer,Πελάτης,,
+Customer CDRs Report,Αναφορά CDR πελάτη,,
+Customer Summary,Περίληψη πελατών,,
+Customer Summary Report,Περίληψη αναφοράς πελάτη,,
+Customers,Οι πελάτες,,
+Dashboard,Ταμπλό,,
+Database,Βάση δεδομένων,,
+Date,Ημερομηνία,,
+Debit,Χρέωση,,
+Debug,Εντοπισμός σφαλμάτων,,
+Decimal Points,Δεκαδικά σημεία,,
+Default Increment,Προεπιλεγμένη αύξηση,,
+Default Invoice Mode,Προεπιλεγμένη λειτουργία τιμολογίου,,
+Default Tax,Προεπιλεγμένος φόρος,,
+Delete,Διαγράφω,,
+Deleted Accounts After Days,Διαγραμμένοι λογαριασμοί μετά από ημέρες,,
+Description,Περιγραφή,,
+Destination,Προορισμός,,
+Dial Input Timeout,Χρονικό όριο εισόδου κλήσης,,
+DID,Μήπως,,
+DIDs,DIDs,,
+Direction,Κατεύθυνση,,
+Disable,Καθιστώ ανίκανο,,
+Display records in,Εμφάνιση εγγραφών σε,,
+Disposition,Διάθεση,,
+Documentation,Τεκμηρίωση,,
+Doesnt Contain,Δεν περιέχει,,
+Domain,Τομέα,,
+Draft,Προσχέδιο,,
+Due Date,Ημερομηνία λήξης,,
+Duplicate,Αντίγραφο,,
+Duration,Διάρκεια,,
+Email,ΗΛΕΚΤΡΟΝΙΚΗ ΔΙΕΥΘΥΝΣΗ,,
+Email Alerts ?,Ειδοποιήσεις μέσω email,,
+Email History,Ιστορικό email,,
+Email History List,Λίστα ιστορικού email,,
+Email Notification,Ειδοποίηση ηλεκτρονικού ταχυδρομείου,,
+Email Notifications,ειδοποιήσεις ηλεκτρονικού ταχυδρομείου,,
+Email Status,Κατάσταση email,,
+Email Template,Πρότυπο ηλεκτρονικού ταχυδρομείου,,
+Emails Older Than Days,Email παλαιότερα από τις μέρες,,
+En,Εν,,
+Enable,επιτρέπω,,
+Enable Signup,Ενεργοποίηση εγγραφής,,
+Ends With,Τελειώνει με,,
+Enterprise,Επιχείρηση,,
+Entity Type,Τύπος οντότητας,,
+Environment,περιβάλλον,,
+Ewallet Payment Gateway,Ewallet Payment Gateway,,
+Expired Accounts After Days,Λήξη λογαριασμών μετά από ημέρες,,
+Expiry Date,Ημερομηνία λήξης,,
+Export,Εξαγωγή,,
+Failover GW Name #1,Failover GW Όνομα # 1,,
+Failover GW Name #2,Failover GW Όνομα # 2,,
+Favicon,Favicon,,
+Fax,Φαξ,,
+Fee,Τέλη,,
+File Path,Διαδρομή αρχείου,,
+Filter,Φίλτρο,,
+First Name,Ονομα,,
+First Used,Χρησιμοποιήθηκε για πρώτη φορά,,
+Fixer Key,Fixer κλειδί,,
+FMAddon,FMAddon,,
+Footer,Υποσέλιδο,,
+Fraud Detection,Ανίχνευση απάτης,,
+Free Minutes,Δωρεάν λεπτά,,
+FreeSwitch Servers,Διακομιστές FreeSwitch,,
+From,Από,,
+From Date,Από την ημερομηνία,,
+From Timestamp,Από τη χρονική σήμανση,,
+Gateway Name,Όνομα πύλης,,
+Gateways,Πύλες,,
+General,Γενικός,,
+General Input Timeout,Γενικό χρονικό όριο εισαγωγής,,
+Generate Invoice,Δημιουργία τιμολογίου,,
+Generate Pin,Δημιουργία καρφίτσας,,
+Generates Alarm From System,Δημιουργεί συναγερμό από το σύστημα,,
+Generates Local Number system,Δημιουργεί σύστημα τοπικού αριθμού,,
+Generates ticket of issues from system,Δημιουργεί εισιτήρια ζητημάτων από το σύστημα,,
+Generates Various Alarms From System,Δημιουργεί διάφορους συναγερμούς από το σύστημα,,
+Generates Various Country Reports From System,Δημιουργεί διάφορες αναφορές χωρών από το σύστημα,,
+Generates various reports from system,Δημιουργεί διάφορες αναφορές από το σύστημα,,
+Get Addons,Λάβετε πρόσθετα,,
+Get App,Λάβε την εφαρμογή,,
+Global,Παγκόσμια,,
+Grace Time,Χρόνος χάριτος,,
+Grand Total,Σύνολο,,
+Group By,Ομαδοποίηση κατά,,
+Group By #1,Ομαδοποίηση κατά # 1,,
+Group By #2,Ομαδοποίηση κατά # 2,,
+Group By #3,Ομαδοποίηση κατά # 3,,
+Group By #Time,Ομαδοποίηση κατά # Time,,
+Header,Επί κεφαλής,,
+Homer,Όμηρος,,
+Host,Πλήθος,,
+Import,Εισαγωγή,,
+Import Customers,Εισαγωγή πελατών,,
+Import with field map,Εισαγωγή με χάρτη πεδίου,,
+Inbound,Εισερχόμενος,,
+Inbound Fax,Εισερχόμενα φαξ,,
+Included Seconds,Περιλαμβάνονται δευτερόλεπτα,,
+Increment,Αύξηση,,
+Initial Balance,Αρχικό Υπόλοιπο,,
+Initial Increment,Αρχική αύξηση,,
+Inovices Older Than Days,Inovices Παλαιότερα από Ημέρες,,
+Install,Εγκαθιστώ,,
+Installed,Εγκατεστημένο,,
+Interval,Διάστημα,,
+Interval Type,Τύπος διαστήματος,,
+Invoice Configuration,Διαμόρφωση τιμολογίου,,
+Invoice Date,Την ημερομηνία του τιμολογίου,,
+Invoice Due Days,Ημέρες λήξης τιμολογίου,,
+Invoice Due Notification,Ειδοποίηση οφειλόμενου τιμολογίου,,
+Invoice Notification,Ειδοποίηση τιμολογίου,,
+Invoice Number,Αριθμός τιμολογίου,,
+Invoice Prefix,Πρόθεμα τιμολογίου,,
+Invoice Start Form,Φόρμα έναρξης τιμολογίου,,
+Invoices,Τιμολόγια,,
+IP,IP,,
+IP Settings,Ρυθμίσεις IP,,
+Is Equal To,Είναι ίσο με,,
+Is Not Equal To,Δεν είναι ίσο με,,
+Is Purchased?,Αγοράστηκε,,
+Iso,Ισο,,
+Iso3,Iso3,,
+IVR Count,Πλήθος IVR,,
+Languages,Γλώσσες,,
+Last Execution Date,Ημερομηνία τελευταίας εκτέλεσης,,
+Last Modified Date,Τελευταία τροποποιημένη ημερομηνία,,
+Last Name,Επίθετο,,
+Last Paid Date,Ημερομηνία τελευταίας πληρωμής,,
+Latest Orders,Τελευταίες παραγγελίες,,
+LC Charge / Min,Χρέωση LC / Ελάχ,,
+LC Charge/Min,Χρέωση LC / Ελάχ,,
+Live,Ζω,,
+Live Call Report,Αναφορά ζωντανών κλήσεων,,
+Live Id,Ζωντανή ταυτότητα,,
+Live Key,Ζωντανό κλειδί,,
+Live Url,Ζωντανή διεύθυνση URL,,
+Local Call Timeout,Χρονικό όριο τοπικής κλήσης,,
+Local Number,Τοπικός αριθμός,,
+Local Numbers,Τοπικοί αριθμοί,,
+Locale code,Τοπικός κώδικας,,
+Localization,Εντοπισμός,,
+Localization Type,Τύπος εντοπισμού,,
+Localizations,Εντοπισμοί,,
+Log out,Αποσύνδεση,,
+Log Path,Διαδρομή καταγραφής,,
+Logo,Λογότυπο,,
+Low balance Alert?,Ειδοποίηση χαμηλού υπολοίπου,,
+Mail Log,Μητρώο αλληλογραφίας,,
+Manually,Χειροκίνητα,,
+Markup,Σήμανση,,
+Mass Create,Μαζική δημιουργία,,
+Mass Email,Μαζική διεύθυνση ηλεκτρονικού ταχυδρομείου,,
+Max Free Length,Μέγιστο ελεύθερο μήκος,,
+MCD,MCD,,
+Minimum Fund Transfer,Ελάχιστη μεταφορά χρημάτων,,
+Minutes,Λεπτά,,
+Minutes Announcement,Ανακοίνωση Συνοπτικών Πρακτικών,,
+Minutes Breakdown,Ανάλυση λεπτών,,
+Moderate,Μέτριος,,
+Modified Date,Τροποποιημένη ημερομηνία,,
+Module,Μονάδα μέτρησης,,
+Name,Ονομα,,
+New Accounts,Νέοι λογαριασμοί,,
+Nexmo API Key,Κλειδί API Nexmo,,
+Nexmo Secret Key,Μυστικό κλειδί Nexmo,,
+Next Execution Date,Επόμενη ημερομηνία εκτέλεσης,,
+Nickname,Παρατσούκλι,,
+No,Οχι,,
+No Records Found,Δεν βρέθηκαν καταγραφές,,
+Notes,Σημειώσεις,,
+Notifications,Ειδοποιήσεις,,
+Notify before due days,Ειδοποίηση πριν από τις προθεσμίες,,
+Number,Αριθμός,,
+Number Type,Τύπος αριθμού,,
+ of , του ,,
+Opensips,Άνοιγμα,,
+Opensips DB Engine,Ανοίγει τη μηχανή DB,,
+Opensips DB Host,Άνοιγμα κεντρικού υπολογιστή DB,,
+Opensips DB Name,Ανοίγει το όνομα DB,,
+Opensips DB Pass,Opensips DB Pass,,
+Opensips DB User,Ανοίγει το χρήστη DB,,
+Opensips Domain,Τομέας ανοίγματος,,
+Opensource,Ανοιχτή πηγή,,
+Order,Σειρά,,
+Order Amount,Ποσό παραγγελίας,,
+Order Date,Ημερομηνία παραγγελίας,,
+Order ID,Αριθμός Παραγγελίας,,
+Order Now,Παράγγειλε τώρα,,
+Orders,Παραγγελίες,,
+Org. Cost,Ορ. Κόστος,,
+Org. Destination,Ορ. Προορισμός,,
+Org. Pefix,Ορ. Πεκίξ,,
+Origination Rates,Ποσοστά προέλευσης,,
+Outbound Fax,Εξερχόμενο φαξ,,
+Outstanding Amount INR,Εκκρεμές Ποσό INR,,
+Page ,Σελίδα ,,
+Password,Κωδικός πρόσβασης,,
+Password Strength,Ισχύς Κωδικού Πρόσβασης,,
+Payment Method,Μέθοδος πληρωμής,,
+Payment Methods,μέθοδοι πληρωμής,,
+Payment Status,Κατάσταση πληρωμής,,
+Paypal,Paypal,,
+Per Minute Cost,Κόστος ανά λεπτό,,
+Phone,Τηλέφωνο,,
+Pin Input Timeout,Χρονικό όριο εισαγωγής καρφιτσών,,
+Pin Length,Μήκος καρφιτσών,,
+Pin retries,Προσπαθήστε ξανά,,
+Pinless Authentication,Έλεγχος ταυτότητας χωρίς Pin,,
+Place Order,Παραγγέλνω,,
+Playback Audio Notifications,Ειδοποιήσεις αναπαραγωγής ήχου,,
+Port,Λιμάνι,,
+Portal personalization,Εξατομίκευση πύλης,,
+Powered by ASTPP,Με την υποστήριξη του ASTPP,,
+Prefix,Πρόθεμα,,
+Prepend,Προετοιμασία,,
+Preserve,Διατηρώ,,
+Price,Τιμή,,
+Priority,Προτεραιότητα,,
+Product Category,κατηγορία προιόντος,,
+Product Details,λεπτομέρειες προιόντος,,
+Product Name,Ονομασία προϊόντος,,
+Products,Προϊόντα,,
+Profile Action,Δράση προφίλ,,
+Profit,Κέρδος,,
+Provider,Προμηθευτής,,
+Provider CDRs Report,Αναφορά CDR παρόχου,,
+Provider Outbound,Εξερχόμενος πάροχος,,
+Provider Outbound Report,Αναφορά εξερχόμενων παρόχων,,
+Provider Summary Report,Συνοπτική έκθεση παρόχου,,
+Province,Επαρχία,,
+Province/State,ΕΠΑΡΧΙΑ,,
+Proxy,Πληρεξούσιο,,
+Purge,Καθαρίζω,,
+Push Notifications,Ειδοποιήσεις προώθησης,,
+Quantity,Ποσότητα,,
+Rate,Τιμή,,
+Rate Announcement,Ανακοίνωση Βαθμολογίας,,
+Rate Count,Πλήθος ποσοστών,,
+Rate Group,Ομάδα τιμών,,
+Rate Groups,Βαθμολογήστε τις ομάδες,,
+Rate Information,Βαθμολογήστε πληροφορίες,,
+Ratedeck,Βαθμολογία,,
+Ratedeck Information,Πληροφορίες Ratedeck,,
+Rates Count,Οι τιμές μετράνε,,
+Realtime Billing,Χρέωση σε πραγματικό χρόνο,,
+Receiver Email,Email παραλήπτη,,
+Recording Files Older Than Days,Εγγραφή αρχείων Παλαιότερες από Ημέρες,,
+ Records, Εγγραφές,,
+Referer Page,Σελίδα παραπομπής,,
+Refill By,Συμπλήρωση από,,
+Refill Coupon Length,Μήκος κουπονιού επαναπλήρωσης,,
+Refill Coupons,Επαναληπτικά κουπόνια,,
+Refill Report,Αναφορά ανταλλαγής,,
+Refills,Ξαναγεμίζει,,
+Register,Κανω ΕΓΓΡΑΦΗ,,
+Release if no balance,Απελευθερώστε εάν δεν υπάρχει υπόλοιπο,,
+Report a Bug,Αναφορά σφάλματος,,
+Reports,Αναφορές,,
+Request URI,Αίτημα URI,,
+Reseller,Μεταπωλητής,,
+Reseller can resell,Ο μεταπωλητής μπορεί να μεταπωλήσει,,
+Reseller Summary,Περίληψη μεταπωλητή,,
+Reseller Summary Report,Συνοπτική έκθεση μεταπωλητή,,
+Resellers,Μεταπωλητές,,
+Resellers CDRs Report,Αναφορά CDR μεταπωλητών,,
+Resend Mail,Επανάληψη αποστολής αλληλογραφίας,,
+Role,Ρόλος,,
+Roles & Permission,Ρόλοι και άδεια,,
+Roles & Permissions,Ρόλοι και δικαιώματα,,
+Routing Prefix,Πρόθεμα δρομολόγησης,,
+Routing Type,Τύπος δρομολόγησης,,
+Sandbox,Sandbox,,
+Sandbox Id,Αναγνωριστικό Sandbox,,
+Sandbox Key,Κλειδί Sandbox,,
+Sandbox Name,Όνομα Sandbox,,
+Sandbox Url,Url Sandbox,,
+Save,Σώσει,,
+Schedule Reports,Προγραμματισμός αναφορών,,
+Search,Αναζήτηση,,
+Select File,Επιλέξτε Αρχείο,,
+Select Year,Επιλέξτε Έτος,,
+Services,Υπηρεσίες,,
+Set Maximum Add card limit,Ορίστε το μέγιστο όριο προσθήκης κάρτας,,
+Settings,Ρυθμίσεις,,
+Setup Fee,Παράβολο έναρξης,,
+Signup,Εγγραφείτε,,
+SIP Devices,Συσκευές SIP,,
+SIP IP,SIP IP,,
+SIP Port,Θύρα SIP,,
+SIP Profile,Προφίλ SIP,,
+SIP Profiles,Προφίλ SIP,,
+SMS,γραπτό μήνυμα,,
+SMS Body,Σώμα SMS,,
+SMS Notifications,Ειδοποιήσεις SMS,,
+SMS Status,Κατάσταση SMS,,
+SMTP,SMTP,,
+SMTP Host,Κεντρικός υπολογιστής SMTP,,
+SMTP Pass,Κάρτα SMTP,,
+SMTP Port,Θύρα SMTP,,
+SMTP User,Χρήστης SMTP,,
+Start prefix,Έναρξη προθέματος,,
+Starting Digit,Έναρξη ψηφίου,,
+Status,Κατάσταση,,
+Strip,Λωρίδα,,
+Strong,Ισχυρός,,
+Subject,Θέμα,,
+Subscription,Συνδρομή,,
+Supportticket,Εισιτήριο υποστήριξης,,
+Switch,Διακόπτης,,
+Tariff,Δασμολόγιο,,
+Tax,Φόρος,,
+Tax Information,Φορολογικά στοιχεία,,
+Telephone,Τηλέφωνο,,
+Telephone as account number,Τηλέφωνο ως αριθμός λογαριασμού,,
+Templates,Πρότυπα,,
+Term. Cost,Ορος. Κόστος,,
+Term. Destination,Ορος. Προορισμός,,
+Term. Prefix,Ορος. Πρόθεμα,,
+Term. Trunk,Ορος. Κορμός,,
+Termination Rates,Τιμές τερματισμού,,
+Third Party,Τρίτο μέρος,,
+This Month,Αυτο το μηνα,,
+This Week,Αυτή την εβδομάδα,,
+Timelimit Announcement,Ανακοίνωση Προθεσμίας,,
+Timestamp,Χρονική σήμανση,,
+Timezone,Ζώνη ώρας,,
+To,Προς την,,
+To Number,Στον αριθμό,,
+To Timestamp,Στη χρονική σήμανση,,
+Today,Σήμερα,,
+Top 10 Accounts,Κορυφαίοι 10 λογαριασμοί,,
+Top 10 Destinations,Κορυφαίοι 10 προορισμοί,,
+Total Calls,Συνολικές κλήσεις,,
+Total Charges,Συνολικές χρεώσεις,,
+Total Minutes,Συνολικά λεπτά,,
+Transaction ID,Ταυτότητα συναλλαγής,,
+Translations,Μεταφράσεις,,
+Translations Language,Γλώσσα μεταφράσεων,,
+Trunk,Κορμός,,
+Trunks,Κοντό πανταλόνι αθλητών,,
+Type,Τύπος,,
+Unpaid,Απλήρωτος,,
+Update,Εκσυγχρονίζω,,
+Used,Μεταχειρισμένος,,
+Used Date,Ημερομηνία χρήσης,,
+Username,Όνομα χρήστη,,
+Version,Εκδοχή,,
+Version 4.0 Beta,Έκδοση 4.0 Beta,,
+View All,Προβολή όλων,,
+Voicemail,Φωνητικό ταχυδρομείο,,
+Panel Access,Πρόσβαση στον πίνακα,,
+Profile,Προφίλ,,
+Billing Settings,Ρυθμίσεις χρέωσης,,
+Pin,Καρφίτσα,,
+Account Settings,Ρυθμίσεις λογαριασμού,,
+Notification Email,Email ειδοποίησης,,
+Address,Διεύθυνση,,
+NON-CLI Rate Group,Ομάδα τιμών μη-CLI,,
+Billing Schedule,Πρόγραμμα χρέωσης,,
+Billing Day,Ημέρα χρέωσης,,
+Tax Number,ΑΦΜ,,
+Invoice Note,Σημείωση τιμολογίου,,
+Reference,Αναφορά,,
+Cancel,Ματαίωση,,
+Device Information,Πληροφορίες συσκευής,,
+Voicemail Options,Επιλογές τηλεφωνητή,,
+Mail To,Αποστολή σε,,
+Attach File,Επισυνάψετε το αρχείο,,
+Local After Email,Τοπική μετά το ηλεκτρονικό ταχυδρομείο,,
+Send all Message,Αποστολή όλων των μηνυμάτων,,
+Close,Κλείσε,,
+IP map,Χάρτης IP,,
+Identificador de llamadas,Identificador de llamadas,,
+Add Caller ID,Προσθήκη αναγνωριστικού καλούντος,,
+Create Reseller,Δημιουργία μεταπωλητή,,
+Role Name,Όνομα ρόλου,,
+Outstanding Amount,Εξωπραγματική ποσότητα,,
+To Date,Μέχρι σήμερα,,
+Before Balance,Πριν το υπόλοιπο,,
+Commission Report,Έκθεση της Επιτροπής,,
+MonthlyFee,Μηνιαία χρέωση,,
+Grace Time (Sec.),Χρόνος χάριτος (δευτ.),,
+Import DIDs,Εισαγωγή DID,,
+File must be in the following format,Το αρχείο πρέπει να έχει την ακόλουθη μορφή,,
+DID Import Process,Διαδικασία εισαγωγής DID,,
+Get Sample file,Λήψη δείγματος αρχείου,,
+Check Header,Ελέγξτε την κεφαλίδα,,
+Select the file,Επιλέξτε το αρχείο,,
+Account Count,Αριθμός λογαριασμού,,
+Acc. Number Length,Οδ. Μήκος αριθμού,,
+Valid Days,Έγκυρες ημέρες,,
+Create Access Number,Δημιουργία αριθμού πρόσβασης,,
+Information,Πληροφορίες,,
+Import Access Numbers,Εισαγωγή αριθμών πρόσβασης,,
+Access Numbers Import Process,Διαδικασία εισαγωγής αριθμών πρόσβασης,,
+DIDs Bulk Assign,Μαζική εκχώρηση DIDs,,
+Bulk DID Purchase,Μαζική αγορά DID,,
+Provience,Παροχή,,
+Assign Number,Εκχώρηση αριθμού,,
+DID Destination,DID Προορισμός,,
+DID Forward,Μήπως προωθήθηκε,,
+Always,Πάντα,,
+If Busy,Εάν απασχολημένος,,
+If SIP Not Registered,Εάν το SIP δεν είναι εγγεγραμμένο,,
+If No Answer,Εάν δεν υπάρχει απάντηση,,
+New Rate Group Name,Όνομα ομάδας νέας τιμής,,
+Duplicate Rate Group Information,Διπλότυπες πληροφορίες ομάδας τιμών,,
+Import Origination Rates,Τιμές προέλευσης εισαγωγής,,
+Force Trunk,Δύναμη κορμού,,
+Please select atleast one record to dele,Επιλέξτε τουλάχιστον μία εγγραφή για να διαγράψετε,,
+Import Ratedeck,Εισαγωγή Ratedeck,,
+Optional Information,προαιρετική πληροφορία,,
+From- Domain,Από - Τομέας,,
+From User,Από χρήστη,,
+Extension,Επέκταση,,
+Extension-In-Contact,Επέκταση σε επαφή,,
+Ping,Πινγκ,,
+Contact Params,Επικοινωνήστε με το Params,,
+Retry-Seconds,Επανάληψη δευτερολέπτων,,
+Register-Proxy,Εγγραφή-διακομιστής μεσολάβησης,,
+Channel,Κανάλι,,
+Failover GW Name,Όνομα GW Failover,,
+Create Trunk,Δημιουργία κορμού,,
+Import Termination Rates,Τιμές τερματισμού εισαγωγής,,
+Call Timeout (Sec.),Χρονικό όριο κλήσεων (δευτ.),,
+Trunk List,Λίστα κορμών,,
+Reset,Επαναφορά,,
+Create SIP Profile,Δημιουργία προφίλ SIP,,
+Create Freeswitch Server,Δημιουργία διακομιστή Freeswitch,,
+Live Calls,Ζωντανές κλήσεις,,
+Term Cost,Κόστος διάρκειας,,
+Term Destination,Προορισμός όρου,,
+Term Prefix,Πρόθεμα όρου,,
+Localizaciones,Τοπικά,,
+Create Localization,Δημιουργία τοπικής προσαρμογής,,
+Origination,Προέλευση,,
+Termination,Λήξη,,
+Inbound Callerid Translation,Inbound Callerid Μετάφραση,,
+Destination Number Translation,Μετάφραση αριθμού προορισμού,,
+Outbound Callerid Translation,Εξερχόμενη μετάφραση Callerid,,
+Create Call Barring,Δημιουργία φραγής κλήσεων,,
+Callbarring Settings,Ρυθμίσεις Callbarring,,
+Product Summary Report,Αναφορά περίληψης προϊόντος,,
+SIP User,Χρήστης SIP,,
+Product,Προϊόν,,
+Taxes,Φόροι,,
+Update Currencies,Ενημέρωση νομισμάτων,,
+File Name,Ονομα αρχείου,,
+Database Information,Πληροφορίες βάσης δεδομένων,,
+Database Backup,Δημιουργία αντιγράφων ασφαλείας βάσης δεδομένων,,
+Command,Εντολή,,
+Cron Settings,Ρυθμίσεις Cron,,
+Create Cron Settings,Δημιουργία ρυθμίσεων Cron,,
+Stripe,Ταινία,,
+Live Secret key,Ζωντανό μυστικό κλειδί,,
+Live Publishable key,Ζωντανό δημοσιευμένο κλειδί,,
+Set Percentage Charges,Ορισμός ποσοστιαίων χρεώσεων,,
+Set Fix Charges,Ορίστε τις επιδιορθώσεις χρεώσεων,,
+Stripe Mode,Λειτουργία λωρίδας,,
+Sandbox secret key,Μυστικό κλειδί Sandbox,,
+Sandbox publishable key,Δημοσιεύσιμο κλειδί Sandbox,,
+Version 4.0 Enterprise,Έκδοση 4.0 Enterprise,,
+Powered by,Υποστηρίζεται από,,
+Import Customer Using Field Mapper,Εισαγωγή πελάτη με χρήση του Field Mapper,,
+You must either select a field from your,Πρέπει είτε να επιλέξετε ένα πεδίο από το δικό σας,,
+Records with duplicate account number an,Εγγραφές με διπλό αριθμό λογαριασμού,,
+Account Import Error,Σφάλμα εισαγωγής λογαριασμού,,
+Back to Customer List,Επιστροφή στη λίστα πελατών,,
+Duplicate accounts with account number /,Διπλότυποι λογαριασμοί με αριθμό λογαριασμού /,,
+Records imported successfully,Οι εγγραφές εισήχθησαν με επιτυχία,,
+Records not imported,Δεν έχουν εισαχθεί εγγραφές,,
+Error In CSV File,Σφάλμα στο αρχείο CSV,,
+Invoice Summary,Περίληψη τιμολογίων,,
+Customer Details,Πληροφορίες Πελάτη,,
+Invoice Details,Λεπτομέρειες τιμολογίου,,
+Account Number,Αριθμός λογαριασμού,,
+Invoice Amount,Ποσό τιμολογίου,,
+Invoice Item,Στοιχείο τιμολογίου,,
+Sub Total,ΜΕΡΙΚΟ ΣΥΝΟΛΟ,,
+Total Due,Σύνολο οφειλών,,
+Note,Σημείωση,,
+Add Setting,Προσθήκη ρύθμισης,,
+Edit SIP Profile,Επεξεργασία προφίλ SIP,,
+New,Νέος,,
+Used?,Μεταχειρισμένος?,,
+View Email,Προβολή email,,
+Active,Ενεργός,,
+Inactive,Αδρανής,,
+Black List,Μαύρη λίστα,,
+White List,Λευκή λίστα,,
+Freeswitch Server Information,Πληροφορίες διακομιστή Freeswitch,,
+Currencies,Νομίσματα,,
+Edit Currency,Επεξεργασία νομίσματος,,
+Is Distributor,Είναι διανομέας,,
+Package created successfully!,Το πακέτο δημιουργήθηκε με επιτυχία!,,
+DID Removed Successfully.,Αφαιρέθηκε με επιτυχία.,,
+DID not found.,Δεν βρέθηκε.,,
+Password changed Sucessfully....!!!,Ο κωδικός πρόσβασης άλλαξε με επιτυχία .... !!!,,
+New Password & Conformpassword not match,Ο νέος κωδικός πρόσβασης και ο κωδικός πρόσβασης δεν ταιριάζουν,,
+Invalid old passwword.,Μη έγκυρος παλιός κωδικός πρόσβασης.,,
+Permission Denied!,Η άδεια απορρίφθηκε!,,
+Refill Coupon amount is added successful,Το ποσό του κουπονιού επαναπλήρωσης προστέθηκε με επιτυχία,,
+PLease upload maximum file,Παρακαλώ ανεβάστε το μέγιστο αρχείο,,
+files added successfully!,αρχεία προστέθηκαν με επιτυχία!,,
+File Uploading Fail Please Try Again,Αποτυχία μεταφόρτωσης αρχείου Δοκιμάστε ξανά,,
+Please upload only image!,Ανεβάστε μόνο εικόνα!,,
+Invoice config updated successfully!,Η διαμόρφωση τιμολογίου ενημερώθηκε με επιτυχία!,,
+Your Profile Updated Successfully!,Το προφίλ σας ενημερώθηκε με επιτυχία!,,
+Something wrong.Please contact to admini,Κάτι δεν πάει καλά. Παρακαλώ επικοινωνήστε με το admini,,
+DID Released Successfully!,Μήπως κυκλοφόρησε επιτυχώς!,,
+IP already exist in system.,Το IP υπάρχει ήδη στο σύστημα.,,
+IP Added Sucessfully.,Προστέθηκε IP με επιτυχία.,,
+IP Removed Sucessfully.,Η IP καταργήθηκε με επιτυχία.,,
+SIP Device Updated Successfully!,Η συσκευή SIP ενημερώθηκε με επιτυχία!,,
+SIP Device Added Successfully!,Η συσκευή SIP προστέθηκε με επιτυχία!,,
+SIP Device Removed Sucessfully!,Η συσκευή SIP καταργήθηκε με επιτυχία!,,
+Caller ID Added Sucessfully!,Το αναγνωριστικό καλούντος προστέθηκε με επιτυχία!,,
+Please Enter Caller ID value.,Εισαγάγετε την τιμή αναγνώρισης καλούντος.,,
+Caller ID already Exists.,Το αναγνωριστικό καλούντος υπάρχει ήδη.,,
+Caller ID removed sucessfully!,Το αναγνωριστικό καλούντος καταργήθηκε με επιτυχία!,,
+Alert Threshold Updated Successfully!,Το όριο ειδοποίησης ενημερώθηκε με επιτυχία!,,
+Can not trnasfer fund to postpaid custom,Δεν είναι δυνατή η μεταφορά χρημάτων σε μεταπληρωμένο έθιμο,,
+Access Denied! unable transfer fund to t,Δεν επιτρέπεται η πρόσβαση! αδυναμία μεταφοράς χρημάτων σε t,,
+You can not transfer fund in same accoun,Δεν μπορείτε να μεταφέρετε χρήματα με τον ίδιο λογαριασμό,,
+You can only transfer fund in same level,Μπορείτε να μεταφέρετε χρήματα μόνο στο ίδιο επίπεδο,,
+Please enter To account number.,Εισαγάγετε τον αριθμό λογαριασμού.,,
+Please enter valid amount.,Εισαγάγετε έγκυρο ποσό.,,
+You have insufficient balance.,Έχετε ανεπαρκές υπόλοιπο.,,
+Please enter valid account number.,Εισαγάγετε έγκυρο αριθμό λογαριασμού.,,
+Please enter amount greater then 0.,Εισαγάγετε ποσό μεγαλύτερο από 0.,,
+You need to enter minimum for fund trans,Πρέπει να εισαγάγετε ελάχιστο ποσό για τη μεταφορά χρημάτων,,
+Please enter valid account number!,Εισαγάγετε έγκυρο αριθμό λογαριασμού!,,
+Insuffiecient amount !,Ανεπαρκές ποσό!,,
+Transfer successfully!,Μεταφορά με επιτυχία!,,
+Account number not found.,Ο αριθμός λογαριασμού δεν βρέθηκε.,,
+OpenSips updated successfully!,Το OpenSips ενημερώθηκε με επιτυχία!,,
+Duplicate Username Found.Username Must b,Βρέθηκε διπλότυπο όνομα χρήστη. Το όνομα χρήστη πρέπει να β,,
+User name is required field.,Απαιτείται πεδίο ονόματος χρήστη.,,
+Opensips Device Removed Successfully!.,Η συσκευή Opensips καταργήθηκε με επιτυχία !.,,
+Speed-dial Number Added Successfully!,Ο αριθμός ταχείας κλήσης προστέθηκε με επιτυχία!,,
+Can not delete blank speeddial number,Δεν είναι δυνατή η διαγραφή του κενού αριθμού speeddial,,
+Speed-dial Number Removed Successfully!,Ο αριθμός ταχείας κλήσης καταργήθηκε με επιτυχία!,,
+Pin Updated Successfully!,Η καρφίτσα ενημερώθηκε με επιτυχία!,,
+DID Updated Successfully!,Ενημερώθηκε με επιτυχία!,,
+for fund transfer.,για μεταφορά χρημάτων.,,
+You need to enter minimum,Πρέπει να εισαγάγετε το ελάχιστο,,
+please enter recharge value,εισαγάγετε την τιμή επαναφόρτισης,,
+New Password,νέος κωδικός πρόσβασης,,
+Old Password,ΠΑΛΙΟΣ ΚΩΔΙΚΟΣ,,
+Conform Password,Διαμόρφωση κωδικού πρόσβασης,,
+Letters only please,Παρακαλώ γράμματα μόνο,,
+IP Mapping,Χαρτογράφηση IP,,
+The Coupon Number field must contain onl,Το πεδίο Αριθμός κουπονιού πρέπει να περιέχει onl,,
+The Coupon Number field have inactive re,Το πεδίο Αριθμός κουπονιού έχει ανενεργό re,,
+This Coupon Number is already in use.,Αυτός ο αριθμός κουπονιού χρησιμοποιείται ήδη.,,
+This Coupon Number is not found.,Αυτός ο αριθμός κουπονιού δεν βρέθηκε.,,
+The Coupon Number field is required.,Απαιτείται το πεδίο Αριθμός κουπονιού.,,
+REFILL COUPON RECHARGE,ΕΠΑΝΕΞΑΓΩΓΗ ΚΟΥΠΩΝ,,
+You just recharged,Μόλις επαναφορτίσατε,,
+account with The new balance will be,λογαριασμός με το νέο υπόλοιπο θα είναι,,
+My Profile,Το ΠΡΟΦΙΛ μου,,
+My Account,Ο λογαριασμός μου,,
+Alert Threshold,Όριο ειδοποίησης,,
+The Caller ID field is required.,Απαιτείται το πεδίο αναγνώρισης καλούντος.,,
+Change Password,Άλλαξε κωδικό,,
+Bill Type,Τύπος λογαριασμού,,
+Bill Days,Μπιλ Ημέρες,,
+New Products,Νέα Προϊόντα,,
+Active Products,Ενεργά προϊόντα,,
+Outstanding,Εξαιρετική,,
+Todays Calls,Σήμερα κλήσεις,,
+Recent Calls,Πρόσφατες κλήσεις,,
+The Available DIDs field is required.,Απαιτείται το πεδίο Διαθέσιμα DID.,,
+Please enter your password,Παρακαλώ εισάγετε τον κωδικό σας,,
+Please enter your first name,Παρακαλώ εισάγετε το ονομα σας,,
+Please enter your email,Εισαγάγετε το email σας,,
+Please enter valid email,Εισαγάγετε έγκυρο email,,
+This field is required.,Αυτό το πεδίο είναι υποχρεωτικό.,,
+Email Setting,Ρύθμιση email,,
+SMTP Password,Κωδικός πρόσβασης SMTP,,
+Are you sure want to remove logo?,Είστε βέβαιοι ότι θέλετε να καταργήσετε το λογότυπο,,
+The IP field must contain a unique value,Το πεδίο IP πρέπει να περιέχει μια μοναδική τιμή,,
+The IP field have not valid IP.,Το πεδίο IP δεν έχει έγκυρο IP.,,
+The IP field is required.,Το πεδίο IP απαιτείται.,,
+The Name field is required.,Το πεδίο όνομα είναι απαραίτητο.,,
+Please enter only alpha-numeric value,Εισαγάγετε μόνο αλφαριθμητική τιμή,,
+Are you sure want to delete speed dial r,Είστε βέβαιοι ότι θέλετε να διαγράψετε την ταχεία κλήση r,,
+Generated Date,Ημερομηνία δημιουργίας,,
+My Products,Τα προϊόντα μου,,
+Pinless CLI,CLI χωρίς pin,,
+Refill Coupon,Κουπόνι επαναπλήρωσης,,
+TopUp,Επάνω,,
+Pay with Paypal,Πληρώστε με Paypal,,
+Pay with Card,Πληρώστε με κάρτα,,
+Assign,Αναθέτω,,
+Send Credit,Αποστολή πίστωσης,,
+To Account,Προς λογαριασμό,,
+From Account,Από λογαριασμό,,
+Transfer,ΜΕΤΑΦΟΡΑ,,
+Telephone 1,Τηλέφωνο 1,,
+Telephone 2,Τηλέφωνο 2,,
+Address 2,Διεύθυνση 2,,
+Zip/Postal Code,Ταχυδρομικός κώδικας,,
+User Profile,Προφίλ χρήστη,,
+Low Balance Alert Level,Επίπεδο ειδοποίησης χαμηλού υπολοίπου,,
+Enable Email Alerts ?,Ενεργοποίηση ειδοποιήσεων μέσω email,,
+Low Balance Alert Email,Email ειδοποίησης χαμηλού υπολοίπου,,
+User name,Ονομα χρήστη,,
+Something went to wrong !,Κάτι πήγε στραβά!,,
+Product Purchased successfully !,Το προϊόν αγοράστηκε με επιτυχία!,,
+Insufficent Balance to purchase product,Ανεπαρκές υπόλοιπο για αγορά προϊόντος,,
+Product assigned successfully!,Το προϊόν ανατέθηκε με επιτυχία!,,
+Something went wrong !,Κάτι πήγε στραβά !,,
+Product Not Found,Το προϊόν δεν βρέθηκε,,
+Transaction has been failed,Η συναλλαγή απέτυχε,,
+not inserted. Transaction has been faile,δεν έχει εισαχθεί. Η συναλλαγή ήταν αδύνατη,,
+Select Customer.,Επιλέξτε Πελάτη.,,
+Product Information,Πληροφορίες Προϊόντος,,
+Price+SetUp Fee,Τιμή + Χρέωση SetUp,,
+Use Voucher,Χρησιμοποιήστε κουπόνι,,
+Amount Without Tax,Ποσό χωρίς φόρο,,
+Total Tax,Συνολικός φόρος,,
+Amount With Tax,Ποσό με ΦΠΑ,,
+Parent Products,Γονικά προϊόντα,,
+Edit Product,Επεξεργασία προϊόντος,,
+Product updated successfully!,Το προϊόν ενημερώθηκε με επιτυχία!,,
+Product added successfully!,Το προϊόν προστέθηκε με επιτυχία!,,
+Product removed successfully!,Το προϊόν καταργήθηκε με επιτυχία!,,
+Product optin successfully!,Το προϊόν optin ολοκληρώθηκε με επιτυχία!,,
+Edit Info,Επεξεργασία πληροφοριών,,
+Product assign successfully,Η εκχώρηση προϊόντος ολοκληρώθηκε με επιτυχία,,
+Insufficient balance to assign product!,Ανεπαρκές υπόλοιπο για εκχώρηση προϊόντος!,,
+Terminated Updated Successfully!,Ολοκληρώθηκε Ενημερώθηκε με επιτυχία!,,
+Terminated,Τερματίστηκε,,
+Setup Cost,Κόστος εγκατάστασης,,
+Order New,Παραγγελία νέο,,
+Caller ID updated successfully!,Το αναγνωριστικό καλούντος ενημερώθηκε με επιτυχία!,,
+Caller ID added successfully!,Το αναγνωριστικό καλούντος προστέθηκε με επιτυχία!,,
+Caller ID removed successfully!,Το αναγνωριστικό καλούντος καταργήθηκε με επιτυχία!,,
+Name is not contain any space,Το όνομα δεν περιέχει κενό,,
+Name already exist in system.,Το όνομα υπάρχει ήδη στο σύστημα.,,
+Callbarring Settings Updated Successfull,Οι ρυθμίσεις Callbarring ενημερώθηκαν με επιτυχία,,
+allbarring Settings Added Successfully!,Οι ρυθμίσεις allbarring προστέθηκαν με επιτυχία!,,
+Call Barring Removed Successfully!,Η φραγή κλήσεων καταργήθηκε με επιτυχία!,,
+Calltype already exist in system.,Ο τύπος κλήσης υπάρχει ήδη στο σύστημα.,,
+Calltype Updated Successfully!,Ο τύπος κλήσης ενημερώθηκε με επιτυχία!,,
+Calltype Added Successfully!,Ο τύπος κλήσης προστέθηκε με επιτυχία!,,
+calltype removed successfully!,Ο τύπος κλήσης καταργήθηκε με επιτυχία!,,
+File must be in the following format(.cs,Το αρχείο πρέπει να έχει την ακόλουθη μορφή (.cs,,
+Import Package Codes:,Εισαγωγή κωδικών πακέτου:,,
+Records Imported Successfully:,Οι εγγραφές εισήχθησαν με επιτυχία:,,
+Records Not Imported :,Μη εισαγόμενες εγγραφές:,,
+Download Errors,Σφάλματα λήψης,,
+Back to Package Patterns List,Επιστροφή στη λίστα προτύπων πακέτων,,
+Add To List,Πρόσθεσε στη λίστα,,
+Routing Prefix already exist in system.,Το πρόθεμα δρομολόγησης υπάρχει ήδη στο σύστημα.,,
+Rate Group Updated Successfully!,Η ομάδα τιμών ενημερώθηκε με επιτυχία!,,
+Rate Group Added Successfully!,Η ομάδα αξιολόγησης προστέθηκε με επιτυχία!,,
+Duplicate Rate Group Added Successfully!,Η ομάδα διπλότυπων ποσοστών προστέθηκε με επιτυχία!,,
+Routing Prefix (Enterprise),Πρόθεμα δρομολόγησης (Enterprise),,
+Priority (Enterprise),Προτεραιότητα (Επιχείρηση),,
+Percentage (WIP) (Enterprise),Ποσοστό (WIP) (Επιχείρηση),,
+LCR,LCR,,
+Percentage,Ποσοστό,,
+Tax removed successfully!,Ο φόρος καταργήθηκε με επιτυχία!,,
+Tax added successfully!,Ο φόρος προστέθηκε με επιτυχία!,,
+Tax updated successfully!,Ο φόρος ενημερώθηκε με επιτυχία!,,
+Charges List,Λίστα χρεώσεων,,
+Trunk Updated Successfully!,Ο κορμός ενημερώθηκε με επιτυχία!,,
+Trunk Added Successfully!,Ο κορμός προστέθηκε με επιτυχία!,,
+Trunk removed successfully!,Ο κορμός αφαιρέθηκε με επιτυχία!,,
+setting updated successfully!,η ρύθμιση ενημερώθηκε με επιτυχία!,,
+Template Updated Successfully!,Το πρότυπο ενημερώθηκε με επιτυχία!,,
+Template Added Successfully!,Το πρότυπο προστέθηκε με επιτυχία!,,
+Country Updated successfully!,Η χώρα ενημερώθηκε με επιτυχία!,,
+Country Added successfully!,Η χώρα προστέθηκε με επιτυχία!,,
+Country removed successfully!,Η χώρα καταργήθηκε με επιτυχία!,,
+Currency Updated Successfully!,Το νόμισμα ενημερώθηκε με επιτυχία!,,
+My Rates,Οι τιμές μου,,
+Cost / Min,Κόστος / Ελάχ,,
+Purchase,Αγορά,,
+Available DIDs,Διαθέσιμα DID,,
+New IP,Νέα IP,,
+Digits,Ψηφία,,
+Email Address,Διεύθυνση ηλεκτρονικού ταχυδρομείου,,
+Call Forward,Καλέστε προς τα εμπρός,,
+If Busy:,Εάν απασχολημένος:,,
+If SIP Not Registered:,Εάν το SIP δεν είναι εγγεγραμμένο:,,
+If No Answer:,Εάν όχι απάντηση:,,
+Pay Now,Πλήρωσε τώρα,,
+Pay with Account,Πληρώστε με λογαριασμό,,
+"Please wait, your order is being processed and you will be redirected to the paypal website.","Περιμένετε, η παραγγελία σας βρίσκεται υπό επεξεργασία και θα ανακατευθυνθείτε στον ιστότοπο paypal.",,
+Coupon Number:,Αριθμός κουπονιού:,,
+Add Voucher,Προσθήκη κουπονιού,,
+Selected Plan,Επιλεγμένο σχέδιο,,
+My Product,Το προϊόν μου,,
+Parent Product,Γονικό προϊόν,,
+Edit Email Template,Επεξεργασία προτύπου email,,
+Details,Λεπτομέριες,,
+KEY,ΚΛΕΙΔΙ,,
+VALUE,ΑΞΙΑ,,
+Records with duplicate account number and email will be ignored.,Οι εγγραφές με διπλό αριθμό λογαριασμού και email θα αγνοηθούν.,,
+Account Details,λεπτομέρειες λογαριασμού,,
+Mass Customer,Μαζικός πελάτης,,
+Daily,Καθημερινά,,
+Monthly,Μηνιαίο,,
+Prepaid,Προπληρωμένος,,
+Postpaid,Μεταπληρωμή,,
+Force Caller ID,Αναγκαστική αναγνώριση καλούντος,,
+Customer Profile,ΠΡΟΦΙΛ ΤΟΥ πελάτη,,
+Caller Id Name,Όνομα αναγνώρισης καλούντος,,
+Caller Id Number,Αριθμός αναγνώρισης καλούντος,,
+Blocked Codes,Αποκλεισμένοι κωδικοί,,
+Page will display only receipts and confirmed invoices.,Η σελίδα θα εμφανίζει μόνο αποδείξεις και επιβεβαιωμένα τιμολόγια.,,
+Accessnumber Updated Successfully!,Ο αριθμός πρόσβασης ενημερώθηκε με επιτυχία!,,
+Accessnumber Removed Successfully!,Ο αριθμός πρόσβασης καταργήθηκε με επιτυχία!,,
+Invalid file format : Only CSV file allows to import records(Can't import empty file),Μη έγκυρη μορφή αρχείου: Μόνο το αρχείο CSV επιτρέπει την εισαγωγή εγγραφών (Δεν είναι δυνατή η εισαγωγή κενού αρχείου),,
+Please Select File.,Επιλέξτε Αρχείο.,,
+are required,απαιτούνται,,
+is Required,απαιτείται,,
+is not Valid,δεν είναι έγκυρο,,
+Duplicate accessnumber found from database,Βρέθηκε διπλός αριθμός πρόσβασης από τη βάση δεδομένων,,
+Duplicate accessnumber found from import file.,Βρέθηκε διπλός αριθμός πρόσβασης από το αρχείο εισαγωγής.,,
+Total,Σύνολο,,
+AccessNumber Imported Successfully!,Η AccessNumber εισήχθη με επιτυχία!,,
+Records Not Imported:,Μη εισαγόμενες εγγραφές:,,
+Back to AccessNumber List,Επιστροφή στη λίστα AccessNumber,,
+Speed Dial Number Updated Successfully,Ο αριθμός ταχείας κλήσης ενημερώθηκε με επιτυχία,,
+Please insert only numeric value!,Εισαγάγετε μόνο αριθμητική τιμή!,,
+Speed Dial Number Removed Successfully,Ο αριθμός ταχείας κλήσης καταργήθηκε με επιτυχία,,
+Speed Dial Number is Empty,Ο αριθμός ταχείας κλήσης είναι κενός,,
+Sip Device removed successfully!,Η συσκευή Sip καταργήθηκε με επιτυχία!,,
+Sip updated successfully!,Η γουλιά ενημερώθηκε με επιτυχία!,,
+Block Code Removed Sucessfully!,Ο αποκλεισμός κώδικα καταργήθηκε με επιτυχία!,,
+Your Account Limit has been reached.Please Change Your Prefix.,Το όριο του λογαριασμού σας έχει συμπληρωθεί. Αλλάξτε το πρόθεμά σας.,,
+Please Enter Proper Account Length.,Εισαγάγετε το σωστό μήκος λογαριασμού.,,
+Bulk customer generate successfully!,Ο μαζικός πελάτης δημιουργήθηκε με επιτυχία!,,
+Recharge successfully!,Επαναφορτίστε με επιτυχία!,,
+Post charge applied successfully.,Η ταχυδρομική χρέωση εφαρμόστηκε με επιτυχία.,,
+Account callerID updated successfully!,Το CallerID λογαριασμού ενημερώθηκε με επιτυχία!,,
+Account callerID added successfully!,Το αναγνωριστικό καλούντος λογαριασμού προστέθηκε με επιτυχία!,,
+Reseller updated successfully!,Ο μεταπωλητής ενημερώθηκε με επιτυχία!,,
+Reseller added successfully!,Ο μεταπωλητής προστέθηκε με επιτυχία!,,
+Updated successfully!,Ενημερώθηκε με επιτυχία!,,
+Added Successfully!,Προστέθηκε με επιτυχία!,,
+Customer batch updated successfully!,Η δέσμη πελατών ενημερώθηκε με επιτυχία!,,
+Reseller batch updated successfully!,Η παρτίδα μεταπωλητών ενημερώθηκε με επιτυχία!,,
+Customer Removed Successfully!,Ο πελάτης καταργήθηκε με επιτυχία!,,
+Reseller Removed Successfully!,Ο μεταπωλητής καταργήθηκε με επιτυχία!,,
+Provider Removed Successfully!,Ο πάροχος καταργήθηκε με επιτυχία!,,
+Admin Removed Successfully!,Ο διαχειριστής καταργήθηκε με επιτυχία!,,
+Sub Admin Removed Successfully!,Ο δευτερεύων διαχειριστής καταργήθηκε με επιτυχία!,,
+DID Added Successfully.,Προστέθηκε επιτυχώς.,,
+DID Already Removed Before.,Αφαιρέθηκε ήδη στο παρελθόν.,,
+Account Tax Added Successfully!,Ο φόρος λογαριασμού προστέθηκε με επιτυχία!,,
+Account Tax Removed Successfully!,Ο φόρος λογαριασμού καταργήθηκε με επιτυχία!,,
+Product Removed Sucessfully.,Το προϊόν καταργήθηκε με επιτυχία.,,
+Email Resend Successfully!,Αποστολή email με επιτυχία!,,
+Email List Updated Successfully!,Η λίστα email ενημερώθηκε με επιτυχία!,,
+Email List Added Successfully!,Η λίστα email προστέθηκε με επιτυχία!,,
+Email Removed Successfully!,Το email καταργήθηκε με επιτυχία!,,
+Please Try Again!,ΠΑΡΑΚΑΛΩ προσπαθησε ξανα!,,
+Email BroadCast Successfully!,Μήνυμα ηλεκτρονικού ταχυδρομείου BroadCast με επιτυχία!,,
+No Record Found!,Δεν Βρέθηκε Αρχείο!,,
+Email Address Not Found!,Η διεύθυνση email δεν βρέθηκε!,,
+Edit Freeswitch SIP Devices,Επεξεργασία Freeswitch SIP Devices,,
+Create Freeswitch SIP Devices,Δημιουργήστε συσκευές Freeswitch SIP,,
+Gateway Updated Successfully!,Η πύλη ενημερώθηκε με επιτυχία!,,
+Gateways already exist in system.,Οι πύλες υπάρχουν ήδη στο σύστημα.,,
+Gateway name must not have any space.,Το όνομα της πύλης δεν πρέπει να έχει κενό.,,
+Gateway Added Successfully!,Η πύλη προστέθηκε με επιτυχία!,,
+Gateway Removed Successfully!,Η πύλη καταργήθηκε με επιτυχία!,,
+Please enter All profile value!,Εισαγάγετε όλη την τιμή του προφίλ!,,
+SIP Profile name must not have any space!,Το όνομα προφίλ SIP δεν πρέπει να έχει κενό!,,
+Duplicate SIP IP OR Port found it must be unique!,Το διπλό SIP IP Ή η θύρα βρήκε ότι πρέπει να είναι μοναδικό!,,
+SIP Profile Added Successfully!,Το προφίλ SIP προστέθηκε με επιτυχία!,,
+Name must be unique!,Το όνομα πρέπει να είναι μοναδικό!,,
+SIP Profile Updated Successfully!,Το προφίλ SIP ενημερώθηκε με επιτυχία!,,
+SIP Setting Added Successfully!,Η ρύθμιση SIP προστέθηκε με επιτυχία!,,
+SIP Setting Updated Successfully!,Η ρύθμιση SIP ενημερώθηκε με επιτυχία!,,
+SIP Setting Removed Successfully!,Η ρύθμιση SIP καταργήθηκε με επιτυχία!,,
+SIP Profile Removed Successfully!,Το προφίλ SIP καταργήθηκε με επιτυχία!,,
+Host Already Exist in System.,Ο κεντρικός υπολογιστής υπάρχει ήδη στο σύστημα.,,
+Freeswitch Server Updated Successfully!,Ο διακομιστής Freeswitch ενημερώθηκε με επιτυχία!,,
+Freeswitch Server Added Successfully!,Ο διακομιστής Freeswitch προστέθηκε με επιτυχία!,,
+Freeswitch Server Removed Successfully!,Ο διακομιστής Freeswitch καταργήθηκε με επιτυχία!,,
+Invoice updated successfully!,Το τιμολόγιο ενημερώθηκε με επιτυχία!,,
+Invoice payment done successfully!,Η πληρωμή τιμολογίου ολοκληρώθηκε με επιτυχία!,,
+Account Not Found.,Ο λογαριασμός δεν βρέθηκε.,,
+Invoice payment amount should be higher then the invoice amount.,Το ποσό πληρωμής τιμολογίου πρέπει να είναι υψηλότερο από το ποσό τιμολογίου.,,
+The Favicon file size shoud not exceed 1MB!,Το μέγεθος του αρχείου Favicon δεν πρέπει να υπερβαίνει το 1MB!,,
+Please upload 250 * 60 size file,Ανεβάστε αρχείο μεγέθους 250 * 60,,
+Logo only allows file types of JPG and JPEG.,Το λογότυπο επιτρέπει μόνο τύπους αρχείων JPG και JPEG.,,
+"Favicon only allows file types of ICO, PNG, JPG and JPEG.","Το Favicon επιτρέπει μόνο τύπους αρχείων ICO, PNG, JPG και JPEG.",,
+Please upload 16 * 16 size of favicon.,Μεταφορτώστε μέγεθος favicon 16 * 16.,,
+Company profile updated sucessfully!,Το προφίλ της εταιρείας ενημερώθηκε με επιτυχία!,,
+Company profile added sucessfully!,Το προφίλ της εταιρείας προστέθηκε με επιτυχία!,,
+Permission Denied.,Η άδεια απορρίφθηκε.,,
+is Deleted Sucessfully!,Διαγράφεται με επιτυχία!,,
+To date should not be greater than current date.,Μέχρι σήμερα δεν πρέπει να είναι μεγαλύτερη από την τρέχουσα ημερομηνία.,,
+Invoice generation completed.,Ολοκληρώθηκε η παραγωγή τιμολογίων.,,
+No data found,Δε βρέθηκαν δεδομένα,,
+Invoices removed successfully,Τα τιμολόγια καταργήθηκαν με επιτυχία,,
+The Prefix field must contain a unique value.,Το πεδίο Πρόθεμα πρέπει να περιέχει μια μοναδική τιμή.,,
+The IP field must contain a unique value.,Το πεδίο IP πρέπει να περιέχει μια μοναδική τιμή.,,
+IP Map added successfully!,Ο χάρτης IP προστέθηκε με επιτυχία!,,
+IP Map removed successfully!,Ο χάρτης IP καταργήθηκε με επιτυχία!,,
+Localization Added Successfully!,Η τοπική προσαρμογή προστέθηκε με επιτυχία!,,
+Localization Updated Successfully!,Η τοπική προσαρμογή ενημερώθηκε με επιτυχία!,,
+Localization Removed Successfully!,Η τοπική προσαρμογή καταργήθηκε με επιτυχία!,,
+Globalization is already exist in this system,Η παγκοσμιοποίηση υπάρχει ήδη σε αυτό το σύστημα,,
+Dispatcher Updated Successfully!,Το πρόγραμμα αποστολής ενημερώθηκε με επιτυχία!,,
+Dispatcher Added Successfully!,Το Dispatcher προστέθηκε με επιτυχία!,,
+Dispatcher Removed Successfully!,Το πρόγραμμα αποστολής καταργήθηκε με επιτυχία!,,
+Code is already in system,Ο κωδικός υπάρχει ήδη στο σύστημα,,
+Country is already in system,Η χώρα βρίσκεται ήδη στο σύστημα,,
+Ratedeck updated successfully!,Το Ratedeck ενημερώθηκε με επιτυχία!,,
+Ratedeck added successfully!,Το Ratedeck προστέθηκε με επιτυχία!,,
+Ratedeck removed successfully!,Το Ratedeck καταργήθηκε με επιτυχία!,,
+Duplicate Ratedeck Number found from import file.,Βρέθηκε διπλότυπος Ratedeck Number από το αρχείο εισαγωγής.,,
+Ratedeck Imported Successfully!,Το Ratedeck εισήχθη με επιτυχία!,,
+Ratedeck Import Error,Σφάλμα εισαγωγής Ratedeck,,
+Back to Ratedeck List,Επιστροφή στη λίστα Ratedeck,,
+Origination Rate Imported Successfully!,Το ποσοστό προέλευσης εισήχθη με επιτυχία!,,
+Origination Rate Updated Successfully!,Το ποσοστό προέλευσης ενημερώθηκε με επιτυχία!,,
+Origination Rate Added Successfully!,Το ποσοστό προέλευσης προστέθηκε με επιτυχία!,,
+Termination Rates Batch Updated Successfully!,Τα ποσοστά τερματισμού ενημερώθηκαν με επιτυχία!,,
+Map CSV to Termination Rates,Χάρτης CSV σε τιμές τερματισμού,,
+Data Example,Παράδειγμα δεδομένων,,
+Map to Field,Χάρτης στο πεδίο,,
+PREFIX/DEFAULT VALUE,ΠΡΟΤΙΜΗΤΙΚΗ / ΟΡΙΣΤΙΚΗ ΑΞΙΑ,,
+ASTPP Field,Πεδίο ASTPP,,
+Created,Δημιουργήθηκε,,
+Modified,Τροποποιήθηκε,,
+You can not create,Δεν μπορείτε να δημιουργήσετε,,
+Refill coupon with,Αναπληρώστε το κουπόνι με,,
+You can create maximum,Μπορείτε να δημιουργήσετε το μέγιστο,,
+Refill coupon created successfully!,Το κουπόνι επαναπλήρωσης δημιουργήθηκε με επιτυχία!,,
+Currency Added Successfully!,Το νόμισμα προστέθηκε με επιτυχία!,,
+Currency Removed Successfully!,Το νόμισμα καταργήθηκε με επιτυχία!,,
+Backup Exported Successfully!,Το αντίγραφο ασφαλείας εξήχθη με επιτυχία!,,
+An error occur when the system tried to backup of the database. Please check yours system settings for the backup section,Παρουσιάστηκε σφάλμα όταν το σύστημα προσπάθησε να δημιουργήσει αντίγραφα ασφαλείας της βάσης δεδομένων. Ελέγξτε τις ρυθμίσεις του συστήματός σας για την ενότητα δημιουργίας αντιγράφων ασφαλείας,,
+Database Restore successfully.,Η Επαναφορά βάσης δεδομένων με επιτυχία.,,
+File not exists!,Το αρχείο δεν υπάρχει!,,
+There is a some issue or invalid file format.,Υπάρχει κάποιο πρόβλημα ή μη έγκυρη μορφή αρχείου.,,
+Database backup deleted successfully.,Το αντίγραφο ασφαλείας της βάσης δεδομένων διαγράφηκε με επιτυχία.,,
+Languages updated successfully!,Οι γλώσσες ενημερώθηκαν με επιτυχία!,,
+Languages removed successfully!,Οι γλώσσες καταργήθηκαν με επιτυχία!,,
+Languages added successfully!,Οι γλώσσες προστέθηκαν με επιτυχία!,,
+Translation updated successfully!,Η μετάφραση ενημερώθηκε με επιτυχία!,,
+Translation added successfully!,Η μετάφραση προστέθηκε με επιτυχία!,,
+Update Languages,Ενημέρωση γλωσσών,,
+Speed Dial,Ταχείας κλήσης,,
+Payment,Πληρωμή,,
+Method,Μέθοδος,,
+"Once you confirm the invoice, you will no longer able to update it again.","Μόλις επιβεβαιώσετε το τιμολόγιο, δεν θα μπορείτε πλέον να το ενημερώσετε ξανά.",,
+Payment Gateway Permission,Άδεια πληρωμής πύλης πληρωμής,,
+Zip Code,Ταχυδρομικός κώδικας,,
+Yes,Ναί,,
+Back,Πίσω,,
+Edit Reseller,Επεξεργασία μεταπωλητή,,
+Asignar DID a granel,Asignar Βρήκα ένα granel,,
+DIDs Search,Αναζήτηση DIDs,,
+By Month,Με το μήνα,,
+Create Gateway,Δημιουργία πύλης,,
+Calling Card Language,Γλώσσα τηλεφωνικών καρτών,,
+Last,τελευταίος,,
+Pay Date,Ημερομηνία πληρωμής,,
+Purchase DID,Αγορά DID,,
+Caller-ID-A-Form,Caller-ID-A-Φόρμα,,
+Expire Seconds,Λήξη δευτερολέπτων,,
+Termination Date,Ημερομηνία λήξης,,
+Registration Date,Ημερομηνία Εγγραφής,,
+Payment By,Πληρωμή έως,,
+Product Status,Κατάσταση προϊόντος,,
+Minute,Λεπτό,,
+Hour,Ωρα,,
+Day,Ημέρα,,
+Month,Μήνας,,
+Year,Ετος,,
+List,Λίστα,,
+Edit,Επεξεργασία,,
+Not Avaialable any Subscription.,Δεν διατίθεται καμία συνδρομή.,,
+Not Avaialable any Package for this Country.,Δεν υπάρχει διαθέσιμο πακέτο για αυτήν τη χώρα.,,
+You can only transfer fund in same level account.,Μπορείτε να μεταφέρετε χρήματα μόνο στο ίδιο επίπεδο λογαριασμού.,,
+You can not transfer fund in same account.,Δεν μπορείτε να μεταφέρετε χρήματα στον ίδιο λογαριασμό.,,
+Monthly Fee,Μηνιαία χρέωση,,
+Bulk DID Assign,Μαζική ανάθεση DID,,
+Invoice Start From,Έναρξη τιμολογίου από,,
+Edit Gateway,Επεξεργασία Gateway,,
+Number Of Default Rows,Αριθμός προεπιλεγμένων σειρών,,
+Mobile Dialer,Κινητός τηλεφωνητής,,
+Trunk Count,Αριθμός κορμών,,
+Welcome File,Αρχείο καλωσορίσματος,,
+Local Call Timeout (Sec.),Χρονικό όριο τοπικής κλήσης (δευτ.),,
+Rate check for DID,Έλεγχος τιμών για DID,,
+DID Localization,Εντοπισμός DID,,
+Voicemail Number,Αριθμός τηλεφωνητή,,
+OTP Expire Time(min),Χρόνος λήξης OTP (λεπτά),,
+Edit Provider,Επεξεργασία παρόχου,,
+Product Summary Reports,Αναφορές περίληψης προϊόντος,,
+Edit Origination Rate,Επεξεργασία ποσοστού προέλευσης,,
+Dialplan Variable,Μεταβλητή προγράμματος κλήσης,,
+Uninstall,Κατάργηση εγκατάστασης,,
+Call Stat,Κλήση Stat,,
+Failed Calls,Αποτυχημένες κλήσεις,,
+Top 10 Countries,Κορυφαίες 10 χώρες,,
+By Minutes,Ανά λεπτό,,
+By Calls,Με κλήσεις,,
+Telephone number is only numeric,Ο αριθμός τηλεφώνου είναι μόνο αριθμητικός,,
+Please enter valid Captcha code,Εισαγάγετε έγκυρο κωδικό Captcha,,
+Please contact to administrator,Επικοινωνήστε με τον διαχειριστή,,
+Requested email is already exist,Το ζητούμενο μήνυμα ηλεκτρονικού ταχυδρομείου υπάρχει ήδη,,
+Requested number is already exist,Ο αιτούμενος αριθμός υπάρχει ήδη,,
+Please enter correct words!,Εισαγάγετε σωστές λέξεις!,,
+THIS IS REQUIRED!,ΑΠΑΙΤΕΙΤΑΙ!,,
+Your account has been deleted. Please contact administrator for more information.,Ο λογαριασμός σας έχει διαγραφεί. Επικοινωνήστε με τον διαχειριστή για περισσότερες πληροφορίες.,,
+Your account is inactive. Please contact administrator for more information.,Ο λογαριασμός σας είναι ανενεργός. Επικοινωνήστε με τον διαχειριστή για περισσότερες πληροφορίες.,,
+Please enter proper Email.,Εισαγάγετε το κατάλληλο email.,,
+Please enter proper Username.,Εισαγάγετε το κατάλληλο όνομα χρήστη.,,
+This Username or Email is not valid.,Αυτό το όνομα χρήστη ή email δεν είναι έγκυρο.,,
+ASTPP - A Smart TelePhony Platform,ASTPP - Μια πλατφόρμα Smart TelePhony,,
+Forgot Password,Ξεχάσατε τον κωδικό,,
+ASTPP work best with JavaScript enabled,Το ASTPP λειτουργεί καλύτερα με ενεργοποιημένη τη JavaScript,,
+Enter Your Password,Εισάγετε τον κωδικό σας,,
+Confirm Password,Επιβεβαίωση Κωδικού,,
+The Email field is Required,Το πεδίο Email είναι υποχρεωτικό,,
+The Account Number field is Required,Το πεδίο Αριθμός λογαριασμού είναι υποχρεωτικό,,
+Set Default Language,Ορισμός προεπιλεγμένης γλώσσας,,
+Please Re-login to get Impact of selected language.,Παρακαλούμε συνδεθείτε ξανά για να λάβετε τον αντίκτυπο της επιλεγμένης γλώσσας.,,
+Default Language,Προεπιλεγμένη γλώσσα,,
+Signup now!,Εγγραφείτε τώρα!,,
+Forgot Password?,Ξεχάσατε τον κωδικό,,
+Sign in,Συνδεθείτε,,
+Username OR Email,Ονομα χρήστη ή διεύθυνση ηλεκτρονικού ταχυδρομίου,,
+Username is Required,Απαιτείται όνομα χρήστη,,
+Password is Required,Απαιτείται κωδικός,,
+"Please Check Your account is deleted or inactive from admin side, please contact to your administrator","Ελέγξτε ότι ο λογαριασμός σας έχει διαγραφεί ή ανενεργός από την πλευρά του διαχειριστή, επικοινωνήστε με τον διαχειριστή σας",,
+Please do not use default or less secure password for your account!! You must change password from,Μην χρησιμοποιείτε τον προεπιλεγμένο ή λιγότερο ασφαλή κωδικό πρόσβασης για τον λογαριασμό σας !! Πρέπει να αλλάξετε τον κωδικό πρόσβασης από,,
+HERE,ΕΔΩ,,
+"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active",Η σύνδεση δεν ήταν επιτυχής. Βεβαιωθείτε ότι έχετε εισαγάγει το σωστό όνομα χρήστη και κωδικό πρόσβασης και ότι ο λογαριασμός σας είναι ενεργός,,
+Please enter Username/email and Password.,Εισαγάγετε το Όνομα χρήστη / email και τον κωδικό πρόσβασης.,,
+Payment transaction invalid. Please contact Administrator.,Η συναλλαγή πληρωμής δεν είναι έγκυρη. Επικοινωνήστε με τον Διαχειριστή.,,
+Log In,Σύνδεση,,
+Please Enter Password,Παρακαλώ εισάγετε κωδικό πρόσβασης,,
+"Password must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit","Ο κωδικός πρόσβασης πρέπει να αποτελείται από τουλάχιστον 8 χαρακτήρες και πρέπει να περιέχει τουλάχιστον ένα πεζό γράμμα, ένα κεφαλαίο και ένα ψηφίο",,
+Please Enter Confirm Password,Εισαγάγετε Επιβεβαίωση κωδικού πρόσβασης,,
+Confirm Password is not match,Επιβεβαιώστε ότι ο κωδικός πρόσβασης δεν ταιριάζει,,
+We sent update password link.,Στείλαμε τον σύνδεσμο ενημέρωσης κωδικού πρόσβασης.,,
+Please check your Email!,Παρακαλούμε ελέγξτε το email σας!,,
+Login,Σύνδεση,,
+OTP Verification,Επαλήθευση OTP,,
+OTP Number is Required,Απαιτείται αριθμός OTP,,
+Your account created successfully and account details sent to your registered email address,Ο λογαριασμός σας δημιουργήθηκε με επιτυχία και τα στοιχεία του λογαριασμού αποστέλλονται στην καταχωρισμένη διεύθυνση email σας,,
+Your password change successfully and new password sent to your registered email address,Ο κωδικός πρόσβασής σας άλλαξε με επιτυχία και ο νέος κωδικός πρόσβασης στάλθηκε στην καταχωρισμένη διεύθυνση email σας,,
+OTP Number is Wrong Please try again Or OTP expire Please Resend,Ο αριθμός OTP είναι λανθασμένος Δοκιμάστε ξανά ή Λήξη OTP Παρακαλώ στείλτε ξανά,,
+OTP has been sent on your email or Telephone number,Το OTP έχει σταλεί στο email ή στον αριθμό τηλεφώνου σας,,
+OTP,ΟΤΡ,,
+Resend OTP,Επανάληψη αποστολής OTP,,
+OTP Sent time Out,Ο χρόνος αποστολής OTP έληξε,,
+Not Get OTP ?,Δεν λαμβάνετε OTP,,
+Note:,Σημείωση:,,
+Please make sure do not refresh the page or don't go back,Βεβαιωθείτε ότι δεν ανανεώνετε τη σελίδα ή μην επιστρέφετε,,
+"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.",Η σύνδεση δεν ήταν επιτυχής. Βεβαιωθείτε ότι έχετε εισαγάγει το σωστό όνομα χρήστη και κωδικό πρόσβασης και ότι ο λογαριασμός σας είναι ενεργός.,,
+Your account has been created successfully!,Ο λογαριασμός σας δημιουργήθηκε με επιτυχία!,,
+Here is your login information,Εδώ είναι τα στοιχεία σύνδεσής σας,,
+Link is Expire Please Try Again,Ο σύνδεσμος έχει λήξει. Δοκιμάστε ξανά,,
+"Sorry, we cannot process for singup at this time.","Δυστυχώς, δεν μπορούμε να επεξεργαστούμε το singup αυτήν τη στιγμή.",,
+Please contact administrator for more information,Επικοινωνήστε με τον διαχειριστή για περισσότερες πληροφορίες,,
+Successful!,Επιτυχής!,,
+Captcha is required,Απαιτείται Captcha,,
+First Name is Required,Απαιτείται το Όνομα,,
+Telephone is Required,Απαιτείται τηλέφωνο,,
+Email is Required,Απαιτείται email,,
+Please enter a valid email address,Παρακαλώ εισάγετε μια έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου,,
+"Please make sure you entered the correct username and password, and that your account is active.",Βεβαιωθείτε ότι έχετε εισαγάγει το σωστό όνομα χρήστη και κωδικό πρόσβασης και ότι ο λογαριασμός σας είναι ενεργός.,,
+Company Name,Όνομα εταιρείας,,
+Enter above Captcha,Εισαγάγετε πάνω από το Captcha,,
+Sign up,Εγγραφείτε,,
+Already Registered !,Εχουν ήδη καταχωρηθεί !,,
+January,Ιανουάριος,,
+February,Φεβρουάριος,,
+March,Μάρτιος,,
+April,Απρίλιος,,
+May,Ενδέχεται,,
+June,Ιούνιος,,
+July,Ιούλιος,,
+August,Αύγουστος,,
+September,Σεπτέμβριος,,
+October,Οκτώβριος,,
+November,Νοέμβριος,,
+December,Δεκέμβριος,,
+Doesn't Contain,Δεν περιέχει,,
+Greater Than,Μεγαλύτερος από,,
+Less Than,Λιγότερο από,,
+Greater Or Equal Than,Μεγαλύτερο ή ίσο από,,
+Less Or Equal Than,Λιγότερο ή ίσο από,,
+Set To,Οριστεί σε,,
+Increase By,Αύξηση κατά,,
+Decrease By,Μείωση κατά,,
+Community,Κοινότητα,,
+You must either select a field from your file OR provide a default value for the following fields:,Πρέπει είτε να επιλέξετε ένα πεδίο από το αρχείο σας Ή να δώσετε μια προεπιλεγμένη τιμή για τα ακόλουθα πεδία:,,
+Note : Records with duplicate account number and email will be ignored.,Σημείωση: Οι εγγραφές με διπλό αριθμό λογαριασμού και email θα αγνοηθούν.,,
+Map CSV to Customers,Χάρτης CSV σε πελάτες,,
+Account Information,Πληροφορίες λογαριασμού,,
+Select Account,Επιλέξτε λογαριασμό,,
+DEFAULT VALUE,ΠΡΟΕΠΙΛΕΓΜΕΝΗ ΤΙΜΗ,,
+SIP Username,Όνομα χρήστη SIP,,
+sip_username,sip_username,,
+SIP Password,Κωδικός πρόσβασης SIP,,
+Same as Password,Ίδιο με τον κωδικό πρόσβασης,,
+Same as Account Number,Ίδιο με τον αριθμό λογαριασμού,,
+Random,Τυχαίος,,
+Import File Data.,Εισαγωγή δεδομένων αρχείου.,,
+Process Records,Εγγραφές διεργασίας,,
+Note : Duplicate accounts with account number / email are ignored.,Σημείωση: Οι διπλότυποι λογαριασμοί με αριθμό λογαριασμού / email αγνοούνται.,,
+Remove,Αφαιρώ,,
+Number of Account,Αριθμός λογαριασμού,,
+Account Number Length,Μήκος αριθμού λογαριασμού,,
+"DID (CLI Match, If not matched then use random allocated DID)","DID (CLI Match, Εάν δεν ταιριάζει, χρησιμοποιήστε τυχαία εκχωρημένη DID)",,
+"Caller Id (CLI Match, If not matched then use random allocated Caller Id)","Αναγνωριστικό καλούντος (Αντιστοίχιση CLI, Εάν δεν ταιριάζει, χρησιμοποιήστε τυχαία εκχωρημένη ταυτότητα καλούντος)",,
+Use NON-CLI Rate Group (If CLI not match with DID),Χρήση ομάδας τιμών NON-CLI (Εάν το CLI δεν ταιριάζει με το DID),,
+Use NON-CLI Rate Group (If CLI not match with Caller ID),Χρήση ομάδας τιμών NON-CLI (Εάν το CLI δεν ταιριάζει με το Caller ID),,
+Use NON-CLI Rate Group (If CLI not match with DID & Caller id),Χρήση ομάδας τιμών NON-CLI (Εάν το CLI δεν ταιριάζει με το αναγνωριστικό DID & Caller),,
+Reject Call (If CLI not match with DID),Απόρριψη κλήσης (εάν το CLI δεν ταιριάζει με το DID),,
+Reject Call (If CLI not match with Caller ID),Απόρριψη κλήσης (εάν το CLI δεν ταιριάζει με το Caller ID),,
+Reject Call (If CLI not match with DID & Caller id),Απόρριψη κλήσης (Εάν το CLI δεν ταιριάζει με το αναγνωριστικό DID & Caller),,
+--Select--,--Επιλέγω--,,
+Test Mail,Δοκιμή αλληλογραφίας,,
+Reset Password,Επαναφέρετε τον κωδικό πρόσβασης,,
+AFGHANISTAN,ΑΦΓΑΝΙΣΤΑΝ,,
+ALBANIA,ΑΛΒΑΝΙΑ,,
+ALGERIA,ΑΛΓΕΡΙΑ,,
+AMERICAN SAMOA,ΑΜΕΡΙΚΑΝΙΚΗ ΣΑΜΟΑ,,
+ANDORRA,ΑΝΔΟΡΑ,,
+ANGOLA,ΑΓΓΟΛΑ,,
+ANGUILLA,ΑΓΓΟΥΛΛΑ,,
+ANTIGUA & BARBUDA,ANTIGUA & BARBUDA,,
+ARGENTINA,ΑΡΓΕΝΤΙΝΗ,,
+ARMENIA,ΑΡΜΕΝΙΑ,,
+ARUBA,ΑΡΟΥΠΑ,,
+AUSTRALIA,ΑΥΣΤΡΑΛΙΑ,,
+AUSTRIA,ΑΥΣΤΡΙΑ,,
+AZERBAIJAN,ΑΖΕΡΜΠΑΪΖΑΝ,,
+BAHAMAS,Μπαχάμες,,
+BAHRAIN,Μπαχραίν,,
+BANGLADESH,ΜΠΑΝΓΚΛΑΔΕΣ,,
+BARBADOS,ΜΠΑΡΜΠΑΔΟΣ,,
+BELARUS,ΛΕΥΚΟΡΩΣΙΑ,,
+BELGIUM,ΒΕΛΓΙΟ,,
+BELIZE,ΜΠΕΛΙΖΕ,,
+BENIN,Μπενίν,,
+BERMUDA,ΒΕΡΜΟΥΔΑ,,
+BHUTAN,Μπουτάν,,
+BOLIVIA,ΒΟΛΙΒΙΑ,,
+BOSNIA AND HERZEGOVINA,ΒΟΣΝΙΑ ΚΑΙ ΕΡΖΕΓΟΒΙΝΗ,,
+BOTSWANA,ΜΠΟΤΣΟΥΑΝΑ,,
+BRAZIL,ΒΡΑΖΙΛΙΑ,,
+BRITISH VIRGIN ISLANDS,ΒΡΕΤΑΝΙΚΑ ΝΗΣΙΑ ΒΙΡΓΙΝΟΥ,,
+BRUNEI,ΜΠΡΟΥΝΙ,,
+BULGARIA,ΒΟΥΛΓΑΡΙΑ,,
+BURKINA FASO,ΜΠΟΥΡΚΙΝΑ ΦΑΣΟ,,
+BURUNDI,ΜΠΟΥΡΟΥΝΤΙ,,
+CAMBODIA,ΚΑΜΠΟΔΙΑ,,
+CAMEROON,ΚΑΜΕΡΟ,,
+CANADA,ΚΑΝΑΔΑΣ,,
+CAPE VERDE,CAPE VERDE,,
+CAYMAN ISLANDS,ΝΗΣΙΑ ΚΑΪΜΑΝ,,
+CENTRAL AFRICAN REPUBLIC,ΔΗΜΟΚΡΑΤΙΑ ΚΕΝΤΡΙΚΗΣ ΑΦΡΙΚΗΣ,,
+CHAD,ΤΣΑΝΤ,,
+CHILE,ΧΙΛΗ,,
+CHINA,ΚΙΝΑ,,
+COLOMBIA,ΚΟΛΟΜΒΙΑ,,
+COMOROS,Κομόρες,,
+CONGO,ΚΟΓΚΟ,,
+COSTA RICA,ΚΟΣΤΑ ΡΙΚΑ,,
+CROATIA,ΚΡΟΑΤΙΑ,,
+CUBA,ΚΟΥΒΑ,,
+CYPRUS,ΚΥΠΡΟΣ,,
+CZECH REPUBLIC,ΤΣΕΧΙΚΗ ΔΗΜΟΚΡΑΤΙΑ,,
+DEMOCRATIC REPUBLIC,ΔΗΜΟΚΡΑΤΙΑ,,
+DENMARK,ΔΑΝΙΑ,,
+DJIBOUTI,DJIBOUTI,,
+DOMINICA,ΝΤΟΜΙΝΙΚΑ,,
+DOMINICAN REPUBLIC,ΔΟΜΙΚΙΚΗ ΔΗΜΟΚΡΑΤΙΑ,,
+ECUADOR,ΕΚΟΥΑΔΟΡ,,
+EGYPT,ΑΙΓΥΠΤΟΣ,,
+EL SALVADOR,ΕΛ ΣΑΛΒΑΔΟΡ,,
+EQUATORIAL GUINEA,ΙΣΗΜΕΡΙΝΗ ΓΟΥΙΝΕΑ,,
+ERITREA,ΕΡΙΤΕΡΑ,,
+ERITREA,ΕΡΙΤΕΡΑ,,
+ETHIOPIA,ΑΙΘΙΟΠΙΑ,,
+FAEROE ISLANDS,ΝΗΣΙΑ FAEROE,,
+FIJI ISLANDS,ΝΗΣΙΑ ΦΙΖΙ,,
+FINLAND,ΦΙΝΛΑΝΔΙΑ,,
+FRANCE,ΓΑΛΛΙΑ,,
+FRENCH GUIANA,ΓΑΛΛΙΚΗ ΓΟΥΙΑΝΑ,,
+FRENCH POLYNESIA,ΓΑΛΛΙΚΗ ΠΟΛΥΝΗΣΙΑ,,
+GABON,ΓΚΑΜΠΟΝ,,
+GAMBIA,ΓΚΑΜΠΙΑ,,
+GEORGIA,ΓΕΩΡΓΙΑ,,
+GERMANY,ΓΕΡΜΑΝΙΑ,,
+GHANA,Γκάνα,,
+GIBRALTAR,ΓΙΒΡΑΛΤΑΡ,,
+GREECE,ΕΛΛΑΔΑ,,
+GRENADA,ΓΕΝΑΔΑ,,
+GUADELOUPE,ΓΟΥΑΔΕΛΟΥΠΕ,,
+GUAM,ΓΟΥΑΜ,,
+GUATEMALA,ΓΟΥΑΤΕΜΑΛΑ,,
+GUINEA,ΓΚΙΝΕΑ,,
+GUINEA BISSAU,GUINEA BISSAU,,
+GUYANA,Γουιάνα,,
+HAITI,ΑΪΤΗ,,
+HONDURAS,Ονδούρα,,
+HONG KONG,ΧΟΝΓΚ ΚΟΝΓΚ,,
+HUNGARY,ΟΥΓΓΑΡΙΑ,,
+ICELAND,ΙΣΛΑΝΔΙΑ,,
+INDIA,ΙΝΔΙΑ,,
+INDONESIA,ΙΝΔΟΝΗΣΙΑ,,
+IRAN,ΙΡΑΝ,,
+IRAQ,ΙΡΑΚ,,
+IRELAND,ΙΡΛΑΝΔΙΑ,,
+ISRAEL,ΙΣΡΑΗΛ,,
+ITALY,ΙΤΑΛΙΑ,,
+IVORY COAST,ΑΚΤΗ ΕΛΕΦΑΝΤΟΣΤΟΥ,,
+JAMAICA,ΙΑΜΑΪΚΗ,,
+JAPAN,ΙΑΠΩΝΙΑ,,
+JORDAN,ΙΟΡΔΑΝΙΑ,,
+KAZAKHSTAN,ΚΑΖΑΚΣΤΑΝ,,
+KENYA,ΚΕΝΥΑ,,
+KOSOVO,Κοσόβο,,
+KUWAIT,KUWAIT,,
+KYRGYZSTAN,ΚΥΡΓΥΖΣΤΑΝ,,
+LAOS,ΛΑΟΣ,,
+LATVIA,ΛΕΤΟΝΙΑ,,
+LEBANON,ΛΙΒΑΝΟΣ,,
+LESOTHO,ΛΕΣΟΘΟ,,
+LIBERIA,ΛΙΒΕΡΙΑ,,
+LIBYA,ΛΙΒΥΗ,,
+LIECHTENSTEIN,ΛΙΧΤΕΝΣΤΑΙΝ,,
+LITHUANIA,ΛΙΘΟΥΑΝΙΑ,,
+LUXEMBOURG,ΛΟΥΞΕΜΒΟΥΡΓΟ,,
+MACAU,ΜΑΚΑΟ,,
+MACEDONIA,ΜΑΚΕΔΟΝΙΑ,,
+MADAGASCAR,ΜΑΔΑΓΚΑΣΚΑΡ,,
+MALAWI,MALAWI,,
+MALAYSIA,ΜΑΛΑΙΣΙΑ,,
+MALI,ΜΑΛΙ,,
+MALTA,ΜΑΛΤΑ,,
+MARSHALL ISLANDS,ΝΗΣΟΙ ΜΑΡΣΑΛ,,
+MARTINIQUE,ΜΑΡΤΙΝΙΚΗ,,
+MAURITANIA,ΜΑΥΡΙΤΑΝΙΑ,,
+MAURITIUS,ΜΑΥΡΙΤΙΚΟΣ,,
+MEXICO,ΜΕΞΙΚΟ,,
+MICRONESIA,ΜΙΚΡΟΝΗΣΙΑ,,
+MOLDOVA,ΜΟΛΔΟΒΑ,,
+MONACO,ΜΟΝΑΚΟ,,
+MONGOLIA,ΜΟΓΓΟΛΙΑ,,
+MONTENEGRO,ΜΑΥΡΟΒΟΥΝΙΟ,,
+MONTSERRAT,MONTSERRAT,,
+MOROCCO,ΜΑΡΟΚΟ,,
+MOZAMBIQUE,ΜΟΖΑΜΒΙΚΗ,,
+MYANMAR,ΜΙΑΝΜΑΡ,,
+NAMIBIA,ΝΑΜΙΒΙΑ,,
+NEPAL,ΝΕΠΑΛ,,
+NETHERLANDS,ΟΛΛΑΝΔΙΑ,,
+NEW CALEDONIA,ΝΕΑ ΚΑΛΗΔΟΝΙΑ,,
+NEW ZEALAND,ΝΕΑ ΖΗΛΑΝΔΙΑ,,
+NICARAGUA,ΝΙΚΑΡΑΓΟΥΑ,,
+NIGER,NIGER,,
+NIGERIA,ΝΙΓΗΡΙΑ,,
+NO. MARIANA ISLANDS,ΟΧΙ. ΝΗΣΙΑ ΜΑΡΙΑΝΑ,,
+NORTH KOREA,ΒΟΡΕΙΑ ΚΟΡΕΑ,,
+NORWAY,ΝΟΡΒΗΓΙΑ,,
+OMAN,ΟΜΑΝ,,
+PAKISTAN,ΠΑΚΙΣΤΑΝ,,
+PALAU,ΠΑΛΑΟΥ,,
+PANAMA,ΠΑΝΑΜΑΣ,,
+PARAGUAY,ΠΑΡΑΓΟΥΑΗ,,
+PERU,ΠΕΡΟΥ,,
+PHILIPPINES,ΦΙΛΙΠΠΙΝΕΣ,,
+POLAND,ΠΟΛΩΝΙΑ,,
+PORTUGAL,ΠΟΡΤΟΓΑΛΙΑ,,
+PUERTO RICO,ΠΟΥΕΡΤΟ ΡΙΚΟ,,
+QATAR,ΚΑΤΑΡ,,
+REUNION ISLAND,ΝΗΣΙ ΡΟΝΙΟΝ,,
+ROMANIA,ΡΟΥΜΑΝΙΑ,,
+RUSSIAN FEDERATION,ΡΩΣΙΚΗ ΟΜΟΣΠΟΝΔΙΑ,,
+RWANDA,ΡΟΥΑΝΤΑ,,
+SAN MARINO,ΣΑΝ ΜΑΡΙΝΟ,,
+SAUDI ARABIA,ΣΑΟΥΔΙΚΗ ΑΡΑΒΙΑ,,
+SENEGAL,ΣΕΝΕΓΑΛΗ,,
+SERBIA,ΣΕΡΒΙΑ,,
+SEYCHELLES ISLANDS,ΝΗΣΙΑ ΣΕΧΕΛΛΕΣ,,
+SIERRA LEONE,ΣΙΕΡΡΑ ΛΕΟΝΕ,,
+SINGAPORE,Σιγκαπούρη,,
+SLOVAKIA,ΣΛΟΒΑΚΙΑ,,
+SLOVENIA,ΣΛΟΒΕΝΙΑ,,
+SOMALIA,ΣΟΜΑΛΙΑ,,
+SOUTH AFRICA,ΝΟΤΙΑ ΑΦΡΙΚΗ,,
+SOUTH KOREA,ΝΟΤΙΑ ΚΟΡΕΑ,,
+SOUTH SUDAN,ΝΟΤΙΟ ΣΟΥΔΑΝ,,
+SPAIN,ΙΣΠΑΝΙΑ,,
+SRI LANKA,ΣΡΙ ΛΑΝΚΑ,,
+ST. KITTS,ΣΤ ΕΙΔΗ,,
+ST. LUCIA,ΣΤ ΛΟΥΚΙΑ,,
+ST. MARTIN,ΣΤ ΧΕΛΙΔΟΝΙ,,
+ST. PIERRE & MIQUELON,ΣΤ PIERRE & MIQUELON,,
+ST. VINCENT,ΣΤ ΒΙΚΕΝΤΙΟΣ,,
+SUDAN,ΣΟΥΔΑΝ,,
+SURINAME,SURINAME,,
+SWAZILAND,ΣΟΥΗΛΑΝΔΙΑ,,
+SWEDEN,ΣΟΥΗΔΙΑ,,
+SWITZERLAND,ΕΛΒΕΤΙΑ,,
+SYRIA,ΣΥΡΙΑ,,
+TAIWAN,ΤΑΪΒΑΝ,,
+TAJIKISTAN,ΤΑΪΖΙΚΙΣΤΑΝ,,
+TANZANIA,ΤΑΝΖΑΝΙΑ,,
+THAILAND,ΤΑΪΛΑΝΔΗ,,
+TRINIDAD & TOBAGO,ΤΡΙΝΙΔΑΝΤ & ΤΟΜΠΑΓΚΟ,,
+TUNISIA,ΤΥΝΗΣΙΑ,,
+TURKEY,ΤΟΥΡΚΙΑ,,
+TURKMENISTAN,ΤΟΥΡΚΜΕΝΙΣΤΑΝ,,
+TURKS & CAICOS ISLANDS,ΝΗΣΙΑ ΤΟΥΡΚΟΥ & ΚΑΪΚΟΥ,,
+UGANDA,Ουγκάντα,,
+UKRAINE,ΟΥΚΡΑΝΙΑ,,
+UNITED ARAB EMIRATES,ΗΝΩΜΕΝΑ ΑΡΑΒΙΚΑ ΕΜΙΡΑΤΑ,,
+UNITED KINGDOM,ΗΝΩΜΕΝΟ ΒΑΣΙΛΕΙΟ,,
+URUGUAY,ΟΥΡΟΥΓΟΥΑΗ,,
+US VIRGIN ISLANDS,ΝΗΣΙΑ ΠΑΡΚΙΝΓΚ ΗΠΑ,,
+United States,Ηνωμένες Πολιτείες,,
+UZBEKISTAN,ΟΥΖΜΠΕΚΙΣΤΑΝ,,
+VENEZUELA,ΒΕΝΕΖΟΥΕΛΑ,,
+VIETNAM,ΒΙΕΤΝΑΜ,,
+YEMEN,ΓΕΜΕΝΗ,,
+ZAMBIA,ΖΑΜΠΙΑ,,
+ZIMBABWE,ZIMBABWE,,
+ASCENSION,ΑΝΑΛΗΨΗ,,
+COOK ISLANDS,ΝΗΣΙΑ ΜΑΓΕΙΡΙΟΥ,,
+EAST TIMOR,ΑΝΑΤΟΛΙΚΟ ΤΙΜΟΡ,,
+FALKLAND ISLANDS,ΝΗΣΙΑ ΦΑΛΚΛΑΝΤ,,
+GREENLAND,ΓΡΟΙΛΑΝΔΙΑ,,
+KIRIBATI,ΚΙΡΙΒΑΤΙ,,
+MALDIVES,ΜΑΛΔΙΒΕΣ,,
+NAURU,ΝΑΟΥΡΟΥ,,
+Albanian Lek,Αλβανικά Λεκ,,
+Algerian Dinar,Αλγερικό Δηνάριο,,
+Aluminium Ounces,Ουγγιές αλουμινίου,,
+Argentine Peso,Πέσο Αργεντινής,,
+Aruba Florin,Αρούμπα Φλόριν,,
+Australian Dollar,Δολάριο αυστραλίας,,
+Bahamian Dollar,Δολάριο Μπαχάμης,,
+Bahraini Dinar,Δηνάριο Μπαχρέιν,,
+Bangladesh Taka,Μπαγκλαντές Τάκα,,
+Barbados Dollar,Δολάριο Μπαρμπάντος,,
+Belarus Ruble,Λευκορωσία Ρούβλι,,
+Belize Dollar,Δολάριο Μπελίζ,,
+Bermuda Dollar,Δολάριο των Βερμούδων,,
+Bhutan Ngultrum,Μπουτάν Ngultrum,,
+Bolivian Boliviano,Βολιβιανό Μπολιβιάνο,,
+Brazilian Real,Ρεάλ Βραζιλίας,,
+British Pound,Βρετανική λίρα,,
+Brunei Dollar,Δολάριο Μπρουνέι,,
+Bulgarian Lev,Βουλγαρικά Λεβ,,
+Burundi Franc,Φράγκο Μπουρούντι,,
+Cambodia Riel,Ριέλ της Καμπότζης,,
+Canadian Dollar,Δολάριο Καναδά,,
+Cayman Islands Dollar,Δολάριο Νήσων Καϊμάν,,
+CFA Franc (BCEAO),CFA φράγκο (BCEAO),,
+CFA Franc (BEAC),CFA φράγκο (BEAC),,
+Chilean Peso,Πέσο Χιλής,,
+Chinese Yuan,Κινέζικο γιουάν,,
+Colombian Peso,Πέσο Κολομβίας,,
+Comoros Franc,Φράγκο Κομόρες,,
+Copper Ounces,Ουγγιές χαλκού,,
+Costa Rica Colon,Κόστα Ρίκα Κόλον,,
+Croatian Kuna,Κούνα της Κροατίας,,
+Cuban Peso,Κουβανικό πέσο,,
+Cyprus Pound,Λίρα Κύπρου,,
+Czech Koruna,Τσεχική Κορούνια,,
+Danish Krone,Δανική κορώνα,,
+Dijibouti Franc,Φράγκο Ντιζιμπουτί,,
+Dominican Peso,Δομινικανό πέσο,,
+East Caribbean Dollar,Δολάριο Ανατολικής Καραϊβικής,,
+Ecuador Sucre,Εκουαδόρ Sucre,,
+Egyptian Pound,Αιγυπτιακή λίρα,,
+El Salvador Colon,Ελ Σαλβαδόρ Κόλον,,
+Eritrea Nakfa,Ερυθραία Νάκα,,
+Estonian Kroon,Εσθονική κορώ,,
+Ethiopian Birr,Αιθιοπικός Birr,,
+Euro,Ευρώ,,
+Falkland Islands Pound,Λίρα Νήσων Φώκλαντ,,
+Gambian Dalasi,Γκάμπια Νταλάσι,,
+Ghanian Cedi,Γουάντας Cedi,,
+Gibraltar Pound,Λίρα του Γιβραλτάρ,,
+Gold Ounces,Χρυσές ουγγιές,,
+Guatemala Quetzal,Γουατεμάλα Quetzal,,
+Guinea Franc,Φράγκο Γουινέα,,
+Haiti Gourde,Αϊτή Γκούρντε,,
+Honduras Lempira,Ονδούρα Lempira,,
+Hong Kong Dollar,Δολάριο Χονγκ Κονγκ,,
+Hungarian ForINT,Ουγγρικά ForINT,,
+Iceland Krona,Ισλανδία Krona,,
+Indian Rupee,Ινδική ρουπία,,
+Indonesian Rupiah,Ινδονησιακή ρουπία,,
+Iran Rial,Ιράν Ριάλ,,
+Israeli Shekel,Ισραηλινό Σέκελ,,
+Jamaican Dollar,Δολάριο Τζαμάικας,,
+Japanese Yen,Ιαπωνικά γεν,,
+Jordanian Dinar,Ιορδανικό Δηνάριο,,
+Kazakhstan Tenge,Τανγκ του Καζακστάν,,
+Kenyan Shilling,Κενυατικό σελίνι,,
+Korean Won,Γουόν Κορέας,,
+Kuwaiti Dinar,Δηνάριο Κουβέιτ,,
+Lao Kip,Λάο Κιπ,,
+Latvian Lat,Λετονικά Λετ,,
+Lebanese Pound,Λιβανέζικη λίβρα,,
+Lesotho Loti,Λεσόθο Λώτι,,
+Libyan Dinar,Λιβυκό Δηνάριο,,
+Lithuanian Lita,Λιθουανική Λίτα,,
+Macau Pataca,Μακάο Πατάκα,,
+Macedonian Denar,Μακεδονικό Denar,,
+Malagasy Franc,Φράγκο Μαλαγασίου,,
+Malawi Kwacha,Μαλάουι Kwacha,,
+Malaysian Ringgit,Ρινγκίτ Μαλαισίας,,
+Maldives Rufiyaa,Μαλδίβες Rufiyaa,,
+Maltese Lira,Λίρα Μάλτας,,
+Mauritania Ougulya,Μαυριτανία Ουγκούλια,,
+Mauritius Rupee,Ρουπία του Μαυρίκιου,,
+Mexican Peso,Μεξικάνικο πέσο,,
+Moldovan Leu,Μολδαβικός Λέ,,
+Mongolian Tugrik,Τούγκρικ Μογγολίας,,
+Moroccan Dirham,Ντιρχάμ του Μαρόκου,,
+Mozambique Metical,Metz της Μοζαμβίκης,,
+Namibian Dollar,Δολάριο Ναμίμπια,,
+Nepalese Rupee,Ρουπία Νεπάλ,,
+Neth Antilles Guilder,Neth Antilles Guilder,,
+New Turkish Lira,Νέα τουρκική λιρέτα,,
+New Zealand Dollar,Δολάριο Νέας Ζηλανδίας,,
+Nicaragua Cordoba,Νικαράγουα Κόρδοβα,,
+Nigerian Naira,Νιγηριανή Νάιρα,,
+Norwegian Krone,Νορβηγική κορώνα,,
+Omani Rial,Ομάν Ριάλ,,
+Pacific Franc,Φράγκο Ειρηνικού,,
+Pakistani Rupee,Πακιστανική ρουπία,,
+Palladium Ounces,Ουγγιές παλλαδίου,,
+Panama Balboa,Παναμάς Μπαλμπόα,,
+Papua New Guinea Kina,Παπούα Νέα Γουινέα Κίνα,,
+Paraguayan Guarani,Παραγουάη Γκουαράνι,,
+Peruvian Nuevo Sol,Περού Nuevo Sol,,
+Philippine Peso,Πέσο Φιλιππίνων,,
+Platinum Ounces,Ουγγιές λευκόχρυσου,,
+Polish Zloty,Πολωνικά Zloty,,
+Qatar Rial,Κατάρ Ριάλ,,
+Romanian Leu,Ρουμάνος Λε,,
+Romanian New Leu,Ρουμανική Νέα Λέου,,
+Russian Rouble,Ρωσικό Ρούβλι,,
+Rwanda Franc,Ρουάντα Φράγκο,,
+Samoa Tala,Σαμόα Tala,,
+Sao Tome Dobra,Σάο Τομέ Ντόμπρα,,
+Saudi Arabian Riyal,Σαουδικό αραβικό Ριάλ,,
+Seychelles Rupee,Ρουπία των Σεϋχελλών,,
+Sierra Leone Leone,Σιέρα Λεόνε Λεόνε,,
+Silver Ounces,Ασημένιες ουγγιές,,
+Singapore Dollar,Δολάριο Σιγκαπούρης,,
+Slovak Koruna,Σλοβακική Κορούνια,,
+Slovenian Tolar,Σλοβενικά Tolar,,
+Somali Shilling,Σομαλικό σελίνι,,
+South African Rand,Ραντ της Νότιας Αφρικής,,
+Sri Lanka Rupee,Ρουπία της Σρι Λάνκα,,
+St Helena Pound,Λίρα Αγίας Ελένης,,
+Sudanese Dinar,Δηνάριο Σουδάν,,
+Surinam Guilder,Σουρινάμ Guilder,,
+Swaziland Lilageni,Σουαζιλάνδη Λιλαγκένι,,
+Swedish Krona,Σουηδική κορώνα,,
+Swiss Franc,Ελβετικό φράγκο,,
+Syrian Pound,Λίρα της Συρίας,,
+Taiwan Dollar,Δολάριο Ταϊβάν,,
+Tanzanian Shilling,Τανζανικό σελίνι,,
+Thai Baht,Μπατ Ταϊλάνδης,,
+Tonga Paanga,Τόνγκα Πάγκαγκα,,
+Trinidad&Tobago Dollar,Δολάριο Τρινιντάντ & Τομπάγκο,,
+Tunisian Dinar,Τυνησιακό Δηνάριο,,
+U.S. Dollar,Αμερικάνικο δολλάριο,,
+UAE Dirham,Ντιρχάμ ΗΑΕ,,
+Ugandan Shilling,Σελίνια Ουγκάντα,,
+Ukraine Hryvnia,Ουκρανία Hryvnia,,
+Uruguayan New Peso,Ουρουγουάη Νέο Πέσο,,
+Vanuatu Vatu,Βανουάτου Βάτου,,
+Venezuelan Bolivar,Μπολιβάρ της Βενεζουέλας,,
+Vietnam Dong,Ντονγκ του Βιετνάμ,,
+Yemen Riyal,Ριάλ Υεμένης,,
+Zambian Kwacha,Ζάμπια Kwacha,,
+Zimbabwe Dollar,Δολάριο Ζιμπάμπουε,,
+Guyana Dollar,Δολάριο Γουιάνας,,
+Aruban florin,Aruban florin,,
+Armenian dram,Αρμενικά δράματα,,
+Azerbaijani manat,Αζερμπαϊτζάν manat,,
+Barbadian dollar,Δολάριο Barbadian,,
+Bosnian Convertible Marka,Βοσνιακό μετατρέψιμο Μάρκα,,
+Botswana pula,Μποτσουάνα pula,,
+Cape Verdean escudo,Ακρωτήριο Ακρωτηρίου,,
+Congolese franc,Φράγκο Κονγκό,,
+Fijian Dollar,Δολάριο Φίτζι,,
+CFP franc,CFP φράγκο,,
+Georgian lari,Γεωργιανό lari,,
+Iraqi dinar,Δηνάριο Ιράκ,,
+Kyrgyzstani som,Κιργιζστάνι σομ,,
+Liberian dollar,Δολάριο Λιβερίας,,
+Malagasy ariary,Μαδαγασκάρη,,
+Burmese Kyat,Βιρμανίας Kyat,,
+North Korean won,Η Βόρεια Κορέα κέρδισε,,
+nuevo sol,nuevo sol,,
+Serbian dinar,Σερβικό Δηνάριο,,
+South Korean won,Η Νότια Κορέα κέρδισε,,
+South Sudanese pound,Λίρα Νοτίου Σουδάν,,
+Sudanese pound,Σουδανική λίρα,,
+Surinamese dollar,Δολάριο Σουρινάμ,,
+Tajikistani samani,Τατζικιστικά σαμάνι,,
+Turkish lira,Τουρκική λιρέτα,,
+Turkmenistan manat,Μανάτ του Τουρκμενιστάν,,
+Pound sterling,Λίρα στερλίνα,,
+Uzbekistani soʻm,Ουζμπεκιστανικά soʻm,,
+Saint Helena pound,Λίρα Αγίας Ελένης,,
+Indian Rupees,Ινδικές ρουπίες,,
+CLI Pool,Πισίνα CLI,,
+Download,Κατεβάστε,,
+TRUE,ΑΛΗΘΗΣ,,
+FALSE,ΨΕΥΔΗΣ,,
+--Select Type--,- Επιλέξτε τύπο--,,
+One Time,Μια φορά,,
+Recurring,Επαναλαμβανόμενες,,
+Recurring Monthly,Επαναλαμβανόμενες μηνιαίες,,
+Outbound,Εξερχόμενος,,
+Default,Προκαθορισμένο,,
+Speed Dial Number Added Successfully,Ο αριθμός ταχείας κλήσης προστέθηκε με επιτυχία,,
+"Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.","Είστε βέβαιοι ότι θέλετε να επιβεβαιώσετε αυτό το τιμολόγιο; Μόλις το επιβεβαιώσετε, δεν μπορείτε να επεξεργαστείτε ξανά το τιμολόγιο.",,
+DIDs already purchased by someone.,Τα DID αγοράστηκαν ήδη από κάποιον.,,
+DIDs Assigned sucessfully!,Ανατέθηκε επιτυχώς!,,
+Something wrong.Please contact to administrator.,Κάτι δεν πάει καλά. Επικοινωνήστε με τον διαχειριστή.,,
+Duplicate DID found from database,Βρέθηκε διπλότυπο DID από τη βάση δεδομένων,,
+Account have not sufficient amount to purchase this DID.,Ο λογαριασμός δεν έχει επαρκές ποσό για να αγοράσει αυτό το DID.,,
+Account not found or assign to invalid account,Δεν βρέθηκε λογαριασμός ή εκχώρηση σε μη έγκυρο λογαριασμό,,
+Duplicate DID found from import file.,Βρέθηκε διπλότυπο DID από το αρχείο εισαγωγής.,,
+DIDs Imported Successfully!,Έγινε επιτυχής εισαγωγή των DID!,,
+Insuffiecient fund to purchase this DID.,Ανεπαρκής χρηματικό ποσό για αγορά αυτού του DID.,,
+Balance Below Notification,Υπόλοιπο κάτω από την ειδοποίηση,,
+Edit SIP device,Επεξεργασία συσκευής SIP,,
+Note : Page will display only receipts and confirmed invoices.,Σημείωση: Η σελίδα θα εμφανίζει μόνο αποδείξεις και επιβεβαιωμένα τιμολόγια.,,
+Termination Rate Updated Successfully!,Το ποσοστό τερματισμού ενημερώθηκε με επιτυχία!,,
+Import Termination Rates Using Field Mapper,Εισαγωγή Τιμών τερματισμού χρησιμοποιώντας το Field Mapper,,
+Edit Roles & Permissions,Επεξεργασία ρόλων και αδειών,,
+Create Roles & Permissions,Δημιουργία ρόλων και αδειών,,
+Edit Admin,Επεξεργασία διαχειριστή,,
+Pin Updated Successfully!.,Η καρφίτσα ενημερώθηκε με επιτυχία !.,,
+Create Termination Rate,Δημιουργία ποσοστού τερματισμού,,
+Edit Company Profile,Επεξεργασία εταιρικού προφίλ,,
+Website,Δικτυακός τόπος,,
+Generate Invoice for no usage,Δημιουργία τιμολογίου χωρίς χρήση,,
+Commission Repots,Εκθέσεις της Επιτροπής,,
+Top Up,Ξεχειλίζω,,
+Purchase DIDs,Αγορά DID,,
+Package,Πακέτο,,
+Setup,Ρύθμιση,,
+DID Purchased Successfully.,Η αγορά έγινε επιτυχώς.,,
+release,ελευθέρωση,,
+DID Batch Updated Successfully!,Η παρτίδα ενημερώθηκε με επιτυχία!,,
+DID forwading set sucessfully!,Μήπως το σετ επιτυχίας!,,
+Are you sure want to release DID?,Είστε βέβαιοι ότι θέλετε να κυκλοφορήσετε το DID,,
+Please select atleast one record,Επιλέξτε τουλάχιστον μία εγγραφή,,
+Account Balance,Υπόλοιπο λογαριασμού,,
+Next Bill Date,Επόμενη ημερομηνία λογαριασμού,,
+TOTAL AMOUNT,ΣΥΝΟΛΙΚΟ ΠΟΣΟ,,
+Invoice,Τιμολόγιο,,
+IP Address,Διεύθυνση IP,,
+Terminate,Περατώ,,
+Seconds,Δευτερόλεπτα,,
+Recording,Εγγραφή,,
+Rates,Τιμές,,
+Paid,επί πληρωμή,,
+No Records,Χωρίς εγγραφές,,
+Please select from date,Επιλέξτε από την ημερομηνία,,
+Please select to date,Επιλέξτε μέχρι σήμερα,,
+Please select to date bigger than from date,Επιλέξτε ημερομηνία έως μεγαλύτερη από την ημερομηνία,,
+Confirm,Επιβεβαιώνω,,
+Edit Country,Επεξεργασία χώρας,,
+Skip Header,Παράλειψη κεφαλίδας,,
+Origination_rate_error,Origination_rate_error,,
+Termination_rate_error,Τερματισμός_rate_error,,
+Termination_Rates,Όροι λήξης,,
+Origination_Rates,Origination_Rates,,
+refill_coupon,refill_coupon,,
+Edit Reseller,Επεξεργασία μεταπωλητή,,
+Edit Calltype,Επεξεργασία τύπου κλήσης,,
+updated successfully!,ενημερώθηκε με επιτυχία!,,
+added successfully!,προστέθηκε με επιτυχία!,,
+Invoice generation completed .,Ολοκληρώθηκε η παραγωγή τιμολογίων.,,
+NOTE,ΣΗΜΕΙΩΣΗ,,
+No data found.,Δε βρέθηκαν δεδομένα.,,
+Added successfully!,Προστέθηκε με επιτυχία!,,
+DID added successfully!,Προστέθηκε επιτυχώς!,,
+DID updated successfully!,Ενημερώθηκε επιτυχώς!,,
+File must be in the following format(.csv):,Το αρχείο πρέπει να έχει την ακόλουθη μορφή (.csv):,,
+Process,"Επεξεργάζομαι, διαδικασία",,
+DID Import Error,Σφάλμα εισαγωγής,,
+Records Imported Successfully,Εισαγωγή εγγραφών με επιτυχία,,
+Records Not Imported,Δεν έχουν εισαχθεί εγγραφές,,
+Back to DID List,Επιστροφή στη λίστα DID,,
+DID Batch Updated Successfully!,Η παρτίδα ενημερώθηκε με επιτυχία!,,
+Accessnumber Added Successfully!,Ο αριθμός πρόσβασης προστέθηκε με επιτυχία!,,
+Process,"Επεξεργάζομαι, διαδικασία",,
+Accessnumber Import Error,Σφάλμα εισαγωγής Accessnumber,,
+DIDs Assigned sucessfully!,Ανατέθηκε επιτυχώς!,,
+Origination Rates Preview,Προεπισκόπηση τιμών προέλευσης,,
+Origination Rates Import Error,Σφάλμα εισαγωγής τιμών προέλευσης,,
+Back to Origination Rates List,Επιστροφή στη λίστα τιμών προέλευσης,,
+Origination Rates Batch Updated Successfully!,Τα ποσοστά προέλευσης ενημερώθηκαν με επιτυχία!,,
+Import Ratedeck Preview,Εισαγωγή προεπισκόπησης Ratedeck,,
+CALLTYPE,ΚΑΛΤΥΠΟΣ,,
+Edit Calltype,Επεξεργασία τύπου κλήσης,,
+Outbound-Proxy,Εξερχόμενος διακομιστής μεσολάβησης,,
+Edit Trunk,Επεξεργασία κορμού,,
+Termination Rate Added Successfully!,Ο ρυθμός τερματισμού προστέθηκε με επιτυχία!,,
+Edit Termination Rate,Επεξεργασία ποσοστού τερματισμού,,
+Termination Rates Import Error,Σφάλμα εισαγωγής τιμών τερματισμού,,
+Termination Rates Imported Successfully!,Οι τιμές τερματισμού εισήχθησαν με επιτυχία!,,
+Back to Origination Rates List,Επιστροφή στη λίστα τιμών προέλευσης,,
+Select,Επιλέγω,,
+pattern,πρότυπο,,
+comment,σχόλιο,,
+connectcost,συνδετικό κόστος,,
+includedseconds,περιλαμβάνονται δευτερόλεπτα,,
+init_inc,init_inc,,
+inc,συμπ,,
+prepend,προπληρώνω,,
+cost,κόστος,,
+strip,λωρίδα,,
+DID added successfully!,Προστέθηκε επιτυχώς!,,
+DID updated successfully!,Ενημερώθηκε επιτυχώς!,,
+Country Name,Ονομα χώρας,,
+PAID,ΕΠΙ ΠΛΗΡΩΜΗ,,
+PENDING,ΕΚΚΡΕΜΗΣ,,
+FAIL,ΑΠΟΤΥΓΧΑΝΩ,,
+ORDER,ΣΕΙΡΑ,,
+payment method,μέθοδος πληρωμής,,
+Terminate Order,Τερματισμός παραγγελίας,,
+Compose Email,Σύνταξη email,,
+Message,Μήνυμα,,
+Send,Στείλετε,,
+SIP Port is Required.,Απαιτείται θύρα SIP.,,
+Start,Αρχή,,
+SIP Port is Required.,Απαιτείται θύρα SIP.,,
+SIP IP is Required.,Απαιτείται IP SIP.,,
+Name is Required.,Απαιτείται όνομα.,,
+The SIP Port field is Required.,Το πεδίο θύρας SIP είναι υποχρεωτικό.,,
+The SIP Port field must contain only numbers.,Το πεδίο SIP Port πρέπει να περιέχει μόνο αριθμούς.,,
+The SIP Port field can not exceed 5 characters in length.,Το πεδίο Θύρα SIP δεν μπορεί να υπερβαίνει τους 5 χαρακτήρες.,,
+Value is Required.,Απαιτείται τιμή.,,
+Value,αξία,,
+Update Setting,Ενημέρωση ρύθμισης,,
+Add Setting,Προσθήκη ρύθμισης,,
+Edit Freeswitch Server,Επεξεργασία διακομιστή Freeswitch,,
+CUT,ΤΟΜΗ,,
+ADD,ΠΡΟΣΘΗΚΗ,,
+Edit Localization,Επεξεργασία τοπικής προσαρμογής,,
+Callbarring Settings Added Successfully!,Οι ρυθμίσεις Callbarring προστέθηκαν με επιτυχία!,,
+Edit Call Barring,Επεξεργασία φραγής κλήσεων,,
+Callbarring Settings Updated Successfully!,Οι ρυθμίσεις Callbarring ενημερώθηκαν με επιτυχία!,,
+The Name field is required.,Το πεδίο όνομα είναι απαραίτητο.,,
+Please select file.,Επιλέξτε αρχείο.,,
+Database import allows only gzfile types of file.,Η εισαγωγή βάσης δεδομένων επιτρέπει μόνο τύπους αρχείων gzfile.,,
+File must be in (.gz) format :,Το αρχείο πρέπει να είναι σε μορφή (.gz):,,
+The Coupon Number field must contain only numbers.,Το πεδίο Αριθμός κουπονιού πρέπει να περιέχει μόνο αριθμούς.,,
+The Coupon Number field have inactive refill coupon.,Το πεδίο Αριθμός κουπονιού έχει ανενεργό κουπόνι επαναπλήρωσης.,,
+This Coupon Number is already in use.,Αυτός ο αριθμός κουπονιού χρησιμοποιείται ήδη.,,
+This Coupon Number is not found.,Αυτός ο αριθμός κουπονιού δεν βρέθηκε.,,
+The Coupon Number field is required.,Απαιτείται το πεδίο Αριθμός κουπονιού.,,
+Select Customer.,Επιλέξτε Πελάτη.,,
+Please enter your email,Εισαγάγετε το email σας,,
+Please enter proper email,Εισαγάγετε το κατάλληλο email,,
+The Caller ID field is required.,Απαιτείται το πεδίο αναγνώρισης καλούντος.,,
+Please enter your password,Παρακαλώ εισάγετε τον κωδικό σας,,
+Please enter your first name,Παρακαλώ εισάγετε το ονομα σας,,
+Please enter your email,Εισαγάγετε το email σας,,
+This field is require,Αυτό το πεδίο είναι απαραίτητο,,
+The IP field must contain a unique value.,Το πεδίο IP πρέπει να περιέχει μια μοναδική τιμή.,,
+The Name field is required.,Το πεδίο όνομα είναι απαραίτητο.,,
+The IP field is required.,Το πεδίο IP απαιτείται.,,
+Please Enter Valid Account Number,Εισαγάγετε έγκυρο αριθμό λογαριασμού,,
+Main,Κύριος,,
+--Select Disposition--,--Επιλέξτε Διάθεση--,,
+Group By #time,Ομαδοποίηση κατά # ώρα,,
+Active User,Ενεργός χρήστης,,
+Used Minutes,Μεταχειρισμένα πρακτικά,,
+Available Minutes,Διαθέσιμα πρακτικά,,
+Total Price,Συνολικό ποσό,,
+Total User,Συνολικός χρήστης,,
+Resend Mail,Επανάληψη αποστολής αλληλογραφίας,,
+Restore,Επαναφέρω,,
+View Details,Δείτε λεπτομέρειες,,
+Other,Αλλα,,
+Edit Tax,Επεξεργασία φόρου,,
+Edit Country,Επεξεργασία χώρας,,
+Download Database,Λήψη βάσης δεδομένων,,
+Import Database,Εισαγωγή βάσης δεδομένων,,
+File must be in (.gz) format,Το αρχείο πρέπει να είναι σε μορφή (.gz),,
+Please select file.,Επιλέξτε αρχείο.,,
+Please enter name and select file.,Εισαγάγετε όνομα και επιλέξτε αρχείο.,,
+Edit Cron Settings,Επεξεργασία ρυθμίσεων Cron,,
+Global Settings updated sucessfully!,Οι καθολικές ρυθμίσεις ενημερώθηκαν με επιτυχία!,,
+Alert Notifications,Ειδοποιήσεις ειδοποίησης,,
+Fraud Configuration,Διαμόρφωση απάτης,,
+Configuration Add,Προσθήκη διαμόρφωσης,,
+Alarm Configuration,Διαμόρφωση συναγερμού,,
+Please select atleast one pattern.,Επιλέξτε τουλάχιστον ένα μοτίβο.,,
+Problem In Add Patterns to account.,Πρόβλημα στην Προσθήκη μοτίβων στο λογαριασμό.,,
+Blocked Codes,Αποκλεισμένοι κωδικοί,,
+The IP field must contain a unique value.,Το πεδίο IP πρέπει να περιέχει μια μοναδική τιμή.,,
+The IP field is required.,Το πεδίο IP απαιτείται.,,
+Please Enter Switch command,Εισαγάγετε την εντολή Switch,,
+are you sure to delete?,Είστε σίγουροι ότι θα διαγράψετε,,
+Are you sure want to confirm this invoice ? once you confirm it,Είστε βέβαιοι ότι θέλετε να επιβεβαιώσετε αυτό το τιμολόγιο, μόλις το επιβεβαιώσετε, Μόλις το επιβεβαιώσετε
+can not able to edit invoice again.,δεν μπορώ να επεξεργαστώ ξανά το τιμολόγιο.,,
+Maximum Logo upload size is 1MB,Το μέγιστο μέγεθος μεταφόρτωσης λογότυπου είναι 1MB,,
+Profit per day,Κέρδος ανά ημέρα,,
+Please enter number,Εισαγάγετε τον αριθμό,,
+Import Customer,Εισαγωγή πελάτη,,
+Processing,Επεξεργασία,,
+please wait,Παρακαλώ περιμένετε,,
+Low Balance,Χαμηλό υπόλοιπο,,
+Trunk Statistics,Στατιστικά στοιχεία κορμού,,
+Current Balance,Τωρινή ισσοροπία,,
+Europe/Andorra,Ευρώπη / Ανδόρα,,
+Asia/Dubai,Ασία / Ντουμπάι,,
+Asia/Kabul,Ασία / Καμπούλ,,
+America/Antigua,Αμερική / Αντίγκουα,,
+America/Anguilla,Αμερική / Ανγκουίλα,,
+Europe/Tirane,Ευρώπη / Τιράνο,,
+Asia/Yerevan,Ασία / Ερεβάν,,
+Africa/Luanda,Αφρική / Λουάντα,,
+Antarctica/Casey,Ανταρκτική / Κέισι,,
+Antarctica/Davis,Ανταρκτική / Ντέιβις,,
+Antarctica/DumontDUrville,Ανταρκτική / DumontDUrville,,
+Antarctica/Mawson,Ανταρκτική / Mawson,,
+Antarctica/McMurdo,Ανταρκτική / McMurdo,,
+Antarctica/Palmer,Ανταρκτική / Πάλμερ,,
+Antarctica/Rothera,Ανταρκτική / Rothera,,
+Antarctica/Syowa,Ανταρκτική / Syowa,,
+Antarctica/Troll,Ανταρκτική / Troll,,
+Antarctica/Vostok,Ανταρκτική / Βοστόκ,,
+America/Argentina/Buenos_Aires,Αμερική / Αργεντινή / Μπουένος_Aires,,
+America/Argentina/Catamarca,Αμερική / Αργεντινή / Καταμαρκά,,
+America/Argentina/Cordoba,Αμερική / Αργεντινή / Κόρδοβα,,
+America/Argentina/Jujuy,Αμερική / Αργεντινή / Jujuy,,
+America/Argentina/La_Rioja,Αμερική / Αργεντινή / La_Rioja,,
+America/Argentina/Mendoza,Αμερική / Αργεντινή / Μεντόζα,,
+America/Argentina/Rio_Gallegos,Αμερική / Αργεντινή / Ρίο_Gallegos,,
+America/Argentina/Salta,Αμερική / Αργεντινή / Salta,,
+America/Argentina/San_Juan,Αμερική / Αργεντινή / San_Juan,,
+America/Argentina/San_Luis,Αμερική / Αργεντινή / San_Luis,,
+America/Argentina/Tucuman,Αμερική / Αργεντινή / Τουκουμάν,,
+America/Argentina/Ushuaia,Αμερική / Αργεντινή / Ushuaia,,
+Pacific/Pago_Pago,Ειρηνικός / Pago_Pago,,
+Europe/Vienna,Ευρώπη / Βιέννη,,
+Antarctica/Macquarie,Ανταρκτική / Macquarie,,
+Australia/Adelaide,Αυστραλία / Αδελαΐδα,,
+Australia/Brisbane,Αυστραλία / Μπρίσμπεϊν,,
+Australia/Broken_Hill,Αυστραλία / Broken_Hill,,
+Australia/Currie,Αυστραλία / Currie,,
+Australia/Darwin,Αυστραλία / Ντάργουιν,,
+Australia/Eucla,Αυστραλία / Eucla,,
+Australia/Hobart,Αυστραλία / Χόμπαρτ,,
+Australia/Lindeman,Αυστραλία / Lindeman,,
+Australia/Lord_Howe,Αυστραλία / Λόρδος_Howe,,
+Australia/Melbourne,Αυστραλία / Μελβούρνη,,
+Australia/Perth,Αυστραλία / Περθ,,
+Australia/Sydney,Αυστραλία / Σίδνεϊ,,
+America/Aruba,Αμερική / Αρούμπα,,
+Europe/Mariehamn,Ευρώπη / Mariehamn,,
+Asia/Baku,Ασία / Μπακού,,
+Europe/Sarajevo,Ευρώπη / Σεράγεβο,,
+America/Barbados,Αμερική / Μπαρμπάντος,,
+Asia/Dhaka,Ασία / Ντάκα,,
+Europe/Brussels,Ευρώπη / Βρυξέλλες,,
+Africa/Ouagadougou,Αφρική / Ουαγκαντούγκου,,
+Europe/Sofia,Ευρώπη / Σόφια,,
+Asia/Bahrain,Ασία / Μπαχρέιν,,
+Africa/Bujumbura,Αφρική / Μπουτζουμπούρα,,
+Africa/Porto-Novo,Αφρική / Πόρτο-Νόβο,,
+America/St_Barthelemy,Αμερική / St_Barthelemy,,
+Atlantic/Bermuda,Ατλαντικός / Βερμούδες,,
+Asia/Brunei,Ασία / Μπρουνέι,,
+America/La_Paz,Αμερική / La_Paz,,
+America/Kralendijk,Αμερική / Kralendijk,,
+America/Araguaina,Αμερική / Αραγουάινα,,
+America/Bahia,Αμερική / Μπαΐα,,
+America/Belem,Αμερική / Μπελέμ,,
+America/Boa_Vista,Αμερική / Boa_Vista,,
+America/Campo_Grande,Αμερική / Campo_Grande,,
+America/Cuiaba,Αμερική / Cuiaba,,
+America/Eirunepe,Αμερική / Eirunepe,,
+America/Fortaleza,Αμερική / Φορταλέζα,,
+America/Maceio,Αμερική / Maceio,,
+America/Manaus,Αμερική / Μανάους,,
+America/Noronha,Αμερική / Νόρονχα,,
+America/Porto_Velho,Αμερική / Πόρτο_Βέλο,,
+America/Recife,Αμερική / Ρεσίφε,,
+America/Rio_Branco,Αμερική / Ρίο_ Μπράνκο,,
+America/Santarem,Αμερική / Σανταρέμ,,
+America/Sao_Paulo,Αμερική / Sao_Paulo,,
+America/Nassau,Αμερική / Nassau,,
+Asia/Thimphu,Ασία / Τιμπού,,
+Africa/Gaborone,Αφρική / Γκαμπορόνε,,
+Europe/Minsk,Ευρώπη / Μινσκ,,
+America/Belize,Αμερική / Μπελίζ,,
+America/Atikokan,Αμερική / Atikokan,,
+America/Blanc-Sablon,Αμερική / Blanc-Sablon,,
+America/Cambridge_Bay,Αμερική / Cambridge_Bay,,
+America/Creston,Αμερική / Creston,,
+America/Dawson,Αμερική / Ντάσον,,
+America/Dawson_Creek,Αμερική / Dawson_Creek,,
+America/Edmonton,Αμερική / Έντμοντον,,
+America/Fort_Nelson,Αμερική / Fort_Nelson,,
+America/Glace_Bay,Αμερική / Glace_Bay,,
+America/Goose_Bay,Αμερική / Goose_Bay,,
+America/Halifax,Αμερική / Χάλιφαξ,,
+America/Inuvik,Αμερική / Ινουβίκ,,
+America/Iqaluit,Αμερική / Iqaluit,,
+America/Moncton,Αμερική / Moncton,,
+America/Nipigon,Αμερική / Νίπιγκον,,
+America/Pangnirtung,Αμερική / Pangnirtung,,
+America/Rainy_River,Αμερική / Rainy_River,,
+America/Rankin_Inlet,Αμερική / Rankin_Inlet,,
+America/Regina,Αμερική / Ρετζίνα,,
+America/Resolute,Αμερική / Απόλυτο,,
+America/St_Johns,Αμερική / St_Johns,,
+America/Swift_Current,Αμερική / Swift_Current,,
+America/Thunder_Bay,Αμερική / Thunder_Bay,,
+America/Toronto,Αμερική / Τορόντο,,
+America/Vancouver,Αμερική / Βανκούβερ,,
+America/Whitehorse,Αμερική / Whitehorse,,
+America/Winnipeg,Αμερική / Γουίνιπεγκ,,
+America/Yellowknife,Αμερική / Yellowknife,,
+Indian/Cocos,Ινδός / Κόκος,,
+Africa/Kinshasa,Αφρική / Κινσάσα,,
+Africa/Lubumbashi,Αφρική / Lubumbashi,,
+Africa/Bangui,Αφρική / Μπανγκούι,,
+Africa/Brazzaville,Αφρική / Μπραζαβίλ,,
+Europe/Zurich,Ευρώπη / Ζυρίχη,,
+Africa/Abidjan,Αφρική / Αμπιτζάν,,
+Pacific/Rarotonga,Ειρηνικός / Ραροτόνγκα,,
+America/Punta_Arenas,Αμερική / Punta_Arenas,,
+America/Santiago,Αμερική / Σαντιάγο,,
+Pacific/Easter,Ειρηνικός / Πάσχα,,
+Africa/Douala,Αφρική / Ντουάλα,,
+Asia/Shanghai,Ασία / Σαγκάη,,
+Asia/Urumqi,Ασία / Ουρουμκί,,
+America/Bogota,Αμερική / Μπογκοτά,,
+America/Costa_Rica,Αμερική / Κόστα Ρίκα,,
+America/Havana,Αμερική / Αβάνα,,
+Atlantic/Cape_Verde,Atlantic / Cape_Verde,,
+America/Curacao,Αμερική / Κουρασάο,,
+Indian/Christmas,Ινδικά / Χριστούγεννα,,
+Asia/Famagusta,Ασία / Αμμόχωστος,,
+Asia/Nicosia,Ασία / Λευκωσία,,
+Europe/Prague,Ευρώπη / Πράγα,,
+Europe/Berlin,Ευρώπη / Βερολίνο,,
+Europe/Busingen,Ευρώπη / Busingen,,
+Africa/Djibouti,Αφρική / Τζιμπουτί,,
+Europe/Copenhagen,Ευρώπη / Κοπεγχάγη,,
+America/Dominica,Αμερική / Ντομίνικα,,
+America/Santo_Domingo,Αμερική / Santo_Domingo,,
+Africa/Algiers,Αφρική / Αλγέρι,,
+America/Guayaquil,Αμερική / Γκουαγιακίλ,,
+Pacific/Galapagos,Ειρηνικός / Γκαλαπάγκος,,
+Europe/Tallinn,Ευρώπη / Ταλίν,,
+Africa/Cairo,Αφρική / Κάιρο,,
+Africa/El_Aaiun,Αφρική / El_Aaiun,,
+Africa/Asmara,Αφρική / Ασμάρα,,
+Africa/Ceuta,Αφρική / Θέουτα,,
+Atlantic/Canary,Ατλαντικός / Κανάριοι,,
+Europe/Madrid,Ευρώπη / Μαδρίτη,,
+Africa/Addis_Ababa,Αφρική / Αντίς_Αμπέμπα,,
+Europe/Helsinki,Ευρώπη / Ελσίνκι,,
+Pacific/Fiji,Ειρηνικός / Φίτζι,,
+Atlantic/Stanley,Atlantic / Stanley,,
+Pacific/Chuuk,Ειρηνικός / Chuuk,,
+Pacific/Kosrae,Ειρηνικός / Κοσρά,,
+Pacific/Pohnpei,Ειρηνικός / Πονπέι,,
+Atlantic/Faroe,Ατλαντικός / Φερόε,,
+Europe/Paris,Ευρώπη / Παρίσι,,
+Africa/Libreville,Αφρική / Λίμπρεβιλ,,
+Europe/London,Ευρώπη / Λονδίνο,,
+America/Grenada,Αμερική / Γρενάδα,,
+Asia/Tbilisi,Ασία / Τιφλίδα,,
+America/Cayenne,Αμερική / Καγιέν,,
+Europe/Guernsey,Ευρώπη / Γκέρνσεϊ,,
+Africa/Accra,Αφρική / Άκρα,,
+Europe/Gibraltar,Ευρώπη / Γιβραλτάρ,,
+America/Danmarkshavn,Αμερική / Danmarkshavn,,
+America/Nuuk,Αμερική / Νουούκ,,
+America/Scoresbysund,Αμερική / Σκορσμπίσουντ,,
+America/Thule,Αμερική / Θούλε,,
+Africa/Banjul,Αφρική / Μπαντζούλ,,
+Africa/Conakry,Αφρική / Κόνακρι,,
+America/Guadeloupe,Αμερική / Γουαδελούπη,,
+Africa/Malabo,Αφρική / Μαλάμπο,,
+Europe/Athens,Ευρώπη / Αθήνα,,
+Atlantic/South_Georgia,Atlantic / South_Georgia,,
+America/Guatemala,Αμερική / Γουατεμάλα,,
+Pacific/Guam,Ειρηνικός / Γκουάμ,,
+Africa/Bissau,Αφρική / Μπισάου,,
+America/Guyana,Αμερική / Γουιάνα,,
+Asia/Hong_Kong,Ασία / Χονγκ Κονγκ,,
+America/Tegucigalpa,Αμερική / Τεγκουσιγκάλπα,,
+Europe/Zagreb,Ευρώπη / Ζάγκρεμπ,,
+America/Port-au-Prince,Αμερική / Port-au-Prince,,
+Europe/Budapest,Ευρώπη / Βουδαπέστη,,
+Asia/Jakarta,Ασία / Τζακάρτα,,
+Asia/Jayapura,Ασία / Τζαγιαπούρα,,
+Asia/Makassar,Ασία / Μακάσαρ,,
+Asia/Pontianak,Ασία / Ποντιανάκ,,
+Europe/Dublin,Ευρώπη / Δουβλίνο,,
+Asia/Jerusalem,Ασία / Ιερουσαλήμ,,
+Europe/Isle_of_Man,Ευρώπη / Isle_of_Man,,
+Asia/Kolkata,Ασία / Καλκούτα,,
+Indian/Chagos,Ινδικά / Τσάγκος,,
+Asia/Baghdad,Ασία / Βαγδάτη,,
+Asia/Tehran,Ασία / Τεχεράνη,,
+Atlantic/Reykjavik,Ατλαντικός / Ρέικιαβικ,,
+Europe/Rome,Ευρώπη / Ρώμη,,
+Europe/Jersey,Ευρώπη / Τζέρσεϋ,,
+America/Jamaica,Αμερική / Τζαμάικα,,
+Asia/Amman,Ασία / Αμμάν,,
+Asia/Tokyo,Ασία / Τόκιο,,
+Africa/Nairobi,Αφρική / Ναϊρόμπι,,
+Asia/Bishkek,Ασία / Μπισκέκ,,
+Asia/Phnom_Penh,Ασία / Phnom_Penh,,
+Pacific/Enderbury,Ειρηνικός / Έντερμπερι,,
+Pacific/Kiritimati,Ειρηνικός / Κιριτιμάτι,,
+Pacific/Tarawa,Ειρηνικός / Ταράβα,,
+Indian/Comoro,Ινδική / Κομόρο,,
+America/St_Kitts,Αμερική / St_Kitts,,
+Asia/Pyongyang,Ασία / Πιονγκγιάνγκ,,
+Asia/Seoul,Ασία / Σεούλ,,
+Asia/Kuwait,Ασία / Κουβέιτ,,
+America/Cayman,Αμερική / Κάιμαν,,
+Asia/Almaty,Ασία / Αλμάτι,,
+Asia/Aqtau,Ασία / Άκταου,,
+Asia/Aqtobe,Ασία / Aqtobe,,
+Asia/Atyrau,Ασία / Ατιράου,,
+Asia/Oral,Ασία / προφορική,,
+Asia/Qostanay,Ασία / Κοστούνι,,
+Asia/Qyzylorda,Ασία / Qyzylorda,,
+Asia/Vientiane,Ασία / Βιεντιάν,,
+Asia/Beirut,Ασία / Βηρυτός,,
+America/St_Lucia,Αμερική / St_Lucia,,
+Europe/Vaduz,Ευρώπη / Βαντούζ,,
+Asia/Colombo,Ασία / Κολόμπο,,
+Africa/Monrovia,Αφρική / Μονρόβια,,
+Africa/Maseru,Αφρική / Maseru,,
+Europe/Vilnius,Ευρώπη / Βίλνιους,,
+Europe/Luxembourg,Ευρώπη / Λουξεμβούργο,,
+Europe/Riga,Ευρώπη / Ρίγα,,
+Africa/Tripoli,Αφρική / Τρίπολη,,
+Africa/Casablanca,Αφρική / Καζαμπλάνκα,,
+Europe/Monaco,Ευρώπη / Μονακό,,
+Europe/Chisinau,Ευρώπη / Κισινάου,,
+Europe/Podgorica,Ευρώπη / Ποντγκόριτσα,,
+America/Marigot,Αμερική / Marigot,,
+Indian/Antananarivo,Ινδική / Ανταναναρίβο,,
+Pacific/Kwajalein,Ειρηνικός / Kwajalein,,
+Pacific/Majuro,Ειρηνικός / Majuro,,
+Europe/Skopje,Ευρώπη / Σκόπια,,
+Africa/Bamako,Αφρική / Μπαμάκο,,
+Asia/Yangon,Ασία / Γιανγκόν,,
+Asia/Choibalsan,Ασία / Choibalsan,,
+Asia/Hovd,Ασία / Χοβντ,,
+Asia/Ulaanbaatar,Ασία / Ουλάν Μπατόρ,,
+Asia/Macau,Ασία / Μακάο,,
+Pacific/Saipan,Ειρηνικός / Saipan,,
+America/Martinique,Αμερική / Μαρτινίκα,,
+Africa/Nouakchott,Αφρική / Νουακτσότ,,
+America/Montserrat,Αμερική / Μοντσερράτ,,
+Europe/Malta,Ευρώπη / Μάλτα,,
+Indian/Mauritius,Ινδός / Μαυρίκιος,,
+Indian/Maldives,Ινδική / Μαλδίβες,,
+Africa/Blantyre,Αφρική / Μπλαντίρε,,
+America/Bahia_Banderas,Αμερική / Bahia_Banderas,,
+America/Cancun,Αμερική / Κανκούν,,
+America/Chihuahua,Αμερική / Τσιουάουα,,
+America/Hermosillo,Αμερική / Ερμοσίγιο,,
+America/Matamoros,Αμερική / Ματαμόρος,,
+America/Mazatlan,Αμερική / Μαζατλάν,,
+America/Merida,Αμερική / Μέριδα,,
+America/Mexico_City,Αμερική / Μεξικό_Πόλη,,
+America/Monterrey,Αμερική / Μοντερέι,,
+America/Ojinaga,Αμερική / Οτζιάγκα,,
+America/Tijuana,Αμερική / Τιχουάνα,,
+Asia/Kuala_Lumpur,Ασία / Κουάλα Λουμπούρ,,
+Asia/Kuching,Ασία / Κουτσίνγκ,,
+Africa/Maputo,Αφρική / Μαπούτο,,
+Africa/Windhoek,Αφρική / Βίντχουκ,,
+Pacific/Noumea,Ειρηνικός / Νουμέα,,
+Africa/Niamey,Αφρική / Niamey,,
+Pacific/Norfolk,Ειρηνικός / Νόρφολκ,,
+Africa/Lagos,Αφρική / Λάγος,,
+America/Managua,Αμερική / Μανάγκουα,,
+Europe/Amsterdam,Ευρώπη / Άμστερνταμ,,
+Europe/Oslo,Ευρώπη / Όσλο,,
+Asia/Kathmandu,Ασία / Κατμαντού,,
+Pacific/Nauru,Ειρηνικός / Ναουρού,,
+Pacific/Niue,Ειρηνικός / Νιούε,,
+Pacific/Auckland,Ειρηνικός / Ώκλαντ,,
+Pacific/Chatham,Ειρηνικός / Τσάταμ,,
+Asia/Muscat,Ασία / Μοσχάτο,,
+America/Panama,Αμερική / Παναμάς,,
+America/Lima,Αμερική / Λίμα,,
+Pacific/Gambier,Ειρηνικός / Gambier,,
+Pacific/Marquesas,Ειρηνικός / Marquesas,,
+Pacific/Tahiti,Ειρηνικός / Ταϊτή,,
+Pacific/Bougainville,Ειρηνικός / Bougainville,,
+Pacific/Port_Moresby,Pacific / Port_Moresby,,
+Asia/Manila,Ασία / Μανίλα,,
+Asia/Karachi,Ασία / Καράτσι,,
+Europe/Warsaw,Ευρώπη / Βαρσοβία,,
+America/Miquelon,Αμερική / Μικελόν,,
+Pacific/Pitcairn,Ειρηνικός / Πίτκαρν,,
+America/Puerto_Rico,Αμερική / Πουέρτο Ρίκο,,
+Asia/Gaza,Ασία / Γάζα,,
+Asia/Hebron,Ασία / Χεβρώνα,,
+Atlantic/Azores,Ατλαντικός / Αζόρες,,
+Atlantic/Madeira,Ατλαντικός / Μαδέρα,,
+Europe/Lisbon,Ευρώπη / Λισαβόνα,,
+Pacific/Palau,Ειρηνικός / Παλάου,,
+America/Asuncion,Αμερική / Ασουνσιόν,,
+Asia/Qatar,Ασία / Κατάρ,,
+Indian/Reunion,Ινδική / Ρεϊνιόν,,
+Europe/Bucharest,Ευρώπη / Βουκουρέστι,,
+Europe/Belgrade,Ευρώπη / Βελιγράδι,,
+Asia/Anadyr,Ασία / Anadyr,,
+Asia/Barnaul,Ασία / Μπαρναούλ,,
+Asia/Chita,Ασία / Τσίτα,,
+Asia/Irkutsk,Ασία / Ιρκούτσκ,,
+Asia/Kamchatka,Ασία / Καμτσάτκα,,
+Asia/Khandyga,Ασία / Khandyga,,
+Asia/Krasnoyarsk,Ασία / Κρασνογιάρσκ,,
+Asia/Magadan,Ασία / Μαγκαντάν,,
+Asia/Novokuznetsk,Ασία / Novokuznetsk,,
+Asia/Novosibirsk,Ασία / Νοβοσιμπίρσκ,,
+Asia/Omsk,Ασία / Ομσκ,,
+Asia/Sakhalin,Ασία / Σαχαλίν,,
+Asia/Srednekolymsk,Ασία / Srednekolymsk,,
+Asia/Tomsk,Ασία / Τομσκ,,
+Asia/Ust-Nera,Ασία / Ουστ-Νερά,,
+Asia/Vladivostok,Ασία / Βλαδιβοστόκ,,
+Asia/Yakutsk,Ασία / Γιακούτσκ,,
+Asia/Yekaterinburg,Ασία / Γεκατερίνμπουργκ,,
+Europe/Astrakhan,Ευρώπη / Αστραχάν,,
+Europe/Kaliningrad,Ευρώπη / Καλίνινγκραντ,,
+Europe/Kirov,Ευρώπη / Κίροφ,,
+Europe/Moscow,Ευρώπη / Μόσχα,,
+Europe/Samara,Ευρώπη / Σαμάρα,,
+Europe/Saratov,Ευρώπη / Σαράτοφ,,
+Europe/Ulyanovsk,Ευρώπη / Ουλιάνοφσκ,,
+Europe/Volgograd,Ευρώπη / Βόλγκογκραντ,,
+Africa/Kigali,Αφρική / Κιγκάλι,,
+Asia/Riyadh,Ασία / Ριάντ,,
+Pacific/Guadalcanal,Ειρηνικός / Γκουανταλκανάλ,,
+Indian/Mahe,Ινδός / Μαέ,,
+Africa/Khartoum,Αφρική / Χαρτούμ,,
+Europe/Stockholm,Ευρώπη / Στοκχόλμη,,
+Asia/Singapore,Ασία / Σιγκαπούρη,,
+Atlantic/St_Helena,Atlantic / St_Helena,,
+Europe/Ljubljana,Ευρώπη / Λιουμπλιάνα,,
+Arctic/Longyearbyen,Αρκτική / Longyearbyen,,
+Europe/Bratislava,Ευρώπη / Μπρατισλάβα,,
+Africa/Freetown,Αφρική / Φρίταουν,,
+Europe/San_Marino,Ευρώπη / San_Marino,,
+Africa/Dakar,Αφρική / Ντακάρ,,
+Africa/Mogadishu,Αφρική / Μογκαντίσου,,
+America/Paramaribo,Αμερική / Παραμαρίμπο,,
+Africa/Juba,Αφρική / Τζούμπα,,
+Africa/Sao_Tome,Αφρική / Sao_Tome,,
+America/El_Salvador,Αμερική / Ελ_Σαλβαδόρ,,
+America/Lower_Princes,Αμερική / Κάτω_Πρίγκιπες,,
+Asia/Damascus,Ασία / Δαμασκός,,
+Africa/Mbabane,Αφρική / Mbabane,,
+America/Grand_Turk,Αμερική / Grand_Turk,,
+Africa/Ndjamena,Αφρική / Ndjamena,,
+Indian/Kerguelen,Ινδός / Kerguelen,,
+Africa/Lome,Αφρική / Λομέ,,
+Asia/Bangkok,Ασία / Μπανγκόκ,,
+Asia/Dushanbe,Ασία / Ντουσάνμπε,,
+Pacific/Fakaofo,Ειρηνικός / Fakaofo,,
+Asia/Dili,Ασία / Ντίλι,,
+Asia/Ashgabat,Ασία / Ashgabat,,
+Africa/Tunis,Αφρική / Τύνιδα,,
+Pacific/Tongatapu,Ειρηνικός / Tongatapu,,
+Europe/Istanbul,Ευρώπη / Κωνσταντινούπολη,,
+America/Port_of_Spain,Αμερική / Port_of_Spain,,
+Pacific/Funafuti,Ειρηνικός / Φουναφούτι,,
+Asia/Taipei,Ασία / Ταϊπέι,,
+Africa/Dar_es_Salaam,Αφρική / Dar_es_Salaam,,
+Europe/Kiev,Ευρώπη / Κίεβο,,
+Europe/Simferopol,Ευρώπη / Συμφερόπολη,,
+Europe/Uzhgorod,Ευρώπη / Uzhgorod,,
+Europe/Zaporozhye,Ευρώπη / Zaporozhye,,
+Africa/Kampala,Αφρική / Καμπάλα,,
+Pacific/Midway,Ειρηνικός / Midway,,
+Pacific/Wake,Ειρηνικός / Ξυπνήστε,,
+America/Adak,Αμερική / Adak,,
+America/Anchorage,Αμερική / Άνκορατζ,,
+America/Boise,Αμερική / Μπουάζ,,
+America/Chicago,Αμερική / Σικάγο,,
+America/Denver,Αμερική / Ντένβερ,,
+America/Detroit,Αμερική / Ντιτρόιτ,,
+America/Indiana/Indianapolis,Αμερική / Ιντιάνα / Ινδιανάπολη,,
+America/Indiana/Knox,Αμερική / Ιντιάνα / Νόξ,,
+America/Indiana/Marengo,Αμερική / Ιντιάνα / Μαρένγκο,,
+America/Indiana/Petersburg,Αμερική / Ιντιάνα / Πετρούπολη,,
+America/Indiana/Tell_City,Αμερική / Ιντιάνα / Tell_City,,
+America/Indiana/Vevay,Αμερική / Ιντιάνα / Vevay,,
+America/Indiana/Vincennes,Αμερική / Ιντιάνα / Βίνσενς,,
+America/Indiana/Winamac,Αμερική / Ιντιάνα / Winamac,,
+America/Juneau,Αμερική / Juneau,,
+America/Kentucky/Louisville,Αμερική / Κεντάκι / Λούισβιλ,,
+America/Kentucky/Monticello,Αμερική / Κεντάκι / Monticello,,
+America/Los_Angeles,Αμερική / Los_Angeles,,
+America/Menominee,Αμερική / Menominee,,
+America/Metlakatla,Αμερική / Metlakatla,,
+America/New_York,Αμερική / Νέα_York,,
+America/Nome,Αμερική / Nome,,
+America/North_Dakota/Beulah,Αμερική / Βόρεια_Dakota / Beulah,,
+America/North_Dakota/Center,Αμερική / Βόρεια_ Ντακότα / Κέντρο,,
+America/North_Dakota/New_Salem,Αμερική / Βόρεια_ Ντακότα / Νέο_Salem,,
+America/Phoenix,Αμερική / Φοίνιξ,,
+America/Sitka,Αμερική / Sitka,,
+America/Yakutat,Αμερική / Γιακουτάτ,,
+Pacific/Honolulu,Ειρηνικός / Χονολουλού,,
+America/Montevideo,Αμερική / Μοντεβιδέο,,
+Asia/Samarkand,Ασία / Σάμαρκαντ,,
+Asia/Tashkent,Ασία / Τασκένδη,,
+Europe/Vatican,Ευρώπη / Βατικανό,,
+America/St_Vincent,Αμερική / St_Vincent,,
+America/Caracas,Αμερική / Καράκας,,
+America/Tortola,Αμερική / Τορτόλα,,
+America/St_Thomas,Αμερική / St_Thomas,,
+Asia/Ho_Chi_Minh,Ασία / Ho_Chi_Minh,,
+Pacific/Efate,Ειρηνικός / Εφάτη,,
+Pacific/Wallis,Ειρηνικός / Γουόλις,,
+Pacific/Apia,Ειρηνικός / Apia,,
+Asia/Aden,Ασία / Άντεν,,
+Indian/Mayotte,Ινδική / Μαγιότ,,
+Africa/Johannesburg,Αφρική / Γιοχάνεσμπουργκ,,
+Africa/Lusaka,Αφρική / Λουσάκα,,
+Africa/Harare,Αφρική / Χαράρε,,
+Emails,Email,,
+Add IP Settings,Προσθήκη ρυθμίσεων IP,,
+Edit IP Settings,Επεξεργασία ρυθμίσεων IP,,
+Edit Caller ID,Επεξεργασία αναγνωριστικού καλούντος,,
+Invoice Date Interval,Διάστημα ημερομηνίας τιμολογίου,,
+Use same credential for Invoice Config,Χρησιμοποιήστε τα ίδια διαπιστευτήρια για το Invoice Config,,
+Registration URL,URL εγγραφής,,
+Account Status,Κατάσταση Λογαριασμού,,
+Admin,διαχειριστής,,
+Sub Admin,Υποδιαχειριστής,,
+Edit Accessnumber,Επεξεργασία αριθμού πρόσβασης,,
+Edit Rate Group,Επεξεργασία ομάδας τιμών,,
+Percentage (Enterprise),Ποσοστό (Επιχείρηση),,
+Edit Ratedeck,Επεξεργασία Ratedeck,,
+Realm,Βασίλειο,,
+Reg-Transport,Reg-Μεταφορές,,
+Failover,Αποτυχία,,
+GW Name #1,Όνομα GW # 1,,
+GW Name #2,Όνομα GW # 2,,
+Gateway,πύλη,,
+Count,μετρώ,,
+Both,Και τα δυο,,
+Stop,Να σταματήσει,,
+Reload,Φορτώνω πάλι,,
+Rescan,Επανάληψη σάρωσης,,
+Org.,Ορ.,,
+Read,Ανάγνωση,,
+Write,Γράφω,,
+STANDARD,ΠΡΟΤΥΠΟ,,
+DID,Μήπως,,
+CALLINGCARD,ΤΗΛΕΦΩΝΙΚΗ ΚΑΡΤΑ,,
+FREE,ΕΛΕΥΘΕΡΟΣ,,
+LOCAL,ΤΟΠΙΚΟΣ,,
+ACCOUNT_INACTIVE_DELETED,ΛΟΓΑΡΙΑΣΜΟΣ_INACTIVE_DELETED,,
+ACCOUNT_EXPIRE,ΛΟΓΑΡΙΑΣΜΟΣ_EXPIRE,,
+ALLOTTED_TIMEOUT,ALLOTTED_TIMEOUT,,
+AUTHENTICATION_FAIL,AUTHENTICATION_FAIL,,
+BEARERCAPABILITY_NOTAUTH,BEARERCAPABILITY_NOTAUTH,,
+BEARERCAPABILITY_NOTAVAIL,BEARERCAPABILITY_NOTAVAIL,,
+BEARERCAPABILITY_NOTIMPL,BEARERCAPABILITY_NOTIMPL,,
+CALL_REJECTED,ΚΑΛΛΙΤΕΧΝΕΤΑΙ,,
+CHAN_NOT_IMPLEMENTED,CHAN_NOT_IMPLEMENTED,,
+CHANNEL_UNACCEPTABLE,ΚΑΝΑΛΙ_UNACCEPTABLE,,
+DESTINATION_OUT_OF_ORDER,DESTINATION_OUT_OF_ORDER,,
+DESTINATION_BLOCKED,DESTINATION_BLOCKED,,
+DID_DESTINATION_NOT_FOUND,DID_DESTINATION_NOT_FOUND,,
+FACILITY_REJECTED,FACILITY_REJECTED,,
+FACILITY_NOT_SUBSCRIBED,FACILITY_NOT_SUBSCRIBED,,
+FACILITY_NOT_IMPLEMENTED,FACILITY_NOT_IMPLEMENTED,,
+FRAUD_CALL_PER_ACCOUNT,FRAUD_CALL_PER_ACCOUNT,,
+FRAUD_CALL_PER_DESTINATION,FRAUD_CALL_PER_DESTINATION,,
+FRAUD_COST_PER_ACCOUNT,FRAUD_COST_PER_ACCOUNT,,
+FRAUD_COST_PER_DESTINATION,FRAUD_COST_PER_DESTINATION,,
+INVALID_NUMBER_FORMAT,INVALID_NUMBER_FORMAT,,
+INCOMPATIBLE_DESTINATION,ΑΣΥΜΒΑΤΟΤΗΤΑ_ ΠΡΟΟΡΙΣΜΟΣ,,
+MANAGER_REQUEST,MANAGER_REQUEST,,
+MEDIA_TIMEOUT,MEDIA_TIMEOUT,,
+NO_ROUTE_DESTINATION,ΟΧΙ_ROUTE_DESTINATION,,
+NORMAL_CLEARING,ΚΑΝΟΝΙΚΗ_ ΚΑΘΑΡΙΣΜΟΣ,,
+NETWORK_OUT_OF_ORDER,NETWORK_OUT_OF_ORDER,,
+NORMAL_UNSPECIFIED,NORMAL_UNSPECIFIED,,
+NORMAL_CIRCUIT_CONGESTION,NORMAL_CIRCUIT_CONGESTION,,
+NORMAL_TEMPORARY_FAILURE,NORMAL_TEMPORARY_FAILURE,,
+NO_SUFFICIENT_FUND,ΟΧΙ_SUFFICIENT_FUND,,
+NO_USER_RESPONSE,ΟΧΙ_USER_RESPONSE,,
+NO_ANSWER,ΚΑΜΙΑ ΑΠΑΝΤΗΣΗ,,
+NUMBER_CHANGED,NUMBER_CHANGED,,
+ORIGINATOR_CANCEL,ORIGINATOR_CANCEL,,
+ORIGNATION_RATE_NOT_FOUND,ORIGNATION_RATE_NOT_FOUND,,
+OUTGOING_CALL_BARRED,OUTGOING_CALL_BARRED,,
+PROGRESS_TIMEOUT,PROGRESS_TIMEOUT,,
+RECOVERY_ON_TIMER_EXPIRE,RECOVERY_ON_TIMER_EXPIRE,,
+RESELLER_COST_CHEAP,RESELLER_COST_CHEAP,,
+SERVICE_NOT_IMPLEMENTED,SERVICE_NOT_IMPLEMENTED,,
+SERVICE_UNAVAILABLE,ΜΗ ΔΙΑΘΕΣΙΜΗ ΥΠΗΡΕΣΙΑ,,
+SUCCESS,ΕΠΙΤΥΧΙΑ,,
+SWITCH_CONGESTION,ΔΙΑΚΟΠΗ,,
+TERMINATION_RATE_NOT_FOUND,TERMINATION_RATE_NOT_FOUND,,
+UNSPECIFIED,ΑΠΡΟΣΔΙΟΡΙΣΤΟΣ,,
+UNALLOCATED_NUMBER,UNALLOCATED_NUMBER,,
+USER_BUSY,ΧΡΗΣΤΗΣ ΑΠΑΣΧΟΛΗΜΕΝΟΣ,,
+USER_NOT_REGISTERED,USER_NOT_REGISTERED,,
+REQUESTED_CHAN_UNAVAIL,REQUESTED_CHAN_UNAVAIL,,
+Resend Email,Ξαναστείλτε ηλεκτρονικό μήνυμα,,
+Resent Email,Εκ νέου αποστολή email,,
+Sent,Απεσταλμένα,,
+Account Number Editable,Αριθμός λογαριασμού με δυνατότητα επεξεργασίας,,
+Play Audio Notifications,Αναπαραγωγή ήχων ειδοποιήσεων,,
+Invoices Older Than Days,Τιμολόγια Παλαιότερα από Ημέρες,,
+Half Year,Μισός χρόνος,,
+Last Pay Date,Ημερομηνία τελευταίας πληρωμής,,
+Buy DIDs,Αγορά DID,,
+Purchased DID,Αγορά DID,,
+DID Information,Πληροφορίες DID,,
+Sell Cost,Κόστος πώλησης,,
+Admin Rate Group,Ομάδα τιμών διαχειριστή,,
+Search My Rates,Αναζήτηση στις τιμές μου,,
+Optin,Οπτίν,,
+Bal,Μπαλ,,
+Managed & Maintained by,Διαχειρίζεται και συντηρείται από,,
+iNextrix Technologies Pvt. Ltd.,iNextrix Technologies Pvt. Ε.Π.Ε.,,
+All Rights Reserved.,Ολα τα δικαιώματα διατηρούνται.,,
+module_name,όνομα ενότητας,,
+English,Αγγλικά,,
+Chinese,κινέζικα,,
+French,γαλλική γλώσσα,,
+German,Γερμανός,,
+Greek,Ελληνικά,,
+Italian,ιταλικός,,
+Spanish,Ισπανικά,,
+Russian,Ρωσική,,
+Japanese,Ιαπωνικά,,
+Portuguese,Πορτογαλικά,,
+Romanian,ρουμανικός,,
+Create Translation Languages,Δημιουργήστε γλώσσες μετάφρασης,,
+Module Name,Όνομα ενότητας,,
+Edit Translation Language,Επεξεργασία γλώσσας μετάφρασης,,
+Distributor,Διανομέας,,
+Commission Based,Με βάση την Επιτροπή,,
+Reseller Type,Τύπος μεταπωλητή,,
+Callerid,Κάλεριτ,,
+Opensips Dispatcher,Opensips Dispatcher,,
+Generate,Παράγω,,
+Forward,Προς τα εμπρός,,
+Add White List,Προσθήκη λευκής λίστας,,
+Report,Κανω ΑΝΑΦΟΡΑ,,
+Profiles,Προφίλ,,
+Create Duplicate Rate Group,Δημιουργία ομάδας διπλών τιμών,,
+Add Timezone,Προσθήκη ζώνης ώρας,,
+Timezone List,Λίστα ζώνης ώρας,,
+GMT Offset,Μετατόπιση GMT,,
+Edit Timezone,Επεξεργασία ζώνης ώρας,,
+Account Notification,Ειδοποίηση λογαριασμού,,
+Both (Email & SMS),Και τα δύο (Email & SMS),,
+Terms & Condition,Όροι και προϋποθέσεις,,
+Term And Condition,Οροι και Προϋποθέσεις,,
+Url,Url,,
+Text,Κείμενο,,
+Custom Rates,Προσαρμοσμένες τιμές,,
+(Price+SetUp Fee),(Τιμή + Χρέωση SetUp),,

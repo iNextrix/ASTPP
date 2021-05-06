@@ -410,14 +410,6 @@ class Accounts_model extends CI_Model
         return $patterns_value;
     }
 
-    function get_callerid($account_id)
-    {
-        $query = $this->db_model->getSelect("*", "accounts_callerid", array(
-            "accountid" => $account_id
-        ));
-        return $query;
-    }
-
     function get_account_number($accountid)
     {
         $accountinfo = $this->session->userdata('accountinfo');
@@ -431,21 +423,6 @@ class Accounts_model extends CI_Model
             return $query->row_array();
         else
             return false;
-    }
-
-    function add_callerid($data)
-    {
-        unset($data['action'], $data['flag']);
-        $this->db->insert('accounts_callerid', $data);
-        return true;
-    }
-
-    function edit_callerid($data)
-    {
-        unset($data['action'], $data['flag']);
-        $this->db->where('accountid', $data['accountid']);
-        $this->db->update('accounts_callerid', $data);
-        return true;
     }
 
     function remove_all_account_tax($account_tax)

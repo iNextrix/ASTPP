@@ -39,7 +39,7 @@ class Audit_form
                 gettext("Account"),
                 "100",
                 "user_identifier",
-                "first_name,last_name,number",
+                "first_name,last_name,number,company_name",
                 "accounts",
                 "get_field_name_coma_new"
             ),
@@ -88,7 +88,7 @@ class Audit_form
                 "right"
             ),
             array(
-                gettext("Referer Page "),
+                gettext("Referer Page"),
                 "285",
                 "referer_page",
                 "",

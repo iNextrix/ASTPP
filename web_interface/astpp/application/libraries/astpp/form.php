@@ -140,6 +140,11 @@ class Form {
 			unset ( $fields_array ['breadcrumb'] );
 		}
 		$form_contents .= form_open ( $fields_array ['forms'] [0], $fields_array ['forms'] [1] );
+		$form_name=$fields_array ['forms'] [1]['name'];
+		if(file_exists(FCPATH."application/modules/".$this->CI->router->class.'/tooltip.php')){
+			$file_name=FCPATH."application/modules/".$this->CI->router->class.'/tooltip.php';
+				 include $file_name;
+		}
 		unset ( $fields_array ['forms'] );
 		$button_array = array ();
 		if (isset ( $fields_array ['button_save'] ) || isset ( $fields_array ['button_cancel'] ) || isset ( $fields_array ['additional_button'] )) {
@@ -206,15 +211,29 @@ class Form {
 							$fieldvalue [0] = in_array ( 'required', $validation_arr ) ? $fieldvalue [0] . "<span style='color:black;'> *</span>" : $fieldvalue [0];
 							$fieldvalue [0] = in_array ( 'dropdown', $validation_arr ) ? $fieldvalue [0] . "<span style='color:black;'> *</span>" : $fieldvalue [0];
 						}
-						
+						if(is_array($fieldvalue [1])){
+							$form_names= $form_name."_".$fieldvalue [1]['name'];
+						}else if(is_array($fieldvalue [2])){
+							$form_names= $form_name."_".$fieldvalue [2]['name'];
+						}else{
+							$form_names= $form_name."_".$fieldvalue [1];
+						}
 						if (is_array ( $fieldvalue [1] ) || (is_array ( $fieldvalue [2] ) && isset ( $fieldvalue [2] ['hidden'] ))) {
 							$form_contents .= form_label ( gettext ( $fieldvalue [0] ), $fieldvalue [0], array (
-									'class' => 'col-md-3 p-0 control-label add_settings' 
+									'class' => 'col-md-3 p-0 control-label add_settings',
+									'data-toggle'=>"tooltip",
+									'data-html'=>"true",
+									'data-original-title'=> $tooltip_data[$form_names],
+									'data-placement'=>"top"	 
 							) );
 						} else {
 							$form_contents .= form_label (  $fieldvalue [0] , "", array (
 									"class" => "col-md-3 p-0 control-label " ,
-									"for"   => $fieldvalue [0]
+									"for"   => $fieldvalue [0],
+									'data-toggle'=>"tooltip",
+									'data-html'=>"true",
+									'data-original-title'=> $tooltip_data[$form_names],
+									'data-placement'=>"top"	
 							) );
 						}
 					}
@@ -242,7 +261,7 @@ class Form {
 									$fieldvalue [12] 
 							) );
 							
-							if ($fieldset_key == gettext ( 'System Configuration Information' ) || ($fieldset_key == 'Rate Information' && $fieldvalue [0] == 'Force Trunk') || ($fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Force Trunk') || ($fieldset_key == 'Card Information' && $fieldvalue [0] == 'Rate Group') || ($fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Account')|| ($fieldset_key == 'Rate Information' && ($fieldvalue [0] == 'Country' || $fieldvalue [0] == 'Call Type'))|| ($fieldset_key == 'Ratedeck Information' && ($fieldvalue [0] == 'Call Type')) || $fieldset_key == 'Freeswitch Devices' && $fieldvalue [0] == 'Rate Group' || ($fieldset_key == 'Origination Rate Add/Edit' && $fieldvalue [0] == 'Trunks') || $fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Rate Group' || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Failover GW Name #1') || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Failover GW Name #2') || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Rate Group') || ($fieldset_key == 'Sip Devices' && $fieldvalue [0] == 'Sip Profile') || ($fieldset_key == 'Sip Devices' && $fieldvalue [0] == 'Account') || ($fieldset_key == 'Account Settings' && $fieldvalue [0] == 'Localization')) {
+							if ($fieldset_key == gettext ( 'System Configuration Information' ) || ($fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Force Trunk') || ($fieldset_key == 'Card Information' && $fieldvalue [0] == 'Rate Group') || ($fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Account')|| ($fieldset_key == 'Rate Information' && ($fieldvalue [0] == 'Country' || $fieldvalue [0] == 'Call Type'))|| ($fieldset_key == 'Ratedeck Information' && ($fieldvalue [0] == 'Call Type')) || $fieldset_key == 'Freeswitch Devices' && $fieldvalue [0] == 'Rate Group' || ($fieldset_key == 'Origination Rate Add/Edit' && $fieldvalue [0] == 'Trunks') || $fieldset_key == 'Billing Information' && $fieldvalue [0] == 'Rate Group' || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Failover GW Name #1') || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Failover GW Name #2') || ($fieldset_key == 'Information' && $fieldvalue [0] == 'Rate Group') || ($fieldset_key == 'Sip Devices' && $fieldvalue [0] == 'Sip Profile') || ($fieldset_key == 'Sip Devices' && $fieldvalue [0] == 'Account') || ($fieldset_key == 'Account Settings' && $fieldvalue [0] == 'Localization') || ($fieldset_key == 'Settings' && $fieldvalue [0] == 'Localization')) {
 								$form_contents .= form_dropdown_all ( $fieldvalue [1], $drp_array, $fieldvalue ['value'], $extra );
 							} else {
 								$form_contents .= form_dropdown ( $fieldvalue [1], $drp_array, $fieldvalue ['value'], $extra );
@@ -695,22 +714,22 @@ class Form {
 
 			$logintype = $this->CI->session->userdata('logintype');
 
-			$Actionkey = array_search ('Action',array_column ( $grid_fields, 0 ) );
-			if ($Actionkey == '') {
-				$Actionkey = array_search ('action',array_column ( $grid_fields, 0 ) );
-			}
-			if ($Actionkey == '') {
-				$Actionkey = array_search ('Acción',array_column ( $grid_fields, 0 ) );
-			}
-			if ($Actionkey == '') {
-				$Actionkey = array_search ('Ação',array_column ( $grid_fields, 0 ) );
-			}
-			if ($Actionkey == '') {
-				$Actionkey = array_search ('действие',array_column ( $grid_fields, 0 ) );
-			}
-			if ($Actionkey == '') {
-				$Actionkey = array_search ('Açao',array_column ( $grid_fields, 0 ) );
-			}
+			$Actionkey = array_search (gettext('Action'),array_column ( $grid_fields, 0 ) );
+			// if ($Actionkey == '') {
+			// 	$Actionkey = array_search ('action',array_column ( $grid_fields, 0 ) );
+			// }
+			// if ($Actionkey == '') {
+			// 	$Actionkey = array_search ('Acción',array_column ( $grid_fields, 0 ) );
+			// }
+			// if ($Actionkey == '') {
+			// 	$Actionkey = array_search ('Ação',array_column ( $grid_fields, 0 ) );
+			// }
+			// if ($Actionkey == '') {
+			// 	$Actionkey = array_search ('действие',array_column ( $grid_fields, 0 ) );
+			// }
+			// if ($Actionkey == '') {
+			// 	$Actionkey = array_search ('Açao',array_column ( $grid_fields, 0 ) );
+			// }
 			$ActionArr = $grid_fields [$Actionkey];
 
 			$current_button_url = '';

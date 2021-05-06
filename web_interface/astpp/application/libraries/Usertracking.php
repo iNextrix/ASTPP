@@ -153,13 +153,30 @@ class Usertracking
       return;
     }
     //get the data
-    $input_data = array();
-    $input_data['session_id'] = $this->CI->session->userdata('session_id');
-    $input_data['request_uri'] = $this->CI->input->server('REQUEST_URI');
-    $input_data['timestamp'] = gmdate("Y-m-d H:i:s");
-    $input_data['client_ip'] = $this->CI->input->server('REMOTE_ADDR');
-    $input_data['client_user_agent'] = $this->CI->agent->agent_string()."..".$this->CI->db->last_query();
-    $input_data['referer_page'] = $this->CI->agent->referrer();
+    $user = common_model::$global_config['system_config']['audit_log'];
+    if($user == '0'){
+      $input_data = array();
+      $input_data['session_id'] = $this->CI->session->userdata('session_id');
+      $input_data['request_uri'] = $this->CI->input->server('REQUEST_URI');
+      $input_data['timestamp'] = gmdate("Y-m-d H:i:s");
+      $input_data['client_ip'] = $this->CI->input->server('REMOTE_ADDR');
+      $input_data['client_user_agent'] = $this->CI->agent->agent_string()."..".$this->CI->db->last_query();
+      $input_data['referer_page'] = $this->CI->agent->referrer();
+
+      $accountinfo = $this->CI->session->userdata ( 'accountinfo' ) ;
+      $input_data['user_identifier'] = ($accountinfo['id']=='')?'0':$accountinfo['id'];
+      //Add it to the database
+      $this->CI->load->database();
+      $result = $this->CI->db->insert('usertracking', $input_data);
+  
+      if ($result === FALSE)
+        show_error("Could not write to the usertracking table in the database while trying to add a tracking record.  Double-check configureation and datbase setup for Usertracking library!");
+
+        //Return the database write result
+      // return $result;
+    }
+    
+    return true;
 
     //Get the user identifier, if set
     /*if ($this->configuration['user_identifier'] !== null && is_array($this->configuration['user_identifier']))
@@ -187,20 +204,6 @@ class Usertracking
       else
         display_error("Could not load the $class_type: $class_name.  Check the userIdentifier configuration in userTracking config. User Identifier will not be tracked.");
     }*/
-
-
-
-    $accountinfo = $this->CI->session->userdata ( 'accountinfo' ) ;
-    $input_data['user_identifier'] = ($accountinfo['id']=='')?'0':$accountinfo['id'];
-    //Add it to the database
-    $this->CI->load->database();
-    $result = $this->CI->db->insert('usertracking', $input_data);
-
-    if ($result === FALSE)
-      show_error("Could not write to the usertracking table in the database while trying to add a tracking record.  Double-check configureation and datbase setup for Usertracking library!");
-
-    //Return the database write result
-    return $result;
   }
 
 

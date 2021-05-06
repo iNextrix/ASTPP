@@ -9,7 +9,7 @@
 <section class="slice color-three">
 	<div class="w-section inverse p-0">
 		<form method="post" action="<?= base_url()?>did/did_preview_file/"
-			enctype="multipart/form-data" id="did_rates">
+			enctype="multipart/form-data" id="did_rates" name="did_rates_form">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="col-md-10 clo-sm-12 float-left p-0">
@@ -41,7 +41,7 @@ if (isset($error) && ! empty($error)) {
 						<div class="pb-4" id="floating-label">
 							<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Import DIDs"); ?></h3>
 							<div class="col-md-6 form-group">
-								<label class="col-md-6 p-0 control-label"><?php echo gettext("Provider:"); ?></label>
+								<label class="col-md-6 p-0 control-label"><?php echo gettext("Provider"); ?>:</label>
 								   <?
 
 $provider_id = form_dropdown('provider_id', $this->db_model->build_concat_select_dropdown("id,first_name,number", " accounts", "where_arr", array(
@@ -74,7 +74,7 @@ $provider_id = form_dropdown('provider_id', $this->db_model->build_concat_select
 								</div>
 							</div>
 							<div class="col-sm-12">
-								<label><span class="mr-4 align-middle"><?php echo gettext("Check Header:"); ?></span>
+								<label><span class="mr-4 align-middle"><?php echo gettext("Check Header"); ?>:</span>
 									<input type='checkbox' class="align-middle" name='check_header' /></label>
 							</div>
 						</div>

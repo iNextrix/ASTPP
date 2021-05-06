@@ -161,6 +161,17 @@ end
 -- Dialplan for outbound calls
 function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_array,rate_group_id,old_trunk_id,force_outbound_routes,rategroup_type,livecall_data)
 
+	--Dhaval trunk localization ASTPPENT-675
+	local tr_localization_tunk=nil
+	tr_localization_tunk = get_localization(outbound_info['trunk_id'],'Trunk')
+	if (tr_localization_tunk ~= nil) then
+		tr_localization_tunk['out_caller_id_terminate'] = tr_localization_tunk['out_caller_id_terminate']:gsub(" ", "")
+		callerid_array['cid_name'] = do_number_translation(tr_localization_tunk['out_caller_id_terminate'],callerid_array['original_cid_name'])
+		callerid_array['cid_number'] = do_number_translation(tr_localization_tunk['out_caller_id_terminate'],callerid_array['original_cid_number'])
+		tr_localization_tunk['number_terminate'] = tr_localization_tunk['number_terminate']:gsub(" ", "")
+		destination_number = do_number_translation(tr_localization_tunk['number_terminate'],destination_number)
+	end
+	--Dhaval trunk localization end
 	local temp_destination_number = destination_number
 	local tr_localization=nil
 	tr_localization = get_localization(outbound_info['provider_id'],'T')
@@ -291,7 +302,6 @@ function custom_inbound_0(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 	table.insert(xml, [[<action application="set" data="calltype=DID-LOCAL"/>]]);  
 	local deli_str = {}
 	string.gsub(didinfo['extensions'], "([,|]+)", function(value) deli_str[#deli_str + 1] =     value;  end);           
-	if (config['opensips'] == '1') then
 		for i = 1, #destination_str do
 			if notify then notify(xml,destination_str[i]) end
 			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]user/"..destination_str[i].."@${domain_name}"
@@ -300,17 +310,7 @@ function custom_inbound_0(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 			end
 		end
 		table.insert(xml, [[<action application="bridge" data="]]..bridge_str..[["/>]]);
-	else      
-		common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
-		for i = 1, #destination_str do
-			if notify then notify(xml,destination_str[i]) end
-			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
-			if i <= #deli_str then
-				bridge_str = bridge_str..deli_str[i]
-			end
-		end
-		table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
-	end
+	
 	-- To leave voicemail 
 	leave_voicemail(xml,destination_number,destination_str[1])
 	return xml;
@@ -350,7 +350,6 @@ function custom_inbound_5(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 	table.insert(xml, [[<action application="set" data="calltype=SIP-DID"/>]]); 
 	local deli_str = {}
 	string.gsub(didinfo['extensions'], "([,|]+)", function(value) deli_str[#deli_str + 1] =     value;  end);           
-	if (config['opensips'] == '1') then
 		common_chan_var = "{sip_contact_user="..destination_number.."}"
 		for i = 1, #destination_str do
 			if notify then notify(xml,destination_str[i]) end
@@ -360,17 +359,7 @@ function custom_inbound_5(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 			end
 		end
 		table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);            
-        else
-		common_chan_var = "{sip_invite_params=user=LOCAL,sip_from_uri="..didinfo['extensions'].."@${domain_name}}"
-		for i = 1, #destination_str do
-			if notify then notify(xml,destination_str[i]) end
-			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_str[i].."@"..config['opensips_domain']
-			if i <= #deli_str then
-				bridge_str = bridge_str..deli_str[i]
-			end
-		end
-		table.insert(xml, [[<action application="bridge" data="]]..common_chan_var..bridge_str..[["/>]]);
-        end
+        
 -- To leave voicemail 
         leave_voicemail(xml,destination_number,destination_str[1])
 	return xml;
@@ -390,13 +379,9 @@ function freeswitch_xml_local(xml,destination_number,destinationinfo,callerid_ar
 	table.insert(xml, [[<action application="export" data="presence_data=]]..livecall_data..[[||||||Local"/>]]);
     if notify then notify(xml,destination_number) end
 
-    if (config['opensips'] == '1') then
+
       table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..config['leg_timeout']..[[]user/]]..destination_number..[[@${domain_name}"/>]]);
-    else
-      table.insert(xml, [[<action application="set" data="sip_h_X-call-type=did"/>]]);
-      table.insert(xml, [[<action application="set" data="sip_h_X-did-call-type=DID-LOCAL"/>]]);
-      table.insert(xml, [[<action application="bridge" data="{sip_invite_params=user=LOCAL,sip_from_uri=]]..destination_number..[[@${domain_name}}[leg_timeout=]]..config['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..destination_number..[[@]]..config['opensips_domain']..[["/>]]);
-    end
+    
 
     -- To leave voicemail 
     leave_voicemail(xml,destination_number,destination_number)

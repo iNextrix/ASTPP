@@ -895,7 +895,7 @@ class pricing_form extends common
                     gettext("Reseller"),
                     "110",
                     "reseller_id",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "reseller_select_value"
                 ),
@@ -1010,13 +1010,12 @@ class pricing_form extends common
                 $status_array = array(
                     '0' => gettext('LCR'),
                     '1' => gettext('COST'),
-                    '2' => gettext('Priority (Enterprise)'),
-                    '3' => gettext('Percentage (WIP) (Enterprise)')
+                    '2' => gettext('Priority (Enterprise)')
                 );
             } else {
                 $status_array = array(
                     '0' => gettext('LCR'),
-                    '1' => gettext('COST')
+                    '1' => gettext('Cost')
                 );
             }
             return $status_array;
@@ -1025,14 +1024,14 @@ class pricing_form extends common
             if ($trunk_count['value'] > 1) {
                 $status_array = array(
                     '0' => gettext('LCR'),
-                    '1' => gettext('COST'),
+                    '1' => gettext('Cost'),
                     '2' => gettext('Priority (Enterprise)'),
                     '3' => gettext('Percentage (Enterprise)')
                 );
             } else {
                 $status_array = array(
                     '0' => gettext('LCR'),
-                    '1' => gettext('COST')
+                    '1' => gettext('Cost')
                 );
             }
             return $status_array;
@@ -1043,7 +1042,7 @@ class pricing_form extends common
     {
         $status_array = array(
             '0' => gettext('LCR'),
-            '1' => gettext('COST')
+            '1' => gettext('Cost')
         );
         return $status_array;
     }
@@ -1053,7 +1052,7 @@ class pricing_form extends common
         if ($status == 0) {
             return "LCR";
         } else if ($status == 1) {
-            return "COST";
+            return "Cost";
         } else if ($status == 2) {
             return "Priority";
         } else {
@@ -1074,7 +1073,7 @@ class pricing_form extends common
     {
         $status_array = array(
             '0' => 'LCR',
-            '1' => 'COST'
+            '1' => 'Cost'
         );
         return $status_array;
     }
@@ -1091,7 +1090,7 @@ class pricing_form extends common
             $status_array = array(
                 "" => gettext("--Select--"),
                 '0' => gettext('LCR'),
-                '1' => gettext('COST'),
+                '1' => gettext('Cost'),
                 '2' => gettext('Priority (Enterprise)'),
                 '3' => gettext('Percentage')
             );
@@ -1099,7 +1098,7 @@ class pricing_form extends common
             $status_array = array(
                 "" => gettext("--Select--"),
                 '0' => gettext('LCR'),
-                '1' => gettext('COST')
+                '1' => gettext('Cost')
             );
         }
         return $status_array;

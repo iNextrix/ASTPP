@@ -188,9 +188,9 @@ $(document).ready(function(){
 											data-live-search='true'
 											onchange="login_type_change(this.value);">
 											<option value='0'
-												<?php if (isset($login_type) && $login_type == 0) { echo "selected"; } ?>>Admin</option>
+												<?php if (isset($login_type) && $login_type == 0) { echo "selected"; } ?>><?php echo gettext("Admin")?></option>
 											<option value='1'
-												<?php if (isset($login_type) && $login_type == 1) { echo "selected"; } ?>>Reseller</option>
+												<?php if (isset($login_type) && $login_type == 1) { echo "selected"; } ?>><?php echo gettext("Reseller")?></option>
 										</select>
 									</div>
 									<div class="col-md-12 text-right">

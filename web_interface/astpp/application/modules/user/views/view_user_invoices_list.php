@@ -11,15 +11,9 @@
         });        
     });
      $(document).ready(function() {
-        var currentdate = new Date(); 
-        var datetime = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + currentdate.getDate() + " ";
-            
-        var datetime1 = currentdate.getFullYear() + "-"
-           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            + currentdate.getDate() + ""
       
+        var datetime1 = date;
+        var datetime = date;
         $("#invoice_to_date").datepicker({
             value:datetime,
             uiLibrary: 'bootstrap4',

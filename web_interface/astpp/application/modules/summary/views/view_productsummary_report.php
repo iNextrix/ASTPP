@@ -13,15 +13,17 @@
            clear_search_request("productsummary_grid","");
            window.location="<? echo base_url() ?>summary/product_clearsearchfilter/";
        });
-        var currentdate = new Date(); 
-        var from_date = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
+        // var currentdate = new Date(); 
+        // var from_date = currentdate.getFullYear() + "-"
+        //     + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
+        //         + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
             
-        var to_date = currentdate.getFullYear() + "-"
-           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            +("0" + currentdate.getDate()).slice(-2) + " 23:59:59";
+        // var to_date = currentdate.getFullYear() + "-"
+        //    +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
+        //     +("0" + currentdate.getDate()).slice(-2) + " 23:59:59";
 
+  var from_date = date + " 00:00:00";
+  var to_date = date + " 23:59:59";
 	var session_from_date = "<?php echo (isset($product_summary_search['order_date'][0]) && $product_summary_search['order_date'][0] !="")?$product_summary_search['order_date'][0]:""?>";
 	
 	var session_to_date = "<?php echo (isset($product_summary_search['order_date'][1]) && $product_summary_search['order_date'][1] !="")?$product_summary_search['order_date'][1]:""?>";
@@ -115,7 +117,7 @@
                               <select name="order_items#accountid"
                                  class='col-md-12 form-control form-control-lg selectpicker'
                                  data-live-search='true'>
-                                 <option value=''>--Select--</option>
+                                 <option value=''><?php echo gettext("--Select--")?></option>
                                  <?php
                                     if (! empty($accountlist)) {
                                         foreach ($accountlist as $key => $value) {
@@ -159,7 +161,7 @@
                               <select name="product_id" id="product_id"
                                  class="col-md-12 form-control form-control-lg selectpicker product_id"
                                  data-live-search='true'>
-                                 <option value="">--Select--</option>
+                                 <option value=""><?php echo gettext("--Select--")?></option>
                                  
                               </select>
                            </div>

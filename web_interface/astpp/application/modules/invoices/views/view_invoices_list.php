@@ -44,6 +44,8 @@
 		  event.preventDefault();
 	}
     $(document).ready(function() {
+    	var resellerid ="<?php echo isset($reseller_id) ? $reseller_id : ''; ?>";
+		$(".reseller_id_search_drp").val(resellerid);
         build_grid("invoices_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
             $('.chkRefNos').attr('checked', this.checked);
@@ -53,7 +55,7 @@
         });        
         $("#id_reset").click(function(){
             clear_search_request("invoices_grid","");
-            $("#accountid_search_drp").html("<option value='' selected='selected'>--Select--</option>");
+            $("#accountid_search_drp").html("<option value='' selected='selected'><?php echo gettext("--Select--")?></option>");
         });
         $("#generate_search").click(function(){
 			$("#search_generate_bar").slideToggle("slow");
@@ -65,13 +67,9 @@
             format: 'yyyy-mm-dd',
             footer:true
          });		
-        var currentdate = new Date(); 
-        var invoice_from_date = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + ("0" + currentdate.getDate()).slice(-2);
-        var invoice_to_date = currentdate.getFullYear() + "-"
-           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            +("0" + currentdate.getDate()).slice(-2);
+        var invoice_from_date = date;
+    	var invoice_to_date = date;
+
         $("#invoice_from_date").datepicker({
 			value:invoice_from_date,
 			uiLibrary: 'bootstrap4',
@@ -128,12 +126,12 @@
 						data:"reseller_id="+this.value, 
 						success: function(response) {
 							 $("#accountid_search_drp").html(response);
-							 $("#accountid_search_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $("#accountid_search_drp").prepend("<option value='' selected='selected'><?php echo gettext("--Select--")?></option>");
 							 $('.accountid_search_drp').selectpicker('refresh');
 						}
 					});
 				}else{
-						$("#accountid_search_drp").html("<option value='' selected='selected'>--Select--</option>");
+						$("#accountid_search_drp").html("<option value='' selected='selected'><?php echo gettext("--Select--")?></option>");
 						$('.accountid_search_drp').selectpicker('refresh');
 					}	
         });

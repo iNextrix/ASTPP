@@ -427,6 +427,10 @@ class DID extends MX_Controller
                     $total_amt = $product_info['price'] + $product_info['setup_fee'];
 
                     $total_amt = $this->common->convert_to_currency('', '', $total_amt);
+                    $did_id = $this->common->get_field_name("id","dids",array("product_id"=>$add_array['product_id']));
+                    $this->load->library('did_lib');
+                    $accountdata['logintype'] = $accountdata['type'];
+                    $did_result = $this->did_lib->did_billing_process($accountdata, $add_array["accountid"], $did_id);
                     if ($balance >= $total_amt) {
                         $add_array['invoice_type'] = "debit";
                         $add_array['payment_by'] = "Account Balance";
@@ -460,8 +464,24 @@ class DID extends MX_Controller
             'id' => $id
         );
         $did_info = (array) $this->db->get_where("dids", $where)->result_array()[0];
+        if($did_info['accountid'] > 0){
+            $where = array(
+            'id' => $did_info['accountid']
+            );
+            }
+        else{
+            $where = array(
+            'id' => $did_info['parent_id']
+            );
+            }
+            $accountinfo = (array) $this->db->get_where("accounts", $where)->result_array()[0];
         $this->did_model->did_number_release($did_info, $accountinfo, 'release');
+        $did_info['product_name'] = $did_info['number'];
 
+        $final_array = array_merge($did_info, $accountinfo);
+        $final_array['id'] = $accountinfo['id'];
+        $final_array['next_billing_date'] = gmdate('Y-m-d H:i:s');
+        $this->did_lib->did_release($final_array);
         $this->session->set_flashdata('astpp_errormsg', gettext('DID Released Successfully!'));
         redirect(base_url() . 'did/did_list/');
     }

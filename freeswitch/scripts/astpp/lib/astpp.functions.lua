@@ -260,6 +260,10 @@ function get_localization (id,type)
 		query = "SELECT id,in_caller_id_originate,out_caller_id_originate,number_originate FROM "..TBL_LOCALIZATION.." WHERE id = "..id.. " AND status=0 limit 1 ";
 	elseif(type=="T") then
 		query = "SELECT id,out_caller_id_terminate,number_terminate FROM "..TBL_LOCALIZATION.." WHERE id=(SELECT localization_id from accounts where id = "..id.. ") AND status=0 limit 1 ";
+	--Dhaval ASTPPENT-675 trunk localization 	
+	elseif(type=="Trunk") then
+		query = "SELECT id,out_caller_id_terminate,number_terminate,dst_base_cid FROM "..TBL_LOCALIZATION.." WHERE id=(SELECT localization_id from trunks where id = "..id.. ") AND status=0 limit 1 ";
+	--trunk localization ASTPPENT-675	end
 	end
     Logger.debug("[GET_LOCALIZATION] Query :" .. query)
     assert (dbh:query(query, function(u)

@@ -40,7 +40,10 @@ class Orders_form
         if ($account_data['type'] == - 1) {
             $reseller_array = array(
                 gettext('Reseller'),
-                'reseller_id',
+                array(
+                    'name' => 'reseller_id',
+                    'class' => 'reseller_id_search_drp'
+                ),
                 'SELECT',
                 '',
                 '',
@@ -58,7 +61,10 @@ class Orders_form
         } else {
             $reseller_array = array(
                 gettext('Reseller'),
-                'reseller_id',
+                array(
+                    'name' => 'reseller_id',
+                    'class' => 'reseller_id_search_drp'
+                ),
                 'SELECT',
                 '',
                 '',
@@ -132,20 +138,28 @@ class Orders_form
             ),
             $reseller_array,
            array(
-		gettext('Account'), 
-		'accountid', 
-		'SELECT',
-		'',			 
-		'', 
-		'tOOL TIP', 
-		'Please Enter account number', 
-		'id', 
-		'IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),IF(`status`=1,concat( first_name, " ", last_name, " ", "(", number, ")*" ),concat( first_name, " ", last_name, " ", "(", number, ")" ))) as number', 
-		'accounts', 
-		'build_dropdown_deleted', 
-		'where_arr', 
-		''
-		),
+                gettext('Account'),
+                array(
+                    'name' => 'accountid',
+                    'id' => 'accountid_search_drp',
+                    'class' => 'accountid_search_drp'
+                ),
+                'SELECT',
+                '',
+                '',
+                'tOOL TIP',
+                'Please Enter account number',
+                'id',
+                'first_name,last_name,number',
+                'accounts',
+                'build_concat_dropdown',
+                'where_arr',
+                array(
+                    "reseller_id" => $reseller_id,
+                    "type" => "GLOBAL",
+                    "status" => 0
+                )
+            ),
             array(
                 gettext('Status'),
                 'payment_status',
@@ -220,7 +234,7 @@ class Orders_form
                 "order_date",
                 "order_date",
                 "order_date",
-                "convert_to_date",
+                "convert_GMT_to",
                 "",
                 "true",
                 "center"
@@ -240,7 +254,7 @@ class Orders_form
                 gettext("Account"),
                 "250",
                 "accountid",
-                "first_name,last_name,number",
+                "first_name,last_name,number,company_name",
                 "accounts",
                 "build_concat_string",
                 "",
@@ -284,7 +298,7 @@ class Orders_form
                 gettext("Reseller"),
                 "150",
                 "reseller_id",
-                "first_name,last_name,number",
+                "first_name,last_name,number,company_name",
                 "accounts",
                 "get_field_name_coma_new",
                 "",

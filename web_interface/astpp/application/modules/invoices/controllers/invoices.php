@@ -60,6 +60,9 @@ class Invoices extends MX_Controller
             'deleted' => 0
         ));
         $data['account_value'] = $account->result_array();
+        $accountinfo = $this->session->userdata('accountinfo');
+        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
+        $data['reseller_id'] = $reseller_id;
         $this->load->view('view_invoices_list', $data);
     }
 
@@ -88,10 +91,12 @@ class Invoices extends MX_Controller
             foreach ($query as $key => $value) {
                 $delete_button = '';
                 $date = strtotime($value['generate_date']);
-                $invoice_date = date("Y-m-d", $date);
-                $fromdate = strtotime($value['from_date']);
-                $from_date = date("Y-m-d", $fromdate);
-                $due_date = date("Y-m-d", strtotime($value['due_date']));
+
+                $invoice_date = $this->common->convert_GMT_to_new('','',$value['generate_date']);
+                $from_date = $this->common->convert_GMT_to_new('','',$value['from_date']);
+                $due_date = $this->common->convert_GMT_to_new('','',$value['due_date']);
+                $to_date = $this->common->convert_GMT_to_new('','',$from_date);
+
                 $outstanding = ($value['is_paid'] == 1) ? $value['debit'] - $value['credit'] : "0.00";
                 $invoice_total = '';
                 $accountinfo = $this->session->userdata('accountinfo');
@@ -113,16 +118,16 @@ class Invoices extends MX_Controller
                     } else {
 
                         if ($value['is_paid'] == 1 && $outstanding > 0) {
-                            $payment = '<a style="padding: 0 8px;" href="' . base_url() . 'invoices/invoice_summary/' . $value['id'] . '" class="btn btn-warning"  title="Payment">Unpaid</i></a>';
+                            $payment = "<a style='padding: 0 8px;' href='" . base_url() . "invoices/invoice_summary/" . $value["id"] . "' class='btn btn-warning'  title='Payment'>".gettext("Unpaid")."</i></a>";
                         } else {
-                            $payment = '<button style="padding: 0 17px;" type="button"  class="btn btn-success">Paid</button>';
+                            $payment = "<button style='padding: 0 17px;' type='button'  class='btn btn-success'>".gettext("Paid")."</button>";
                         }
                         $delete_button = "&nbsp";
                     }
                 } else {
                     $payment = '';
                 }
-                $account_arr = $this->db_model->getSelect('first_name,number,last_name', 'accounts', array(
+                $account_arr = $this->db_model->getSelect('first_name,number,last_name,company_name', 'accounts', array(
                     'id' => $value['accountid']
                 ));
                 $account_array = array();
@@ -194,13 +199,13 @@ class Invoices extends MX_Controller
                         $value['number'],
 
                         $invoice_type,
-                        isset($account_array['number']) ? $account_array['first_name'] . ' ' . $account_array['last_name'] . '</br>' . $account_array['number'] : "",
+                        isset($account_array['company_name']) && !empty($account_array['company_name']) ? $account_array['company_name'] . ' ' . '</br>' . $account_array['number'] : $account_array['first_name'] . ' ' . $account_array['last_name'] . '</br>' . $account_array['number'],
                         $invoice_date,
                         $from_date,
                         $due_date,
                         $this->common->currency_decimal($amount),
                         $this->common->currency_decimal($outstanding),
-                        $this->common->reseller_select_value("first_name,last_name,number", "accounts", $value['reseller_id']),
+                        $this->common->reseller_select_value("first_name,last_name,number,company_name", "accounts", $value['reseller_id']),
                         $download . '' . $payment . ' ' . $delete_button
                     )
                 );
@@ -409,10 +414,16 @@ class Invoices extends MX_Controller
             $action = $this->input->post();
             unset($action['action']);
             unset($action['advance_search']);
+
+            if(!empty($action['from_date'][0])){
+                 $action['from_date'][0]=$this->common->convert_GMT_to_new ('' ,'', $action['from_date'][0]);
+            }
+            if(!empty($action['to_date'][1])){
+                 $action['to_date'][1]=$this->common->convert_GMT_to_new ( '','',$action['to_date'][1]);
+            }
             if (isset($action['amount']['amount']) && $action['amount']['amount'] != '') {
                 $action['amount']['amount'] = $this->common_model->add_calculate_currency($action['amount']['amount'], "", '', false, false);
             }
-            $action['from_date'][0] = $action['from_date'][0] ? $action['from_date'][0] . " 00:00:00" : '';
             $action['invoice_date'][0] = $action['invoice_date'][0] ? $action['invoice_date'][0] . " 00:00:00" : '';
             $this->session->set_userdata('invoice_list_search', $action);
         }
@@ -1741,9 +1752,9 @@ class Invoices extends MX_Controller
                     $outstanding = 0;
                 } else {
                     if ($outstanding > 0) {
-                        $payment = '<a style="padding: 0 8px;" href="' . base_url() . 'invoices/invoice_summary/' . $value['id'] . '" class="btn btn-warning"  title="Payment">Unpaid</i></a>';
+                        $payment = "<a style='padding: 0 8px;' href='" . base_url() . "invoices/invoice_summary/" . $value["id"] . "' class='btn btn-warning'  title='Payment'>".gettext("Unpaid")."</i></a>";
                     } else {
-                        $payment = ' <button style="padding: 0 8px;" type="button"  class="btn btn-success">Paid</button>';
+                        $payment = " <button style='padding: 0 8px;' type='button'  class='btn btn-success'>".gettext("Paid")."</button>";
                     }
                 }
 
@@ -1848,10 +1859,9 @@ class Invoices extends MX_Controller
             }
             $download = '<a href="' . base_url() . '/user/user_invoice_download/' . $value['id'] . '/00' . $value['invoice_prefix'] . $value['invoiceid'] . '" class="btn btn-royelblue btn-sm"  title="Download Invoice" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp';
             if ($outstanding > 0) {
-                $payment = ' <a style="padding: 0 8px;" href="' . base_url() . 'user/user_invoice_payment/' . $value['id'] . '" class="btn btn-warning"  title="Payment">Unpaid</a>';
+                $payment = " <a style='padding: 0 8px;' href='" . base_url() . "user/user_invoice_payment/" . $value["id"] . "' class='btn btn-warning'  title='Payment'>".gettext("Unpaid")."</a>";
             } else {
-
-                $payment = ' <button style="padding: 0 8px;" class="btn btn-success" type="button">Paid</button>';
+                $payment = " <button style='padding: 0 8px;' class='btn btn-success' type='button'>".gettext("Paid")."</button>";
             }
             $account_arr = $this->db_model->getSelect('first_name,number,last_name', 'accounts', array(
                 'id' => $value['accountid']
@@ -2264,16 +2274,23 @@ class Invoices extends MX_Controller
         $add_array = $this->input->post();
         $reseller_id = $add_array['reseller_id'];
         $accountinfo = $this->session->userdata("accountinfo");
-        $reseller_id = $accountinfo['type'] == 1 || $accountinfo['type'] == 5 ? $accountinfo['id'] : $reseller_id;
+         if(!isset($reseller_id) && $reseller_id == ''){
+            $reseller_id = $accountinfo['type'] == 1 || $accountinfo['type'] == 5 ? $accountinfo['id'] : $reseller_id;
+         }
+        $type = array('type' => 1,0);
+        $this->db->where_in('type', $type);
         $accounts_result = $this->db->get_where('accounts', array(
             "reseller_id" => $reseller_id,
-            "status" => 0,
-            "type" => "GLOBAL"
+            "status" => 0
         ));
         if ($accounts_result->num_rows() > 0) {
             $accounts_result_array = $accounts_result->result_array();
             foreach ($accounts_result_array as $key => $value) {
-                echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                if(isset($value['company_name']) && $value['company_name'] != ''){
+                    echo "<option value=" . $value['id'] . ">" . $value['company_name'] . "(" . $value['number'] . ")</option>";
+                }else{
+                    echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                }
             }
         } else {
             echo '';

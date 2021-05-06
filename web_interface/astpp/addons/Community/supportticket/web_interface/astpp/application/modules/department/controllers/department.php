@@ -21,7 +21,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 class Department extends CI_Controller {
-//echo "hello";exit;
     function __construct() {
         parent::__construct();
 
@@ -31,9 +30,12 @@ class Department extends CI_Controller {
         $this->load->library("department_form");
         $this->load->library('astpp/form');
         $this->load->model('department_model');
-	$this->load->library('csvreader');
+		$this->load->library('csvreader');
         $this->load->dbutil();
-
+		if(file_exists(FCPATH."application/modules/department/tooltip.php")){
+            include_once(FCPATH."application/modules/department/tooltip.php");
+            $this->tooltip_data = $tooltip_data;
+		}
         if ($this->session->userdata('user_login') == FALSE)
             redirect(base_url() . '/astpp/login');
     }
@@ -47,7 +49,6 @@ class Department extends CI_Controller {
         $data['cur_menu_no'] = 4;
 		$this->session->set_userdata('department_search', 0);
         $data['grid_fields'] = $this->department_form->build_department_list_for_admin();
-        //~ echo "<pre>"; print_r(json_encode(array()));exit;
         if ($this->session->userdata('logintype') == 2) {
             $data["grid_buttons"] = $this->department_form->build_admin_department_grid_buttons();
         } else {
@@ -58,9 +59,7 @@ class Department extends CI_Controller {
     }
 
     function department_list_json() {
-		//echo "hello";exit;
 		$json_data = array();
-		
         $count_all = $this->department_model->getdepartment_list(false);
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
@@ -68,7 +67,6 @@ class Department extends CI_Controller {
         $query = $this->department_model->getdepartment_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $grid_fields = json_decode($this->department_form->build_department_list_for_admin());
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
-		//print_r($json_data);exit;
         echo json_encode($json_data);
     }
 
@@ -121,7 +119,7 @@ class Department extends CI_Controller {
 			}
 		}
 		$data['edit_id']=$edit_id;
-		$data['department_array_result']['smtp_password'] = $this->common->decode($department_array['smtp_password']);
+		$data['department_array_result']['smtp_password'] = $department_array['smtp_password'];
 		$data['page_title'] = gettext('Edit Department');
 		$this->load->view('view_department_edit', $data);
     	}
@@ -142,6 +140,9 @@ class Department extends CI_Controller {
 			$data['admin_user_id_data'][$val]=$val;
 		}		
 		$add_array['additional_email_address']=$add_array['email_id_new1'].",".$add_array['email_id_new2'].",".$add_array['email_id_new3'].",".$add_array['email_id_new4'].",".$add_array['email_id_new5'];
+		if(!strpos($add_array['additional_email_address'], '@')){
+			$add_array['additional_email_address'] = '';
+		}
 		unset($add_array['email_id_new1']);
 		unset($add_array['email_id_new2']);
 		unset($add_array['email_id_new3']);
@@ -161,7 +162,7 @@ class Department extends CI_Controller {
 				$data['validation_errors'] = validation_errors();
             		} else {
                 		$add_array['password'] = $this->common->encode($add_array['password']);
-                		$add_array['smtp_password'] = $this->common->encode($add_array['smtp_password']);
+                		//$add_array['smtp_password'] = $this->common->encode($add_array['smtp_password']);
 		                $this->department_model->edit_department($add_array, $add_array['id']);
 				$this->session->set_flashdata('astpp_errormsg', 'Department updated successfully');
 				redirect(base_url() . 'department/department_list/');
@@ -179,7 +180,7 @@ class Department extends CI_Controller {
 				$data['validation_errors'] = validation_errors();
             		} else {
                 		$add_array['password'] = $this->common->encode($add_array['password']);
-                		$add_array['smtp_password'] = $this->common->encode($add_array['smtp_password']); 
+                		//$add_array['smtp_password'] = $this->common->encode($add_array['smtp_password']); 
                 		$response = $this->department_model->add_department($add_array);
 				$this->session->set_flashdata('astpp_errormsg', gettext('Department added successfully!'));
 	        		redirect(base_url() . 'department/department_list/');

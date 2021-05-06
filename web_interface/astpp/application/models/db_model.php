@@ -466,6 +466,16 @@ class Db_model extends CI_Model {
 
 		$drp_list = array ();
 		foreach ( $drp_array as $drp_value ) {
+			if($select_params[1] == 'first_name' && $select_params[2] == 'last_name'){
+				$company_info = (array)$this->db->get_where($table,array("id"=>$drp_value->id))->first_row();
+				if (!empty($company_info['company_name'])) {
+					$drp_value->first_name = $company_info['company_name'] . '('.$company_info['number'].' )';
+				}else{
+					$drp_value->first_name = $company_info['first_name'] . ' ' . $company_info['last_name'] . ' ' .'('.$company_info['number'] .')';
+				}
+			}else{
+				$drp_value->first_name = $company_info['first_name'] . ' ' . $company_info['last_name'] . ' ' .'('.$company_info['number'] .')';
+			}
 			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
@@ -508,8 +518,18 @@ class Db_model extends CI_Model {
 		$drp_array = $drp_array->result ();
 
 		$drp_list = array ();
-		$drp_list [0] = "--Select--";
+		$drp_list [0] = gettext("--Select--");
 		foreach ( $drp_array as $drp_value ) {
+			if($select_params[1] == 'first_name'){
+				$company_info = (array)$this->db->get_where($table,array("id"=>$drp_value->id))->first_row();
+				if (!empty($company_info['company_name'])) {
+					$drp_value->first_name = $company_info['company_name'] . '('.$company_info['number'].' )';
+				}else{
+					$drp_value->first_name = $company_info['first_name'] . ' ' .'('.$company_info['number'] .')';
+				}
+			}else{
+				$drp_value->first_name = $company_info['first_name'] . ' '  .'('.$company_info['number'] .')';
+			}
 			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
 		}
 		return $drp_list;
@@ -552,7 +572,44 @@ class Db_model extends CI_Model {
 
 		$drp_list = array ();
 		foreach ( $drp_array as $drp_value ) {
-			$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
+			$drp_list [$drp_value->{$select_params [0]}] = gettext($drp_value->{$select_params [1]});
+		}
+		return $drp_list;
+	}
+
+	function build_concat_dropdown_timezone($select, $table, $id_where = '', $id_value = '') {
+		$select_params = explode ( ',', $select );
+		if (isset ( $select_params [3] )) {
+			$cnt_str = " $select_params[1],' ',$select_params[2],' ','(',$select_params[3],')' ";
+		} else {
+			$cnt_str = " $select_params[1],' (',$select_params[2],')' ";
+		}
+		$logintype = $this->session->userdata ( 'logintype' );
+		if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr') {
+			$account_data = $this->session->userdata ( "accountinfo" );
+			$id_value ['reseller_id'] = $account_data ['id'];
+		}
+		if (isset ( $id_value ['type'] ) && $id_value ['type'] == '0,3') {
+			$twhere = "type IN (" . $id_value ["type"] . ")";
+			$this->db->where ( $twhere );
+			unset ( $id_value ['type'] );
+		}
+		$where = $id_value;
+		$this->db->order_by('timezone_name','asc');
+		$drp_array = $this->getSelect ( $select, $table, $where );
+		$drp_array = $drp_array->result ();
+
+		$drp_list = array ();
+		foreach ( $drp_array as $drp_value ) {
+			if($drp_value->{$select_params [2]} >=0){
+				$time = gmdate("H:i",$drp_value->{$select_params [2]});
+				$drp_value->{$select_params [2]} = "GMT +".$time;
+			}else{
+				$gmthour = str_replace("-","",$drp_value->{$select_params [2]});
+				$time = gmdate("H:i",$gmthour);
+				$drp_value->{$select_params [2]} = "GMT -".$time;
+			}
+			$drp_list [$drp_value->{$select_params [0]}] = gettext($drp_value->{$select_params [1]}).' ('.$drp_value->{$select_params [2]}.')';
 		}
 		return $drp_list;
 	}
@@ -588,7 +645,7 @@ class Db_model extends CI_Model {
 		$drp_array = $this->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
 		$drp_list = array ();
-		$drp_list[0]="--Select--";
+		$drp_list[0]=gettext("--Select--");
 		foreach ( $drp_array as $drp_value ) {
 			if(isset($select_params [2]) && $select_params [2] != ""){
 				$drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]} ."(".$drp_value->{$select_params [2]}.")";
@@ -995,7 +1052,6 @@ class Db_model extends CI_Model {
 			if (is_array ( $update_fields )) {
 				switch ($update_fields ["operator"]) {
 					case "1" :
-						// $this->db->where($field, $search_array);
 						break;
 					case "2" :
 						if ($update_fields [$key] != '') {
@@ -1112,6 +1168,16 @@ class Db_model extends CI_Model {
 		$drp_array = $drp_array->result ();
 		$drp_list = array ();
 		foreach ( $drp_array as $drp_value ) {
+			if($select_params[1] == 'first_name' && $select_params[2] == 'last_name'){
+				$company_info = (array)$this->db->get_where($table,array("id"=>$drp_value->id))->first_row();
+				if (!empty($company_info['company_name'])) {
+					$drp_value->first_name = $company_info['company_name'] . '('.$company_info['number'].' )';
+				}else{
+					$drp_value->first_name = $company_info['first_name'] . ' ' . $company_info['last_name'] . ' ' .'('.$company_info['number'] .')';
+				}
+			}else{
+				$drp_value->first_name = $company_info['first_name'] . ' ' . $company_info['last_name'] . ' ' .'('.$company_info['number'] .')';
+			}
 			if ($drp_value->type == 3) {
 				$drp_list ['Provider'] [$drp_value->id] = $drp_value->first_name;
 			} elseif ($drp_value->type == 1) {
@@ -1215,7 +1281,22 @@ class Db_model extends CI_Model {
 	if($account_data['type'] == -1 || $account_data['type'] == 2){
 	$drp_list[0]='Admin';
 	}
+	if (($logintype == 1 || $logintype == 5) && $select_params[1] == 'first_name' && $select_params[2] == 'last_name') {
+		$this->db->where('id', $id_value);
+		$reseller_drp = $this->getSelect('*', $table, '')->row_array();
+		$drp_list[$reseller_drp['id']] = isset($reseller_drp['company_name']) && $reseller_drp['company_name'] != '' ? $reseller_drp['company_name'] . '('.$reseller_drp['number'].' )' : $reseller_drp['first_name'] . ' ' . $reseller_drp['last_name'] . ' ' .'('.$reseller_drp['number'] .')';
+	}
         foreach ($drp_array as $drp_value) {
+        	if($select_params[1] == 'first_name' && $select_params[2] == 'last_name'){
+				$company_info = (array)$this->db->get_where($table,array("id"=>$drp_value->id))->first_row();
+				if (!empty($company_info['company_name'])) {
+					$drp_value->first_name = $company_info['company_name'] . '('.$company_info['number'].' )';
+				}else{
+					$drp_value->first_name = $company_info['first_name'] . ' ' . $company_info['last_name'] . ' ' .'('.$company_info['number'] .')';
+				}
+			}else{
+				$drp_value->first_name = $company_info['first_name'] . ' ' . $company_info['last_name'] . ' ' .'('.$company_info['number'] .')';
+			}
             $drp_list[$drp_value->{$select_params [0]}] = $drp_value->{$select_params[1]};
         }
         return $drp_list;
@@ -1249,6 +1330,16 @@ class Db_model extends CI_Model {
 	$drp_list[0]='Admin';
 	}
         foreach ($drp_array as $drp_value) {
+        	if($select_params[1] == 'first_name' && $select_params[2] == 'last_name'){
+				$company_info = (array)$this->db->get_where($table,array("id"=>$drp_value->id))->first_row();
+				if (!empty($company_info['company_name'])) {
+					$drp_value->first_name = $company_info['company_name'] . '('.$company_info['number'].' )';
+				}else{
+					$drp_value->first_name = $company_info['first_name'] . ' ' . $company_info['last_name'] . ' ' .'('.$company_info['number'] .')';
+				}
+			}else{
+				$drp_value->first_name = $company_info['first_name'] . ' ' . $company_info['last_name'] . ' ' .'('.$company_info['number'] .')';
+			}
             $drp_list[$drp_value->{$select_params [0]}] = $drp_value->{$select_params[1]};
         }
         return $drp_list;
@@ -1311,7 +1402,117 @@ class Db_model extends CI_Model {
 		}
 		return $drp_list;
 	}
+	function build_dropdown_country_camel($select, $table, $id_where = '', $id_value = '') { 
+		$select_params = explode ( ',', $select );
+		$where = '';
+		if (isset ( $id_value ["type"] ) && $id_value ["type"] == "GLOBAL") {
+			$where = "type IN ('0','3')";
+			$this->db->where ( $where );
+			unset ( $id_value ["type"] );
+		}
 
+		if ($id_where != '' && $id_value != '') {   
+			if ($id_where == 'group_by') {  
+				$this->db->group_by ( $id_value );
+			} else if ($id_where == "where_arr") { 
+				$logintype = $this->session->userdata ( 'logintype' );
+				if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr' && $this->db->field_exists ( 'reseller_id', $table )) {
+					if($table != 'taxes'){
+						$id_value ['reseller_id'] = $this->session->userdata ["accountinfo"] ['id'];
+					}
+				}
+				$where = $id_value;
+
+			} else { 
+				$logintype = $this->session->userdata ( 'logintype' );
+				if (($logintype == 1 || $logintype == 5) && $id_where == 'reseller_id') {
+					$account_data = $this->session->userdata ( "accountinfo" );
+					$id_value = $account_data ['id'];
+				}
+				$where = array (
+						$id_where => $id_value
+				);
+			}
+		}
+		$drp_array = $this->getSelect ( $select, $table, $where );
+		$drp_array = $drp_array->result ();
+		$drp_list = array ();
+		foreach ( $drp_array as $drp_value ) {
+			$drp_list [$drp_value->{$select_params [0]}] = ucwords(strtolower(gettext($drp_value->{$select_params [1]})));
+		}
+		return $drp_list;
+	}
+	function build_concat_dropdown_currency($select, $table, $id_where = '', $id_value = '') {
+		$select_params = explode ( ',', $select );
+		if (isset ( $select_params [3] )) {
+			$cnt_str = " $select_params[1],' ',$select_params[2],' ','(',$select_params[3],')' ";
+		} else {
+			$cnt_str = " $select_params[1],' (',$select_params[2],')' ";
+		}
+		// $select = $select_params [0] . ", concat($cnt_str) as $select_params[1] ";
+		$logintype = $this->session->userdata ( 'logintype' );
+		if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr') {
+			$account_data = $this->session->userdata ( "accountinfo" );
+			$id_value ['reseller_id'] = $account_data ['id'];
+		}
+		if (isset ( $id_value ['type'] ) && $id_value ['type'] == '0,3') {
+			$twhere = "type IN (" . $id_value ["type"] . ")";
+			$this->db->where ( $twhere );
+			unset ( $id_value ['type'] );
+		}
+		$where = $id_value;
+		//copy of build_concat_dropdown function just added below line
+		$this->db->order_by('currencyname','asc');//end
+		$drp_array = $this->getSelect ( $select, $table, $where );
+		$drp_array = $drp_array->result ();
+
+		$drp_list = array ();
+		foreach ( $drp_array as $drp_value ) {
+			$drp_list [$drp_value->{$select_params [0]}] = gettext($drp_value->{$select_params [1]}). ' ('. $drp_value->{$select_params [2]}.')';
+		}
+		return $drp_list;
+	}
+	function build_dropdown_timezone($select, $table, $id_where = '', $id_value = '') { 
+		$select_params = explode ( ',', $select );
+		$where = '';
+		if (isset ( $id_value ["type"] ) && $id_value ["type"] == "GLOBAL") {
+			$where = "type IN ('0','3')";
+			$this->db->where ( $where );
+			unset ( $id_value ["type"] );
+		}
+
+		if ($id_where != '' && $id_value != '') {   
+			if ($id_where == 'group_by') {  
+				$this->db->group_by ( $id_value );
+			} else if ($id_where == "where_arr") { 
+				$logintype = $this->session->userdata ( 'logintype' );
+				if (($logintype == 1 || $logintype == 5) && $id_where == 'where_arr' && $this->db->field_exists ( 'reseller_id', $table )) {
+					if($table != 'taxes'){
+						$id_value ['reseller_id'] = $this->session->userdata ["accountinfo"] ['id'];
+					}
+				}
+				$where = $id_value;
+
+			} else { 
+				$logintype = $this->session->userdata ( 'logintype' );
+				if (($logintype == 1 || $logintype == 5) && $id_where == 'reseller_id') {
+					$account_data = $this->session->userdata ( "accountinfo" );
+					$id_value = $account_data ['id'];
+				}
+				$where = array (
+						$id_where => $id_value
+				);
+			}
+		}
+		$drp_array = $this->getSelect ( $select, $table, $where );
+		$drp_array = $drp_array->result ();
+		$drp_list = array ();
+		foreach ( $drp_array as $drp_value ) {
+			// $drp_list [$drp_value->{$select_params [0]}] = $drp_value->{$select_params [1]};
+			$drp_list [$drp_value->{$select_params [0]}] = gettext($drp_value->{$select_params [1]});
+		}
+		return $drp_list;
+	}
 }
 
 ?>

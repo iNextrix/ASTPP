@@ -306,6 +306,23 @@ class Signup extends MX_Controller
             $countrycode_array[$value['id']] = $value['countrycode'];
         }
         $data['countrycode_array'] = $countrycode_array;
+        $this->db->where("name",'url');
+            $this->db->where("field_type",'default_system_input');
+            $this->db->where("group_title",'term_and_condition');
+            $this->db->or_where("field_type",'textarea');
+            $res = $this->db->get_where("system");
+            $logo_arr = $res->result_array();
+           
+         foreach ($logo_arr as $key => $value) {
+               if($value['name']=='url')
+               {
+                    $data['term_and_condition_url']=$value['value'];
+               }
+               if($value['field_type']=='textarea')
+               {
+                   $data['term_and_condition_text']=$value['value'];
+                }   
+            }
         $this->load->view('view_signup', $data);
     }
 
@@ -629,7 +646,8 @@ class Signup extends MX_Controller
                         "id" => $post['account_id']
                     ))->first_row();
                     $account_arr['password'] = $this->common->decode($account_arr['password']);
-                    $last_id = $this->common->mail_to_users("new_password", $account_arr, "", "");
+                    // $last_id = $this->common->mail_to_users("new_password", $account_arr, "", "");
+                    $last_id = $this->common->mail_to_users("reset_password", $account_arr, "", "");
                     if (! empty($last_id)) {
                         $message = 'forgot';
                     }

@@ -2,7 +2,8 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-      
+        var resellerid ="<?php echo isset($reseller_id) ? $reseller_id : ''; ?>";
+        $('.reseller_id_search_drp').val(resellerid);
         build_grid("orders_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         $('.checkall').click(function () {
              $('.chkRefNos').prop('checked', $(this).prop('checked'));
@@ -13,14 +14,9 @@
         $("#id_reset").click(function(){
             clear_search_request("orders_grid","");
         });
-	var currentdate = new Date(); 
-        var from_date = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
-            
-        var to_date = currentdate.getFullYear() + "-"
-           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            +("0" + currentdate.getDate()).slice(-2) + " 23:59:59"
+        var from_date = date + " 00:00:00";
+        var to_date = date + " 23:59:59";
+
         $("#billing_date_from_date").datetimepicker({
 	    value:from_date,
             uiLibrary: 'bootstrap4',
@@ -37,7 +33,25 @@
             format: 'yyyy-mm-dd HH:MM:ss',
             footer:true
          });  
-        
+         $(".reseller_id_search_drp").change(function(){
+            
+                if(this.value!=""){
+                    $.ajax({
+                        type:'POST',
+                        url: "<?= base_url()?>/invoices/reseller_customerlist/",
+                        data:"reseller_id="+this.value, 
+                        success: function(response) {
+                             $("#accountid_search_drp").html(response);
+                             $("#accountid_search_drp").prepend("<option value='' selected='selected'><?php echo gettext('--Select--'); ?></option>");
+                             $('.accountid_search_drp').selectpicker('refresh');
+                        }
+                    });
+                }else{
+                        $("#accountid_search_drp").html("<option value='' selected='selected'><?php echo gettext('--Select--'); ?></option>");
+                        $('.accountid_search_drp').selectpicker('refresh');
+                    }   
+        });
+        $(".reseller_id_search_drp").change(); 
     });
 </script>
 <? endblock() ?>

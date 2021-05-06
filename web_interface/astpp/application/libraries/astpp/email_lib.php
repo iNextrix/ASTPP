@@ -46,17 +46,36 @@ class email_lib {
 		$this->CI->load->library ( 'email' );
 		$this->CI->load->library ( 'session' );
 	}
-	function get_email_settings() {
-		$where = array (
-				'group_title' => 'notifications'
-		);
-		$query = $this->CI->db_model->getSelect ( "*", "system", $where );
-		$query = $query->result_array ();
-		foreach ( $query as $key => $val ) {
-			$tempvar = strtolower ( $val ['name'] );
-			$this->$tempvar = $val ['value'];
+	
+	function get_email_settings($details=array()) {
+		$smtp_status = 1;
+		$table_name="system";
+		$where = array ('group_title' => 'notifications');
+		if($details['template'] == 'email_sent_support_ticket' || $details['template'] == 'auto_reply_mail_support'){
+			$table_name = 'department';
+			$where = array ("smtp_user" => trim($details['from']));
+			$smtp_status = 0;
+		}
+		$query = $this->CI->db_model->getSelect ( "*", $table_name, $where )->result_array();		
+		$this->smtp_status = isset($query[0]->smtp_status) && $query[0]->smtp_status != 1 ? $query[0]->smtp_status : $smtp_status;
+		
+		if($table_name == 'department'){
+			if($query[0]['smtp_host'] !== '' && $query[0]['smtp_port'] !== 0) {
+				$this->smtp_host = $query[0]['smtp_host'];
+				$this->smtp_port = $query[0]['smtp_port'];
+				$this->smtp_user = $query[0]['smtp_user'];
+				if($smtp_status == 0){
+					$this->smtp_pass = $query[0]['smtp_password'];			
+				}
+			}
+		}else{
+			foreach ( $query as $key => $val ) {
+				$tempvar = strtolower ( $val ['name'] );
+				$this->$tempvar = $val ['value'];
+			}
 		}
 	}
+	
 	function get_sms_settings(){
 
 		$where = array (
@@ -257,6 +276,7 @@ class email_lib {
 		$this->send_notifications_email($template_type,$details,$detail_type,$attachment,$resend,$mass_mail,$brodcast);
 		$this->send_notifications_sms($template_type,$details,$detail_type,$attachment = '',$resend,$mass_mail,$brodcast,$history_id='');
 		//$this->push_alert_notifications($template_type,$details,$detail_type,$attachment = '',$resend,$mass_mail,$brodcast,$history_id='');
+		
 		$this->update_mail_history ( $details ['history_id'] );
 	}
 
@@ -288,8 +308,6 @@ class email_lib {
 
 	function send_notifications_email($template_type, $details, $detail_type = '', $attachment = '', $resend = 0, $mass_mail = 0, $brodcast = 0) {
 
-		$this->get_email_settings ();
-
 		$history_id = "";
 		if (array_key_exists("history_id",$details)) {
 			$history_id = $details ['history_id'];
@@ -303,12 +321,15 @@ class email_lib {
 				$this->set_email_paramenters ( $details );
 			}
 			
-			if (! $brodcast) {
+			if ($brodcast !=1 && $brodcast !="") {
 				$history_id = $this->mail_history ( $attachment );
 			}
 			else {
 				$history_id = $details ['history_id'];
 			}
+			$accountID = $this->CI->common->get_field_name('accountid','mail_details',array("id" => $history_id));
+			$cc_email_ids = explode(',',strtolower($this->CI->common->get_field_name('cc','mail_details',array("accountid" => $accountID))));
+			$smtpData = $this->get_email_settings ($details);
 			if (isset ( $this->from ) && $this->from != '' && isset ( $this->to ) && $this->to != '' && ! $mass_mail) {
 				if (! $this->smtp) {
 					$this->get_smtp_details ();
@@ -316,8 +337,9 @@ class email_lib {
 
 				$this->CI->email->from ( $this->from, $this->company_name );
 				$this->CI->email->to ( $this->to );
+				$this->CI->email->cc ( $cc_email_ids );
 				$this->CI->email->subject ( $this->subject );
-				$this->CI->email->subject ( $this->subject );
+				// $this->CI->email->subject ( $this->subject );
 				$this->CI->email->set_mailtype ( "html" );
 				$this->message = nl2br($this->message);
 				$this->CI->email->message ( $this->message );

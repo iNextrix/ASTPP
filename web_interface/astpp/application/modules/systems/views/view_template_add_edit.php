@@ -5,6 +5,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.validate.min.js"></script>
 <script>
 $ (document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
     CKEDITOR.replace('template');
     CKEDITOR.replace('alert_template');
     CKEDITOR.config.width = '100%';

@@ -217,7 +217,9 @@
 		    </div>
                   </div>
 		<div class='col-md-6 form-group'>
-			<label class="col-md-12 p-0 control-label"><?php echo gettext('Country'); ?></label>
+       <!--Added Static Tooltip in Label-->
+      <label class="col-md-12 p-0 control-label" data-toggle="tooltip" data-html="true" data-original-title= "Select the country to filter the rates according to the selected country." data-placement="top"><?php echo gettext('Country'); ?></label>
+      <!-- End -->
 			<select name="destination_countries[]" id="destination_countries" multiple="multiple" class="selectpicker select field multiselectable col-md-12 form-control form-control-lg" data-hide-disabled='true' data-actions-box='true' data-live-search='true' datadata-live-search-style='begins'>
 			<?php $country_list =$this->db_model->getSelect("*","countrycode",""); 
 				$country_info = $country_list->result_array(); ?>
@@ -227,7 +229,9 @@
 		</select>
 	   </div>
 		<div class='col-md-6 form-group'>
-			<label class="col-md-12 p-0 control-label"><?php echo gettext('Call Type'); ?></label>
+      <!--Added Static Tooltip in Label-->  
+      <label class="col-md-12 p-0 control-label" data-toggle="tooltip" data-html="true" data-original-title= "Select the call type to filter the rates according to selected code." data-placement="top"><?php echo gettext('Call Type'); ?></label>
+      <!-- End -->
 		<select name="destination_calltypes[]" id="destination_calltypes" multiple="multiple" class="selectpicker select field multiselectable col-md-12 form-control form-control-lg"  data-hide-disabled='true' data-actions-box='true' data-live-search='true' datadata-live-search-style='begins'>
 					
 					<?php $call_type_list =$this->db_model->getSelect("*","calltype",""); 
@@ -238,12 +242,16 @@
 		</select>
 		</div>
 		<div class='col-md-6 form-group'>
-			<label class="col-md-12 p-0 control-label"><?php echo gettext('Code'); ?></label>
+      <!--Added Static Tooltip in Label-->
+      <label class="col-md-12 p-0 control-label" data-toggle="tooltip" data-html="true" data-original-title= "Filter the rates using code (Prefix)." data-placement="top"><?php echo gettext('Code'); ?></label>
+      <!-- End -->
 			 <input class="col-md-12 form-control form-control-lg m-0" name="code" value= "" size="16" type="text"/>
 			
 		</div>
 		<div class='col-md-6 form-group'>
-			<label class="col-md-12 p-0 control-label"><?php echo gettext('Destination'); ?></label>
+       <!--Added Static Tooltip in Label-->
+      <label class="col-md-12 p-0 control-label" data-toggle="tooltip" data-html="true" data-original-title= "Filter the rates using destination." data-placement="top"><?php echo gettext('Destination'); ?></label>
+      <!-- End -->
 			 <input class="col-md-12 form-control form-control-lg m-0" name="destination" value= "" size="16" type="text"/>
 			
     </div>

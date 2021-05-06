@@ -8,7 +8,8 @@
 
 			<title>
 	<?php
-$this->db->where('domain', $_SERVER['HTTP_HOST']);
+$http_host = $_SERVER["HTTP_HOST"];
+$this->db->where("domain LIKE '%$http_host%'");
 $this->db->select('*');
 $this->db->order_by('accountid', 'desc');
 $this->db->limit(1);
@@ -107,6 +108,11 @@ select {
 	text-indent: 1px;
 	text-overflow: '';
 }
+/* Dhaval issue-539 CLONE - Signup - terms of use */
+label.error_label{
+	width:100%;
+}
+/* end*/
 </style>
 									<script>
 $(document).ready(function() {
@@ -115,6 +121,9 @@ $(document).ready(function() {
 			if($(this).val() != '') {
 				$('#signup_submit').prop('disabled', false);
 			}
+		});
+		$('#term_and_condition').change(function() {
+    	$('#signup_submit').prop('disabled', false);
 		});
  });
 </script>
@@ -153,7 +162,9 @@ $(document).ready(function() {
 							required: true,
 							email: true
 					 },
-                      
+					 term_and_condition: {
+							required: true,
+					},
                  },
                  messages: {
 		     userCaptcha: '<span class="text-danger"><?php echo gettext("Captcha is required"); ?></span>',
@@ -167,9 +178,14 @@ $(document).ready(function() {
 						required: '<span class="text-danger"><?php echo gettext("Email is Required"); ?></span>',
 						email:'<span class="text-danger"><?php echo gettext("Please enter a valid email address"); ?></span>',
 					 },
-					 
+					 term_and_condition: {
+						required: '<div><span class="text-danger"><?php echo gettext("Checkbox is Required"); ?></span></div>',
+					},
                  },
                   errorClass: "error_label",
+				  errorPlacement: function(error,element){
+                  	error.insertAfter($(element).next());
+                  },
                  submitHandler: function(form) {
 					
                      form.submit();
@@ -350,18 +366,18 @@ if (isset($error['account_email']) && $error['account_email']) {
 							<label for="Timezone" class="control-label add_settings"><?php echo gettext('Timezone')?></label>
 							<div id="floating-label">
 															<?
-            $timezone = form_dropdown(array(
+           $timezone = form_dropdown(array(
                 'id' => 'timezone_id',
                 'name' => 'timezone_id',
                 'class' => 'timezone_id selectpicker form-control '
-            ), $this->db_model->build_dropdown("id,gmtzone", "timezone", "", ""), isset($timezone_id) ? $timezone_id : $timezone_id);
+            ), $this->db_model->build_dropdown("id,timezone_name", "timezone", "", ""), isset($timezone_id) ? $timezone_id : $timezone_id);
             echo $timezone;
             ?>
 														</div>
 						</div>
 					</div>
 				</div>
-
+				<?php if(Common_model::$global_config['system_config']['captcha_for_login_in_forgot_password'] == 0){ ?>
 				<div class="col-md-12 form-group p-0">
 				<?php echo $captcha['image']; ?>				
 			</div>
@@ -381,7 +397,75 @@ if (isset($error['captcha_err']) && $error['captcha_err']) {
 
 
 				</div>
-																									   			<?php
+								<!--Dhaval issue 539 CLONE - Signup - terms of use -->
+							<?php if(Common_model::$global_config['system_config']['status'] == 0){ ?>
+				<div class="modal fade bd-example-modal-lg" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="text border_box p-2">
+				<b>Terms & Condition</b>
+				<span class="closebtn" data-dismiss="modal" aria-hidden="true">×</span>
+				
+			</div>
+			
+			<div class="modal-body">
+				<iframe src = "<?php echo $term_and_condition_url; ?>"  style="height:400px; width:760px"></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="text" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="text border_box p-2">
+				<b>Term & Condition</b>
+				<span class="closebtn" data-dismiss="modal" aria-hidden="true">×</span>
+			</div>
+			
+			<div class="modal-body">
+				 
+			<?php
+					echo $term_and_condition_text;
+				?>
+		</div>
+</div>
+</div>
+</div>
+				
+				<?php  //popup menu in open the url term and condition  ?>
+				
+				<div class="form-group">
+					
+				<?php
+				if(isset($term_and_condition_url) && $term_and_condition_url != '')
+					{
+						?>
+						<!-- Dhaval My new chnges-->
+						<div id="term_and_condition1">
+						<input type="checkbox"  id="term_and_condition" name="term_and_condition" 
+						value="<?php if (isset($term_and_condition)) {echo $term_and_condition;} 
+						else {'';}?>" onkeypress="return isNumberKey(event)">
+						<!-- end-->
+					<a class="ml-2" href="<?php  echo $term_and_condition_url;  ?>" data-toggle="modal" id="myModal1" data-target="#myModal1" value=""><?php echo gettext('Terms & Condition')?> </a>
+					</div>
+						
+				<?php } else
+						{ ?>
+				<!-- Dhaval My new chnges-->
+				<div id="term_and_condition1">
+				<input type="checkbox" class="term_and_condition mt-1" id="term_and_condition" name="term_and_condition"
+						value="<?php if (isset($term_and_condition)) {echo $term_and_condition;} 
+						else {'';}?>" onkeypress="return isNumberKey(event)">
+				<!-- end-->
+					<a class="ml-2" href="" data-toggle="modal" id="text" data-target="#text"> <?php echo gettext('Terms & Condition')?></a>
+					</div>
+				
+					<?php }?>
+						
+					<?php } }?>
+							<!-- end -->
+																			   			<?php											   			
                             if (isset($error['account_deleted']) && $error['account_deleted']) {
                                 ?>
 				<label class="error_label">
@@ -411,6 +495,8 @@ if (isset($error['captcha_err']) && $error['captcha_err']) {
 				</div>
 
 	<script type="text/javascript">
+		<?php  echo $term_and_condition_url;  ?>
+		<?php  echo $term_and_condition_url;  ?>
 		$("#country_id").val(<?= $country_id ?>);
 		$("#timezone_id").val(<?= $timezone_id ?>);
 		$("#currency_id").val(<?= $currency_id ?>);

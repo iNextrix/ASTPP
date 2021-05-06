@@ -49,6 +49,7 @@ class Signup_lib {
 		$default_taxes = $accountinfo['tax_id'];
 		unset($accountinfo['tax_id']);
 		$accountinfo ['creation'] = $current_date;
+		$accountinfo ['last_bill_date'] = $current_date; 
 		if ($accountinfo ['posttoexternal'] == 0) {
 			$accountinfo['credit_limit'] = 0;
 		}

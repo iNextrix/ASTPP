@@ -135,6 +135,86 @@ function services($category= '') {
 		
 
 	}
+	private function reload_live_freeswitch($command)
+	{
+		$response = '';
+		$query = $this->db_model->getSelect("*", "freeswich_servers", "");
+		$fs_data = $query->result_array();
+		$this->load->library('freeswitch_lib');
+		foreach ($fs_data as $fs_key => $fs_value) {
+		    $fp = $this->freeswitch_lib->event_socket_create($fs_value["freeswitch_host"], $fs_value["freeswitch_port"], $fs_value["freeswitch_password"]);
+		    if ($fp) {
+			$response .= $this->freeswitch_lib->event_socket_request($fp, $command);
+			fclose($fp);
+		    }
+		}
+		$response = str_replace("0 total.", "", $response);
+		return $response;
+	}
+	private function check_calls_running(){
+		 $accountinfo = $this->session->userdata('accountinfo');
+		 $command = "api show channels";
+		 
+		 $response = $this->reload_live_freeswitch($command);
+		 $calls = array();
+		 $calls_final = array();
+		 $data_header = array();
+		 $k = 0;
+		 $data = explode("\n", $response);
+		 for ($i = 0; $i < count($data) - 2; $i ++) {
+		     if (trim($data[$i]) != '') {
+		         if (count($data_header) == 0 || substr($data[$i], 0, 4) == "uuid") {
+		             $data_header = explode(",", $data[$i]);
+		         } else {
+		             $bridge_str = "";
+		             $string = " " . $data[$i];
+		             $ini = strpos($string, '[');
+		             if ($ini != 0) {
+		                 $ini += strlen('[');
+		                 $len = strpos($string, ']', $ini) - $ini;
+		                 $bridge_str = substr($string, $ini, $len);
+		             }
+		             if ($bridge_str != '') {
+		                 $new_bridge_str = str_replace(',', '--', $bridge_str);
+		                 $data[$i] = str_replace($bridge_str, $new_bridge_str, $data[$i]);
+		             }
+		             // HP:END.
+		             $data_call = explode(",", $data[$i]);
+		             for ($j = 0; $j < count($data_call); $j ++) {
+		                 $calls[$k][@$data_header[$j]] = @$data_call[$j];
+				 $calls_final[@$calls[$k]['uuid']] = @$calls[$k];
+		             }
+		             $k ++;
+		         }
+		     }
+		 }
+		 $json_data = array();
+		 $count = 0;
+		 $query = $this->db_model->select("username", "sip_devices", array(
+		        'status' => 0,
+		        'accountid'=>$accountinfo['id']), "id", "desc", "10", "");
+			$sip_device_array=$query->result_array();
+			
+			$sip_device_final_array=array();
+			foreach ($sip_device_array as $key => $value) {
+				$sip_device_final_array[$value['username']] =$value['username'];
+			}
+			$response_return =true;
+            if(!empty($calls)){
+			
+		 foreach ($calls as $key => $value) {
+			 $calls[$i]['presence_data'] = @$calls_final[$value['call_uuid']]['presence_data'];
+                	     $livecall_data = explode("|||", $calls[$i]['presence_data']);
+		         $account_explode=explode('(',$livecall_data[1]);	
+		         if (isset($value['state']) && ($value['state'] == 'CS_EXCHANGE_MEDIA' || $value['state'] == 'CS_CONSUME_MEDIA') ) {
+				 if($accountinfo['number'] == rtrim($account_explode[1],')') || array_key_exists($value['initial_dest'],$sip_device_final_array)){
+		             $response_return=false;
+		 		}
+		         } 
+		        }
+		 }
+		return $response_return;
+	}
 	function proceed_payment($productid){
 		$accountinfo = $this->session->userdata ( "accountinfo" );
 		if(isset($productid) && $productid != '' && is_numeric($productid))
@@ -162,6 +242,11 @@ function services($category= '') {
 				$account_balance = $user_info ['posttoexternal'] == 1 ? $user_info ['credit_limit'] - ($user_info ['balance']) : $user_info ['balance'];
 
 				$total_amt = (($productinfo['price'] + $productinfo['setup_fee'])*$quantity);
+				if($account_info ['type'] == 0 && (!$this->check_calls_running())){
+					$this->session->set_flashdata('astpp_notification', gettext('You can not purchase any new product when your calls are running!'));
+					redirect ( base_url () . 'pages/services/'.$productinfo['product_category'].'' );
+					exit;
+				}
 
 				if( $account_balance  >= $total_amt ){ 
 					
@@ -286,8 +371,10 @@ function services($category= '') {
 			
 		}
 		$data ["from_currency"] = $this->common->get_field_name ( 'currency', 'currency', $accountinfo ["currency_id"] );
-		$data ["paypal_tax"] = $system_config ["paypal_tax"];
+		// $data ["paypal_tax"] = $system_config ["paypal_tax"];
 		$data ["to_currency"] = Common_model::$global_config ['system_config'] ['base_currency'];
+		$data['is_supported'] = $this->common->get_field_name ( 'is_supported', 'currency', $accountinfo ["currency_id"] );
+		$data ["paypal_tax"] = Common_model::$global_config ['system_config'] ['paypal_tax'];
 		$data['order_id'] = base64_encode($oreder_req_result);
 		$data['account_id'] = $accountid;
 		$data['product_info'] = $product_info;
@@ -295,6 +382,11 @@ function services($category= '') {
 		$data['amt'] = ($data['amt'] * $data['product_info']['quantity']);
 		$amount_with_tax = $this->common_model->calculate_taxes($accountinfo,$data['amt']);
 		$data['total_amt']   = ($amount_with_tax != '')?$amount_with_tax['amount_with_tax']:$data['amt'];
+		$data['total_paypal_amt'] = ($data['total_amt'] * $data['paypal_tax']) / 100 ;
+		$data['total_amt'] = $data['total_amt'] + $data['total_paypal_amt'];
+		if($data['is_supported'] == 0){
+			$data['total_amt']=number_format((float)($this->common_model->calculate_currency ( $data['total_amt'],$data['to_currency'], $data['from_currency'] , false, false )), 2);
+		}
        		$this->load->view( 'paypal_redirect',$data);
 	
        
@@ -320,10 +412,17 @@ function services($category= '') {
 			$tax_calculation = $this->common_model->calculate_taxes($account_info,$productdata['price']);
 			
 			$currency = $this->common->get_field_name ( 'currency', 'currency', $accountinfo ["currency_id"] );
+			$paypal_fee = $this->common->get_field_name('value','system',array("name" => "paypal_fee"));
+	 		if($paypal_fee == 0){
+	 			$paypal_tax = $this->common->get_field_name('value','system',array("name" => "paypal_tax"));
+	 		}else{
+	 			$paypal_tax = '';
+	 		}
 			if (!empty($tax_calculation) && isset($tax_calculation)){
 				$tax_calculation['amount_without_tax']=$this->common->currency_decimal($tax_calculation['amount_without_tax']).' '.$currency;
 				$tax_calculation['amount_with_tax']=$this->common->currency_decimal($tax_calculation['amount_with_tax']).' '.$currency;
 				$tax_calculation['total_tax']=$this->common->currency_decimal($tax_calculation['total_tax']).' '.$currency;
+				$tax_calculation['paypal_taxes'] = $paypal_tax;
 				echo json_encode($tax_calculation);
 	
 			} else {
@@ -331,7 +430,7 @@ function services($category= '') {
 				$tax_calculation ['amount_without_tax'] =$productdata['price'].' '.$currency;
 				$tax_calculation ['amount_with_tax']    = $productdata['price'].' '.$currency;
 				$tax_calculation ['total_tax']          = 0 .' '.$currency;
-				
+				$tax_calculation['paypal_taxes'] = $paypal_tax;
 				echo json_encode($tax_calculation);	
 			}
     	}

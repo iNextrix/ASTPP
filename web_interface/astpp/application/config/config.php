@@ -239,6 +239,9 @@ $config ['private_key'] = $astpp_config ['PRIVATE_KEY'];
  */
 $config ['encryption_key'] = $astpp_config ['ENCRYPTION_KEY'];
 
+$config['data']="ZGNvbGwuaW5leHRyaXguY29t";
+$config['enable_data'] = 0;
+
 /*
  * |--------------------------------------------------------------------------
  * | Session Variables
@@ -371,6 +374,7 @@ $config ['proxy_ips'] = '';
 $config ['Origination-rates-field'] = array (
 		'code' => 'pattern',
 		'destination' => 'comment',
+		'country' => 'country_id',
 		'connection cost (CURRENCY)' => 'connectcost',
 		'grace time' => 'includedseconds',
 		'cost / min (CURRENCY)' => 'cost',

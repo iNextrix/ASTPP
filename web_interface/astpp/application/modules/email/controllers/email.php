@@ -203,7 +203,7 @@ class Email extends MX_Controller
 
     function email_re_send($edit_data)
     {
-        $this->email_lib->send_notifications('', $edit_data, '', $edit_data['attachment'], 1);
+        $this->email_lib->send_notifications('', $edit_data, '', $edit_data['attachment'], "");
         $this->session->set_flashdata('astpp_errormsg', gettext('Email resend successfully!'));
         redirect(base_url() . 'email/email_history_list/');
     }
@@ -373,12 +373,17 @@ class Email extends MX_Controller
     function email_history_list_search()
     {
         $ajax_search = $this->input->post('ajax_search', 0);
-
         if ($this->input->post('advance_search', TRUE) == 1) {
             $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
             $action = $this->input->post();
             unset($action['action']);
             unset($action['advance_search']);
+            if(!empty($action['date'][0])){
+                $action['date'][0]=$this->common->convert_GMT_new ( $action['date'][0]);
+            }
+            if(!empty($action['date'][1])){
+                $action['date'][1]=$this->common->convert_GMT_new ( $action['date'][1]);
+            }
             $this->session->set_userdata('email_search_list', $action);
         }
         if (@$ajax_search != 1) {

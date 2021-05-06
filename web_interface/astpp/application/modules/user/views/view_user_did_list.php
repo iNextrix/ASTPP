@@ -152,7 +152,7 @@
 					<?php $country_list =$this->db_model->getSelect("*","countrycode",""); 
 					$country_info = $country_list->result_array(); ?>
 					<?php foreach($country_info as $key => $country) {    ?>
-					<option value= "<?php echo $country['id']; ?>"> <?php echo  $country['nicename'] ?> </option>
+					<option value= "<?php echo $country['id']; ?>"> <?php echo  strtolower(ucwords(gettext($country['country']))) ?> </option>
 					<?php } ?>
 				</select>
 				</div>

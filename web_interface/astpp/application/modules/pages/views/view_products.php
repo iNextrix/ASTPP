@@ -26,10 +26,10 @@
 			if($category == 1){?>
                     <div class="align-self-center float-right col-md-3 p-0" id="floating-label">
 		             <select class="col-md-12 form-control-lg form-control selectpicker" name="country_id" id="country_id" data-live-search="true">
-		     <option value="">--select--</option>
+		     <option value=""><?php echo gettext("--Select--")?></option>
                        <?php foreach($country as $key => $country_info) {    ?>
 				<?php $selected = ($country_id == $key) ? 'selected = selected' : '';?>
-				<option value= "<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo  $country_info ?>  </option>
+				<option value= "<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo  strtolower(ucwords(gettext($country_info))) ?>  </option>
 
 			<?php } ?>
                        
@@ -58,7 +58,7 @@
 				            <div class="col-5 p-3 border-left">
 				                <h4 class="text-info col-12"><?php echo $currency."  "; ?><?php echo isset($value['price'])?$this->common->convert_to_currency ( '', '', $value['price'] ):'' ?> <span style="font-size: 10px;" class="text-secondary text-right col-12">/ <?php echo isset($value['billing_days'])?$value['billing_days']:'' ?> <?php echo gettext("days"); ?></span></h4>
 
-				                <div class="badge float-right py-2 mb-2 fw-n">(<?php echo $value['billing_type'] == 0?"One Time":"Recurring" ?>)</div>
+				                <div class="badge float-right py-2 mb-2 fw-n">(<?php echo $value['billing_type'] == 0?gettext("One Time"):gettext("Recurring") ?>)</div>
 						
                         <div class="col-12">  
                             <a href="<?php echo base_url();?>/pages/checkout/<?php echo $value['id']?>" class="btn btn-block btn-info"><i class="fa fa-shopping-cart"></i> <?php echo gettext("Order"); ?></a>
@@ -70,7 +70,7 @@
                       <?php echo gettext("Setup Cost"); ?> : <span class=""><b><?php echo isset($value['setup_fee'])?$this->common->convert_to_currency ( '', '', $value['setup_fee'] ):'' ?></b></span>
                       </div>
                       <div class="badge p-0 fw-n float-right">
-                      <?php echo gettext("Free Minutes :"); ?> <span class=""><b><?php echo isset($value['free_minutes'])?$value['free_minutes']:'' ?><?php echo gettext("min"); ?></b></span>
+                      <?php echo gettext("Free Minutes"); ?>: <span class=""><b><?php echo isset($value['free_minutes'])?$value['free_minutes']:'' ?><?php echo gettext("min"); ?></b></span>
                       </div>
                     </div>
                   </div>

@@ -159,7 +159,7 @@
 		                <option value="0" <?php if($add_array['apply_on_existing_account'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('Yes');?></option>
 			<?php } else { ?>
 				<option value="1"><?php echo gettext('No'); ?></option>
-		                <option value="0"><?php echo gettext('yes'); ?></option>
+		                <option value="0"><?php echo gettext('Yes'); ?></option>
 			<?php } ?>
                       </select>
                   </div>
@@ -172,7 +172,7 @@
 
 				<?php } else { ?>
 		                	<option value="1"><?php echo gettext('No'); ?></option>
-		               		<option value="0"><?php echo gettext('yes'); ?></option>
+		               		<option value="0"><?php echo gettext('Yes'); ?></option>
 				<?php } ?>
                       </select>
                   </div>
@@ -196,6 +196,9 @@
 		
 		</div>
             </div>
+            <!-- Dhaval issue 145([BUG] Billing and Transfer Money to another account.) -->
+					  <h4 class="col-md-12 pl-0 mt-2 alert" style="color:red;"><?php echo gettext("Please check your customers calls are running or not. if running then may be customer balance goes in nagative!"); ?></h4>
+				  	<!-- END -->
 	 </form>
 		 <?php
 						if (isset($validation_errors) && $validation_errors != '') { ?>
