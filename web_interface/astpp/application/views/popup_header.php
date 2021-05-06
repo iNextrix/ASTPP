@@ -3,11 +3,14 @@
 <head>
 <script type="text/javascript">
     $(document).ready(function() {
-	$('.selectpicker').selectpicker();
+        $('[data-toggle="tooltip"]').tooltip({
+		   	delay : {
+		   		hide : 600
+		   	}
+   		}); 
+	      $('.selectpicker').selectpicker();
         $(".selectpicker").removeClass("col-md-5");  
         $(".selectpicker").addClass("col-md-3"); 
-        
-        
   });        
 </script>
 </head>

@@ -79,15 +79,19 @@ $category_id='';
 			if($val=='payment_methods'){
 				$payment_methods=str_replace("_"," ",$val);
 				$payment_methods_replace_string=ucwords($payment_methods);	?>
-				<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo $payment_methods_replace_string;?></a></li>	
+				<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo gettext($payment_methods_replace_string);?></a></li>	
 					<?php }
 				  else if($val=='ported_number'){
 					$ported_number=str_replace("_"," ",$val);
 					$ported_number_replace_string=ucwords($ported_number);  ?>
-					<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo $ported_number_replace_string;?></a></li>  
+					<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo gettext($ported_number_replace_string);?></a></li>  
+				  <?php }
+				  else if($val=='term_and_condition'){
+					$term_and_condition_replace_string= "Terms & Condition"  ?>
+					<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo gettext($term_and_condition_replace_string);?></a></li>  
 				  <?php }
 				  else{?>
-						<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo ucfirst($val);?></a></li>	
+						<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo gettext(ucfirst($val));?></a></li>	
 					<?php }?>
 			<?php }
 		}

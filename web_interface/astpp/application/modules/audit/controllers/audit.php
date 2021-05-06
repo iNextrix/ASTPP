@@ -76,14 +76,21 @@ class Audit extends MX_Controller
         if ($this->input->post('advance_search', TRUE) == 1) {
             $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
             $action = $this->input->post();
-            if (isset($action['timestamp'][0]) && $action['timestamp'][0] != "") {
-                $action['timestamp'][0] = $this->common->convert_GMT($action['timestamp'][0]);
+            // if (isset($action['timestamp'][0]) && $action['timestamp'][0] != "") {
+            //     $action['timestamp'][0] = $this->common->convert_GMT($action['timestamp'][0]);
+            // }
+            // if (isset($action['timestamp'][1]) && $action['timestamp'][1] != '') {
+            //     $action['timestamp'][1] = $this->common->convert_GMT($action['timestamp'][1]);
+            // }
+            if(!empty($action['timestamp'][0])){
+                $action['timestamp'][0]=$this->common->convert_GMT_new ( $action['timestamp'][0]);
             }
-            if (isset($action['timestamp'][1]) && $action['timestamp'][1] != '') {
-                $action['timestamp'][1] = $this->common->convert_GMT($action['timestamp'][1]);
+            if(!empty($action['timestamp'][1])){
+                $action['timestamp'][1]=$this->common->convert_GMT_new ( $action['timestamp'][1]);
             }
             unset($action['action']);
             unset($action['advance_search']);
+
             $this->session->set_userdata('audit_list_search', $action);
         }
         if (@$ajax_search != 1) {

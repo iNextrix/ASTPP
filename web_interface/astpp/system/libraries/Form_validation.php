@@ -920,6 +920,11 @@ class CI_Form_validation {
 		}
 	}
 
+	public function numeric_with_plus_sign($str)
+	{
+		return (bool)preg_match('/^[\+]?[0-9]*\.?[0-9]+$/', $str);
+
+	}
 	// --------------------------------------------------------------------
 
 	/**
@@ -989,6 +994,30 @@ class CI_Form_validation {
 				$query = $this->CI->db->limit(1)->get_where($table,$where );
 				return $query->num_rows() > 0 ? FALSE : TRUE;
 	}
+
+		public function is_unique_multiple($str,$data)
+		{
+			  $add_array=$this->CI->input->post();
+			  $data = explode(".", $data);
+			  $table = $data[0];
+			  $str = $data[1];
+			  $str = explode(",", $str);
+			  $field1 = $str[0];
+			  $field2 = $str[1];
+			  $field3 = $str[2];
+		
+			  $where = [];
+			  foreach ($str as $key => $value) {
+				  $where[$value] = $this->CI->input->post($value);
+			  }
+			  
+			  if(isset($where['pattern'])){
+				$where['pattern'] = "^" .$where['pattern']. ".*";
+			  }
+			   $where['id != '] = $add_array['id'];
+			  $query = $this->CI->db->get_where($table, $where, 1);
+			  return $query->num_rows() > 0 ? FALSE : TRUE;
+		  }
 
 	/** 
 	* check card length
@@ -1530,13 +1559,11 @@ class CI_Form_validation {
     		$password_type = common_model::$global_config ['system_config'] ['password_type'];
 
     		if( $password_type == '0' ) {
-
-
     			if(1 !== preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%^&*()+]{8,}$/', $str)) {
-		        	$this->CI->form_validation->set_message('chk_password_expression', gettext('%s must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit and any special characters must have included'));
-			        
-			        return FALSE;
-
+				if (strpos($str, ';') || strpos($str, '=') || strpos($str, '?') || strpos($str, ',') || strpos($str, '&')  || strpos($str, ':') || strpos($str, '[') || strpos($str, ']')  || strpos($str, '+') || strpos($str, '/') || strpos($str, "'") !== false) {
+            		$this->CI->form_validation->set_message('chk_password_expression', gettext("%s must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit and any special characters must have included NOTE (?;=,&:\[]+/) not allowed in special characters"));
+                	return FALSE;
+				}
 			    } else {
 		        
 		        	return TRUE;
@@ -1557,6 +1584,9 @@ class CI_Form_validation {
 		    	}
     		}
 		}
+		public function alpha_dash_numeric_space($str){
+			return ( ! preg_match("/^[._A-Za-z0-9\s]+$/", $str)) ? FALSE : TRUE;
+		 }
 	public function numeric_with_spacial_characters($str)
 	{
 		return ( ! preg_match("/^[0-9*#+]+$/", $str)) ? FALSE : TRUE;

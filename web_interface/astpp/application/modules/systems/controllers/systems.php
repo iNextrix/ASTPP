@@ -100,15 +100,15 @@ class Systems extends MX_Controller
     function configuration($group_title = '')
     {
         if ($group_title == "") {
-            redirect(base_url() . '/dashboard');
+            redirect(base_url() . 'dashboard');
         }
         if ($group_title == "email") {
             $data['test_email_flag'] = true;
         }
         $data['username'] = $this->session->userdata('user_name');
-        if ($group_title == 'payment_methods' || $group_title == 'ported_number') {
+        if ($group_title == 'payment_methods' || $group_title == 'ported_number' || $group_title == 'term_and_condition') {
             $page_title = str_replace("_", " ", $group_title);
-            $data['page_title'] = ucwords($page_title);
+            $data['page_title'] = gettext(ucwords($page_title));
         } else {
             $data['page_title'] = gettext(ucfirst($group_title));
         }
@@ -116,7 +116,43 @@ class Systems extends MX_Controller
         $data['details'] = $this->system_model->get_subcategory_menu($group_title);
 
         $add_array = $this->input->post();
+        if(isset($_FILES) && $_FILES != ''){
+            if($add_array['file_type'] == 0){
+                $filename=$_FILES;
+                $file = $filename['calling_cards_welcome_file']['type'];
+                $actual_file_name=$filename['calling_cards_welcome_file']['name'];
+                $actual_file_name=str_replace(' ', '', $actual_file_name);
+                $path_parts = pathinfo($actual_file_name);
+                $without_extension1 =strlen($path_parts['filename']); 
+                $start_file = $path_parts['filename'];
+                if ($without_extension1 > 10) {
+                    $start_file=substr($path_parts['filename'],0,10);
+                }
+                $uploadedFile1 = $filename['calling_cards_welcome_file']['tmp_name'];
+                $dir_path=  getcwd()."/upload/";
+                $file_name= $filename['calling_cards_welcome_file']['name'];
+                $start_file.'_'.$date.'.'.$path_parts['extension'];
+                $path =$dir_path.$file_name;
+                if(file_exists(getcwd().'/upload/' . $filename)){
+                    $add_array['calling_cards_welcome_file'] = $file_name;
+                }
+                else{
+                    if (move_uploaded_file($uploadedFile1,$path)) {
+                        $add_array['calling_cards_welcome_file'] =$file_name;
+                    }
+                }
+            }
+        }
         if (! empty($add_array)) {
+            if(isset($add_array['decimal_points'])){
+                if( $add_array['decimal_points'] < 0 || is_numeric($add_array['decimal_points'] ) == ''){
+                    $add_array['decimal_points'] = '2';
+                }elseif($add_array['decimal_points'] < 6){
+                    $add_array['decimal_points'] = $add_array['decimal_points'];
+                }else{
+                    $add_array['decimal_points'] = '5';
+                }
+            }
             if ($add_array['tax_type'] != '') {
                 $selected_tax = implode(",", $add_array['tax_type']);
                 $add_array['tax_type'] = $selected_tax;
@@ -154,6 +190,147 @@ class Systems extends MX_Controller
         $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
 
         echo json_encode($json_data);
+    }
+
+    function timezone_list(){
+        $base_timezone = Common_model::$global_config['system_config']['default_timezone'];
+        $data['username'] = $this->session->userdata('user_name');
+        $data['page_title'] = gettext('Timezone');
+        $data['search_flag'] = true;
+        $this->session->set_userdata('timezone_search', 0);
+        $data['grid_fields'] = $this->system_form->build_timezone_list_for_admin();
+        if ($this->session->userdata('logintype') == 2) {
+            $data["grid_buttons"] = $this->system_form->build_admin_timezone_grid_buttons();
+        } else {
+            $data["grid_buttons"] = json_encode(array());
+        }
+        $data['form_search'] = $this->form->build_serach_form($this->system_form->get_search_timezone_form());
+
+        $timezone_list_session = $this->session->userdata("timezone_list_search");
+        $data['timezone_name'] = $timezone_list_session['timezone_name']['timezone_name'];
+        $this->load->view('view_timezone_list', $data);
+    }
+    function timezone_list_json()
+    {
+        $json_data = array();
+
+        $count_all = $this->system_model->gettimezone_list(false);
+        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
+        $json_data = $paging_data["json_paging"];
+
+        $query = $this->system_model->gettimezone_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
+        $grid_fields = json_decode($this->system_form->build_timezone_list_for_admin());
+        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
+
+        echo json_encode($json_data);
+    }
+    function timezone_list_clearsearchfilter()
+    {
+        $this->session->set_userdata('advance_search', 0);
+        $this->session->set_userdata('timezone_list_search', "");
+    }
+    function timezone_list_edit($edit_id = '')
+    {
+        $data['page_title'] = gettext('Edit Timezone');
+        $where = array(
+            'id' => $edit_id
+        );
+        $account = $this->db_model->getSelect("*", "timezone", $where);
+        foreach ($account->result_array() as $key => $value) {
+            $edit_data = $value;
+        }
+        if($edit_data['gmtoffset'] >= 0){
+            $time = gmdate("H:i", $edit_data['gmtoffset']);
+            $edit_data['gmtoffset'] = "+".$time;
+        }else{
+            $edit_data['gmtoffset'] = str_replace("-","",$edit_data['gmtoffset']);
+            $time = gmdate("H:i", $edit_data['gmtoffset']);
+            $edit_data['gmtoffset'] = "-".$time;
+        }
+        $data['form'] = $this->form->build_form($this->system_form->get_timezone_form_fields($edit_id), $edit_data);
+        $this->load->view('view_timezone_add_edit', $data);
+    }
+    function timezone_list_search()
+    {
+        $ajax_search = $this->input->post('ajax_search', 0);
+
+        if ($this->input->post('advance_search', TRUE) == 1) {
+            $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
+            $action = $this->input->post();
+            unset($action['action']);
+            unset($action['advance_search']);
+
+            $this->session->set_userdata('timezone_list_search', $action);
+        }
+        if (@$ajax_search != 1) {
+            redirect(base_url() . 'systems/timezone_list/');
+        }
+    }
+    function timezone_add()
+    {
+        $data['username'] = $this->session->userdata('user_name');
+        $data['flag'] = 'create';
+        $data['page_title'] = gettext('Add Timezone');
+        $data['form'] = $this->form->build_form($this->system_form->get_timezone_form_fields(), '');
+        $this->load->view('view_timezone_add_edit', $data);
+    }
+    function timezone_save()
+    {
+        $add_array = $this->input->post();
+        $data['form'] = $this->form->build_form($this->system_form->get_timezone_form_fields($add_array['id']), $add_array);
+        if ($add_array['id'] != '') {
+            $data['page_title'] = gettext('Edit Timezone');
+            $data['page_title'] = gettext('Edit Timezone');
+            if ($this->form_validation->run() == FALSE) {
+                $data['validation_errors'] = validation_errors();
+                echo $data['validation_errors'];
+                exit();
+            } else {
+                $time_explode = explode(":",$add_array['gmtoffset']);
+                $hours = $time_explode[0] * 3600;
+                $minutes = $time_explode[1] * 60;
+                $time = $hours + $minutes;
+                $add_array['gmtoffset'] = $time;
+                $this->system_model->edit_timezone($add_array, $add_array['id']);
+                echo json_encode(array(
+                "SUCCESS" => $add_array["timezone_name"].' '.gettext('Timezone Updated Successfully!')
+                ));
+            exit();
+            }
+        } else {
+            $data['page_title'] = gettext('Create Timezone');
+            if ($this->form_validation->run() == FALSE) {
+                $data['validation_errors'] = validation_errors();
+                echo $data['validation_errors'];
+                exit();
+            } else {
+                $time_explode = explode(":",$add_array['gmtoffset']);
+                $hours = $time_explode[0] * 3600;
+                $minutes = $time_explode[1] * 60;
+                $time = $hours + $minutes;
+                $add_array['gmtoffset'] = $time;
+                $response = $this->system_model->add_timezone($add_array);
+                echo json_encode(array(
+                "SUCCESS" => $add_array["timezone_name"].' '.gettext('Timezone Added Successfully!')
+            ));
+            exit();
+            }
+        }
+    }
+    function timezone_remove($id)
+    {
+        $timezonename = $this->common->get_field_name('timezone_name', 'timezone', $id);
+        $this->system_model->remove_timezone($id);
+        $this->session->set_flashdata('astpp_notification', $timezonename.' '.gettext('Timezone Removed Successfully!'));
+
+        redirect(base_url() . 'systems/timezone_list/');
+    }
+    function timezone_delete_multiple()
+    {
+        $ids = $this->input->post("selected_ids", true);
+        $where = "id IN ($ids)";
+        $this->db->where($where);
+        echo $this->db->delete("timezone");
     }
 
     function template()

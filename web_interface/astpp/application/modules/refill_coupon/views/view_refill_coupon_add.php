@@ -1,3 +1,10 @@
+<!-- Manish IMP 672 (Tooltip implementation) -->
+<script>
+	$(document).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
+<!-- End -->
 <script type="text/javascript">
     $("#submit").click(function(){
         submit_form("refill_coupon_form");

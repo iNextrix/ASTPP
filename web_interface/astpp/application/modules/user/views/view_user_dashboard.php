@@ -77,7 +77,7 @@
                             <div class="bg-danger card col-12 text-light">
                                 <div class="col-lg-8 col-7 float-left py-5 px-4 ">
                                     <div class="h1" id="call_count">0</div>
-                                    <h3><?php echo gettext("Today's Calls"); ?></h3>
+                                    <h3><?php echo gettext("Todays Calls"); ?></h3>
                                 </div>
                                 <div class="col-lg-4 col-5 float-left py-5 px-4 ">
                                     <i class="fa fa-phone fa-4x float-left"></i>
@@ -127,7 +127,7 @@
                                   <th scope="col"><?php echo gettext('Name') ?></th>
                                   <th scope="col"><?php echo gettext('Date'); ?></th>
                                   <th scope="col"><?php echo gettext('Order');?></th>
-                                  <th scope="col"><?php echo gettext('Payment method'); ?></th>
+                                  <th scope="col"><?php echo gettext('Payment Method'); ?></th>
 				  <th scope="col"><?php echo gettext('Quantity'); ?></th>
                                   <th scope="col"><?php echo gettext('Setup Fee'); ?> [<?php echo $currency;?>]</th>
                                   <th scope="col"><?php echo gettext('Price');?> [<?php echo $currency;?>]</th>

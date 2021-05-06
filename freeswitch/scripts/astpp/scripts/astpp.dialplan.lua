@@ -57,10 +57,6 @@ else
     callerid_name = params:getHeader('Caller-Caller-ID-Name') or ""
 end       
 
-if(config['opensips'] == '0') then
-	callerid_name = params:getHeader('variable_sip_h_P-effective_caller_id_name') or ""
-	callerid_number = params:getHeader('variable_sip_h_P-effective_caller_id_number') or ""
-end
 
 --To override custom callerid from addon
 if custom_callerid then custom_callerid() end     
@@ -108,21 +104,12 @@ call_direction = define_call_direction(destination_number,accountcode,config)
 
 Logger.info("[Dialplan] Call direction : ".. call_direction)
 
---IF opensips then check then get account code from $params->{'variable_sip_h_P-Accountcode'}
-if(config['opensips']=='0' and params:getHeader('variable_sip_h_P-Accountcode') ~= '' and params:getHeader('variable_sip_h_P-Accountcode') ~= nil and params:getHeader("variable_accountcode") == nil and params:getHeader('variable_sip_h_P-Accountcode') ~= '<null>')
-then
-	accountcode = params:getHeader('variable_scheck_blocked_prefixip_h_P-Accountcode');
-end
 
 -- If no account code found then do further authentication of call
 if (accountcode == nil or accountcode == '') then
 
     from_ip = ""	
-    if(config['opensips']=='0') then
-    	from_ip = params:getHeader("variable_sip_h_X-AUTH-IP")
-    else
     	from_ip = params:getHeader('Hunt-Network-Addr')
-    end	
 
     authinfo = doauthentication(destination_number,from_ip)
 
@@ -263,11 +250,15 @@ if (userinfo ~= nil) then
 	end
 	
     -- If call is pstn and caller id translation defined then do caller id translation
-	if (or_localization and tonumber(userinfo['localization_id']) > 0 and or_localization['out_caller_id_originate'] ~= nil) then        
-		or_localization['out_caller_id_originate'] = or_localization['out_caller_id_originate']:gsub(" ", "")			 
+	--Dhaval ASTPPENT-675(Localization - Outbound caller not apply from customer localization)
+	if (or_localization and tonumber(userinfo['localization_id']) > 0 and or_localization['out_caller_id_originate'] ~= nil and call_direction ~= 'inbound') then        
+		or_localization['out_caller_id_originate'] = or_localization['out_caller_id_originate']:gsub(" ", "")	
+		callerid_array['original_cid_name'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_name'])
+		callerid_array['original_cid_number'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_number'])  		 
 		callerid_array['cid_name'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_name'])
 		callerid_array['cid_number'] = do_number_translation(or_localization['out_caller_id_originate'],callerid_array['cid_number'])        
 	end
+    --END
 
 	if(call_direction == 'inbound' and config['did_global_translation'] ~= nil and config['did_global_translation'] ~= '' and tonumber(config['did_global_translation']) > 0) then
 		-- @TODO: Implement localization for DID global translation

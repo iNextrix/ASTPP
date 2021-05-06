@@ -226,6 +226,12 @@ class Reports extends MX_Controller
             $this->session->set_userdata('advance_search_date', 0);
             unset($action['action']);
             unset($action['advance_search']);
+            if(!empty($action['callstart'][0])){
+                $action['callstart'][0]=$this->common->convert_GMT_new ( $action['callstart'][0]);
+            }
+            if(!empty($action['callstart'][1])){
+                $action['callstart'][1]=$this->common->convert_GMT_new ( $action['callstart'][1]);
+            }
             unset($action['cdrs_year']);
             $this->session->set_userdata('customer_cdr_list_search', $action);
         }
@@ -428,6 +434,9 @@ class Reports extends MX_Controller
         $data['grid_fields'] = $this->reports_form->build_report_list_for_reseller();
         $data["grid_buttons"] = $this->reports_form->build_grid_buttons_reseller();
         $data['form_search'] = $this->form->build_serach_form($this->reports_form->get_reseller_cdr_form());
+        $accountinfo = $this->session->userdata('accountinfo');
+        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
+        $data['reseller_id'] = $reseller_id;
         $this->load->view('view_cdr_reseller_list', $data);
     }
 
@@ -525,6 +534,7 @@ class Reports extends MX_Controller
             gettext("Disposition"),
             gettext("Account"),
             gettext("Rate Group"),
+            gettext("Trunk"),
             gettext("Call Type"),
             gettext("Direction")
         );
@@ -542,6 +552,14 @@ class Reports extends MX_Controller
             foreach ($pricelist_res as $value) {
                 $pricelist_arr[$value['id']] = $value['name'];
             }
+            $where = "id IN (" . $count_all['trunk_ids'] . ")";
+            $this->db->where($where);
+            $this->db->select('id,name');
+            $trunk_res = $this->db->get('trunks');
+            $trunk_res = $trunk_res->result_array();
+            foreach ($trunk_res as $value) {
+                $trunk_arr[$value['id']] = $value['name'];
+            }
             foreach ($query->result_array() as $value) {
                 $duration = ($show_seconds == 'minutes') ? ($value['billseconds'] > 0) ? sprintf('%02d', $value['billseconds'] / 60) . ":" . sprintf('%02d', $value['billseconds'] % 60) : "00:00" : $value['billseconds'];
                 $reseller_array[] = array(
@@ -556,6 +574,7 @@ class Reports extends MX_Controller
                     $value['disposition'],
                     $this->common->build_concat_string("first_name,last_name,number", "accounts", $value['accountid']),
                     isset($pricelist_arr[$value['pricelist_id']]) ? $pricelist_arr[$value['pricelist_id']] : '',
+                    isset($trunk_arr[$value['trunk_id']]) ? $trunk_arr[$value['trunk_id']] : '',
                     $value['calltype'],
                     $value['call_direction']
                 );
@@ -570,6 +589,7 @@ class Reports extends MX_Controller
                 $duration,
                 $this->common->calculate_currency_manually($currency_info, $count_all['total_debit'], false, false),
                 $this->common->calculate_currency_manually($currency_info, $count_all['total_cost'], false, false),
+                "",
                 "",
                 "",
                 "",
@@ -651,6 +671,12 @@ class Reports extends MX_Controller
             unset($action['advance_search']);
             $this->session->set_userdata('advance_search_date', 0);
             unset($action['cdrs_year']);
+            if(!empty($action['callstart'][0])){
+                $action['callstart'][0]=$this->common->convert_GMT_new ( $action['callstart'][0]);
+            }
+            if(!empty($action['callstart'][1])){
+                $action['callstart'][1]=$this->common->convert_GMT_new ( $action['callstart'][1]);
+            }
             $this->session->set_userdata('provider_cdr_list_search', $action);
         }
         if (@$ajax_search != 1) {
@@ -832,10 +858,14 @@ class Reports extends MX_Controller
             $account_arr = $this->db_model->getSelect("*", "accounts", $where);
             if ($account_arr->num_rows() > 0) {
                 $account_array = $account_arr->result_array();
-                $firstname = $account_array[0]['first_name'] . " " . $account_array[0]['last_name'] . ' (' . $account_array[0]['number'] . ')';
+                if(isset($account_array[0]['company_name']) && !empty($account_array[0]['company_name'])){
+                    $firstname = $account_array[0]['company_name'] . " " . ' (' . $account_array[0]['number'] . ')';
+                }else{
+                    $firstname = $account_array[0]['first_name'] . " " . $account_array[0]['last_name'] . ' (' . $account_array[0]['number'] . ')';
+                }
             }
             if ($value['reseller_id'] != '') {
-                $reseller_name = $this->common->reseller_select_value('first_name,last_name,number', 'accounts', $value['reseller_id']);
+                $reseller_name = $this->common->reseller_select_value('first_name,last_name,number,company_name', 'accounts', $value['reseller_id']);
             }
 
             $payeremail = ($value['reseller_id'] != '') ? $this->common->get_field_name("email", "accounts", array(
@@ -883,7 +913,11 @@ class Reports extends MX_Controller
     {
         $account_info = $accountinfo = $this->session->userdata('accountinfo');
         $currency_id = $account_info['currency_id'];
-        $reseller_id = $accountinfo['reseller_id'] > 0 ? $accountinfo['reseller_id'] : 0;
+        if($account_info['type'] == 1){
+            $reseller_id = $account_info['id'];
+        }else{
+            $reseller_id = $account_info['reseller_id'] > 0 ? $account_info['reseller_id'] : 0;
+        }
         $account_arr = array();
         $transaction_details = array();
         $currency_info = $this->common->get_currency_info();
@@ -952,6 +986,12 @@ class Reports extends MX_Controller
             $action = $this->input->post();
             unset($action['action']);
             unset($action['advance_search']);
+            if(!empty($action['date'][0])){
+                $action['date'][0]=$this->common->convert_GMT_new ( $action['date'][0]);
+            }
+            if(!empty($action['date'][1])){
+                $action['date'][1]=$this->common->convert_GMT_new ( $action['date'][1]);
+            }
             if (isset($action['amount']['amount']) && $action['amount']['amount'] != '') {
                 $action['amount']['amount'] = $this->common_model->add_calculate_currency($action['amount']['amount'], "", '', false, false);
             }
@@ -991,261 +1031,6 @@ class Reports extends MX_Controller
         $this->session->set_userdata('advance_search', 0);
         $this->session->set_userdata('cdr_refill_search', "");
         redirect(base_url() . 'reports/refillreport/');
-    }
-
-    function charges_history()
-    {
-        $data['page_title'] = gettext('Charges History');
-        $data['search_flag'] = true;
-        $this->session->set_userdata('advance_search', 0);
-        $data['grid_fields'] = $this->reports_form->build_charge_list_for_admin();
-        $data['form_search'] = $this->form->build_serach_form($this->reports_form->get_charges_search_form());
-        $this->load->view('view_charges_list', $data);
-    }
-
-    function charges_history_json()
-    {
-        $json_data = array();
-        $count_all = $this->reports_model->getcharges_list(false);
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
-        $json_data = $paging_data["json_paging"];
-        $query = $this->reports_model->getcharges_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-        $result = $query->result_array();
-        $query1 = $this->reports_model->getcharges_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-        $res = $query1->result_array();
-        $debit = 0;
-        $credit = 0;
-
-        $before_balance = 0;
-        $after_balance = 0;
-        $i = 0;
-        $invocienumber = array();
-        $invocienumber_result = array();
-
-        $account_info = $accountinfo = $this->session->userdata('accountinfo');
-        $currency_id = $account_info['currency_id'];
-        $account_currency = $this->common->get_field_name('currency', 'currency', $currency_id);
-        $base_currency = Common_model::$global_config['system_config']['base_currency'];
-        foreach ($result as $key => $value) {
-
-            $date = $this->common->convert_GMT_to('', '', $value['created_date']);
-            $account = $this->common->get_field_name_coma_new('first_name,last_name,number', 'accounts', $value['accountid']);
-            $reseller = $this->common->reseller_select_value('first_name,last_name,number', 'accounts', $value['reseller_id']);
-            $invocienumber = (array) $this->db->get_where("invoices", array(
-                'id' => $value['invoiceid']
-            ))->first_row();
-            if (count($invocienumber) && is_array($invocienumber)) {
-                $prefix_number = $invocienumber['prefix'] . "" . $invocienumber['number'];
-            } else {
-                $prefix_number = "";
-            }
-
-            if ($account_currency == $value['account_currency']) {
-                $before_balance = $this->common->convert_to_currency_account("", "", $value['before_balance'] * $value['exchange_rate']);
-                $debit = $this->common->convert_to_currency_account("", "", $value['debit'] * $value['exchange_rate']);
-                $credit = $this->common->convert_to_currency_account("", "", $value['credit'] * $value['exchange_rate']);
-                $after_balance = $this->common->convert_to_currency_account("", "", $value['after_balance'] * $value['exchange_rate']);
-            } else {
-                $before_balance = $this->common->convert_to_currency_account("", "", $value['before_balance']);
-                $debit = $this->common->convert_to_currency_account("", "", $value['debit']);
-                $credit = $this->common->convert_to_currency_account("", "", $value['credit']);
-                $after_balance = $this->common->convert_to_currency_account("", "", $value['after_balance']);
-            }
-            if ($this->session->userdata('logintype') == 1) {
-                $json_data['rows'][] = array(
-                    'cell' => array(
-                        $date,
-                        $prefix_number,
-                        $account,
-                        $value['charge_type'],
-                        $value['description'],
-                        $before_balance,
-                        $debit,
-                        $credit,
-                        $after_balance
-                    )
-                );
-            } else {
-                $json_data['rows'][] = array(
-                    'cell' => array(
-                        $date,
-                        $prefix_number,
-                        $account,
-                        $value['charge_type'],
-                        $value['description'],
-                        $reseller,
-                        $before_balance,
-                        $debit,
-                        $credit,
-                        $after_balance
-                    )
-                );
-            }
-        }
-        $debit_sum = 0;
-        $credit_sum = 0;
-        foreach ($res as $value) {
-
-            $debit_sum += $value['debit'];
-            $credit_sum += $value['credit'];
-            $before_balance += $value['before_balance'];
-            $after_balance += $value['after_balance'];
-        }
-        if ($this->session->userdata('logintype') == 1) {
-            $json_data['rows'][$count_all]['cell'] = array(
-                '<b>'.gettext("Total").'</b>',
-                '-',
-                '-',
-                '-',
-                '-',
-                '-',
-                '<b>' . $this->common->convert_to_currency_account("", "", $debit_sum) . '</b>',
-                '<b>' . $this->common->convert_to_currency_account("", "", $credit_sum) . '</b>',
-                '-'
-            );
-        } else {
-            $json_data['rows'][$count_all]['cell'] = array(
-                '<b>Total</b>',
-                '-',
-                '-',
-                '-',
-                '-',
-                '-',
-                '-',
-                '<b>' . $this->common->convert_to_currency_account("", "", $debit_sum) . '</b>',
-                '<b>' . $this->common->convert_to_currency_account("", "", $credit_sum) . '</b>',
-                '-'
-            );
-        }
-        echo json_encode($json_data);
-    }
-
-    function charges_history_search()
-    {
-        $ajax_search = $this->input->post('ajax_search', 0);
-        if ($this->input->post('advance_search', TRUE) == 1) {
-            $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
-            $action = $this->input->post();
-            unset($action['action']);
-            unset($action['advance_search']);
-            if (isset($action['debit']['debit']) && $action['debit']['debit'] != '') {
-                $action['debit']['debit'] = $this->common_model->add_calculate_currency($action['debit']['debit'], "", '', false, false);
-            }
-            if (isset($action['credit']['credit']) && $action['credit']['credit'] != '') {
-                $action['credit']['credit'] = $this->common_model->add_calculate_currency($action['credit']['credit'], "", '', false, false);
-            }
-            $this->session->set_userdata('charges_list_search', $action);
-        }
-        if (@$ajax_search != 1) {
-            redirect(base_url() . 'accounts/admin_list/');
-        }
-    }
-
-    function charges_history_clearsearchfilter()
-    {
-        $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('charges_list_search', "");
-    }
-
-    function customer_charge_history($accountid, $accounttype)
-    {
-        $json_data = array();
-        $instant_search = $this->session->userdata('left_panel_search_' . $accounttype . '_charges');
-        $like_str = ! empty($instant_search) ? "(charge_type like '%$instant_search%'
-                                            OR   description like '%$instant_search%')" : null;
-
-        if (! empty($like_str))
-            $this->db->where($like_str);
-        $count_all = $this->reports_model->get_customer_charge_list(false, $accountid);
-
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
-        $json_data = $paging_data["json_paging"];
-        if (! empty($like_str))
-            $this->db->where($like_str);
-        $query = $this->reports_model->get_customer_charge_list(true, $accountid, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-        $result = $query->result_array();
-        $query1 = $this->reports_model->get_customer_charge_list(true, $accountid, '', '');
-        $res = $query1->result_array();
-
-        $debit = 0;
-        $credit = 0;
-        $before_balance = 0;
-        $after_balance = 0;
-        $i = 0;
-        foreach ($result as $key => $value) {
-            $date = $this->common->convert_GMT_to('', '', $value['created_date']);
-            $account = $this->common->get_field_name_coma_new('first_name,last_name,number', 'accounts', $value['accountid']);
-            $reseller = $this->common->reseller_select_value('first_name,last_name,number', 'accounts', $value['reseller_id']);
-            $invocienumber = (array) $this->db->get_where("invoices", array(
-                'id' => $value['invoiceid']
-            ))->first_row();
-            if (count($invocienumber) && is_array($invocienumber)) {
-                $prefix_number = $invocienumber['prefix'] . "" . $invocienumber['number'];
-            } else {
-                $prefix_number = "";
-            }
-            if ($this->session->userdata('logintype') == 1) {
-                $json_data['rows'][] = array(
-                    'cell' => array(
-                        $prefix_number,
-                        $value['charge_type'],
-                        $value['description'],
-                        $this->common->convert_to_currency_account("", "", $value['before_balance'] * $value['exchange_rate']),
-                        $this->common->convert_to_currency_account("", "", $value['debit'] * $value['exchange_rate']),
-                        $this->common->convert_to_currency_account("", "", $value['credit'] * $value['exchange_rate']),
-                        $this->common->convert_to_currency_account("", "", $value['after_balance'] * $value['exchange_rate']),
-                        $date
-                    )
-                );
-            } else {
-                $json_data['rows'][] = array(
-                    'cell' => array(
-                        $prefix_number,
-                        $value['charge_type'],
-                        $value['description'],
-                        $this->common->convert_to_currency_account("", "", $value['before_balance'] * $value['exchange_rate']),
-                        $this->common->convert_to_currency_account("", "", $value['debit'] * $value['exchange_rate']),
-                        $this->common->convert_to_currency_account("", "", $value['credit'] * $value['exchange_rate']),
-                        $this->common->convert_to_currency_account("", "", $value['after_balance'] * $value['exchange_rate']),
-                        $date
-                    )
-                );
-            }
-        }
-        $debit_sum = 0;
-        $credit_sum = 0;
-        foreach ($res as $value) {
-            $debit_sum += $value['debit'] * $value['exchange_rate'];
-            $credit_sum += $value['credit'] * $value['exchange_rate'];
-            $before_balance += $value['before_balance'] * $value['exchange_rate'];
-            $after_balance += $value['after_balance'] * $value['exchange_rate'];
-        }
-        if ($this->session->userdata('logintype') == 1) {
-            $json_data['rows'][$count_all]['cell'] = array(
-                '<b>'.gettext("Total").'</b>',
-                '-',
-                '-',
-                '-',
-                '<b>' . $this->common->convert_to_currency_account("", "", $debit_sum) . '</b>',
-                '<b>' . $this->common->convert_to_currency_account("", "", $credit_sum) . '</b>',
-                '-',
-                '-',
-                '-'
-            );
-        } else {
-            $json_data['rows'][$count_all]['cell'] = array(
-                '<b>'.gettext("Total").'</b>',
-                '-',
-                '-',
-                '-',
-                '<b>' . $this->common->convert_to_currency_account("", "", $debit_sum) . '</b>',
-                '<b>' . $this->common->convert_to_currency_account("", "", $credit_sum) . '</b>',
-                '-',
-                '-',
-                '-'
-            );
-        }
-        echo json_encode($json_data);
     }
 
     function customer_refillreport($accountid, $accounttype)
@@ -1403,7 +1188,11 @@ class Reports extends MX_Controller
         if ($accounts_result->num_rows() > 0) {
             $accounts_result_array = $accounts_result->result_array();
             foreach ($accounts_result_array as $key => $value) {
-                echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                if(isset($value['company_name']) && $value['company_name'] != ''){
+                    echo "<option value=" . $value['id'] . ">" . $value['company_name'] . "(" . $value['number'] . ")</option>";
+                }else{
+                    echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                }
             }
         } else {
             echo '';

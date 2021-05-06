@@ -551,7 +551,7 @@ class User_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'gmtzone',
+                'timezone_name',
                 'timezone',
                 'build_dropdown',
                 '',
@@ -658,9 +658,9 @@ class User_form extends common
                 ''
             )
         );
-        $form['button_save'] = array(
+         $form['button_save'] = array(
             'name' => 'action',
-            'content' => gettext('Save'),
+            'content' => gettext('Submit'),
             'value' => 'save',
             'type' => 'submit',
             'class' => 'btn btn-success'
@@ -696,7 +696,7 @@ class User_form extends common
             ),
             array(
                 gettext("Generated Date"),
-                "80",
+                "130",
                 "generate_date",
                 "generate_date",
                 "generate_date",
@@ -707,7 +707,7 @@ class User_form extends common
             ),
             array(
                 gettext("From Date"),
-                "80",
+                "130",
                 "from_date",
                 "from_date",
                 "",
@@ -718,7 +718,7 @@ class User_form extends common
             ),
             array(
                 gettext("Due Date"),
-                "100",
+                "130",
                 "due_date",
                 "due_date",
                 "due_date",
@@ -729,7 +729,7 @@ class User_form extends common
             ),
             array(
                 gettext("To Date"),
-                "100",
+                "130",
                 "",
                 "",
                 "",
@@ -762,7 +762,7 @@ class User_form extends common
             ),
             array(
                 gettext("Action"),
-                "100",
+                "130",
                 "",
                 "",
                 "",
@@ -870,214 +870,6 @@ class User_form extends common
         $form['button_search'] = array(
             'name' => 'action',
             'id' => "user_invoice_search_btn",
-            'content' => gettext('Search'),
-            'value' => 'save',
-            'type' => 'button',
-            'class' => 'btn btn-success float-right'
-        );
-        $form['button_reset'] = array(
-            'name' => 'action',
-            'id' => "id_reset",
-            'content' => gettext('Clear'),
-            'value' => 'cancel',
-            'type' => 'reset',
-            'class' => 'btn btn-secondary float-right mx-2'
-        );
-        return $form;
-    }
-
-    function build_user_charge_history()
-    {
-        $account_info = $accountinfo = $this->CI->session->userdata('accountinfo');
-        $currency_id = $account_info['currency_id'];
-        $currency = $this->CI->common->get_field_name('currency', 'currency', $currency_id);
-        $grid_field_arr = json_encode(array(
-            array(
-                gettext("Date"),
-                "130",
-                "created_date",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Invoice Number"),
-                "110",
-                "created_date",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Charge Type"),
-                "100",
-                "item_type",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Description"),
-                "180",
-                "description",
-                "",
-                "",
-                ""
-            ),
-            array(
-                gettext("Before Balance") . "<br/>($currency)",
-                "110",
-                "before_balance",
-                "before_balance",
-                "before_balance",
-                "convert_to_currency",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("Debit") . "($currency)",
-                "110",
-                "debit",
-                "debit",
-                "debit",
-                "convert_to_currency_account",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("Credit") . "($currency)",
-                "110",
-                "credit",
-                "credit",
-                "credit",
-                "convert_to_currency_account",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("After Balance") . "($currency)",
-                "110",
-                "after_balance",
-                "after_balance",
-                "after_balance",
-                "convert_to_currency_account",
-                "",
-                "true",
-                "right"
-            )
-        ));
-        return $grid_field_arr;
-    }
-
-    function build_user_charge_history_search()
-    {
-        $form['forms'] = array(
-            "",
-            array(
-                'id' => "user_charge_history_search"
-            )
-        );
-        $form[gettext('Search')] = array(
-            array(
-                gettext('From Date'),
-                'INPUT',
-                array(
-                    'name' => 'created_date[]',
-                    'id' => 'charge_from_date',
-                    'size' => '20',
-                    'class' => "text field "
-                ),
-                '',
-                'tOOL TIP',
-                '',
-                'start_date[start_date-date]'
-            ),
-            array(
-                gettext('To Date'),
-                'INPUT',
-                array(
-                    'name' => 'created_date[]',
-                    'id' => 'charge_to_date',
-                    'size' => '20',
-                    'class' => "text field "
-                ),
-                '',
-                'tOOL TIP',
-                '',
-                'end_date[end_date-date]'
-            ),
-            array(
-                gettext('Debit'),
-                'INPUT',
-                array(
-                    'name' => 'debit[debit]',
-                    'value' => '',
-                    'size' => '20',
-                    'class' => "text field "
-                ),
-                '',
-                'Tool tips info',
-                '1',
-                'debit[debit-integer]',
-                '',
-                '',
-                '',
-                'search_int_type',
-                ''
-            ),
-            array(
-                gettext('Credit'),
-                'INPUT',
-                array(
-                    'name' => 'credit[credit]',
-                    'value' => '',
-                    'size' => '20',
-                    'class' => "text field "
-                ),
-                '',
-                'Tool tips info',
-                '1',
-                'credit[credit-integer]',
-                '',
-                '',
-                '',
-                'search_int_type',
-                ''
-            ),
-            array(
-                '',
-                'HIDDEN',
-                'ajax_search',
-                '1',
-                '',
-                '',
-                ''
-            ),
-            array(
-                '',
-                'HIDDEN',
-                'advance_search',
-                '1',
-                '',
-                '',
-                ''
-            )
-        );
-        $form['button_search'] = array(
-            'name' => 'action',
-            'id' => "charges_search_btn",
             'content' => gettext('Search'),
             'value' => 'save',
             'type' => 'button',
@@ -1481,7 +1273,7 @@ class User_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),
@@ -1836,7 +1628,7 @@ class User_form extends common
                 "center"
             ),
             array(
-                gettext("User Name"),
+                gettext("User name"),
                 "90",
                 "username",
                 "",
@@ -1938,7 +1730,7 @@ class User_form extends common
         );
         $form[gettext('Search')] = array(
             array(
-                gettext('User Name'),
+                gettext('User name'),
                 'INPUT',
                 array(
                     'name' => 'username[username]',
@@ -3287,20 +3079,6 @@ class User_form extends common
                 ''
             ),
             array(
-                gettext('From Account'),
-                'INPUT',
-                array(
-                    'name' => 'fromaccountid',
-                    'size' => '20',
-                    'value' => $number,
-                    'readonly' => true,
-                    'class' => "text field medium"
-                ),
-                'required',
-                'tOOL TIP',
-                'Please Enter account number'
-            ),
-            array(
                 gettext('To Account'),
                 'INPUT',
                 array(
@@ -4081,7 +3859,7 @@ class User_form extends common
                 "order_date",
                 "order_date",
                 "order_date",
-                "convert_to_date",
+                "convert_GMT_to",
                 "",
                 "true",
                 "center"

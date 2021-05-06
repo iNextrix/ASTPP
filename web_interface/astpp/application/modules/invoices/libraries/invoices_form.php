@@ -472,7 +472,7 @@ class invoices_form extends common
                 'first_name,last_name,number',
                 'accounts',
                 'build_concat_dropdown_reseller',
-                '',
+                'where_arr',
                 ''
             ),
 
@@ -489,7 +489,7 @@ class invoices_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'number',
+                'first_name,last_name,number,company_name',
                 'accounts',
                 'build_dropdown',
                 'where_arr',
@@ -580,7 +580,7 @@ class invoices_form extends common
                 gettext("Account"),
                 "95",
                 "accountid",
-                "first_name,last_name,number",
+                "first_name,last_name,number,company_name",
                 "accounts",
                 "build_concat_string"
             ),
@@ -588,7 +588,7 @@ class invoices_form extends common
                 gettext("Reseller"),
                 "100",
                 "reseller_id",
-                "first_name,last_name,number",
+                "first_name,last_name,number,company_name",
                 "accounts",
                 "reseller_select_value",
                 "",
@@ -869,7 +869,7 @@ class invoices_form extends common
                 'tOOL TIP',
                 'Please Enter account number',
                 'id',
-                'number,first_name',
+                'first_name,last_name,number,company_name',
                 'accounts',
                 'build_concat_dropdown',
                 '',
@@ -983,7 +983,7 @@ class invoices_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),
@@ -1141,7 +1141,7 @@ class invoices_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                'required',
+                'required|alpha_dash_numeric_space',
                 'tOOL TIP',
                 'Please Enter account number'
             ),
@@ -1205,6 +1205,7 @@ class invoices_form extends common
                 ''
             )
         );
+        if($logintype != 1 && $invoiceconf['id'] == 1){
         $form[gettext('Portal personalization')] = array(
 
             array(
@@ -1287,6 +1288,7 @@ class invoices_form extends common
             $delete_fav,
             $image_fav
         );
+    }
         $form['button_save'] = array(
             'name' => 'action',
             'content' => gettext('Save'),
@@ -1365,7 +1367,7 @@ class invoices_form extends common
                 'id',
                 'country',
                 'countrycode',
-                'build_dropdown',
+                'build_dropdown_country_camel',
                 '',
                 ''
             ),

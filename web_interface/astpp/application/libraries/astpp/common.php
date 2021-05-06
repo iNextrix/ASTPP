@@ -50,7 +50,7 @@ class common {
 			if(strpos($available_sets, 'd') !== false)
 				$sets[] = '23456789';
 			if(strpos($available_sets, 's') !== false)
-				$sets[] = '!@#$%^&*()';
+				$sets[] = '!@#$^*()';
 
 			$all = '';
 			$password = '';
@@ -211,22 +211,59 @@ class common {
 			return "0";
 		}
 	}
+	// function get_field_name($select, $table, $where) {
+	// 	if (is_array ( $where )) {
+	// 		$where = $where;
+	// 	} else {
+	// 		$where = array (
+	// 				"id" => $where
+	// 		);
+	// 	}
+	// 	$field_name = $this->CI->db_model->getSelect ( $select, $table, $where );
+	// 	$field_name = $field_name->result ();
+	// 	if (isset ( $field_name ) && ! empty ( $field_name )) {
+	// 		return $field_name [0]->{$select};
+	// 	} else {
+	// 		return "";
+	// 	}
+	// }
+
 	function get_field_name($select, $table, $where) {
+		$timezone_name = $where;
 		if (is_array ( $where )) {
 			$where = $where;
 		} else {
-			$where = array (
-					"id" => $where
-			);
+			if($select == 'gmtoffset'){
+				$where = array("timezone_name"=>$where);
+			}else{
+				$where = array (
+						"id" => $where
+				);
+			}
 		}
 		$field_name = $this->CI->db_model->getSelect ( $select, $table, $where );
 		$field_name = $field_name->result ();
 		if (isset ( $field_name ) && ! empty ( $field_name )) {
-			return $field_name [0]->{$select};
+			if($select == 'gmtoffset'){
+				if($field_name [0]->{$select} >= 0){
+					$time = gmdate("H:i", $field_name [0]->{$select});
+					$gmthours = "+".$time;
+					return $gmthours;
+				}else{
+					$gmtoffset = str_replace("-","",$field_name [0]->{$select});
+					$time = gmdate("H:i", $gmtoffset);
+					$gmthours = "-".$time;
+					return $gmthours;
+				}
+
+			}else{
+				return $field_name [0]->{$select};
+			}	 
 		} else {
 			return "";
 		}
 	}
+
 	function get_field_name_coma_new($select, $table, $where) {
 
 		$value = '';
@@ -243,16 +280,20 @@ class common {
 
 			$field_name = $this->CI->db_model->getSelect ( $select, $table, $where_in );
 			$field_name = $field_name->result ();
-			if (isset ( $field_name ) && ! empty ( $field_name )) {
-				foreach ( $select1 as $sel ) {
-					if ($sel == 'number') {
-						$value .= "(" . $field_name [0]->{$sel} . ")";
-					} else {
-						$value .= $field_name [0]->{$sel} . " ";
-					}
-				}
+			if ($select1[0] == "first_name" && $select1[1] == "last_name" && isset($field_name[0]->company_name ) && $field_name[0]->company_name != '') {
+				$value = $field_name [0]->company_name ."(" . $field_name [0]->number.")";
 			} else {
-				$value = "";
+				if (isset ( $field_name ) && ! empty ( $field_name )) {
+					foreach ( $select1 as $sel ) {
+						if ($sel == 'number') {
+							$value .= "(" . $field_name [0]->{$sel} . ")";
+						} else {
+							$value .= $field_name [0]->{$sel} . " ";
+						}
+					}
+				} else {
+					$value = "";
+				}
 			}
 		}
 
@@ -528,7 +569,7 @@ class common {
 		$custom_did_call_types_result = $this->CI->db->get ( "did_call_types" )->result_array ();	
 	
 		foreach ( $custom_did_call_types_result as $result ) {
-			$call_type_array [$result ['call_type_code']] = $result ['call_type'];
+			$call_type_array [$result ['call_type_code']] = gettext($result ['call_type']);
 		}
 		return $call_type_array;
 	}
@@ -592,8 +633,8 @@ class common {
 	function set_entity_type_admin($entity_type = "") {
 		$entity_array = array (
 				'' => gettext ( "--Select--" ),
-				'2' => gettext ( 'Admin' ),
-				"4" => gettext ( "Sub Admin" )
+				'-1' => gettext ( 'Admin' ),
+				"2" => gettext ( "Sub Admin" )
 		);
 		return $entity_array;
 	}
@@ -801,16 +842,16 @@ class common {
 		$this->CI->db->where("deleted",0);
 		$account_res = ( array ) $this->CI->db->get_where ( "accounts", $where )->first_row ();
 		if ($account_res ['type'] == 0) {
-			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-success float-left mt-1" title="Customer">Customer</span>';
+			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-success float-left mt-1" title="Customer">'.gettext("Customer").'</span>';
 		}
 		if ($account_res ['type'] == 3) {
-			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-primary float-left mt-1" title="Provider">Provider</span>';
+			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-primary float-left mt-1" title="Provider">'.gettext("Provider").'</span>';
 		}
 		if ($account_res ['type'] == - 1 || $account_res ['type'] == 2) {
 			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-danger" title="Admin"></span>';
 		}
 		if ($account_res ['type'] == 4) {
-			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-secondary" title="Subadmin">Subadmin</span>';
+			$return_value = " <span title='Edit'>" . $account_res ['number'] . " </span>" . '<span class="badge badge-secondary" title="Subadmin">'.gettext("Subadmin").'</span>';
 		}
 		return $return_value;
 	}
@@ -840,7 +881,7 @@ class common {
 		return $status_array;
 	}
 	function get_account_type($select = "", $table = "", $PTE) {
-		return ($PTE == 1) ? "Postpaid" : "Prepaid";
+		return ($PTE == 1) ? gettext("Postpaid") : gettext("Prepaid");
 	}
 	function get_refill_by($select = "", $table = "", $type) {
 		if ($type == '-1') {
@@ -898,7 +939,7 @@ class common {
 		$status_array = array (
 				'5' => gettext ( "Begins With" ),
 				'1' => gettext ( 'Contains' ),
-				'2' => gettext ( "Doesn't Contain" ),
+				'2' => gettext ( "Doesnt Contain" ),
 				'3' => gettext ( 'Is Equal To' ),
 				'4' => gettext ( 'Is Not Equal To' ),
 				"6" => gettext ( "Ends With" )
@@ -961,57 +1002,57 @@ class common {
 	}
 	function set_despostion($dis = '') {
 		$status_array = array (
-				"" => "--Select Disposition--",
-				"ACCOUNT_INACTIVE_DELETED" => "ACCOUNT_INACTIVE_DELETED",
-				"ACCOUNT_EXPIRE" => "ACCOUNT_EXPIRE",
-				"ALLOTTED_TIMEOUT" => "ALLOTTED_TIMEOUT",
-				"AUTHENTICATION_FAIL" => "AUTHENTICATION_FAIL",
-				"BEARERCAPABILITY_NOTAUTH" => "BEARERCAPABILITY_NOTAUTH",
-				"BEARERCAPABILITY_NOTAVAIL" => "BEARERCAPABILITY_NOTAVAIL",
-				"BEARERCAPABILITY_NOTIMPL" => "BEARERCAPABILITY_NOTIMPL",
-				"CALL_REJECTED" => "CALL_REJECTED",
-				"CHAN_NOT_IMPLEMENTED" => "CHAN_NOT_IMPLEMENTED",
-				"CHANNEL_UNACCEPTABLE" => "CHANNEL_UNACCEPTABLE",
-				"DESTINATION_OUT_OF_ORDER" => "DESTINATION_OUT_OF_ORDER",
-				"DESTINATION_BLOCKED" => "DESTINATION_BLOCKED",
-				"DID_DESTINATION_NOT_FOUND" => "DID_DESTINATION_NOT_FOUND",
-				"FACILITY_REJECTED" => "FACILITY_REJECTED",
-				"FACILITY_NOT_SUBSCRIBED" => "FACILITY_NOT_SUBSCRIBED",
-				"FACILITY_NOT_IMPLEMENTED" => "FACILITY_NOT_IMPLEMENTED",
-				"FRAUD_CALL_PER_ACCOUNT" => "FRAUD_CALL_PER_ACCOUNT",
-				"FRAUD_CALL_PER_DESTINATION " => "FRAUD_CALL_PER_DESTINATION ",
-				"FRAUD_COST_PER_ACCOUNT" => "FRAUD_COST_PER_ACCOUNT",
-				"FRAUD_COST_PER_DESTINATION" => "FRAUD_COST_PER_DESTINATION",
-				"INVALID_NUMBER_FORMAT" => "INVALID_NUMBER_FORMAT",
-				"INCOMPATIBLE_DESTINATION" => "INCOMPATIBLE_DESTINATION",
-				"MANAGER_REQUEST" => "MANAGER_REQUEST",
-				"MEDIA_TIMEOUT" => "MEDIA_TIMEOUT",
-				"NO_ROUTE_DESTINATION" => "NO_ROUTE_DESTINATION",
-				"NORMAL_CLEARING" => "NORMAL_CLEARING",
-				"NETWORK_OUT_OF_ORDER" => "NETWORK_OUT_OF_ORDER",
-				"NORMAL_UNSPECIFIED" => "NORMAL_UNSPECIFIED",
-				"NORMAL_CIRCUIT_CONGESTION" => "NORMAL_CIRCUIT_CONGESTION",
-				"NORMAL_TEMPORARY_FAILURE" => "NORMAL_TEMPORARY_FAILURE",
-				"NO_SUFFICIENT_FUND" => "NO_SUFFICIENT_FUND",
-				"NO_USER_RESPONSE" => "NO_USER_RESPONSE",
-				"NO_ANSWER" => "NO_ANSWER",
-				"NUMBER_CHANGED" => "NUMBER_CHANGED",
-				"ORIGINATOR_CANCEL" => "ORIGINATOR_CANCEL",
-				"ORIGNATION_RATE_NOT_FOUND" => "ORIGNATION_RATE_NOT_FOUND",
-				"OUTGOING_CALL_BARRED" => "OUTGOING_CALL_BARRED",
-				"PROGRESS_TIMEOUT" => "PROGRESS_TIMEOUT",
-				"RECOVERY_ON_TIMER_EXPIRE" => "RECOVERY_ON_TIMER_EXPIRE",
-				"RESELLER_COST_CHEAP" => "RESELLER_COST_CHEAP",
-				"SERVICE_NOT_IMPLEMENTED" => "SERVICE_NOT_IMPLEMENTED",
-				"SERVICE_UNAVAILABLE" => "SERVICE_UNAVAILABLE",
-				"SUCCESS" => "SUCCESS",
-				"SWITCH_CONGESTION" => "SWITCH_CONGESTION",
-				"TERMINATION_RATE_NOT_FOUND" => "TERMINATION_RATE_NOT_FOUND",
-				"UNSPECIFIED" => "UNSPECIFIED",
-				"UNALLOCATED_NUMBER" => "UNALLOCATED_NUMBER",
-				"USER_BUSY" => "USER_BUSY",
-				"USER_NOT_REGISTERED" => "USER_NOT_REGISTERED",
-				"REQUESTED_CHAN_UNAVAIL"=> "REQUESTED_CHAN_UNAVAIL"
+				"" => gettext("--Select Disposition--"),
+				"ACCOUNT_INACTIVE_DELETED" => gettext("ACCOUNT_INACTIVE_DELETED"),
+				"ACCOUNT_EXPIRE" => gettext("ACCOUNT_EXPIRE"),
+				"ALLOTTED_TIMEOUT" => gettext("ALLOTTED_TIMEOUT"),
+				"AUTHENTICATION_FAIL" => gettext("AUTHENTICATION_FAIL"),
+				"BEARERCAPABILITY_NOTAUTH" => gettext("BEARERCAPABILITY_NOTAUTH"),
+				"BEARERCAPABILITY_NOTAVAIL" => gettext("BEARERCAPABILITY_NOTAVAIL"),
+				"BEARERCAPABILITY_NOTIMPL" => gettext("BEARERCAPABILITY_NOTIMPL"),
+				"CALL_REJECTED" => gettext("CALL_REJECTED"),
+				"CHAN_NOT_IMPLEMENTED" => gettext("CHAN_NOT_IMPLEMENTED"),
+				"CHANNEL_UNACCEPTABLE" => gettext("CHANNEL_UNACCEPTABLE"),
+				"DESTINATION_OUT_OF_ORDER" => gettext("DESTINATION_OUT_OF_ORDER"),
+				"DESTINATION_BLOCKED" => gettext("DESTINATION_BLOCKED"),
+				"DID_DESTINATION_NOT_FOUND" => gettext("DID_DESTINATION_NOT_FOUND"),
+				"FACILITY_REJECTED" => gettext("FACILITY_REJECTED"),
+				"FACILITY_NOT_SUBSCRIBED" => gettext("FACILITY_NOT_SUBSCRIBED"),
+				"FACILITY_NOT_IMPLEMENTED" => gettext("FACILITY_NOT_IMPLEMENTED"),
+				"FRAUD_CALL_PER_ACCOUNT" => gettext("FRAUD_CALL_PER_ACCOUNT"),
+				"FRAUD_CALL_PER_DESTINATION " => gettext("FRAUD_CALL_PER_DESTINATION "),
+				"FRAUD_COST_PER_ACCOUNT" => gettext("FRAUD_COST_PER_ACCOUNT"),
+				"FRAUD_COST_PER_DESTINATION" => gettext("FRAUD_COST_PER_DESTINATION"),
+				"INVALID_NUMBER_FORMAT" => gettext("INVALID_NUMBER_FORMAT"),
+				"INCOMPATIBLE_DESTINATION" => gettext("INCOMPATIBLE_DESTINATION"),
+				"MANAGER_REQUEST" => gettext("MANAGER_REQUEST"),
+				"MEDIA_TIMEOUT" => gettext("MEDIA_TIMEOUT"),
+				"NO_ROUTE_DESTINATION" => gettext("NO_ROUTE_DESTINATION"),
+				"NORMAL_CLEARING" => gettext("NORMAL_CLEARING"),
+				"NETWORK_OUT_OF_ORDER" => gettext("NETWORK_OUT_OF_ORDER"),
+				"NORMAL_UNSPECIFIED" => gettext("NORMAL_UNSPECIFIED"),
+				"NORMAL_CIRCUIT_CONGESTION" => gettext("NORMAL_CIRCUIT_CONGESTION"),
+				"NORMAL_TEMPORARY_FAILURE" => gettext("NORMAL_TEMPORARY_FAILURE"),
+				"NO_SUFFICIENT_FUND" => gettext("NO_SUFFICIENT_FUND"),
+				"NO_USER_RESPONSE" => gettext("NO_USER_RESPONSE"),
+				"NO_ANSWER" => gettext("NO_ANSWER"),
+				"NUMBER_CHANGED" => gettext("NUMBER_CHANGED"),
+				"ORIGINATOR_CANCEL" => gettext("ORIGINATOR_CANCEL"),
+				"ORIGNATION_RATE_NOT_FOUND" => gettext("ORIGNATION_RATE_NOT_FOUND"),
+				"OUTGOING_CALL_BARRED" => gettext("OUTGOING_CALL_BARRED"),
+				"PROGRESS_TIMEOUT" => gettext("PROGRESS_TIMEOUT"),
+				"RECOVERY_ON_TIMER_EXPIRE" => gettext("RECOVERY_ON_TIMER_EXPIRE"),
+				"RESELLER_COST_CHEAP" => gettext("RESELLER_COST_CHEAP"),
+				"SERVICE_NOT_IMPLEMENTED" => gettext("SERVICE_NOT_IMPLEMENTED"),
+				"SERVICE_UNAVAILABLE" => gettext("SERVICE_UNAVAILABLE"),
+				"SUCCESS" => gettext("SUCCESS"),
+				"SWITCH_CONGESTION" => gettext("SWITCH_CONGESTION"),
+				"TERMINATION_RATE_NOT_FOUND" => gettext("TERMINATION_RATE_NOT_FOUND"),
+				"UNSPECIFIED" => gettext("UNSPECIFIED"),
+				"UNALLOCATED_NUMBER" => gettext("UNALLOCATED_NUMBER"),
+				"USER_BUSY" => gettext("USER_BUSY"),
+				"USER_NOT_REGISTERED" => gettext("USER_NOT_REGISTERED"),
+				"REQUESTED_CHAN_UNAVAIL"=> gettext("REQUESTED_CHAN_UNAVAIL")
 		);
 		return $status_array;
 	}
@@ -1250,19 +1291,20 @@ class common {
 	function build_start_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
 
-		return '<a href="' . $link . '" class=""  title="Start" style="text-decoration:none;color: #428BCA;"><b>Start |</b></a>&nbsp;';
+		return '<a href="' . $link . '" class=""  title="Start" style="text-decoration:none;color: #428BCA;"><b>'.gettext("Start").' |</b></a>&nbsp;';
 	}
 	function build_stop_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" class=""  title="Stop" style="text-decoration:none;color: #428BCA;" ><b>Stop |</b></a>&nbsp;';
+		return '<a href="' . $link . '" class=""  title="Stop" style="text-decoration:none;color: #428BCA;" ><b>'.gettext("Stop").' |</b></a>&nbsp;';
 	}
 	function build_reload_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" class=""  title="reload" style="text-decoration:none;color: #428BCA;"><b>Reload |</b></a>&nbsp;';
+		// return '<a href="' . $link . '" class=""  title="reload" style="text-decoration:none;color: #428BCA;"><b>Reload |</b></a>&nbsp;';
+		return "<a onclick=reload_port('$link')  class=''  title='reload' style='text-decoration:none;color: #428BCA;cursor:pointer'><b>".gettext('Reload')." |</b></a>&nbsp;";
 	}
 	function build_rescan_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" class=""  title="rescan" style="text-decoration:none;color: #428BCA;"><b>Rescan</b></a>&nbsp;';
+		return '<a href="' . $link . '" class=""  title="rescan" style="text-decoration:none;color: #428BCA;"><b>'.gettext("Rescan").'</b></a>&nbsp;';
 	}
 	function build_add_payment_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
@@ -1282,7 +1324,7 @@ class common {
 	}
 	function get_only_numeric_val($select = "", $table = "", $string) {
 		if($table=='routes' || $table=='outbound_routes'){
-			return preg_replace('/[^a-zA-Z0-9]/', '', $string);//filter_var ( $string, FILTER_SANITIZE_NUMBER_INT );
+			return preg_replace('/[^\d+0-9]/', '', $string);
 		}else{
 			return filter_var ( $string, FILTER_SANITIZE_NUMBER_INT );
 		}
@@ -1291,16 +1333,34 @@ class common {
 		$subject              = "";
 		$settings_reply_email = 'astpp@astpp.com';
 		$reseller_id          = $accountinfo['reseller_id'] > 0 ? $accountinfo['reseller_id'] : 0;
-		$this->CI->db->select('domain');
-		$domain_arr=(array)$this->CI->db->get_where("invoice_conf")->first_row();
-		$this->CI->db->where('domain',$_SERVER['HTTP_HOST']);
-		$this->CI->db->or_where("accountid",1);
-		$this->CI->db->order_by("id","asc");
-		$this->CI->db->limit(1);
-		$invoiceconf=(array)$this->CI->db->get_where("invoice_conf")->first_row();
-		$settings_reply_email=$invoiceconf['emailaddress'];
-        	$company_name=$invoiceconf['company_name'];
-        	$company_website=$invoiceconf['website'];
+		$invoiceconf = (array)$this->CI->db_model->getSelect('company_name,website,emailaddress' , 'invoice_conf' , array("accountid" => 1))->first_row();
+		if($type == 'email_sent_support_ticket' || $type == 'auto_reply_mail_support'){
+			$department_id = $this->get_field_name('department_id','support_ticket' , array("support_ticket_number" => $accountinfo['ticket_number']));
+			$department_smtp = $this->get_field_name('smtp_user','department',array("id" => $department_id));
+			if($department_smtp !=''){
+				$settings_reply_email = $department_smtp;
+			}
+		}else{
+			$smtp_user = $this->get_field_name('value' , 'system' , array("name" => "smtp_user"));
+			if($smtp_user != ''){
+				if($smtp_user == 'SMTP_USER_NAME'){
+					$settings_reply_email = $invoiceconf['emailaddress'];
+				}else{
+					$settings_reply_email = $smtp_user;
+				}
+			}else{
+				$this->CI->db->select('domain');
+				$domain_arr=(array)$this->CI->db->get_where("invoice_conf")->first_row();
+				$this->CI->db->where('domain',$_SERVER['HTTP_HOST']);
+				$this->CI->db->or_where("accountid",1);
+				$this->CI->db->order_by("id","asc");
+				$this->CI->db->limit(1);
+				$invoiceconf=(array)$this->CI->db->get_where("invoice_conf")->first_row();
+				$settings_reply_email=$invoiceconf['emailaddress'];
+			}
+		}
+		$company_name=$invoiceconf['company_name'];
+		$company_website=$invoiceconf['website'];
 		$where = array('name' => $type);
 		$query = $this->CI->db_model->getSelect("*", "default_templates", $where);
 		$query = $query->result();
@@ -1421,7 +1481,15 @@ class common {
                 $message = str_replace('#COMPANY_WEBSITE#', $company_website, $message);
 				$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
 			
-           	break;	
+           	break;
+           
+           	case 'reset_password':
+				$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
+                $message = str_replace('#PASSWORD#', $accountinfo['password'], $message);
+                $message = str_replace('#COMPANY_WEBSITE#', $company_website, $message);
+				$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
+			
+           	break;		
 
             case 'forgot_password_confirmation':
 		
@@ -1459,12 +1527,12 @@ class common {
                 $message = str_replace('#RECEIVER_ACCOUNT_NUMBER#', $accountinfo['number'], $message);
             break;
 
-            case 'product_purchase':
+			case 'product_purchase':
                 $subject = str_replace('#NAME#', $accountinfo['first_name'], $subject);
-                $subject = str_replace('#PRODUCT_NAME#', $accountinfo['product_name'], $subject);
-				
+                $subject = str_replace('#PRODUCT_NAME#', $accountinfo['name'], $subject);
+				$subject = str_replace('#NUMBER#', $accountinfo['number'], $subject);
 				$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
-                $message = str_replace('#PRODUCT_NAME#', $accountinfo['product_name'], $message);
+                $message = str_replace('#PRODUCT_NAME#', $accountinfo['name'], $message);
                 $message = str_replace('#PRODUCT_CATEGORY#', $accountinfo['category_name'], $message);
                 $message = str_replace('#PAYMENT_METHOD#', $accountinfo['payment_by'], $message);
 				$message = str_replace('#PRODUCT_AMOUNT#', $accountinfo['total_price_amount'], $message);
@@ -1513,12 +1581,26 @@ class common {
                 $message = str_replace('#COMPANY_NAME#', $company_name, $message);
                 break;
 
-	     case 'fraud_detection_notification':
+	     	case 'fraud_detection_notification':
 				$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
                 $message = str_replace('#ACCOUNTCODE#', $accountinfo['number'], $message);
                 $message = str_replace('#REASON#', $accountinfo['password'], $message);
                 $message = str_replace('#COMPANY_NAME#', $company_name, $message);
-            break;
+			break;
+			
+			case 'email_sent_support_ticket':
+				$system_config = common_model::$global_config['system_config'];
+				$ticket = $system_config['ticket_digits']; 
+				$useremail = strtolower($this->CI->common->get_field_name("email","accounts",array("id" => $accountinfo['customer_account_id'])));
+				$cc_email_ids = isset($accountinfo['cc_email_ids']) ? $accountinfo['cc_email_ids'] : '';
+				$message = str_replace("#TICKET_ID#", sprintf('%0'.$ticket.'d', $accountinfo['ticket_number']), $message);
+				$message = str_replace("#REPLY_TYPE#", "Close", $message);
+				$message = str_replace("#NAME#", $this->CI->common->get_field_name_coma_new('first_name,last_name,number,company_name','accounts',$accountinfo['id']),$message);
+				$message = str_replace("#MESSAGE#", "" , $message);
+				$subject = str_replace("#TICKET_ID#", sprintf('%0'.$ticket.'d', $accountinfo['ticket_number']), $subject);
+				$subject = str_replace("#TICKET_SUBJECT#", $accountinfo['ticket_subject'],$subject);
+					
+			break;
 		}
 		if($subject == ""){
 				$subject = $query[0]->subject;
@@ -1529,7 +1611,10 @@ class common {
 
 			if ($type == 'schedule_report') {
 				$account_id = 0;
-		   }
+		    }
+			if ($type == 'email_sent_support_ticket') {
+				$account_id = $accountinfo['customer_account_id'];
+			}
         	$reseller_id = $accountinfo['reseller_id'];
         	if ($reseller_id != "0") {
 			    $reseller_result = $this->CI->db_model->getSelect("email", "accounts", array("id" => $reseller_id));
@@ -1559,7 +1644,7 @@ class common {
 			}	
 			if($query[0]->is_alert_enable == '0' || $query[0]->is_sms_enable == '0' || $query[0]->is_email_enable == '0')
 			{		
-				$last_id=$this->emailFunction($settings_reply_email, $useremail, $subject, $message,$alert_template,$usermobile,$sms_message,$company_name, $attachment, $account_id, $reseller_id,$sip_user_name,$callkit_token,$status_code);
+				$last_id=$this->emailFunction($settings_reply_email, $useremail, $subject, $message,$alert_template,$usermobile,$sms_message,$company_name, $attachment, $account_id, $reseller_id,$sip_user_name,$callkit_token,$status_code,$type);
 				return $last_id;
 			} else {
 				return true;
@@ -1568,7 +1653,7 @@ class common {
 
     }
 
-    function emailFunction($from, $to, $subject, $message,$alert_template="",$usermobile="",$sms_message, $company_name = "", $attachment = "", $account_id, $reseller_id,$sip_user_name='',$callkit_token='',$status_code='') {
+    function emailFunction($from, $to, $subject, $message,$alert_template="",$usermobile="",$sms_message, $company_name = "", $attachment = "", $account_id, $reseller_id,$sip_user_name='',$callkit_token='',$status_code='',$type) {
 
     				$sms_message = '';
 					$alert_template = '';
@@ -1622,7 +1707,8 @@ class common {
 			            'status'        => '1',
 			            'attachment'    => $attachment,
 			            'reseller_id'   => $reseller_id,
-						'template'      => '',
+						'template'      => $type,
+						'cc'            => $cc_email_ids,
 						'to_number'     => (isset($usermobile) && $usermobile != '')?$usermobile:'',
 						'sms_body'      => $sms_message,
 						'sip_user_name' => $sip_user_name,
@@ -1648,11 +1734,25 @@ class common {
 	function convert_GMT($date) { 
 		return $this->CI->timezone->convert_to_GMT ($date );
 	}
+	function convert_GMT_to_new($select = "", $table = "", $date, $timezone_id = '') {
+
+		if ($date == '0000-00-00 00:00:00') {
+			return $date;
+		} else {
+
+			return  date("Y-m-d" , strtotime($this->CI->timezone->display_GMT ( $date, 1, $timezone_id )));
+		}
+	}
 
 	// @todo : Not sure how above function working. Rather impacting on existing application, creating new function.
 	function custom_convert_GMT($date, $timezone_id) {
 		return $this->CI->timezone->convert_to_GMT ( $date, 1, $timezone_id );
 	}
+
+	function convert_GMT_new($date){
+		return $this->CI->timezone->convert_to_GMT_new ( $date );
+	}
+	
 	function convert_to_ucfirst($select = "", $table = "", $str_value) {
 		return ucfirst ( $str_value );
 	}
@@ -1674,10 +1774,24 @@ class common {
 			);
 		}
 		$select_params = explode ( ',', $select );
-		if (isset ( $select_params [2] )) {
-			$cnt_str = " $select_params[0],' ',$select_params[1],' ','(',$select_params[2],')' ";
-		} else {
-			$cnt_str = " $select_params[0],' (',$select_params[1],')' ";
+		if (isset ( $select_params [3] ) && !empty($select_params [3]) ) {
+			$cnt_str = " $select_params[3],'(',$select_params[2],')' ";
+		}else{
+			if (isset ( $select_params [2] )) {
+				$cnt_str = " $select_params[0],' ',$select_params[1],' ','(',$select_params[2],')' ";
+			} else {
+				$cnt_str = " $select_params[0],' (',$select_params[1],')' ";
+			}
+		}
+		$select =  $select_params [3] ;
+		$drp_array = $this->CI->db_model->getSelect ( $select, $table, $where );
+		$drp_array = $drp_array->result ();
+		if(empty($drp_array[0]->company_name)){
+			if (isset ( $select_params [2] )) {
+				$cnt_str = " $select_params[0],' ',$select_params[1],' ','(',$select_params[2],')' ";
+			} else {
+				$cnt_str = " $select_params[0],' (',$select_params[1],')' ";
+			}
 		}
 		$select = "concat($cnt_str) as $select_params[0] ";
 		$drp_array = $this->CI->db_model->getSelect ( $select, $table, $where );
@@ -1972,7 +2086,7 @@ class common {
 		$this->CI->db->where ( "reseller_id", 0 );
 		$pricelist_result = $this->CI->db->get ( "pricelists" )->result_array ();
 		$pricelist_arr = array ();
-		$pricelist_arr [0] = "--Select--";
+		$pricelist_arr [0] = gettext("--Select--");
 		foreach ( $pricelist_result as $result ) {
 			$pricelist_arr [$result ['id']] = $result ['name'];
 		}
@@ -2045,13 +2159,13 @@ class common {
 		return $this->CI->common_model->get_country_list ();
 	}
 	function default_timezone() {
-		return $this->CI->db_model->build_dropdown ( 'id,gmtzone', 'timezone' );
+		return $this->CI->db_model->build_dropdown_timezone ( 'id,timezone_name', 'timezone' );
 	}
 	function timezone() {
 		return $this->CI->db_model->build_dropdown ( 'gmttime,gmttime', 'timezone' );
 	}
 	function base_currency() {
-		return $this->CI->db_model->build_dropdown ( 'currency,currencyname', 'currency' );
+		return $this->CI->db_model->build_dropdown_country_camel ( 'currency,currencyname', 'currency' );
 	}
 	function automatic_invoice() {
 		$status_array = array (
@@ -2076,8 +2190,8 @@ class common {
 	}
 	function search_report_in($select = '') {
 		$status_array = array (
-				"minutes" => "Minutes",
-				"seconds" => "Seconds"
+				"minutes" => gettext("Minutes"),
+				"seconds" => gettext("Seconds")
 		);
 		return $status_array;
 	}
@@ -2094,6 +2208,8 @@ class common {
 		);
 		if($accountinfo['type'] == -1 || $accountinfo['type'] == 2)
 		{
+			$trunk=array('trunk_id'=>gettext("Trunk"));
+			$status_array=array_merge($status_array,$trunk);
 			$calltype=array('calltype'=>gettext("Call Type"));
 			$status_array=array_merge($status_array,$calltype);
 		}
@@ -2104,7 +2220,7 @@ class common {
 				'' => gettext ( "--Select--" ),
 				'provider_id' => gettext ( 'Account' ),
 				'trunk_id' => gettext ( "Trunks" ),
-				'pattern' => gettext ( 'Code' )
+				'pattern' => gettext ( 'Code' ),
 		);
 		return $status_array;
 	}
@@ -2445,7 +2561,18 @@ class common {
 			);
 		}
 		$select_params = explode ( ',', $select );
-		$cnt_str = " $select_params[0],' ',$select_params[1],' ','(',$select_params[2],')' ";
+		if(isset($select_params[3]) && $select_params[3] != ''){
+			$cnt_str = " $select_params[3],' ','(',$select_params[2],')' ";
+		}
+		else{
+			$cnt_str = " $select_params[0],' ',$select_params[1],' ','(',$select_params[2],')' ";
+		}
+		$select = $select_params[3];
+		$drp_array = $this->CI->db_model->getSelect ( $select, $table, $where );
+		$drp_array = $drp_array->result ();
+		if(empty($drp_array[0]->company_name)){
+			$cnt_str = " $select_params[0],' ',$select_params[1],' ','(',$select_params[2],')' ";
+		}
 		$select = "concat($cnt_str) as $select_params[2] ";
 		$drp_array = $this->CI->db_model->getSelect ( $select, $table, $where );
 		$drp_array = $drp_array->result ();
@@ -2563,7 +2690,7 @@ class common {
 		return array("Random"=>"Random");
 	}
     function default_system_type() {
-        $option_array = array('0' => 'Half Year', '1' => 'Year');
+        $option_array = array('0' => gettext('Half Year'), '1' => gettext('Year'));
         return $option_array;
     }
     function set_year_dropdown($type = '') {
@@ -2571,8 +2698,8 @@ class common {
 		$type = $type."_archive";
 	}
         $query = "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE() and table_name like '".$type."_%'";
-        $status_array = array("" => "--Select Type--",
-                "0" => "Main",
+        $status_array = array("" => gettext("--Select Type--"),
+                "0" => gettext("Main"),
         );
         $result=$this->CI->db->query($query);
         $result=$result->result_array();
@@ -2661,7 +2788,11 @@ class common {
 			 
 				 foreach($reseller_data as $k =>$reseller) {
 					$drp_value[0]               ="Admin";
-					$drp_value[$reseller['id']] = $reseller['first_name'].' '.$reseller['last_name'].'('.$reseller['number'].')';
+										if(isset($reseller['company_name']) && $reseller['company_name'] != ''){
+						$drp_value[$reseller['id']] = $reseller['company_name'].' '.'('.$reseller['number'].')';
+					}else{
+						$drp_value[$reseller['id']] = $reseller['first_name'].' '.$reseller['last_name'].'('.$reseller['number'].')';
+					}
 				 }	
 			} else {
 					$drp_value[0]="Admin";
@@ -2696,7 +2827,7 @@ class common {
 		$this->CI->db->where ( "tax_type", 0 );
 		$tax_type_result = $this->CI->db->get ( "taxes" )->result_array ();
 		$tax_type_dropdown = array ();
-		$tax_type_dropdown [0] = "--Select--";
+		$tax_type_dropdown [0] = gettext("--Select--");
 		foreach ( $tax_type_result as $result ) {
 			$tax_type_dropdown [$result ['id']] = $result ['taxes_description'];
 		}
@@ -2962,7 +3093,7 @@ class common {
 	function payment_status($status = '') {
 		$status_array = array (
 				''=>gettext('--Select--'),
-				'PAID' => gettext ( 'PAID' ),
+				'PAID' => gettext ( 'Paid' ),
 				'PENDING' => gettext ( 'PENDING' ),
 				'FAIL' => gettext ( 'FAIL' )
 		);
@@ -3014,10 +3145,10 @@ class common {
 		);
 		$commission_status = ( array ) $this->CI->db->get_where ( "commission", $where )->first_row ();
 		if ($commission_status ['commission_status'] == "PAID") {
-			$return_value = " <span title='PAID'> </span>" . '<span class="badge badge-success float-center mt-1" title="PAID">PAID</span>';
+			$return_value = " <span title='PAID'> </span>" . '<span class="badge badge-success float-center mt-1" title="PAID">'.gettext(ucwords(strtolower("PAID"))).'</span>';
 		}
 		if ($commission_status ['commission_status'] == "PENDING") {
-			$return_value = " <span title='PENDING'> </span>" . '<span class="badge badge-primary float-center mt-1" title="PENDING">PENDING</span>';
+			$return_value = " <span title='PENDING'> </span>" . '<span class="badge badge-primary float-center mt-1" title="PENDING">'.gettext(ucwords(strtolower("PENDING"))).'</span>';
 		}
 		
 		return $return_value;
@@ -3322,10 +3453,10 @@ class common {
 		$account_res = ( array ) $this->CI->db->get_where ( "accounts", $where )->first_row ();
 		
 		if ($account_res ['type'] == 0) {
-			$return_value .= " <span title='Edit'> </span>" . '<div class="col-md-12 p-0"><span class="badge badge-success float-left mr-2 mt-1" title="Customer">Customer</span>';
+			$return_value .= " <span title='Edit'> </span>" . '<div class="col-md-12 p-0"><span class="badge badge-success float-left mr-2 mt-1" title="Customer">'.gettext("Customer").'</span>';
 		}
 		if ($account_res ['type'] == 3) {
-			$return_value .= " <span title='Edit'> </span>" . '<div class="col-md-12 p-0"><span class="badge badge-primary float-left mr-2 mt-1" title="Provider">Provider</span>';
+			$return_value .= " <span title='Edit'> </span>" . '<div class="col-md-12 p-0"><span class="badge badge-primary float-left mr-2 mt-1" title="Provider">'.gettext("Provider").'</span>';
 		}
 		if ($account_res ['posttoexternal'] == 0 || $account_res ['posttoexternal'] == 1) {
 			$return_value .= "<span class='badge badge-dark float-left ml-1 mt-1'>".$this->get_account_type ( "", "", $account_res ['posttoexternal'] ) ."</span></div>"; 
@@ -3416,5 +3547,15 @@ class common {
 	function get_total_available_minutes($free_minutes,$used_seconds){ 
 					$available_seconds =  $free_minutes - $used_seconds;
 					return  $available_seconds;	
+	}
+	function get_current_login_type_timezone(){
+		return $this->CI->timezone->get_login_type_timezone();
+	}
+	function reseller_type_dropdown($status = '') {
+		$status_array = array (
+				'0' => gettext ( 'Distributor' ),
+				'1' => gettext ( 'Commission Based' )
+		);
+		return $status_array;
 	}
 }

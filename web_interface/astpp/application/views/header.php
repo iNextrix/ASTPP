@@ -18,6 +18,7 @@
 	?>
 </title>
 <?php  
+	$date = $this->common->get_current_login_type_timezone();  
 	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"){
 		$domain = "https://".$_SERVER["HTTP_HOST"]."/";
 	}else{
@@ -34,14 +35,17 @@
 <?php } else { ?>
     <link rel="icon" href="<? echo base_url(); ?>assets/images/favicon.ico"/>
 <?php } ?>
+	<script>
+		var page_gettext = "<?php echo gettext('Page '); ?>";
+		var no_records_gettext = "<?php echo gettext('No Records'); ?>";
+		var records_gettext = "<?php echo gettext(' Records'); ?>";
+		var of_gettext = "<?php echo gettext(' of '); ?>";
+		var date = "<?php echo gettext($date);?>";
+	</script>
 
     <script language="javascript" type="text/javascript">
  	function Termination_Rates(){
-
- 		
-
  		var flag = 'termination_rates';
-
 		$.ajax({
 	   		type: "POST",
 	   		url: "<?= base_url()?>login/test/",
@@ -186,7 +190,11 @@ function PopupCenter(url, title, w, h) {
 </script> 
 <script>
 $(document).ready(function(){
-   $('[data-toggle="tooltip"]').tooltip();   
+   $('[data-toggle="tooltip"]').tooltip({
+   	delay : {
+   		hide : 600
+   	}
+   });   
 });
 </script>
 </head>
@@ -413,7 +421,7 @@ $(document).ready(function(){
 					?>
                 	<span>
                             <span class="profile_name">
-                                <?= $logged_user?>
+                                <?= gettext($logged_user)?>
                             </span>
                             <label class="text-success profile_label m-0"><?php echo $balance_str;?>
                             </label>
@@ -439,7 +447,7 @@ $(document).ready(function(){
 		    <li><a class="dropdown-item" href="https://docs.astppbilling.org/display/itplmars" target="_blank"><i class="fa fa-file-text"></i> &nbsp;<?php echo gettext('Documentation'); ?></a></li>
 
 <li><a class="dropdown-item" href="https://jira.astppbilling.org/projects/ASTPPCOM/" target="_blank"><i class= "fa fa-bug"></i> &nbsp;<?php echo gettext('Report a Bug'); ?></a></li>
-<li><a class="dropdown-item" href="http://www.astppbilling.org/mobile-dialers/" target="_blank"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i> &nbsp;<?php echo gettext('Get App'); ?></a></li>
+
 
 
 

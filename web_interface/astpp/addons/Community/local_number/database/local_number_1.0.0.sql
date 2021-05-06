@@ -36,6 +36,8 @@ INSERT INTO `menu_modules` (`id`,`menu_label`, `module_name`, `module_url`, `men
 (NULL,'Local Numbers', 'local_number', 'local_number/local_number_list/', 'Inbound', '', '0', 30.5);
 update userlevels set module_permissions = concat( module_permissions, ',', (  SELECT max( id ) FROM menu_modules ) ) WHERE userlevelid = -1;
 update userlevels set module_permissions = concat( module_permissions, ',', (  SELECT max( id ) FROM menu_modules ) ) WHERE userlevelid = 1;
+update userlevels set module_permissions = concat( module_permissions, ',', (  SELECT max( id ) FROM menu_modules ) ) WHERE userlevelid = 2;
+
 
 INSERT INTO `menu_modules` (`id`,`menu_label`, `module_name`, `module_url`, `menu_title`, `menu_image`, `menu_subtitle`, `priority`) VALUES
 (NULL,'Local Numbers', 'local_number', 'local_number/local_number_list_customer/', 'Inbound', '', '0', 2.2);

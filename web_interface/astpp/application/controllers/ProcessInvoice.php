@@ -104,22 +104,28 @@ class ProcessInvoice extends MX_Controller
 				$this->StartDate = date ( "Y-m-d 00:00:01", strtotime ( $this->CurrentDate . " - 1 days" ) );
 			}
 			$this->EndDate = date ( "Y-m-d 23:59:59", strtotime ( $this->CurrentDate . " - 1 days" ) );
-
-			$invoiceid = $this->create_invoice($accountinfo);
-			$this->bill_calls($accountinfo,$invoiceid);
-			$this->apply_taxes($accountinfo,$invoiceid);
+			if($this->EndDate != ''){
+				$invoiceid = $this->create_invoice($accountinfo);
+				if($invoiceid > 0){
+					$this->bill_calls($accountinfo,$invoiceid);
+					$this->apply_taxes($accountinfo,$invoiceid);
+				}
+			}
 
 			break;
 		case 2 :
-			if (gmdate ( "d", strtotime ( "-1 days" ) ) == $accountinfo ['invoice_day']) {
+			if (date ( "d", strtotime ( $this->date) ) == $accountinfo ['invoice_day']){
 				$this->EndDate = date ( "Y-m-" . $accountinfo ['invoice_day'] . " 23:59:59", strtotime ( $this->StartDate . " + 1 month" ) );
+				$accountinfo['last_bill_date'] = ($accountinfo['last_bill_date'] > $accountinfo['creation']) ? $accountinfo['last_bill_date'] : $accountinfo['creation'];
 				if (Strtotime ( $this->EndDate ) > strtotime ( $this->CurrentDate )) {
 					$this->EndDate = $this->CurrentDate;
 				}
-
+				$this->EndDate=date ( "Y-m-d H:i:s", strtotime ( $this->EndDate." -2 second" ) );
 				$invoiceid = $this->create_invoice($accountinfo);
-				$this->bill_calls($accountinfo,$invoiceid);
-				$this->apply_taxes($accountinfo,$invoiceid);
+				if($invoiceid > 0){
+					$this->bill_calls($accountinfo,$invoiceid);
+					$this->apply_taxes($accountinfo,$invoiceid);
+				}
 			}
 			break;
 	}
@@ -151,12 +157,12 @@ class ProcessInvoice extends MX_Controller
 			    $last_invoice_ID = $invoiceconf['invoice_start_from'];
 			}
 			$last_invoice_ID = str_pad($last_invoice_ID, 6, '0', STR_PAD_LEFT);
-			$automatic_flag = self::$global_config['system_config']['automatic_invoice'];
+			$automatic_flag = self::$global_config['system_config']['automatic_invoice'] == 1 ? '0' : '1';
 
 
 				   if($invoiceconf['no_usage_invoice'] == 0){
 
-					if ($automatic_flag == 0) {
+				
 					    $InvoiceData = array(
 						"accountid" => $accountinfo['id'],
 						"prefix" => $invoiceconf['invoice_prefix'],
@@ -167,34 +173,14 @@ class ProcessInvoice extends MX_Controller
 						"to_date" => $this->EndDate,
 						"due_date" => $DueDate,
 						"status" => 0,
-						"confirm" => 1,
+						"confirm" => $automatic_flag,
 						"notes"=>$accountinfo['invoice_note'],
 						"is_deleted" =>0
 					    );
-					} else {
-					    $InvoiceData = array(
-						"accountid" => $accountinfo['id'],
-						"prefix" => $invoiceconf['invoice_prefix'],
-						"number" => $last_invoice_ID,
-						"reseller_id" => $accountinfo['reseller_id'],
-						"generate_date" => $this->CurrentDate,
-						"from_date" => $this->StartDate,
-						"to_date" => $this->EndDate,
-						"due_date" => $DueDate,
-						"status" => 0,
-						"confirm" => 0,
-						"notes"=>$accountinfo['invoice_note'],
-						"is_deleted"=>0
-					    );
-					}
-
 			$this->db->insert("invoices", $InvoiceData);
 			$invoiceid = $this->db->insert_id();
 
 			 $update_billable_item = "update invoice_details set invoiceid = ".$invoiceid." where accountid=" . $accountinfo['id'] . " AND created_date >='" .$this->StartDate. "' AND created_date <= '" .$this->EndDate. "' AND invoiceid = 0";
-			
-
-			
 			$this->db->query($update_billable_item);
 			$amount = $this->db_model->getSelect("debit,credit","invoice_details",array("invoiceid"=>$invoiceid));
 			if($amount->num_rows > 0){
@@ -265,7 +251,11 @@ class ProcessInvoice extends MX_Controller
     }
 
 	function bill_calls($accountinfo,$invoiceid){
-	   $billable_calls_qr = "select calltype,sum(debit) as debit,sum(billseconds) as duration from cdrs where accountid =" . $accountinfo['id'] . " AND callstart >='" .$this->StartDate. "' AND callstart <= '" .$this->EndDate. "' AND invoiceid=0 group by calltype"; 
+	   $start_date = $this->common->convert_GMT_to($this->StartDate,$this->StartDate,$this->StartDate,$accountinfo['timezone_id']);
+		$end_Date = $this->common->convert_GMT_to($this->EndDate,$this->EndDate,$this->EndDate,$accountinfo['timezone_id']);
+		$table_name = $accountinfo['type'] == 1 ? 'reseller_cdrs' : 'cdrs';
+		$where_condition = $accountinfo['type'] == 1 ? "AND callstart >= '" .$start_date."'" : ' AND invoiceid =0 ';
+		$billable_calls_qr = "select calltype,sum(debit) as debit,sum(billseconds) as duration from ".$table_name." where accountid =" . $accountinfo['id'] . "  AND callstart <= '" .$end_Date. "' ".$where_condition." group by calltype";
 
 	$this->PrintLogger($this->Error_flag,$billable_calls_qr);
 
@@ -322,7 +312,7 @@ class ProcessInvoice extends MX_Controller
 order_items.quantity,order_items.billing_type,order_items.billing_days,order_items.free_minutes,
 order_items.billing_date,order_items.next_billing_date,order_items.is_terminated ,order_items.termination_date,
 order_items.termination_note,order_items.from_currency,order_items.exchange_rate,order_items.to_currency,
-order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.price',array("DATE_SUB(order_items.next_billing_date, INTERVAL 2 HOUR) >="=>gmdate("Y-m-d 21:58:00"),"order_items.next_billing_date <=" => $this->custom_current_date,"order_items.product_category <>"=>"3", "order_items.is_terminated" => "0","orders.payment_status <>"=>"FAIL"),'order_items','orders.id=order_items.order_id', 'inner', '' ,'','','');
+order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.price',array("order_items.next_billing_date <=" => $this->custom_current_date,"order_items.product_category <>"=>"3", "order_items.is_terminated" => "0","orders.payment_status <>"=>"FAIL"),'order_items','orders.id=order_items.order_id', 'inner', '' ,'','','');
 
 	if($renewable_order->num_rows > 0){
 
@@ -334,7 +324,10 @@ order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.
 			$parent_array = array();
 			$parent_key_arr = array();
 			$productdata = array("product_id"=>$ordervalue['product_id']);
-		        $accountdata = $this->db_model->getSelect("*", "accounts", array("id"=>$ordervalue["accountid"],"status"=>0));
+		    $product_data = $this->db_model->getSelect("*", "products", array("id"=>$ordervalue['product_id'],'is_deleted'=>0));
+
+		    $accountdata = $this->db_model->getSelect("*", "accounts", array("id"=>$ordervalue["accountid"],'deleted'=>0,"status"=>0));
+		     if($accountdata->num_rows() > 0 ){
 			$accountdata = $accountdata->result_array()[0];
 			
 		    	$account_currency_info = $this->db_model->getSelect("*","currency",array("id"=>$accountdata['currency_id']));
@@ -344,7 +337,7 @@ order_items.reseller_id,order_items.accountid,order_items.setup_fee,order_items.
 		      }
 			$user_product_info = $this->order->get_account_product_info($orderobjArr,(object)$accountdata,$productdata);
 		
-		        if (!empty($user_product_info)) {
+		        if (!empty($user_product_info) && $product_data->num_rows() > 0) {
 			    $is_process = true;
 
 				    $user_product_info->price= $ordervalue['price'];
@@ -471,7 +464,7 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 
 				    $product_info['is_apply_tax']= "false";
 				    $product_info['charge_type'] = $this->common->get_field_name("code","category",array("id"=>$product_info['product_category'])); 
-			   	 $product_info['description']= $product_info['charge_type']." (".$product_info['name'].") has been added."; 
+			   	 $product_info['description']= $product_info['charge_type']." (".$product_info['name'].") has been renewed."; 
 
 		    		$update_order_arr = array("billing_date"=>$this->CurrentDate,
 						      "next_billing_date"=>($ordervalue['billing_days'] == 0)?gmdate("Y-m-d 23:59:59",strtotime($ordervalue['next_billing_date']."+10 years")):gmdate("Y-m-d 23:59:59",strtotime($ordervalue['next_billing_date']." + ".($ordervalue['billing_days'])." days")));
@@ -533,6 +526,7 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 			}
 			
 		} 
+	}
 	}
     }
     function product_renewal_reminder(){ 

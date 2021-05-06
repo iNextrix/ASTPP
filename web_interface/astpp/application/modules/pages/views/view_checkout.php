@@ -70,7 +70,7 @@
 			
                         <div class="radio-input">
                            <input name="payment_method" class="d-none" id="optionsRadios4" value="" required="" checked="" type="radio">
-                           <h3 class="text-left"><?php echo gettext("Pay with PayPal"); ?></h3>
+                           <h3 class="text-left"><?php echo gettext("Pay with Paypal"); ?></h3>
                         </div>
                        </label>
                      </div>
@@ -106,8 +106,10 @@
                              
                             </label>
                          </div>     
-                         <div class="col-md-6 mx-auto mt-4">         
+                         <div class="col-md-6 mx-auto mt-4">
+                         	<?php if( (Common_model::$global_config['system_config']['paypal_status'] == '0')){ ?>
                            <button class="btn btn-success btn-block <?php echo $button_class;?>" name="paypal_btn" value="Add Product" type="submit"> <i class="fa fa-paypal"></i> <?php echo gettext("Pay Now"); ?></button>
+                           <?php } ?>
                         </div>      
                      </div>
                   </form>
@@ -121,7 +123,9 @@
                                <input type = "hidden" value="account_balance" name = "pay_from_account" />
 				<input type = "hidden" value="1" id= "product_quantity" class="product_quantity" name = "product_quantity" />
                             </div>
+                            <?php if( (Common_model::$global_config['system_config']['paypal_status'] == '0')){ ?>
                             <button class="btn btn-success btn-block" type="button" onclick="validate_form()"> <i class="fa fa-money"></i> <?php echo gettext("Pay Now"); ?></button>
+                            <?php } ?>
                          </div>
 
                       </form>

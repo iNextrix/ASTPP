@@ -144,10 +144,10 @@
 											data-live-search="true">
 											<option value="0"
 												<?php if(isset($details) && ($details['status'] == 0)){?>
-												selected="select" <?php } ?>>Active</option>
+												selected="select" <?php } ?>><?php echo gettext("Active")?></option>
 											<option value="1"
 												<?php if(isset($details) && ($details['status'] == 1)){?>
-												selected="select" <?php } ?>>Inactive</option>
+												selected="select" <?php } ?>><?php echo gettext("Inactive")?></option>
 										</select>
 									</div>
 
@@ -160,7 +160,7 @@
 											name="country_id" id="country_error"
 											class="col-md-12 form-control selectpicker form-control-lg mr-4 country_id col-md-3"
 											data-live-search="true">
-											<option value="">Select</option>
+											<option value=""><?php echo gettext("--Select--")?></option>
 													<?php
             $selected = "";
             if (isset($country_drp) && $country_drp != "") {
@@ -174,7 +174,7 @@
                     }
                     ?>
 																<option value='<?php echo $val['id']; ?>'
-												<?php echo $selected; ?>><?php echo $val['country']; ?></option>
+												<?php echo $selected; ?>><?php echo strtolower(ucwords(gettext($val['country']))); ?></option>
 															<?php
 
 }
@@ -197,7 +197,7 @@
 												<b><?php echo gettext('CUT')?></b>
 											</div>
 											<div class="col-md-5 float-left text-center ml-4">
-												<b><?php echo gettext('ADD')?></b>
+												<b><?php echo gettext(ucfirst(strtolower('ADD')))?></b>
 											</div>
 										</div>
 										<div id="numbertranslation">
@@ -285,7 +285,7 @@
 												<b><?php echo gettext('CUT')?></b>
 											</div>
 											<div class="col-md-5 float-left text-center ml-4">
-												<b><?php echo gettext('ADD')?></b>
+												<b><?php echo gettext(ucfirst(strtolower('ADD')))?></b>
 											</div>
 										</div>
 										<div id="terminate_number_ranslation">

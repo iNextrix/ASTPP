@@ -4,17 +4,10 @@
     $(document).ready(function() {
         $('.rm-col-md-12').addClass('float-right');
         $(".rm-col-md-12").removeClass("col-md-12");
-        var currentdate = new Date(); 
-        var datetime = currentdate.getFullYear() + "-"
-            + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-                + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
-            
-        var datetime1 = currentdate.getFullYear() + "-"
-           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            + ("0" + currentdate.getDate()).slice(-2) + " 23:59:59";
-        
+        var datetime = date + " 00:00:00";
+        var datetime1 = date + " 23:59:59";
         $("#customer_cdr_from_date").datetimepicker({
-             value:datetime,
+            value:datetime,
             uiLibrary: 'bootstrap4',
             iconsLibrary: 'fontawesome',
             modal:true,
@@ -22,7 +15,7 @@
             footer:true
          });  
          $("#customer_cdr_to_date").datetimepicker({
-             value:datetime1,
+            value:datetime1,
             uiLibrary: 'bootstrap4',
             iconsLibrary: 'fontawesome',
             modal:true,

@@ -84,31 +84,29 @@ $ (document).ready(function(){
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/markup/markitup/sets/default/set.js"></script>
 <script type="text/javascript">
-$(function() {
-	$('#template').markItUp(mySettings);
-
-});
+	$(document).ready(function(){
+		jQuery('#myform').submit(function(){
+	  	jQuery("input[type=file]").bind(function(){
+		    jQuery(this).rules("add", {
+		       size: '10000',
+		       messages: {
+		         accept :"Only jpeg, jpg or png images"
+		       }
+		     });
+	   });
+	});
+	});
 </script>
-
 <script type="text/javascript">
-  jQuery(document).ready(function(){
-    jQuery('#myform').submit(function(){
-   jQuery("input[type=file]").bind(function(){
-     jQuery(this).rules("add", {
-       size: '10000',
-       messages: {
-         accept :"Only jpeg, jpg or png images"
-       }
-     });
-   });
-});
-  });
 
     
 function addFile(){
 var file_name = document.getElementById("file").value;
 var file_size=0;
 $('.fileupload').each(function() { 
+	if(this.files[0] == undefined){
+		$("#attach_more_error").html("Please select file to attach more").css("color","red");
+	}
 	file_size=file_size+(this.files[0].size/1048576);
 	});
 if(file_size > 20)
@@ -163,7 +161,7 @@ return this.obj
 function uploadfile(cnt){
  
 	//alert(cnt);
- 
+ $("#attach_more_error").html("");
  $("#attach_file").hide();
  $("#attach_file_"+cnt).hide();
 var file_size=0;
@@ -271,6 +269,11 @@ function regvalidate(){
 	//    document.getElementById("template_error").style.display = "block";
 	//    return(false);
 	// } 
+
+	if(document.myform.departmentid.value !=="" && document.myform.subject.value !==""){
+		$('.overlay').show();
+	}
+	
 	if((document.myform.to.value=="")){
 	  document.getElementById('to').innerHTML = "Please Enter Atleast One Value";
 	  myform.to.focus();
@@ -557,6 +560,7 @@ overflow: hidden; }
 										<div>
 											<span onclick="addFile()" style="cursor:pointer;" class='btn alert-success my-2'><i class="fa fa-plus"></i> <?php echo gettext("Attach more files"); ?></span> 
 										</div>
+										<span id="attach_more_error"></span> 
 									</div> 
 
 									<div class="col-sm-12 pb-4">

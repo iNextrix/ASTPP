@@ -372,20 +372,26 @@
                         onclick="window.history.back();" ; name="action">
                      <?php } } ?>
                      <?php  if ($logintype == 1 || $logintype == 5 ) { ?>
+                      <?php if( (Common_model::$global_config['system_config']['paypal_status'] == '0')){ ?>
                      <input class="btn btn-success search_generate_bar" name="Paynow"
                         id="Paynow" value="Pay With Paypal" type="button"
                         onclick="return payment(); "> <input
                         class="btn btn-success search_generate_bar" name="action"
                         name="save" id="save" value="Pay Now" type="button"
-                        onclick="return admin_pay(); "> <input id="ok"
+                        onclick="return admin_pay(); ">
+                        <?php } ?>
+                        <input id="ok"
                         class="btn btn-secondary ml-2" type="button" value="Cancel"
                         onclick="window.history.back();" ; name="action">
                      <?php } ?>
                      <div class="mt-4 text-center">
                      <?php  if ($logintype == '-1' ||$logintype == 2) { ?>
+                     <?php if( (Common_model::$global_config['system_config']['paypal_status'] == '0')){ ?>
                      <input class="btn btn-success search_generate_bar" name="action"
                         name="save" id="save" value="Pay Now" type="button"
-                        onclick="return admin_pay(); "> <input id="ok"
+                        onclick="return admin_pay(); ">
+                        <?php } ?>
+                        <input id="ok"
                         class="btn btn-secondary ml-2" type="button" value="Cancel"
                         onclick="window.history.back();" name="action">
                      </div>

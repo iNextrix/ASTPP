@@ -247,8 +247,12 @@ class Account_import extends MX_Controller
                         "deleted" => 0
                     ))->first_row();
                     if (empty($email_result)) {
-                        $new_array['email'] = $csv_data[$add_array["email-select"]] . '@' . $csv_data[$add_array["email-select"]] . '.com';
-                        $email[$csv_data[$add_array["email-select"]]] = $new_array['email'];
+                        if($add_array["email-select"] == "Email"){
+                            $new_array['email'] = $csv_data[$add_array["email-select"]];
+                        }else{
+                            $new_array['email'] = $csv_data[$add_array["email-select"]] . '@' . $csv_data[$add_array["email-select"]] . '.com';
+                            $email[$csv_data[$add_array["email-select"]]] = $new_array['email'];
+                        }
                     } else {
                         $invalid_flag = TRUE;
                     }
@@ -298,6 +302,8 @@ class Account_import extends MX_Controller
 
                     $new_array['timezone_id'] = $default_fields['timezone_id'];
 
+                    $new_array['localization_id'] = $default_fields['localization_id'];
+
                     $new_array['country_id'] = $default_fields['country_id'];
 
                     $new_array['currency_id'] = $default_fields['currency_id'];
@@ -309,6 +315,8 @@ class Account_import extends MX_Controller
                     $new_array['invoice_day'] = (($default_fields['sweep_id'] != 0) ? $default_fields['invoice_day'] : '');
 
                     $new_array['local_call'] = $default_fields['local_call'];
+
+                    $new_array['notify_flag'] = $default_fields['notify_flag'];
 
                     $new_array['charge_per_min'] = $default_fields['charge_per_min'];
 
@@ -325,7 +333,10 @@ class Account_import extends MX_Controller
 
                     $new_array['notify_credit_limit'] = '';
 
-                    $this->db->insert('accounts', $new_array);
+                    $final_new_array=$new_array;
+                    unset($final_new_array['balance']);
+                    $this->db->insert('accounts', $final_new_array);
+
                     $accountid = $this->db->insert_id();
                     if ($default_fields['sipdevice_flag'] == 0 && $accountid > 0) {
                         $username = $username_array[$i];
@@ -446,6 +457,19 @@ class Account_import extends MX_Controller
             }
         }
 
+        $localization_id = Common_model::$global_config['system_config']['localization_id'];
+        $localization_result = $this->db->get_where('localization', array(
+            "id" => $localization_id,
+            "status" => 0
+        ))->result_array();
+
+        $localization_array = array();
+        if (! empty($localization_result)) {
+            foreach ($localization_result as $key => $value) {
+                $localization_array[$value['id']] = $value['name'];
+            }
+        }
+
         $custom_status_array = $this->common->custom_status();
         $cli_pool_array = $this->common->set_cli_pool();
 
@@ -453,14 +477,14 @@ class Account_import extends MX_Controller
         $timezone_array = array();
         if (! empty($timezone_result)) {
             foreach ($timezone_result as $key => $value) {
-                $timezone_array[$value['id']] = $value['gmtzone'];
+                $timezone_array[$value['id']] = gettext($value['timezone_name']);
             }
         }
         $country_result = $this->db->get_where('countrycode')->result_array();
         $country_array = array();
         if (! empty($country_result)) {
             foreach ($country_result as $key => $value) {
-                $country_array[$value['id']] = $value['country'];
+                $country_array[$value['id']] = gettext($value['country']);
             }
         }
 
@@ -469,7 +493,7 @@ class Account_import extends MX_Controller
         $default_currency_id = 1;
         if (! empty($currency_result)) {
             foreach ($currency_result as $key => $value) {
-                $currency_array[$value['id']] = $value['currencyname'];
+                $currency_array[$value['id']] = gettext($value['currencyname']);
                 if (Common_model::$global_config['system_config']['base_currency'] == $value['currency']) {
                     $default_currency_id = $value['id'];
                 }
@@ -495,6 +519,16 @@ class Account_import extends MX_Controller
             if ($value == "pricelist_id" || $value == 'non_cli_pricelist_id') {
                 $current_value = isset($add_array[$value]) ? $add_array[$value] : Common_model::$global_config['system_config']['default_signup_rategroup'];
                 $custom_array[$value] = form_dropdown($params_arr, $pricelist_id_array, $current_value);
+            }
+
+            if ($value == "localization_id") {
+                $localization_value = isset($add_array[$value]) ? $add_array[$value] : Common_model::$global_config['system_config']['localization_id'];
+                if($localization_value == 0){
+                    $localization_array = "";
+                    $custom_array[$value] =form_dropdown($params_arr, $localization_array, $localization_value);
+                }else{
+                    $custom_array[$value] = form_dropdown($params_arr, $localization_array, $localization_value);
+                }
             }
             if ($value == "timezone_id") {
                 $current_value = isset($add_array[$value]) ? $add_array[$value] : Common_model::$global_config['system_config']['default_timezone'];

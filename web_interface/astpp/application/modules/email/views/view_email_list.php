@@ -14,7 +14,10 @@
 </script>
 <script>
     $(document).ready(function() {
+    	var from_date = date + " 00:00:00";
+        var to_date = date + " 23:59:59";
         $("#customer_cdr_from_date").datetimepicker({
+        	value: from_date,
             uiLibrary: 'bootstrap4',
             iconsLibrary: 'fontawesome',
             modal:true,
@@ -22,6 +25,7 @@
             footer:true
          });  
          $("#customer_cdr_to_date").datetimepicker({
+         	value: to_date,
             uiLibrary: 'bootstrap4',
             iconsLibrary: 'fontawesome',
             modal:true,

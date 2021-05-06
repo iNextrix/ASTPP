@@ -18,7 +18,7 @@ if (! isset($csv_tmp_data)) {
 
 		<form method="post"
 			action="<?php echo base_url() ?>account_import/customer_import_preview/"
-			enctype="multipart/form-data" id="account_import">
+			enctype="multipart/form-data" id="account_import" name="account_import_form">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="col-md-10 col-sm-12 float-left p-0">
@@ -82,6 +82,12 @@ if (! isset($csv_tmp_data)) {
 										<label class="col-md-12 p-0 control-label"><?php echo gettext("Timezone"); ?> </label>	 
 											<?php echo $config_array['timezone_id']; ?> 
 										</div>
+
+										<div class='col-md-4 form-group'>
+										<label class="col-md-12 p-0 control-label"><?php echo gettext("Localization"); ?> </label>	 
+											<?php echo $config_array['localization_id']; ?> 
+										</div>
+
 									<div class='col-md-4 form-group'>
 										<label class="col-md-12 p-0 control-label"><?php echo gettext("Country"); ?> </label>	 
 											<?php echo $config_array['country_id']; ?> 
@@ -216,7 +222,7 @@ if (!empty($csv_tmp_data)) { ?>
 										<tbody>
 								 <?php
         foreach ($mapto_fields['general_info'] as $csv_key => $csv_value) {
-            $custom_value = $csv_value . "-select";
+            $custom_value = $csv_value . gettext("--Select--");
             $params_arr = array(
                 "id" => $custom_value,
                 "name" => $custom_value,
@@ -252,13 +258,13 @@ if (!empty($csv_tmp_data)) { ?>
 											<tr>
 												<th><?php echo gettext("Account");?></th>
 												<th><?php echo gettext("DEFAULT VALUE");?></th>
-												<th><?php echo gettext("select Account");?></th>
+												<th><?php echo gettext("Select Account");?></th>
 											</tr>
 										</thead>
 										<tbody>
 								<?php
         foreach ($mapto_fields['settings'] as $csv_key => $csv_value) {
-            $custom_value = $csv_value . "-select";
+            $custom_value = $csv_value . gettext("--Select--");
             $params_arr = array(
                 "id" => $custom_value,
                 "name" => $custom_value,

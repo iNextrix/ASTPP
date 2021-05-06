@@ -82,7 +82,7 @@ class Product_form {
 						'id',
 						'country',
 						'countrycode',
-						'build_dropdown',
+						'build_dropdown_country_camel',
 						'',
 						'' 
 				),
@@ -246,7 +246,7 @@ class Product_form {
 						'id',
 						'country',
 						'countrycode',
-						'build_dropdown',
+						'build_dropdown_country_camel',
 						'',
 						'' 
 				),
@@ -492,7 +492,7 @@ class Product_form {
 						'id',
 						'country',
 						'countrycode',
-						'build_dropdown',
+						'build_dropdown_country_camel',
 						'',
 						'' 
 				),
@@ -638,7 +638,7 @@ class Product_form {
 						'id',
 						'country',
 						'countrycode',
-						'build_dropdown',
+						'build_dropdown_country_camel',
 						'',
 						'' 
 				),

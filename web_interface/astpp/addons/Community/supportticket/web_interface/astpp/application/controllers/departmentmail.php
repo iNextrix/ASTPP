@@ -40,14 +40,12 @@ class DepartmentMail extends CI_Controller
 		foreach($emails as $email_number) {
 			$overview = imap_fetch_overview($inbox, $email_number, 0);
 			$email_subject = trim($overview[0]->subject);
-			//echo $email_subject;exit;
 			$email_sender = trim($overview[0]->from);
 			$email_receiver = trim($overview[0]->to);
 			$this->log("Email sender ".$email_sender." Receiver ".$email_receiver);
 			$explode_subject= explode(']',$email_subject);
 			$explode_ticket_details=explode('[Ticket ID:',$explode_subject[0]);
 			$this->log("Export Ticket details  :".json_encode($explode_ticket_details));
-			//print_r($explode_ticket_details);exit;
 			if(isset($explode_ticket_details[1]) && !empty($explode_ticket_details[1])){
 				$this->log("First IF");
 				$sender= explode('<',$email_sender);
@@ -200,106 +198,106 @@ class DepartmentMail extends CI_Controller
 					$this->log("To email address array :".json_encode($to_email_address_array));
 					$support_ticket_id=ltrim($explode_ticket_details[1], '0');
 					$support_ticket_id = str_replace(' ','',$support_ticket_id);
-					$support_ticket_data=(array)$this->db->get_where('support_ticket',array("support_ticket_number"=>$support_ticket_id))->first_row();
-//echo $this->db->last_query(); 
-					$this->log("support_ticket query :".$this->db->last_query());
-					$account_id=$account_data['id'];
-					$parent_info = $this->common->get_parent_info($account_id,0);
-					$this->log("Parent Info query :".$this->db->last_query());
-					if(strcmp($parent_info,"1,") == 0) {
-						$str_close_flag = rtrim($parent_info,",");
-					} else {
-						$str_close_flag = $parent_info. "1";
-					}
-					$this->log("str_close_flag :".$str_close_flag);
-					if($support_ticket_data['ticket_type'] == 5 && $support_ticket_data['close_ticket_display_flag'] == 1){
-//14_09_harsh
-						// add 
-						$this->db->where('support_ticket_number',$support_ticket_id);
-						$this->db->update("support_ticket", array('close_ticket_display_flag'=>$str_close_flag));
-						$this->log("support_ticket update query1 :".$this->db->last_query());
-					}
-					$update_array=array(
-								'ticket_type'=>2,
-								'last_modified_date'=>gmdate("Y-m-d H:i:s"),
-								'status'=>0,
-								'close_ticket_display_flag'=>$str_close_flag
-							);
-					$email_body = trim(imap_fetchbody($inbox, $email_number, 1));
-					if($email_body != '' && !empty($email_body)){
-						$this->db->where('support_ticket_number',$support_ticket_id);
-						$this->db->update("support_ticket", $update_array);
-						$this->log("support_ticket update query2 :".$this->db->last_query());
-					}
-/*echo "\n=======\n".$this->db->last_query(); 
-exit;*/
-					$from_email_accountid=$this->common->get_field_name('id','accounts',array('email'=>$from_email_id,"deleted"=>0));
-					if($from_email_accountid == ''){
-						$from_email_accountid=1;
-					}
-					$add_array_details=array(
-								'support_ticket_id'=>$support_ticket_data['id'],
-								'generate_account_id'=>$from_email_accountid,
-								'message'=>$email_body,
-								'attachment'=>'',
-								'creation_date'=>gmdate("Y-m-d H:i:s"),
-								'status'=>0,
-							);
-					$this->db->insert("support_ticket_details", $add_array_details);
-					$this->log("support_ticket_details insert query :".$this->db->last_query());
-					$receiver= explode('<',$email_receiver);
-					if(isset($receiver[1])){
-						$receiver_email_id= str_replace('>','',$receiver[1]);
-					}else{
-						$receiver_email_id= $email_sender;
-					}
-					$this->log("Receiver email id : ".$receiver_email_id);
-					$account_data=(array)$this->db->get_where('accounts',array("id"=>$support_ticket_data['accountid']))->first_row();
-					$this->log("accounts select query2 :".$this->db->last_query());
-					if($email_receiver !=''){
-						$template_type['message']=$email_body;
-						$template_type['subject']=$email_subject;
-						$act_details = $this->db_model->getSelect("*", "accounts", array('email'=>$from_email_id,"deleted"=>0));
-						$this->log("accounts select query3 :".$this->db->last_query());
-						$count=$act_details->num_rows();
-						$account_info=array();
-						$default_templates_info=(array)$this->db->get_where('default_templates',array("name"=>'email_sent_support_ticket'))->first_row();
-						$subject= $default_templates_info['subject'];
-						$message= $default_templates_info['template'];
-						$this->log("subject122 :".$subject);
-						$this->log("Message11 :".$message);
-						$message = html_entity_decode($message);
+					if(isset($support_ticket_id) && $support_ticket_id !=''){
+						$support_ticket_data=(array)$this->db->get_where('support_ticket',array("support_ticket_number"=>$support_ticket_id))->first_row();
+						$this->log("support_ticket query :".$this->db->last_query());
+						$account_id=$account_data['id'];
+						$parent_info = $this->common->get_parent_info($account_id,0);
+						$this->log("Parent Info query :".$this->db->last_query());
+						if(strcmp($parent_info,"1,") == 0) {
+							$str_close_flag = rtrim($parent_info,",");
+						} else {
+							$str_close_flag = $parent_info. "1";
+						}
+						$this->log("str_close_flag :".$str_close_flag);
+						if($support_ticket_data['ticket_type'] == 5 && $support_ticket_data['close_ticket_display_flag'] == 1){
+	//14_09_harsh
+							// add 
+							$this->db->where('support_ticket_number',$support_ticket_id);
+							$this->db->update("support_ticket", array('close_ticket_display_flag'=>$str_close_flag));
+							$this->log("support_ticket update query1 :".$this->db->last_query());
+						}
+						$update_array=array(
+									'ticket_type'=>2,
+									'last_modified_date'=>gmdate("Y-m-d H:i:s"),
+									'status'=>0,
+									'close_ticket_display_flag'=>$str_close_flag
+								);
+						$email_body = trim(imap_fetchbody($inbox, $email_number, 1));
+						if($email_body != '' && !empty($email_body)){
+							$this->db->where('support_ticket_number',$support_ticket_id);
+							$this->db->update("support_ticket", $update_array);
+							$this->log("support_ticket update query2 :".$this->db->last_query());
+						}
+	/*echo "\n=======\n".$this->db->last_query(); 
+	exit;*/
+						$from_email_accountid=$this->common->get_field_name('id','accounts',array('email'=>$from_email_id,"deleted"=>0));
+						if($from_email_accountid == ''){
+							$from_email_accountid=1;
+						}
+						$add_array_details=array(
+									'support_ticket_id'=>$support_ticket_data['id'],
+									'generate_account_id'=>$from_email_accountid,
+									'message'=>$email_body,
+									'attachment'=>'',
+									'creation_date'=>gmdate("Y-m-d H:i:s"),
+									'status'=>0,
+								);
+						$this->db->insert("support_ticket_details", $add_array_details);
+						$this->log("support_ticket_details insert query :".$this->db->last_query());
+						$receiver= explode('<',$email_receiver);
+						if(isset($receiver[1])){
+							$receiver_email_id= str_replace('>','',$receiver[1]);
+						}else{
+							$receiver_email_id= $email_sender;
+						}
+						$this->log("Receiver email id : ".$receiver_email_id);
+						$account_data=(array)$this->db->get_where('accounts',array("id"=>$support_ticket_data['accountid']))->first_row();
+						$this->log("accounts select query2 :".$this->db->last_query());
+						if($email_receiver !=''){
+							$template_type['message']=$email_body;
+							$template_type['subject']=$email_subject;
+							$act_details = $this->db_model->getSelect("*", "accounts", array('email'=>$from_email_id,"deleted"=>0));
+							$this->log("accounts select query3 :".$this->db->last_query());
+							$count=$act_details->num_rows();
+							$account_info=array();
+							$default_templates_info=(array)$this->db->get_where('default_templates',array("name"=>'email_sent_support_ticket'))->first_row();
+							$subject= $default_templates_info['subject'];
+							$message= $default_templates_info['template'];
+							$this->log("subject122 :".$subject);
+							$this->log("Message11 :".$message);
+							$message = html_entity_decode($message);
 
-						$message = str_replace("#TICKET_ID#", sprintf('%06d', $support_ticket_id), $message);
-						$message = str_replace("#REPLY_TYPE#", $this->_get_ticket_type_message('','',2), $message);
+							$message = str_replace("#TICKET_ID#", sprintf('%06d', $support_ticket_id), $message);
+							$message = str_replace("#REPLY_TYPE#", $this->_get_ticket_type_message('','',2), $message);
 
-						$message = str_replace("#CLIENT_NAME#", $this->common->get_field_name_coma_new('first_name,last_name,number','accounts',$account_data['id']),$message);
-						$message = str_replace("#MESSAGE#", $email_body, $message);
-						$this->log("Message22 :".$message);
-						$subject = str_replace("#TICKET_ID#",sprintf('%06d', $support_ticket_id),$subject);
-						$subject = str_replace("#TICKET_SUBJECT#", $email_subject,$subject);
+							$message = str_replace("#CLIENT_NAME#", $this->common->get_field_name_coma_new('first_name,last_name,number','accounts',$account_data['id']),$message);
+							$message = str_replace("#MESSAGE#", $email_body, $message);
+							$this->log("Message22 :".$message);
+							$subject = str_replace("#TICKET_ID#",sprintf('%06d', $support_ticket_id),$subject);
+							$subject = str_replace("#TICKET_SUBJECT#", $email_subject,$subject);
 
-//print_r($to_email_address_array);
-						$this->log("subject22 :".$message);
-						$this->log("To email address :".json_encode($to_email_address_array));
-						foreach($to_email_address_array as $receiver_emailid){
-							$mail_details_array= array(
-										'accountid'=>$support_ticket_data['accountid'],
-										'date'=>gmdate("Y-m-d H:i:s"),
-										'subject'=>$email_subject,
-										'body'=>$message,
-										'from'=>$receiver_email_id,
-										'to'=>$receiver_emailid,
-										'attachment'=>'',
-										'status'=>1,
-										'reseller_id'=>$account_data['reseller_id'],
-									    );
-							$this->db->insert("mail_details", $mail_details_array);
-//echo $this->db->last_query()."\n";
-							$this->log("mail_details insert query12 :".$this->db->last_query());
+	//print_r($to_email_address_array);
+							$this->log("subject22 :".$message);
+							$this->log("To email address :".json_encode($to_email_address_array));
+							foreach($to_email_address_array as $receiver_emailid){
+								$mail_details_array= array(
+											'accountid'=>$support_ticket_data['accountid'],
+											'date'=>gmdate("Y-m-d H:i:s"),
+											'subject'=>$email_subject,
+											'body'=>$message,
+											'from'=>$receiver_email_id,
+											'to'=>$receiver_emailid,
+											'attachment'=>'',
+											'status'=>1,
+											'reseller_id'=>$account_data['reseller_id'],
+											);
+								$this->db->insert("mail_details", $mail_details_array);
+	//echo $this->db->last_query()."\n";
+								$this->log("mail_details insert query12 :".$this->db->last_query());
+							}
 						}
 					}
-
 				}
 					exit;
 			}else{
@@ -401,7 +399,7 @@ exit;*/
 
 						$subject = str_replace("#TICKET_ID#",sprintf('%06d', $this->common->get_field_name('support_ticket_number','support_ticket',$support_ticket_id)),$subject);
 						$subject = str_replace("#TICKET_SUBJECT#", $email_subject,$subject);
-//print_r($to_email_address_array);
+						$message = strip_tags($message);
 						foreach($to_email_address_array as $receiver_emailid){
 							$mail_details_array= array(
 										'accountid'=>$account_data['id'],
@@ -416,9 +414,7 @@ exit;*/
 									    );
 							$this->db->insert("mail_details", $mail_details_array);
 							$this->log("Mail Details query222 ".$this->db->last_query());
-//echo $this->db->last_query()."\n";
 						}
-//echo '------------------------'; exit;
 						$auto_templates_info=(array)$this->db->get_where('default_templates',array("name"=>'auto_reply_mail_support'))->first_row();
 						$auto_subject= $auto_templates_info['subject'];
 						$auto_message= $auto_templates_info['template'];

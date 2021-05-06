@@ -4,11 +4,36 @@
     <div id="loading-img"></div>
 </div>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dlmenu.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var jqueryarray = <?php echo json_encode($this->tooltip_data); ?>;
+        //console.log(jqueryarray);
+        if(jqueryarray && jqueryarray !=''){
+          var form_name = $('form').attr("name");
+          $.each(jqueryarray, function (key, val) {
+            key = key.replace(form_name+'_','');
+            // console.log(key);
+            /*If condition used for select,input and textarea tag purpose*/
+            if(key == 'customer_type' || key == 'country_id[]' || key == 'accounts_id[]' || key == 'fields_in_csv[]' || key == 'recuring_type' || key == 'product_id' || key == 'product_category' || key == 'product_rate_group' || key == 'product_rate_group[]' ||key == 'debit_amt' || key == 'email_notify' || key == 'despostion[]' || key == 'template'){
+
+              $('select[name="'+key+'"] , input[name="'+key+'"] , textarea[name="'+key+'"]').parent().parent().find('label').attr({'data-toggle':'tooltip', 'data-html':"true",'data-original-title':val, 'data-placement' : 'top'}); 
+            }else{
+
+               $('select[name="'+key+'"] , input[name="'+key+'"]  , textarea[name="'+key+'"]').parent().find('label').attr({'data-toggle':'tooltip', 'data-html':"true",'data-original-title':val, 'data-placement' : 'top'});
+             }
+          });
+        }
+    });
+  </script>
 <script>
 	$(document).ready(function() {
 
 
-
+  $('[data-toggle="tooltip"]').tooltip({
+    delay : {
+      hide : 600
+    }
+   }); 
   $('.btn-quick > div:first-child').on('click', function(){
     $('.btn-quick').toggleClass('open');
   })
@@ -181,10 +206,10 @@ jQuery(function($) {
 	}
   	if($footer != '' && ($this->session->userdata['logintype'] == 2 || $this->session->userdata['logintype'] ==-1)){ ?>
 			 <div  class="pull-left col-3">
-			<span><?php echo gettext("Managed & Maintained by")?> </span>
+			<span><?php echo gettext("Powered by")?> </span>
 			<a href="https://inextrix.com/" target="_blank">
 				<span style="color: #216397;text-shadow: 0px 1px 1px #FFF;">
-					<strong>iNextrix Technologies Pvt. Ltd.</strong>
+					<strong><?php echo gettext("iNextrix Technologies Pvt. Ltd.")?></strong>
 				</span>
 			</a>
 	    </div>
@@ -211,17 +236,17 @@ jQuery(function($) {
      <div class="col-md-4 py-2 px-2 text-md-left text-light"><?=$user_footer ?></div>
      <div class="col-md-4 py-2 px-2 text-md-left text-light"></div>
     <?} else {  ?>
-      <div class="col-md-5 py-2 px-2 text-md-left text-light">Copyright @ <?php echo date("Y"); ?> <a class="text-warning" href="http://www.inextrix.com" target="_blank"> Inextrix Technologies Pvt. Ltd</a>. All Rights Reserved.
+      <div class="col-md-5 py-2 px-2 text-md-left text-light">Copyright @ <?php echo date("Y"); ?> <a class="text-warning" href="http://www.inextrix.com" target="_blank"> <?php echo gettext("iNextrix Technologies Pvt. Ltd.")?></a>. <?php echo gettext("All Rights Reserved.")?>
      <div class="col-md-3 py-2 px-2 text-md-left text-light"></div>
 	    
 	    </div>
 	    
 	<? } } else{ ?>
 			 <div  class="col-md-5 py-2 px-2 text-md-left">
-			<span class="text-light"><?php echo gettext('Managed & Maintained by ')?> </span>
+			<span class="text-light"><?php echo gettext('Powered by ')?> </span>
 			<a href="https://inextrix.com/" target="_blank">
 				<span class="text-warning">
-					<strong>iNextrix Technologies Pvt. Ltd.</strong>
+					<strong><?php echo gettext("iNextrix Technologies Pvt. Ltd.")?></strong>
 				</span>
 			</a>
 	    </div>
@@ -260,7 +285,7 @@ if (isset($selected_locale) && $value['locale'] == $selected_locale) {
 
 
 
-<div class="col-md-12 float-right pt-3 pr-0 text-light text-md-right version_size"> Version  <?php echo common_model::$global_config['system_config']['version'] .' Community' ;?>
+<div class="col-md-12 float-right pt-3 pr-0 text-light text-md-right version_size"><?php echo gettext("Version")?>  <?php echo common_model::$global_config['system_config']['version'] .' '.gettext('Community') ;?>
 <?php
 
 ?>

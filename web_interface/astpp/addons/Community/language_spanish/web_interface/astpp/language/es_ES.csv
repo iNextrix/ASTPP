@@ -1,153 +1,152 @@
 English,Spanish
 Access Number,Número de acceso
-Access Number,Número de acceso
-Access Numbers,números de acceso
+Access Numbers,Números de acceso
 Account,Cuenta
 Account Type,Tipo de cuenta
-Account Valid Days,Dar cuenta de días válidos
-Account Verification By,Por Verificación de cuenta
-Accounts,cuentas
+Account Valid Days,Días válidos de la cuenta
+Account Verification By,Verificación de cuenta por
+Accounts,Cuentas
 Accounts Report,Informe de cuentas
 ACD,ACD
 Action,Acción
 Action Type,tipo de acción
-Add,Añadir
-Add Country,Añadir País
-Add Currency,Añadir moneda
-Add Destination,Añadir destino
-Add Ratedeck,Añadir Ratedeck
-Address 1,Dirección 1
+Add,Agregar
+Add Country,Agregar país
+Add Currency,Agregar moneda
+Add Destination,Agregar destino
+Add Ratedeck,Agregar Ratedeck
+Address1,Dirección 1
 Administrator,Administrador
-Administrator Admin,admin administrador
+Administrator Admin,Administrador Admin
 Admins,Administradores
-After Balance,después de Equilibrio
+After Balance,Después del equilibrio
 Alarm,Alarma
 Alert Status,Estado de alerta
-Allow integration with Fraud detection,Permitir la integración con la detección de Fraude
-Allow IP Management,Permitir la gestión de PI
-Allow Local Call,Permitir Llamada Local
+Allow integration with Fraud detection,Permitir la integración con la detección de fraudes
+Allow IP Management,Permitir la gestión de IP
+Allow Local Call,Permitir llamada local
 Allow Local Calls,Permitir llamadas locales
-Allow Loss Less Routing,Permitir una menor pérdida de enrutamiento
-Allow Max Retries,Permitir máximo de reintentos
+Allow Loss Less Routing,Permitir enrutamiento sin pérdidas
+Allow Max Retries,Permitir reintentos máximos
 Allow Recording,Permitir grabación
-Amount,Cantidad
-Amount INR,INR cantidad
-Answered Calls,Las llamadas contestadas
+Amount,Monto
+Amount INR,Cantidad INR
+Answered Calls,Llamadas contestadas
 Applicable For,Aplicable para
-Apply on existing accounts,Aplicar en las cuentas existentes
+Apply on existing accounts,Aplicar en cuentas existentes
 Archive,Archivo
 ASR,ASR
-Attachement,fijación
-Attempted Calls,Las llamadas intentadas
+Attachement,Apego
+Attempted Calls,Llamadas intentadas
 Audit,Auditoría
 Audit Log,Registro de auditoría
-Audit Logs Older Than Days,Auditoría registros con más días de lo
-Authorize dot net,Autorizar a la red del punto
+Audit Logs Older Than Days,Registros de auditoría anteriores a los días
+Authorize.net,Authorize.net
 Automatically,Automáticamente
-Balance,Equilibrar
-Balance Announcement,Anuncio equilibrio
-Balance Below,A continuación equilibrar
+Balance,Equilibrio
+Balance Announcement,Anuncio de saldo
+Balance Below,Saldo debajo
 Base Currency,Moneda base
-Basic,BASIC
+Basic,Básico
 Basic Information,Información básica
-Batch Update,lotes de actualización
-Before Balance INR,Antes de INR Equilibrio
+Batch Update,Actualización por lotes
+Before Balance INR,Antes del balance INR
 Begins With,Empieza con
 Beta,Beta
-Billable,facturable
+Billable,Facturable
 Billing,Facturación
 Billing Cycle,Ciclo de facturación
 Billing Days,Días de facturación
-Billing Information,Datos de facturación
+Billing Information,Información de facturación
 Billing Type,Tipo de facturación
 Body,Cuerpo
-Buy Cost,Comprar Costo
+Buy Cost,Costo de compra
 Call Barring,Bloqueo de llamadas
-Call Date,llamada Fecha
-Call Detail Reports,Llamar Informes de detalles
-Call Max Length,Longitud máxima llamar
+Call Date,Fecha de llamada
+Call Detail Reports,Informes detallados de llamadas
+Call Max Length,Duración máxima de la llamada
 Call State,Estado de llamada
 Call Summary Reports,Informes de resumen de llamadas
-Call Timeout,pedir un tiempo muerto
+Call Timeout,Tiempo de espera de llamada
 Call Type,Tipo de llamada
 Call Types,Tipos de llamadas
-Called Number,Número de llamada
+Called Number,Número llamado
 Caller ID,Identificador de llamadas
-Caller IDs,IDs
-Caller IP,IP persona que llama
+Caller IDs,Identificadores de llamadas
+Caller IP,IP de la persona que llama
 Caller Name,Nombre de la persona que llama
-Caller Number,Número de llamadas
-Caller-Id-In-From,Caller-ID-A-Form
+Caller Number,Número de la persona que llama
+Caller-Id-In-From,Identificador de llamada entrante
 Calling Card,Tarjeta de llamada
-Calls,llamadas
-Calls Breakdown,Las llamadas Desglose
-Calltype Information,Información CALLTYPE
+Calls,Llamadas
+Calls Breakdown,Desglose de llamadas
+Calltype Information,Información del tipo de llamada
 Can be purchased?,¿Se pueden comprar?
 Capital,Capital
-Capture Server,servidor de captura
-Card Input Timeout,Tiempo de espera de entrada de la tarjeta
+Capture Server,Servidor de captura
+Card Input Timeout,Tiempo de espera de entrada de tarjeta
 Card Length,Longitud de la tarjeta
-Card Retries,Los reintentos de tarjetas
-Carriers,Los transportistas
+Card Retries,Reintentos de tarjetas
+Carriers,Transportistas
 Category,Categoría
 CC,CC
-CDRs Older Than Days,CDR mayores días de lo
+CDRs Older Than Days,CDR más antiguos que días
 Charge Type,Tipo de carga
-Charges Breakdown,Desglose de los cargos
-Charges History,Historia cargos
+Charges Breakdown,Desglose de cargos
+Charges History,Historial de cargos
 CID,CID
 City,Ciudad
 Clear,Claro
 Client IP,IP del cliente
 Client User Agent,Agente de usuario del cliente
 Code,Código
-Codecs,codecs
+Codecs,Códecs
 Commission,Comisión
 Commission Rate,Porcentaje de comision
-Commission Reports,Informes de la Comisión
+Commission Reports,Informes de comisiones
 Company,Empresa
-Company Profiles,los perfiles de empresa
-Company Tax number,Número de impuestos Compañía
-Completed Calls,Las llamadas completadas
-Concurrent Calls,Las llamadas concurrentes
+Company Profiles,Perfiles de empresa
+Company Tax number,Número de identificación fiscal de la empresa
+Completed Calls,Llamadas completadas
+Concurrent Calls,Llamadas concurrentes
 Configuration,Configuración
 Confirmed,Confirmado
 Connection Cost,Costo de conexión
-Contains,contiene
+Contains,Contiene
 Cost,Costo
 Cost/Min,Costo / Min
 Countries,Países
 Country,País
 Country Code,Código de país
-Country List,Lista país
-Country Reports,Informes de los países
-Coupon Information,información de la cupón
-Coupon Number,Número de cupones
+Country List,Lista de países
+Country Reports,Informes de países
+Coupon Information,Información del cupón
+Coupon Number,Número de cupón
 CPS,CPS
 Create,Crear
-Create Admin,crear administración
-Create calltype,crear tipo de llamada
+Create Admin,Crear administrador
+Create calltype,Crear tipo de llamada
 Create Company Profile,Crear perfil de empresa
-Create Customer,crear cliente
-Create Origination Rate,Crear Originación Tasa
-Create Product,crear Producto
-Create Provider,crear Proveedor
-Create Rate Group,Crear grupo de velocidad
-Create Refill Coupon,Crear Cupón de Recarga
-Create SIP Device,Crear SIP dispositivo
-Create Tax,crear impuestos
+Create Customer,Crear cliente
+Create Origination Rate,Crear tasa de originación
+Create Product,Crear producto
+Create Provider,Crear proveedor
+Create Rate Group,Crear grupo de tarifas
+Create Refill Coupon,Crear cupón de recarga
+Create SIP Device,Crear dispositivo SIP
+Create Tax,Crear impuesto
 Created Date,Fecha de creación
 Creation Date,Fecha de creación
 Credit,Crédito
 Credit Limit,Límite de crédito
-Crons,crons
-Currency,Moneda
-Currency Conversion Loss Percentage,Porcentaje de divisas pérdida de conversión
-Currency List,Lista Currency
+Crons,Crons
+Currency,Divisa
+Currency Conversion Loss Percentage,Porcentaje de pérdida por conversión de moneda
+Currency List,Lista de divisas
 Customer,Cliente
-Customer CDRs Report,Informe al cliente CDR
-Customer Summary,Resumen de clientes
-Customer Summary Report,Resumen del Informe del cliente
+Customer CDRs Report,Informe de CDR del cliente
+Customer Summary,Resumen del cliente
+Customer Summary Report,Informe resumido del cliente
 Customers,Clientes
 Dashboard,Tablero
 Database,Base de datos
@@ -155,182 +154,182 @@ Date,Fecha
 Debit,Débito
 Debug,Depurar
 Decimal Points,Puntos decimales
-Default Increment,Incremento por defecto
-Default Invoice Mode,Por defecto el modo de facturas
-Default Tax,Impuestos por defecto
+Default Increment,Incremento predeterminado
+Default Invoice Mode,Modo de factura predeterminado
+Default Tax,Impuesto por defecto
 Delete,Borrar
-Deleted Accounts After Days,Las cuentas eliminadas después de días
+Deleted Accounts After Days,Cuentas eliminadas después de días
 Description,Descripción
 Destination,Destino
-Dial Input Timeout,Dial espera entrada
+Dial Input Timeout,Tiempo de espera de entrada de marcación
 DID,HIZO
 DIDs,DID
 Direction,Dirección
-Disable,Inhabilitar
-Display records in,registros de visualización en
+Disable,Desactivar
+Display records in,Mostrar registros en
 Disposition,Disposición
 Documentation,Documentación
-Doesnt Contain,Contener doesnt
+Doesnt Contain,No contiene
 Domain,Dominio
-Draft,Borrador
+Draft,Sequía
 Due Date,Fecha de vencimiento
 Duplicate,Duplicar
 Duration,Duración
-Email,Email
+Email,Correo electrónico
 Email Alerts ?,Alertas de correo electrónico ?
-Email History,Historia de correo electrónico
+Email History,Historial de correo electrónico
 Email History List,Lista de historial de correo electrónico
 Email Notification,Notificación de correo electrónico
 Email Notifications,Notificaciónes de Correo Electrónico
-Email Status,Estado de correo electrónico
+Email Status,Estado del correo electrónico
 Email Template,Plantilla de correo electrónico
-Emails Older Than Days,Los mensajes más antiguos días de lo
-En,en
-Enable,Habilitar
-Enable Signup,Habilitar Registrar
+Emails Older Than Days,Correos electrónicos anteriores a los días
+En,En
+Enable,Permitir
+Enable Signup,Habilitar registro
 Ends With,Termina con
 Enterprise,Empresa
-Entity Type,del tipo de entidad
+Entity Type,Tipo de entidad
 Environment,Ambiente
-Ewallet Payment Gateway,Pasarela de Pago Monedero Electrónico
+Ewallet Payment Gateway,Pasarela de pago de ewallet
 Expired Accounts After Days,Cuentas vencidas después de días
 Expiry Date,Fecha de caducidad
 Export,Exportar
-Failover GW Name #1,Nombre de conmutación por error GW # 1
-Failover GW Name #2,Nombre de conmutación por error GW # 2
-Favicon,favicon
+Failover GW Name #1,Nombre de GW de conmutación por error n. ° 1
+Failover GW Name #2,Nombre de GW de conmutación por error n. ° 2
+Favicon,Favicon
 Fax,Fax
-Fee,Cuota
+Fee,Tarifa
 File Path,Ruta de archivo
 Filter,Filtrar
-First Name,Nombre de pila
-First Used,primero utilizado
-Fixer Key,Fixer clave
+First Name,Primer nombre
+First Used,Usado por primera vez
+Fixer Key,Llave del reparador
 FMAddon,FMAddon
 Footer,Pie de página
-Fraud Detection,Detección de fraude
-Free Minutes,Minutos gratis
-FreeSwitch Servers,Servidores FreeSWITCH
-From,Desde
+Fraud Detection,Detección de fraudes
+Free Minutes,Minutos libres
+FreeSwitch Servers,Servidores FreeSwitch
+From,De
 From Date,Partir de la fecha
-From Timestamp,De Timestamp
-Gateway Name,Nombre de puerta de enlace
-Gateways,Puertas de acceso
+From Timestamp,Desde marca de tiempo
+Gateway Name,Nombre de la puerta de enlace
+Gateways,Pasarelas
 General,General
 General Input Timeout,Tiempo de espera de entrada general
-Generate Invoice,generar factura
-Generate Pin,generar Pin
-Generates Alarm From System,Genera alarma De Sistema
-Generates Local Number system,Genera sistema de Número Local
-Generates ticket of issues from system,Genera billete de cuestiones de sistema
-Generates Various Alarms From System,Varios genera alarmas de Sistema
-Generates Various Country Reports From S,Genera varios informes nacionales de Sistema
-Generates various reports from system,Genera diversos informes de sistema
-Get Addons,Obtener Complementos
+Generate Invoice,Generar factura
+Generate Pin,Generar Pin
+Generates Alarm From System,Genera alarma desde el sistema
+Generates Local Number system,Genera sistema de números locales
+Generates ticket of issues from system,Genera ticket de problemas del sistema
+Generates Various Alarms From System,Genera varias alarmas del sistema
+Generates Various Country Reports From System,Genera varios informes de países desde el sistema
+Generates various reports from system,Genera varios informes del sistema
+Get Addons,Obtener complementos
 Get App,Obtener aplicaciones
 Global,Global
 Grace Time,Tiempo de gracia
 Grand Total,Gran total
 Group By,Agrupar por
-Group By #1,Por Grupo # 1
-Group By #2,Por Grupo # 2
-Group By #3,Por Grupo # 3
-Group By #Time,Agrupar por #time
+Group By #1,Agrupar por # 1
+Group By #2,Agrupar por # 2
+Group By #3,Agrupar por # 3
+Group By #Time,Agrupar por #Tiempo
 Header,Encabezamiento
 Homer,Homero
 Host,Anfitrión
 Import,Importar
-Import Customers,Los clientes de importación
-Import with field map,Importación de Mapa de campo
+Import Customers,Importar clientes
+Import with field map,Importar con mapa de campo
 Inbound,Entrante
-Inbound Fax,Faxes entrantes
-Included Seconds,segundos incluídos
+Inbound Fax,Fax entrante
+Included Seconds,Segundos incluidos
 Increment,Incremento
 Initial Balance,Saldo inicial
 Initial Increment,Incremento inicial
-Inovices Older Than Days,Inovices mayores días de lo
-Install,Instalar
-Installed,instalado
+Inovices Older Than Days,Inovices anteriores a los días
+Install,Instalar en pc
+Installed,Instalado
 Interval,Intervalo
 Interval Type,Tipo de intervalo
-Invoice Configuration,Configuración de la factura
+Invoice Configuration,Configuración de facturas
 Invoice Date,Fecha de la factura
-Invoice Due Days,Una factura debido Días
-Invoice Due Notification,Debido factura Notificación
-Invoice Notification,Notificación de la factura
+Invoice Due Days,Días de vencimiento de la factura
+Invoice Due Notification,Notificación de vencimiento de la factura
+Invoice Notification,Notificación de factura
 Invoice Number,Número de factura
-Invoice Prefix,factura Prefijo
-Invoice Start Form,Factura Forma de inicio
+Invoice Prefix,Prefijo de factura
+Invoice Start Form,Formulario de inicio de factura
 Invoices,Facturas
 IP,IP
-IP Settings,Configuración IP
+IP Settings,Configuración de IP
 Is Equal To,Es igual a
 Is Not Equal To,No es igual a
-Is Purchased?,Se compra?
+Is Purchased?,¿Se compra?
 Iso,Yo asi
-Iso3,ISO3
-IVR Count,Conde IVR
-Languages,idiomas
-Last Execution Date,Fecha última ejecución
-Last Modified Date,Fecha de la última actualización
+Iso3,Iso3
+IVR Count,Recuento de IVR
+Languages,Idiomas
+Last Execution Date,Última fecha de ejecución
+Last Modified Date,Fecha de última modificación
 Last Name,Apellido
-Last Paid Date,Última Fecha de pago
-Latest Orders,Los últimos pedidos
-LC Charge / Min,LC de carga / Min
-LC Charge/Min,LC de carga / Min
+Last Paid Date,Última fecha de pago
+Latest Orders,Últimos pedidos
+LC Charge / Min,Carga LC / Min
+LC Charge/Min,Carga LC / Min
 Live,Vivir
-Live Call Report,Informe de llamadas de vivir
-Live Id,live ID
-Live Key,clave en directo
-Live Url,Url vivo
+Live Call Report,Informe de llamada en vivo
+Live Id,Identificación en vivo
+Live Key,Live Key
+Live Url,URL activa
 Local Call Timeout,Tiempo de espera de llamada local
 Local Number,Número local
-Local Numbers,números locales
-Locale code,código de configuración regional
+Local Numbers,Números locales
+Locale code,Código de configuración regional
 Localization,Localización
 Localization Type,Tipo de localización
-Localizations,localizaciones
+Localizations,Localizaciones
 Log out,Cerrar sesión
 Log Path,Ruta de registro
 Logo,Logo
-Low balance Alert?,Alerta de bajo equilibrio?
+Low balance Alert?,Alerta de saldo bajo?
 Mail Log,Registro electrónico
 Manually,A mano
 Markup,Margen
-Mass Create,Crear masa
+Mass Create,Crear en masa
 Mass Email,Correo electrónico masivo
-Max Free Length,Max longitud libre
+Max Free Length,Longitud libre máxima
 MCD,MCD
-Minimum Fund Transfer,Transferencia mínimo Fondo
+Minimum Fund Transfer,Transferencia mínima de fondos
 Minutes,Minutos
-Minutes Announcement,Anuncio minutos
-Minutes Breakdown,Desglose minutos
+Minutes Announcement,Anuncio de actas
+Minutes Breakdown,Desglose de minutos
 Moderate,Moderar
-Modified Date,Fecha de modificación de
+Modified Date,Fecha de modificación
 Module,Módulo
 Name,Nombre
-New Accounts,nuevas Cuentas
-Nexmo API Key,Nexmo clave de API
-Nexmo Secret Key,Nexmo clave secreta
-Next Execution Date,Próxima ejecución Fecha
+New Accounts,Nuevas cuentas
+Nexmo API Key,Clave de API de Nexmo
+Nexmo Secret Key,Llave secreta de Nexmo
+Next Execution Date,Próxima fecha de ejecución
 Nickname,Apodo
 No,No
-No Records Found,No se encontrarón archivos
-Notes,notas
+No Records Found,No se encontraron registros
+Notes,Notas
 Notifications,Notificaciones
-Notify before due days,Notificar antes debido días
+Notify before due days,Notificar antes de los días de vencimiento
 Number,Número
-Number Type,Tipo número
-of,de
-Opensips,OpenSIPS
-Opensips DB Engine,Motor OpenSIPS DB
-Opensips DB Host,Anfitrión OpenSIPS DB
-Opensips DB Name,Nombre OpenSIPS DB
-Opensips DB Pass,OpenSIPS DB Pass
-Opensips DB User,Usuario OpenSIPS DB
-Opensips Domain,OpenSIPS dominio
+Number Type,Tipo de número
+ of , de 
+Opensips,Opensips
+Opensips DB Engine,Motor de base de datos Opensips
+Opensips DB Host,Host de base de datos de OpenSips
+Opensips DB Name,Nombre de base de datos de OpenSips
+Opensips DB Pass,Pase de base de datos de OpenSips
+Opensips DB User,Usuario de base de datos de OpenSips
+Opensips Domain,Dominio de OpenSips
 Opensource,Fuente abierta
-Order,Orden
+Order,Pedido
 Order Amount,Total de la orden
 Order Date,Fecha de orden
 Order ID,Solicitar ID
@@ -339,26 +338,26 @@ Orders,Pedidos
 Org. Cost,Org. Costo
 Org. Destination,Org. Destino
 Org. Pefix,Org. Pefix
-Origination Rates,creaciones de tarifas
+Origination Rates,Tasas de originación
 Outbound Fax,Fax saliente
-Outstanding Amount INR,INR Monto Pendiente
-Page,Página
+Outstanding Amount INR,Importe pendiente INR
+Page ,Página 
 Password,Contraseña
 Password Strength,seguridad de la contraseña
 Payment Method,Método de pago
 Payment Methods,Métodos de pago
 Payment Status,Estado de pago
-Paypal,paypal
+Paypal,Paypal
 Per Minute Cost,Costo por minuto
 Phone,Teléfono
-Pin Input Timeout,Pin espera entrada
-Pin Length,Longitud del pin
-Pin retries,reintentos Pin
-Pinless Authentication,autenticación sin agujas
+Pin Input Timeout,Tiempo de espera de entrada de pin
+Pin Length,Longitud del pasador
+Pin retries,Pin reintentos
+Pinless Authentication,Autenticación sin PIN
 Place Order,Realizar pedido
-Playback Audio Notifications,La reproducción de audio Notificaciones
+Playback Audio Notifications,Reproducción de notificaciones de audio
 Port,Puerto
-Portal personalization,portal de personalización
+Portal personalization,Personalización del portal
 Powered by ASTPP,Desarrollado por ASTPP
 Prefix,Prefijo
 Prepend,Anteponer
@@ -366,236 +365,230 @@ Preserve,Preservar
 Price,Precio
 Priority,Prioridad
 Product Category,categoria de producto
-Product Details,detalles del producto
+Product Details,Detalles de producto
 Product Name,nombre del producto
-Products,productos
-Profile Action,perfil de Acción
+Products,Productos
+Profile Action,Acción de perfil
 Profit,Lucro
 Provider,Proveedor
-Provider CDRs Report,Informe proveedor de CDR
-Provider Outbound,saliente proveedor
-Provider Outbound Report,Informe proveedor de salida
-Provider Summary Report,Resumen del Informe de Proveedores
+Provider CDRs Report,Informe de CDR del proveedor
+Provider Outbound,Proveedor saliente
+Provider Outbound Report,Informe saliente del proveedor
+Provider Summary Report,Informe de resumen del proveedor
 Province,Provincia
 Province/State,Provincia / Estado
 Proxy,Apoderado
 Purge,Purga
 Push Notifications,Notificaciones push
 Quantity,Cantidad
-Rate,Tarifa
-Rate Announcement,anuncio de la tasa
-Rate Count,tasa de recuento
-Rate Group,Grupo tasa
-Rate Groups,Grupos de tasas
-Rate Information,Más información sobre tarifas
+Rate,Velocidad
+Rate Announcement,Anuncio de tarifa
+Rate Count,Tasa de recuento
+Rate Group,Grupo de tarifas
+Rate Groups,Grupos de tarifas
+Rate Information,Información de tarifas
 Ratedeck,Ratedeck
-Ratedeck Information,Información Ratedeck
-Rates Count,tasas de recuento
-Realtime Billing,facturación en tiempo real
-Receiver Email,e-mail del
-Recording Files Older Than Days,Los archivos de grabación mayores días de lo
-Records,Archivos
-Referer Page,Página árbitro
-Refill By,Por rellenar
-Refill Coupon Length,Longitud de recarga Cupón
-Refill Coupons,Los cupones de recarga
+Ratedeck Information,Información de Ratedeck
+Rates Count,Tasas de recuento
+Realtime Billing,Facturación en tiempo real
+Receiver Email,Correo electrónico del destinatario
+Recording Files Older Than Days,Grabación de archivos con una antigüedad superior a varios días
+ Records, Registros
+Referer Page,Página de referencia
+Refill By,Rellenar por
+Refill Coupon Length,Longitud del cupón de recarga
+Refill Coupons,Cupones de recarga
 Refill Report,Informe de recarga
-Refills,recargas
-Register,Registro
-Release if no balance,Liberar si hay saldo
+Refills,Recargas
+Register,Registrarse
+Release if no balance,Liberar si no hay saldo
 Report a Bug,Reportar un error
 Reports,Informes
-Request URI,URI de solicitud
+Request URI,Solicitar URI
 Reseller,Revendedores
-Reseller can resell,Revendedor puede revender
-Reseller Summary,Resumen distribuidor
-Reseller Summary Report,Informe resumido distribuidor
-Resellers,revendedores
-Resellers CDRs Report,Revendedores CDR Informe
-Resend Mail,Reenviar mensaje de correo
+Reseller can resell,El revendedor puede revender
+Reseller Summary,Resumen de revendedor
+Reseller Summary Report,Informe de resumen del distribuidor
+Resellers,Revendedores
+Resellers CDRs Report,Informe de CDR de revendedores
+Resend Mail,Reenviar correo
 Role,Papel
-Roles & Permission,Roles y Permiso
+Roles & Permission,Roles y permisos
 Roles & Permissions,Roles y permisos
 Routing Prefix,Prefijo de enrutamiento
 Routing Type,Tipo de enrutamiento
 Sandbox,Salvadera
-Sandbox Id,Id caja de arena
-Sandbox Key,clave caja de arena
-Sandbox Name,Nombre caja de arena
-Sandbox Url,Url caja de arena
-Save,Salvar
-Schedule Reports,programar informes
+Sandbox Id,ID de zona de pruebas
+Sandbox Key,Clave de la caja de arena
+Sandbox Name,Nombre de la zona de pruebas
+Sandbox Url,URL de la zona de pruebas
+Save,Ahorrar
+Schedule Reports,Programar informes
 Search,Buscar
 Select File,Seleccione Archivo
 Select Year,Seleccionar año
 Services,Servicios
-Set Maximum Add card limit,Establecer límite de la tarjeta máxima Agregar
-Settings,ajustes
-Setup Fee,Costo de Instalación
-Signup,Regístrate
+Set Maximum Add card limit,Establecer límite máximo para agregar tarjetas
+Settings,Ajustes
+Setup Fee,Tarifa de instalación
+Signup,Inscribirse
 SIP Devices,Dispositivos SIP
 SIP IP,IP SIP
 SIP Port,Puerto SIP
-SIP Profile,Perfil de SIP
-SIP Profiles,Perfiles de SIP
+SIP Profile,Perfil SIP
+SIP Profiles,Perfiles SIP
 SMS,SMS
-SMS Body,cuerpo SMS
-SMS Notifications,notificaciones por SMS
+SMS Body,Cuerpo de SMS
+SMS Notifications,Notificaciones por SMS
 SMS Status,Estado de SMS
 SMTP,SMTP
 SMTP Host,Host SMTP
-SMTP Pass,SMTP Pass
+SMTP Pass,Pase SMTP
 SMTP Port,Puerto SMTP
 SMTP User,Usuario SMTP
-Start prefix,Comience prefijo
-Starting Digit,A partir del dígito
+Start prefix,Prefijo de inicio
+Starting Digit,Dígito inicial
 Status,Estado
-Strip,Tira
+Strip,Banda
 Strong,Fuerte
-Subject,Tema
+Subject,Sujeto
 Subscription,Suscripción
-Supportticket,Supportticket
+Supportticket,Boleto de soporte
 Switch,Cambiar
 Tariff,Arancel
 Tax,Impuesto
 Tax Information,Información sobre los impuestos
 Telephone,Teléfono
-Telephone as account number,Telefónico como número de cuenta
+Telephone as account number,Teléfono como número de cuenta
 Templates,Plantillas
 Term. Cost,Término. Costo
 Term. Destination,Término. Destino
 Term. Prefix,Término. Prefijo
-Term. Trunk,Término. El maletero
-Termination Rates,las tarifas de terminación
+Term. Trunk,Término. Maletero
+Termination Rates,Tarifas de terminación
 Third Party,Tercero
 This Month,Este mes
 This Week,Esta semana
-Timelimit Announcement,Anuncio timelimit
+Timelimit Announcement,Anuncio de límite de tiempo
 Timestamp,Marca de tiempo
 Timezone,Zona horaria
 To,A
 To Number,Al numero
-To Timestamp,para Timestamp
+To Timestamp,A la marca de tiempo
 Today,Hoy
-Top 10 Accounts,Top 10 de las Cuentas
-Top 10 Destinations,Los 10 mejores destinos
+Top 10 Accounts,10 cuentas principales
+Top 10 Destinations,10 destinos principales
 Total Calls,Total de llamadas
 Total Charges,Cargos totales
-Total Minutes,Total de Minutos
+Total Minutes,Minutos totales
 Transaction ID,ID de transacción
-Translations,traducciones
-Translations Language,traducciones de idiomas
-Trunk,El maletero
+Translations,Traducciones
+Translations Language,Traducciones Idioma
+Trunk,Maletero
 Trunks,Bañador
 Type,Tipo
 Unpaid,No pagado
 Update,Actualizar
-Used,Usado
-Used Date,usado Fecha
+Used,Usó
+Used Date,Fecha de uso
 Username,Nombre de usuario
 Version,Versión
-Version 4.0 Beta,La versión 4.0 Beta
+Version 4.0 Beta,Versión 4.0 Beta
 View All,Ver todo
-View Details,Ver detalles
 Voicemail,Mensaje de voz
-Voicemail Number,Número del Correo de voz
-Website,Sitio web
-Welcome File,archivo de bienvenida
-Yes,Sí
-Zip Code,Código postal
 Panel Access,Acceso al panel
 Profile,Perfil
-Billing Settings,Ajustes de facturación
+Billing Settings,Configuración de facturación
 Pin,Alfiler
 Account Settings,Configuraciones de la cuenta
-Notification Email,Email de notificación
-Address,Dirección
-NON-CLI Rate Group,Grupo de tarifas no CLI
-Billing Schedule,Horario de Facturación
-Billing Day,Dia de facturación
+Notification Email,Correo electrónico de notificación
+Address,Habla a
+NON-CLI Rate Group,Grupo de tarifas NO CLI
+Billing Schedule,Programa de facturación
+Billing Day,Día de facturación
 Tax Number,Número de impuesto
 Invoice Note,Nota de factura
 Reference,Referencia
 Cancel,Cancelar
 Device Information,Información del dispositivo
 Voicemail Options,Opciones de correo de voz
-Mail To,Correo a
+Mail To,Enviar a
 Attach File,Adjuntar archivo
-Local After Email,Local Después de correo electrónico
-Send all Message,Enviar todo el mensaje
-Close,Cerrar
-IP map,Mapa IP
+Local After Email,Local después del correo electrónico
+Send all Message,Enviar todos los mensajes
+Close,Cerca
+IP map,Mapa de IP
 Identificador de llamadas,Identificador de llamadas
-Add Caller ID,Añadir identificador de llamadas
-Create Reseller,Crear distribuidor
+Add Caller ID,Agregar identificador de llamadas
+Create Reseller,Crear revendedor
 Role Name,Nombre de rol
-Outstanding Amount,Cantidad Sobresaliente
+Outstanding Amount,Monto pendiente
 To Date,Hasta la fecha
-Before Balance,Antes del balance
-Commission Report,Informe de la comisión
+Before Balance,Antes del equilibrio
+Commission Report,Informe de la Comisión
 MonthlyFee,Cuota mensual
-Grace Time (Sec.),Tiempo de Gracia (Sec.)
-Import DIDs,Importar DIDs
-File must be in the following format,El archivo debe estar en el siguiente formato
+Grace Time (Sec.),Tiempo de gracia (seg.)
+Import DIDs,Importar DID
+File must be in the following format,El archivo debe tener el siguiente formato
 DID Import Process,Proceso de importación DID
 Get Sample file,Obtener archivo de muestra
 Check Header,Comprobar encabezado
-Select the file,Selecciona el archivo
-Account Count,Cuenta de cuenta
+Select the file,Seleccionar el archivo
+Account Count,Recuento de cuenta
 Acc. Number Length,Acc. Longitud del número
 Valid Days,Días válidos
 Create Access Number,Crear número de acceso
 Information,Información
 Import Access Numbers,Importar números de acceso
 Access Numbers Import Process,Proceso de importación de números de acceso
-DIDs Bulk Assign,Asignación masiva de DIDs
-Bulk DID Purchase,Compra DID a granel
-Provience,Proviencia
+DIDs Bulk Assign,Asignación masiva de DID
+Bulk DID Purchase,Compra masiva DID
+Provience,Provience
 Assign Number,Asignar número
-DID Destination,Destino DID
-DID Forward,DID Adelante
+DID Destination,DID Destino
+DID Forward,HIZO reenviar
 Always,Siempre
 If Busy,Si está ocupado
 If SIP Not Registered,Si SIP no está registrado
-If No Answer,Si no hay respuesta
+If No Answer,Si no responde
 New Rate Group Name,Nuevo nombre de grupo de tarifas
-Duplicate Rate Group Information,Información de grupo de tasa duplicada
-Import Origination Rates,Importar tasas de originación
-Force Trunk,Tronco de fuerza
-Please select atleast one record to dele,Por favor
-Import Ratedeck,Importar Ratedeck
+Duplicate Rate Group Information,Información de grupo de tarifas duplicada
+Import Origination Rates,Tasas de origen de importación
+Force Trunk,Force Trunk
+Please select atleast one record to dele,Seleccione al menos un registro para eliminar
+Import Ratedeck,Importar tabla de tarifas
 Optional Information,información opcional
-From- Domain,Del dominio
+From- Domain,De- Dominio
 From User,Del usuario
 Extension,Extensión
 Extension-In-Contact,Extensión en contacto
 Ping,Silbido
-Contact Params,Contacto params
-Retry-Seconds,Reintentar segundos
-Register-Proxy,Registrar-Proxy
+Contact Params,Params de contacto
+Retry-Seconds,Segundos de reintento
+Register-Proxy,Proxy de registro
 Channel,Canal
-Failover GW Name,Failover GW Name
-Create Trunk,Crear Tronco
+Failover GW Name,Nombre de GW de conmutación por error
+Create Trunk,Crear tronco
 Import Termination Rates,Tasas de terminación de importación
-Call Timeout (Sec.),Tiempo de espera de llamada (Sec.)
+Call Timeout (Sec.),Tiempo de espera de llamada (seg.)
 Trunk List,Lista de troncales
 Reset,Reiniciar
 Create SIP Profile,Crear perfil SIP
-Create Freeswitch Server,Crear un servidor Freeswitch
+Create Freeswitch Server,Crear servidor Freeswitch
 Live Calls,Llamadas en vivo
-Term Cost,Costo del Término
+Term Cost,Costo de plazo
 Term Destination,Término Destino
 Term Prefix,Prefijo de término
 Localizaciones,Localizaciones
 Create Localization,Crear localización
 Origination,Origen
 Termination,Terminación
-Inbound Callerid Translation,Traducción de Callerid entrante
+Inbound Callerid Translation,Traducción entrante de Callerid
 Destination Number Translation,Traducción del número de destino
 Outbound Callerid Translation,Traducción de Callerid saliente
-Create Call Barring,Crear bloqueo de llamadas
-Callbarring Settings,Configuraciones de Callbarring
-Product Summary Report,Informe de resumen del producto
+Create Call Barring,Crear restricción de llamadas
+Callbarring Settings,Configuración de bloqueo de llamadas
+Product Summary Report,Informe de resumen de producto
 SIP User,Usuario SIP
 Product,Producto
 Taxes,Impuestos
@@ -604,40 +597,40 @@ File Name,Nombre del archivo
 Database Information,Información de la base de datos
 Database Backup,Copia de seguridad de la base de datos
 Command,Mando
-Cron Settings,Configuración de Cron
-Create Cron Settings,Crear configuraciones Cron
+Cron Settings,Configuración de cron
+Create Cron Settings,Crear configuración de cron
 Stripe,Raya
 Live Secret key,Clave secreta en vivo
 Live Publishable key,Clave publicable en vivo
-Set Percentage Charges,Establecer los cargos porcentuales
-Set Fix Charges,Fijar cargos fijos
-Stripe Mode,Modo raya
-Sandbox secret key,Clave secreta de la caja de arena
-Sandbox publishable key,Clave publicable de sandbox
+Set Percentage Charges,Establecer cargos porcentuales
+Set Fix Charges,Establecer cargos fijos
+Stripe Mode,Modo de banda
+Sandbox secret key,Clave secreta de la zona de pruebas
+Sandbox publishable key,Clave publicable de la zona de pruebas
 Version 4.0 Enterprise,Versión 4.0 Enterprise
 Powered by,Energizado por
-Import Customer Using Field Mapper,Importar cliente utilizando el Mapeador de campo
-You must either select a field from your,Producto no encontrado
-Records with duplicate account number an,DID Asignar con éxito!
+Import Customer Using Field Mapper,Importar cliente usando Field Mapper
+You must either select a field from your,Debe seleccionar un campo de su
+Records with duplicate account number an,Registros con número de cuenta duplicado y
 Account Import Error,Error de importación de cuenta
 Back to Customer List,Volver a la lista de clientes
-Duplicate accounts with account number /,¡Se lanzó con éxito!
-Records imported successfully,Registros importados exitosamente
+Duplicate accounts with account number /,Cuentas duplicadas con número de cuenta /
+Records imported successfully,Registros importados con éxito
 Records not imported,Registros no importados
-Error In CSV File,Error en el archivo CSV
+Error In CSV File,Error en archivo CSV
 Invoice Summary,Resumen de la factura
 Customer Details,Detalles del cliente
 Invoice Details,Detalles de la factura
 Account Number,Número de cuenta
-Invoice Amount,Importe de la factura
-Invoice Item,Artículo de factura
-Sub Total,Total parcial
-Total Due,Total a pagar
+Invoice Amount,Monto de la factura
+Invoice Item,Artículo de la factura
+Sub Total,Sub total
+Total Due,Total adeudado
 Note,Nota
-Add Setting,Añadir configuración
+Add Setting,Agregar configuración
 Edit SIP Profile,Editar perfil SIP
 New,Nuevo
-Used?,¿Usado?
+Used?,¿Usó?
 View Email,Ver correo electrónico
 Active,Activo
 Inactive,Inactivo
@@ -647,104 +640,104 @@ Freeswitch Server Information,Información del servidor Freeswitch
 Currencies,Monedas
 Edit Currency,Editar moneda
 Is Distributor,Es distribuidor
-Package created successfully!,Paquete creado con éxito!
-DID Removed Successfully.,DID eliminado con éxito.
-DID not found.,No lo encontré.
+Package created successfully!,¡Paquete creado con éxito!
+DID Removed Successfully.,DID eliminado correctamente.
+DID not found.,DID no encontrado.
 Password changed Sucessfully....!!!,Contraseña cambiada con éxito .... !!!
-New Password & Conformpassword not match,Información del servidor Freeswitch
-Invalid old passwword.,Contraseña vieja inválida.
+New Password & Conformpassword not match,La nueva contraseña y la contraseña de conformidad no coinciden
+Invalid old passwword.,Contraseña antigua no válida.
 Permission Denied!,¡Permiso denegado!
-Refill Coupon amount is added successful,Es distribuidor
-PLease upload maximum file,Por favor
-files added successfully!,archivos añadidos con éxito!
-File Uploading Fail Please Try Again,Error al cargar el archivo
-Please upload only image!,Por favor suba sólo la imagen!
-Invoice config updated successfully!,Configuración de la factura actualizada con éxito!
-Your Profile Updated Successfully!,Tu perfil actualizado con éxito!
-Something wrong.Please contact to admini,¡Permiso denegado!
-DID Released Successfully!,¡Se lanzó con éxito!
-IP already exist in system.,IP ya existe en el sistema.
-IP Added Sucessfully.,IP añadido con éxito.
+Refill Coupon amount is added successful,La cantidad del cupón de recarga se agrega correctamente
+PLease upload maximum file,Por favor cargue el archivo máximo
+files added successfully!,archivos agregados correctamente!
+File Uploading Fail Please Try Again,"Error al cargar el archivo, inténtelo de nuevo"
+Please upload only image!,¡Sube solo una imagen!
+Invoice config updated successfully!,¡La configuración de la factura se actualizó correctamente!
+Your Profile Updated Successfully!,¡Tu perfil se actualizó correctamente!
+Something wrong.Please contact to admini,"Algo va mal, por favor contacte a admini"
+DID Released Successfully!,¡DID se lanzó con éxito!
+IP already exist in system.,La IP ya existe en el sistema.
+IP Added Sucessfully.,IP agregada con éxito.
 IP Removed Sucessfully.,IP eliminada con éxito.
-SIP Device Updated Successfully!,Dispositivo SIP actualizado con éxito!
-SIP Device Added Successfully!,Dispositivo SIP añadido con éxito!
-SIP Device Removed Sucessfully!,Dispositivo SIP eliminado con éxito!
-Caller ID Added Sucessfully!,Identificador de llamadas añadido con éxito!
-Please Enter Caller ID value.,Por favor ingrese el valor del identificador de llamadas.
+SIP Device Updated Successfully!,¡Dispositivo SIP actualizado con éxito!
+SIP Device Added Successfully!,¡Dispositivo SIP agregado exitosamente!
+SIP Device Removed Sucessfully!,¡Dispositivo SIP eliminado con éxito!
+Caller ID Added Sucessfully!,¡Identificador de llamadas agregado exitosamente!
+Please Enter Caller ID value.,Ingrese el valor del identificador de llamadas.
 Caller ID already Exists.,El identificador de llamadas ya existe.
-Caller ID removed sucessfully!,Identificador de llamadas eliminado con éxito!
-Alert Threshold Updated Successfully!,Umbral de alerta actualizado con éxito!
-Can not trnasfer fund to postpaid custom,Dispositivo SIP actualizado con éxito!
-Access Denied! unable transfer fund to t,Dispositivo SIP añadido con éxito!
-You can not transfer fund in same account,No se puede transferir fondo en la misma cuenta.
-You can only transfer fund in same level,Identificador de llamadas añadido con éxito!
+Caller ID removed sucessfully!,¡El identificador de llamadas se eliminó con éxito!
+Alert Threshold Updated Successfully!,¡Umbral de alerta actualizado con éxito!
+Can not trnasfer fund to postpaid custom,No se pueden transferir fondos a la costumbre de pospago
+Access Denied! unable transfer fund to t,¡Acceso denegado! no se puede transferir el fondo a t
+You can not transfer fund in same accoun,No puede transferir fondos en la misma cuenta
+You can only transfer fund in same level,Solo puedes transferir fondos en el mismo nivel
 Please enter To account number.,Por favor ingrese al número de cuenta.
-Please enter valid amount.,Por favor
+Please enter valid amount.,Ingrese una cantidad válida.
 You have insufficient balance.,Tienes saldo insuficiente.
-Please enter valid account number.,Por favor
-Please enter amount greater then 0.,Por favor ingrese una cantidad mayor que 0.
-You need to enter minimum for fund trans,¡Acceso denegado! No se puede transferir el fondo a esta cue
-Please enter valid account number!,Por favor
+Please enter valid account number.,Ingrese un número de cuenta válido.
+Please enter amount greater then 0.,Ingrese una cantidad mayor a 0.
+You need to enter minimum for fund trans,Debe ingresar el mínimo para la transferencia de fondos
+Please enter valid account number!,¡Ingrese un número de cuenta válido!
 Insuffiecient amount !,Cantidad insuficiente!
-Transfer successfully!,Transferencia exitosa!
-Account number not found.,Número de cuenta no encontrado.
-OpenSips updated successfully!,OpenSips actualizado con éxito!
-Duplicate Username Found.Username Must b,Por favor
-User name is required field.,El nombre de usuario es campo obligatorio.
-Opensips Device Removed Successfully!.,Dispositivo Opensips eliminado con éxito!
-Speed-dial Number Added Successfully!,Número de marcación rápida añadido con éxito!
+Transfer successfully!,¡Transfiera con éxito!
+Account number not found.,No se encontró el número de cuenta.
+OpenSips updated successfully!,¡OpenSips actualizado con éxito!
+Duplicate Username Found.Username Must b,Se encontró un nombre de usuario duplicado. El nombre de usuario debe b
+User name is required field.,El nombre de usuario es un campo obligatorio.
+Opensips Device Removed Successfully!.,Opensips ¡Dispositivo eliminado con éxito !.
+Speed-dial Number Added Successfully!,¡El número de marcación rápida se agregó correctamente!
 Can not delete blank speeddial number,No se puede eliminar el número de marcación rápida en blanco
-Speed-dial Number Removed Successfully!,Número de marcado rápido eliminado con éxito!
-Pin Updated Successfully!,Pin actualizado con éxito!
-DID Updated Successfully!,¡Se actualizó con éxito!
-for fund transfer.,para la transferencia de fondos.
-You need to enter minimum,Necesitas ingresar mínimo
+Speed-dial Number Removed Successfully!,¡El número de marcación rápida se eliminó correctamente!
+Pin Updated Successfully!,¡Pin actualizado correctamente!
+DID Updated Successfully!,¡SE actualizó correctamente!
+for fund transfer.,para transferencia de fondos.
+You need to enter minimum,Debes ingresar el mínimo
 please enter recharge value,por favor ingrese el valor de recarga
 New Password,Nueva contraseña
 Old Password,Contraseña anterior
-Conform Password,Conformar contraseña
+Conform Password,Conform la contraseña
 Letters only please,Solo cartas por favor
 IP Mapping,Mapeo de IP
-The Coupon Number field must contain onl,Número de marcado rápido eliminado con éxito!
-The Coupon Number field have inactive re,Pin actualizado con éxito!
+The Coupon Number field must contain onl,El campo Número de cupón debe contener solo
+The Coupon Number field have inactive re,El campo Número de cupón tiene reactivación inactiva.
 This Coupon Number is already in use.,Este número de cupón ya está en uso.
-This Coupon Number is not found.,Este número de cupón no se encuentra.
+This Coupon Number is not found.,No se encuentra este número de cupón.
 The Coupon Number field is required.,El campo Número de cupón es obligatorio.
-REFILL COUPON RECHARGE,RECARGA DE CUPÓN DE RECAMBIO
+REFILL COUPON RECHARGE,RELLENAR CUPÓN RECARGAR
 You just recharged,Acabas de recargar
-account with The new balance will be,cuenta con el nuevo saldo será
+account with The new balance will be,cuenta con El nuevo saldo será
 My Profile,Mi perfil
 My Account,Mi cuenta
 Alert Threshold,Umbral de alerta
 The Caller ID field is required.,El campo de identificación de llamadas es obligatorio.
-Change Password,Cambia la contraseña
+Change Password,Cambiar la contraseña
 Bill Type,Tipo de factura
 Bill Days,Bill Days
 New Products,nuevos productos
 Active Products,Productos activos
-Outstanding,Excepcional
-Today's Calls,Llamadas de hoy
+Outstanding,Sobresaliente
+Todays Calls,Llamadas de hoy
 Recent Calls,Llamadas recientes
-The Available DIDs field is required.,El campo DID disponible es obligatorio.
-Please enter your password,Por favor
-Please enter your first name,Por favor
+The Available DIDs field is required.,El campo DID disponibles es obligatorio.
+Please enter your password,"Por favor, introduzca su contraseña"
+Please enter your first name,"Por favor, introduzca su nombre de pila"
 Please enter your email,Por favor introduzca su correo electrónico
 Please enter valid email,Por favor introduzca un correo electrónico válido
 This field is required.,Este campo es requerido.
 Email Setting,Configuración de correo electrónico
 SMTP Password,Contraseña SMTP
-Are you sure want to remove logo?,¿Seguro que quieres eliminar el logo?
-The IP field must contain a unique value,Productos activos
-The IP field have not valid IP.,El campo IP no tiene IP válida.
+Are you sure want to remove logo?,¿Está seguro de que desea eliminar el logotipo?
+The IP field must contain a unique value,El campo IP debe contener un valor único
+The IP field have not valid IP.,El campo IP no tiene una IP válida.
 The IP field is required.,El campo IP es obligatorio.
 The Name field is required.,El campo Nombre es obligatorio.
-Please enter only alpha-numeric value,Por favor
-Are you sure want to delete speed dial r,Por favor
+Please enter only alpha-numeric value,Ingrese solo un valor alfanumérico
+Are you sure want to delete speed dial r,¿Está seguro de que desea eliminar la marcación rápida r
 Generated Date,Fecha generada
 My Products,Mis productos
-Pinless CLI,CLI sin pin
+Pinless CLI,CLI sin clavijas
 Refill Coupon,Cupón de recarga
-TopUp,Recargar
+TopUp,Recarga
 Pay with Paypal,Pagar con PayPal
 Pay with Card,Pagar con tarjeta
 Assign,Asignar
@@ -752,87 +745,87 @@ Send Credit,Enviar crédito
 To Account,A la cuenta
 From Account,De la cuenta
 Transfer,Transferir
-Telephone 1,Telefono 1
-Telephone 2,Telefono 2
+Telephone 1,Teléfono 1
+Telephone 2,Teléfono 2
 Address 2,Dirección 2
 Zip/Postal Code,Código postal
 User Profile,Perfil del usuario
-Low Balance Alert Level,Nivel de alerta de bajo balance
-Enable Email Alerts ?,¿Habilitar las alertas de correo electrónico?
-Low Balance Alert Email,Correo electrónico de alerta de bajo saldo
+Low Balance Alert Level,Nivel de alerta de saldo bajo
+Enable Email Alerts ?,¿Habilitar alertas por correo electrónico?
+Low Balance Alert Email,Correo electrónico de alerta de saldo bajo
 User name,Nombre de usuario
 Something went to wrong !,¡Algo salió mal!
-Product Purchased successfully !,Producto comprado con éxito!
-Insufficent Balance to purchase product ,Saldo insuficiente para la compra del producto.
-Product assigned successfully!,Producto asignado con éxito!
+Product Purchased successfully !,¡Producto comprado con éxito!
+Insufficent Balance to purchase product,Saldo insuficiente para comprar el producto
+Product assigned successfully!,¡Producto asignado correctamente!
 Something went wrong !,Algo salió mal !
 Product Not Found,Producto no encontrado
-Transaction has been failed,La transacción ha sido fallida
-not inserted. Transaction has been faile,no insertado La transacción ha sido fácil
+Transaction has been failed,La transacción ha fallado
+not inserted. Transaction has been faile,no insertado. La transacción ha fallado
 Select Customer.,Seleccione Cliente.
 Product Information,Información del Producto
-Price+SetUp Fee,Precio + tarifa de configuración
-Use Voucher,Use el vale
-Amount Without Tax,Importe Sin Impuestos
+Price+SetUp Fee,Precio + tarifa de instalación
+Use Voucher,Usar cupón
+Amount Without Tax,Monto sin impuestos
 Total Tax,Total impuestos
-Amount With Tax,Importe Con Impuesto
-Parent Products,Productos para padres
+Amount With Tax,Monto con impuestos
+Parent Products,Productos parentales
 Edit Product,Editar producto
-Product updated successfully!,Producto actualizado exitosamente!
+Product updated successfully!,¡Producto actualizado con éxito!
 Product added successfully!,Producto agregado exitosamente!
-Product removed successfully!,Producto eliminado con éxito!
-Product optin successfully!,Producto optin con éxito!
+Product removed successfully!,¡Producto eliminado con éxito!
+Product optin successfully!,¡Opción del producto con éxito!
 Edit Info,Editar información
-Product assign successfully,Producto asignado correctamente
-Insufficient balance to assign product!,¡Balance insuficiente para asignar producto!
-Terminated Updated Successfully!,Terminado actualizado con éxito!
+Product assign successfully,Asignar producto correctamente
+Insufficient balance to assign product!,¡Saldo insuficiente para asignar producto!
+Terminated Updated Successfully!,Terminado actualizado correctamente!
 Terminated,Terminado
 Setup Cost,Coste de instalación
-Order New,Orden Nuevo
-Caller ID updated successfully!,Identificador de llamadas actualizado con éxito!
-Caller ID added successfully!,Identificador de llamadas añadido correctamente!
-Caller ID removed successfully!,Identificador de llamadas eliminado con éxito!
-Name is not contain any space,El nombre no contiene ningún espacio.
+Order New,Pedido nuevo
+Caller ID updated successfully!,¡El identificador de llamadas se actualizó correctamente!
+Caller ID added successfully!,¡El identificador de llamadas se agregó correctamente!
+Caller ID removed successfully!,¡El identificador de llamadas se eliminó correctamente!
+Name is not contain any space,El nombre no contiene ningún espacio
 Name already exist in system.,El nombre ya existe en el sistema.
-Callbarring Settings Updated Successfull,Configuraciones de Callbarring actualizadas exitosamente
-allbarring Settings Added Successfully!,Configuraciones de allbarring añadidas con éxito!
-Call Barring Removed Successfully!,Bloqueo de llamadas eliminado con éxito!
-Calltype already exist in system.,Calltype ya existe en el sistema.
-Calltype Updated Successfully!,Calltype actualizado con éxito!
-Calltype Added Successfully!,Calltype añadido con éxito!
-calltype removed successfully!,calltype eliminado con éxito!
+Callbarring Settings Updated Successfull,La configuración de bloqueo de llamadas se actualizó correctamente
+allbarring Settings Added Successfully!,¡La configuración de allbarring se agregó con éxito!
+Call Barring Removed Successfully!,¡La restricción de llamadas se eliminó con éxito!
+Calltype already exist in system.,El tipo de llamada ya existe en el sistema.
+Calltype Updated Successfully!,¡El tipo de llamada se actualizó correctamente!
+Calltype Added Successfully!,¡El tipo de llamada se agregó correctamente!
+calltype removed successfully!,¡tipo de llamada eliminado con éxito!
+File must be in the following format(.cs,El archivo debe tener el siguiente formato (.cs
 Import Package Codes:,Importar códigos de paquete:
-Records Imported Successfully:,Registros importados con éxito:
+Records Imported Successfully:,Registros importados correctamente:
 Records Not Imported :,Registros no importados:
 Download Errors,Errores de descarga
 Back to Package Patterns List,Volver a la lista de patrones de paquetes
 Add To List,Agregar a la lista
 Routing Prefix already exist in system.,El prefijo de enrutamiento ya existe en el sistema.
-Rate Group Updated Successfully!,Grupo de tarifas actualizado con éxito!
-Rate Group Added Successfully!,Grupo de tarifas añadido con éxito!
-Duplicate Rate Group Added Successfully!,Grupo de tarifas duplicadas añadido con éxito!
-Routing Prefix (Enterprise),Prefijo de enrutamiento (Enterprise)
-Priority (Enterprise),Prioridad (Empresa)
-Percentage (WIP) (Enterprise),Porcentaje (WIP) (Empresa)
+Rate Group Updated Successfully!,¡Calificar el grupo actualizado con éxito!
+Rate Group Added Successfully!,¡Califique el grupo agregado con éxito!
+Duplicate Rate Group Added Successfully!,¡El grupo de tarifas duplicado se agregó correctamente!
+Routing Prefix (Enterprise),Prefijo de enrutamiento (empresa)
+Priority (Enterprise),Prioridad (empresa)
+Percentage (WIP) (Enterprise),Porcentaje (WIP) (empresa)
 LCR,LCR
 Percentage,Porcentaje
-Tax removed successfully!,Impuesto eliminado con éxito!
-Tax added successfully!,Impuesto agregado exitosamente!
-Tax updated successfully!,Impuestos actualizados con éxito!
-Charges List,Lista de Cargos
-Trunk Updated Successfully!,Tronco actualizado con éxito!
-Trunk Added Successfully!,Tronco añadido con éxito!
-Trunk removed successfully!,Tronco eliminado con éxito!
-setting updated successfully!,configuración actualizada con éxito!
-Template Updated Successfully!,Plantilla actualizada con éxito!
-Template Added Successfully!,Plantilla agregada con éxito!
-Country Updated successfully!,País actualizado con éxito!
-Country Added successfully!,País añadido correctamente!
-Country removed successfully!,País eliminado con éxito!
-Currency Updated Successfully!,Moneda actualizada con éxito!
-Rates,Tarifas
+Tax removed successfully!,¡Impuestos eliminados correctamente!
+Tax added successfully!,¡Impuestos agregados con éxito!
+Tax updated successfully!,¡Impuestos actualizados con éxito!
+Charges List,Lista de cargos
+Trunk Updated Successfully!,¡Trunk actualizado con éxito!
+Trunk Added Successfully!,¡Trunk agregado exitosamente!
+Trunk removed successfully!,¡Tronco eliminado con éxito!
+setting updated successfully!,configuración actualizada correctamente!
+Template Updated Successfully!,¡Plantilla actualizada correctamente!
+Template Added Successfully!,¡Plantilla agregada con éxito!
+Country Updated successfully!,País actualizado correctamente!
+Country Added successfully!,¡País agregado exitosamente!
+Country removed successfully!,¡País eliminado correctamente!
+Currency Updated Successfully!,¡Moneda actualizada con éxito!
 My Rates,Mis tarifas
-Cost / Min,Costo / min
+Cost / Min,Costo / Min
 Purchase,Compra
 Available DIDs,DID disponibles
 New IP,Nueva IP
@@ -841,190 +834,189 @@ Email Address,Dirección de correo electrónico
 Call Forward,Desvío de llamadas
 If Busy:,Si está ocupado:
 If SIP Not Registered:,Si SIP no está registrado:
-If No Answer:,Si no hay respuesta:
-Pay Now,Pague ahora
+If No Answer:,Si no responde:
+Pay Now,Pagar ahora
 Pay with Account,Pagar con cuenta
-"Please wait, your order is being processed and you will be redirected to the paypal website.","Espere, su orden se está procesando y será redirigido al sitio web de PayPal."
+"Please wait, your order is being processed and you will be redirected to the paypal website.","Espere, su pedido se está procesando y será redirigido al sitio web de PayPal."
 Coupon Number:,Número de cupón:
-Add Voucher,Añadir cupón
+Add Voucher,Agregar cupón
 Selected Plan,Plan seleccionado
 My Product,Mi producto
-Parent Product,Producto principal
+Parent Product,Producto padre
 Edit Email Template,Editar plantilla de correo electrónico
 Details,Detalles
-KEY,LLAVE
+KEY,CLAVE
 VALUE,VALOR
-Records with duplicate account number and email will be ignored.,Los registros con número de cuenta y correo electrónico duplicados serán ignorados.
+Records with duplicate account number and email will be ignored.,Se ignorarán los registros con número de cuenta y correo electrónico duplicados.
 Account Details,detalles de la cuenta
-Mass Customer,Cliente en masa
+Mass Customer,Cliente masivo
 Daily,Diario
 Monthly,Mensual
 Prepaid,Pagado por adelantado
-Postpaid,Postpago
+Postpaid,Pospago
 Force Caller ID,Forzar identificador de llamadas
 Customer Profile,Perfil de cliente
 Caller Id Name,Nombre del identificador de llamadas
-Caller Id Number,Número de identificación de llamadas
+Caller Id Number,Número de identificación de la persona que llama
 Blocked Codes,Códigos bloqueados
-Page will display only receipts and confirmed invoices.,La página mostrará solo los recibos y las facturas confirmadas.
-Accessnumber Updated Successfully!,Número de acceso actualizado con éxito!
-Accessnumber Removed Successfully!,Número de acceso eliminado con éxito!
-Invalid file format : Only CSV file allows to import records(Can't import empty file),Formato de archivo no válido: solo el archivo CSV permite importar registros (no se puede importar el archivo vacío)
-Please Select File.,"Por favor, seleccione Archivo."
- are required, son requeridos
- is Required, es requerido
- is not Valid, no es válido
+Page will display only receipts and confirmed invoices.,La página mostrará solo recibos y facturas confirmadas.
+Accessnumber Updated Successfully!,¡Número de acceso actualizado con éxito!
+Accessnumber Removed Successfully!,¡Número de acceso eliminado correctamente!
+Invalid file format : Only CSV file allows to import records(Can't import empty file),Formato de archivo no válido: solo el archivo CSV permite importar registros (no se puede importar un archivo vacío)
+Please Select File.,Seleccione Archivo.
+are required,son requeridos
+is Required,se requiere
+is not Valid,no es válido
 Duplicate accessnumber found from database,Número de acceso duplicado encontrado en la base de datos
-Duplicate accessnumber found from import file.,Se ha duplicado el número de acceso del archivo de importación.
+Duplicate accessnumber found from import file.,Número de acceso duplicado encontrado en el archivo de importación.
 Total,Total
-AccessNumber Imported Successfully!,Número de acceso importado con éxito!
+AccessNumber Imported Successfully!,AccessNumber importado correctamente!
 Records Not Imported:,Registros no importados:
 Back to AccessNumber List,Volver a la lista de AccessNumber
 Speed Dial Number Updated Successfully,Número de marcación rápida actualizado con éxito
-Please insert only numeric value!,"Por favor, introduzca sólo el valor numérico!"
-Speed Dial Number Removed Successfully,Número de marcación rápida eliminado con éxito
+Please insert only numeric value!,¡Inserte solo un valor numérico!
+Speed Dial Number Removed Successfully,Número de marcación rápida eliminado correctamente
 Speed Dial Number is Empty,El número de marcación rápida está vacío
-Sip Device removed successfully!,Dispositivo Sip eliminado correctamente!
-Sip updated successfully!,Sip actualizado con éxito!
-Block Code Removed Sucessfully!,Código de bloque eliminado con éxito!
+Sip Device removed successfully!,¡Dispositivo Sip eliminado con éxito!
+Sip updated successfully!,¡Sip actualizado con éxito!
+Block Code Removed Sucessfully!,¡Código de bloque eliminado con éxito!
 Your Account Limit has been reached.Please Change Your Prefix.,Se ha alcanzado el límite de su cuenta. Cambie su prefijo.
-Please Enter Proper Account Length.,Por favor ingrese la longitud adecuada de la cuenta.
-Bulk customer generate successfully!,Cliente masivo generar con éxito!
-Recharge successfully!,Recarga con éxito!
-Post charge applied successfully.,Cargo post aplicado correctamente.
-Account callerID updated successfully!,Cuenta callerID actualizado con éxito!
-Account callerID added successfully!,Cuenta callerID agregado exitosamente!
-Reseller updated successfully!,Distribuidor actualizado con éxito!
-Reseller added successfully!,Distribuidor añadido con éxito!
-Updated successfully!,Actualizado con éxito!
+Please Enter Proper Account Length.,Ingrese la longitud adecuada de la cuenta.
+Bulk customer generate successfully!,¡Generación de clientes a granel con éxito!
+Recharge successfully!,¡Recarga con éxito!
+Post charge applied successfully.,El cargo posterior se aplicó correctamente.
+Account callerID updated successfully!,El identificador de llamadas de la cuenta se actualizó correctamente.
+Account callerID added successfully!,El identificador de llamadas de la cuenta se agregó correctamente.
+Reseller updated successfully!,¡Distribuidor actualizado correctamente!
+Reseller added successfully!,¡Revendedor agregado exitosamente!
+Updated successfully!,¡Actualizado con éxito!
 Added Successfully!,¡Agregado exitosamente!
-Customer batch updated successfully!,Lote de clientes actualizado con éxito!
-Reseller batch updated successfully!,Revendedor lote actualizado con éxito!
-Customer Removed Successfully!,¡Cliente eliminado exitosamente!
-Reseller Removed Successfully!,Revendedor eliminado con éxito!
-Provider Removed Successfully!,Proveedor eliminado con éxito!
-Admin Removed Successfully!,Admin eliminado con éxito!
-Sub Admin Removed Successfully!,Subadministración eliminado con éxito!
-DID Added Successfully.,DID añadido con éxito.
-DID Already Removed Before.,DID ya eliminado antes.
-Account Tax Added Successfully!,Impuesto sobre la cuenta añadido con éxito!
-Account Tax Removed Successfully!,Impuesto de la cuenta eliminado con éxito!
-Product Removed Sucessfully.,Producto eliminado con éxito.
-Email Resend Successfully!,Correo electrónico reenviar con éxito!
-Email List Updated Successfully!,Lista de correo electrónico actualizada con éxito!
-Email List Added Successfully!,Lista de correo electrónico añadido con éxito!
-Email Removed Successfully!,Correo electrónico eliminado con éxito!
+Customer batch updated successfully!,¡Lote de clientes actualizado correctamente!
+Reseller batch updated successfully!,¡Lote del revendedor actualizado correctamente!
+Customer Removed Successfully!,¡Cliente eliminado correctamente!
+Reseller Removed Successfully!,Revendedor eliminado correctamente.
+Provider Removed Successfully!,¡Proveedor eliminado correctamente!
+Admin Removed Successfully!,¡El administrador se eliminó correctamente!
+Sub Admin Removed Successfully!,¡El subadministrador se eliminó correctamente!
+DID Added Successfully.,DID agregado correctamente.
+DID Already Removed Before.,Ya se eliminó antes.
+Account Tax Added Successfully!,¡El impuesto a la cuenta se agregó correctamente!
+Account Tax Removed Successfully!,¡El impuesto de la cuenta se eliminó correctamente!
+Product Removed Sucessfully.,Producto eliminado correctamente.
+Email Resend Successfully!,¡Reenvío de correo electrónico con éxito!
+Email List Updated Successfully!,¡Lista de correo electrónico actualizada con éxito!
+Email List Added Successfully!,¡Lista de correo electrónico agregada con éxito!
+Email Removed Successfully!,¡Correo electrónico eliminado correctamente!
 Please Try Again!,¡Inténtalo de nuevo!
-Email BroadCast Successfully!,Correo electrónico BroadCast con éxito!
+Email BroadCast Successfully!,¡Envíe un correo electrónico a BroadCast con éxito!
 No Record Found!,¡Ningún record fue encontrado!
 Email Address Not Found!,¡Dirección de correo electrónico no encontrado!
 Edit Freeswitch SIP Devices,Editar dispositivos SIP Freeswitch
 Create Freeswitch SIP Devices,Crear dispositivos SIP Freeswitch
 Gateway Updated Successfully!,Gateway actualizado con éxito!
-Gateways already exist in system.,Las puertas de enlace ya existen en el sistema.
+Gateways already exist in system.,Las puertas de enlace ya existen en system.
 Gateway name must not have any space.,El nombre de la puerta de enlace no debe tener ningún espacio.
-Gateway Added Successfully!,Gateway Añadido con éxito!
-Gateway Removed Successfully!,Puerta de enlace eliminado con éxito!
-Please enter All profile value!,Por favor ingrese Todo el valor del perfil!
-SIP Profile name must not have any space!,¡El nombre del perfil SIP no debe tener espacio!
-Duplicate SIP IP OR Port found it must be unique!,Duplique SIP IP O el Puerto encontró que debe ser único!
-SIP Profile Added Successfully!,Perfil SIP Añadido con éxito!
+Gateway Added Successfully!,¡Gateway se agregó con éxito!
+Gateway Removed Successfully!,¡Puerta de enlace eliminada con éxito!
+Please enter All profile value!,"Por favor, ingrese el valor de todos los perfiles."
+SIP Profile name must not have any space!,¡El nombre del perfil SIP no debe tener ningún espacio!
+Duplicate SIP IP OR Port found it must be unique!,"IP SIP duplicada o puerto encontrado, debe ser único."
+SIP Profile Added Successfully!,¡Perfil SIP agregado exitosamente!
 Name must be unique!,¡El nombre debe ser único!
-SIP Profile Updated Successfully!,Perfil SIP actualizado con éxito!
-SIP Setting Added Successfully!,Configuración SIP añadido con éxito!
-SIP Setting Updated Successfully!,Configuración SIP actualizada con éxito!
-SIP Setting Removed Successfully!,Configuración SIP eliminado con éxito!
-SIP Profile Removed Successfully!,Perfil SIP eliminado con éxito!
+SIP Profile Updated Successfully!,¡Perfil SIP actualizado con éxito!
+SIP Setting Added Successfully!,¡La configuración SIP se agregó correctamente!
+SIP Setting Updated Successfully!,¡Configuración SIP actualizada con éxito!
+SIP Setting Removed Successfully!,¡La configuración SIP se eliminó correctamente!
+SIP Profile Removed Successfully!,¡Perfil SIP eliminado con éxito!
 Host Already Exist in System.,El host ya existe en el sistema.
-Freeswitch Server Updated Successfully!,Freeswitch Server actualizado con éxito!
-Freeswitch Server Added Successfully!,Freeswitch Server ha añadido con éxito!
-Freeswitch Server Removed Successfully!,Freeswitch Server eliminado con éxito!
-Invoice updated successfully!,Factura actualizada con éxito!
-Invoice payment done successfully!,Pago de facturas realizado con éxito!
+Freeswitch Server Updated Successfully!,¡Servidor Freeswitch actualizado con éxito!
+Freeswitch Server Added Successfully!,¡Servidor Freeswitch agregado exitosamente!
+Freeswitch Server Removed Successfully!,¡Servidor Freeswitch eliminado con éxito!
+Invoice updated successfully!,Factura actualizada correctamente!
+Invoice payment done successfully!,Pago de la factura realizado correctamente.
 Account Not Found.,Cuenta no encontrada.
 Invoice payment amount should be higher then the invoice amount.,El monto del pago de la factura debe ser mayor que el monto de la factura.
-The Favicon file size shoud not exceed 1MB!,¡El tamaño del archivo Favicon no debe exceder 1MB!
-Please upload 250 * 60 size file,Por favor suba un archivo de tamaño 250 * 60
-Logo only allows file types of JPG and JPEG.,Logo solo permite tipos de archivos de JPG y JPEG.
+The Favicon file size shoud not exceed 1MB!,¡El tamaño del archivo Favicon no debe exceder 1 MB!
+Please upload 250 * 60 size file,Sube un archivo de tamaño 250 * 60
+Logo only allows file types of JPG and JPEG.,El logotipo solo permite tipos de archivo de JPG y JPEG.
 "Favicon only allows file types of ICO, PNG, JPG and JPEG.","Favicon solo permite tipos de archivos de ICO, PNG, JPG y JPEG."
-Please upload 16 * 16 size of favicon.,"Por favor, cargue 16 * 16 tamaño de favicon."
-Company profile updated sucessfully!,Perfil de la empresa actualizado con éxito!
-Company profile added sucessfully!,Perfil de la empresa añadido con éxito!
+Please upload 16 * 16 size of favicon.,Sube 16 * 16 tamaño de favicon.
+Company profile updated sucessfully!,¡Perfil de la empresa actualizado con éxito!
+Company profile added sucessfully!,¡El perfil de la empresa se agregó con éxito!
 Permission Denied.,Permiso denegado.
 is Deleted Sucessfully!,se elimina con éxito!
 To date should not be greater than current date.,Hasta la fecha no debe ser mayor que la fecha actual.
-Invoice generation completed.,Generación de facturas completada.
+Invoice generation completed.,Se completó la generación de facturas.
 No data found,Datos no encontrados
 Invoices removed successfully,Facturas eliminadas con éxito
 The Prefix field must contain a unique value.,El campo Prefijo debe contener un valor único.
 The IP field must contain a unique value.,El campo IP debe contener un valor único.
-IP Map added successfully!,Mapa de IP añadido con éxito!
-IP Map removed successfully!,Mapa de IP eliminado con éxito!
-Localization Added Successfully!,Localización agregada con éxito!
-Localization Updated Successfully!,Localización actualizada con éxito!
-Localization Removed Successfully!,Localización eliminada con éxito!
-Globalization is already exist in this system,La globalización ya existe en este sistema.
-Dispatcher Updated Successfully!,Despachador actualizado con éxito!
-Dispatcher Added Successfully!,Despachador añadido con éxito!
-Dispatcher Removed Successfully!,Despachador eliminado con éxito!
-Code is already in system,El código ya está en el sistema.
-Country is already in system,El país ya está en el sistema.
-Ratedeck updated successfully!,Ratedeck actualizado con éxito!
-Ratedeck added successfully!,Ratedeck ha añadido con éxito!
-Ratedeck removed successfully!,Ratedeck eliminado con éxito!
-"Code,Destination,Province/State,City,Status","Código, Destino, Provincia / Estado, Ciudad, Estado"
-Duplicate Ratedeck Number found from import file.,Número duplicado de Ratedeck encontrado en el archivo de importación.
-Ratedeck Imported Successfully!,Ratedeck importado con éxito!
+IP Map added successfully!,¡Mapa IP agregado exitosamente!
+IP Map removed successfully!,¡Mapa IP eliminado con éxito!
+Localization Added Successfully!,¡La localización se agregó correctamente!
+Localization Updated Successfully!,¡Localización actualizada con éxito!
+Localization Removed Successfully!,¡La localización se eliminó correctamente!
+Globalization is already exist in this system,La globalización ya existe en este sistema
+Dispatcher Updated Successfully!,Dispatcher actualizado correctamente!
+Dispatcher Added Successfully!,Despachador agregado exitosamente!
+Dispatcher Removed Successfully!,Despachador eliminado correctamente!
+Code is already in system,El código ya está en el sistema
+Country is already in system,El país ya está en el sistema
+Ratedeck updated successfully!,¡Ratedeck actualizado correctamente!
+Ratedeck added successfully!,¡Ratedeck añadido correctamente!
+Ratedeck removed successfully!,¡Ratedeck eliminado correctamente!
+Duplicate Ratedeck Number found from import file.,Número de Ratedeck duplicado encontrado en el archivo de importación.
+Ratedeck Imported Successfully!,¡Ratedeck se importó correctamente!
 Ratedeck Import Error,Error de importación de Ratedeck
-Back to Ratedeck List,Volver a la lista de Ratedeck
-Origination Rate Imported Successfully!,Tasa de originación importada con éxito!
-Origination Rate Updated Successfully!,Tasa de originación actualizada con éxito!
-Origination Rate Added Successfully!,Índice de originación añadido con éxito!
-Termination Rates Batch Updated Successfully!,Tasas de terminación de lote actualizado con éxito!
-Map CSV to Termination Rates,Mapa CSV a las tasas de terminación
+Back to Ratedeck List,Volver a la lista Ratedeck
+Origination Rate Imported Successfully!,¡Tasa de originación importada correctamente!
+Origination Rate Updated Successfully!,¡Tasa de originación actualizada con éxito!
+Origination Rate Added Successfully!,¡Tasa de originación agregada con éxito!
+Termination Rates Batch Updated Successfully!,¡Lote de tarifas de terminación actualizado con éxito!
+Map CSV to Termination Rates,Asignar CSV a tarifas de terminación
 Data Example,Ejemplo de datos
 Map to Field,Mapa al campo
-PREFIX/DEFAULT VALUE,PREFIX / VALOR POR DEFECTO
+PREFIX/DEFAULT VALUE,PREFIJO / VALOR POR DEFECTO
 ASTPP Field,Campo ASTPP
 Created,Creado
 Modified,Modificado
 You can not create,No puedes crear
-Refill coupon with,Rellene el cupón con
+Refill coupon with,Recargar cupón con
 You can create maximum,Puedes crear el máximo
-Refill coupon created successfully!,Recarga el cupón creado con éxito!
-Currency Added Successfully!,Moneda añadida con éxito!
-Currency Removed Successfully!,Moneda eliminada con éxito!
-Backup Exported Successfully!,Copia de seguridad exportada con éxito!
-An error occur when the system tried to backup of the database. Please check yours system settings for the backup section,"Se produce un error cuando el sistema intenta realizar una copia de seguridad de la base de datos. Por favor, revise la configuración de su sistema para la sección de copia de seguridad"
-Database Restore successfully.,Restauración de la base de datos con éxito.
+Refill coupon created successfully!,¡Cupón de recarga creado con éxito!
+Currency Added Successfully!,¡Moneda agregada con éxito!
+Currency Removed Successfully!,¡Moneda eliminada con éxito!
+Backup Exported Successfully!,¡La copia de seguridad se exportó correctamente!
+An error occur when the system tried to backup of the database. Please check yours system settings for the backup section,Se produjo un error cuando el sistema intentó realizar una copia de seguridad de la base de datos. Verifique la configuración de su sistema para la sección de respaldo
+Database Restore successfully.,Restaurar la base de datos correctamente.
 File not exists!,¡El archivo no existe!
 There is a some issue or invalid file format.,Hay un problema o un formato de archivo no válido.
-Database backup deleted successfully.,Copia de seguridad de la base de datos eliminada con éxito.
+Database backup deleted successfully.,La copia de seguridad de la base de datos se eliminó correctamente.
 Languages updated successfully!,Idiomas actualizados con éxito!
-Languages removed successfully!,Idiomas eliminados con éxito!
-Languages added successfully!,Idiomas añadidos con éxito!
-Translation updated successfully!,Traducción actualizada con éxito!
-Translation added successfully!,Traducción agregada con éxito!
+Languages removed successfully!,¡Idiomas eliminados correctamente!
+Languages added successfully!,¡Idiomas agregados con éxito!
+Translation updated successfully!,¡Traducción actualizada correctamente!
+Translation added successfully!,¡La traducción se agregó correctamente!
 Update Languages,Actualizar idiomas
 Speed Dial,De marcación rápida
 Payment,Pago
 Method,Método
-"Once you confirm the invoice, you will no longer able to update it again.","Una vez que confirme la factura, no podrá volver a actualizarla."
+"Once you confirm the invoice, you will no longer able to update it again.","Una vez que confirme la factura, ya no podrá actualizarla nuevamente."
 Payment Gateway Permission,Permiso de pasarela de pago
 Zip Code,Código postal
-Yes,Sí
-Back,Espalda
-Edit Reseller,Edit Reseller
-Asignar DID a granel,Asignar DID un granel
-DIDs Search,Búsqueda de DIDs
+Yes,sí
+Back,atrás
+Edit Reseller,Editar distribuidor
+Asignar DID a granel,Asignar HIZO un granel
+DIDs Search,Búsqueda de DID
 By Month,Por mes
-Create Gateway,Crear Gateway
-Calling Card Language,Idioma de la tarjeta telefónica
+Create Gateway,Crear puerta de enlace
+Calling Card Language,Idioma de la tarjeta de llamada
 Last,Último
 Pay Date,Fecha de pago
 Purchase DID,Compra DID
 Caller-ID-A-Form,Caller-ID-A-Form
-Expire Seconds,Caducan segundos
+Expire Seconds,Caducar segundos
 Termination Date,Fecha de conclusión
 Registration Date,Fecha de Registro
 Payment By,Pago por
@@ -1036,111 +1028,111 @@ Month,Mes
 Year,Año
 List,Lista
 Edit,Editar
-Not Avaialable any Subscription.,No disponible ninguna suscripción.
-Not Avaialable any Package for this Country.,No disponible ningún paquete para este país.
-You can only transfer fund in same level account.,Solo puede transferir fondos en la cuenta del mismo nivel.
+Not Avaialable any Subscription.,No está disponible ninguna suscripción.
+Not Avaialable any Package for this Country.,No está disponible ningún paquete para este país.
+You can only transfer fund in same level account.,Solo puede transferir fondos en una cuenta del mismo nivel.
 You can not transfer fund in same account.,No puede transferir fondos en la misma cuenta.
 Monthly Fee,Cuota mensual
-Bulk DID Assign,Asignar DID a granel
-Invoice Start From,Inicio de factura desde
+Bulk DID Assign,Asignación DID masiva
+Invoice Start From,Factura desde
 Edit Gateway,Editar puerta de enlace
 Number Of Default Rows,Número de filas predeterminadas
 Mobile Dialer,Marcador móvil
-Trunk Count,Cuenta de tronco
+Trunk Count,Recuento de troncos
 Welcome File,Archivo de bienvenida
-Local Call Timeout (Sec.),Tiempo de espera de llamada local (Sec.)
+Local Call Timeout (Sec.),Tiempo de espera de llamada local (seg.)
 Rate check for DID,Verificación de tarifas para DID
 DID Localization,Localización DID
 Voicemail Number,Número del Correo de voz
-OTP Expire Time(min),Tiempo de caducidad OTP (min)
-Edit Provider,Proveedor de edición
-Product Summary Reports,Informes de resumen de producto
+OTP Expire Time(min),Tiempo de expiración de OTP (min)
+Edit Provider,Editar proveedor
+Product Summary Reports,Informes resumidos de productos
 Edit Origination Rate,Editar tasa de originación
-Dialplan Variable,Variable dialplan
+Dialplan Variable,Variable del plan de marcado
 Uninstall,Desinstalar
-Call Stat,Call Stat
+Call Stat,Estadísticas de llamadas
 Failed Calls,Llamadas fallidas
-Top 10 Countries,Top 10 países
-By Minutes,Por minutos
+Top 10 Countries,10 países principales
+By Minutes,Por Minutos
 By Calls,Por llamadas
 Telephone number is only numeric,El número de teléfono es solo numérico
-Please enter valid Captcha code,Por favor ingrese un código Captcha válido
-Please contact to administrator,Póngase en contacto con el administrador
-Requested email is already exist,El email solicitado ya existe
+Please enter valid Captcha code,Ingrese un código Captcha válido
+Please contact to administrator,Comuníquese con el administrador
+Requested email is already exist,El correo electrónico solicitado ya existe
 Requested number is already exist,El número solicitado ya existe
-Please enter correct words!,Por favor ingrese las palabras correctas!
+Please enter correct words!,¡Ingrese las palabras correctas!
 THIS IS REQUIRED!,¡ESTO ES REQUERIDO!
-Your account has been deleted. Please contact administrator for more information.,"Tu cuenta ha sido eliminada. Por favor, póngase en contacto con el administrador para obtener más información."
-Your account is inactive. Please contact administrator for more information.,"Tu cuenta está inactiva. Por favor, póngase en contacto con el administrador para obtener más información."
-Please enter proper Email.,"Por favor, introduzca el correo electrónico adecuado."
-Please enter proper Username.,"Por favor, introduzca su nombre de usuario adecuado."
+Your account has been deleted. Please contact administrator for more information.,Tu cuenta ha sido eliminada. Comuníquese con el administrador para obtener más información.
+Your account is inactive. Please contact administrator for more information.,Tu cuenta está inactiva. Comuníquese con el administrador para obtener más información.
+Please enter proper Email.,Ingrese el correo electrónico adecuado.
+Please enter proper Username.,Ingrese el nombre de usuario adecuado.
 This Username or Email is not valid.,Este nombre de usuario o correo electrónico no es válido.
-ASTPP - A Smart TelePhony Platform,ASTPP - Una plataforma de telefonía inteligente
-Forgot Password,Se te olvidó tu contraseña
+ASTPP - A Smart TelePhony Platform,ASTPP: una plataforma de telefonía inteligente
+Forgot Password,Has olvidado tu contraseña
 ASTPP work best with JavaScript enabled,ASTPP funciona mejor con JavaScript habilitado
 Enter Your Password,Ingresa tu contraseña
-Confirm Password,Confirmar contraseña
+Confirm Password,confirmar Contraseña
 The Email field is Required,El campo de correo electrónico es obligatorio
-The Account Number field is Required,El campo Número de cuenta es obligatorio
+The Account Number field is Required,El campo Número de cuenta es obligatorio.
 Set Default Language,Establecer idioma predeterminado
 Please Re-login to get Impact of selected language.,Vuelva a iniciar sesión para obtener el impacto del idioma seleccionado.
 Default Language,Idioma predeterminado
 Signup now!,¡Regístrate ahora!
-Forgot Password?,¿Se te olvidó tu contraseña?
+Forgot Password?,¿Has olvidado tu contraseña?
 Sign in,Registrarse
 Username OR Email,Nombre de usuario o correo electrónico
 Username is Required,Se requiere nombre de usuario
 Password is Required,Se requiere contraseña
-"Please Check Your account is deleted or inactive from admin side, please contact to your administrator","Compruebe que su cuenta está eliminada o inactiva desde el lado del administrador, póngase en contacto con su administrador"
-Please do not use default or less secure password for your account!! You must change password from,"¡Por favor, no use una contraseña predeterminada o menos segura para su cuenta! Debes cambiar la contraseña de"
+"Please Check Your account is deleted or inactive from admin side, please contact to your administrator","Verifique que su cuenta esté eliminada o inactiva desde el lado del administrador, comuníquese con su administrador"
+Please do not use default or less secure password for your account!! You must change password from,¡No utilice una contraseña predeterminada o menos segura para su cuenta! Debe cambiar la contraseña de
 HERE,AQUÍ
-"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active","Inicio de sesión sin éxito. Asegúrese de haber introducido el nombre de usuario y la contraseña correctos, y de que su cuenta esté activa"
-Please enter Username/email and Password.,"Por favor, introduzca su nombre de usuario / correo electrónico y contraseña."
-Payment transaction invalid. Please contact Administrator.,"Transacción de pago no válida. Por favor, póngase en contacto con el administrador."
+"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active",Inicio de sesión fallido. Asegúrese de haber ingresado el nombre de usuario y la contraseña correctos y de que su cuenta esté activa
+Please enter Username/email and Password.,Ingrese el nombre de usuario / correo electrónico y la contraseña.
+Payment transaction invalid. Please contact Administrator.,Transacción de pago no válida. Comuníquese con el administrador.
 Log In,Iniciar sesión
 Please Enter Password,"Por favor, ingrese contraseña"
 "Password must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit","La contraseña debe tener al menos 8 caracteres y debe contener al menos una letra minúscula, una letra mayúscula y un dígito"
-Please Enter Confirm Password,"Por favor, introduzca la contraseña de confirmación"
-Confirm Password is not match,Confirmar contraseña no coincide
-We sent update password link.,Hemos enviado el enlace de actualización de contraseña.
+Please Enter Confirm Password,Por favor ingrese Confirmar contraseña
+Confirm Password is not match,Confirmar que la contraseña no coincide
+We sent update password link.,Enviamos un enlace para actualizar la contraseña.
 Please check your Email!,¡Por favor revise su correo electrónico!
-Login,Iniciar sesión
+Login,Acceso
 OTP Verification,Verificación OTP
 OTP Number is Required,Se requiere el número de OTP
-Your account created successfully and account details sent to your registered email address,Su cuenta se creó correctamente y los detalles de la cuenta se enviaron a su dirección de correo electrónico registrada.
-Your password change successfully and new password sent to your registered email address,Su contraseña se modificó correctamente y la nueva contraseña se envió a su dirección de correo electrónico registrada
-OTP Number is Wrong Please try again Or OTP expire Please Resend,El número de OTP es incorrecto. Inténtelo de nuevo. O OTP caducará. Vuelva a enviar.
-OTP has been sent on your email or Telephone number,OTP ha sido enviado en su correo electrónico o número de teléfono
+Your account created successfully and account details sent to your registered email address,Su cuenta se creó con éxito y los detalles de la cuenta se enviaron a su dirección de correo electrónico registrada
+Your password change successfully and new password sent to your registered email address,Su contraseña cambió correctamente y se envió una nueva contraseña a su dirección de correo electrónico registrada
+OTP Number is Wrong Please try again Or OTP expire Please Resend,"El número de OTP es incorrecto. Vuelva a intentarlo. O bien, OTP caducará. Vuelva a enviar."
+OTP has been sent on your email or Telephone number,OTP se ha enviado a su correo electrónico o número de teléfono
 OTP,OTP
 Resend OTP,Reenviar OTP
-OTP Sent time Out,OTP Tiempo de espera enviado
-Not Get OTP ?,No obtener OTP?
+OTP Sent time Out,Tiempo de espera de envío de OTP
+Not Get OTP ?,¿No obtienes OTP?
 Note:,Nota:
-Please make sure do not refresh the page or don't go back,"Por favor, asegúrese de no actualizar la página o no volver"
-"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.","Inicio de sesión sin éxito. Asegúrese de haber introducido el nombre de usuario y la contraseña correctos, y de que su cuenta esté activa."
+Please make sure do not refresh the page or don't go back,Asegúrese de no actualizar la página o no retroceder
+"Login unsuccessful. Please make sure you entered the correct username and password, and that your account is active.",Inicio de sesión fallido. Asegúrese de haber ingresado el nombre de usuario y la contraseña correctos y de que su cuenta esté activa.
 Your account has been created successfully!,¡Su cuenta ha sido creada con éxito!
 Here is your login information,Aquí está su información de inicio de sesión
-Link is Expire Please Try Again,"Link is Expire Por favor, inténtalo de nuevo"
-"Sorry, we cannot process for singup at this time.","Lo sentimos, no podemos procesar para singup en este momento."
-Please contact administrator for more information,"Por favor, póngase en contacto con el administrador para obtener más información."
+Link is Expire Please Try Again,El enlace caducó. Inténtelo de nuevo.
+"Sorry, we cannot process for singup at this time.","Lo sentimos, no podemos procesar la inscripción en este momento."
+Please contact administrator for more information,Comuníquese con el administrador para obtener más información.
 Successful!,¡Exitoso!
-Captcha is required,Se requiere Captcha
+Captcha is required,Se requiere captcha
 First Name is Required,Se requiere el primer nombre
-Telephone is Required,Se requiere telefono
+Telephone is Required,Se requiere teléfono
 Email is Required,Correo electronico es requerido
 Please enter a valid email address,"Por favor, introduce una dirección de correo electrónico válida"
-"Please make sure you entered the correct username and password, and that your account is active.","Asegúrese de haber introducido el nombre de usuario y la contraseña correctos, y de que su cuenta esté activa."
+"Please make sure you entered the correct username and password, and that your account is active.",Asegúrese de haber ingresado el nombre de usuario y la contraseña correctos y de que su cuenta esté activa.
 Company Name,nombre de empresa
 Enter above Captcha,Ingrese arriba Captcha
-Sign up,Regístrate
+Sign up,Inscribirse
 Already Registered !,Ya registrado !
 January,enero
 February,febrero
-March,marzo
+March,marcha
 April,abril
 May,Mayo
 June,junio
-July,julio
+July,mes de julio
 August,agosto
 September,septiembre
 October,octubre
@@ -1150,14 +1142,14 @@ Doesn't Contain,No contiene
 Greater Than,Mas grande que
 Less Than,Menos que
 Greater Or Equal Than,Mayor o igual que
-Less Or Equal Than,Menos o igual que
+Less Or Equal Than,Menor o igual que
 Set To,Ajustado a
 Increase By,Aumentado por
 Decrease By,Disminuir por
 Community,Comunidad
 You must either select a field from your file OR provide a default value for the following fields:,Debe seleccionar un campo de su archivo O proporcionar un valor predeterminado para los siguientes campos:
-Note : Records with duplicate account number and email will be ignored.,Nota: Los registros con número de cuenta y correo electrónico duplicados serán ignorados.
-Map CSV to Customers,Mapa CSV a Clientes
+Note : Records with duplicate account number and email will be ignored.,Nota: Se ignorarán los registros con número de cuenta y correo electrónico duplicados.
+Map CSV to Customers,Asignar CSV a los clientes
 Account Information,Información de la cuenta
 Select Account,Seleccionar cuenta
 DEFAULT VALUE,VALOR POR DEFECTO
@@ -1168,55 +1160,55 @@ Same as Password,Igual que la contraseña
 Same as Account Number,Igual que el número de cuenta
 Random,Aleatorio
 Import File Data.,Importar datos de archivo.
-Process Records,Procesar Registros
-Note : Duplicate accounts with account number / email are ignored.,Nota: las cuentas duplicadas con número de cuenta / correo electrónico se ignoran.
-Remove,retirar
-Number of Account,Numero de cuenta
+Process Records,Registros de proceso
+Note : Duplicate accounts with account number / email are ignored.,Nota: Se ignoran las cuentas duplicadas con número de cuenta / correo electrónico.
+Remove,Eliminar
+Number of Account,Número de cuenta
 Account Number Length,Longitud del número de cuenta
-"DID (CLI Match, If not matched then use random allocated DID)","DID (coincidencia de CLI, si no coincide, use DID asignado al azar)"
-"Caller Id (CLI Match, If not matched then use random allocated Caller Id)","Identificador de llamadas (coincidencia de CLI, si no coincide, utilice el identificador de llamadas asignado al azar)"
-Use NON-CLI Rate Group (If CLI not match with DID),Use un grupo de tarifas que no sean de CLI (si la CLI no coincide con DID)
-Use NON-CLI Rate Group (If CLI not match with Caller ID),Use un grupo de tarifas que no sean de CLI (si la CLI no coincide con el identificador de llamadas)
-Use NON-CLI Rate Group (If CLI not match with DID & Caller id),Use un grupo de tarifas que no sean de CLI (si la CLI no coincide con DID y el identificador de llamadas)
+"DID (CLI Match, If not matched then use random allocated DID)","DID (CLI Match, si no coincide, utilice DID asignado al azar)"
+"Caller Id (CLI Match, If not matched then use random allocated Caller Id)","Identificador de llamadas (CLI Match, si no coincide, utilice el identificador de llamadas asignado al azar)"
+Use NON-CLI Rate Group (If CLI not match with DID),Utilice el grupo de tarifas NON-CLI (si CLI no coincide con DID)
+Use NON-CLI Rate Group (If CLI not match with Caller ID),Use el grupo de tarifas NO CLI (si CLI no coincide con el identificador de llamadas)
+Use NON-CLI Rate Group (If CLI not match with DID & Caller id),Use el grupo de tarifas NO CLI (si CLI no coincide con DID y el identificador de llamadas)
 Reject Call (If CLI not match with DID),Rechazar llamada (si CLI no coincide con DID)
-Reject Call (If CLI not match with Caller ID),Rechazar llamada (si la CLI no coincide con el identificador de llamadas)
-Reject Call (If CLI not match with DID & Caller id),Rechazar llamada (si la CLI no coincide con DID e identificador de llamadas)
---Select--,--Seleccionar--
+Reject Call (If CLI not match with Caller ID),Rechazar llamada (si CLI no coincide con el identificador de llamadas)
+Reject Call (If CLI not match with DID & Caller id),Rechazar llamada (si CLI no coincide con DID y el identificador de llamadas)
+--Select--,--Seleccione--
 Test Mail,Correo de prueba
 Reset Password,Restablecer la contraseña
 AFGHANISTAN,AFGANISTÁN
-ALBANIA,Albania
+ALBANIA,ALBANIA
 ALGERIA,ARGELIA
 AMERICAN SAMOA,SAMOA AMERICANA
-ANDORRA,Andorra
-ANGOLA,Angola
-ANGUILLA,Anguila
+ANDORRA,ANDORRA
+ANGOLA,ANGOLA
+ANGUILLA,ANGUILA
 ANTIGUA & BARBUDA,ANTIGUA Y BARBUDA
 ARGENTINA,ARGENTINA
 ARMENIA,ARMENIA
-ARUBA,Aruba
+ARUBA,ARUBA
 AUSTRALIA,AUSTRALIA
 AUSTRIA,AUSTRIA
-AZERBAIJAN,AZERBAIYAN
+AZERBAIJAN,AZERBAIYÁN
 BAHAMAS,BAHAMAS
 BAHRAIN,BAHREIN
 BANGLADESH,BANGLADESH
 BARBADOS,BARBADOS
-BELARUS,BELARUS
+BELARUS,BIELORRUSIA
 BELGIUM,BÉLGICA
-BELIZE,Belice
-BENIN,Benin
+BELIZE,BELICE
+BENIN,BENIN
 BERMUDA,ISLAS BERMUDAS
-BHUTAN,BUTAN
+BHUTAN,Bután
 BOLIVIA,BOLIVIA
 BOSNIA AND HERZEGOVINA,BOSNIA Y HERZEGOVINA
 BOTSWANA,BOTSWANA
 BRAZIL,BRASIL
 BRITISH VIRGIN ISLANDS,ISLAS VIRGENES BRITANICAS
-BRUNEI,Bruni
+BRUNEI,BRUNEI
 BULGARIA,BULGARIA
 BURKINA FASO,BURKINA FASO
-BURUNDI,Burundi
+BURUNDI,BURUNDI
 CAMBODIA,CAMBOYA
 CAMEROON,CAMERÚN
 CANADA,CANADÁ
@@ -1225,15 +1217,15 @@ CAYMAN ISLANDS,ISLAS CAIMÁN
 CENTRAL AFRICAN REPUBLIC,REPÚBLICA CENTROAFRICANA
 CHAD,CHAD
 CHILE,CHILE
-CHINA,CHINA
+CHINA,PORCELANA
 COLOMBIA,COLOMBIA
-COMOROS,Comores
+COMOROS,COMOROS
 CONGO,CONGO
 COSTA RICA,COSTA RICA
 CROATIA,CROACIA
 CUBA,CUBA
 CYPRUS,CHIPRE
-CZECH REPUBLIC,REPUBLICA CHECA
+CZECH REPUBLIC,REPÚBLICA CHECA
 DEMOCRATIC REPUBLIC,REPÚBLICA DEMOCRÁTICA
 DENMARK,DINAMARCA
 DJIBOUTI,DJIBOUTI
@@ -1246,11 +1238,11 @@ EQUATORIAL GUINEA,GUINEA ECUATORIAL
 ERITREA,ERITREA
 ERITREA,ERITREA
 ETHIOPIA,ETIOPÍA
-FAEROE ISLANDS,Islas feroces
+FAEROE ISLANDS,ISLAS FAEROE
 FIJI ISLANDS,ISLAS FIJI
 FINLAND,FINLANDIA
 FRANCE,FRANCIA
-FRENCH GUIANA,GUIANA FRANCESA
+FRENCH GUIANA,GUAYANA FRANCESA
 FRENCH POLYNESIA,POLINESIA FRANCÉS
 GABON,GABÓN
 GAMBIA,GAMBIA
@@ -1260,7 +1252,7 @@ GHANA,GHANA
 GIBRALTAR,GIBRALTAR
 GREECE,GRECIA
 GRENADA,GRANADA
-GUADELOUPE,Guadalupe
+GUADELOUPE,GUADELOUPE
 GUAM,GUAM
 GUATEMALA,GUATEMALA
 GUINEA,GUINEA
@@ -1273,7 +1265,7 @@ HUNGARY,HUNGRÍA
 ICELAND,ISLANDIA
 INDIA,INDIA
 INDONESIA,INDONESIA
-IRAN,CORRÍ
+IRAN,Irán
 IRAQ,IRAK
 IRELAND,IRLANDA
 ISRAEL,ISRAEL
@@ -1286,7 +1278,7 @@ KAZAKHSTAN,KAZAJSTÁN
 KENYA,KENIA
 KOSOVO,KOSOVO
 KUWAIT,KUWAIT
-KYRGYZSTAN,KYRGYZSTAN
+KYRGYZSTAN,Kirguistán
 LAOS,LAOS
 LATVIA,Letonia
 LEBANON,LÍBANO
@@ -1295,24 +1287,24 @@ LIBERIA,LIBERIA
 LIBYA,LIBIA
 LIECHTENSTEIN,LIECHTENSTEIN
 LITHUANIA,LITUANIA
-LUXEMBOURG,Luxemburgo
-MACAU,MACAU
+LUXEMBOURG,LUXEMBURGO
+MACAU,MACAO
 MACEDONIA,MACEDONIA
 MADAGASCAR,MADAGASCAR
 MALAWI,MALAWI
 MALAYSIA,MALASIA
-MALI,Mali
+MALI,Malí
 MALTA,MALTA
 MARSHALL ISLANDS,ISLAS MARSHALL
 MARTINIQUE,MARTINICA
 MAURITANIA,MAURITANIA
 MAURITIUS,MAURICIO
-MEXICO,Mexico
-MICRONESIA,Micronesia
+MEXICO,MÉXICO
+MICRONESIA,MICRONESIA
 MOLDOVA,MOLDOVA
 MONACO,MÓNACO
 MONGOLIA,MONGOLIA
-MONTENEGRO,Montenegro
+MONTENEGRO,MONTENEGRO
 MONTSERRAT,MONTSERRAT
 MOROCCO,MARRUECOS
 MOZAMBIQUE,MOZAMBIQUE
@@ -1346,8 +1338,8 @@ RWANDA,RUANDA
 SAN MARINO,SAN MARINO
 SAUDI ARABIA,ARABIA SAUDITA
 SENEGAL,SENEGAL
-SERBIA,Serbia
-SEYCHELLES ISLANDS,ISLAS DE SEYCHELLES
+SERBIA,SERBIA
+SEYCHELLES ISLANDS,ISLAS SEYCHELLES
 SIERRA LEONE,SIERRA LEONA
 SINGAPORE,SINGAPUR
 SLOVAKIA,ESLOVAQUIA
@@ -1361,23 +1353,23 @@ SRI LANKA,SRI LANKA
 ST. KITTS,S T. KITTS
 ST. LUCIA,S T. LUCIA
 ST. MARTIN,S T. MARTÍN
-ST. PIERRE & MIQUELON,S T. PIERRE & MIQUELON
-ST. VINCENT,S T. VINCENT
+ST. PIERRE & MIQUELON,S T. PIERRE Y MIQUELON
+ST. VINCENT,S T. VICENTE
 SUDAN,SUDÁN
 SURINAME,SURINAME
-SWAZILAND,SWAZILAND
+SWAZILAND,SUAZILANDIA
 SWEDEN,SUECIA
 SWITZERLAND,SUIZA
 SYRIA,SIRIA
-TAIWAN,TAIWAN
-TAJIKISTAN,Tayikistan
+TAIWAN,Taiwán
+TAJIKISTAN,TAJIKISTÁN
 TANZANIA,TANZANIA
 THAILAND,TAILANDIA
 TRINIDAD & TOBAGO,TRINIDAD Y TOBAGO
 TUNISIA,TÚNEZ
 TURKEY,PAVO
-TURKMENISTAN,Turkmenistán
-TURKS & CAICOS ISLANDS,ISLAS TURCAS & CAICOS
+TURKMENISTAN,TURKMENISTÁN
+TURKS & CAICOS ISLANDS,ISLAS TURCAS Y CAICOS
 UGANDA,UGANDA
 UKRAINE,UCRANIA
 UNITED ARAB EMIRATES,EMIRATOS ÁRABES UNIDOS
@@ -1385,7 +1377,7 @@ UNITED KINGDOM,REINO UNIDO
 URUGUAY,URUGUAY
 US VIRGIN ISLANDS,ISLAS VÍRGENES DE EE.UU
 United States,Estados Unidos
-UZBEKISTAN,UZBEKISTAN
+UZBEKISTAN,UZBEKISTÁN
 VENEZUELA,VENEZUELA
 VIETNAM,VIETNAM
 YEMEN,YEMEN
@@ -1395,7 +1387,7 @@ ASCENSION,ASCENSIÓN
 COOK ISLANDS,ISLAS COOK
 EAST TIMOR,TIMOR ORIENTAL
 FALKLAND ISLANDS,ISLAS MALVINAS
-GREENLAND,TIERRA VERDE
+GREENLAND,GROENLANDIA
 KIRIBATI,KIRIBATI
 MALDIVES,MALDIVAS
 NAURU,NAURU
@@ -1403,78 +1395,78 @@ Albanian Lek,Lek albanés
 Algerian Dinar,Dinar argelino
 Aluminium Ounces,Onzas de aluminio
 Argentine Peso,Peso argentino
-Aruba Florin,Aruba Florin
+Aruba Florin,Florín de Aruba
 Australian Dollar,Dólar australiano
-Bahamian Dollar,Dolar bahameño
-Bahraini Dinar,Dinar de Bahrein
+Bahamian Dollar,Dólar de las Bahamas
+Bahraini Dinar,Dinar bahreiní
 Bangladesh Taka,Bangladesh Taka
 Barbados Dollar,Dólar de Barbados
 Belarus Ruble,Rublo bielorruso
-Belize Dollar,Dólar de Belice
-Bermuda Dollar,Dólar de Bermudas
+Belize Dollar,Dólar beliceño
+Bermuda Dollar,Dólar de las Bermudas
 Bhutan Ngultrum,Bután Ngultrum
-Bolivian Boliviano,Boliviano boliviano
+Bolivian Boliviano,Boliviano de Bolivia
 Brazilian Real,Real brasileño
 British Pound,Libra británica
-Brunei Dollar,Dolar de brunei
+Brunei Dollar,Dólar de Brunei
 Bulgarian Lev,Lev búlgaro
-Burundi Franc,Franco burundi
+Burundi Franc,Franco de Burundi
 Cambodia Riel,Camboya Riel
 Canadian Dollar,Dolar canadiense
 Cayman Islands Dollar,Dólar de las Islas Caimán
 CFA Franc (BCEAO),Franco CFA (BCEAO)
 CFA Franc (BEAC),Franco CFA (BEAC)
 Chilean Peso,Peso chileno
-Chinese Yuan,Yuan Chino
+Chinese Yuan,Yuan chino
 Colombian Peso,Peso colombiano
-Comoros Franc,Comoras Franc
+Comoros Franc,Franco de las Comoras
 Copper Ounces,Onzas de cobre
-Costa Rica Colon,Colón costa rica
+Costa Rica Colon,Colón de Costa Rica
 Croatian Kuna,Kuna croata
 Cuban Peso,Peso cubano
 Cyprus Pound,Libra de Chipre
 Czech Koruna,Corona checa
 Danish Krone,Corona danesa
-Dijibouti Franc,Dijibouti Franco
+Dijibouti Franc,Franco Dijibouti
 Dominican Peso,Peso dominicano
 East Caribbean Dollar,Dólar del Caribe Oriental
 Ecuador Sucre,Ecuador Sucre
 Egyptian Pound,Libra egipcia
-El Salvador Colon,El salvador colon
+El Salvador Colon,El Salvador Colón
 Eritrea Nakfa,Eritrea Nakfa
 Estonian Kroon,Corona estonia
 Ethiopian Birr,Birr etíope
 Euro,Euro
 Falkland Islands Pound,Libra de las Islas Malvinas
-Gambian Dalasi,Dalasi Gambiano
+Gambian Dalasi,Dalasi de Gambia
 Ghanian Cedi,Ghanian Cedi
-Gibraltar Pound,Libra de Gibraltar
+Gibraltar Pound,Libra gibraltareña
 Gold Ounces,Onzas de oro
-Guatemala Quetzal,Quetzal guatemalteco
-Guinea Franc,Franco de guinea
+Guatemala Quetzal,Quetzal de Guatemala
+Guinea Franc,Franco de Guinea
 Haiti Gourde,Haití Gourde
-Honduras Lempira,Lempira hondureño
+Honduras Lempira,Honduras Lempira
 Hong Kong Dollar,Dolar de Hong Kong
-Hungarian ForINT,PINTADO Húngaro
-Iceland Krona,Corona de islandia
+Hungarian ForINT,ForINT húngaro
+Iceland Krona,Corona de Islandia
 Indian Rupee,Rupia india
 Indonesian Rupiah,Rupia indonesia
-Iran Rial,Rial iraní
-Israeli Shekel,Shekel israeli
-Jamaican Dollar,Dolar jamaicano
+Iran Rial,Irán Rial
+Israeli Shekel,Shekel israelí
+Jamaican Dollar,Dólar jamaiquino
 Japanese Yen,Yen japonés
 Jordanian Dinar,Dinar jordano
-Kazakhstan Tenge,Kazajstán Tenge
-Kenyan Shilling,Chelín de Kenia
+Kazakhstan Tenge,Tenge de Kazajstán
+Kenyan Shilling,Chelín keniano
 Korean Won,Coreano ganó
 Kuwaiti Dinar,Dinar kuwaití
 Lao Kip,Lao Kip
-Latvian Lat,Lat letón
+Latvian Lat,Lat de Letonia
 Lebanese Pound,Libra libanesa
-Lesotho Loti,Lesotho loti
+Lesotho Loti,Loti de Lesoto
 Libyan Dinar,Dinar libio
 Lithuanian Lita,Lita lituana
-Macau Pataca,Pataca De Macao
+Macau Pataca,Pataca de Macao
 Macedonian Denar,Denar macedonio
 Malagasy Franc,Franco malgache
 Malawi Kwacha,Malawi Kwacha
@@ -1482,15 +1474,15 @@ Malaysian Ringgit,Ringgit malayo
 Maldives Rufiyaa,Maldivas Rufiyaa
 Maltese Lira,Lira maltesa
 Mauritania Ougulya,Mauritania Ougulya
-Mauritius Rupee,Rupia de Mauricio
+Mauritius Rupee,Rupia mauriciana
 Mexican Peso,Peso mexicano
 Moldovan Leu,Leu moldavo
 Mongolian Tugrik,Tugrik mongol
 Moroccan Dirham,Dirham marroquí
 Mozambique Metical,Mozambique Metical
 Namibian Dollar,Dólar de Namibia
-Nepalese Rupee,Rupia nepalesa
-Neth Antilles Guilder,Guild Neth Antilles
+Nepalese Rupee,Rupia nepalí
+Neth Antilles Guilder,Florín de las Antillas Netas
 New Turkish Lira,Nueva lira turca
 New Zealand Dollar,Dolar de Nueva Zelanda
 Nicaragua Cordoba,Nicaragua Córdoba
@@ -1498,12 +1490,12 @@ Nigerian Naira,Naira nigeriana
 Norwegian Krone,Corona noruega
 Omani Rial,Rial omaní
 Pacific Franc,Franco pacífico
-Pakistani Rupee,Rupia paquistaní
+Pakistani Rupee,Rupia pakistaní
 Palladium Ounces,Onzas de paladio
-Panama Balboa,Balboa panameño
+Panama Balboa,Panamá Balboa
 Papua New Guinea Kina,Papua Nueva Guinea Kina
 Paraguayan Guarani,Guaraní paraguayo
-Peruvian Nuevo Sol,Nuevo Sol Peruano
+Peruvian Nuevo Sol,Nuevo sol peruano
 Philippine Peso,Peso filipino
 Platinum Ounces,Onzas de platino
 Polish Zloty,Zloty polaco
@@ -1514,118 +1506,118 @@ Russian Rouble,Rublo ruso
 Rwanda Franc,Franco ruandés
 Samoa Tala,Samoa Tala
 Sao Tome Dobra,Santo Tomé Dobra
-Saudi Arabian Riyal,Riyal saudí
+Saudi Arabian Riyal,Riyal de Arabia Saudita
 Seychelles Rupee,Rupia de Seychelles
 Sierra Leone Leone,Sierra Leona Leona
 Silver Ounces,Onzas de plata
 Singapore Dollar,Dolar de Singapur
-Slovak Koruna,Coronas eslovacas
+Slovak Koruna,Corona eslovaca
 Slovenian Tolar,Tolar esloveno
 Somali Shilling,Chelín somalí
 South African Rand,Rand sudafricano
 Sri Lanka Rupee,Rupia de Sri Lanka
-St Helena Pound,Libra de santa helena
+St Helena Pound,Libra de Santa Helena
 Sudanese Dinar,Dinar sudanés
-Surinam Guilder,Surinam Guilder
-Swaziland Lilageni,Suazilandia Lilageni
+Surinam Guilder,Florín de Surinam
+Swaziland Lilageni,Swazilandia Lilageni
 Swedish Krona,Corona sueca
 Swiss Franc,Franco suizo
 Syrian Pound,Libra siria
-Taiwan Dollar,Dólar de Taiwan
-Tanzanian Shilling,Chelín de tanzania
+Taiwan Dollar,Dólar taiwanés
+Tanzanian Shilling,Chelín de Tanzania
 Thai Baht,Baht tailandés
 Tonga Paanga,Tonga Paanga
 Trinidad&Tobago Dollar,Dólar de Trinidad y Tobago
 Tunisian Dinar,Dinar tunecino
 U.S. Dollar,Dólar estadounidense
-UAE Dirham,UAE Dirham
-Ugandan Shilling,Chelín de Uganda
+UAE Dirham,Dirham de los Emiratos Árabes Unidos
+Ugandan Shilling,Chelín ugandés
 Ukraine Hryvnia,Ucrania Hryvnia
-Uruguayan New Peso,Peso uruguayo
+Uruguayan New Peso,Peso uruguayo nuevo
 Vanuatu Vatu,Vanuatu Vatu
 Venezuelan Bolivar,Bolivar venezolano
 Vietnam Dong,Vietnam Dong
-Yemen Riyal,Rial de Yemen
+Yemen Riyal,Riyal de Yemen
 Zambian Kwacha,Kwacha de Zambia
-Zimbabwe Dollar,Dolar zimbabuense
+Zimbabwe Dollar,Dólar de Zimbabwe
 Guyana Dollar,Dólar de Guyana
-Aruban florin,Florín arubano
+Aruban florin,Florín de Aruba
 Armenian dram,Dram armenio
 Azerbaijani manat,Manat azerbaiyano
-Barbadian dollar,Dolar barbadense
-Bosnian Convertible Marka,Marka convertible bosnio
-Botswana pula,Pula de botsuana
+Barbadian dollar,Dólar de Barbados
+Bosnian Convertible Marka,Marco convertible bosnio
+Botswana pula,Pula de Botswana
 Cape Verdean escudo,Escudo caboverdiano
 Congolese franc,Franco congoleño
-Fijian Dollar,Dólar de Fiji
+Fijian Dollar,Dólar fiyiano
 CFP franc,Franco CFP
 Georgian lari,Lari georgiano
 Iraqi dinar,Dinar iraquí
-Kyrgyzstani som,Kyrgyzstani som
+Kyrgyzstani som,Som kirguís
 Liberian dollar,Dólar liberiano
 Malagasy ariary,Ariary malgache
 Burmese Kyat,Kyat birmano
-North Korean won,Corea del Norte ganó
+North Korean won,Won norcoreano
 nuevo sol,nuevo sol
 Serbian dinar,Dinar serbio
-South Korean won,Corea del sur ganó
-South Sudanese pound,Libra de sudán del sur
+South Korean won,Won surcoreano
+South Sudanese pound,Libra sursudanesa
 Sudanese pound,Libra sudanesa
-Surinamese dollar,Dolar surinamés
-Tajikistani samani,Samani tayiko
+Surinamese dollar,Dólar surinamés
+Tajikistani samani,Samani de Tayikistán
 Turkish lira,Lira turca
 Turkmenistan manat,Manat de Turkmenistán
 Pound sterling,Libra esterlina
-Uzbekistani soʻm,Uzbekistaní soʻm
-Saint Helena pound,Santa Helena libra
+Uzbekistani soʻm,Uzbekistán soʻm
+Saint Helena pound,Libra de santa elena
 Indian Rupees,Rupias indias
-CLI Pool,Piscina CLI
+CLI Pool,Grupo CLI
 Download,Descargar
-TRUE,Cierto
-FALSE,Falso
+TRUE,CIERTO
+FALSE,FALSO
 --Select Type--,--Seleccione tipo--
 One Time,Una vez
 Recurring,Periódico
-Recurring Monthly,Recurrente Mensual
-Outbound,De salida
+Recurring Monthly,Mensual recurrente
+Outbound,Saliente
 Default,Defecto
-Speed Dial Number Added Successfully,Número de marcación rápida agregado con éxito
-"Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.","¿Seguro que quieres confirmar esta factura? Una vez que lo confirme, no podrá editar la factura de nuevo."
-DIDs already purchased by someone.,DIDs ya comprados por alguien.
-DIDs Assigned sucessfully!,DIDs Asignado con éxito!
-Something wrong.Please contact to administrator.,"Algo mal. Por favor, póngase en contacto con el administrador."
-Duplicate DID found from database,DID duplicado encontrado de la base de datos
+Speed Dial Number Added Successfully,Número de marcación rápida agregado correctamente
+"Are you sure want to confirm this invoice ? once you confirm it, can not able to edit invoice again.","¿Está seguro de que desea confirmar esta factura? una vez que lo confirme, no podrá volver a editar la factura."
+DIDs already purchased by someone.,DID ya comprados por alguien.
+DIDs Assigned sucessfully!,¡DID asignados correctamente!
+Something wrong.Please contact to administrator.,"Algo va mal, por favor contacte al administrador."
+Duplicate DID found from database,DID duplicado encontrado en la base de datos
 Account have not sufficient amount to purchase this DID.,La cuenta no tiene cantidad suficiente para comprar este DID.
-Account not found or assign to invalid account,Cuenta no encontrada o asignar a cuenta inválida
-Duplicate DID found from import file.,DID duplicado encontrado desde el archivo de importación.
-DIDs Imported Successfully!,DIDs importados con éxito!
-Insuffiecient fund to purchase this DID.,Fondo insuficiente para la compra de este DID.
+Account not found or assign to invalid account,Cuenta no encontrada o asignada a una cuenta no válida
+Duplicate DID found from import file.,DID duplicado encontrado en el archivo de importación.
+DIDs Imported Successfully!,¡Los DID se importaron correctamente!
+Insuffiecient fund to purchase this DID.,Fondo insuficiente para comprar este DID.
 Balance Below Notification,Saldo por debajo de la notificación
 Edit SIP device,Editar dispositivo SIP
-Note : Page will display only receipts and confirmed invoices.,Nota: La página mostrará solo los recibos y las facturas confirmadas.
-Termination Rate Updated Successfully!,Tasa de terminación actualizada con éxito!
-Import Termination Rates Using Field Mapper,Importar tasas de terminación usando un Mapeador de campos
+Note : Page will display only receipts and confirmed invoices.,Nota: La página mostrará solo recibos y facturas confirmadas.
+Termination Rate Updated Successfully!,¡Tasa de terminación actualizada con éxito!
+Import Termination Rates Using Field Mapper,Importar tasas de terminación con Field Mapper
 Edit Roles & Permissions,Editar roles y permisos
 Create Roles & Permissions,Crear roles y permisos
-Edit Admin,Editar admin
-Pin Updated Successfully!.,Pin actualizado con éxito !.
+Edit Admin,Editar administrador
+Pin Updated Successfully!.,Pin actualizado correctamente.
 Create Termination Rate,Crear tasa de terminación
-Edit Company Profile,Editar perfil de la empresa
+Edit Company Profile,Editar perfil de empresa
 Website,Sitio web
 Generate Invoice for no usage,Generar factura sin uso
-Commission Repots,Comisión Repots
+Commission Repots,Informes de comisiones
 Top Up,Completar
-Purchase DIDs,Compra DIDs
+Purchase DIDs,Comprar DID
 Package,Paquete
-Setup,Preparar
-DID Purchased Successfully.,DID comprado con éxito.
+Setup,Configuración
+DID Purchased Successfully.,HIZO comprado correctamente.
 release,lanzamiento
-DID Batch Updated Successfully!,DID lote actualizado con éxito!
-DID forwading set sucessfully!,DID forwading set con éxito!
-Are you sure want to release DID?,¿Seguro que quieres liberar DID?
-Please select atleast one record,Por favor seleccione al menos un registro
+DID Batch Updated Successfully!,¡El lote se actualizó correctamente!
+DID forwading set sucessfully!,¡El reenvío se configuró con éxito!
+Are you sure want to release DID?,¿Seguro que quieres publicar DID?
+Please select atleast one record,Seleccione al menos un registro
 Account Balance,Saldo de la cuenta
-Next Bill Date,Fecha de la próxima factura
+Next Bill Date,Próxima fecha de facturación
 TOTAL AMOUNT,CANTIDAD TOTAL
 Invoice,Factura
 IP Address,Dirección IP
@@ -1635,105 +1627,105 @@ Recording,Grabación
 Rates,Tarifas
 Paid,Pagado
 No Records,No hay registros
-Please select from date,Por favor seleccione de la fecha
+Please select from date,Por favor seleccione desde la fecha
 Please select to date,Por favor seleccione hasta la fecha
-Please select to date bigger than from date,"Por favor, seleccione una fecha más grande que la fecha"
+Please select to date bigger than from date,Seleccione una fecha más grande que la fecha inicial
 Confirm,Confirmar
 Edit Country,Editar país
 Skip Header,Saltar encabezado
 Origination_rate_error,Origination_rate_error
 Termination_rate_error,Termination_rate_error
 Termination_Rates,Termination_Rates
-Origination_Rates,Origination_Rates
-refill_coupon,refill_coupon
-Edit Reseller,Edit Reseller
-Edit Calltype,Editar Calltype
+Origination_Rates,Tasas de origen
+refill_coupon,recarga_cupón
+Edit Reseller,Editar distribuidor
+Edit Calltype,Editar tipo de llamada
 updated successfully!,actualizado con éxito!
 added successfully!,¡agregado exitosamente!
-Invoice generation completed .,Generación de facturas completada.
+Invoice generation completed .,Se completó la generación de facturas.
 NOTE,NOTA
 No data found.,Datos no encontrados.
 Added successfully!,¡Agregado exitosamente!
-DID added successfully!,DID añadido con éxito!
-DID updated successfully!,DID actualizado con éxito!
-File must be in the following format(.csv):,El archivo debe estar en el siguiente formato (.csv):
+DID added successfully!,¡HIZO agregado exitosamente!
+DID updated successfully!,¡HIZO actualizado correctamente!
+File must be in the following format(.csv):,El archivo debe tener el siguiente formato (.csv):
 Process,Proceso
 DID Import Error,Error de importación DID
-Records Imported Successfully,Registros importados con éxito
+Records Imported Successfully,Registros importados correctamente
 Records Not Imported,Registros no importados
 Back to DID List,Volver a la lista DID
-DID Batch Updated Successfully!,DID lote actualizado con éxito!
-Accessnumber Added Successfully!,Número de acceso añadido con éxito!
+DID Batch Updated Successfully!,¡El lote se actualizó correctamente!
+Accessnumber Added Successfully!,¡Número de acceso añadido correctamente!
 Process,Proceso
-Accessnumber Import Error,Accessnumber Import Error
-DIDs Assigned sucessfully!,DIDs Asignado con éxito!
-Origination Rates Preview,Vista previa de las tasas de originación
-Origination Rates Import Error,Error de importación de tasas de originación
-Back to Origination Rates List,Volver a la lista de tasas de originación
-Origination Rates Batch Updated Successfully!,Tasas de originación de lote actualizado con éxito!
+Accessnumber Import Error,Error de importación de número de acceso
+DIDs Assigned sucessfully!,¡DID asignados correctamente!
+Origination Rates Preview,Vista previa de tasas de originación
+Origination Rates Import Error,Error de importación de tarifas de originación
+Back to Origination Rates List,Volver a la lista de tarifas de originación
+Origination Rates Batch Updated Successfully!,¡Lote de tasas de originación actualizado con éxito!
 Import Ratedeck Preview,Importar vista previa de Ratedeck
 CALLTYPE,TIPO DE LLAMADA
-Edit Calltype,Editar Calltype
-Outbound-Proxy,Proxy de salida
-Edit Trunk,Tronco de edición
-Termination Rate Added Successfully!,Tasa de terminación añadida con éxito!
+Edit Calltype,Editar tipo de llamada
+Outbound-Proxy,Proxy saliente
+Edit Trunk,Editar tronco
+Termination Rate Added Successfully!,¡Tasa de terminación agregada correctamente!
 Edit Termination Rate,Editar tasa de terminación
-Termination Rates Import Error,Error de importación de tasas de terminación
-Termination Rates Imported Successfully!,Tasas de terminación importadas con éxito!
-Back to Origination Rates List,Volver a la lista de tasas de originación
-Select,Seleccionar
-pattern,modelo
+Termination Rates Import Error,Error de importación de tarifas de terminación
+Termination Rates Imported Successfully!,¡Tarifas de terminación importadas con éxito!
+Back to Origination Rates List,Volver a la lista de tarifas de originación
+Select,Seleccione
+pattern,patrón
 comment,comentario
-connectcost,conector de conexión
-includedseconds,incluidos segundos
+connectcost,coste de conexión
+includedseconds,segundos incluidos
 init_inc,init_inc
-inc,Cía
+inc,C ª
 prepend,anteponer
-cost ,costo
-strip,tira
-DID added successfully!,DID añadido con éxito!
-DID updated successfully!,DID actualizado con éxito!
+cost,costo
+strip,banda
+DID added successfully!,¡HIZO agregado exitosamente!
+DID updated successfully!,¡HIZO actualizado correctamente!
 Country Name,Nombre del país
 PAID,PAGADO
 PENDING,PENDIENTE
 FAIL,FALLAR
-ORDER,ORDEN
+ORDER,PEDIDO
 payment method,método de pago
-Terminate Order,Terminar la orden
+Terminate Order,Terminar orden
 Compose Email,Escribir correo
 Message,Mensaje
 Send,Enviar
 SIP Port is Required.,Se requiere puerto SIP.
-Start,comienzo
+Start,Comienzo
 SIP Port is Required.,Se requiere puerto SIP.
-SIP IP is Required.,SIP IP es requerido.
+SIP IP is Required.,Se requiere SIP IP.
 Name is Required.,Se requiere el nombre.
-The SIP Port field is Required.,El campo Puerto SIP es obligatorio.
+The SIP Port field is Required.,El campo del puerto SIP es obligatorio.
 The SIP Port field must contain only numbers.,El campo Puerto SIP debe contener solo números.
-The SIP Port field can not exceed 5 characters in length.,El campo Puerto SIP no puede exceder los 5 caracteres de longitud.
+The SIP Port field can not exceed 5 characters in length.,El campo del puerto SIP no puede exceder los 5 caracteres de longitud.
 Value is Required.,Se requiere valor.
 Value,Valor
 Update Setting,Ajuste de actualización
-Add Setting,Añadir configuración
-Edit Freeswitch Server,Editar Freeswitch Server
+Add Setting,Agregar configuración
+Edit Freeswitch Server,Editar servidor de Freeswitch
 CUT,CORTAR
-ADD,AÑADIR
+ADD,AGREGAR
 Edit Localization,Editar localización
-Callbarring Settings Added Successfully!,Configuración de Callbarring añadido con éxito!
+Callbarring Settings Added Successfully!,¡La configuración de Callbarring se agregó correctamente!
 Edit Call Barring,Editar bloqueo de llamadas
-Callbarring Settings Updated Successfully!,Configuraciones de Callbarring actualizado con éxito!
+Callbarring Settings Updated Successfully!,¡La configuración de Callbarring se actualizó correctamente!
 The Name field is required.,El campo Nombre es obligatorio.
-Please select file.,Por favor seleccione el archivo.
-Database import allows only gzfile types of file.,Importación de base de datos permite sólo los tipos de archivo gz.
+Please select file.,Seleccione el archivo.
+Database import allows only gzfile types of file.,La importación de base de datos solo permite tipos de archivo gzfile.
 File must be in (.gz) format :,El archivo debe estar en formato (.gz):
 The Coupon Number field must contain only numbers.,El campo Número de cupón debe contener solo números.
 The Coupon Number field have inactive refill coupon.,El campo Número de cupón tiene un cupón de recarga inactivo.
 This Coupon Number is already in use.,Este número de cupón ya está en uso.
-This Coupon Number is not found.,Este número de cupón no se encuentra.
+This Coupon Number is not found.,No se encuentra este número de cupón.
 The Coupon Number field is required.,El campo Número de cupón es obligatorio.
 Select Customer.,Seleccione Cliente.
 Please enter your email,Por favor introduzca su correo electrónico
-Please enter proper email,Por favor ingrese el correo electrónico apropiado
+Please enter proper email,Ingrese el correo electrónico adecuado
 The Caller ID field is required.,El campo de identificación de llamadas es obligatorio.
 Please enter your password,"Por favor, introduzca su contraseña"
 Please enter your first name,"Por favor, introduzca su nombre de pila"
@@ -1742,13 +1734,13 @@ This field is require,Este campo es obligatorio
 The IP field must contain a unique value.,El campo IP debe contener un valor único.
 The Name field is required.,El campo Nombre es obligatorio.
 The IP field is required.,El campo IP es obligatorio.
-Please Enter Valid Account Number,Por favor ingrese un número de cuenta válido
+Please Enter Valid Account Number,Ingrese un número de cuenta válido
 Main,Principal
 --Select Disposition--,--Seleccione Disposición--
-Group By #time,Agrupar por # tiempo
+Group By #time,Agrupar por #tiempo
 Active User,Usuario activo
 Used Minutes,Minutos usados
-Available Minutes,Minutos Disponibles
+Available Minutes,Minutos disponibles
 Total Price,Precio total
 Total User,Usuario total
 Resend Mail,Reenviar correo
@@ -1760,26 +1752,594 @@ Edit Country,Editar país
 Download Database,Descargar base de datos
 Import Database,Importar base de datos
 File must be in (.gz) format,El archivo debe estar en formato (.gz)
- Please select file., Por favor seleccione el archivo.
-Please enter name and select file.,"Por favor, introduzca el nombre y seleccione el archivo."
-Edit Cron Settings,Editar configuración de Cron
-Global Settings updated sucessfully!,Configuración global actualizada con éxito!
+Please select file.,Seleccione el archivo.
+Please enter name and select file.,Ingrese el nombre y seleccione el archivo.
+Edit Cron Settings,Editar configuración de cron
+Global Settings updated sucessfully!,¡La configuración global se actualizó con éxito!
 Alert Notifications,Notificaciones de alerta
 Fraud Configuration,Configuración de fraude
-Configuration add,Configuración añadir
+Configuration Add,Agregar configuración
 Alarm Configuration,Configuración de alarma
-Please select atleast one pattern.,Por favor seleccione al menos un patrón.
-Problem In Add Patterns to account.,Problema en Añadir patrones a la cuenta.
+Please select atleast one pattern.,Seleccione al menos un patrón.
+Problem In Add Patterns to account.,Problema al agregar patrones a la cuenta.
 Blocked Codes,Códigos bloqueados
 The IP field must contain a unique value.,El campo IP debe contener un valor único.
 The IP field is required.,El campo IP es obligatorio.
 Please Enter Switch command,Por favor ingrese el comando Switch
-are you sure to delete?,¿estás seguro de eliminar?
-Are you sure want to confirm this invoice ? once you confirm it,¿Seguro que quieres confirmar esta factura? una vez que lo confirmes
-can not able to edit invoice again.,No se puede editar la factura de nuevo.
-Maximum Logo upload size is 1MB,El tamaño máximo de carga del logotipo es de 1 MB
-Profit per day,Ganancia por dia
-Please enter number,Por favor ingrese el número
-Import Customer,Importar Cliente
-Processing,Tratamiento
-please wait,por favor espera
+are you sure to delete?,¿Estás seguro de eliminar?
+Are you sure want to confirm this invoice ? once you confirm it,¿Está seguro de que desea confirmar esta factura? una vez que lo confirmes
+can not able to edit invoice again.,No se puede volver a editar la factura.
+Maximum Logo upload size is 1MB,El tamaño máximo de carga del logotipo es 1 MB
+Profit per day,Beneficio por dia
+Please enter number,Por favor ingrese el numero
+Import Customer,Importar cliente
+Processing,Procesando
+please wait,espere por favor
+Low Balance,Balance bajo
+Trunk Statistics,Estadísticas de troncales
+Current Balance,Saldo actual
+Europe/Andorra,Europa / Andorra
+Asia/Dubai,Asia / Dubai
+Asia/Kabul,Asia / Kabul
+America/Antigua,América / Antigua
+America/Anguilla,América / Anguila
+Europe/Tirane,Europa / Tirane
+Asia/Yerevan,Asia / Ereván
+Africa/Luanda,África / Luanda
+Antarctica/Casey,Antártida / Casey
+Antarctica/Davis,Antártida / Davis
+Antarctica/DumontDUrville,Antártida / DumontDUrville
+Antarctica/Mawson,Antártida / Mawson
+Antarctica/McMurdo,Antártida / McMurdo
+Antarctica/Palmer,Antártida / Palmer
+Antarctica/Rothera,Antártida / Rothera
+Antarctica/Syowa,Antártida / Syowa
+Antarctica/Troll,Antártida / Troll
+Antarctica/Vostok,Antártida / Vostok
+America/Argentina/Buenos_Aires,América / Argentina / Buenos_Aires
+America/Argentina/Catamarca,América / Argentina / Catamarca
+America/Argentina/Cordoba,América / Argentina / Córdoba
+America/Argentina/Jujuy,América / Argentina / Jujuy
+America/Argentina/La_Rioja,América / Argentina / La_Rioja
+America/Argentina/Mendoza,América / Argentina / Mendoza
+America/Argentina/Rio_Gallegos,América / Argentina / Rio_Gallegos
+America/Argentina/Salta,América / Argentina / Salta
+America/Argentina/San_Juan,América / Argentina / San_Juan
+America/Argentina/San_Luis,América / Argentina / San_Luis
+America/Argentina/Tucuman,América / Argentina / Tucumán
+America/Argentina/Ushuaia,América / Argentina / Ushuaia
+Pacific/Pago_Pago,Pacífico / Pago_Pago
+Europe/Vienna,Europa / Viena
+Antarctica/Macquarie,Antártida / Macquarie
+Australia/Adelaide,Australia / Adelaida
+Australia/Brisbane,Australia / Brisbane
+Australia/Broken_Hill,Australia / Broken_Hill
+Australia/Currie,Australia / Currie
+Australia/Darwin,Australia / Darwin
+Australia/Eucla,Australia / Eucla
+Australia/Hobart,Australia / Hobart
+Australia/Lindeman,Australia / Lindeman
+Australia/Lord_Howe,Australia / Lord_Howe
+Australia/Melbourne,Australia / Melbourne
+Australia/Perth,Australia / Perth
+Australia/Sydney,Australia / Sydney
+America/Aruba,América / Aruba
+Europe/Mariehamn,Europa / Mariehamn
+Asia/Baku,Asia / Bakú
+Europe/Sarajevo,Europa / Sarajevo
+America/Barbados,América / Barbados
+Asia/Dhaka,Asia / Dhaka
+Europe/Brussels,Europa / Bruselas
+Africa/Ouagadougou,África / Uagadugú
+Europe/Sofia,Europa / Sofia
+Asia/Bahrain,Asia / Bahréin
+Africa/Bujumbura,África / Buyumbura
+Africa/Porto-Novo,África / Porto-Novo
+America/St_Barthelemy,América / St_Barthelemy
+Atlantic/Bermuda,Atlántico / Bermudas
+Asia/Brunei,Asia / Brunei
+America/La_Paz,America / La_Paz
+America/Kralendijk,América / Kralendijk
+America/Araguaina,América / Araguaina
+America/Bahia,América / Bahía
+America/Belem,América / Belem
+America/Boa_Vista,America / Boa_Vista
+America/Campo_Grande,América / Campo_Grande
+America/Cuiaba,América / Cuiaba
+America/Eirunepe,América / Eirunepe
+America/Fortaleza,América / Fortaleza
+America/Maceio,América / Maceio
+America/Manaus,América / Manaus
+America/Noronha,América / Noronha
+America/Porto_Velho,América / Porto_Velho
+America/Recife,América / Recife
+America/Rio_Branco,America / Rio_Branco
+America/Santarem,América / Santarem
+America/Sao_Paulo,América / Sao_Paulo
+America/Nassau,América / Nassau
+Asia/Thimphu,Asia / Thimphu
+Africa/Gaborone,África / Gaborone
+Europe/Minsk,Europa / Minsk
+America/Belize,América / Belice
+America/Atikokan,América / Atikokan
+America/Blanc-Sablon,América / Blanc-Sablon
+America/Cambridge_Bay,América / Cambridge_Bay
+America/Creston,América / Creston
+America/Dawson,América / Dawson
+America/Dawson_Creek,América / Dawson_Creek
+America/Edmonton,América / Edmonton
+America/Fort_Nelson,América / Fort_Nelson
+America/Glace_Bay,América / Glace_Bay
+America/Goose_Bay,América / Goose_Bay
+America/Halifax,América / Halifax
+America/Inuvik,América / Inuvik
+America/Iqaluit,América / Iqaluit
+America/Moncton,América / Moncton
+America/Nipigon,América / Nipigon
+America/Pangnirtung,América / Pangnirtung
+America/Rainy_River,América / Rainy_River
+America/Rankin_Inlet,América / Rankin_Inlet
+America/Regina,América / Regina
+America/Resolute,America / Resolute
+America/St_Johns,América / St_Johns
+America/Swift_Current,América / Swift_Current
+America/Thunder_Bay,América / Thunder_Bay
+America/Toronto,América / Toronto
+America/Vancouver,América / Vancouver
+America/Whitehorse,América / Whitehorse
+America/Winnipeg,América / Winnipeg
+America/Yellowknife,América / Yellowknife
+Indian/Cocos,Indio / Cocos
+Africa/Kinshasa,África / Kinshasa
+Africa/Lubumbashi,África / Lubumbashi
+Africa/Bangui,África / Bangui
+Africa/Brazzaville,África / Brazzaville
+Europe/Zurich,Europa / Zúrich
+Africa/Abidjan,África / Abidjan
+Pacific/Rarotonga,Pacífico / Rarotonga
+America/Punta_Arenas,America / Punta_Arenas
+America/Santiago,América / Santiago
+Pacific/Easter,Pacífico / Semana Santa
+Africa/Douala,África / Douala
+Asia/Shanghai,Asia / Shanghai
+Asia/Urumqi,Asia / Urumqi
+America/Bogota,América / Bogotá
+America/Costa_Rica,America / Costa_Rica
+America/Havana,América / La Habana
+Atlantic/Cape_Verde,Atlántico / Cape_Verde
+America/Curacao,América / Curazao
+Indian/Christmas,India / Navidad
+Asia/Famagusta,Asia / Famagusta
+Asia/Nicosia,Asia / Nicosia
+Europe/Prague,Europa / Praga
+Europe/Berlin,Europa / Berlín
+Europe/Busingen,Europa / Busingen
+Africa/Djibouti,África / Djibouti
+Europe/Copenhagen,Europa / Copenhague
+America/Dominica,América / Dominica
+America/Santo_Domingo,América / Santo_Domingo
+Africa/Algiers,África / Argel
+America/Guayaquil,América / Guayaquil
+Pacific/Galapagos,Pacífico / Galápagos
+Europe/Tallinn,Europa / Tallin
+Africa/Cairo,África / El Cairo
+Africa/El_Aaiun,África / El_Aaiun
+Africa/Asmara,África / Asmara
+Africa/Ceuta,África / Ceuta
+Atlantic/Canary,Atlántico / Canarias
+Europe/Madrid,Europa / Madrid
+Africa/Addis_Ababa,África / Addis_Ababa
+Europe/Helsinki,Europa / Helsinki
+Pacific/Fiji,Pacífico / Fiji
+Atlantic/Stanley,Atlántico / Stanley
+Pacific/Chuuk,Pacífico / Chuuk
+Pacific/Kosrae,Pacífico / Kosrae
+Pacific/Pohnpei,Pacífico / Pohnpei
+Atlantic/Faroe,Atlántico / Feroe
+Europe/Paris,Europa / París
+Africa/Libreville,África / Libreville
+Europe/London,Europa / Londres
+America/Grenada,América / Granada
+Asia/Tbilisi,Asia / Tbilisi
+America/Cayenne,América / Cayenne
+Europe/Guernsey,Europa / Guernsey
+Africa/Accra,África / Accra
+Europe/Gibraltar,Europa / Gibraltar
+America/Danmarkshavn,América / Danmarkshavn
+America/Nuuk,América / Nuuk
+America/Scoresbysund,América / Scoresbysund
+America/Thule,América / Thule
+Africa/Banjul,África / Banjul
+Africa/Conakry,África / Conakry
+America/Guadeloupe,América / Guadalupe
+Africa/Malabo,África / Malabo
+Europe/Athens,Europa / Atenas
+Atlantic/South_Georgia,Atlántico / Sur_Georgia
+America/Guatemala,América / Guatemala
+Pacific/Guam,Pacífico / Guam
+Africa/Bissau,África / Bissau
+America/Guyana,América / Guyana
+Asia/Hong_Kong,Asia / Hong_Kong
+America/Tegucigalpa,América / Tegucigalpa
+Europe/Zagreb,Europa / Zagreb
+America/Port-au-Prince,América / Port-au-Prince
+Europe/Budapest,Europa / Budapest
+Asia/Jakarta,Asia / Yakarta
+Asia/Jayapura,Asia / Jayapura
+Asia/Makassar,Asia / Makassar
+Asia/Pontianak,Asia / Pontianak
+Europe/Dublin,Europa / Dublín
+Asia/Jerusalem,Asia / Jerusalén
+Europe/Isle_of_Man,Europa / Isle_of_Man
+Asia/Kolkata,Asia / Calcuta
+Indian/Chagos,Indio / Chagos
+Asia/Baghdad,Asia / Bagdad
+Asia/Tehran,Asia / Teherán
+Atlantic/Reykjavik,Atlántico / Reykjavik
+Europe/Rome,Europa / Roma
+Europe/Jersey,Europa / Jersey
+America/Jamaica,América / Jamaica
+Asia/Amman,Asia / Amman
+Asia/Tokyo,Asia / Tokio
+Africa/Nairobi,África / Nairobi
+Asia/Bishkek,Asia / Bishkek
+Asia/Phnom_Penh,Asia / Phnom_Penh
+Pacific/Enderbury,Pacífico / Enderbury
+Pacific/Kiritimati,Pacífico / Kiritimati
+Pacific/Tarawa,Pacífico / Tarawa
+Indian/Comoro,Indio / Comoro
+America/St_Kitts,América / St_Kitts
+Asia/Pyongyang,Asia / Pyongyang
+Asia/Seoul,Asia / Seúl
+Asia/Kuwait,Asia / Kuwait
+America/Cayman,América / Caimán
+Asia/Almaty,Asia / Almaty
+Asia/Aqtau,Asia / Aqtau
+Asia/Aqtobe,Asia / Aqtobe
+Asia/Atyrau,Asia / Atyrau
+Asia/Oral,Asia / Oral
+Asia/Qostanay,Asia / Qostanay
+Asia/Qyzylorda,Asia / Qyzylorda
+Asia/Vientiane,Asia / Vientiane
+Asia/Beirut,Asia / Beirut
+America/St_Lucia,América / St_Lucia
+Europe/Vaduz,Europa / Vaduz
+Asia/Colombo,Asia / Colombo
+Africa/Monrovia,África / Monrovia
+Africa/Maseru,África / Maseru
+Europe/Vilnius,Europa / Vilnius
+Europe/Luxembourg,Europa / Luxemburgo
+Europe/Riga,Europa / Riga
+Africa/Tripoli,África / Trípoli
+Africa/Casablanca,África / Casablanca
+Europe/Monaco,Europa / Mónaco
+Europe/Chisinau,Europa / Chisinau
+Europe/Podgorica,Europa / Podgorica
+America/Marigot,América / Marigot
+Indian/Antananarivo,Indio / Antananarivo
+Pacific/Kwajalein,Pacífico / Kwajalein
+Pacific/Majuro,Pacífico / Majuro
+Europe/Skopje,Europa / Skopje
+Africa/Bamako,África / Bamako
+Asia/Yangon,Asia / Yangon
+Asia/Choibalsan,Asia / Choibalsan
+Asia/Hovd,Asia / Hovd
+Asia/Ulaanbaatar,Asia / Ulaanbaatar
+Asia/Macau,Asia / Macao
+Pacific/Saipan,Pacífico / Saipán
+America/Martinique,América / Martinica
+Africa/Nouakchott,África / Nouakchott
+America/Montserrat,América / Montserrat
+Europe/Malta,Europa / Malta
+Indian/Mauritius,India / Mauricio
+Indian/Maldives,India / Maldivas
+Africa/Blantyre,África / Blantyre
+America/Bahia_Banderas,America / Bahia_Banderas
+America/Cancun,América / Cancún
+America/Chihuahua,América / Chihuahua
+America/Hermosillo,América / Hermosillo
+America/Matamoros,América / Matamoros
+America/Mazatlan,América / Mazatlán
+America/Merida,América / Mérida
+America/Mexico_City,America / Mexico_City
+America/Monterrey,América / Monterrey
+America/Ojinaga,América / Ojinaga
+America/Tijuana,América / Tijuana
+Asia/Kuala_Lumpur,Asia / Kuala_Lumpur
+Asia/Kuching,Asia / Kuching
+Africa/Maputo,África / Maputo
+Africa/Windhoek,África / Windhoek
+Pacific/Noumea,Pacífico / Noumea
+Africa/Niamey,África / Niamey
+Pacific/Norfolk,Pacífico / Norfolk
+Africa/Lagos,África / Lagos
+America/Managua,América / Managua
+Europe/Amsterdam,Europa / Amsterdam
+Europe/Oslo,Europa / Oslo
+Asia/Kathmandu,Asia / Katmandú
+Pacific/Nauru,Pacífico / Nauru
+Pacific/Niue,Pacífico / Niue
+Pacific/Auckland,Pacífico / Auckland
+Pacific/Chatham,Pacífico / Chatham
+Asia/Muscat,Asia / Mascate
+America/Panama,América / Panamá
+America/Lima,América / Lima
+Pacific/Gambier,Pacífico / Gambier
+Pacific/Marquesas,Pacífico / Marquesas
+Pacific/Tahiti,Pacífico / Tahití
+Pacific/Bougainville,Pacífico / Bougainville
+Pacific/Port_Moresby,Pacífico / Port_Moresby
+Asia/Manila,Asia / Manila
+Asia/Karachi,Asia / Karachi
+Europe/Warsaw,Europa / Varsovia
+America/Miquelon,América / Miquelon
+Pacific/Pitcairn,Pacífico / Pitcairn
+America/Puerto_Rico,America / Puerto_Rico
+Asia/Gaza,Asia / Gaza
+Asia/Hebron,Asia / Hebrón
+Atlantic/Azores,Atlántico / Azores
+Atlantic/Madeira,Atlántico / Madeira
+Europe/Lisbon,Europa / Lisboa
+Pacific/Palau,Pacífico / Palaos
+America/Asuncion,América / Asunción
+Asia/Qatar,Asia / Qatar
+Indian/Reunion,India / Reunión
+Europe/Bucharest,Europa / Bucarest
+Europe/Belgrade,Europa / Belgrado
+Asia/Anadyr,Asia / Anadyr
+Asia/Barnaul,Asia / Barnaul
+Asia/Chita,Asia / Chita
+Asia/Irkutsk,Asia / Irkutsk
+Asia/Kamchatka,Asia / Kamchatka
+Asia/Khandyga,Asia / Khandyga
+Asia/Krasnoyarsk,Asia / Krasnoyarsk
+Asia/Magadan,Asia / Magadán
+Asia/Novokuznetsk,Asia / Novokuznetsk
+Asia/Novosibirsk,Asia / Novosibirsk
+Asia/Omsk,Asia / Omsk
+Asia/Sakhalin,Asia / Sajalín
+Asia/Srednekolymsk,Asia / Srednekolymsk
+Asia/Tomsk,Asia / Tomsk
+Asia/Ust-Nera,Asia / Ust-Nera
+Asia/Vladivostok,Asia / Vladivostok
+Asia/Yakutsk,Asia / Yakutsk
+Asia/Yekaterinburg,Asia / Ekaterimburgo
+Europe/Astrakhan,Europa / Astracán
+Europe/Kaliningrad,Europa / Kaliningrado
+Europe/Kirov,Europa / Kirov
+Europe/Moscow,Europa / Moscú
+Europe/Samara,Europa / Samara
+Europe/Saratov,Europa / Saratov
+Europe/Ulyanovsk,Europa / Ulyanovsk
+Europe/Volgograd,Europa / Volgogrado
+Africa/Kigali,África / Kigali
+Asia/Riyadh,Asia / Riad
+Pacific/Guadalcanal,Pacífico / Guadalcanal
+Indian/Mahe,Indio / Mahé
+Africa/Khartoum,África / Jartum
+Europe/Stockholm,Europa / Estocolmo
+Asia/Singapore,Asia / Singapur
+Atlantic/St_Helena,Atlántico / St_Helena
+Europe/Ljubljana,Europa / Liubliana
+Arctic/Longyearbyen,Ártico / Longyearbyen
+Europe/Bratislava,Europa / Bratislava
+Africa/Freetown,África / Freetown
+Europe/San_Marino,Europa / San_Marino
+Africa/Dakar,África / Dakar
+Africa/Mogadishu,África / Mogadiscio
+America/Paramaribo,América / Paramaribo
+Africa/Juba,África / Juba
+Africa/Sao_Tome,África / Sao_Tome
+America/El_Salvador,América / El_Salvador
+America/Lower_Princes,America / Lower_Princes
+Asia/Damascus,Asia / Damasco
+Africa/Mbabane,África / Mbabane
+America/Grand_Turk,América / Grand_Turk
+Africa/Ndjamena,África / Ndjamena
+Indian/Kerguelen,Indio / Kerguelen
+Africa/Lome,África / Lomé
+Asia/Bangkok,Asia / Bangkok
+Asia/Dushanbe,Asia / Dushanbe
+Pacific/Fakaofo,Pacífico / Fakaofo
+Asia/Dili,Asia / Dili
+Asia/Ashgabat,Asia / Ashgabat
+Africa/Tunis,África / Túnez
+Pacific/Tongatapu,Pacífico / Tongatapu
+Europe/Istanbul,Europa / Estambul
+America/Port_of_Spain,America / Port_of_Spain
+Pacific/Funafuti,Pacífico / Funafuti
+Asia/Taipei,Asia / Taipei
+Africa/Dar_es_Salaam,África / Dar_es_Salaam
+Europe/Kiev,Europa / Kiev
+Europe/Simferopol,Europa / Simferopol
+Europe/Uzhgorod,Europa / Uzhgorod
+Europe/Zaporozhye,Europa / Zaporozhye
+Africa/Kampala,África / Kampala
+Pacific/Midway,Pacífico / Midway
+Pacific/Wake,Pacífico / Wake
+America/Adak,América / Adak
+America/Anchorage,América / Anchorage
+America/Boise,América / Boise
+America/Chicago,América / Chicago
+America/Denver,América / Denver
+America/Detroit,América / Detroit
+America/Indiana/Indianapolis,América / Indiana / Indianápolis
+America/Indiana/Knox,América / Indiana / Knox
+America/Indiana/Marengo,América / Indiana / Marengo
+America/Indiana/Petersburg,América / Indiana / Petersburgo
+America/Indiana/Tell_City,América / Indiana / Tell_City
+America/Indiana/Vevay,América / Indiana / Vevay
+America/Indiana/Vincennes,América / Indiana / Vincennes
+America/Indiana/Winamac,América / Indiana / Winamac
+America/Juneau,América / Juneau
+America/Kentucky/Louisville,América / Kentucky / Louisville
+America/Kentucky/Monticello,América / Kentucky / Monticello
+America/Los_Angeles,America / Los_Angeles
+America/Menominee,América / Menominee
+America/Metlakatla,América / Metlakatla
+America/New_York,America / New_York
+America/Nome,América / Nome
+America/North_Dakota/Beulah,América / North_Dakota / Beulah
+America/North_Dakota/Center,América / North_Dakota / Center
+America/North_Dakota/New_Salem,América / North_Dakota / New_Salem
+America/Phoenix,América / Phoenix
+America/Sitka,América / Sitka
+America/Yakutat,América / Yakutat
+Pacific/Honolulu,Pacífico / Honolulu
+America/Montevideo,América / Montevideo
+Asia/Samarkand,Asia / Samarcanda
+Asia/Tashkent,Asia / Tashkent
+Europe/Vatican,Europa / Vaticano
+America/St_Vincent,América / St_Vincent
+America/Caracas,América / Caracas
+America/Tortola,América / Tortola
+America/St_Thomas,América / St_Thomas
+Asia/Ho_Chi_Minh,Asia / Ho_Chi_Minh
+Pacific/Efate,Pacífico / Efate
+Pacific/Wallis,Pacífico / Wallis
+Pacific/Apia,Pacífico / Apia
+Asia/Aden,Asia / Adén
+Indian/Mayotte,India / Mayotte
+Africa/Johannesburg,África / Johannesburgo
+Africa/Lusaka,África / Lusaka
+Africa/Harare,África / Harare
+Emails,Correos electrónicos
+Add IP Settings,Agregar configuración de IP
+Edit IP Settings,Editar la configuración de IP
+Edit Caller ID,Editar identificador de llamadas
+Invoice Date Interval,Intervalo de fecha de factura
+Use same credential for Invoice Config,Utilice la misma credencial para la configuración de facturas
+Registration URL,URL de registro
+Account Status,estado de la cuenta
+Admin,Administración
+Sub Admin,Subadministrador
+Edit Accessnumber,Editar número de acceso
+Edit Rate Group,Editar grupo de tarifas
+Percentage (Enterprise),Porcentaje (empresa)
+Edit Ratedeck,Editar tabla de tarifas
+Realm,Reino
+Reg-Transport,Reg-Transporte
+Failover,Conmutación por falla
+GW Name #1,Nombre de GW # 1
+GW Name #2,Nombre de GW # 2
+Gateway,Puerta
+Count,Contar
+Both,Ambas cosas
+Stop,Detener
+Reload,Recargar
+Rescan,Volver a escanear
+Org.,Org.
+Read,Leer
+Write,Escribir
+STANDARD,ESTÁNDAR
+DID,HIZO
+CALLINGCARD,TARJETA DE LLAMADA
+FREE,LIBRE
+LOCAL,LOCAL
+ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
+ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
+ALLOTTED_TIMEOUT,ALLOTTED_TIMEOUT
+AUTHENTICATION_FAIL,AUTHENTICATION_FAIL
+BEARERCAPABILITY_NOTAUTH,BEARERCAPABILITY_NOTAUTH
+BEARERCAPABILITY_NOTAVAIL,BEARERCAPABILITY_NOTAVAIL
+BEARERCAPABILITY_NOTIMPL,BEARERCAPABILITY_NOTIMPL
+CALL_REJECTED,LLAMADA RECHAZADA
+CHAN_NOT_IMPLEMENTED,CHAN_NOT_IMPLEMENTED
+CHANNEL_UNACCEPTABLE,CHANNEL_UNACCEPTABLE
+DESTINATION_OUT_OF_ORDER,DESTINATION_OUT_OF_ORDER
+DESTINATION_BLOCKED,DESTINATION_BLOCKED
+DID_DESTINATION_NOT_FOUND,DID_DESTINATION_NOT_FOUND
+FACILITY_REJECTED,FACILITY_REJECTED
+FACILITY_NOT_SUBSCRIBED,FACILITY_NOT_SUBSCRIBED
+FACILITY_NOT_IMPLEMENTED,FACILITY_NOT_IMPLEMENTED
+FRAUD_CALL_PER_ACCOUNT,FRAUD_CALL_PER_ACCOUNT
+FRAUD_CALL_PER_DESTINATION,FRAUD_CALL_PER_DESTINATION
+FRAUD_COST_PER_ACCOUNT,FRAUD_COST_PER_ACCOUNT
+FRAUD_COST_PER_DESTINATION,FRAUD_COST_PER_DESTINATION
+INVALID_NUMBER_FORMAT,INVALID_NUMBER_FORMAT
+INCOMPATIBLE_DESTINATION,INCOMPATIBLE_DESTINATION
+MANAGER_REQUEST,MANAGER_REQUEST
+MEDIA_TIMEOUT,MEDIA_TIMEOUT
+NO_ROUTE_DESTINATION,NO_ROUTE_DESTINATION
+NORMAL_CLEARING,NORMAL_CLEARING
+NETWORK_OUT_OF_ORDER,RED FUERA DE SERVICIO
+NORMAL_UNSPECIFIED,NORMAL_UNSPECIFIED
+NORMAL_CIRCUIT_CONGESTION,NORMAL_CIRCUIT_CONGESTION
+NORMAL_TEMPORARY_FAILURE,NORMAL_TEMPORARY_FAILURE
+NO_SUFFICIENT_FUND,NO_SUFFICIENT_FUND
+NO_USER_RESPONSE,NO_USER_RESPONSE
+NO_ANSWER,SIN RESPUESTA
+NUMBER_CHANGED,NUMBER_CHANGED
+ORIGINATOR_CANCEL,ORIGINATOR_CANCEL
+ORIGNATION_RATE_NOT_FOUND,ORIGNATION_RATE_NOT_FOUND
+OUTGOING_CALL_BARRED,OUTGOING_CALL_BARRED
+PROGRESS_TIMEOUT,PROGRESS_TIMEOUT
+RECOVERY_ON_TIMER_EXPIRE,RECOVERY_ON_TIMER_EXPIRE
+RESELLER_COST_CHEAP,RESELLER_COST_CHEAP
+SERVICE_NOT_IMPLEMENTED,SERVICE_NOT_IMPLEMENTED
+SERVICE_UNAVAILABLE,SERVICIO NO DISPONIBLE
+SUCCESS,ÉXITO
+SWITCH_CONGESTION,SWITCH_CONGESTION
+TERMINATION_RATE_NOT_FOUND,TERMINATION_RATE_NOT_FOUND
+UNSPECIFIED,SIN ESPECIFICAR
+UNALLOCATED_NUMBER,UNALLOCATED_NUMBER
+USER_BUSY,USUARIO OCUPADO
+USER_NOT_REGISTERED,USER_NOT_REGISjected
+REQUESTED_CHAN_UNAVAIL,REQUESTED_CHAN_UNAVAIL
+Resend Email,Reenviar email
+Resent Email,Correo electrónico reenviado
+Sent,Enviado
+Account Number Editable,Número de cuenta editable
+Play Audio Notifications,Reproducir notificaciones de audio
+Invoices Older Than Days,Facturas anteriores a los días
+Half Year,Medio año
+Last Pay Date,Última fecha de pago
+Buy DIDs,Comprar DID
+Purchased DID,DID comprado
+DID Information,Información DID
+Sell Cost,Costo de venta
+Admin Rate Group,Grupo de tarifas de administración
+Search My Rates,Buscar mis tarifas
+Optin,Optar en
+Bal,Bal
+Managed & Maintained by,Administrado y mantenido por
+iNextrix Technologies Pvt. Ltd.,iNextrix Technologies Pvt. Limitado.
+All Rights Reserved.,Reservados todos los derechos.
+module_name,Nombre del módulo
+English,inglés
+Chinese,chino
+French,francés
+German,alemán
+Greek,griego
+Italian,italiano
+Spanish,Español
+Russian,ruso
+Japanese,japonés
+Portuguese,portugués
+Romanian,rumano
+Create Translation Languages,Crear idiomas de traducción
+Module Name,Nombre del módulo
+Edit Translation Language,Editar idioma de traducción
+Distributor,Distribuidor
+Commission Based,Basado en comisión
+Reseller Type,Tipo de revendedor
+Callerid,Identificador de llamadas
+Opensips Dispatcher,Despachador de OpenSips
+Generate,Generar
+Forward,Hacia adelante
+Add White List,Agregar lista blanca
+Report,Informe
+Profiles,Perfiles
+Create Duplicate Rate Group,Crear grupo de tarifas duplicado
+Add Timezone,Agregar zona horaria
+Timezone List,Lista de zona horaria
+GMT Offset,Desplazamiento GMT
+Edit Timezone,Editar zona horaria
+Account Notification,Notificación de cuenta
+Both (Email & SMS),Ambos (correo electrónico y SMS)
+Terms & Condition,Términos y Condiciones
+Term And Condition,Término y condición
+Url,URL
+Text,Texto
+Custom Rates,Tarifas personalizadas
+(Price+SetUp Fee),(Precio + tarifa de instalación)

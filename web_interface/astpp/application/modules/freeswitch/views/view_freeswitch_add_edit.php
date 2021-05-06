@@ -21,7 +21,7 @@
 						
 							 setTimeout(function(){window.location.href = "<?= base_url() ?>"} , 5000); 
 					}else{
-						$('#password').val(response.trim());
+						$('#password_show').val(response.trim());
 						$('#password1').val(response.trim());
 					}
                 }

@@ -196,7 +196,7 @@ $logger->log("*********************** Harsh_trunk in package_id: **".$dataVariab
 	
 	// Resellers CDR entry
 	$flag_parent = false;
-	insert_parent_data ( $dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points, $config );
+	insert_parent_data ( $dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points, $config,$trunk_id );
 	
 	$logger->log ( "*********************** OUTBOUND CALL ENTRY END *************" );
 	
@@ -233,8 +233,7 @@ $logger->log("*********************** Harsh_trunk in package_id: **".$dataVariab
 		$receiver_parentid = $receiver_carddata ['reseller_id'];
 		
 		// For additional cdr entry of receiver
-		insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $receiver_parentid, $flag_parent, $dataVariable ['receiver_accid'], $logger, $db, $decimal_points, $config );
-		
+		insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $receiver_parentid, $flag_parent, $dataVariable ['receiver_accid'], $logger, $db, $decimal_points, $config,$trunk_id );
 		$flag_parent = true;
 		$dataVariable ['uuid'] = $dataVariable ['uuid'] . $dataVariable ['calltype'] . "_" . $receiver_parentid;
 		
@@ -253,7 +252,7 @@ $logger->log("*********************** Harsh_trunk in package_id: **".$dataVariab
  * @param string $provider_cost        	
  * @param boolean $flag_parent        	
  */
-function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points, $config) {
+function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origination_rate, $actual_duration, $provider_cost, $flag_parent, $logger, $db, $decimal_points, $config, $trunk_id='') {
 	while ( $parentid > 0 ) {
 		$logger->log ( "*************** IN PARENT DATA SECTION ********" );
 		$dataVariable ['calltype'] = $actual_calltype;
@@ -290,13 +289,13 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
 		if (isset ( $dataVariable ['receiver_accid'] ) && $dataVariable ['receiver_accid'] != "" && $flag_parent == true) {
 			$logger->log ( "********* IN RESELLER FOR RECEIVER ENTRY START ******" );
 			$flag_parent = true;
-			insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points, $config );
+			insert_extra_receiver_entry ( $dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points, $config ,$trunk_id);
+			
 			$logger->log ( "********* IN RESELLER FOR RECEIVER ENTRY END ******" );
 		} else {
 			
-			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db);
-			
-			$query = "INSERT INTO reseller_cdrs (uniqueid,accountid,callerid,callednum,billseconds,disposition,callstart,debit,cost,pricelist_id,package_id,pattern,notes,rate_cost,reseller_id,reseller_code,reseller_code_destination,reseller_cost,call_direction,calltype,call_request,country_id,end_stamp) values ($cdr_string)";
+			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db,$trunk_id);
+			$query = "INSERT INTO reseller_cdrs (uniqueid,accountid,callerid,callednum,billseconds,disposition,callstart,debit,cost,pricelist_id,package_id,pattern,notes,rate_cost,reseller_id,reseller_code,reseller_code_destination,reseller_cost,call_direction,calltype,call_request,country_id,end_stamp,trunk_id) values ($cdr_string)";
 			$logger->log ( $query );
 			$db->run ( $query );
 			
@@ -313,7 +312,7 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
  *
  * @param boolean $flag_parent        	
  */
-function insert_extra_receiver_entry($dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points, $config) {
+function insert_extra_receiver_entry($dataVariable, $origination_rate, $termination_rate, $account_type, $actual_duration, $provider_cost, $parentid, $flag_parent, $accountid, $logger, $db, $decimal_points, $config,$trunk_id='') {
 	$localVariable = $dataVariable;
 	$localVariable ['call_direction'] = "inbound";
 	$localVariable ['uuid'] = $localVariable ['uuid'] . $dataVariable ['calltype'] . "_" . $accountid;
@@ -324,7 +323,7 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 		if ($flag_parent == false) {
 			$cdr_string = get_cdr_string ( $localVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, 0, 0, $logger, $db );
 		} else {
-			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db );
+			$cdr_string = get_reseller_cdr_string ( $dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db ,$trunk_id);
 		}
 	} else {
 		
@@ -371,18 +370,15 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
 	$dataVariable ['hangup_cause'] = get_q850code($dataVariable, $db);	
 	
 	//return $cdr_string = "'" . ($dataVariable ['uuid']) . "','" . $accountid . "','" . $account_type . "','" . (urldecode ( $callerIdNumber )) . "','" . ($dataVariable ['effective_destination_number']) . "','" . $actual_duration . "'," . (($termination_rate ['TRUNK']) ? $termination_rate ['TRUNK'] : '0') . "," . (($dataVariable ['sip_via_host']) ? "'" . $dataVariable ['sip_via_host'] . "'" : '""') . "," . (($dataVariable ['sip_contact_host']) ? "'" . $dataVariable ['sip_contact_host'] . "'" : '""') . ",'" . ($dataVariable ['hangup_cause']) . "','" . urldecode ( $dataVariable ['callstart'] ) . "','" . $debit . "','" . $cost . "'," . (($termination_rate ['PROVIDER']) ? $termination_rate ['PROVIDER'] : '0') . ",'" . $origination_rate [$accountid] ['RATEGROUP'] . "','" . $dataVariable ['package_id'] . "','" . ($origination_rate [$accountid] ['CODE']) . "'," . (($origination_rate [$accountid] ['DESTINATION']) ? "'" . htmlentities ( $origination_rate [$accountid] ['DESTINATION'], ENT_COMPAT, 'UTF-8' ) . "'" : "'" . '' . "'") . "," . (($origination_rate [$accountid] ['COST']) ? "'" . $origination_rate [$accountid] ['COST'] . "'" : "'" . '0' . "'") . ",'" . $parentid . "'," . (($origination_rate [$parentid] ['CODE']) ? "'" . $origination_rate [$parentid] ['CODE'] . "'" : "'" . '0' . "'") . "," . (($origination_rate [$parentid] ['DESTINATION']) ? "'" . $origination_rate [$parentid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$parentid] ['COST']) ? "'" . $origination_rate [$parentid] ['COST'] . "'" : '0') . "," . (($termination_rate ['CODE']) ? "'" . $termination_rate ['CODE'] . "'" : "'" . '' . "'") . "," . (($termination_rate ['DESTINATION']) ? "'" . $termination_rate ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($termination_rate ['COST']) ? "'" . $termination_rate ['COST'] . "'" : '0') . ",'" . $provider_cost . "'," . (($dataVariable ['call_direction']) ? "'" . $dataVariable ['call_direction'] . "'" : "'internal'") . ",'" . ($dataVariable ['calltype']) . "','" . $dataVariable ['call_request'] . "','" . $origination_rate [$accountid] ['CI'] . "','".$dataVariable ['sip_user']."','".$dataVariable ['origination_call_type']."','" . urldecode ( $dataVariable ['end_stamp'] ) . "'";
-
 	if($dataVariable ['calltype'] == 'CALLINGCARD'){
 		$dataVariable ['uuid']=isset($dataVariable ['originating_leg_uuid']) ? $dataVariable ['originating_leg_uuid'] : $dataVariable ['uuid'];
 	}
-
-
 	return $cdr_string = "'" . ($dataVariable ['uuid']) . "','" . $accountid . "','" . $account_type . "','" . (urldecode ( $callerIdNumber )) . "','" . ($dataVariable ['effective_destination_number']) . "','" . $actual_duration . "'," . (($termination_rate ['TRUNK']) ? $termination_rate ['TRUNK'] : '0') . "," . (($dataVariable ['sip_via_host']) ? "'" . $dataVariable ['sip_via_host'] . "'" : '""') . "," . (($dataVariable ['sip_contact_host']) ? "'" . $dataVariable ['sip_contact_host'] . "'" : '""') . ",'" . ($dataVariable ['hangup_cause']) . "','" . urldecode ( $dataVariable ['callstart'] ) . "','" . $debit . "','" . $cost . "'," . (($termination_rate ['PROVIDER']) ? $termination_rate ['PROVIDER'] : '0') . ",'" . $origination_rate [$accountid] ['RATEGROUP'] . "','" . $dataVariable ['package_id'] . "','" . ($origination_rate [$accountid] ['CODE']) . "'," . (($origination_rate [$accountid] ['DESTINATION']) ? "'" . htmlentities ( $origination_rate [$accountid] ['DESTINATION'], ENT_COMPAT, 'UTF-8' ) . "'" : "'" . '' . "'") . "," . (($origination_rate [$accountid] ['COST']) ? "'" . $origination_rate [$accountid] ['COST'] . "'" : "'" . '0' . "'") . ",'" . $parentid . "'," . (($origination_rate [$parentid] ['CODE']) ? "'" . $origination_rate [$parentid] ['CODE'] . "'" : "'" . '0' . "'") . "," . (($origination_rate [$parentid] ['DESTINATION']) ? "'" . $origination_rate [$parentid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$parentid] ['COST']) ? "'" . $origination_rate [$parentid] ['COST'] . "'" : '0') . "," . (($termination_rate ['CODE']) ? "'" . $termination_rate ['CODE'] . "'" : "'" . '' . "'") . "," . (($termination_rate ['DESTINATION']) ? "'" . $termination_rate ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($termination_rate ['COST']) ? "'" . $termination_rate ['COST'] . "'" : '0') . ",'" . $provider_cost . "'," . (($dataVariable ['call_direction']) ? "'" .ucfirst($dataVariable ['call_direction']) . "'" : "'internal'") . ",'" . ($dataVariable ['calltype']) . "','" . $dataVariable ['call_request'] . "','" . $origination_rate [$accountid] ['CI'] . "','".$dataVariable ['sip_user']."','".$dataVariable ['origination_call_type']."','" .date("Y-m-d H:i:s", (strtotime(date(urldecode ( $dataVariable ['callstart'] ))) + $actual_duration)) . "'";
 	
 }
 
 // Generate CDR string for insert query for reseller
-function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db) {
+function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db,$trunk_id='') {
 	$dataVariable ['calltype'] = ($dataVariable ['calltype'] == 'DID-LOCAL' || $dataVariable ['calltype'] == 'SIP-DID' || $dataVariable ['calltype'] == 'OTHER') ? "DID" : $dataVariable ['calltype'];
 	// $callerIdNumber = isset($dataVariable['effective_caller_id_number']) && !empty($dataVariable['effective_caller_id_number'])? $dataVariable['effective_caller_id_number'] :$dataVariable['caller_id'];
 	$callerIdNumber = ($dataVariable ['calltype'] == "DID") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
@@ -390,7 +386,7 @@ function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actu
 	$dataVariable ['hangup_cause'] = get_q850code($dataVariable, $db);
 	
 	//return $cdr_string = "'" . ($dataVariable ['uuid']) . "','" . $accountid . "','" . (urldecode ( $callerIdNumber )) . "','" . ($dataVariable ['effective_destination_number']) . "','" . $actual_duration . "','" . ($dataVariable ['hangup_cause']) . "','" . urldecode ( $dataVariable ['callstart'] ) . "','" . $debit . "','" . $cost . "','" . $origination_rate [$accountid] ['RATEGROUP'] . "','" . $dataVariable ['package_id'] . "','" . ($origination_rate [$accountid] ['CODE']) . "'," . (($origination_rate [$accountid] ['DESTINATION']) ? "'" . $origination_rate [$accountid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$accountid] ['COST']) ? "'" . $origination_rate [$accountid] ['COST'] . "'" : "'" . '0' . "'") . ",'" . $parentid . "'," . (($origination_rate [$parentid] ['CODE']) ? "'" . $origination_rate [$parentid] ['CODE'] . "'" : "'" . '0' . "'") . "," . (($origination_rate [$parentid] ['DESTINATION']) ? "'" . $origination_rate [$parentid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$parentid] ['COST']) ? "'" . $origination_rate [$parentid] ['COST'] . "'" : '0') . "," . (($dataVariable ['call_direction']) ? "'" . $dataVariable ['call_direction'] . "'" : "'internal'") . ",'" . ($dataVariable ['calltype']) . "','" . ($dataVariable ['call_request']) . "','" . $origination_rate [$accountid]['CI'] . "','" . urldecode ( $dataVariable ['end_stamp'] ) . "'";
-	return $cdr_string = "'" . ($dataVariable ['uuid']) . "','" . $accountid . "','" . (urldecode ( $callerIdNumber )) . "','" . ($dataVariable ['effective_destination_number']) . "','" . $actual_duration . "','" . ($dataVariable ['hangup_cause']) . "','" . urldecode ( $dataVariable ['callstart'] ) . "','" . $debit . "','" . $cost . "','" . $origination_rate [$accountid] ['RATEGROUP'] . "','" . $dataVariable ['package_id'] . "','" . ($origination_rate [$accountid] ['CODE']) . "'," . (($origination_rate [$accountid] ['DESTINATION']) ? "'" . $origination_rate [$accountid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$accountid] ['COST']) ? "'" . $origination_rate [$accountid] ['COST'] . "'" : "'" . '0' . "'") . ",'" . $parentid . "'," . (($origination_rate [$parentid] ['CODE']) ? "'" . $origination_rate [$parentid] ['CODE'] . "'" : "'" . '0' . "'") . "," . (($origination_rate [$parentid] ['DESTINATION']) ? "'" . $origination_rate [$parentid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$parentid] ['COST']) ? "'" . $origination_rate [$parentid] ['COST'] . "'" : '0') . "," . (($dataVariable ['call_direction']) ? "'" . ucfirst($dataVariable ['call_direction']) . "'" : "'internal'") . ",'" . ($dataVariable ['calltype']) . "','" . ($dataVariable ['call_request']) . "','" . $origination_rate [$accountid]['CI'] . "','" . date("Y-m-d H:i:s", (strtotime(date(urldecode ( $dataVariable ['callstart'] ))) + $actual_duration)) . "'";
+	return $cdr_string = "'" . ($dataVariable ['uuid']) . "','" . $accountid . "','" . (urldecode ( $callerIdNumber )) . "','" . ($dataVariable ['effective_destination_number']) . "','" . $actual_duration . "','" . ($dataVariable ['hangup_cause']) . "','" . urldecode ( $dataVariable ['callstart'] ) . "','" . $debit . "','" . $cost . "','" . $origination_rate [$accountid] ['RATEGROUP'] . "','" . $dataVariable ['package_id'] . "','" . ($origination_rate [$accountid] ['CODE']) . "'," . (($origination_rate [$accountid] ['DESTINATION']) ? "'" . $origination_rate [$accountid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$accountid] ['COST']) ? "'" . $origination_rate [$accountid] ['COST'] . "'" : "'" . '0' . "'") . ",'" . $parentid . "'," . (($origination_rate [$parentid] ['CODE']) ? "'" . $origination_rate [$parentid] ['CODE'] . "'" : "'" . '0' . "'") . "," . (($origination_rate [$parentid] ['DESTINATION']) ? "'" . $origination_rate [$parentid] ['DESTINATION'] . "'" : "'" . '' . "'") . "," . (($origination_rate [$parentid] ['COST']) ? "'" . $origination_rate [$parentid] ['COST'] . "'" : '0') . "," . (($dataVariable ['call_direction']) ? "'" . ucfirst($dataVariable ['call_direction']) . "'" : "'internal'") . ",'" . ($dataVariable ['calltype']) . "','" . ($dataVariable ['call_request']) . "','" . $origination_rate [$accountid]['CI'] . "','" . date("Y-m-d H:i:s", (strtotime(date(urldecode ( $dataVariable ['callstart'] ))) + $actual_duration)) . "',". (($trunk_id) ? $trunk_id : '0');
 }
 
 // Update user balance

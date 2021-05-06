@@ -27,10 +27,10 @@
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_list/"; ?>"><?= gettext(ucfirst($accounttype)."s"); ?> </a></li>
 							<li class="breadcrumb-item"><a
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_edit/".$edit_id."/"; ?>">
-									Profile </a></li>
+									<?php echo gettext("Profile");?> </a></li>
 							<li class="breadcrumb-item active" aria-current="page"><a
 								href="<?= base_url()."accounts/".strtolower($accounttype)."_emailhistory/".$edit_id."/"; ?>">
-									Emails </a></li>
+									<?php echo gettext("Emails");?> </a></li>
 						</ol>
 					</nav>
 				</div>

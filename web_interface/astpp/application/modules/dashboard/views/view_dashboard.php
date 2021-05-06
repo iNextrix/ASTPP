@@ -675,7 +675,132 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                             </div>
                         </a>
                     </div>
+            
+            <!-- Kinjal Issue Number 671 Low balance report, Trunk activity report -->
+            <?php   
+                    $accountinfo = $this->session->userdata("accountinfo");
+                    if($accountinfo['type'] == -1 || $accountinfo['type'] == 2){
+                ?>
+                  <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card mb-5">
+                                <h3 class="text-dark p-3">
+                                    <h3 class="text-dark p-3"><i class="fa fa-money text-primary fa-fw"></i> <?php echo gettext("Low Balance"); ?>
+                                    <a href="<?php echo base_url();?>low_balance/low_balance_list/" class="float-right btn btn-secondary"><?php echo  gettext("View All"); ?></a>
+                                    </h3>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                         <table class="table table-hover">
+                                          <thead class="thead-light">
+                                        <?php 
+                                            $accountinfo = $this->session->userdata('accountinfo');
+                                            $currency_id = $accountinfo['currency_id'];
+                                            $currency = $this->common->get_field_name('currency', 'currency', $currency_id);
+                                          ?>
+                                            <tr>
+                                              <th scope="col"><?php echo gettext("Account"); ?></th>
+                                              <th scope="col"><?php echo gettext("Reseller"); ?></th>
+                                              <th scope="col"><?php echo gettext("Current Balance"). "<br/> ($currency)"; ; ?></th>
+                                            </tr>
+                                          </thead> 
+                                          <tbody>
+                                          <?php
+                                                   if($accountinfo['type'] == '1'){
+                                                       $reseller_id = $accountinfo['id'];
+                                                   }else{
+                                                       $reseller_id = "0";
+                                                   }
+                                               
+                                                $where = "notify_flag = '" . 0 . "' AND deleted = '" . 0 .  " ' AND status = ' " . 0 . " ' AND (posttoexternal ='" . 0 . "' AND " . "balance <= notify_credit_limit"  . ") OR ( posttoexternal ='" . 1 . "' AND " . "credit_limit - balance <= notify_credit_limit"  . ")";
 
+                                                   $entity_array = array (
+                                                           "0",
+                                                           "1",
+                                                           "3" 
+                                                   );
+                                                   $limit = 5;
+                                                   $this->db->where_in ( "type", $entity_array );
+                                                   $this->db->limit($limit);
+                                                   $query = $this->db_model->select("*", "accounts", $where, "id", "DESC");
+                                                   if ($query->num_rows () > 0) {
+                                                       $account_data = $query->result_array ();
+                                                       foreach ( $account_data as $data_key => $accountinformation ) {
+                
+                                                            echo "<tr>";
+                                                            echo "<td>".$this->common->get_field_name_coma_new ('first_name,last_name,number,company_name', 'accounts', $accountinformation ['id'] )."</td>";
+                                                            echo "<td>".$this->common->reseller_select_value ('first_name,last_name,number,company_name', 'accounts', $accountinformation ['reseller_id']). "</td>";
+                                                             echo "<td>".$this->common->convert_to_currency($select, $table, $accountinformation['balance'])."</td>";
+                                                            echo "</tr>";
+                                                       }
+                                                   }
+                                            ?>
+                                          </tbody>
+                                        </table>
+                                     </div>
+                                   </div>
+                                </div>
+                            </div>
+                                    <?php } ?>
+                            
+                <?php  
+                    $accountinfo = $this->session->userdata("accountinfo");
+                    if($accountinfo['type'] == -1 || $accountinfo['type'] == 2 ){
+                ?>
+                <div class="col-lg-6">
+                    <div class="card mb-5">
+                            <h3 class="text-dark p-3">
+                                <h3 class="text-dark p-3"><i class="fa fa-phone text-primary fa-fw"></i> <?php echo gettext("Trunk Statistics"); ?>
+                                <a href="<?php echo base_url();?>summary/provider/" class="float-right btn btn-secondary"><?php echo  gettext("View All"); ?></a>
+                                </h3>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                    <table class="table table-hover">
+                                      <thead class="thead-light">
+                                        <tr>
+                                          <th scope="col"><?php echo gettext("Trunk"); ?></th>
+                                          <th scope="col"><?php echo gettext("Attempted Calls"); ?></th>
+                                          <th scope="col"><?php echo gettext("Completed Calls"); ?></th>
+                                          <th scope="col"><?php echo gettext("ASR"); ?></th>
+                                        </tr>
+                                      </thead> 
+                                      <tbody>
+                                      <?php
+                                            $limit = 5;
+                                            $table_name= "cdrs";
+                                            $where1['provider_id >'] = 0;
+                                            $where1['callstart >='] =$this->common->convert_GMT_new ( date('Y-m-d') . " 00:00:00");
+                                            $where1['callstart <='] =$this->common->convert_GMT_new (date('Y-m-d') . " 23:59:59");
+                                            $query = $this->db->select("trunk_id" . ",COUNT(*) AS attempts, AVG(billseconds) AS acd,MAX(billseconds) AS mcd,SUM(billseconds) AS duration,SUM(CASE WHEN calltype !='free' THEN billseconds ELSE 0 END) as billable,SUM(CASE WHEN billseconds > 0 THEN 1 ELSE 0 END) as completed,SUM(provider_call_cost) AS cost,",false);
+                                            $this->db->from($table_name);
+                                            $this->db->where($where1);
+                                            $this->db->group_by('trunk_id');
+                                            $this->db->order_by('callstart' , "DESC");
+                                            $this->db->limit($limit);
+                                            $result = $this->db->get(); 
+                                            $account_data = $result->result_array ();
+                                            foreach ( $account_data as $data_key => $val ) {
+                                                $atmpt =  $val['attempts'];
+                                                $cmplt = $val['completed'];
+                                                $asr = ($atmpt > 0) ? (round(($cmplt / $atmpt) * 100, 2)) : '0.00';
+
+                                                echo "<tr>";
+                                                echo "<td>".$this->common->get_field_name ( 'name', 'trunks', $val ['trunk_id'] )."</td>";
+                                                echo "<td>".$val['attempts']."</td>";
+                                                echo "<td>".$val['completed']."</td>";
+                                                echo "<td>".$asr."</td>";
+                                                }
+                                               
+                                        ?>
+                                      </tbody>
+                                    </table>
+                                 </div>
+                                </div>
+                               </div>
+                             </div>
+                        </div>
+                    <?php }?>
+
+        <!-- END -->
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card mb-5">
@@ -735,74 +860,6 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
                 </div>
             </div>   
             
-            <div class="row">
-                 <div class="col-lg-12">
-                    <div class="card">
-                        <h3 class="text-dark p-3"><i class="fa fa-shopping-cart text-primary fa-fw"></i> <?php echo gettext("Latest Orders"); ?>
-                                
-                        <a href="<?php echo base_url();?>orders/orders_list/" class="float-right btn btn-secondary"><?php echo gettext("View All"); ?></a>
-                        </h3>
-                        <div class="card-body">
-			   <div class="table-responsive">
-                            <table class="table table-hover">
-                              <thead class="thead-light">
-                                <tr>
-                                  <th scope="col"><?php echo gettext("Date"); ?></th>
-                                  <th scope="col"><?php echo gettext("Order"); ?></th>
-                                  <th scope="col"><?php echo gettext("Account"); ?></th>
-                                  <th scope="col"><?php echo gettext("Payment Method"); ?></th>
-                                  <th scope="col"><?php echo gettext("Setup Fee"); ?>  (<?php echo $currency;?>)</th>
-                                  <th scope="col"><?php echo gettext("Price"); ?> (<?php echo $currency;?>)</th>
-                                  <th scope="col"><?php echo gettext("Status"); ?></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              <?php
-                              		$accountinfo = $this->session->userdata ( 'accountinfo' );
-																	if($accountinfo['type'] == '1'){
-																		$reseller_id = $accountinfo['id'];
-																	}else{
-																		$reseller_id = "0";
-																	}
-																	$where_arr = array (
-																			"orders.reseller_id" => $reseller_id 
-																	);
-            											$query = $this->db_model->getJionQuery('orders','orders.id,orders.order_id ,orders.order_date,orders.accountid,orders.payment_gateway,orders.payment_status,orders.reseller_id,orders.accountid,order_items.setup_fee,order_items.price',$where_arr, 'order_items','orders.id=order_items.order_id', 'inner', 10 , 0,'DESC','orders.order_date');
-																	
-																	if($query->num_rows > 0){
-																		$result_array =  $query->result_array();
-																		foreach($result_array as $key=>$val){
-																			if($val['accountid'] != "" && $val['accountid'] != "0"){
-																				$val['accountid'] = $this->common->get_field_name_coma_new ( 'first_name,last_name,number', 'accounts', $val ['accountid'] );
-																			}
-																			if($val['reseller_id'] != "" && $val['reseller_id'] != "0"){
-																				$val['reseller_id'] = $this->common->get_field_name_coma_new ( 'first_name,last_name,number', 'accounts', $val ['reseller_id'] );
-																			}
-																			echo "<tr>";
-											                echo "<td>".$val['order_date']."</td>";
-											                echo "<th scope='row'>".$val['order_id']."</th>";
-											                echo "<td>".$val['accountid']."</td>";
-											                echo "<td>".$val['payment_gateway']."</td>";
-											                echo "<td>".$this->common_model->calculate_currency_customer($val['setup_fee'])."</td>";
-											                echo "<td>".$this->common_model->calculate_currency_customer($val['price'])."</td>";
-											             
-											                if($val['payment_status'] == "PAID"){
-						                          	echo "<td><span class='badge badge-success'>".$val['payment_status']."</span></td>";
-						                          }else{
-						                          	echo "<td><span class='badge badge-danger'>".$val['payment_status']."</span></td>";
-						                          }
-											                echo "</tr>";
-																		}
-																	}
-                                ?>
-                              </tbody>
-                            </table>
-                         </div>
-                        </div>
-                    </div>
-                 </div>
-             </div>             
-        </div>
     </div>
 </section>
 <script>

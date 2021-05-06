@@ -71,16 +71,18 @@ class Freeswitch extends MX_Controller
     function fssipdevices_edit($edit_id = '')
     {
         $this->permission->check_web_record_permission($edit_id, 'sip_devices', 'freeswitch/fssipdevices/');
-        $data['page_title'] = gettext('Edit SIP Device');
+        $data['page_title'] = gettext('Edit SIP device');
         $account_data = $this->session->userdata("accountinfo");
         $where = array(
             'id' => $edit_id
         );
         $account = $this->freeswitch_model->get_edited_data($edit_id);
+        $data['reseller_id']=$account['reseller_id'] > 0 ? $account['reseller_id'] : '0';
+    	$reseller_id=$data['reseller_id'];
+        $account['reseller_id'] = $account['reseller_id'] > 0 ? $this->common->build_concat_string("first_name,last_name,number,company_name", 'accounts', $account['reseller_id']) : 'Admin';
 
-        $account['reseller_id'] = $account['reseller_id'] > 0 ? $this->common->build_concat_string("first_name,last_name,number", 'accounts', $account['reseller_id']) : 'Admin';
         if ($account_data['type'] == '-1') {
-            $data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields($edit_id, $account['reseller_id']), $account);
+            $data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields($edit_id, $reseller_id), $account);
             $this->load->view('view_freeswitch_add_edit', $data);
         } else {
             $data['form'] = $this->form->build_form($this->freeswitch_form->get_freeswith_form_fields($edit_id), $account);
@@ -281,6 +283,7 @@ class Freeswitch extends MX_Controller
         if ($this->input->post('advance_search', TRUE) == 1) {
             $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
             $action = $this->input->post();
+            $action['dir_params']['dir_params'] ="%". $action['dir_params']['dir_params'];  
             unset($action['action']);
             unset($action['advance_search']);
             $this->session->set_userdata('fssipdevices_list_search', $action);
@@ -326,7 +329,7 @@ class Freeswitch extends MX_Controller
             if ($reseller_ids == 0) {
                 $reseller_number = 'Admin';
             } else {
-                $reseller_number = $this->common->get_field_name_coma_new('first_name,last_name,number', 'accounts', array(
+                $reseller_number = $this->common->get_field_name_coma_new('first_name,last_name,number,company_name', 'accounts', array(
                     '0' => $reseller_ids
                 ));
             }
@@ -337,7 +340,7 @@ class Freeswitch extends MX_Controller
                 $this->common->get_field_name('name', '`sip_profiles', array(
                     'id' => $value['sip_profile_id']
                 )),
-                $this->common->get_field_name_coma_new('first_name,last_name,number', 'accounts', array(
+                $this->common->get_field_name_coma_new('first_name,last_name,number,company_name', 'accounts', array(
                     '0' => $value['accountid']
                 )),
                 $value['effective_caller_id_name'],
@@ -959,7 +962,7 @@ class Freeswitch extends MX_Controller
         } elseif ($button_name == "stop") {
             $cmd = "api sofia profile stop";
         } elseif ($button_name == "reload") {
-            $cmd = "api reloadxml";
+            $cmd = "api reload mod_sofia";
         } elseif ($button_name == "rescan") {
             $cmd = "api sofia profile " . trim($query[0]['name']) . " rescan";
         }
@@ -1200,140 +1203,7 @@ class Freeswitch extends MX_Controller
         redirect(base_url() . 'freeswitch/fssipprofile/');
     }
 
-    function fsserver_list()
-    {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['page_title'] = gettext('FreeSwitch Servers');
-        $data['search_flag'] = true;
-        $data['cur_menu_no'] = 1;
-        $this->session->set_userdata('advance_search', 0);
-        $data['grid_fields'] = $this->freeswitch_form->build_fsserver_list();
-        $data["grid_buttons"] = $this->freeswitch_form->build_fsserver_grid_buttons();
-        $data['form_search'] = $this->form->build_serach_form($this->freeswitch_form->get_search_fsserver_form());
-        $this->load->view('view_fsserver_list', $data);
-    }
-
-    function fsserver_list_json()
-    {
-        $json_data = array();
-        $count_all = $this->freeswitch_model->get_fsserver_list(false);
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
-        $json_data = $paging_data["json_paging"];
-        $query = $this->freeswitch_model->get_fsserver_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-        $grid_fields = json_decode($this->freeswitch_form->build_fsserver_list());
-        $json_data['rows'] = $this->form->build_grid($query, $grid_fields);
-        echo json_encode($json_data);
-    }
-
-    function fsserver_add($type = "")
-    {
-        $data['username'] = $this->session->userdata('user_name');
-        $data['flag'] = 'create';
-        $data['page_title'] = gettext('Create Freeswitch Server');
-        $data['form'] = $this->form->build_form($this->freeswitch_form->get_form_fsserver_fields(), '');
-        $this->load->view('view_fsserver_add_edit', $data);
-    }
-
-    function fsserver_edit($edit_id = '')
-    {
-        $data['page_title'] = gettext('Edit Freeswitch Server');
-        $where = array(
-            'id' => $edit_id
-        );
-        $account = $this->db_model->getSelect("*", "freeswich_servers", $where);
-        foreach ($account->result_array() as $key => $value) {
-            $edit_data = $value;
-        }
-        $data['form'] = $this->form->build_form($this->freeswitch_form->get_form_fsserver_fields(), $edit_data);
-        $this->load->view('view_fsserver_add_edit', $data);
-    }
-
-    function fsserver_save()
-    {
-        $add_array = $this->input->post();
-
-        $data['form'] = $this->form->build_form($this->freeswitch_form->get_form_fsserver_fields(), $add_array);
-        if ($add_array['id'] != '') {
-            $data['page_title'] = gettext('Edit Freeswitch Server');
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-                echo $data['validation_errors'];
-                exit();
-            } else {
-                if (isset($add_array['freeswitch_host'])) {
-                    $query = $this->common_model->check_unique_data('edit', 'freeswitch_host', $add_array['freeswitch_host'], 'freeswich_servers');
-                    $result = $query->result_array();
-                    if (count($result) > 0) {
-                        if ($result[0]['id'] != $add_array['id'] && $result[0]['freeswitch_host'] == $add_array['freeswitch_host']) {
-                            echo json_encode(array(
-                                "freeswitch_host_error" => gettext("Host already exist in system.")
-                            ));
-                            exit();
-                        }
-                    }
-                }
-
-                $this->freeswitch_model->edit_fsserver($add_array, $add_array['id']);
-                echo json_encode(array(
-                    "SUCCESS" => gettext("Freeswitch Server Updated Successfully!")
-                ));
-                exit();
-            }
-        } else {
-            $data['page_title'] = gettext('Freeswich Server');
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-                echo $data['validation_errors'];
-                exit();
-            } else {
-                if (isset($add_array['freeswitch_host']) && $add_array['freeswitch_host'] != "") {
-                    $query = $this->common_model->check_unique_data('add', 'freeswitch_host', $add_array['freeswitch_host'], 'freeswich_servers');
-                    if ($query > 0) {
-                        echo json_encode(array(
-                            "freeswitch_host_error" => gettext("Host already exist in system.")
-                        ));
-                        exit();
-                    }
-                }
-                $this->freeswitch_model->add_fssever($add_array);
-                echo json_encode(array(
-                    "SUCCESS" => gettext("Freeswitch Server Added Successfully!")
-                ));
-                exit();
-            }
-        }
-        $this->load->view('view_callshop_details', $data);
-    }
-
-    function fsserver_delete($id)
-    {
-        $this->freeswitch_model->fsserver_delete($id);
-        $this->session->set_flashdata('astpp_notification', gettext('Freeswitch Server Removed Successfully!'));
-        redirect(base_url() . 'freeswitch/fsserver_list/');
-        exit();
-    }
-
-    function fsserver_list_search()
-    {
-        $ajax_search = $this->input->post('ajax_search', 0);
-
-        if ($this->input->post('advance_search', TRUE) == 1) {
-            $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
-            $action = $this->input->post();
-            unset($action['action']);
-            unset($action['advance_search']);
-            $this->session->set_userdata('fsserver_list_search', $action);
-        }
-        if (@$ajax_search != 1) {
-            redirect(base_url() . 'freeswitch/fsserver_list/');
-        }
-    }
-
-    function fsserver_list_clearsearchfilter()
-    {
-        $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('account_search', "");
-    }
+   
 
     function fssipprofile_edit_validation($id, $name)
     {
@@ -1361,13 +1231,6 @@ class Freeswitch extends MX_Controller
         echo json_encode($result_array);
     }
 
-    function fsserver_delete_multiple()
-    {
-        $ids = $this->input->post("selected_ids", true);
-        $where = "id IN (" . $ids . ")";
-        $this->db->where($where);
-        echo $this->db->delete("freeswich_servers");
-    }
 }
 
 ?>

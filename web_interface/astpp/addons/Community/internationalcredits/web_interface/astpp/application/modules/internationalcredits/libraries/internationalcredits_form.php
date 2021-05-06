@@ -155,10 +155,10 @@ class Internationalcredits_form extends common {
 										"url" => "accounts/customer_payment_process_add/",
 										"mode" => "single" 
 								),
-								"CALLERID" => array (
-										"url" => "accounts/customer_add_callerid/",
-										"mode" => "popup" 
-								),
+								// "CALLERID" => array (
+								// 		"url" => "accounts/customer_add_callerid/",
+								// 		"mode" => "popup" 
+								// ),
 								"EDIT" => array (
 										"url" => "accounts/customer_edit/",
 										"mode" => "single" 

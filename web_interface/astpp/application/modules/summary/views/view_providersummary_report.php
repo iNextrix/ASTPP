@@ -16,7 +16,10 @@
 </script>
 <script>
     $(document).ready(function() {
+        var from_date = date + " 00:00:00";
+        var to_date = date + " 23:59:59";
         $("#provider_from_date").datetimepicker({
+            value: from_date,
             uiLibrary: 'bootstrap4',
             iconsLibrary: 'fontawesome',
             modal:true,
@@ -24,6 +27,7 @@
             footer:true
          });  
          $("#provider_to_date").datetimepicker({
+            value: to_date,
             uiLibrary: 'bootstrap4',
             iconsLibrary: 'fontawesome',
             modal:true,
@@ -77,7 +81,7 @@
 										<select name="provider_id"
 											class='col-md-12 form-control form-control-lg selectpicker'
 											data-live-search='true'>
-											<option value=''>--Select--</option>
+											<option value=''><?php echo gettext("--Select--")?></option>
                                         <?php
 
                                         if (! empty($accountlist)) {
@@ -109,7 +113,7 @@
 										<select name="trunk_id"
 											class='col-md-12 form-control form-control-lg selectpicker'
 											data-live-search='true'>
-											<option value=''>--Select--</option>
+											<option value=''><?php echo gettext("--Select--")?></option>
                                         <?php
                                         if (! empty($trunklist)) {
                                             foreach ($trunklist as $key => $value) {
@@ -213,7 +217,7 @@
 							<div class="col-md-12 mb-4">
 								<div class="row">
 									<div class="col-3 input-group">
-										<label class="search_label col-md-12 p-0"><?php echo gettext("Group By #time"); ?></label>
+										<label class="search_label col-md-12 p-0"><?php echo gettext("Group By #Time"); ?></label>
 										<select name="time"
 											class='col-md-12 form-control form-control-lg selectpicker'
 											style='margin-left: 5px;' data-live-search='true'>

@@ -97,7 +97,7 @@ class trunk_form extends common
                 )
             ),
             array(
-                gettext('Failover GW Name #1'),
+                gettext('Failover  GW Name #1'),
                 'failover_gateway_id',
                 'SELECT',
                 '',
@@ -131,30 +131,21 @@ class trunk_form extends common
                 )
             ),
             array(
-                gettext('Concurrent Calls'),
-                'INPUT',
-                array(
-                    'name' => 'maxchannels',
-                    'value' => '0',
-                    'size' => '20',
-                    'class' => "text field medium"
-                ),
-                'numeric|greater_than[-1]|integer|xss_clean',
+                gettext('Localization'),
+                "localization_id",
+                'SELECT',
+                '',
+                '',
                 'tOOL TIP',
-                ''
-            ),
-            array(
-                gettext('CPS'),
-                'INPUT',
+                'Please Enter account number',
+                'id',
+                'name',
+                'localization',
+                'build_dropdown_reseller',
+                'where_arr',
                 array(
-                    'name' => 'cps',
-                    'value' => '0',
-                    'size' => '20',
-                    'class' => "text field medium"
-                ),
-                'numeric|greater_than[-1]|integer|xss_clean',
-                'tOOL TIP',
-                ''
+                    "status" => "0"
+                )
             )
         );
 
@@ -183,6 +174,32 @@ class trunk_form extends common
                 'numeric|greater_than[-1]|integer|xss_clean',
                 'tOOL TIP',
                 'Please Enter Call Leg Timeout'
+            ),
+            array(
+                gettext('Concurrent Calls'),
+                'INPUT',
+                array(
+                    'name' => 'maxchannels',
+                    'value' => '0',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'numeric|greater_than[-1]|integer|xss_clean',
+                'tOOL TIP',
+                ''
+            ),
+            array(
+                gettext('CPS'),
+                'INPUT',
+                array(
+                    'name' => 'cps',
+                    'value' => '0',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'numeric|greater_than[-1]|integer|xss_clean',
+                'tOOL TIP',
+                ''
             ),
             array(
                 gettext('Priority'),
@@ -375,7 +392,7 @@ class trunk_form extends common
                 gettext("Provider"),
                 "100",
                 "provider_id",
-                "first_name,last_name,number",
+                "first_name,last_name,number,company_name",
                 "accounts",
                 "build_concat_string",
                 "",
@@ -519,7 +536,7 @@ class trunk_form extends common
     {
         $buttons_json = json_encode(array(
             array(
-                ("Create"),
+                gettext("Create"),
                 "btn btn-line-warning btn",
                 "fa fa-plus-circle fa-lg",
                 "button_action",

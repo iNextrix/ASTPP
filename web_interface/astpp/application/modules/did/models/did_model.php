@@ -113,7 +113,7 @@ reseller_products.price,reseller_products.billing_type,reseller_products.billing
 
     function did_number_release($did_info, $accountinfo, $action)
     {
-        if ($this->session->userdata['userlevel_logintype'] == '-1') {
+        if ($this->session->userdata['userlevel_logintype'] == '-1' || $this->session->userdata['userlevel_logintype'] == '2' ) {
             $did_update_array = array(
                 "accountid" => 0,
                 "parent_id" => 0,
@@ -139,6 +139,11 @@ reseller_products.price,reseller_products.billing_type,reseller_products.billing
                 "is_terminated" => 0,
                 "product_id" => $did_info['product_id']
             );
+            
+            if ($did_info['accountid'] > 0) {
+                unset($did_update_array['parent_id']);
+                $order_where['accountid']  =  $did_info['accountid'];       
+            }
         } else {
             if ($action == 'release') {
                 $did_update_array = array(
@@ -189,6 +194,10 @@ reseller_products.price,reseller_products.billing_type,reseller_products.billing
                 "product_id" => $did_info['product_id'],
                 "accountid" => $did_info['accountid']
             );
+        }
+        if($did_info['parent_id'] > 0 && $did_info['accountid'] == 0){
+            
+            $this->db->delete("reseller_products",array("product_id" => $did_info['product_id']));
         }
         $this->db->where(array(
             "product_id" => $did_info['product_id']

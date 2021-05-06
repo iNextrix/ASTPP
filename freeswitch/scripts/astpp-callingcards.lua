@@ -84,7 +84,7 @@ end
 session:setAutoHangup(false);
 
 if(config['calling_cards_welcome_file'] ~= "") then
-        session:streamFile(sound_path..config['calling_cards_welcome_file']);
+        session:streamFile("/var/www/html/astpp/upload/"..config['calling_cards_welcome_file']);
 else
         session:streamFile(sound_path.."astpp-welcome.wav");          
 end

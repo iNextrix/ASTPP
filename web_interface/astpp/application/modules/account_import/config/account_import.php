@@ -15,7 +15,8 @@ $config ['Customers-field'] = array (	'Generate Pin' => 'pin',
 	"Timezone"=>"timezone_id",
 	"Currency"=>"currency_id",
 	"Email Alerts"=>"notify_flag",
-	"Tax" =>"tax_id"
+	"Tax" =>"tax_id",
+	"Localization" => "localization_id"
 );
 $config ['Customers-mapper-fields'] = array ( "general_info" => array(
 	'Account'=>"number",

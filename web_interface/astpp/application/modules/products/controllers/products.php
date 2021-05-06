@@ -594,95 +594,52 @@ class Products extends MX_Controller {
 		redirect ( base_url () . 'products/products_list/' );
 	}
 	function products_delete_multiple() { 
-		$ids = $this->input->post ( "selected_ids", true );
-		$where = "id IN ($ids)";
-		$accountinfo = $this->session->userdata ( "accountinfo" );
-		$reseller_id = $accountinfo ['reseller_id'] >0 ? $accountinfo ['reseller_id'] : 0;
-		$accountid = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
-		if ($this->session->userdata ( 'logintype' ) == 1 || $this->session->userdata ( 'logintype' ) == 5) {	
-			$where_str = '';
-			$whr ="(accountid =".$accountinfo['id']." OR reseller_id =".$accountinfo['id'].")";
-			$this->db->where($whr);
-			$where_arr['where'] =$this->db->where("product_id IN (".$ids.")",NULL, false);
-
-			$order_item =  $this->db_model->getSelect ( "*", "order_items",'',$where_arr);
-			$order_item_details=array();
-			if($order_item ->num_rows > 0){
-				$order_item = $order_item->result_array();
-				foreach($order_item as $key =>$item){
-					$this->db->update("order_items",array("is_terminated"=>1,"termination_date"=>gmdate('Y-m-d H:i:s'),"termination_note"=> "Product  has been released by ".$accountinfo['number']."( ".$accountinfo['first_name']." ".$accountinfo['last_name'].") "));
-					$order_item_details['name']=$this->common->get_field_name("name","products",array("id"=>$item['product_id']));
-					$order_item_details['order_id']=$this->common->get_field_name("order_id","orders",array("id"=>$item['order_id']));
+		
+        $ids = $this->input->post("selected_ids", true);
+		if($ids != ''){
+			$where = "id IN ($ids)";
+			$accountinfo = $this->session->userdata ( "accountinfo" );
+			$reseller_id = $accountinfo ['reseller_id'] >0 ? $accountinfo ['reseller_id'] : 0;
+			$accountid = $accountinfo ['type'] == 1 ? $accountinfo ['id'] : 0;
+			if ($this->session->userdata ( 'logintype' ) == 1 || $this->session->userdata ( 'logintype' ) == 5) {	
+				$where =$this->db->where("product_id IN (".$ids.")");
+				$product_info = ( array ) $this->db->get_where( "reseller_products", $where )->result_array();
+				foreach ($product_info as $key => $value) {
+					if ($value['is_owner']==  0 ) {
+						
+							$this->db->where ("id",$value['product_id']);
+							$this->db->update("products",array("is_deleted"=>1));
+							$this->db->where ("id",$value['id']);
+							$this->db->update("reseller_products",array("is_optin"=>1));
+						}
+					else{
+						$this->db->update("reseller_products",array("is_optin"=>1));
+						echo TRUE;
+					}
+					 			
+				}
+				
+			}else{
+				$product_info = ( array ) $this->db->get_where( "products", $where )->result_array();
+				foreach($product_info as $key => $value){
+				
+				$where_arr['product_id'] = $value['id'];
+				$where_arr['is_terminated'] = 0;
+				$order_item = $this->db_model->getSelect ( "*", "order_items",$where_arr);
+				$did_where = array("product_id"=>$value['id']);
+					if($order_item->num_rows == 0){
+						$this->db->where("id", $value['id']);
+				        if($accountinfo ['type'] != 2){
+							$this->db->where ("created_by",$accountinfo['id'] );
+						}
+						$this->db->update("products",array("is_deleted"=>1));
+						$this->db->where("product_id", $value['id']);
+						$this->db->update("reseller_products",array("is_optin"=>1,"modified_date"=>gmdate("Y-m-d H:i:s")));
 					
-					$acc_info_result = array();
-					$acc_info=$this->db_model->getSelect ( "id,first_name,last_name,company_name,email,reseller_id,number", "accounts",array("id"=>$item['accountid'],'deleted'=>0));
-					$order_item_details['next_billing_date'] = gmdate('Y-m-d H:i:s');
-					
-					if($acc_info->num_rows > 0){
-						$acc_info_result=$acc_info->result_array()[0];
-						$final_array['number']=$acc_info_result['number'];
-						$final_array = array_merge($acc_info_result,$order_item_details);
-						$this->common->mail_to_users ('product_release', $final_array );
 					}
 				}
-				$this->db->where("id IN (".$ids.")",NULL, false);
-				$this->db->where ("created_by",$accountinfo['id'] );
-				$this->db->update("products",array("is_deleted"=>1));
-				$this->db->where("product_id IN (".$ids.")",NULL, false);
-				$this->db->where ("account_id",$accountinfo['id'] );
-				echo  $this->db->update("reseller_products",array("is_optin"=>1,"modified_date"=>gmdate("Y-m-d H:i:s")));
-			}else{
-				$this->db->where("id IN (".$ids.")",NULL, false);
-				$this->db->where ("reseller_id",$accountid );
-				$this->db->delete ( "products" );
-
-				$where_str = "(reseller_id =$reseller_id  OR account_id =$accountid OR reseller_id =$accountid)";
-				$this->db->where ($where_str);
-				$this->db->where("product_id IN (".$ids.")",NULL, false);
-				echo $this->db->delete ( "reseller_products" );
-
+					echo TRUE; 
 			}
-		}else{
-			$product_info = ( array ) $this->db->get_where( "products", $where )->result_array();
-			foreach($product_info as $key => $value){
-			$where_arr['where'] =$this->db->where("product_id IN (".$ids.")",NULL, false);
-			$order_item = $this->db_model->getSelect ( "*", "order_items",'',$where_arr);
-			
-			$did_where = array("product_id"=>$value['id']);
-			if($order_item->num_rows > 0){
-				$order_item=$order_item->result_array()[0];
-				$order_item['name']=$this->common->get_field_name("name","products",array("id"=>$order_item['product_id']));
-				$order_item['order_id']=$this->common->get_field_name("order_id","orders",array("id"=>$order_item['order_id']));
-				$acc_info_result = array();
-				$acc_info=$this->db_model->getSelect ( "id,first_name,last_name,company_name,email,number", "accounts",array("id"=>$order_item['accountid'],'deleted'=>0));
-				
-				$value['next_billing_date'] = gmdate('Y-m-d H:i:s');
-				if($value['product_category'] == 4){
-
-					 $this->product_model->products_release($value,$accountinfo);
-					$did_info = ( array ) $this->db->get_where( "dids", $did_where )->result_array()[0];
-					$this->load->module ('did/did');
-					 $this->did_model->did_number_release($did_info,$accountinfo,'release');
-					
-				}else{
-					 $this->product_model->products_release($value,$accountinfo);
-				}
-				if($acc_info->num_rows > 0){
-					$acc_info_result=$acc_info->result_array()[0];
-					$final_array['number']=$acc_info_result['number'];
-					$final_array = array_merge($acc_info_result,$order_item);
-					$this->common->mail_to_users ('product_release', $final_array );
-				}
-			}else{
-				$this->db->where ($did_where);
-				$this->db->delete ( 'dids' );
-				$this->db->where ("product_id",$value['id']);
-				$this->db->delete ( 'reseller_products' );
-				$this->db->where ($where );
-				$this->db->delete ( 'products' );				
-			}
-		}
-				echo 1; 			
 		}
 	}
 	function products_list_search() {

@@ -305,43 +305,7 @@ class Freeswitch_model extends CI_Model
         return $query;
     }
 
-    function get_fsserver_list($flag, $start = 0, $limit = 0)
-    {
-        $this->db_model->build_search('fsserver_list_search');
-        if ($flag) {
-            $query = $this->db_model->select("*", "freeswich_servers", "", "id", "desc", $limit, $start);
-        } else {
-            $query = $this->db_model->countQuery("*", "freeswich_servers", "");
-        }
-        return $query;
-    }
-
-    function add_fssever($data)
-    {
-        $data['creation_date'] = gmdate('Y-m-d H:i:s');
-        $data['last_modified_date'] = gmdate('Y-m-d H:i:s');
-        unset($data['action']);
-        $this->db->insert('freeswich_servers', $data);
-        return true;
-    }
-
-    function edit_fsserver($data, $id)
-    {
-        unset($data['action']);
-        $data['last_modified_date'] = gmdate('Y-m-d H:i:s');
-        $this->db->where('id', $id);
-        $this->db->update('freeswich_servers', $data);
-        return true;
-    }
-
-    function fsserver_delete($id)
-    {
-        $this->db->where('id', $id);
-        $this->db->delete('freeswich_servers');
-        return true;
-    }
-
-    function reload_freeswitch($command, $server_host = "")
+     function reload_freeswitch($command, $server_host = "")
     {
         $response = '';
         $query = $this->db_model->getSelect("*", "freeswich_servers", "");

@@ -40,8 +40,8 @@ function auth_callingcard()
 		  if(tonumber(aniinfo['status']) == 1) then
 			session:streamFile("astpp-callerid-blocked.wav")      
 			session:hangup();
-		  end
-		  cardinfo = get_account(aniinfo['accountid'])       
+		  end   
+		  cardinfo = get_account_by_id(aniinfo['accountid'])   
 		  cardnum = cardinfo['number'];		 
 
 		  local card_flag = validate_card_usage(cardinfo);
@@ -130,9 +130,23 @@ function save_ani(cardinfo)
 		dbh:query(query);
 	end
 end
+-- To get account by id
+function get_account_by_id(accountid)
+	local query = "SELECT *,(select currencyrate from currency where id=currency_id) as currencyrate FROM "..TBL_USERS.." WHERE id = \""..accountid.."\" AND status=0 AND deleted=0 limit 1";
+	
+			Logger.debug("[DOAUTHORIZATION] Query :" .. query)
+	
+			local userinfo;
+			assert (dbh:query(query, function(u)
+					userinfo = u;
+			end))
+			return userinfo;
+	
+	
+end
 
 function get_account(accountcode)
-	local query = "SELECT *,(select currencyrate from currency where id=currency_id) as currencyrate FROM "..TBL_USERS.." WHERE (number = \""..accountcode.."\" OR id=\""..accountcode.."\") AND status=0 AND deleted=0 limit 1";
+	local query = "SELECT *,(select currencyrate from currency where id=currency_id) as currencyrate FROM "..TBL_USERS.." WHERE number = \""..accountcode.."\" AND status=0 AND deleted=0 limit 1";
 
 	Logger.debug("[DOAUTHORIZATION] Query :" .. query)
 
@@ -496,15 +510,14 @@ function dialout( original_destination_number, destination_number, maxlength, us
 					-- if (termination_rate_arr_value['dialed_modify'] ~= '') then 
 					-- 	destination_number = do_number_translation(termination_rate_arr_value['dialed_modify'],destination_number)
 					-- end
-				   
-		if(tonumber(userinfo['is_recording']) == 0)then
-		    	session:execute("export", "is_recording=1");
-			session:execute("export", "media_bug_answer_req=true");
-			session:execute("export", "record_sample_rate=8000");
-			session:execute("export", "execute_on_answer=record_session $${recordings_dir}/${uuid}.wav");
-		end
-
-
+				    --Dhaval ASTPPCOM-651(Record Calling card calls)
+					if(tonumber(userinfo['is_recording']) == 0)then
+						session:execute("export", "is_recording=1");
+						session:execute("export", "media_bug_answer_req=true");
+						session:execute("export", "record_sample_rate=8000");
+						session:execute("export", "execute_on_answer=record_session $${recordings_dir}/${uuid}.wav");
+					end
+					--END
 					if(termination_rate_arr_value['prepend'] ~= '' or termination_rate_arr_value['strip'] ~= '') then
 						destination_number = do_number_translation(termination_rate_arr_value['strip'].."/"..termination_rate_arr_value['prepend'],destination_number)
 					end

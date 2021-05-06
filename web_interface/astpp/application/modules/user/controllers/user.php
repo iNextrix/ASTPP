@@ -315,6 +315,11 @@ class User extends MX_Controller
             ));
             $did_arr = (array) $did_query->first_row();
             if ($action == "add") {
+                if ($accountinfo['type'] == 0 && (!$this->check_calls_running())) {
+                    $this->session->set_flashdata('astpp_notification', gettext('You can not purchase any new DID when your calls are running!'));
+			        redirect(base_url() . "user/user_didlist/");
+			        exit;
+                }
                 $this->load->library('did_lib');
                 $did_result = $this->did_lib->did_billing_process($this->session->userdata, $accountinfo['id'], $did_id);
                 if ($did_result[0] == "SUCCESS") {
@@ -929,6 +934,27 @@ class User extends MX_Controller
                 );
                 $this->db->where('id', $add_array['id']);
                 $this->db->update('accounts', $data);
+
+                $this->db->where('accountid', $accountinfo['id']);
+                $this->db->where('username', $accountinfo['number']);
+                    $sip_info = (array) $this->db->get_where("sip_devices")->first_row();
+                    if (! empty($sip_info)) {
+                        $did_params = (array) (json_decode($sip_info['dir_params']));
+                        $sipdevice_array = array(
+                            'dir_params' => json_encode(array(
+                                "password" => $add_array['new_password'],
+                                'vm-enabled' => "true",
+                                "vm-password" => $did_params['vm-password'],
+                                "vm-mailto" => $did_params['vm-mailto'],
+                                "vm-attach-file" => "true",
+                                "vm-keep-local-after-email" => "true",
+                                "vm-email-all-messages" => "true"
+                            ))
+                        );
+                        $this->db->where('accountid', $accountinfo['id']);
+                        $this->db->where('username', $accountinfo['number']);
+                        $this->db->update('sip_devices', $sipdevice_array);
+                    }
                 $this->session->set_flashdata('astpp_errormsg', gettext('Password Updated Successfully!'));
                 redirect(base_url() . 'user/user_change_password/');
             }
@@ -976,6 +1002,12 @@ class User extends MX_Controller
             unset($action['action'], $action['advance_search']);
             if (isset($action['credit']['credit']) && $action['credit']['credit'] != '') {
                 $action['credit']['credit'] = $this->common_model->add_calculate_currency($action['credit']['credit'], "", '', true, false);
+            }
+            if(!empty($action['date'][0])){
+                $action['date'][0]=$this->common->convert_GMT_new ( $action['date'][0]);
+            }
+            if(!empty($action['date'][1])){
+                $action['date'][1]=$this->common->convert_GMT_new ( $action['date'][1]);
             }
             $this->session->set_userdata('user_refill_report_search', $action);
         }
@@ -1026,10 +1058,9 @@ class User extends MX_Controller
         foreach ($invoices_result as $key => $value) {
 
             $total_amount += $total_credit['debit'];
-            $invoice_date = date("Y-m-d", strtotime($value['generate_date']));
-            $from_date = date("Y-m-d", strtotime($value['from_date']));
-            $due_date = date("Y-m-d", strtotime($value['due_date']));
-
+           $invoice_date = $this->common->convert_GMT_to_new('','',$value['generate_date']);
+            $from_date = $this->common->convert_GMT_to_new('','',$value['from_date']);
+            $due_date = $this->common->convert_GMT_to_new('','',$value['due_date']);
             $from_currency = Common_model::$global_config['system_config']['base_currency'];
             $to_currency = $this->common->get_field_name('currency', 'currency', $accountinfo['currency_id']);
 	    $charge_type = $this->common->get_field_name("charge_type","invoice_details",array("invoiceid"=>$value['id']));	
@@ -1063,9 +1094,9 @@ class User extends MX_Controller
             $payment_last = ($payment_last_date) ? date("Y-m-d", strtotime($payment_last_date)) : '';
             $download = '<a href="' . base_url() . '/user/user_invoice_download/' . $value['id'] . '" class="btn btn-royelblue btn-sm"  title="Download Invoice" ><i class="fa fa-cloud-download fa-fw"></i></a>&nbsp';
             if ($value['is_paid'] == 1 && $outstanding > 0) {
-                $payment = ' <a style="padding: 0 8px;" href="' . base_url() . 'user/user_invoice_payment/' . $value['id'] . '" class="btn btn-warning"  title="Payment">Unpaid</a>';
+                $payment = ' <a style="padding: 0 8px;" href="' . base_url() . 'user/user_invoice_payment/' . $value['id'] . '" class="btn btn-warning"  title="Payment">'.gettext("Unpaid").'</a>';
             } else {
-                $payment = ' <button style="padding: 0 8px;" class="btn btn-success" type="button">Paid</button>';
+                $payment = ' <button style="padding: 0 8px;" class="btn btn-success" type="button">'.gettext("Paid").'</button>';
             }
 
             if ($value['generate_type'] == 1) {
@@ -1098,8 +1129,12 @@ class User extends MX_Controller
             print_r($action);
             unset($action['action']);
             unset($action['advance_search']);
-            $action['from_date'][0] = $action['from_date'][0] ? $action['from_date'][0] . " 00:00:00" : '';
-            $action['to_date'][1] = $action['to_date'][1] ? $action['to_date'][1] . " 23:59:59" : '';
+            if(!empty($action['from_date'][0])){
+                $action['from_date'][0]=$this->common->convert_GMT_to_new( '','',$action['from_date'][0]);
+            }
+            if(!empty($action['to_date'][1])){
+                $action['to_date'][1]=$this->common->convert_GMT_to_new ('','', $action['to_date'][1]);
+            }
             $action['generate_date'][0] = $action['generate_date'][0] ? $action['generate_date'][0] . " 00:00:00" : '';
             $this->session->set_userdata('user_invoice_list_search', $action);
         }
@@ -1149,134 +1184,6 @@ class User extends MX_Controller
         $this->permission->customer_web_record_permission($invoiceid, 'invoices', 'user/user_invoices_list/');
         $this->load->module('invoices/invoices');
         $this->invoices->invoice_download($invoiceid);
-    }
-
-    function user_charges_history()
-    {
-        $data['page_title'] = gettext('Charges History');
-        $this->session->set_userdata('advance_search', 0);
-        $data['search_flag'] = true;
-        $data['grid_fields'] = $this->user_form->build_user_charge_history();
-        $data['form_search'] = $this->form->build_serach_form($this->user_form->build_user_charge_history_search());
-        $accountinfo = $this->session->userdata('accountinfo');
-        if ($accountinfo['type'] == 1 || $accountinfo['type'] == 5) {
-            $this->load->view('view_reseller_charges_list', $data);
-        } else {
-            $this->load->view('view_user_charges_list', $data);
-        }
-    }
-
-    function user_charges_history_json()
-    {
-        $json_data = array();
-        $accountinfo = $this->session->userdata('accountinfo');
-        $count_all = $this->user_model->get_user_charge_history(false);
-        $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
-        $json_data = $paging_data["json_paging"];
-        $query = $this->user_model->get_user_charge_history(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
-        $result = $query->result_array();
-        $query1 = $this->user_model->get_user_charge_history(true, '', '');
-        $res = $query1->result_array();
-        $debit = 0;
-        $credit = 0;
-        $before_balance = 0;
-        $after_balance = 0;
-        $i = 0;
-        foreach ($result as $key => $value) {
-
-            $date = $this->common->convert_GMT_to('', '', $value['created_date']);
-            $account = $this->common->get_field_name_coma_new('first_name,last_name,number', 'accounts', $value['accountid']);
-            $reseller = $this->common->reseller_select_value('first_name,last_name,number', 'accounts', $value['reseller_id']);
-            $invocienumber = (array) $this->db->get_where("invoices", array(
-                'id' => $value['invoiceid']
-            ))->first_row();
-            $account_data = array();
-            $account_data = $this->db_model->getSelect("posttoexternal,credit_limit,balance", "accounts", array(
-                "id" => $value['accountid']
-            ));
-            if ($account_data->num_rows > 0) {
-                $account_data = $account_data->result_array()[0];
-            }
-            $account_currency = $this->common->get_field_name('currency', 'currency', $accountinfo['currency_id']);
-            $base_currency = Common_model::$global_config['system_config']['base_currency'];
-
-            if ($account_currency != $base_currency) {
-                $before_balance = $this->common->convert_to_currency_account("", "", $value['before_balance']);
-                $after_balance = $this->common->convert_to_currency_account("", "", $value['after_balance']);
-            } else {
-                $before_balance = $this->common->currency_decimal($value['before_balance']);
-                $after_balance = $this->common->currency_decimal($value['after_balance']);
-            }
-            if (count($invocienumber) && is_array($invocienumber)) {
-                $prefix_number = $invocienumber['prefix'] . "" . $invocienumber['number'];
-            } else {
-                $prefix_number = "";
-            }
-            $json_data['rows'][] = array(
-                'cell' => array(
-                    $date,
-                    $prefix_number,
-                    $value['charge_type'],
-                    $value['description'],
-                    $before_balance,
-                    $this->common_model->calculate_currency_customer($value['debit'], "", "", true, false),
-                    $this->common_model->calculate_currency_customer($value['credit'], "", "", true, false),
-                    $after_balance
-                )
-            );
-        }
-        $debit_sum = 0;
-        $credit_sum = 0;
-        foreach ($res as $value) {
-            $debit_sum += $value['debit'];
-            $credit_sum += $value['credit'];
-            $before_balance += $value['before_balance'];
-            $after_balance += $value['after_balance'];
-        }
-
-        $json_data['rows'][$count_all]['cell'] = array(
-            '<b>'.gettext("Total").'</b>',
-            '-',
-            '-',
-            '-',
-            '-',
-            '<b>' . $this->common_model->calculate_currency_customer($debit_sum, "", "", true, false) . '</b>',
-            '<b>' . $this->common_model->calculate_currency_customer($credit_sum, "", "", true, false) . '</b>',
-            '-'
-        );
-        echo json_encode($json_data);
-    }
-
-    function user_charges_history_search()
-    {
-        $ajax_search = $this->input->post('ajax_search', 0);
-
-        if ($this->input->post('advance_search', TRUE) == 1) {
-            $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
-            $action = $this->input->post();
-
-            unset($action['action']);
-            unset($action['advance_search']);
-            $action['created_date'][0] = $action['created_date'][0] ? $action['created_date'][0] : '';
-            $action['created_date'][1] = $action['created_date'][1] ? $action['created_date'][1] : '';
-
-            if (isset($action['debit']['debit']) && $action['debit']['debit'] != '') {
-                $action['debit']['debit'] = $this->common_model->add_calculate_currency($action['debit']['debit'], "", '', true, false);
-            }
-            if (isset($action['credit']['credit']) && $action['credit']['credit'] != '') {
-                $action['credit']['credit'] = $this->common_model->add_calculate_currency($action['credit']['credit'], "", '', true, false);
-            }
-            $this->session->set_userdata('user_charge_history_search', $action);
-        }
-        if (@$ajax_search != 1) {
-            redirect(base_url() . 'user/user_charges_history/');
-        }
-    }
-
-    function user_charges_history_clearsearchfilter()
-    {
-        $this->session->set_userdata('advance_search', 0);
-        $this->session->set_userdata('user_charge_history_search', "");
     }
 
     function user_didlist()
@@ -1697,7 +1604,7 @@ class User extends MX_Controller
     {
         $this->permission->customer_web_record_permission($edit_id, 'sip_devices', 'user/user_sipdevices/');
         $account_data = $this->session->userdata("accountinfo");
-        $data['page_title'] = gettext('Edit SIP Device');
+        $data['page_title'] = gettext('Edit SIP device');
         $where = array(
             'id' => $edit_id
         );
@@ -1938,6 +1845,12 @@ class User extends MX_Controller
             if (isset($action['debit']['debit']) && $action['debit']['debit'] != '') {
                 $action['debit']['debit'] = $this->common_model->add_calculate_currency($action['debit']['debit'], "", '', true, false);
             }
+            if(!empty($action['callstart'][0])){
+                $action['callstart'][0]=$this->common->convert_GMT_new ( $action['callstart'][0]);
+            }
+            if(!empty($action['callstart'][1])){
+                $action['callstart'][1]=$this->common->convert_GMT_new ( $action['callstart'][1]);
+            }
             $this->session->set_userdata('user_cdrs_report_search', $action);
         }
         if (@$ajax_search != 1) {
@@ -2138,6 +2051,8 @@ class User extends MX_Controller
                                     $this->session->set_flashdata('astpp_notification', gettext('Please enter valid account number!'));
                                 } elseif ($post_array['credit'] < 0 || $post_array['credit'] > $balance) {
                                     $this->session->set_flashdata('astpp_notification', gettext('Insuffiecient amount !'));
+                                } elseif (!$this->check_calls_running()) {
+                                    $this->session->set_flashdata('astpp_notification', gettext('You can not transfer fund when your calls are running!'));
                                 } else {
                                     $from['id'] = $post_array['id'];
                                     $from['account_currency'] = $post_array['account_currency'];
@@ -2237,7 +2152,6 @@ class User extends MX_Controller
                         $this->session->set_flashdata('astpp_notification', gettext('Account number not found.'));
                     }
                 } else {
-                    // echo "string";die();
                     $this->session->set_flashdata('astpp_notification', gettext('You can not transfer fund in same account.'));
                 }
                 redirect(base_url() . 'user/user_fund_transfer/');
@@ -2248,7 +2162,69 @@ class User extends MX_Controller
             redirect(base_url() . 'user/user/');
         }
     }
-
+    private function check_calls_running(){
+		 $accountinfo = $this->session->userdata('accountinfo');
+		 $command = "api show channels";
+		 $this->load->module('freeswitch');
+		 $response = $this->freeswitch_model->reload_live_freeswitch($command);
+		 $calls = array();
+		 $calls_final = array();
+		 $data_header = array();
+		 $k = 0;
+		 $data = explode("\n", $response);
+		 for ($i = 0; $i < count($data) - 2; $i ++) {
+		     if (trim($data[$i]) != '') {
+		         if (count($data_header) == 0 || substr($data[$i], 0, 4) == "uuid") {
+		             $data_header = explode(",", $data[$i]);
+		         } else {
+		             $bridge_str = "";
+		             $string = " " . $data[$i];
+		             $ini = strpos($string, '[');
+		             if ($ini != 0) {
+		                 $ini += strlen('[');
+		                 $len = strpos($string, ']', $ini) - $ini;
+		                 $bridge_str = substr($string, $ini, $len);
+		             }
+		             if ($bridge_str != '') {
+		                 $new_bridge_str = str_replace(',', '--', $bridge_str);
+		                 $data[$i] = str_replace($bridge_str, $new_bridge_str, $data[$i]);
+		             }
+		             $data_call = explode(",", $data[$i]);
+		             for ($j = 0; $j < count($data_call); $j ++) {
+		                 $calls[$k][@$data_header[$j]] = @$data_call[$j];
+				 $calls_final[@$calls[$k]['uuid']] = @$calls[$k];
+		             }
+		             $k ++;
+		         }
+		     }
+		 }
+		 $json_data = array();
+		 $count = 0;
+		 $query = $this->db_model->select("username", "sip_devices", array(
+		        'status' => 0,
+		        'accountid'=>$accountinfo['id']), "id", "desc", "10", "");
+			$sip_device_array=$query->result_array();
+			
+			$sip_device_final_array=array();
+			foreach ($sip_device_array as $key => $value) {
+				$sip_device_final_array[$value['username']] =$value['username'];
+			}
+            $response_return =true;
+            if(!empty($calls)){
+			
+		 foreach ($calls as $key => $value) {
+			 $calls[$i]['presence_data'] = @$calls_final[$value['call_uuid']]['presence_data'];
+                	     $livecall_data = explode("|||", $calls[$i]['presence_data']);
+		         $account_explode=explode('(',$livecall_data[1]);	
+		         if (isset($value['state']) && ($value['state'] == 'CS_EXCHANGE_MEDIA' || $value['state'] == 'CS_CONSUME_MEDIA') ) {
+				 if($accountinfo['number'] == rtrim($account_explode[1],')') || array_key_exists($value['initial_dest'],$sip_device_final_array)){
+                     $response_return=false;		 		
+                 }
+		         } 
+             }
+		 }
+		return $response_return;
+	}
     function user_opensips()
     {
         if (common_model::$global_config['system_config']['opensips'] == 1) {
@@ -2680,8 +2656,11 @@ class User extends MX_Controller
             if (isset($action['order_id']['order_id']) && $action['order_id']['order_id'] != '') {
                 $action['order_id']['order_id'] = str_replace('#', "", $action['order_id']['order_id']);
             }
-	 if (isset($action['order_date'][1]) && $action['order_date'][1] != '') {
-                $action['order_date'][1] = $action['order_date'][1]. ' 23:59:59' ;
+            if(!empty($action['order_date'][0])){
+                $action['order_date'][0]=$this->common->convert_GMT_new ( $action['order_date'][0]);
+            }
+            if(!empty($action['order_date'][1])){
+                $action['order_date'][1]=$this->common->convert_GMT_new ( $action['order_date'][1]);
             }
             $this->session->set_userdata('orders_list_search', $action);
         }

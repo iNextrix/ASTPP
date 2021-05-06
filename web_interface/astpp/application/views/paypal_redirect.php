@@ -31,7 +31,19 @@ window.addEventListener('DOMContentLoaded', function(){
 			  <input type="hidden" readonly name="no_shipping" value="1">
 			  <input type="hidden" readonly name="PHPSESSID" value="<?=session_id(); ?>">
 	
+			  <?php
+			 $accountinfo = $this->session->userdata ( 'token' );
+			 $accountinfo = ((isset($accountinfo)) && $accountinfo != '')?$accountinfo:$this->session->userdata ( "accountinfo" );
+			 $system_config = common_model::$global_config ['system_config'];
+			 $reseller_id = ($accountinfo['reseller_id'] > 0) ? $accountinfo['reseller_id']: 0;
+			 $paypal_info= $this->db_model->getSelect("*","system",array("sub_group"=>'Paypal',"reseller_id"=>$reseller_id));
+			 $accountinfo['from_currency'] = $this->common->get_field_name ( 'currency', 'currency', $accountinfo ["currency_id"] );
+			 $accountinfo['is_supported'] = $this->common->get_field_name ( 'is_supported', 'currency', $accountinfo ["currency_id"] );
+			 if($accountinfo['is_supported'] == 0){ ?>
+				<input type="hidden" readonly name="currency_code" value="<?php echo $accountinfo['from_currency']; ?>">
+			 <?php } else { ?>
 			<input type="hidden" readonly name="currency_code" value="USD">
+			 <?php } ?>
 			  <input type="hidden" readonly name="notify_url" value="<?php echo (isset($notify_url) && $notify_url !='')?$notify_url: base_url().'pages/paypal_response/'; ?>"> 
 			  <input type="hidden" readonly name="return" value="<?php echo (isset($return) && $return !='')? $return:base_url().'pages/paypal_response/';?>">
 			  <input type="hidden" readonly name="cancel_return" value="<?php echo(isset($cancel_return) && $cancel_return !='')?$cancel_return:base_url().'/pages/'; ?>">

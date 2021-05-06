@@ -110,7 +110,10 @@ class Freeswitch_form extends common
                 'build_concat_dropdown',
                 'where_arr',
                 array(
-                    'reseller_id' => $reseller_id
+                    'reseller_id' => $reseller_id,
+                    'deleted'=>0,
+                    'status'=>0,
+                    'type'=>0
                 )
             );
         }
@@ -818,6 +821,25 @@ class Freeswitch_form extends common
                     ''
                 ),
                 array(
+                    gettext('Mail To'),
+                    'INPUT',
+                    array(
+                        'name' => 'dir_params[dir_params]',
+                        '',
+                        'size' => '20',
+                        'class' => "text field"
+                    ),
+                    '',
+                    'tOOL TIP',
+                    '1',
+                    'dir_params[dir_params-string]',
+                    '',
+                    '',
+                    '',
+                    'search_string_type',
+                    ''
+                ),
+                array(
                     gettext('SIP Profile'),
                     'sip_profile_id',
                     'SELECT',
@@ -1248,7 +1270,7 @@ class Freeswitch_form extends common
                     gettext("Reseller"),
                     "90",
                     "reseller_id",
-                    "first_name,last_name,number",
+                    "first_name,last_name,number,company_name",
                     "accounts",
                     "reseller_select_value"
                 ),
@@ -1475,7 +1497,7 @@ class Freeswitch_form extends common
                 '',
                 '',
                 '',
-                'set_sip_config_option'
+                'set_sip_config_options'
             ),
             array(
                 gettext('Caller-Id-In-From'),
@@ -1641,18 +1663,6 @@ class Freeswitch_form extends common
                     'class' => "text field medium"
                 ),
                 'trim',
-                'tOOL TIP',
-                ''
-            ),
-            array(
-                gettext('Channel'),
-                'INPUT',
-                array(
-                    'name' => 'channel',
-                    'size' => '20',
-                    'class' => "text field medium"
-                ),
-                '',
                 'tOOL TIP',
                 ''
             ),
@@ -2455,7 +2465,7 @@ class Freeswitch_form extends common
                 "left"
             ),
             array(
-                gettext("Value"),
+                gettext("VALUE"),
                 "414",
                 "sip_ip",
                 "",
@@ -2482,313 +2492,8 @@ class Freeswitch_form extends common
         return $grid_field_arr;
     }
 
-    function build_fsserver_list()
-    {
-        $grid_field_arr = json_encode(array(
-            array(
-                "<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>",
-                "30",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "false",
-                "center"
-            ),
-            array(
-                gettext("Host"),
-                "200",
-                "freeswitch_host",
-                "",
-                "",
-                "",
-                "EDITABLE",
-                "true",
-                "left"
-            ),
-            array(
-                gettext("Password"),
-                "200",
-                "freeswitch_password",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Port"),
-                "100",
-                "freeswitch_port",
-                "",
-                "",
-                "",
-                "",
-                "true",
-                "right"
-            ),
-            array(
-                gettext("Created Date"),
-                "170",
-                "creation_date",
-                "creation_date",
-                "creation_date",
-                "convert_GMT_to",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Modified Date"),
-                "170",
-                "last_modified_date",
-                "last_modified_date",
-                "last_modified_date",
-                "convert_GMT_to",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Status"),
-                "145",
-                "status",
-                "status",
-                "freeswich_servers",
-                "get_status",
-                "",
-                "true",
-                "center"
-            ),
-            array(
-                gettext("Action"),
-                "182",
-                "",
-                "",
-                "",
-                array(
-                    "EDIT" => array(
-                        "url" => "/freeswitch/fsserver_edit/",
-                        "mode" => "popup"
-                    ),
-                    "DELETE" => array(
-                        "url" => "/freeswitch/fsserver_delete/",
-                        "mode" => "single"
-                    )
-                ),
-                "false"
-            )
-        ));
-        return $grid_field_arr;
-    }
 
-    function build_fsserver_grid_buttons()
-    {
-        $buttons_json = json_encode(array(
-            array(
-                gettext("Create"),
-                "btn btn-line-warning btn",
-                "fa fa-plus-circle fa-lg",
-                "button_action",
-                "/freeswitch/fsserver_add/",
-                "popup",
-                "",
-                "create"
-            ),
-            array(
-                gettext("Delete"),
-                "btn btn-line-danger",
-                "fa fa-times-circle fa-lg",
-                "button_action",
-                "/freeswitch/fsserver_delete_multiple/",
-                "",
-                "",
-                "delete"
-            )
-        ));
-        return $buttons_json;
-    }
 
-    function get_form_fsserver_fields()
-    {
-        $form['forms'] = array(
-            base_url() . '/freeswitch/fsserver_save/',
-            array(
-                "id" => "fsserver_form",
-                "name" => "fsserver_form"
-            )
-        );
-        $form[gettext('Freeswitch Server Information')] = array(
-            array(
-                '',
-                'HIDDEN',
-                array(
-                    'name' => 'id'
-                ),
-                '',
-                '',
-                '',
-                ''
-            ),
-            array(
-                gettext('Host'),
-                'INPUT',
-                array(
-                    'name' => 'freeswitch_host',
-                    'size' => '20',
-                    'class' => "text field medium"
-                ),
-                'trim|required',
-                'tOOL TIP',
-                'Please Enter account number'
-            ),
-            array(
-                gettext('Password'),
-                'INPUT',
-                array(
-                    'name' => 'freeswitch_password',
-                    'size' => '20',
-                    'class' => "text field medium"
-                ),
-                '',
-                'tOOL TIP',
-                'Please Enter account number'
-            ),
-            array(
-                gettext('Port'),
-                'INPUT',
-                array(
-                    'name' => 'freeswitch_port',
-                    'size' => '20',
-                    'class' => "text field medium"
-                ),
-                'trim|required|numeric|integer|max_length[5]|greater_than[-1]|less_than[65535]',
-                'tOOL TIP',
-                'Please Enter account number'
-            )
-        );
-
-        $form['button_cancel'] = array(
-            'name' => 'action',
-            'content' => gettext('Close'),
-            'value' => 'cancel',
-            'type' => 'button',
-            'class' => 'btn btn-secondary ml-2',
-            'onclick' => 'return redirect_page(\'NULL\')'
-        );
-        $form['button_save'] = array(
-            'name' => 'action',
-            'content' => gettext('Save'),
-            'value' => 'save',
-            'id' => 'submit',
-            'type' => 'button',
-            'class' => 'btn btn-success'
-        );
-
-        return $form;
-    }
-
-    function get_search_fsserver_form()
-    {
-        $form['forms'] = array(
-            "",
-            array(
-                'id' => "fsserver_search"
-            )
-        );
-        $form[gettext('Search')] = array(
-            array(
-                gettext('Host'),
-                'INPUT',
-                array(
-                    'name' => 'freeswitch_host[freeswitch_host]',
-                    '',
-                    'id' => 'first_name',
-                    'size' => '15',
-                    'class' => "text field "
-                ),
-                '',
-                'tOOL TIP',
-                '1',
-                'freeswitch_host[freeswitch_host-string]',
-                '',
-                '',
-                '',
-                'search_string_type',
-                ''
-            ),
-            array(
-                gettext('Port'),
-                'INPUT',
-                array(
-                    'name' => 'freeswitch_port[freeswitch_port]',
-                    'value' => '',
-                    'size' => '20',
-                    'class' => "text field "
-                ),
-                '',
-                'Tool tips info',
-                '1',
-                'freeswitch_port[freeswitch_port-string]',
-                '',
-                '',
-                '',
-                'search_string_type',
-                ''
-            ),
-            array(
-                gettext('Status'),
-                'status',
-                'SELECT',
-                '',
-                '',
-                'tOOL TIP',
-                'Please Select Status',
-                '',
-                '',
-                '',
-                'set_search_status'
-            ),
-            array(
-                '',
-                'HIDDEN',
-                'ajax_search',
-                '1',
-                '',
-                '',
-                ''
-            ),
-            array(
-                '',
-                'HIDDEN',
-                'advance_search',
-                '1',
-                '',
-                '',
-                ''
-            )
-        );
-        $form['button_search'] = array(
-            'name' => 'action',
-            'id' => "fsserver_search_btn",
-            'content' => gettext('Search'),
-            'value' => 'save',
-            'type' => 'button',
-            'class' => 'btn btn-success float-right'
-        );
-        $form['button_reset'] = array(
-            'name' => 'action',
-            'id' => "id_reset",
-            'content' => gettext('Clear'),
-            'value' => 'cancel',
-            'type' => 'reset',
-            'class' => 'btn btn-secondary float-right ml-2'
-        );
-
-        return $form;
-    }
 
     function build_devices_list_for_customer()
     {

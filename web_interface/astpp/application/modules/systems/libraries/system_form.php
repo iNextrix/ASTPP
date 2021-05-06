@@ -399,6 +399,234 @@ class System_form extends common
         return $form;
     }
 
+    function build_timezone_list_for_admin()
+    {
+        $action = 'systems/timezone_list_edit/';
+        $action_remove = 'systems/timezone_remove/';
+        $mode = "popup";
+
+        $grid_field_arr = json_encode(array(
+            array(
+                "<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>",
+                "30",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "false",
+                "center"
+            ),
+            array(
+                gettext("Name"),
+                "200",
+                "timezone_name",
+                "",
+                "",
+                "",
+                "EDITABLE",
+                "true",
+                "center"
+            ),
+            array(
+                gettext("GMT Offset"),
+                "250",
+                "timezone_name",
+                "gmtoffset",
+                "timezone",
+                "get_field_name",
+                "",
+                "true",
+                "center"
+            ),
+            array(
+                gettext("Action"),
+                "265",
+                "",
+                "",
+                "",
+                array(
+                    "EDIT" => array(
+                        "url" => "$action",
+                        "mode" => "$mode"
+                    ),
+                    "DELETE" => array(
+                        "url" => "$action_remove",
+                        "mode" => "single"
+                    )
+                ),
+                "false"
+            )
+        ));
+        return $grid_field_arr;
+    }
+    function build_admin_timezone_grid_buttons()
+    {
+        $buttons_json = json_encode(array(
+            array(
+                gettext("Create"),
+                "btn btn-line-warning btn",
+                "fa fa-plus-circle fa-lg",
+                "button_action",
+                "systems/timezone_add/",
+                "popup",
+                "",
+                "create"
+            ),
+            array(
+                gettext("Delete"),
+                "btn btn-line-danger",
+                "fa fa-times-circle fa-lg",
+                "button_action",
+                "systems/timezone_delete_multiple",
+                "",
+                "",
+                "delete"
+            )
+        ));
+        return $buttons_json;
+    }
+    function get_search_timezone_form()
+    {
+        $form['forms'] = array(
+            "",
+            array(
+                'id' => "timezone_search"
+            )
+        );
+        $form['Search'] = array(
+
+            array(
+                gettext('Name'),
+                'INPUT',
+                array(
+                    'name' => 'timezone_name[timezone_name]',
+                    'id' => 'timezone_name_id',
+                    '',
+                    'size' => '20',
+                    'class' => "text field "
+                ),
+                '',
+                'tOOL TIP',
+                '1',
+                'timezone_name[timezone_name-string]',
+                '',
+                '',
+                '',
+                'search_string_type',
+                ''
+            ),
+            array(
+                '',
+                'HIDDEN',
+                'ajax_search',
+                '1',
+                '',
+                '',
+                ''
+            ),
+            array(
+                '',
+                'HIDDEN',
+                'advance_search',
+                '1',
+                '',
+                '',
+                ''
+            )
+        );
+
+        $form['button_search'] = array(
+            'name' => 'action',
+            'id' => "timezone_search_btn",
+            'content' => gettext('Search'),
+            'value' => 'save',
+            'type' => 'button',
+            'class' => 'btn btn-success float-right'
+        );
+        $form['button_reset'] = array(
+            'name' => 'action',
+            'id' => "id_reset",
+            'content' => gettext('Clear'),
+            'value' => 'cancel',
+            'type' => 'reset',
+            'class' => 'btn btn-secondary float-right mx-2'
+        );
+
+        return $form;
+    }
+    function get_timezone_form_fields($id = '')
+    {
+        $timezone = $id > 0 ? 'timezone.timezone_name.' . $id : 'timezone.timezone_name';
+        $timezone_code = $id > 0 ? 'timezone.timezone_name.' . $id : 'timezone.timezone_name';
+
+        $form['forms'] = array(
+            base_url() . 'systems/timezone_save/',
+            array(
+                'id' => 'system_form',
+                'method' => 'POST',
+                'name' => 'system_form'
+            )
+        );
+
+        $form[gettext('Timezone List')] = array(
+            array(
+                '',
+                'HIDDEN',
+                array(
+                    'name' => 'id'
+                ),
+                '',
+                '',
+                '',
+                ''
+            ),
+            array(
+                gettext('Name'),
+                'INPUT',
+                array(
+                    'name' => 'timezone_name',
+                    'size' => '20',
+                    'maxlength' => '40',
+                    'class' => "text field medium"
+                ),
+                'trim|required|is_unique[' . $timezone . ']|min_length[2]|max_length[30]|xss_clean',
+                'tOOL TIP',
+                'Please Enter Timezone'
+            ),
+           
+            array(
+                gettext('GMT Offset'),
+                'INPUT',
+                array(
+                    'name' => 'gmtoffset',
+                    'size' => '20',
+                    'maxlength' => '7',
+                    'class' => "text field medium"
+                ),
+                'trim|required|xss_clean',
+                'tOOL TIP',
+                'Please Enter gmtoffset'
+            )
+        );
+        $form['button_save'] = array(
+            'name' => 'action',
+            'content' => gettext('Save'),
+            'value' => 'save',
+            'id' => 'submit',
+            'type' => 'button',
+            'class' => 'btn btn-success'
+        );
+        $form['button_cancel'] = array(
+            'name' => 'action',
+            'content' => gettext('Close'),
+            'value' => 'cancel',
+            'type' => 'button',
+            'class' => 'btn btn-secondary mx-2',
+            'onclick' => 'return redirect_page(\'NULL\')'
+        );
+        return $form;
+    }
     function get_configuration_form_fields()
     {
         $form['forms'] = array(
@@ -1032,7 +1260,7 @@ class System_form extends common
                 'id',
                 'currencyname,currency',
                 'currency',
-                'build_concat_dropdown',
+                'build_concat_dropdown_currency',
                 '',
                 ''
             ),
@@ -1186,7 +1414,7 @@ class System_form extends common
                 'id',
                 'currencyname,currency',
                 'currency',
-                'build_concat_dropdown',
+                'build_concat_dropdown_currency',
                 '',
                 ''
             )

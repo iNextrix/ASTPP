@@ -2,7 +2,9 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-      
+        var resellerid ="<?php echo isset($reseller_id) ? $reseller_id : ''; ?>";
+        $('.reseller_id_search_drp').val(resellerid);
+
         build_grid("cdr_reseller_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         
         $("#reseller_cdr_search_btn").click(function(){
@@ -11,7 +13,7 @@
         });        
         $("#id_reset").click(function(){
             clear_search_request("cdr_reseller_grid","");
-            $("#accountid_search_drp").html("<option value='' selected='selected'>--Select--</option>");
+            $("#accountid_search_drp").html("<option value='' selected='selected'><?php echo gettext("--Select--")?></option>");
         });
     });
 </script>
@@ -19,16 +21,12 @@
        $(document).ready(function() {
         $('.rm-col-md-12').addClass('float-right');
         $(".rm-col-md-12").removeClass("col-md-12");
-        var currentdate = new Date(); 
-        var from_date = currentdate.getFullYear() + "-"
-            +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-            + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
-            
-        var to_date = currentdate.getFullYear() + "-"
-           +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-           +("0" + currentdate.getDate()).slice(-2) + " 23:59:59";
+
+        var from_date = date + " 00:00:00";
+        var to_date = date + " 23:59:59";
+        
         $("#customer_cdr_from_date").datetimepicker({
-             value:from_date,
+            value:from_date,
             uiLibrary: 'bootstrap4',
             iconsLibrary: 'fontawesome',
             modal:true,
@@ -36,7 +34,7 @@
             footer:true
          });  
          $("#customer_cdr_to_date").datetimepicker({
-             value:to_date,
+            value:to_date,
             uiLibrary: 'bootstrap4',
             iconsLibrary: 'fontawesome',
             modal:true,
@@ -52,7 +50,7 @@
 						data:"reseller_id="+this.value, 
 						success: function(response) {
 							 $("#accountid_search_drp").html(response);
-							 $("#accountid_search_drp").prepend("<option value='' selected='selected'>--Select--</option>");
+							 $("#accountid_search_drp").prepend("<option value='' selected='selected'><?php echo gettext("--Select--")?></option>");
 							 $('.accountid_search_drp').selectpicker('refresh');
 						}
 					});

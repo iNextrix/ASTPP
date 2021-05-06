@@ -48,7 +48,7 @@ class Summary extends MX_Controller
         $session_info = $this->session->userdata('customersummary_reports_search');
         $accountinfo = $this->session->userdata('accountinfo');
         $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
-        $accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'where_arr', array(
+        $accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ), concat( company_name, " ", "(", number, ")^" )), IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ), concat( company_name, " ", "(", number, ")" ))) as number', 'accounts', 'where_arr', array(
             'reseller_id' => $reseller_id,
             "type" => "GLOBAL"
         ));
@@ -160,7 +160,16 @@ class Summary extends MX_Controller
                         "",
                         ""
                     );
-                } elseif ($first_column_groupby == 'package_id') {
+                    } elseif ($first_column_groupby == 'trunk_id') {
+                    $new_column_arr[] = array(
+                        gettext("Trunk"),
+                        "45",
+                        "",
+                        "",
+                        "",
+                        ""
+                    );
+                    } elseif ($first_column_groupby == 'package_id') {
                     $new_column_arr[] = array(
                         gettext("Package"),
                         "105",
@@ -240,6 +249,15 @@ class Summary extends MX_Controller
                         gettext("Destination"),
                         "59",
                         "notes",
+                        "",
+                        "",
+                        ""
+                    );
+                } elseif ($third_column_groupby == 'trunk_id') {
+                    $new_column_arr[] = array(
+                        gettext("Trunk"),
+                        "45",
+                        "",
                         "",
                         "",
                         ""
@@ -324,6 +342,15 @@ class Summary extends MX_Controller
                         gettext("Destination"),
                         "59",
                         "notes",
+                        "",
+                        "",
+                        ""
+                    );
+                } elseif ($fifth_column_groupby == 'trunk_id') {
+                    $new_column_arr[] = array(
+                        gettext("Trunk"),
+                        "45",
+                        "",
                         "",
                         "",
                         ""
@@ -627,6 +654,13 @@ class Summary extends MX_Controller
             unset($action['cdrs_year']);
             unset($_POST['action']);
             unset($_POST['advance_search']);
+            $data = $this->input->post();
+            if(!empty($data['callstart'][0])){
+                $data['callstart'][0]=$this->common->convert_GMT_new ( $data['callstart'][0]);
+            }
+            if(!empty($data['callstart'][1])){
+                $data['callstart'][1]=$this->common->convert_GMT_new ( $data['callstart'][1]);
+            }
             $this->session->set_userdata('customersummary_reports_search', $this->input->post());
         }
         redirect(base_url() . 'summary/customer/');
@@ -750,6 +784,7 @@ class Summary extends MX_Controller
  
             if (isset($custom_search['groupby_3']) && ! empty($custom_search['groupby_3'])) {
                 $custom_group_by = $entity == 'product' ? "order_items." . $custom_search['groupby_3'] : $custom_search['groupby_3'];
+                $group_by_str .= $custom_group_by . ",";
                 $select_str .= $custom_group_by . ",";
                 $order_str .= $custom_group_by . ",";
                 $group_by_3 = $custom_group_by;
@@ -825,7 +860,7 @@ class Summary extends MX_Controller
         $data['page_title'] = gettext('Provider Summary Report');
         $data['search_flag'] = true;
         $session_info = $this->session->userdata('providersummary_reports_search');
-        $accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'where_arr', array(
+        $accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number', 'accounts', 'where_arr', array(
             "type" => "3"
         ));
         $trunklist = $this->db_model->build_dropdown('id,name', 'trunks', '', array());
@@ -895,6 +930,14 @@ class Summary extends MX_Controller
             $this->session->set_userdata('provider_cdrs_year', $this->input->post('cdrs_year'));
             unset($_POST['action'], $_POST['advance_search'], $_POST['cdrs_year']);
             unset($_POST['action'], $_POST['advance_search']);
+            $data = $this->input->post();
+            if(!empty($data['callstart'][0])){
+                $data['callstart'][0]=$this->common->convert_GMT_new ( $data['callstart'][0]);
+            }
+            if(!empty($data['callstart'][1])){
+                $data['callstart'][1]=$this->common->convert_GMT_new ( $data['callstart'][1]);
+            }
+
             $this->session->set_userdata('providersummary_reports_search', $this->input->post());
         }
         redirect(base_url() . 'summary/provider/');
@@ -917,7 +960,7 @@ class Summary extends MX_Controller
         $session_info = $this->session->userdata('resellersummary_reports_search');
         $accountinfo = $this->session->userdata('accountinfo');
         $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
-        $accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'where_arr', array(
+        $accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number', 'accounts', 'where_arr', array(
             'reseller_id' => $reseller_id,
             "type" => "1"
         ));
@@ -958,6 +1001,13 @@ class Summary extends MX_Controller
             $this->session->set_userdata('reseller_cdrs_year', $this->input->post('cdrs_year'));
             unset($_POST['action'], $_POST['advance_search'], $_POST['cdrs_year']);
             unset($_POST['action'], $_POST['advance_search']);
+            $data = $this->input->post();
+            if(!empty($data['callstart'][0])){
+                $data['callstart'][0]=$this->common->convert_GMT_new ( $data['callstart'][0]);
+            }
+            if(!empty($data['callstart'][1])){
+                $data['callstart'][1]=$this->common->convert_GMT_new ( $data['callstart'][1]);
+            }
             $this->session->set_userdata('resellersummary_reports_search', $this->input->post());
         }
         redirect(base_url() . "summary/reseller/");
@@ -1011,12 +1061,12 @@ class Summary extends MX_Controller
         $accountinfo = $this->session->userdata('accountinfo');
         $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
         if($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5){
-		$accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'where_arr', array(
+		$accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number', 'accounts', 'where_arr', array(
 		    'reseller_id' => $reseller_id,
 		    "type" => "GLOBAL"
 		));
 	}else{
-		$accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( first_name, " ", last_name, " ", "(", number, ")" )) as number', 'accounts', 'where_arr', array(
+		$accountlist = $this->db_model->build_dropdown_deleted('id,IF(`deleted`=1,IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")^" ),concat( company_name, " ", "(", number, ")^" )),IF( company_name = "",concat( first_name, " ", last_name, " ", "(", number, ")" ),concat( company_name, " ", "(", number, ")" ))) as number', 'accounts', 'where_arr', array(
 		    "type" => "GLOBAL"
 		));
 	}
@@ -1063,6 +1113,12 @@ class Summary extends MX_Controller
             $action = $this->input->post();
             unset($_POST['action']);
             unset($_POST['advance_search']);
+             if(!empty($action['order_date'][0])){
+                $action['order_date'][0]=$this->common->convert_GMT_new ( $action['order_date'][0]);
+            }
+            if(!empty($action['order_date'][1])){
+                $action['order_date'][1]=$this->common->convert_GMT_new ( $action['order_date'][1]);
+            }
             $_POST['order_items.accountid'] = $_POST['order_items#accountid'];
             unset($_POST['order_items#accountid']);
             $this->session->set_userdata('productsummary_reports_search', $this->input->post());

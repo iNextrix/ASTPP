@@ -90,7 +90,7 @@ class Cronsettings extends MX_Controller
 
     function cronsettings_add()
     {
-        $data['page_title'] = gettext('Create Cron') . ' Settings ';
+        $data['page_title'] = gettext('Create Cron Settings');
         $data['form'] = $this->form->build_form($this->cronsettings_form->get_cronsettings_form_fields('', ''), '');
         $this->load->view('view_cronsettings_add_edit', $data);
     }
@@ -123,56 +123,6 @@ class Cronsettings extends MX_Controller
         $data['form'] = $this->form->build_form($this->cronsettings_form->get_cronsettings_form_fields($add_array['id'], ''), $add_array);
         $accountid = isset($add_array['accountid']) && $add_array['accountid'] > 0 ? $add_array['accountid'] : '';
 
-        if($add_array['id'] != ''){
-				$query=$this->db_model->getSelect("*", "cron_settings",array('id'=>$add_array['id']));
-				$result_array=$query->result_array()[0];
-				$next_execution_date_db=$result_array['next_execution_date'];
-				$next_execution_date=$add_array['next_execution_date'];
-				if(($next_execution_date_db==$next_execution_date) && $result_array['exec_interval']==$add_array['exec_interval'] && $result_array['command']==$add_array['command']){
-						unset($add_array['next_execution_date']);
-				}
-			}
-			
-			if(isset($add_array['next_execution_date']) && $add_array['next_execution_date']==""){
-				$add_array['last_execution_date']=date('Y-m-d H:i:s');
-				$interval='';
-				$interval=$add_array['exec_interval'];
-				
-				if (isset($add_array['command']) && $add_array['command'] == "minutes") {
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime("+" . $interval . "minutes"));
-				}
-				else if(isset($add_array['command']) && $add_array['command'] == "hours") {
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime("+" . $interval . "hours"));
-				}
-				else if (isset($add_array['command']) && $add_array['command'] == "days") {
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime("+" . $interval . "days"));
-				}
-				else if (isset($add_array['command']) && $add_array['command'] == "months") {
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime("+" . $interval. "months"));
-				}
-				else if(isset($add_array['command']) && $add_array['command'] == "years") {
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime("+" . $interval . "years"));
-				}	
-			}
-			else{
-				if (isset($add_array['next_execution_date']) && isset($add_array['command']) && $add_array['command'] == "minutes") {
-					$add_array['last_execution_date'] = $add_array['next_execution_date'];
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime($add_array['next_execution_date']."+" . $add_array['exec_interval'] . "minutes"));
-				} else if (isset($add_array['next_execution_date']) && isset($add_array['command']) && $add_array['command'] == "hours") {
-					$add_array['last_execution_date'] = $add_array['next_execution_date'];
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime($add_array['next_execution_date']."+" . $add_array['exec_interval'] . "hours"));
-				} else if (isset($add_array['next_execution_date']) &&  isset($add_array['command']) && $add_array['command'] == "days") {
-					$add_array['last_execution_date'] = $add_array['next_execution_date'];
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime($add_array['next_execution_date']."+" . $add_array['exec_interval'] . "days"));
-				} else if (isset($add_array['next_execution_date']) && isset($add_array['command']) && $add_array['command'] == "months") {
-					$add_array['last_execution_date'] = $add_array['next_execution_date'];
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime($add_array['next_execution_date']."+" . $add_array['exec_interval'] . "months"));
-				} 
-				else if(isset($add_array['next_execution_date']) && isset($add_array['command']) && $add_array['command'] == "years") {
-					$add_array['last_execution_date'] =$add_array['next_execution_date'];
-					$add_array['next_execution_date'] = date('Y-m-d H:i:s', strtotime($add_array['next_execution_date']."+" . $add_array['exec_interval'] . "years"));
-				}
-			}
         if ($add_array['id'] != '') {
 
             $data['page_title'] = gettext('Edit Cron Settings');
@@ -194,7 +144,7 @@ class Cronsettings extends MX_Controller
                     unset($add_array['last_execution_date']);  
                     $this->cronsettings_model->edit_cron($add_array, $add_array['id']);
                     echo json_encode(array(
-                        "SUCCESS" => $add_array['name'] . gettext("Updated successfully!")
+                        "SUCCESS" => $add_array['name'] . gettext("Updated Successfully!")
                     ));
                     exit();
                 }
@@ -216,7 +166,7 @@ class Cronsettings extends MX_Controller
                 $add_array['creation_date'] = gmdate('Y-m-d H:i:s');
                 $this->cronsettings_model->add_cron($add_array);
                 echo json_encode(array(
-                    "SUCCESS" => $add_array["name"] . gettext("Added successfully!")
+                    "SUCCESS" => $add_array["name"] . gettext("Added Successfully!")
                 ));
                 exit();
             }

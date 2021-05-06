@@ -40,8 +40,8 @@ class Summary_model extends CI_Model
 
                 $where = array(
                     'reseller_id' => $reseller_id,
-                    'callstart >= ' => date('Y-m-d') . " 00:00:01",
-                    'callstart <=' => date("Y-m-d") . " 23:59:59"
+                    'callstart >= ' =>$this->common->convert_GMT_new ( date('Y-m-d') . " 00:00:01"),
+                    'callstart <=' =>$this->common->convert_GMT_new ( date("Y-m-d") . " 23:59:59")
                 );
             } else {
 
@@ -51,8 +51,8 @@ class Summary_model extends CI_Model
             }
         } else {
             if ($this->session->userdata('advance_search') != 1) {
-                $where['callstart >='] = date('Y-m-d') . " 00:00:00";
-                $where['callstart <='] = date('Y-m-d') . " 23:59:59";
+                $where['callstart >='] =$this->common->convert_GMT_new ( date('Y-m-d') . " 00:00:00");
+                $where['callstart <='] =$this->common->convert_GMT_new ( date('Y-m-d') . " 23:59:59");
             } else {
 
                 if ($this->session->userdata('reseller_cdrs_year') != '' and $this->session->userdata('reseller_cdrs_year') != '0') {
@@ -93,8 +93,8 @@ class Summary_model extends CI_Model
         $where['provider_id >'] = 0;
         $table_name = 'cdrs';
         if ($this->session->userdata('advance_search') != 1) {
-            $where['callstart >='] = date('Y-m-d') . " 00:00:00";
-            $where['callstart <='] = date('Y-m-d') . " 23:59:59";
+            $where['callstart >='] =$this->common->convert_GMT_new ( date('Y-m-d') . " 00:00:00");
+            $where['callstart <='] =$this->common->convert_GMT_new (date('Y-m-d') . " 23:59:59");
         } else {
             if ($this->session->userdata('provider_cdrs_year') != '' and $this->session->userdata('provider_cdrs_year') != '0') {
                 $table_name = $this->session->userdata('provider_cdrs_year');
@@ -139,8 +139,8 @@ class Summary_model extends CI_Model
             if ($this->session->userdata('advance_search') != 1) {
                 $where = array(
                     'reseller_id' => $reseller_id,
-                    'callstart >= ' => date('Y-m-d') . " 00:00:01",
-                    'callstart <=' => date("Y-m-d") . " 23:59:59",
+                   'callstart >= ' =>$this->common->convert_GMT_new ( date('Y-m-d') . " 00:00:01"),
+                    'callstart <=' =>$this->common->convert_GMT_new ( date("Y-m-d") . " 23:59:59"),
                     "type" => 0
                 );
             } else {
@@ -151,8 +151,8 @@ class Summary_model extends CI_Model
             }
         } else {
             if ($this->session->userdata('advance_search') != 1) {
-                $where['callstart >='] = date('Y-m-d') . " 00:00:00";
-                $where['callstart <='] = date('Y-m-d') . " 23:59:59";
+                $where['callstart >='] =$this->common->convert_GMT_new ( date('Y-m-d') . " 00:00:00");
+                $where['callstart <='] =$this->common->convert_GMT_new ( date('Y-m-d') . " 23:59:59");
             } else {
                 if ($this->session->userdata('customer_cdrs_year') != '' and $this->session->userdata('customer_cdrs_year') != '0') {
                     $table_name = $this->session->userdata('customer_cdrs_year');
@@ -217,14 +217,11 @@ class Summary_model extends CI_Model
 			  $this->db->where('orders.accountid',$product_summary_search['order_items.accountid']);         
 		}
 		$where = array(    
-                    'orders.order_date >= ' => date('Y-m-d') . " 00:00:01",
-                    'orders.order_date <=' => date("Y-m-d") . " 23:59:59"
+                    'orders.order_date >= ' => $this->common->convert_GMT_new (date('Y-m-d') . " 00:00:01"),
+                    'orders.order_date <=' => $this->common->convert_GMT_new (date("Y-m-d") . " 23:59:59")      
        		);
 	}else{ 
-		$where = array(     
-                    'orders.order_date >= ' => date('Y-m-d') . " 00:00:01",
-                    'orders.order_date <=' => date("Y-m-d") . " 23:59:59"
-       		);
+		$where = array();
 	}
 	if((isset($product_summary_search) && $product_summary_search !="" )){
 		$this->db->where("product_category",$product_summary_search['product_category']);

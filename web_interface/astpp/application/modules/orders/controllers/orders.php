@@ -68,6 +68,9 @@ class Orders extends MX_Controller
         $data['grid_fields'] = $this->orders_form->build_orders_list_for_admin();
         $data["grid_buttons"] = $this->orders_form->build_grid_buttons();
         $data['form_search'] = $this->form->build_serach_form($this->orders_form->get_order_search_form());
+        $accountinfo = $this->session->userdata('accountinfo');
+        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
+        $data['reseller_id'] = $reseller_id;
         $this->load->view('view_orders_list', $data);
     }
 
@@ -495,6 +498,12 @@ class Orders extends MX_Controller
         if ($this->input->post('advance_search', TRUE) == 1) {
             $this->session->set_userdata('advance_search', $this->input->post('advance_search'));
             $action = $this->input->post();
+            if(!empty($action['order_date'][0])){
+                $action['order_date'][0]=$this->common->convert_GMT_new ( $action['order_date'][0]);
+            }
+            if(!empty($action['order_date'][1])){
+                $action['order_date'][1]=$this->common->convert_GMT_new ( $action['order_date'][1]);
+            }
             unset($action['action']);
             unset($action['advance_search']);
             if (isset($action['order_id']['order_id']) && $action['order_id']['order_id'] != '') {
