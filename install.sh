@@ -246,7 +246,7 @@ get_user_response ()
                 echo "Server is behind NAT";
                 NAT="True"
         fi
-        curl --data "email=$EMAIL" --data "data=$NAT2" --data "type=Install" http://astppbilling.org/lib/
+        curl --data "email=$EMAIL" --data "data=$NAT2" --data "type=Install" https://astppbilling.org/lib/
 }
 
 #Install ASTPP with dependencies
