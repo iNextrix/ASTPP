@@ -45,4 +45,4 @@ Community
 - <a href="https://docs.astppbilling.org/display/itplmars/How+to+Contribute">How to Contribute</a>
 - <a href="https://docs.astppbilling.org/display/itplmars/Contribute+to+Git">Guideline for Git Contribution</a>
 
-Report security issues to our Security email address security@astppbilling.com.
+Report security issues to our Security email address security@astppbilling.org.
