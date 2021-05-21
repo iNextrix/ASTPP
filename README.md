@@ -1,6 +1,7 @@
 ![logo](https://www.astppbilling.org/wp-content/uploads/thegem-logos/logo_c34687ee286c43c0fbb6cb8ac1c6d1d6_1x.png)
 
-![ASTPP Release](https://img.shields.io/badge/Version-5.0-ff69b4.svg)
+
+![ASTPP Release](https://img.shields.io/badge/Version-master-ff69b4.svg)
 [![Join the chat at https://gitter.im/ASTPP-Official/Lobby](https://badges.gitter.im/ASTPP-Official/Lobby.svg)](https://gitter.im/ASTPP-Official/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![AGPLv3](https://img.shields.io/badge/license-AGPLv3-blue.svg?style=flat-square)](https://raw.githubusercontent.com/iNextrix/ASTPP/v4.0.1/LICENSE)
 [![Project Stats](https://www.openhub.net/p/astpp/widgets/project_thin_badge.gif)](https://www.openhub.net/p/astpp)
