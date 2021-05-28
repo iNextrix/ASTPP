@@ -382,6 +382,7 @@ normalize_freeswitch ()
         rm -rf  /etc/freeswitch/sip_profiles/*
         touch /etc/freeswitch/sip_profiles/astpp.xml
         chmod -Rf 755 ${FS_SOUNDSDIR}
+        chmod -Rf 777 /usr/share/freeswitch/scripts/astpp/lib
         if [ ${DIST} = "DEBIAN" ]; then
                 cp -rf ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_fs.conf /etc/nginx/conf.d/fs.conf
                 chown -Rf root.root ${WWWDIR}/fs
