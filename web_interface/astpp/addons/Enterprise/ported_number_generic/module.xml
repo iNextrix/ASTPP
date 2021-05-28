@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon>
 	<tech_name>ported_number_generic</tech_name>
-	<name>Ported Number Generic</name>
-	<description>Create Ported Number Generic Requestand Verify by Admin</description>		
+	<name>Number Portability Service</name>
+	<description>Simplify the whole process of number portability to provide a seamless experience to customers</description>		
 	<icon>static/images/number_porting_icon.png</icon>
 	<version>1.0.0</version>
 	<license>Enterprise</license>	
