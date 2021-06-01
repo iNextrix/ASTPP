@@ -1308,8 +1308,10 @@ class common {
 		$alert_template=$query[0]->alert_template;
 		$message = $query[0]->template;
 		$subject = $query [0]->subject;	
+		if (isset($accountinfo(['notification_email']) && !empty($accountinfo['notification_email'])){
+			$accountinfo['email'] = $accountinfo['notification_email'];}
 		$useremail = $accountinfo['email'];
-		$accountinfo['email']=(isset($accountinfo['notification_email']) && $accountinfo['notification_email'] != '')?$accountinfo['notification_email'] : $accountinfo['email'];
+		//$accountinfo['email']=(isset($accountinfo['notification_email']) && $accountinfo['notification_email'] != '')?$accountinfo['notification_email'] : $accountinfo['email'];
 		$userdata = (array)$this->CI->db->get_where("accounts",array('email'=>$useremail,'status'=> 0))->first_row();
 		$usermobile=(isset($accountinfo['telephone_1']) && $accountinfo['telephone_1'] != '')?$accountinfo['telephone_1'] : $userdata['telephone_1'];
 		$message = html_entity_decode($message);
