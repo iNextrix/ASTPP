@@ -396,13 +396,13 @@ function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actu
  */
 function update_balance($user_id, $amount, $entity_id, $logger, $db, $config, $dataVariable) {
 	/*If not realtime billing */
-	if ($config ['realtime_billing'] == '1') {
+	//if ($config ['realtime_billing'] == '1') {
 		$math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
 		$tmp_prefix=($dataVariable['intcall']==1)?'int_':'';
 		$query = "UPDATE accounts SET ".$tmp_prefix."balance=IF(posttoexternal=1,".$tmp_prefix."balance+" . $amount . ",".$tmp_prefix."balance-" . $amount . ") WHERE id=" . $user_id;
 		$logger->log ( "Balance update : " . $query );
 		$db->run ( $query );
-	}
+	//}
 }
 
 // Normalize rate string which we are getting from dialplan
