@@ -47,3 +47,12 @@ CREATE DEFINER=`root`@`localhost` EVENT `staging_cdrs` ON SCHEDULE EVERY 1 MINUT
 
 DELIMITER ;
 
+-- ------------------------------12-07-2021
+
+DELETE FROM `system` WHERE `name`="paypal_status";
+
+INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `is_display`, `group_title`, `sub_group`, `field_rules`) VALUES (NULL, 'paypal_status', 'Paypal', '1', 'enable_disable_option', 'Set enable to add paypal as payment gateway option', '0000-00-00 00:00:00.000000', '0', '0', 'payment_methods', 'Paypal', '');
+
+DELETE FROM `system` WHERE `name`="paypal_mode";
+
+INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `is_display`, `group_title`, `sub_group`, `field_rules`) VALUES (NULL, 'paypal_mode', 'Environment', '1', 'paypal_mode', 'Set paypal mode. Sandbox for testing', '0000-00-00 00:00:00.000000', '0', '0', 'payment_methods', 'Paypal', '');
