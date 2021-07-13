@@ -56,3 +56,9 @@ INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comm
 DELETE FROM `system` WHERE `name`="paypal_mode";
 
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `timestamp`, `reseller_id`, `is_display`, `group_title`, `sub_group`, `field_rules`) VALUES (NULL, 'paypal_mode', 'Environment', '1', 'paypal_mode', 'Set paypal mode. Sandbox for testing', '0000-00-00 00:00:00.000000', '0', '0', 'payment_methods', 'Paypal', '');
+
+-- -----------------------------13-07-2021
+
+DELETE FROM `currency` WHERE `currency` in ('XAL','XCP','XAU','XPD','XPT','XAG');
+
+UPDATE `currency` SET `currency` = 'MZN' WHERE `currency` = 'MZM';
