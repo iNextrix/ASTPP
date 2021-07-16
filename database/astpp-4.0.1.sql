@@ -1957,8 +1957,7 @@ UPDATE `system` SET `display_name` = 'Invoices Older Than Days' WHERE `system`.`
 
 -- -----------Sub admin permission issue 16-07-2021
 
-UPDATE userlevels SET module_permissions = concat( module_permissions, ',', ( SELECT max(
- id ) FROM menu_modules WHERE module_url = 'ipmap/ipmap_detail/' ) ) WHERE userlevelid = 2;
+UPDATE userlevels SET module_permissions = concat( module_permissions, ',', ( SELECT max( id ) FROM menu_modules WHERE module_url = 'ipmap/ipmap_detail/' ) ) WHERE userlevelid = 2;
 
 UPDATE userlevels SET module_permissions = concat( module_permissions, ',', ( SELECT max( id ) FROM menu_modules WHERE module_url = 'animap/animap_detail/' ) ) WHERE userlevelid = 2;
 
