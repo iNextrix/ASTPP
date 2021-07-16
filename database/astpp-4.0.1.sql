@@ -1954,3 +1954,12 @@ UPDATE `system` SET `value` = '4.0.1' WHERE `system`.`name` = 'version';
 -- -----------Configuration - Purge - "Invoices" spelling is wrong displayed query. Date of change : 160920 change_by : Bhargav 
 
 UPDATE `system` SET `display_name` = 'Invoices Older Than Days' WHERE `system`.`name` = "purge_invoices"; 
+
+-- -----------Sub admin permission issue 16-07-2021
+
+UPDATE userlevels SET module_permissions = concat( module_permissions, ',', ( SELECT max(
+ id ) FROM menu_modules WHERE module_url = 'ipmap/ipmap_detail/' ) ) WHERE userlevelid = 2;
+
+UPDATE userlevels SET module_permissions = concat( module_permissions, ',', ( SELECT max( id ) FROM menu_modules WHERE module_url = 'animap/animap_detail/' ) ) WHERE userlevelid = 2;
+
+UPDATE userlevels SET module_permissions = concat( module_permissions, ',', ( SELECT max( id ) FROM menu_modules WHERE module_url = 'permissions/permissions_list/' ) ) WHERE userlevelid = 2;
