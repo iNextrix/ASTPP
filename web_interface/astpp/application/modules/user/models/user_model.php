@@ -453,7 +453,7 @@ class user_model extends CI_Model
     {
         $this->db_model->build_search('user_rates_list_search');
         $account_data = $this->session->userdata("accountinfo");
-        $price_list_id = $this->common->get_field_name('pricelist_id', 'accounts', $account_data['id']);
+        $price_list_id = $account_data['pricelist_id'];
         $where = '(pricelist_id="' . $price_list_id . '" OR accountid="' . $account_data["id"] . '") and status=0';
         if ($flag) {
             $query = $this->db_model->select("*", "routes", $where, "id", "ASC", $limit, $start);
