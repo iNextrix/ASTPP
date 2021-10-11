@@ -6,4 +6,3 @@ delete from `menu_modules` where `module_url`='local_number/local_number_list_cu
 
 delete from `roles_and_permission` where `module_name`='local_number' AND `module_url`='local_number_list' AND `login_type`=0;
 delete from `roles_and_permission` where `module_name`='local_number' AND `module_url`='local_number_list' AND `login_type`=1;
-delete from `roles_and_permission` where `module_name`='local_number' AND `module_url`='local_number_list' AND `login_type`=2;
