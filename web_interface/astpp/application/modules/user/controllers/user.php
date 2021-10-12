@@ -2137,10 +2137,15 @@ class User extends MX_Controller
                                     );
                                     $insert_payment_arr_to['is_apply_tax'] = "false";
                                     $this->payment->add_payments_transcation($insert_payment_arr_to, $to_account_info, $to_currency_info);
-
-                                    $from_account_info['refillbalance'] = $from['credit'];
-                                    $from_account_info['number'] = $to_account_info['number'];
-                                    $this->common->mail_to_users('balance_tranfer', $from_account_info);
+                                    $from_account_info['amount'] = $from['credit'];
+                                    $to_account_info['to_currency'] = $this->common->get_field_name ( 'currency', 'currency', $to_account_info['currency_id']);
+                                    $to_account_info['number'] =   $from_account_info['number'];
+                                    $to_account_info['amount'] = $from['credit'];
+                                    // $from_account_info['refillbalance'] = $from['credit'];
+                                    // $from_account_info['number'] = $to_account_info['number'];
+                                    $this->common->mail_to_users('customer_refill_balance', $to_account_info);
+                                    $from_account_info['number'] =  $to_account_info['number'];
+                                    $this->common->mail_to_users('balance_transfer', $from_account_info);
 
                                     $this->session->set_flashdata('astpp_errormsg', gettext('Transfer successfully!'));
                                 }

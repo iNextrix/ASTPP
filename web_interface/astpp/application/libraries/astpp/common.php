@@ -1517,15 +1517,42 @@ class common {
 				$message = str_replace('#TABLE_NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
             break;
 
-            case 'balance_tranfer':
-		 $subject = str_replace('#AMOUNT#', $accountinfo['refillbalance'], $subject);
-                $subject = str_replace('#RECEIVER_ACCOUNT_NUMBER#', $accountinfo['number'], $subject);
-	
-    
-				$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
-                $message = str_replace('#AMOUNT#', $accountinfo['refillbalance'], $message);
-                $message = str_replace('#RECEIVER_ACCOUNT_NUMBER#', $accountinfo['number'], $message);
-            break;
+   	//case 'balance_tranfer':
+	// 	$subject = str_replace('#AMOUNT#', $accountinfo['refillbalance'], $subject);
+   	//  $subject = str_replace('#RECEIVER_ACCOUNT_NUMBER#', $accountinfo['number'], $subject);
+	// 	$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
+   	// 	$message = str_replace('#AMOUNT#', $accountinfo['refillbalance'], $message);
+   	// 	$message = str_replace('#RECEIVER_ACCOUNT_NUMBER#', $accountinfo['number'], $message);
+   	// 	break;
+        case 'balance_transfer':
+			$subject = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:'',"","",true,true), $subject);
+			$subject = str_replace('#RECEIVER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:'', $subject);
+			$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
+
+			$message = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:'',"","",true,true), $message);
+			$message = str_replace('#RECEIVER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $message);
+
+			$sms_message = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:'',"","",true,true), $sms_message);
+			$sms_message = str_replace('#RECEIVER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $sms_message);
+
+			$alert_template = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:'',"","",true,true), $alert_template);
+			$alert_template = str_replace('#RECEIVER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $alert_template);
+		break;
+				
+		case 'customer_refill_balance':
+			$subject = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:'',"",$accountinfo['to_currency'],true,true), $subject);
+			$subject = str_replace('#SENDER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:'', $subject);
+			$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
+
+			$message = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:'',"",$accountinfo['to_currency'],true,true), $message);
+			$message = str_replace('#SENDER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $message);
+
+			$sms_message = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:'',"",$accountinfo['to_currency'],true,true), $sms_message);
+			$sms_message = str_replace('#SENDER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $sms_message);		
+
+			$alert_template = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:'',"",$accountinfo['to_currency'],true,true), $alert_template);
+			$alert_template = str_replace('#SENDER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $alert_template);
+		break;
 
 			case 'product_purchase':
                 $subject = str_replace('#NAME#', $accountinfo['first_name'], $subject);
