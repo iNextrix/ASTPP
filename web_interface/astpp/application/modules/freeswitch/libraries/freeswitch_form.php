@@ -214,7 +214,7 @@ class Freeswitch_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                '',
+                'xss_clean',
                 'tOOL TIP',
                 'Please Enter account number'
             ),
@@ -226,7 +226,7 @@ class Freeswitch_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                '',
+                'xss_clean',
                 'tOOL TIP',
                 'Please Enter account number'
             ),
@@ -3039,7 +3039,7 @@ class Freeswitch_form extends common
                         'size' => '20',
                         'class' => "text field medium"
                     ),
-                    '',
+                    'xss_clean',
                     'tOOL TIP',
                     'Please Enter account number'
                 ),
@@ -3051,7 +3051,7 @@ class Freeswitch_form extends common
                         'size' => '20',
                         'class' => "text field medium"
                     ),
-                    '',
+                    'xss_clean',
                     'tOOL TIP',
                     'Please Enter account number'
                 ),
@@ -3275,7 +3275,7 @@ class Freeswitch_form extends common
                         'size' => '20',
                         'class' => "text field medium"
                     ),
-                    '',
+                    'xss_clean',
                     'tOOL TIP',
                     'Please Enter account number'
                 ),
@@ -3287,7 +3287,7 @@ class Freeswitch_form extends common
                         'size' => '20',
                         'class' => "text field medium"
                     ),
-                    '',
+                    'xss_clean',
                     'tOOL TIP',
                     'Please Enter account number'
                 ),
