@@ -925,7 +925,7 @@ class invoices_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                'required',
+                'required|xss_clean',
                 'tOOL TIP',
                 'Please Enter account number'
             ),
@@ -1217,7 +1217,7 @@ class invoices_form extends common
                     'maxlength' => '100',
                     'class' => "text field medium"
                 ),
-                '',
+                'xss_clean',
                 'tOOL TIP',
                 ''
             ),
