@@ -378,6 +378,7 @@ class Signup extends MX_Controller
         $query = $this->db_model->getSelect("*", "default_templates", array(
             'name' => 'signup_confirmation'
         ))->result();
+        if($query['is_sms_enable'] == '0'){
         $sms_message = $query[0]->sms_template;
         $sms_api_key = Common_model::$global_config['system_config']['sms_api_key'];
         $sms_secret_key = Common_model::$global_config['system_config']['sms_secret_key'];
@@ -425,6 +426,7 @@ class Signup extends MX_Controller
 	}
         return true;
     }
+}
 
    function send_mail($account_id, $temp_name, $user_data,$number="")
     {
@@ -436,6 +438,7 @@ class Signup extends MX_Controller
         $EmailTemplate = (array) $this->db->get_where("default_templates", array(
             'name' => $temp_name
         ))->first_row();
+        if($EmailTemplate['is_email_enable'] == '0'){
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
             $domain = "https://" . $_SERVER["HTTP_HOST"] . "/";
         } else {
@@ -508,6 +511,7 @@ class Signup extends MX_Controller
         $this->db->insert("mail_details", $email_array);
         return true;
     }
+}
 
     function successpassword()
     {
