@@ -1542,15 +1542,31 @@ class common {
 				$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
             break;
 
+    		// Ashish ASTPPCOM-743
             case 'product_release';
-				$current_date = gmdate('Y-m-d H:i:s');
-				$subject = str_replace('#PRODUCT_NAME#', $accountinfo['product_name'], $subject);
-                $subject = str_replace('#NUMBER#', $accountinfo['number'], $subject);
-				$message=str_replace('#RECEIVER_ACCOUNT_NUMBER#', $accountinfo['number'], $message);
-				$message=str_replace('#NEXT_BILL_DATE#', $current_date, $message);
-				$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
-                $message = str_replace('#PRODUCT_NAME#', $accountinfo['product_name'], $message);
+
+			$product_name = (isset($accountinfo['name'])) ? $accountinfo['name'] : (isset($accountinfo['product_name'])  ? $accountinfo['product_name'] : $product_name);
+
+			$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
+			$message = str_replace('#PRODUCT_NAME#', $product_name, $message);
+			$message = str_replace('#NEXT_BILL_DATE#', isset($accountinfo['next_billing_date'])?$accountinfo['next_billing_date']:"", $message);
+			$message = str_replace('#RECEIVER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $message);
+
+			$sms_message = str_replace('#PRODUCT_NAME#',$product_name, $sms_message);
+			$sms_message = str_replace("#NEXT_BILL_DATE#", isset($accountinfo['next_billing_date'])?$accountinfo['next_billing_date']:"", $sms_message);
+			$sms_message = str_replace('#RECEIVER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:'', $sms_message);
+
+			$subject = str_replace('#PRODUCT_NAME#', $product_name, $subject);
+            $subject = str_replace('#NUMBER#', $accountinfo['number'], $subject);
+
+			$subject = str_replace('#NEXT_BILL_DATE#',isset($accountinfo['next_billing_date'])?$accountinfo['next_billing_date']:"", $subject);
+			$subject = str_replace('#RECEIVER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $subject);
+
+			$alert_template = str_replace('#PRODUCT_NAME#',$product_name, $alert_template);
+			$alert_template = str_replace('#NEXT_BILL_DATE#',isset($accountinfo['next_billing_date'])?$accountinfo['next_billing_date']:"", $alert_template);
+			$alert_template = str_replace('#RECEIVER_ACCOUNT_NUMBER#', isset($accountinfo['number'])?$accountinfo['number']:"", $alert_template);
             break;
+            // // Ashish ASTPPCOM-743 End
 
             case 'product_renewal_notice';
 
