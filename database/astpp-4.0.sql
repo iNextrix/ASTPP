@@ -1707,9 +1707,9 @@ CREATE TABLE `pricelists` (
 --
 
 INSERT INTO `pricelists` (`id`, `name`, `markup`, `routing_type`, `initially_increment`, `inc`, `status`, `reseller_id`, `pricelist_id_admin`, `routing_prefix`, `call_count`, `creation_date`, `last_modified_date`) VALUES
-(1, 'default', '0', 0, 0, 60, 0, 0, 0, '', 0, '2016-07-25 00:00:00', '2016-07-26 00:00:00'),
-(2, 'test', '0', 0, 2, 2, 0, 0, 0, '565', 0, '2019-05-24 14:32:41', '2019-05-24 14:32:41'),
-(3, 'TWT', '0', 1, 1, 1, 0, 0, 0, '', 0, '2019-05-24 15:30:43', '2019-05-24 15:56:36');
+(1, 'default', '0', 0, 0, 60, 0, 0, 0, '', 0, '2016-07-25 00:00:00', '2016-07-26 00:00:00');
+-- (2, 'test', '0', 0, 2, 2, 0, 0, 0, '565', 0, '2019-05-24 14:32:41', '2019-05-24 14:32:41'),
+-- (3, 'TWT', '0', 1, 1, 1, 0, 0, 0, '', 0, '2019-05-24 15:30:43', '2019-05-24 15:56:36');
 
 --
 -- Triggers `pricelists`
@@ -2103,11 +2103,11 @@ CREATE TABLE `routes` (
 --
 
 INSERT INTO `routes` (`id`, `pattern`, `comment`, `connectcost`, `includedseconds`, `cost`, `pricelist_id`, `inc`, `country_id`, `call_type`, `routing_type`, `percentage`, `call_count`, `accountid`, `reseller_id`, `precedence`, `status`, `trunk_id`, `init_inc`, `creation_date`, `last_modified_date`) VALUES
-(1, '^1.*', 'USA', '0.00000', 0, '0.20000', 1, 60, 0, '', '', '', 0, 0, 0, 0, 0, '0', 30, '2016-07-26 15:11:50', '0000-00-00 00:00:00'),
-(2, '^12.*', '', '0.00000', 0, '0.00000', 1, 0, 0, '', '0', '', 0, 0, 0, 0, 0, '', 0, '2019-05-24 16:00:48', '2019-05-24 16:00:48'),
-(3, '^4.*', '43', '4.00000', 4, '4.00000', 1, 4, 0, '', '0', '', 0, 0, 0, 0, 0, '1', 4, '2019-05-24 16:00:50', '2019-05-24 16:00:59'),
-(4, '^344.*', '', '0.00000', 0, '0.00000', 1, 0, 0, '', '', '', 0, 0, 0, 0, 0, '', 0, '2019-05-24 16:08:28', '2019-05-24 16:08:28'),
-(5, '^852852.*', '', '0.00000', 0, '0.00000', 1, 0, 0, '', '', '', 0, 0, 0, 0, 0, '0', 0, '2019-05-24 16:11:26', '2019-05-24 16:11:26');
+(1, '^1.*', 'USA', '0.00000', 0, '0.20000', 1, 60, 0, '', '', '', 0, 0, 0, 0, 0, '0', 30, '2016-07-26 15:11:50', '0000-00-00 00:00:00');
+-- (2, '^12.*', '', '0.00000', 0, '0.00000', 1, 0, 0, '', '0', '', 0, 0, 0, 0, 0, '', 0, '2019-05-24 16:00:48', '2019-05-24 16:00:48'),
+-- (3, '^4.*', '43', '4.00000', 4, '4.00000', 1, 4, 0, '', '0', '', 0, 0, 0, 0, 0, '1', 4, '2019-05-24 16:00:50', '2019-05-24 16:00:59'),
+-- (4, '^344.*', '', '0.00000', 0, '0.00000', 1, 0, 0, '', '', '', 0, 0, 0, 0, 0, '', 0, '2019-05-24 16:08:28', '2019-05-24 16:08:28'),
+-- (5, '^852852.*', '', '0.00000', 0, '0.00000', 1, 0, 0, '', '', '', 0, 0, 0, 0, 0, '0', 0, '2019-05-24 16:11:26', '2019-05-24 16:11:26');
 
 -- --------------------------------------------------------
 
@@ -2157,15 +2157,15 @@ CREATE TABLE `sip_devices` (
 --
 
 INSERT INTO `sip_devices` (`id`, `username`, `sip_profile_id`, `reseller_id`, `accountid`, `dir_params`, `dir_vars`, `status`, `creation_date`, `last_modified_date`, `call_waiting`) VALUES
-(1, '4727985745', 1, 0, 2, '{\"password\":\"+AZ9X9cwwX@w-hyX\",\"vm-enabled\":\"true\",\"vm-password\":\"mfpV9CY|.2gX\",\"vm-mailto\":\"\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"ASTPP\",\"effective_caller_id_number\":\"4810338297\"}', 0, '2016-07-26 15:19:43', '2019-03-05 08:53:21', 0),
-(2, '9115444435', 1, 0, 4, '{\"password\":\"Niom3\\/-<gmEqab\",\"vm-enabled\":\"true\",\"vm-password\":\"40517\",\"vm-mailto\":\"9115444435@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"9115444435\",\"effective_caller_id_number\":\"9115444435\"}', 0, '2019-05-24 14:20:55', '2019-05-24 16:04:48', 0),
-(3, '7999850560', 1, 0, 5, '{\"password\":\"TXLkt7F(9)U2\",\"vm-enabled\":\"true\",\"vm-password\":24233,\"vm-mailto\":\"7999850560@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"7999850560\",\"effective_caller_id_number\":\"7999850560\",\"user_context\":\"default\"}', 0, '2019-05-24 14:23:20', '2019-05-24 14:23:20', 0),
-(4, '55564', 1, 0, 6, '{\"password\":\"X+acSB7Hq^,t\",\"vm-enabled\":\"true\",\"vm-password\":72979,\"vm-mailto\":\"55564@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"55564\",\"effective_caller_id_number\":\"55564\",\"user_context\":\"default\"}', 0, '2019-05-24 14:48:14', '2019-05-24 14:48:14', 0),
-(5, '6753667858', 1, 0, 2, '{\"password\":\"KIWcKyLr\",\"vm-enabled\":\"true\",\"vm-password\":\"43017\",\"vm-mailto\":\"\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"\",\"effective_caller_id_number\":\"\",\"user_context\":\"default\"}', 0, '2019-05-24 14:52:03', '2019-05-24 14:52:03', 0),
-(6, '5038932620', 1, 0, 7, '{\"password\":\"NTx2IGYjU,oU\",\"vm-enabled\":\"true\",\"vm-password\":44945,\"vm-mailto\":\"7216335678@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"5038932620\",\"effective_caller_id_number\":\"5038932620\",\"user_context\":\"default\"}', 0, '2019-05-24 15:53:16', '2019-05-24 15:53:16', 0),
-(7, '77796', 1, 0, 8, '{\"password\":\"TqThDQyL.mc6\",\"vm-enabled\":\"true\",\"vm-password\":27442,\"vm-mailto\":\"77796@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"77796\",\"effective_caller_id_number\":\"77796\",\"user_context\":\"default\"}', 0, '2019-05-24 15:54:08', '2019-05-24 15:54:08', 0),
-(8, '77783', 1, 0, 9, '{\"password\":\"qz8rX5xEXh?A\",\"vm-enabled\":\"true\",\"vm-password\":38911,\"vm-mailto\":\"77783@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"77783\",\"effective_caller_id_number\":\"77783\",\"user_context\":\"default\"}', 0, '2019-05-24 15:54:08', '2019-05-24 15:54:08', 0),
-(9, '2999453586', 1, 0, 10, '{\"password\":\"8H34Zj}90cP3\",\"vm-enabled\":\"true\",\"vm-password\":16640,\"vm-mailto\":\"2999453586@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"2999453586\",\"effective_caller_id_number\":\"2999453586\",\"user_context\":\"default\"}', 0, '2019-05-24 15:56:33', '2019-05-24 15:56:33', 0);
+(1, '4727985745', 1, 0, 2, '{\"password\":\"+AZ9X9cwwX@w-hyX\",\"vm-enabled\":\"true\",\"vm-password\":\"mfpV9CY|.2gX\",\"vm-mailto\":\"\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"ASTPP\",\"effective_caller_id_number\":\"4810338297\"}', 0, '2016-07-26 15:19:43', '2019-03-05 08:53:21', 0);
+-- (2, '9115444435', 1, 0, 4, '{\"password\":\"Niom3\\/-<gmEqab\",\"vm-enabled\":\"true\",\"vm-password\":\"40517\",\"vm-mailto\":\"9115444435@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"9115444435\",\"effective_caller_id_number\":\"9115444435\"}', 0, '2019-05-24 14:20:55', '2019-05-24 16:04:48', 0),
+-- (3, '7999850560', 1, 0, 5, '{\"password\":\"TXLkt7F(9)U2\",\"vm-enabled\":\"true\",\"vm-password\":24233,\"vm-mailto\":\"7999850560@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"7999850560\",\"effective_caller_id_number\":\"7999850560\",\"user_context\":\"default\"}', 0, '2019-05-24 14:23:20', '2019-05-24 14:23:20', 0),
+-- (4, '55564', 1, 0, 6, '{\"password\":\"X+acSB7Hq^,t\",\"vm-enabled\":\"true\",\"vm-password\":72979,\"vm-mailto\":\"55564@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"55564\",\"effective_caller_id_number\":\"55564\",\"user_context\":\"default\"}', 0, '2019-05-24 14:48:14', '2019-05-24 14:48:14', 0),
+-- (5, '6753667858', 1, 0, 2, '{\"password\":\"KIWcKyLr\",\"vm-enabled\":\"true\",\"vm-password\":\"43017\",\"vm-mailto\":\"\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"\",\"effective_caller_id_number\":\"\",\"user_context\":\"default\"}', 0, '2019-05-24 14:52:03', '2019-05-24 14:52:03', 0),
+-- (6, '5038932620', 1, 0, 7, '{\"password\":\"NTx2IGYjU,oU\",\"vm-enabled\":\"true\",\"vm-password\":44945,\"vm-mailto\":\"7216335678@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"5038932620\",\"effective_caller_id_number\":\"5038932620\",\"user_context\":\"default\"}', 0, '2019-05-24 15:53:16', '2019-05-24 15:53:16', 0),
+-- (7, '77796', 1, 0, 8, '{\"password\":\"TqThDQyL.mc6\",\"vm-enabled\":\"true\",\"vm-password\":27442,\"vm-mailto\":\"77796@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"77796\",\"effective_caller_id_number\":\"77796\",\"user_context\":\"default\"}', 0, '2019-05-24 15:54:08', '2019-05-24 15:54:08', 0),
+-- (8, '77783', 1, 0, 9, '{\"password\":\"qz8rX5xEXh?A\",\"vm-enabled\":\"true\",\"vm-password\":38911,\"vm-mailto\":\"77783@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"77783\",\"effective_caller_id_number\":\"77783\",\"user_context\":\"default\"}', 0, '2019-05-24 15:54:08', '2019-05-24 15:54:08', 0),
+-- (9, '2999453586', 1, 0, 10, '{\"password\":\"8H34Zj}90cP3\",\"vm-enabled\":\"true\",\"vm-password\":16640,\"vm-mailto\":\"2999453586@gmail.com\",\"vm-attach-file\":\"true\",\"vm-keep-local-after-email\":\"true\",\"vm-email-all-messages\":\"true\"}', '{\"effective_caller_id_name\":\"2999453586\",\"effective_caller_id_number\":\"2999453586\",\"user_context\":\"default\"}', 0, '2019-05-24 15:56:33', '2019-05-24 15:56:33', 0);
 
 -- --------------------------------------------------------
 
