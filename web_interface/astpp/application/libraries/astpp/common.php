@@ -946,6 +946,19 @@ class common {
 		);
 		return $status_array;
 	}
+	// Ashish ASTPPCOM-751
+	function search_mail_to_type($status = '') {
+		$status_array = array (
+				'5' => gettext ( "Begins With" ),
+				'1' => gettext ( 'Contains' ),
+				'2' => gettext ( "Doesnt Contain" ),
+				// '3' => gettext ( 'Is Equal To' ),
+				// '4' => gettext ( 'Is Not Equal To' ),
+				// "6" => gettext ( "Ends With" )
+		);
+		return $status_array;
+	}
+	// Ashish End
 	function set_protocal($protpcal = '') {
 		$status_array = array (
 				'SIP' => gettext ( 'SIP' ),

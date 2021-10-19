@@ -836,7 +836,9 @@ class Freeswitch_form extends common
                     '',
                     '',
                     '',
-                    'search_string_type',
+                    // Ashish ASTPPCOM-751
+                    'search_mail_to_type',
+                    // Ashish End
                     ''
                 ),
                 array(
