@@ -1136,68 +1136,70 @@ class Summary extends MX_Controller
         redirect(base_url() . 'summary/product/');
     }
 
-     function product_summary_report_grid($search_arr, $query, $entity, $purpose){
+    function product_summary_report_grid($search_arr, $query, $entity, $purpose){
         $export_arr = array();
         $show_seconds = (! empty($search_arr['search_in'])) ? $search_arr['search_in'] : 'minutes';
         $currency_info = $this->common->get_currency_info();
-	$usedsec = 0;
-	$custom_array = array();
-	$session_info = $this->session->userdata('productsummary_reports_search');
-	$reseller_id = $this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5 ? $this->session->userdata['accountinfo']['id'] : 0;
+    $usedsec = 0;
+    $custom_array = array();
+    $session_info = $this->session->userdata('productsummary_reports_search');
+    $reseller_id = $this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5 ? $this->session->userdata['accountinfo']['id'] : 0;
         foreach ($query->result_array() as $row1) {
 
             $new_arr = array();
             $free_minutes = $row1['free_minutes'];
-	    $used_seconds = 0;		
-	     if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-			$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    }
-	    if((isset($search_arr['groupby_1']) || ($search_arr['groupby_2']) || ($search_arr['groupby_2'])) && ($search_arr['groupby_1'] == 'order_items.accountid' || $search_arr['groupby_2'] == 'order_items.accountid' ) ){
-	
-			/*$used_seconds = "select sum(used_seconds) as used_seconds from counters as C inner join packages_view as P on C.product_id=P.id where P.product_id=".$row1['product_id']." and C.accountid = ".$row1['accountid']." ";
-			$used_seconds = $this->db->query($used_seconds);*/
-		$this->db->select_sum('used_seconds');
-		    $this->db->from('counters');
-		    $this->db->where("product_id",$row1['product_id']);
-		     $this->db->where('accountid',$row1['accountid']); 
-		    $used_seconds=$this->db->get();
+        $used_seconds = 0;      
+         if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+            $this->db->where('accountid',$session_info['order_items.accountid']); 
+        }
+        if((isset($search_arr['groupby_1']) || ($search_arr['groupby_2']) || ($search_arr['groupby_2'])) && ($search_arr['groupby_1'] == 'order_items.accountid' || $search_arr['groupby_2'] == 'order_items.accountid' ) ){
+    
+            /*$used_seconds = "select sum(used_seconds) as used_seconds from counters as C inner join packages_view as P on C.product_id=P.id where P.product_id=".$row1['product_id']." and C.accountid = ".$row1['accountid']." ";
+            $used_seconds = $this->db->query($used_seconds);*/
+        $this->db->select_sum('used_seconds');
+            $this->db->from('counters');
+            $this->db->where("product_id",$row1['product_id']);
+             $this->db->where('accountid',$row1['accountid']); 
+            $used_seconds=$this->db->get();
 
-	    }else{
-			/* $used_seconds = "select sum(used_seconds) as used_seconds from counters as C inner join packages_view as P on C.product_id=P.id where P.product_id=".$row1['product_id']."";
-			$used_seconds = $this->db->query($used_seconds);*/
-		 if($reseller_id > 0){
-			   $this->db->select_sum('used_seconds');
-			   $this->db->from('counters');
-			   $this->db->where_not_in("accountid",$row1['accountid']);
-			   $this->db->where("product_id",$row1['product_id']);
-			   $used_seconds=$this->db->get();
-		 }else{
-			   $this->db->select_sum('used_seconds');
-			   $this->db->from('counters');
-			   $this->db->where("product_id",$row1['product_id']);
-			   $used_seconds=$this->db->get();
-		}
-	    }
+        }else{
+            /* $used_seconds = "select sum(used_seconds) as used_seconds from counters as C inner join packages_view as P on C.product_id=P.id where P.product_id=".$row1['product_id']."";
+            $used_seconds = $this->db->query($used_seconds);*/
+         if($reseller_id > 0){
+               $this->db->select_sum('used_seconds');
+               $this->db->from('counters');
+            //    $this->db->where_not_in("accountid",$row1['accountid']);
+               $this->db->where("accountid",$row1['accountid']);               
+               $this->db->where("product_id",$row1['product_id']);
+               $used_seconds=$this->db->get();
+         }else{
+               $this->db->select_sum('used_seconds');
+               $this->db->from('counters');
+               $this->db->where("product_id",$row1['product_id']);
+               $this->db->where("package_id",$row1['id']);
+               $used_seconds=$this->db->get();
+        }
+        }
 
-	    if($used_seconds->num_rows > 0){
-			$used_seconds = $used_seconds->result_array()[0]['used_seconds'];
+        if($used_seconds->num_rows > 0){
+            $used_seconds = $used_seconds->result_array()[0]['used_seconds'];
 
-	    }
+        }
 
            if ($show_seconds == 'minutes') {
-		$free_minutes = $free_minutes*60;
+        $free_minutes = $free_minutes*60;
                 $free_minutes_result = $free_minutes > 0 ? sprintf('%02d', $free_minutes / 60) . ":" . sprintf('%02d', ($free_minutes % 60)) : "00:00";
-		$used_seconds_result = $used_seconds > 0 ? sprintf('%02d', $used_seconds / 60) . ":" . sprintf('%02d', ($used_seconds % 60)) : "00:00";
-		
+        $used_seconds_result = $used_seconds > 0 ? sprintf('%02d', $used_seconds / 60) . ":" . sprintf('%02d', ($used_seconds % 60)) : "00:00";
+        
             } else {
-		$free_minutes = $free_minutes*60;
+        $free_minutes = $free_minutes*60;
                 $free_minutes_result = sprintf('%02d', $free_minutes);
-		$usedseconds = $used_seconds * 60;
-		$usedseconds = sprintf('%02d', $usedseconds);
-		$used_seconds_result = $usedseconds > 0 ? sprintf('%02d', $usedseconds / 60) : "00";
+        $usedseconds = $used_seconds * 60;
+        $usedseconds = sprintf('%02d', $usedseconds);
+        $used_seconds_result = $usedseconds > 0 ? sprintf('%02d', $usedseconds / 60) : "00";
             }
 
-	   $usedsec += $used_seconds;
+       $usedsec += $used_seconds;
 
             if ($this->session->userdata('advance_search') == 1 || isset($search_arr) ) {
                 if (! empty($search_arr['groupby_time'])) {
@@ -1212,184 +1214,195 @@ class Summary extends MX_Controller
                     $new_arr[] = $time;
                 }
 
-			if($search_arr['groupby_1'] == "order_items.product_id"){
-				$new_arr[] = $this->common->get_field_name('name', 'products', $row1['product_id']);
-			}
+            if($search_arr['groupby_1'] == "order_items.product_id"){
+                $new_arr[] = $this->common->get_field_name('name', 'products', $row1['product_id']);
+            }
 
-			if ($search_arr['groupby_1'] == "order_items.accountid") {
-		            $new_arr[] = $this->common->build_concat_string("first_name,last_name,number", "accounts", $row1["accountid"]);
-		        } 
-		     
-		        if ($search_arr['groupby_2'] == "order_items.accountid") {
-		            $new_arr[] = $this->common->build_concat_string("first_name,last_name,number", "accounts", $row1["accountid"]);
-		        } 
+            // if ($search_arr['groupby_1'] == "order_items.accountid") {
+            //         $new_arr[] = $this->common->build_concat_string("first_name,last_name,number", "accounts", $row1["accountid"]);
+            //     } 
+             
+            //     if ($search_arr['groupby_2'] == "order_items.accountid") {
+            //         $new_arr[] = $this->common->build_concat_string("first_name,last_name,number", "accounts", $row1["accountid"]);
+            //     } 
+            
+            if ($search_arr['groupby_1'] == "order_items.accountid" || $search_arr['groupby_2'] == "order_items.accountid") {
+                if($reseller_id == '0'){
+                    $account_id = $this->db_model->getSelect('*','accounts',array("reseller_id" => $row1["accountid"]))->result_array();
+                    $account_id = $account_id[0]['id'];
+                }else{
+                    $account_id = $this->db_model->getSelect('*','accounts',array("id" => $row1["accountid"]))->result_array();
+                    $account_id = $account_id[0]['id'];
+                }
+                    $new_arr[] = $this->common->build_concat_string("first_name,last_name,number,company_name", "accounts", $account_id);
+                }
 
-			if($search_arr['groupby_2'] == "order_items.product_id"){
-		            $new_arr[] = $this->common->get_field_name('name', 'products', $row1['product_id']);
-		        } 
-		
-			 if (isset($search_arr['groupby_1']) && isset($search_arr['groupby_2']) &&  $search_arr['groupby_1'] == $search_arr['groupby_2']) {
-				unset($new_arr[1]);
-	    		}	
-		
-	   if($row1['product_category'] == 1 ){
-		 if((isset($search_arr['groupby_1']) && ($search_arr['groupby_1'] == "order_items.product_id" || $search_arr['groupby_2'] == "order_items.product_id" ) &&  ((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )))){ 
-		    $custom_array = array(
-		  
-		        $row1['quantity'],
-		        $row1['price'],
-			$row1['setup_fee'],
-		        $free_minutes_result,
-			$used_seconds_result,
-			$this->common->get_available_seconds_for_package($row1['productid'],$free_minutes,$used_seconds,$show_seconds),
-			$this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
+            if($search_arr['groupby_2'] == "order_items.product_id"){
+                    $new_arr[] = $this->common->get_field_name('name', 'products', $row1['product_id']);
+                } 
+        
+             if (isset($search_arr['groupby_1']) && isset($search_arr['groupby_2']) &&  $search_arr['groupby_1'] == $search_arr['groupby_2']) {
+                unset($new_arr[1]);
+                }   
+        
+       if($row1['product_category'] == 1 ){
+         if((isset($search_arr['groupby_1']) && ($search_arr['groupby_1'] == "order_items.product_id" || $search_arr['groupby_2'] == "order_items.product_id" ) &&  ((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )))){ 
+            $custom_array = array(
+          
+                $row1['quantity'],
+                $row1['price'],
+            $row1['setup_fee'],
+                $free_minutes_result,
+            $used_seconds_result,
+            $this->common->get_available_seconds_for_package($row1['productid'],$free_minutes,$used_seconds,$show_seconds),
+            $this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
 
-			$this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"accountid"=>$row1['accountid'],"is_terminated"=>0)),
-			$this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"accountid"=>$row1['accountid'])),
-		    );
-		}else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){
-		 if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-			$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    }
-		if($reseller_id > 0){
-			
-			$active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id));
-			 if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"reseller_id"=>$reseller_id));
-		 }else{
-			$active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0));
-			 if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	   		 }
-			$total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid']));
-		 }
-		$custom_array = array(
-			//$product_name = $this->common->get_field_name("name","products",array("id"=>$row1['product_id'])),
-			$row1['quantity'],
-		        $row1['price'],
-			$row1['setup_fee'],
-		        $free_minutes_result,
-			$used_seconds_result,
-			$this->common->get_available_seconds_for_package($row1['productid'],$free_minutes,$used_seconds,$show_seconds),
-			$this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
-			$active_user,
-			$total_user,
-		);
-		}else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){//echo 4334; exit;
-		    $custom_array = array(
-		      
-		        $free_minutes_result,
-			$used_seconds_result,
-			$this->common->get_available_seconds_for_package($row1['productid'],$free_minutes,$used_seconds,$show_seconds),
-			
-			$this->db_model->countQuery("*","order_items",array("accountid"=>$row1['accountid'])),
-			
-		    );
-		}else{
-		 if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-			$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    } 
-		 if($reseller_id > 0){
-			$active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id));
-			 if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"reseller_id"=>$reseller_id));
-		 }else{
-			$active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0));
-			 if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid']));
-		 }
-		 $custom_array = array(			
-			$product_name = $this->common->get_field_name("name","products",array("id"=>$row1['product_id'])),
-		        $row1['quantity'],
-		        $row1['price'],
-			$row1['setup_fee'],
-		        $free_minutes_result,
-			$used_seconds_result,
-			$this->common->get_available_seconds_for_package($row1['productid'],$free_minutes,$used_seconds,$show_seconds),
-			$this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
-			$active_user,
-			$total_user
-		      
-		    );
-		}
-	   }
+            $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"accountid"=>$row1['accountid'],"is_terminated"=>0)),
+            $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"accountid"=>$row1['accountid'])),
+            );
+        }else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){
+         if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+            $this->db->where('accountid',$session_info['order_items.accountid']); 
+        }
+        if($reseller_id > 0){
+            
+            $active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id),"accountid");
+             if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"reseller_id"=>$reseller_id),"accountid");
+         }else{
+            $active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0, "reseller_id" => 0),"accountid");
+             if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+             }
+            $total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'], "reseller_id" => 0),"accountid");
+         }
+        $custom_array = array(
+            //$product_name = $this->common->get_field_name("name","products",array("id"=>$row1['product_id'])),
+            $row1['quantity'],
+                $row1['price'],
+            $row1['setup_fee'],
+                $free_minutes_result,
+            $used_seconds_result,
+            $this->common->get_available_seconds_for_package($row1['productid'],$free_minutes,$used_seconds,$show_seconds),
+            $this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
+            $active_user,
+            $total_user,
+        );
+        }else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){//echo 4334; exit;
+            $custom_array = array(
+              
+                $free_minutes_result,
+            $used_seconds_result,
+            $this->common->get_available_seconds_for_package($row1['productid'],$free_minutes,$used_seconds,$show_seconds),
+            
+            $this->db_model->countQuery("*","order_items",array("accountid"=>$row1['accountid'])),
+            
+            );
+        }else{
+         if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+            $this->db->where('accountid',$session_info['order_items.accountid']); 
+        } 
+         if($reseller_id > 0){
+            $active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id),"accountid");
+             if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"reseller_id"=>$reseller_id),"accountid");
+         }else{
+            $active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0, "reseller_id" => 0),"accountid");
+             if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'], "reseller_id" => 0),"accountid");
+         }
+         $custom_array = array(         
+            $product_name = $this->common->get_field_name("name","products",array("id"=>$row1['product_id'])),
+                $row1['quantity'],
+                $row1['price'],
+            $row1['setup_fee'],
+                $free_minutes_result,
+            $used_seconds_result,
+            $this->common->get_available_seconds_for_package($row1['productid'],$free_minutes,$used_seconds,$show_seconds),
+            $this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
+            $active_user,
+            $total_user
+              
+            );
+        }
+       }
 
-	   if($row1['product_category'] == 2){
-		    if((isset($search_arr['groupby_1']) && ($search_arr['groupby_1'] == "order_items.product_id" || $search_arr['groupby_2'] == "order_items.product_id" ) &&  ((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )))){ 
-		    $custom_array = array(
-		        $row1['quantity'],
-		        $row1['price'],
-			$row1['setup_fee'],
-			$this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
-			$this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"accountid"=>$row1['accountid'],"is_terminated"=>0)),
-			$this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"accountid"=>$row1['accountid'])),
-		    );
-		}else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){
-		 if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-			$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    }
-		if($reseller_id > 0){
-			$active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id));
-			 if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"reseller_id"=>$reseller_id));
-		 }else{
-			$active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0));
-			if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid']));
-		 }
-		$custom_array = array(
-			$row1['quantity'],
-		        $row1['price'],
-			$row1['setup_fee'],
-			$this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
-			$active_user,
-			$total_user,
-		);
-		}else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){//echo 4334; exit;
-		    $custom_array = array(
-		      
-			$this->db_model->countQuery("*","order_items",array("accountid"=>$row1['accountid'])),
-			
-		    );
-		}else{
-		if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-		if($reseller_id > 0){
-			$active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id));
-			if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"reseller_id"=>$reseller_id));
-		 }else{
-			$active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0));
-			if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid']));
-		 }
-		 $custom_array = array(			
-			$product_name = $this->common->get_field_name("name","products",array("id"=>$row1['product_id'])),
-		        $row1['quantity'],
-		        $row1['price'],
-			$row1['setup_fee'],
-			$this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
-			$active_user,
-			$total_user,
-		    );
-		}
-	   }
-	}
+       if($row1['product_category'] == 2){
+            if((isset($search_arr['groupby_1']) && ($search_arr['groupby_1'] == "order_items.product_id" || $search_arr['groupby_2'] == "order_items.product_id" ) &&  ((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )))){ 
+            $custom_array = array(
+                $row1['quantity'],
+                $row1['price'],
+            $row1['setup_fee'],
+            $this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
+            $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"accountid"=>$row1['accountid'],"is_terminated"=>0)),
+            $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"accountid"=>$row1['accountid'])),
+            );
+        }else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){
+         if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+            $this->db->where('accountid',$session_info['order_items.accountid']); 
+        }
+        if($reseller_id > 0){
+            $active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id),"accountid");
+             if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"reseller_id"=>$reseller_id),"accountid");
+         }else{
+            $active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0, "reseller_id" => 0),"accountid");
+            if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'], "reseller_id" => 0),"accountid");
+         }
+        $custom_array = array(
+            $row1['quantity'],
+                $row1['price'],
+            $row1['setup_fee'],
+            $this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
+            $active_user,
+            $total_user,
+        );
+        }else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){//echo 4334; exit;
+            $custom_array = array(
+              
+            $this->db_model->countQuery("*","order_items",array("accountid"=>$row1['accountid'])),
+            
+            );
+        }else{
+        if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+        if($reseller_id > 0){
+            $active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id),"accountid");
+            if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"reseller_id"=>$reseller_id),"accountid");
+         }else{
+            $active_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'],"is_terminated"=>0, "reseller_id" => 0),"accountid");
+            if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user = $this->db_model->countQuery("*","order_items",array("product_id"=>$row1['productid'], "reseller_id" => 0),"accountid");
+         }
+         $custom_array = array(         
+            $product_name = $this->common->get_field_name("name","products",array("id"=>$row1['product_id'])),
+                $row1['quantity'],
+                $row1['price'],
+            $row1['setup_fee'],
+            $this->common->convert_to_currency_account("","",($row1['price']+$row1['setup_fee'])),
+            $active_user,
+            $total_user,
+            );
+        }
+       }
+    }
             $final_array = array_merge($new_arr, $custom_array);
 
             $json_data[] = array(
@@ -1407,241 +1420,243 @@ class Summary extends MX_Controller
 
         $quantity = 0;
         $price = 0;
-	$setup_fee = 0;
+    $setup_fee = 0;
         $minutes = 0;
         //$billing_type = 0;
         $totalamt = 0;
-	$active_user = 0;
-	$total_user = 0;
-	$total_product_count = 0;
-	$avaiable_minutes = 0;
-	$usedsec =0;
-	
+    $active_user = 0;
+    $total_user = 0;
+    $total_product_count = 0;
+    $avaiable_minutes = 0;
+    $usedsec =0;
+    
         foreach ($total_info as $key => $val) {
-	if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-	if((isset($search_arr['groupby_1']) || ($search_arr['groupby_2']) || ($search_arr['groupby_2'])) && ($search_arr['groupby_1'] == 'order_items.accountid' || $search_arr['groupby_2'] == 'order_items.accountid' ) ){
-/*			$used_seconds = "select sum(used_seconds) as used_seconds from counters as C inner join packages_view as P on C.product_id=P.id where P.product_id=".$val['productid']." and C.accountid = ".$val['accountid']." ";
-			$used_seconds = $this->db->query($used_seconds);*/
-		$this->db->select_sum('used_seconds');
-		    $this->db->from('counters');
-		    $this->db->where("product_id",$val['product_id']);
-		     $this->db->where('accountid',$val['accountid']); 
-		    $used_seconds=$this->db->get();
-		
+    if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+    if((isset($search_arr['groupby_1']) || ($search_arr['groupby_2']) || ($search_arr['groupby_2'])) && ($search_arr['groupby_1'] == 'order_items.accountid' || $search_arr['groupby_2'] == 'order_items.accountid' ) ){
+/*          $used_seconds = "select sum(used_seconds) as used_seconds from counters as C inner join packages_view as P on C.product_id=P.id where P.product_id=".$val['productid']." and C.accountid = ".$val['accountid']." ";
+            $used_seconds = $this->db->query($used_seconds);*/
+        $this->db->select_sum('used_seconds');
+            $this->db->from('counters');
+            $this->db->where("product_id",$val['product_id']);
+             $this->db->where('accountid',$val['accountid']); 
+            $used_seconds=$this->db->get();
+        
 
-	    }else{
-			/*$used_seconds = "select sum(used_seconds) as used_seconds from counters as C inner join packages_view as P on C.product_id=P.id where P.product_id=".$val['productid']."";
-			$used_seconds = $this->db->query($used_seconds);*/
-		 if($reseller_id > 0){
-			   $this->db->select_sum('used_seconds');
-			   $this->db->from('counters');
-			   $this->db->where_not_in("accountid",$reseller_id);
-			   $this->db->where("product_id",$row1['product_id']);
-			   $used_seconds=$this->db->get();
-		 }else{
-			   $this->db->select_sum('used_seconds');
-			   $this->db->from('counters');
-			   $this->db->where("product_id",$row1['product_id']);
-			   $used_seconds=$this->db->get();
-		}
-		    /*$this->db->select_sum('used_seconds');
-		    $this->db->from('counters');
-		    $this->db->where("product_id",$val['product_id']);
-		    $used_seconds=$this->db->get();*/
-	    }
-	    if($used_seconds->num_rows > 0){
-			$usedsec+= $used_seconds->result_array()[0]['used_seconds'];
+        }else{
+            /*$used_seconds = "select sum(used_seconds) as used_seconds from counters as C inner join packages_view as P on C.product_id=P.id where P.product_id=".$val['productid']."";
+            $used_seconds = $this->db->query($used_seconds);*/
+         if($reseller_id > 0){
+               $this->db->select_sum('used_seconds');
+               $this->db->from('counters');
+            //    $this->db->where_not_in("accountid",$reseller_id);
+               $this->db->where("accountid",$reseller_id);            
+               $this->db->where("product_id",$row1['product_id']);
+               $used_seconds=$this->db->get();
+         }else{
+               $this->db->select_sum('used_seconds');
+               $this->db->from('counters');
+               $this->db->where("product_id",$row1['product_id']);
+               $this->db->where("package_id",$val['id']);
+               $used_seconds=$this->db->get();
+        }
+            /*$this->db->select_sum('used_seconds');
+            $this->db->from('counters');
+            $this->db->where("product_id",$val['product_id']);
+            $used_seconds=$this->db->get();*/
+        }
+        if($used_seconds->num_rows > 0){
+            $usedsec+= $used_seconds->result_array()[0]['used_seconds'];
 
-	    }
+        }
               if((isset($search_arr['groupby_1']) || ($search_arr['groupby_2']) || ($search_arr['groupby_2'])) && ($search_arr['groupby_1'] == 'order_items.accountid' || $search_arr['groupby_2'] == 'order_items.accountid' ) ){
-		    $quantity += $val['quantity'];
-		    $price += $val['price'];
-		    $setup_fee += $val['setup_fee'];
-		    $minutes += $val['free_minutes'];
-		    $totalamt += $this->common->convert_to_currency_account("","",($val['price']+$val['setup_fee']));
-		    $active_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"accountid"=>$val['accountid'],"is_terminated"=>0));
-		    $total_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"accountid"=>$val['accountid']));
-		    $total_product_count += $this->db_model->countQuery("*","order_items",array("accountid"=>$val['accountid']));
-	   }else{
-		    if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-		    if($reseller_id > 0){
-			$active_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id));
-			if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"reseller_id"=>$reseller_id));
-		 }else{
-			$active_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"is_terminated"=>0));
-			if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
-				$this->db->where('accountid',$session_info['order_items.accountid']); 
-	    		}
-			$total_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid']));
-		 }
-		    $quantity += $val['quantity'];
-		    $price += $val['price'];
-		    $setup_fee += $val['setup_fee'];
-		    $minutes += $val['free_minutes'];
-		    $totalamt += $this->common->convert_to_currency_account("","",($val['price']+$val['setup_fee']));
-		    $active_user;
-		    $total_user;
-		    $total_product_count += $this->db_model->countQuery("*","order_items",array("accountid"=>$val['accountid']));
-	    }
-	    
+            $quantity += $val['quantity'];
+            $price += $val['price'];
+            $setup_fee += $val['setup_fee'];
+            $minutes += $val['free_minutes'];
+            $totalamt += $this->common->convert_to_currency_account("","",($val['price']+$val['setup_fee']));
+            $active_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"accountid"=>$val['accountid'],"is_terminated"=>0, "reseller_id" => 0),"accountid");
+            $total_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"accountid"=>$val['accountid'], "reseller_id" => 0),"accountid");
+            $total_product_count += $this->db_model->countQuery("*","order_items",array("accountid"=>$val['accountid']));
+       }else{
+            if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            if($reseller_id > 0){
+            $active_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"is_terminated"=>0,"reseller_id"=>$reseller_id),"accountid");
+            if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"reseller_id"=>$reseller_id),"accountid");
+         }else{
+            $active_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'],"is_terminated"=>0, "reseller_id" => 0),"accountid");
+            if(isset($session_info['order_items.accountid']) && $session_info['order_items.accountid'] != "" ){
+                $this->db->where('accountid',$session_info['order_items.accountid']); 
+                }
+            $total_user += $this->db_model->countQuery("*","order_items",array("product_id"=>$val['productid'], "reseller_id" => 0),"accountid");
+         }
+            $quantity += $val['quantity'];
+            $price += $val['price'];
+            $setup_fee += $val['setup_fee'];
+            $minutes += $val['free_minutes'];
+            $totalamt += $this->common->convert_to_currency_account("","",($val['price']+$val['setup_fee']));
+            $active_user;
+            $total_user;
+            $total_product_count += $this->db_model->countQuery("*","order_items",array("accountid"=>$val['accountid']));
+        }
+        
         } 
 //echo $active_user; exit;
-	$free_min =$minutes *60;
-	$avaiable_minutes += $this->common->get_total_available_minutes($free_min,$usedsec);
+    $free_min =$minutes *60;
+    $avaiable_minutes += $this->common->get_total_available_minutes($free_min,$usedsec);
         if ($show_seconds == 'minutes') {
-	    $minutes = $minutes*60;
+        $minutes = $minutes*60;
             $free_minutes = $minutes > 0 ? sprintf('%02d', $minutes / 60) . ":" . sprintf('%02d', ($minutes % 60)) : "00:00";
-	    $avaiable_minutes = $avaiable_minutes > 0 ? sprintf('%02d', $avaiable_minutes / 60) . ":" . sprintf('%02d', ($avaiable_minutes % 60)) : "00:00";
-	    
-	   $usedsec = $usedsec > 0 ? sprintf('%02d', $usedsec / 60) . ":" . sprintf('%02d', ($usedsec % 60)) : "00:00";
+        $avaiable_minutes = $avaiable_minutes > 0 ? sprintf('%02d', $avaiable_minutes / 60) . ":" . sprintf('%02d', ($avaiable_minutes % 60)) : "00:00";
+        
+       $usedsec = $usedsec > 0 ? sprintf('%02d', $usedsec / 60) . ":" . sprintf('%02d', ($usedsec % 60)) : "00:00";
         } else {
-	    $minutes = $minutes*60;
+        $minutes = $minutes*60;
             $free_minutes = $minutes;
-	    $avaiable_minutes = sprintf('%02d', $avaiable_minutes);
-	    $usedsec = $usedsec;
+        $avaiable_minutes = sprintf('%02d', $avaiable_minutes);
+        $usedsec = $usedsec;
         }
-	if($row1['product_category'] == 1 ){
-		 if((isset($search_arr['groupby_1']) && ($search_arr['groupby_1'] == "order_items.product_id" || $search_arr['groupby_2'] == "order_items.product_id" ) &&  ((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )))){ 
-		$last_array = array(
-		    
-		    "<b>" . $quantity . "</b>",
-		    "<b>" . $this->common->currency_decimal($price) . "</b>",
-		     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
-		    "<b>" . $free_minutes . "</b>",
-		    "<b>" . $usedsec . "</b>",
-		    "<b>" . $avaiable_minutes . "</b>",
-		    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
-		    "<b>" . $active_user . "</b>",
-		    "<b>" . $total_user . "</b>",
-		);	
-		}else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){
-		if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") && (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){ 
-			unset($search_arr['custom_total_array'][1]);
-		}else{ 
-			//unset($search_arr['custom_total_array'][1]);
-		}
-		$last_array = array(
-		    
-		    "<b>" . $quantity . "</b>",
-		    "<b>" . $this->common->currency_decimal($price) . "</b>",
-		     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
-		    "<b>" . $free_minutes . "</b>",
-		    "<b>" . $usedsec . "</b>",
-		   "<b>" . $avaiable_minutes . "</b>",
-		    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
-		     "<b>" . $active_user . "</b>",
-		    "<b>" . $total_user . "</b>",
-		);
-		}else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){
+    if($row1['product_category'] == 1 ){
+         if((isset($search_arr['groupby_1']) && ($search_arr['groupby_1'] == "order_items.product_id" || $search_arr['groupby_2'] == "order_items.product_id" ) &&  ((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )))){ 
+        $last_array = array(
+            
+            "<b>" . $quantity . "</b>",
+            "<b>" . $this->common->currency_decimal($price) . "</b>",
+             "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
+            "<b>" . $free_minutes . "</b>",
+            "<b>" . $usedsec . "</b>",
+            "<b>" . $avaiable_minutes . "</b>",
+            "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
+            "<b>" . $active_user . "</b>",
+            "<b>" . $total_user . "</b>",
+        );  
+        }else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){
+        if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") && (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){ 
+            unset($search_arr['custom_total_array'][1]);
+        }else{ 
+            //unset($search_arr['custom_total_array'][1]);
+        }
+        $last_array = array(
+            
+            "<b>" . $quantity . "</b>",
+            "<b>" . $this->common->currency_decimal($price) . "</b>",
+             "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
+            "<b>" . $free_minutes . "</b>",
+            "<b>" . $usedsec . "</b>",
+           "<b>" . $avaiable_minutes . "</b>",
+            "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
+             "<b>" . $active_user . "</b>",
+            "<b>" . $total_user . "</b>",
+        );
+        }else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){
 
-			if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") && (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){ 
-				unset($search_arr['custom_total_array'][1]);
-			}else{ 
-				//unset($search_arr['custom_total_array'][1]);
-			}
-		$last_array = array(
-		   
-		   
-		    "<b>" . $free_minutes . "</b>",
-		    "<b>" . $usedsec . "</b>",
-		    "<b>" . $avaiable_minutes . "</b>",
-		    "<b>" .$total_product_count . "</b>",
-		   
-		);
-		}else{
-		if(isset($search_arr['groupby_time']) && $search_arr['groupby_time'] !=""  ){
-			$last_array = array(
-			   "",	
-			    "<b>" . $quantity . "</b>",
-			    "<b>" . $this->common->currency_decimal($price) . "</b>",
-			     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
-			    "<b>" . $free_minutes . "</b>",
-			    "<b>" . $usedsec . "</b>",
-			     "<b>" . $avaiable_minutes . "</b>",
-			    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
-			   "<b>" . $active_user. "</b>",
-			    "<b>" . $total_user . "</b>",
-			);
+            if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") && (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){ 
+                unset($search_arr['custom_total_array'][1]);
+            }else{ 
+                //unset($search_arr['custom_total_array'][1]);
+            }
+        $last_array = array(
+           
+           
+            "<b>" . $free_minutes . "</b>",
+            "<b>" . $usedsec . "</b>",
+            "<b>" . $avaiable_minutes . "</b>",
+            "<b>" .$total_product_count . "</b>",
+           
+        );
+        }else{
+        if(isset($search_arr['groupby_time']) && $search_arr['groupby_time'] !=""  ){
+            $last_array = array(
+               "",  
+                "<b>" . $quantity . "</b>",
+                "<b>" . $this->common->currency_decimal($price) . "</b>",
+                 "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
+                "<b>" . $free_minutes . "</b>",
+                "<b>" . $usedsec . "</b>",
+                 "<b>" . $avaiable_minutes . "</b>",
+                "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
+               "<b>" . $active_user. "</b>",
+                "<b>" . $total_user . "</b>",
+            );
 
-		}else{
-			$last_array = array(
-			   
-			    "<b>" . $quantity . "</b>",
-			    "<b>" . $this->common->currency_decimal($price) . "</b>",
-			     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
-			    "<b>" . $free_minutes . "</b>",
-			    "<b>" . $usedsec . "</b>",
-			     "<b>" . $avaiable_minutes . "</b>",
-			    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
-			   "<b>" . $active_user. "</b>",
-			    "<b>" . $total_user . "</b>",
-			);
-		}
-	}	
-	}
-	if($row1['product_category'] == 2){
-		 if((isset($search_arr['groupby_1']) && ($search_arr['groupby_1'] == "order_items.product_id" || $search_arr['groupby_2'] == "order_items.product_id" ) &&  ((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )))){ 
-			$last_array = array(
-			 
-			    "<b>" . $quantity . "</b>",
-			    "<b>" . $this->common->currency_decimal($price) . "</b>",
-			     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
-			    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
-			   "<b>" . $active_user . "</b>",
-		    	    "<b>" . $total_user . "</b>",
-			);
-		}else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){	
-			if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") && (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){		
+        }else{
+            $last_array = array(
+               
+                "<b>" . $quantity . "</b>",
+                "<b>" . $this->common->currency_decimal($price) . "</b>",
+                 "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
+                "<b>" . $free_minutes . "</b>",
+                "<b>" . $usedsec . "</b>",
+                 "<b>" . $avaiable_minutes . "</b>",
+                "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
+               "<b>" . $active_user. "</b>",
+                "<b>" . $total_user . "</b>",
+            );
+        }
+    }   
+    }
+    if($row1['product_category'] == 2){
+         if((isset($search_arr['groupby_1']) && ($search_arr['groupby_1'] == "order_items.product_id" || $search_arr['groupby_2'] == "order_items.product_id" ) &&  ((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )))){ 
+            $last_array = array(
+             
+                "<b>" . $quantity . "</b>",
+                "<b>" . $this->common->currency_decimal($price) . "</b>",
+                 "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
+                "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
+               "<b>" . $active_user . "</b>",
+                    "<b>" . $total_user . "</b>",
+            );
+        }else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){  
+            if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.product_id") && (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.product_id" )){        
 
-            		unset($search_arr['custom_total_array'][1] );
-			}else{
+                    unset($search_arr['custom_total_array'][1] );
+            }else{
 
-			}
-			$last_array = array(
-			    "<b>" . $quantity . "</b>",	
-			    "<b>" . $this->common->currency_decimal($price). "</b>",
-			     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
-			    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
-			    "<b>" . $active_user . "</b>",
-		    	    "<b>" . $total_user . "</b>",
-			);
-		}else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){
-			unset($search_arr['custom_total_array'][1] );
-			$last_array = array(
-			    "<b>" . $total_product_count . "</b>",
-			);
-		}else{
-			if(isset($search_arr['groupby_time']) && $search_arr['groupby_time'] !=""  ){
-				$last_array = array(
-				   "",
-				    "<b>" . $quantity . "</b>",
-				    "<b>" . $this->common->currency_decimal($price) . "</b>",
-				     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
-				    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
-				    "<b>" . $active_user . "</b>",
-			  	    "<b>" . $total_user . "</b>",
-				);
-			}else{
-				$last_array = array(
-				    "<b>" . $quantity . "</b>",
-				    "<b>" . $this->common->currency_decimal($price) . "</b>",
-				     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
-				    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
-				    "<b>" . $active_user . "</b>",
-			  	    "<b>" . $total_user . "</b>",
-				);
+            }
+            $last_array = array(
+                "<b>" . $quantity . "</b>", 
+                "<b>" . $this->common->currency_decimal($price). "</b>",
+                 "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
+                "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
+                "<b>" . $active_user . "</b>",
+                    "<b>" . $total_user . "</b>",
+            );
+        }else if((isset($search_arr['groupby_1']) && $search_arr['groupby_1'] == "order_items.accountid") || (isset($search_arr['groupby_2']) && $search_arr['groupby_2'] == "order_items.accountid" )){
+            unset($search_arr['custom_total_array'][1] );
+            $last_array = array(
+                "<b>" . $total_product_count . "</b>",
+            );
+        }else{
+            if(isset($search_arr['groupby_time']) && $search_arr['groupby_time'] !=""  ){
+                $last_array = array(
+                   "",
+                    "<b>" . $quantity . "</b>",
+                    "<b>" . $this->common->currency_decimal($price) . "</b>",
+                     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
+                    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
+                    "<b>" . $active_user . "</b>",
+                    "<b>" . $total_user . "</b>",
+                );
+            }else{
+                $last_array = array(
+                    "<b>" . $quantity . "</b>",
+                    "<b>" . $this->common->currency_decimal($price) . "</b>",
+                     "<b>" . $this->common->currency_decimal($setup_fee) . "</b>",
+                    "<b>" . $this->common->currency_decimal($totalamt) . "</b>",
+                    "<b>" . $active_user . "</b>",
+                    "<b>" . $total_user . "</b>",
+                );
 
 
-			}
-		}
-	}
+            }
+        }
+    }
         if ($purpose == 'export') {
             $search_arr['custom_total_array'][0] = "Grand Total";
         }
@@ -1660,9 +1675,11 @@ class Summary extends MX_Controller
         $json_data[] = array(
             'cell' => $total_array
         );
-			
+            
         return $purpose == 'grid' ? $json_data : $export_arr;
     }
+
+
  function product_list_dropdown(){ 
 	$add_array = $this->input->post();
 	$reseller_id = $this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5 ? $this->session->userdata['accountinfo']['id'] : 0;
