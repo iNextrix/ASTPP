@@ -403,9 +403,9 @@ class CI_Security {
 				$str = preg_replace_callback("#<img\s+([^>]*?)(\s?/?>|$)#si", array($this, '_js_img_removal'), $str);
 			}
 
-			if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str))
+			if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str) OR preg_match("/svg/i", $str))
 			{
-				$str = preg_replace("#<(/*)(script|xss)(.*?)\>#si", '[removed]', $str);
+				$str = preg_replace("#<(/*)(script|xss|svg)(.*?)\>#si", '[removed]', $str);
 			}
 		}
 		while ($original != $str);
