@@ -81,7 +81,7 @@ class System_form extends common
                     'size' => '20',
                     'class' => "description form-control form-control-lg  mt-5"
                 ),
-                'trim|required',
+                'trim|required|xss_clean',
                 'tOOL TIP',
                 ''
             ),
