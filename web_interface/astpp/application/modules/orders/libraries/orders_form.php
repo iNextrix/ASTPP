@@ -96,6 +96,9 @@ class Orders_form
                     'name' => 'order_date[]',
                     'id' => 'billing_date_from_date',
                     'size' => '20',
+                    // Ashish ASTPPCOM-821
+                    'readonly' => 'readonly',
+                    // Ashish End
                     'class' => "text field "
                 ),
                 '',
@@ -110,6 +113,9 @@ class Orders_form
                     'name' => 'order_date[]',
                     'id' => 'billing_date_to_date',
                     'size' => '20',
+                    // Ashish ASTPPCOM-821
+                    'readonly' => 'readonly',
+                    // Ashish End
                     'class' => "text field "
                 ),
                 '',
