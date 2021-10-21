@@ -209,9 +209,9 @@ class Summary_model extends CI_Model
             $this->db->group_by($group_by, false);
             $this->db->_protect_identifiers = true;
         }
-	if($reseller_id > 0){
+	// if($reseller_id > 0){
 		$this->db->where('orders.reseller_id',$reseller_id);  
-	}
+	// }
 	if ($this->session->userdata('advance_search') != 1) { 
 		if(isset($product_summary_search['order_items.accountid']) && $product_summary_search['order_items.accountid'] != ''){
 			  $this->db->where('orders.accountid',$product_summary_search['order_items.accountid']);         
