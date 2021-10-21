@@ -275,7 +275,10 @@ class order {
 		if($last_payment_id){
 				$this->CI->db->where("id",$commission_last_id);
 				$this->CI->db->update("commission",array("payment_id"=>$last_payment_id));
-		}   
+		}
+		$parent_data->name = $parent_data->product_info->name;
+		$parent_data->amount = $userdata->product_info->price;
+		$this->CI->common->mail_to_users('product_commission',(array)$parent_data);
 	}
 	function generate_order($product_info,$account_info,$created_by_accountinfo,$parent_order_id,$account_currency_info){
 
