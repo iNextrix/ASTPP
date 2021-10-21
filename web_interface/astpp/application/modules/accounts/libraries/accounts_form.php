@@ -399,7 +399,7 @@ class Accounts_form extends common
                     'size' => '20',
                     'class' => "text field medium"
                 ),
-                '',
+                'trim|required|greater_than[-1]',
                 'tOOL TIP',
                 ''
             );
