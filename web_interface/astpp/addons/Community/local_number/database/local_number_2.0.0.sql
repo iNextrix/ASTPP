@@ -1,0 +1,1 @@
+update userlevels set module_permissions = concat( module_permissions, ',', (  SELECT max( id ) FROM menu_modules where `module_url` = 'local_number/local_number_list/' ) ) WHERE userlevelid = 2;
