@@ -1442,16 +1442,30 @@ class common {
 				$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
 		break;
 		
-        case 'new_invoice':
-                $subject = str_replace('#INVOICE_NUMBER#', $accountinfo['invoice_number'], $subject);
-				$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
-                $message = str_replace('#AMOUNT#', $accountinfo['amount'], $message);
-                $message = str_replace('#INVOICE_DATE#', $accountinfo['generate_date'], $message);
-                $message = str_replace('#INVOICE_NUMBER#', $accountinfo['invoice_number'], $message);
-				$message = str_replace('#DUE_DATE#', $accountinfo['due_date'], $message);
-                $message = str_replace('#COMPANY_WEBSITE#',$company_website, $message);
-				$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
+        // Ashish ASTPPCOM-748
+		case 'new_invoice':
+			$subject = str_replace('#INVOICE_NUMBER#',isset($accountinfo['invoice_number'])?$accountinfo['invoice_number']:'', $subject);
+			$subject = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:"", '', '', true,true),$subject);
+			$subject = str_replace('#INVOICE_DATE#', isset($accountinfo['generate_date'])?$accountinfo['generate_date']:"", $subject);
+			$subject = str_replace('#DUE_DATE#',isset($accountinfo['due_date'])?$accountinfo['due_date']:'', $subject);
+			
+			$message = str_replace('#INVOICE_DATE#', $this->convert_GMT_to('generate_date','invoices',isset($accountinfo['generate_date'])?$accountinfo['generate_date']:"", isset($accountinfo['timezone_id']) ? $accountinfo['timezone_id'] : ''), $message);
+			$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
+			$message = str_replace('#INVOICE_NUMBER#', isset($accountinfo['invoice_number'])?$accountinfo['invoice_number']:'', $message);
+			$message = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:"", '', $to_currency, true,true), $message);
+			$message = str_replace('#DUE_DATE#',isset($accountinfo['due_date'])?$accountinfo['due_date']:'', $message);
+			
+			$sms_message = str_replace('#INVOICE_NUMBER#',isset($accountinfo['invoice_number'])?$accountinfo['invoice_number']:'', $sms_message);
+			$sms_message = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:"", '', $to_currency, true,true), $sms_message);		
+			$sms_message = str_replace('#INVOICE_DATE#', $this->convert_GMT_to('generate_date','invoices',isset($accountinfo['generate_date'])?$accountinfo['generate_date']:"", isset($accountinfo['timezone_id']) ? $accountinfo['timezone_id'] : ''), $sms_message);
+			$sms_message = str_replace('#DUE_DATE#',isset($accountinfo['due_date'])?$accountinfo['due_date']:'', $sms_message);
+
+			$alert_template = str_replace('#INVOICE_DATE#', isset($accountinfo['generate_date'])?$accountinfo['generate_date']:"", $alert_template);
+			$alert_template = str_replace('#AMOUNT#',$this->CI->common_model->calculate_currency(isset($accountinfo['amount'])?$accountinfo['amount']:"", '', '', true,true), $alert_template);
+			$alert_template = str_replace('#DUE_DATE#', isset($accountinfo['due_date'])?$accountinfo['due_date']:'', $alert_template);
+	        $alert_template = str_replace('#INVOICE_NUMBER#', isset($accountinfo['invoice_number'])?$accountinfo['invoice_number']:'', $alert_template);
 		break;
+        // Ashish ASTPPCOM-748 End
         case 'low_balance':
 			    $subject     = str_replace('#NUMBER#', $accountinfo['number'], $subject);
 				$message = str_replace('#NAME#', $accountinfo['first_name'] , $message);

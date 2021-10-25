@@ -812,11 +812,24 @@ class Invoices extends MX_Controller
             $query = "update accounts set balance =  IF(posttoexternal=1,balance+" . $amount . ",balance-" . $amount . ") where id ='" . $response_arr['accountid'] . "'";
             $this->db->query($query);
 
-            $mail_array["prefix"] = $invoice_prefix . $invoice_prefix_id;
+            // Ashish ASTPPCOM-748
+            $invoice_prefix = $this->common->get_field_name("prefix","invoices",array("id"=>$response_arr["invoiceid"]));
+            $invoice_prefix_id = $this->common->get_field_name("number","invoices",array("id"=>$response_arr["invoiceid"]));
+            $due_date = $this->common->get_field_name("due_date","invoices",array("id"=>$response_arr["invoiceid"]));
+
+            $mail_array["invoice_number"] = $invoice_prefix . $invoice_prefix_id;
+            // Ashish ASTPPCOM-748 End
             $mail_array["amount"] = $response_arr['total_val_final'];
-            $mail_array["due_date"] = $details_value['due_date'];
+            // $mail_array["due_date"] = $details_value['due_date'];
+            // Ashish ASTPPCOM-748
+            $mail_array["due_date"] = $due_date;
+            // Ashish ASTPPCOM-748 End
             $accountdata = $account_data[0];
             $final_array = array_merge($accountdata, $mail_array);
+            // Ashish ASTPPCOM-748
+            $generate_date = (array)$this->db->get_where('invoices',array("id"=>$response_arr["invoiceid"]))->first_row();
+            $final_array['generate_date'] = $generate_date['generate_date'];
+            // Ashish ASTPPCOM-748 End
             $this->common->mail_to_users("new_invoice", $final_array);
         }
 
