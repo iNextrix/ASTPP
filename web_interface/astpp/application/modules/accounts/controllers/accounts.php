@@ -2848,7 +2848,7 @@ class Accounts extends MX_Controller
 
             if ($account_balance > $total_amt) {
                 $last_id = $this->order->confirm_order($ProductData, $account_id, $accountinfo);
-                if ($last_id != "" && (isset($ProductData['email_notify']) && $ProductData['email_notify'] == 1)) {
+                if ($last_id != "") {
                     $ProductData['name'] = $this->common->get_field_name("name", "products", array(
                         "id" => $ProductData['product_id']
                     ));
