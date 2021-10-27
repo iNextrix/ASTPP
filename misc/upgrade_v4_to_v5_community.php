@@ -141,6 +141,70 @@ class Upgrade_v4_to_v5_community extends MX_Controller {
         {
             $this->db->query('ALTER TABLE `mail_details` ADD `cc` varchar(255) DEFAULT NULL');
         }
+
+        $query_language = "DELETE from `languages` where `id` > 1";
+        $this->db->query($query_language);
+
+        
+        $queryzh = $this->db->field_exists('zh_CN', 'translations');
+        if ($queryzh == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `zh_CN`');
+        }
+
+        $queryfr = $this->db->field_exists('fr_FR', 'translations');
+        if ($queryfr == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `fr_FR`');
+        }
+
+        $queryde = $this->db->field_exists('de_DE', 'translations');
+        if ($queryde == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `de_DE`');
+        }
+
+        $queryel = $this->db->field_exists('el_GR', 'translations');
+        if ($queryel == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `el_GR`');
+        }
+
+        $queryit = $this->db->field_exists('it_IT', 'translations');
+        if ($queryit == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `it_IT`');
+        }
+
+        $queryja = $this->db->field_exists('ja_JP', 'translations');
+        if ($queryja == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `ja_JP`');
+        }
+
+        $querypt = $this->db->field_exists('pt_BR', 'translations');
+        if ($querypt == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `pt_BR`');
+        }
+
+        $queryro = $this->db->field_exists('ro_RO', 'translations');
+        if ($queryro == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `ro_RO`');
+        }
+
+        $queryru = $this->db->field_exists('ru_RU', 'translations');
+        if ($queryru == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `ru_RU`');
+        }
+
+        $queryes = $this->db->field_exists('es_ES', 'translations');
+        if ($queryes == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `es_ES`');
+        }
     }
 }
 ?> 
