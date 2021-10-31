@@ -64,3 +64,6 @@ DELETE FROM `currency` WHERE `currency` in ('XAL','XCP','XAU','XPD','XPT','XAG')
 UPDATE `currency` SET `currency` = 'MZN' WHERE `currency` = 'MZM';
 
 INSERT INTO `default_templates` VALUES (NULL,'customer_refill_balance','You Received #AMOUNT# Amount to #SENDER_ACCOUNT_NUMBER# account','Balance transfer notification template','Dear #FIRST_NAME#, You Received #AMOUNT# Amount from your account to #SENDER_ACCOUNT_NUMBER#. Thanks, #COMPANY_NAME#','<p>You Received #AMOUNT# Amount from your account to #SENDER_ACCOUNT_NUMBER#</p>','<p>Dear #NAME#,</p>\r\n\r\n<p>You Received #AMOUNT# from your account to #SENDER_ACCOUNT_NUMBER#.</p>\r\n\r\n<p>If you have not raised a request then please contact us immediately.</p>\r\n\r\n<p>Thanks,<br />\r\n#COMPANY_NAME#</p>\r\n','2019-01-26 10:53:45',0,0,0,0,0);
+
+-- ----------------------------------31-10-21
+Alter table `counters` add type tinyint(1) NOT NULL;
