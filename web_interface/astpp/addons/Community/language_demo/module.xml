@@ -2,9 +2,9 @@
 <addon>
 	<tech_name>language_demo</tech_name>
 	<name>Demo Language</name>
-	<description></description>		
+	<description>Create your own language.</description>		
 	<icon>static/images/language_demo.png</icon>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<license>Community</license>	
 	<author>iNextrix Technologies Pvt. Ltd.</author>
 	<status>production</status>

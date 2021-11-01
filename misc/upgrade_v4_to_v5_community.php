@@ -205,6 +205,11 @@ class Upgrade_v4_to_v5_community extends MX_Controller {
         {
             $this->db->query('ALTER TABLE `translations` DROP `es_ES`');
         }
+        $querydemo = $this->db->field_exists('demo', 'translations');
+        if ($querydemo == TRUE)
+        {
+            $this->db->query('ALTER TABLE `translations` DROP `demo`');
+        }
     }
 }
 ?> 
