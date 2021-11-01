@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS support_ticket;
 DELETE FROM `menu_modules` WHERE module_url='department/department_list/';
 DROP TABLE IF EXISTS department;
 DELETE FROM `system` WHERE name='ticket_digits';
+ALTER TABLE `mail_details` DROP column cc;
 DELETE FROM `roles_and_permission` WHERE `module_name`='supportticket' AND `module_url`='supportticket_list' AND `login_type`=0;
 DELETE FROM `roles_and_permission` WHERE `module_name`='department' AND `module_url`='department_list' AND `login_type`=0;
 DELETE FROM `roles_and_permission` WHERE `module_name`='supportticket' AND `module_url`='supportticket_list' AND `login_type`=1;
