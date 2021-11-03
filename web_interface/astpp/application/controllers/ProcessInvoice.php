@@ -114,7 +114,9 @@ class ProcessInvoice extends MX_Controller
 
 			break;
 		case 2 :
-			if (date ( "d", strtotime ( $this->date) ) == $accountinfo ['invoice_day']){
+			// Ashish ASTPPCOM-820
+			if (date ( "d", strtotime ( $this->CurrentDate) ) == $accountinfo ['invoice_day']){
+			// Ashish 820 End
 				$this->EndDate = date ( "Y-m-" . $accountinfo ['invoice_day'] . " 23:59:59", strtotime ( $this->StartDate . " + 1 month" ) );
 				$accountinfo['last_bill_date'] = ($accountinfo['last_bill_date'] > $accountinfo['creation']) ? $accountinfo['last_bill_date'] : $accountinfo['creation'];
 				if (Strtotime ( $this->EndDate ) > strtotime ( $this->CurrentDate )) {

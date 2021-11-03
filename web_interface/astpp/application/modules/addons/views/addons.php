@@ -77,7 +77,11 @@ $addon_type = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '
 												href="<?= base_url()?>addons/addons_details/<?php echo $type;?>/<?= $elements->tech_name ?>/<?php echo $old_version; ?>">
 												<h3 class="text-dark card-title mb-1"><?= $elements->name ?></h3>
 											</a>
-											<p class="card-text"><?= $elements->description ?></p>
+											<?php if($package_name == 'language_demo'){?>
+												<p class="card-text"><a href="https://docs.astppbilling.org/pages/viewpage.action?pageId=4197155"><?= $elements->description ?></a></p>
+											<?php } else { ?> 
+											<p class="card-text"><?= $elements->description ?></p>	
+											<?php }?>
 										</div>
 									</div>
 									<div class="col-md-12 p-3 d-flex">
@@ -88,12 +92,19 @@ $addon_type = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '
 
 if ($version_error == 'false') {
                 if ($update_flag == 'true') {
+                	$request_uri = explode("/", $_SERVER['REQUEST_URI']);
+                        if (isset($request_uri) && $request_uri[3] == 'Enterprise') {
                     ?>
+                    							<a
+												href="<?= base_url() ?>addons/addons_enterprise_license/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>"
+												class="btn btn-info btn-block" rel="facebox" >Update</a>
+
+												<?php } else { ?>
 												<a
 												href="<?= base_url() ?>addons/addons_install/<?= $type."/".$package_name ?>/update/<?= $new_version."/".$old_version ?>"
 												class="btn btn-block btn-info" onclick='return install_addon()'><?php echo gettext("Update"); ?></a>
 										  <?
-
+										}
 } else {
                     if ($new_version == $old_version) {
                         ?>

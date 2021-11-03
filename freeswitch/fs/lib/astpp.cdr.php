@@ -503,6 +503,9 @@ function package_calculation($destination_number, $package_id, $duration, $call_
 	$package_info_arr = $db->run ( $query );
 	if (!empty($package_info_arr)) {
 		foreach($package_info_arr as $package_info){
+			// Ashish ASTPPCOM-823
+			$account_data = get_accounts ( $package_info["accountid"], $logger, $db );
+			// Ashish 823 End
 	$logger->log ( "applicable_for  : " . $package_info ['applicable_for']."=====call_direction:".$call_direction."===0:Inbound,1:Outbound,2:Both" );
 	//HP: change type according to GUI changes.
 //			$package_info = $package_info [0];
@@ -511,7 +514,9 @@ function package_calculation($destination_number, $package_id, $duration, $call_
 				$counter_info = get_counters ( $accountid, $package_info ['package_id'], $db, $logger );
 			
 				if (! $counter_info) {
-					$Insert_Query = "INSERT INTO counters (product_id,package_id,accountid) VALUES (" . $package_info ['product_id'] . "," . $package_info ['package_id'] . "," . $accountid . ")";
+					// Ashish ASTPPCOM-823
+					$Insert_Query = "INSERT INTO counters (product_id,package_id,accountid,type) VALUES (" . $package_info ['product_id'] . "," . $package_info ['package_id'] . "," . $accountid . "," . $account_data['type'] . ")";
+					// Ashish 823 End
 					$logger->log ( "Insert Counters  : " . $Insert_query );
 					$db->run ( $Insert_Query );
 					$counter_info = get_counters ( $accountid, $package_info ['package_id'], $db, $logger );

@@ -4,7 +4,7 @@
 	<name>Local Numbers</name>
 	<description>Share a DID number with multiple customers and save cost of multiple DIDs</description>		
 	<icon>static/images/local_number_icon.png</icon>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<license>AGPL-3</license>	
 	<author>iNextrix Technologies Pvt. Ltd.</author>
 	<status>production</status>

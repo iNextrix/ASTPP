@@ -10,7 +10,7 @@ update userlevels set module_permissions = concat( module_permissions, ',', (  S
 
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `reseller_id`, `is_display`, `group_title`) VALUES
 (NULL, 'ticket_digits', 'Ticket Digits', '6', 'default_system_input', 'Add Ticket digits', 0, 0, 'global');
- 
+ ALTER TABLE `mail_details` ADD `cc` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 DROP TABLE IF EXISTS support_ticket_details;
 CREATE TABLE `support_ticket_details` (
   `id` int(11) NOT NULL,
@@ -89,6 +89,6 @@ INSERT INTO `cron_settings` (`id`, `name`, `command`, `exec_interval`, `creation
 
 INSERT INTO `default_templates` (`id`, `name`, `subject`, `description`, `sms_template`, `alert_template`, `template`, `last_modified_date`, `reseller_id`, `is_email_enable`, `is_sms_enable`, `is_alert_enable`, `status`) VALUES (NULL, 'auto_reply_mail_support', '[Ticket ID: #TICKET_ID#] #TICKET_SUBJECT#', '', '', '', '<p>Hello #NAME#,</p>\n\n<p>This is an automated response confirming the receipt of your ticket.</p>\n\n<p>A support ticket has now been opened for your request. Our team will get back to you as soon as possible. When replying, please make sure that the ticket ID is kept on the subject so that we can track your replies. You will be notified when a response is made by email. The details of your ticket are shown below.</p>\n\n<p><strong>Ticket ID: </strong>#TICKET_ID#<br />\n<strong>Department: </strong>#DEPARTMENT#<br />\n<strong>Subject: </strong>#TICKET_SUBJECT#<br />\n<strong>Priority: </strong>#PRIORITY#<br />\n<strong>Status: </strong>#REPLY_TYPE#</p>\n\n<p><strong>Message:</strong></p>\n<p>#MESSAGE#</p>\n\n<p>Feel free to re write us in case if you have any concern regarding this ticket.</p>\n\n<p>Sincerely,</p>\n<p>#COMPANY_NAME#</p>\n<p>Support Team</p>', '2019-07-11 14:00:42', 0, 0, 0, 0, 0),(NULL, 'email_sent_support_ticket', '[Ticket ID: #TICKET_ID#] #TICKET_SUBJECT#', '', '', '', '<p>Email Ticket ID: #TICKET_ID# had a new status <strong>#REPLY_TYPE#</strong> posted by #NAME#</p>\n\n<p>#MESSAGE#</p>\n\n<p>Feel free to re write us in case if you have any concern regarding this ticket.</p>', '2019-08-14 12:04:17', 0, 0, 0, 0, 0);
 
--- -------22-April-2021
-UPDATE `default_templates` SET `template` = '<p>Email Ticket ID: #TICKET_ID# had a new status <strong>#REPLY_TYPE#</strong> posted by #NAME#</p>\r\n\r\n<p>#MESSAGE#</p>\r\n\r\n<p>Feel free to re write us in case if you have any concern regarding this ticket.</p>' WHERE `name`="email_sent_support_ticket";
+-- -- -------22-April-2021
+-- UPDATE `default_templates` SET `template` = '<p>Email Ticket ID: #TICKET_ID# had a new status <strong>#REPLY_TYPE#</strong> posted by #NAME#</p>\r\n\r\n<p>#MESSAGE#</p>\r\n\r\n<p>Feel free to re write us in case if you have any concern regarding this ticket.</p>' WHERE `name`="email_sent_support_ticket";
 

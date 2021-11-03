@@ -1176,7 +1176,8 @@ class Summary extends MX_Controller
                $this->db->select_sum('used_seconds');
                $this->db->from('counters');
                $this->db->where("product_id",$row1['product_id']);
-               $this->db->where("package_id",$row1['id']);
+               // $this->db->where("package_id",$row1['id']);
+               $this->db->where("type",0);
                $used_seconds=$this->db->get();
         }
         }
@@ -1458,7 +1459,8 @@ class Summary extends MX_Controller
                $this->db->select_sum('used_seconds');
                $this->db->from('counters');
                $this->db->where("product_id",$row1['product_id']);
-               $this->db->where("package_id",$val['id']);
+               // $this->db->where("package_id",$val['id']);
+               $this->db->where("type",0);
                $used_seconds=$this->db->get();
         }
             /*$this->db->select_sum('used_seconds');
