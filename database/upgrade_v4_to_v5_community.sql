@@ -1186,3 +1186,5 @@ delete from `menu_modules` where `menu_label`='Switch CLI' and `module_name`='fs
 delete from `menu_modules` where `menu_label`='Live Call Graph' and `module_name`='live';
 
 delete from `system` where `name` = 'refresh_second';
+
+Alter table `counters` add `type` tinyint(1) NOT NULL;
