@@ -550,7 +550,9 @@ class Freeswitch extends MX_Controller
                 $json_data['rows'][] = array(
                     'cell' => array(
                         "<a href='" . base_url() . "freeswitch/livecall_hangup?uuid=" . $value['uuid'] . "' class='btn btn-warning'> Hang Up </button>",
-                        $value['created'],
+                        // Ashish ASTPPCOM-752
+                        $this->common->convert_GMT_to('', '', $value['created']),
+                        // Ashish 752 End
                         $value['cid_name'] . " " . $value['cid_num'],
                         $value['ip_addr'],
                         @$livecall_data[1],
