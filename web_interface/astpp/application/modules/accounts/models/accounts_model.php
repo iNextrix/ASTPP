@@ -295,9 +295,27 @@ class Accounts_model extends CI_Model
         $this->db_model->build_search('customer_list_search');
         $where['deleted'] = 0;
         $accountinfo = $this->session->userdata("accountinfo");
-        if ($accountinfo['type'] == 1 || $accountinfo['type'] == 5) {
-            $where['reseller_id'] = $accountinfo['id'];
+        // Ashish ASTPPCOM-825
+        if($accountinfo['type'] == 1){
+           if(empty( $this->session->userdata('customer_list_search'))){
+                if ($accountinfo['type'] == 1 || $accountinfo['type'] == 5) {
+                $reseller_id = $this->db_model->getSelect("GROUP_CONCAT(id) as id", "accounts", array(
+                    "reseller_id" => $accountinfo['id'],'type' => 1, "deleted" => 0
+                ))->first_row();
+            }
+            if(!empty($reseller_id)){
+                if(!empty($reseller_id->id)){
+                    $accountinfo['r_id'] = $reseller_id->id.",".$accountinfo['id'];    
+                }else{
+                    $accountinfo['r_id'] = $accountinfo['id'];    
+                }
+                $this->db->where("reseller_id IN (".$accountinfo['r_id'].")",NULL, false);
+               }else{
+                $where['reseller_id'] = $accountinfo['id'];
+               }
+            }
         }
+        // ASTPPCOM-825 end
         $this->db->select('*');
         $this->db->select('reseller_id as rid');
         $this->db->where_in('type', array(

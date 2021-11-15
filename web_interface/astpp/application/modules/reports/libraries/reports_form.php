@@ -563,9 +563,35 @@ class Reports_form extends common
                     '',
                     'set_despostion'
                 ),
+                // Ashish ASTPPCOM-825
+                array(
+                    gettext('Reseller'),
+                    array(
+                        'name' => 'reseller_id',
+                        'class' => 'reseller_id_search_drp'
+                    ),
+                    'SELECT',
+                    '',
+                    '',
+                    'tOOL TIP',
+                    'Please Enter account number',
+                    'id',
+                    'first_name,last_name,number,company_name',
+                    'accounts',
+                    'build_concat_dropdown_reseller',
+                    'where_arr',
+                    ''
+                ),
+                // ASTPPCOM-825 END
                 array(
                     gettext('Account'),
-                    'accountid',
+                    // Ashish ASTPPCOM-825
+                    array(
+                        'name' => 'accountid',
+                        'id' => 'accountid_search_drp',
+                        'class' => 'accountid_search_drp'
+                    ),
+                    // ASTPPCOM-825 end
                     'SELECT',
                     '',
                     '',
