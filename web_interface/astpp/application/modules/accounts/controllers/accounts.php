@@ -3050,6 +3050,32 @@ class Accounts extends MX_Controller
         }
         echo 1;
     }
+    // Ashish ASTPPCOM-825
+    function reseller_customerlist()
+    {
+        $add_array = $this->input->post();
+        $reseller_id = $add_array['reseller_id'];
+        $accountinfo = $this->session->userdata("accountinfo");
+        $pricelist_result = $this->db->get_where('accounts', array(
+           "reseller_id" => $reseller_id,
+           "status" => 0,
+           "type" => 0
+        ));
+        if ($pricelist_result->num_rows() > 0) {
+            $pricelist_result_array = $pricelist_result->result_array();
+            foreach ($pricelist_result_array as $key => $value) {
+                if(isset($value['company_name']) && $value['company_name'] != ''){
+                    echo "<option value=" . $value['id'] . ">" . $value['company_name'] . "(" . $value['number'] . ")</option>";
+                }else{
+                    echo "<option value=" . $value['id'] . ">" . $value['first_name'] . " " . $value['last_name'] . "(" . $value['number'] . ")</option>";
+                }
+            }
+        } else {
+            echo '';
+        }
+        exit();
+    }
+    // ASTPPCOM-825 end
 }
 ?>
 

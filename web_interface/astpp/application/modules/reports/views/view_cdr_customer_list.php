@@ -63,7 +63,10 @@
 					});
                     $.ajax({
 						type:'POST',
-						url: "<?= base_url()?>/accounts/customer_customerlist/",
+						// Ashish ASTPPCOM-825
+						// url: "<?= base_url()?>/accounts/customer_customerlist/",
+						url: "<?= base_url()?>/accounts/reseller_customerlist/",
+						// ASTPPCOM-825 end
 						data:"reseller_id="+this.value, 
 						success: function(response) {
 							 $("#accountid_search_drp").html(response);
