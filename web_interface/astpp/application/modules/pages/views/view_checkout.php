@@ -123,9 +123,9 @@
                                <input type = "hidden" value="account_balance" name = "pay_from_account" />
 				<input type = "hidden" value="1" id= "product_quantity" class="product_quantity" name = "product_quantity" />
                             </div>
-                            <?php if( (Common_model::$global_config['system_config']['paypal_status'] == '0')){ ?>
+                            <?php //if( (Common_model::$global_config['system_config']['paypal_status'] == '0')){ ?>
                             <button class="btn btn-success btn-block" type="button" onclick="validate_form()"> <i class="fa fa-money"></i> <?php echo gettext("Pay Now"); ?></button>
-                            <?php } ?>
+                            <?php //} ?>
                          </div>
 
                       </form>
@@ -229,17 +229,33 @@ $(document).ready(function(){
                }	            
             });*/
 
-   $('input[type="radio"]').click(function() {
-       if($(this).attr('id') == 'pay_with_paypal') {
-            $('.paypal_box').removeClass('d-none');           
-            $('.pay_now').addClass('d-none');
-       }
+   // $('input[type="radio"]').click(function() {
+   //     if($(this).attr('id') == 'pay_with_paypal') {
+   //          $('.paypal_box').removeClass('d-none');           
+   //          $('.pay_now').addClass('d-none');
+   //     }
 
-       else {
-            $('.paypal_box').addClass('d-none');   
-            $('.pay_now').removeClass('d-none');           
-       }
-   });
+   //     else {
+   //          $('.paypal_box').addClass('d-none');   
+   //          $('.pay_now').removeClass('d-none');           
+   //     }
+   // });
+      $('input[type="radio"]').click(function() {
+            if($(this).attr('id') == 'pay_with_paypal') {
+                  $('.paypal_box').removeClass('d-none'); 
+                  $('.payfast_box').addClass('d-none');          
+                  $('.paypal_box').removeClass('d-none');           
+                  $('.pay_now').addClass('d-none');
+                  $('.iCredit_box').addClass('d-none'); 
+                  $("#product_add_form_payment").hide();
+            }
+
+            else {
+                  $('.paypal_box').addClass('d-none');   
+                  $('.pay_now').removeClass('d-none');
+                  $("#product_add_form_payment").show();           
+            }
+         });
 
 });
 $(function() {
