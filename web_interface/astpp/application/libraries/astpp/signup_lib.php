@@ -57,7 +57,7 @@ class Signup_lib {
 		$accountinfo=array_map('trim',$accountinfo);
 		$result = $this->CI->db->insert ( 'accounts', $accountinfo );
 		$last_id = $this->CI->db->insert_id ();
-		if($accountinfo['type'] ==1){
+		/*if($accountinfo['type'] ==1){
 			$system_arr[0] =array(
 				"name"=> "paypal_mode",
 				"display_name"=> "Environment",
@@ -95,7 +95,7 @@ class Signup_lib {
 				"sub_group"=> "Paypal"
 			);
 			$this->CI->db->insert_batch('system', $system_arr);	
-		}
+		}*/
 		if($accountinfo['type'] == 0 || $accountinfo['type'] ==1 || $accountinfo['type'] ==3 || $accountinfo['type'] ==5){
 			$accountinfo['id']=$last_id;
 			if(Common_model::$global_config ['system_config'] ['balance'] > 0){
