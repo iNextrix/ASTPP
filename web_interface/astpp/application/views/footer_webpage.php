@@ -217,7 +217,16 @@ jQuery(function($) {
 	
    </div>
    </div>
-</footer>   
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y72F0B6ZN1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y72F0B6ZN1');
+</script>
+</body>
 </body>
 </html>
  
