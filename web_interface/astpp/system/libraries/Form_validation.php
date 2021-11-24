@@ -1591,6 +1591,27 @@ class CI_Form_validation {
 	{
 		return ( ! preg_match("/^[0-9*#+]+$/", $str)) ? FALSE : TRUE;
 	}
+
+	 //Jaimin ASTPPCOM-844
+		public function strong_password($str)
+		{
+			if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $str)){
+				$this->CI->form_validation->set_message('strong_password', gettext("%s must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit and any special characters must have included"));
+				return FALSE;
+			}
+		}
+
+		public function modrate_password($str)
+		{
+			$strlen = strlen($str);
+			if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $str) || preg_match("/\\s/", $str) == 1 || ($strlen < 4) || ($strlen > 8)) {
+		         $this->CI->form_validation->set_message('modrate_password', gettext("%s should be add at least 4 to 8 characters have included and not allowed in special characters."));
+   	       		 	return FALSE;
+				} else {
+					return TRUE;
+				}
+		    }
+		//END
 }
 // END Form Validation Class
 
