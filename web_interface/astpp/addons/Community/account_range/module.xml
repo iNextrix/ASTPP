@@ -5,7 +5,7 @@
 	<description>Set your own account number range</description>		
 	<icon>static/images/account_range_icon.png</icon>
 	<version>2.0.0</version>
-	<license>Enterprise</license>	
+	<license>AGPL-3</license>	
 	<author>iNextrix Technologies Pvt. Ltd.</author>
 	<status>production</status>
 </addon>
