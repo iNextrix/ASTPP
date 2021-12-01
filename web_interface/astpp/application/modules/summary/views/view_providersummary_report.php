@@ -10,7 +10,12 @@
         });        
         $("#id_reset").click(function(){
             clear_search_request("providersummary_grid","");
-            window.location="<? echo base_url() ?>summary/provider_clearsearchfilter/";
+            // Jaimin ASTPPCOM-847
+            setTimeout(function(){
+               var from_date = $('#provider_from_date').val("");
+               var to_date=$('#provider_to_date').val("");
+            },50);
+            // END
         });
     });
 </script>
