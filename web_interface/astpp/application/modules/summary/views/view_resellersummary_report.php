@@ -10,7 +10,12 @@
         });        
         $("#id_reset").click(function(){
             clear_search_request("resellersummary_grid","");
-            window.location="<? echo base_url() ?>summary/reseller_clearsearchfilter/";
+            // Jaimin -ASTPPCOM-847
+                setTimeout(function(){
+             $('#reseller_from_date').val("");
+             $('#reseller_to_date').val("");
+         },50);
+            // END
         });
     });
 </script>
