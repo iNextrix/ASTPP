@@ -1767,6 +1767,7 @@ class common {
 					$alert_template = str_replace('&nbsp;', '', $alert_template);
 					$alert_template = str_replace('<br />', '', $alert_template);
 
+					$message .= "<br>\n<br>\nASTPP - #1 Open Source VoIP Solution Powered by Inextrix Technologies Pvt. Ltd.";
 
 			        $send_mail_details = array(
 			        	'from'          => $from,
