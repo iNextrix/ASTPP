@@ -204,16 +204,26 @@ jQuery(function($) {
 	}else{
 		$footer = '';
 	}
-  	if($footer != '' && ($this->session->userdata['logintype'] == 2 || $this->session->userdata['logintype'] ==-1)){ ?>
-			 <div  class="pull-left col-3">
-			<span><?php echo gettext("Powered by")?> </span>
-			<a href="https://inextrix.com/" target="_blank">
-				<span style="color: #216397;text-shadow: 0px 1px 1px #FFF;">
-					<strong><?php echo gettext("iNextrix Technologies Pvt. Ltd.")?></strong>
-				</span>
-			</a>
-	    </div>
-		
+
+  	 // start ASTPPENT-3818
+    if($this->session->userdata['logintype'] == 2 || $this->session->userdata['logintype'] == -1 || $this->session->userdata['logintype'] == 1 || $this->session->userdata['logintype'] == 0 ){
+     $user_footer = $this->session->userdata('user_footer');  
+     if(isset($user_footer) && $user_footer != '') {  
+      if ($user_footer == 'Inextrix Technologies Pvt. Ltd All Rights Reserved.'){
+        $user_footer = '';
+         } ?>
+       <div  class="pull-left col-3 text-left">
+        <a href="https://inextrix.com" target="_blank">
+        <span class="text-warning">
+            <strong><?=gettext($user_footer); ?></strong>
+          </span>
+      </a><br>
+      <span class="text-light"><?php echo gettext('ASTPP - #1 Open Source VoIP Solution<br>
+      Powered by Inextrix Technologies Pvt. Ltd.<br>')?> </span>
+      </div>
+       <?php } ?>
+        <!-- // end ASTPPENT-3818 -->
+
 		<div class="col py-2">
   	   		 <label class="text-light" style="margin-top:3px;"><i> <?php echo gettext('Follow us on:')?> </i></label>
   	   		 <div class="social-media">
@@ -224,9 +234,6 @@ jQuery(function($) {
   	   		</div>
 		 </div>
 
-	<span class="pull-right pr-4 pl-3"> <?php echo gettext('Version')?>  <?php echo common_model::$global_config['system_config']['version']; ?>  &nbsp; 
-
-	</span>
 	<?php	} else  if($this->session->userdata['logintype'] ==0 || $this->session->userdata['logintype'] == 1){
 		
 		$user_footer = $this->session->userdata('user_footer');	
