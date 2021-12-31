@@ -96,7 +96,14 @@ class Common_model extends CI_Model {
 		return $result [0];
 	}
 	function generate_receipt($accountid, $amount, $accountinfo, $last_invoice_ID, $invoice_prefix, $due_date) {
-		$amount = str_replace ( ',', '', $amount );
+		// ASTPPCOM-857 Ashish start
+		$current_language=$this->session->userdata ( 'user_language' );
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$amount = str_replace ( '.', ',', $amount );
+		}else{
+			$amount = str_replace ( ',', '', $amount );
+		}
+		// ASTPPCOM-857 end
 		$invoice_data = array (
 				"accountid" => $accountid,
 				"invoice_prefix" => $invoice_prefix,
@@ -127,14 +134,26 @@ class Common_model extends CI_Model {
 		  
 		 $to_cur_rate = (self::$global_config ['currency_list'] [$to_currency]) ? self::$global_config ['currency_list'] [$to_currency] : 1;
 
-		$amount = str_replace ( ',', '', $amount );
+		// ASTPPCOM-857 Ashish start
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$amount = str_replace ( '.', ',', $amount );
+		}else{
+			$amount = str_replace ( ',', '', $amount );
+		}
+		// ASTPPCOM-857 end
 		$cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
 		if ($format_currency)
 			$cal_amount = $this->format_currency ( $cal_amount );
 		if ($append_currency) {
 			$cal_amount = $cal_amount . " " . $to_currency;
 		}
-		$cal_amount = str_replace ( ',', '', $cal_amount );
+		//ASTPPCOM-857 Ashish start
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$cal_amount = str_replace ( '.', ',', $cal_amount );
+		}else{
+			$cal_amount = str_replace ( ',', '', $cal_amount );
+		}
+		// ASTPPCOM-857 end
 		return $cal_amount;
 	}
 	function get_dashboard_details(){
@@ -194,19 +213,39 @@ class Common_model extends CI_Model {
 		$from_cur_rate = (self::$global_config ['currency_list'] [$from_currency] > 0) ? self::$global_config ['currency_list'] [$from_currency] : 1;
 
 		$to_cur_rate = (self::$global_config ['currency_list'] [$to_currency]) ? self::$global_config ['currency_list'] [$to_currency] : 1;
-		$amount = str_replace ( ',', '', $amount );
+		// ASTPPCOM-857 Ashish start
+		$current_language=$this->session->userdata ( 'user_language' );
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$amount = str_replace ( ',', '.', $amount );
+		}else{
+			$amount = str_replace ( ',', '', $amount );
+		}
+		// ASTPPCOM-857 end
 		$cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
 
 		if ($format_currency)
 			$cal_amount = $this->format_currency ( $cal_amount );
 		if ($append_currency)
 			$cal_amount = $cal_amount;
-		$cal_amount = str_replace ( ',', '', $cal_amount );
+		// ASTPPCOM-857 Ashish start
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$cal_amount = str_replace ( '.', ',', $cal_amount );
+		}else{
+			$cal_amount = str_replace ( ',', '', $cal_amount );
+		}
+		// ASTPPCOM-857 end
 
 		return $cal_amount;
 	}
 	function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
-		$amount = str_replace ( ',', '', $amount );
+		// ASTPPCOM-857 Ashish start
+		$current_language=$this->session->userdata ( 'user_language' );
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$amount = str_replace ( '.', ',', $amount );
+		}else{
+			$amount = str_replace ( ',', '', $amount );
+		}
+		// ASTPPCOM-857 end
 		if ($from_currency == '') {
 			$from_currency1 = $this->session->userdata ['accountinfo'] ['currency_id'];
 			$from_currency = $this->common->get_field_name ( 'currency', 'currency', $from_currency1 );
@@ -223,7 +262,13 @@ class Common_model extends CI_Model {
 			$cal_amount = $this->format_currency ( $cal_amount );
 		if ($append_currency)
 			$cal_amount = $cal_amount . " " . $to_currency;
-		$cal_amount = str_replace ( ',', '', $cal_amount );
+		// ASTPPCOM-857 Ashish start
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$cal_amount = str_replace ( '.', ',', $cal_amount );
+		}else{
+			$cal_amount = str_replace ( ',', '', $cal_amount );
+		}
+		// ASTPPCOM-857 end
 
 		return $cal_amount;
 	}
@@ -236,19 +281,40 @@ class Common_model extends CI_Model {
 		
 		$from_cur_rate = (self::$global_config ['currency_list'] [$from_currency] > 0) ? self::$global_config ['currency_list'] [$from_currency] : 1;
 		$to_cur_rate = (self::$global_config ['currency_list'] [$to_currency]) ? self::$global_config ['currency_list'] [$to_currency] : 1;
-		$amount = str_replace ( ',', '', $amount );
+		// ASTPPCOM-857 Ashish start
+		$current_language=$this->session->userdata ( 'user_language' );
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$amount = str_replace ( '.', ',', $amount );
+		}else{
+			$amount = str_replace ( ',', '', $amount );
+		}
+		// ASTPPCOM-857 end
 		$cal_amount = ($amount * $to_cur_rate) / $from_cur_rate;
 		if ($format_currency)
 			$cal_amount = $this->format_currency ( $cal_amount );
 		if ($append_currency)
 			$cal_amount = $cal_amount . " " . $to_currency;
-		$cal_amount = str_replace ( ',', '', $cal_amount );
+		// ASTPPCOM-857 Ashish start
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$cal_amount = str_replace ( '.', ',', $cal_amount );
+		}else{
+			$cal_amount = str_replace ( ',', '', $cal_amount );
+		}
+		// ASTPPCOM-857 end
 		return $cal_amount;
 	}
 
 	function format_currency($amount) {
-		$amount = str_replace ( ',', '', $amount );
-		return number_format ( $amount, Common_model::$global_config ['system_config'] ['decimalpoints'] );
+		// ASTPPCOM-857 Ashish start
+		$amount=number_format ( $amount, Common_model::$global_config ['system_config'] ['decimalpoints'] );
+		$current_language=$this->session->userdata ( 'user_language' );
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+			$amount = str_replace ( '.', ',', $amount );
+		}else{
+			$amount = str_replace ( ',', '', $amount );
+		}
+		return $amount;
+		// ASTPPCOM-857 end
 	}
 	function money_format($format, $number) {
 		$regex = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?' . '(?:#([0-9]+))?(?:\.([0-9]+))?([in%])/';
