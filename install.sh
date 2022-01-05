@@ -102,6 +102,10 @@ install_prerequisties ()
                 apt install -y wget curl git dnsutils ntpdate systemd net-tools whois sendmail-bin sensible-mda mlocate vim
         fi
         fi
+        cd /usr/src/
+        wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
+        tar -xzvf ioncube_loaders_lin_x86-64.tar.gz
+        cd ioncube
 }
 
 #Fetch ASTPP Source
@@ -278,6 +282,9 @@ normalize_astpp ()
         mkdir -p /etc/nginx/ssl
         openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
         if [ ${DIST} = "DEBIAN" ]; then
+                /bin/cp /usr/src/ioncube/ioncube_loader_lin_7.3.so /usr/lib/php/20180731/
+                sed -i '2i zend_extension ="/usr/lib/php/20180731/ioncube_loader_lin_7.3.so"' /etc/php/7.3/fpm/php.ini
+                sed -i '2i zend_extension ="/usr/lib/php/20180731/ioncube_loader_lin_7.3.so"' /etc/php/7.3/cli/php.ini
                 cp -rf ${ASTPP_SOURCE_DIR}/web_interface/nginx/deb_astpp.conf /etc/nginx/conf.d/astpp.conf
                 systemctl start nginx
                 systemctl enable nginx
@@ -299,6 +306,8 @@ normalize_astpp ()
                 systemctl restart php7.3-fpm
                 CRONPATH='/var/spool/cron/crontabs/astpp'
         elif  [ ${DIST} = "CENTOS" ]; then
+                cp /usr/src/ioncube/ioncube_loader_lin_7.3.so /usr/lib64/php/modules/
+                sed -i '2i zend_extension ="/usr/lib64/php/modules/ioncube_loader_lin_7.3.so"' /etc/php.ini
                 cp ${ASTPP_SOURCE_DIR}/web_interface/nginx/cent_astpp.conf /etc/nginx/conf.d/astpp.conf
                 setenforce 0
                 systemctl start nginx
@@ -685,4 +694,3 @@ start_installation ()
         echo "******************************************************************************************"
 }
 start_installation
-
