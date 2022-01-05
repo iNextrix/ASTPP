@@ -22,7 +22,9 @@
 
 -- Load configuration variables from database 
 function load_conf()
-	local query = "SELECT name,value FROM "..TBL_CONFIG.." WHERE group_title IN ('global','opensips','callingcard','calls','InternationalPrefixes')";
+	-- ASTPPCOM-768 Ashish start
+	local query = "SELECT name,value FROM "..TBL_CONFIG.." WHERE group_title IN ('global','opensips','callingcard','calls','international_prefixes')";
+	-- ASTPPCOM-768 End
 	Logger.debug("[LOAD_CONF] Query :" .. query)
 	local config = {}
 	assert (dbh:query(query, function(u)
