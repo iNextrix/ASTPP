@@ -35,6 +35,7 @@ IS_ENTERPRISE="False"
 ASTPPDIR=/var/lib/astpp/
 ASTPPEXECDIR=/usr/local/astpp/
 ASTPPLOGDIR=/var/log/astpp/
+ADDONDIR=/opt/ASTPP/web_interface/astpp/addons/Community/
 
 #Freeswich Configuration
 FS_DIR=/usr/share/freeswitch
@@ -114,7 +115,24 @@ get_astpp_source ()
         cd /opt
         git clone -b v5.0 https://github.com/iNextrix/ASTPP.git
 }
+#Adding commercial addon encrypted
+commercial_addon ()
+{
+        cd /usr/src
+        echo "Getting Addon source file"
+        wget http://dl.astppbilling.org:9845/switch_monitoring_addon.tar.gz
+        tar -xzf switch_monitoring_addon.tar.gz
+        sleep 2
+        mv switch_monitoring ${ADDONDIR}
+        chmod -Rf 777 ${ADDONDIR}
+        if [[ ${DIST} = "DEBIAN" ]]; then
+                chown -Rf www-data.www-data ${ADDONDIR}/*
 
+        elif [[ ${DIST} = "CENTOS" ]]; then
+                chown -Rf root.root ${ADDONDIR}/*
+        fi
+
+}
 #License Acceptence
 license_accept ()
 {
@@ -657,6 +675,7 @@ start_installation ()
         install_prerequisties
         license_accept
         get_astpp_source
+        commercial_addon
         get_user_response
         install_mysql
         normalize_mysql
