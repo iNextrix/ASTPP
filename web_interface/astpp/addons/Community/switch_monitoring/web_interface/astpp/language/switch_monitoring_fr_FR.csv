@@ -1,0 +1,48 @@
+English,French
+Sip Devices,SIP appareils
+Switch Host,Changer d'hôte
+Refresh Time,Temps de rafraîchissement
+Client Port,Port client
+Client-IP,IP du client
+Contact,Contact
+User,Utilisateur
+User Agent,Agent utilisateur
+Gateways,Passerelles
+Gateway Name,Nom de la passerelle
+Proxy,Procuration
+Call In,Appelle
+Call Out,Faire appel à
+Fail Call In,Échec de l'appel
+Fail Call Out,Échec de l'appel
+Register Gateway Information,Enregistrer les informations de la passerelle
+Authentication,Authentification
+Please Enter Valid Key,Veuillez entrer une clé valide
+Alert,Alerte
+Minute,Minute
+Refresh Time,Temps de rafraîchissement
+Switch Host,Changer d'hôte
+Remote Check Failed,Echec de la vérification à distance
+MD5 Checksum Verification Failed,Échec de la vérification du total de contrôle MD5
+Freeswitch CLI,Freeswitch CLI
+Gateway ragister fail please try again,Passerelle ragister échouer s'il vous plaît essayez à nouveau
+Realm,Domaine
+Context,Le contexte
+State,Etat
+Expires,Expire
+Frequency,La fréquence
+Ping Frequency,Fréquence de ping
+Ping,Ping
+Call In,Appelle
+Call Out,Faire appel à
+Fails Call In,Échoue à l'appel
+Fails Call Out,Échoue appeler
+Contact,Contact
+Opensips Devices,Appareils Opensips
+Second,Seconde
+Submit,Soumettre
+Call Count,Nombre d'appels
+Live Call data,Données d'appel en direct
+Registered SIP Devices,Appareils SIP enregistrés
+Registered Gateways,Passerelles enregistrées
+Switch CLI,Switch CLI
+Live Call Graph,Graphique d'appel en direct
