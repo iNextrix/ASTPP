@@ -33,7 +33,7 @@ from the documentation.
 
 Then follow the <a href="https://docs.astppbilling.org/display/itplmars/Getting+started">Getting Started Guide</a>.
 
-For a standard upgradation, please follow the <a href="https://docs.astppbilling.org/itplmars/latest/upgradation-56431084.html">Upgradeation Guide</a>
+For a standard upgradation, please follow the <a href="https://docs.astppbilling.org/itplmars/latest/upgradation-56431084.html">Upgradation Guide</a> from the documentation.
 
 Community
 ---------
