@@ -330,15 +330,16 @@ function services($category= '') {
 		echo '</body></html>';
     }
 
+    // Jaimin ASTPPCOM-737
     function oerder_request_form($oreder_req_result,$product_info,$accountid){
-		$accountinfo = $this->session->userdata ( 'token' );
+		$accountinfo=(array)$this->db->get_where("accounts",array("id"=>$accountid))->first_row();
 		$accountinfo = ((isset($accountinfo)) && $accountinfo != '')?$accountinfo:$this->session->userdata ( "accountinfo" );
 		$system_config = common_model::$global_config ['system_config'];
 		$reseller_id = ($accountinfo['reseller_id'] > 0) ? $accountinfo['reseller_id']: 0;
 		$paypal_info= $this->db_model->getSelect("*","system",array("sub_group"=>'Paypal',"reseller_id"=>$reseller_id));
 
 		if($reseller_id > 0 ){ 	 
-			if($paypal_info->num_rows > 0){
+			if($paypal_info->num_rows() > 0){
 					
 					$paypal_mode =  $this->common->get_field_name("value","system",array("sub_group"=>'Paypal',"reseller_id"=>$reseller_id,"name"=>"paypal_mode"));	
 					if ($paypal_mode == 0) {
@@ -371,10 +372,8 @@ function services($category= '') {
 			
 		}
 		$data ["from_currency"] = $this->common->get_field_name ( 'currency', 'currency', $accountinfo ["currency_id"] );
-		// $data ["paypal_tax"] = $system_config ["paypal_tax"];
+		$data ["paypal_tax"] = $system_config ["paypal_tax"];
 		$data ["to_currency"] = Common_model::$global_config ['system_config'] ['base_currency'];
-		$data['is_supported'] = $this->common->get_field_name ( 'is_supported', 'currency', $accountinfo ["currency_id"] );
-		$data ["paypal_tax"] = Common_model::$global_config ['system_config'] ['paypal_tax'];
 		$data['order_id'] = base64_encode($oreder_req_result);
 		$data['account_id'] = $accountid;
 		$data['product_info'] = $product_info;
@@ -382,15 +381,20 @@ function services($category= '') {
 		$data['amt'] = ($data['amt'] * $data['product_info']['quantity']);
 		$amount_with_tax = $this->common_model->calculate_taxes($accountinfo,$data['amt']);
 		$data['total_amt']   = ($amount_with_tax != '')?$amount_with_tax['amount_with_tax']:$data['amt'];
-		$data['total_paypal_amt'] = ($data['total_amt'] * $data['paypal_tax']) / 100 ;
-		$data['total_amt'] = $data['total_amt'] + $data['total_paypal_amt'];
-		if($data['is_supported'] == 0){
-			$data['total_amt']=number_format((float)($this->common_model->calculate_currency ( $data['total_amt'],$data['to_currency'], $data['from_currency'] , false, false )), 2);
+		$paypal_fee_status = $this->common->get_field_name('value','system',array("name" => "paypal_fee"));
+		if($paypal_fee_status == 0){
+			$paypal_fee_status = $this->common->get_field_name('value','system',array("name" => "paypal_tax"));
+			$paypal_tax_rate = $data['total_amt'] *  $paypal_fee_status / 100;
+			$data['total_amt'] = $data['total_amt'] + $paypal_tax_rate;
 		}
-       		$this->load->view( 'paypal_redirect',$data);
-	
-       
+		$session_data=($this->session->userdata);
+		if(!isset($session_data['logintype'])){
+			$data ['return'] = base_url().'pages/success/';
+			$data ['cancel_return'] = base_url().'pages/success/';
+		}
+       		$this->load->view( 'paypal_redirect',$data);   
     }
+// END
 
 
     function get_product_info(){
