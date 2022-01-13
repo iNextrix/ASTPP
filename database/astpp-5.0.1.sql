@@ -71,3 +71,6 @@ update `sip_profiles` set `profile_data` = '{"rtp-ip":"$${local_ip_v4}","dialpla
 
 -- ----------------------------------31-10-21
 Alter table `counters` add type tinyint(1) NOT NULL;
+
+-- ----------------------------------13-01-22
+INSERT INTO `default_templates` (`id`, `name`, `subject`, `description`, `sms_template`, `alert_template`, `template`, `last_modified_date`, `reseller_id`, `is_email_enable`, `is_sms_enable`, `is_alert_enable`, `status`) VALUES (NULL, 'account_postcharge', 'Your account postcharge with #REFILLBALANCE#', 'Account postcharge notification template', 'Dear #FIRST_NAME#, Your account has been postcharge with #REFILLBALANCE#. Your new balance is #BALANCE#. Thanks, #COMPANY_NAME#', '<p>Your account has been postcharge with #REFILLBALANCE#. Your new balance is #BALANCE#.</p>', '<p>Dear #NAME#,</p>\r\n\r\n<p>Your account has been postcharge with #REFILLBALANCE#.</p>\r\n\r\n<p>Your account new balance is #BALANCE#.</p>\r\n\r\n<p>For more info, please visit on our website #COMPANY_WEBSITE# or contact to our support department at #COMPANY_EMAIL#.</p>\r\n\r\n<p>Thanks,<br />\r\n#COMPANY_NAME#</p>\r\n', '2019-01-26 10:53:45', '0', '0', '0', '0', '0');

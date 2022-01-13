@@ -1413,6 +1413,7 @@ class common {
 			$message = str_replace('#PRODUCT_AMOUNT#', $accountinfo['price'], $message);
 		break;
 
+	   	// Jaimin ASTPPCOM-738
 	    case 'account_refilled':
 		$subject = str_replace('#REFILLBALANCE#', $accountinfo['refill_amount'], $subject);
 		$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
@@ -1421,6 +1422,16 @@ class common {
         $message = str_replace('#COMPANY_WEBSITE#', $company_website, $message);
 		$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
 		break;
+
+		case 'account_postcharge':
+		$subject = str_replace('#REFILLBALANCE#', $accountinfo['refill_amount'], $subject);
+		$message = str_replace('#NAME#', $accountinfo['first_name'] . " " . $accountinfo['last_name'], $message);
+        $message = str_replace('#REFILLBALANCE#', $accountinfo['refill_amount'], $message);
+        $message = str_replace('#BALANCE#', $accountinfo['balance'], $message);
+        $message = str_replace('#COMPANY_WEBSITE#', $company_website, $message);
+		$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
+		break;
+		// END
 
 		case 'create_account':
 		$subject = str_replace('#COMPANY_NAME#', $company_name, $subject);
