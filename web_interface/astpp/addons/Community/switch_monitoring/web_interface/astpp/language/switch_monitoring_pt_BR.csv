@@ -1,0 +1,48 @@
+English,Portuguese
+Sip Devices,Dispositivos Sip
+Switch Host,Switch Host
+Refresh Time,Hora de Atualização
+Client Port,Porta do cliente
+Client-IP,Cliente-IP
+Contact,Contato
+User,Do utilizador
+User Agent,Agente de usuário
+Gateways,Entradas
+Gateway Name,Nome do Gateway
+Proxy,Procuração
+Call In,Ligue para
+Call Out,Chamar
+Fail Call In,Falha na chamada
+Fail Call Out,Fail Call Out
+Register Gateway Information,Registrar informações do gateway
+Authentication,Autenticação
+Please Enter Valid Key,"Por favor, digite a chave válida"
+Alert,Alerta
+Minute,Minuto
+Refresh Time,Hora de Atualização
+Switch Host,Switch Host
+Remote Check Failed,Falha na verificação remota
+MD5 Checksum Verification Failed,A verificação de soma de verificação MD5 falhou
+Freeswitch CLI,CLI Freeswitch
+Gateway ragister fail please try again,Gateway ragister fail por favor tente novamente
+Realm,Reino
+Context,Contexto
+State,Estado
+Expires,Expira
+Frequency,Freqüência
+Ping Frequency,Freqüência de ping
+Ping,Ping
+Call In,Ligue para
+Call Out,Chamar
+Fails Call In,Falha na chamada
+Fails Call Out,Falha na chamada
+Contact,Contato
+Opensips Devices,Dispositivos Opensips
+Second,Segundo
+Submit,Enviar
+Call Count,Contagem de chamadas
+Live Call data,Dados de chamadas ao vivo
+Registered SIP Devices,Dispositivos SIP Registrados
+Registered Gateways,Gateways Registrados
+Switch CLI,Alternar CLI
+Live Call Graph,Gráfico de chamadas ao vivo

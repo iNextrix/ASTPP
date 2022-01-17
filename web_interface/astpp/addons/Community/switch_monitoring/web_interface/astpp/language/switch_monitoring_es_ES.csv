@@ -1,0 +1,48 @@
+English,Spanish
+Sip Devices,Dispositivos de sorbo
+Switch Host,Cambiar host
+Refresh Time,Actualizar el tiempo
+Client Port,Puerto del cliente
+Client-IP,Cliente-IP
+Contact,Contacto
+User,Usuario
+User Agent,Agente de usuario
+Gateways,Puertas de acceso
+Gateway Name,Nombre de la puerta de enlace
+Proxy,Apoderado
+Call In,Llamar
+Call Out,Gritar
+Fail Call In,Llamada fallida en
+Fail Call Out,Llamada fallida
+Register Gateway Information,Registrar información de Gateway
+Authentication,Autenticación
+Please Enter Valid Key,"Por favor, introduzca una clave válida"
+Alert,Alerta
+Minute,Minuto
+Refresh Time,Actualizar el tiempo
+Switch Host,Cambiar host
+Remote Check Failed,Comprobación remota fallida
+MD5 Checksum Verification Failed,Error en la verificación de la suma de comprobación MD5
+Freeswitch CLI,Freeswitch CLI
+Gateway ragister fail please try again,Gateway ragister falla por favor intente de nuevo
+Realm,Reino
+Context,Contexto
+State,Estado
+Expires,Vence
+Frequency,Frecuencia
+Ping Frequency,Frecuencia de ping
+Ping,Silbido
+Call In,Llamar
+Call Out,Gritar
+Fails Call In,Falla en la llamada
+Fails Call Out,Fails Call Out
+Contact,Contacto
+Opensips Devices,Dispositivos Opensips
+Second,Segundo
+Submit,Enviar
+Call Count,Recuento de llamadas
+Live Call data,Datos de llamadas en vivo
+Registered SIP Devices,Dispositivos SIP registrados
+Registered Gateways,Puertas Registradas
+Switch CLI,Cambiar CLI
+Live Call Graph,Gráfico de llamadas en vivo

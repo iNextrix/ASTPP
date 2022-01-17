@@ -34,7 +34,11 @@ function install_addon(){
 									</div>
 									<div class="col py-3 pr-3 pl-0">
 										<div class="card-body px-3 py-0">
-											<h3 class="text-dark card-title fw4"><?php echo $addon_name;?></h3>
+											<h3 class="text-dark card-title fw4"><?php echo $addon_name;?>
+												<?php if($license == 'Commercial') { ?>
+													<span id="Enterprise" class="badge badge-warning Enterprise" style="font-size:9px">Commercial</span>
+												<?php }?>
+											</h3>
 											<p class="card-text m-0"><?php echo $description;?></p>
 											<p class="py-2 m-0"><?php echo gettext("by"); ?> <strong
 													class="text-secondary addon_strong"><?php echo $author;?></strong>

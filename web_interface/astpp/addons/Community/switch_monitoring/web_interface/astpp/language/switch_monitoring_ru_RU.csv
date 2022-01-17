@@ -1,0 +1,48 @@
+English,Russian
+Sip Devices,Sip Devices
+Switch Host,Переключить хост
+Refresh Time,Время обновления
+Client Port,Порт клиента
+Client-IP,Клиент-IP
+Contact,контакт
+User,пользователь
+User Agent,Пользовательский агент
+Gateways,шлюзы
+Gateway Name,Имя шлюза
+Proxy,полномочие
+Call In,Вызывать
+Call Out,Вызывать
+Fail Call In,Fail Call In
+Fail Call Out,Fail Call Out
+Register Gateway Information,Регистрация информации шлюза
+Authentication,Аутентификация
+Please Enter Valid Key,"Пожалуйста, введите действительный ключ"
+Alert,бдительный
+Minute,минут
+Refresh Time,Время обновления
+Switch Host,Переключить хост
+Remote Check Failed,Удаленная проверка не удалась
+MD5 Checksum Verification Failed,Сбой проверки контрольной суммы MD5
+Freeswitch CLI,Freeswitch CLI
+Gateway ragister fail please try again,Ошибка шлюза
+Realm,область
+Context,контекст
+State,государственный
+Expires,Истекает
+Frequency,частота
+Ping Frequency,Частота пинга
+Ping,пинг
+Call In,Вызывать
+Call Out,Вызывать
+Fails Call In,Не удается позвонить
+Fails Call Out,Не удается вызвать
+Contact,контакт
+Opensips Devices,Opensips Devices
+Second,второй
+Submit,Отправить
+Call Count,Счетчик звонков
+Live Call data,Данные Live Call
+Registered SIP Devices,Зарегистрированные SIP-устройства
+Registered Gateways,Зарегистрированные шлюзы
+Switch CLI,Переключатель CLI
+Live Call Graph,График Live Call
