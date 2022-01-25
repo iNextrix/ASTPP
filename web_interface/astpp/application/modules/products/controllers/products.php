@@ -461,9 +461,9 @@ class Products extends MX_Controller {
          }
 	function package_product($add_array){ 
 		$SearchArr = '';
-		if(!empty($this->session->userdata('product_package_pattern_search'))){ 
-			$SearchArr = $this->session->userdata('product_package_pattern_search');
-		}
+		// if(!empty($this->session->userdata('product_package_pattern_search'))){ 
+		// 	$SearchArr = $this->session->userdata('product_package_pattern_search');
+		// }
 		if(isset($add_array['id']) && $add_array['id']!= ''){
 			$this->product_model->edit_product($add_array,$add_array['id'],$SearchArr);
 		}else{
