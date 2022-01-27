@@ -1,4 +1,4 @@
-![logo](https://www.astppbilling.org/wp-content/uploads/thegem-logos/logo_c34687ee286c43c0fbb6cb8ac1c6d1d6_1x.png)
+![logo](https://www.astppbilling.org/wp-content/uploads/thegem-logos/logo_dfd499531cecd16ac82ec02bd3479fac_2x.png)
 
 
 ![ASTPP Release](https://img.shields.io/badge/Version-v5.0-ff69b4.svg)
