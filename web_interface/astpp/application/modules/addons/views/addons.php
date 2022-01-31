@@ -75,7 +75,13 @@ $addon_type = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '
 										<div class="card-body py-3 pl-0 pr-3">
 											<a class="btn p-0 addon_title"
 												href="<?= base_url()?>addons/addons_details/<?php echo $type;?>/<?= $elements->tech_name ?>/<?php echo $old_version; ?>">
-												<h3 class="text-dark card-title mb-1"><?= $elements->name ?></h3>
+												<!-- <h3 class="text-dark card-title mb-1"><?= $elements->name ?></h3> -->
+												<!-- ASTPPENT-3425 Ashish start -->
+												<h3 class="text-dark card-title mb-1"><?= $elements->name ?>
+												<?php if($elements->license == 'Commercial') { ?>
+													<span id="Enterprise" class="badge badge-warning Enterprise" style="font-size:9px">Commercial</span>
+												<?php } ?></h3>
+												<!-- ASTPPENT-3425 End -->
 											</a>
 											<p class="card-text"><?= $elements->description ?></p>
 										</div>
