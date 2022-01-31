@@ -46,7 +46,9 @@ window.addEventListener('DOMContentLoaded', function(){
 			 <?php } ?>
 			  <input type="hidden" readonly name="notify_url" value="<?php echo (isset($notify_url) && $notify_url !='')?$notify_url: base_url().'pages/paypal_response/'; ?>"> 
 			  <input type="hidden" readonly name="return" value="<?php echo (isset($return) && $return !='')? $return:base_url().'pages/paypal_response/';?>">
-			  <input type="hidden" readonly name="cancel_return" value="<?php echo(isset($cancel_return) && $cancel_return !='')?$cancel_return:base_url().'/pages/'; ?>">
+			  <!-- ASTPPCOM-727 Ashish start -->
+			  <input type="hidden" readonly name="cancel_return" value="<?php echo(isset($cancel_return) && $cancel_return !='')?$cancel_return:base_url().'user/user_available_products/'; ?>">
+			  <!-- ASTPPCOM-727 end -->
 			  <input type="hidden" readonly name="custom" id='custom' value=<?php echo (isset($account_id) && $account_id > 0)?$account_id:$product_info['product_category']; ?>>
           		</div>
 		</form>
