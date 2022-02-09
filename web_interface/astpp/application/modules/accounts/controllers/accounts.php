@@ -1453,49 +1453,56 @@ class Accounts extends MX_Controller
         }
     }
 
+    // Jaimin ASTPPCOM-738
     function customer_payment_save($id = '')
-    {
-        $post_array = $this->input->post();
-        $accountinfo = $this->session->userdata('accountinfo');
-        $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
-        if ($accountinfo['type'] == - 1) {
-            $where = array(
-                'id' => $post_array['id']
-            );
-        } else {
-            $where = array(
-                'id' => $post_array['id'],
-                'reseller_id' => $reseller_id
-            );
-        }
-        $customer_info = $this->db->get_where('accounts', $where);
-        if ($customer_info->num_rows > 0) {
-            $data['page_title'] = gettext('Process Payment');
-            $customer_info = (array) $customer_info->first_row();
-            $currency = $this->accounts_model->get_currency_by_id($customer_info['currency_id']);
-            $data['form'] = $this->form->build_form($this->accounts_form->get_customer_payment_fields($currency['currency'], $customer_info['number'], $currency['currency'], $id), $post_array);
-
-            if ($this->form_validation->run() == FALSE) {
-                $data['validation_errors'] = validation_errors();
-                echo $data['validation_errors'];
-                exit();
-            } else {
-                $response = $this->accounts_model->account_process_payment($post_array);
-                $customer_info['refill_amount'] = $post_array['credit'];
-                $customer_info['balance'] = $customer_info['balance'] + $customer_info['refill_amount'];
-                $this->common->mail_to_users('account_refilled', $customer_info);
-                $message = $post_array['payment_type'] == 0 ? gettext("Recharge successfully!") : gettext("Post charge applied successfully.");
-                echo json_encode(array(
-                    "SUCCESS" => gettext($message)
-                ));
-                exit();
-            }
-            $this->load->view('view_accounts_process_payment', $data);
-        } else {
-            $this->session->set_flashdata('astpp_notification', gettext('Permission Denied'));
-            redirect(base_url() . 'accounts/customer_list/');
-        }
+{
+    $post_array = $this->input->post();
+    $accountinfo = $this->session->userdata('accountinfo');
+    $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
+    if ($accountinfo['type'] == - 1) {
+        $where = array(
+            'id' => $post_array['id']
+        );
+    } else {
+        $where = array(
+            'id' => $post_array['id'],
+            'reseller_id' => $reseller_id
+        );
     }
+    $customer_info = $this->db->get_where('accounts', $where);
+    if ($customer_info->num_rows() > 0) {
+        $data['page_title'] = gettext('Process Payment');
+        $customer_info = (array) $customer_info->first_row();
+        $currency = $this->accounts_model->get_currency_by_id($customer_info['currency_id']);
+        $data['form'] = $this->form->build_form($this->accounts_form->get_customer_payment_fields($currency['currency'], $customer_info['number'], $currency['currency'], $id), $post_array);
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['validation_errors'] = validation_errors();
+            echo $data['validation_errors'];
+            exit();
+        } else {
+          $post_array['credit'] = $this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false);
+          $response = $this->accounts_model->account_process_payment($post_array);
+          $customer_info['refill_amount'] = $post_array['credit'];
+          if ($post_array['payment_type'] == 1) {
+            $customer_info['balance'] = $customer_info['balance'] - $customer_info['refill_amount'];
+            $this->common->mail_to_users('account_postcharge', $customer_info);
+        }else{
+            $customer_info['balance'] = $customer_info['balance'] + $customer_info['refill_amount'];
+            $this->common->mail_to_users('account_refilled', $customer_info);
+        }
+        $message = $post_array['payment_type'] == 0 ? gettext("Recharge successfully!") : gettext("Post charge applied successfully.");
+        echo json_encode(array(
+            "SUCCESS" => gettext($message)
+        ));
+        exit();
+    }
+    $this->load->view('view_accounts_process_payment', $data);
+} else {
+    $this->session->set_flashdata('astpp_notification', gettext('Permission Denied'));
+    redirect(base_url() . 'accounts/customer_list/');
+}
+} //END
 
     function get_invoice_date($select, $accountid)
     {
