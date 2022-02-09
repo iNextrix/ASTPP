@@ -600,12 +600,18 @@ function submit_form(form_id) {
     var form = $('#' + form_id);
     $('input').removeClass('borderred');
     $('.tooltips').css('display', "none");
+      // Jaimin -ASTPPCOM-765
+         $('.overlay').show();
+     //END
     $.ajax({
         type: 'POST',
         url: form.attr('action'),
         data: $('#' + form_id).serialize(),
         success: function (response) {
             var tmp = jQuery.parseJSON(response);
+             // Jaimin -ASTPPCOM-765
+                $('.overlay').hide();
+             //END
             if (tmp.SUCCESS_ORDER) {
                 $("#toast-container").css("display", "block");
                 $(".toast-message").html(tmp.SUCCESS_ORDER);
