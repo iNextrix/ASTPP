@@ -213,13 +213,13 @@ jQuery(function($) {
         $user_footer = '';
          } ?>
        <div  class="pull-left col-3 text-left">
-        <a href="https://inextrix.com" target="_blank">
+       <!--  <a href="https://inextrix.com" target="_blank">
         <span class="text-warning">
             <strong><?=gettext($user_footer); ?></strong>
           </span>
-      </a><br>
-      <span class="text-light"><?php echo gettext('ASTPP - #1 Open Source VoIP Solution<br>
-      Powered by Inextrix Technologies Pvt. Ltd.<br>')?> </span>
+      </a><br> -->
+     <strong> <span class="text-warning"><?php echo gettext('ASTPP - #1 Open Source VoIP Solution<br>
+      Powered by Inextrix Technologies Pvt. Ltd.<br>')?> </span></strong>
       </div>
        <?php } ?>
         <!-- // end ASTPPENT-3818 -->
