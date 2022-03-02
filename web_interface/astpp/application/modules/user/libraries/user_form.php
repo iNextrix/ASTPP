@@ -590,6 +590,45 @@ class User_form extends common
 
     function get_userprofile_change_password()
     {
+
+        //Jaimin ASTPPCOM-844
+    $userpassword_strength = $this->CI->common->get_field_name('value', 'system', array("name"=>'password_type'));
+         if ($userpassword_strength['value'] == 1) {
+             $new_password =  array(
+            gettext('New Password'),
+            'PASSWORD',
+            array(
+                'name' => 'new_password',
+                'size' => '20',
+                'class' => "text field medium",
+                'id' => 'new_password_show',
+                'onmouseover' => 'seetext(new_password_show)',
+                'onmouseout' => 'hidepassword(new_password_show)'
+            ),
+            'required|modrate_password|password_check_old[accounts]',
+            'tOOL TIP',
+            '',
+            ''
+        );
+         }else{
+            $new_password =  array(
+            gettext('New Password'),
+            'PASSWORD',
+            array(
+                'name' => 'new_password',
+                'size' => '20',
+                'class' => "text field medium",
+                'id' => 'new_password_show',
+                'onmouseover' => 'seetext(new_password_show)',
+                'onmouseout' => 'hidepassword(new_password_show)'
+            ),
+            'required|strong_password|password_check_old[accounts]',
+            'tOOL TIP',
+            '',
+            ''
+        ); }
+    //END
+
         $form['forms'] = array(
             base_url() . 'user/user_change_password/',
             array(
@@ -625,22 +664,11 @@ class User_form extends common
                 '',
                 ''
             ),
-            array(
-                gettext('New Password'),
-                'PASSWORD',
-                array(
-                    'name' => 'new_password',
-                    'size' => '20',
-                    'class' => "text field medium",
-                    'id' => 'new_password_show',
-                    'onmouseover' => 'seetext(new_password_show)',
-                    'onmouseout' => 'hidepassword(new_password_show)'
-                ),
-                'required|chk_password_expression|password_check_old[accounts]',
-                'tOOL TIP',
-                '',
-                ''
-            ),
+            
+            //Jaimin ASTPPCOM-844
+            $new_password,
+            //END
+
             array(
                 gettext('Confirm Password'),
                 'PASSWORD',
