@@ -40,6 +40,9 @@ class email_lib {
 	public $company_name = '';
 	public $company_website = '';
 	public $account_id = '';
+	// ASTPPCOM-873 Ashish start
+	public $website_title = '';
+	// ASTPPCOM-873 Ashish End
 	function __construct($library_name = '') {
 		$this->CI = & get_instance ();
 		$this->CI->load->model ( 'db_model' );
@@ -47,7 +50,9 @@ class email_lib {
 		$this->CI->load->library ( 'session' );
 	}
 	
-	function get_email_settings($details=array()) {
+	// ASTPPCOM-873 Ashish start
+	function get_email_settings($resellerID = 1,$details=array()) {
+	// ASTPPCOM-873 Ashish End
 		$smtp_status = 1;
 		$table_name="system";
 		$where = array ('group_title' => 'notifications');
@@ -56,9 +61,17 @@ class email_lib {
 			$where = array ("smtp_user" => trim($details['from']));
 			$smtp_status = 0;
 		}
+		// ASTPPCOM-873 Ashish start
+		$resellerID = $resellerID > 0 ? $resellerID : 1;
+		$where1 = array ('accountid' => $resellerID);
+		$query1 = $this->CI->db_model->getSelect ( "*", 'invoice_conf', $where1 )->first_row();
+		// ASTPPCOM-873 Ashish End
 		$query = $this->CI->db_model->getSelect ( "*", $table_name, $where )->result_array();		
 		$this->smtp_status = isset($query[0]->smtp_status) && $query[0]->smtp_status != 1 ? $query[0]->smtp_status : $smtp_status;
-		
+		// ASTPPCOM-873 Ashish start
+		$this->website_title = $query1->website_title;
+		$this->company_name = $query1->company_name;
+		// ASTPPCOM-873 Ashish End
 		if($table_name == 'department'){
 			if($query[0]['smtp_host'] !== '' && $query[0]['smtp_port'] !== 0) {
 				$this->smtp_host = $query[0]['smtp_host'];
@@ -328,14 +341,22 @@ class email_lib {
 				$history_id = $details ['history_id'];
 			}
 			$accountID = $this->CI->common->get_field_name('accountid','mail_details',array("id" => $history_id));
+			// ASTPPCOM-873 Ashish start
+			$resellerID = $this->CI->common->get_field_name('reseller_id','accounts',array("id" => $accountID));
+			// ASTPPCOM-873 Ashish End
 			$cc_email_ids = explode(',',strtolower($this->CI->common->get_field_name('cc','mail_details',array("accountid" => $accountID))));
-			$smtpData = $this->get_email_settings ($details);
+			// ASTPPCOM-873 Ashish start
+			$smtpData = $this->get_email_settings ($resellerID,$details);
+			// ASTPPCOM-873 Ashish End
 			if (isset ( $this->from ) && $this->from != '' && isset ( $this->to ) && $this->to != '' && ! $mass_mail) {
 				if (! $this->smtp) {
 					$this->get_smtp_details ();
 				}
 
-				$this->CI->email->from ( $this->from, $this->company_name );
+				// ASTPPCOM-873 Ashish start
+				$from_title = isset($this->website_title) && $this->website_title != '' ? $this->website_title : $this->company_name ;
+				$this->CI->email->from ( $this->from, $from_title );
+				// ASTPPCOM-873 Ashish End
 				$this->CI->email->to ( $this->to );
 				$this->CI->email->cc ( $cc_email_ids );
 				$this->CI->email->subject ( $this->subject );
