@@ -97,7 +97,7 @@ class trunk_form extends common
                 )
             ),
             array(
-                gettext('Failover  GW Name #1'),
+                gettext('Failover GW Name #1'),
                 'failover_gateway_id',
                 'SELECT',
                 '',
