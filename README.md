@@ -1,5 +1,4 @@
-![logo](https://www.astppbilling.org/wp-content/uploads/thegem-logos/logo_dfd499531cecd16ac82ec02bd3479fac_2x.png)
-
+![logo](https://www.astppbilling.org/wp-content/uploads/thegem-logos/logo_b73d7d81a6ae502041c9793d27ed4fe7_1x.png)
 
 ![ASTPP Release](https://img.shields.io/badge/Version-v5.0-ff69b4.svg)
 [![Join the chat at https://gitter.im/ASTPP-Official/Lobby](https://badges.gitter.im/ASTPP-Official/Lobby.svg)](https://gitter.im/ASTPP-Official/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
