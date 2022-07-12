@@ -191,6 +191,9 @@ $logger->log("*********************** Harsh_trunk in package_id: **".$dataVariab
 	
 	// Update parent or provider balance
 	if ($parent_cost > 0) {
+		// ASTPPCOM-906 Ashish start
+		$parent_cost = str_replace(",","",$parent_cost);
+		// ASTPPCOM-906 Ashish End
 		update_balance ( $termination_rate ['PROVIDER'], ($parent_cost * - 1), 3, $logger, $db, $config,$dataVariable );
 	}
 	
@@ -359,7 +362,11 @@ function insert_extra_receiver_entry($dataVariable, $origination_rate, $terminat
 
 // Generate CDR string for insert query for customer.
 function get_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost, $logger, $db) {
-	
+	// ASTPPCOM-906 Ashish start
+	$debit = str_replace(",","",$debit);
+	$cost = str_replace(",","",$cost);
+	$provider_cost = str_replace(",","",$provider_cost);
+	// ASTPPCOM-906 Ashish End
 	$get_current_time = gmdate("Y-m-d H:i:s"); // progress_media_stamp
 	$get_current_microseconds = round(microtime(true)/1000); // progress_mediamsec
 	
@@ -379,6 +386,11 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
 
 // Generate CDR string for insert query for reseller
 function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db,$trunk_id='') {
+	// ASTPPCOM-906 Ashish start
+	$debit = str_replace(",","",$debit);
+	$cost = str_replace(",","",$cost);
+	$provider_cost = str_replace(",","",$provider_cost);
+	// ASTPPCOM-906 Ashish End
 	$dataVariable ['calltype'] = ($dataVariable ['calltype'] == 'DID-LOCAL' || $dataVariable ['calltype'] == 'SIP-DID' || $dataVariable ['calltype'] == 'OTHER') ? "DID" : $dataVariable ['calltype'];
 	// $callerIdNumber = isset($dataVariable['effective_caller_id_number']) && !empty($dataVariable['effective_caller_id_number'])? $dataVariable['effective_caller_id_number'] :$dataVariable['caller_id'];
 	$callerIdNumber = ($dataVariable ['calltype'] == "DID") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
@@ -395,6 +407,9 @@ function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actu
  * @param integer $entity_id        	
  */
 function update_balance($user_id, $amount, $entity_id, $logger, $db, $config, $dataVariable) {
+		// ASTPPCOM-906 Ashish start
+		$amount = str_replace(",","",$amount);
+		// ASTPPCOM-906 Ashish End
 		$math_sign = ($entity_id == 0 || $entity_id == 1) ? '-' : '+';
 		$tmp_prefix=($dataVariable['intcall']==1)?'int_':'';
 		$query = "UPDATE accounts SET ".$tmp_prefix."balance=IF(posttoexternal=1,".$tmp_prefix."balance+" . $amount . ",".$tmp_prefix."balance-" . $amount . ") WHERE id=" . $user_id;
