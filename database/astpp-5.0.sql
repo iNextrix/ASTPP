@@ -2267,6 +2267,7 @@ CREATE TABLE `trunks` (
   `last_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `cid_translation` varchar(100) NOT NULL,
   `localization_id` int NOT NULL,
+  `sip_cid_type` varchar(50) NOT NULL DEFAULT 'none' COMMENT 'none:- None, rpid :- Remote-Party-ID, pid :- P-Asserted-Identity',
   PRIMARY KEY (`id`),
   KEY `provider` (`provider_id`),
   KEY `resellers_id` (`resellers_id`)

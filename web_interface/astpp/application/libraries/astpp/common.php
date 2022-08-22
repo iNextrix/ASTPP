@@ -3640,4 +3640,20 @@ class common {
 		);
 		return $status_array;
 	}
+
+    // ASTPPCOM-944 Jaimin Start    
+		function sip_cid_types($status = '') {
+			$status_array = array (
+					'none' => gettext ('None'),
+					'rpid' => gettext ('Remote-Party-ID'),
+					'pid' => gettext ('P-Asserted-Identity')
+			);
+			return $status_array;
+		}
+		function get_sip_cid_type($select = "", $table = "", $value) {
+			$data=array("none"=>"None","rpid"=>"Remote-Party-ID","pid"=>" P-Asserted-Identity");
+			return  $data[$value] ;
+		} 
+	// End
+
 }
