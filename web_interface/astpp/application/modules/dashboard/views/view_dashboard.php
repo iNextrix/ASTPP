@@ -1110,37 +1110,50 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                         <div class="card-body">
                             <div id="call-count"></div>
                             <?php
-                            $feed_url = "http://52.66.76.140/newsinfo/posts.php";
-                            $object = new DOMDocument();
+                            $feed_url = "https://newsinfo.astppbilling.org/posts.php";
                             if($feed_url!='')
                             {
-                            $object->load($feed_url);
-                            $content = $object->getElementsByTagName("item");    
-                            }                            
+
+                            // make request
+                            $ch = curl_init();
+                            // Disable SSL verification
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                            // Will return the response, if false it print the response
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            // Set the url
+                            curl_setopt($ch, CURLOPT_URL, $feed_url);
+                            // Execute
+                            $output = curl_exec($ch);
+                            $xml_snippet = simplexml_load_string( $output,null, LIBXML_NOCDATA);
+                            $json_convert = json_encode( $xml_snippet );
+                            $json = json_decode( $json_convert );
+                            curl_close($ch);
+                            $events = $json->channel->item;
+                            }                     
                             ?>
                             <div class="rss-widget">
                                 <?php
-                                if($content->length > 0)
+                                if(count($events) > 0)
                                 {
                                 ?>
                                 <ul class="p-0">
                                     <?php
-                                    foreach($content as $row)
+                                    foreach($events as $row)
                                     {
                                     date_default_timezone_set('Asia/Kolkata');
 
-                                    $d1 = new DateTime($row->getElementsByTagName("visDate")->item(0)->nodeValue);
+                                    $d1 = new DateTime($row->visDate);
                                     $d2 = new DateTime('now');
-                                    $status = $row->getElementsByTagName("status")->item(0)->nodeValue;
+                                    $status = $row->status;
 
                                     if($status == 1)
                                     {
                                     //date info
-                                    $startdate = $row->getElementsByTagName("startDate")->item(0)->nodeValue;
-                                    $enddate = $row->getElementsByTagName("endDate")->item(0)->nodeValue; 
-                                    $timezone = $row->getElementsByTagName("timezone")->item(0)->nodeValue;
-                                    $timevisibly = $row->getElementsByTagName("timevisibly")->item(0)->nodeValue;
-                                    $category = $row->getElementsByTagName("category")->item(0)->nodeValue;                                   
+                                    $startdate = $row->startDate;
+                                    $enddate = $row->endDate; 
+                                    $timezone = $row->timezone;
+                                    $timevisibly = $row->timevisibly;
+                                    $category = $row->category;                                   
 
                                     if($d1 > $d2 ){
                                     ?>
@@ -1148,16 +1161,16 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <?php
-                                                if($row->getElementsByTagName("enclosure")->item(0)->attributes["url"]->nodeValue != ''): ?>
-                                                <a class="rsswidget" href="<?php echo $row->getElementsByTagName("link")->item(0)->nodeValue; ?>" target="_blank"><img class="img-responsive" src="<?php echo $row->getElementsByTagName("enclosure")->item(0)->attributes["url"]->nodeValue; ?>" /></a>
+                                                if($row->imageurl != ''): ?>
+                                                <a class="rsswidget" href="<?php echo $row->link; ?>" target="_blank"><img class="img-responsive" src="<?php echo $row->imageurl; ?>" /></a>
                                                 <?php else: ?>
-                                                <a class="rsswidget" href="<?php echo $row->getElementsByTagName("link")->item(0)->nodeValue; ?>" target="_blank"><i class="fa fa-calendar"></i></a>    
+                                                <a class="rsswidget" href="<?php echo $row->link; ?>" target="_blank"><i class="fa fa-calendar"></i></a>    
                                                 <?php endif; ?>    
                                             </div>
                                             <div class="col-md-6">
-                                                <h5><a class="rsswidget_link" title="<?php echo $row->getElementsByTagName("title")->item(0)->nodeValue; ?>" href="<?php echo $row->getElementsByTagName("link")->item(0)->nodeValue; ?>" target="_blank"><?php echo $row->getElementsByTagName("title")->item(0)->nodeValue; ?></a></h5>
-                                                <div class="description" title="<?php echo strip_tags(str_replace("<p></p>","", $row->getElementsByTagName("description")->item(0)->nodeValue)); ?>"><?php echo mb_strimwidth(str_replace("<p></p>","", $row->getElementsByTagName("description")->item(0)->nodeValue),"0","30", "..."); ?></div>
-                                            </div>
+                                                <h5><a class="rsswidget_link" title="<?php echo $row->title; ?>" href="<?php echo $row->link; ?>" target="_blank"><?php echo $row->title; ?></a></h5>
+                                                <div class="description" title="<?php echo strip_tags(str_replace("<p></p>","", $row->description)); ?>"><?php echo mb_strimwidth(str_replace("<p></p>","", $row->description),"0","30", "..."); ?></div>                
+                                                </div>
                                             <div class="col-md-4">
                                                 <?php
                                                 if($category == 2) { ?>
@@ -1165,7 +1178,7 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                                                     <span class="font-12"><?php echo create_formatted_date($startdate,$enddate,$timezone,$timevisibly); ?></span>
                                                 </div>
                                                 <?php } ?>
-                                                <span class="badge badge-primary float-left mt-1"><?php if($row->getElementsByTagName("eventtype")->item(0)->nodeValue == 0 ){ echo "Offline Event"; } else { echo "Online Event"; }  ?></span>
+                                                <span class="badge badge-primary float-left mt-1"><?php if($row->eventtype == 0 ){ echo "Offline Event"; } else { echo "Online Event"; }  ?></span>
                                             </div>
                                         </div>
                                         
