@@ -27,7 +27,7 @@
               <h3 class="bg-secondary text-light p-2 rounded-top"><?php echo gettext('Basic Information'); ?></h3>
 		<div class="row px-4">
 		 <div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Product Category'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Product Category'); ?></label>
                       <div class="col-md-12 form-control selectpicker form-control-lg p-0" >
                                  <?php
 					$product_add = array("id" => "product_category", "name" => "product_category", "class" => "product_category");
@@ -35,14 +35,14 @@
 			</div>	
                   </div>
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Name'); ?> *</label>
+                      <label class="p-0 control-label"><?php echo gettext('Name'); ?> *</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="product_name" value="<?php echo (isset($add_array['product_name']))?$add_array['product_name']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="product_name_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="product_name_error">  
  </span></div>	
                   </div>
                  
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Country')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Country')?></label>
                       <?php
 								$country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
 								$country = form_dropdown_all($country_arr, $this->db_model->build_dropdown_country_camel("id,country", "countrycode", "", ""),isset($add_array['country_id'])?$add_array['country_id']:''); 
@@ -52,17 +52,17 @@
                   </div>
 
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Description'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Description'); ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="product_description" value= "<?php echo (isset($add_array['product_description']))?$add_array['product_description']:'' ?>" size="16" type="textarea"/>
 			
                   </div>
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Buy Cost');?> (<?php echo ($currency)?>)</label>
+                      <label class="p-0 control-label"><?php echo gettext('Buy Cost');?> (<?php echo ($currency)?>)</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="product_buy_cost" value= "<?php echo (isset($add_array['product_buy_cost']))?$add_array['product_buy_cost']:'' ?>"  size="16" type="text"/>
                   </div>
 
                   <div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Can be purchased?'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Can be purchased?'); ?></label>
                       <select  name="can_purchase" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['can_purchase'])){ ?>
                          <option value="0" <?php if($add_array['can_purchase'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('Yes');?></option>
@@ -74,7 +74,7 @@
                       </select>
                   </div>
             	 <div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Status'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Status'); ?></label>
                       <select  name="status" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['status'])){ ?>
                          <option value="0" <?php if($add_array['status'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('Active'); ?></option>
@@ -94,7 +94,7 @@
 		     <h3 class="bg-secondary text-light p-2 rounded-top"><?php echo gettext('Product Details'); ?></h3>
 		<div class="row px-4">
                   <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Reseller can resell'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Reseller can resell'); ?></label>
                       <select  name="can_resell" class="col-md-12 form-control selectpicker  form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['can_resell'])){ ?>
 		                <option value="1" <?php if($add_array['can_resell'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext('No');?></option>
@@ -106,23 +106,23 @@
                       </select>
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Commission');?> (%)</label>
+                      <label class="p-0 control-label"><?php echo gettext('Commission');?> (%)</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="commission" value="<?php echo (isset($add_array['commission']))?$add_array['commission']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="commission_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="commission_error">   </span></div>	
                   </div>
 		 <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="setup_fee" value="<?php echo (isset($add_array['setup_fee']))?$add_array['setup_fee']:'' ?>" size="16" type="text"/>	
 			<div class="tooltips error_div pull-left no-padding" id="setup_fee_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="setup_fee_error">   </span></div>		
                   </div>
 		   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Price').' ('.$currency.')'; ?> *</label>
+                      <label class="p-0 control-label"><?php echo gettext('Price').' ('.$currency.')'; ?> *</label>
                       <input name="price" id="price" class="col-md-12 form-control form-control-lg m-0" value="<?php echo (isset($add_array['price']))?$add_array['price']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="price_error">   </span></div>	
                   </div>
 		
                   <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Billing Type'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Billing Type'); ?></label>
                       <select  name="billing_type" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['billing_type'])){ ?>
 				<option value="0" <?php if($add_array['billing_type'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('One Time');?></option>
@@ -135,12 +135,12 @@
                       </select>
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Billing Days'); ?> *</label>
+                      <label class="p-0 control-label"><?php echo gettext('Billing Days'); ?> *</label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo (isset($add_array['billing_days']))?$add_array['billing_days']:'' ?>"  name="billing_days" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="billing_days_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="billing_days_error"></span></div>	
                   </div>
 		<div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Rate Group'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Rate Group'); ?></label>
 			<div class="dropdown bootstrap-select show-tick select field multiselectable  col-md-12 form-control dropup">
                       <select  name="product_rate_group[]"  multiple="multiple"  class=" selectpicker select field multiselectable col-md-12 form-control form-control-lg" data-hide-disabled='true' data-actions-box='true' data-live-search='true' datadata-live-search-style='begins'>
                          <?php
@@ -157,7 +157,7 @@
 		    </div>
                   </div>
                   <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Apply on existing accounts'); ?>*</label>
+                      <label class="p-0 control-label"><?php echo gettext('Apply on existing accounts'); ?>*</label>
                       <select  name="apply_on_existing_account" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['apply_on_existing_account'])){ ?>
                         	<option value="1" <?php if($add_array['apply_on_existing_account'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext('No');?></option>
@@ -169,12 +169,12 @@
                       </select>
                   </div>
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Free Minutes'); ?>*</label>
+                      <label class="p-0 control-label"><?php echo gettext('Free Minutes'); ?>*</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="free_minutes" value="<?php echo (isset($add_array['free_minutes']))?$add_array['free_minutes']:'' ?>" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="free_minutes_error_div" style="display: none;"><i style="color:#D95C5C; padding-right: 6px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i><span class="popup_error error  no-padding" id="free_minutes_error">   </span></div>	
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Applicable For'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Applicable For'); ?></label>
                       <select  name="applicable_for" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['applicable_for'])){ ?>
                        		 <option value="0" <?php if($add_array['applicable_for'] == '0'){ ?> selected="selected" <?php }  ?>><?php echo gettext('Inbound'); ?></option>
@@ -188,7 +188,7 @@
                       </select>
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Release if no balance'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Release if no balance'); ?></label>
 			  <select  name="release_no_balance" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 				<?php if(isset($add_array['release_no_balance'])){ ?>
 					<option value="1" <?php if($add_array['release_no_balance'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext('No');?></option>

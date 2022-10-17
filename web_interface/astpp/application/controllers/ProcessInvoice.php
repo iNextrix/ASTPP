@@ -555,7 +555,7 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 					$final_array['next_billing_date'] =($product_info['billing_days'] == 0)?gmdate('Y-m-d 23:59:59', strtotime('+10 years')):gmdate("Y-m-d 23:59:59",strtotime("+".($product_info['billing_days']-1)." days"));
 					$final_array['product_name'] = $product_info['name'];
 					if($product_info['status'] == 1 ||   $product_info['billing_type'] == 0 ){ 
-						$final_array['next_billing_date'] = $ordervalue['termination_date'];
+						$final_array['next_billing_date'] = $this->CurrentDate;
 						$this->common->mail_to_users ( "product_release", $final_array );
 					}else if(($product_info['can_purchase'] == 1 ||$product_info['can_resell'] == 1) && $product_info['reseller_id'] == $ordervalue['reseller_id'] && $ordervalue['reseller_id'] > 0){  
 

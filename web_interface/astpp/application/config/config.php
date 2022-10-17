@@ -374,7 +374,6 @@ $config ['proxy_ips'] = '';
 $config ['Origination-rates-field'] = array (
 		'code' => 'pattern',
 		'destination' => 'comment',
-		'country' => 'country_id',
 		'connection cost (CURRENCY)' => 'connectcost',
 		'grace time' => 'includedseconds',
 		'cost / min (CURRENCY)' => 'cost',

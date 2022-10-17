@@ -1,7 +1,7 @@
 <?php
 $tooltip_data = array(
 	/*Create Gateway (Basic Information)*/
-	"gateway_form_name" => "Appropriate name of gateway. <a href='//youtu.be/sRpHnNtvc44' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"gateway_form_name" => "Appropriate name of gateway.",
 
 	"gateway_form_sip_profile_id" => "Sip profile associated with gateway",
 
@@ -15,7 +15,7 @@ $tooltip_data = array(
 
 	"gateway_form_register" => "Whether the gateway is userame/passowrd or ip authenticated",
 
-	"gateway_form_caller-id-in-from" => "Whether to replace the INVITE from user with the channel's caller-id",
+	"gateway_form_caller-id-in-from" => "Whether to replace the invite from user with the channel's caller-id",
 
 	"gateway_form_status" => "Status of gateway",
 	/*End*/
@@ -46,16 +46,16 @@ $tooltip_data = array(
 
 	"gateway_form_channel" => "",	
 
-	"gateway_form_dialplan_variable" => "",
+	"gateway_form_dialplan_variable" => "Dialplan Varible",
 	/*End*/		
 
 	// ---------------Freeswitch Server Section------------------------
 
-	"fsserver_form_freeswitch_host" => "",
+	"fsserver_form_freeswitch_host" => "Freeswitch Host Details",
 
-	"fsserver_form_freeswitch_password" => "",
+	"fsserver_form_freeswitch_password" => "Freeswitch Password",
 
-	"fsserver_form_freeswitch_port" => "",
+	"fsserver_form_freeswitch_port" => "Freeswitch Port",
 
 	/*Create Sip Devices*/
 	"sipdevices_form_fs_username" => "SIP extension username",
@@ -73,6 +73,8 @@ $tooltip_data = array(
 	"sipdevices_form_status" => "The status for the added entry",
 
 	"sipdevices_form_sip_profile_id" => "Sip profile to which this extension is belongs",
+
+	"sipdevices_form_codec" => "Specify the codec name which you want to select when call comes on SIP device or call make using SIP device.",
 	/*End*/
 
 	/*Voicemail Options*/

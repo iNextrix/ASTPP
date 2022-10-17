@@ -157,9 +157,9 @@ jQuery(function($) {
 		<div class="col py-2">
   	   		 <label class="text-light" style="margin-top:3px;"><i> <?php echo gettext('Follow us on:')?> </i></label>
   	   		 <div class="social-media">
-  	   		  <a target="_blank" href="https://www.facebook.com/astppbilling" title="Facebook"> <i class="facebook fa fa-facebook"></i></a>
-  	   		  <a target="_blank" href="https://in.linkedin.com/in/astpp-opensource-voip-billing-bb9301b5" title="Linkedin"> <i class="linkin fa fa-linkedin"></i></a>
-  	   		  <a target="_blank" href="https://twitter.com/astppbilling" title="Twitter"> <i class="twitter fa fa-twitter "></i></a>
+  	   		  <a target="_blank" href="https://www.facebook.com/astpp.official/" title="Facebook"> <i class="facebook fa fa-facebook"></i></a>
+            <a target="_blank" href="https://in.linkedin.com/company/astpp-billing" title="Linkedin"> <i class="linkin fa fa-linkedin"></i></a>
+            <a target="_blank" href="https://twitter.com/astpp_official" title="Twitter"> <i class="twitter fa fa-twitter "></i></a>
   	   		
   	   		</div>
 		 </div>
@@ -191,9 +191,9 @@ jQuery(function($) {
 
 		<div class="col-md-4 py-2 text-md-center">
   	   		 <div class="social-media">
-  	   		  <a target="_blank" href="https://www.facebook.com/astppbilling" title="Facebook"> <i class="facebook fa fa-facebook"></i></a>
-  	   		  <a target="_blank" href="https://in.linkedin.com/in/astpp-opensource-voip-billing-bb9301b5" title="Linkedin"> <i class="linkin fa fa-linkedin"></i></a>
-  	   		  <a target="_blank" href="https://twitter.com/astppbilling" title="Twitter"> <i class="twitter fa fa-twitter "></i></a>
+  	   		  <a target="_blank" href="https://www.facebook.com/astpp.official/" title="Facebook"> <i class="facebook fa fa-facebook"></i></a>
+            <a target="_blank" href="https://in.linkedin.com/company/astpp-billing" title="Linkedin"> <i class="linkin fa fa-linkedin"></i></a>
+            <a target="_blank" href="https://twitter.com/astpp_official" title="Twitter"> <i class="twitter fa fa-twitter "></i></a>
   	   		
   	   		</div>
 		 </div>
@@ -210,7 +210,7 @@ jQuery(function($) {
 
     </select>
        
-  	<div class="col-md-12 float-right pt-3 pr-0 text-light text-md-right version_size"> Version  <?php echo common_model::$global_config['system_config']['version']; ?>  
+  	<div class="col-md-12 float-right pt-4 pr-0 text-light text-md-right version_size"> Version  <?php echo common_model::$global_config['system_config']['version']; ?>  
 
   	</div>
 	</div>

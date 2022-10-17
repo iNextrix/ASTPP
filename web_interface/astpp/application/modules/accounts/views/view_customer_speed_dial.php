@@ -130,10 +130,10 @@ label.error {
 								id="key<?php echo $i; ?><?php echo $i + 1; ?>"
 								style="display: block;">
 								<div class="col-md-2 col-2 float-left">
-									<label class="col-md-2 control-label"><?php echo $i; ?></label>
+									<label class="control-label"><?php echo $i; ?></label>
 								</div>
 								<div class="col-md-8 col-6 float-left">
-									<label class="col-md-12 control-label" name="speed_dial"
+									<label class="control-label" name="speed_dial"
 										size="16"><?php  echo $speeddial[$i];?></label>
 								</div>
 								<div class="col-md-2 col-4 float-left">

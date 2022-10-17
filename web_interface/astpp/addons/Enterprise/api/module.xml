@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>api</tech_name>
+	<name>Application Programming Interface</name>
+	<description>A connective interface to commute with ASTPP</description>		
+	<icon>static/images/api.png</icon>
+	<version>2.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

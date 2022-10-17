@@ -2,7 +2,7 @@
 ###############################################################################
 # ASTPP - Open Source VoIP Billing Solution
 #
-# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Copyright (C) 2016 Inextrix Technologies Pvt. Ltd.
 # Samir Doshi <samir.doshi@inextrix.com>
 # ASTPP Version 3.0 and above
 # License https://www.gnu.org/licenses/agpl-3.0.html
@@ -106,8 +106,8 @@ class supportticket_model extends CI_Model {
 	$add_array=array(
 			'ticket_type'=>$data['ticket_type'],
 			'priority'=>$data['priority'],
-			'accountid'=>isset($data['accountid'])?$data['accountid']:$account_data['id'],
-			'reseller_id'=>isset($data['accountid'])?$this->common->get_field_name('reseller_id','accounts',$data['accountid']):$account_data['reseller_id'],
+			'accountid'=> $data['account_id'] != "" && isset($data['account_id']) ? $data['account_id']: $account_data['id'],
+			'reseller_id'=>isset($data['account_id'])?$this->common->get_field_name('reseller_id','accounts',$data['account_id']):$account_data['reseller_id'],
 			'subject'=>$data['subject'],
 			'creation_date'=>gmdate("Y-m-d H:i:s"),
 			'last_modified_date'=>gmdate("Y-m-d H:i:s"),

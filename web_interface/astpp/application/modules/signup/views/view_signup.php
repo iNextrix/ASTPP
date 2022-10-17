@@ -55,6 +55,8 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 						rel="stylesheet" type="text/css">
 						<link href="<?php echo base_url(); ?>assets/css/style.css"
 							rel="stylesheet" type="text/css">
+						<link href="<?php echo base_url(); ?>assets/css/com-style.css"
+							rel="stylesheet" type="text/css">	
 							<link
 								href="<?php echo base_url(); ?>assets/css/custome_index.css"
 								rel="stylesheet" type="text/css">

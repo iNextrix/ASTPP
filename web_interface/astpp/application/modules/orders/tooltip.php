@@ -28,6 +28,10 @@ $tooltip_data = array(
 
 	"ordres_assign_form_setup_fee" => "One time applicable fee for the product",
 	/*End*/
+
+	"terminate_form_note" => "Note for product termination",
+
+	"terminate_form_creation" => "Creation Date for product termination",
 )
 
 ?>

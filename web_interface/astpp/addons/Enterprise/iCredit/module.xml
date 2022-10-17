@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>iCredit</tech_name>
+	<name>iCredit Payment Gateway</name>
+	<description>Set card payment gateway</description>		
+	<icon>static/images/rivhit.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

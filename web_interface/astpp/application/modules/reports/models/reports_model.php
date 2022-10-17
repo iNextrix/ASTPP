@@ -34,9 +34,9 @@ class Reports_model extends CI_Model
         $this->db_model->build_search('customer_cdr_list_search');
         $account_data = $this->session->userdata("accountinfo");
         // Ashish ASTPPCOM-825
-        // if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
-        //     $where['reseller_id'] = $account_data['type'] == 1 ? $account_data['id'] : 0;
-        // }
+        if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logintype') == 5) {
+            $where['reseller_id'] = $account_data['type'] == 1 ? $account_data['id'] : 0;
+        }
         // ASTPPCOM-825 end
         $table_name = 'cdrs';
         if ($this->session->userdata('advance_search_date') == 1) {
@@ -69,7 +69,30 @@ class Reports_model extends CI_Model
             $this->db->select('count(*) as count,sum(billseconds) as billseconds,sum(debit) as total_debit,SUM(CASE WHEN calltype = "FREE" THEN debit ELSE 0 END) AS free_debit,sum(cost) as total_cost,group_concat(distinct(pricelist_id)) as pricelist_ids,group_concat(distinct(trunk_id)) as trunk_ids,group_concat(distinct(accountid)) as accounts_ids');
         }
         $result = $this->db->get($table_name);
-
+        // Kinjal ASTPPCOM-978 Start
+        $customer_cdr_list_search = $this->session->userdata('customer_cdr_list_search');
+        if(!empty($customer_cdr_list_search)){
+            $select_value = array('select_table' => 'cdrs','module' => 'cdrs');
+            $select_value['select_where']['type IN'] = array('0,3');
+            foreach ($customer_cdr_list_search as $key => $value) {
+                if(is_array($value) && isset($value[$key]) && $value[$key] != ''){
+                    $type = isset($value[$key."-integer"]) ? (string)2 : (string)1;
+                    $operator = isset($value[$key."-integer"]) ? $value[$key."-integer"] : $value[$key."-string"];
+                    $select_value['select_where'][$key]=$value[$key]."_".$type."_".$operator;
+                    if(isset($value['new_billseconds']) && $value['new_billseconds'] != '' ){
+                        $select_value['select_where']['new_billseconds'] = $value['new_billseconds']."_".$type."_".$operator;
+                    }
+                }elseif(!is_array($value) && $value!=''){
+                    $select_value['select_where'][$key]=$value;
+                }
+            }
+            $select_value['select_where']['array_params'] = array('country_id' => 'countrycode,country','trunk_id'=>'trunks,name','pricelist_id' => 'pricelists,name','is_recording' => ',Yes,No');
+            $select_value['search_field_array'] = array('Caller ID' => 'callerid','Called Number' =>'callednum','Code' => 'pattern','Destination' =>'notes','Duration' => 'billseconds','Duration' => 'new_billseconds','Debit' => 'debit','Cost' => 'cost','Reseller' => 'reseller_id,accounts,reseller_id','Rate Group' => 'pricelist_id,pricelists,id,name','Account' => 'accountid,accounts,id','Country' => 'country_id,countrycode,id,country','Disposition[Q.850]' => 'disposition,','Trunk' => 'trunk_id,trunks,id,name','Call Type' => 'calltype,','Select Year' => 'cdrs_year,','Direction' => 'call_direction,','SIP User' => 'sip_user','Display records in' => 'search_in,');
+            $select_values['reports_key_automated'] = $select_value;
+            $encode = json_encode($select_values);
+            $this->session->set_userdata('reports_list_automated', $encode);
+        }
+        // Kinjal ASTPPCOM-978 END
         return $result;
     }
 

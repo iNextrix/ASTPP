@@ -34,6 +34,18 @@
                       $("#provience_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
                       $('#provience_id_search_drp').selectpicker('refresh');
                   }
+
+				//added
+				if(objJSON.city_list && objJSON.city_list != ""){
+						$("#city_id_search_drp").html(objJSON.city_list);
+						$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
+						$('#city_id_search_drp').selectpicker('refresh');
+				}else{
+					$("#city_id_search_drp").html("");
+					$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
+					$('#city_id_search_drp').selectpicker('refresh');
+				}
+
                   if(objJSON.didlist && objJSON.didlist!=""){
                       $("#free_didlist").html(objJSON.didlist); 
                       $('.free_didlist').selectpicker('refresh'); 	
@@ -48,33 +60,37 @@
                 quick_search("accounts/customer_details_search/"+'<?php echo $accounttype?>'+"_did/");
             });
             $("#country_id" ).change();
+
+
             $("#provience_id_search_drp").change(function() {
-             var country_id= $('#country_id').val();
-             var provience= $('#provience_id_search_drp').val();
-             
-             var url_new ='<?php echo base_url() . "accounts/customer_did_country/"; ?>';
-             $.ajax({
-              type: "POST",
-              url: url_new,
-              data:{ country_id : country_id,provience:provience},
-              success:function(response) {
-					
-					var objJSON = JSON.parse(response);
-					if(objJSON.city_list && objJSON.city_list!=""){
-						$("#city_id_search_drp").html(objJSON.city_list);
-						$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
-						$('#city_id_search_drp').selectpicker('refresh');
-					}else{
-						$("#city_id_search_drp").html("");
-						$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
-						$('.#city_id_search_drp').selectpicker('refresh');
-					}
-					if(objJSON.didlist && objJSON.didlist!=""){
-						$("#free_didlist").html(objJSON.didlist); 
-						$('#free_didlist').selectpicker('refresh'); 	
-					}
-              }});  
+				var country_id = $('#country_id').val();
+				var provience = $('#provience_id_search_drp').val();
+				var url_new ='<?php echo base_url() . "accounts/customer_did_country/"; ?>';
+				$.ajax({
+				type: "POST",
+				url: url_new,
+				data:{ country_id : country_id,provience:provience},
+				success:function(response) {
+						var objJSON = JSON.parse(response);
+						console.log(objJSON);
+						if(objJSON.city_list && objJSON.city_list!=""){
+							$("#city_id_search_drp").html(objJSON.city_list);
+							$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
+							$('#city_id_search_drp').selectpicker('refresh');
+						}else{
+							$("#city_id_search_drp").html("");
+							$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
+							$('#city_id_search_drp').selectpicker('refresh');
+						}
+
+						if(objJSON.didlist && objJSON.didlist!=""){
+							$("#free_didlist").html(objJSON.didlist); 
+							$('#free_didlist').selectpicker('refresh'); 	
+						}
+				}});  
          });
+
+		 
             $("#city_id_search_drp").change(function() {
              var country_id= $('#country_id').val();
              var provience= $('#provience_id_search_drp').val();
@@ -193,7 +209,7 @@ label.error {
 							action="<?= base_url()."accounts/customer_dids_action/add/$edit_id/$accounttype/"; ?>"
 							enctype="multipart/form-data">
 							<div class="col-md-3 form-group">
-								<label for="Country" class="col-md-3 p-0 control-label"><?php echo gettext('Country');?> : </label>
+								<label for="Country" class="p-0 control-label"><?php echo gettext('Country');?> : </label>
             <?php
             $country_arr = array(
                 "id" => "country_id",
@@ -205,7 +221,7 @@ label.error {
             ?>
         </div>
 							<div class='form-group col-md-3'>
-								<label class="col-md-12 control-label p-0" id="provience"
+								<label class="control-label p-0" id="provience"
 									name="provience_didlist_command"><?php echo gettext('Province')?>: </label>
 								<select name="provience" id="provience_id_search_drp"
 									class="col-md-12 form-control form-control-lg selectpicker provience_id_search_drp selectpicker"
@@ -215,7 +231,7 @@ label.error {
 
 							</div>
 							<div class='form-group col-md-3'>
-								<label class="col-md-12 control-label p-0" id="city"
+								<label class="control-label p-0" id="city"
 									name="city_didlist_command"><?php echo gettext('City')?>: </label>
 								<select name="city" id="city_id_search_drp"
 									class="col-md-12 form-control form-control-lg selectpicker city_id_search_drp selectpicker"
@@ -226,7 +242,7 @@ label.error {
 							</div>
 							<div class="col-md-3">
 								<div class="col-md-12 form-group p-0">
-									<label class="col-md-4 col-md-12 p-0 control-label"><?php echo gettext('Available DIDs');?> : </label>
+									<label class="p-0 control-label"><?php echo gettext('Available DIDs');?> : </label>
            <? echo $didlist; ?>
            <div id="free_didlist_validate"
 										class="tooltips error_div float-left p-0"

@@ -2,14 +2,29 @@
 <? startblock('extra_head') ?>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-      
+      	$('#subscribe_search_btn').prop('disabled', true);
         build_grid("configuration_grid","",<? echo $grid_fields; ?>,<? echo $grid_buttons; ?>);
         
         $("#cusotmer_cdr_search_btn").click(function(){
             post_request_for_search("configuration_grid","","cdr_customer_search");
-        });        
+            // Kinjal ASTPPCOM-978 Start
+            $('#subscribe_search_btn').prop('disabled', false);
+            // Kinjal ASTPPCOM-978 END
+        });     
+        // Kinjal ASTPPCOM-978 Start
+        $('#subscribe_search_btn').click(function(){
+			var data_link =$('#subscribe_search_btn').data('link');
+			var link = "<?php echo base_url(); ?>"+data_link;
+			var layout = $('#subscribe_search_btn').data('layout');
+			jQuery.facebox({
+				ajax: link,
+				clayout: layout
+			});
+		});
+		// Kinjal ASTPPCOM-978 END
         $("#id_reset").click(function(){
             clear_search_request("configuration_grid","");
+            $('#subscribe_search_btn').prop('disabled', true);
             $("#pricelist_id_search_drp").html("<option value='' selected='selected'><?php echo gettext("--Select--")?></option>");
             $("#accountid_search_drp").html("<option value='' selected='selected'><?php echo gettext("--Select--")?></option>");
         });
@@ -20,15 +35,7 @@
        $(document).ready(function() {
         $('.rm-col-md-12').addClass('float-right');
         $(".rm-col-md-12").removeClass("col-md-12");
-        // var currentdate = new Date(); 
-        // var from_date = currentdate.getFullYear() + "-"
-        //     + ('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-        //         + ("0" + currentdate.getDate()).slice(-2) + " 00:00:00";
-            
-        // var to_date = currentdate.getFullYear() + "-"
-        //    +('0' + (currentdate.getMonth()+1)).slice(-2) + "-" 
-        //     +("0" + currentdate.getDate()).slice(-2) + " 23:59:59"
-
+        
         var from_date = date + " 00:00:00";
         var to_date = date + " 23:59:59";
         

@@ -267,6 +267,7 @@ class user_model extends CI_Model
             'fs_username' => $sipdevice_arr['username'],
             'accountcode' => $sipdevice_arr['accountid'],
             'status' => $sipdevice_arr['status'],
+            'codec' => $sipdevice_arr['codec'],
             'effective_caller_id_name' => $vars['effective_caller_id_name'],
             'effective_caller_id_number' => $vars['effective_caller_id_number'],
             'voicemail_enabled' => $params['vm-enabled'],
@@ -305,6 +306,7 @@ class user_model extends CI_Model
             'username' => $add_array['fs_username'],
             'accountid' => $account_data['id'],
             'status' => $add_array['status'],
+            'codec' => $add_array['codec'],
             'dir_params' => json_encode($parms_array),
             'dir_vars' => json_encode($parms_array_vars),
             'sip_profile_id' => $this->common->get_field_name('id', 'sip_profiles', array(
@@ -346,6 +348,7 @@ class user_model extends CI_Model
             'last_modified_date' => gmdate('Y-m-d H:i:s'),
             'username' => $add_array['fs_username'],
             'status' => $add_array['status'],
+            'codec' => $add_array['codec'],
             'dir_params' => json_encode($parms_array),
             'dir_vars' => json_encode($parms_array_vars),
             'sip_profile_id' => $add_array['sip_profile_id']

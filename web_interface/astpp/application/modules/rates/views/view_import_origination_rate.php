@@ -68,7 +68,7 @@ if (isset($error) && ! empty($error)) {
 						<div class="pb-4" id="floating-label">
 							<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Import Origination Rates"); ?></h3>
 							<div class='col-md-6 form-group float-left'>
-								<label class="col-md-4 p-0 control-label"><?php echo gettext("Rate Group"); ?>  </label>	 
+								<label class="p-0 control-label"><?php echo gettext("Rate Group"); ?>  </label>	 
 												<?
 
 $pricelists = form_dropdown(array(
@@ -86,7 +86,7 @@ $pricelists = form_dropdown(array(
     if ($logintype != 1) {
         ?>
 													   <div class="col-md-6 form-group float-left">
-								<label class="col-md-4 p-0 control-label"><?php echo gettext("Force Trunk"); ?> </label>
+								<label class="p-0 control-label"><?php echo gettext("Force Trunk"); ?> </label>
 														   <?
 
 $trunklist = form_dropdown_all(array(
@@ -110,11 +110,11 @@ $trunklist = form_dropdown_all(array(
 								value="<?= $this->session->userdata('username') ?>" />
 
 							<div class="col-md-12 form-group">
-								<label class="col-12 control-label mb-4"><?php echo gettext("Select the file"); ?></label>
+								<label class="control-label mb-4"><?php echo gettext("Select the file"); ?></label>
 								<div class="col-12 mt-4 d-flex">
 									<div class="col-md-4 float-left" data-ripple="">
 										<input type="file" name="origination_rate_import"
-											id="origination_rate_import"
+											id="origination_rate_import" title="Only CSV Files are allowed. You must upload a file smaller than <?php echo str_replace("M","MB", ini_get('upload_max_filesize')).'.'; ?>"
 											class="custom-file-input fileupload" /> <label
 											class="custom-file-label btn-primary btn-file text-left"
 											for="file"> </label>

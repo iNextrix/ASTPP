@@ -119,7 +119,7 @@ function validateForm(){
 								<div class="col-md-12">
 									<div class="row">
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('Name')?>*</label>
+											<label class="p-0 control-label"><?php echo gettext('Name')?>*</label>
 											<input class="col-md-12 form-control form-control-lg"
 												id="sip_name" name="name" size="20" type="text"
 												value="<?php echo isset($details['name'])?$details['name']:"";?>">
@@ -128,7 +128,7 @@ function validateForm(){
 												style="display: block;"></div>
 										</div>
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP IP')." *"; ?> </label>
+											<label class="p-0 control-label"><?php echo gettext('SIP IP')." *"; ?> </label>
 											<input class="col-md-12 form-control form-control-lg"
 												id="sip_ip" name="sip_ip" size="20" type="text"
 												value="<?php echo isset($details['sip_ip'])?$details['sip_ip']:"";?>">
@@ -137,7 +137,7 @@ function validateForm(){
 												style="display: block;"></div>
 										</div>
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP Port')." *"; ?></label>
+											<label class="p-0 control-label"><?php echo gettext('SIP Port')." *"; ?></label>
 											<input class="col-md-12 form-control form-control-lg"
 												id="sip_port" name="sip_port" size="20" type="text"
 												value="<?php echo isset($details['sip_port'])?$details['sip_port']:"";?>">
@@ -146,7 +146,7 @@ function validateForm(){
 												style="display: block;"></div>
 										</div>
 										<div class="col-md-6 form-group">
-											<label class="col-md-12 p-0 control-label"><?php echo gettext('Status')?> </label>
+											<label class="p-0 control-label"><?php echo gettext('Status')?> </label>
 											<select name="sipstatus"
 												class="col-md-12 form-control selectpicker form-control-lg"
 												data-live-search='true'>

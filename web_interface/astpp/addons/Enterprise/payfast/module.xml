@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>payfast</tech_name>
+	<name>Payfast Payment Gateway</name>
+	<description>Flexible payment solutions for any business</description>		
+	<!-- <icon>static/images/stripe_payment_icon.png</icon> -->
+	<icon>static/images/Payfast.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

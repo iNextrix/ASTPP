@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>quality_base_routing</tech_name>
+	<name>Quality Based Routing</name>
+	<description>Quality Routing allows to order Providers by quality. This is a very flexible way of routing because quality is determined by mathematical formulas that contain various parameters.</description>		
+	<icon>static/images/quality_base_routing_icon.png</icon>
+	<version>2.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

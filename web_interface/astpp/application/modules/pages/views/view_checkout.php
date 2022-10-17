@@ -98,7 +98,7 @@
 			<input type = "hidden" value="1" id="product_quantity_paypal" class="product_quantity_paypal" name ="product_quantity" />
                         <div id="package_view" class="border border-top-0 p-4">      
                            <div class="col-md-12 form-group">
-                              <label class="col-md-12 p-0 control-label" for="example5-email" data-tid="elements_examples.form.email_label"><?php echo gettext("Email");?></label>
+                              <label class="p-0 control-label" for="example5-email" data-tid="elements_examples.form.email_label"><?php echo gettext("Email");?></label>
                               <input name="email" id="cardholder" class="col-md-12 form-control form-control-lg m-0" name="product_name" value=" <?php  echo $account_info['email']; ?>" size="16" type="text"/>
                            </div>
                            <div class="col-md-12">
@@ -151,16 +151,16 @@
          <h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Product Information"); ?></h3>
          <div class="row px-4">
             <div class='col-md-12 form-group'>
-               <label class="col-md-12 p-0 control-label"><?php echo gettext("Name"); ?></label>
+               <label class="p-0 control-label"><?php echo gettext("Name"); ?></label>
                <input class="col-md-12 form-control form-control-lg m-0" name="product_name" value="<?php echo $product_info['name'] ?>" size="16" type="text" disabled/>
             </div>
             <div class='col-md-12 form-group'>
-               <label class="col-md-12 p-0 control-label"><?php echo gettext("(Price+SetUp Fee)"); ?></label>
+               <label class="p-0 control-label"><?php echo gettext("(Price+SetUp Fee)"); ?></label>
                <input class="col-md-12 form-control form-control-lg m-0" name="product_price" value=" <?php echo isset($product_info['setup_price'])?$this->common->convert_to_currency ( '', '', $product_info['setup_price'] ):'' ?>" size="16" type="text" disabled/>
             </div>
 	    <?php if($product_info['product_category'] == 2) {?>
 	    <div class='col-md-12 form-group numbers-row'>
-               <label class="col-md-12 p-0 control-label"><?php echo gettext("Quantity"); ?></label>
+               <label class="p-0 control-label"><?php echo gettext("Quantity"); ?></label>
 		  <input class="form-control form-control-lg ml-2" type = "text" value="1" id = "product_temp_quantity" name = "product_temp_quantity" />
             </div>
 	    <?php } ?>

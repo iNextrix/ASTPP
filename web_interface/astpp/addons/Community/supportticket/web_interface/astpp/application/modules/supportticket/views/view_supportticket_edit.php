@@ -430,7 +430,7 @@ p {
 													
 
 													<div class="col-md-12 form-group h-auto">
-														<label class="col-md-12 control-label p-0"><?php echo gettext("Reply"); ?></label>
+														<label class="control-label p-0"><?php echo gettext("Reply"); ?></label>
 
 														<div class="col-12 p-0">
 															<textarea input name='template1' id='template1' size = 0 class = "Emailtemplate ckeditor" value="" ></textarea>

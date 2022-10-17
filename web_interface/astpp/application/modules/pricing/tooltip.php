@@ -5,7 +5,7 @@ $tooltip_data = array(
 
 	"pricing_form_name" => "Name of Rate Group use for identification.",
 
-	"pricing_form_routing_prefix" => "If you are offering prefix based routing to your customers then you can define the prefix in this field. this prefix will use to route call based on the dialed prefixes. <a href='//youtu.be/xFc5mL_EpFQ' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"pricing_form_routing_prefix" => "If you are offering prefix based routing to your customers then you can define the prefix in this field. this prefix will use to route call based on the dialed prefixes.",
 
 	"pricing_form_status" => "Select status of rate group (Active/Inactive)",
 
@@ -15,11 +15,11 @@ $tooltip_data = array(
 	/*Create Rate Group(Billing Section)*/
 	"pricing_form_markup" => "Additional charges will be applicable on call cost.Example : If 10% markup defined in rate group and customer made call of $1 then system will charge customers 10% extra on $1 and that will be $1.1.",
 
-	"pricing_form_initially_increment" => "Initial block of increment which is use to do billing of calls. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"pricing_form_initially_increment" => "Initial block of increment which is use to do billing of calls.",
 
-	"pricing_form_inc" => "Rate of increment to calculate call cost.Example : 60 to charge every minute.This increment will be useful when increment is not defined in origination rate. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"pricing_form_inc" => "Rate of increment to calculate call cost.Example : 60 to charge every minute.This increment will be useful when increment is not defined in origination rate.",
 
-	"pricing_form_routing_type" => "ASTPP offers various type of routing strategies which you can define from here. <a href='//youtu.be/jipGrjSZsns' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"pricing_form_routing_type" => "ASTPP offers various type of routing strategies which you can define from here.",
 
 	"pricing_form_trunk_id" => "Select the trunks for LCR and routing.If no trunks selected then customers who are having the same rate group wouldn’t be able to make outbound calls.",
 	/*End*/

@@ -35,6 +35,8 @@
 	rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>assets/css/style.css"
 	rel="stylesheet" type="text/css">
+<link href="<?php echo base_url(); ?>assets/css/com-style.css"
+rel="stylesheet" type="text/css">	
 
 <script src="<?php echo base_url(); ?>assets/js/jquery-1.12.4.js"></script>
 <script type="text/javascript"
@@ -167,7 +169,7 @@ body {
 				<div class="form-group">
 					<input type="text" id="username" class="form-control error_login"
 						name="username" value="" autocomplete="off" required> <label
-						class="control-label" for="username"><?php echo gettext('Username OR Email')?></label>
+						class="control-label" for="username"><?php echo gettext('Account No OR Email')?></label>
 				</div>
 
 				<div class="form-group">

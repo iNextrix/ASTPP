@@ -157,15 +157,45 @@ class Common_model extends CI_Model {
 		return $cal_amount;
 	}
 	function get_dashboard_details(){
-
+		// ASTPPENT-2761 Ashish start
+		$accounts_data = $this->db_model->getSelect('*','accounts',array(
+		"status" => 0,
+		"deleted" => 0
+		))->result_array();
+		$accounts_detail_array = array();
+		foreach($accounts_data as $key => $accounts_detail){
+			$data['number'] = $accounts_detail['number'];
+			// ASTPPCOM-1169 Ashish start
+			$data['type'] = $accounts_detail['type'];
+			// ASTPPCOM-1169 Ashish end
+			$data['first_name'] = ($accounts_detail['first_name'] != '') ? $accounts_detail['first_name'] : "";
+			$data['last_name'] = ($accounts_detail['last_name'] != '') ? $accounts_detail['last_name'] : "";
+			$data['email'] = ($accounts_detail['email'] != '') ? $accounts_detail['email'] : $accounts_detail['notification_email'];
+			$data['company_name'] = ($accounts_detail['company_name'] != '') ? $accounts_detail['company_name'] : "";
+			$data['telephone'] = ($accounts_detail['telephone_1'] != '') ? $accounts_detail['telephone_1'] : $accounts_detail['telephone_2'];
+			$country = $accounts_detail['country_id'];
+			$country = $this->common->get_field_name ( 'country', 'countrycode', $country);
+			$data['country'] = ($country != '') ? $country : '';
+			$currency = $accounts_detail['currency_id'];
+			$currency = $this->common->get_field_name ( 'currency', 'currency', $currency);
+			$data['currency'] = ($currency != '') ? $currency : '';
+			array_push($accounts_detail_array,$data);
+		}
+		// ASTPPENT-2761 Ashish End
 		$data['no_of_accounts'] = $this->common->get_field_count('*', 'accounts', array (
 				"status" => "0" ,
 				"deleted" => "0"));
 		$data['no_of_dids'] = $this->common->get_field_count('*', 'products', array (
-				"product_category" => "4" 
+				"product_category" => "4",
+				// ASTPPENT-2761 Ashish start
+				"status" => "0" 
+				// ASTPPENT-2761 Ashish End
 				));
 		$data['no_of_packages'] = $this->common->get_field_count('*', 'products', array (
-				"product_category" => "1" 
+				"product_category" => "1",
+				// ASTPPENT-2761 Ashish start
+				"status" => "0" 
+				// ASTPPENT-2761 Ashish End
 				));
 		$date['end_stamp >='] = gmdate('Y-m-d 00:00:00',strtotime("-1 days"));
 		$date['end_stamp <='] = gmdate('Y-m-d 23:59:59',strtotime("-1 days"));
@@ -197,9 +227,19 @@ class Common_model extends CI_Model {
         exec($server_disk_space[0] ."", $output6, $return_var);
         $data['server_disk_space']= isset($output6) ? json_encode($output6) : '';
 
-		exec("which fs_cli", $freeswitch_status, $return_var);
-		exec($freeswitch_status[0] ." fs_cli '' -x 'status'", $output5, $return_var);
-		$data['freeswitch_status']= isset($output5) ? json_encode($output5) : '';
+		// ASTPPENT-2761 Ashish start
+		$fs_data = $this->db_model->getSelect("freeswitch_password,status", "freeswich_servers", array("status" => 0))->result_array();
+		$fs_detail_array = array();
+		foreach ($fs_data as $fs_value) {
+			$fp_pass = $fs_value["freeswitch_password"];
+			exec("which fs_cli", $freeswitch_status, $return_var);
+			exec($freeswitch_status[0] ." fs_cli -p '". $fp_pass ."' -x 'status'", $output5, $return_var);
+			$fs_status= isset($output5) ? json_encode($output5) : $freeswitch_status;
+			array_push($fs_detail_array,$fs_status);
+		}
+		$data['freeswitch_status'] = json_encode($fs_detail_array);
+		$data['account_details'] = json_encode($accounts_detail_array);
+		// ASTPPENT-2761 Ashish End
 		return $data;
 	}
 	

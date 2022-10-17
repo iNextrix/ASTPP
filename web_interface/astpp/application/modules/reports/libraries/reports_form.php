@@ -34,9 +34,16 @@ class Reports_form extends common
     function get_customer_cdr_form()
     {
         $logintype = $this->CI->session->userdata('userlevel_logintype');
+        // Kinjal issue no ASTPPCOM-978 Start
+        $report_flag = $this->CI->db_model->countQuery("*", "addons", array(
+            "package_name" => "automated_reports"
+        ));
+        $accountinfo = $this->CI->session->userdata['accountinfo'];
+
+        // Kinjal issue no ASTPPCOM-978 END
+
         if ($logintype != 1) {
             if ($this->CI->session->userdata('logintype') == 1 || $this->CI->session->userdata('logintype') == 5) {
-                $accountinfo = $this->CI->session->userdata['accountinfo'];
                 $reseller_id = $accountinfo["id"];
             } else {
                 $reseller_id = "0";
@@ -690,6 +697,22 @@ class Reports_form extends common
             'type' => 'button',
             'class' => 'btn btn-success float-right'
         );
+        // Kinjal ASTPPCOM-978 Start
+        if($report_flag == '1' && $accountinfo['type'] == '-1'){
+            $form['button_subscribe'] = array(
+                'name' => 'action',
+                'id' => 'subscribe_search_btn',
+                'disabled' => 'true',
+                'content' => gettext('Subscribe'),
+                'value' => 'save',
+                'type' => 'button',
+                'class' => 'btn btn-info float-right mx-2 subscribe_btn',
+                "mode" =>"popup",
+                "layout"=>"small",
+                "data-link" => "automated_report/automated_report_add/reports/"
+            );
+        }
+        // Kinjal ASTPPCOM-978 END
         $form['button_reset'] = array(
             'name' => 'action',
             'id' => "id_reset",

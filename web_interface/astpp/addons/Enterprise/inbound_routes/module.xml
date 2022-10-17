@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>inbound_routes</tech_name>
+	<name>Inbound Routes</name>
+	<description>Using Inbound Routes addon, we can routes same DIDs on different extension based on caller ID.</description>		
+	<icon>static/images/inbound_routes_icon.png</icon>
+	<version>2.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

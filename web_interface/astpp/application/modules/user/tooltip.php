@@ -28,6 +28,8 @@ $tooltip_data = array (
 	"user_sipdevices_form_effective_caller_id_number" => "Caller number presentation for the extension",
 
 	"user_sipdevices_form_status" => "The status for the added entry",
+
+	"user_sipdevices_form_codec" => "Specify the codec name which you want to select when call comes on SIP device or call make using SIP device.",
 	/*End*/
 
 	/*Voicemail Options*/

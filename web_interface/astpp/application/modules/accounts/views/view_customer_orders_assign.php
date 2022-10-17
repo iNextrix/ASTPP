@@ -25,7 +25,7 @@
 								name="product_id" value="<?php echo $product_info['id']?>"
 								size="16" type="hidden" />
 							<div class='col-md-12 form-group'>
-								<label class="col-md-12 p-0 control-label"><?php echo gettext('Product');?></label>
+								<label class="p-0 control-label"><?php echo gettext('Product');?></label>
 
 								<input class="col-md-12 form-control form-control-lg m-0"
 									disabled value="<?php echo $product_info['name']?>" size="16"
@@ -34,7 +34,7 @@
 							</div>
 
 							<div class='col-md-12 form-group'>
-								<label class="col-md-12 p-0 control-label"><?php echo gettext('Account');?></label>
+								<label class="p-0 control-label"><?php echo gettext('Account');?></label>
 
 								<input class="col-md-12 form-control form-control-lg m-0"
 									name="accountant_name" disabled
@@ -50,7 +50,7 @@
 							</div>
 
 							<div class='col-md-12 form-group'>
-								<label class="col-md-12 p-0 control-label"><?php echo gettext('Category');?></label>
+								<label class="p-0 control-label"><?php echo gettext('Category');?></label>
 
 								<input class="col-md-12 form-control form-control-lg m-0"
 									name="destination" disabled
@@ -68,13 +68,13 @@
 					<h3 class="bg-secondary text-light p-2 rounded-top"><?php echo gettext('Product Details');?></h3>
 					<div class="row px-4">
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext('Name');?></label>
+							<label class="no-padding control-label"><?php echo gettext('Name');?></label>
 							<input class="col-md-12 form-control form-control-lg m-0"
 								value="<?php echo (isset($product_info['name']))?$product_info['name']:'' ?>"
 								size="16" type="text" disabled />
 						</div>
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext('Billing Type');?></label>
+							<label class="no-padding control-label"><?php echo gettext('Billing Type');?></label>
 							<select name="billing_type"
 								class="col-md-12 form-control selectpicker form-control-lg"
 								data-live-search='true' datadata-live-search-style='begins'
@@ -94,7 +94,7 @@
                  	</select>
 						</div>
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext('Billing Days');?></label>
+							<label class="no-padding control-label"><?php echo gettext('Billing Days');?></label>
 							<input class="col-md-12 form-control form-control-lg m-0"
 								name="billing_days"
 								value="<?php echo (isset($product_data['billing_days']))?$product_data['billing_days']:$product_info['billing_days'] ?>"
@@ -108,7 +108,7 @@
 							</div>
 						</div>
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext('Price');?></label>
+							<label class="no-padding control-label"><?php echo gettext('Price');?></label>
 							<input class="col-md-12 form-control form-control-lg m-0"
 								name="price"
 								value="<?php echo (isset($product_data['price']))?$product_data['price']:$product_info['price'] ?>"
@@ -122,7 +122,7 @@
 							</div>
 						</div>
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext('Setup Fee');?></label>
+							<label class="no-padding control-label"><?php echo gettext('Setup Fee');?></label>
 							<input class="col-md-12 form-control form-control-lg m-0"
 								name="setup_fee"
 								value="<?php echo (isset($product_data['setup_fee']))?$product_data['setup_fee']:$product_info['setup_fee'] ?>"
@@ -137,7 +137,7 @@
 						</div>
                  <?php if($product_info['product_category'] == 3){?> 
                  	<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext('Free Minutes');?></label>
+							<label class="no-padding control-label"><?php echo gettext('Free Minutes');?></label>
 							<input class="col-md-12 form-control form-control-lg m-0"
 								name="free_minutes"
 								value="<?php echo (isset($product_data['free_minutes']))?$product_data['free_minutes']:$product_info['free_minutes'] ?>"
@@ -146,7 +146,7 @@
                  <?php } ?>
                  <?php if($product_info['product_category'] == 2){?>
                  	<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding pr-form-control control-label"><?php echo gettext('Quantity');?></label>
+							<label class="no-padding pr-form-control control-label"><?php echo gettext('Quantity');?></label>
 							<input class="col-md-12 form-control form-control-lg m-0"
 								name="quantity"
 								value="<?php echo (isset($product_data['quantity']))?$product_data['quantity']:'' ?>"

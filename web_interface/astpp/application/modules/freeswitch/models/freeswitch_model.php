@@ -117,7 +117,9 @@ class Freeswitch_model extends CI_Model
             'status' => $add_array['status'],
             'dir_params' => json_encode($parms_array),
             'dir_vars' => json_encode($parms_array_vars),
-            'sip_profile_id' => $sip_profile_id
+            'sip_profile_id' => $sip_profile_id,
+            'codec' => $add_array['codec']
+
         );
         $this->db->insert('sip_devices', $new_array);
         $mail = (isset($add_array['voicemail_mail_to']) && $add_array['voicemail_mail_to'] != "") ? $add_array['voicemail_mail_to'] : $account_data['email'];
@@ -169,7 +171,9 @@ class Freeswitch_model extends CI_Model
             'status' => $add_array['status'],
             'dir_params' => json_encode($parms_array),
             'dir_vars' => json_encode($parms_array_vars),
-            'sip_profile_id' => $add_array['sip_profile_id']
+            'sip_profile_id' => $add_array['sip_profile_id'],
+            'codec' => $add_array['codec']
+
         );
 
         $this->db->where('id', $id);
@@ -195,6 +199,7 @@ class Freeswitch_model extends CI_Model
                 'fs_username' => $value['username'],
                 'accountcode' => $value['accountid'],
                 'status' => $value['status'],
+                'codec' => $value['codec'],
                 'sip_profile_id' => $value['sip_profile_id'],
                 'effective_caller_id_name' => $vars->effective_caller_id_name,
                 'voicemail_enabled' => $vars_new['vm-enabled'],
@@ -253,7 +258,10 @@ class Freeswitch_model extends CI_Model
                         'voicemail_attach_file' => $vars_new['vm-attach-file'],
                         'vm_keep_local_after_email' => $vars_new['vm-keep-local-after-email'],
                         'effective_caller_id_number' => $vars->effective_caller_id_number,
-                        'password' => $passowrds->password
+                        'password' => $passowrds->password,
+                        // ASTPPCOM-943 Start
+                        'live_status' => $value['live_status']
+                        // ASTPPCOM-943 END
                     );
                 }
             }

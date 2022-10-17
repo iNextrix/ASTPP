@@ -16,7 +16,7 @@
 						<h3 class="bg-secondary text-light p-2 rounded-top"><?php echo gettext("Basic Information"); ?></h3>
 						<div class="row px-4">
 							<div class='col-md-12 form-group'>
-								<label class="col-md-12 p-0 control-label"><?php echo gettext("Category"); ?></label>
+								<label class="p-0 control-label"><?php echo gettext("Category"); ?></label>
 			
 			<?php
 
@@ -37,7 +37,7 @@ if ($categoryinfo->num_rows > 0) {
       
                   </div>
 							<div class='col-md-12 form-group'>
-								<label class="col-md-12 p-0 control-label"><?php echo gettext("Reseller"); ?></label>
+								<label class="p-0 control-label"><?php echo gettext("Reseller"); ?></label>
 			  <?php
     if ($this->session->userdata('logintype') == 1) {
         $reseller_list = $this->db_model->build_concat_select_dropdown("id,first_name,number", "accounts", "", array(
@@ -66,7 +66,7 @@ if ($categoryinfo->num_rows > 0) {
 
 							<div class='col-md-12 form-group'>
 								<!-- Added static tooltip in label -->
-								<label class="col-md-12 p-0 control-label" data-toggle="tooltip" data-html="true" data-original-title= "Listing of accounts here." data-placement="top"><?php echo gettext("Accounts"); ?></label>
+								<label class="p-0 control-label" data-toggle="tooltip" data-html="true" data-original-title= "Listing of accounts here." data-placement="right"><?php echo gettext("Accounts"); ?></label>
 								<!-- End -->
 								<div
 									class="col-md-12 form-control selectpicker form-control-lg p-0">
@@ -88,7 +88,7 @@ if ($categoryinfo->num_rows > 0) {
 
 							</div>
 							<div class='col-md-12 form-group'>
-								<label class="col-md-12 p-0 control-label"><?php echo gettext("Product"); ?></label>
+								<label class="p-0 control-label"><?php echo gettext("Product"); ?></label>
 								<div
 									class="col-md-12 form-control selectpicker form-control-lg p-0">
 			  <?php
@@ -121,7 +121,7 @@ if ($categoryinfo->num_rows > 0) {
 								</div>
 							</div>
 							<div class='col-md-12 form-group'>
-								<label class="col-md-12 p-0 control-label"><?php echo gettext("Payment Method"); ?></label>
+								<label class="p-0 control-label"><?php echo gettext("Payment Method"); ?></label>
 
 								<select name="payment_by"
 									class="col-md-12 form-control selectpicker ">
@@ -141,7 +141,7 @@ if ($categoryinfo->num_rows > 0) {
 					<h3 class="bg-secondary text-light p-2 rounded-top"><?php echo gettext("Product Details"); ?></h3>
 					<div class="row px-4">
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Name"); ?></label>
+							<label class="no-padding control-label"><?php echo gettext("Name"); ?></label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								value="<?php echo (isset($product_info['name']))?$product_info['name']:$add_array['product_name']; ?>"
@@ -149,7 +149,7 @@ if ($categoryinfo->num_rows > 0) {
 						</div>
 		<?php if($this->session->userdata ( 'logintype' ) == '-1' || $this->session->userdata ( 'logintype' ) == '2' || ($this->session->userdata ( 'logintype' ) == 1  && $accountinfo['is_distributor'] == 1)){ ?>
 		<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Commission")." (%)"; ?></label>
+							<label class="no-padding control-label"><?php echo gettext("Commission")." (%)"; ?></label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								name="commission"
@@ -159,7 +159,7 @@ if ($categoryinfo->num_rows > 0) {
 		<?php } ?>
 		<?php if($this->session->userdata ( 'logintype' ) == '-1' || $this->session->userdata ( 'logintype' ) == '2'){?>
 		 <div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding  control-label"><?php echo gettext("Billing Type"); ?></label>
+							<label class="no-padding  control-label"><?php echo gettext("Billing Type"); ?></label>
 							<select name="billing_type"
 								class="col-md-12 form-control pr-form-control selectpicker form-control-lg"
 								data-live-search='true' datadata-live-search-style='begins'
@@ -180,10 +180,10 @@ if ($categoryinfo->num_rows > 0) {
 						</div>
 		<?php }else{ ?>
 		 <div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Billing Type"); ?></label>
+							<label class="no-padding control-label"><?php echo gettext("Billing Type"); ?></label>
 							<select
 								class="col-md-12 form-control selectpicker pr-form-control  form-control-lg"
-								disabled data-live-search='true'
+								disabled data-live-search='true' name="billing_type"
 								datadata-live-search-style='begins'>
 			<?php if(isset($product_info)){ ?>
                        <option value="0"
@@ -202,7 +202,7 @@ if ($categoryinfo->num_rows > 0) {
 
 		<?php }?>
 		 <div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Billing Days"); ?></label>
+							<label class="no-padding control-label"><?php echo gettext("Billing Days"); ?></label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								name="billing_days"
@@ -211,7 +211,7 @@ if ($categoryinfo->num_rows > 0) {
 						</div>
 		 <?php if($this->session->userdata ( 'logintype' ) ==1 && $accountinfo['is_distributor'] == 1 ){ ?>
 		 <div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Setup Fee"); ?> <?php echo '('.$currency.')'; ?> </label>
+							<label class="no-padding control-label"><?php echo gettext("Setup Fee"); ?> <?php echo '('.$currency.')'; ?> </label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								name="setup_fee" readonly
@@ -224,7 +224,7 @@ if ($categoryinfo->num_rows > 0) {
 							</div>
 						</div>
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Price"); ?> <?php echo '('.$currency.')'; ?></label>
+							<label class="no-padding control-label"><?php echo gettext("Price"); ?> <?php echo '('.$currency.')'; ?></label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								readonly name="price"
@@ -238,7 +238,7 @@ if ($categoryinfo->num_rows > 0) {
 						</div>
 		<?php }else { ?>
 		 <div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Setup Fee"); ?> <?php echo '('.$currency.')'; ?> </label>
+							<label class="no-padding control-label"><?php echo gettext("Setup Fee"); ?> <?php echo '('.$currency.')'; ?> </label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								name="setup_fee"
@@ -251,7 +251,7 @@ if ($categoryinfo->num_rows > 0) {
 							</div>
 						</div>
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Price"); ?> <?php echo '('.$currency.')'; ?></label>
+							<label class="no-padding control-label"><?php echo gettext("Price"); ?> <?php echo '('.$currency.')'; ?></label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								name="price"
@@ -269,7 +269,7 @@ if ($categoryinfo->num_rows > 0) {
 		<?php } ?>
 		   <?php if($category_list == "Package"){?> 
 			<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding control-label"><?php echo gettext("Free Minutes"); ?></label>
+							<label class="no-padding control-label"><?php echo gettext("Free Minutes"); ?></label>
 							<input
 								class="col-md-12 form-control pr-form-control form-control-lg m-0"
 								name="free_minutes"
@@ -279,7 +279,7 @@ if ($categoryinfo->num_rows > 0) {
 		  <?php } ?>
 		<?php if($add_array['category'] == 2){?>
 		<div class='col-md-6 form-group'>
-							<label class="col-md-12 no-padding pr-form-control control-label"><?php echo gettext("Quantity"); ?></label>
+							<label class="no-padding pr-form-control control-label"><?php echo gettext("Quantity"); ?></label>
 							<input class="col-md-12 form-control form-control-lg m-0"
 								name="quantity" value="" size="16" type="text" />
 						</div>

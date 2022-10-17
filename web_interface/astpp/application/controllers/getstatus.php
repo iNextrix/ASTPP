@@ -76,8 +76,10 @@ class Getstatus extends MX_Controller {
 						"id" => $post_data ['id'] 
 				) );
 			}
-			
-			$result = $post_data ['table'] == 'accounts' && $post_data ['id'] == 1 ? null : $post_data ['table'] == 'dids' || $post_data ['table'] == 'accounts' || $post_data ['table'] == 'calltype'? $this->db->update ( $post_data ['table'], $data, array ("id" => $post_data ['id']) ):$post_data ['table'] == 'localization' || $post_data ['table'] == 'call_barring' ? $this->db->update ( $post_data ['table'],array('status'=>$status,'modified_date'=>$last_modified_date), array ("id" => $post_data ['id']) ):$this->db->update ( $post_data ['table'],array('status'=>$status,'last_modified_date'=>$last_modified_date), array ("id" => $post_data ['id']) );
+			// ASTPPCOM-923 Start
+			$result = $post_data ['table'] == 'accounts' && $post_data ['id'] == 1 ? null : $post_data ['table'] == 'dids' || $post_data ['table'] == 'accounts' || $post_data ['table'] == 'calltype' ? $this->db->update ( $post_data ['table'], $data, array ("id" => $post_data ['id']) ):$post_data ['table'] == 'localization' || $post_data ['table'] == 'call_barring' ? $this->db->update ( $post_data ['table'],array('status'=>$status,'modified_date'=>$last_modified_date), array ("id" => $post_data ['id']) ):  $post_data ['table'] == 'department' ? $this->db->update ( $post_data ['table'],array('status'=>$status), array ("id" => $post_data ['id'])) :
+				 $this->db->update ( $post_data ['table'],array('status'=>$status,'last_modified_date'=>$last_modified_date), array ("id" => $post_data ['id']) );
+			// ASTPPCOM-923 END
 			if ($post_data ['table'] == "ip_map") {
 							$this->load->library ( 'freeswitch_lib' );
 							$command = "api reloadacl";

@@ -28,9 +28,9 @@ $tooltip_data = array(
 	//PANEL ACCESS SECTION END FOR CUSTOMER
 
 	// ACCOUNT ACCESS SECTION START FOR CUSTOMER
-	"customer_form_maxchannels" => "Defined the number of concurrent calls to allow the particular customer. <a href='//youtu.be/sKnFW40pYDM' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"customer_form_maxchannels" => "Defined the number of concurrent calls to allow the particular customer.",
 
-	"customer_form_cps" => "It will manage the calls within the call per second. <a href='//youtu.be/sKnFW40pYDM' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>", 
+	"customer_form_cps" => "It will manage the calls within the call per second.", 
 
 	"customer_form_localization_id" => "It will manage the number translation for caller id and destination number.",
 
@@ -86,7 +86,7 @@ $tooltip_data = array(
 
 	"customer_form_non_cli_pricelist_id" => "Rate Group selected based on the CLI Pool selected options.",
 
-	"customer_form_cli_pool" => "To select the rate group or NON-CLI rate group based on caller id number. <a href='//youtu.be/HSfV_oWMaNc' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"customer_form_cli_pool" => "To select the rate group or NON-CLI rate group based on caller id number.",
 
 	"customer_form_sweep_id" => "Billing schedule for invoice generation.",
 
@@ -129,7 +129,7 @@ $tooltip_data = array(
 
 	"customer_bulk_form_credit_limit" => "For postpaid customers you can set credit limit.",
 
-	"customer_bulk_form_cli_pool" => "To select the rate group or NON-CLI rate group based on caller id number. <a href='//youtu.be/HSfV_oWMaNc' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"customer_bulk_form_cli_pool" => "To select the rate group or NON-CLI rate group based on caller id number.",
 
 	"customer_bulk_form_pricelist_id" => "Rate group is an essential field for billing. Without rate group customer wouldn’t be able to make any calls. You can create rate group by navigating to Tariff -> Rate group.",
 
@@ -154,13 +154,13 @@ $tooltip_data = array(
 
 	"reseller_form_permission_id" => "Accessibility assignment",
 
-	"reseller_form_is_distributor" => "Type of Reseller. <a href='//youtu.be/T87ZVbtj2sI' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"reseller_form_is_distributor" => "Type of Reseller.",
 	//PANEL ACCESS SECTION END FOR RESELLER
 
 	//Account Settings For Reseller Start
-	"reseller_form_maxchannels" => "Defined the number of concurrent calls to allow the particular customer. <a href='//youtu.be/sKnFW40pYDM' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"reseller_form_maxchannels" => "Defined the number of concurrent calls to allow the particular customer.",
 
-	"reseller_form_cps" => "It will manage the calls within the call per second. <a href='//youtu.be/sKnFW40pYDM' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"reseller_form_cps" => "It will manage the calls within the call per second.",
 
 	"reseller_form_notifications" => "Allow to send the notifications to the customer.",
 	//Account Settings For Reseller End
@@ -216,7 +216,7 @@ $tooltip_data = array(
 
 	"reseller_form_reference" => "To define the reference for the customer.",
 
-	"reseller_form_invoice_interval" => '',
+	"reseller_form_invoice_interval" => 'To Define Invoice Date Interval',
 	/*BILLING SETTINGS SECTION END FOR RESELLER*/
 
 	/*Edit rseller*/

@@ -7,7 +7,7 @@
 	var number_originate_value="";
 	if(number_originate){
 			for(var i=1;i<number_originate.length;i++){
-				number_originate_value+="<div class='number_translation' id='number_translation_"+i+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='number_originate["+i+"][0]' id='strip_number_translation_"+i+"' value='"+number_originate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='number_originate["+i+"][1]' id='prepend_number_translation_"+i+"' value='"+number_originate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-left col' onclick='removeRows("+i+");' ><i class='fa fa-minus'></i></button></div></div>";
+				number_originate_value+="<div class='number_translation' id='number_translation_"+i+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='number_originate["+i+"][0]' id='strip_number_translation_"+i+"' value='"+number_originate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='number_originate["+i+"][1]' id='prepend_number_translation_"+i+"' value='"+number_originate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-left col' onclick='removeRows("+i+");' ><i class='fa fa-minus'></i></button></div></div>";
 			}
 	}
 	
@@ -15,7 +15,7 @@
 	var in_caller_id_originate_value='';
 	if(in_caller_id_originate){
 		for(var i=1;i<in_caller_id_originate.length;i++){
-			in_caller_id_originate_value+="<div class='incaller_translation' id='incaller_translation_"+i+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='in_caller_id_originate["+i+"][0]' id='strip_incaller_translation_"+i+"' value='"+in_caller_id_originate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='in_caller_id_originate["+i+"][1]' id=prepend_incaller_translation_"+i+"' value='"+in_caller_id_originate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-left col' onclick='removeincaller("+i+");'><i class='fa fa-minus'></i></button></div></div>";
+			in_caller_id_originate_value+="<div class='incaller_translation' id='incaller_translation_"+i+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='in_caller_id_originate["+i+"][0]' id='strip_incaller_translation_"+i+"' value='"+in_caller_id_originate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='in_caller_id_originate["+i+"][1]' id=prepend_incaller_translation_"+i+"' value='"+in_caller_id_originate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-left col' onclick='removeincaller("+i+");'><i class='fa fa-minus'></i></button></div></div>";
 		}	
 	}
 	
@@ -23,7 +23,7 @@
 	var out_caller_id_originate_value='';
 	if(out_caller_id_originate){
 		for(var i=1;i<out_caller_id_originate.length;i++){
-			out_caller_id_originate_value+="<div class='outcaller_translation' id='outcaller_translation_"+i+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='out_caller_id_originate["+i+"][0]' id='strip_outcaller_translation_"+i+"' value='"+out_caller_id_originate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='out_caller_id_originate["+i+"][1]' id='prepend_outcaller_translation_"+i+"' value='"+out_caller_id_originate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeoutcaller("+i+");'><i class='fa fa-minus'></i></button></div></div>";
+			out_caller_id_originate_value+="<div class='outcaller_translation' id='outcaller_translation_"+i+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='out_caller_id_originate["+i+"][0]' id='strip_outcaller_translation_"+i+"' value='"+out_caller_id_originate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='out_caller_id_originate["+i+"][1]' id='prepend_outcaller_translation_"+i+"' value='"+out_caller_id_originate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeoutcaller("+i+");'><i class='fa fa-minus'></i></button></div></div>";
 		}	
 	}
 	
@@ -31,7 +31,7 @@
 	var number_terminate_terminate_value='';
 	if(number_terminate_terminate){
 		for(var i=1;i<number_terminate_terminate.length;i++){
-			number_terminate_terminate_value+="<div class='terminatenumber_translation' id='terminate_number_translation_"+i+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='number_terminate["+i+"][0]  id='strip_terminate_number_translation_"+i+"' value='"+number_terminate_terminate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='number_terminate["+i+"][1]' id='prepend_terminate_number_translation_"+i+"' value='"+number_terminate_terminate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeterminatetranslation("+i+");'><i class='fa fa-minus'></i></button></div></div>";
+			number_terminate_terminate_value+="<div class='terminatenumber_translation' id='terminate_number_translation_"+i+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='number_terminate["+i+"][0]  id='strip_terminate_number_translation_"+i+"' value='"+number_terminate_terminate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='number_terminate["+i+"][1]' id='prepend_terminate_number_translation_"+i+"' value='"+number_terminate_terminate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeterminatetranslation("+i+");'><i class='fa fa-minus'></i></button></div></div>";
 		}
 	}
 	
@@ -41,7 +41,7 @@
 	var out_caller_id_terminate_value='';
 	if(out_caller_id_terminate){
 		for(var i=1;i<out_caller_id_terminate.length;i++){
-			out_caller_id_terminate_value+="<div class='terminateoutcaller_translation' id='terminate_outcaller_translation_"+i+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='out_caller_id_terminate["+i+"][0]' id='strip_terminate_outcaller_translation_"+i+"' value='"+out_caller_id_terminate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='out_caller_id_terminate["+i+"][1]' id='prepend_terminate_outcaller_translation_"+i+"' value='"+out_caller_id_terminate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeterminateoutcallertranslation("+i+");'><i class='fa fa-minus'></i></button></div></div>";
+			out_caller_id_terminate_value+="<div class='terminateoutcaller_translation' id='terminate_outcaller_translation_"+i+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='out_caller_id_terminate["+i+"][0]' id='strip_terminate_outcaller_translation_"+i+"' value='"+out_caller_id_terminate[i][0]+"' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='out_caller_id_terminate["+i+"][1]' id='prepend_terminate_outcaller_translation_"+i+"' value='"+out_caller_id_terminate[i][1]+"' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeterminateoutcallertranslation("+i+");'><i class='fa fa-minus'></i></button></div></div>";
 		}
 	}			
 			
@@ -57,7 +57,7 @@
 <script type="text/javascript">
    function addMoreRows() {
         var numItems=$('#numbertranslation .number_translation').length;
-        var alt="<div class='number_translation' id='number_translation_"+numItems+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='number_originate["+numItems+"][0]' id='strip_number_translation_"+numItems+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='number_originate["+numItems+"][1]' id='prepend_number_translation_"+numItems+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-left col' onclick='removeRows("+numItems+");' ><i class='fa fa-minus'></i></button></div></div>";
+        var alt="<div class='number_translation' id='number_translation_"+numItems+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='number_originate["+numItems+"][0]' id='strip_number_translation_"+numItems+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='number_originate["+numItems+"][1]' id='prepend_number_translation_"+numItems+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-left col' onclick='removeRows("+numItems+");' ><i class='fa fa-minus'></i></button></div></div>";
         jQuery('#numbertranslation').append(alt);
    }
    function removeRows(cnt) {
@@ -66,7 +66,7 @@
    
    function addincallerRows(){
 	  var incallerrows=$('#incallertranslation .incaller_translation').length;
-	  var alt="<div class='incaller_translation' id='incaller_translation_"+incallerrows+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='in_caller_id_originate["+incallerrows+"][0]' id='strip_incaller_translation_"+incallerrows+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='in_caller_id_originate["+incallerrows+"][1]' id=prepend_incaller_translation_"+incallerrows+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-left col' onclick='removeincaller("+incallerrows+");'><i class='fa fa-minus'></i></button></div></div>";
+	  var alt="<div class='incaller_translation' id='incaller_translation_"+incallerrows+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='in_caller_id_originate["+incallerrows+"][0]' id='strip_incaller_translation_"+incallerrows+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='in_caller_id_originate["+incallerrows+"][1]' id=prepend_incaller_translation_"+incallerrows+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-left col' onclick='removeincaller("+incallerrows+");'><i class='fa fa-minus'></i></button></div></div>";
         jQuery('#incallertranslation').append(alt);   
    }
    function removeincaller(cnt) {
@@ -75,7 +75,7 @@
    
    function addoutcallerRows(){
 	  var outcallerrows=$('#outcallertranslation .outcaller_translation').length;
-	  var alt="<div class='outcaller_translation' id='outcaller_translation_"+outcallerrows+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='out_caller_id_originate["+outcallerrows+"][0]' id='strip_outcaller_translation_"+outcallerrows+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='out_caller_id_originate["+outcallerrows+"][1]' id='prepend_outcaller_translation_"+outcallerrows+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeoutcaller("+outcallerrows+");'><i class='fa fa-minus'></i></button></div></div>";
+	  var alt="<div class='outcaller_translation' id='outcaller_translation_"+outcallerrows+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='out_caller_id_originate["+outcallerrows+"][0]' id='strip_outcaller_translation_"+outcallerrows+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='out_caller_id_originate["+outcallerrows+"][1]' id='prepend_outcaller_translation_"+outcallerrows+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeoutcaller("+outcallerrows+");'><i class='fa fa-minus'></i></button></div></div>";
       jQuery('#outcallertranslation').append(alt);   
    }
    function removeoutcaller(cnt) {
@@ -84,7 +84,7 @@
    
    function addterminatetranslation(){
 	  var terminate_translation_rows=$('#terminate_number_ranslation .terminatenumber_translation').length;
-	  var alt="<div class='terminatenumber_translation' id='terminate_number_translation_"+terminate_translation_rows+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='number_terminate["+terminate_translation_rows+"][0]  id='strip_terminate_number_translation_"+terminate_translation_rows+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='number_terminate["+terminate_translation_rows+"][1]' id='prepend_terminate_number_translation_"+terminate_translation_rows+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeterminatetranslation("+terminate_translation_rows+");'><i class='fa fa-minus'></i></button></div></div>";
+	  var alt="<div class='terminatenumber_translation' id='terminate_number_translation_"+terminate_translation_rows+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='number_terminate["+terminate_translation_rows+"][0]  id='strip_terminate_number_translation_"+terminate_translation_rows+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='number_terminate["+terminate_translation_rows+"][1]' id='prepend_terminate_number_translation_"+terminate_translation_rows+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeterminatetranslation("+terminate_translation_rows+");'><i class='fa fa-minus'></i></button></div></div>";
       jQuery('#terminate_number_ranslation').append(alt);   
    }
    function removeterminatetranslation(cnt) {
@@ -95,7 +95,7 @@
    }
    function addterminateoutcallertranslation(){
 	  var terminate_outcaller_rows=$('#terminate_outcaller_translation .terminateoutcaller_translation').length;
-	  var alt="<div class='terminateoutcaller_translation' id='terminate_outcaller_translation_"+terminate_outcaller_rows+"'><div class='col-md-12 form-group'><label class='col-md-12 no-padding control-label'></label><input name='out_caller_id_terminate["+terminate_outcaller_rows+"][0]' id='strip_terminate_outcaller_translation_"+terminate_outcaller_rows+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='out_caller_id_terminate["+terminate_outcaller_rows+"][1]' id='prepend_terminate_outcaller_translation_"+terminate_outcaller_rows+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeterminateoutcallertranslation("+terminate_outcaller_rows+");'><i class='fa fa-minus'></i></button></div></div>";
+	  var alt="<div class='terminateoutcaller_translation' id='terminate_outcaller_translation_"+terminate_outcaller_rows+"'><div class='col-md-12 form-group'><label class='no-padding control-label'></label><input name='out_caller_id_terminate["+terminate_outcaller_rows+"][0]' id='strip_terminate_outcaller_translation_"+terminate_outcaller_rows+"' value='' size='20' class='col-md-5 form-control float-left mr-4 form-control-lg' type='text'><input name='out_caller_id_terminate["+terminate_outcaller_rows+"][1]' id='prepend_terminate_outcaller_translation_"+terminate_outcaller_rows+"' value='' size='20' class='col-md-5 form-control float-left form-control-lg' type='text'><button type='button' class='btn btn-danger ml-4 float-right col' onclick='removeterminateoutcallertranslation("+terminate_outcaller_rows+");'><i class='fa fa-minus'></i></button></div></div>";
       jQuery('#terminate_outcaller_translation').append(alt);   
    }
    function removeterminateoutcallertranslation(cnt) {
@@ -124,7 +124,7 @@
 									type="hidden">
 								<div class="col-md-6 col-sm-12 float-left px-0">
 									<div class="col-md-12 form-group">
-										<label class="col-md-4 p-0 control-label"><?php echo gettext('Name')?><span
+										<label class="p-0 control-label"><?php echo gettext('Name')?><span
 											style="color: black;"> *</span></label> <input name="name"
 											id="name_input"
 											value="<?php echo isset($details['name']) ? $details['name']:"";?>"
@@ -138,7 +138,7 @@
 									</div>
 
 									<div class="col-md-12 form-group">
-										<label class="col-md-3 no-padding control-label"><?php echo gettext('Status')?><span
+										<label class="no-padding control-label"><?php echo gettext('Status')?><span
 											style="color: black;"></span></label> <select name="status"
 											class="col-md-12 form-control selectpicker form-control-lg mr-4 country_id col-md-3"
 											data-live-search="true">
@@ -155,7 +155,7 @@
 								</div>
 								<div class="col-md-6 col-sm-12 float-left px-0">
 									<div class="col-md-12 form-group">
-										<label class="col-md-3 no-padding control-label"><?php echo gettext('Country')?><span
+										<label class="no-padding control-label"><?php echo gettext('Country')?><span
 											style="color: black;"></span></label> <select
 											name="country_id" id="country_error"
 											class="col-md-12 form-control selectpicker form-control-lg mr-4 country_id col-md-3"
@@ -203,7 +203,7 @@
 										<div id="numbertranslation">
 											<div class="number_translation" id="number_translation_0">
 												<div class="col-md-12 form-group">
-													<label class="col-md-12 no-padding control-label"><?php echo gettext('Destination Number Translation')?></label>
+													<label class="no-padding control-label"><?php echo gettext('Destination Number Translation')?></label>
 													<input name="number_originate[0][0]"
 														id="strip_number_translation_0"
 														value="<?php echo isset($details['number_originate'][0][0]) ? $details['number_originate'][0][0]:"";?>"
@@ -227,7 +227,7 @@
 										<div id="incallertranslation">
 											<div class="incaller_translation" id="incaller_translation_0">
 												<div class="col-md-12 form-group">
-													<label class="col-md-12 no-padding control-label"><?php echo gettext('Inbound Callerid Translation')?></label>
+													<label class="no-padding control-label"><?php echo gettext('Inbound Callerid Translation')?></label>
 													<input name="in_caller_id_originate[0][0]"
 														id="strip_incaller_translation_0"
 														value="<?php echo isset($details['in_caller_id_originate'][0][0]) ? $details['in_caller_id_originate'][0][0]:"";?>"
@@ -251,7 +251,7 @@
 											<div class="outcaller_translation"
 												id="outcaller_translation_0">
 												<div class="col-md-12 form-group">
-													<label class="col-md-12 no-padding control-label"><?php echo gettext('Outbound Callerid Translation')?></label>
+													<label class="no-padding control-label"><?php echo gettext('Outbound Callerid Translation')?></label>
 													<input name="out_caller_id_originate[0][0]"
 														id="strip_outcaller_translation_0"
 														value="<?php echo isset($details['out_caller_id_originate'][0][0]) ? $details['out_caller_id_originate'][0][0]:"";?>"
@@ -292,7 +292,7 @@
 											<div class="terminatenumber_translation"
 												id="terminate_number_translation_0">
 												<div class="col-md-12 form-group">
-													<label class="col-md-12 p-0 control-label"><?php echo gettext('Destination Number Translation')?></label>
+													<label class="p-0 control-label"><?php echo gettext('Destination Number Translation')?></label>
 													<input name="number_terminate[0][0]"
 														id="strip_terminate_number_translation_0"
 														value="<?php echo isset($details['number_terminate'][0][0]) ? $details['number_terminate'][0][0]:"";?>"
@@ -317,7 +317,7 @@
 											<div class="terminateoutcaller_translation"
 												id="terminate_outcaller_translation_0">
 												<div class="col-md-12 form-group">
-													<label class="col-md-12 no-padding control-label"><?php echo gettext('Outbound Callerid Translation')?></label>
+													<label class="no-padding control-label"><?php echo gettext('Outbound Callerid Translation')?></label>
 													<input name="out_caller_id_terminate[0][0]"
 														id="strip_terminate_outcaller_translation_0"
 														value="<?php echo isset($details['out_caller_id_terminate'][0][0]) ? $details['out_caller_id_terminate'][0][0]:"";?>"

@@ -980,7 +980,9 @@ class Rates extends MX_Controller
     function customer_rates_download_sample_file($file_name)
     {
         $this->load->helper('download');
-        $full_path = base_url() . "assets/Rates_File/" . $file_name . ".csv";
+        //ASTPPCOM-960 + 961 Start
+        $full_path = "./assets/Rates_File/" . $file_name . ".csv";
+        //ASTPPCOM-960 + 961 End
         ob_clean();
         $arrContextOptions = array(
             "ssl" => array(
@@ -989,7 +991,9 @@ class Rates extends MX_Controller
             )
         );
         $file = file_get_contents($full_path, false, stream_context_create($arrContextOptions));
-        force_download(gettext("samplefile").".csv", $file);
+        //ASTPPCOM-960 + 961 Start
+        force_download($file_name.".csv", $file);
+        //ASTPPCOM-960 + 961 End
     }
 
     function termination_rate_batch_update()

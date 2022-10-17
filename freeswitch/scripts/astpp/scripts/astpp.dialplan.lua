@@ -28,7 +28,12 @@ end
 
 Logger.info("[Dialplan] Dialed number : "..destination_number)
 
-
+-- ASTPPCOM-982 Ashish start
+if (params:getHeader("variable_sip_h_P-Voice_broadcast") == 'true') then
+	destination_number = params:getHeader("variable_sip_h_P-cb_destination")
+	Logger.debug("Clicktocall Destination Number " ..destination_number)
+end
+-- ASTPPCOM-982 Ashish End
 --Check if dialed number is calling card access number
 local cc_access_number = get_cc_access_number(destination_number)
 if (cc_access_number and cc_access_number['access_number'] ~= '' and cc_access_number['access_number'] == destination_number) then
@@ -122,7 +127,11 @@ if (accountcode == nil or accountcode == '') then
     	accountname = authinfo['name'] or ""
     end
 end
-
+-- ASTPPCOM-982 Ashish start
+if (accountcode == nil or accountcode == "") then
+	accountcode = params:getHeader("variable_sip_h_P-Accountcode")
+end
+-- ASTPPCOM-982 Ashish End
 -- Still no account code that means call is not authenticated.
 if (accountcode == nil or accountcode == "") then
   Logger.notice("[Dialplan] Call authentication fail..!!"..config['playback_audio_notification'])

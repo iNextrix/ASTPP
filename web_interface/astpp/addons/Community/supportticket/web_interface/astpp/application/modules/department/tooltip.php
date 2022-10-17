@@ -7,7 +7,7 @@ $tooltip_data = array(
 
 	"department_form_admin_user_id[]" => "Selection of maintainer account for the department ",
 
-	"department_form_smtp_host" => "SMTP Host. <a href='//youtu.be/xNnsqzkZmGg' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"department_form_smtp_host" => "SMTP Host.",
 
 	"department_form_smtp_port" => "SMTP Port",
 

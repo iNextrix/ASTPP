@@ -376,35 +376,33 @@ overflow: hidden; }
 										<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Open New Ticket"); ?></h3>
 										<div class="col-md-12 col-sm-6">
 											<div class="row">
-<!--
-										<div style="margin-left:225px;">
-											<font color='red'> 
-												<DIV id="from"> </DIV> 
-											</font>
-										</div>
--->
+
 									<?php
-										if ($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == '2') {
+										// ASTPPCOM-925 Start 
+										if ($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == '2' || $this->session->userdata('logintype') == '1') {
+										// ASTPPCOM-925 END 
 									?>
 											<div class="col-md-6 form-group">
-												<label class="col-md-3 control-label p-0"><?php echo gettext("To"); ?> * </label>
+												<label class="control-label p-0"><?php echo gettext("To"); ?> * </label>
 												
 													<?
 													 $this->db->where('type <>','-1');
 													 $account_id = form_dropdown('account_id', $this->db_model->build_dropdown_invoices("id,first_name,last_name,number,type", " accounts", "where_arr", array("reseller_id" => "0","status"=>"0","deleted" => "0","type <>" => "2")), '');
 													 echo $account_id;
 													?>
-												
 											</div>
 											<div class="col-md-12 p-0 error_div" style="margin-left: 329px;"> 
 												<div class="col-md-3"> </div>
 											</div> 
 									<?php }?>
 											<div class="col-md-6 form-group">
-												<label class="col-md-3 control-label p-0"><?php echo gettext("Department"); ?> * </label>
+												<label class="control-label p-0"><?php echo gettext("Department"); ?> * </label>
 											
-												<?php $reseller_id = ($account_data['type'] == '-1' || $account_data['type'] == 2)?0:$account_data['id']; ?>
-												<?php echo "$drop";  ?>
+												<?php $reseller_id = ($account_data['type'] == '-1' || $account_data['type'] == 2 )?0:$account_data['id']; 
+												 $department=form_dropdown('departmentid',$this->supportticket_model->build_concat_dropdown_departmnet("id,name,email_id", " department", "where_arr", array("status"=>"0","reseller_id"=> $reseller_id)), '');
+													 echo $department;
+												?>
+
 										
 											<div class="tooltips error_div pull-left no-padding display_none text-danger" id="department_error"></div>	
 											</div>
@@ -413,7 +411,7 @@ overflow: hidden; }
 											<div class="col-md-3 col-sm-12"> </div>
 										</div>
 										<div class="col-md-6 form-group">
-												<label class="col-md-3 control-label p-0"><?php echo gettext("Priority"); ?> * </label>
+												<label class="control-label p-0"><?php echo gettext("Priority"); ?> * </label>
 											
 												<select class='col-md-12 form-control form-control-lg selectpicker' data-live-search="true" name="priority">
 													<option value="0"><?php echo gettext("High"); ?></option>
@@ -434,7 +432,7 @@ overflow: hidden; }
 										if ($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == '2') {
 										?>
 											<div class="col-md-6 form-group">
-												<label class="col-md-3 control-label p-0"><?php echo gettext("Status"); ?> </label>
+												<label class="control-label p-0"><?php echo gettext("Status"); ?> </label>
 													<select class='col-md-12 form-control form-control-lg selectpicker' data-live-search="true" name="ticket_type">
 														<option value="0" selected="selected"><?php echo gettext("Open"); ?></option>
 														<option value="1"><?php echo gettext("Answerd"); ?></option>
@@ -451,7 +449,7 @@ overflow: hidden; }
 											<input type="hidden" name="ticket_type" value="0">
 									<?php } ?>
 										<div class="col-md-12 form-group">
-												<label class="col-md-3 control-label p-0"><?php echo gettext("Subject"); ?> * </label>
+												<label class="control-label p-0"><?php echo gettext("Subject"); ?> * </label>
 												<input type="text" name="subject"  id="subject" size="80" value="" maxlength="200"class="col-md-12 form-control form-control-lg"/>
 												<div class="tooltips error_div pull-left no-padding display_none text-danger" id="une"></div>
 										</div>
@@ -476,7 +474,7 @@ overflow: hidden; }
 
 										
 											<div class="col-md-12 form-group h-auto">
-												<label class="col-md-3 control-label p-0"><?php echo gettext("Reply"); ?> </label>
+												<label class="control-label p-0"><?php echo gettext("Reply"); ?> </label>
 												<div class="col-12 p-0">
 													<textarea name="template" id ="template" size ="0" class="Emailtemplate">
 														<?php 
@@ -508,7 +506,7 @@ overflow: hidden; }
 
 <!--
 									<div class="col-md-12 form-group mb-4">
-										<label class="col-12 control-label mb-4">Attach files</label>	 
+										<label class="control-label mb-4">Attach files</label>	 
 										<div class="col-12 mt-4">
 											<div class="col-md-6 float-left" data-ripple="">
 												 <span class="fileinput-new">Select file</span> 

@@ -79,93 +79,93 @@ $(function() {
 							<input type="hidden" name='id' id='id' value="<?= $account_data['id'] ?>">		
 							<input type="hidden" name='accountid' id='accountid' value="<?= $account_data['accountid'] ?>">
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 p-0 control-label"><?php echo gettext('Company Name');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Company Name');?></label>
 									<input type='text' name="company_name" value="<?= $account_data['company_name'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 p-0 control-label"><?php echo gettext('Invoice Prefix');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Invoice Prefix');?></label>
 									<input type='text' name="invoice_prefix" value="<?= $account_data['invoice_prefix'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 p-0 control-label"><?php echo gettext('Address');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Address');?></label>
 									<input type='text' name="address" value="<?= $account_data['address'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Invoice Due Notification'); ?></label>
+									<label class="p-0 control-label"><?php echo gettext('Invoice Due Notification'); ?></label>
 									<select name="invoice_due_notification" value="<?= $account_data['invoice_due_notification'] ?>" class="form-control selectpicker">
 										<option value=0 <?=$account_data['invoice_due_notification'] == 0 ? 'selected' : ''; ?>><?php echo gettext('Enable');?></option>
 										<option value=1 <?=$account_data['invoice_due_notification'] == 1 ? 'selected' : ''; ?>><?php echo gettext('Disable');?></option>
 									</select>
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 no-padding control-label"><?php echo gettext('City');?></label>
+									<label class="no-padding control-label"><?php echo gettext('City');?></label>
 									<input type='text' name="city" value="<?= $account_data['city'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 no-padding control-label"><?php echo gettext('Address');?></label>
+									<label class="no-padding control-label"><?php echo gettext('Address');?></label>
 									<input type='text' name="address" value="<?= $account_data['address'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Invoice Notification');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Invoice Notification');?></label>
 									<select name="invoice_notification" value="<?= $account_data['invoice_notification'] ?>" class="selectpicker form-control">
 										<option value=0 <?=$account_data['invoice_notification'] == 0 ? 'selected' : ''; ?> ><?php echo gettext('Enable');?></option>
 										<option value=1 <?=$account_data['invoice_notification'] == 1 ? 'selected' : ''; ?> ><?php echo gettext('Disable');?></option>
 									</select>
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 p-0 control-label"><?php echo gettext('Province');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Province');?></label>
 									<input type='text' name="province" value="<?= $account_data['province'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Invoice Date Interval');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Invoice Date Interval');?></label>
 									<input type='text' name="interval" value="<?= $account_data['interval'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 p-0 control-label"><?php echo gettext('Country');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Country');?></label>
 									<input type='text' name="country" value="<?= $account_data['country'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Invoice Date Interval');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Invoice Date Interval');?></label>
 									<input type='text' name="interval" value="<?= $account_data['interval'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Notify Before Days');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Notify Before Days');?></label>
 									<input type='text' name="notify_before_day" value="<?= $account_data['notify_before_day'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Zipcode');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Zipcode');?></label>
 									<input type='text' name="zipcode" value="<?= $account_data['zipcode'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Invoice Start Form');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Invoice Start Form');?></label>
 									<input type='text' name="invoice_start_from" value="<?= $account_data['invoice_start_from'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Telephone');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Telephone');?></label>
 									<input type='text' name="telephone" value="<?= $account_data['telephone'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Email Address');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Email Address');?></label>
 									<input type='text' name="emailaddress" value="<?= $account_data['emailaddress'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Fax');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Fax');?></label>
 									<input type='text' name="fax" value="<?= $account_data['fax'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Website');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Website');?></label>
 									<input type='text' name="website" value="<?= $account_data['website'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Website Domain'); ?></label>
+									<label class="p-0 control-label"><?php echo gettext('Website Domain'); ?></label>
 									<input type='text' name="fax" value="<?= $account_data['domain'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Website Header');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Website Header');?></label>
 									<input type='text' name="website" value="<?= $account_data['website_title'] ?>" class="form-control">
 								</div>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 col-md-12 p-0 control-label"><?php echo gettext('Website Footer');?></label>
+									<label class="p-0 control-label"><?php echo gettext('Website Footer');?></label>
 									<input type='text' name="fax" value="<?= $account_data['website_footer'] ?>" class="col-md-12 form-control">
 								</div>
 

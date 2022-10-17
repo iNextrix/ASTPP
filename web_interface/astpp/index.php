@@ -157,6 +157,23 @@ if (! is_dir ( $system_path )) {
 	exit ( "Your system folder path does not appear to be set correctly. Please open the following file and correct this: " . pathinfo ( __FILE__, PATHINFO_BASENAME ) );
 }
 
+// Kinjal ASTPPCOM-975 Start
+if((substr($_SERVER['REQUEST_URI'], 0, strlen('//')) === '//')){
+    $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'],1);
+}
+$folder_name = explode('/',$_SERVER['REQUEST_URI']) ;
+if($folder_name['1'] == 'api' || $folder_name['1'] == 'admin'){
+        if (! is_dir ($application_folder . '/controllers/'.$folder_name['1'])) {
+        $array = array (
+            'status'  => false,
+            'error'   => 'API Addon is not installed, Please contact administrator',
+            'response_code' => 400
+        );
+        echo json_encode($array); die;
+    }
+}
+// Kinjal ASTPPCOM-975 END
+
 /*
  * -------------------------------------------------------------------
  * Now that we know the path, set the main path constants

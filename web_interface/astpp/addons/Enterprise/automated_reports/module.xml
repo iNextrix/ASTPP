@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>automated_reports</tech_name>
+	<name>Automated Reports</name>
+	<description>The reports generation based on selectively configured params for various modules.</description>		
+	<icon>static/images/automated_reports_icon.png</icon>
+	<version>2.0.0</version>
+	<license>Enterprise</license>	
+	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

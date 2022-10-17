@@ -589,9 +589,37 @@ class DID extends MX_Controller
         $data['extensions'] = $did_forward[0]['extensions'];
         $data['call_type_vm_flag'] = $did_forward[0]['call_type_vm_flag'];
         $data['logtype'] = $this->session->userdata('logintype');
-        $this->load->view('view_did_forward', $data);
-
+         // ASTPPCOM-947
+            $addon_info = $this->db_model->getSelect("*", "addons", array(
+                "package_name" => "ringgroup"
+            ));
+            if ($addon_info->num_rows() == 0) {
+                $this->load->view('view_did_forward', $data);
+            } else {
+                $this->load->view('view_did_custom_forward', $data);
+            }
+        // End
     }
+
+    // ASTPPCOM-947
+    function did_local_change($call_type_code="", $did_id="", $extensions=""){
+        $accountid = $this->common->get_field_name("accountid","dids",array("id"=>$did_id));
+        $whr=array("accountid"=>$accountid,'status' => 0);
+        $did_local = $this->db_model->getSelect( '*' ,'sip_devices',$whr);
+        if ($did_local->num_rows() > 0) {
+            $did_local_data =$did_local->result_array();
+            $did_local_arr = array();
+            foreach ($did_local_data as $value) {
+                $did_local_arr[$value['username']] =  $value['username'];
+            }
+            $did_local_info = array("name" => "extensions" ,"id" => "extensions_id", "class" => "col-md-6 extensions_set");
+            echo form_dropdown($did_local_info, $did_local_arr,$extensions);
+        }
+        else{
+            echo '<select class="col-md-12 form-control form-control-lg selectpicker extensions_set" id="extensions_id" name="extensions"><option>--</option></select>';
+            }
+        }
+    // End
 
     function did_forward_save()
     {

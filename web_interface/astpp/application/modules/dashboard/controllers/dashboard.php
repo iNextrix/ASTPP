@@ -588,6 +588,17 @@ class dashboard extends MX_Controller {
 			}	
 			echo json_encode($result_array);
 	}
+
+	// ASTPPCOM-939 Start
+	function send_notification(){
+		if($_POST['accountid'] != ""){
+			$accountinfo = $this->db_model->getSelect("*",'accounts',array("id" => $_POST['accountid'],"status" => 0,"deleted" => 0))->result_array();	
+			if($accountinfo != ""){
+				$this->common->mail_to_users('low_balance',$accountinfo[0]);
+			}
+		}
+	}
+	// END
 }
 
 ?>

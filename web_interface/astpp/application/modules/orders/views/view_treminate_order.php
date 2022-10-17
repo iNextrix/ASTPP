@@ -26,7 +26,20 @@
 <script type="text/javascript">
     $("#submit").click(function(){
         submit_form("terminate_form");
-    })
+    });
+
+    var jqueryarray = <?php echo json_encode($this->tooltip_data); ?>;
+    if(jqueryarray && jqueryarray !=''){
+      var form_name = 'terminate_form';
+      $.each(jqueryarray, function (key, val) {
+        key = key.replace(form_name+'_','');
+      $('select[name="'+key+'"] , input[name="'+key+'"]  , textarea[name="'+key+'"]').closest('.form-group').find('label').attr({'data-toggle':'tooltip', 'data-html':"true",'data-original-title':val, 'data-placement' : 'right'});
+        });
+    }
+
+    $('[data-toggle="tooltip"]').tooltip(
+        { boundary: 'window' }
+    );
 
 </script>
 <?php
@@ -49,7 +62,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 				<div class="col-md-12">
 					<div class="row">
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 p-0 control-label"><?php echo gettext("Date"); ?></label>
+							<label class="p-0 control-label"><?php echo gettext("Date"); ?></label>
 							<input name="creation" value="" placeholder="" 0="" size="20"
 								class="col-md-12 form-control form-control-lg" id="creation"
 								role="input" type="text">
@@ -63,7 +76,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 
 						</div>
 						<div class='col-md-6 form-group'>
-							<label class="col-md-12 p-0 control-label"><?php echo gettext("Note"); ?> </label>
+							<label class="p-0 control-label"><?php echo gettext("Note"); ?> </label>
 							<input class="col-md-12 form-control form-control-lg" value=""
 								name="note" size="16" type="text" />
 						</div>

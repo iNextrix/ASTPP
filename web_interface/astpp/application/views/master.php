@@ -16,23 +16,23 @@ if (strpos($url, 'customer_cdrs') != true) {
    
 ?>
         <div class="col-md-12 d-flex">
-	        <div class="col-8 float-left align-self-center">
+	        <div class="col-8 float-left align-self-center dashboard-left">
                     <h2 class="text-light my-3 fw4"><? start_block_marker('page-title') ?><? end_block_marker() ?>	</h2>
 	        
 	        
                 <span id="error_msg" class=" success"></span>
               </div>
                   <?php if(isset($dashboard_flag) && $dashboard_flag){?>
-                  <div class="col-4 float-right pl-2 align-self-center">
+                  <div class="col-4 float-right pl-2 align-self-center dashboard-right">
                       <ul class="">
                           <li class="active float-right">
-                          <a data-ripple=" " class="btn text-light" href="/addons/addons_list/Community" style="position: relative;background: #D05935;"> <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> <?php echo gettext('Get Addons'); ?></a>
+                          <a data-ripple=" " class="btn text-light" href="/addons/addons_list/Community" style="position: relative;background: #3b3280;"> <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> <?php echo gettext('Get Addons'); ?></a>
                           </li>
                       </ul>       
                   </div>
                   <?php } ?>
                   <?php if(isset($back) && $back){?>
-                  <div class="col-4 float-right pl-2 align-self-center">
+                  <div class="col-4 float-right pl-2 align-self-center dashboard-right">
 					  
 						<div class="float-right">
 						  <a class="btn btn-primary" href="<?php echo base_url().$back_url;?>"><i class="fa fa-fast-backward"></i> <?php echo gettext('Back'); ?></a>
@@ -46,7 +46,7 @@ if (strpos($url, 'customer_cdrs') != true) {
 	        <?php if (isset($test_email_flag) && $test_email_flag) { ?>
 	                <div id="show_search" class="float-right btn btn-warning btn margin-t-51"><a data-ripple onclick="PopupCenter('<?=base_url()?>newmail/',resizable=1,width=580,height=700) "><font color="#fff"><i class= " fa fa-envelope-o"></i> &nbsp;<?php echo gettext('Test Mail'); ?></font></a></div>
                 <?php } ?>
-	        <div class="col-4 float-right pl-2 align-self-center">
+	        <div class="col-4 float-right pl-2 align-self-center dashboard-right">
 		 <?php if (isset($batch_update_flag) && $batch_update_flag) { 
 			 
 			 $permissioninfo = $this->session->userdata('permissioninfo');
@@ -72,11 +72,38 @@ if (strpos($url, 'customer_cdrs') != true) {
                         $module_name= $url_explode[3];
                         $sub_module_name= $url_explode[4];
                         $logintype = $this->session->userdata('logintype');
+                        // ASTPPCOM-941 Start
+                        if($module_name == 'login_activity' && $permissioninfo['login_type'] == '2'){ ?>
+                          <div id="show_search" <?php if($color_flag == 1){ ?> style="background:green;border-color:green;color:aliceblue" <?php }  ?> class="float-end btn btn-warning py-1"><i class="fa fa-search"></i> <?php  ?></div>
+                        <?php 
+                        }
+                        // ASTPPCOM-941 END
                         if((isset($permissioninfo[$module_name][$sub_module_name]['search']) && $permissioninfo[$module_name][$sub_module_name]['search'] == 0) or $permissioninfo['login_type'] == '-1' or $permissioninfo['login_type'] == '0' or $permissioninfo['login_type'] == '3' ){
                                 ?>
 
 	                <div id="show_search" class="float-right btn btn-warning py-1"><i class="fa fa-search"></i> <?php  ?></div>
                 <?php }} ?>
+                <!-- ASTPPCOM-941 Start -->
+                <?php if (isset($report_flag) && $report_flag ) {
+                 ?>
+                  <div class='d-flex justify-content-end mainmenu report_dd text-end'>
+                    <?php $action=$this->uri->segment(2);
+                      $activityReport='';
+                      $login_activity_list='';
+                      if(isset($action) && $action =='login_activity_list'){
+                        $login_activity_list="selected='selected'";
+                      }else{
+                        $activityReport="selected='selected'";
+                      }
+                    ?>
+                  <select class="selectpicker form-control col-md-4 mr-4" id="report_change" >
+                    <option value="<?php echo base_url();?>activity_report/activityReport/" <?php echo $activityReport; ?> ><?php echo gettext('Call Activity Report'); ?></option>
+                    <option value="<?php echo base_url();?>login_activity/login_activity_list/" <?php echo $login_activity_list; ?> ><?php echo gettext('Login Activity Report'); ?></option>
+                  </select>
+                  </div>
+              
+             <?php } ?> 
+             <!-- ASTPPCOM-941 END -->
                 <?php if (isset($back_flag) && $back_flag) {?>
                 
 					<ul class="">
@@ -150,7 +177,7 @@ if (strpos($url, 'customer_cdrs') != true) {
 <?php } ?>
 
 <?if ($this->session->flashdata('astpp_danger_alert')!=''){?>
-<div class="container alert alert-danger alert-dismissible fade show">
+<div class="container-fluid alert alert-danger alert-dismissible fade show">
   <strong>Danger!</strong> <?=$this->session->flashdata('astpp_danger_alert');?>
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>

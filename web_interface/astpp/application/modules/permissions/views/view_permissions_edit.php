@@ -144,7 +144,7 @@ table {
 							<div id="floating-label" class="col-md-12 mb-4">
 								<div class="row">
 									<div class="col-md-3 form-group">
-										<label class="col-md-12 p-0 control-label"><?php echo gettext('Role Name :') ?><span
+										<label class="p-0 control-label"><?php echo gettext('Role Name :') ?><span
 											class="text-dark"> *</span></label> <input type="hidden"
 											class="error col-md-12 form-control form-control-lg"
 											value="<?= $id ?>" name="id" id="id"> <input type="text"
@@ -155,7 +155,7 @@ table {
 											id="name_err"></div>
 									</div>
 									<div class="col-md-3 form-group">
-										<label class="col-md-12 p-0 control-label"><?php echo gettext('Description') ?> :<span
+										<label class="p-0 control-label"><?php echo gettext('Description') ?> :<span
 											class="text-dark"> *</span></label> <input type="text"
 											class="error form-control form-control-lg"
 											placeholder='Enter Description' value="<?= $description ?>"
@@ -164,7 +164,7 @@ table {
 											id="description_err"></div>
 									</div>
 									<div class="col-md-3 form-group">
-										<label class="col-md-12 p-0 control-label"><?php echo gettext('Type') ?> :<span
+										<label class="p-0 control-label"><?php echo gettext('Type') ?> :<span
 											class="text-dark"> *</span></label> <select name="login_type"
 											id="login_type"
 											class='col-md-12 form-control form-control-lg selectpicker'

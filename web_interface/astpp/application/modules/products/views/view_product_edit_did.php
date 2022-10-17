@@ -33,7 +33,7 @@
 		<div class="row px-4">
 		<input class="col-md-12 form-control form-control-lg m-0" name="id" value="<?php echo $product_info['product_id']?>" size="16" type="hidden"/>
 		 <div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Product Category')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Product Category')?></label>
                       <div class="col-md-12 form-control selectpicker form-control-lg p-0" >
                               
 					
@@ -41,13 +41,13 @@
 			</div>	
                   </div>
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('DID'); ?>*</label>
+                      <label class="p-0 control-label"><?php echo gettext('DID'); ?>*</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="number" value ="<?php echo $product_info['number']?>" size="16" type="text" />
 			<div class="tooltips error_div pull-left no-padding" id="number_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="number_error">  
  </span></div>	
                   </div>
                   <div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Provider')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Provider')?></label>
                        <?php
 								$where = array("status"=>0,"deleted"=>0,"type"=>3);
 								$provider_arr = array("id" => "provider_id", "name" => "provider_id", "class" => "provider_id");
@@ -58,7 +58,7 @@
                   </div>
 
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Country')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Country')?></label>
                       <?php
 								$country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
 								$country = form_dropdown($country_arr, $this->db_model->build_dropdown_country_camel("id,country", "countrycode", "", ""), $product_info['country_id']);
@@ -67,23 +67,23 @@
 			
                   </div>
 		<div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Buy Cost'); ?> (<?php echo ($currency)?>)</label>
+                      <label class="p-0 control-label"><?php echo gettext('Buy Cost'); ?> (<?php echo ($currency)?>)</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="product_buy_cost" value= "<?php echo (isset($product_info['buy_cost']))?$this->common->convert_to_currency ( '', '', $product_info['buy_cost'] ):'' ?>"  size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="product_buy_cost_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error   no-padding" id="product_buy_cost_error">  
  </span></div>	
                   </div>
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('City')?> </label>
+                      <label class="p-0 control-label"><?php echo gettext('City')?> </label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="city" value= "<?php echo $product_info['city']?>" size="16" type="text"/>
                   </div>
 
                   <div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Province')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Province')?></label>
                      <input class="col-md-12 form-control form-control-lg m-0" name="province" value= "<?php echo $product_info['province']?>"  size="16" type="text"/>
                   </div>
             	
 		 <div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Status'); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Status'); ?></label>
                       <select  name="status" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
                          <option value="0" <?php if($product_info['status'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('Active'); ?></option>
 			<option value="1" <?php if($product_info['status'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext('Inactive'); ?></option>
@@ -100,32 +100,32 @@
 		<div class="row px-4">
                  
                   <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Connection Cost').' ('.$currency.')'; ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Connection Cost').' ('.$currency.')'; ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo $this->common->convert_to_currency ( '', '', $product_info['connectcost'] )  ?>" name="connectcost" size="16" type="text"/>
 		<div class="tooltips error_div pull-left no-padding" id="connectcost_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class=" popup_error error  no-padding" id="connectcost_error">  
  </span></div>	
                   </div>
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Grace Time')?> (Sec.)</label>
+                      <label class="p-0 control-label"><?php echo gettext('Grace Time')?> (Sec.)</label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo $product_info['includedseconds']?>" name="includedseconds" size="16" type="text"/>
 		      <div class="tooltips error_div pull-left no-padding" id="includedseconds_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="includedseconds_error">  
  </span></div>	
                   </div>
 		<div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Cost/Min ('.$currency.') ')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Cost/Min ('.$currency.') ')?></label>
 			<input class="col-md-12 form-control form-control-lg m-0" value = "<?php echo $this->common->convert_to_currency ( '', '', $product_info['cost'] );?>" name="cost" size="16" type="text"/>
 			  <div class="tooltips error_div pull-left no-padding" id="cost_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="cost_error">  
  </span></div>	
                   </div>
                  
                   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Initial Increment')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Initial Increment')?></label>
                       <input name="init_inc" id="init_inc" class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $product_info['init_inc']?>" size="16" type="text"/>
 			 <div class="tooltips error_div pull-left no-padding" id="init_inc_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="init_inc_error">  </span></div>	 
 			
                   </div>
                   <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Increment')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Increment')?></label>
 			 <input name="inc" id="inc" class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $product_info['inc']?>" size="16" type="text"/>
 			 <div class="tooltips error_div pull-left no-padding" id="inc_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="inc_error">  </span></div>	 
 			
@@ -133,35 +133,35 @@
                   </div>
 
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Setup Fee').' ('.$currency.')'; ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $this->common->convert_to_currency ( '', '', $product_info['setup_fee'] )?>" name="setup_fee" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="setup_fee_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="setup_fee_error">   </span></div>	
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('MonthlyFee').' ('.$currency.')'?> *</label>
+                      <label class="p-0 control-label"><?php echo gettext('MonthlyFee').' ('.$currency.')'?> *</label>
                      <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  ( $product_info['price'] !='')?$this->common->convert_to_currency ( '', '', $product_info['price'] ):''?>" name="price" size="16" type="text"/>
 		     <div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="price_error">   </span></div>	
                   </div>
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Call Timeout')?> (Sec.)</label>
+                      <label class="p-0 control-label"><?php echo gettext('Call Timeout')?> (Sec.)</label>
                      <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $product_info['leg_timeout']?>" name="leg_timeout" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="leg_timeout_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="leg_timeout_error">   </span></div>
                   </div>
 		
 		 <div class='col-md-6 form-group'>
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Billing Type'); ?></label>
+                      <label class="no-padding control-label"><?php echo gettext('Billing Type'); ?></label>
                       <select  name="billing_type" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
                        <option value="0" <?php if($product_info['billing_type'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext("One Time")?></option>
 			<option value="1" <?php if($product_info['billing_type'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext("Recurring")?></option>
                       </select>
                   </div>
 		<div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Billing Days')?> *</label>
+                      <label class="p-0 control-label"><?php echo gettext('Billing Days')?> *</label>
                      <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $product_info['billing_days']?>" name="billing_days" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="billing_days_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="billing_days_error"></span></div>	
                   </div>
 		<div class='col-md-6 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext('Concurrent Calls')?></label>
+                      <label class="p-0 control-label"><?php echo gettext('Concurrent Calls')?></label>
                      <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo  $product_info['maxchannels']?>" name="maxchannels" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="maxchannels_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="maxchannels_error">   </span></div>	
                   </div>	  

@@ -1643,6 +1643,29 @@ class User_form extends common
 
     function build_user_sipdevices()
     {
+        // Jaimin ASTPPCOM-984
+            $sip_routing_status = $this->CI->db_model->countQuery ( "*", "addons", array    ("package_name" => "siprouting"));
+            if(isset($sip_routing_status) && $sip_routing_status == 1){
+                $action_array = array (
+                    gettext ( "Advance" ),
+                    "60",
+                    "",
+                    "",
+                    "",
+                    array (
+                        "EDIT" => array (
+                            "url" => "/siprouting/siprouting_edit/",
+                            "mode" => "single",
+                            "layout" => "medium"
+                        )
+                    ),
+                    "false"
+                );
+            }else{
+                $action_array = array();
+            }
+        // End
+
         $grid_field_arr = json_encode(array(
             array(
                 "<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>",
@@ -1743,7 +1766,10 @@ class User_form extends common
                 "",
                 "true",
                 "center"
-            )
+            ),
+             // Jaimin ASTPPCOM-984
+                $action_array
+             // End
         ));
         return $grid_field_arr;
     }
@@ -1942,6 +1968,18 @@ class User_form extends common
                 '',
                 '',
                 'set_status'
+            ),
+              array(
+                gettext('Codec'),
+                'INPUT',
+                array(
+                    'name' => 'codec',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                '',
+                'tOOL TIP',
+                'Please Enter account number'
             )
         );
 

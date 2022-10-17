@@ -14,12 +14,12 @@
             key = key.replace(form_name+'_','');
             // console.log(key);
             /*If condition used for select,input and textarea tag purpose*/
-            if(key == 'customer_type' || key == 'country_id[]' || key == 'accounts_id[]' || key == 'fields_in_csv[]' || key == 'recuring_type' || key == 'product_id' || key == 'product_category' || key == 'product_rate_group' || key == 'product_rate_group[]' ||key == 'debit_amt' || key == 'email_notify' || key == 'despostion[]' || key == 'template'){
+            if(key == 'customer_type' || key == 'country_id[]' || key == 'accounts_id[]' || key == 'fields_in_csv[]' || key == 'recuring_type' || key == 'product_id' || key == 'product_category' || key == 'product_rate_group' || key == 'product_rate_group[]' ||key == 'debit_amt' || key == 'email_notify' || key == 'despostion[]' || key == 'template' || key == 'call_forwarding_flag' || key == 'on_busy_flag' || key == 'no_answer_flag' || key == 'not_register_flag' ){
 
-              $('select[name="'+key+'"] , input[name="'+key+'"] , textarea[name="'+key+'"]').parent().parent().find('label').attr({'data-toggle':'tooltip', 'data-html':"true",'data-original-title':val, 'data-placement' : 'top'}); 
+              $('select[name="'+key+'"] , input[name="'+key+'"] , textarea[name="'+key+'"]').parent().parent().find('label').attr({'data-toggle':'tooltip', 'data-html':"true",'data-original-title':val, 'data-placement' : 'right'}); 
             }else{
 
-               $('select[name="'+key+'"] , input[name="'+key+'"]  , textarea[name="'+key+'"]').parent().find('label').attr({'data-toggle':'tooltip', 'data-html':"true",'data-original-title':val, 'data-placement' : 'top'});
+               $('select[name="'+key+'"] , input[name="'+key+'"]  , textarea[name="'+key+'"]').parent().find('label').attr({'data-toggle':'tooltip', 'data-html':"true",'data-original-title':val, 'data-placement' : 'right'});
              }
           });
         }
@@ -28,12 +28,20 @@
 <script>
 	$(document).ready(function() {
 
+  //ASTPPENT-1172 Start
+  if($('body .sidebar').length > 0)
+  {
+    $('body').addClass('with-sidebar');
+  }
+  else
+  {
+    $('body').addClass('no-sidebar');
+  }
+  //ASTPPENT-1172 End    
 
-  $('[data-toggle="tooltip"]').tooltip({
-    delay : {
-      hide : 600
-    }
-   }); 
+  $('[data-toggle="tooltip"]').tooltip(
+     { boundary: 'window' }
+  );  
   $('.btn-quick > div:first-child').on('click', function(){
     $('.btn-quick').toggleClass('open');
   })
@@ -101,6 +109,12 @@ $(document).ready(function() {
  <script>
  jQuery(document).ready(function($) {
   $('a[rel*=facebox]').facebox();
+  <?php // ASTPPCOM-941 Start ?>
+  $("#report_change").on('change',function(){
+    var report_change=$("#report_change").val();
+    window.location.href = report_change;
+  });
+  <?php //ASTPPCOM-941 END ?>
 }) 
 </script>
     <script type="text/javascript" charset="utf-8">
@@ -221,15 +235,15 @@ jQuery(function($) {
      <strong> <span class="text-warning"><?php echo gettext('ASTPP - #1 Open Source VoIP Solution<br>
       Powered by Inextrix Technologies Pvt. Ltd.<br>')?> </span></strong>
       </div>
-       <?php } ?>
-        <!-- // end ASTPPENT-3818 -->
+      <?php } ?>
+      <!-- // end ASTPPENT-3818 -->
 
 		<div class="col py-2">
   	   		 <label class="text-light" style="margin-top:3px;"><i> <?php echo gettext('Follow us on:')?> </i></label>
   	   		 <div class="social-media">
-  	   		  <a target="_blank" href="https://www.facebook.com/astppbilling" title="Facebook"> <i class="facebook fa fa-facebook"></i></a>
-  	   		  <a target="_blank" href="https://in.linkedin.com/in/astpp-opensource-voip-billing-bb9301b5" title="Linkedin"> <i class="linkin fa fa-linkedin"></i></a>
-  	   		  <a target="_blank" href="https://twitter.com/astppbilling" title="Twitter"> <i class="twitter fa fa-twitter "></i></a>
+  	   		  <a target="_blank" href="https://www.facebook.com/astpp.official/" title="Facebook"> <i class="facebook fa fa-facebook"></i></a>
+  	   		  <a target="_blank" href="https://in.linkedin.com/company/astpp-billing" title="Linkedin"> <i class="linkin fa fa-linkedin"></i></a>
+  	   		  <a target="_blank" href="https://twitter.com/astpp_official" title="Twitter"> <i class="twitter fa fa-twitter "></i></a>
   	   		 
   	   		</div>
 		 </div>
@@ -243,7 +257,7 @@ jQuery(function($) {
      <div class="col-md-4 py-2 px-2 text-md-left text-light"><?=$user_footer ?></div>
      <div class="col-md-4 py-2 px-2 text-md-left text-light"></div>
     <?} else {  ?>
-      <div class="col-md-5 py-2 px-2 text-md-left text-light">Copyright @ <?php echo date("Y"); ?> <a class="text-warning" href="http://www.inextrix.com" target="_blank"> <?php echo gettext("iNextrix Technologies Pvt. Ltd.")?></a>. <?php echo gettext("All Rights Reserved.")?>
+      <div class="col-md-5 py-2 px-2 text-md-left text-light">Copyright @ <?php echo date("Y"); ?> <a class="text-warning" href="http://www.inextrix.com" target="_blank"> <?php echo gettext("Inextrix Technologies Pvt. Ltd.")?></a>. <?php echo gettext("All Rights Reserved.")?>
      <div class="col-md-3 py-2 px-2 text-md-left text-light"></div>
 	    
 	    </div>
@@ -253,7 +267,7 @@ jQuery(function($) {
 			<span class="text-light"><?php echo gettext('Powered by ')?> </span>
 			<a href="https://inextrix.com/" target="_blank">
 				<span class="text-warning">
-					<strong><?php echo gettext("iNextrix Technologies Pvt. Ltd.")?></strong>
+					<strong><?php echo gettext("Inextrix Technologies Pvt. Ltd.")?></strong>
 				</span>
 			</a>
 	    </div>
@@ -292,7 +306,7 @@ if (isset($selected_locale) && $value['locale'] == $selected_locale) {
 
 
 
-<div class="col-md-12 float-right pt-3 pr-0 text-light text-md-right version_size"><?php echo gettext("Version")?>  <?php echo common_model::$global_config['system_config']['version'] .' '.gettext('Community') ;?>
+<div class="col-md-12 float-right pt-4 pr-0 text-light text-md-right version_size"><?php echo gettext("Version")?>  <?php echo common_model::$global_config['system_config']['version'] .' '.gettext('Community') ;?>
 <?php
 
 ?>

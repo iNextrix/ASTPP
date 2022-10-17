@@ -262,6 +262,9 @@ function services($category= '') {
 					if($order_id != ""){
 						$product_info['price']=$productinfo['price'];	
 						$final_array = array_merge($account_info,$productinfo);
+						// Kinjal ASTPPENT-1028 Start
+						$final_array['last_id'] = $account_info['id'];
+						// Kinjal ASTPPENT-1028 END
 						$final_array['quantity']=$quantity;
 						$final_array['total_price']=($productinfo['setup_fee']+$productinfo['price'])*($final_array['quantity']);
 						$final_array['price']=($productinfo['setup_fee']+$productinfo['price']);

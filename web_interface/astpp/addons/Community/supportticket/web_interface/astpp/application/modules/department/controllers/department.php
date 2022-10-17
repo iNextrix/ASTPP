@@ -2,7 +2,7 @@
 ###############################################################################
 # ASTPP - Open Source VoIP Billing Solution
 #
-# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Copyright (C) 2016 Inextrix Technologies Pvt. Ltd.
 # Samir Doshi <samir.doshi@inextrix.com>
 # ASTPP Version 3.0 and above
 # License https://www.gnu.org/licenses/agpl-3.0.html
@@ -49,7 +49,9 @@ class Department extends CI_Controller {
         $data['cur_menu_no'] = 4;
 		$this->session->set_userdata('department_search', 0);
         $data['grid_fields'] = $this->department_form->build_department_list_for_admin();
-        if ($this->session->userdata('logintype') == 2) {
+        // ASTPPCOM-925 Start
+        if ($this->session->userdata('logintype') == 2 || $this->session->userdata('logintype') == 1) {
+        // ASTPPCOM-925 END
             $data["grid_buttons"] = $this->department_form->build_admin_department_grid_buttons();
         } else {
             $data["grid_buttons"] = json_encode(array());

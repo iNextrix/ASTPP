@@ -138,6 +138,7 @@
      <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/animate.css" type="text/css"/>
      <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css" type="text/css"/>
      <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/sticky_menu.css" type="text/css"/>
+     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/com-style.css" type="text/css"/>
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> 
 
@@ -188,15 +189,6 @@ function PopupCenter(url, title, w, h) {
     }
 }        
 </script> 
-<script>
-$(document).ready(function(){
-   $('[data-toggle="tooltip"]').tooltip({
-   	delay : {
-   		hide : 600
-   	}
-   });   
-});
-</script>
 </head>
 <body>   
 <nav class="navbar navbar-expand-lg navbar-light bg-light mainmenu px-lg-4">
@@ -344,8 +336,8 @@ $(document).ready(function(){
 				if(common_model::$global_config['system_config']['opensips']==1 && $sub_menu_key=="Customers") {?>
 				    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="<?php echo base_url(); ?>accounts/customer_list/"><span><?= gettext($sub_menu_key);?></span></a>
 				<?php }
-				if(($acc_info['type']==3 || $acc_info['type']== 0) && $acc_info['allow_ip_management']== 1 && strtolower($sub_menu_lables["menu_label"]) !='ip settings'){ ?>
-				    <li class="dropdown-submenu"><a class="nav-link dropdown-toggle dropdown-item" href="#"><span><?= gettext($sub_menu_key);?></span></a>
+				if(($acc_info['type']==3 || $acc_info['type']== 0) && $acc_info['allow_ip_management']== 1 && strtolower($sub_menu_lables["menu_label"]) !='ip settings' && $sub_menu_key!="Support Ticket"){ ?>
+				    <li class="dropdown-submenu bbbb"><a class="nav-link dropdown-toggle dropdown-item" href="#"><span><?= gettext($sub_menu_key);?></span></a>
 					<? }
 				}else{ ?>
 					    <li class="dropdown-submenu"></a>
@@ -505,15 +497,15 @@ $(document).ready(function(){
 				  		<div class="pb-4" id="floating-label">
 				  		<h3 class="bg-secondary text-light p-3 rounded-top">General Details</h3>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Account<span style="color:black;"> *</span></label>
+								<label class="p-0 control-label">Account<span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Name <span style="color:black;"> *</span></label>
+								<label class="p-0 control-label">Name <span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Amount<span style="color:black;"> *</span></label>
+								<label class="p-0 control-label">Amount<span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 						</div>

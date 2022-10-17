@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>automated_reports</tech_name>
+	<name>Automated CDRs</name>
+	<description>The reports generation based on selectively configured interval type and unit for CDRs module.</description>		
+	<icon>static/images/automated_reports_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

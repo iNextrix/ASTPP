@@ -58,7 +58,7 @@
 										  <div class="row p-0">
 											  <div class="col-md-4">	
 												  <div class="col-md-12 form-group p-0">	
-													  <label class="col-md-12 p-0 control-label"><?php echo gettext('Pin');?><span> * </span></label>
+													  <label class="p-0 control-label"><?php echo gettext('Pin');?><span> * </span></label>
 													  <input type="input" class="col-md-12 form-control form-control-lg" value="<?php echo isset($pin_info['pin'])?$pin_info['pin']:""; ?>" name="pin" id="pin" maxlength="20">
 												  </div>
 													 <span id="err"></span>

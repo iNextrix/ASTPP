@@ -20,7 +20,7 @@
 		<input class="col-md-12 form-control form-control-lg m-0" name="product_id"  value="<?php echo $product_data['id'] ?>" size="16" type="hidden"/>
 		<input class="col-md-12 form-control form-control-lg m-0" name="account_id"  value="<?php echo $account_data['id'] ?>" size="16" type="text"/>				
 		<div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext("Accounts");?></label>
+                      <label class="p-0 control-label"><?php echo gettext("Accounts");?></label>
                       <div class="col-md-12 form-control selectpicker form-control-lg p-0" >
 			  <input class="col-md-12 form-control form-control-lg m-0" name="accountant_name" readonly value="<?php echo $account_data['first_name'].'('.$account_data['number'].')' ?>" size="16" type="text"/>
 								
@@ -29,12 +29,12 @@
                   </div>
 
 		<div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext("Category");?></label>
+                      <label class="p-0 control-label"><?php echo gettext("Category");?></label>
 			<input class="col-md-12 form-control form-control-lg m-0" name="category" readonly value="<?php echo (isset($category_list))?$category_list:'' ?>" size="16" type="text"/>							
 			</div>          
                   </div>
 		<div class='col-md-12 form-group'>
-                      <label class="col-md-12 p-0 control-label"><?php echo gettext("Payment By"); ?></label>
+                      <label class="p-0 control-label"><?php echo gettext("Payment By"); ?></label>
                        <select  name="payment_by" class="col-md-12 form-control selectpicker  form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
                         <option value="0"><?php echo gettext("Account Balance");?></option>
                         <option value="1"><?php echo gettext("Paypal"); ?></option>
@@ -52,24 +52,24 @@
                 
 
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Name"); ?></label>
+                      <label class="no-padding control-label"><?php echo gettext("Name"); ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" readonly value="<?php echo (isset($product_data['name']))?$product_data['name']:'' ?>" name="product_name" size="16" type="text"/>
                   </div>
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Commission"); ?>(%)</label>
+                      <label class="no-padding control-label"><?php echo gettext("Commission"); ?>(%)</label>
                      <input class="col-md-12 form-control form-control-lg m-0" readonly name="commission" value="<?php echo (isset($product_data['commission']))?$product_data['commission']:'' ?>" size="16" type="text"/>
                   </div>
 		 <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Billing Days");?></label>
+                      <label class="no-padding control-label"><?php echo gettext("Billing Days");?></label>
                        <input class="col-md-12 form-control form-control-lg m-0" readonly name="billing_days" value= "<?php echo (isset($product_data['billing_days']))?$product_data['billing_days']:'' ?>" size="16" type="text"/>
                   </div>
 		<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Price"); ?></label>
+                      <label class="no-padding control-label"><?php echo gettext("Price"); ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" readonly name="price" value= "<?php echo (isset($product_data['price']))?$product_data['price']:'' ?>" size="16" type="text"/>
                   </div>
 		   <?php if($category_list == "Package"){?> 
 			<div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext("Free Minutes"); ?></label>
+                      <label class="no-padding control-label"><?php echo gettext("Free Minutes"); ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" readonly name="free_minutes" value= "<?php echo (isset($product_data['free_minutes']))?$product_data['free_minutes']:'' ?>" size="16" type="text"/>
                   </div>
 		  <?php } ?>

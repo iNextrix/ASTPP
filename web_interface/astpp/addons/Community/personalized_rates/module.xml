@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>personalized_rates</tech_name>
+	<name>Personalized Rates</name>
+	<description>Apply personalized rates to customers.</description>		
+	<icon>static/images/personalized_rates_icon.png</icon>
+	<version>2.0.0</version>
+	<license>Community</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

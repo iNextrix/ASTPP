@@ -41,7 +41,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 			<div class="card col-md-4 float-left">
 				<div id="floating-label" class="row p-4 manage_order">
 					<div class="col-lg-6 col-md-6 col-sm-12 p-0">
-						<div class="card col-12 p-4 alert-secondary">
+						<div class="card col-12 p-4 alert-secondary h-100">
 							<div class="col-lg-10 col-9 float-left p-0">
 								<label class="text-secondary" for=""><?php echo gettext("Date"); ?></label>
 				   <?php $order_date = $this->common->convert_GMT_to($date= "",$date ="",$order_items['order_date'],$date = ""); ?>
@@ -53,7 +53,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 p-0">
-						<div class="card col-12 p-4 alert-secondary">
+						<div class="card col-12 p-4 alert-secondary h-100">
 							<div class="col-lg-10 col-9 float-left p-0">
 								<label class="text-secondary" for=""><?php echo gettext("Account"); ?></label>
 								<h2 class="h4"><?php echo isset($account_info)? $account_info['first_name']:''?></h2>
@@ -64,7 +64,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 p-0">
-						<div class="card col-12 p-4 alert-secondary">
+						<div class="card col-12 p-4 alert-secondary h-100">
 							<div class="col-lg-10 col-9 float-left p-0">
 								<label class="text-secondary" for=""><?php echo gettext("TOTAL AMOUNT");?></label>
 				<?php $total_amt = $order_items['setup_fee'] + $order_items['price']; ?>
@@ -76,7 +76,7 @@ if ($accountinfo['type'] == 0 || $accountinfo['type'] == 3) {
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 p-0">
-						<div class="card col-12 p-4 alert-secondary">
+						<div class="card col-12 p-4 alert-secondary h-100">
 							<div class="col-lg-10 col-9 float-left p-0">
 								<label class="text-secondary" for=""><?php echo gettext("Payment Method"); ?></label>
 								<h2 class="h4"><?php echo $order_items['payment_gateway'];?></h2>

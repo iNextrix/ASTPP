@@ -57,11 +57,11 @@ if (isset($error) && ! empty($error)) {
 							</div>
 
 							<div class="col-md-12 form-group">
-								<label class="col-12 control-label mb-4"><?php echo gettext("Select the file"); ?></label>
+								<label class="control-label mb-4"><?php echo gettext("Select the file"); ?></label>
 								<div class="col-12 mt-4 d-flex">
 									<div class="col-md-6 float-left" data-ripple="">
 										<input type="file" name="accessnumberimport"
-											id="accessnumberimport" class="custom-file-input" /> <label
+											id="accessnumberimport" class="custom-file-input" title="Only CSV Files are allowed. You must upload a file smaller than <?php echo str_replace("M","MB", ini_get('upload_max_filesize')).'.'; ?>" /> <label
 											class="custom-file-label btn-primary btn-file text-left"
 											for="file"> </label>
 									</div>

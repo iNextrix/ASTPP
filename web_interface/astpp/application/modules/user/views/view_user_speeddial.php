@@ -128,7 +128,7 @@
                                    
                                         <div class="col-md-12 float-left p-2 card" id="key<?php echo $i; ?><?php echo $i + 1; ?>" style="display:block;">
                                             <div class="col-md-2 col-2 float-left">
-													<label class="col-md-2 control-label"><?php echo $i; ?></label>
+													<label class="control-label"><?php echo $i; ?></label>
                                             </div>   
 
 

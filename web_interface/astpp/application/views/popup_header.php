@@ -3,11 +3,9 @@
 <head>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip({
-		   	delay : {
-		   		hide : 600
-		   	}
-   		}); 
+        $('[data-toggle="tooltip"]').tooltip(
+		   	 { boundary: 'window' }
+   		); 
 	      $('.selectpicker').selectpicker();
         $(".selectpicker").removeClass("col-md-5");  
         $(".selectpicker").addClass("col-md-3"); 

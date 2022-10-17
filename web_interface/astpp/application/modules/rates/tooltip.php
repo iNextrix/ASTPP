@@ -14,7 +14,7 @@ $tooltip_data = array(
 
 	"origination_rate_form_call_type" => "Select the call type",
 
-	"origination_rate_form_routing_type" => "Routing Type is most essential field of this form. you can choose the strategy of routing calls for customer and based on that system will do termination of calls. <a href='//youtu.be/jipGrjSZsns' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"origination_rate_form_routing_type" => "Routing Type is most essential field of this form. you can choose the strategy of routing calls for customer and based on that system will do termination of calls.",
 
 	"origination_rate_form_status" => "Select status of Origination Rates (Active / Inactive).",
 
@@ -34,9 +34,9 @@ $tooltip_data = array(
 
 	"origination_rate_form_cost" => "Cost per minute",
 
-	"origination_rate_form_init_inc" => "Very first rate of increment to calculate call cost. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"origination_rate_form_init_inc" => "Very first rate of increment to calculate call cost.",
 
-	"origination_rate_form_inc" => "Rate of increment to calculate call cost Example : 60 to charge every minute. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"origination_rate_form_inc" => "Rate of increment to calculate call cost Example : 60 to charge every minute.",
 
 	"origination_rate_form_effective_date" => "Date-time from when the rate will be start applying",
 	/*End*/
@@ -63,9 +63,9 @@ $tooltip_data = array(
 
 	"termination_rate_form_cost" => "Cost to charge per minute",
 
-	"termination_rate_form_init_inc" => "Minimum billing seconds charged. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"termination_rate_form_init_inc" => "Minimum billing seconds charged.",
 
-	"termination_rate_form_inc" => "Subsequent billing seconds charged after Initial Increment. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"termination_rate_form_inc" => "Subsequent billing seconds charged after Initial Increment.",
 
 	"termination_rate_form_precedence" => "For multiple rates under different trunks with same 'Code' with '0' having highest priority",
 

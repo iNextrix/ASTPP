@@ -41,7 +41,7 @@ if (isset($error) && ! empty($error)) {
 						<div class="pb-4" id="floating-label">
 							<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Import DIDs"); ?></h3>
 							<div class="col-md-6 form-group">
-								<label class="col-md-6 p-0 control-label"><?php echo gettext("Provider"); ?>:</label>
+								<label class="p-0 control-label"><?php echo gettext("Provider"); ?>:</label>
 								   <?
 
 $provider_id = form_dropdown('provider_id', $this->db_model->build_concat_select_dropdown("id,first_name,number", " accounts", "where_arr", array(
@@ -58,11 +58,11 @@ $provider_id = form_dropdown('provider_id', $this->db_model->build_concat_select
 								type="hidden" name="username"
 								value="<?= $this->session->userdata('username') ?>" />
 							<div class="col-md-12 form-group">
-								<label class="col-12 control-label mb-4"><?php echo gettext("Select the file"); ?></label>
+								<label class="control-label mb-4"><?php echo gettext("Select the file"); ?></label>
 								<div class="col-12 mt-4 d-flex">
 									<div class="col-md-6 float-left" data-ripple="">
 										<input type="file" name="didimport" id="didimport"
-											class="custom-file-input" /> <label
+											class="custom-file-input" title="Only CSV Files are allowed. You must upload a file smaller than <?php echo str_replace("M","MB", ini_get('upload_max_filesize')).'.'; ?>" /> <label
 											class="custom-file-label btn-primary btn-file text-left"
 											for="file"> </label>
 									</div>

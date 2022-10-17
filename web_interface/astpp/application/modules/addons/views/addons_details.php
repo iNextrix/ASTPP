@@ -40,7 +40,7 @@ function install_addon(){
 												<?php }?>
 											</h3>
 											<p class="card-text m-0"><?php echo $description;?></p>
-											<p class="py-2 m-0"><?php echo gettext("by"); ?> <strong
+											<p class="py-2 m-0"><?php echo gettext("By"); ?> <strong
 													class="text-secondary addon_strong"><?php echo $author;?></strong>
 											</p>
 

@@ -4,8 +4,8 @@
 	<name>Switch Monitoring</name>
 	<description>Enable easy access to FreeSwitch Console and real-time list of registered SIP Devices, Gateways and live calls in the graph</description>		
 	<icon>static/images/alarm_icon.png</icon>
-	<version>2.0.0</version>
+	<version>1.0.0</version>
 	<license>Commercial</license>	
-	<author>iNextrix Technologies Pvt. Ltd.</author>
+	<author>Inextrix Technologies Pvt. Ltd.</author>
 	<status>production</status>
 </addon>

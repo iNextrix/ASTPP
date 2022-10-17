@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>demand_based_routing</tech_name>
+	<name>Demand Based Routing</name>
+	<description>Demand-based routing allows you to adjust the cost/min of your calls based on the time of day. </description>		
+	<icon>static/images/demand_based_routing_icon.png</icon>
+	<version>2.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

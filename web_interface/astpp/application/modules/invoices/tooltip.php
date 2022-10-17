@@ -63,7 +63,7 @@ $tooltip_data = array(
 	/*End*/
 
 	/*Email Notification*/
-	"invoice_conf_form_smtp_status" => "To enable SMTP or not. <a href='//youtu.be/xNnsqzkZmGg' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"invoice_conf_form_smtp_status" => "To enable SMTP or not.",
 
 	"invoice_conf_form_smtp_host" => "SMTP Host",
 

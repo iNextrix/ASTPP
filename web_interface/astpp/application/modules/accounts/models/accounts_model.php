@@ -315,6 +315,19 @@ class Accounts_model extends CI_Model
                }
             }
         }
+        //ASTPPCOM-948 start
+        if($accountinfo['type']!= -1 && $accountinfo['type'] != 2)
+        {
+            $this->db->where_not_in('reseller_id', array( "0"
+            ));
+        }        
+        if(($accountinfo['type'] == 1 || $accountinfo['type'] == 5) && $accountinfo['reseller_id'] != 0)
+        {
+            $this->db->where_not_in('reseller_id',array( "0", $accountinfo['reseller_id']
+            ));
+        }
+        //ASTPPCOM-948 End
+
         // ASTPPCOM-825 end
         $this->db->select('*');
         $this->db->select('reseller_id as rid');

@@ -62,7 +62,7 @@ $tooltip_data = array(
 	/*End*/
 
 	/*DID Category*/
-	"product_add_form_number" => "Number to create DID. <a href='//youtu.be/GTsEChmXeWE' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"product_add_form_number" => "Number to create DID.",
 
 	"product_add_form_provider_id" => "Select the provider for the DID.",
 
@@ -78,11 +78,11 @@ $tooltip_data = array(
 
 	"product_add_form_inc" => "Rate of increment to calculate call cost.Example : 60 to charge every minute",
 
-	"product_add_form_maxchannels" => "Its define how many calls are running on the same time. <a href='//youtu.be/sKnFW40pYDM' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"product_add_form_maxchannels" => "Its define how many calls are running on the same time.",
 
 	"product_add_form_includedseconds" => "Define seconds will be free from the call duration for each call",
 
-	"product_add_form_init_inc" => "Subsequent billing seconds charged after Initial Increment. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"product_add_form_init_inc" => "Subsequent billing seconds charged after Initial Increment.",
 
 	"product_add_form_leg_timeout" => "Call will automatically hang up after ringing call timeout seconds.",
 	/*End*/
@@ -96,7 +96,7 @@ $tooltip_data = array(
 
 	"product_edit_form_connectcost" => "Connection fee to charge customer minimum when their call will be connected",
 
-	"product_edit_form_number" => "Number to create DID. <a href='//youtu.be/GTsEChmXeWE' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"product_edit_form_number" => "Number to create DID.",
 
 	"product_edit_form_provider_id" => "Select the provider for the DID.",
 
@@ -110,11 +110,11 @@ $tooltip_data = array(
 
 	"product_edit_form_inc" => "Rate of increment to calculate call cost.Example : 60 to charge every minute",
 
-	"product_edit_form_maxchannels" => "Its define how many calls are running on the same time. <a href='//youtu.be/sKnFW40pYDM' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"product_edit_form_maxchannels" => "Its define how many calls are running on the same time.",
 
 	"product_edit_form_includedseconds" => "Define seconds will be free from the call duration for each call",
 
-	"product_add_edit_init_inc" => "Subsequent billing seconds charged after Initial Increment. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"product_add_edit_init_inc" => "Subsequent billing seconds charged after Initial Increment.",
 
 	"product_edit_form_leg_timeout" => "Call will automatically hang up after ringing call timeout seconds.",
 
@@ -130,7 +130,7 @@ $tooltip_data = array(
 
 	Buy Cost is product purchase price without TAX. so when customer or reseller will order this product at that time the TAX amount will be applicable additionally.",
 
-	"product_edit_form_init_inc" => "Subsequent billing seconds charged after Initial Increment. <a href='//youtu.be/EaNiuHQAd90' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"product_edit_form_init_inc" => "Subsequent billing seconds charged after Initial Increment.",
 	/*End*/
 );
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>rate_simulator</tech_name>
+	<name>Rate Simulator</name>
+	<description>Rate simulator showing cost and other information based on search destination number.</description>		
+	<icon>static/images/ratesimulator.png</icon>
+	<version>2.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

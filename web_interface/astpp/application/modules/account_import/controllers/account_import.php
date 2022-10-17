@@ -49,7 +49,7 @@ class Account_import extends MX_Controller
     {
         $file_name = "customers_sample";
         $this->load->helper('download');
-        $full_path = base_url() . "assets/Rates_File/" . $file_name . ".csv";
+        $full_path = "./assets/Rates_File/" . $file_name . ".csv";
         ob_clean();
         $arrContextOptions = array(
             "ssl" => array(

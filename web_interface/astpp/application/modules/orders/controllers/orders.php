@@ -177,6 +177,14 @@ class Orders extends MX_Controller
     function orders_save()
     {
         $ProductData = $this->input->post();
+        // Kinjal ASTPPCOM-929 Start
+        $ProductData_list = $this->db_model->getSelect("*", "products", array(
+            "id" => $ProductData['product_id']
+        ))->result_array()[0];
+        if($ProductData_list != ""){
+            $ProductData = array_merge($ProductData,$ProductData_list);
+        }
+        // Kinjal ASTPPCOM-929 END
         $account_id = $this->input->post('accountid');
         $accountinfo = $this->session->userdata("accountinfo");
         $data['page_title'] = gettext('Place Order');

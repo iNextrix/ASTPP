@@ -31,7 +31,7 @@
 												<input type="hidden" name="id" value="<?php echo  $department_array_result['id']; ?>" /> 
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("Name"); ?><span style='color:red;'> *</span></label>
+												<label class="p-0 control-label"><?php echo gettext("Name"); ?><span style='color:red;'> *</span></label>
 												<input type="text" name="name" readonly value="<?php echo isset($values['name'])?$values['name']:$department_array_result['name'];?>" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="name_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -39,7 +39,7 @@
 												</div>
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("Status"); ?></label>
+												<label class="p-0 control-label"><?php echo gettext("Status"); ?></label>
 												<select  id="select2_1"  name="status" class='col-md-12 form-control form-control-lg selectpicker' >
 													<option value="0" <?php  echo ($department_array_result['status'] == 0)? "selected='selected'":""; ?>>Active</option>
 													<option value="1" <?php  echo ($department_array_result['status'] == 1)? "selected='selected'":""; ?>>Inactive</option>
@@ -60,7 +60,7 @@
 										<div class="col-md-12">
 										  <div class="row p-0">
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("Admin"); ?></label>		 
+												<label class="p-0 control-label"><?php echo gettext("Admin"); ?></label>		 
 												<select name="admin_user_id[]" multiple='multiple' class='select field multiselectable col-md-12 form-control form-control-lg selectpicker'>
 													<?php foreach($drp_down as $key=>$val){  
 														if(isset($admin_user_id_data) && isset($admin_user_id_data[$val['id']])){
@@ -87,7 +87,7 @@
 										<div class="col-md-12">
 										  <div class="row p-0">
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("SMTP Host"); ?><span style='color:red;'> *</span></label>
+												<label class="p-0 control-label"><?php echo gettext("SMTP Host"); ?><span style='color:red;'> *</span></label>
 												<input type="text" name="smtp_host" value="<?php echo isset($values['smtp_host'])?$values['smtp_host']:$department_array_result['smtp_host'];?>" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="smtp_host_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -95,7 +95,7 @@
 												</div>
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("SMTP Port"); ?><span style='color:red;'> *</span></label>
+												<label class="p-0 control-label"><?php echo gettext("SMTP Port"); ?><span style='color:red;'> *</span></label>
 												<input type="text" name="smtp_port" value="<?php echo isset($values['smtp_port'])?$values['smtp_port']:$department_array_result['smtp_port'];?>" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="smtp_port_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -103,7 +103,7 @@
 												</div>
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("SMTP User"); ?><span style='color:red;'> *</span></label>
+												<label class="p-0 control-label"><?php echo gettext("SMTP User"); ?><span style='color:red;'> *</span></label>
 												<input type="text" name="smtp_user" value="<?php echo isset($values['smtp_user'])?$values['smtp_user']:$department_array_result['smtp_user'];?>" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="smtp_user_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -111,7 +111,7 @@
 												</div>
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("SMTP Password"); ?> <span style='color:red;'> *</span></label>
+												<label class="p-0 control-label"><?php echo gettext("SMTP Password"); ?> <span style='color:red;'> *</span></label>
 												<input type="password" name="smtp_password" value="<?php echo isset($values['smtp_password'])?$values['smtp_password']:$department_array_result['smtp_password'];?>" id="smtp_password_show" onmouseover="seetext(smtp_password_show)" onmouseout="hidepassword(smtp_password_show)" size="20" maxlength="40" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="smtp_password_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -129,7 +129,7 @@
 										<div class="col-md-12">
 										  <div class="row p-0">
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 1</label>
+												<label class="p-0 control-label"><?php echo gettext("Email"); ?> 1</label>
 												<input type="text" name="email_id_new1" value="<?php echo isset($values['email_id_new1'])?$values['email_id_new1']:$email_id_new[0];?>" size="50" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new1_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -137,7 +137,7 @@
 												</div>
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 2</label>
+												<label class="p-0 control-label"><?php echo gettext("Email"); ?> 2</label>
 												<input type="text" name="email_id_new2" value="<?php echo isset($values['email_id_new2'])?$values['email_id_new2']:$email_id_new[1];?>" size="50" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new2_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -145,7 +145,7 @@
 												</div>
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 3</label>
+												<label class="p-0 control-label"><?php echo gettext("Email"); ?> 3</label>
 												<input type="text" name="email_id_new3" value="<?php echo isset($values['email_id_new3'])?$values['email_id_new3']:$email_id_new[2];?>" size="50" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new3_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -153,7 +153,7 @@
 												</div>
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 4</label>
+												<label class="p-0 control-label"><?php echo gettext("Email"); ?> 4</label>
 												<input type="text" name="email_id_new4" value="<?php echo isset($values['email_id_new4'])?$values['email_id_new4']:$email_id_new[3];?>" size="50" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new4_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>
@@ -161,7 +161,7 @@
 												</div>
 											</div>
 											<div class="form-group col-md-12">
-												<label class="col-md-12 p-0 control-label"><?php echo gettext("Email"); ?> 5</label>
+												<label class="p-0 control-label"><?php echo gettext("Email"); ?> 5</label>
 												<input type="text" name="email_id_new5" value="<?php echo isset($values['email_id_new5'])?$values['email_id_new5']:$email_id_new[4];?>" size="50" class="col-md-12 form-control form-control-lg"  />
 												<div class="tooltips error_div pull-left no-padding display_none" id="email_id_new5_error_div" >
 													<i style="color:#D95C5C; padding-left: 3px; padding-top: 10px;" class="fa fa-exclamation-triangle"></i>

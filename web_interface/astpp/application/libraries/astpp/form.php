@@ -115,7 +115,10 @@ class Form {
 			      }
 			   }
 			}
-			if (in_array ( $module [0], $module_info ) || (isset($url_explode[3]) && $url_explode[3] == 'dashboard')) {
+			// ASTPPCOM-941 Start
+			if (in_array ( $module [0], $module_info ) || (isset($url_explode[3]) && $url_explode[3] == 'dashboard') || (isset($url_explode[3]) && $url_explode[3] == 'login_activity') || (isset($url_explode[3]) && $url_explode[4] == 'systems_list') ) {
+			// ASTPPCOM-941 END
+
 				if ($this->CI->session->userdata ( 'userlevel_logintype' ) == 0 && $module [0] == 'customer' && isset ( $url_array [1] ) && $url_array [1] != 'customer_transfer') {
 					redirect ( base_url () . 'user/user/' );
 				} else {
@@ -220,20 +223,20 @@ class Form {
 						}
 						if (is_array ( $fieldvalue [1] ) || (is_array ( $fieldvalue [2] ) && isset ( $fieldvalue [2] ['hidden'] ))) {
 							$form_contents .= form_label ( gettext ( $fieldvalue [0] ), $fieldvalue [0], array (
-									'class' => 'col-md-3 p-0 control-label add_settings',
+									'class' => 'p-0 pr-1 control-label add_settings',
 									'data-toggle'=>"tooltip",
 									'data-html'=>"true",
 									'data-original-title'=> $tooltip_data[$form_names],
-									'data-placement'=>"top"	 
+									'data-placement'=>"right"	 
 							) );
 						} else {
 							$form_contents .= form_label (  $fieldvalue [0] , "", array (
-									"class" => "col-md-3 p-0 control-label " ,
+									"class" => "p-0 pr-1 control-label " ,
 									"for"   => $fieldvalue [0],
 									'data-toggle'=>"tooltip",
 									'data-html'=>"true",
 									'data-original-title'=> $tooltip_data[$form_names],
-									'data-placement'=>"top"	
+									'data-placement'=>"right"	
 							) );
 						}
 					}
@@ -451,6 +454,7 @@ class Form {
 		if (isset ( $cancel )) {
 			$form_contents .= form_button ( $cancel );
 		}
+		
 		$form_contents .= '</div>';
 		$form_contents .= form_close ();
 		$form_contents .= '</div>';
@@ -480,6 +484,12 @@ class Form {
 				$display_in = $fields_array ['display_in'];
 				unset ( $fields_array ['display_in'] );
 			}
+			// Kinjal ASTPPCOM-978 Start
+			if (isset ($fields_array ['button_subscribe'])) {
+				$button_subscribe=$fields_array ['button_subscribe'];
+				unset ($fields_array ['button_subscribe']);
+			}
+			// Kinjal ASTPPCOM-978 END
 		}
 		$i = 1;
 		foreach ( $fields_array as $fieldset_key => $form_fileds ) {
@@ -548,6 +558,13 @@ class Form {
 		}
 		$form_contents .= '<div class="col-12 p-4">';
 		$form_contents .= form_button ( $cancel );
+		// Kinjal ASTPPCOM-978 Start
+		if (isset ($button_subscribe) && $button_subscribe !='') {
+			if($button_subscribe['mode'] == 'popup'){
+				$form_contents.=form_button($button_subscribe);
+			}
+		}
+		// Kinjal ASTPPCOM-978 END
 		$form_contents .= form_button ( $save );
 		if (! empty ( $display_in )) {
 			$form_contents .= "<div class='col-md-5 float-right'>";

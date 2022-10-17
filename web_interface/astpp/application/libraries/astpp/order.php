@@ -92,8 +92,10 @@ class order {
 		} 
 	}	
 
-	function get_account_product_info(&$orderobjArr,$accountdata,$productdata){ 
-		if($accountdata->type == '1'){
+	function get_account_product_info(&$orderobjArr,$accountdata,$productdata){
+	 	// Kinjal ASTPPCOM-1021 Start 
+		if($accountdata->type == '1' && $productdata['product_category'] != 3){
+	 	// Kinjal ASTPPCOM-1021 END 
 			if($accountdata->reseller_id > 0){ 
 				$product_query = $this->CI->db_model->getJionQuery('products', 'products.id,products.name,products.release_no_balance,products.product_category,products.buy_cost,products.commission,reseller_products.price,reseller_products.setup_fee,products.billing_type,products.billing_days,reseller_products.free_minutes,products.status,products.last_modified_date,reseller_products.product_id,reseller_products.setup_fee,reseller_products.is_optin', array('products.status'=>0,'reseller_products.product_id'=>$productdata['product_id'],'reseller_products.account_id'=>$accountdata->reseller_id), 'reseller_products','products.id=reseller_products.product_id', 'inner','','','DESC','products.id');
 //commented for paypal commission
@@ -256,7 +258,7 @@ class order {
 		}
 	} 
 	function manage_commission($parent_data,$userdata,$account_currency_info){
-		$commissionarr = array("product_id"=>$parent_data->product_info->product_id,
+		$commissionarr = array("product_id"=>$parent_data->product_id,
 					"order_id"=>$parent_data->order_item_id,
 					"accountid"=>$userdata->id,
 					"reseller_id"=>$userdata->reseller_id,"payment_id"=>0,
@@ -378,8 +380,9 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 					$invoiceid =$this->CI->payment->add_payments_transcation($order_data,$account_info,$currency_info);
 				}
 				$parentdata = (object)$account_info;	
-				$product_info = $this->get_account_product_info($orderobjArr,(object)$account_info,array('product_id'=>$order_data['product_id']));
-
+				// Kinjal ASTPPCOM-1021 Start
+				$product_info = $this->get_account_product_info($orderobjArr,(object)$account_info,array('product_id'=>$order_data['product_id'],'product_category'=> $order_data['product_category']));
+				// Kinjal ASTPPCOM-1021 END
 				if($parentdata->is_distributor == 1 && $parentdata->type == 1 && $product_info->is_optin == 0){
 
 						$parent_array[$userdata['id']]->product_info = $product_info;

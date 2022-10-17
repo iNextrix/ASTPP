@@ -99,6 +99,11 @@ class common {
 		return $uname;
 	}
 	function find_uniq_rendno_customer($size = '', $field = '', $tablename = '') {
+
+		//ASTPPCOM-1183 Start
+		$size=(isset($size) && $size>0)?$size:'10';
+		//ASTPPCOM-1183 End
+
 		if ($tablename != '') {
 			$accounttype_array = array ();
 			$uname = rand ( pow ( 10, $size - 1 ), pow ( 10, $size ) - 1 );
@@ -237,8 +242,16 @@ class common {
 				$where = array("timezone_name"=>$where);
 			}else{
 				$where = array (
-						"id" => $where
+					"id" => $where
 				);
+				// ASTPPCOM-953 Kinjal Start
+				if($select == 'call_type'){
+					$where = array (
+						"id" => $where['id'],
+						"status" => 0
+					);
+				}
+				// ASTPPCOM-953 Kinjal END
 			}
 		}
 		$field_name = $this->CI->db_model->getSelect ( $select, $table, $where );
@@ -1070,14 +1083,31 @@ class common {
 		return $status_array;
 	}
 	function set_calltype($type = '') {
-		$status_array = array (
+		// ASTPPCOM-982 Ashish start
+		$voice_broadcast_status = $this->CI->db_model->countQuery("*", "addons", array(
+            "package_name" => "voice_broadcast"
+		));
+		if($voice_broadcast_status == 1){
+			$status_array = array (
 				"" => gettext ( "--Select Type--" ),
 				"STANDARD" => gettext ( "STANDARD" ),
 				"DID" => gettext ( "DID" ),
 				"CALLINGCARD" => gettext ( "CALLINGCARD" ),
 				"FREE" => gettext ( "FREE" ),
-				"LOCAL" => gettext ( "LOCAL" )
-		);
+				"LOCAL" => gettext ( "LOCAL" ),
+				"BROADCAST" => gettext ( "BROADCAST" ),
+			);		
+		}else{
+			$status_array = array (
+					"" => gettext ( "--Select Type--" ),
+					"STANDARD" => gettext ( "STANDARD" ),
+					"DID" => gettext ( "DID" ),
+					"CALLINGCARD" => gettext ( "CALLINGCARD" ),
+					"FREE" => gettext ( "FREE" ),
+					"LOCAL" => gettext ( "LOCAL" ),
+			);
+		}
+		// ASTPPCOM-982 Ashish End
 		return $status_array;
 	}
 	function set_search_status($select = '') {
@@ -1198,15 +1228,15 @@ class common {
 
 		if (isset ( $button_params->layout )) {
 			if ($button_params->mode == 'popup') {
-				return '<a href="' . $link . '" style="color:#005298;" rel="facebox_medium" title="Update">' . $field . '</a>&nbsp;';
+				return '<a href="' . $link . '" style="color:#3b3280" rel="facebox_medium" title="Update">' . $field . '</a>&nbsp;';
 			} else {
-				return '<a href="' . $link . '" style="color:#005298;" title="Edit">' . $field . '</a>&nbsp;';
+				return '<a href="' . $link . '" style="color:#3b3280" title="Edit">' . $field . '</a>&nbsp;';
 			}
 		} else {
 			if ($button_params->mode == 'popup') {
-				return '<a href="' . $link . '" style="color:#005298;" rel="facebox" title="Update">' . $field . '</a>&nbsp;';
+				return '<a href="' . $link . '" style="color:#3b3280" rel="facebox" title="Update">' . $field . '</a>&nbsp;';
 			} else {
-				return '<a href="' . $link . '" style="color:#005298;" title="Edit">' . $field . '</a>&nbsp;';
+				return '<a href="' . $link . '" style="color:#3b3280" title="Edit">' . $field . '</a>&nbsp;';
 			}
 		}
 	}
@@ -1321,7 +1351,7 @@ class common {
 	}
 	function build_add_payment_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
-		return '<a href="' . $link . '" style="cursor:pointer;color:#005298;" rel="facebox_medium" title="Refill">PAYMENT</a>&nbsp;';
+		return '<a href="' . $link . '" style="cursor:pointer;color:#3b3280" rel="facebox_medium" title="Refill">PAYMENT</a>&nbsp;';
 	}
 	function build_add_download_button($url, $linkid) {
 		$link = base_url () . $url . "" . $linkid;
@@ -1342,7 +1372,9 @@ class common {
 			return filter_var ( $string, FILTER_SANITIZE_NUMBER_INT );
 		}
 	}
-	function mail_to_users($type, $accountinfo, $attachment = "", $amount = "") {
+	// Kinjal ASTPPCOM-978 Start
+	function mail_to_users($type, $accountinfo, $attachment = "", $amount = "",$filePath ="") {
+	// Kinjal ASTPPCOM-978 END
 		$subject              = "";
 		$settings_reply_email = 'astpp@astpp.com';
 		$reseller_id          = $accountinfo['reseller_id'] > 0 ? $accountinfo['reseller_id'] : 0;
@@ -1381,8 +1413,10 @@ class common {
 		$alert_template=$query[0]->alert_template;
 		$message = $query[0]->template;
 		$subject = $query [0]->subject;	
-		$useremail = $accountinfo['email'];
 		$accountinfo['email']=(isset($accountinfo['notification_email']) && $accountinfo['notification_email'] != '')?$accountinfo['notification_email'] : $accountinfo['email'];
+		// ASTPPCIM-979 Ashish start
+		$useremail = $accountinfo['email'];
+		// ASTPPCOM-979 Ashish End
 		$userdata = (array)$this->CI->db->get_where("accounts",array('email'=>$useremail,'status'=> 0))->first_row();
 		$usermobile=(isset($accountinfo['telephone_1']) && $accountinfo['telephone_1'] != '')?$accountinfo['telephone_1'] : $userdata['telephone_1'];
 		$message = html_entity_decode($message);
@@ -1485,6 +1519,27 @@ class common {
 				$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
 				$message = str_replace('#COMPANY_NAME#', $company_name, $message);
 		break;
+		// Kinjal ASTPPCOM-978 Start
+		case 'automated_report':
+			$subject = str_replace('#Report Name#', $accountinfo['subject_title'], $subject);
+			$subject = str_replace('#Interval Freq. of Email#', $accountinfo['interval_freq_of_email'], $subject);
+			$sms_message    = "";
+			$alert_template = "";
+			$message = str_replace('#Report Name#', $accountinfo['subject_title'], $message);
+			$message = str_replace('#Integer value#', $accountinfo['report_interval_days'], $message);
+			$message = str_replace('#Interval#', $accountinfo['report_interval_recurring'], $message);
+			$message = str_replace('#Interval Filter On#', $accountinfo['interval_filter_on'], $message);
+			if($filePath != '')
+			{
+				$today_date = gmdate('Y-m-d H:i:s');
+				$purge_date = common_model::$global_config['system_config']['automated_report_attachment_deleted'];
+				$last_date = date('Y-m-d' , strtotime("+ ".$purge_date." day"));
+				$filelink = $purge_date != -1 ? '<p>You can download Automated report from following link until '.$last_date.' </p>' : '<p>You can download Automated report from following link </p>';
+				$filelink .= '<a href="'.$filePath.'" target="_blank">'.$filePath.'</a>';
+				$message = $message.'<br/>'.$filelink;
+			}
+		break;
+		// Kinjal ASTPPCOM-978 END
 		case 'schedule_report':
 	         	$subject = str_replace('#title#', $accountinfo['subject_title'], $subject);
 				$sms_message    = "";
@@ -1593,6 +1648,9 @@ class common {
 		break;
 
 			case 'product_purchase':
+				// Kinjal ASTPPENT-1028 Start		
+				$accountinfo['total_price_amount'] = isset($accountinfo['quantity']) && $accountinfo['quantity'] != 0 ?$accountinfo['price'] * $accountinfo['quantity'] : (isset($accountinfo['price']) ?$accountinfo['price']:'' );
+				// Kinjal ASTPPENT-1028 END		
                 $subject = str_replace('#NAME#', $accountinfo['first_name'], $subject);
                 $subject = str_replace('#PRODUCT_NAME#', $accountinfo['name'], $subject);
 				$subject = str_replace('#NUMBER#', $accountinfo['number'], $subject);
@@ -1697,20 +1755,18 @@ class common {
 				$account_id = $accountinfo['customer_account_id'];
 			}
         	$reseller_id = $accountinfo['reseller_id'];
-        	if ($reseller_id != "0") {
-			    $reseller_result = $this->CI->db_model->getSelect("email", "accounts", array("id" => $reseller_id));
-			    $reseller_info = (array)$reseller_result->first_row();
-			    $settings_reply_email = $reseller_info['email'];
-      		}
 
-
+      		// ASTPPCOM-924 Start
 			if($query[0]->is_email_enable == '1')
 			{
 				$accountinfo['email']='';
 				$subject='';
 				$message='';
-				
+				$emailstatus = 2;
+			}else{
+				$emailstatus = 1;
 			}
+      		// ASTPPCOM-924 END
 			if($query[0]->is_sms_enable == '1')
 			{
 				$usermobile='';
@@ -1725,7 +1781,7 @@ class common {
 			}	
 			if($query[0]->is_alert_enable == '0' || $query[0]->is_sms_enable == '0' || $query[0]->is_email_enable == '0')
 			{		
-				$last_id=$this->emailFunction($settings_reply_email, $useremail, $subject, $message,$alert_template,$usermobile,$sms_message,$company_name, $attachment, $account_id, $reseller_id,$sip_user_name,$callkit_token,$status_code,$type);
+				$last_id=$this->emailFunction($settings_reply_email, $useremail, $subject, $message,$alert_template,$usermobile,$sms_message,$company_name, $attachment, $account_id, $reseller_id,$sip_user_name,$callkit_token,$status_code,$type,$emailstatus);
 				return $last_id;
 			} else {
 				return true;
@@ -1734,7 +1790,7 @@ class common {
 
     }
 
-    function emailFunction($from, $to, $subject, $message,$alert_template="",$usermobile="",$sms_message, $company_name = "", $attachment = "", $account_id, $reseller_id,$sip_user_name='',$callkit_token='',$status_code='',$type) {
+    function emailFunction($from, $to, $subject, $message,$alert_template="",$usermobile="",$sms_message, $company_name = "", $attachment = "", $account_id, $reseller_id,$sip_user_name='',$callkit_token='',$status_code='',$type,$emailstatus = '') {
 
     				$sms_message = '';
 					$alert_template = '';
@@ -1779,6 +1835,9 @@ class common {
 					$alert_template = str_replace('<br />', '', $alert_template);
 
 					$message .= "<br>\n<br>\nASTPP - #1 Open Source VoIP Solution Powered by Inextrix Technologies Pvt. Ltd.";
+					// Kinjal ASTPPCOM-1078 Start
+					$message = str_replace('<br>', '', $message);
+					// Kinjal ASTPPCOM-1078 END
 
 			        $send_mail_details = array(
 			        	'from'          => $from,
@@ -1786,7 +1845,7 @@ class common {
 			            'subject'       => $subject,
 			            'body'          => $message,
 			            'accountid'     => $account_id,
-			            'status'        => '1',
+			           	'status'        => $emailstatus,
 			            'attachment'    => $attachment,
 			            'reseller_id'   => $reseller_id,
 						'template'      => $type,
@@ -2035,15 +2094,75 @@ class common {
 		);
 		return $status_array;
 	}
+
+	// Kinjal ASTPPCOM-978 Start
+	function get_automated_report_status($status = '') {
+		$status_array = array (
+			'0' => gettext ( 'Day' )
+		);
+		return $status_array;
+	}
+	function get_automated_report_weeks($status = '') {
+		$status_array = array (
+			'1' => gettext ( 'Week' ),
+		);
+		return $status_array;
+	}
+	function get_automated_report_days() {
+		$day_array = array (
+			'monday' => gettext ( 'Monday' ),
+			'tuesday' => gettext ( 'Tuesday' ),
+			'wednesday' => gettext ( 'Wednesday' ),
+			'thursday' => gettext ( 'Thursday' ),
+			'friday' => gettext ( 'Friday' ),
+			'saturday' => gettext ( 'Saturday' ),
+			'sunday' => gettext ( 'Sunday' ),
+		);
+		return $day_array;
+	}
+	
+	function convert_GMT_to_date($select = "", $table = "", $date, $timezone_id = '' ) {
+		return $this->CI->timezone->display_GMT ( $date,2,$timezone_id);
+	}
+	function set_automated_report_status($select='',$table='',$status = '') {
+		if($table == 'automated_reports'){
+			return ($status == 0) ? "Day" : (($status == 1)  ? "Week" : (($status == 2) ? "Month" : "Biweekly" ));
+		}else{
+			return ($status == 0) ? "Day" : (($status == 1)  ? "Week" : "Month");
+		}
+	}
+	function get_automatedreport_date($automated_fields){
+		switch ($automated_fields['interval_frequency_on']) {
+			case 1:
+				$next_week = strtotime('next week');
+				$add_array['execution_date'] = date("Y-m-d", strtotime($automated_fields['week_day'], $next_week));
+				return $add_array['execution_date'];
+			break;
+		}		
+	}
+	function get_automated_report_module($select='',$table='',$status = '') {
+ 		$decoded_fields = json_decode($status,true);
+		return $decoded_fields['module'];
+	}
+	// Kinjal ASTPPCOM-978 END
 	function email_status($select = "", $table = "", $status) {
-		$status = ($status ['status'] == 0) ? "Sent" : "Not Sent";
+		// ASTPPCOM-924 Start
+		if($status['status'] == 0){
+			$status= gettext("Sent");
+		}else if($status['status'] == 2){
+			$status=gettext("Failed");
+		}else{
+			$status=gettext("Pending");
+		}
+		// ASTPPCOM-924 END
 		return $status;
 	}
 	function email_search_status($select = '') {
 		$status_array = array (
 				"" => gettext ( "--Select--" ),
 				"0" => gettext ( "Sent" ),
-				"1" => gettext ( "Not Sent" )
+				"1" => gettext ( "Not Sent" ),
+				"2" => gettext ( "Failed" )
 		);
 		return $status_array;
 	}
@@ -3508,10 +3627,10 @@ class common {
 	//HP: PBX_ADDON
 	function sip_dropdown($id,$accountid,$value){
   		$drop_down = "";
-		$drop_down .= '<select name="'.$id.'" id="'.$id.'" class="form-control float-left col-md-6 form-control-lg selectpicker '.$id.'" data-live-search="true">';
+		$drop_down .= '<select name="'.$id.'" id="'.$id.'" class="form-control float-left col-md-12 form-control-lg selectpicker '.$id.'" data-live-search="true">';
 		$drop_down .=	'<option value="0">-- Select --</option>';
-		$query = $this->CI->db_model->getSelect("*", "sip_devices",array('accountid' => $accountid)); 
-		if ($query->num_rows () > 0){
+		$query = $this->CI->db_model->getSelect("*", "sip_devices",array('accountid' => $accountid, 'status' => 0)); 
+		if ($query->num_rows() > 0){
 			$sip_devices = $query->result_array();
 			foreach($sip_devices as $key=>$val){
 				if($val['username'] == $value){
@@ -3640,4 +3759,171 @@ class common {
 		);
 		return $status_array;
 	}
+	// ASTPPCOM-941 Start
+	function get_field_name_balance($select, $table, $where) {
+		if (is_array ( $where )) {
+			$where = $where;
+		} else {
+			$where = array (
+					"id" => $where
+			);
+		}
+		$field_name = $this->CI->db_model->getSelect ('*',"accounts", $where );
+		$field_name = $field_name->row_array ();
+		$prepaid='';
+		$acc_creditlimit='';
+		if($field_name['posttoexternal'] == 1){
+			$acc_creditlimit = $field_name['credit_limit'] - $field_name['balance'];
+		}else{
+			$prepaid = $field_name['balance'];
+		}
+	
+		if (isset ( $select ) && $select == 'balance') {
+			return $this->convert_to_currency($select, $table, $prepaid);
+		} else {
+			return $this->convert_to_currency($select, $table, $acc_creditlimit);
+		}
+	}
+	// ASTPPCOM-941 END
+
+	// ASTPPCOM-944 Jaimin Start
+	function sip_cid_types($status = '') {
+		$status_array = array (
+				'none' => gettext ('None'),
+				'rpid' => gettext ('Remote-Party-ID'),
+				'pid' => gettext ('P-Asserted-Identity')
+		);
+		return $status_array;
+	}
+
+	function get_sip_cid_type($select = "", $table = "", $value) {
+		$data=array("none"=>"None","rpid"=>"Remote-Party-ID","pid"=>" P-Asserted-Identity");
+		return  $data[$value] ;
+	} 
+	// END
+	// ASTPPCOM-975 Start
+	function encrypt( $string, $action = 'e' ) {
+        $secret_key =  config_item('api_decipher_auth_token');
+ 		$secret_key = $secret_key != "" ? $secret_key : "YPPFWnaYBUmuINDsUsfnpceeJgGrGwFQ";
+        $secret_iv =  config_item('iv_key');
+		$secret_iv = isset($secret_iv) && $secret_iv != "<IV_KEY>" ? $secret_iv : "UwCs*^jjkNU53u%?QjGb2CAycS3Wqg94";
+        $output = false;
+        $encrypt_method = "AES-256-CBC";
+        $key = hash( 'sha256', $secret_key );
+        $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+        if( $action == 'e' ) {
+            $output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
+        }
+        else if( $action == 'd' ){
+            $output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
+        }
+        return $output;
+    }
+    function get_field_name_country_camel($select, $table, $where) {
+		$timezone_name = $where;
+		if (is_array ( $where )) {
+			$where = $where;
+		} else {
+			if($select == 'gmtoffset'){
+				$where = array("timezone_name"=>$where);
+			}else{
+				$where = array (
+						"id" => $where
+				);
+			}
+		}
+		$field_name = $this->CI->db_model->getSelect ( $select, $table, $where );
+		$field_name = $field_name->result ();
+		if (isset ( $field_name ) && ! empty ( $field_name )) {
+			if($select == 'gmtoffset'){
+				if($field_name [0]->{$select} >= 0){
+					$time = gmdate("H:i", $field_name [0]->{$select});
+					$gmthours = "+".$time;
+					return $gmthours;
+				}else{
+					$gmtoffset = str_replace("-","",$field_name [0]->{$select});
+					$time = gmdate("H:i", $gmtoffset);
+					$gmthours = "-".$time;
+					return $gmthours;
+				}
+
+			}else{
+				return ucwords(strtolower($field_name [0]->{$select}));
+			}	 
+		} else {
+			return "";
+		}
+	}
+	function notification_mode($status = '')
+	{
+		$status_array = array(
+			'0' => gettext('ASTPP'),
+			'1' => gettext('Personalized')
+		);
+		return $status_array;
+	}
+    // ASTPPCOM-975 END
+
+	// ASTPPCOM-1005 Jaimin Start
+	    function validate_module_access_level($module_name,$type,$module_url='',$redirect_url=""){
+			$accountinfo = $this->CI->session->userdata('accountinfo');
+			$permissioninfo = $this->CI->session->userdata('permissioninfo'); 
+			if($accountinfo['type'] == 1 || $accountinfo['type'] == 2 ){
+				if(isset($module_url) && $module_url ==''){
+					$module_url=$module_name.'_list';
+				}
+			}
+			if($module_name == "custom_rates"){
+				$module_name = "personalized_rates";
+			}
+			if($module_url == "custom_rates_list"){
+				$module_url = "personalized_rates_list";
+			}
+			if($accountinfo['type'] != -1){
+				$account_permission = $permissioninfo[$module_name][$module_url];
+			}
+			if (is_array($permissioninfo) && !array_key_exists($type, $account_permission) || $accountinfo['type'] == 3) {
+				if($accountinfo['type'] != -1){
+					$this->CI->session->set_flashdata ( 'astpp_notification','Permission Denied!');
+					if($redirect_url != ''){
+						redirect(base_url().$redirect_url);
+					}else{
+						if ($accountinfo['type'] == '-1' || $accountinfo['type'] == '2' || $accountinfo['type'] == '4' || $accountinfo['type'] == '1') {
+							redirect(base_url().'dashboard/');
+						} else {
+							redirect(base_url().'user/user/');
+						}
+					}
+				}
+			}
+		}
+	// End
+	// ASTPPCOM-982 Ashish start
+	function get_status_voice_broadcast($select = "", $table = "", $status) {
+		if($status['status'] == 0){
+			$status = gettext("InProgress");
+		}elseif($status['status'] == 1){
+			$status = gettext("Pending");
+		}elseif($status['status'] == 2){
+			$status = gettext("Completed");
+		}
+		return $status;
+	}
+	// ASTPPCOM-982 Ashish End
+
+	function set_routetype_origination($status = '') {
+		$status_array = array( ""=>'--Select--','0' => 'Priority','1' => 'Percentage');
+		return $status_array;
+	}
+	// ASTPPCOM-982 Ashish start
+	function set_voice_broadcast_status($status) {
+		$status_array = array (
+				'' => gettext ( '--Select--' ),
+				'0' => gettext ( 'InProgress' ),
+				'1' => gettext ( 'Pending' ),
+				'2' => gettext ( 'Completed' )
+		);
+		return $status_array;
+	}
+	// ASTPPCOM-982 Ashish End
 }

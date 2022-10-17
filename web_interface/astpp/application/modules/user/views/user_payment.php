@@ -84,12 +84,12 @@ return false;
 											<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext('Account Recharge')?></h3>
 											
 											<div class="col-md-12 form-group">
-												<label class="col-md-3 p-0 control-label"><?php echo gettext('Enter Recharge Amount In')?> <?= $from_currency?>:</label>
+												<label class="p-0 control-label"><?php echo gettext('Enter Recharge Amount In')?> <?= $from_currency?>:</label>
 												<input type="text" name="gross_amount" id="gross_amount" value="0" class="col-md-12 form-control form-control-lg">
 											</div>
 											
 											<div class="col-md-12 form-group">
-												<label class="col-md-3 p-0 control-label"><?php echo gettext('Tax Rate')?>: (<?= $paypal_tax; ?>%):</label>
+												<label class="p-0 control-label"><?php echo gettext('Tax Rate')?>: (<?= $paypal_tax; ?>%):</label>
 												<input type="text" name="tax_amount" id="tax_amount" readonly value="0"  class="col-md-12 form-control form-control-lg">
 											</div>
 											
@@ -105,7 +105,7 @@ return false;
 											<form name="payment_form" id="payment_form" action="<?=$paypal_url?>" method="POST" onSubmit="return form_submit();">
 												  
 												  <div class="col-md-12 form-group">
-														<label class="col-md-3 p-0 control-label"><?php echo gettext('Net Payable Amount in')?> <?= $to_currency?>:</label>
+														<label class="p-0 control-label"><?php echo gettext('Net Payable Amount in')?> <?= $to_currency?>:</label>
 														 <input type="text" name="amount" readonly id="amount" value="0"  class="col-md-12 form-control form-control-lg">
 												  </div>
 												  

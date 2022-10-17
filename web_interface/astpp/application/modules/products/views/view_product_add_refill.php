@@ -29,7 +29,7 @@
               <h3 class="bg-secondary text-light p-2 rounded-top"><?php echo gettext('Basic Information');?></h3>
               	<div class="row px-4">
 		 <div class='col-md-12 form-group'>
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Product Category');?></label>
+                      <label class="no-padding control-label"><?php echo gettext('Product Category');?></label>
                        <div class="col-md-12 form-control selectpicker form-control-lg p-0">
                                  <?php
 				$product_add = array("id" => "product_category", "name" => "product_category", "class" => "product_category");				
@@ -37,17 +37,17 @@
 			</div>
                   </div>
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Name'); ?>*</label>
+                      <label class="no-padding control-label"><?php echo gettext('Name'); ?>*</label>
                       <input class="col-md-12 form-control form-control-lg m-0" value="<?php echo (isset($add_array['product_name']))?$add_array['product_name']:'' ?>" name="product_name" size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="product_name_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="product_name_error"></span></div>
                   </div>
                  
                   <div class='col-md-12 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Description'); ?></label>
+                      <label class="no-padding control-label"><?php echo gettext('Description'); ?></label>
                       <input class="col-md-12 form-control form-control-lg m-0" value= "<?php echo (isset($add_array['product_description']))?$add_array['product_description']:'' ?>" name="product_description" size="16" type="text"/>
                   </div>
                   <div class='col-md-12 form-group'>
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Can be purchased?'); ?></label>
+                      <label class="no-padding control-label"><?php echo gettext('Can be purchased?'); ?></label>
                       <select  name="can_purchase" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
 			<?php if(isset($add_array['can_purchase'])) {?>
                         <option value="0" <?php if($add_array['can_purchase'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('Yes'); ?></option>
@@ -60,7 +60,7 @@
                       </select>
                   </div>
 		<div class='col-md-12 form-group'>
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Status'); ?></label>
+                      <label class="no-padding control-label"><?php echo gettext('Status'); ?></label>
                       <select  name="status" class="col-md-12 form-control selectpicker form-control-lg" data-live-search='true' datadata-live-search-style='begins'>
                         <option value="0" <?php if($add_array['status'] == '0'){ ?> selected="selected" <?php } ?>><?php echo gettext('Active'); ?></option>
 			<option value="1" <?php if($add_array['status'] == '1'){ ?> selected="selected" <?php } ?>><?php echo gettext('Inactive'); ?></option>
@@ -77,7 +77,7 @@
 		 <div class = "row px-4" >
                  
 		   <div class='col-md-6 form-group'> 
-                      <label class="col-md-12 no-padding control-label"><?php echo gettext('Price'); ?> (<?php echo ($currency)?>) *</label>
+                      <label class="no-padding control-label"><?php echo gettext('Price'); ?> (<?php echo ($currency)?>) *</label>
                       <input class="col-md-12 form-control form-control-lg m-0" name="price" value= "<?php echo (isset($add_array['price']))?$add_array['price']:'' ?>"  size="16" type="text"/>
 			<div class="tooltips error_div pull-left no-padding" id="price_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="price_error"></span></div>
                   </div>

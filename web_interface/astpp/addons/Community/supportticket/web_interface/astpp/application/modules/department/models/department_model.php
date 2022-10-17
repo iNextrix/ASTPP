@@ -27,9 +27,14 @@ class Department_model extends CI_Model {
     }
 
     function getdepartment_list($flag, $start = 0, $limit = 0) {
-         $this->db_model->build_search('department_list_search');
-	
-	$where=array();
+        $this->db_model->build_search('department_list_search');
+    	$where=array();
+        // ASTPPCOM-925 Start
+        $accountinfo = $this->session->userdata('accountinfo');
+        if ($accountinfo['type'] == 1 ) {
+            $where['reseller_id'] = $accountinfo['id']; 
+        }
+        // ASTPPCOM-925 END
         if ($flag) {
             $query = $this->db_model->select("*", "department", $where, "id", "ASC", $limit, $start);
         } else {
@@ -40,7 +45,11 @@ class Department_model extends CI_Model {
 
     function add_department($data) {
         unset($data["action"]);
-	$data['email_id'] = $data['smtp_user'];
+        // ASTPPCOM-925 Start
+        $accountinfo = $this->session->userdata('accountinfo');
+        $data['reseller_id'] = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
+        // ASTPPCOM-925 END
+    	$data['email_id'] = $data['smtp_user'];
         $this->db->insert("department", $data);
         return true;
     }

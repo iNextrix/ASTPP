@@ -143,7 +143,7 @@ label.error {
 								enctype="multipart/form-data">
 								<div class='col-md-4'>
 									<div class='col-md-12 form-group p-0'>
-										<label class="col-md-3 no-padding control-label"><?php echo gettext('Caller ID');?> :</label>
+										<label class="no-padding control-label"><?php echo gettext('Caller ID');?> :</label>
 										<input type="input" class="form-control" name="number"
 											id="number" maxlength="20">
 										<div id="number_validate"

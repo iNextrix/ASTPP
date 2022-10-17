@@ -74,7 +74,7 @@ if (! isset($csv_tmp_data)) {
 							<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Import Termination Rates"); ?></h3>
 							<div class="col-md-4 col-sm-12 float-left p-0">
 								<div class='col-md-12 form-group'>
-									<label class="col-md-4 p-0 control-label"><?php echo gettext("Trunk List"); ?></label>
+									<label class="p-0 control-label"><?php echo gettext("Trunk List"); ?></label>
 							  
 								  <?php
     $trunklist = form_dropdown('trunk_id', $this->db_model->build_dropdown("id,name", "trunks", "where_arr", array(
@@ -94,7 +94,7 @@ if (! isset($csv_tmp_data)) {
 
 
 							<div class="col-md-12 form-group">
-								<label class="col-12 control-label mb-4"><?php echo gettext("Select the file"); ?></label>
+								<label class="control-label mb-4"><?php echo gettext("Select the file"); ?></label>
 								<div class="col-12 mt-4 d-flex">
 									<div class="col-md-4 float-left" data-ripple="">
 										<input type="file" name="termination_rate_import_mapper"

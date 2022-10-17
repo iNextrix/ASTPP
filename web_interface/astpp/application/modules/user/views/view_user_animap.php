@@ -67,7 +67,7 @@
 									 <div class="col-md-12">
 										  <div class="row">
 												  <div class="col-md-4 form-group">	
-													  <label class="col-md-12 p-0 control-label"><?php echo gettext('Caller ID') ?></label>
+													  <label class="p-0 control-label"><?php echo gettext('Caller ID') ?></label>
 													  <input type="input" class="col-md-12 form-control form-control-lg" name="number" id="number" maxlength="20">
 													   <div class="text-danger tooltips error_div float-left p-0" id="err"></div>
                           </div>

@@ -66,6 +66,22 @@ class purge extends CI_Controller
 				$query = "delete from accounts where ".$where; 
 				$this->db->query($query);
 			}
+			// ASTPPCOM-1299 Start
+			if($system_config['automated_report_attachment_deleted']!="" && $system_config['automated_report_attachment_deleted']!="-1" && is_numeric($system_config['automated_report_attachment_deleted'])) {
+				$where    = "purge_date < '".gmdate('Y-m-d')."'";
+				$attachement_data = "select filename from automated_report_log where ".$where;
+				$attachement_files = $this->db->query($attachement_data);
+				$attachement_files_array = $attachement_files->result_array();
+				foreach($attachement_files_array as $val) 
+				{
+					$path_to_file = getcwd()."/attachments/";
+					$file = $path_to_file.$val['filename'];
+					unlink($file);
+				}
+				$query    = "delete from automated_report_log where ".$where;
+				$this->db->query($query);
+			}
+			// ASTPPCOM-1299 Start
 			exit;		
 		}
 	}

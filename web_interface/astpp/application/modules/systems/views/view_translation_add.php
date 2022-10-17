@@ -15,7 +15,7 @@
 					
 							<input name="id" value="" type="hidden">
 							<div class="col-md-12 form-group">
-							  <label class="col-md-3 p-0 control-label"><?php echo gettext('Module Name') ?><span>*</span></label>
+							  <label class="p-0 control-label"><?php echo gettext('Module Name') ?><span>*</span></label>
 							  <input type="text" name="module_name" value="<?php echo isset($details['module_name'])?$details['module_name']:"";?>" id='module_name' size="20" class="col-md-12 form-control form-control-lg"/>
 							  <div class="tooltips error_div pull-left no-padding" id="module_name_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error  no-padding" id="module_name_error"></span></div>   
 							</div>   
@@ -31,7 +31,7 @@
 										  foreach ($details as $key => $value1) {
 											  if ($value ['locale'] == $key) {?>
 												<div class="col-md-12 form-group">      
-												  <label class="col-md-3 p-0 control-label"><?php echo gettext($value ['name']);?><span>*</span></label>
+												  <label class="p-0 control-label"><?php echo gettext($value ['name']);?><span>*</span></label>
 												  <input type="text" name="<?php echo $value ['locale']; ?>" value="<?php echo $value1;?>" id='<?php echo $value ['locale']; ?>' size="20" class="col-md-12 form-control form-control-lg"/>     
 												  <div class="tooltips error_div pull-left no-padding" id="<?php echo $value ['locale']; ?>_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error p-0" id="<?php echo $value ['locale']; ?>_error"></span></div>   
 											   </div>   
@@ -43,7 +43,7 @@
 										  foreach ($fields_data as $key => $value1) {
 											  if ($value ['locale'] == $value1) {?>
 												<div class="col-md-12 form-group">      
-												  <label class="col-md-3 p-0 control-label"><?php echo gettext($value ['name']);?><span>*</span></label>
+												  <label class="p-0 control-label"><?php echo gettext($value ['name']);?><span>*</span></label>
 												  <input type="text" name="<?php echo $value ['locale']; ?>" value="" id='<?php echo $value ['locale']; ?>' size="20" class="col-md-12 form-control form-control-lg"/>     
 												  <div class="tooltips error_div pull-left no-padding" id="<?php echo $value ['locale']; ?>_error_div" style="display: none;"><i class="fa fa-exclamation-triangle error_triangle"></i><span class="popup_error error p-0" id="<?php echo $value ['locale']; ?>_error"></span></div>   
 											   </div>   

@@ -361,7 +361,6 @@ a.addon_title:hover h3{
   clear: both;
 }
 .addon_strong{
-  text-transform: uppercase;
   font-size: 10px;
 }
 .h-auto{
@@ -909,10 +908,6 @@ input.ace[type="checkbox"] + .lbl, input.ace[type="radio"] + .lbl{
   .container-fluid{
     clear: both;
   }
-  .addon_strong{
-    text-transform: uppercase;
-    font-size: 10px;
-  }
   .h-auto{
     height:auto !important;
   }
@@ -1371,6 +1366,21 @@ input.ace[type="checkbox"] + .lbl, input.ace[type="radio"] + .lbl{
     overflow: auto;
   }
   /* End */
+
+.subscribe_btn {
+  color: #e4087e !important;
+  background-color: #ffffff !important;
+  border-color: #e4087e !important;
+  text-decoration: none;
+}
+
+.subscribe_btn:hover{
+  color: #fff !important;
+  background-color: rgb(196 82 143) !important;
+  border-color: rgb(196 82 143) !important;
+  text-decoration: none;
+}
+
   .dropdown-divider{
     height: auto !important;
   }

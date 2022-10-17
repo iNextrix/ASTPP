@@ -190,7 +190,7 @@ if ((isset($permissioninfo['invoices']['invoice_list']['generate'])) && ($permis
 									<div class="row">
 										<div class="col-3">
 											<div class="col-12 form-group">
-												<label class="col-md-3 p-0 control-label"><?php echo gettext('From Date'); ?></label>
+												<label class="p-0 control-label"><?php echo gettext('From Date'); ?></label>
 												<input class="col-md-12 form-control form-control-lg "
 													id="from_date" name="fromdate" size="20" type="text">
 											</div>
@@ -201,7 +201,7 @@ if ((isset($permissioninfo['invoices']['invoice_list']['generate'])) && ($permis
 
 										<div class="col-3">
 											<div class="col-12 form-group">
-												<label class="col-md-3 p-0 control-label"><?php echo gettext('To Date'); ?></label>
+												<label class="p-0 control-label"><?php echo gettext('To Date'); ?></label>
 												<input class="col-md-12 form-control form-control-lg"
 													value="" id="to_date" name="todate" size="20" type="text">
 											</div>
@@ -210,7 +210,7 @@ if ((isset($permissioninfo['invoices']['invoice_list']['generate'])) && ($permis
 										</div>
 
 										<div class="col-3 form-group">
-											<label class="col-md-3 p-0 control-label"><?php echo gettext('Accounts'); ?></label>
+											<label class="p-0 control-label"><?php echo gettext('Accounts'); ?></label>
 														<?php
             if ($login_type == - 1 || $login_type == 4 || $login_type == 2) {
                 $where = "deleted = '0' AND status = '0' AND (type= '0' OR type= '3' OR type= '1')";
@@ -228,7 +228,7 @@ if ((isset($permissioninfo['invoices']['invoice_list']['generate'])) && ($permis
 
 										<div class="col-3">
 											<div class="col-12 form-group">
-												<label class="col-md-3 p-0 control-label"><?php echo gettext('Notes'); ?></label>
+												<label class="p-0 control-label"><?php echo gettext('Notes'); ?></label>
 												<input class="col-md-12 form-control form-control-lg"
 													value="" id="notes" name="notes" size="20" type="text">
 											</div>

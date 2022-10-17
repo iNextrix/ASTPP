@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>voice_broadcast</tech_name>
+	<name>Voice Broadcast</name>
+	<description>Voice broadcasting is a way to send a recorded voice message to a group of phone numbers within a short period of time.</description>		
+	<icon>static/images/voice_broadcast_icon.png</icon>
+	<version>2.0.0</version>
+	<license>AGPL-3</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

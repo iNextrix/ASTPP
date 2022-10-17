@@ -382,6 +382,13 @@ class Addons extends MX_Controller
                         "package_name" => $module
                     ));
                 }
+                // ASTPPCOM-982 Ashish Start
+                if($module=='voice_broadcast'){
+                    $dir_path = "/opt/ASTPP/web_interface/astpp/upload/voice_broadcast";
+                    mkdir($dir_path, 0777, true);
+                    chmod($dir_path, 0777);
+                }
+                // ASTPPCOM-982 Ashish End
 		//AD: Language
                 if (strpos($module, 'language') !== false) {
                     $command = "wget --no-check-certificate -q -O- ".base_url() ."Translation_script/insert_translation/".$module;
@@ -460,7 +467,11 @@ class Addons extends MX_Controller
                 $this->db_model->delete("addons", array(
                     "package_name" => $module
                 ));
-
+                // ASTPPCOM-982 Ashish Start
+                if($module == 'voice_broadcast' ){
+                    exec("/bin/rm -rf /opt/ASTPP/web_interface/astpp/upload/voice_broadcast");
+                }
+                // ASTPPCOM-982 Ashish End
                 echo "Module uninstall process completed!!<br/><br/>";
                 echo "Please re-login to get impact of addon!! <a href='/logout'>Re-login</a> | <a href='" . base_url() . "addons/addons_list/" . $type . "'>Back</a><br/><br/>";
                 exit();

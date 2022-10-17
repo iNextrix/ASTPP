@@ -312,7 +312,26 @@ class Freeswitch extends MX_Controller
         $json_data = $paging_data["json_paging"];
         $query = $this->freeswitch_model->fs_retrieve_sip_user(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $permissioninfo = $this->session->userdata('permissioninfo');
-
+        // ASTPPCOM-943 Kinjal Start
+        $command = "api sofia xmlstatus profile default reg";  
+        $new_array = array();
+        $id= 0;
+        $response = $this->freeswitch_model->reload_freeswitch($command,$id);
+        if($response != ""){
+            $response_arr = json_decode(json_encode((array) simplexml_load_string(trim($response))),1);
+            if(array_key_exists("registration",$response_arr["registrations"])){
+                if(!array_key_exists("0",$response_arr["registrations"]['registration'])){
+                    if($response_arr['registrations']['registration']['sip-auth-user'] != ''){
+                        array_push($new_array, $response_arr['registrations']['registration']['sip-auth-user']);
+                    }
+                }else{
+                    foreach ($response_arr['registrations']['registration'] as $key => $value) {
+                        array_push($new_array, $value['sip-auth-user']);
+                    }
+                }
+            }
+        }
+        // ASTPPCOM-943 Kinjal END
         foreach ($query as $key => $value) {
             $checkbox = array(
                 '<input type="checkbox" name="chkAll" id=' . $value['id'] . ' class="ace chkRefNos" onclick="clickchkbox(' . $value['id'] . ')" value=' . $value['id'] . '><lable class="lbl"></lable>'
@@ -324,6 +343,12 @@ class Freeswitch extends MX_Controller
             } else {
                 $voicemail_enabled = '<img src=' . $path_false . ' style="height:20px;width:20px;" title="Disable">';
             }
+            // ASTPPCOM-943 Start
+            $live_status = "<i class='fa fa-circle' style='color: #FF3131'></i>";
+            if (in_array($value['username'],$new_array)) {
+                $live_status = "<i class='fa fa-circle' style='color: #00FF00'></i>";
+            }
+            // ASTPPCOM-943 END
             $account_data = $this->session->userdata("accountinfo");
             $reseller_ids = $value['reseller_id'];
             if ($reseller_ids == 0) {
@@ -333,9 +358,16 @@ class Freeswitch extends MX_Controller
                     '0' => $reseller_ids
                 ));
             }
+            // ASTPPCOM-943 Start
+            $edit_permission=$value['username'];
+            if ((isset($permissioninfo['freeswitch']['fssipdevices']['edit']) && $permissioninfo['freeswitch']['fssipdevices']['edit'] == 0 or $permissioninfo['login_type'] == '-1' )) {
+                $base_url = base_url().'freeswitch/fssipdevices_edit/'.$value['id'];
+                $edit_permission="<span style='margin-right:8px' id='live_status_".$value['username']."'>".$live_status."</span><a href='/freeswitch/fssipdevices_edit/" . $value['id'] . "' style='cursor:pointer;color:#3b3280' rel='facebox_medium' title='".gettext('User Name')."'>" . $value['username'] . "</a>";
+            }
+            // ASTPPCOM-943 END
             $current_row = array(
                 $checkbox,
-                "<a href='/freeswitch/fssipdevices_edit/" . $value['id'] . "' style='cursor:pointer;color:#005298;' rel='facebox_medium' title='username'>" . $value['username'] . "</a>",
+                $edit_permission,
                 $value['password'],
                 $this->common->get_field_name('name', '`sip_profiles', array(
                     'id' => $value['sip_profile_id']
@@ -350,7 +382,8 @@ class Freeswitch extends MX_Controller
                 $this->common->convert_GMT_to('', '', $value['creation_date']),
                 $this->common->convert_GMT_to('', '', $value['last_modified_date']),
                 $this->common->get_status('status', 'sip_devices', $value),
-		$this->get_action_buttons_fssipdevices ( $value ['id'] ) 
+                $this->get_advance_buttons_fssipdevices ( $value ['id'] ),
+		        $this->get_action_buttons_fssipdevices ( $value ['id'] ) 
             );
             if ($account_data['type'] == 1) {
                 if (($key = array_search($reseller_number, $current_row)) !== false) {
@@ -366,6 +399,19 @@ class Freeswitch extends MX_Controller
             );
         }
         echo json_encode($json_data);
+    }
+
+    //  ASTPPCOM-984 change 
+     function get_domain_fssipdevices($accountid) { 
+        $sip_routing_status = $this->db_model->countQuery ( "*", "addons", array("package_name"=>"multi_tenant_ip_pbx") );  
+        if(isset($sip_routing_status) && $sip_routing_status ==1){  
+            $ret_url=$this->common->get_field_name ( 'domain', '`domains', array (  
+                'accountid' => $accountid   
+            ) );    
+        }else{  
+            $ret_url='';    
+        }   
+        return $ret_url;    
     }
 
     function fssipdevices_delete_multiple()
@@ -411,7 +457,7 @@ class Freeswitch extends MX_Controller
                 'cell' => array(
 
                     '<input type="checkbox" name="chkAll" id="' . $value['id'] . '" class="ace chkRefNos" onclick="clickchkbox(' . $value['id'] . ')" value=' . $value['id'] . '><lable class="lbl"></lable>',
-                    '<a href="' . base_url() . 'accounts/' . $entity_type . '_fssipdevices_action/edit/' . $value['id'] . '/' . $accountid . '/" rel="facebox_medium" style="cursor:pointer;color:#005298;" title="Edit"><span title="Edit">' . $value['username'] . '</span></a>',
+                    '<a href="' . base_url() . 'accounts/' . $entity_type . '_fssipdevices_action/edit/' . $value['id'] . '/' . $accountid . '/" rel="facebox_medium" style="cursor:pointer;color:#3b3280" title="Edit"><span title="Edit">' . $value['username'] . '</span></a>',
                     $value['password'],
                     $this->common->get_field_name('name', '`sip_profiles', array(
                         'id' => $value['sip_profile_id']
@@ -422,11 +468,23 @@ class Freeswitch extends MX_Controller
                     $this->common->convert_GMT_to('', '', $value['creation_date']),
                     $this->common->convert_GMT_to('', '', $value['last_modified_date']),
                     $this->common->get_status('status', 'sip_devices', $value),
-                    $this->get_action_fssipdevices_buttons($value['id'], $value['accountid'], $entity_type)
+                    // $this->get_action_fssipdevices_buttons($value['id'], $value['accountid'], $entity_type)
+                    // Jaimin ASTPPCOM-984 
+                        $this->get_advance_buttons_fssipdevices ( $value ['id'] ),
+                    // End
                 )
             );
         }
         echo json_encode($json_data);
+    }
+
+    function get_advance_buttons_fssipdevices($id) {    
+        if ($this->session->userdata('logintype') == '0'){  
+            $ret_url = '<a href="' . base_url () . 'user/user_fssipdevices_routing/' . $id . '/" class="btn btn-royelblue btn-sm"  rel="" title="Call Routing">&nbsp;<i class="fa fa-info fa-fw"></i></a>&nbsp;';   
+        }else{  
+            $ret_url = '<a href="' . base_url () . 'siprouting/fssipdevices_routing/' . $id . '/" class="btn btn-royelblue btn-sm"  rel="" title="Call Routing">&nbsp;<i class="fa fa-info fa-fw"></i></a>&nbsp;';  
+        }       
+        return $ret_url;    
     }
 
     function get_action_fssipdevices_buttons($id, $accountid, $entity_type = '')
@@ -530,12 +588,12 @@ class Freeswitch extends MX_Controller
 
         // Defined color
         $status_color = array(
-            "Answered" => "Lavender",
-            "Connecting" => "Yellow",
-            "Unknown" => "Melon"
+            "Answered" => "#28A745",
+            "Connecting" => "#E40B80",
+            "Unknown" => "#DC3545"
         );
-        $org_color = "Brown";
-        $term_color = "YellowGreen";
+        $org_color = "#D6D8D9";
+        $term_color = "#3B3280";
 
         foreach ($calls as $key => $value) {
             if (isset($value['state']) && ($value['state'] == 'CS_EXCHANGE_MEDIA' || $value['state'] == 'CS_CONSUME_MEDIA')) {
@@ -544,6 +602,10 @@ class Freeswitch extends MX_Controller
 
                 $org_data = explode("//", @$livecall_data[2]);
                 $term_data = explode("//", @$livecall_data[3]);
+
+                $trunk = $term_data[4];
+                $trunk = explode("=",$trunk);
+                $gateway = $this->common->get_field_name('name', 'trunks', array("id" => $trunk[1]));
 
                 $value['callstate'] = ($value['state'] == 'CS_EXCHANGE_MEDIA') ? "Answered" : (($value['state'] == 'CS_CONSUME_MEDIA') ? "Connecting" : "Unknown");
                 $amount = isset($term_data[3]) ? $term_data[3] : 0;
@@ -559,14 +621,14 @@ class Freeswitch extends MX_Controller
                         "<span style='color:" . $org_color . "'><b>" . @rtrim(ltrim($org_data[0], "^"), ".* ") . "</b></span>",
                         "<span style='color:" . $org_color . "'><b>" . @$org_data[1] . "</b></span>",
                         "<span style='color:" . $org_color . "'><b>" . @$org_data[2] . "</b></span>",
-                        "<span style='color:" . $term_color . "'><b>" . @$term_data[0] . "</b></span>",
+                        "<span style='color:" . $term_color . "'><b>" . @$gateway . "</b></span>",
                         "<span style='color:" . $term_color . "'><b>" . @rtrim(ltrim($term_data[1], " ^"), ".* ") . "</b></span>",
                         "<span style='color:" . $term_color . "'><b>" . @$term_data[2] . "</b></span>",
                         isset($term_data[3]) ? "<span style='color:" . $term_color . "'><b>" . $this->common_model->calculate_currency_customer(@trim($amount)) . "</b></span>" : "",
                         $value['dest'],
                         date("H:i:s", strtotime(date("Y-m-d H:i:s")) - $value['created_epoch']),
                         @$livecall_data[4],
-                        "<span style='background-color:" . $status_color[$value['callstate']] . "'><b>" . $value['callstate'] . "</b></span>",
+                        "<span style='color:#fff;background-color:" . $status_color[$value['callstate']] . "'><b>" . $value['callstate'] . "</b></span>",
                         $value['read_codec'] . " / " . $value['write_codec']
                     )
                 );
@@ -622,14 +684,33 @@ class Freeswitch extends MX_Controller
     function fsgateway_json()
     {
         $json_data = array();
+        // ASTPPCOM-943 Kinjal Start
+        $new_array = array();
+        $command = "api sofia xmlstatus gateway"; 
+        $response = $this->freeswitch_model->reload_freeswitch($command,$id);
+        if($response != "" ){
+           $response_arr = json_decode(json_encode((array) simplexml_load_string(trim($response))),1);
+           if(array_key_exists("0",$response_arr["gateway"]) && $response_arr != ""){
+                foreach ($response_arr['gateway'] as $key => $value) {
+                    if($value['state'] != 'FAIL_WAIT' && $value['state'] != 'TRYING' && $value['state'] !='FAILED' && $value['state'] !='UNREGED'){
+                        array_push($new_array, $value['name']);
+                    }
+                }
+           }else{
+                array_push($new_array, $response_arr['gateway']['name']);
+           }
+        }
+        // ASTPPCOM-943 Kinjal END
 
         $count_all = $this->freeswitch_model->get_gateway_list(false);
-
         $paging_data = $this->form->load_grid_config($count_all, $_GET['rp'], $_GET['page']);
         $json_data = $paging_data["json_paging"];
         $gateway_data = array();
         $query = $this->freeswitch_model->get_gateway_list(true, $paging_data["paging"]["start"], $paging_data["paging"]["page_no"]);
         $gateway_result = array();
+        // Kinjal ASTPPCOM-943 Start
+        $live_status = "<i class='fa fa-circle' style='color: #FF3131'></i>";
+        // Kinjal ASTPPCOM-943 END
         if ($query->num_rows() > 0) {
             $query = $query->result_array();
             foreach ($query as $key => $query_value) {
@@ -637,7 +718,20 @@ class Freeswitch extends MX_Controller
                 $tmp = null;
                 foreach ($query_value as $gateway_key => $gateway_val) {
                     if ($gateway_key != "gateway_data") {
-                        $gateway_data[$gateway_key] = $gateway_val;
+                        // Kinjal ASTPPCOM-943 Start
+                        if($gateway_key == "name"){
+                            if (in_array($query_value['name'],$new_array)) {
+                                $live_status = "<i class='fa fa-circle hello' style='color: #00FF00'></i>";
+                                $element = "<span style='margin-right:8px' id='live_status_".$gateway_val."'>".$live_status."</span>";
+                            }else{
+                                $live_status = "<i class='fa fa-circle demo' style='color: #FF3131'></i>";
+                                $element = "<span style='margin-right:8px' id='live_status_".$gateway_val."'>".$live_status."</span>";
+                            }
+                            $gateway_data[$gateway_key] = $element.$gateway_val;
+                        }else{
+                            $gateway_data[$gateway_key] = $gateway_val;
+                        }
+                        // Kinjal ASTPPCOM-943 END
                     } else {
                         $tmp = (array) json_decode($gateway_val);
                     }
@@ -645,7 +739,6 @@ class Freeswitch extends MX_Controller
                 $gateway_result[$key] = array_merge($gateway_data, $tmp);
             }
         }
-
         $grid_fields = json_decode($this->freeswitch_form->build_fsgateway_list_for_admin());
         $json_data['rows'] = $this->form->build_json_grid($gateway_result, $grid_fields);
         echo json_encode($json_data);
@@ -700,6 +793,9 @@ class Freeswitch extends MX_Controller
         $insert_arr = array();
         $gateway_arr = array();
         $insert_arr['dialplan_variable'] = "";
+        // Kinjal ASTPPCOM-943 Start
+        $mod_sofia = "api reload mod_sofia";
+        // Kinjal ASTPPCOM-943 END
         foreach ($gateway_data as $key => $gateway_value) {
             if ($gateway_value != "") {
                 if ($key == "sip_profile_id") {
@@ -777,7 +873,13 @@ class Freeswitch extends MX_Controller
                     $this->freeswitch_model->reload_freeswitch($cmd, $sip_ip);
                     $cmd2 = "api sofia profile " . $sip_profile_info['name'] . " rescan reloadacl reloadxml";
                     $this->freeswitch_model->reload_freeswitch($cmd2, $sip_ip);
+                    // Kinjal ASTPPCOM-943 Start
+                    $this->freeswitch_model->reload_freeswitch($mod_sofia);
+                    // Kinjal ASTPPCOM-943 END
                 }
+                // Kinjal ASTPPCOM-943 Start
+                sleep(1);
+                // Kinjal ASTPPCOM-943 END
                 echo json_encode(array(
                     "SUCCESS" => ucfirst($insert_arr['name']) . gettext("Gateway Updated Successfully!")
                 ));
@@ -962,7 +1064,7 @@ class Freeswitch extends MX_Controller
         if ($button_name == "start") {
             $cmd = "api sofia profile " . trim($query[0]['name']) . " start";
         } elseif ($button_name == "stop") {
-            $cmd = "api sofia profile stop";
+            $cmd = "api sofia profile " . trim($query[0]['name']) . " stop"; 
         } elseif ($button_name == "reload") {
             $cmd = "api reload mod_sofia";
         } elseif ($button_name == "rescan") {

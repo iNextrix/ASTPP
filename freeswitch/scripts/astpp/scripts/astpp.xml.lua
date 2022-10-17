@@ -166,7 +166,6 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	local temp_destination_number = destination_number
 	local tr_localization=nil
 	tr_localization = get_localization(outbound_info['provider_id'],'T')
-
 	
 	if (tr_localization ~= nil) then
 		tr_localization['out_caller_id_terminate'] = tr_localization['out_caller_id_terminate']:gsub(" ", "")
@@ -197,8 +196,15 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	end
     
 	xml_termiantion_rates= "ID:"..outbound_info['outbound_route_id'].."|CODE:"..outbound_info['pattern'].."|DESTINATION:"..outbound_info['comment'].."|CONNECTIONCOST:"..outbound_info['connectcost'].."|INCLUDEDSECONDS:"..outbound_info['includedseconds'].."|COST:"..outbound_info['cost'].."|INC:"..outbound_info['inc'].."|INITIALBLOCK:"..outbound_info['init_inc'].."|TRUNK:"..outbound_info['trunk_id'].."|PROVIDER:"..outbound_info['provider_id'];
-
-    table.insert(xml, [[<action application="set" data="calltype=STANDARD"/>]]);        
+	-- ASTPPCOM-982 Ashish start
+	if(params:getHeader("variable_sip_h_P-Voice_broadcast") == 'true')then
+		local sip_user = params:getHeader("variable_sip_h_P-Voice_broadcast_type")
+		table.insert(xml, [[<action application="set" data="calltype=BROADCAST"/>]]);
+		table.insert(xml, [[<action application="set" data="sip_user=]]..sip_user..[["/>]]);
+	else
+		table.insert(xml, [[<action application="set" data="calltype=STANDARD"/>]]);        
+	end
+	-- ASTPPCOM-982 Ashish End
 	table.insert(xml, [[<action application="set" data="termination_rates=]]..xml_termiantion_rates..[["/>]]);        
 	table.insert(xml, [[<action application="set" data="trunk_id=]]..outbound_info['trunk_id']..[["/>]]);        
 	table.insert(xml, [[<action application="set" data="provider_id=]]..outbound_info['provider_id']..[["/>]]);           
@@ -233,8 +239,21 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
     table.insert(xml, [[<action application="export" data="presence_data=]]..livecall_data..[[|||STD"/>]])
 	
     chan_var = "leg_timeout="..outbound_info['leg_timeout']
+    --HP:ASTPPCOM-944
+    p_id_var = "{sip_cid_type="..outbound_info['sip_cid_type'].."}"
     if (outbound_info['codec'] ~= '') then
             chan_var = chan_var..",absolute_codec_string=".."^^:"..outbound_info['codec']:gsub("%,", ":")
+     --//HP: ASTPPCOM-945
+     else
+	if(params:getHeader('variable_sip_from_user') and params:getHeader('variable_sip_from_user') ~= "")then
+		local sip_codec = get_sip_codec(params:getHeader('variable_sip_from_user'))
+		if(sip_codec and sip_codec ~= "")then
+			Logger.warning("[XML] sip_codec : "..sip_codec) --//HP: ASTPPENT-4002
+			chan_var = chan_var..",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
+		end
+	end
+	--//HP: ASTPPCOM-945 END
+            
     end            
 
 	-- Set CPS limit for user if > 0
@@ -243,17 +262,20 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	end
 
 	if(tonumber(outbound_info['maxchannels']) > 0) then    
-		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge []]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
+    --HP:ASTPPCOM-944	
+		table.insert(xml, [[<action application="limit_execute" data="db ]]..outbound_info['path']..[[ gw_]]..outbound_info['path']..[[ ]]..outbound_info['maxchannels']..[[ bridge ]]..p_id_var..[[[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	else
-		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
+    --HP:ASTPPCOM-944	
+		table.insert(xml, [[<action application="bridge" data="]]..p_id_var..[[[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path']..[[/]]..temp_destination_number..[["/>]]);
 	end
-
+    --HP:ASTPPCOM-944
 	if(outbound_info['path1'] ~= '' and outbound_info['path1'] ~= outbound_info['path']) then
-		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path1']..[[/]]..temp_destination_number..[["/>]]);
+		table.insert(xml, [[<action application="bridge" data="]]..p_id_var..[[[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path1']..[[/]]..temp_destination_number..[["/>]]);
 	end
 
 	if(outbound_info['path2'] ~= '' and outbound_info['path2'] ~= outbound_info['path'] and outbound_info['path2'] ~= outbound_info['path1']) then
-		table.insert(xml, [[<action application="bridge" data="[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path2']..[[/]]..temp_destination_number..[["/>]]);
+    --HP:ASTPPCOM-944
+		table.insert(xml, [[<action application="bridge" data="]]..p_id_var..[[[]]..chan_var..[[]sofia/gateway/]]..outbound_info['path2']..[[/]]..temp_destination_number..[["/>]]);
 	end
     return xml
 end
@@ -295,7 +317,15 @@ function custom_inbound_0(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 	string.gsub(didinfo['extensions'], "([,|]+)", function(value) deli_str[#deli_str + 1] =     value;  end);           
 		for i = 1, #destination_str do
 			if notify then notify(xml,destination_str[i]) end
-			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]user/"..destination_str[i].."@${domain_name}"
+			--//HP: ASTPPCOM-945
+			local sip_codec = get_sip_codec(destination_str[i])
+			local did_local_chan = ""
+			if(sip_codec and sip_codec ~= "")then
+				Logger.warning("[XML]  did_local_sip_codec : "..sip_codec) --//HP: ASTPPENT-4002
+				did_local_chan = ",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
+			end
+
+			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout']..did_local_chan.."]user/"..destination_str[i].."@${domain_name}"
 			if i <= #deli_str then
 				bridge_str = bridge_str..deli_str[i]
 			end
@@ -308,12 +338,30 @@ function custom_inbound_0(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 end
 function custom_inbound_1(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
 	table.insert(xml, [[<action application="set" data="calltype=DID@IP"/>]]);
-	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[["/>]]);
+	--//HP: ASTPPCOM-945
+	local did_local_chan = ""
+	if(params:getHeader('variable_sip_from_user') and params:getHeader('variable_sip_from_user') ~= "")then
+		local sip_codec = get_sip_codec(params:getHeader('variable_sip_from_user'))
+		if(sip_codec and sip_codec ~= "")then
+			Logger.warning("[XML] sip_codec : "..sip_codec) --//HP: ASTPPENT-4002
+			did_chan_var = ",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
+		end
+	end
+	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..did_chan_var..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[["/>]]);
 	return xml;
 end
 function custom_inbound_2(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
 	table.insert(xml, [[<action application="set" data="calltype=DIRECT-IP"/>]]);
-	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..[[]sofia/${sofia_profile_name}/]]..destination_number..[[@]]..didinfo['extensions']..[["/>]]);
+	--//HP: ASTPPCOM-945
+	local did_local_chan = ""
+	if(params:getHeader('variable_sip_from_user') and params:getHeader('variable_sip_from_user') ~= "")then
+		local sip_codec = get_sip_codec(params:getHeader('variable_sip_from_user'))
+		if(sip_codec and sip_codec ~= "")then
+			Logger.warning("[XML] sip_codec : "..sip_codec) --//HP: ASTPPENT-4002
+			did_chan_var = ",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
+		end
+	end
+	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..did_chan_var..[[]sofia/${sofia_profile_name}/]]..destination_number..[[@]]..didinfo['extensions']..[["/>]]);
 	return xml;
 end
 function custom_inbound_3(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
@@ -344,7 +392,14 @@ function custom_inbound_5(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 		common_chan_var = "{sip_contact_user="..destination_number.."}"
 		for i = 1, #destination_str do
 			if notify then notify(xml,destination_str[i]) end
-			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout'].."]sofia/${sofia_profile_name}/"..destination_number.."${regex(${sofia_contact("..destination_str[i].."@${domain_name})}|^[^@]+(.*)|%1)}"
+			--//HP: ASTPPCOM-945
+			local sip_codec = get_sip_codec(destination_str[i])
+			local did_local_chan = ""
+			if(sip_codec and sip_codec ~= "")then
+				Logger.warning("[XML]  did_local_sip_codec : "..sip_codec) --//HP: ASTPPENT-4002
+				did_local_chan = ",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
+			end		
+			bridge_str = bridge_str.."[leg_timeout="..didinfo['leg_timeout']..did_local_chan.."]sofia/${sofia_profile_name}/"..destination_number.."${regex(${sofia_contact("..destination_str[i].."@${domain_name})}|^[^@]+(.*)|%1)}"
 			if i <= #deli_str then
 				bridge_str = bridge_str..deli_str[i]
 			end
@@ -591,6 +646,11 @@ function error_xml_without_cdr(destination_number,error_code,calltype,playback_a
 	    if(call_direction == 'local')then
 		    table.insert(xml, [[<action application="set" data="calltype=LOCAL"/>]]);
 	    end
+		-- ASTPPCOM-982 Ashish start
+		if (params:getHeader("variable_sip_h_P-Voice_broadcast") == 'true') then
+			table.insert(xml, [[<action application="set" data="calltype=BROADCAST"/>]]);
+		end
+		-- ASTPPCOM-982 Ashish End
 	    table.insert(xml, [[<action application="set" data="sip_ignore_remote_cause=true"/>]]);        
 	    table.insert(xml, [[<action application="set" data="call_processed=internal"/>]]);
 	    table.insert(xml, [[<action application="set" data="effective_destination_number=]]..destination_number..[["/>]]); 

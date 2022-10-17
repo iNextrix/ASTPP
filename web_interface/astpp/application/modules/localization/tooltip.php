@@ -1,7 +1,7 @@
 <?php
 $tooltip_data = array(
 	/*Create Localization*/
-	"localization_add_name" => "Name of ip to localization for reference. <a href='//youtu.be/1fZyPu_Autc' target='_blank' style='color:white;text-decoration:underline;'>Check for more info</a>",
+	"localization_add_name" => "Name of ip to localization for reference.",
 
 	"localization_add_status" => "The status for the added entry",
 

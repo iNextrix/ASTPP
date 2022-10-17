@@ -212,17 +212,16 @@ class Summary_model extends CI_Model
 	// if($reseller_id > 0){
 		$this->db->where('orders.reseller_id',$reseller_id);  
 	// }
-	if ($this->session->userdata('advance_search') != 1) { 
-		if(isset($product_summary_search['order_items.accountid']) && $product_summary_search['order_items.accountid'] != ''){
-			  $this->db->where('orders.accountid',$product_summary_search['order_items.accountid']);         
-		}
-		$where = array(    
-                    'orders.order_date >= ' => $this->common->convert_GMT_new (date('Y-m-d') . " 00:00:01"),
-                    'orders.order_date <=' => $this->common->convert_GMT_new (date("Y-m-d") . " 23:59:59")      
-       		);
-	}else{ 
-		$where = array();
-	}
+
+	   if($this->session->userdata('advance_search') != 1 && isset($product_summary_search['order_items.accountid']) && $product_summary_search['order_items.accountid'] != ''){
+            $this->db->where('orders.accountid',$product_summary_search['order_items.accountid']);         
+            $where = array(    
+                'orders.order_date >= ' => $this->common->convert_GMT_new (date('Y-m-d') . " 00:00:01"),
+                'orders.order_date <=' => $this->common->convert_GMT_new (date("Y-m-d") . " 23:59:59")      
+            );
+    	}else{ 
+    		$where = array();
+    	}
 	if((isset($product_summary_search) && $product_summary_search !="" )){
 		$this->db->where("product_category",$product_summary_search['product_category']);
 	}else{

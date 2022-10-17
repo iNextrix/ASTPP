@@ -54,7 +54,7 @@
 	<div class="w-section inverse p-0">
 		<form method="post"
 			action="<?= base_url()?>systems/database_import_file/"
-			enctype="multipart/form-data" id="import_database">
+			enctype="multipart/form-data" id="import_database" name="import_database">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="col-md-12 clo-sm-12 float-left p-0">
@@ -77,7 +77,7 @@
 						<div class="pb-4" id="floating-label">
 							<h3 class="bg-secondary text-light p-3 rounded-top"><?php echo gettext("Import Database"); ?></h3>
 							<div class="col-md-6 form-group float-left" id="remove_div">
-									<label class="col-md-4 p-0 control-label"><?php echo gettext("Name"); ?> </label>
+									<label class="p-0 control-label"><?php echo gettext("Name"); ?> </label>
 									<input type="text" name="fname" id="fname" value="" class="col-md-8 form-control pr-form-control form-control-lg" />
 									<div>
 								
@@ -87,7 +87,7 @@
 									<span id="err" style="color:red;"></span>
 							</div>
 							<div class="col-md-12 form-group" id="file_div">
-								<label class="col-12 control-label mb-4"><?php echo gettext("Select the file"); ?></label>
+								<label class="control-label mb-4"><?php echo gettext("Select the file"); ?></label>
 								<div class="col-12 mt-4 d-flex">
 									<div class="col-md-4 float-left" data-ripple="">
 										<input type="file" name="userfile"

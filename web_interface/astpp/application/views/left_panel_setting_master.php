@@ -90,6 +90,12 @@ $category_id='';
 					$term_and_condition_replace_string= "Terms & Condition"  ?>
 					<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo gettext($term_and_condition_replace_string);?></a></li>  
 				  <?php }
+				//   ASTPPCOM-982 Ashish Start
+				  else if($val=='voice_broadcast'){
+					$voice_broadcast_replace_string= "Voice Broadcast"  ?>
+					<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo gettext($voice_broadcast_replace_string);?></a></li>  
+				  <?php }
+				//   ASTPPCOM-982 Ashish End
 				  else{?>
 						<li class="<?php if ($group_title == $val) { echo $class; } ?>"><a href ='<?php echo base_url(); ?>systems/configuration/<?php echo $val;?>' ><?php echo gettext(ucfirst($val));?></a></li>	
 					<?php }?>

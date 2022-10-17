@@ -1,4 +1,11 @@
 <script type="text/javascript">
+    
+    //astppcom-940 start
+    $('[data-toggle="tooltip"]').tooltip(
+     { boundary: 'window' }
+    ); 
+    //astppcom-940 end
+
     $("#submit").click(function(){
         submit_form("system_form");
     })

@@ -123,7 +123,7 @@ label.error {
 							enctype="multipart/form-data">
 							<div class='col-md-12'>
 								<div class='col-md-4 form-group'>
-									<label class="col-md-3 no-padding control-label"><?php echo gettext('Products');?>:</label>
+									<label class="no-padding control-label"><?php echo gettext('Products');?>:</label>
                   <? echo $productslist; ?>
               </div>
 								<span id="err"></span>

@@ -106,7 +106,9 @@ class Systems extends MX_Controller
             $data['test_email_flag'] = true;
         }
         $data['username'] = $this->session->userdata('user_name');
-        if ($group_title == 'payment_methods' || $group_title == 'ported_number' || $group_title == 'term_and_condition') {
+        // ASTPPCOM-982 Ashish start
+        if ($group_title == 'payment_methods' || $group_title == 'ported_number' || $group_title == 'term_and_condition' || $group_title == 'voice_broadcast') {
+        // ASTPPCOM-982 Ashish End
             $page_title = str_replace("_", " ", $group_title);
             $data['page_title'] = gettext(ucwords($page_title));
         } else {
@@ -1361,5 +1363,12 @@ class Systems extends MX_Controller
             $this->load->view('view_systemconf', $data);
         }
     }
+    // ASTPPCOM-975 Start
+    function systems_list()
+    {
+        $this->load->view('system_enterprise_license');
+    }
+    // ASTPPCOM-975 END
+
 }
 

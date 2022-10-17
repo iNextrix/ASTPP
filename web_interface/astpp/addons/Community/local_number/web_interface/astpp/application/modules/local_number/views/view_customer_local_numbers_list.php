@@ -28,6 +28,24 @@ $edit_id = $accountinfo ['id'];
         });
         $("#country_id" ).change();
         build_grid("dids_list","<?php echo base_url()."local_number/local_number_forwarding_json/$edit_id/"; ?>",<? echo $grid_fields; ?>,"");
+
+        $(function(){        
+            $('#left_panel_add').click(function () {        
+                var jqueryarray = <?php echo json_encode($this->tooltip_data); ?>;
+                if(jqueryarray && jqueryarray !=''){
+                  var form_name = 'local_num';
+                  $.each(jqueryarray, function (key, val) {
+                    key = key.replace(form_name+'_','');
+                  $('select[name="'+key+'"] , input[name="'+key+'"]  , textarea[name="'+key+'"]').closest('.form-group').find('label').attr({'data-toggle':'tooltip', 'data-html':"true",'data-original-title':val, 'data-placement' : 'right'});
+                    });
+                }
+
+                $('[data-toggle="tooltip"]').tooltip(
+                    { boundary: 'window' }
+                );
+                
+            });
+        });
         
         $("#country_id" ).change(function() {
             // alert();
@@ -177,34 +195,34 @@ $edit_id = $accountinfo ['id'];
 									 <div class="col-md-12">
 										  <div class="row p-0">
 											  <div class="form-group col-md-3">	
-												  <label class="col-md-12 p-0 control-label">Country<span style="color:black;"> *</span></label>
+												  <label class="p-0 control-label">Country<span style="color:black;"> *</span></label>
 												  <?php $country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
 												  $country = form_dropdown($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""), '');
 												  echo $country;?>
                                                   <div id="country_err" class="tooltips error_div float-left p-0"  style="display: block;"></div>	
 											  </div>
 											  <div class="form-group col-md-3">
-												  <label class="col-md-12 p-0 control-label">Province/State</label>
+												  <label class="p-0 control-label">Province/State</label>
 												  <?	echo $province; ?>
                                                   <div id="province_err" class="tooltips error_div float-left p-0"  style="display: block;"></div>	
 											  </div>
 											  <div class="form-group col-md-3">
-												  <label class="col-md-12 p-0 control-label">City</label>
+												  <label class="p-0 control-label">City</label>
 												  <?	echo $city; ?>
                                                   <div id="city_err" class="tooltips error_div float-left p-0"  style="display: block;"></div>	
 											  </div>
 											 <div class="form-group col-md-3">
-														<label class="col-md-12 p-0 control-label">Local Number<span style="color:black;"> * </span></label>
+														<label class="p-0 control-label">Local Number<span style="color:black;"> * </span></label>
 														<? echo $local_number; ?>
 														<div id="local_err" class="tooltips error_div float-left p-0"  style="display: block;"></div>	
 											  </div>
 											  <div class="form-group col-md-3">
-													  <label class="col-md-12 p-0 control-label">Destination Name<span style="color:black;"> * </span></label>
+													  <label class="p-0 control-label">Destination Name<span style="color:black;"> * </span></label>
 													  <input type="text" class="col-md-12 form-control form-control-lg" name="name" id="name">
 													  <div id="name_err" class="tooltips error_div float-left p-0"  style="display: block;"></div>	
 											  </div>
 											  <div class="form-group col-md-3">
-												     <label class="col-md-12 p-0 control-label">Destination Number<span style="color:black;"> * </span></label>
+												     <label class="p-0 control-label">Destination Number<span style="color:black;"> * </span></label>
 													 <input type="text" class="col-md-12 form-control form-control-lg" name="number" id="number">
 													 <div id="number_err" class="tooltips error_div float-left p-0"  style="display: block;"></div>	
 											  </div>	  

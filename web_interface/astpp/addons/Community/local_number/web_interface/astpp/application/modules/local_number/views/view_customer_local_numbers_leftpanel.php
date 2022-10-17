@@ -158,7 +158,7 @@
                         <h3 class="bg-secondary text-light p-2 rounded-top">Local Number</h3>
                         <form class="row px-4" method="post" id="local_num" name="local_num" action="<?= base_url()."local_number/local_number_action/add/$edit_id/"; ?>" enctype="multipart/form-data">
                             <div class="col-md-4 form-group">
-                                <label for="Country" class="col-md-3 p-0 control-label">Country : </label>                               
+                                <label for="Country" class="p-0 control-label">Country : </label>                               
                                  <?php
                                 $country_arr = array("id" => "country_id", "name" => "country_id", "class" => "country_id");
                                 $country = form_dropdown($country_arr, $this->db_model->build_dropdown("id,country", "countrycode", "", ""), $country_id);
@@ -166,32 +166,32 @@
                                 ?>
                             </div>
                             <div class="col-md-4 form-group">
-                                    <label class="col-md-3 p-0 control-label">Province : </label>
+                                    <label class="p-0 control-label">Province : </label>
                                     <? echo $province; ?>
                                     <span id="err"></span>
                             </div>
                             <div class="col-md-4 form-group">
-                                <label class="col-md-3 p-0 control-label">City : </label>
+                                <label class="p-0 control-label">City : </label>
                                      <? echo $city; ?>
                                  <span id="err"></span>
                              </div>
                             <div class="col-md-4">
-                                <div class='col-md-12 form-group p-0'>
-                                    <label class="col-md-12 p-0 control-label">Local Number* : </label>
+                                <div class='form-group p-0'>
+                                    <label class="p-0 control-label">Local Number* : </label>
                                     <? echo $local_number; ?>
                                 </div>  
                                 <span id="local_err" style="color:red;"></span>
                             </div>
                             <div class="col-md-4">
                                 <div class='col-md-12 form-group p-0'>
-                                    <label class="col-md-12 p-0 control-label">Destination Name* : </label>
+                                    <label class="p-0 control-label">Destination Name* : </label>
                                     <input type="text" class="col-md-12 form-control form-control-lg" name="name" id="name">
                                 </div>
                                 <span id="name_err" style="color:red;"></span>
                             </div>
                             <div class="col-md-4">
                                 <div class='col-md-12 form-group p-0'>
-                                    <label class="col-md-12 p-0 control-label">Destination Number* : </label>
+                                    <label class="p-0 control-label">Destination Number* : </label>
                                     <input type="text" class="col-md-12 form-control form-control-lg" name="number" id="number">
                                 </div>  
                                <span id="number_err" style="color:red;"></span>

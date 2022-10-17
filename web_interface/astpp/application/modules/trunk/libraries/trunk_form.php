@@ -146,7 +146,23 @@ class trunk_form extends common
                 array(
                     "status" => "0"
                 )
-            )
+            ),
+             
+        // ASTPPCOM-944 Jaimin Start
+             array(
+                    gettext('Remote ID'),
+                    'sip_cid_type',
+                    'SELECT',
+                    '',
+                    '',
+                    'tOOL TIP',
+                    'Please Select Status',
+                    '',
+                    '',
+                    '',
+                    'sip_cid_types'
+             )
+        // END
         );
 
         $form[gettext('Settings')] = array(
@@ -432,6 +448,19 @@ class trunk_form extends common
                 "true",
                 "center"
             ),
+            // ASTPPCOM-944 Jaimin Start
+            array(
+                gettext("Remote ID"),
+                "130",
+                "sip_cid_type",
+                "sip_cid_type",
+                "trunks",
+                "get_sip_cid_type",
+                "",
+                "true",
+                "center"
+            ),
+            //  End
             array(
                 gettext("CC"),
                 "50",

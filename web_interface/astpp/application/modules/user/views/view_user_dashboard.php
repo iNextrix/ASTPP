@@ -59,9 +59,9 @@
             <div class="row">
                 <div class="col-md-12">        
                     
-                     <div class="dashboard_values row mb-5">
+                     <div class="dashboard_values row mb-3">
                      
-                     		<a href="<?php echo base_url(); ?>user/user_products_list/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                     		<a href="<?php echo base_url(); ?>user/user_products_list/" class="col-lg-3 col-md-6 col-sm-12 pt-2 pr-lg-2">
                             <div class="bg-primary card col-12 text-light">
                                 <div class="col-lg-8 col-7 float-left py-5 px-4 ">
                                     <div class="h1" id="product_count">0</div>
@@ -73,7 +73,7 @@
                             </div>
                         </a>
                      
-                     		<a href="<?php echo base_url(); ?>user/user_cdrs_report/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                     		<a href="<?php echo base_url(); ?>user/user_cdrs_report/" class="col-lg-3 col-md-6 col-sm-12 pt-2 pr-lg-2 pl-lg-2">
                             <div class="bg-danger card col-12 text-light">
                                 <div class="col-lg-8 col-7 float-left py-5 px-4 ">
                                     <div class="h1" id="call_count">0</div>
@@ -85,7 +85,7 @@
                             </div>
                         </a>
                         
-                        <a href="<?php echo base_url(); ?>user/user_invoices_list/" class="col-lg-3 col-md-6 col-sm-12 pt-2">
+                        <a href="<?php echo base_url(); ?>user/user_invoices_list/" class="col-lg-3 col-md-6 col-sm-12 pt-2 pr-lg-2 pl-lg-2">
                             <div class="bg-success card col-12 text-light">
                                 <div class="col-lg-8 col-7 float-left py-5 px-4 ">
                                    <div class="h1" id="invoice_amount">0</div>
@@ -97,7 +97,7 @@
                             </div>
                         </a>
                         
-                        <div class="col-lg-3 col-md-6 col-sm-12 pt-2"><div class="bg-dark card col-12 text-light">
+                        <div class="col-lg-3 col-md-6 col-sm-12 pt-2"><div class="bg-dark card col-12 text-light pl-lg-2">
                                 <div class="col-lg-8 col-7 float-left py-5">
                                     <div class="h1" id="balance">0</div>
                                     <?php
@@ -113,8 +113,8 @@
                         </div>      
                     </div>
 
-                <div class="row mb-5">
-                 <div class="col-lg-6 d-flex">
+                <div class="row mb-3">
+                 <div class="col-lg-6 d-flex pr-lg-2">
                     <div class="card w-100 active_product">
                         <h3 class="text-dark p-3"><i class="fa fa-archive text-primary fa-fw"></i> <?php echo gettext('Active Products'); ?>
                                 <a href="<?php echo base_url();?>user/user_products_list/" class="float-right btn btn-secondary"><?php echo gettext('View All'); ?></a>
@@ -172,7 +172,7 @@
                     </div>
                  </div>
              
-                 <div class="col-lg-6 d-flex">
+                 <div class="col-lg-6 d-flex pl-lg-2">
                     <div class="card w-100 new_products">
                         <h3 class="text-dark p-3"><i class="fa fa-archive text-primary fa-fw"></i> <?php echo gettext('New Products');?>
                                 

@@ -56,84 +56,84 @@ if (! isset($csv_tmp_data)) {
 									<input type="hidden" name="mode" value="import_account_mapper" />
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-4 p-0 control-label"><?php echo gettext("Generate Pin"); ?></label>	 
+										<label class="p-0 control-label"><?php echo gettext("Generate Pin"); ?></label>	 
 											
 											<?php echo $config_array['pin']; ?>
 										</div>
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Allow Recording"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Allow Recording"); ?> </label>	 
 											<?php echo $config_array['is_recording']; ?> 
 										</div>
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Allow IP Management"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Allow IP Management"); ?> </label>	 
 											<?php echo $config_array['allow_ip_management']; ?> 
 										</div>
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Rate Group"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Rate Group"); ?> </label>	 
 											<?php echo $config_array['pricelist_id'];?>
 										</div>
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Create SIP Device"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Create SIP Device"); ?> </label>	 
 											<?php echo $config_array['sipdevice_flag']; ?> 
 										</div>
 
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Timezone"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Timezone"); ?> </label>	 
 											<?php echo $config_array['timezone_id']; ?> 
 										</div>
 
 										<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Localization"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Localization"); ?> </label>	 
 											<?php echo $config_array['localization_id']; ?> 
 										</div>
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Country"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Country"); ?> </label>	 
 											<?php echo $config_array['country_id']; ?> 
 										</div>
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Currency"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Currency"); ?> </label>	 
 											<?php echo $config_array['currency_id']; ?> 
 										</div>
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label" for='sweep_id'><?php echo gettext("Billing Schedule"); ?> </label>	 
+										<label class="p-0 control-label" for='sweep_id'><?php echo gettext("Billing Schedule"); ?> </label>	 
 											<?php echo $config_array['sweep_id']; ?> 
 										</div>
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label" for="invoice_day"><?php echo gettext("Billing Day"); ?> </label>	 
+										<label class="p-0 control-label" for="invoice_day"><?php echo gettext("Billing Day"); ?> </label>	 
 											<?php echo $config_array['invoice_day']; ?> 
 										</div>
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Account Type"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Account Type"); ?> </label>	 
 											<?php echo $config_array['posttoexternal']; ?>
 										</div>
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Allow Local Calls"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Allow Local Calls"); ?> </label>	 
 											<?php echo $config_array['local_call'];?>
 										</div>
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("LC Charge/Min"); ?></label>	 
+										<label class="p-0 control-label"><?php echo gettext("LC Charge/Min"); ?></label>	 
 											<?php echo $config_array['charge_per_min']; ?>
 										</div>
 
 
 									<div class='col-md-4 form-group'>
-										<label class="col-md-12 p-0 control-label"><?php echo gettext("Email Alerts ?"); ?> </label>	 
+										<label class="p-0 control-label"><?php echo gettext("Email Alerts ?"); ?> </label>	 
 										<?php echo $config_array['notify_flag']; ?>
 									</div>
 
 
 
 									<div class="col-md-12 form-group">
-										<label class="col-12 control-label mb-4"><?php echo gettext("Select the file"); ?></label>
+										<label class="control-label mb-4"><?php echo gettext("Select the file"); ?></label>
 										<div class="col-12 mt-4">
 											<div class="col-md-6 float-left" data-ripple="">
-												<input type="file" name="customer_import_mapper"
+												<input type="file" name="customer_import_mapper" title="Only CSV Files are allowed. You must upload a file smaller than <?php echo str_replace("M","MB", ini_get('upload_max_filesize')).'.'; ?>"
 													id="customer_import_mapper" class="custom-file-input" /> <label
 													class="custom-file-label btn-primary btn-file text-left"
 													for="file"> </label>

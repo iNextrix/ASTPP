@@ -132,7 +132,7 @@ function reload_port(h){
 					enctype="multipart/form-data" name='form1' id="myForm1">
 					<input type='hidden' name='id' value="<?=$id;?>" />
 					<div class="col-md-6 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('Name')?> *</label>
+						<label class="p-0 control-label"><?php echo gettext('Name')?> *</label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?=$sip_name; ?>" id="sip_name" name="name" size="20"
 							type="text">
@@ -140,7 +140,7 @@ function reload_port(h){
 							style="display: block;"></div>
 					</div>
 					<div class="col-md-6 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP IP ')?> *</label>
+						<label class="p-0 control-label"><?php echo gettext('SIP IP ')?> *</label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?=@$sip_ip; ?>" name="sip_ip" size="20" id="sip_ip"
 							type="text">
@@ -148,7 +148,7 @@ function reload_port(h){
 							style="display: block;"></div>
 					</div>
 					<div class="col-md-6 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('SIP Port')?> *</label>
+						<label class="p-0 control-label"><?php echo gettext('SIP Port')?> *</label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?=@$sip_port; ?>" name="sip_port" size="20" id="sip_port"
 							type="text">
@@ -156,7 +156,7 @@ function reload_port(h){
 							style="display: block;"></div>
 					</div>
 					<div class="col-md-6 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('Status')?> * </label>
+						<label class="p-0 control-label"><?php echo gettext('Status')?> * </label>
 						<select name="sipstatus"
 							class="col-md-12 form-control form-control-lg selectpicker"
 							data-live-search='true'>
@@ -185,7 +185,7 @@ function reload_port(h){
 					<input type='hidden' name='id' value=<?=$id?> /> <input
 						type='hidden' name='type' value='save' />
 					<div class="col-md-12 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('Name')?> * </label>
+						<label class="p-0 control-label"><?php echo gettext('Name')?> * </label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?php echo isset($params_name)?$params_name:"";?>"
 							name="params_name" id='params_name' size="25" type="text">
@@ -193,7 +193,7 @@ function reload_port(h){
 							class="tooltips error_div float-left p-0" style="display: block;"></div>
 					</div>
 					<div class="col-md-12 form-group">
-						<label class="col-md-12 p-0 control-label"><?php echo gettext('VALUE')?> * </label>
+						<label class="p-0 control-label"><?php echo gettext('VALUE')?> * </label>
 						<input class="col-md-12 form-control form-control-lg"
 							value="<?php echo isset($params_value)?$params_value:"";?>"
 							name="params_value" id='params_value' size="25" type="text">

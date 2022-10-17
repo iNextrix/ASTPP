@@ -125,7 +125,16 @@ class Login extends MX_Controller
                         $this->session->set_userdata('accountinfo', $result);
                         $token = $this->token($result['id'], 'e', $result);
                         $this->session->set_userdata('token', $token);
-
+                        // ASTPPCOM-941 Start
+                        $login_activity_array=array(
+                            "account_id"=>$result['id'],
+                            "country_name"=>ucwords(strtolower(geoip_country_name_by_name($this->input->server('REMOTE_ADDR')))),
+                            "timestamp"=>gmdate("Y-m-d H:i:s"),
+                            "user_agent"=> $this->agent->agent_string(),
+                            "ip"=>$this->input->server('REMOTE_ADDR')
+                            );
+                        $this->db->insert('login_activity_report', $login_activity_array);
+                        // ASTPPCOM-941 END
                         $accessid = $this->encrypt($this->config->item('private_key'), $result['id'] . $result['type']);
                         $this->session->set_userdata('ipsettings_token', $accessid);
                         if ($result['status'] == 1) {

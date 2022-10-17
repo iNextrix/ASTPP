@@ -49,7 +49,8 @@ if (isset($invoiceconf['website_title']) && $invoiceconf['website_title'] != '')
 					rel="stylesheet">
 					<link href="<?php echo base_url(); ?>/assets/css/global-style.css"
 						rel="stylesheet" type="text/css">
-
+					<link href="<?php echo base_url(); ?>assets/css/com-style.css"
+							rel="stylesheet" type="text/css">	
 						<!-- IE -->
 						<script type="text/javascript"
 							src="<?php echo base_url(); ?>/assets/js/respond.js"></script>

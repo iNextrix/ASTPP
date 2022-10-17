@@ -165,20 +165,20 @@
                         <form class="row px-4" method="post" name="ip_map" id="ip_map" action="<?= base_url()."user/user_ipmap_action/add/" ?>">
                                 <div class='col-md-4'> 
                                     <div class='col-md-12 form-group p-0'>
-                                        <label class="col-md-3 no-padding control-label"><?php echo gettext('Name');?> *</label>
+                                        <label class="no-padding control-label"><?php echo gettext('Name');?> *</label>
                                         <input class="col-md-12 form-control form-control-lg m-0" id="name" name="name" size="16" type="text"/>
                                     </div>
                                     <span id="err_name" style="color:red"></span>
                                 </div>
                                 <div class='col-md-4'>
                                     <div class='col-md-12 form-group p-0'>
-                                        <label class="col-md-3 no-padding control-label"><?php echo gettext('IP'); ?> *</label>
+                                        <label class="no-padding control-label"><?php echo gettext('IP'); ?> *</label>
                                         <input id='ip' class="col-md-12 form-control form-control-lg m-0" name="ip" size="22" type="text">
                                     </div>
                                     <span id="err" style="color:red"></span>
                                 </div>
                                 <div class='col-md-4 form-group'>
-                                    <label class="col-md-3 no-padding control-label"><?php echo gettext('Prefix');?></label>
+                                    <label class="no-padding control-label"><?php echo gettext('Prefix');?></label>
                                     <input id='prefix' class="col-md-12 form-control form-control-lg m-0" name="prefix" size="16" type="text">
                                     
                                 </div>

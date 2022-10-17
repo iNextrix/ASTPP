@@ -119,7 +119,7 @@ $("#subsmit").click(function (e) {
                <?php if($login_type != 0 && $login_type != 3){ ?>
                 <div class="pb-4" id="floating-label">
                     <div class="col-md-12 form-group">
-                        <label class="col-md-3 p-0 control-label"><?php echo gettext("Account"); ?></label>
+                        <label class="p-0 control-label"><?php echo gettext("Account"); ?></label>
                         <select name="accountid" id="accountid" class='col-md-12 form-control account form-control-lg' data-live-search='true' data-live-search-style="begins">
                                 <option value=""><?php echo gettext("--Select--")?></option>
                                     <?php
@@ -140,7 +140,7 @@ $("#subsmit").click(function (e) {
                <?php } ?>
                 <div class="col-md-12">
                         <div class="form-group">	
-                            <label class="col-md-3 p-0 control-label"><?php echo gettext('Coupon Number:')?></label>
+                            <label class="p-0 control-label"><?php echo gettext('Coupon Number:')?></label>
                             <input type="input" class="col-md-12 form-control form-control-lg" name="refill_coupon_no" id="refill_coupon_no" maxlength="20">
                         </div>
                         <div  class="ml-4" style="color:red;" id="refill_coupon_number_error" name='refill_coupon_number_error'></div>

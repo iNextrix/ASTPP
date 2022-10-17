@@ -103,14 +103,14 @@ if ($this->session->userdata('logintype') == 1 || $this->session->userdata('logi
 		<form class="row px-4" id="purchase_did_form"  name='purchase_did_form' method="post" action="<?= base_url() ?>did/did_reseller_purchase/" enctype="multipart/form-data">
 			<div class="col-md-4">
 				<div class='col-md-12 form-group p-0'>
-				  <label class="col-md-3 col-md-12 control-label">Available DIDs :</label>
+				  <label class="control-label">Available DIDs :</label>
 				   <? echo $didlist; ?>
 				</div>	
 				<span id="err"></span>	                               
 			</div>
 			<div class="col-md-4">
 				<div class='col-md-12 form-group p-0'>
-				  <label class="col-md-3 col-md-12 control-label">Accounts :</label>
+				  <label class="control-label">Accounts :</label>
 			<?php
     $where = array(
         "status" => 0,

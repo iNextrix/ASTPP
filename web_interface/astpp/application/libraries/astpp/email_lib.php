@@ -245,14 +245,24 @@ class email_lib {
 		$this->CI->db->insert ( 'mail_details', $send_mail_details );
 		return $this->CI->db->insert_id ();
 	}
-	function update_mail_history($id) {
-		$this->CI->db->where ( array (
+	function update_mail_history($id,$email_status='',$sms_status='',$alert_status='', $type='') {
+		// ASTPPCOM-924 Start
+		if(isset($email_status) && $email_status != ''){
+			$this->CI->db->select('template');
+			$mail_info = (array)$this->CI->db->get_where("mail_details",array("id"=>$id))->first_row();
+			if($type == 'email'){
+				if($email_status === 2){
+					$send_mail_details = array("status"=>"2");
+				}else{
+					$send_mail_details = array("status"=>"0");
+				}
+			}
+			$this->CI->db->where ( array (
 				'id' => $id
-		) );
-		$send_mail_details = array (
-				'status' => '0'
-		);
-		$this->CI->db->update ( 'mail_details', $send_mail_details );
+			) );
+			$this->CI->db->update ( 'mail_details', $send_mail_details );
+		}
+		// ASTPPCOM-924 END
 	}
 	function set_email_paramenters($details) {
 		if (! is_array ( $details )) {
@@ -286,11 +296,13 @@ class email_lib {
 		}
 	}
 	function send_notifications ($template_type, $details, $detail_type = '', $attachment = '', $resend = 0, $mass_mail = 0, $brodcast = 0) {
-		$this->send_notifications_email($template_type,$details,$detail_type,$attachment,$resend,$mass_mail,$brodcast);
+		$email_response = $this->send_notifications_email($template_type,$details,$detail_type,$attachment,$resend,$mass_mail,$brodcast);
+		if ($email_response) {
+			$this->update_mail_history ( $details ['history_id'],$email_response,$sms_response='',$alert_response='','email' );
+		}else{
+			$this->update_mail_history ( $details ['history_id'],2,$sms_response='',$alert_response='','email' );
+		}
 		$this->send_notifications_sms($template_type,$details,$detail_type,$attachment = '',$resend,$mass_mail,$brodcast,$history_id='');
-		//$this->push_alert_notifications($template_type,$details,$detail_type,$attachment = '',$resend,$mass_mail,$brodcast,$history_id='');
-		
-		$this->update_mail_history ( $details ['history_id'] );
 	}
 
 	function send_notifications_sms($template_type, $details, $detail_type = '', $attachment = '', $resend = 0, $mass_mail = 0, $brodcast = 0 , $history_id) {
@@ -325,16 +337,18 @@ class email_lib {
 		if (array_key_exists("history_id",$details)) {
 			$history_id = $details ['history_id'];
 		}
-
-		if (!$this->email) {
-			
+		// ASTPPCOM-924 Start
+		$smtpData = $this->get_email_settings ($resellerID,$details);
+		if (!$this->email && $this ->smtp == 0) {
+		// ASTPPCOM-924 END
 			if (! $resend) {
 				$this->build_template ( $template_type, $details, $detail_type );
 			} else {
 				$this->set_email_paramenters ( $details );
 			}
-			
-			if ($brodcast !=1 && $brodcast !="") {
+			// ASTPPCOM-924 Start
+			if ($brodcast == 2) {
+			// ASTPPCOM-924 END
 				$history_id = $this->mail_history ( $attachment );
 			}
 			else {
@@ -346,13 +360,11 @@ class email_lib {
 			// ASTPPCOM-873 Ashish End
 			$cc_email_ids = explode(',',strtolower($this->CI->common->get_field_name('cc','mail_details',array("accountid" => $accountID))));
 			// ASTPPCOM-873 Ashish start
-			$smtpData = $this->get_email_settings ($resellerID,$details);
 			// ASTPPCOM-873 Ashish End
 			if (isset ( $this->from ) && $this->from != '' && isset ( $this->to ) && $this->to != '' && ! $mass_mail) {
 				if (! $this->smtp) {
 					$this->get_smtp_details ();
 				}
-
 				// ASTPPCOM-873 Ashish start
 				$from_title = isset($this->website_title) && $this->website_title != '' ? $this->website_title : $this->company_name ;
 				$this->CI->email->from ( $this->from, $from_title );
@@ -364,7 +376,6 @@ class email_lib {
 				$this->CI->email->set_mailtype ( "html" );
 				$this->message = nl2br($this->message);
 				$this->CI->email->message ( $this->message );
-				
 				if ($attachment != "") {
 					$attac_exp = explode ( ",", $attachment );
 					foreach ( $attac_exp as $key => $value ) {
@@ -376,15 +387,12 @@ class email_lib {
 
 					}
 				}
-
 				$data = $this->CI->email->send ();
-
 				$mail_data ['from']    = isset ( $this->from ) ? $this->from : '';
 				$mail_data ['to']      = isset ( $this->to ) ? $this->to : '';
 				$mail_data ['subject'] = isset ( $this->subject ) ? $this->subject : '';
 				$this->CI->email->print_debugger_email ( $mail_data, common_model::$global_config ['system_config'] ['mail_log'] );
 				$this->CI->email->clear ( true );
-				
 				return $history_id;
 			}
 		}

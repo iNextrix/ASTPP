@@ -11,7 +11,7 @@
 				name="product_id" value="<?php echo $product_id; ?>" size="16"
 				type="hidden" />
 			<div class='col-md-12 form-group'>
-				<label class="col-md-12 p-0 control-label"><?php echo gettext("Accounts"); ?></label>
+				<label class="p-0 control-label"><?php echo gettext("Accounts"); ?></label>
 				<div class="col-md-12 form-control selectpicker form-control-lg p-0">
 			  <?php
     $account_add = array(

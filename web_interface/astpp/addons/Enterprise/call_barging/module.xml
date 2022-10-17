@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>call_barging</tech_name>
+	<name>Call Barging</name>
+	<description>Call Barging allows you to drop in on live calls and giving advantage to the supervisor to ensure the customer satisfaction and Guide to agents in-between the calls.</description>		
+	<icon>static/images/callbarging_icon.png</icon>
+	<version>2.0.1</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

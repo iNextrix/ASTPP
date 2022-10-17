@@ -78,6 +78,8 @@ $tooltip_data = array(
 	"translation_form_ja_JP" => "Content to mach and replace for Japanese",
 
 	"translation_form_ru_RU" => "Content to mach and replace for Russian",
+
+	"translation_form_demo" => "Content to mach and replace for Demo",
 	/*End*/
 );
 ?>

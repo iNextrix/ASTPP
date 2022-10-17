@@ -218,15 +218,15 @@
 				  		<div class="pb-4" id="floating-label">
 				  		<h3 class="bg-secondary text-light p-3 rounded-top">General Details</h3>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Account<span style="color:black;"> *</span></label>
+								<label class="p-0 control-label">Account<span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Name <span style="color:black;"> *</span></label>
+								<label class="p-0 control-label">Name <span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 							<li class="col-md-12 form-group">
-								<label class="col-md-3 p-0 control-label">Amount<span style="color:black;"> *</span></label>
+								<label class="p-0 control-label">Amount<span style="color:black;"> *</span></label>
 								<input name="count" value="" size="20" class="col-md-12 form-control form-control-lg" type="text">
 							</li>
 						</div>

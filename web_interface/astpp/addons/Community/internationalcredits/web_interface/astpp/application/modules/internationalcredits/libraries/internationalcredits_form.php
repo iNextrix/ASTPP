@@ -2,7 +2,7 @@
 // ##############################################################################
 // ASTPP - Open Source VoIP Billing Solution
 //
-// Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+// Copyright (C) 2016 Inextrix Technologies Pvt. Ltd.
 // Samir Doshi <samir.doshi@inextrix.com>
 // ASTPP Version 3.0 and above
 // License https://www.gnu.org/licenses/agpl-3.0.html
@@ -247,7 +247,7 @@ class Internationalcredits_form extends common {
 				'content' => gettext ( 'Search' ),
 				'value' => 'save',
 				'type' => 'button',
-				'class' => 'btn btn-line-parrot pull-right' 
+				'class' => 'btn btn-success pull-right' 
 		);
 		$form ['button_reset'] = array (
 				'name' => 'action',
@@ -255,7 +255,7 @@ class Internationalcredits_form extends common {
 				'content' => gettext ( 'Clear' ),
 				'value' => 'cancel',
 				'type' => 'reset',
-				'class' => 'btn btn-line-sky pull-right  margin-x-10' 
+				'class' => 'btn btn-secondary pull-right margin-x-10' 
 		);
 		
 		return $form;

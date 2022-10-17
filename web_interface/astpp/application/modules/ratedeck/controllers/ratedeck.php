@@ -423,7 +423,7 @@ class Ratedeck extends MX_Controller
     {
         $file_name = 'ratedeck_sample';
         $this->load->helper('download');
-        $full_path = base_url() . "assets/Rates_File/" . $file_name . ".csv";
+        $full_path = "./assets/Rates_File/" . $file_name . ".csv";
         $arrContextOptions = array(
             "ssl" => array(
                 "verify_peer" => false,

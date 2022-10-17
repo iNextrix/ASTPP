@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>did_call_transfer</tech_name>
+	<name>DID Call Transfer</name>
+	<description>DID Call Transfer</description>		
+	<icon>static/images/did_call_transfer_icon.png</icon>
+	<version>2.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

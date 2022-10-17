@@ -1612,6 +1612,40 @@ class CI_Form_validation {
 				}
 		    }
 		//END
+
+		// This function is for API
+		public function numeric_with_comma($str)
+		{
+			return (bool)preg_match('/^[0-9,]+$/', $str);
+		}
+		public function valid_ip_domain($ip){
+			$url_pattern = '/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?\:@\-_=#])*/';
+			return ( ! preg_match($url_pattern, $ip)) ? FALSE : TRUE;
+		}
+		public function alpha_space_dash($str)
+		{
+			return ( ! preg_match("/^([-a-z_ ])+$/i", $str)) ? FALSE : TRUE;
+		}
+		public function is_unique_did_api($str, $field) {
+			$id    = '';
+			$data  = explode('.', $field);
+			$table = $data[0];
+			$field = $data[1];
+			$id = $data[2];
+			$str = str_replace('+','',$str);
+			$str = str_replace('-','',$str);
+			
+			$where="name in (+$str, -$str,  $str)";
+			if(isset($data[2])){
+				$where .= " and id !=".$id;
+			}else{
+				$where= $where;
+			}
+			$query = $this->CI->db->limit(1)->get_where($table,$where );
+			return $query->num_rows() > 0 ? FALSE : TRUE;
+		}	
+		//END
+
 }
 // END Form Validation Class
 

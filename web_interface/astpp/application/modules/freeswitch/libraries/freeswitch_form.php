@@ -246,6 +246,20 @@ class Freeswitch_form extends common
                 '',
                 'set_status'
             ),
+            //  ASTPPCOM-945 Jaimin Start
+             array(
+                gettext('Codec'),
+                'INPUT',
+                array(
+                    'name' => 'codec',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'xss_clean',
+                'tOOL TIP',
+                'Please Enter account number'
+            ),
+            // End
             $sip_pro
         );
         $form[gettext('Voicemail Options')] = array(
@@ -1041,6 +1055,30 @@ class Freeswitch_form extends common
 
     function build_system_list_for_admin()
     {
+        // Jaimin ASTPPCOM-984
+            $status = $this->CI->db_model->countQuery("*", "addons", array(
+                "package_name" => "siprouting"
+            ));
+            if(isset($status) && $status == 1 ){
+                $action_array = array (
+                    gettext ( "Advance" ),
+                    "50",
+                    "",
+                    "",
+                    "",
+                    array (
+                        "EDIT" => array (
+                        "url" => "/siprouting/siprouting_edit/",
+                        "mode" => "single",
+                        "layout" => "medium"
+                    )
+                ),
+                "false"
+                );
+            }else{
+                $action_array = array();
+            }
+        // End
         $checkbox = array(
             "<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>",
             "30",
@@ -1168,6 +1206,9 @@ class Freeswitch_form extends common
                     "true",
                     "center"
                 ),
+                // Jaimin ASTPPCOM-984
+                 $action_array,
+                // End
                 array(
                     gettext("Action"),
                     "107",
@@ -1309,6 +1350,9 @@ class Freeswitch_form extends common
                     "true",
                     "center"
                 ),
+                // Jaimin ASTPPCOM-984
+                 $action_array,
+                // End
                 array(
                     gettext("Action"),
                     "107",
@@ -2499,6 +2543,30 @@ class Freeswitch_form extends common
 
     function build_devices_list_for_customer()
     {
+         // Jaimin ASTPPCOM-984
+            $status = $this->CI->db_model->countQuery("*", "addons", array(
+                "package_name" => "siprouting"
+            ));
+            if(isset($status) && $status == 1){
+                    $action_array = array (
+                        gettext ( "Advance" ),
+                        "60",
+                        "",
+                        "",
+                        "",
+                        array (
+                            "EDIT" => array (
+                            "url" => "/siprouting/siprouting_edit/",
+                            "mode" => "single",
+                            "layout" => "medium"
+                        )
+                    ),
+                    "false"
+                    );
+                }else{
+                    $action_array = array();
+                }
+        // End
         $grid_field_arr = json_encode(array(
             array(
                 "<input type='checkbox' name='chkAll' class='ace checkall'/><label class='lbl'></label>",
@@ -2610,6 +2678,11 @@ class Freeswitch_form extends common
                 "true",
                 "center"
             ),
+
+            // Jaimin ASTPPCOM-984
+                $action_array,
+            // End
+
             array(
                 gettext("Action"),
                 "110",
@@ -3013,6 +3086,21 @@ class Freeswitch_form extends common
                     '',
                     'set_status'
                 ),
+            
+            // ASTPPCOM-945 Jaimin Start
+                array(
+                    gettext('Codec'),
+                    'INPUT',
+                    array(
+                        'name' => 'codec',
+                        'size' => '20',
+                        'class' => "text field medium"
+                    ),
+                    '',
+                    'tOOL TIP',
+                    'Please Enter account number'
+                ),
+            // End
                 $sip_pro
             );
             $form[gettext('Voicemail Options')] = array(

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>access_control</tech_name>
+	<name>Access Control</name>
+	<description>Portal access allow and/or block list for various entities</description>		
+	<icon>static/images/access_control_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

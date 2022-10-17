@@ -2,7 +2,7 @@
 ###############################################################################
 # ASTPP - Open Source VoIP Billing Solution
 #
-# Copyright (C) 2016 iNextrix Technologies Pvt. Ltd.
+# Copyright (C) 2016 Inextrix Technologies Pvt. Ltd.
 # Samir Doshi <samir.doshi@inextrix.com>
 # ASTPP Version 3.0 and above
 # License https://www.gnu.org/licenses/agpl-3.0.html
@@ -31,7 +31,10 @@ class Supportticket extends CI_Controller {
 		$this->load->library('astpp/form');
 		$this->load->library('astpp/email_lib');	
 		$this->load->model('supportticket_model');
-
+		if(file_exists(FCPATH."application/modules/supportticket/tooltip.php")){
+            include_once(FCPATH."application/modules/supportticket/tooltip.php");
+            $this->tooltip_data = $tooltip_data;
+		}
 		if ($this->session->userdata('user_login') == FALSE)
 			redirect(base_url() . '/astpp/login');
 	}
