@@ -7,8 +7,7 @@ class DepartmentMail extends CI_Controller
 		parent::__construct();
 		$this->load->model("db_model");
 		$this->load->library("astpp/common");
-	}
-	
+	}	
     function index(){
 	$EmailArr = array();
 	/* connect to gmail */
