@@ -4,7 +4,7 @@
 	<name>OPEN APIs</name>
 	<description>A connective interface to commute with ASTPP</description>		
 	<icon>static/images/api.png</icon>
-	<version>2.0.0</version>
+	<version>1.0.0</version>
 	<license>Community</license>	
 	<author>Inextrix Technologies Pvt. Ltd.</author>
 	<status>production</status>
