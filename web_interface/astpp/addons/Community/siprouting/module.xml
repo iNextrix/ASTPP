@@ -4,7 +4,7 @@
 	<name>Advance Sip Routing</name>
 	<description>Set failover routing on SIp device based on hang-up cause.</description>
 	<icon>static/images/siprouting_icon.png</icon>
-	<version>2.0.0</version>
+	<version>1.0.0</version>
 	<license>AGPL-3</license>	
 	<author>Inextrix Technologies Pvt. Ltd.</author>
 	<status>production</status>
