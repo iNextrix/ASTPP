@@ -62,7 +62,7 @@ class Voice_broadcast extends MX_Controller {
 
 	function voice_broadcast_download_sample_file($file_name) {
 		$this->load->helper ( 'download' );
-		$full_path = base_url () . "assets/Rates_File/voice_broadcast_sample/" . $file_name . ".csv";
+		$full_path = "./assets/Rates_File/voice_broadcast_sample/" . $file_name . ".csv";
         ob_clean();
 		$arrContextOptions = array (
 			"ssl" => array (
