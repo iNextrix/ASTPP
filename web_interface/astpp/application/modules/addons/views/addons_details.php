@@ -47,7 +47,8 @@ function install_addon(){
 											<div class="float-right col-6 pr-0">                                      
 								<?
         if ($version_error == 'false') {
-            if ($update_flag == 'true') {
+           $request_uri=explode("/",$_SERVER['REQUEST_URI']);
+            if ($update_flag == 'true' && $request_uri[3] !='Enterprise'){
                 ?>
 										<a
 													href="<?= base_url() ?>addons/addons_install/<?= $type."/".$package_name ?>/update/<?= $new_version."/".$old_version ?>"
@@ -64,10 +65,11 @@ function install_addon(){
 													href="<?= base_url() ?>addons/addons_install/<?php echo $type;?>/<?= $package_name ?>/uninstall/"
 													class="btn btn-light border btn-block" onclick='return install_addon()'><?php echo gettext("Uninstall"); ?></a>
 										<?  }else{?>
-												<?php 
+												<?php
+												$btn_text = ($update_flag == 'true') ? "Update": "Install"; 
 												$request_uri=explode("/",$_SERVER['REQUEST_URI']);
 												if (isset($request_uri) && $request_uri[3]=='Enterprise') {?>
-														<a href="<?= base_url() ?>addons/addons_enterprise_license/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>" class="btn btn-info btn-block" rel="facebox" >Install</a> 
+														<a href="<?= base_url() ?>addons/addons_enterprise_license/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>" class="btn btn-info btn-block" rel="facebox" ><?php echo $btn_text; ?></a> 
 													<?php }else{?>
 															<a href="<?= base_url() ?>addons/addons_install/<?= $type."/".$package_name ?>/install/<?= $new_version."/".$old_version ?>" class="btn btn-info btn-block" onclick='return install_addon()'>Install</a> 
 												 <?php }
