@@ -9,7 +9,7 @@ update userlevels set module_permissions = concat( module_permissions, ',', (  S
 
 INSERT INTO `system` (`id`, `name`, `display_name`, `value`, `field_type`, `comment`, `reseller_id`, `is_display`, `group_title`,`sub_group`) VALUES
 (NULL, 'ticket_digits', 'Ticket Digits', '6', 'default_system_input', 'Add Ticket digits', 0, 0, 'GLOBAL','Assorted');
--- ALTER TABLE `mail_details` ADD `cc` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+--ALTER TABLE `mail_details` ADD `cc` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 DROP TABLE IF EXISTS support_ticket_details;
 CREATE TABLE `support_ticket_details` (
   `id` int(11) NOT NULL,
