@@ -314,6 +314,12 @@ class user_model extends CI_Model
             ))
         );
         $this->db->insert('sip_devices', $new_array);
+        
+        //Sanket ASTPPCOM-1317 start
+        $account_data['password'] = $parms_array['password'];
+        $account_data['number'] = $add_array['fs_username'];
+        //Sanket ASTPPCOM-1317 end
+        
         $this->common->mail_to_users('create_sip_device', $account_data);
         return true;
     }
