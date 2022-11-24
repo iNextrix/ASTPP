@@ -4,7 +4,7 @@
 	<name>Brazilian Portuguese Language</name>
 	<description>Add Brazilian Portuguese Language Support</description>		
 	<icon>static/images/language_portuguese.png</icon>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<license>Community</license>	
 	<author>Inextrix Technologies Pvt. Ltd.</author>
 	<status>production</status>
