@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon>
-	<tech_name>language_romanian</tech_name>
-	<name>Romanian Language</name>
-	<description>Add Romanian Language Support</description>		
-	<icon>static/images/language_romanian.png</icon>
+	<tech_name>language_portuguese</tech_name>
+	<name>Brazilian Portuguese Language</name>
+	<description>Add Brazilian Portuguese Language Support</description>		
+	<icon>static/images/language_portuguese.png</icon>
 	<version>2.0.0</version>
 	<license>Community</license>	
 	<author>Inextrix Technologies Pvt. Ltd.</author>
