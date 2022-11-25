@@ -544,6 +544,11 @@ class Freeswitch extends MX_Controller
 
                 $org_data = explode("//", @$livecall_data[2]);
                 $term_data = explode("//", @$livecall_data[3]);
+                // ASTPPCOM-870 Ashish start
+                $trunk = $term_data[4];
+                $trunk = explode("=",$trunk);
+                $gateway = $this->common->get_field_name('name', 'trunks', array("id" => $trunk[1]));
+                // ASTPPCOM-870 Ashish End
 
                 $value['callstate'] = ($value['state'] == 'CS_EXCHANGE_MEDIA') ? "Answered" : (($value['state'] == 'CS_CONSUME_MEDIA') ? "Connecting" : "Unknown");
                 $amount = isset($term_data[3]) ? $term_data[3] : 0;
@@ -559,7 +564,9 @@ class Freeswitch extends MX_Controller
                         "<span style='color:" . $org_color . "'><b>" . @rtrim(ltrim($org_data[0], "^"), ".* ") . "</b></span>",
                         "<span style='color:" . $org_color . "'><b>" . @$org_data[1] . "</b></span>",
                         "<span style='color:" . $org_color . "'><b>" . @$org_data[2] . "</b></span>",
-                        "<span style='color:" . $term_color . "'><b>" . @$term_data[0] . "</b></span>",
+                        // ASTPPCOM-870 Ashish start
+                        "<span style='color:" . $term_color . "'><b>" . @$gateway . "</b></span>",
+                        // ASTPPCOM-870 Ashish End
                         "<span style='color:" . $term_color . "'><b>" . @rtrim(ltrim($term_data[1], " ^"), ".* ") . "</b></span>",
                         "<span style='color:" . $term_color . "'><b>" . @$term_data[2] . "</b></span>",
                         isset($term_data[3]) ? "<span style='color:" . $term_color . "'><b>" . $this->common_model->calculate_currency_customer(@trim($amount)) . "</b></span>" : "",
