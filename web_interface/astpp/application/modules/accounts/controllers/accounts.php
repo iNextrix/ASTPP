@@ -1356,7 +1356,9 @@ class Accounts extends MX_Controller
                 $state_list_array = $state_list->result_array();
                 foreach ($state_list_array as $key => $val) {
                     foreach ($val as $key1 => $val1) {
-                        $data['state_list'][] = "<option value=" . $val1 . ">" . $val1 . "</option>";
+                    //Jaimin ASTPPCOM-845
+                       $data['state_list'][] = '<option value="'.$val1.'">'.$val1.'</option>';
+                    //END
                     }
                 }
             }
@@ -1375,7 +1377,9 @@ class Accounts extends MX_Controller
                 $city_list_array = $city_list->result_array();
                 foreach ($city_list_array as $key => $val) {
                     foreach ($val as $key1 => $val1) {
-                        $data['city_list'][] = "<option value=" . $val1 . ">" . $val1 . "</option>";
+                    // Jaimin ASTPPCOM-845
+                       $data['city_list'][] = '<option value="' . $val1 . '">' . $val1 . '</option>';
+                    // END
                     }
                 }
             }
