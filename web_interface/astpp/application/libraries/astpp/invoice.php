@@ -176,6 +176,9 @@ class invoice {
 			$after_balance = $account_balance;
 			$is_update_after_balance = "false";
 		}
+		// Kinjal ASTPPCOM-1319 Start
+		$after_balance = str_replace(',','.',$after_balance);
+		// Kinjal ASTPPCOM-1319 END
 		$insert_arr = array (
 				"accountid" =>$account_info['id'],
 				"description" =>trim($product_info['description']),
