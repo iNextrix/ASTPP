@@ -2047,6 +2047,11 @@ function user_fund_transfer_save()
                             }
 
                             $post_array['credit'] = number_format($this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false), 4);
+
+                            // Kinjal ASTPPCOM-1319 Start
+                            $post_array['credit'] = number_format($this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false,'en_En'), 4);
+                            // Kinjal ASTPPCOM-1319 END
+
                             $minimum_fund = (array) $this->db->get_where('system', array(
                                 "name" => "minimum_fund_transfer"
                             ), 1)->first_row();
@@ -2085,6 +2090,9 @@ function user_fund_transfer_save()
                                     $from['credit'] = abs($post_array['credit']);
                                     $from['payment_type'] = 'debit';
                                 }
+                                // Kinjal ASTPPCOM-1319 Start
+                                $from['credit'] = str_replace(',', '.', $from['credit']);
+                                // Kinjal ASTPPCOM-1319 Start
                                 $from['posttoexternal'] = $account['posttoexternal'];
 
                                 $from['notes'] = $post_array['notes'];

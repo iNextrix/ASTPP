@@ -279,6 +279,9 @@ class Common_model extends CI_Model {
 	}
 	function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
 		// ASTPPCOM-857 Ashish start
+		// Kinjal ASTPPCOM-1319 Start
+		$current_language= $current_language == '' ? $this->session->userdata ( 'user_language' ):$current_language;
+		// Kinjal ASTPPCOM-1319 END
 		$current_language=$this->session->userdata ( 'user_language' );
 		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
 			$amount = str_replace ( '.', ',', $amount );
