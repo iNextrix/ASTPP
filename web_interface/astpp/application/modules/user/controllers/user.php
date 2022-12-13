@@ -1063,7 +1063,7 @@ function user_invoices_list_json()
         $due_date = $this->common->convert_GMT_to_new('','',$value['due_date']);
         $from_currency = Common_model::$global_config['system_config']['base_currency'];
         $to_currency = $this->common->get_field_name('currency', 'currency', $accountinfo['currency_id']);
-        $charge_type = $this->common->get_field_name("charge_type","invoice_details",array("invoiceid"=>$value['id']));	
+        $charge_type = $this->common->get_field_name("charge_type","invoice_details",array("invoiceid"=>$value['id'])); 
         
         if ($from_currency != $to_currency) {
             $outstanding = ($value['is_paid'] == 1) ? $value['debit'] - $value['credit'] : 0.00;
@@ -1412,7 +1412,7 @@ function user_didlist_search()
             unset($action['dids.number']['number']);
             unset($action['dids.number']['number-string']);
             
-        }	
+        }   
 
 
         
@@ -1978,6 +1978,7 @@ function user_fund_transfer_save()
     if ($accountinfo['posttoexternal'] != '1') {
         $data['page_title'] = gettext('Send Credit');
         $post_array = $this->input->post();
+
         $accountinfo = $this->session->userdata('accountinfo');
         $account = (array) $this->db->get_where('accounts', array(
             "id" => $accountinfo['id']
@@ -1999,9 +2000,7 @@ function user_fund_transfer_save()
                         'status' => 0,
                         'deleted' => 0
                     ));
-
                     $balance = ($account_info["posttoexternal"] == 1) ? ($account_info["credit_limit"] - $acc_balance) : ($acc_balance);
-
                     $toid = $this->common->get_field_name('id', 'accounts', array(
                         'number' => $post_array['toaccountid'],
                         'status' => 0,
@@ -2021,7 +2020,6 @@ function user_fund_transfer_save()
                     ));
 
                     $balance = ($account_info["posttoexternal"] == 1) ? ($account_info["credit_limit"] - $acc_balance) : ($acc_balance);
-
                     $toid = $this->common->get_field_name('id', 'accounts', array(
                         'number' => $post_array['toaccountid'],
                         'status' => 0,
@@ -2033,6 +2031,7 @@ function user_fund_transfer_save()
                         'deleted' => 0
                     ), 1)->first_row();
                 }
+                // echo $balance; die;
                 if (! empty($toaccountinfo)) {
                     if ($toaccountinfo['posttoexternal'] == 1) {
                         $this->session->set_flashdata('astpp_notification', gettext('Can not trnasfer fund to postpaid customer'));
@@ -2042,21 +2041,21 @@ function user_fund_transfer_save()
                             $reseller_id = $toaccountinfo['reseller_id'];
 
                             if (($toaccountinfo['type'] != 3) && ($toaccountinfo['type'] != 0)) {
-
                                 $this->session->set_flashdata('astpp_notification', gettext('Access Denied! unable transfer fund to this account'));
                             }
-
-                            $post_array['credit'] = number_format($this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false), 4);
-
+                            
                             // Kinjal ASTPPCOM-1319 Start
                             $post_array['credit'] = number_format($this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false,'en_En'), 4);
                             // Kinjal ASTPPCOM-1319 END
-
                             $minimum_fund = (array) $this->db->get_where('system', array(
                                 "name" => "minimum_fund_transfer"
                             ), 1)->first_row();
-                            $minimum_fund['value'] = number_format($this->common_model->add_calculate_currency($minimum_fund['value'], '', '', false, false), 4);
+                            $minimum_fund['value'] = number_format($this->common_model->add_calculate_currency($minimum_fund['value'], '', '', false, false,'en_En'), 4);
 
+                            // Kinjal ASTPPCOM-1319 Start
+                            $from_currency = common_model::$global_config['system_config'] ['base_currency'];
+                            $minimum_fund_value = number_format($this->common_model->add_calculate_currency($minimum_fund['value'],$from_currency, $currency['currency'], false, false,'en_En'), 4);
+                            // Kinjal ASTPPCOM-1319 END
                             if ($post_array['toaccountid'] == $account_info['number']) {
                                 $this->session->set_flashdata('astpp_notification', gettext('You can not transfer fund in same account.'));
                             } elseif ($reseller_id != $account_info['reseller_id']) {
@@ -2072,7 +2071,7 @@ function user_fund_transfer_save()
                             } elseif ($post_array['credit'] < 0) {
                                 $this->session->set_flashdata('astpp_notification', gettext('Please enter amount greater then 0.'));
                             } elseif ($minimum_fund['value'] > $post_array['credit']) {
-                                $this->session->set_flashdata('astpp_notification', gettext(sprintf('You need to enter minimum %s for fund transfer. ', $minimum_fund['value'])));
+                                  $this->session->set_flashdata('astpp_notification', gettext('You need to enter minimum').' '.$minimum_fund_value.' '.gettext('for fund transfer.'));
                             } elseif (! isset($toid) || ! isset($post_array['toaccountid'])) {
                                 $this->session->set_flashdata('astpp_notification', gettext('Please enter valid account number!'));
                             } elseif ($post_array['credit'] < 0 || $post_array['credit'] > $balance) {
@@ -2083,6 +2082,7 @@ function user_fund_transfer_save()
                                 $from['id'] = $post_array['id'];
                                 $from['account_currency'] = $post_array['account_currency'];
                                 $from['accountid'] = $post_array['fromaccountid'];
+
                                 if ($account['posttoexternal'] == 1) {
                                     $from['credit'] = abs($post_array['credit']);
                                     $from['payment_type'] = '0';
@@ -2149,6 +2149,7 @@ function user_fund_transfer_save()
                                     "is_update_balance" => "true"
                                 );
                                 $insert_payment_arr_from['is_apply_tax'] = "false";
+
                                 $this->payment->add_payments_transcation($insert_payment_arr_from, $from_account_info, $from_currency_info);
 
                                 $insert_payment_arr_to = array(
@@ -2165,13 +2166,12 @@ function user_fund_transfer_save()
                                     "is_update_balance" => "true"
                                 );
                                 $insert_payment_arr_to['is_apply_tax'] = "false";
+
                                 $this->payment->add_payments_transcation($insert_payment_arr_to, $to_account_info, $to_currency_info);
                                 $from_account_info['amount'] = $from['credit'];
                                 $to_account_info['to_currency'] = $this->common->get_field_name ( 'currency', 'currency', $to_account_info['currency_id']);
                                 $to_account_info['number'] =   $from_account_info['number'];
                                 $to_account_info['amount'] = $from['credit'];
-                                    // $from_account_info['refillbalance'] = $from['credit'];
-                                    // $from_account_info['number'] = $to_account_info['number'];
                                 $this->common->mail_to_users('customer_refill_balance', $to_account_info);
                                 $from_account_info['number'] =  $to_account_info['number'];
                                 $this->common->mail_to_users('balance_transfer', $from_account_info);
@@ -2249,10 +2249,10 @@ if(!empty($calls)){
  foreach ($calls as $key => $value) {
     $calls[$i]['presence_data'] = @$calls_final[$value['call_uuid']]['presence_data'];
     $livecall_data = explode("|||", $calls[$i]['presence_data']);
-    $account_explode=explode('(',$livecall_data[1]);	
+    $account_explode=explode('(',$livecall_data[1]);    
     if (isset($value['state']) && ($value['state'] == 'CS_EXCHANGE_MEDIA' || $value['state'] == 'CS_CONSUME_MEDIA') ) {
        if($accountinfo['number'] == rtrim($account_explode[1],')') || array_key_exists($value['initial_dest'],$sip_device_final_array)){
-           $response_return=false;		 		
+           $response_return=false;              
        }
    } 
 }

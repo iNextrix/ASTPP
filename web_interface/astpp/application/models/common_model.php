@@ -277,12 +277,11 @@ class Common_model extends CI_Model {
 
 		return $cal_amount;
 	}
-	function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
+	function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true,$current_language = '') {
 		// ASTPPCOM-857 Ashish start
 		// Kinjal ASTPPCOM-1319 Start
 		$current_language= $current_language == '' ? $this->session->userdata ( 'user_language' ):$current_language;
 		// Kinjal ASTPPCOM-1319 END
-		$current_language=$this->session->userdata ( 'user_language' );
 		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
 			$amount = str_replace ( '.', ',', $amount );
 		}else{
@@ -295,24 +294,23 @@ class Common_model extends CI_Model {
 		}
 		$to_currency = ($to_currency == '') ? self::$global_config ['system_config'] ['base_currency'] : $to_currency;
 		if (self::$global_config ['currency_list'] [$from_currency] > 0) { 
-
 			$cal_amount = ($amount * self::$global_config ['currency_list'] [$to_currency]) / self::$global_config ['currency_list'] [$from_currency];
-
-		} else { 
+			$cal_amount = str_replace(',','.',$cal_amount);
+		} else {
 			$cal_amount = $amount;
 		}
+
 		if ($format_currency)
 			$cal_amount = $this->format_currency ( $cal_amount );
 		if ($append_currency)
 			$cal_amount = $cal_amount . " " . $to_currency;
 		// ASTPPCOM-857 Ashish start
-		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
+
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE' )){
 			$cal_amount = str_replace ( '.', ',', $cal_amount );
 		}else{
 			$cal_amount = str_replace ( ',', '', $cal_amount );
 		}
-		// ASTPPCOM-857 end
-
 		return $cal_amount;
 	}
 	function to_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
