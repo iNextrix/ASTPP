@@ -3277,7 +3277,8 @@ class common {
 	}
 	
 	function check_did_available_reseller($select='', $table='', $number) {
-		$link =  base_url () ."did/did_available_purchase/" . $number;
+		$did_id =(array)$this->CI->db->get_where("dids",array("number"=>$number))->first_row();
+        $link =  base_url () ."did/did_available_purchase/" .$did_id['id'];
 		return  '<a href="'.$link.'" <span  class="label label-sm label-inverse_blue arrowed_blue-in" rel="facebox" title="release">Purchase<span></a>';
 	}
 	function build_did_forward($select='', $table='', $id) {
