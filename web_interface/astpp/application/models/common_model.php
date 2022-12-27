@@ -277,11 +277,13 @@ class Common_model extends CI_Model {
 
 		return $cal_amount;
 	}
+	// ASTPPCOM-1319 Start
 	function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true,$current_language = '') {
-		// ASTPPCOM-857 Ashish start
-		// Kinjal ASTPPCOM-1319 Start
+		// ASTPPCOM-1319 END
+
+		// ASTPPCOM-857 Ashish start		
 		$current_language= $current_language == '' ? $this->session->userdata ( 'user_language' ):$current_language;
-		// Kinjal ASTPPCOM-1319 END
+		
 		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
 			$amount = str_replace ( '.', ',', $amount );
 		}else{
@@ -295,7 +297,9 @@ class Common_model extends CI_Model {
 		$to_currency = ($to_currency == '') ? self::$global_config ['system_config'] ['base_currency'] : $to_currency;
 		if (self::$global_config ['currency_list'] [$from_currency] > 0) { 
 			$cal_amount = ($amount * self::$global_config ['currency_list'] [$to_currency]) / self::$global_config ['currency_list'] [$from_currency];
+			// Kinjal ASTPPCOM-1319 Start
 			$cal_amount = str_replace(',','.',$cal_amount);
+			// Kinjal ASTPPCOM-1319 End
 		} else {
 			$cal_amount = $amount;
 		}
@@ -305,7 +309,6 @@ class Common_model extends CI_Model {
 		if ($append_currency)
 			$cal_amount = $cal_amount . " " . $to_currency;
 		// ASTPPCOM-857 Ashish start
-
 		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE' )){
 			$cal_amount = str_replace ( '.', ',', $cal_amount );
 		}else{

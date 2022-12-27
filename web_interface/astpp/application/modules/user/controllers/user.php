@@ -2071,7 +2071,9 @@ function user_fund_transfer_save()
                             } elseif ($post_array['credit'] < 0) {
                                 $this->session->set_flashdata('astpp_notification', gettext('Please enter amount greater then 0.'));
                             } elseif ($minimum_fund['value'] > $post_array['credit']) {
+                                  // Kinjal ASTPPCOM-1319 Start
                                   $this->session->set_flashdata('astpp_notification', gettext('You need to enter minimum').' '.$minimum_fund_value.' '.gettext('for fund transfer.'));
+                                  // Kinjal ASTPPCOM-1319 END
                             } elseif (! isset($toid) || ! isset($post_array['toaccountid'])) {
                                 $this->session->set_flashdata('astpp_notification', gettext('Please enter valid account number!'));
                             } elseif ($post_array['credit'] < 0 || $post_array['credit'] > $balance) {
@@ -2092,7 +2094,7 @@ function user_fund_transfer_save()
                                 }
                                 // Kinjal ASTPPCOM-1319 Start
                                 $from['credit'] = str_replace(',', '.', $from['credit']);
-                                // Kinjal ASTPPCOM-1319 Start
+                                // Kinjal ASTPPCOM-1319 END
                                 $from['posttoexternal'] = $account['posttoexternal'];
 
                                 $from['notes'] = $post_array['notes'];
