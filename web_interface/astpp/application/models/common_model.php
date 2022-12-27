@@ -314,6 +314,8 @@ class Common_model extends CI_Model {
 		}else{
 			$cal_amount = str_replace ( ',', '', $cal_amount );
 		}
+		// ASTPPCOM-857 end
+		
 		return $cal_amount;
 	}
 	function to_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {

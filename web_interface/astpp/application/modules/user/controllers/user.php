@@ -2000,7 +2000,9 @@ function user_fund_transfer_save()
                         'status' => 0,
                         'deleted' => 0
                     ));
+
                     $balance = ($account_info["posttoexternal"] == 1) ? ($account_info["credit_limit"] - $acc_balance) : ($acc_balance);
+
                     $toid = $this->common->get_field_name('id', 'accounts', array(
                         'number' => $post_array['toaccountid'],
                         'status' => 0,
@@ -2020,6 +2022,7 @@ function user_fund_transfer_save()
                     ));
 
                     $balance = ($account_info["posttoexternal"] == 1) ? ($account_info["credit_limit"] - $acc_balance) : ($acc_balance);
+
                     $toid = $this->common->get_field_name('id', 'accounts', array(
                         'number' => $post_array['toaccountid'],
                         'status' => 0,
@@ -2031,7 +2034,6 @@ function user_fund_transfer_save()
                         'deleted' => 0
                     ), 1)->first_row();
                 }
-                // echo $balance; die;
                 if (! empty($toaccountinfo)) {
                     if ($toaccountinfo['posttoexternal'] == 1) {
                         $this->session->set_flashdata('astpp_notification', gettext('Can not trnasfer fund to postpaid customer'));
