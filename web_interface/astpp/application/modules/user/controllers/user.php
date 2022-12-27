@@ -2043,18 +2043,19 @@ function user_fund_transfer_save()
                             $reseller_id = $toaccountinfo['reseller_id'];
 
                             if (($toaccountinfo['type'] != 3) && ($toaccountinfo['type'] != 0)) {
+
                                 $this->session->set_flashdata('astpp_notification', gettext('Access Denied! unable transfer fund to this account'));
-                            }
-                            
+                            }                            
                             // Kinjal ASTPPCOM-1319 Start
                             $post_array['credit'] = number_format($this->common_model->add_calculate_currency($post_array['credit'], '', '', false, false,'en_En'), 4);
                             // Kinjal ASTPPCOM-1319 END
+
                             $minimum_fund = (array) $this->db->get_where('system', array(
                                 "name" => "minimum_fund_transfer"
                             ), 1)->first_row();
-                            $minimum_fund['value'] = number_format($this->common_model->add_calculate_currency($minimum_fund['value'], '', '', false, false,'en_En'), 4);
 
                             // Kinjal ASTPPCOM-1319 Start
+                            $minimum_fund['value'] = number_format($this->common_model->add_calculate_currency($minimum_fund['value'], '', '', false, false,'en_En'), 4);
                             $from_currency = common_model::$global_config['system_config'] ['base_currency'];
                             $minimum_fund_value = number_format($this->common_model->add_calculate_currency($minimum_fund['value'],$from_currency, $currency['currency'], false, false,'en_En'), 4);
                             // Kinjal ASTPPCOM-1319 END
@@ -2153,7 +2154,6 @@ function user_fund_transfer_save()
                                     "is_update_balance" => "true"
                                 );
                                 $insert_payment_arr_from['is_apply_tax'] = "false";
-
                                 $this->payment->add_payments_transcation($insert_payment_arr_from, $from_account_info, $from_currency_info);
 
                                 $insert_payment_arr_to = array(
