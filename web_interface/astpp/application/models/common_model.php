@@ -309,7 +309,7 @@ class Common_model extends CI_Model {
 		if ($append_currency)
 			$cal_amount = $cal_amount . " " . $to_currency;
 		// ASTPPCOM-857 Ashish start
-		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE' )){
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
 			$cal_amount = str_replace ( '.', ',', $cal_amount );
 		}else{
 			$cal_amount = str_replace ( ',', '', $cal_amount );
