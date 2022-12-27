@@ -3280,8 +3280,8 @@ class common {
 	{
 		//ASTPPCOM - 1342 start
 		$did_id =(array)$this->CI->db->get_where("dids",array("number"=>$number))->first_row();
-		//ASTPPCOM - 1342 end
         $link =  base_url () ."did/did_available_purchase/" .$did_id['id'];
+        //ASTPPCOM - 1342 end
 		return  '<a href="'.$link.'" <span  class="label label-sm label-inverse_blue arrowed_blue-in" rel="facebox" title="release">Purchase<span></a>';
 	}
 	function build_did_forward($select='', $table='', $id) {
