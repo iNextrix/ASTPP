@@ -278,6 +278,10 @@ class DID extends MX_Controller
 
     function did_available_purchase($number)
     {
+        //ASTPPCOM - 1342 start
+        $did_info=(array)$this->db->get_where("dids",array("id"=>$number))->first_row();
+        $number = $did_info['number'];
+        //ASTPPCOM - 1342 end
         $accountinfo = $this->session->userdata('accountinfo');
         if ($number != '') {
             $data['currency'] = $this->common->get_field_name("currency", "currency", array(
