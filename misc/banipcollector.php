@@ -6,7 +6,7 @@ $ip = $_SERVER["argv"][2];
 ################SYSTEM IP #####################
 
 $server_ip=exec("ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'");
-$url = 'https://hackeripbank.inextrix.com/';
+$url = base64_decode('aHR0cHM6Ly9oYWNrZXJpcGJhbmsuaW5leHRyaXguY29tLw==');
 $data = array("name" => $name,"ip" => $ip, "server_ip" => $server_ip);
 $postdata = json_encode($data);
 $ch = curl_init($url);
