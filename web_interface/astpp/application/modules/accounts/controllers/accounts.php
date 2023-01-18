@@ -1364,26 +1364,26 @@ class Accounts extends MX_Controller
             }
         }
 
-        if (isset($provience) && $provience != "") {
+        // if (isset($provience) && $provience != "") {
 
-            $city_list = array();
-            $city_list_array = array();
-            $this->db->where('city NOT LIKE', '');
-            $city_list = $this->db_model->getSelect("distinct(city)", "dids", array(
-                'province' => $provience,
-                'country_id' => $country_id
-            ));
-            if ($city_list->num_rows() > 0) {
-                $city_list_array = $city_list->result_array();
-                foreach ($city_list_array as $key => $val) {
-                    foreach ($val as $key1 => $val1) {
-                    // Jaimin ASTPPCOM-845
-                       $data['city_list'][] = '<option value="' . $val1 . '">' . $val1 . '</option>';
-                    // END
-                    }
-                }
-            }
-        }
+        //     $city_list = array();
+        //     $city_list_array = array();
+        //     $this->db->where('city NOT LIKE', '');
+        //     $city_list = $this->db_model->getSelect("distinct(city)", "dids", array(
+        //         'province' => $provience,
+        //         'country_id' => $country_id
+        //     ));
+        //     if ($city_list->num_rows() > 0) {
+        //         $city_list_array = $city_list->result_array();
+        //         foreach ($city_list_array as $key => $val) {
+        //             foreach ($val as $key1 => $val1) {
+        //             // Jaimin ASTPPCOM-845
+        //                $data['city_list'][] = '<option value="' . $val1 . '">' . $val1 . '</option>';
+        //             // END
+        //             }
+        //         }
+        //     }
+        // }
 
         $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
         if (isset($entity_info['reseller_id']) && $entity_info['reseller_id'] > 0) {
@@ -1410,7 +1410,9 @@ class Accounts extends MX_Controller
             $did_list = $this->db_model->getJionQuery('dids', 'dids.id,dids.product_id,dids.number,products.buy_cost,products.commission,products.price,products.billing_type,products.setup_fee,products.billing_days,products.id', array(
                 'dids.accountid' => 0,
                 'dids.country_id' => $country_id,
-                'dids.parent_id' => $reseller_id,
+                // ASTPPCOM-1333 Start
+                'dids.parent_id' => $entity_info['reseller_id'],
+                // ASTPPCOM-1333 END
                 'dids.status' => 0
             ), 'products', 'dids.product_id=products.id', 'inner', "", "", 'DESC', 'dids.id');
         }
