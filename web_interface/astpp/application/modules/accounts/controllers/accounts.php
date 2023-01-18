@@ -1410,9 +1410,9 @@ class Accounts extends MX_Controller
             $did_list = $this->db_model->getJionQuery('dids', 'dids.id,dids.product_id,dids.number,products.buy_cost,products.commission,products.price,products.billing_type,products.setup_fee,products.billing_days,products.id', array(
                 'dids.accountid' => 0,
                 'dids.country_id' => $country_id,
-                // ASTPPCOM-1333 Start
+                //ASTPPCOM-1333 Start
                 'dids.parent_id' => $entity_info['reseller_id'],
-                // ASTPPCOM-1333 END
+                //ASTPPCOM-1333 END
                 'dids.status' => 0
             ), 'products', 'dids.product_id=products.id', 'inner', "", "", 'DESC', 'dids.id');
         }

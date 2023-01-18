@@ -61,8 +61,8 @@
               type: "POST",
               url: url_new,
               // ASTPPCOM-1333 Start
-				data:{ country_id : country_id,provience:provience,accountid:accountid},
-				// ASTPPCOM-1333 END
+			  data:{ country_id : country_id,provience:provience,accountid:accountid},
+			  // ASTPPCOM-1333 END
               success:function(response) {
 					
 					var objJSON = JSON.parse(response);
