@@ -15,6 +15,10 @@
        		 $('.chkRefNos').prop('checked', $(this).prop('checked')); 
          });
         var country_id= $('#country_id').val();
+        <?php  // ASTPPCOM-1333 Start ?>
+		var accountid ='<?php echo $edit_id; ?>';
+		<?php  // ASTPPCOM-1333 END ?>
+
             $("#country_id" ).change(function() {
                 var country_id= $('#country_id').val();
     var url ='<?php echo base_url()."accounts/customer_did_country/"; ?>';
@@ -69,7 +73,9 @@
 				$.ajax({
 				type: "POST",
 				url: url_new,
-				data:{ country_id : country_id,provience:provience},
+				// ASTPPCOM-1333 Start
+				data:{ country_id : country_id,provience:provience,accountid:accountid},
+				// ASTPPCOM-1333 END
 				success:function(response) {
 						var objJSON = JSON.parse(response);
 						console.log(objJSON);
@@ -99,7 +105,9 @@
              $.ajax({
               type: "POST",
               url: url_new,
-              data:{ country_id : country_id,provience:provience,city:city},
+              // ASTPPCOM-1333 Start
+              data:{ country_id : country_id,provience:provience,city:city,accountid:accountid},
+			  // ASTPPCOM-1333 END
               success:function(response) {
                var objJSON = JSON.parse(response);
                if(objJSON.didlist && objJSON.didlist!=""){
