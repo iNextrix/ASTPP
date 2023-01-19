@@ -1379,7 +1379,8 @@
 
         }
 
-        // if (isset($provience) && $provience != "") {
+        // if (isset($provience) && $provience != "") 
+        //{
         //     $city_list = array();
         //     $city_list_array = array();
         //     $this->db->where('city NOT LIKE', '');
