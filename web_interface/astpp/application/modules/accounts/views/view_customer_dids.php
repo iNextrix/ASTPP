@@ -132,7 +132,7 @@
                error.appendTo($("#" + name + "_validate"));
            }
        });
-        });
+    });
     </script>
 <style>
 #err {
