@@ -1360,43 +1360,30 @@
                     }
                 }
             }
+        }
 
-            if(!isset($_POST['provience'])){
-                $this->db->where('city NOT LIKE', '');
-                $city_list = $this->db_model->getSelect("city", "dids", array(
-                    'country_id' => $country_id
-                ));
-                if ($city_list->num_rows() > 0) {
-                    $city_list_array = $city_list->result_array();                    
-                    foreach ($city_list_array as $key => $val) {
-                        foreach ($val as $key1 => $val1) {
-                            // $data['city_list'][] = "<option value=" . $val1 . ">" . $val1 . "</option>";
-                            $data['city_list'][] = '<option value="'. $val1 .'"> '. $val1 .' </option>';
-                        }
+        // ASTPPCOM-1333 Start
+        if (isset($provience) && $provience != "") {
+
+            $city_list = array();
+            $city_list_array = array();
+            $this->db->where('city NOT LIKE', '');
+            $city_list = $this->db_model->getSelect("distinct(city)", "dids", array(
+                'province' => $provience,
+                'country_id' => $country_id
+            ));
+            if ($city_list->num_rows() > 0) {
+                $city_list_array = $city_list->result_array();
+                foreach ($city_list_array as $key => $val) {
+                    foreach ($val as $key1 => $val1) {
+                    // Jaimin ASTPPCOM-845
+                       $data['city_list'][] = '<option value="' . $val1 . '">' . $val1 . '</option>';
+                    // END
                     }
                 }
             }
-
         }
-
-        // if (isset($provience) && $provience != "") 
-        //{
-        //     $city_list = array();
-        //     $city_list_array = array();
-        //     $this->db->where('city NOT LIKE', '');
-        //     $city_list = $this->db_model->getSelect("distinct(city)", "dids", array(
-        //         'province' => $provience,
-        //         'country_id' => $country_id
-        //     ));
-        //     if ($city_list->num_rows() > 0) {
-        //         $city_list_array = $city_list->result_array();
-        //         foreach ($city_list_array as $key => $val) {
-        //             foreach ($val as $key1 => $val1) {
-        //                 $data['city_list'][] = "<option value=" . $val1 . ">" . $val1 . "</option>";
-        //             }
-        //         }
-        //     }
-        // }
+        // ASTPPCOM-1333 END
 
         $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
         if (isset($entity_info['reseller_id']) && $entity_info['reseller_id'] > 0) {
@@ -1410,7 +1397,9 @@
             $did_list = $this->db_model->getJionQuery('dids', 'dids.id,dids.product_id,dids.number,reseller_products.buy_cost,reseller_products.commission,reseller_products.price,reseller_products.billing_type,reseller_products.setup_fee,reseller_products.billing_days,reseller_products.product_id', array(
                 'dids.accountid' => 0,
                 'dids.country_id' => $country_id,
-                'dids.parent_id' => $reseller_id,
+                // ASTPPCOM-1333 Start
+                'dids.parent_id' => $entity_info['reseller_id'],
+                // ASTPPCOM-1333 END
                 'dids.status' => 0
             ), 'reseller_products', 'dids.product_id=reseller_products.product_id', 'inner', "", "", 'DESC', 'dids.id');
         } else {

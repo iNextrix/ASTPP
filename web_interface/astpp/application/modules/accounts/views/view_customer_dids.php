@@ -39,17 +39,6 @@
                       $('#provience_id_search_drp').selectpicker('refresh');
                   }
 
-				//added
-				if(objJSON.city_list && objJSON.city_list != ""){
-						$("#city_id_search_drp").html(objJSON.city_list);
-						$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
-						$('#city_id_search_drp').selectpicker('refresh');
-				}else{
-					$("#city_id_search_drp").html("");
-					$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
-					$('#city_id_search_drp').selectpicker('refresh');
-				}
-
                   if(objJSON.didlist && objJSON.didlist!=""){
                       $("#free_didlist").html(objJSON.didlist); 
                       $('.free_didlist').selectpicker('refresh'); 	
@@ -86,7 +75,9 @@
 						}else{
 							$("#city_id_search_drp").html("");
 							$("#city_id_search_drp").prepend("<option value='' selected> <?php echo gettext('--Select--'); ?> </option>"); 
+							// ASTPPCOM-1333 Start
 							$('#city_id_search_drp').selectpicker('refresh');
+							// ASTPPCOM-1333 END
 						}
 
 						if(objJSON.didlist && objJSON.didlist!=""){
