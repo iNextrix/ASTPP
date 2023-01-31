@@ -277,12 +277,11 @@ class Common_model extends CI_Model {
 
 		return $cal_amount;
 	}
-	function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
-		// ASTPPCOM-857 Ashish start
-		// Kinjal ASTPPCOM-1319 Start
-		$current_language= $current_language == '' ? $this->session->userdata ( 'user_language' ):$current_language;
-		// Kinjal ASTPPCOM-1319 END
-		$current_language=$this->session->userdata ( 'user_language' );
+	// ASTPPCOM-1319 Start
+	function add_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true,$current_language = '') {
+		// ASTPPCOM-1319 END
+		// ASTPPCOM-857 Ashish start		
+		$current_language= $current_language == '' ? $this->session->userdata ( 'user_language' ):$current_language;		
 		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE')){
 			$amount = str_replace ( '.', ',', $amount );
 		}else{
@@ -295,12 +294,14 @@ class Common_model extends CI_Model {
 		}
 		$to_currency = ($to_currency == '') ? self::$global_config ['system_config'] ['base_currency'] : $to_currency;
 		if (self::$global_config ['currency_list'] [$from_currency] > 0) { 
-
 			$cal_amount = ($amount * self::$global_config ['currency_list'] [$to_currency]) / self::$global_config ['currency_list'] [$from_currency];
-
-		} else { 
+			// Kinjal ASTPPCOM-1319 Start
+			$cal_amount = str_replace(',','.',$cal_amount);
+			// Kinjal ASTPPCOM-1319 End
+		} else {
 			$cal_amount = $amount;
 		}
+
 		if ($format_currency)
 			$cal_amount = $this->format_currency ( $cal_amount );
 		if ($append_currency)
@@ -311,8 +312,7 @@ class Common_model extends CI_Model {
 		}else{
 			$cal_amount = str_replace ( ',', '', $cal_amount );
 		}
-		// ASTPPCOM-857 end
-
+		// ASTPPCOM-857 end		
 		return $cal_amount;
 	}
 	function to_calculate_currency($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
