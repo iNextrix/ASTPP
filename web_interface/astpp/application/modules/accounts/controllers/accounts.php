@@ -1364,6 +1364,7 @@ class Accounts extends MX_Controller
             }
         }
 
+        //ASTPPCOM-1333 Start
         if (isset($provience) && $provience != "") {
 
             $city_list = array();
@@ -1384,6 +1385,7 @@ class Accounts extends MX_Controller
                 }
             }
         }
+        //ASTPPCOM-1333 END
 
         $reseller_id = $accountinfo['type'] == 1 ? $accountinfo['id'] : 0;
         if (isset($entity_info['reseller_id']) && $entity_info['reseller_id'] > 0) {
@@ -1397,7 +1399,9 @@ class Accounts extends MX_Controller
             $did_list = $this->db_model->getJionQuery('dids', 'dids.id,dids.product_id,dids.number,reseller_products.buy_cost,reseller_products.commission,reseller_products.price,reseller_products.billing_type,reseller_products.setup_fee,reseller_products.billing_days,reseller_products.product_id', array(
                 'dids.accountid' => 0,
                 'dids.country_id' => $country_id,
-                'dids.parent_id' => $reseller_id,
+                // /ASTPPCOM-1333 Start
+                'dids.parent_id' => $entity_info['reseller_id'],
+                // /ASTPPCOM-1333 END
                 'dids.status' => 0
             ), 'reseller_products', 'dids.product_id=reseller_products.product_id', 'inner', "", "", 'DESC', 'dids.id');
         } else {
@@ -1410,7 +1414,9 @@ class Accounts extends MX_Controller
             $did_list = $this->db_model->getJionQuery('dids', 'dids.id,dids.product_id,dids.number,products.buy_cost,products.commission,products.price,products.billing_type,products.setup_fee,products.billing_days,products.id', array(
                 'dids.accountid' => 0,
                 'dids.country_id' => $country_id,
-                'dids.parent_id' => $reseller_id,
+                //ASTPPCOM-1333 Start
+                'dids.parent_id' => $entity_info['reseller_id'],
+                //ASTPPCOM-1333 END
                 'dids.status' => 0
             ), 'products', 'dids.product_id=products.id', 'inner', "", "", 'DESC', 'dids.id');
         }
