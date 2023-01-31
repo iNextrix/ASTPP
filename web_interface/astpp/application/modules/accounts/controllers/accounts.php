@@ -1360,39 +1360,22 @@
                     }
                 }
             }
-
-            if(!isset($_POST['provience'])){
+            // ASTPPCOM-1333 Start
+            if (isset($provience) && $provience != "") {
+            // ASTPPCOM-1333 END
                 $this->db->where('city NOT LIKE', '');
                 $city_list = $this->db_model->getSelect("city", "dids", array(
+                    // ASTPPCOM-1333 Start
+                    'province' => $provience,
+                    // ASTPPCOM-1333 END
                     'country_id' => $country_id
                 ));
                 if ($city_list->num_rows() > 0) {
                     $city_list_array = $city_list->result_array();                    
                     foreach ($city_list_array as $key => $val) {
                         foreach ($val as $key1 => $val1) {
-                            // $data['city_list'][] = "<option value=" . $val1 . ">" . $val1 . "</option>";
                             $data['city_list'][] = '<option value="'. $val1 .'"> '. $val1 .' </option>';
                         }
-                    }
-                }
-            }
-
-        }
-
-        if (isset($provience) && $provience != "") {
-
-            $city_list = array();
-            $city_list_array = array();
-            $this->db->where('city NOT LIKE', '');
-            $city_list = $this->db_model->getSelect("distinct(city)", "dids", array(
-                'province' => $provience,
-                'country_id' => $country_id
-            ));
-            if ($city_list->num_rows() > 0) {
-                $city_list_array = $city_list->result_array();
-                foreach ($city_list_array as $key => $val) {
-                    foreach ($val as $key1 => $val1) {
-                        $data['city_list'][] = "<option value=" . $val1 . ">" . $val1 . "</option>";
                     }
                 }
             }
@@ -1410,7 +1393,9 @@
             $did_list = $this->db_model->getJionQuery('dids', 'dids.id,dids.product_id,dids.number,reseller_products.buy_cost,reseller_products.commission,reseller_products.price,reseller_products.billing_type,reseller_products.setup_fee,reseller_products.billing_days,reseller_products.product_id', array(
                 'dids.accountid' => 0,
                 'dids.country_id' => $country_id,
-                'dids.parent_id' => $reseller_id,
+                // ASTPPCOM-1333 Start
+                'dids.parent_id' => $entity_info['reseller_id'],
+                // ASTPPCOM-1333 END
                 'dids.status' => 0
             ), 'reseller_products', 'dids.product_id=reseller_products.product_id', 'inner', "", "", 'DESC', 'dids.id');
         } else {
@@ -1423,7 +1408,9 @@
             $did_list = $this->db_model->getJionQuery('dids', 'dids.id,dids.product_id,dids.number,products.buy_cost,products.commission,products.price,products.billing_type,products.setup_fee,products.billing_days,products.id', array(
                 'dids.accountid' => 0,
                 'dids.country_id' => $country_id,
-                'dids.parent_id' => $reseller_id,
+                // ASTPPCOM-1333 Start
+                'dids.parent_id' => $entity_info['reseller_id'],
+                // ASTPPCOM-1333 END
                 'dids.status' => 0
             ), 'products', 'dids.product_id=products.id', 'inner', "", "", 'DESC', 'dids.id');
         }
