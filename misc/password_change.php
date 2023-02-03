@@ -62,7 +62,7 @@ function decode_params($string) {
 function password_encrypt($value){
 	global $private_key;
 	$ivSize = openssl_cipher_iv_length('BF-ECB');
-	$iv = openssl_random_pseudo_bytes($ivSize);
+	$iv = ($ivSize > 0) ? openssl_random_pseudo_bytes($ivSize) : false;
 
 	$encrypted = openssl_encrypt($value, 'BF-ECB', $private_key, OPENSSL_RAW_DATA, $iv);
 	

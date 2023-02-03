@@ -2061,7 +2061,7 @@ class common {
 
 	function encode($value) {
 		$ivSize = openssl_cipher_iv_length('BF-ECB');
-		$iv = openssl_random_pseudo_bytes($ivSize);
+		$iv = ($ivSize > 0) ? openssl_random_pseudo_bytes($ivSize) : false;
 		$encrypted = openssl_encrypt($value, 'BF-ECB', $this->CI->config->item ( 'private_key' ), OPENSSL_RAW_DATA, $iv);
 		$encrypted = $this->encode_params($encrypted);
 		return  $encrypted;
