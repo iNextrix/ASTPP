@@ -68,7 +68,7 @@ if (not params) then
 end
 
 
-if (config['debug']==1) then
+if (config['debug'] == '0') then
     -- print all params 
     if (params:serialize() ~= nil) then
     	Logger.notice ("[xml_handler] Params:\n" .. params:serialize())
