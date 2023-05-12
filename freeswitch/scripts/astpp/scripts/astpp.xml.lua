@@ -344,10 +344,10 @@ function custom_inbound_1(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 		local sip_codec = get_sip_codec(params:getHeader('variable_sip_from_user'))
 		if(sip_codec and sip_codec ~= "")then
 			Logger.warning("[XML] sip_codec : "..sip_codec) --//HP: ASTPPENT-4002
-			did_chan_var = ",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
+			did_local_chan = ",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
 		end
 	end
-	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..did_chan_var..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[["/>]]);
+	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..did_local_chan..[[]sofia/${sofia_profile_name}/]]..didinfo['extensions']..[["/>]]);
 	return xml;
 end
 function custom_inbound_2(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
@@ -358,10 +358,10 @@ function custom_inbound_2(xml,didinfo,userinfo,config,xml_did_rates,callerid_arr
 		local sip_codec = get_sip_codec(params:getHeader('variable_sip_from_user'))
 		if(sip_codec and sip_codec ~= "")then
 			Logger.warning("[XML] sip_codec : "..sip_codec) --//HP: ASTPPENT-4002
-			did_chan_var = ",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
+			did_local_chan = ",absolute_codec_string=".."^^:"..sip_codec:gsub("%,", ":")
 		end
 	end
-	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..did_chan_var..[[]sofia/${sofia_profile_name}/]]..destination_number..[[@]]..didinfo['extensions']..[["/>]]);
+	table.insert(xml, [[<action application="bridge" data="[leg_timeout=]]..didinfo['leg_timeout']..did_local_chan..[[]sofia/${sofia_profile_name}/]]..destination_number..[[@]]..didinfo['extensions']..[["/>]]);
 	return xml;
 end
 function custom_inbound_3(xml,didinfo,userinfo,config,xml_did_rates,callerid_array,livecall_data)
