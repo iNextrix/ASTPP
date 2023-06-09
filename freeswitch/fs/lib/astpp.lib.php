@@ -24,7 +24,7 @@ class lib {
 	var $config;
 	function get_configurations($db) {
 //HP: change query for mysql 8.0 version
-		$query = "SELECT * FROM `system` WHERE group_title IN ('global','opensips','callingcard','calls')";
+		$query = "SELECT * FROM `system` WHERE group_title IN ('global','opensips','callingcard','calls','homer')";
 		$res_conf = $db->run ( $query );
 		foreach ( $res_conf as $res_conf_key => $res_conf_value )
 			$this->config [$res_conf_value ['name']] = $res_conf_value ['value'];
