@@ -88,6 +88,12 @@ class Signup extends MX_Controller
             $this->db->where("domain LIKE '%$domain%'");
             $this->db->or_where("domain LIKE '%$http_host%'");
             $account_id = (array) $this->db->get('invoice_conf')->first_row();
+            // ASTPPCOM-1352_gautam_start 
+            $signup_key = $this->session->userdata('signup_key');
+            if ($signup_key != '') {
+                 $reseller_id = $this->common->decode($this->common->decode_params(trim($signup_key)));
+            }
+            // ASTPPCOM-1352_gautam_end
             if ((! empty($account_id)) && ($account_id['accountid'] > 0)) {
                 $reseller_id = $account_id['accountid'];
                 $this->db->select("type");
