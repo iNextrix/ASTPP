@@ -246,7 +246,17 @@
 				 <?php echo $this->common_model->calculate_currency ( $this->common->currency_decimal($inv_data_value ['credit'] - $debit_data), '', '', true, false );?>
 			
 			<?php } else { ?>
-                       	 <?php echo $this->common_model->calculate_currency ( $this->common->currency_decimal($inv_data_value ['debit']), '', '', true, false );?>
+                       	<?php 
+                       		// ASTPPCOM-1369_kinjal_start
+                       		$payment = $this->common_model->calculate_currency ( $this->common->currency_decimal($inv_data_value ['debit']), '', '', true, false );
+							if($inv_data_value['order_item_id'] == 0 &&($inv_data_value['charge_type'] == "INVPAY" || $inv_data_value['charge_type'] == "" ) && $inv_data_value['generate_type'] == 0 ){
+								$payment = $this->common_model->calculate_currency ( $this->common->currency_decimal($inv_data_value ['credit']), '', '', true, false );	
+							}else{
+								$payment = $this->common_model->calculate_currency ( $this->common->currency_decimal($inv_data_value ['debit']), '', '', true, false );	
+							}
+							echo $payment; 
+                       		// ASTPPCOM-1369_kinjal_end
+                       	?>
 			<?php } ?>
                     </td>
 		</tr> 
