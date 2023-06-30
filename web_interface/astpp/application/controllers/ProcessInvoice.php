@@ -473,6 +473,9 @@ order_items.billing_type,order_items.billing_days,order_items.free_minutes,order
 
 				$last_payment_id=$this->payment->add_payments_transcation($product_info,$accountdata,$account_currency_info);
 				$final_array = array_merge($accountdata,$product_info);
+				// ASTPPCOM-1112_kinjal_start
+				$final_array['last_id'] = $accountdata['id'];
+				// ASTPPCOM-1112_kinjal_end
 				$final_array['next_billing_date'] = $update_order_arr['next_billing_date'];
 				if($last_payment_id != '') {
 

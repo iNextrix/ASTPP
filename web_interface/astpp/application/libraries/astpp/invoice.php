@@ -156,7 +156,9 @@ class invoice {
 			$invoice_id = $this->generate_invoice ($account_info,$total_amt,$payment_id);
 
 		}else{
-			$invoice_id = 0;
+			// ASTPPCOM-1112_kinjal_start
+			$invoice_id = '0';
+			// ASTPPCOM-1112_kinjal_end
 		}
 		
 		if($product_info['invoice_type'] == 'credit'){
