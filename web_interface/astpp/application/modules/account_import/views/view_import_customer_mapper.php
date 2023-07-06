@@ -222,7 +222,9 @@ if (!empty($csv_tmp_data)) { ?>
 										<tbody>
 								 <?php
         foreach ($mapto_fields['general_info'] as $csv_key => $csv_value) {
-            $custom_value = $csv_value . gettext("--Select--");
+        	// ASTPPCOM-1358_gautam_start
+            $custom_value = $csv_value . gettext("-select");
+            // ASTPPCOM-1358_gautam_end
             $params_arr = array(
                 "id" => $custom_value,
                 "name" => $custom_value,
@@ -264,7 +266,9 @@ if (!empty($csv_tmp_data)) { ?>
 										<tbody>
 								<?php
         foreach ($mapto_fields['settings'] as $csv_key => $csv_value) {
-            $custom_value = $csv_value . gettext("--Select--");
+        	// ASTPPCOM-1358_gautam_start
+            $custom_value = $csv_value . gettext("-select");
+            // ASTPPCOM-1358_gautam_end
             $params_arr = array(
                 "id" => $custom_value,
                 "name" => $custom_value,
