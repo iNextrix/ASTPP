@@ -66,14 +66,20 @@
 		?>
 		<li class="active"><a href="<?php echo base_url();?>addons/addons_list/Community">Community</a></li>
 		<li><a href="<?php echo base_url();?>addons/addons_list/Enterprise">Enterprise</a></li>
+		<li><a href="<?php echo base_url();?>addons/addons_list/Premium">Premium</a></li> 	<!-- ASTPPCOM-1374 mittal start -->
 		<?php
-		} else {
+		} else if($this->uri->segment(3) == 'Enterprise')  {
 		?>
-	<li><a href="<?php echo base_url();?>addons/addons_list/Community">Community</a></li>
-	<li class="active"><a href="<?php echo base_url();?>addons/addons_list/Enterprise">Enterprise</a></li>
+		<li><a href="<?php echo base_url();?>addons/addons_list/Community">Community</a></li>
+		<li class="active"><a href="<?php echo base_url();?>addons/addons_list/Enterprise">Enterprise</a></li>
+		<li><a href="<?php echo base_url();?>addons/addons_list/Premium">Premium</a></li> 	<!-- ASTPPCOM-1374 mittal start-end-->
 		<?php
-		}
-		?>
+		} else{ ?>
+		<li><a href="<?php echo base_url();?>addons/addons_list/Community">Community</a></li>
+		<li ><a href="<?php echo base_url();?>addons/addons_list/Enterprise">Enterprise</a></li>
+		<li class="active"><a href="<?php echo base_url();?>addons/addons_list/Premium">Premium</a></li> 	
+		<?php }
+		?><!-- ASTPPCOM-1374 mittal end-->
 		</ul>
 	<?php } ?>
 
@@ -82,6 +88,8 @@
 	  <ul class="sidemenu">
 		<li><a href="<?php echo base_url();?>addons/addons_list/Community">Community</a></li>
 	    <li><a href="<?php echo base_url();?>addons/addons_list/Enterprise">Enterprise</a></li>
+		<li><a href="<?php echo base_url();?>addons/addons_list/Premium">Premium</a></li> 	<!-- ASTPPCOM-1374 mittal start-end-->
+
 	  </ul>
   	<?php } ?>
              <?php 
