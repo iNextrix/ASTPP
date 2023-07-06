@@ -57,7 +57,9 @@ $addon_type = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '
                     }
                 }
             }
+			
            // ASTPPCOM-1374 mittal start
+		   if($addon_type == 'Premium'){
 			if($package_name == 'salesforce' || $package_name == 'whmcs'  || $package_name == 'zoho' || $package_name == 'stir_shaken'  ){ ?>
 				<div class="col-sm-6 col-md-6 col-lg-4 mt-4">
 				<div class="card h-100">
@@ -109,9 +111,16 @@ $addon_type = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '
 					</div>
 				</div>
 			</div>
-			<?php } 	//ASTPPCOM-1374 mittal end
-			else {?>
-						<div class="col-sm-6 col-md-6 col-lg-4 mt-4">
+			<?php } }	//ASTPPCOM-1374 mittal end
+			//ASTPPENT-7738 mittal start
+			
+			else { 
+				//ASTPPENT-7738 mittal start
+				if($package_name == 'whmcs'){
+					unset($package_name);
+				} else{
+				?>
+					<div class="col-sm-6 col-md-6 col-lg-4 mt-4">
 							<div class="card h-100">
 								<div class="row no-gutters">
 									<div class="col-3 p-3">
@@ -183,8 +192,8 @@ $addon_type = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '
 								</div>
 							</div>
 						</div>
-			<? } 
-		} ?>
+				<? } //ASTPPENT-7738 mittal start
+			} } ?>
 
                     <!-- </div> -->
 					</div>
