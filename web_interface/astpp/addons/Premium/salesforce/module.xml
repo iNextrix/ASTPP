@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>salesforce</tech_name>
+	<name>Salesforce</name>
+	<description>Enhance your customer relationship management by leveraging the CTI features available in Salesforce by integration with ASTPP.</description>
+	<icon>static/images/salesforce_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>

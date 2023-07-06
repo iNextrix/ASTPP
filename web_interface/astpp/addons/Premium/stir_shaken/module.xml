@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon>
+	<tech_name>stir_shaken</tech_name>
+	<name>STIR/SHAKEN </name>
+	<description>Robocall Mitigation with Caller ID Authentication to Abide by the Law and Delighting Customers with a STIR/SHAKEN.</description>
+	<icon>static/images/stir_shaken_icon.png</icon>
+	<version>1.0.0</version>
+	<license>Enterprise</license>	
+	<author>Inextrix Technologies Pvt. Ltd.</author>
+	<status>production</status>
+</addon>
