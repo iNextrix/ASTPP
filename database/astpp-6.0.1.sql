@@ -93,3 +93,7 @@ ALTER TABLE automated_report_log MODIFY purge_date DATE NULL;
 -- ASTPPCOM-1028 Kinjal Start
 UPDATE default_templates SET template='<p>Dear #NAME#,</p>\n\n<p>The product #PRODUCT_NAME# has now been added to your account.</p>\n\n<p><strong>Product Information: </strong></p>\n\n<p>Product Name: #PRODUCT_NAME#<br />\nProduct Category: #PRODUCT_CATEGORY#<br />\nPayment Method: #PAYMENT_METHOD#<br />\nProduct Amount: #PRODUCT_AMOUNT#<br />\nNext Bill Date: #NEXT_BILL_DATE#<br />\nQuantity:#QUANTITY#<br />\nTotal Amount:#TOTAL_PRICE# </p>\n\n<p>You can always let us know if you have any question at #COMPANY_EMAIL#. We will be happy to help!</p>\n\n<p>Thanks,<br />\n#COMPANY_NAME#</p>\n' WHERE name='product_purchase';
 -- ASTPPCOM-1028 Kinjal END
+
+-- ASTPPCOM-1366 Kinjal Start
+Delete from `system` where `name` = 'paypal_id' and `reseller_id` != 0;
+-- ASTPPCOM-1366 Kinjal END
