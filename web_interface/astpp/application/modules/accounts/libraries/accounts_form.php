@@ -4606,7 +4606,9 @@ class Accounts_form extends common
                 ),
                 array(
                     gettext("Balance") . " <br/>($currency)",
-                    "80",
+                    //Gautam ASTPPCOM-1085 start
+                    "150",
+                    //Gautam ASTPPCOM-1085  end
                     "balance",
                     "balance",
                     "balance",
@@ -4800,7 +4802,9 @@ class Accounts_form extends common
                 ),
                 array(
                     gettext("Balance") . " <br/>($currency)",
-                    "80",
+                    //Gautam ASTPPCOM-1085 start
+                    "150",
+                    //Gautam ASTPPCOM-1085 end
                     "balance",
                     "balance",
                     "balance",
@@ -5002,7 +5006,9 @@ class Accounts_form extends common
             ),
             array(
                 gettext("Balance") . " <br/> ($currency)",
-                "60",
+                //Gautam ASTPPCOM-1085 start
+                "150",
+                //Gautam ASTPPCOM-1085 end
                 "balance",
                 "balance",
                 "balance",
