@@ -45,7 +45,8 @@ class Ipmap_form extends common
                 )
             );
         } else {
-
+            //ASTPPCOM-1202_gautam_start
+            if($reseller_id > 0){    
             $account = array(
                 gettext('Account'),
                 array(
@@ -67,12 +68,40 @@ class Ipmap_form extends common
                 'build_concat_dropdown',
                 'where_arr',
                 array(
-                    "reseller_id" => "0",
+                    "reseller_id" => "$reseller_id",
                     "type" => "0,3",
                     "deleted" => "0"
                 )
             );
-
+            }
+            else{
+                $account = array(
+                    gettext('Account'),
+                    array(
+                        'name' => 'accountid',
+                        'id' => 'account_drp',
+                        'class' => 'account_drp'
+                    ),
+                    'SELECT',
+                    '',
+                    array(
+                        "name" => "accountid",
+                        "rules" => "dropdown"
+                    ),
+                    'tOOL TIP',
+                    'Please Enter account number',
+                    'id',
+                    'first_name,last_name,number,company_name',
+                    'accounts',
+                    'build_concat_dropdown',
+                    'where_arr',
+                    array(
+                        "type" => "0,3",
+                        "deleted" => "0"
+                    )
+                );
+            }
+            //ASTPPCOM-1202_gautam_end
             if ($id > 0) {
                 $reseller_drp = array(
                     gettext('Reseller'),
