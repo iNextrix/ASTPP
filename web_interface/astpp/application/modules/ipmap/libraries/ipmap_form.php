@@ -68,7 +68,7 @@ class Ipmap_form extends common
                 'build_concat_dropdown',
                 'where_arr',
                 array(
-                    "reseller_id" => "$reseller_id",
+                    "reseller_id" => $reseller_id,
                     "type" => "0,3",
                     "deleted" => "0"
                 )
