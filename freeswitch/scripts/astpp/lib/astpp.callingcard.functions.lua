@@ -450,11 +450,23 @@ function dialout( original_destination_number, destination_number, maxlength, us
                         callerid_array['cid_number'] = calleridinfo['cid_number']
 				    end
                 else
-                    session:execute("export", "original_caller_id_name="..session:getVariable("caller_id_name"));        
-                    session:execute("export", "original_caller_id_number="..session:getVariable("caller_id_number"));
-
-                    callerid_array['cid_name'] = session:getVariable("caller_id_name")
-                    callerid_array['cid_number'] = session:getVariable("caller_id_number")
+					-- ASTPPCOM-592 Ashish start
+                    if (session:getVariable('effective_caller_id_name') ~= nil and session:getVariable('effective_caller_id_name') ~= '' and session:getVariable('effective_caller_id_number') ~= nil and session:getVariable('effective_caller_id_number') ~= '') then
+						callerid_array['cid_name'] = session:getVariable("effective_caller_id_name")
+	                    callerid_array['cid_number'] = session:getVariable("effective_caller_id_number")
+					elseif((session:getVariable('effective_caller_id_number') ~= nil and session:getVariable('effective_caller_id_number') ~= '') or (session:getVariable('effective_caller_id_name') == nil and session:getVariable('effective_caller_id_name') == ''))then
+						callerid_array['cid_name'] = session:getVariable("caller_id_name")
+	                    callerid_array['cid_number'] = session:getVariable("effective_caller_id_number")
+					elseif ((session:getVariable('effective_caller_id_name') ~= nil and session:getVariable('effective_caller_id_name') ~= '') or (session:getVariable('effective_caller_id_number') == nil and session:getVariable('effective_caller_id_number') == '')) then
+						callerid_array['cid_name'] = session:getVariable("effective_caller_id_name")
+	                    callerid_array['cid_number'] = session:getVariable("caller_id_number")
+					else
+						session:execute("export", "original_caller_id_name="..session:getVariable("caller_id_name"));        
+						session:execute("export", "original_caller_id_number="..session:getVariable("caller_id_number"));
+						callerid_array['cid_name'] = session:getVariable("caller_id_name")
+						callerid_array['cid_number'] = session:getVariable("caller_id_number")
+					end
+					-- ASTPPCOM-592 Ashish end
 		    	end
 		        
                 -- If call is pstn and caller id translation defined then do caller id translation 
@@ -495,7 +507,12 @@ function dialout( original_destination_number, destination_number, maxlength, us
 						-----------------------------------
 						
 					end
-
+					-- ASTPPCOM-592 Ashish start
+					session:execute("set", "effective_caller_id_name="..callerid_array['cid_name']);
+					session:execute("set", "effective_caller_id_number="..callerid_array['cid_number']);
+					session:execute("export", "effective_caller_id_name="..callerid_array['cid_name']);
+					session:execute("export", "effective_caller_id_number="..callerid_array['cid_number']);
+					-- ASTPPCOM-592 Ashish end
 				
      --                -------------- CID translation for OUTBOUND calls ---------
      --                Logger.warning("[FSCC] Caller ID Translation Starts")

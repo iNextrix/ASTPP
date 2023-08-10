@@ -365,7 +365,9 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
 	
 	$dataVariable ['calltype'] = ($dataVariable ['calltype'] == 'DID-LOCAL' || $dataVariable ['calltype'] == 'SIP-DID' || $dataVariable ['calltype'] == 'OTHER') ? "DID" : $dataVariable ['calltype'];
 	// $callerIdNumber = isset($dataVariable['effective_caller_id_number']) && !empty($dataVariable['effective_caller_id_number'])? $dataVariable['effective_caller_id_number'] :$dataVariable['caller_id'];
-	$callerIdNumber = ($dataVariable ['calltype'] == "DID") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
+	// ASTPPCOM-592 Ashish start
+	$callerIdNumber = ($dataVariable ['calltype'] == "DID" || $dataVariable ['calltype'] == "CALLINGCARD") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
+	// ASTPPCOM-592 Ashish end
 
 	$dataVariable ['hangup_cause'] = get_q850code($dataVariable, $db);	
 	
@@ -381,7 +383,9 @@ function get_cdr_string($dataVariable, $accountid, $account_type, $actual_durati
 function get_reseller_cdr_string($dataVariable, $accountid, $account_type, $actual_duration, $termination_rate, $origination_rate, $provider_cost, $parentid, $debit, $cost,$logger,$db,$trunk_id='') {
 	$dataVariable ['calltype'] = ($dataVariable ['calltype'] == 'DID-LOCAL' || $dataVariable ['calltype'] == 'SIP-DID' || $dataVariable ['calltype'] == 'OTHER') ? "DID" : $dataVariable ['calltype'];
 	// $callerIdNumber = isset($dataVariable['effective_caller_id_number']) && !empty($dataVariable['effective_caller_id_number'])? $dataVariable['effective_caller_id_number'] :$dataVariable['caller_id'];
-	$callerIdNumber = ($dataVariable ['calltype'] == "DID") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
+	// ASTPPCOM-592 Ashish start
+	$callerIdNumber = ($dataVariable ['calltype'] == "DID" || $dataVariable ['calltype'] == "CALLINGCARD") ? $dataVariable ['effective_caller_id_name'] . " <" . $dataVariable ['effective_caller_id_number'] . ">" : $dataVariable ['original_caller_id_name'] . " <" . $dataVariable ['original_caller_id_number'] . ">";
+	// ASTPPCOM-592 Ashish end
 
 	$dataVariable ['hangup_cause'] = get_q850code($dataVariable, $db);
 	
