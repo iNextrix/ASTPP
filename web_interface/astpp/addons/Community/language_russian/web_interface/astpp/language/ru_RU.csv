@@ -7,7 +7,7 @@ Account Valid Days,Срок действия аккаунта
 Account Verification By,Подтверждение аккаунта
 Accounts,учетные записи
 Accounts Report,Отчет по счетам
-ACD,ACD
+ACD,АКД
 Action,Действие
 Action Type,Тип действия
 Add,Добавлять
@@ -299,7 +299,7 @@ Markup,Разметка
 Mass Create,Массовое создание
 Mass Email,Массовая рассылка
 Max Free Length,Максимальная свободная длина
-MCD,MCD
+MCD,МКД
 Minimum Fund Transfer,Минимальный перевод средств
 Minutes,Минуты
 Minutes Announcement,Объявление минут
@@ -2343,3 +2343,6 @@ Url,URL
 Text,Текст
 Custom Rates,Индивидуальные ставки
 (Price+SetUp Fee),(Цена + комиссия за установку)
+USD,доллар США
+Free,Бесплатно
+Notify,Поставить в известность

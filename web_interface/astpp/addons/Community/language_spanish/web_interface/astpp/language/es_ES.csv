@@ -7,7 +7,7 @@ Account Valid Days,Días válidos de la cuenta
 Account Verification By,Verificación de cuenta por
 Accounts,Cuentas
 Accounts Report,Informe de cuentas
-ACD,ACD
+ACD,DCA
 Action,Acción
 Action Type,tipo de acción
 Add,Agregar
@@ -2343,3 +2343,6 @@ Url,URL
 Text,Texto
 Custom Rates,Tarifas personalizadas
 (Price+SetUp Fee),(Precio + tarifa de instalación)
+Free,Gratis
+Notify,Notificar
+USD,Dólar estadounidense

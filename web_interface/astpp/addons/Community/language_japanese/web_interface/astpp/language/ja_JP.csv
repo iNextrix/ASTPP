@@ -35,7 +35,7 @@ Answered Calls,応答した電話
 Applicable For,対象
 Apply on existing accounts,既存のアカウントに適用する
 Archive,アーカイブ
-ASR,ASR
+ASR,ティッカー
 Attachement,愛着
 Attempted Calls,試行された呼び出し
 Audit,監査
@@ -2343,3 +2343,6 @@ Url,URL
 Text,テキスト
 Custom Rates,カスタムレート
 (Price+SetUp Fee),（価格+セットアップ料金）
+USD,米ドル
+Notify,通知する
+Free,無料

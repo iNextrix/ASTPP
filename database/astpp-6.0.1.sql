@@ -97,3 +97,7 @@ UPDATE default_templates SET template='<p>Dear #NAME#,</p>\n\n<p>The product #PR
 -- ASTPPCOM-1366 Kinjal Start
 Delete from `system` where `name` = 'paypal_id' and `reseller_id` != 0;
 -- ASTPPCOM-1366 Kinjal END
+
+-- ASTPPCOM-1307 Gautam Start
+INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES (NULL, 'USD', 'USD'),(NULL, 'Notify', 'Notify');
+-- ASTPPCOM-1307 Gautam end

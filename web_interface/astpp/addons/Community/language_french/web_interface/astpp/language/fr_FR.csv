@@ -35,7 +35,7 @@ Answered Calls,Appels répondus
 Applicable For,Applicable pour
 Apply on existing accounts,Appliquer sur les comptes existants
 Archive,Archiver
-ASR,ASR
+ASR,RSA
 Attachement,Attachement
 Attempted Calls,Tentatives d'appels
 Audit,Audit
@@ -2343,3 +2343,5 @@ Url,URL
 Text,Texte
 Custom Rates,Tarifs personnalisés
 (Price+SetUp Fee),(Prix + frais de configuration)
+Notify,Notifier
+Free,Gratuite

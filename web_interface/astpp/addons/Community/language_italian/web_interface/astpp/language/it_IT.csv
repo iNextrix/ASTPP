@@ -35,7 +35,7 @@ Answered Calls,Chiamate con risposta
 Applicable For,Applicabile per
 Apply on existing accounts,Applicare su account esistenti
 Archive,Archivio
-ASR,ASR
+ASR,RSA
 Attachement,Attacco
 Attempted Calls,Tentativi di chiamata
 Audit,Audit
@@ -2343,3 +2343,6 @@ Url,Url
 Text,Testo
 Custom Rates,Tariffe personalizzate
 (Price+SetUp Fee),(Prezzo + Commissione di setUp)
+Free,Gratuita
+Notify,Notificare
+USD,Dollaro statunitense
