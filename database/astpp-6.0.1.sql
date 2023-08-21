@@ -97,3 +97,7 @@ UPDATE default_templates SET template='<p>Dear #NAME#,</p>\n\n<p>The product #PR
 -- ASTPPCOM-1366 Kinjal Start
 Delete from `system` where `name` = 'paypal_id' and `reseller_id` != 0;
 -- ASTPPCOM-1366 Kinjal END
+
+-- ASTPPCOM-1307 Gautam Start
+INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES (NULL, 'Whats New', 'Whats New'),(NULL, 'Up Time', 'Up Time'),(NULL, 'CPU Cores', 'CPU Cores'),(NULL, 'Hard Disk Usage', 'Hard Disk Usage'),(NULL, 'Operating System', 'Operating System'),(NULL, 'Available', 'Available'),(NULL, 'CPU Usage', 'CPU Usage'),(NULL, 'Kernal Version', 'Kernal Version'),(NULL, 'Memory Usage', 'Memory Usage'),(NULL, 'Shared', 'Shared'),(NULL, 'Cache', 'Cache'),(NULL, 'Donate Now', 'Donate Now'),(NULL, 'Professional Services', 'Professional Services'),(NULL, 'Report an Issue', 'Report an Issue'),(NULL, 'Forum', 'Forum'),(NULL, 'OS', 'OS'),(NULL, 'Architecture', 'Architecture'),(NULL, 'Static Hostname', 'Static Hostname'),(NULL, 'Memory', 'Memory'),(NULL, 'Swap', 'Swap');
+-- ASTPPCOM-1307 Gautam end

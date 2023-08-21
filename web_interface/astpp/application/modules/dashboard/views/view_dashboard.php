@@ -1105,7 +1105,9 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                     <div class="card mb-3 dashboard-block events-block">
                     <?php //ASTPPENT-990 sanket end ?>    
                             <h3 class="text-dark p-3">
-                                <i class="fa fa-calendar text-primary fa-fw"></i> <?php echo gettext("What's New"); ?>                              
+                                <?php //ASTPPCOM-1307_gautam_start ?>
+                                <i class="fa fa-calendar text-primary fa-fw"></i> <?php echo gettext("Whats New"); ?>
+                                <?php //ASTPPCOM-1307_gautam_end ?>                              
                             </h3>
                         <div class="card-body">
                             <div id="call-count"></div>
@@ -1192,16 +1194,18 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                             <!-- <div id='not_data' class='col-md-12 not_data' style ='display:none'></div> -->
                         </div>
                         <div class="card-footer">
-                            <a href="https://forum.astppbilling.org/login" target="_blank">Forum <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                            <?php //ASTPPCOM-1307_gautam_start ?>
+                            <a href="https://forum.astppbilling.org/login" target="_blank"><?php echo gettext('Forum');?> <i class="fa fa-external-link" aria-hidden="true"></i></a>
                             |
 
-                            <a href="https://jira.astppbilling.org/projects/ASTPPCOM/issues" target="_blank">Report an Issue <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                            <a href="https://jira.astppbilling.org/projects/ASTPPCOM/issues" target="_blank"><?php echo gettext('Report an Issue');?> <i class="fa fa-external-link" aria-hidden="true"></i></a>
                             |
 
-                            <a href="https://www.astppbilling.org/our-services/" target="_blank">Professional Services <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                            <a href="https://www.astppbilling.org/our-services/" target="_blank"><?php echo gettext('Professional Services');?> <i class="fa fa-external-link" aria-hidden="true"></i></a>
                             |
 
-                            <a href="https://www.astppbilling.org/donate-to-astpp/" target="_blank">Donate Now <i class="fa fa-external-link" aria-hidden="true"></i></span></a>
+                            <a href="https://www.astppbilling.org/donate-to-astpp/" target="_blank"><?php echo gettext('Donate Now');?> <i class="fa fa-external-link" aria-hidden="true"></i></span></a>
+                            <?php //ASTPPCOM-1307_gautam_end ?>
                         </div>
                     </div>
                 </div>
@@ -1237,9 +1241,11 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                             <table class="table table-hover">
                                       <thead class="thead-light">
                                         <tr>
-                                          <th scope="col">Total</th>
-                                          <th scope="col">Used</th>
-                                          <th scope="col">Available</th>
+                                          <?php //ASTPPCOM-1307_gautam_start ?>  
+                                          <th scope="col"><?php echo gettext('Total');?></th>
+                                          <th scope="col"><?php echo gettext('Used');?></th>
+                                          <th scope="col"><?php echo gettext('Available');?></th>
+                                          <?php //ASTPPCOM-1307_gautam_end ?>
                                         </tr>
                                       </thead> 
                                       <tbody>
@@ -1268,16 +1274,18 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                         <div class="card-body">
                             <ul class="p-0 os-info">
                                 <li>
-                                    <span class="type-os">OS: </span>
+                                    <?php //ASTPPCOM-1307_gautam_start ?>
+                                    <span class="type-os"><?php echo gettext('OS');?>: </span>
                                     <span><?php echo getOS();?></span>
                                 </li>
                                 <li>
-                                    <span class="type-os">Architecture: </span>
+                                    <span class="type-os"><?php echo gettext('Architecture');?>: </span>
                                     <span><?php echo getArchitecture();?></span>
                                 </li>
                                 <li>
-                                    <span class="type-os">Static hostname: </span>
+                                    <span class="type-os"><?php echo gettext('Static Hostname');?>: </span>
                                     <span><?php echo getStatichost();?></span>
+                                    <?php //ASTPPCOM-1307_gautam_end ?>
                                 </li>
                             </ul>
                         </div>
@@ -1319,18 +1327,22 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                                     <table class="table table-hover">
                                       <thead class="thead-light">
                                         <tr>
+                                          <?php //ASTPPCOM-1307_gautam_start ?>  
                                           <th scope="col"></th>
-                                          <th scope="col">Total</th>
-                                          <th scope="col">Used</th>
-                                          <th scope="col">Free</th>
-                                          <th scope="col">Shared</th>
-                                          <th scope="col">Cache</th>
-                                          <th scope="col">Available</th>
+                                          <th scope="col"><?php echo gettext('Total');?></th>
+                                          <th scope="col"><?php echo gettext('Used');?></th>
+                                          <th scope="col"><?php echo gettext('Free');?></th>
+                                          <th scope="col"><?php echo gettext('Shared');?></th>
+                                          <th scope="col"><?php echo gettext('Cache');?></th>
+                                          <th scope="col"><?php echo gettext('Available');?></th>
+                                          <?php //ASTPPCOM-1307_gautam_end ?>
                                         </tr>
                                       </thead> 
                                       <tbody>
                                         <tr>
-                                          <td scope="col">Memory</td>
+                                          <?php //ASTPPCOM-1307_gautam_start ?>  
+                                          <td scope="col"><?php echo gettext('Memory');?></td>
+                                          <?php //ASTPPCOM-1307_gautam_end ?>
                                           <td scope="col"><?php if($memory_info[0]!=''){ echo $memory_info[0].'MB'; } ?></td>
                                           <td scope="col"><?php if($memory_info[1]!=''){ echo $memory_info[1].'MB';} ?></td>
                                           <td scope="col"><?php if($memory_info[2]!=''){ echo $memory_info[2].'MB'; } ?></td>
@@ -1339,7 +1351,9 @@ function create_formatted_date($startdate,$enddate,$timezone,$timevisibly)
                                           <td scope="col"><?php if($memory_info[5]!=''){ echo $memory_info[5].'MB'; }?></td>
                                         </tr>
                                         <tr>
-                                          <td scope="col">Swap</td>
+                                          <?php //ASTPPCOM-1307_gautam_start ?>  
+                                          <td scope="col"><?php echo gettext('Swap');?></td>
+                                          <?php //ASTPPCOM-1307_gautam_end ?>
                                           <td scope="col"><?php if($swap_info[0]!=''){ echo $swap_info[0].'MB'; } ?></td>
                                           <td scope="col"><?php if($swap_info[1]!=''){ echo $swap_info[1].'MB'; } ?></td>
                                           <td scope="col"><?php if($swap_info[2]!=''){ echo $swap_info[2].'MB'; } ?></td>
