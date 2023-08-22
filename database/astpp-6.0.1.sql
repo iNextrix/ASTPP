@@ -103,7 +103,7 @@ INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES (NULL, 'Whats N
 -- ASTPPCOM-1307 Gautam end
 
 -- ASTPPCOM-1307 Gautam Start
-INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES (NULL, 'USD', 'USD'),(NULL, 'Notify', 'Notify');
+INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES (NULL, 'Notify', 'Notify');
 
 UPDATE translations SET en_En="Free",module_name="Free" WHERE module_name="FREE";
 -- ASTPPCOM-1307 Gautam end

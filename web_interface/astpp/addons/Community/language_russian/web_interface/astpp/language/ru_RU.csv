@@ -7,7 +7,7 @@ Account Valid Days,Срок действия аккаунта
 Account Verification By,Подтверждение аккаунта
 Accounts,учетные записи
 Accounts Report,Отчет по счетам
-ACD,АКД
+ACD,ACD
 Action,Действие
 Action Type,Тип действия
 Add,Добавлять
@@ -299,7 +299,7 @@ Markup,Разметка
 Mass Create,Массовое создание
 Mass Email,Массовая рассылка
 Max Free Length,Максимальная свободная длина
-MCD,МКД
+MCD,MCD
 Minimum Fund Transfer,Минимальный перевод средств
 Minutes,Минуты
 Minutes Announcement,Объявление минут
@@ -2362,6 +2362,5 @@ Architecture,Архитектура
 Static Hostname,Статическое имя хоста
 Memory,Память
 Swap,Менять
-USD,доллар США
 Free,Бесплатно
 Notify,Поставить в известность

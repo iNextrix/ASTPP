@@ -35,7 +35,7 @@ Answered Calls,応答した電話
 Applicable For,対象
 Apply on existing accounts,既存のアカウントに適用する
 Archive,アーカイブ
-ASR,ティッカー
+ASR,ASR
 Attachement,愛着
 Attempted Calls,試行された呼び出し
 Audit,監査
@@ -2362,6 +2362,5 @@ Architecture,建築
 Static Hostname,静的ホスト名
 Memory,メモリー
 Swap,スワップ
-USD,米ドル
 Notify,通知する
 Free,無料
