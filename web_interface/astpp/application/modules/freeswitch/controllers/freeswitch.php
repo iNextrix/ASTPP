@@ -1119,9 +1119,7 @@ class Freeswitch extends MX_Controller
 
                     $sipprofile_data['created_date'] = gmdate('Y-m-d H:i:s');
 
-                    // ASTPPCOM-1321 Ashish start
-                    $sipprofile_data['profile_data'] = $this->common->sip_profile_date($sipprofile_data['name']);
-                    // ASTPPCOM-1321 Ashish end
+                    $sipprofile_data['profile_data'] = $this->common->sip_profile_date();
 
                     $sipprofile_data['name'] = trim($sipprofile_data['name']);
                     $insert = $this->db->insert("sip_profiles", $sipprofile_data);
@@ -1154,20 +1152,9 @@ class Freeswitch extends MX_Controller
             unset($sipprofile_data['action']);
             unset($sipprofile_data['sipstatus']);
             $insert_arr = $sipprofile_data;
-            // ASTPPCOM-1321 Ashish start
-            $where_data = array(
-                'id' => $sipprofile_data['id']
-            );
-            $sip_data = $this->db_model->getSelect("*", "sip_profiles", $where_data)->result_array();
-            $final_sip_data = (array) json_decode($sip_data[0]['profile_data']);
-            // ASTPPCOM-1321 Ashish end
             if ($check_authentication->num_rows() == 0) {
                 $insert_arr['last_modified_date'] = gmdate("Y-m-d H:i:s");
                 $insert_arr['name'] = trim($insert_arr['name']);
-                // ASTPPCOM-1321 Ashish start
-                $final_sip_data['apply-inbound-acl'] = $insert_arr['name'];
-                $insert_arr['profile_data'] = json_encode($final_sip_data);
-                // ASTPPCOM-1321 Ashish end
                 $update = $this->db->update("sip_profiles", $insert_arr, array(
                     'id' => $sipprofile_data['id']
                 ));

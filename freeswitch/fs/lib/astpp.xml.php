@@ -43,97 +43,26 @@ function load_acl($logger, $db, $config) {
 	$xml .= "   <section name=\"Configuration\" description=\"Configuration\">\n";
 	$xml .= "       <configuration name=\"acl.conf\" description=\"Network List\">\n";
 	$xml .= "           <network-lists>\n";
-	$sp_query = "select id,profile_data from sip_profiles;";
-	$logger->log("sp Query : " . $sp_query);
-	$sp_result = $db->run($sp_query);
-	$logger->log($sp_query);
-	$logger->log("SIP_PROFILE RESULT count::" . count($sp_result) . "::::::::::::::::::::::::::");
-	if (!empty($sp_result)) {
-		$apply_inbound_acl = array();
-		foreach ($sp_result as $sp_value) {
-			$logger->log("SIP_PROFILE ID::" . $sp_value['id'] . "::::::::::::::::::::::::::");
-			$sp_value_decode = json_decode($sp_value['profile_data'], true);
-			$logger->log("apply-inbound-acl::" . $sp_value_decode['apply-inbound-acl']);
-			if (isset($sp_value_decode['apply-inbound-acl']) && $sp_value_decode['apply-inbound-acl'] != "" && !in_array($sp_value_decode['apply-inbound-acl'], $apply_inbound_acl)) {
-				$apply_inbound_acl[] = $sp_value_decode['apply-inbound-acl'];
-				$xml .= "       <list name=\"" . $sp_value_decode['apply-inbound-acl'] . "\" default=\"deny\">\n";
-				$query = "select freeswitch_host,freeswitch_pubip from freeswich_servers;";
-				$logger->log("freeswich_servers Query : " . $query);
-				$res_acl = $db->run($query);
-				$logger->log($res_acl);
-				$ip = '';
-				foreach ($res_acl as $res_acl_key => $res_acl_value) {
-					if ($res_acl_value['freeswitch_pubip'] == '' && empty($res_acl_value['freeswitch_pubip'])) {
-						$ip = $res_acl_value['freeswitch_host'];
-					} else {
-						$ip = $res_acl_value['freeswitch_pubip'];
-					}
-					if ($ip) {
-						$ips = gethostbynamel($ip);
-						foreach ($ips as $freeswitch_pubip => $value) {
-							$ip = $value . "/32";
-						}
-					}
-					$xml .= "		<node type=\"allow\" cidr=\"" . $ip . "\"/>\n";
-				}
-				// For customer and provider ips
-				$query = "SELECT ip FROM ip_map,accounts WHERE ip_map.accountid=accounts.id AND ip_map.status=0 AND accounts.status=0 AND accounts.deleted=0 ";
-				$logger->log("ip_map Query : " . $query);
-				$res_acl = $db->run($query);
-				$logger->log($res_acl);
-				foreach ($res_acl as $res_acl_key => $res_acl_value) {
-					if (preg_match("/[a-zA-Z\-]/i", $res_acl_value['ip'])) {
-						$ips = gethostbynamel($res_acl_value['ip']);
-						foreach ($ips as $ip => $value) {
-							$res_acl_value['ip'] = $value . "/32";
-						}
-					}
-					$xml .= "		<node type=\"allow\" cidr=\"" . $res_acl_value['ip'] . "\"/>\n";
-				}
-				$logger->log("opensips_domain HHHH : " . $config['opensips_domain']);
-				// For opensips
-				if ($config['opensips'] == '0') {
-					$logger->log("opensips_domain HHHH : " . $config['opensips_domain']);
-					if (preg_match("/[a-zA-Z\-]/i", $config['opensips_domain'])) {
-						$logger->log("opensips_domain HHHH : " . $config['opensips_domain']);
-
-						$ips = gethostbynamel($config['opensips_domain']);
-						foreach ($ips as $ip => $value) {
-							$config['opensips_domain'] = $value;
-						}
-					}
-					$xml .= "		<node type=\"allow\" cidr=\"" . $config['opensips_domain'] . "/32\"/>\n";
-					$xml .= "	</list>\n";
-				} else {
-					$xml .= "	</list>\n";
-				}
-			}
-		}
-		$logger->log("HP  xml : " . $xml);
-	}
+	$xml .= "       <list name=\"default\" default=\"deny\">\n";
 	
-	// For opensips
-	if ($config ['opensips'] == '0') {
-		if(preg_match("/[a-zA-Z\-]/i", $config ['opensips_domain'])){
-                        $ips = gethostbynamel($config ['opensips_domain']);
-                        foreach ($ips as $ip => $value){ 
-                                $config ['opensips_domain'] = $value;
+	// For customer and provider ips
+	$query = "SELECT ip FROM ip_map,accounts WHERE ip_map.accountid=accounts.id AND ip_map.status=0 AND accounts.status=0 AND accounts.deleted=0";
+	$logger->log ( "ACL Query : " . $query );
+	$res_acl = $db->run ( $query );
+	$logger->log ( $res_acl );
+	
+	foreach ( $res_acl as $res_acl_key => $res_acl_value ) {
+		if(preg_match("/[a-zA-Z\-]/i", $res_acl_value ['ip'])){
+                        $ips = gethostbynamel($res_acl_value ['ip']);
+                        foreach ($ips as $ip => $value){
+                                $res_acl_value ['ip'] = $value . "/32";
                         }
                 }
-                $xml .= "<node type=\"allow\" cidr=\"" . $config ['opensips_domain'] . "/32\"/>\n";
-		// For loopback
-                $xml .= "<list name=\"loopback.auto\" default=\"allow\">\n";
-                $xml .= "<node type=\"allow\" cidr=\"" . $config ['opensips_domain'] . "/32\"/>\n";
-                $xml .= "</list>\n";
-		// For event handing
-                $xml .= "<list name=\"event\" default=\"deny\">\n";
-                $xml .= "<node type=\"allow\" cidr=\"" . $config ['opensips_domain'] . "/32\"/>\n";
+		$xml .= "       <node type=\"allow\" cidr=\"" . $res_acl_value ['ip'] . "\"/>\n";
 	}
-	else{
-		// For event handing
-                $xml .= "<list name=\"event\" default=\"deny\">\n";
-        }
-		$xml .= "	</list>\n";
+	
+	$xml .= "<node type=\"allow\" cidr=\"127.0.0.0/8\"/>\n";
+	$xml .= "</list>\n";
 	$xml .= "           </network-lists>\n";
 	$xml .= "       </configuration>\n";
 	$xml .= "   </section>\n";
