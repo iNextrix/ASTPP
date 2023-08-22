@@ -35,7 +35,7 @@ Answered Calls,已回答的电话
 Applicable For,适用于
 Apply on existing accounts,适用于现有帐户
 Archive,档案
-ASR,ASR
+ASR,自動語音識別
 Attachement,附件
 Attempted Calls,试图打电话
 Audit,审计
@@ -2234,7 +2234,6 @@ Write,寫
 STANDARD,標準
 DID,做過
 CALLINGCARD,電話卡
-FREE,自由
 LOCAL,當地的
 ACCOUNT_INACTIVE_DELETED,帳戶無效，已刪除
 ACCOUNT_EXPIRE,帳戶到期
@@ -2363,3 +2362,6 @@ Architecture,建筑学
 Static Hostname,静态主机名
 Memory,记忆
 Swap,交换
+Free,自由的
+Notify,通知
+USD,美元

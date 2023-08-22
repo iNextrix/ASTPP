@@ -2234,7 +2234,6 @@ Write,Schreiben
 STANDARD,STANDARD
 DID,DID
 CALLINGCARD,VISITENKARTE
-FREE,KOSTENLOS
 LOCAL,LOKAL
 ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
 ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
@@ -2363,3 +2362,6 @@ Architecture,Die Architektur
 Static Hostname,Statischer Hostname
 Memory,Speicher
 Swap,Tausch
+Free,Frei
+Notify,Benachrichtigen
+USD,US Dollar

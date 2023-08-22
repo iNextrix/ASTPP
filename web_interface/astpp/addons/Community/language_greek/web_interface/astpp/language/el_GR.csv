@@ -2234,7 +2234,6 @@ Write,Γράφω,,
 STANDARD,ΠΡΟΤΥΠΟ,,
 DID,Μήπως,,
 CALLINGCARD,ΤΗΛΕΦΩΝΙΚΗ ΚΑΡΤΑ,,
-FREE,ΕΛΕΥΘΕΡΟΣ,,
 LOCAL,ΤΟΠΙΚΟΣ,,
 ACCOUNT_INACTIVE_DELETED,ΛΟΓΑΡΙΑΣΜΟΣ_INACTIVE_DELETED,,
 ACCOUNT_EXPIRE,ΛΟΓΑΡΙΑΣΜΟΣ_EXPIRE,,
@@ -2363,3 +2362,6 @@ Architecture,Αρχιτεκτονική
 Static Hostname,Στατικό όνομα κεντρικού υπολογιστή
 Memory,Μνήμη
 Swap,Ανταλαγή
+Free,Ελεύθερος
+Notify,Κοινοποιώ
+USD,USD

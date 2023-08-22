@@ -7,7 +7,7 @@ Account Valid Days,Dias válidos da conta
 Account Verification By,Verificação de conta por
 Accounts,Contas
 Accounts Report,Relatório de Contas
-ACD,ACD
+ACD,DAC
 Action,Açao
 Action Type,Tipo de acão
 Add,Adicionar
@@ -2234,7 +2234,6 @@ Write,Escreva
 STANDARD,PADRÃO
 DID,FEZ
 CALLINGCARD,CALLINGCARD
-FREE,GRATUITAMENTE
 LOCAL,LOCAL
 ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
 ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
@@ -2363,3 +2362,6 @@ Architecture,Arquitetura
 Static Hostname,Nome do host estático
 Memory,Memória
 Swap,Trocar
+Free,Livre
+Notify,notificar
+USD,USD

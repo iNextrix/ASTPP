@@ -35,7 +35,7 @@ Answered Calls,Appels répondus
 Applicable For,Applicable pour
 Apply on existing accounts,Appliquer sur les comptes existants
 Archive,Archiver
-ASR,ASR
+ASR,RSA
 Attachement,Attachement
 Attempted Calls,Tentatives d'appels
 Audit,Audit
@@ -2234,7 +2234,6 @@ Write,Écrivez
 STANDARD,LA NORME
 DID,A FAIT
 CALLINGCARD,CARTE TÉLÉPHONIQUE
-FREE,LIBRE
 LOCAL,LOCAL
 ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
 ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
@@ -2363,3 +2362,5 @@ Architecture,Architecture
 Static Hostname,Nom d'hôte statique
 Memory,Mémoire
 Swap,Échanger
+Notify,Notifier
+Free,Gratuite
