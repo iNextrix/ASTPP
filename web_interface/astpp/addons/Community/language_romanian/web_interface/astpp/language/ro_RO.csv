@@ -2234,7 +2234,6 @@ Write,Scrie
 STANDARD,STANDARD
 DID,FĂCUT
 CALLINGCARD,CALLINGCARD
-FREE,GRATUIT
 LOCAL,LOCAL
 ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
 ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
@@ -2363,3 +2362,5 @@ Architecture,Arhitectură
 Static Hostname,Nume gazdă static
 Memory,Memorie
 Swap,Schimbați
+Notify,Notifică
+Free,Gratuit

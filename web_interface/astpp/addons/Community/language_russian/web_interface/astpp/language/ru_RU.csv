@@ -2234,7 +2234,6 @@ Write,Писать
 STANDARD,СТАНДАРТНЫЙ
 DID,СДЕЛАЛ
 CALLINGCARD,ЗВОНОК
-FREE,БЕСПЛАТНО
 LOCAL,МЕСТНЫЙ
 ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
 ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
@@ -2363,3 +2362,5 @@ Architecture,Архитектура
 Static Hostname,Статическое имя хоста
 Memory,Память
 Swap,Менять
+Free,Бесплатно
+Notify,Поставить в известность

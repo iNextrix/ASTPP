@@ -2234,7 +2234,6 @@ Write,寫
 STANDARD,標準
 DID,做過
 CALLINGCARD,電話卡
-FREE,自由
 LOCAL,當地的
 ACCOUNT_INACTIVE_DELETED,帳戶無效，已刪除
 ACCOUNT_EXPIRE,帳戶到期
@@ -2363,3 +2362,5 @@ Architecture,建筑学
 Static Hostname,静态主机名
 Memory,记忆
 Swap,交换
+Free,自由的
+Notify,通知

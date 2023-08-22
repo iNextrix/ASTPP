@@ -2234,7 +2234,6 @@ Write,Escribir
 STANDARD,ESTÁNDAR
 DID,HIZO
 CALLINGCARD,TARJETA DE LLAMADA
-FREE,LIBRE
 LOCAL,LOCAL
 ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
 ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
@@ -2363,3 +2362,5 @@ Architecture,Arquitectura
 Static Hostname,Nombre de host estático
 Memory,Memoria
 Swap,Intercambio
+Free,Gratis
+Notify,Notificar

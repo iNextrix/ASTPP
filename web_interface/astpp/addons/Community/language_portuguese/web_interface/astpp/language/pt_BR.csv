@@ -2234,7 +2234,6 @@ Write,Escreva
 STANDARD,PADRÃO
 DID,FEZ
 CALLINGCARD,CALLINGCARD
-FREE,GRATUITAMENTE
 LOCAL,LOCAL
 ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
 ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
@@ -2363,3 +2362,5 @@ Architecture,Arquitetura
 Static Hostname,Nome do host estático
 Memory,Memória
 Swap,Trocar
+Free,Livre
+Notify,notificar

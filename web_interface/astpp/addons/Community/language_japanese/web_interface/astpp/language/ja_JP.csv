@@ -2234,7 +2234,6 @@ Write,書く
 STANDARD,標準
 DID,した
 CALLINGCARD,テレフォンカード
-FREE,自由
 LOCAL,地元
 ACCOUNT_INACTIVE_DELETED,ACCOUNT_INACTIVE_DELETED
 ACCOUNT_EXPIRE,ACCOUNT_EXPIRE
@@ -2363,3 +2362,5 @@ Architecture,建築
 Static Hostname,静的ホスト名
 Memory,メモリー
 Swap,スワップ
+Notify,通知する
+Free,無料
