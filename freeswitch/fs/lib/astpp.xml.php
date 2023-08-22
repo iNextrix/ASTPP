@@ -36,55 +36,82 @@ function xml_not_found() {
 }
 
 // Build acl xml
+// ASTPPCOM-1321 Ashish start
 function load_acl($logger, $db, $config) {
 	$xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
 	$xml .= "<document type=\"freeswitch/xml\">\n";
 	$xml .= "   <section name=\"Configuration\" description=\"Configuration\">\n";
 	$xml .= "       <configuration name=\"acl.conf\" description=\"Network List\">\n";
 	$xml .= "           <network-lists>\n";
-	$xml .= "       <list name=\"default\" default=\"deny\">\n";
-	
-	// For customer and provider ips
-	$query = "SELECT ip FROM ip_map,accounts WHERE ip_map.accountid=accounts.id AND ip_map.status=0 AND accounts.status=0 AND accounts.deleted=0";
-	$logger->log ( "ACL Query : " . $query );
-	$res_acl = $db->run ( $query );
-	$logger->log ( $res_acl );
-	
-	foreach ( $res_acl as $res_acl_key => $res_acl_value ) {
-		if(preg_match("/[a-zA-Z\-]/i", $res_acl_value ['ip'])){
-                        $ips = gethostbynamel($res_acl_value ['ip']);
-                        foreach ($ips as $ip => $value){
-                                $res_acl_value ['ip'] = $value . "/32";
-                        }
-                }
-		$xml .= "       <node type=\"allow\" cidr=\"" . $res_acl_value ['ip'] . "\"/>\n";
-	}
-	
-	// For gateways
-/*	$query = "SELECT * FROM gateways WHERE status=0";
-	$logger->log ( "Sofia Gateway Query : " . $query );
-	$sp_gw = $db->run ( $query );
-	$logger->log ( $sp_gw );
-	
-	foreach ( $sp_gw as $sp_gw_key => $sp_gw_value ) {
-		
-		$sp_gw_settings = json_decode ( $sp_gw_value ['gateway_data'], true );
-		foreach ( $sp_gw_settings as $sp_gw_settings_key => $sp_gw_settings_value ) {
-			if ($sp_gw_settings_value != "" && $sp_gw_settings_key == "proxy") {
-				$tmp_ip_arr = explode ( ":", $sp_gw_settings_value );
-				if (filter_var($tmp_ip_arr [0], FILTER_VALIDATE_IP) || preg_match("/^(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d]{1,63}$/", $tmp_ip_arr [0])) {
-                                        if(preg_match("/[a-zA-Z\-]/i", $tmp_ip_arr [0])){
-                                                $ips = gethostbynamel($tmp_ip_arr [0]);
-                                                foreach ($ips as $ip => $value){
-                                                        $tmp_ip_arr [0] = $value;
-                                                }
-                                        }
-					$xml .= "   <node type=\"allow\" cidr=\"" . $tmp_ip_arr [0] . "/32\"/>\n";
+	$sp_query = "select id,profile_data from sip_profiles;";
+	$logger->log("sp Query : " . $sp_query);
+	$sp_result = $db->run($sp_query);
+	$logger->log($sp_query);
+	$logger->log("SIP_PROFILE RESULT count::" . count($sp_result) . "::::::::::::::::::::::::::");
+	if (!empty($sp_result)) {
+		$apply_inbound_acl = array();
+		foreach ($sp_result as $sp_value) {
+			$logger->log("SIP_PROFILE ID::" . $sp_value['id'] . "::::::::::::::::::::::::::");
+			$sp_value_decode = json_decode($sp_value['profile_data'], true);
+			$logger->log("apply-inbound-acl::" . $sp_value_decode['apply-inbound-acl']);
+			if (isset($sp_value_decode['apply-inbound-acl']) && $sp_value_decode['apply-inbound-acl'] != "" && !in_array($sp_value_decode['apply-inbound-acl'], $apply_inbound_acl)) {
+				$apply_inbound_acl[] = $sp_value_decode['apply-inbound-acl'];
+				$xml .= "       <list name=\"" . $sp_value_decode['apply-inbound-acl'] . "\" default=\"deny\">\n";
+				$query = "select freeswitch_host,freeswitch_pubip from freeswich_servers;";
+				$logger->log("freeswich_servers Query : " . $query);
+				$res_acl = $db->run($query);
+				$logger->log($res_acl);
+				$ip = '';
+				foreach ($res_acl as $res_acl_key => $res_acl_value) {
+					if ($res_acl_value['freeswitch_pubip'] == '' && empty($res_acl_value['freeswitch_pubip'])) {
+						$ip = $res_acl_value['freeswitch_host'];
+					} else {
+						$ip = $res_acl_value['freeswitch_pubip'];
+					}
+					if ($ip) {
+						$ips = gethostbynamel($ip);
+						foreach ($ips as $freeswitch_pubip => $value) {
+							$ip = $value . "/32";
+						}
+					}
+					$xml .= "		<node type=\"allow\" cidr=\"" . $ip . "\"/>\n";
+				}
+				// For customer and provider ips
+				$query = "SELECT ip FROM ip_map,accounts WHERE ip_map.accountid=accounts.id AND ip_map.status=0 AND accounts.status=0 AND accounts.deleted=0 ";
+				$logger->log("ip_map Query : " . $query);
+				$res_acl = $db->run($query);
+				$logger->log($res_acl);
+				foreach ($res_acl as $res_acl_key => $res_acl_value) {
+					if (preg_match("/[a-zA-Z\-]/i", $res_acl_value['ip'])) {
+						$ips = gethostbynamel($res_acl_value['ip']);
+						foreach ($ips as $ip => $value) {
+							$res_acl_value['ip'] = $value . "/32";
+						}
+					}
+					$xml .= "		<node type=\"allow\" cidr=\"" . $res_acl_value['ip'] . "\"/>\n";
+				}
+				$logger->log("opensips_domain HHHH : " . $config['opensips_domain']);
+				// For opensips
+				if ($config['opensips'] == '0') {
+					$logger->log("opensips_domain HHHH : " . $config['opensips_domain']);
+					if (preg_match("/[a-zA-Z\-]/i", $config['opensips_domain'])) {
+						$logger->log("opensips_domain HHHH : " . $config['opensips_domain']);
+
+						$ips = gethostbynamel($config['opensips_domain']);
+						foreach ($ips as $ip => $value) {
+							$config['opensips_domain'] = $value;
+						}
+					}
+					$xml .= "		<node type=\"allow\" cidr=\"" . $config['opensips_domain'] . "/32\"/>\n";
+					$xml .= "	</list>\n";
+				} else {
+					$xml .= "	</list>\n";
 				}
 			}
 		}
-	}*/
-
+		$logger->log("HP  xml : " . $xml);
+	}
+	
 	// For opensips
 	if ($config ['opensips'] == '0') {
 		if(preg_match("/[a-zA-Z\-]/i", $config ['opensips_domain'])){
@@ -94,7 +121,6 @@ function load_acl($logger, $db, $config) {
                         }
                 }
                 $xml .= "<node type=\"allow\" cidr=\"" . $config ['opensips_domain'] . "/32\"/>\n";
-                $xml .= "       </list>\n";
 		// For loopback
                 $xml .= "<list name=\"loopback.auto\" default=\"allow\">\n";
                 $xml .= "<node type=\"allow\" cidr=\"" . $config ['opensips_domain'] . "/32\"/>\n";
@@ -104,13 +130,10 @@ function load_acl($logger, $db, $config) {
                 $xml .= "<node type=\"allow\" cidr=\"" . $config ['opensips_domain'] . "/32\"/>\n";
 	}
 	else{
-                $xml .= "       </list>\n";
 		// For event handing
                 $xml .= "<list name=\"event\" default=\"deny\">\n";
         }
-	
-	$xml .= "<node type=\"allow\" cidr=\"127.0.0.0/8\"/>\n";
-	$xml .= "</list>\n";
+		$xml .= "	</list>\n";
 	$xml .= "           </network-lists>\n";
 	$xml .= "       </configuration>\n";
 	$xml .= "   </section>\n";
@@ -118,6 +141,7 @@ function load_acl($logger, $db, $config) {
 	$logger->log ( $xml );
 	return $xml;
 }
+// ASTPPCOM-1321 Ashish end
 
 // Build sofia xml
 function load_sofia($logger, $db, $config) {
