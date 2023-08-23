@@ -254,7 +254,13 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 	end
 	--//HP: ASTPPCOM-945 END
             
-    end            
+    end
+    
+    	-- stir/shaken support start
+	local stir_bridge_str = ""
+	if outbound_stir_shaken_info then stir_bridge_str = outbound_stir_shaken_info(callerid_array,temp_destination_number,config,userinfo,xml) end
+	p_id_var = "{"..p_id_var..""..stir_bridge_str.."}"
+        -- stir/shaken support end            
 
 	-- Set CPS limit for user if > 0
 	if (tonumber(outbound_info['cps']) ~=nil and tonumber(outbound_info['cps']) > 0) then
@@ -292,7 +298,12 @@ function freeswitch_xml_inbound(xml,didinfo,userinfo,config,xml_did_rates,caller
 		callerid_array['cid_name'] = do_number_translation(or_localization['in_caller_id_originate'],callerid_array['cid_name'])
 		callerid_array['cid_number'] = do_number_translation(or_localization['in_caller_id_originate'],callerid_array['cid_number'])
 	end   
-	xml = freeswitch_xml_callerid(xml,callerid_array)	    	       
+	xml = freeswitch_xml_callerid(xml,callerid_array)
+	
+	-- stir/shaken support start
+	if inbound_attestation_stir_shaken then inbound_attestation_stir_shaken(destination_number,config,xml) end
+	-- stir/shaken support end
+		       
 	table.insert(xml, [[<action application="set" data="receiver_accid=]]..didinfo['accountid']..[["/>]]);  
 	if(tonumber(didinfo['maxchannels']) > 0) then    
 	    table.insert(xml, [[<action application="limit" data="db ]]..destination_number..[[ did_]]..destination_number..[[ ]]..didinfo['maxchannels']..[[ !SWITCH_CONGESTION"/>]]);        
