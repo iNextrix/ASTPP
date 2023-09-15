@@ -562,4 +562,41 @@ class Common_model extends CI_Model {
 		return $query;
 	}
 
+	//Gautam ASTPPENT-6696 Start ASTPPCOM-1348_kanu_start
+	function calculate_currency_locale($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
+
+		$from_currency = ($from_currency == '') ? self::$global_config ['system_config'] ['base_currency'] : $from_currency;
+		
+		if ($to_currency == '') {
+			$to_currency1 = $this->session->userdata ['accountinfo'] ['currency_id'];
+			$to_currency = $this->common->get_field_name ( 'currency', 'currency', $to_currency1 );
+		}
+		
+		$from_cur_rate = (self::$global_config ['currency_list'] [$from_currency] > 0) ? self::$global_config ['currency_list'] [$from_currency] : 1;
+		  
+		 $to_cur_rate = (self::$global_config ['currency_list'] [$to_currency]) ? self::$global_config ['currency_list'] [$to_currency] : 1;
+
+		$current_language=$this->session->userdata ( 'user_language' );
+
+		if(isset($current_language) && ($current_language == 'es_ES'  || $current_language == 'pt_BR' || $current_language == 'el_GR' || $current_language == 'de_DE' || $current_language == 'fr_FR')){
+			$amount = str_replace ( ',', '.', $amount );
+		}else{
+			$amount = str_replace ( ',', '', $amount );
+		}
+		$cal_amount = ((float)$amount * (float)$to_cur_rate) / (float)$from_cur_rate;  
+
+		if ($format_currency)
+			$cal_amount = $this->format_currency ( $cal_amount );
+		if ($append_currency) {
+			$cal_amount = $cal_amount . " " . $to_currency;
+		}
+		if(isset($current_language) && ($current_language == 'es_ES' || $current_language == 'el_GR' || $current_language == 'de_DE' || $current_language == 'fr_FR')){
+			$cal_amount = str_replace ( '.', ',', $cal_amount );
+		}else{
+			$cal_amount = str_replace ( ',', '', $cal_amount );
+		}
+		return $cal_amount;
+	}
+	//Gautam ASTPPENT-6696 End ASTPPCOM-1348_kanu_end
+
 }

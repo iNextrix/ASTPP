@@ -3930,4 +3930,24 @@ class common {
 		return $status_array;
 	}
 	// ASTPPCOM-982 Ashish End
+
+	//Gautam ASTPPENT-6696 Start ASTPPCOM-1348_kanu_start
+	function convert_to_currency_change($select = "", $table = "", $amount) {
+		$this->CI->load->model ( 'common_model' );
+		return $this->CI->common_model->calculate_currency_locale( $amount, '', '', true, false );
+	}
+	//Gautam ASTPPENT-6696 End ASTPPCOM-1348_kanu_end
+
+	//Gautam ASTPPENT-6696 Start ASTPPCOM-1348_kanu_start
+	function convert_currency_in_locale_new($select = "", $table = "", $amount,$key = ""){
+		$current_language =$this->CI->session->userdata('user_language'); 
+		$amount = $this->convert_to_currency_change('','',$amount);
+			if(isset($current_language) && ($current_language == 'es_ES' ||  $current_language == 'pt_BR') && strpos($amount, ',') !== false){
+
+				$amount = str_replace ( ',', '.', $amount );
+			}
+
+		return $amount;
+	}
+	//Gautam ASTPPENT-6696 End ASTPPCOM-1348_kanu_end
 }
