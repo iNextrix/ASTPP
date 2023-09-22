@@ -65,7 +65,7 @@
                             <div class="bg-primary card col-12 text-light">
                                 <div class="col-lg-8 col-7 float-left py-5 px-4 ">
                                     <div class="h1" id="product_count">0</div>
-                                    <h3><?php echo gettext('Products') ?></h3>
+                                    <h3><?php echo gettext('My Products') ?></h3>
                                 </div>
                                 <div class="col-lg-4 col-5 float-left py-5 px-4 ">
                                     <i class="fa fa-archive fa-4x float-left"></i>
