@@ -181,7 +181,9 @@ function freeswitch_xml_outbound(xml,destination_number,outbound_info,callerid_a
 		-----------------------------------
 		
 	end
-
+	-- ASTPPCOM-1382 Ashish start
+	xml = freeswitch_xml_callerid(xml,callerid_array)
+	-- ASTPPCOM-1382 Ashish end
 	if(outbound_info['prepend'] ~= '' or outbound_info['strip'] ~= '') then
 
         if (outbound_info['prepend'] == '') then 

@@ -54,13 +54,22 @@ end
 ------------------------- VOICEMAIL LISTEN END --------------------------------------
 
 ---- Getting callerid for localization feature ---- 
-if (params:getHeader('variable_effective_caller_id_number') ~= nil) then
+-- ASTPPCOM-1382 Ashish start
+if (params:getHeader('variable_effective_caller_id_name') ~= nil and params:getHeader('variable_effective_caller_id_name') ~= '' and params:getHeader('variable_effective_caller_id_number') ~= nil and params:getHeader('variable_effective_caller_id_number') ~= '') then
     callerid_number = params:getHeader('variable_effective_caller_id_number') or ""
+    callerid_name = params:getHeader('variable_effective_caller_id_name') or ""
+elseif ((params:getHeader('variable_effective_caller_id_number') ~= nil and params:getHeader('variable_effective_caller_id_number') ~= '') or (params:getHeader('variable_effective_caller_id_name') == nil and params:getHeader('variable_effective_caller_id_name') == '')) then
+    callerid_number = params:getHeader('variable_effective_caller_id_number') or ""
+    callerid_name = params:getHeader('Caller-Caller-ID-Name') or ""
+
+elseif ((params:getHeader('variable_effective_caller_id_name') ~= nil and params:getHeader('variable_effective_caller_id_name') ~= '') or (params:getHeader('variable_effective_caller_id_number') == nil and params:getHeader('variable_effective_caller_id_number') == '')) then
+    callerid_number = params:getHeader('Caller-Caller-ID-Number') or ""
     callerid_name = params:getHeader('variable_effective_caller_id_name') or ""
 else
     callerid_number = params:getHeader('Caller-Caller-ID-Number') or ""
     callerid_name = params:getHeader('Caller-Caller-ID-Name') or ""
-end       
+end
+-- ASTPPCOM-1382 Ashish end
 
 
 --To override custom callerid from addon
