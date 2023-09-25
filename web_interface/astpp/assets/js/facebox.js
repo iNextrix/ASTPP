@@ -325,9 +325,11 @@
 
   function showOverlay() {
     if (skipOverlay()) return
-
-    if ($('#facebox_overlay').length == 0)
-      $("body").append('<div id="facebox_overlay" class="facebox_hide"></div>')
+    if ($('#facebox_overlay').length == 0){
+      // Kinjal ASTPPCOM-1324 Start
+      $(".main").append('<div id="facebox_overlay" class="facebox_hide"></div>')
+      // Kinjal ASTPPCOM-1324 END
+    }
 
     $('#facebox_overlay').hide().addClass("facebox_overlayBG")
       .css('opacity', $.facebox.settings.opacity)
