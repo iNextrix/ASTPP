@@ -442,9 +442,11 @@ class User extends MX_Controller
                 'cell' => array(
                     $this->common->get_only_numeric_val("", "", $value["pattern"]),
                     $value['comment'],
-                    $this->common_model->calculate_currency($value['connectcost'], '', '', true, false),
+                    //ASTPPCOM-1348_kanu_start
+                    $this->common_model->calculate_currency_locale($value['connectcost'], '', '', true, false),
                     $value['includedseconds'],
-                    $this->common_model->calculate_currency(($cost), '', '', true, false),
+                    $this->common_model->calculate_currency_locale(($cost), '', '', true, false),
+                    //ASTPPCOM-1348_kanu_end
                     $value['init_inc'],
                     $value['inc']
                 )
@@ -1816,7 +1818,9 @@ function user_cdrs_report_json()
                 "",
                 "",
                 "<b>" . $duration . "</b>",
-                "<b>" . $this->common_model->calculate_currency($count_all[$variable] - $count_all['free_debit'], "", "", true, false) . "</b>",
+                //ASTPPCOM-1348_kanu_start
+                "<b>" . $this->common_model->calculate_currency_locale($count_all[$variable] - $count_all['free_debit'], "", "", true, false) . "</b>",
+                //ASTPPCOM-1348_kanu_end
                 "",
                 "",
                 ""
