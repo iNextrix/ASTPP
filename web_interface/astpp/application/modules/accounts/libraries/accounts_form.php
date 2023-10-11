@@ -372,7 +372,9 @@ class Accounts_form extends common
                     'id',
                     'name',
                     'localization',
-                    'build_dropdown_reseller',
+                    // Kinjal ASTPPCOM-986 Start
+                    'build_dropdown',
+                    // Kinjal ASTPPCOM-986 END
                     'where_arr',
                     array(
                         "status" => "0"
