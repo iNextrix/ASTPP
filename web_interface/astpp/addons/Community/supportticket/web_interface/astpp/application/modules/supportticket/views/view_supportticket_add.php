@@ -395,17 +395,36 @@ overflow: hidden; }
 												<div class="col-md-3"> </div>
 											</div> 
 									<?php }?>
+									<?php // ASTPPENT9295 Ashish end
+										if ($this->session->userdata('logintype') == '-1' || $this->session->userdata('logintype') == '2' || $this->session->userdata('logintype') == '1') {
+									?>
 											<div class="col-md-6 form-group">
 												<label class="control-label p-0"><?php echo gettext("Department"); ?> * </label>
 											
-												<?php $reseller_id = ($account_data['type'] == '-1' || $account_data['type'] == 2 )?0:$account_data['id']; 
-												 $department=form_dropdown('departmentid',$this->supportticket_model->build_concat_dropdown_departmnet("id,name,email_id", " department", "where_arr", array("status"=>"0","reseller_id"=> $reseller_id)), '');
+												<?php 
+												 $department=form_dropdown('departmentid',$this->supportticket_model->build_concat_dropdown_departmnet("id,name,email_id", " department", "where_arr", array("status"=>"0")), '');
 													 echo $department;
 												?>
 
 										
 											<div class="tooltips error_div pull-left no-padding display_none text-danger" id="department_error"></div>	
 											</div>
+											<?php } ?>
+											<?php if ($this->session->userdata('logintype') == '0') {?>
+												<div class="col-md-6 form-group">
+												<label class="control-label p-0"><?php echo gettext("Department"); ?> * </label>
+											
+												<?php //$reseller_id = ($account_data['type'] == '-1' || $account_data['type'] == 2 )?0:$account_data['id']; 
+												 $department=form_dropdown('departmentid',$this->supportticket_model->build_concat_dropdown_departmnet("id,name,email_id", " department", "where_arr", array("status"=>"0","reseller_id" => $account_data['reseller_id'])), '');
+												//  print_r($department);die;
+													 echo $department;
+												?>
+
+										
+											<div class="tooltips error_div pull-left no-padding display_none text-danger" id="department_error"></div>	
+											</div>
+											<?php } ?>
+											<?php //ASTPPENT-8285 Ashish end ?>
 										
 										<div class="col-md-12 no-padding error_div"> 
 											<div class="col-md-3 col-sm-12"> </div>
