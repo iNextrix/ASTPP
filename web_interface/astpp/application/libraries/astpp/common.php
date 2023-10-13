@@ -1660,7 +1660,10 @@ class common {
                 $message = str_replace('#PAYMENT_METHOD#', $accountinfo['payment_by'], $message);
 				$message = str_replace('#PRODUCT_AMOUNT#', $accountinfo['total_price_amount'], $message);
 				$message = str_replace('#QUANTITY#', $accountinfo['quantity'], $message);
-				$message = str_replace('#TOTAL_PRICE#', $accountinfo['total_price'], $message);
+				// $message = str_replace('#TOTAL_PRICE#', $accountinfo['total_price'], $message);
+				// Arbaaz ASTPPCOM-1026 Start
+				$message = str_replace('#TOTAL_PRICE#', $accountinfo['total_price_amount'], $message);
+				// Arbaaz ASTPPCOM-1026 End 
                 $message = str_replace('#NEXT_BILL_DATE#', $accountinfo['next_billing_date'], $message);
 				$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
             break;
