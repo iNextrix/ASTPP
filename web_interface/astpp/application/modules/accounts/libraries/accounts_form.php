@@ -948,6 +948,9 @@ class Accounts_form extends common
                     'name' => 'invoice_note',
                     'size' => '20',
                     'cols' => '50',
+                    // ASTPPCOM-973_kanu_start
+                    'maxlength' => '110',
+                    // ASTPPCOM-973_kanu_end
                     'rows' => '3',
                     'class' => "form-control form-control-lg mit-20 text col-md-12 field medium"
                 ),
