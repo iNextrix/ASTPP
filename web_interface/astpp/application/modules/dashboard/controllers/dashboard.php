@@ -44,9 +44,13 @@ class dashboard extends MX_Controller {
 		if ($this->session->userdata ( 'logintype' ) == 0) {
 			$this->load->view ( 'view_user_dashboard', $data );
 		} else {
-			$data['dashboard_flag']=true;
-			$gmtoffset = $this->common->get_timezone_offset ();
 			$accountinfo = $this->session->userdata ( 'accountinfo' );
+			// ASTPPCOM-1132 Kinjal Start
+			if($accountinfo['type'] != 1){
+				$data['dashboard_flag']=true;
+			}
+			// ASTPPCOM-1132 Kinjal END
+			$gmtoffset = $this->common->get_timezone_offset ();
 			$data['currency']= $this->common->get_field_name("currency","currency",array("id"=>$accountinfo['currency_id']));
 			$this->load->view ( 'view_dashboard', $data );
 		}
