@@ -440,19 +440,25 @@ if (userinfo ~= nil) then
 			return
 		end
 		-- ********* END *********
-		while (tonumber(customer_userinfo['reseller_id']) > 0  ) do 
-			Logger.info("[WHILE DID CONDITION] FOR CHECKING RESELLER :" .. customer_userinfo['reseller_id']) 
-			customer_userinfo = doauthorization('id',customer_userinfo['reseller_id'],call_direction,destination_number,number_loop,config)	
-			origination_array_DID = get_call_maxlength(customer_userinfo,destination_number,"outbound",number_loop_str,config)
+		-- ASTPPCOM-914 Ashish start
+		if(tonumber(config['free_inbound']) == 0)then
+		-- ASTPPCOM-914 Ashish end
+			while (tonumber(customer_userinfo['reseller_id']) > 0  ) do 
+				Logger.info("[WHILE DID CONDITION] FOR CHECKING RESELLER :" .. customer_userinfo['reseller_id']) 
+				customer_userinfo = doauthorization('id',customer_userinfo['reseller_id'],call_direction,destination_number,number_loop,config)	
+				origination_array_DID = get_call_maxlength(customer_userinfo,destination_number,"outbound",number_loop_str,config)
 
-			if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND' and origination_array_DID[3] ~= nil) then 
-				Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
-				xml_did_rates = xml_did_rates .."||"..origination_array_DID[3]
-			else
-				error_xml_without_cdr(destination_number,"ORIGNATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification'],customer_userinfo['id'])
-				return
+				if(origination_array_DID ~= 'ORIGNATION_RATE_NOT_FOUND' and origination_array_DID ~= 'NO_SUFFICIENT_FUND' and origination_array_DID[3] ~= nil) then 
+					Logger.info("[userinfo] Userinfo XML:" .. customer_userinfo['id']) 
+					xml_did_rates = xml_did_rates .."||"..origination_array_DID[3]
+				else
+					error_xml_without_cdr(destination_number,"ORIGNATION_RATE_NOT_FOUND",calltype,config['playback_audio_notification'],customer_userinfo['id'])
+					return
+				end
 			end
+		-- ASTPPCOM-914 Ashish start
 		end
+		-- ASTPPCOM-914 Ashish end
 		-- ********* END *********
 		Logger.info("[userinfo] Actual CustomerInfo XML : " .. actual_userinfo['id'])
 		xml = freeswitch_xml_header(xml,destination_number,accountcode,maxlength,call_direction,accountname,xml_user_rates,actual_userinfo,config,xml_did_rates,nil,callerid_array,original_destination_number)
