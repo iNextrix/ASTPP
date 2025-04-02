@@ -584,7 +584,14 @@ class Login extends MX_Controller
 
     function relogin($new_login_id, $master_id = '0')
     {
-        $where = array(
+     // Check if the user is logged in
+    if (!$this->session->userdata('user_login')) {
+        // Optionally log this event or display an error message before redirecting
+        redirect(base_url() . 'login/');
+        return;
+    }
+
+    $where = array(
             'id' => $new_login_id
         );
         $account_res = (array) $this->db->get_where("accounts", $where)->first_row();
