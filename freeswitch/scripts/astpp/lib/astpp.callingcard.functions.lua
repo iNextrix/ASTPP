@@ -415,6 +415,14 @@ function dialout( original_destination_number, destination_number, maxlength, us
 
 		    -- If we get any valid termination rates then build dialplan for outbound call
 		    if (i > 1) then
+			accessnumber =  session:getVariable("accessnumber")
+			local query = "select id,init_inc,inc,cost from accessnumber WHERE access_number = " ..accessnumber;
+			Logger.debug("[ACCESSNUMBER_DETAILS] Query :" .. query)
+			local accessnumber_details
+			assert (dbh:query(query, function(u)
+        	        	accessnumber_details = u;
+			end))
+			local accessnumber_str="ID:"..accessnumber_details['id'].."|INITINC:"..accessnumber_details['init_inc'].."|INC:"..accessnumber_details['inc'].."|COST:"..accessnumber_details['cost']
 		        local callstart = os.date("!%Y-%m-%d %H:%M:%S")    
 				session:execute("export","call_processed=internal");
 				session:execute("export","callstart="..callstart);
@@ -430,6 +438,7 @@ function dialout( original_destination_number, destination_number, maxlength, us
 				session:execute("export","call_direction=outbound");    
 				session:execute("export","calltype=CALLINGCARD");    
 				session:execute("export","origination_rates="..origination_dp_string);
+				session:execute("export","accessnumber_rates="..accessnumber_str)
 				session:execute("set", "execute_on_answer=sched_hangup +" .. (maxlength * 60 ) );
                 		session:execute("set", "process_cdr=true" );
 				session:execute("sched_hangup","+"..(maxlength * 60 ).. "" );

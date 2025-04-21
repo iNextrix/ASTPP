@@ -128,6 +128,42 @@ class accessnumber_form
                 'tOOL TIP',
                 'Please Enter Access number'
             ),
+            array(
+                gettext('Cost/Min'),
+                'INPUT',
+                array(
+                    'name' => 'cost',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'trim',
+                'tOOL TIP',
+                'Please Enter Access number'
+            ),
+            array(
+                gettext('Initial Increment'),
+                'INPUT',
+                array(
+                    'name' => 'init_inc',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'trim',
+                'tOOL TIP',
+                'Please Enter Access number'
+            ),
+            array(
+                gettext('Increment'),
+                'INPUT',
+                array(
+                    'name' => 'inc',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'trim',
+                'tOOL TIP',
+                'Please Enter Access number'
+            ),
             $country,
             array(
                 gettext('Status'),

@@ -107,3 +107,11 @@ INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES (NULL, 'Notify'
 
 UPDATE translations SET en_En="Free",module_name="Free" WHERE module_name="FREE";
 -- ASTPPCOM-1307 Gautam end
+
+-- ASTPPCOM-1416 Ankit Start
+alter table accessnumber add column init_inc smallint unsigned not null;
+
+alter table accessnumber add column inc smallint unsigned not null;
+
+alter table accessnumber add column cost decimal(20,5) not null default '0.0000';
+-- ASTPPCOM-1416 Ankit End

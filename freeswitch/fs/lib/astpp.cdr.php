@@ -96,6 +96,11 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 		$origination_rate = normalize_origination_rate ( $dataVariable ['origination_rates'],$logger );
 	if (isset ( $dataVariable ['termination_rates'] ))
 		$termination_rate = normalize_rate ( $dataVariable ['termination_rates'] );
+	if (isset($dataVariable['accessnumber_rates'])){
+		$accessnumber_rate = normalize_accessnumber_rate($dataVariable['accessnumber_rates'],$logger);
+		$dataVariable['accessnumber_rate'] = $accessnumber_rate;
+		$logger->log("AccessNumber Rates Array:::".print_r($accessnumber_rate,true));
+	}
 	$dataVariable ['origination_call_type'] = 0;
 	$logger->log("Origination Rates Array:::");
 	$dataVariable ['origination_call_type'] = (isset($origination_rate[$accountid]['CT']) && $origination_rate[$accountid]['CT'] != '')?$origination_rate[$accountid]['CT']:0;
@@ -309,7 +314,19 @@ function insert_parent_data($dataVariable, $actual_calltype, $parentid, $origina
 		}
 	}
 }
-
+function normalize_accessnumber_rate($dataVariable){
+        $rates = urldecode ( $dataVariable );
+        $data = explode ( "|", $rates );
+        $newarray = $clnewarray = array ();
+        $newarray1 = array ();
+        foreach ( $data as $key => $value ) {
+                $data1 = explode ( ":", $value );
+                foreach ( $data1 as $newkey => $newvalue ) {
+                        $newarray1 [$data1 [0]] = $data1 [$newkey];
+                }
+        }
+        return $newarray1;
+}
 // Insert callee cdr entry for DID calls
 /**
  *
@@ -488,6 +505,19 @@ function calc_cost($dataVariable, $rates, $logger, $decimal_points) {
 
 			$rates ['INC'] = (empty($rates['INC']) || $rates['INC'] < 1) ? 1 : $rates ['INC'];
 			$call_cost += (ceil ( $duration / $rates ['INC'] ) * $rates ['INC']) * ($rates ['COST'] / 60);
+		}
+		if(isset($dataVariable['accessnumber_rate']) && $dataVariable['accessnumber_rate']['COST'] > 0){
+			$logger->log("Before AccessNumber Cost".$call_cost);
+			$duration = $original_duration;
+			$accessnumber_rate = $dataVariable['accessnumber_rate'];
+			$accessnumber_rate ['INITINC'] = (empty($accessnumber_rate['INITINC']) || $accessnumber_rate['INITINC'] < 1) ? 0 : $accessnumber_rate ['INITINC'];
+			$call_cost += ($accessnumber_rate['COST'] / 60) * $accessnumber_rate ['INITINC'];
+			$duration -= $accessnumber_rate ['INITINC'];
+			if ($duration > 0) {
+				$accessnumber_rate ['INC'] = (empty($accessnumber_rate['INC']) || $accessnumber_rate['INC'] < 1) ? 1 : $rates ['INC'];
+				$call_cost += (ceil ( $duration / $accessnumber_rate ['INC'] ) * $accessnumber_rate ['INC']) * ($accessnumber_rate ['COST'] / 60);
+			}
+			$logger->log("After AccessNumber Cost".$call_cost);
 		}
 	}
 	$call_cost = number_format ( $call_cost, $decimal_points );
