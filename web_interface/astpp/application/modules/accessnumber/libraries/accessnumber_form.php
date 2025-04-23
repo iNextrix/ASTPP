@@ -128,7 +128,23 @@ class accessnumber_form
                 'tOOL TIP',
                 'Please Enter Access number'
             ),
+            $country,
             array(
+                gettext('Status'),
+                'status',
+                'SELECT',
+                '',
+                '',
+                'tOOL TIP',
+                'Please Select Status',
+                '',
+                '',
+                '',
+                'set_status'
+            )
+        );
+	$form[gettext("Surcharge Billing")] = array(
+	     array(
                 gettext('Cost/Min'),
                 'INPUT',
                 array(
@@ -164,21 +180,7 @@ class accessnumber_form
                 'tOOL TIP',
                 'Please Enter Access number'
             ),
-            $country,
-            array(
-                gettext('Status'),
-                'status',
-                'SELECT',
-                '',
-                '',
-                'tOOL TIP',
-                'Please Select Status',
-                '',
-                '',
-                '',
-                'set_status'
-            )
-        );
+	);
         $form['button_cancel'] = array(
             'name' => 'action',
             'content' => gettext('Close'),
