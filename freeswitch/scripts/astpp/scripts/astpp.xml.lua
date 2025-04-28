@@ -692,6 +692,7 @@ function generate_cc_dialplan(destination_number)
 				table.insert(xml, [[<extension name="]]..destination_number..[[">]]); 
 				table.insert(xml, [[<condition field="destination_number" expression="]]..plus_destination_number(destination_number)..[[">]]);
 					table.insert(xml, [[<action application="log" data="INFO ASTPP - Calling Card Call"/>]]);        
+					table.insert(xml, [[<action application="export" data="accessnumber=]]..destination_number..[["/>]])
 					table.insert(xml, [[<action application="answer"/>]]);
 					table.insert(xml, [[<action application="sleep" data="2000"/>]]);                    
 					table.insert(xml, [[<action application="lua" data="astpp-callingcards.lua"/>]]);    

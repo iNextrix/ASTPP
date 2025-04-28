@@ -143,6 +143,44 @@ class accessnumber_form
                 'set_status'
             )
         );
+	$form[gettext("Surcharge Billing")] = array(
+	     array(
+                gettext('Cost/Min'),
+                'INPUT',
+                array(
+                    'name' => 'cost',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'trim',
+                'tOOL TIP',
+                'Please Enter Access number'
+            ),
+            array(
+                gettext('Initial Increment'),
+                'INPUT',
+                array(
+                    'name' => 'init_inc',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'trim',
+                'tOOL TIP',
+                'Please Enter Access number'
+            ),
+            array(
+                gettext('Increment'),
+                'INPUT',
+                array(
+                    'name' => 'inc',
+                    'size' => '20',
+                    'class' => "text field medium"
+                ),
+                'trim',
+                'tOOL TIP',
+                'Please Enter Access number'
+            ),
+	);
         $form['button_cancel'] = array(
             'name' => 'action',
             'content' => gettext('Close'),
