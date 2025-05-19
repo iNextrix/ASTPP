@@ -557,32 +557,77 @@ class Login extends MX_Controller
     function login_as_reseller($select_id)
     {
         $accountinfo = $this->session->userdata('accountinfo');
-        $where = array(
-            'id' => $select_id
-        );
-        $account_res = (array) $this->db->get_where("accounts", $where)->first_row();
-        $this->session->sess_destroy();
-        redirect(base_url() . "relogin/" . $account_res['id'] . "/" . $accountinfo['id'] . "/");
+        if($accountinfo['type'] == '-1' || $accountinfo['type'] == '2' || $accountinfo['type'] == '1'){
+		if($accountinfo['type'] == '1'){
+                $where = array(
+                'id' => $select_id,
+                'reseller_id' => $accountinfo['id']
+            );
+            }else{
+                $where = array(
+                'id' => $select_id
+            );
+            }
+        $result = $this->db_model->getSelect("*", "accounts", $where);
+        $account_res = $result->row_array();
+        $this->_relogin($account_res['id'],$accountinfo['id'] );
+        }else{
+        	$this->session->sess_destroy();
+        	redirect(base_url() ."login/login/");
+        }
     }
+
 
     function login_as_customer($select_id)
     {
-        $accountinfo = $this->session->userdata('accountinfo');
-        $where = array(
-            'id' => $select_id
-        );
-        $account_res = (array) $this->db->get_where("accounts", $where)->first_row();
-        $this->session->sess_destroy();
-        redirect(base_url() . "relogin/" . $account_res['id'] . "/" . $accountinfo['id'] . "/");
+       $accountinfo = $this->session->userdata('accountinfo');
+       if($accountinfo['type'] == '-1' || $accountinfo['type'] == '2' || $accountinfo['type'] == '1'){
+       		 if($accountinfo['type'] == '1'){
+                $where = array(
+                'id' => $select_id,
+                'reseller_id' => $accountinfo['id']
+            );
+            }else{
+                $where = array(
+                'id' => $select_id
+            );
+            }
+        $result = $this->db_model->getSelect("*", "accounts", $where);
+        $account_res = $result->row_array();
+        $this->_relogin($account_res['id'] , $accountinfo['id']);
+        }else{
+        	$this->session->sess_destroy();
+        	redirect(base_url() ."login/login/");
+        }
+        
     }
+
 
     function login_as_admin($select_id)
     {
-        $this->session->sess_destroy();
-        redirect(base_url() . "relogin/" . $select_id . "/0/");
+        $accountinfo = $this->session->userdata('accountinfo');
+        if($accountinfo['type'] == '0' || $accountinfo['type'] == '1'){
+            $master_login_details_arr = $this->session->userdata('master_login_details');
+            if(isset($master_login_details_arr) && $master_login_details_arr != "" ){
+                if($master_login_details_arr['master_login_id'] == $select_id){
+                    $this->session->unset_userdata('master_login_details');
+                    $this->_relogin($select_id , '0');
+                }else{
+                    $this->session->sess_destroy();
+                    redirect(base_url() ."login/login/");
+                }
+            }else{
+                $this->session->sess_destroy();
+                redirect(base_url() ."login/login/");
+            }
+        }else{
+            $this->session->sess_destroy();
+            redirect(base_url() ."login/login/");
+        }
     }
 
-    function relogin($new_login_id, $master_id = '0')
+
+    function _relogin($new_login_id, $master_id = '0')
     {
         $where = array(
             'id' => $new_login_id
