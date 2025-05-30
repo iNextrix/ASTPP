@@ -1515,7 +1515,7 @@ class common {
 			    $subject     = str_replace('#NUMBER#', $accountinfo['number'], $subject);
 				$message = str_replace('#NAME#', $accountinfo['first_name'] , $message);
 				$message = str_replace('#BALANCE#', $accountinfo['balance'], $message);
-                $message = str_replace('#COMPANY_WEBSITE#', $accountinfo['number'], $message);
+                		$message = str_replace('#COMPANY_WEBSITE#', $accountinfo['number'], $message);
 				$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
 				$message = str_replace('#COMPANY_NAME#', $company_name, $message);
 		break;
@@ -1538,7 +1538,19 @@ class common {
 				$filelink .= '<a href="'.$filePath.'" target="_blank">'.$filePath.'</a>';
 				$message = $message.'<br/>'.$filelink;
 			}
-		break;
+			break;
+		case 'daily_career_performance_report':
+                        $subject = str_replace("#DATE#",$accountinfo['date'],$subject);
+                        $sms_message= "";
+                        $alert_template = "";
+                        $message = str_replace("#NAME#",$accountinfo['first_name']." ".$accountinfo['last_name'],$message);
+                        $message = str_replace("#DATE#",$accountinfo['date'],$message);
+                        $message = str_replace("#REMAINING_BALANCE#",$accountinfo['current_balance'],$message);
+			$message = str_replace("#UTILIZED_BALANCE#",$accountinfo['utilized_balance'],$message);
+			$message = str_replace('#COMPANY_EMAIL#', $settings_reply_email, $message);
+                        $message = str_replace('#COMPANY_NAME#', $company_name, $message);
+                        break;
+
 		// Kinjal ASTPPCOM-978 END
 		case 'schedule_report':
 	         	$subject = str_replace('#title#', $accountinfo['subject_title'], $subject);
