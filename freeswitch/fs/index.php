@@ -59,6 +59,9 @@ $logger = new logger ( $lib );
 // set_error_handler('xml_not_found');
 
 // Define file name
+if (!isset($_REQUEST['section'])) {
+	xml_not_found();
+}
 $file = "astpp." . $_REQUEST ['section'] . ".php";
 
 // Include file
