@@ -170,6 +170,9 @@ function load_sofia($logger, $db, $config) {
 	return $xml;
 }
 function update_vm_data($logger, $db, $password, $user) {
+	if (!isset($_REQUEST['user'])) {
+		return;
+	}
 	$query = "SELECT * FROM sip_devices where username='" . $_REQUEST ['user'] . "' limit 1";
 	$logger->log ( "Directory Query : " . $query );
 	$res_dir = $db->run ( $query );
@@ -183,6 +186,10 @@ function update_vm_data($logger, $db, $password, $user) {
 // Build directory xml
 function load_directory($logger, $db) {
 	$xml = "";
+	
+	if (!isset($_REQUEST['user']) || !isset($_REQUEST['domain'])) {
+		return $xml;
+	}
 	
 	$query = "SELECT username,dir_params,dir_vars,number as accountcode,accountid FROM sip_devices,accounts WHERE sip_devices.status=0 AND accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND username='" . $_REQUEST ['user'] . "' limit 1";
 	
