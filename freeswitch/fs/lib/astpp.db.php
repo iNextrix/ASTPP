@@ -40,7 +40,9 @@ class db extends PDO {
 			
 			$this->error = $e->getMessage ();
 		}
-		echo $this->error;
+		if (!empty($this->error)) {
+			echo $this->error;
+		}
 	}
 	
 	/**
