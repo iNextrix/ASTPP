@@ -176,6 +176,9 @@ function update_vm_data($logger, $db, $password, $user) {
 	$query = "SELECT * FROM sip_devices where username='" . $_REQUEST ['user'] . "' limit 1";
 	$logger->log ( "Directory Query : " . $query );
 	$res_dir = $db->run ( $query );
+	if (empty($res_dir) || !isset($res_dir[0])) {
+		return;
+	}
 	$params = json_decode ( $res_dir [0] ['dir_params'], true );
 	$params ['vm-password'] = $password;
 	
