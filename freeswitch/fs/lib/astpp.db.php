@@ -89,9 +89,10 @@ class db extends PDO {
 				) ) . ") /i", $this->sql ))
 					return $pdostmt->rowCount ();
 			}
+			return array();
 		} catch ( PDOException $e ) {
 			$this->error = $e->getMessage ();
-			return $this->error;
+			return array();
 		}
 	}
 }
