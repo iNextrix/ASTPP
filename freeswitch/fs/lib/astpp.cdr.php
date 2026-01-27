@@ -42,15 +42,18 @@ function process_cdr($data, $db, $logger, $decimal_points, $config) {
 	$dataVariable ['effective_caller_id_name'] = (isset ( $dataVariable ['effective_caller_id_name'] )) ? $dataVariable ['effective_caller_id_name'] : $dataCallflow ['caller_profile'] ['caller_id_name'];
 	$dataVariable ['effective_caller_id_number'] = (isset ( $dataVariable ['effective_caller_id_number'] )) ? $dataVariable ['effective_caller_id_number'] : $dataCallflow ['caller_profile'] ['caller_id_number'];
 	
-	if ($dataVariable ['billsec'] == 0 && $dataVariable ['hangup_cause'] == 'NORMAL_CLEARING') {
-		$hangup_cause = isset ( $dataVariable ['last_bridge_hangup_cause'] ) ? $dataVariable ['last_bridge_hangup_cause'] : $dataVariable ['hangup_cause'];
+	$billsec = isset($dataVariable ['billsec']) ? $dataVariable ['billsec'] : 0;
+	$hangup_cause_default = isset($dataVariable ['hangup_cause']) ? $dataVariable ['hangup_cause'] : '';
+	
+	if ($billsec == 0 && $hangup_cause_default == 'NORMAL_CLEARING') {
+		$hangup_cause = isset ( $dataVariable ['last_bridge_hangup_cause'] ) ? $dataVariable ['last_bridge_hangup_cause'] : $hangup_cause_default;
 	} else {
-		$hangup_cause = $dataVariable ['hangup_cause'];
+		$hangup_cause = $hangup_cause_default;
 	}
 	
-	if ($dataVariable ['error_cdr'] == '1') {
+	if (isset($dataVariable ['error_cdr']) && $dataVariable ['error_cdr'] == '1') {
 		// Get actual hangup cause
-		$hangup_cause = (isset ( $dataVariable ['error_cdr'] )) ? $dataVariable ['last_bridge_hangup_cause'] : (isset ( $dataVariable ['last_bridge_hangup_cause'] ) ? $dataVariable ['last_bridge_hangup_cause'] : $dataVariable ['hangup_cause']);
+		$hangup_cause = (isset ( $dataVariable ['error_cdr'] )) ? $dataVariable ['last_bridge_hangup_cause'] : (isset ( $dataVariable ['last_bridge_hangup_cause'] ) ? $dataVariable ['last_bridge_hangup_cause'] : $hangup_cause_default);
 	}
 	
 	/* #### PATCH FOR ONE WAY AUDIO #### */
