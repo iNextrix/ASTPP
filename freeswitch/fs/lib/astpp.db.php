@@ -29,6 +29,14 @@ class db extends PDO {
 	public function __construct($dsn = "", $user = "", $passwd = "") {
 		$config = parse_ini_file ( "/var/lib/astpp/astpp-config.conf" );
 		
+		if ($config === false) {
+			$this->error = "Failed to parse configuration file";
+			if (!empty($this->error)) {
+				echo $this->error;
+			}
+			return;
+		}
+		
 		$options = array (
 				PDO::ATTR_PERSISTENT => true,
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION 
