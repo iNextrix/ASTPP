@@ -2,7 +2,7 @@
 
 # ASTPP: The Open Source VoIP Billing Solution
 
-ASTPP is a robust and widely trusted **Open Source VoIP Billing Solution**, meticulously designed for **FreeSWITCH**. It offers comprehensive prepaid and postpaid billing capabilities, complete with advanced call rating and precise credit control. Beyond core billing, ASTPP provides a rich suite of features to empower VoIP businesses of all sizes.
+ASTPP is a robust and widely trusted [**Open Source VoIP Billing Solution**](https://astppbilling.org), meticulously designed for **FreeSWITCH**. It offers comprehensive prepaid and postpaid billing capabilities, complete with advanced call rating and precise credit control. Beyond core billing, ASTPP provides a rich suite of features to empower VoIP businesses of all sizes.
 
 ---
 
