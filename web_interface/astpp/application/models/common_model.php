@@ -32,7 +32,6 @@ class Common_model extends CI_Model {
 		parent::__construct ();
 		$this->load->library ( 'astpp/common' );
 		$this->get_system_config ();
-		$this->uri->uri(self::$global_config,$this->get_dashboard_details());
 		$this->get_currencylist ();
 		$this->get_country_list ();
 		$this->get_admin_info ();
@@ -81,10 +80,6 @@ class Common_model extends CI_Model {
 			$currencylist [$row ['currency']] = $row ['currencyrate'];
 		}
 		self::$global_config ['currency_list'] = $currencylist;
-		$update_flag=$this->config->item('data_update');
-		if(isset(self::$global_config ['system_config'] ['datacoll'])){
-			$this->db_model->update('system',array("value"=>gmdate('Y-m-d')),array("name"=>"datacoll"));
-		}
 		return $currencylist;
 	}
 	function get_admin_info() {
@@ -156,93 +151,6 @@ class Common_model extends CI_Model {
 		// ASTPPCOM-857 end
 		return $cal_amount;
 	}
-	function get_dashboard_details(){
-		// ASTPPENT-2761 Ashish start
-		$accounts_data = $this->db_model->getSelect('*','accounts',array(
-		"status" => 0,
-		"deleted" => 0
-		))->result_array();
-		$accounts_detail_array = array();
-		foreach($accounts_data as $key => $accounts_detail){
-			$data['number'] = $accounts_detail['number'];
-			// ASTPPCOM-1169 Ashish start
-			$data['type'] = $accounts_detail['type'];
-			// ASTPPCOM-1169 Ashish end
-			$data['first_name'] = ($accounts_detail['first_name'] != '') ? $accounts_detail['first_name'] : "";
-			$data['last_name'] = ($accounts_detail['last_name'] != '') ? $accounts_detail['last_name'] : "";
-			$data['email'] = ($accounts_detail['email'] != '') ? $accounts_detail['email'] : $accounts_detail['notification_email'];
-			$data['company_name'] = ($accounts_detail['company_name'] != '') ? $accounts_detail['company_name'] : "";
-			$data['telephone'] = ($accounts_detail['telephone_1'] != '') ? $accounts_detail['telephone_1'] : $accounts_detail['telephone_2'];
-			$country = $accounts_detail['country_id'];
-			$country = $this->common->get_field_name ( 'country', 'countrycode', $country);
-			$data['country'] = ($country != '') ? $country : '';
-			$currency = $accounts_detail['currency_id'];
-			$currency = $this->common->get_field_name ( 'currency', 'currency', $currency);
-			$data['currency'] = ($currency != '') ? $currency : '';
-			array_push($accounts_detail_array,$data);
-		}
-		// ASTPPENT-2761 Ashish End
-		$data['no_of_accounts'] = $this->common->get_field_count('*', 'accounts', array (
-				"status" => "0" ,
-				"deleted" => "0"));
-		$data['no_of_dids'] = $this->common->get_field_count('*', 'products', array (
-				"product_category" => "4",
-				// ASTPPENT-2761 Ashish start
-				"status" => "0" 
-				// ASTPPENT-2761 Ashish End
-				));
-		$data['no_of_packages'] = $this->common->get_field_count('*', 'products', array (
-				"product_category" => "1",
-				// ASTPPENT-2761 Ashish start
-				"status" => "0" 
-				// ASTPPENT-2761 Ashish End
-				));
-		$date['end_stamp >='] = gmdate('Y-m-d 00:00:00',strtotime("-1 days"));
-		$date['end_stamp <='] = gmdate('Y-m-d 23:59:59',strtotime("-1 days"));
-		$data_array['no_of_calls'] = $this->db_model->getSelect('(ROUND(sum(billseconds) / 60.0, 0) * 60) as total_seconds ,count(*) as total_calls', 'cdrs', $date)->row_array();
-		$data['total_seconds'] =$data_array['no_of_calls']['total_seconds'];
-		$data['billseconds'] =$data_array['no_of_calls']['billseconds'];
-		$data['total_calls'] =$data_array['no_of_calls']['total_calls'];
-		$data['addon_names'] = $this->db_model->getSelect ( "GROUP_CONCAT(package_name) AS package_name", "addons", array())->row_array()['package_name'];
-		$data['admin_email'] = $this->common->get_field_name('emailaddress', 'invoice_conf',array()); 
-		
-		exec("which curl", $curl_path, $return_var);
-		exec($curl_path[0] ." ifconfig.me", $output, $return_var);
-		$data['public_ip']= isset($output[0]) ? $output[0] : '';
-
-		exec("which free", $curl_ram, $return_var);
-		exec($curl_ram[0] ." -m", $output1, $return_var);
-		$data['server_ram']= isset($output1) ? json_encode($output1) : '';
-		
-		exec("which nproc", $curl_cores, $return_var);
-		exec($curl_cores[0], $output2, $return_var);
-		$data['server_cores']= isset($output2[0]) ? $output2[0] : '';
-
-		
-		exec("which hostnamectl", $curl_os_type, $return_var);
-        exec($curl_os_type[0] ."", $output4, $return_var);
-        $data['server_os_type']= isset($output4) ? json_encode($output4) : '';
-
-        exec("which lsblk", $server_disk_space, $return_var);
-        exec($server_disk_space[0] ."", $output6, $return_var);
-        $data['server_disk_space']= isset($output6) ? json_encode($output6) : '';
-
-		// ASTPPENT-2761 Ashish start
-		$fs_data = $this->db_model->getSelect("freeswitch_password,status", "freeswich_servers", array("status" => 0))->result_array();
-		$fs_detail_array = array();
-		foreach ($fs_data as $fs_value) {
-			$fp_pass = $fs_value["freeswitch_password"];
-			exec("which fs_cli", $freeswitch_status, $return_var);
-			exec($freeswitch_status[0] ." fs_cli -p '". $fp_pass ."' -x 'status'", $output5, $return_var);
-			$fs_status= isset($output5) ? json_encode($output5) : $freeswitch_status;
-			array_push($fs_detail_array,$fs_status);
-		}
-		$data['freeswitch_status'] = json_encode($fs_detail_array);
-		$data['account_details'] = json_encode($accounts_detail_array);
-		// ASTPPENT-2761 Ashish End
-		return $data;
-	}
-	
 	function calculate_currency_customer($amount = 0, $from_currency = '', $to_currency = '', $format_currency = true, $append_currency = true) {
 		$from_currency = ($from_currency == '') ? self::$global_config ['system_config'] ['base_currency'] : $from_currency;
 		if ($to_currency == '') {

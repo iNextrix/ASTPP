@@ -107,3 +107,7 @@ INSERT INTO `translations` (`id`, `module_name`, `en_En`) VALUES (NULL, 'Notify'
 
 UPDATE translations SET en_En="Free",module_name="Free" WHERE module_name="FREE";
 -- ASTPPCOM-1307 Gautam end
+
+-- Remove Dcoll Kinjal Start
+DELETE FROM `system` WHERE `name` = 'datacoll';
+-- Remove Dcoll Kinjal END
