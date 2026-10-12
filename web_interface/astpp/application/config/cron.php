@@ -20,7 +20,6 @@ $config ['argv'] = array (
 		"UpdateBalance" => "ProcessCharges/GetUpdateBalance",
 		"ProcessDailyCharges" => "ProcessCharges/ProcessDailyCharges",
 		"BillAccountCharges" => "ProcessCharges/BillAccountCharges",		
-		"FeedBack" => "feedback/customer_feedback_result/TRUE",
 		//CDRs Archive
 		"ArchiveCDRs" => "CDRsArchive/ProcessCDRsArchive",
 		"FaxSend"=>"faxsend/index",

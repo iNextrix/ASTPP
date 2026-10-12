@@ -239,9 +239,6 @@ $config ['private_key'] = $astpp_config ['PRIVATE_KEY'];
  */
 $config ['encryption_key'] = $astpp_config ['ENCRYPTION_KEY'];
 
-$config['data']="aHR0cHM6Ly9kY29sbC5pbmV4dHJpeC5jb20=";
-$config['enable_data'] = 0;
-
 /*
  * |--------------------------------------------------------------------------
  * | Session Variables
