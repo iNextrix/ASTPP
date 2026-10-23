@@ -663,14 +663,9 @@ end
 -- Adding slash \ if number starting with +. 
 function plus_destination_number(destination_number)
     destination_number = destination_number:gsub("%s+", "")
-    local dnumber = destination_number
-	local dfirst =  string.match(dnumber, "^(.)")
-	if (dfirst == "+") then
-		dnumber = "\\"..dnumber
-	end
+    local dnumber = destination_number:gsub("([%^%$%(%)%.%[%]%*%+%?{}|\\])", "\\%1")
     return dnumber
 end
-
 -- Get Parentid from accountid 
 function get_parentid(userinfoid)
     local parentid = 0;

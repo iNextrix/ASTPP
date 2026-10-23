@@ -46,7 +46,7 @@ end
 
 --@TODO: We will take it to Feature code module
 ------------------------- VOICEMAIL LISTEN START--------------------------------------
-if(tonumber(config['voicemail_number']) == tonumber(destination_number)) then
+if(config['voicemail_number'] ~= nil and config['voicemail_number']:gsub("%s+", "") ~= '' and config['voicemail_number']:gsub("%s+", "") == destination_number) then
 Logger.info("[Dialplan] VOICEMAIL : ")
 	xml = xml_voicemail(xml,destination_number)
 return;
