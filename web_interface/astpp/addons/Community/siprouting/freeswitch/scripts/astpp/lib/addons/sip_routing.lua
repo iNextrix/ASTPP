@@ -1,6 +1,6 @@
 function sip_routing_info(sip_id)  
 	local rotuting_arr;
-	local query = "SELECT * from sip_device_routing WHERE sip_device_id = "..sip_id.." limit 1";
+	local query = db_sql("SELECT * from sip_device_routing WHERE sip_device_id = ?i limit 1", sip_id);
 	Logger.debug("[PBX_SIP_ROUTING] [GET_ROUTING_INFO] Query :" .. query)
 	assert (dbh:query(query, function(u)
 		rotuting_arr = u
@@ -11,7 +11,7 @@ end
 function get_record_info(customer_userinfo)
 	local record = {}
     if(didinfo ~= nil)then
-    local query  = "SELECT sip_device_routing.is_recording FROM sip_devices AS sip_devices, accounts AS accounts ,sip_device_routing AS sip_device_routing  WHERE sip_devices.accountid = accounts.id AND sip_devices.id = sip_device_routing.sip_device_id AND sip_devices.username = \"" ..didinfo['extensions'] .."\" AND accounts.status = 0 ";    
+    local query  = db_sql("SELECT sip_device_routing.is_recording FROM sip_devices AS sip_devices, accounts AS accounts ,sip_device_routing AS sip_device_routing  WHERE sip_devices.accountid = accounts.id AND sip_devices.id = sip_device_routing.sip_device_id AND sip_devices.username = ?s AND accounts.status = 0 ", didinfo['extensions']);
 		Logger.debug("[GET get_record_info] Query :" .. query)	
 		assert (dbh:query(query, function(u)
 			record = u
@@ -23,7 +23,7 @@ end
 
 function check_local_call(destination_number)
     -- local query = "SELECT sip_devices.id as sip_id,sip_devices.username as username,accounts.number as accountcode,sip_devices.accountid as accountid,accounts.did_cid_translation as did_cid_translation,sip_devices.codec as sip_codec FROM "..TBL_SIP_DEVICES.." as sip_devices,"..TBL_USERS.." as  accounts ,domains WHERE accounts.id=domains.accountid AND accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND sip_devices.username=\"" ..destination_number .."\"  AND domains.domain=\"" ..user_domain .."\" limit 1";
-	local query = "SELECT sip_devices.id as sip_id,sip_devices.username as username,accounts.number as accountcode,sip_devices.accountid as accountid,accounts.did_cid_translation as did_cid_translation,sip_devices.codec as sip_codec FROM "..TBL_SIP_DEVICES.." as sip_devices,"..TBL_USERS.." as  accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND sip_devices.username=\"" ..destination_number .."\" limit 1";
+	local query = db_sql("SELECT sip_devices.id as sip_id,sip_devices.username as username,accounts.number as accountcode,sip_devices.accountid as accountid,accounts.did_cid_translation as did_cid_translation,sip_devices.codec as sip_codec FROM "..TBL_SIP_DEVICES.." as sip_devices,"..TBL_USERS.." as  accounts WHERE accounts.status=0 AND accounts.deleted=0 AND accounts.id=sip_devices.accountid AND sip_devices.username = ?s limit 1", destination_number);
    
     Logger.debug("[CHECK_LOCAL_CALL] Query :" .. query)
     assert (dbh:query(query, function(u)
